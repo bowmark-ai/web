@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e7e5c589fa6089814f55bfebca69e3418b8d5a4b4362cd749882fc569ca87fc7
-// 1809 checked, 20 unchecked.
+// Manifest version: fb4b961ac05c1e797dffba5b9c60ac7bd79fad5c24c5d8e75913cd8177d817a4
+// 1814 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e7e5c589fa6089814f55bfebca69e3418b8d5a4b4362cd749882fc569ca87fc7",
+  "version": "fb4b961ac05c1e797dffba5b9c60ac7bd79fad5c24c5d8e75913cd8177d817a4",
   "units": {
     "address_validation": {
       "defs": {
@@ -1559,6 +1559,104 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "event_space_quote": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "EventSpaceQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guests",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "hours",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "party"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "photo-shoot"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "off-site"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuotes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "EventSpaceQuoteArgs"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
             },
             "optional": true
           }
@@ -18180,6 +18278,62 @@ export const VALIDATORS: ValidatorTable = {
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.eventbrite": {
+      "defs": {
+        "EventbriteSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EventbriteSearchArgs"
             },
             "optional": false
           }
@@ -38274,6 +38428,41 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.quora": {
+      "defs": {
+        "GetQuestionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuestion": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetQuestionArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.reddit": {
       "defs": {},
       "functions": {
@@ -42797,6 +42986,42 @@ export const VALIDATORS: ValidatorTable = {
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.seoulfood": {
+      "defs": {
+        "BoothQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "booths",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "packageType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getExhibitorPricing": [],
+        "getBoothQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BoothQuoteArgs"
             },
             "optional": false
           }

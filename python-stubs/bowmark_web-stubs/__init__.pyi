@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e7e5c589fa6089814f55bfebca69e3418b8d5a4b4362cd749882fc569ca87fc7
-# 74 capabilities, 521 providers, 1809 typed functions, 20 refused.
+# Manifest version: fb4b961ac05c1e797dffba5b9c60ac7bd79fad5c24c5d8e75913cd8177d817a4
+# 75 capabilities, 524 providers, 1814 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -961,6 +961,42 @@ Cap_essen_roadworks_Roadwork_Out = TypedDict(
     "lon": float | None,
     },
 )
+
+class Cap_event_space_quote_EventSpaceQuoteArgs_In(TypedDict):
+    city: str
+    state: str
+    guests: NotRequired[float]
+    hours: NotRequired[float]
+    category: NotRequired[Literal["party"] | Literal["photo-shoot"] | Literal["off-site"]]
+
+class Cap_event_space_quote_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_event_space_quote_EventSpaceQuoteResult_Out(TypedDict):
+    quotes: list[Cap_event_space_quote_EventSpaceQuote_Out]
+    submission: Cap_event_space_quote_EventSpaceQuoteResult_Out_submission_Out
+    warnings: list[str]
+
+class Cap_event_space_quote_EventSpaceQuote_Out(TypedDict):
+    provider: str
+    id: str
+    title: str
+    url: str
+    hourlyPrice: float
+    currency: str
+    capacity: float
+    neighborhood: str
+    minimumDurationHours: float
+    hoursQuoted: float
+    estimatedTotal: float
+    isInstantBook: bool
+    spaceType: str
+    reviewStars: float | None
+    reviewCount: float
+
+class Cap_event_space_quote_EventSpaceQuoteResult_Out_submission_Out(TypedDict):
+    automated: Literal[False]
+    how: str
 
 Cap_flights_FlightQuery_In = TypedDict(
     "Cap_flights_FlightQuery_In",
@@ -10251,6 +10287,41 @@ class Prv_evag_StopSearchResult_Out(TypedDict):
     id: str
     name: str
     city: NotRequired[str]
+
+class Prv_eventbrite_EventbriteSearchArgs_In(TypedDict):
+    location: str
+    category: NotRequired[str]
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_eventbrite_EventbriteSearchResult_Out(TypedDict):
+    events: list[Prv_eventbrite_EventbriteEventRow_Out]
+    page: float
+    pageCount: float
+    totalCount: float
+
+class Prv_eventbrite_EventbriteEventRow_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    startDate: str | None
+    startTime: str | None
+    endDate: str | None
+    timezone: str | None
+    isOnlineEvent: bool
+    venue: Prv_eventbrite_EventbriteVenueRow_Out | None
+    organizerId: str | None
+    promoted: bool
+
+class Prv_eventbrite_EventbriteVenueRow_Out(TypedDict):
+    name: str
+    city: str | None
+    region: str | None
+    country: str | None
+    address: str | None
+    latitude: str | None
+    longitude: str | None
 
 class Prv_eventim_EventimSearchArgs_In(TypedDict):
     query: str
@@ -20495,6 +20566,32 @@ class Prv_quince_QuinceVariant_Out(TypedDict):
     available: float | None
     inStock: bool
 
+class Prv_quora_GetQuestionArgs_In(TypedDict):
+    url: NotRequired[str]
+    title: NotRequired[str]
+
+class Prv_quora_QuoraQuestion_Out(TypedDict):
+    id: str
+    title: str
+    slug: str
+    content: str
+    answerCount: float
+    answers: list[Prv_quora_QuoraQuestion_Out_answers_item_Out]
+    relatedQuestions: NotRequired[list[Prv_quora_QuoraQuestion_Out_relatedQuestions_item_Out]]
+
+class Prv_quora_QuoraQuestion_Out_answers_item_Out(TypedDict):
+    id: str
+    author: str
+    authorUrl: str
+    content: str
+    upvotes: float
+    createdAt: NotRequired[str]
+
+class Prv_quora_QuoraQuestion_Out_relatedQuestions_item_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+
 class Prv_reddit_search_query_u1_In(TypedDict):
     query: str
     subreddit: NotRequired[str]
@@ -22371,6 +22468,45 @@ class Prv_semihandmade_SemihandmadePriceResult_Out(TypedDict):
     available: bool
     sku: str
     productUrl: str
+
+class Prv_seoulfood_SeoulFoodExhibitorPricing_Out(TypedDict):
+    edition: str | None
+    packages: list[Prv_seoulfood_SeoulFoodBoothPackage_Out]
+    deadlines: list[Prv_seoulfood_SeoulFoodDeadline_Out]
+    discounts: str | None
+    allocation: str | None
+    contactEmail: str | None
+    sourceUrl: str
+
+class Prv_seoulfood_SeoulFoodBoothPackage_Out(TypedDict):
+    type: str
+    pricePerSqm: float
+    currency: Literal["USD"]
+    unitBoothSqm: float
+    minimumBooths: float | None
+    includes: list[str]
+
+class Prv_seoulfood_SeoulFoodDeadline_Out(TypedDict):
+    name: str
+    date: str
+    note: str
+
+class Prv_seoulfood_BoothQuoteArgs_In(TypedDict):
+    booths: NotRequired[float]
+    packageType: NotRequired[str]
+
+class Prv_seoulfood_SeoulFoodBoothQuote_Out(TypedDict):
+    edition: str | None
+    packageType: str
+    booths: float
+    sqm: float
+    pricePerSqm: float
+    total: float
+    currency: Literal["USD"]
+    minimumBooths: float | None
+    meetsMinimum: bool
+    deadlines: list[Prv_seoulfood_SeoulFoodDeadline_Out]
+    sourceUrl: str
 
 class Prv_serper_SerperSearchOptions_In(TypedDict):
     num: NotRequired[float]
@@ -28723,6 +28859,21 @@ class Cap_essen_roadworks(Protocol):
         """Roadworks in Essen. Defaults to status ["new","ongoing"] (active now); pass "finished"
         for recently completed ones. `street` is a case-insensitive substring match on the
         street or its cross streets.
+        """
+
+class Cap_event_space_quote(Protocol):
+    """Prices an event space the way a venue quote request would: give a city, headcount and
+    hours, get back real venues that fit, each with its published hourly rate and an
+    estimated total. It does not send an inquiry to the venue — `submission.how` says how to
+    book one.
+    """
+
+    async def getQuotes(self, args: str | Cap_event_space_quote_EventSpaceQuoteArgs_In, options: Cap_event_space_quote_CallOptions_In | None = None, /) -> Cap_event_space_quote_EventSpaceQuoteResult_Out:
+        """Event space quote for a party, offsite or shoot. Pass "City, ST" or { city, state,
+        guests?, hours?, category? }. Returns Peerspace venues that hold the headcount, cheapest
+        first, each with its hourly rate, minimum booking length and `estimatedTotal` for the
+        hours asked. No inquiry is submitted to any venue; open a quote's `url` to book or
+        message the host.
         """
 
 class Cap_flights(Protocol):
@@ -35092,6 +35243,20 @@ class Prv_evag(Protocol):
     async def searchStop(self, query: str, /) -> list[Prv_evag_StopSearchResult_Out]:
         """Search for a transit stop or city by name or partial name (e.g. 'Essen', 'Essen
         Hauptbahnhof'); returns matching stops with the id listDepartures takes.
+        """
+
+class Prv_eventbrite(Protocol):
+    """Local events — search by city/online, date and category; read an event, its organizer
+    and venue; and (once a caller signs in) save events, follow organizers and read order
+    history.
+    """
+
+    async def searchEvents(self, args: Prv_eventbrite_EventbriteSearchArgs_In, /) -> Prv_eventbrite_EventbriteSearchResult_Out:
+        """Searches live events by location (a city/region like "New York, NY", or the literal
+        string "online"), with an optional category or free-text keyword and an optional
+        start/end date range, and returns each match's id, title, url, start time, timezone and
+        venue. Paged (20/page); call again with "page" incremented. Ticket price is NOT on this
+        result — call getEvent for it.
         """
 
 class Prv_eventim(Protocol):
@@ -42511,6 +42676,18 @@ class Prv_quince(Protocol):
         the handle or URL searchProducts returns.
         """
 
+class Prv_quora(Protocol):
+    """A question-and-answer site: questions and their answers, member profiles and Spaces, and
+    (once a caller signs in) search, topic feeds, asking, answering, commenting, upvoting
+    and following.
+    """
+
+    async def getQuestion(self, args: Prv_quora_GetQuestionArgs_In, /) -> Prv_quora_QuoraQuestion_Out:
+        """Reads one question off its page — the question text, answer count, related questions,
+        and the first page of answers (author, content, upvote count) — taking a Quora question
+        URL or its exact title text.
+        """
+
 class Prv_reddit(Protocol):
     """Communities, threads and comment trees, and the signed-in account. Public reads need
     nothing: find communities, qualify one (subscribers, activity, whether you may read it),
@@ -43572,6 +43749,32 @@ class Prv_semihandmade(Protocol):
         e.g. { Width, Height, Color } or { Size, Color } — call getPartOptions(handle) first for
         the real values) to Semihandmade's own real price and availability for that exact SKU,
         plus the product page to finish there.
+        """
+
+class Prv_seoulfood(Protocol):
+    """SEOUL FOOD (Seoul Food & Hotel), Korea's international food trade show run by KOTRA at
+    KINTEX. getExhibitorPricing returns the organizer's published exhibitor booth quote:
+    price per m² for each booth package (Space Only, Walk on Package shell scheme, Premium
+    Stand), early-bird and final application deadlines, discounts and how booths are
+    allocated — no inquiry form needed. getBoothQuote prices N booths of one package.
+    """
+
+    async def getExhibitorPricing(self, /) -> Prv_seoulfood_SeoulFoodExhibitorPricing_Out:
+        """Reads SEOUL FOOD's own English 'How to Exhibit' page and returns the exhibitor booth
+        quote the organizer publishes: each booth package with its price per m² in USD (one
+        booth = 3m x 3m = 9 m²; multiply for a total), minimum booths and inclusions; the
+        early-bird, standard-rate and balance-payment deadlines as the page writes them; the
+        discount table; the booth-allocation rule; and the organizer's contact email. `edition`
+        names the show cycle the page is branded for — check it against today, the page keeps
+        the last cycle's card up until the next one is published. Takes no arguments.
+        """
+
+    async def getBoothQuote(self, args: Prv_seoulfood_BoothQuoteArgs_In, /) -> Prv_seoulfood_SeoulFoodBoothQuote_Out:
+        """A list-price exhibitor booth quote off the live rate card: `booths` (3m x 3m units,
+        default 1) of `packageType` ("Space Only", "Walk on Package" — the standard shell
+        scheme, the default — or "Premium Stand"). Returns m², price per m², the USD total
+        before discounts, whether the package minimum is met, and the deadlines. No inquiry form
+        is submitted.
         """
 
 class Prv_serper(Protocol):
@@ -47330,6 +47533,7 @@ class BowmarkProviders(Protocol):
     estes_express: Prv_estes_express
     etsy: Prv_etsy
     evag: Prv_evag
+    eventbrite: Prv_eventbrite
     eventim: Prv_eventim
     eventsource: Prv_eventsource
     evolutionofsmooth: Prv_evolutionofsmooth
@@ -47540,6 +47744,7 @@ class BowmarkProviders(Protocol):
     proxy_cheap: Prv_proxy_cheap
     puls_com: Prv_puls_com
     quince: Prv_quince
+    quora: Prv_quora
     reddit: Prv_reddit
     rei: Prv_rei
     reliancepartners: Prv_reliancepartners
@@ -47567,6 +47772,7 @@ class BowmarkProviders(Protocol):
     selectblinds: Prv_selectblinds
     sellcell: Prv_sellcell
     semihandmade: Prv_semihandmade
+    seoulfood: Prv_seoulfood
     serper: Prv_serper
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
@@ -47693,6 +47899,7 @@ class Bowmark(Protocol):
     email: Cap_email
     entertainment_merch: Cap_entertainment_merch
     essen_roadworks: Cap_essen_roadworks
+    event_space_quote: Cap_event_space_quote
     flights: Cap_flights
     fuel_card_fees: Cap_fuel_card_fees
     furnished_apartment_rental: Cap_furnished_apartment_rental

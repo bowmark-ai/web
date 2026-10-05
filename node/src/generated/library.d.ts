@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e7e5c589fa6089814f55bfebca69e3418b8d5a4b4362cd749882fc569ca87fc7
-// 74 capabilities, 521 providers, 1827 typed functions, 20 refused.
+// Manifest version: fb4b961ac05c1e797dffba5b9c60ac7bd79fad5c24c5d8e75913cd8177d817a4
+// 75 capabilities, 524 providers, 1832 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1377,6 +1377,60 @@ interface essen_roadworksResult {
      * cross streets.
      */
     list(opts?: { street?: string; status?: RoadworkStatus | RoadworkStatus[] }): Promise<essen_roadworksResult>;
+  }
+}
+
+declare namespace BowmarkCapability_event_space_quote {
+  // ── Event space quote request (venue pricing for a date, headcount and hours) — the unit's own declarations, verbatim ──
+type EventSpaceQuoteArgs = {
+  city: string
+  state: string              // two-letter US state, e.g. "NY"
+  guests?: number            // drops spaces whose stated capacity is smaller
+  hours?: number             // priced hours; floored at each space's own minimum
+  category?: "party" | "photo-shoot" | "off-site"
+}
+type EventSpaceQuote = {
+  provider: string
+  id: string
+  title: string
+  url: string                // the listing page — where the booking/inquiry happens
+  hourlyPrice: number
+  currency: string
+  capacity: number
+  neighborhood: string
+  minimumDurationHours: number
+  hoursQuoted: number
+  estimatedTotal: number     // hourlyPrice * hoursQuoted, before the site's fees/taxes
+  isInstantBook: boolean     // bookable without waiting for a host reply
+  spaceType: string
+  reviewStars: number | null
+  reviewCount: number
+}
+type EventSpaceQuoteResult = {
+  quotes: EventSpaceQuote[]  // cheapest estimatedTotal first
+  submission: { automated: false; how: string }  // no inquiry is sent — see 'how'
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Prices an event space the way a venue quote request would: give a city, headcount and hours,
+   * get back real venues that fit, each with its published hourly rate and an estimated total.
+   * It does not send an inquiry to the venue — `submission.how` says how to book one.
+   */
+  interface Unit {
+    /**
+     * Event space quote for a party, offsite or shoot. Pass "City, ST" or { city, state, guests?,
+     * hours?, category? }. Returns Peerspace venues that hold the headcount, cheapest first, each
+     * with its hourly rate, minimum booking length and `estimatedTotal` for the hours asked. No
+     * inquiry is submitted to any venue; open a quote's `url` to book or message the host.
+     */
+    getQuotes(args: string | EventSpaceQuoteArgs, options?: CallOptions): Promise<EventSpaceQuoteResult>;
   }
 }
 
@@ -18568,6 +18622,60 @@ interface LineStatus {
      * Hauptbahnhof'); returns matching stops with the id listDepartures takes.
      */
     searchStop(query: string): Promise<StopSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_eventbrite {
+  // ── Eventbrite — the unit's own declarations, verbatim ──
+interface EventbriteEventRow {
+  id: string;
+  title: string;
+  url: string;
+  startDate: string | null;
+  startTime: string | null;
+  endDate: string | null;
+  timezone: string | null;
+  isOnlineEvent: boolean;
+  venue: EventbriteVenueRow | null;
+  organizerId: string | null;
+  promoted: boolean;
+}
+interface EventbriteVenueRow {
+  name: string;
+  city: string | null;
+  region: string | null;
+  country: string | null;
+  address: string | null;
+  latitude: string | null;
+  longitude: string | null;
+}
+interface EventbriteSearchResult {
+  events: EventbriteEventRow[];
+  page: number;
+  pageCount: number;
+  totalCount: number;
+}
+interface EventbriteSearchArgs {
+  location: string;
+  category?: string;
+  startDate?: string;
+  endDate?: string;
+  page?: number;
+}
+
+  /**
+   * Local events — search by city/online, date and category; read an event, its organizer and
+   * venue; and (once a caller signs in) save events, follow organizers and read order history.
+   */
+  interface Unit {
+    /**
+     * Searches live events by location (a city/region like "New York, NY", or the literal string
+     * "online"), with an optional category or free-text keyword and an optional start/end date
+     * range, and returns each match's id, title, url, start time, timezone and venue. Paged
+     * (20/page); call again with "page" incremented. Ticket price is NOT on this result — call
+     * getEvent for it.
+     */
+    searchEvents(args: EventbriteSearchArgs): Promise<EventbriteSearchResult>;
   }
 }
 
@@ -38124,6 +38232,48 @@ interface QuinceProduct {
   }
 }
 
+declare namespace BowmarkProvider_quora {
+  // ── Quora — the unit's own declarations, verbatim ──
+interface QuoraQuestion {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  answerCount: number;
+  answers: Array<{
+    id: string;
+    author: string;
+    authorUrl: string;
+    content: string;
+    upvotes: number;
+    createdAt?: string;
+  }>;
+  relatedQuestions?: Array<{
+    id: string;
+    title: string;
+    url: string;
+  }>;
+}
+interface GetQuestionArgs {
+  url?: string;
+  title?: string;
+}
+
+  /**
+   * A question-and-answer site: questions and their answers, member profiles and Spaces, and
+   * (once a caller signs in) search, topic feeds, asking, answering, commenting, upvoting and
+   * following.
+   */
+  interface Unit {
+    /**
+     * Reads one question off its page — the question text, answer count, related questions, and
+     * the first page of answers (author, content, upvote count) — taking a Quora question URL or
+     * its exact title text.
+     */
+    getQuestion(args: GetQuestionArgs): Promise<QuoraQuestion>;
+  }
+}
+
 declare namespace BowmarkProvider_reddit {
   // ── Reddit — the unit's own declarations, verbatim ──
 interface RedditPost {
@@ -40971,6 +41121,81 @@ interface SemihandmadePriceResult {
      * product page to finish there.
      */
     priceConfiguration(handle: string, selections: Record<string, string>): Promise<SemihandmadePriceResult>;
+  }
+}
+
+declare namespace BowmarkProvider_seoulfood {
+  // ── SEOUL FOOD — the unit's own declarations, verbatim ──
+interface SeoulFoodBoothPackage {
+  type: string;
+  pricePerSqm: number;
+  currency: "USD";
+  unitBoothSqm: number;
+  minimumBooths: number | null;
+  includes: string[];
+}
+
+interface SeoulFoodDeadline {
+  name: string;
+  date: string;
+  note: string;
+}
+
+interface SeoulFoodExhibitorPricing {
+  edition: string | null;
+  packages: SeoulFoodBoothPackage[];
+  deadlines: SeoulFoodDeadline[];
+  discounts: string | null;
+  allocation: string | null;
+  contactEmail: string | null;
+  sourceUrl: string;
+}
+
+interface BoothQuoteArgs {
+  booths?: number;
+  packageType?: string;
+}
+
+interface SeoulFoodBoothQuote {
+  edition: string | null;
+  packageType: string;
+  booths: number;
+  sqm: number;
+  pricePerSqm: number;
+  total: number;
+  currency: "USD";
+  minimumBooths: number | null;
+  meetsMinimum: boolean;
+  deadlines: SeoulFoodDeadline[];
+  sourceUrl: string;
+}
+
+  /**
+   * SEOUL FOOD (Seoul Food & Hotel), Korea's international food trade show run by KOTRA at
+   * KINTEX. getExhibitorPricing returns the organizer's published exhibitor booth quote: price
+   * per m² for each booth package (Space Only, Walk on Package shell scheme, Premium Stand),
+   * early-bird and final application deadlines, discounts and how booths are allocated — no
+   * inquiry form needed. getBoothQuote prices N booths of one package.
+   */
+  interface Unit {
+    /**
+     * Reads SEOUL FOOD's own English 'How to Exhibit' page and returns the exhibitor booth quote
+     * the organizer publishes: each booth package with its price per m² in USD (one booth = 3m x
+     * 3m = 9 m²; multiply for a total), minimum booths and inclusions; the early-bird,
+     * standard-rate and balance-payment deadlines as the page writes them; the discount table; the
+     * booth-allocation rule; and the organizer's contact email. `edition` names the show cycle the
+     * page is branded for — check it against today, the page keeps the last cycle's card up until
+     * the next one is published. Takes no arguments.
+     */
+    getExhibitorPricing(): Promise<SeoulFoodExhibitorPricing>;
+
+    /**
+     * A list-price exhibitor booth quote off the live rate card: `booths` (3m x 3m units, default
+     * 1) of `packageType` ("Space Only", "Walk on Package" — the standard shell scheme, the
+     * default — or "Premium Stand"). Returns m², price per m², the USD total before discounts,
+     * whether the package minimum is met, and the deadlines. No inquiry form is submitted.
+     */
+    getBoothQuote(args: BoothQuoteArgs): Promise<SeoulFoodBoothQuote>;
   }
 }
 
@@ -51860,6 +52085,7 @@ interface BowmarkProviders {
   estes_express: BowmarkProvider_estes_express.Unit;
   etsy: BowmarkProvider_etsy.Unit;
   evag: BowmarkProvider_evag.Unit;
+  eventbrite: BowmarkProvider_eventbrite.Unit;
   eventim: BowmarkProvider_eventim.Unit;
   eventsource: BowmarkProvider_eventsource.Unit;
   evolutionofsmooth: BowmarkProvider_evolutionofsmooth.Unit;
@@ -52070,6 +52296,7 @@ interface BowmarkProviders {
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
   quince: BowmarkProvider_quince.Unit;
+  quora: BowmarkProvider_quora.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   rei: BowmarkProvider_rei.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
@@ -52097,6 +52324,7 @@ interface BowmarkProviders {
   selectblinds: BowmarkProvider_selectblinds.Unit;
   sellcell: BowmarkProvider_sellcell.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;
+  seoulfood: BowmarkProvider_seoulfood.Unit;
   serper: BowmarkProvider_serper.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
@@ -102094,6 +102322,7 @@ interface BowmarkLibrary {
   email: BowmarkCapability_email.Unit;
   entertainment_merch: BowmarkCapability_entertainment_merch.Unit;
   essen_roadworks: BowmarkCapability_essen_roadworks.Unit;
+  event_space_quote: BowmarkCapability_event_space_quote.Unit;
   flights: BowmarkCapability_flights.Unit;
   fuel_card_fees: BowmarkCapability_fuel_card_fees.Unit;
   furnished_apartment_rental: BowmarkCapability_furnished_apartment_rental.Unit;
