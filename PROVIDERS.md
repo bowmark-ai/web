@@ -808,7 +808,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.getProductDrivers` | dell.com | Lists drivers and downloads for a Dell product by its URL slug, optionally narrowed to… | 🟢 |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves details for a specific registered product. | 🟢 |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | 🟢 |
-| `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag. | ⚪ |
+| `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag. | 🟢 |
 | `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | 🟢 |
 | `dell.listMyOrders` | dell.com | Retrieves the signed-in user's order history with order numbers, dates, and status. | 🟢 |
 | `dell.listMyRegisteredProducts` | dell.com | Retrieves the signed-in user's registered Dell products and devices. | 🟢 |
@@ -1191,7 +1191,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getTrade` | fomo.family | Returns one trade in full by id, with its author and token — the narrow read behind a… | ⚪ |
 | `fomo.getTradeComments` | fomo.family | Returns the comment thread under one trade. `GET /trades/:tradeId/comments`. | ⚪ |
 | `fomo.getTrades` | fomo.family | Pages trades across the platform, optionally filtered to one trader. `GET… | ⚪ |
-| `fomo.getTradingActivityFeed` | fomo.family | Pages raw trading activity rather than the composed social feed — the unfiltered… | ⚪ |
+| `fomo.getTradingActivityFeed` | fomo.family | Pages raw trading activity rather than the composed social feed — the unfiltered… | 🟢 |
 | `fomo.getTransfers` | fomo.family | Pages the signed-in trader's transfers, and the transfers exchanged with one other… | ⚪ |
 | `fomo.getTransfersWith` | fomo.family | Pages the transfers between the signed-in trader and ONE other user — the two-party… | ⚪ |
 | `fomo.getTrendingTokens` | fomo.family | Returns what is moving on fomo right now — the site's own trending ranking, which is a… | 🟢 |
