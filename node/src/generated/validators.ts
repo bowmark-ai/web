@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 325a4d4619c6d9e4e4eaec8e9bc88b79bd27a58d088fd17a222903a0a6840a47
-// 1822 checked, 20 unchecked.
+// Manifest version: 7e8f573ef2a5c2b5f1493e807bbafb0ce38f64aa0311cc2e3e4a68fe276d12cf
+// 1824 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "325a4d4619c6d9e4e4eaec8e9bc88b79bd27a58d088fd17a222903a0a6840a47",
+  "version": "7e8f573ef2a5c2b5f1493e807bbafb0ce38f64aa0311cc2e3e4a68fe276d12cf",
   "units": {
     "address_validation": {
       "defs": {
@@ -7597,7 +7597,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
-        ]
+        ],
+        "listSections": []
       }
     },
     "providers.aosom": {
@@ -48401,6 +48402,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListLiveStreamsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSubscriptionsArgs": {
           "k": "object",
           "props": [
@@ -48548,6 +48568,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetStreamArgs"
             },
             "optional": false
+          }
+        ],
+        "listLiveStreams": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLiveStreamsArgs"
+            },
+            "optional": true
           }
         ],
         "searchChannels": [

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 325a4d4619c6d9e4e4eaec8e9bc88b79bd27a58d088fd17a222903a0a6840a47
-# 76 capabilities, 528 providers, 1822 typed functions, 20 refused.
+# Manifest version: 7e8f573ef2a5c2b5f1493e807bbafb0ce38f64aa0311cc2e3e4a68fe276d12cf
+# 76 capabilities, 528 providers, 1824 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3641,6 +3641,14 @@ class Prv_aol_AolStoryRow_Out(TypedDict):
     source: NotRequired[str]
     sourceUrl: NotRequired[str]
     publishedAt: NotRequired[str]
+
+class Prv_aol_AolSectionList_Out(TypedDict):
+    sections: list[Prv_aol_AolSection_Out]
+
+class Prv_aol_AolSection_Out(TypedDict):
+    title: str
+    path: str
+    parentPath: NotRequired[str]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -25359,6 +25367,17 @@ class Prv_twitch_TwitchStream_Out(TypedDict):
     viewerCount: float | None
     startedAt: str | None
 
+class Prv_twitch_ListLiveStreamsArgs_In(TypedDict):
+    category: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_twitch_TwitchLiveStream_Out(TypedDict):
+    id: str
+    title: str
+    viewerCount: float
+    broadcasterLogin: str
+    gameName: str | None
+
 class Prv_twitch_SearchChannelsArgs_In(TypedDict):
     query: str
 
@@ -31050,6 +31069,12 @@ class Prv_aol(Protocol):
         """Reads the aol.com front page as the visitor sees it — the lead stories and every
         headline module, each with title, url, source publisher, image and publish time. Pass
         limit to cap the row count.
+        """
+
+    async def listSections(self, /) -> Prv_aol_AolSectionList_Out:
+        """Lists AOL's content sections and sub-sections (News > Politics, Business, Sports > NFL,
+        Entertainment > Celebrity, Finance > Insurance, Food, Travel, Health, Style, True Crime,
+        Animals …) with their paths — the door listSectionArticles takes its section from.
         """
 
 class Prv_aosom(Protocol):
@@ -45673,6 +45698,14 @@ class Prv_twitch(Protocol):
         """Reads a channel's LIVE state right now: whether it is live, title, game, viewer count,
         and when the broadcast started. `live: false` and null fields when offline — not an
         error. No sign-in. THROWS naming the login when Twitch has no such channel.
+        """
+
+    async def listLiveStreams(self, args: Prv_twitch_ListLiveStreamsArgs_In | None = None, /) -> list[Prv_twitch_TwitchLiveStream_Out]:
+        """Browses channels live right now, ranked by Twitch's own live viewer count (highest
+        first): id, title, viewer count, broadcaster login and game. Pass `category` (a
+        game/category name, e.g. "Minecraft") to browse one category instead of the whole site.
+        No sign-in. THROWS naming the category when Twitch does not recognise it. Returns one
+        page — up to `limit`, default 20, max 100.
         """
 
     async def searchChannels(self, args: Prv_twitch_SearchChannelsArgs_In, /) -> list[Prv_twitch_TwitchChannelSearchResult_Out]:

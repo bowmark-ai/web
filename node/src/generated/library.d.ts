@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 325a4d4619c6d9e4e4eaec8e9bc88b79bd27a58d088fd17a222903a0a6840a47
-// 76 capabilities, 528 providers, 1840 typed functions, 20 refused.
+// Manifest version: 7e8f573ef2a5c2b5f1493e807bbafb0ce38f64aa0311cc2e3e4a68fe276d12cf
+// 76 capabilities, 528 providers, 1842 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6718,6 +6718,16 @@ interface AolFrontPage {
   stories: AolStoryRow[];
 }
 
+interface AolSection {
+  title: string;
+  path: string;
+  parentPath?: string;
+}
+
+interface AolSectionList {
+  sections: AolSection[];
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -6730,6 +6740,13 @@ interface AolFrontPage {
      * the row count.
      */
     getFrontPage(limit?: number): Promise<AolFrontPage>;
+
+    /**
+     * Lists AOL's content sections and sub-sections (News > Politics, Business, Sports > NFL,
+     * Entertainment > Celebrity, Finance > Insurance, Food, Travel, Health, Style, True Crime,
+     * Animals …) with their paths — the door listSectionArticles takes its section from.
+     */
+    listSections(): Promise<AolSectionList>;
   }
 }
 
@@ -46186,6 +46203,20 @@ interface TwitchStream {
   /** ISO timestamp the current broadcast started. Null while offline. */
   startedAt: string | null;
 }
+interface ListLiveStreamsArgs {
+  /** A category/game name, e.g. "Minecraft". Omit to browse the whole site. */
+  category?: string;
+  /** Max streams to return, 1-100. Default 20. */
+  limit?: number;
+}
+interface TwitchLiveStream {
+  id: string;
+  title: string;
+  viewerCount: number;
+  broadcasterLogin: string;
+  /** Null only when Twitch has no category on file for this stream. */
+  gameName: string | null;
+}
 interface SearchChannelsArgs {
   /** A keyword to search Twitch channels for — a name, game or description term. */
   query: string;
@@ -46443,6 +46474,15 @@ interface TwitchFollowChannelResult {
      * sign-in. THROWS naming the login when Twitch has no such channel.
      */
     getStream(args: GetStreamArgs): Promise<TwitchStream>;
+
+    /**
+     * Browses channels live right now, ranked by Twitch's own live viewer count (highest first):
+     * id, title, viewer count, broadcaster login and game. Pass `category` (a game/category name,
+     * e.g. "Minecraft") to browse one category instead of the whole site. No sign-in. THROWS
+     * naming the category when Twitch does not recognise it. Returns one page — up to `limit`,
+     * default 20, max 100.
+     */
+    listLiveStreams(args?: ListLiveStreamsArgs): Promise<TwitchLiveStream[]>;
 
     /**
      * Searches Twitch channels by keyword — a name, game or description term — and returns up to

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3015 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3044 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -670,6 +670,30 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.listFitters` | clubchampion.com | Reads the live list of every Club Champion fitter — id, name, studio, timezone… | 🟢 |
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
+| `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | ⚪ |
+| `cnbc_com.followTopic` | cnbc.com | Follows a CNBC news topic to receive articles about it. | ⚪ |
+| `cnbc_com.getArticle` | cnbc.com | Returns the full text of a CNBC news article — title, author, publication date, body… | ⚪ |
+| `cnbc_com.getAuthor` | cnbc.com | Returns details about a CNBC journalist or contributor — name, bio, photo and link to… | ⚪ |
+| `cnbc_com.getInvestingClubContent` | cnbc.com | Returns Investing Club portfolio recommendations and analysis. | ⚪ |
+| `cnbc_com.getMarketData` | cnbc.com | Returns detailed data for one market index or commodity — price, high, low, open… | ⚪ |
+| `cnbc_com.getPremiumContent` | cnbc.com | Returns CNBC Pro premium articles and analysis. | ⚪ |
+| `cnbc_com.getQuote` | cnbc.com | Returns the current stock quote for one symbol — price, change, percent change, open… | ⚪ |
+| `cnbc_com.getVideo` | cnbc.com | Returns details of a CNBC video — title, description, duration, transcript (if… | ⚪ |
+| `cnbc_com.getWatchlist` | cnbc.com | Returns the user's saved watchlist of stocks — symbols, current price, change and… | ⚪ |
+| `cnbc_com.listArticlesByAuthor` | cnbc.com | Lists all articles published by a specific CNBC journalist or contributor, with… | ⚪ |
+| `cnbc_com.listCategories` | cnbc.com | Lists CNBC's news categories and sections — Markets, Investing, Earnings, Economy… | ⚪ |
+| `cnbc_com.listCommodities` | cnbc.com | Lists commodity prices — crude oil, natural gas, gold, silver, copper, wheat and other… | ⚪ |
+| `cnbc_com.listCurrencies` | cnbc.com | Lists major currency exchange rates — USD/EUR, USD/GBP, USD/JPY and others — with… | ⚪ |
+| `cnbc_com.listMarkets` | cnbc.com | Returns the current state of all major market indices — Dow Jones, S&P 500, Nasdaq… | ⚪ |
+| `cnbc_com.listNews` | cnbc.com | Returns the latest news and articles from CNBC — headlines, publication date, author… | ⚪ |
+| `cnbc_com.listQuotes` | cnbc.com | Returns stock quotes for multiple symbols in one call — the same fields as getQuote… | ⚪ |
+| `cnbc_com.listSectors` | cnbc.com | Lists S&P 500 sector performance — sector name, price change, percent change, and top… | ⚪ |
+| `cnbc_com.listVideosByCategory` | cnbc.com | Lists CNBC videos by category (latest, trending, live, channels) — title, description… | ⚪ |
+| `cnbc_com.removeFromWatchlist` | cnbc.com | Removes a stock symbol from the user's watchlist. | ⚪ |
+| `cnbc_com.search` | cnbc.com | Searches CNBC's news, articles and quotes for a keyword and returns results across the… | ⚪ |
+| `cnbc_com.subscribeToNewsletter` | cnbc.com | Subscribes to a CNBC newsletter (Markets, Tech, Earnings, etc). | ⚪ |
+| `cnbc_com.unfollowTopic` | cnbc.com | Unfollows a CNBC news topic. | ⚪ |
+| `cnbc_com.unsubscribeFromNewsletter` | cnbc.com | Unsubscribes from a CNBC newsletter. | ⚪ |
 | `cnn.followTopic` | www.cnn.com | Add a topic to the signed-in viewer's followed topics, so it appears in their… | 🟢 |
 | `cnn.getArticle` | www.cnn.com | Read the full text and metadata of one CNN article — headline, body text, author… | 🟢 |
 | `cnn.getMarketsData` | www.cnn.com | Financial and markets data from CNN Money — stock indices, currency rates, commodities… | 🟢 |
@@ -724,6 +748,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cyberpowerpc.priceBuild` | cyberpowerpc.com | Prices an exact build for one configurator given a caller's part selections (one part… | 🟢 |
 | `dahlconsulting.getJob` | careers.dahlconsulting.com | Reads one job posting's full detail — the complete description, industry… | 🟢 |
 | `dahlconsulting.searchJobs` | careers.dahlconsulting.com | Searches Dahl Consulting's live job board — every open role at… | 🟢 |
+| `dailymotion.getVideo` | dailymotion.com | Read one Dailymotion video from its id or a dailymotion.com / dai.ly URL: title… | 🟢 |
+| `dailymotion.listChannelVideos` | dailymotion.com | List the videos one Dailymotion uploader has published, newest first. | ⚪ |
+| `dailymotion.listPlaylistVideos` | dailymotion.com | List the videos in one Dailymotion playlist. | ⚪ |
+| `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion user channels (uploaders) by name, with follower and video counts. | ⚪ |
+| `dailymotion.searchVideos` | dailymotion.com | Search Dailymotion videos by keyword — title, uploader, duration, views, publish date… | 🟢 |
 | `dangotecement.getPriceList` | dangotecement.com | Would return current cement price list from Dangote Cement with prices per bag size… | ⚪ |
 | `dansons.identifyProduct` | pitboss-grills.com | Identifies which Pit Boss product(s) a free-text description matches — the same… | 🟢 |
 | `dansons.listRegisterableProducts` | pitboss-grills.com | Lists every Pit Boss product eligible for warranty registration — the exact catalog… | 🟢 |
@@ -970,7 +999,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventbrite.followOrganizer` | eventbrite.com | Follows an organizer from the signed-in caller's account, taking an organizer url or id. | ⚪ |
 | `eventbrite.getEvent` | eventbrite.com | Returns one event in full: title, description, start/end time, venue (name, address… | 🟢 |
 | `eventbrite.getOrderHistory` | eventbrite.com | Reads the signed-in caller's past and upcoming ticket orders from their account's… | ⚪ |
-| `eventbrite.getOrganizer` | eventbrite.com | Reads an organizer's public page — name, description, verification/badge status, total… | ⚪ |
+| `eventbrite.getOrganizer` | eventbrite.com | Reads an organizer's public page — name, bio, verification status, website… | 🟢 |
 | `eventbrite.getOwnProfile` | eventbrite.com | Reads the signed-in caller's own account profile (name, email on file, location). | ⚪ |
 | `eventbrite.getSavedEvents` | eventbrite.com | Reads the signed-in caller's saved ('liked') events. | ⚪ |
 | `eventbrite.getVenue` | eventbrite.com | Reads a venue's address, coordinates and city/region — taking the venue id or name… | ⚪ |
@@ -1967,7 +1996,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
 | `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟡 |
-| `nytimes.getConnections` | nytimes.com | Gets today's Connections puzzle. | ⚪ |
+| `nytimes.getConnections` | nytimes.com | Gets a day's Connections puzzle — the four categories and their cards. | 🟢 |
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟡 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟢 |

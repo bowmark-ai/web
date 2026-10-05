@@ -1,5 +1,5 @@
 {
-  "version": "325a4d4619c6d9e4e4eaec8e9bc88b79bd27a58d088fd17a222903a0a6840a47",
+  "version": "7e8f573ef2a5c2b5f1493e807bbafb0ce38f64aa0311cc2e3e4a68fe276d12cf",
   "units": {
     "address_validation": {
       "defs": {
@@ -7585,7 +7585,8 @@
             },
             "optional": true
           }
-        ]
+        ],
+        "listSections": []
       }
     },
     "providers.aosom": {
@@ -48389,6 +48390,25 @@
             }
           ]
         },
+        "ListLiveStreamsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSubscriptionsArgs": {
           "k": "object",
           "props": [
@@ -48536,6 +48556,16 @@
               "name": "GetStreamArgs"
             },
             "optional": false
+          }
+        ],
+        "listLiveStreams": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLiveStreamsArgs"
+            },
+            "optional": true
           }
         ],
         "searchChannels": [
