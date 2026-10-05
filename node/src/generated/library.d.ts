@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a5df96b4a70d1ad3f82c75d26f43a0850018d34a0973cfd49a94ad2d1df8e040
-// 75 capabilities, 526 providers, 1834 typed functions, 20 refused.
+// Manifest version: faf0ebd70d25b2a21a0b5eaa16ae4f4d00421312f7cbff59efc3be12beaaec7c
+// 76 capabilities, 526 providers, 1837 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2697,6 +2697,63 @@ type MusicTrackResult = {
      * worse than an error. `warnings` names the fields the catalogue left unreported.
      */
     getTrack(track: string | Track, options?: CallOptions): Promise<MusicTrackResult>;
+  }
+}
+
+declare namespace BowmarkCapability_pallet_freight_quote {
+  // ── Pallet freight quote — the unit's own declarations, verbatim ──
+interface PalletDims {
+  weightKg: number;
+  lengthCm: number;
+  widthCm: number;
+  heightCm: number;
+}
+
+interface PalletQuote {
+  serviceName: string;
+  price: number;        // ex-VAT
+  vat: number;
+  priceIncVat: number;
+  currency: string;     // "GBP"
+  earliestCollection: string | null;
+  transit: string | null;
+  estimatedDelivery: string | null;
+  source: string;
+}
+
+interface pallet_freight_quoteResult {
+  collectionPostcode: string;
+  deliveryPostcode: string;
+  pallets: PalletDims[];
+  quotes: PalletQuote[];   // cheapest first
+  url: string;             // where a person books it
+  warnings: string[];
+}
+
+interface QuoteParams {
+  from: string;            // collection postcode (UK mainland)
+  to: string;              // delivery postcode (UK mainland)
+  pallets: PalletDims | PalletDims[];
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Get live pallet freight quotes between two UK postcodes — every carrier service on the lane,
+   * cheapest first.
+   */
+  interface Unit {
+    /**
+     * Live pallet freight quotes for one or more pallets between two UK-mainland postcodes: every
+     * service on the lane (TPN, Palletways, Pall-EX…), cheapest first, with ex/inc-VAT price,
+     * earliest collection and transit. UK only. `options.timeoutMs` sets the budget (default
+     * 30000).
+     */
+    quote(params: QuoteParams, options?: CallOptions): Promise<pallet_freight_quoteResult>;
   }
 }
 
@@ -18695,6 +18752,31 @@ interface EventbriteSearchArgs {
   endDate?: string;
   page?: number;
 }
+interface EventbriteOrganizerRef {
+  id: string | null;
+  name: string | null;
+  url: string | null;
+}
+interface EventbriteEventDetail {
+  id: string;
+  title: string;
+  description: string | null;
+  url: string;
+  startDate: string | null;
+  startTime: string | null;
+  endDate: string | null;
+  endTime: string | null;
+  timezone: string | null;
+  isOnlineEvent: boolean;
+  venue: EventbriteVenueRow | null;
+  organizer: EventbriteOrganizerRef | null;
+  tags: string[];
+  salesStatus: string | null;
+  minTicketPrice: number | null;
+  maxTicketPrice: number | null;
+  currency: string | null;
+  isFree: boolean;
+}
 
   /**
    * Local events — search by city/online, date and category; read an event, its organizer and
@@ -18709,6 +18791,13 @@ interface EventbriteSearchArgs {
      * getEvent for it.
      */
     searchEvents(args: EventbriteSearchArgs): Promise<EventbriteSearchResult>;
+
+    /**
+     * Returns one event in full: title, description, start/end time, venue (name, address,
+     * lat/long), organizer (id, name, url), category tags, sales status and ticket price range —
+     * taking an Eventbrite event url or its numeric id.
+     */
+    getEvent(args: { eventIdOrUrl: string }): Promise<EventbriteEventDetail>;
   }
 }
 
@@ -45983,6 +46072,24 @@ interface TwitchChannelInfo {
   /** When the channel was created. */
   createdAt: string;
 }
+interface GetStreamArgs {
+  /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
+  login: string;
+}
+interface TwitchStream {
+  /** Whether the channel is broadcasting right now. */
+  live: boolean;
+  /** Twitch's own stream id. Null while offline. */
+  streamId: string | null;
+  /** The broadcast title. Null while offline. */
+  title: string | null;
+  /** The category/game being played. Null while offline, or when live with none set. */
+  gameName: string | null;
+  /** Null while offline. */
+  viewerCount: number | null;
+  /** ISO timestamp the current broadcast started. Null while offline. */
+  startedAt: string | null;
+}
 interface SearchChannelsArgs {
   /** A keyword to search Twitch channels for — a name, game or description term. */
   query: string;
@@ -46233,6 +46340,13 @@ interface TwitchFollowChannelResult {
      * URL, follower count, creation date. No sign-in.
      */
     getChannelInfo(args: GetChannelInfoArgs): Promise<TwitchChannelInfo>;
+
+    /**
+     * Reads a channel's LIVE state right now: whether it is live, title, game, viewer count, and
+     * when the broadcast started. `live: false` and null fields when offline — not an error. No
+     * sign-in. THROWS naming the login when Twitch has no such channel.
+     */
+    getStream(args: GetStreamArgs): Promise<TwitchStream>;
 
     /**
      * Searches Twitch channels by keyword — a name, game or description term — and returns up to
@@ -102414,6 +102528,7 @@ interface BowmarkLibrary {
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
   municipal_recreation_fees: BowmarkCapability_municipal_recreation_fees.Unit;
   music: BowmarkCapability_music.Unit;
+  pallet_freight_quote: BowmarkCapability_pallet_freight_quote.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
   pet_boarding: BowmarkCapability_pet_boarding.Unit;
   phone_price: BowmarkCapability_phone_price.Unit;

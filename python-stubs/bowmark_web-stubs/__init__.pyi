@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a5df96b4a70d1ad3f82c75d26f43a0850018d34a0973cfd49a94ad2d1df8e040
-# 75 capabilities, 526 providers, 1816 typed functions, 20 refused.
+# Manifest version: faf0ebd70d25b2a21a0b5eaa16ae4f4d00421312f7cbff59efc3be12beaaec7c
+# 76 capabilities, 526 providers, 1819 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1591,6 +1591,49 @@ class Cap_music_TrackDetail_Out(TypedDict):
     releaseDate: str | None
     publisherArtist: str | None
     labelName: str | None
+
+Cap_pallet_freight_quote_QuoteParams_In = TypedDict(
+    "Cap_pallet_freight_quote_QuoteParams_In",
+    {
+    "from": str,
+    "to": str,
+    "pallets": Cap_pallet_freight_quote_PalletDims_In | Sequence[Cap_pallet_freight_quote_PalletDims_In],
+    },
+)
+
+class Cap_pallet_freight_quote_PalletDims_In(TypedDict):
+    weightKg: float
+    lengthCm: float
+    widthCm: float
+    heightCm: float
+
+class Cap_pallet_freight_quote_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_pallet_freight_quote_pallet_freight_quoteResult_Out(TypedDict):
+    collectionPostcode: str
+    deliveryPostcode: str
+    pallets: list[Cap_pallet_freight_quote_PalletDims_Out]
+    quotes: list[Cap_pallet_freight_quote_PalletQuote_Out]
+    url: str
+    warnings: list[str]
+
+class Cap_pallet_freight_quote_PalletDims_Out(TypedDict):
+    weightKg: float
+    lengthCm: float
+    widthCm: float
+    heightCm: float
+
+class Cap_pallet_freight_quote_PalletQuote_Out(TypedDict):
+    serviceName: str
+    price: float
+    vat: float
+    priceIncVat: float
+    currency: str
+    earliestCollection: str | None
+    transit: str | None
+    estimatedDelivery: str | None
+    source: str
 
 class Cap_pcparts_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -10334,6 +10377,34 @@ class Prv_eventbrite_EventbriteVenueRow_Out(TypedDict):
     address: str | None
     latitude: str | None
     longitude: str | None
+
+class Prv_eventbrite_getEvent_args_In(TypedDict):
+    eventIdOrUrl: str
+
+class Prv_eventbrite_EventbriteEventDetail_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    url: str
+    startDate: str | None
+    startTime: str | None
+    endDate: str | None
+    endTime: str | None
+    timezone: str | None
+    isOnlineEvent: bool
+    venue: Prv_eventbrite_EventbriteVenueRow_Out | None
+    organizer: Prv_eventbrite_EventbriteOrganizerRef_Out | None
+    tags: list[str]
+    salesStatus: str | None
+    minTicketPrice: float | None
+    maxTicketPrice: float | None
+    currency: str | None
+    isFree: bool
+
+class Prv_eventbrite_EventbriteOrganizerRef_Out(TypedDict):
+    id: str | None
+    name: str | None
+    url: str | None
 
 class Prv_eventim_EventimSearchArgs_In(TypedDict):
     query: str
@@ -25227,6 +25298,17 @@ class Prv_twitch_TwitchChannelInfo_Out(TypedDict):
     followerCount: float
     createdAt: str
 
+class Prv_twitch_GetStreamArgs_In(TypedDict):
+    login: str
+
+class Prv_twitch_TwitchStream_Out(TypedDict):
+    live: bool
+    streamId: str | None
+    title: str | None
+    gameName: str | None
+    viewerCount: float | None
+    startedAt: str | None
+
 class Prv_twitch_SearchChannelsArgs_In(TypedDict):
     query: str
 
@@ -29366,6 +29448,18 @@ class Cap_music(Protocol):
         names an account or a playlist instead of a track — you asked about one specific track,
         so a wrong object would be worse than an error. `warnings` names the fields the
         catalogue left unreported.
+        """
+
+class Cap_pallet_freight_quote(Protocol):
+    """Get live pallet freight quotes between two UK postcodes — every carrier service on the
+    lane, cheapest first.
+    """
+
+    async def quote(self, params: Cap_pallet_freight_quote_QuoteParams_In, options: Cap_pallet_freight_quote_CallOptions_In | None = None, /) -> Cap_pallet_freight_quote_pallet_freight_quoteResult_Out:
+        """Live pallet freight quotes for one or more pallets between two UK-mainland postcodes:
+        every service on the lane (TPN, Palletways, Pall-EX…), cheapest first, with ex/inc-VAT
+        price, earliest collection and transit. UK only. `options.timeoutMs` sets the budget
+        (default 30000).
         """
 
 class Cap_pcparts(Protocol):
@@ -35287,6 +35381,12 @@ class Prv_eventbrite(Protocol):
         start/end date range, and returns each match's id, title, url, start time, timezone and
         venue. Paged (20/page); call again with "page" incremented. Ticket price is NOT on this
         result — call getEvent for it.
+        """
+
+    async def getEvent(self, args: Prv_eventbrite_getEvent_args_In, /) -> Prv_eventbrite_EventbriteEventDetail_Out:
+        """Returns one event in full: title, description, start/end time, venue (name, address,
+        lat/long), organizer (id, name, url), category tags, sales status and ticket price range
+        — taking an Eventbrite event url or its numeric id.
         """
 
 class Prv_eventim(Protocol):
@@ -45486,6 +45586,12 @@ class Prv_twitch(Protocol):
         image URL, follower count, creation date. No sign-in.
         """
 
+    async def getStream(self, args: Prv_twitch_GetStreamArgs_In, /) -> Prv_twitch_TwitchStream_Out:
+        """Reads a channel's LIVE state right now: whether it is live, title, game, viewer count,
+        and when the broadcast started. `live: false` and null fields when offline — not an
+        error. No sign-in. THROWS naming the login when Twitch has no such channel.
+        """
+
     async def searchChannels(self, args: Prv_twitch_SearchChannelsArgs_In, /) -> list[Prv_twitch_TwitchChannelSearchResult_Out]:
         """Searches Twitch channels by keyword — a name, game or description term — and returns up
         to Twitch's own single page of results (typically ~10), ranked by Twitch's own
@@ -47969,6 +48075,7 @@ class Bowmark(Protocol):
     mcp_registry: Cap_mcp_registry
     municipal_recreation_fees: Cap_municipal_recreation_fees
     music: Cap_music
+    pallet_freight_quote: Cap_pallet_freight_quote
     pcparts: Cap_pcparts
     pet_boarding: Cap_pet_boarding
     phone_price: Cap_phone_price

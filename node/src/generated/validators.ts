@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a5df96b4a70d1ad3f82c75d26f43a0850018d34a0973cfd49a94ad2d1df8e040
-// 1816 checked, 20 unchecked.
+// Manifest version: faf0ebd70d25b2a21a0b5eaa16ae4f4d00421312f7cbff59efc3be12beaaec7c
+// 1819 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a5df96b4a70d1ad3f82c75d26f43a0850018d34a0973cfd49a94ad2d1df8e040",
+  "version": "faf0ebd70d25b2a21a0b5eaa16ae4f4d00421312f7cbff59efc3be12beaaec7c",
   "units": {
     "address_validation": {
       "defs": {
@@ -3040,6 +3040,114 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "Track"
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "pallet_freight_quote": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PalletDims": {
+          "k": "object",
+          "props": [
+            {
+              "name": "weightKg",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lengthCm",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "widthCm",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "heightCm",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "QuoteParams": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "pallets",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "ref",
+                    "name": "PalletDims"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "PalletDims"
+                    }
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "quote": [
+          {
+            "name": "params",
+            "schema": {
+              "k": "ref",
+              "name": "QuoteParams"
             },
             "optional": false
           },
@@ -18348,6 +18456,24 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "EventbriteSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "eventIdOrUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
@@ -48117,6 +48243,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetStreamArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetSubscriptionStatusArgs": {
           "k": "object",
           "props": [
@@ -48326,6 +48464,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetChannelInfoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStream": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStreamArgs"
             },
             "optional": false
           }

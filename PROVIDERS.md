@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2972 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2995 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -487,7 +487,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | ⚪ |
 | `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | ⚪ |
 | `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | ⚪ |
-| `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | ⚪ |
+| `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | 🟢 |
 | `businessinsider_com.listCryptoCurrencies` | businessinsider.com | List cryptocurrencies with their current prices from the Cryptocurrencies vertical. | ⚪ |
 | `businessinsider_com.listGuides` | businessinsider.com | List buying guides and product reviews from the Guides vertical. | ⚪ |
 | `businessinsider_com.listMarketIndices` | businessinsider.com | List major market indices (S&P 500, Dow Jones, Nasdaq, etc) with their current levels. | ⚪ |
@@ -695,11 +695,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
 | `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
-| `coops.getCurrents` | tidesandcurrents.noaa.gov | Get current predictions for a station. | ⚪ |
-| `coops.getStationMetadata` | tidesandcurrents.noaa.gov | Get detailed metadata for a station including location and timezone. | ⚪ |
+| `coops.getCurrentPredictions` | tidesandcurrents.noaa.gov | Get current predictions for a station. | ⚪ |
+| `coops.getCurrents` | tidesandcurrents.noaa.gov | Get current observations for a station. | ⚪ |
+| `coops.getHighLowTides` | tidesandcurrents.noaa.gov | Get high/low tide extremes for a station and date range. | ⚪ |
+| `coops.getMeteorologicalObservations` | tidesandcurrents.noaa.gov | Get a station's weather sensor readings (wind, air temperature, air pressure, water… | ⚪ |
+| `coops.getStationDatums` | tidesandcurrents.noaa.gov | Get a station's tidal datums (MHHW, MLLW, etc) and the epoch they're referenced to. | ⚪ |
+| `coops.getStationHarmonicConstituents` | tidesandcurrents.noaa.gov | Get a station's harmonic constituents used to derive its tide predictions. | ⚪ |
+| `coops.getStationMetadata` | tidesandcurrents.noaa.gov | Get a station's location, timezone and the product pages it publishes. | ⚪ |
 | `coops.getTidePredictions` | tidesandcurrents.noaa.gov | Get tide predictions for a station for specified dates. | ⚪ |
 | `coops.getWaterLevel` | tidesandcurrents.noaa.gov | Get water level observations for a station. | ⚪ |
-| `coops.listStations` | tidesandcurrents.noaa.gov | List available tide stations. | ⚪ |
+| `coops.listStations` | tidesandcurrents.noaa.gov | Find tide/current stations, optionally filtered by product type or state — the finder… | ⚪ |
 | `costco.search` | costco.com | Runs a search on Costco's product catalog and returns matching items (title, brand… | 🟢 |
 | `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
@@ -1849,11 +1854,29 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nfa_futures_org.lookupByNfaId` | nfa.futures.org | One firm or individual's current NFA membership status and registration types, by NFA… | 🟢 |
 | `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟡 |
 | `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟡 |
-| `nhc.getStormAdvisory` | nhc.noaa.gov | Get the latest advisory text for a storm. | ⚪ |
-| `nhc.getStormForecast` | nhc.noaa.gov | Get the forecast track and intensity for a storm. | ⚪ |
-| `nhc.getStormInfo` | nhc.noaa.gov | Get detailed information about a specific hurricane or tropical storm including… | ⚪ |
-| `nhc.listCurrentStorms` | nhc.noaa.gov | List all active tropical storms and hurricanes. | ⚪ |
-| `nhc.searchStorms` | nhc.noaa.gov | Get list of current and recent storms from the National Hurricane Center. | ⚪ |
+| `nhc.getBestTrack` | nhc.noaa.gov | Get a storm's best track: its position, max winds, pressure and status every six hours… | ⚪ |
+| `nhc.getForecastCone` | nhc.noaa.gov | Get a storm's forecast track points and cone of uncertainty as coordinates, for mapping. | ⚪ |
+| `nhc.getForecastDiscussion` | nhc.noaa.gov | Get the forecaster's discussion for a storm — the reasoning behind the track and… | ⚪ |
+| `nhc.getLocalStatements` | nhc.noaa.gov | Get the hurricane local statements that NWS forecast offices issued for a storm, with… | ⚪ |
+| `nhc.getMarineForecast` | nhc.noaa.gov | Get NHC's offshore waters or high seas marine forecast for a zone: winds, seas and… | ⚪ |
+| `nhc.getReconObservations` | nhc.noaa.gov | Get the latest Hurricane Hunter aircraft reconnaissance reports for a basin: vortex… | ⚪ |
+| `nhc.getSatelliteImagery` | nhc.noaa.gov | Get the latest satellite image links for a basin or an active storm. | ⚪ |
+| `nhc.getStormAdvisory` | nhc.noaa.gov | Get a storm's public advisory text — the latest, or a given advisory number — with… | ⚪ |
+| `nhc.getStormForecast` | nhc.noaa.gov | Get a storm's forecast positions and intensities out to five days, with wind radii… | ⚪ |
+| `nhc.getStormGraphics` | nhc.noaa.gov | List a storm's current forecast graphics — cone, current wind field, wind history… | ⚪ |
+| `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | ⚪ |
+| `nhc.getStormNames` | nhc.noaa.gov | Get the rotating list of tropical cyclone names for a basin and year, including which… | ⚪ |
+| `nhc.getStormSurge` | nhc.noaa.gov | Get the storm surge watch/warning area and peak storm surge forecast for a storm… | ⚪ |
+| `nhc.getTropicalCycloneReport` | nhc.noaa.gov | Get NHC's post-season Tropical Cyclone Report for a storm: the final meteorological… | ⚪ |
+| `nhc.getTropicalOutlook` | nhc.noaa.gov | Get the Tropical Weather Outlook for a basin: each disturbance being watched, where it… | ⚪ |
+| `nhc.getTropicalWeatherDiscussion` | nhc.noaa.gov | Get the Tropical Weather Discussion for the Atlantic or East Pacific: the analysts'… | ⚪ |
+| `nhc.getWatchesWarnings` | nhc.noaa.gov | Get the coastal hurricane, tropical storm and storm surge watches and warnings in… | ⚪ |
+| `nhc.getWindSpeedProbabilities` | nhc.noaa.gov | Get the probability of tropical-storm-force (34 kt), 50 kt and hurricane-force (64 kt)… | ⚪ |
+| `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | ⚪ |
+| `nhc.listMarineZones` | nhc.noaa.gov | List the offshore waters and high seas forecast areas NHC covers, with the zone code… | ⚪ |
+| `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name, class and dates. | ⚪ |
+| `nhc.listStormAdvisories` | nhc.noaa.gov | List every advisory, forecast advisory, discussion and wind probability product issued… | ⚪ |
+| `nhc.searchStorms` | nhc.noaa.gov | Find a storm, current or historical, by name and optional year and basin, returning… | ⚪ |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
 | `nurturelife.getMealBundle` | nurturelife.com | Returns Nurture Life's currently-offered curated meal bundles with their real, current… | 🟢 |
 | `nurturelife.getMealPlans` | nurturelife.com | Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's… | 🟢 |
