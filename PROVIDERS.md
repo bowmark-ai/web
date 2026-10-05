@@ -146,7 +146,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.listGames` | aol.com | Lists AOL Games' free web games by category (board, card, casino, puzzle, other) with… | ⚪ |
 | `aol.listNewsletters` | aol.com | Lists the email newsletters aol.com offers — id, title and what each one sends. | ⚪ |
 | `aol.listSectionArticles` | aol.com | Lists the articles in one AOL section or sub-section, newest first, page by page —… | ⚪ |
-| `aol.listSections` | aol.com | Lists AOL's sections and sub-sections (News > Politics, Business, Sports > NFL… | ⚪ |
+| `aol.listSections` | aol.com | Lists AOL's sections and sub-sections (News > Politics, Business, Sports > NFL… | 🟢 |
 | `aol.postComment` | aol.com | Posts a comment, or a reply to one, under an AOL article as the signed-in caller. | ⚪ |
 | `aol.removeFavorite` | aol.com | Deletes a saved link or folder from the signed-in caller's AOL Favorites. | ⚪ |
 | `aol.searchRecipes` | aol.com | Searches AOL Food's recipe collection by keyword — recipe id, title, slug and image… | ⚪ |
