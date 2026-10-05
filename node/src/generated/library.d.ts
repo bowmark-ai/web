@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fa17a6ec30524c1eb0a4c3e75a5fb1208ed6d7fc53d975c2deaebbc55f92f066
-// 76 capabilities, 531 providers, 1849 typed functions, 20 refused.
+// Manifest version: 71e81ec675f6a983b624279525c6921a5b57c838a42e9e62f06a78044c332494
+// 76 capabilities, 531 providers, 1850 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1384,7 +1384,7 @@ interface essen_roadworksResult {
 }
 
 declare namespace BowmarkCapability_event_space_quote {
-  // ── Event space quote request (venue pricing for a date, headcount and hours) — the unit's own declarations, verbatim ──
+  // ── Get event space quotes from venues by city, date, and headcount — the unit's own declarations, verbatim ──
 type EventSpaceQuoteArgs = {
   city: string
   state: string              // two-letter US state, e.g. "NY"
@@ -1422,16 +1422,16 @@ type CallOptions = {
 }
 
   /**
-   * Prices an event space the way a venue quote request would: give a city, headcount and hours,
-   * get back real venues that fit, each with its published hourly rate and an estimated total.
-   * It does not send an inquiry to the venue — `submission.how` says how to book one.
+   * Get real event space pricing: submit a city, headcount and hours to see available venues
+   * with their published rates and estimated totals. It does not send an inquiry to the venue —
+   * `submission.how` says how to book one.
    */
   interface Unit {
     /**
-     * Find event spaces and get venue pricing quotes by city, state, headcount and hours. Call
-     * with { city: "City", state: "ST", guests?: number, hours?: number, category?: "party" |
-     * "photo-shoot" | "off-site" } to get back Peerspace venues with hourly rates and estimated
-     * totals, cheapest first. No inquiry is submitted; open a quote's url to contact the venue.
+     * Submit an event space quote request form: get pricing for venues that fit a headcount and
+     * number of hours. Pass city, state, headcount, and hours to retrieve real event spaces with
+     * their published hourly rates and estimated totals, sorted by price. Each result includes a
+     * URL to book or contact the venue directly.
      */
     getQuotes(args: string | EventSpaceQuoteArgs, options?: CallOptions): Promise<EventSpaceQuoteResult>;
   }
@@ -15486,6 +15486,11 @@ interface cnnMyNewsResult {
   followedTopics: string[];
 }
 
+interface cnnNewsletterSubscription {
+  newsletter_id: string;
+  subscribed: boolean;
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -15567,6 +15572,13 @@ interface cnnMyNewsResult {
      * the feed was built from. Empty if the viewer follows nothing.
      */
     listMyNews(limit?: number, opts?: ConnectionOption): Promise<cnnMyNewsResult>;
+
+    /**
+     * Subscribe the signed-in viewer's account to one CNN newsletter by id (from
+     * `listNewsletters`, e.g. "five-things"). Returns the newsletter id and whether the
+     * subscription succeeded.
+     */
+    subscribeToNewsletter(newsletterId: string, opts?: ConnectionOption): Promise<cnnNewsletterSubscription>;
   }
 }
 
@@ -23642,11 +23654,12 @@ interface GoogleNewsSavedArticle {
      * Save an article to the signed-in person's own reading list — the Google News equivalent of a
      * bookmark, and the write half of `listSavedArticles`. An authFunction, on the same Google
      * session `listEditions`, `getForYou`, `listFollowedTopics` and `listSavedArticles` already
-     * work on. This lands on our own account's own private list, visible to nobody else and
-     * deletable afterwards, so it is honestly testable without touching a real person or publisher
-     * — a logged-out request refuses with the same 302 to `accounts.google.com/ServiceLogin`
-     * measured 2026-09-28 through CRAWLER_PROXY. With no session, or a dead one, this refuses
-     * before returning, naming the sign-in.
+     * work on. With no session, or a dead one, this refuses before returning, naming the sign-in,
+     * the same 302 to `accounts.google.com/ServiceLogin` measured 2026-09-28 through
+     * CRAWLER_PROXY. **With a session it also refuses, always** (fixed 2026-10-04): nobody here
+     * has found or captured the real "Save" request a signed-in click sends — the only reachable
+     * door, `/my/library`, is read-only and GETting it changes nothing — so this throws rather
+     * than reporting a save that never happened. See BUILD_QUEUE.md.
      */
     saveArticle(articleHandle: string, opts?: ConnectionOption): Promise<void>;
 

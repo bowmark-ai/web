@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fa17a6ec30524c1eb0a4c3e75a5fb1208ed6d7fc53d975c2deaebbc55f92f066
-# 76 capabilities, 531 providers, 1831 typed functions, 20 refused.
+# Manifest version: 71e81ec675f6a983b624279525c6921a5b57c838a42e9e62f06a78044c332494
+# 76 capabilities, 531 providers, 1832 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8633,6 +8633,10 @@ class Prv_cnn_cnnUnfollowResult_Out(TypedDict):
 class Prv_cnn_cnnMyNewsResult_Out(TypedDict):
     items: list[Prv_cnn_cnnTrendingItem_Out]
     followedTopics: list[str]
+
+class Prv_cnn_cnnNewsletterSubscription_Out(TypedDict):
+    newsletter_id: str
+    subscribed: bool
 
 class Prv_coast_CoastFleetCardPricing_Out(TypedDict):
     monthlyFeePerUserUsd: float
@@ -29153,18 +29157,16 @@ class Cap_essen_roadworks(Protocol):
         """
 
 class Cap_event_space_quote(Protocol):
-    """Prices an event space the way a venue quote request would: give a city, headcount and
-    hours, get back real venues that fit, each with its published hourly rate and an
-    estimated total. It does not send an inquiry to the venue — `submission.how` says how to
-    book one.
+    """Get real event space pricing: submit a city, headcount and hours to see available venues
+    with their published rates and estimated totals. It does not send an inquiry to the
+    venue — `submission.how` says how to book one.
     """
 
     async def getQuotes(self, args: str | Cap_event_space_quote_EventSpaceQuoteArgs_In, options: Cap_event_space_quote_CallOptions_In | None = None, /) -> Cap_event_space_quote_EventSpaceQuoteResult_Out:
-        """Find event spaces and get venue pricing quotes by city, state, headcount and hours. Call
-        with { city: "City", state: "ST", guests?: number, hours?: number, category?: "party" |
-        "photo-shoot" | "off-site" } to get back Peerspace venues with hourly rates and
-        estimated totals, cheapest first. No inquiry is submitted; open a quote's url to contact
-        the venue.
+        """Submit an event space quote request form: get pricing for venues that fit a headcount
+        and number of hours. Pass city, state, headcount, and hours to retrieve real event
+        spaces with their published hourly rates and estimated totals, sorted by price. Each
+        result includes a URL to book or contact the venue directly.
         """
 
 class Cap_flights(Protocol):
@@ -34386,6 +34388,12 @@ class Prv_cnn(Protocol):
         topic ids the feed was built from. Empty if the viewer follows nothing.
         """
 
+    async def subscribeToNewsletter(self, newsletterId: str, opts: ConnectionOption | None = None, /) -> Prv_cnn_cnnNewsletterSubscription_Out:
+        """Subscribe the signed-in viewer's account to one CNN newsletter by id (from
+        `listNewsletters`, e.g. "five-things"). Returns the newsletter id and whether the
+        subscription succeeded.
+        """
+
 class Prv_coast(Protocol):
     """Coast's own published fleet fuel-card pricing (coastpay.com/pricing) — the real, current
     per-user monthly fee, the fees it explicitly does not charge, and its per-gallon
@@ -37604,11 +37612,12 @@ class Prv_google_news(Protocol):
         """Save an article to the signed-in person's own reading list — the Google News equivalent
         of a bookmark, and the write half of `listSavedArticles`. An authFunction, on the same
         Google session `listEditions`, `getForYou`, `listFollowedTopics` and `listSavedArticles`
-        already work on. This lands on our own account's own private list, visible to nobody
-        else and deletable afterwards, so it is honestly testable without touching a real person
-        or publisher — a logged-out request refuses with the same 302 to
-        `accounts.google.com/ServiceLogin` measured 2026-09-28 through CRAWLER_PROXY. With no
-        session, or a dead one, this refuses before returning, naming the sign-in.
+        already work on. With no session, or a dead one, this refuses before returning, naming
+        the sign-in, the same 302 to `accounts.google.com/ServiceLogin` measured 2026-09-28
+        through CRAWLER_PROXY. **With a session it also refuses, always** (fixed 2026-10-04):
+        nobody here has found or captured the real "Save" request a signed-in click sends — the
+        only reachable door, `/my/library`, is read-only and GETting it changes nothing — so
+        this throws rather than reporting a save that never happened. See BUILD_QUEUE.md.
         """
 
     async def followTopic(self, topicId: str, opts: ConnectionOption | None = None, /) -> Any:
