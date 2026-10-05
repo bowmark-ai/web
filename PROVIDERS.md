@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3096 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3097 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2334,7 +2334,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getCompanyKeyMetrics` | www.reuters.com | A company's key ratios on Reuters — valuation, profitability, growth, dividends and… | ⚪ |
 | `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile: description, sector, industry, address, website… | ⚪ |
 | `reuters.getLiveCoverage` | www.reuters.com | Read one Reuters live-coverage page (/live/…) — the running updates, newest first… | ⚪ |
-| `reuters.getMarketOverview` | www.reuters.com | The market tables Reuters shows on its Markets pages — major indices, currencies… | ⚪ |
+| `reuters.getMarketOverview` | www.reuters.com | The market tables Reuters shows on its Markets pages — major indices, currencies… | 🟢 |
 | `reuters.getMyNewsFeed` | www.reuters.com | The signed-in reader's My News feed — the latest stories from everything they follow… | ⚪ |
 | `reuters.getPictureGallery` | www.reuters.com | One Reuters photo gallery: every picture with its caption, photographer credit and… | ⚪ |
 | `reuters.getPressRelease` | www.reuters.com | Read one press release on reuters.com in full: title, issuer, date and body. | ⚪ |
@@ -2704,6 +2704,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | 🟢 |
 | `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | 🟢 |
 | `tradingview.getTechnicalAnalysis` | www.tradingview.com | Get technical analysis signals and ratings for a symbol. | 🟢 |
+| `tradingview.listIdeas` | www.tradingview.com | Get the public Ideas feed for a symbol — what traders are saying about it right now. | 🟢 |
 | `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | 🟡 |
 | `travelinsured.getPlanQuote` | travelinsured.com | Prices Travel Insured's Essential/Deluxe/Platinum plans for a trip (destination… | ⚪ |
 | `travelinsured.getZipInfo` | travelinsured.com | Resolves a US ZIP code to its state and country the way the quote flow's… | 🟢 |
