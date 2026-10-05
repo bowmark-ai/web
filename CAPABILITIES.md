@@ -21,7 +21,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `bundles.checkAvailability` | Reads every item's product page and returns whether the WHOLE bundle can be built and… | 0 | 🟢 |
 | `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
 | `candy_prices.search` | Search for candy and sweets across Target and Walmart, returning priced, in-stock rows… | 2 | 🟡 |
-| `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |
+| `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 3 | 🟡 |
 | `census_tract_demographics.householdIncome` | Returns median household income for a US Census tract by ZIP code, resolved via the… | 1 | 🟡 |
 | `census_tract_household_income.householdIncome` | Retrieves median household income from US Census Bureau data for a given location. | 1 | 🟡 |
 | `concert_setlist.search` | Search for concert setlists by artist name, venue, or date. | 0 | 🟢 |
@@ -58,7 +58,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `git_release_notes.releaseNotes` | Returns a public GitHub repository's own release history — each release's tag, display… | 1 | 🟢 |
 | `goal_diff.search` | Search for sports standings with goal differential data. `options.timeoutMs` sets the… | 1 | 🟢 |
 | `gstin_verification.lookup` | Verifies a GSTIN and returns the registrant's legal name, registration status… | 1 | 🟡 |
-| `hotels.search` | Metasearch across agencies for hotel stays in a location — NOT a single-property… | 1 | 🟢 |
+| `hotels.search` | Metasearch across agencies for hotel stays in a location — NOT a single-property… | 2 | 🟢 |
 | `hvac.getCostEstimate` | Calls the manufacturer's own published cost-guide table and returns a real… | 1 | 🟢 |
 | `industrial_supply.search` | Searches industrial supply catalogs by product name, part number or category… | 1 | 🟢 |
 | `insurance.findAgent` | Finds an insurance agent or agency to actually call, across the two carriers this… | 4 | 🟢 |

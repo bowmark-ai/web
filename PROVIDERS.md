@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2995 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3014 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1305,7 +1305,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.addToShelf` | goodreads.com | Adds a book to one of the signed-in caller's shelves (want-to-read, currently-reading… | ⚪ |
 | `goodreads.followUser` | goodreads.com | Follows another member as the signed-in caller. | ⚪ |
 | `goodreads.getAuthor` | goodreads.com | Reads one author's bio, stats and bibliography off their page, taking a name or a… | ⚪ |
-| `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | ⚪ |
+| `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | 🟢 |
 | `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer, star rating, the review text… | ⚪ |
 | `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | ⚪ |
 | `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | ⚪ |
@@ -1878,6 +1878,25 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.listStormAdvisories` | nhc.noaa.gov | List every advisory, forecast advisory, discussion and wind probability product issued… | ⚪ |
 | `nhc.searchStorms` | nhc.noaa.gov | Find a storm, current or historical, by name and optional year and basin, returning… | ⚪ |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
+| `npr.findStations` | npr.org | Find NPR member stations by city, zip code, call letters or coordinates — call sign… | ⚪ |
+| `npr.getAuthorStories` | npr.org | List stories by one NPR correspondent or host, given their name or byline page. | ⚪ |
+| `npr.getLiveStream` | npr.org | Get the live audio stream URL(s) for a member station, given its call letters or org id. | ⚪ |
+| `npr.getPodcast` | npr.org | Read one podcast or show's details — description, hosts, artwork and its RSS feed —… | ⚪ |
+| `npr.getProgramRundown` | npr.org | List the segments one broadcast program (Morning Edition, All Things Considered… | ⚪ |
+| `npr.getStation` | npr.org | Read one member station's details — brand, frequency, market, homepage, donation page… | ⚪ |
+| `npr.getStory` | npr.org | Read one NPR story given its URL or story id (nx-s1-…): headline, bylines, date, full… | ⚪ |
+| `npr.getTranscript` | npr.org | Read the broadcast transcript of a story or episode that aired, given its story id. | ⚪ |
+| `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | ⚪ |
+| `npr.listNewsletters` | npr.org | List NPR's email newsletters with what each one covers. | ⚪ |
+| `npr.listPodcastCategories` | npr.org | List the podcast directory's categories with the id each one takes. | ⚪ |
+| `npr.listPodcastEpisodes` | npr.org | List a podcast's episodes, newest first, with title, date, duration and audio URL… | ⚪ |
+| `npr.listPodcasts` | npr.org | List NPR's podcasts and shows, optionally filtered to one category (news, technology… | ⚪ |
+| `npr.listSections` | npr.org | List NPR's news sections and topics (news, politics, business, science, health… | ⚪ |
+| `npr.listSectionStories` | npr.org | List the latest stories in one section or topic, given its slug from listSections. | ⚪ |
+| `npr.listSeries` | npr.org | List NPR's series (Tiny Desk Concerts, New Music Friday, Life Kit…) with the slug or… | ⚪ |
+| `npr.listSeriesStories` | npr.org | List the latest entries of one series, e.g. Tiny Desk Concerts, given its slug from… | ⚪ |
+| `npr.searchStories` | npr.org | Search NPR stories, episodes and segments by keyword, newest or most relevant first. | ⚪ |
+| `npr.subscribeNewsletter` | npr.org | Subscribe an email address the caller owns to one NPR newsletter. | ⚪ |
 | `nurturelife.getMealBundle` | nurturelife.com | Returns Nurture Life's currently-offered curated meal bundles with their real, current… | 🟢 |
 | `nurturelife.getMealPlans` | nurturelife.com | Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's… | 🟢 |
 | `nutrafol.assessHairWellness` | nutrafol.com | Runs Nutrafol's own Hair Wellness Quiz along its default answer path (the site's own… | 🟢 |
@@ -2641,7 +2660,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.removeFromTrip` | tripadvisor.com | Removes a saved place from one of the signed-in caller's Trips. | ⚪ |
 | `tripadvisor.replyToForumTopic` | tripadvisor.com | Posts a reply to a travel-forum thread from the signed-in caller's account. | ⚪ |
 | `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
-| `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | ⚪ |
+| `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟢 |
 | `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region — attractions, tours and activities — in… | ⚪ |
 | `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | ⚪ |
 | `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | ⚪ |
