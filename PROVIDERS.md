@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3044 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3065 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -812,7 +812,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | ⚪ |
 | `deviantart.listNotes` | deviantart.com | Reads the signed-in caller's Notes inbox — each note's sender, subject, time and body. | ⚪ |
 | `deviantart.postComment` | deviantart.com | Posts a comment on a deviation (or a reply to a comment) as the signed-in caller. | ⚪ |
-| `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | ⚪ |
+| `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | 🟢 |
 | `deviantart.searchShop` | deviantart.com | Searches DeviantArt's Shop — prints, downloads, adoptables and commissions artists… | ⚪ |
 | `deviantart.sendNote` | deviantart.com | Sends a private Note (DeviantArt's direct message) from the signed-in caller to… | ⚪ |
 | `deviantart.submitDeviation` | deviantart.com | Submits a new deviation from the signed-in caller's account — an image with title… | ⚪ |
@@ -859,6 +859,27 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
 | `doordash.getCheckoutTotal` | doordash.com | Would open a specific store, add real menu items to the cart, set a delivery address… | ⚪ |
 | `doordash.search` | doordash.com | Runs DoorDash's own store search for a free-text query and returns the real… | 🟢 |
+| `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | ⚪ |
+| `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | ⚪ |
+| `duckduckgo.convertCurrency` | duckduckgo.com | Convert an amount between two currencies at DuckDuckGo's current mid-market rate (from… | ⚪ |
+| `duckduckgo.createPrivateDuckAddress` | duckduckgo.com | Generate a new private @duck.com address on the signed-in caller's Email Protection… | ⚪ |
+| `duckduckgo.defineWord` | duckduckgo.com | Look a word up the way DuckDuckGo's dictionary answer does — part of speech… | ⚪ |
+| `duckduckgo.getEmailProtectionAccount` | duckduckgo.com | Read the signed-in caller's DuckDuckGo Email Protection account — their @duck.com… | ⚪ |
+| `duckduckgo.getInstantAnswer` | duckduckgo.com | Get DuckDuckGo's Instant Answer for a topic — the abstract and its source, a direct… | ⚪ |
+| `duckduckgo.getLocalTime` | duckduckgo.com | Get the current local time and time zone in a city, the way DuckDuckGo's time answer… | ⚪ |
+| `duckduckgo.getWeather` | duckduckgo.com | Get the current conditions and forecast for a place, the way DuckDuckGo's weather… | ⚪ |
+| `duckduckgo.listBangs` | duckduckgo.com | List DuckDuckGo's !bangs — the shortcut, the site it searches and its category —… | ⚪ |
+| `duckduckgo.listDuckAiModels` | duckduckgo.com | List the AI models Duck.ai currently offers (e.g. GPT, Claude, Llama, Mistral… | ⚪ |
+| `duckduckgo.listRegions` | duckduckgo.com | List the search regions DuckDuckGo offers ("us-en", "uk-en", "de-de"…) with their… | ⚪ |
+| `duckduckgo.resolveBang` | duckduckgo.com | Turn a !bang query ("!w duck", "!a usb-c cable") into the destination URL DuckDuckGo… | ⚪ |
+| `duckduckgo.searchImages` | duckduckgo.com | Search DuckDuckGo Images and return each hit's thumbnail, full-size image URL, the… | ⚪ |
+| `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | ⚪ |
+| `duckduckgo.searchPlaces` | duckduckgo.com | Find places on DuckDuckGo Maps by what and where ("coffee in Seattle") — name… | ⚪ |
+| `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | ⚪ |
+| `duckduckgo.searchWeb` | duckduckgo.com | Search the web the way duckduckgo.com's own search box does and return the ranked… | ⚪ |
+| `duckduckgo.setPrivateDuckAddressActive` | duckduckgo.com | Turn one of the signed-in caller's private @duck.com addresses off (stop forwarding)… | ⚪ |
+| `duckduckgo.suggestQueries` | duckduckgo.com | Return DuckDuckGo's search-box autocomplete suggestions for a partial query. | ⚪ |
+| `duckduckgo.translateText` | duckduckgo.com | Translate text into a chosen language the way DuckDuckGo's translation answer does… | ⚪ |
 | `dumpsters.getQuote` | dumpsters.com | Prices a roll-off dumpster rental for a US address — real per-size prices, next… | 🟢 |
 | `e2b.createSandbox` | e2b.dev | Boots a fresh Linux sandbox from a template (the `claude` template ships Claude Code)… | 🟢 |
 | `e2b.getSandbox` | e2b.dev | Reads one sandbox via GET /sandboxes/{id}: state, vCPU and RAM, start time and… | 🟢 |

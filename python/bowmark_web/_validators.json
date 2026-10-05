@@ -1,5 +1,5 @@
 {
-  "version": "7e8f573ef2a5c2b5f1493e807bbafb0ce38f64aa0311cc2e3e4a68fe276d12cf",
+  "version": "31d9848f06aad16388b40c82d82bad66be8fbe9ab16c038a11682b3bef270dbd",
   "units": {
     "address_validation": {
       "defs": {
@@ -16052,6 +16052,90 @@
         ]
       }
     },
+    "providers.dailymotion": {
+      "defs": {
+        "DailymotionSort": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "relevance"
+            },
+            {
+              "k": "literal",
+              "v": "recent"
+            },
+            {
+              "k": "literal",
+              "v": "visited"
+            },
+            {
+              "k": "literal",
+              "v": "trending"
+            },
+            {
+              "k": "literal",
+              "v": "old"
+            }
+          ]
+        },
+        "SearchVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "ref",
+                "name": "DailymotionSort"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "video",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.dansons": {
       "defs": {},
       "functions": {
@@ -18501,6 +18585,24 @@
             },
             "optional": false
           }
+        ],
+        "getOrganizer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "organizerIdOrUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -20792,6 +20894,48 @@
             "name": "voyageCode",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.foxnews": {
+      "defs": {
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArticlesArgs"
             },
             "optional": false
           }
@@ -33616,6 +33760,15 @@
           }
         ],
         "getWordle": [
+          {
+            "name": "date",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getConnections": [
           {
             "name": "date",
             "schema": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7e8f573ef2a5c2b5f1493e807bbafb0ce38f64aa0311cc2e3e4a68fe276d12cf
-# 76 capabilities, 528 providers, 1824 typed functions, 20 refused.
+# Manifest version: 31d9848f06aad16388b40c82d82bad66be8fbe9ab16c038a11682b3bef270dbd
+# 76 capabilities, 530 providers, 1829 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8928,6 +8928,41 @@ class Prv_dahlconsulting_dahlconsultingJob_Out(TypedDict):
     description: str
     applyUrl: str
 
+class Prv_dailymotion_SearchVideosArgs_In(TypedDict):
+    query: str
+    sort: NotRequired[Literal["relevance"] | Literal["recent"] | Literal["visited"] | Literal["trending"] | Literal["old"]]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionSearchResult_Out(TypedDict):
+    query: str
+    sort: Literal["relevance"] | Literal["recent"] | Literal["visited"] | Literal["trending"] | Literal["old"]
+    page: float
+    total: float
+    hasMore: bool
+    videos: list[Prv_dailymotion_DailymotionVideo_Out]
+
+class Prv_dailymotion_DailymotionVideo_Out(TypedDict):
+    id: str
+    title: str
+    description: str
+    url: str
+    embedUrl: str | None
+    thumbnailUrl: str | None
+    durationSeconds: float
+    views: float | None
+    likes: float | None
+    channel: str | None
+    language: str | None
+    tags: list[str]
+    owner: Prv_dailymotion_DailymotionVideo_Out_owner_Out
+    publishedAt: str | None
+
+class Prv_dailymotion_DailymotionVideo_Out_owner_Out(TypedDict):
+    id: str | None
+    name: str | None
+    username: str | None
+
 class Prv_dansons_dansonsRegisterableProduct_Out(TypedDict):
     productId: str
     title: str
@@ -10422,6 +10457,25 @@ class Prv_eventbrite_EventbriteOrganizerRef_Out(TypedDict):
     name: str | None
     url: str | None
 
+class Prv_eventbrite_getOrganizer_args_In(TypedDict):
+    organizerIdOrUrl: str
+
+class Prv_eventbrite_EventbriteOrganizerDetail_Out(TypedDict):
+    id: str
+    name: str
+    bio: str | None
+    verified: bool
+    avatarUrl: str | None
+    website: str | None
+    profileUrl: str
+    followers: float | None
+    hostingYears: str | None
+    totalEventsHosted: float | None
+    attendeesHosted: str | None
+    upcomingEvents: list[Prv_eventbrite_EventbriteEventRow_Out]
+    upcomingEventsTotal: float
+    hasMoreUpcoming: bool
+
 class Prv_eventim_EventimSearchArgs_In(TypedDict):
     query: str
     city: NotRequired[str]
@@ -11486,6 +11540,27 @@ class Prv_fourseasonsyachts_FourseasonsyachtsSuite_Out(TypedDict):
     availableCabins: float
     price: float
     currency: str
+
+class Prv_foxnews_SearchArticlesArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_foxnews_searchArticles_return_Out(TypedDict):
+    articles: list[Prv_foxnews_FoxnewsArticleRow_Out]
+
+class Prv_foxnews_FoxnewsArticleRow_Out(TypedDict):
+    id: str
+    title: str
+    description: str
+    url: str
+    publicationDate: str
+    section: NotRequired[str]
+    category: NotRequired[str]
+    authors: NotRequired[list[Mapping[str, Any]]]
+    imageUrl: NotRequired[str]
+    isBreaking: NotRequired[bool]
+    duration: NotRequired[str]
 
 class Prv_framebridge_FramebridgeFrameStyle_Out(TypedDict):
     productId: str
@@ -18797,6 +18872,20 @@ class Prv_nytimes_NytimesWordlePuzzle_Out(TypedDict):
     printDate: str
     daysSinceLaunch: float
     editor: NotRequired[str]
+
+class Prv_nytimes_NytimesConnectionsPuzzle_Out(TypedDict):
+    id: float
+    printDate: str
+    editor: NotRequired[str]
+    categories: list[Prv_nytimes_NytimesConnectionsCategory_Out]
+
+class Prv_nytimes_NytimesConnectionsCategory_Out(TypedDict):
+    title: str
+    cards: list[Prv_nytimes_NytimesConnectionsCard_Out]
+
+class Prv_nytimes_NytimesConnectionsCard_Out(TypedDict):
+    content: str
+    position: float
 
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
@@ -34539,6 +34628,23 @@ class Prv_dahlconsulting(Protocol):
         THROWS on an unknown/removed url — call searchJobs() first.
         """
 
+class Prv_dailymotion(Protocol):
+    """Search Dailymotion videos by keyword and read one video's title, channel, duration,
+    views and watch URL — off Dailymotion's own keyless public API.
+    """
+
+    async def searchVideos(self, args: Prv_dailymotion_SearchVideosArgs_In, /) -> Prv_dailymotion_DailymotionSearchResult_Out:
+        """Search Dailymotion videos by keyword ("cats", "champions league highlights") — title,
+        uploader, duration, views, publish date and watch URL for each, sortable by relevance
+        (default), recent or most viewed — Dailymotion matches the words only loosely under any
+        sort but relevance.
+        """
+
+    async def getVideo(self, video: str, /) -> Prv_dailymotion_DailymotionVideo_Out:
+        """Read one Dailymotion video from its id (x3w6k5v) or a dailymotion.com / dai.ly URL:
+        title, description, uploader, duration, views, likes, tags and embed URL.
+        """
+
 class Prv_dansons(Protocol):
     """Identifies which Pit Boss grill/smoker a free-text description matches, and lists the
     products eligible for warranty registration — read live off Pit Boss's own
@@ -35480,6 +35586,12 @@ class Prv_eventbrite(Protocol):
         — taking an Eventbrite event url or its numeric id.
         """
 
+    async def getOrganizer(self, args: Prv_eventbrite_getOrganizer_args_In, /) -> Prv_eventbrite_EventbriteOrganizerDetail_Out:
+        """Reads an organizer's public page — name, bio, verification status, website,
+        follower/hosting-tenure/total-events/attendees-hosted stats, and their upcoming events —
+        taking an organizer url or the numeric organizer id found on any of their events.
+        """
+
 class Prv_eventim(Protocol):
     """Eventim's own event-ticket search (concerts, theatre, comedy, sport) on eventim.de and
     eventim.co.uk — events by artist or keyword, optionally in one city, with date, venue,
@@ -36250,6 +36362,20 @@ class Prv_fourseasonsyachts(Protocol):
         dates, the ship, and every suite category's live price and cabin availability, straight
         off the site's own booking engine. Returns null when the site currently has no scheduled
         departure for that voyageCode (an honest empty answer, not a failure).
+        """
+
+class Prv_foxnews(Protocol):
+    """Fox News (foxnews.com) — search stories and clips, read an article in full, get the top
+    stories, the latest news and any section's front, look up authors and Fox News Channel
+    shows, read videos, live-coverage blogs, comments, podcasts and Elections Center
+    results, and sign an email up to its newsletters; once a caller signs in, comment and
+    manage their Fox profile.
+    """
+
+    async def searchArticles(self, args: Prv_foxnews_SearchArticlesArgs_In, /) -> Prv_foxnews_searchArticles_return_Out:
+        """Searches Fox News for stories and video clips matching free text, returning each hit's
+        title, description, url, section, authors, publication date and image, newest first with
+        paging.
         """
 
 class Prv_framebridge(Protocol):
@@ -41638,6 +41764,12 @@ class Prv_nytimes(Protocol):
     async def getWordle(self, date: str | None = None, /) -> Prv_nytimes_NytimesWordlePuzzle_Out:
         """Gets a day's Wordle puzzle off the site's own JSON endpoint (solution, puzzle id,
         editor). Takes an optional "YYYY-MM-DD" date, defaulting to today in America/New_York.
+        """
+
+    async def getConnections(self, date: str | None = None, /) -> Prv_nytimes_NytimesConnectionsPuzzle_Out:
+        """Gets a day's Connections puzzle off the site's own JSON endpoint (the four categories
+        and their cards). Takes an optional "YYYY-MM-DD" date, defaulting to today in
+        America/New_York.
         """
 
 class Prv_oanda(Protocol):
@@ -47770,6 +47902,7 @@ class BowmarkProviders(Protocol):
     currency_exchange: Prv_currency_exchange
     cyberpowerpc: Prv_cyberpowerpc
     dahlconsulting: Prv_dahlconsulting
+    dailymotion: Prv_dailymotion
     dansons: Prv_dansons
     davidsonhomes: Prv_davidsonhomes
     deangroup: Prv_deangroup
@@ -47830,6 +47963,7 @@ class BowmarkProviders(Protocol):
     forms_hubspot_com: Prv_forms_hubspot_com
     fortressbp: Prv_fortressbp
     fourseasonsyachts: Prv_fourseasonsyachts
+    foxnews: Prv_foxnews
     framebridge: Prv_framebridge
     fred: Prv_fred
     furniture: Prv_furniture

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7e8f573ef2a5c2b5f1493e807bbafb0ce38f64aa0311cc2e3e4a68fe276d12cf
-// 76 capabilities, 528 providers, 1842 typed functions, 20 refused.
+// Manifest version: 31d9848f06aad16388b40c82d82bad66be8fbe9ab16c038a11682b3bef270dbd
+// 76 capabilities, 530 providers, 1847 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16204,6 +16204,61 @@ interface dahlconsultingSearchFilters { query?: string; location?: string; limit
   }
 }
 
+declare namespace BowmarkProvider_dailymotion {
+  // ── Dailymotion — the unit's own declarations, verbatim ──
+interface DailymotionVideo {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  embedUrl: string | null;
+  thumbnailUrl: string | null;
+  durationSeconds: number;
+  views: number | null;
+  likes: number | null;
+  channel: string | null;
+  language: string | null;
+  tags: string[];
+  owner: { id: string | null; name: string | null; username: string | null };
+  publishedAt: string | null;
+}
+type DailymotionSort = "relevance" | "recent" | "visited" | "trending" | "old";
+interface SearchVideosArgs {
+  query: string;
+  sort?: DailymotionSort;
+  limit?: number;
+  page?: number;
+}
+interface DailymotionSearchResult {
+  query: string;
+  sort: DailymotionSort;
+  page: number;
+  total: number;
+  hasMore: boolean;
+  videos: DailymotionVideo[];
+}
+
+  /**
+   * Search Dailymotion videos by keyword and read one video's title, channel, duration, views
+   * and watch URL — off Dailymotion's own keyless public API.
+   */
+  interface Unit {
+    /**
+     * Search Dailymotion videos by keyword ("cats", "champions league highlights") — title,
+     * uploader, duration, views, publish date and watch URL for each, sortable by relevance
+     * (default), recent or most viewed — Dailymotion matches the words only loosely under any sort
+     * but relevance.
+     */
+    searchVideos(args: SearchVideosArgs): Promise<DailymotionSearchResult>;
+
+    /**
+     * Read one Dailymotion video from its id (x3w6k5v) or a dailymotion.com / dai.ly URL: title,
+     * description, uploader, duration, views, likes, tags and embed URL.
+     */
+    getVideo(video: string): Promise<DailymotionVideo>;
+  }
+}
+
 declare namespace BowmarkProvider_dansons {
   // ── Dansons (Pit Boss) — the unit's own declarations, verbatim ──
 interface dansonsRegisterableProduct {
@@ -18826,6 +18881,22 @@ interface EventbriteEventDetail {
   currency: string | null;
   isFree: boolean;
 }
+interface EventbriteOrganizerDetail {
+  id: string;
+  name: string;
+  bio: string | null;
+  verified: boolean;
+  avatarUrl: string | null;
+  website: string | null;
+  profileUrl: string;
+  followers: number | null;
+  hostingYears: string | null;
+  totalEventsHosted: number | null;
+  attendeesHosted: string | null;
+  upcomingEvents: EventbriteEventRow[];
+  upcomingEventsTotal: number;
+  hasMoreUpcoming: boolean;
+}
 
   /**
    * Local events — search by city/online, date and category; read an event, its organizer and
@@ -18847,6 +18918,13 @@ interface EventbriteEventDetail {
      * taking an Eventbrite event url or its numeric id.
      */
     getEvent(args: { eventIdOrUrl: string }): Promise<EventbriteEventDetail>;
+
+    /**
+     * Reads an organizer's public page — name, bio, verification status, website,
+     * follower/hosting-tenure/total-events/attendees-hosted stats, and their upcoming events —
+     * taking an organizer url or the numeric organizer id found on any of their events.
+     */
+    getOrganizer(args: { organizerIdOrUrl: string }): Promise<EventbriteOrganizerDetail>;
   }
 }
 
@@ -21004,6 +21082,45 @@ interface FourseasonsyachtsSearchResult {
      * departure for that voyageCode (an honest empty answer, not a failure).
      */
     getVoyageSailing(voyageCode: string): Promise<FourseasonsyachtsSailing | null>;
+  }
+}
+
+declare namespace BowmarkProvider_foxnews {
+  // ── Fox News — the unit's own declarations, verbatim ──
+interface FoxnewsArticleRow {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  publicationDate: string;
+  section?: string;
+  category?: string;
+  authors?: Array<{ name?: string; [key: string]: unknown }>;
+  imageUrl?: string;
+  isBreaking?: boolean;
+  duration?: string;
+}
+
+interface SearchArticlesArgs {
+  query: string;
+  limit?: number;
+  offset?: number;
+}
+
+  /**
+   * Fox News (foxnews.com) — search stories and clips, read an article in full, get the top
+   * stories, the latest news and any section's front, look up authors and Fox News Channel
+   * shows, read videos, live-coverage blogs, comments, podcasts and Elections Center results,
+   * and sign an email up to its newsletters; once a caller signs in, comment and manage their
+   * Fox profile.
+   */
+  interface Unit {
+    /**
+     * Searches Fox News for stories and video clips matching free text, returning each hit's
+     * title, description, url, section, authors, publication date and image, newest first with
+     * paging.
+     */
+    searchArticles(args: SearchArticlesArgs): Promise<{ articles: FoxnewsArticleRow[] }>;
   }
 }
 
@@ -35086,6 +35203,20 @@ interface NytimesWordlePuzzle {
   daysSinceLaunch: number;
   editor?: string;
 }
+interface NytimesConnectionsCard {
+  content: string;
+  position: number;
+}
+interface NytimesConnectionsCategory {
+  title: string;
+  cards: NytimesConnectionsCard[];
+}
+interface NytimesConnectionsPuzzle {
+  id: number;
+  printDate: string;
+  editor?: string;
+  categories: NytimesConnectionsCategory[];
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -35209,6 +35340,12 @@ interface NytimesWordlePuzzle {
      * Takes an optional "YYYY-MM-DD" date, defaulting to today in America/New_York.
      */
     getWordle(date?: string): Promise<NytimesWordlePuzzle>;
+
+    /**
+     * Gets a day's Connections puzzle off the site's own JSON endpoint (the four categories and
+     * their cards). Takes an optional "YYYY-MM-DD" date, defaulting to today in America/New_York.
+     */
+    getConnections(date?: string): Promise<NytimesConnectionsPuzzle>;
   }
 }
 
@@ -52372,6 +52509,7 @@ interface BowmarkProviders {
   currency_exchange: BowmarkProvider_currency_exchange.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   dahlconsulting: BowmarkProvider_dahlconsulting.Unit;
+  dailymotion: BowmarkProvider_dailymotion.Unit;
   dansons: BowmarkProvider_dansons.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
@@ -52432,6 +52570,7 @@ interface BowmarkProviders {
   forms_hubspot_com: BowmarkProvider_forms_hubspot_com.Unit;
   fortressbp: BowmarkProvider_fortressbp.Unit;
   fourseasonsyachts: BowmarkProvider_fourseasonsyachts.Unit;
+  foxnews: BowmarkProvider_foxnews.Unit;
   framebridge: BowmarkProvider_framebridge.Unit;
   fred: BowmarkProvider_fred.Unit;
   furniture: BowmarkProvider_furniture.Unit;
