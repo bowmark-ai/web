@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2922 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2967 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -991,6 +991,38 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `faceforwardaesthetics.listLocations` | faceforwardaesthetics.com | Lists Face Forward Aesthetics' real bookable Zenoti locations (9 centers, OH/IN/NV/PA). | 🟢 |
 | `faceforwardaesthetics.listServices` | faceforwardaesthetics.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
 | `facerealityskincare.searchAcneExperts` | facerealityskincare.com | Runs Face Reality's own Acne Expert Locator search — matches a free-text query (city… | 🟢 |
+| `fandom.createPage` | fandom.com | Create an article that does not exist yet, under the caller's own account. `POST… | ⚪ |
+| `fandom.editPage` | fandom.com | Change an article — replace a page or one of its sections with new wikitext, under the… | ⚪ |
+| `fandom.findWiki` | fandom.com | Find which Fandom wiki covers a topic — hand it "star wars" or "minecraft" and get… | ⚪ |
+| `fandom.getArticle` | fandom.com | A wiki article in full — title, the body as plain text with wiki markup stripped, the… | ⚪ |
+| `fandom.getCurrentUser` | fandom.com | Who the caller is signed in as on Fandom — username, global user id, and which wikis… | ⚪ |
+| `fandom.getDiscussionPost` | fandom.com | One Discussions post by id, with its full text and its replies. `GET… | ⚪ |
+| `fandom.getImage` | fandom.com | One image file's real details — full-size url, dimensions, MIME type and licensing… | ⚪ |
+| `fandom.getInfobox` | fandom.com | The fact box at the top of an article, as key/value pairs — a character's species and… | ⚪ |
+| `fandom.getRevision` | fandom.com | One specific revision of an article by id, rendered as of that edit. | ⚪ |
+| `fandom.getSection` | fandom.com | One named or numbered section of an article, without downloading the rest of the page. | ⚪ |
+| `fandom.getSections` | fandom.com | An article's table of contents — every section with its index, heading and nesting… | ⚪ |
+| `fandom.getSummary` | fandom.com | The lead section of an article and nothing else — the first paragraph, for "what is X"… | ⚪ |
+| `fandom.getUser` | fandom.com | A wiki editor's public record on this wiki — registration date, edit count and user… | ⚪ |
+| `fandom.getWikiInfo` | fandom.com | A wiki's own vital stats — its real display name (`Wookieepedia`, not the `starwars`… | ⚪ |
+| `fandom.getWikitext` | fandom.com | An article's raw wikitext source — what an editor sees in the edit box, templates and… | ⚪ |
+| `fandom.listBacklinks` | fandom.com | What links HERE — every article on the wiki pointing at this one. `GET… | ⚪ |
+| `fandom.listCategories` | fandom.com | The categories an article belongs to — how a Fandom wiki organizes its own subject… | ⚪ |
+| `fandom.listCategoryMembers` | fandom.com | Every article filed under one category — hand it "Category:Characters" and get every… | ⚪ |
+| `fandom.listDiscussionPosts` | fandom.com | A wiki's Discussions feed — Fandom's own community forum layer, separate from article… | ⚪ |
+| `fandom.listExternalLinks` | fandom.com | Every link off-wiki from one article — sources and official sites the page cites, as… | ⚪ |
+| `fandom.listImages` | fandom.com | Every image used in an article, by file title, in page order. `GET… | ⚪ |
+| `fandom.listLinks` | fandom.com | Every other article on the same wiki this one links to. `GET… | ⚪ |
+| `fandom.listRecentChanges` | fandom.com | What is being edited on a wiki right now — a live feed of recent edits with page… | ⚪ |
+| `fandom.listRevisions` | fandom.com | An article's edit history on this wiki — each revision with its id, timestamp, editor… | ⚪ |
+| `fandom.listUserContributions` | fandom.com | Every edit one named editor has made on this wiki, newest first. `GET… | ⚪ |
+| `fandom.listWatchlist` | fandom.com | The caller's own watchlist on one wiki — the pages they follow and recent changes to… | ⚪ |
+| `fandom.postDiscussionPost` | fandom.com | Post a new message to a wiki's Discussions forum, under the caller's own account.… | ⚪ |
+| `fandom.search` | fandom.com | Search one wiki the way a person types into its search box — hand it a `wiki`… | ⚪ |
+| `fandom.suggestTitles` | fandom.com | Autocomplete a partial title within one wiki, the way its search box does as you type.… | ⚪ |
+| `fandom.undoRevision` | fandom.com | Undo one edit to an article — MediaWiki's own revert, reversing a single revision… | ⚪ |
+| `fandom.unwatchPage` | fandom.com | Remove an article from the caller's watchlist. `POST /api.php?action=watch&unwatch=1`. | ⚪ |
+| `fandom.watchPage` | fandom.com | Add an article to the caller's watchlist. `POST /api.php?action=watch`. | ⚪ |
 | `fbsappliance.getProductDetails` | fbsappliance.com | Reads one product's detail page for its full spec sheet, real per-showroom inventory… | ⚪ |
 | `fbsappliance.searchAppliances` | fbsappliance.com | Runs the site's own category grid (e.g. built-in-refrigerators) and returns real… | 🟡 |
 | `fedex.getRate` | fedex.com | Prices a domestic package across FedEx's own service levels (Ground, Home Delivery… | 🟢 |
@@ -2628,6 +2660,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | 🟢 |
 | `twitch.getChannelSchedule` | twitch.tv | Reads a channel's scheduled broadcast times and upcoming events (if public). Logged… | 🟢 |
 | `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | 🟢 |
+| `twitch.getStream` | twitch.tv | Reads a channel's LIVE state right now: whether it is live, title, game, viewer count… | 🟢 |
 | `twitch.getSubscriptionStatus` | twitch.tv | Checks whether the signed-in user is subscribed to one named channel: id, Twitch's own… | 🟢 |
 | `twitch.getVideo` | twitch.tv | Reads one public Twitch video by id or twitch.tv/videos link: title, length in… | 🟢 |
 | `twitch.listCategories` | twitch.tv | Lists Twitch games/categories, ranked by current live viewership: name, box art URL… | 🟢 |
@@ -2664,6 +2697,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `urbanoutfitters.getReviews` | urbanoutfitters.com | Reads the customer reviews on one Urban Outfitters product — the star rating and its… | ⚪ |
 | `urbanoutfitters.search` | urbanoutfitters.com | Searches Urban Outfitters' live catalogue the way the site's own search bar does and… | ⚪ |
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
+| `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | ⚪ |
+| `usatoday.getArticle` | usatoday.com | Reads one USA Today article in full — given an article URL or ID — returning headline… | ⚪ |
+| `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | ⚪ |
+| `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | ⚪ |
+| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | ⚪ |
+| `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | ⚪ |
+| `usatoday.listPuzzles` | usatoday.com | Lists available USA Today puzzles — crossword, Sudoku, etc. — with puzzle IDs and types. | ⚪ |
+| `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |
+| `usatoday.listSections` | usatoday.com | Lists USA Today's main news sections — news, sports, money, life, tech, opinion — each… | ⚪ |
+| `usatoday.listVideos` | usatoday.com | Lists USA Today videos, paginated, showing title, description, thumbnail URL, duration… | ⚪ |
+| `usatoday.saveArticle` | usatoday.com | Saves an article to the signed-in user's reading list. | ⚪ |
+| `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | ⚪ |
 | `usps.getRate` | usps.com | Prices a domestic package across USPS's own Mail Services (Priority Mail Express… | 🟢 |
 | `vbt.getTourDepartures` | vbt.com | Reads one VBT tour's own public page and returns its Tour-Only and Tour+Travel-Package… | 🟢 |
 | `vbt.listTours` | vbt.com | Lists every self-guided/guided bike and walking tour VBT publishes, straight off its… | 🟢 |
