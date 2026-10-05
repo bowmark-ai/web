@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3097 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3098 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -378,7 +378,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | 🟢 |
 | `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | 🟢 |
 | `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | 🟢 |
-| `bluesky.getRelationships` | bsky.app | Whether one account follows, or is followed by, each of a list of others. | ⚪ |
+| `bluesky.getRelationships` | bsky.app | Whether one account follows, or is followed by, each of a list of others. | 🟢 |
 | `bluesky.getStarterPack` | bsky.app | One starter pack: its creator, description, the accounts and feeds it bundles, and how… | ⚪ |
 | `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | ⚪ |
 | `bluesky.getSuggestedFollows` | bsky.app | Accounts Bluesky suggests alongside a given person — its 'similar accounts' list on a… | ⚪ |
@@ -481,7 +481,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bungalow.listMarkets` | bungalow.com | Lists every market Bungalow currently operates in — city, region and country, plus the… | 🟢 |
 | `bungalow.searchListings` | bungalow.com | Searches Bungalow's live, priced room and whole-home rental inventory in one market —… | 🟢 |
 | `businessinsider_com.findTicker` | businessinsider.com | Resolve a company or asset name to its market symbol and markets.businessinsider.com… | ⚪ |
-| `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | ⚪ |
+| `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | 🟢 |
 | `businessinsider_com.getArticleComments` | businessinsider.com | Read the public comments/discussion thread under one article. | ⚪ |
 | `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | ⚪ |
 | `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | ⚪ |
@@ -1768,6 +1768,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `liquiddeath.listProducts` | liquiddeath.com | Lists products from the catalogue without a search term, supporting the same limit… | 🟢 |
 | `liquiddeath.searchPolicies` | liquiddeath.com | Answers questions about shipping, returns, subscriptions and the store's own FAQs… | ⚪ |
 | `liquiddeath.searchProducts` | liquiddeath.com | Searches the live catalogue and returns matching products with their real variants… | 🟢 |
+| `liquidspace.getListingDetails` | liquidspace.com | Reads one workspace's own LiquidSpace listing page (a `bookingUrl` from `search`) and… | 🟢 |
 | `liquidspace.search` | liquidspace.com | Reads LiquidSpace's own city-listing page for a US city/state and returns every… | 🟢 |
 | `littlewordsproject.getLittleWordsProjectCheckoutLink` | littlewordsproject.com | Resolves a product handle + chosen options (bead pattern / letter color / size… | 🟢 |
 | `littlewordsproject.getLittleWordsProjectProduct` | littlewordsproject.com | Reads one custom-bracelet product by its handle — every bead-pattern/letter-color/size… | 🟢 |
