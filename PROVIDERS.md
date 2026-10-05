@@ -1223,7 +1223,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.listVideoPlaylists` | foxnews.com | Lists the video playlists Fox News groups its clips into (by show and by topic) with… | ⚪ |
 | `foxnews.listVideos` | foxnews.com | Lists the clips in one Fox News video playlist, newest first with paging — each clip's… | ⚪ |
 | `foxnews.postComment` | foxnews.com | Posts a comment under a Fox News article, or a reply to another comment, as the… | ⚪ |
-| `foxnews.searchArticles` | foxnews.com | Searches Fox News for stories and video clips matching free text ("border wall"… | ⚪ |
+| `foxnews.searchArticles` | foxnews.com | Searches Fox News for stories and video clips matching free text ("border wall"… | 🟢 |
 | `foxnews.submitNewsTip` | foxnews.com | Sends a news tip to Fox News's newsroom through its tip form — name, email, and the… | ⚪ |
 | `foxnews.subscribeNewsletter` | foxnews.com | Signs an email address up to one or more Fox News newsletters — what the sign-up box… | ⚪ |
 | `foxnews.unsubscribeNewsletter` | foxnews.com | Takes an email address off a Fox News newsletter — the unsubscribe flow the newsletter… | ⚪ |
@@ -2618,7 +2618,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listCommentReplies` | tiktok.com | The replies under one comment thread, hidden behind TikTok's "N replies" button and… | 🟢 |
 | `tiktok.listComments` | tiktok.com | What people said under a video — author, text, like count, reply count, whether pinned… | 🟢 |
 | `tiktok.listConversations` | tiktok.com | The signed-in caller's own DM inbox — threads, last message, unread state. | ⚪ |
-| `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | ⚪ |
+| `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | 🟢 |
 | `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | 🟢 |
 | `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟡 |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | ⚪ |
@@ -2948,7 +2948,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
 | `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |
 | `x.profile` | x.com | Reads an X (Twitter) profile by handle or profile URL — display name, bio text… | 🟢 |
-| `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts. | 🟡 |
+| `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts, scrolling until `limit`… | 🟡 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
 | `yahoo_finance.addToWatchlist` | finance.yahoo.com | Adds a ticker to one of the signed-in viewer's watchlists — for a caller who wants to… | 🟢 |
