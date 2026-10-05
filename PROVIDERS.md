@@ -374,14 +374,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getMe` | bsky.app | Who the signed-in caller is: their DID, handle, email-confirmed flag and PDS host. | ⚪ |
 | `bluesky.getMyLikes` | bsky.app | The posts the caller has liked. | ⚪ |
 | `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟢 |
-| `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | 🟢 |
+| `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | 🟡 |
 | `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | 🟢 |
 | `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | 🟢 |
 | `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | 🟢 |
 | `bluesky.getRelationships` | bsky.app | Whether one account follows, or is followed by, each of a list of others. | 🟢 |
 | `bluesky.getStarterPack` | bsky.app | One starter pack: its creator, description, the accounts and feeds it bundles, and how… | ⚪ |
 | `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | ⚪ |
-| `bluesky.getSuggestedFollows` | bsky.app | Accounts Bluesky suggests alongside a given person — its 'similar accounts' list on a… | ⚪ |
+| `bluesky.getSuggestedFollows` | bsky.app | Accounts Bluesky suggests alongside a given person — its 'similar accounts' list on a… | 🟢 |
 | `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, optionally by interest category. | ⚪ |
 | `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | 🟢 |
 | `bluesky.getTimeline` | bsky.app | The caller's home Following feed, newest first, page by page. | ⚪ |
@@ -2930,7 +2930,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
 | `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
-| `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟢 |
+| `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟡 |
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟢 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |
 | `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |
