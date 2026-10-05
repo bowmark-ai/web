@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3098 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3106 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1596,6 +1596,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟡 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
+| `imdb.getPerson` | imdb.com | Reads a person's biography, birth year, filmography, awards, and known roles. | ⚪ |
+| `imdb.getTitle` | imdb.com | Reads a title's full details: year, runtime, genres, plot, ratings, cast, crew… | ⚪ |
+| `imdb.getTitleReviews` | imdb.com | Reads user reviews for a title, with user rating, text, and helpfulness count. | ⚪ |
+| `imdb.listCustomLists` | imdb.com | The logged-in user's custom lists of titles. | ⚪ |
+| `imdb.listRatings` | imdb.com | The logged-in user's own ratings across titles and episodes. | ⚪ |
+| `imdb.listWatchlist` | imdb.com | The logged-in user's Watch Later queue, newest first. | ⚪ |
+| `imdb.search` | imdb.com | Full-text search across titles and people, returning matching results ranked by… | ⚪ |
+| `imdb.searchSuggestions` | imdb.com | Typeahead search for quick title and person completion as the user types. | ⚪ |
 | `indeed.getCompanyDetails` | indeed.com | Fetches a company's full profile off its own /cmp/… snapshot page: overall rating… | 🟢 |
 | `indeed.getJobDetails` | indeed.com | Fetches one job listing's full details — title, company, location, salary… | 🟢 |
 | `indeed.getSalaryDetails` | indeed.com | Fetches the full salary breakdown for one job title off its own… | 🟢 |

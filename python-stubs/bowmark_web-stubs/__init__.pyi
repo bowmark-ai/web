@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 71e81ec675f6a983b624279525c6921a5b57c838a42e9e62f06a78044c332494
-# 76 capabilities, 531 providers, 1832 typed functions, 20 refused.
+# Manifest version: dcb3397a2aa88dd32dbf4c0e7383ee06d6dd521c89d909d16dc1d3e18ee575aa
+# 76 capabilities, 531 providers, 1837 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6297,6 +6297,19 @@ class Prv_bluesky_BlueskyFollowsResults_Out(TypedDict):
     subject: Prv_bluesky_BlueskyPostAuthor_Out
     cursor: NotRequired[str]
 
+class Prv_bluesky_getRelationships_args_In(TypedDict):
+    actor: str
+    others: str | Sequence[str]
+
+class Prv_bluesky_BlueskyRelationshipsResults_Out(TypedDict):
+    actor: str
+    relationships: list[Prv_bluesky_BlueskyRelationship_Out]
+
+class Prv_bluesky_BlueskyRelationship_Out(TypedDict):
+    did: str
+    following: str | None
+    followedBy: str | None
+
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
     modelName: str
@@ -6752,6 +6765,27 @@ class Prv_businessinsider_com_ListArticlesBySectionArgs_In(TypedDict):
 class Prv_businessinsider_com_BusinessInsiderListedArticle_Out(TypedDict):
     title: str
     url: str
+
+class Prv_businessinsider_com_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_businessinsider_com_BusinessInsiderArticleRecord_Out(TypedDict):
+    url: str
+    headline: str
+    alternativeHeadline: NotRequired[str]
+    description: NotRequired[str]
+    articleBody: NotRequired[str]
+    articleSection: NotRequired[str]
+    datePublished: NotRequired[str]
+    dateModified: NotRequired[str]
+    author: list[Prv_businessinsider_com_BusinessInsiderArticleAuthor_Out]
+    isAccessibleForFree: NotRequired[bool]
+    imageUrl: NotRequired[str]
+
+class Prv_businessinsider_com_BusinessInsiderArticleAuthor_Out(TypedDict):
+    name: str
+    url: NotRequired[str]
+    jobTitle: NotRequired[str]
 
 class Prv_bykoket_KoketProductSummary_Out(TypedDict):
     id: str
@@ -21755,6 +21789,16 @@ class Prv_reuters_ListCompanyNewsArgs_In(TypedDict):
     ric: str
     limit: NotRequired[float]
 
+class Prv_reuters_GetMarketOverviewArgs_In(TypedDict):
+    table: str
+    limit: NotRequired[float]
+
+class Prv_reuters_ReutersMarketRow_Out(TypedDict):
+    name: str
+    lastPrice: float
+    change: float
+    changePercent: float
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -24796,6 +24840,14 @@ class Prv_tiktok_tiktokSound_Out(TypedDict):
 class Prv_tiktok_ListSoundVideosArgs_In(TypedDict):
     soundId: str
 
+class Prv_tiktok_tiktokOwnProfile_Out(TypedDict):
+    uniqueId: NotRequired[str]
+    nickname: NotRequired[str]
+    signature: NotRequired[str]
+    emailBound: NotRequired[bool]
+    mobileBound: NotRequired[bool]
+    privateAccount: NotRequired[bool]
+
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
     name: str
@@ -25132,6 +25184,19 @@ class Prv_tradingview_EconomicEvent_Out(TypedDict):
     previous: NotRequired[float]
     importance: float
     currency: NotRequired[str]
+
+class Prv_tradingview_Idea_Out(TypedDict):
+    id: float
+    title: str
+    description: str
+    author: str
+    createdAt: float
+    updatedAt: NotRequired[float]
+    chartUrl: str
+    commentsCount: float
+    viewsCount: float
+    likesCount: float
+    isHot: bool
 
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
@@ -32879,6 +32944,15 @@ class Prv_bluesky(Protocol):
         AppView cannot find — check the spelling with `searchUsers` or `resolveHandle`.
         """
 
+    async def getRelationships(self, args: Prv_bluesky_getRelationships_args_In, /) -> Prv_bluesky_BlueskyRelationshipsResults_Out:
+        """Whether `actor` follows, or is followed by, each of `others` — the chip a profile shows
+        for 'followed by people you follow'. `actor` and each entry of `others` take a handle, a
+        DID, or a bsky.app profile URL. Returns the resolved `actor` DID plus one relationship
+        per `other`, in the order given, each carrying the following/followedBy at:// URI or
+        `null` when that direction has no follow. THROWS `blueskyInputError` on any identifier
+        the AppView cannot resolve — check the spelling with `searchUsers` or `resolveHandle`.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -33165,14 +33239,20 @@ class Prv_bungalow(Protocol):
         """
 
 class Prv_businessinsider_com(Protocol):
-    """Reads Business Insider's news, markets and guides verticals — section listings
-    implemented, most functions still queued.
+    """Reads Business Insider's news, markets and guides verticals — section listings and full
+    article reads implemented, most other functions still queued.
     """
 
     async def listArticlesBySection(self, args: Prv_businessinsider_com_ListArticlesBySectionArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderListedArticle_Out]:
         """Lists recent articles off one businessinsider.com section/vertical page (tech, markets,
         politics, economy, retail, science, health, etc), title and URL per article,
         newest-first as the site orders its grid.
+        """
+
+    async def getArticle(self, args: Prv_businessinsider_com_GetArticleArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderArticleRecord_Out:
+        """Reads one businessinsider.com article's full text and metadata (headline, author,
+        section, dates, body, free/paywalled) off its page's own NewsArticle JSON-LD record,
+        given the article's URL.
         """
 
 class Prv_bykoket(Protocol):
@@ -43626,6 +43706,12 @@ class Prv_reuters(Protocol):
         RIC from searchCompanies.
         """
 
+    async def getMarketOverview(self, args: Prv_reuters_GetMarketOverviewArgs_In, /) -> list[Prv_reuters_ReutersMarketRow_Out]:
+        """The market tables Reuters shows on its Markets pages — major indices, currencies,
+        commodities or a sector — with price, change and change percent for each row. Takes
+        which table: "indices", "currencies", "commodities" or a sector name.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -45447,6 +45533,15 @@ class Prv_tiktok(Protocol):
         signs up on this site. Takes no arguments.
         """
 
+    async def getOwnProfile(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokOwnProfile_Out:
+        """The signed-in caller's own account facts — handle, bio, email/phone binding status,
+        privacy setting — the account-settings equivalent of getProfile. Reads
+        /passport/web/account/info/ directly with the caller's session cookies, no browser. The
+        caller signs in through the auth relay; Bowmark never signs up on this site. Takes no
+        arguments. Field values are read defensively and may come back undefined until a real
+        signed-in capture measures the success shape.
+        """
+
 class Prv_tilsonhomes(Protocol):
     """Reads Tilson Homes' Build-On-Your-Land floor plan catalog and each plan's Anewgo-powered
     customizer — bed/bath/size range and exterior finish options — the way the live site's
@@ -45681,6 +45776,20 @@ class Prv_tradingview(Protocol):
         `period`, `actual`/`forecast`/`previous` values where TradingView carries them, and an
         `importance` score (-1/0/1 low/medium/high). An unrecognized country code answers zero
         matching rows rather than an error.
+        """
+
+    async def listIdeas(self, exchange: str, symbol: str, sort: str | None = None, /) -> list[Prv_tradingview_Idea_Out]:
+        """Gets the public Ideas feed for one symbol — e.g. `listIdeas("NASDAQ", "AAPL")` for "what
+        are traders on TradingView saying about AAPL right now" — the same feed the symbol's
+        Ideas tab renders. Use `searchSymbols` first and pass its exact `exchange` and `symbol`
+        fields. `sort` is one of `"latest_popular"`, `"week_popular"`, `"trending"`,
+        `"suggested"`, `"recent"` (default), `"recent_extended"`, `"picked_time"` or
+        `"trending_one_idea_by_user_per_page"` — TradingView's own enum, a bad value is a
+        caller-fixable error. Returns up to 20 ideas per page (the first page only; TradingView
+        itself paginates beyond that), each with the author's `title` and `description`, their
+        `author` username, `createdAt`/`updatedAt` (Unix seconds), a `chartUrl` to the full
+        idea, and `commentsCount`/`viewsCount`/`likesCount`. An unknown or delisted
+        `exchange:symbol` pair returns a caller-fixable error.
         """
 
 class Prv_travelinsured(Protocol):

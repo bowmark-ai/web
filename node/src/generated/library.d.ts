@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 71e81ec675f6a983b624279525c6921a5b57c838a42e9e62f06a78044c332494
-// 76 capabilities, 531 providers, 1850 typed functions, 20 refused.
+// Manifest version: dcb3397a2aa88dd32dbf4c0e7383ee06d6dd521c89d909d16dc1d3e18ee575aa
+// 76 capabilities, 531 providers, 1855 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11156,6 +11156,17 @@ interface BlueskyFollowsResults {
   cursor?: string;
 }
 
+interface BlueskyRelationship {
+  did: string;
+  following: string | null;
+  followedBy: string | null;
+}
+
+interface BlueskyRelationshipsResults {
+  actor: string;
+  relationships: BlueskyRelationship[];
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -11279,6 +11290,16 @@ interface BlueskyFollowsResults {
      * find — check the spelling with `searchUsers` or `resolveHandle`.
      */
     getFollows(actor: string | { actor: string; limit?: number; cursor?: string }): Promise<BlueskyFollowsResults>;
+
+    /**
+     * Whether `actor` follows, or is followed by, each of `others` — the chip a profile shows for
+     * 'followed by people you follow'. `actor` and each entry of `others` take a handle, a DID, or
+     * a bsky.app profile URL. Returns the resolved `actor` DID plus one relationship per `other`,
+     * in the order given, each carrying the following/followedBy at:// URI or `null` when that
+     * direction has no follow. THROWS `blueskyInputError` on any identifier the AppView cannot
+     * resolve — check the spelling with `searchUsers` or `resolveHandle`.
+     */
+    getRelationships(args: { actor: string; others: string | string[] }): Promise<BlueskyRelationshipsResults>;
   }
 }
 
@@ -12133,10 +12154,31 @@ interface BusinessInsiderListedArticle {
   title: string;
   url: string;
 }
+interface GetArticleArgs {
+  url: string;
+}
+interface BusinessInsiderArticleAuthor {
+  name: string;
+  url?: string;
+  jobTitle?: string;
+}
+interface BusinessInsiderArticleRecord {
+  url: string;
+  headline: string;
+  alternativeHeadline?: string;
+  description?: string;
+  articleBody?: string;
+  articleSection?: string;
+  datePublished?: string;
+  dateModified?: string;
+  author: BusinessInsiderArticleAuthor[];
+  isAccessibleForFree?: boolean;
+  imageUrl?: string;
+}
 
   /**
-   * Reads Business Insider's news, markets and guides verticals — section listings implemented,
-   * most functions still queued.
+   * Reads Business Insider's news, markets and guides verticals — section listings and full
+   * article reads implemented, most other functions still queued.
    */
   interface Unit {
     /**
@@ -12145,6 +12187,13 @@ interface BusinessInsiderListedArticle {
      * the site orders its grid.
      */
     listArticlesBySection(args: ListArticlesBySectionArgs): Promise<BusinessInsiderListedArticle[]>;
+
+    /**
+     * Reads one businessinsider.com article's full text and metadata (headline, author, section,
+     * dates, body, free/paywalled) off its page's own NewsArticle JSON-LD record, given the
+     * article's URL.
+     */
+    getArticle(args: GetArticleArgs): Promise<BusinessInsiderArticleRecord>;
   }
 }
 
@@ -39787,6 +39836,16 @@ interface ListCompanyNewsArgs {
   ric: string;                     // a RIC from searchCompanies, e.g. "AAPL.O"
   limit?: number;                   // 1-200, default 50
 }
+interface ReutersMarketRow {
+  name: string;                     // e.g. "FTSE 100", "US Dollar", "Brent Crude"
+  lastPrice: number;
+  change: number;                   // price change
+  changePercent: number;            // percent change
+}
+interface GetMarketOverviewArgs {
+  table: string;                    // "indices", "currencies", "commodities", or a sector like "energy"
+  limit?: number;                   // 1-500, default 100
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -39896,6 +39955,13 @@ interface ListCompanyNewsArgs {
      * searchCompanies.
      */
     listCompanyNews(args: ListCompanyNewsArgs): Promise<ReutersLatestStory[]>;
+
+    /**
+     * The market tables Reuters shows on its Markets pages — major indices, currencies,
+     * commodities or a sector — with price, change and change percent for each row. Takes which
+     * table: "indices", "currencies", "commodities" or a sector name.
+     */
+    getMarketOverview(args: GetMarketOverviewArgs): Promise<ReutersMarketRow[]>;
   }
 }
 
@@ -45089,6 +45155,15 @@ interface ListSoundVideosArgs {
 }
 type ListForYouFeedArgs = Record<string, never>;
 type ListFollowingFeedArgs = Record<string, never>;
+interface tiktokOwnProfile {
+  uniqueId?: string;
+  nickname?: string;
+  signature?: string;
+  emailBound?: boolean;
+  mobileBound?: boolean;
+  privateAccount?: boolean;
+}
+type GetOwnProfileArgs = Record<string, never>;
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -45208,6 +45283,16 @@ type ListFollowingFeedArgs = Record<string, never>;
      * up on this site. Takes no arguments.
      */
     listFollowingFeed(args: ListFollowingFeedArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
+
+    /**
+     * The signed-in caller's own account facts — handle, bio, email/phone binding status, privacy
+     * setting — the account-settings equivalent of getProfile. Reads /passport/web/account/info/
+     * directly with the caller's session cookies, no browser. The caller signs in through the auth
+     * relay; Bowmark never signs up on this site. Takes no arguments. Field values are read
+     * defensively and may come back undefined until a real signed-in capture measures the success
+     * shape.
+     */
+    getOwnProfile(args: GetOwnProfileArgs, opts?: ConnectionOption): Promise<tiktokOwnProfile>;
   }
 }
 
@@ -45669,6 +45754,20 @@ interface EconomicEvent {
   currency?: string;
 }
 
+interface Idea {
+  id: number;
+  title: string;
+  description: string;
+  author: string;
+  createdAt: number;
+  updatedAt?: number;
+  chartUrl: string;
+  commentsCount: number;
+  viewsCount: number;
+  likesCount: number;
+  isHot: boolean;
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -45825,6 +45924,20 @@ interface EconomicEvent {
      * unrecognized country code answers zero matching rows rather than an error.
      */
     getEconomicCalendar(countries?: string[], daysAhead?: number): Promise<EconomicEvent[]>;
+
+    /**
+     * Gets the public Ideas feed for one symbol — e.g. `listIdeas("NASDAQ", "AAPL")` for "what are
+     * traders on TradingView saying about AAPL right now" — the same feed the symbol's Ideas tab
+     * renders. Use `searchSymbols` first and pass its exact `exchange` and `symbol` fields. `sort`
+     * is one of `"latest_popular"`, `"week_popular"`, `"trending"`, `"suggested"`, `"recent"`
+     * (default), `"recent_extended"`, `"picked_time"` or `"trending_one_idea_by_user_per_page"` —
+     * TradingView's own enum, a bad value is a caller-fixable error. Returns up to 20 ideas per
+     * page (the first page only; TradingView itself paginates beyond that), each with the author's
+     * `title` and `description`, their `author` username, `createdAt`/`updatedAt` (Unix seconds),
+     * a `chartUrl` to the full idea, and `commentsCount`/`viewsCount`/`likesCount`. An unknown or
+     * delisted `exchange:symbol` pair returns a caller-fixable error.
+     */
+    listIdeas(exchange: string, symbol: string, sort?: string): Promise<Idea[]>;
   }
 }
 

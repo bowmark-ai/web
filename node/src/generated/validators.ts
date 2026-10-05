@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 71e81ec675f6a983b624279525c6921a5b57c838a42e9e62f06a78044c332494
-// 1832 checked, 20 unchecked.
+// Manifest version: dcb3397a2aa88dd32dbf4c0e7383ee06d6dd521c89d909d16dc1d3e18ee575aa
+// 1837 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "71e81ec675f6a983b624279525c6921a5b57c838a42e9e62f06a78044c332494",
+  "version": "dcb3397a2aa88dd32dbf4c0e7383ee06d6dd521c89d909d16dc1d3e18ee575aa",
   "units": {
     "address_validation": {
       "defs": {
@@ -11800,6 +11800,42 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getRelationships": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "actor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "others",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "array",
+                        "of": {
+                          "k": "string"
+                        }
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -12481,6 +12517,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.businessinsider_com": {
       "defs": {
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesBySectionArgs": {
           "k": "object",
           "props": [
@@ -12508,6 +12556,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListArticlesBySectionArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
             },
             "optional": false
           }
@@ -41209,6 +41267,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetMarketOverviewArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "table",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetQuoteArgs": {
           "k": "object",
           "props": [
@@ -41583,6 +41660,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListCompanyNewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMarketOverview": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMarketOverviewArgs"
             },
             "optional": false
           }
@@ -47050,6 +47137,12 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetOwnProfileArgs": {
+          "k": "record",
+          "value": {
+            "k": "any"
+          }
+        },
         "GetProfileArgs": {
           "k": "object",
           "props": [
@@ -47377,6 +47470,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListFollowingFeedArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOwnProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetOwnProfileArgs"
             },
             "optional": false
           },
@@ -47871,6 +47990,29 @@ export const VALIDATORS: ValidatorTable = {
             "name": "daysAhead",
             "schema": {
               "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "listIdeas": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "sort",
+            "schema": {
+              "k": "string"
             },
             "optional": true
           }
