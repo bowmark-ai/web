@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 100e5ddd2144e555e103d09535336694dd7b301ab33456c91a825a4181958e23
-// 75 capabilities, 524 providers, 1832 typed functions, 20 refused.
+// Manifest version: a5df96b4a70d1ad3f82c75d26f43a0850018d34a0973cfd49a94ad2d1df8e040
+// 75 capabilities, 526 providers, 1834 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6638,6 +6638,37 @@ interface AntunesServiceAgencySearch {
      * nothing authorized that close.
      */
     findServiceAgencies(zip: string, radiusMiles?: number): Promise<AntunesServiceAgencySearch>;
+  }
+}
+
+declare namespace BowmarkProvider_aol {
+  // ── AOL — the unit's own declarations, verbatim ──
+interface AolStoryRow {
+  title: string;
+  url: string;
+  summary?: string;
+  image?: string;
+  source?: string;
+  sourceUrl?: string;
+  publishedAt?: string;
+}
+
+interface AolFrontPage {
+  stories: AolStoryRow[];
+}
+
+  /**
+   * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
+   * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
+   * in) their AOL Favorites and article comments.
+   */
+  interface Unit {
+    /**
+     * Reads the aol.com front page as the visitor sees it — the lead stories and every headline
+     * module, each with title, url, source publisher, image and publish time. Pass limit to cap
+     * the row count.
+     */
+    getFrontPage(limit?: number): Promise<AolFrontPage>;
   }
 }
 
@@ -22373,6 +22404,25 @@ interface GoloadupServiceAvailability {
      * service, same-day pickup allowed, and whether retail assembly is offered there.
      */
     checkServiceAvailability(zip: string): Promise<GoloadupServiceAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_goodreads {
+  // ── Goodreads — the unit's own declarations, verbatim ──
+interface GoodreadsBookRow {
+  id: string;
+}
+
+  /**
+   * A social network for book readers: book details and ratings, member reviews, curated lists,
+   * genre browsing, and (once a caller signs in) shelving, rating and reviewing.
+   */
+  interface Unit {
+    /**
+     * Runs goodreads.com's book search and returns title, author, url and (when the card shows
+     * one) average rating per row.
+     */
+    searchBooks(query: string): Promise<GoodreadsBookRow[]>;
   }
 }
 
@@ -51940,6 +51990,7 @@ interface BowmarkProviders {
   andstr: BowmarkProvider_andstr.Unit;
   anthropic_com: BowmarkProvider_anthropic_com.Unit;
   antunes: BowmarkProvider_antunes.Unit;
+  aol: BowmarkProvider_aol.Unit;
   aosom: BowmarkProvider_aosom.Unit;
   app_store: BowmarkProvider_app_store.Unit;
   apple: BowmarkProvider_apple.Unit;
@@ -52143,6 +52194,7 @@ interface BowmarkProviders {
   gobrightwing: BowmarkProvider_gobrightwing.Unit;
   golf_com: BowmarkProvider_golf_com.Unit;
   goloadup: BowmarkProvider_goloadup.Unit;
+  goodreads: BowmarkProvider_goodreads.Unit;
   goodway: BowmarkProvider_goodway.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   google_maps: BowmarkProvider_google_maps.Unit;

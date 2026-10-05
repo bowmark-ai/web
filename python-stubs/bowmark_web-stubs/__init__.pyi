@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 100e5ddd2144e555e103d09535336694dd7b301ab33456c91a825a4181958e23
-# 75 capabilities, 524 providers, 1814 typed functions, 20 refused.
+# Manifest version: a5df96b4a70d1ad3f82c75d26f43a0850018d34a0973cfd49a94ad2d1df8e040
+# 75 capabilities, 526 providers, 1816 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3586,6 +3586,18 @@ class Prv_antunes_AntunesServiceAgency_Out(TypedDict):
     latitude: float
     longitude: float
     distanceMiles: float
+
+class Prv_aol_AolFrontPage_Out(TypedDict):
+    stories: list[Prv_aol_AolStoryRow_Out]
+
+class Prv_aol_AolStoryRow_Out(TypedDict):
+    title: str
+    url: str
+    summary: NotRequired[str]
+    image: NotRequired[str]
+    source: NotRequired[str]
+    sourceUrl: NotRequired[str]
+    publishedAt: NotRequired[str]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -12226,6 +12238,9 @@ class Prv_goloadup_GoloadupServiceAvailability_Out(TypedDict):
     sameDayAllowed: bool
     estimationAllowed: bool
     retailAssembliesAllowed: bool
+
+class Prv_goodreads_GoodreadsBookRow_Out(TypedDict):
+    id: str
 
 class Prv_goodway_GoodwayProductSummary_Out(TypedDict):
     sku: str
@@ -30876,6 +30891,18 @@ class Prv_antunes(Protocol):
         has nothing authorized that close.
         """
 
+class Prv_aol(Protocol):
+    """AOL's news portal: the front page, every section and article (syndicated from AP,
+    Reuters, USA Today and more), weather, local news, horoscopes and recipes, plus (once a
+    caller signs in) their AOL Favorites and article comments.
+    """
+
+    async def getFrontPage(self, limit: float | None = None, /) -> Prv_aol_AolFrontPage_Out:
+        """Reads the aol.com front page as the visitor sees it — the lead stories and every
+        headline module, each with title, url, source publisher, image and publish time. Pass
+        limit to cap the row count.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -36663,6 +36690,16 @@ class Prv_goloadup(Protocol):
     async def checkServiceAvailability(self, zip: str, /) -> Prv_goloadup_GoloadupServiceAvailability_Out:
         """Checks whether and how LoadUp serves one ZIP code, independent of any specific items —
         in service, same-day pickup allowed, and whether retail assembly is offered there.
+        """
+
+class Prv_goodreads(Protocol):
+    """A social network for book readers: book details and ratings, member reviews, curated
+    lists, genre browsing, and (once a caller signs in) shelving, rating and reviewing.
+    """
+
+    async def searchBooks(self, query: str, /) -> list[Prv_goodreads_GoodreadsBookRow_Out]:
+        """Runs goodreads.com's book search and returns title, author, url and (when the card shows
+        one) average rating per row.
         """
 
 class Prv_goodway(Protocol):
@@ -47379,6 +47416,7 @@ class BowmarkProviders(Protocol):
     andstr: Prv_andstr
     anthropic_com: Prv_anthropic_com
     antunes: Prv_antunes
+    aol: Prv_aol
     aosom: Prv_aosom
     app_store: Prv_app_store
     apple: Prv_apple
@@ -47582,6 +47620,7 @@ class BowmarkProviders(Protocol):
     gobrightwing: Prv_gobrightwing
     golf_com: Prv_golf_com
     goloadup: Prv_goloadup
+    goodreads: Prv_goodreads
     goodway: Prv_goodway
     google_flights: Prv_google_flights
     google_maps: Prv_google_maps

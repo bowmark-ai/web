@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 100e5ddd2144e555e103d09535336694dd7b301ab33456c91a825a4181958e23
-// 1814 checked, 20 unchecked.
+// Manifest version: a5df96b4a70d1ad3f82c75d26f43a0850018d34a0973cfd49a94ad2d1df8e040
+// 1816 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "100e5ddd2144e555e103d09535336694dd7b301ab33456c91a825a4181958e23",
+  "version": "a5df96b4a70d1ad3f82c75d26f43a0850018d34a0973cfd49a94ad2d1df8e040",
   "units": {
     "address_validation": {
       "defs": {
@@ -7470,6 +7470,20 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "radiusMiles",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.aol": {
+      "defs": {},
+      "functions": {
+        "getFrontPage": [
+          {
+            "name": "limit",
             "schema": {
               "k": "number"
             },
@@ -22224,6 +22238,20 @@ export const VALIDATORS: ValidatorTable = {
         "checkServiceAvailability": [
           {
             "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.goodreads": {
+      "defs": {},
+      "functions": {
+        "searchBooks": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

@@ -1,5 +1,5 @@
 {
-  "version": "100e5ddd2144e555e103d09535336694dd7b301ab33456c91a825a4181958e23",
+  "version": "a5df96b4a70d1ad3f82c75d26f43a0850018d34a0973cfd49a94ad2d1df8e040",
   "units": {
     "address_validation": {
       "defs": {
@@ -7458,6 +7458,20 @@
           },
           {
             "name": "radiusMiles",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.aol": {
+      "defs": {},
+      "functions": {
+        "getFrontPage": [
+          {
+            "name": "limit",
             "schema": {
               "k": "number"
             },
@@ -22212,6 +22226,20 @@
         "checkServiceAvailability": [
           {
             "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.goodreads": {
+      "defs": {},
+      "functions": {
+        "searchBooks": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },
