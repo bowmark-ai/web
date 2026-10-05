@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3065 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3096 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -748,11 +748,42 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cyberpowerpc.priceBuild` | cyberpowerpc.com | Prices an exact build for one configurator given a caller's part selections (one part… | 🟢 |
 | `dahlconsulting.getJob` | careers.dahlconsulting.com | Reads one job posting's full detail — the complete description, industry… | 🟢 |
 | `dahlconsulting.searchJobs` | careers.dahlconsulting.com | Searches Dahl Consulting's live job board — every open role at… | 🟢 |
+| `dailymotion.addToPlaylist` | dailymotion.com | Add a video to one of the signed-in caller's playlists, or remove it. | ⚪ |
+| `dailymotion.addToWatchLater` | dailymotion.com | Add a video to the signed-in caller's Watch Later, or take it off. | ⚪ |
+| `dailymotion.createPlaylist` | dailymotion.com | Create a playlist on the signed-in caller's account — name, description, private or… | ⚪ |
+| `dailymotion.deletePlaylist` | dailymotion.com | Delete one of the signed-in caller's playlists. | ⚪ |
+| `dailymotion.deleteVideo` | dailymotion.com | Delete one of the signed-in caller's videos. | ⚪ |
+| `dailymotion.followChannel` | dailymotion.com | Follow a Dailymotion channel as the signed-in caller, or unfollow it. | ⚪ |
+| `dailymotion.getChannel` | dailymotion.com | Read one Dailymotion channel from its id, username or dailymotion.com/<username> URL —… | ⚪ |
+| `dailymotion.getMyProfile` | dailymotion.com | Read the signed-in caller's own Dailymotion account — username, display name, avatar… | ⚪ |
+| `dailymotion.getPlaylist` | dailymotion.com | Read one Dailymotion playlist from its id or URL — name, description, owner, video… | ⚪ |
+| `dailymotion.getTranscript` | dailymotion.com | Read a Dailymotion video's captions as timed text — the uploader's track or the… | ⚪ |
 | `dailymotion.getVideo` | dailymotion.com | Read one Dailymotion video from its id or a dailymotion.com / dai.ly URL: title… | 🟢 |
+| `dailymotion.likeVideo` | dailymotion.com | Like a Dailymotion video as the signed-in caller, or remove the like. | ⚪ |
+| `dailymotion.listCaptionTracks` | dailymotion.com | List the caption tracks one Dailymotion video has — language, label, and whether it is… | ⚪ |
+| `dailymotion.listCategories` | dailymotion.com | List Dailymotion's video categories (news, music, sport, animals …) with their ids. | ⚪ |
+| `dailymotion.listCategoryVideos` | dailymotion.com | List the newest or most-viewed videos in one Dailymotion category, such as news or… | ⚪ |
+| `dailymotion.listChannelPlaylists` | dailymotion.com | List the playlists one Dailymotion channel has published — id, name and video count… | ⚪ |
 | `dailymotion.listChannelVideos` | dailymotion.com | List the videos one Dailymotion uploader has published, newest first. | ⚪ |
+| `dailymotion.listFollowedChannels` | dailymotion.com | List the channels the signed-in caller follows. | ⚪ |
+| `dailymotion.listFollowingFeed` | dailymotion.com | List the newest videos from the channels the signed-in caller follows — the site's… | ⚪ |
+| `dailymotion.listHashtagVideos` | dailymotion.com | List Dailymotion videos carrying one tag or hashtag. | ⚪ |
+| `dailymotion.listLiveStreams` | dailymotion.com | List live streams on air on Dailymotion now, optionally matching a keyword or from one… | ⚪ |
+| `dailymotion.listMyLikedVideos` | dailymotion.com | List the videos the signed-in caller has liked. | ⚪ |
+| `dailymotion.listMyPlaylists` | dailymotion.com | List the signed-in caller's own playlists, private ones included. | ⚪ |
+| `dailymotion.listMyVideos` | dailymotion.com | List the videos the signed-in caller has uploaded, private and draft ones included. | ⚪ |
 | `dailymotion.listPlaylistVideos` | dailymotion.com | List the videos in one Dailymotion playlist. | ⚪ |
-| `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion user channels (uploaders) by name, with follower and video counts. | ⚪ |
+| `dailymotion.listRelatedVideos` | dailymotion.com | List the videos Dailymotion recommends alongside one video. | ⚪ |
+| `dailymotion.listStreamFormats` | dailymotion.com | List the playable streams of one Dailymotion video — the HLS manifest URL and the… | ⚪ |
+| `dailymotion.listTrendingVideos` | dailymotion.com | List the videos trending on Dailymotion now, optionally for one country or language. | ⚪ |
+| `dailymotion.listWatchHistory` | dailymotion.com | List the videos the signed-in caller has watched, newest first. | ⚪ |
+| `dailymotion.listWatchLater` | dailymotion.com | List the signed-in caller's Watch Later videos. | ⚪ |
+| `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion channels (uploaders) by name — id, username, display name, follower… | ⚪ |
+| `dailymotion.searchPlaylists` | dailymotion.com | Search Dailymotion playlists by keyword, as the site's own search page does under its… | ⚪ |
 | `dailymotion.searchVideos` | dailymotion.com | Search Dailymotion videos by keyword — title, uploader, duration, views, publish date… | 🟢 |
+| `dailymotion.updateProfile` | dailymotion.com | Edit the signed-in caller's own profile — display name, description, avatar. | ⚪ |
+| `dailymotion.updateVideo` | dailymotion.com | Edit one of the signed-in caller's videos — title, description, tags, category… | ⚪ |
+| `dailymotion.uploadVideo` | dailymotion.com | Upload a video file to the signed-in caller's channel with title, description, tags… | ⚪ |
 | `dangotecement.getPriceList` | dangotecement.com | Would return current cement price list from Dangote Cement with prices per bag size… | ⚪ |
 | `dansons.identifyProduct` | pitboss-grills.com | Identifies which Pit Boss product(s) a free-text description matches — the same… | 🟢 |
 | `dansons.listRegisterableProducts` | pitboss-grills.com | Lists every Pit Boss product eligible for warranty registration — the exact catalog… | 🟢 |
@@ -2628,7 +2659,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | ⚪ |
 | `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller. | ⚪ |
 | `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟡 |
-| `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | ⚪ |
+| `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | 🟢 |
 | `tiktok.getProfile` | tiktok.com | A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId… | 🟢 |
 | `tiktok.getSound` | tiktok.com | A sound/music track's own facts — title, artist, duration, how many videos use it —… | 🟢 |
 | `tiktok.getTranscript` | tiktok.com | A video's own caption track, read off `itemStruct.video.subtitleInfos` — the WebVTT… | 🟢 |
