@@ -246,37 +246,92 @@ async function sendRequest<T>(
   if (!client.apiKey) throw new BowmarkError(NO_API_KEY_MESSAGE, { code: "no_api_key" });
   headers.authorization = `Bearer ${client.apiKey}`;
 
-  let response: Response;
-  try {
-    response = await client.fetch(`${client.baseUrl}${path}`, {
-      method,
-      headers,
-      ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
-      signal: client.signal,
-    });
-  } catch (err) {
-    // A transport failure is not a capability failure, and conflating the two is
-    // how a caller comes to retry a DNS problem against a site.
-    throw new BowmarkError(`could not reach ${client.baseUrl}${path}: ${String(err)}`, {
-      code: "network_error",
-    });
-  }
+  for (let attempt = 0; ; attempt++) {
+    await paceForEdge(client.baseUrl);
+    let response: Response;
+    try {
+      response = await client.fetch(`${client.baseUrl}${path}`, {
+        method,
+        headers,
+        ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
+        signal: client.signal,
+      });
+    } catch (err) {
+      // A transport failure is not a capability failure, and conflating the two is
+      // how a caller comes to retry a DNS problem against a site.
+      throw new BowmarkError(`could not reach ${client.baseUrl}${path}: ${String(err)}`, {
+        code: "network_error",
+      });
+    }
 
-  const text = await response.text();
-  let payload: unknown;
-  try {
-    payload = text ? JSON.parse(text) : null;
-  } catch {
-    // A non-JSON body at this point is a proxy, a captive portal or an outage —
-    // never us. Quote a bounded slice of it, because "unexpected token <" with no
-    // body is the least actionable error in software.
-    throw new BowmarkError(
-      `${client.baseUrl}${path} answered ${response.status} with a non-JSON body: ${text.slice(0, 200)}`,
-      { code: "bad_response", httpStatus: response.status },
-    );
+    const text = await response.text();
+    let payload: unknown;
+    let parsed = true;
+    try {
+      payload = text ? JSON.parse(text) : null;
+    } catch {
+      parsed = false;
+    }
+
+    // A 429 from the EDGE (Cloudflare's per-IP rate limit on `/v1/*`: 10 requests per
+    // 10 seconds) never reached the api, so retrying it is safe and is the only thing
+    // that helps. A bare `client()` call is THREE requests (open, call, close), so a
+    // page that makes two or three calls trips it on its first click. The api's own
+    // 429s carry a `code` (`rate_limited`, a metering refusal) and are NOT retried.
+    const edge429 =
+      response.status === 429 &&
+      (!parsed || !(payload && typeof payload === "object" && "code" in payload));
+    if (edge429 && attempt < EDGE_429_RETRIES) {
+      const retryAfter = Number(response.headers?.get?.("retry-after"));
+      const wait =
+        Number.isFinite(retryAfter) && retryAfter > 0
+          ? Math.min(retryAfter * 1000, EDGE_429_MAX_WAIT_MS)
+          : Math.min(2000 * 2 ** attempt, EDGE_429_MAX_WAIT_MS);
+      client.onLog?.(`[bowmark] ${path} answered 429, retrying in ${wait}ms`);
+      await new Promise((resolve) => setTimeout(resolve, wait));
+      continue;
+    }
+
+    if (!parsed) {
+      // A non-JSON body at this point is a proxy, a captive portal or an outage —
+      // never us. Quote a bounded slice of it, because "unexpected token <" with no
+      // body is the least actionable error in software.
+      throw new BowmarkError(
+        `${client.baseUrl}${path} answered ${response.status} with a non-JSON body: ${text.slice(0, 200)}`,
+        { code: "bad_response", httpStatus: response.status },
+      );
+    }
+    return { status: response.status, payload: payload as T };
   }
-  return { status: response.status, payload: payload as T };
 }
+
+/** The edge allows 10 requests per 10 seconds per IP on the hosted api. Stay under it
+ * proactively (8 per 10s) instead of finding out by being blocked: a retry costs a
+ * 10-second stall and a paginated read is dozens of requests. Hosted api only, so a
+ * local or self-hosted api is never slowed. Per process, which is per IP for a server. */
+const EDGE_WINDOW_MS = 10_000;
+const EDGE_BUDGET = 8;
+const recentSends: number[] = [];
+
+async function paceForEdge(baseUrl: string): Promise<void> {
+  if (!/^https:\/\/api\.bowmark\.ai(\/|$)/.test(baseUrl)) return;
+  for (;;) {
+    const now = Date.now();
+    while (recentSends.length && now - (recentSends[0] as number) >= EDGE_WINDOW_MS)
+      recentSends.shift();
+    if (recentSends.length < EDGE_BUDGET) {
+      recentSends.push(now);
+      return;
+    }
+    const wait = EDGE_WINDOW_MS - (now - (recentSends[0] as number)) + 25;
+    await new Promise((resolve) => setTimeout(resolve, wait));
+  }
+}
+
+/** Retries for an edge 429 (see `sendRequest`), and the longest single wait. The edge
+ * block lasts 10 seconds, so 2s + 4s + 8s outlasts it. */
+const EDGE_429_RETRIES = 3;
+const EDGE_429_MAX_WAIT_MS = 10_000;
 
 /** POST JSON and parse JSON back. `extraHeaders` rides THIS call only — never
  * captured, never applied to a later call on the same client. */

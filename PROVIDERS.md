@@ -2048,7 +2048,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | 🟢 |
 | `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | 🟢 |
 | `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | 🟢 |
-| `nyt_games.getMyStats` | games.nytimes.com | The signed-in player's per-game stats and streaks across all daily puzzles. | 🟢 |
+| `nyt_games.getMyStats` | games.nytimes.com | The signed-in player's saved game state for one puzzle (stats and streaks live inside… | 🟢 |
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle — all three difficulties, each with its dominoes… | 🟢 |
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
 | `nyt_games.getSportsConnections` | games.nytimes.com | Retrieves the daily Sports Connections puzzle with four category groupings and their… | 🟢 |
@@ -2619,7 +2619,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.getReview` | theguardian.com | Read a full review given its URL or ID. | 🟢 |
 | `theguardian_com.getSavedArticles` | theguardian.com | Get the user's saved articles (requires login). | ⚪ |
 | `theguardian_com.getTopicArticles` | theguardian.com | Get articles tagged with a specific topic or collection. | 🟢 |
-| `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | ⚪ |
+| `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | 🟢 |
 | `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | 🟢 |
 | `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | 🟢 |
 | `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | 🟡 |
@@ -2952,7 +2952,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
 | `weather_channel.getPollenHealth` | weather.com | Cognitive/health indices related to pollen and air quality — allergy forecasts, cold &… | ⚪ |
 | `weather_channel.getRadarTiles` | weather.com | Radar imagery tiles for map overlays — precipitation radar mosaic for a region. | 🟡 |
-| `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | ⚪ |
+| `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | 🟢 |
 | `weather_channel.getWeeklyAd` | weather.com | Weekly promotional content and special notices — featured forecasts or seasonal alerts. | ⚪ |
 | `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | 🟢 |
 | `weather_channel.searchLocations` | weather.com | Autocomplete for location names (cities, ZIP codes) — returns matching locations with… | 🟢 |
