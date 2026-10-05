@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fb4b961ac05c1e797dffba5b9c60ac7bd79fad5c24c5d8e75913cd8177d817a4
+// Manifest version: a4746818e52318deb3480419d5058a75294bfd45002226d10acb1c486ea170f6
 // 75 capabilities, 524 providers, 1832 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -31152,6 +31152,7 @@ interface LumaEvent {
   calendar: string | null;
   categories: string[];
   coverUrl: string | null;
+  description: string | null;
 }
 interface LumaPlace {
   slug: string;
@@ -31170,12 +31171,15 @@ interface GetEventArgs {
 interface ListCalendarEventsArgs {
   calendar: string;
   past?: boolean;
+  /** Default 50, at most 1000. */
   limit?: number;
 }
 interface DiscoverEventsArgs {
   place: string;
   category?: string;
+  /** YYYY-MM-DD, the event's own local day. */
   date?: string;
+  /** Default 50, at most 1000. */
   limit?: number;
 }
 
@@ -31188,13 +31192,15 @@ interface DiscoverEventsArgs {
   interface Unit {
     /**
      * Read one Luma event page: date and time with timezone, venue and full address, price, spots
-     * remaining, sold out, hosts and categories.
+     * remaining, sold out, hosts, categories and the description as markdown (agenda,
+     * prerequisites, what to bring).
      */
     getEvent(args: GetEventArgs): Promise<LumaEvent>;
 
     /**
      * Upcoming Luma events in a city (place slug like sf, nyc, london), optionally filtered to one
-     * topic category and one local day.
+     * topic category and one local day. Without a category it reads the city's short curated list;
+     * with one, the category's whole feed around the city, so any future day works.
      */
     discoverEvents(args: DiscoverEventsArgs): Promise<LumaEvent[]>;
 

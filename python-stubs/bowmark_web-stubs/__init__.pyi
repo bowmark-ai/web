@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fb4b961ac05c1e797dffba5b9c60ac7bd79fad5c24c5d8e75913cd8177d817a4
+# Manifest version: a4746818e52318deb3480419d5058a75294bfd45002226d10acb1c486ea170f6
 # 75 capabilities, 524 providers, 1814 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -16783,6 +16783,7 @@ class Prv_luma_LumaEvent_Out(TypedDict):
     calendar: str | None
     categories: list[str]
     coverUrl: str | None
+    description: str | None
 
 class Prv_luma_LumaEvent_Out_price_u0_Out(TypedDict):
     cents: float
@@ -40073,12 +40074,15 @@ class Prv_luma(Protocol):
 
     async def getEvent(self, args: Prv_luma_GetEventArgs_In, /) -> Prv_luma_LumaEvent_Out:
         """Read one Luma event page: date and time with timezone, venue and full address, price,
-        spots remaining, sold out, hosts and categories.
+        spots remaining, sold out, hosts, categories and the description as markdown (agenda,
+        prerequisites, what to bring).
         """
 
     async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
         """Upcoming Luma events in a city (place slug like sf, nyc, london), optionally filtered to
-        one topic category and one local day.
+        one topic category and one local day. Without a category it reads the city's short
+        curated list; with one, the category's whole feed around the city, so any future day
+        works.
         """
 
     async def listCalendarEvents(self, args: Prv_luma_ListCalendarEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:

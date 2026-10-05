@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2864 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2874 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2366,11 +2366,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
 | `tapfiliate.listAffiliates` | tapfiliate.com | Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by… | 🟢 |
+| `target.addToCart` | target.com | Adds one product (by TCIN) to the CALLER's own Target cart. | ⚪ |
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | ⚪ |
+| `target.findRegistry` | target.com | Finds a Target Gift Registry by the registrant's name, event date or registry id — the… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
+| `target.getCart` | target.com | Reads what is in the CALLER's own Target cart — line items, quantities, per-item and… | ⚪ |
 | `target.getProduct` | target.com | Reads one product page in full — price, variant/size options, description, images —… | ⚪ |
+| `target.getRegistry` | target.com | Reads one Target Gift Registry's items, quantities already purchased, and ship-to info… | ⚪ |
+| `target.listCategories` | target.com | Reads Target's own category taxonomy (department → aisle, e.g. Grocery → Snacks) with… | ⚪ |
+| `target.listDeals` | target.com | Reads Target's published weekly ad / deals page — the site's own current promotions… | ⚪ |
+| `target.listOrders` | target.com | The CALLER's own signed-in order history on target.com — what they bought, when, for… | ⚪ |
+| `target.listReviews` | target.com | Reads a product's customer reviews (by TCIN) — rating, text, title, verified-purchase… | ⚪ |
+| `target.listWishlists` | target.com | The CALLER's own saved lists on target.com (their “Lists” — Target's wishlist feature)… | ⚪ |
 | `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟡 |
 | `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |
+| `target.writeReview` | target.com | Submits a customer review (rating plus text) for one product, as the CALLER's own… | ⚪ |
 | `tatcha.getPersonalizedRitual` | tatcha.com | Runs a shopper's real answers (skin type, up to three benefits, optional eye concerns… | 🟢 |
 | `tatcha.getRitualQuizOptions` | tatcha.com | Reads the live "Ritual Finder" quiz's real input menus — every skin-type, skin-benefit… | 🟢 |
 | `teladoc.getArticle` | teladochealth.com | Returns one Health Library article in full — title, body content and category — given… | ⚪ |
