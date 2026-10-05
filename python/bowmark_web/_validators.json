@@ -1,5 +1,5 @@
 {
-  "version": "31d9848f06aad16388b40c82d82bad66be8fbe9ab16c038a11682b3bef270dbd",
+  "version": "fa17a6ec30524c1eb0a4c3e75a5fb1208ed6d7fc53d975c2deaebbc55f92f066",
   "units": {
     "address_validation": {
       "defs": {
@@ -16937,6 +16937,36 @@
               "k": "any"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.deviantart": {
+      "defs": {},
+      "functions": {
+        "searchDeviations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -47074,6 +47104,12 @@
             }
           ]
         },
+        "ListFollowingFeedArgs": {
+          "k": "record",
+          "value": {
+            "k": "any"
+          }
+        },
         "ListForYouFeedArgs": {
           "k": "record",
           "value": {
@@ -47278,6 +47314,32 @@
             "schema": {
               "k": "ref",
               "name": "ListForYouFeedArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowingFeed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFollowingFeedArgs"
             },
             "optional": false
           },

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 31d9848f06aad16388b40c82d82bad66be8fbe9ab16c038a11682b3bef270dbd
-# 76 capabilities, 530 providers, 1829 typed functions, 20 refused.
+# Manifest version: fa17a6ec30524c1eb0a4c3e75a5fb1208ed6d7fc53d975c2deaebbc55f92f066
+# 76 capabilities, 531 providers, 1831 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9413,6 +9413,36 @@ class Prv_developersopenai_DevelopersOpenaiDocPage_Out(TypedDict):
     title: str
     canonicalUrl: str
     body: str
+
+class Prv_deviantart_searchDeviations_args_In(TypedDict):
+    query: str
+    cursor: NotRequired[str]
+
+class Prv_deviantart_DeviantartSearchResult_Out(TypedDict):
+    results: list[Prv_deviantart_DeviantartDeviationRow_Out]
+    estimatedTotal: float
+    hasMore: bool
+    nextCursor: NotRequired[str]
+
+class Prv_deviantart_DeviantartDeviationRow_Out(TypedDict):
+    deviationId: str
+    title: str
+    url: NotRequired[str]
+    authorUser: NotRequired[Prv_deviantart_DeviantartDeviationRow_Out_authorUser_Out]
+    preview: NotRequired[Prv_deviantart_DeviantartDeviationRow_Out_preview_Out]
+    type: NotRequired[str]
+    stats: NotRequired[Prv_deviantart_DeviantartDeviationRow_Out_stats_Out]
+
+class Prv_deviantart_DeviantartDeviationRow_Out_authorUser_Out(TypedDict):
+    username: NotRequired[str]
+    usericon: NotRequired[str]
+
+class Prv_deviantart_DeviantartDeviationRow_Out_preview_Out(TypedDict):
+    src: NotRequired[str]
+
+class Prv_deviantart_DeviantartDeviationRow_Out_stats_Out(TypedDict):
+    favourites: NotRequired[float]
+    comments: NotRequired[float]
 
 class Prv_dice_DiceSearchResponse_Out(TypedDict):
     jobs: list[Prv_dice_DiceSearchResult_Out]
@@ -34971,6 +35001,18 @@ class Prv_developersopenai(Protocol):
         "Connect in ChatGPT" sections of the returned body).
         """
 
+class Prv_deviantart(Protocol):
+    """DeviantArt artwork — search deviations, read one with its comments, browse a tag or the
+    Daily Deviations, and pull an artist's profile, gallery, favourites and posts; once a
+    caller signs in, favourite, comment, watch, send notes and submit art.
+    """
+
+    async def searchDeviations(self, args: Prv_deviantart_searchDeviations_args_In, /) -> Prv_deviantart_DeviantartSearchResult_Out:
+        """Searches DeviantArt for artwork by free text and returns each deviation's id, title,
+        url, author, thumbnail, type and favourite/comment counts, a page at a time with the
+        site's own cursor.
+        """
+
 class Prv_dice(Protocol):
     """Dice — the US technology-only job board. Reaches each posting's full description and
     skill list through Dice's own keyless MCP server at mcp.dice.com/mcp; declares tech-job
@@ -45390,6 +45432,12 @@ class Prv_tiktok(Protocol):
         Bowmark never signs up on this site. Takes no arguments.
         """
 
+    async def listFollowingFeed(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+        """The signed-in viewer's Following feed — videos only from accounts they follow, in upload
+        order, mirroring /following. The caller signs in through the auth relay; Bowmark never
+        signs up on this site. Takes no arguments.
+        """
+
 class Prv_tilsonhomes(Protocol):
     """Reads Tilson Homes' Build-On-Your-Land floor plan catalog and each plan's Anewgo-powered
     customizer — bed/bath/size range and exterior finish options — the way the live site's
@@ -47914,6 +47962,7 @@ class BowmarkProviders(Protocol):
     detailxperts: Prv_detailxperts
     deutschepost: Prv_deutschepost
     developersopenai: Prv_developersopenai
+    deviantart: Prv_deviantart
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards

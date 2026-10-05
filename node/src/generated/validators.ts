@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 31d9848f06aad16388b40c82d82bad66be8fbe9ab16c038a11682b3bef270dbd
-// 1829 checked, 20 unchecked.
+// Manifest version: fa17a6ec30524c1eb0a4c3e75a5fb1208ed6d7fc53d975c2deaebbc55f92f066
+// 1831 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "31d9848f06aad16388b40c82d82bad66be8fbe9ab16c038a11682b3bef270dbd",
+  "version": "fa17a6ec30524c1eb0a4c3e75a5fb1208ed6d7fc53d975c2deaebbc55f92f066",
   "units": {
     "address_validation": {
       "defs": {
@@ -16949,6 +16949,36 @@ export const VALIDATORS: ValidatorTable = {
               "k": "any"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.deviantart": {
+      "defs": {},
+      "functions": {
+        "searchDeviations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -47086,6 +47116,12 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListFollowingFeedArgs": {
+          "k": "record",
+          "value": {
+            "k": "any"
+          }
+        },
         "ListForYouFeedArgs": {
           "k": "record",
           "value": {
@@ -47290,6 +47326,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListForYouFeedArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowingFeed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFollowingFeedArgs"
             },
             "optional": false
           },

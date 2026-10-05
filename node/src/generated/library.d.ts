@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 31d9848f06aad16388b40c82d82bad66be8fbe9ab16c038a11682b3bef270dbd
-// 76 capabilities, 530 providers, 1847 typed functions, 20 refused.
+// Manifest version: fa17a6ec30524c1eb0a4c3e75a5fb1208ed6d7fc53d975c2deaebbc55f92f066
+// 76 capabilities, 531 providers, 1849 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17123,6 +17123,40 @@ interface DevelopersOpenaiDocPage {
      * ChatGPT" sections of the returned body).
      */
     getDocPage(args?: object): Promise<DevelopersOpenaiDocPage>;
+  }
+}
+
+declare namespace BowmarkProvider_deviantart {
+  // ── DeviantArt — the unit's own declarations, verbatim ──
+interface DeviantartDeviationRow {
+  deviationId: string;
+  title: string;
+  url?: string;
+  authorUser?: { username?: string; usericon?: string };
+  preview?: { src?: string };
+  type?: string;
+  stats?: { favourites?: number; comments?: number };
+}
+
+interface DeviantartSearchResult {
+  results: DeviantartDeviationRow[];
+  estimatedTotal: number;
+  hasMore: boolean;
+  nextCursor?: string;
+}
+
+  /**
+   * DeviantArt artwork — search deviations, read one with its comments, browse a tag or the
+   * Daily Deviations, and pull an artist's profile, gallery, favourites and posts; once a caller
+   * signs in, favourite, comment, watch, send notes and submit art.
+   */
+  interface Unit {
+    /**
+     * Searches DeviantArt for artwork by free text and returns each deviation's id, title, url,
+     * author, thumbnail, type and favourite/comment counts, a page at a time with the site's own
+     * cursor.
+     */
+    searchDeviations(args: { query: string; cursor?: string }): Promise<DeviantartSearchResult>;
   }
 }
 
@@ -45041,6 +45075,7 @@ interface ListSoundVideosArgs {
   soundId: string;
 }
 type ListForYouFeedArgs = Record<string, never>;
+type ListFollowingFeedArgs = Record<string, never>;
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -45153,6 +45188,13 @@ type ListForYouFeedArgs = Record<string, never>;
      * never signs up on this site. Takes no arguments.
      */
     listForYouFeed(args: ListForYouFeedArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
+
+    /**
+     * The signed-in viewer's Following feed — videos only from accounts they follow, in upload
+     * order, mirroring /following. The caller signs in through the auth relay; Bowmark never signs
+     * up on this site. Takes no arguments.
+     */
+    listFollowingFeed(args: ListFollowingFeedArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
   }
 }
 
@@ -52521,6 +52563,7 @@ interface BowmarkProviders {
   detailxperts: BowmarkProvider_detailxperts.Unit;
   deutschepost: BowmarkProvider_deutschepost.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
+  deviantart: BowmarkProvider_deviantart.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;

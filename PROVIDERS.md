@@ -707,7 +707,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.listTrendingTopics` | www.cnn.com | The stories CNN's own recommendation engine currently ranks as trending — headline… | 🟢 |
 | `cnn.listVideos` | www.cnn.com | The videos CNN currently lists on its video hub — clips and segments with headline… | 🟢 |
 | `cnn.searchArticles` | www.cnn.com | Search CNN — takes what a person would say ("breaking news", "inflation", "2024… | 🟢 |
-| `cnn.subscribeToNewsletter` | www.cnn.com | Subscribe the signed-in viewer's account to a CNN newsletter by id. | ⚪ |
+| `cnn.subscribeToNewsletter` | www.cnn.com | Subscribe the signed-in viewer's account to a CNN newsletter by id. | 🟢 |
 | `cnn.unfollowTopic` | www.cnn.com | Remove a topic from the signed-in viewer's followed topics. | 🟢 |
 | `coast.getFleetCardPricing` | coastpay.com | Reads Coast's own pricing page and returns its real, current per-active-user monthly… | 🟢 |
 | `coast.getFuelRebate` | coastpay.com | Reads Coast's own pricing page and returns its published per-gallon rebate range at… | 🟢 |
