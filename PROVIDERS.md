@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3014 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3015 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2714,6 +2714,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listChannelClips` | twitch.tv | Lists clips cut from a channel, ranked by Twitch's own default ordering: title… | 🟢 |
 | `twitch.listChannelVods` | twitch.tv | Lists a channel's past broadcasts/VODs, newest first: title, creation date, length in… | 🟢 |
 | `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟡 |
+| `twitch.listLiveStreams` | twitch.tv | Browses channels live right now, ranked by Twitch's own live viewer count (highest… | 🟢 |
 | `twitch.listSubscriptions` | twitch.tv | Lists the signed-in user's own active paid subscriptions: tier, platform, whether… | 🟢 |
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | 🟢 |
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | 🟢 |

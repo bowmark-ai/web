@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: faf0ebd70d25b2a21a0b5eaa16ae4f4d00421312f7cbff59efc3be12beaaec7c
-# 76 capabilities, 526 providers, 1819 typed functions, 20 refused.
+# Manifest version: 325a4d4619c6d9e4e4eaec8e9bc88b79bd27a58d088fd17a222903a0a6840a47
+# 76 capabilities, 528 providers, 1822 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6737,6 +6737,14 @@ class Prv_bungalow_BungalowListingDetail_Out_showingsAvailable_Out(TypedDict):
     virtual: str | None
     inPerson: str | None
 
+class Prv_businessinsider_com_ListArticlesBySectionArgs_In(TypedDict):
+    section: str
+    limit: NotRequired[float]
+
+class Prv_businessinsider_com_BusinessInsiderListedArticle_Out(TypedDict):
+    title: str
+    url: str
+
 class Prv_bykoket_KoketProductSummary_Out(TypedDict):
     id: str
     name: str
@@ -12311,7 +12319,32 @@ class Prv_goloadup_GoloadupServiceAvailability_Out(TypedDict):
     retailAssembliesAllowed: bool
 
 class Prv_goodreads_GoodreadsBookRow_Out(TypedDict):
-    id: str
+    legacyId: str
+    title: str
+    url: str
+    authorName: NotRequired[str]
+    authorUrl: NotRequired[str]
+    averageRating: NotRequired[float]
+    ratingsCount: NotRequired[float]
+    textReviewsCount: NotRequired[float]
+
+class Prv_goodreads_GoodreadsBook_Out(TypedDict):
+    legacyId: str
+    title: str
+    titleComplete: NotRequired[str]
+    url: str
+    authorName: NotRequired[str]
+    authorUrl: NotRequired[str]
+    format: NotRequired[str]
+    pageCount: NotRequired[float]
+    isbn: NotRequired[str]
+    language: NotRequired[str]
+    publisher: NotRequired[str]
+    genres: list[str]
+    description: NotRequired[str]
+    averageRating: NotRequired[float]
+    ratingsCount: NotRequired[float]
+    textReviewsCount: NotRequired[float]
 
 class Prv_goodway_GoodwayProductSummary_Out(TypedDict):
     sku: str
@@ -25078,6 +25111,23 @@ class Prv_trektravel_TrekTravelDeparture_Out(TypedDict):
     hotels: list[str]
     bookingUrl: str
 
+class Prv_tripadvisor_SearchArgs_In(TypedDict):
+    query: str
+
+class Prv_tripadvisor_SearchResult_Out(TypedDict):
+    results: list[Prv_tripadvisor_TripadvisorLocation_Out]
+
+class Prv_tripadvisor_TripadvisorLocation_Out(TypedDict):
+    id: str
+    placeType: Literal["GEO"] | Literal["ACCOMMODATION"] | Literal["ATTRACTION"] | Literal["EATERY"] | Literal["AIRLINE"] | Literal["ATTRACTION_PRODUCT"] | str
+    localizedName: str
+    webLinkUrl: NotRequired[str]
+    parentPlace: NotRequired[list[Prv_tripadvisor_TripadvisorLocation_Out_parentPlace_item_Out]]
+
+class Prv_tripadvisor_TripadvisorLocation_Out_parentPlace_item_Out(TypedDict):
+    id: NotRequired[str]
+    localizedName: NotRequired[str]
+
 class Prv_trojanstorage_TrojanstorageFacilitySearchFilters_In(TypedDict):
     state: NotRequired[str]
     city: NotRequired[str]
@@ -28666,8 +28716,8 @@ class Cap_cars(Protocol):
     """Search car hire at an airport for a date range and get back normalized offers, cheapest
     total first — total and per-day price, the agency you collect from AND the separate
     company that sold the booking, vehicle class, seats/bags/doors, transmission, mileage
-    and cancellation policy, and whether pickup is in-terminal or a shuttle. Direct API, no
-    browser.
+    and cancellation policy, and whether pickup is in-terminal or a shuttle. Searches
+    Momondo, Kayak and Cheapflights together and returns each offer once.
     """
 
     async def search(self, query: Cap_cars_CarQuery_In, limit: float | None = None, options: Cap_cars_CallOptions_In | None = None, /) -> Cap_cars_CarSearchResult_Out:
@@ -28683,7 +28733,10 @@ class Cap_cars(Protocol):
         the same as an airport with no availability. And when NO site answered at all this
         THROWS rather than returning `cars: []`, because those two are the same value and only
         one of them means there are no cars: a list you receive is always a list a site actually
-        gave. `options.timeoutMs` sets the per-site budget (default 30000).
+        gave. `options.timeoutMs` sets the per-site budget (default 30000; each site is given at
+        least 50000, because a site that refuses its fast path is searched in a real browser,
+        ~10-25s). Momondo, Kayak and Cheapflights are searched together and the same offer is
+        returned once, at its cheapest.
         """
 
 class Cap_census_tract_demographics(Protocol):
@@ -28969,11 +29022,11 @@ class Cap_event_space_quote(Protocol):
     """
 
     async def getQuotes(self, args: str | Cap_event_space_quote_EventSpaceQuoteArgs_In, options: Cap_event_space_quote_CallOptions_In | None = None, /) -> Cap_event_space_quote_EventSpaceQuoteResult_Out:
-        """Event space quote for a party, offsite or shoot. Pass "City, ST" or { city, state,
-        guests?, hours?, category? }. Returns Peerspace venues that hold the headcount, cheapest
-        first, each with its hourly rate, minimum booking length and `estimatedTotal` for the
-        hours asked. No inquiry is submitted to any venue; open a quote's `url` to book or
-        message the host.
+        """Find event spaces and get venue pricing quotes by city, state, headcount and hours. Call
+        with { city: "City", state: "ST", guests?: number, hours?: number, category?: "party" |
+        "photo-shoot" | "off-site" } to get back Peerspace venues with hourly rates and
+        estimated totals, cheapest first. No inquiry is submitted; open a quote's url to contact
+        the venue.
         """
 
 class Cap_flights(Protocol):
@@ -29174,9 +29227,11 @@ class Cap_hotels(Protocol):
         INCLUDING a site that timed out or failed, which returned nothing and is not the same as
         a sold-out destination. And when NO site answered at all this THROWS rather than
         returning `hotels: []`, because those two are the same value and only one of them means
-        there is nowhere to stay. This route drives a real browser and is the slowest thing in
-        the library: 21-26s measured, against `options.timeoutMs`'s 30000 default. RAISE that
-        budget rather than lowering it if you batch several searches into one call.
+        there is nowhere to stay. Kayak and Cheapflights are searched together and the same
+        property is returned once, at its cheapest. This route drives a real browser and is the
+        slowest thing in the library: 11-26s measured; each site is given at least 50000ms
+        whatever `options.timeoutMs` says, because a refused exit costs a second browser
+        session.
         """
 
 class Cap_hvac(Protocol):
@@ -32961,6 +33016,17 @@ class Prv_bungalow(Protocol):
     async def getListing(self, slug: str, /) -> Prv_bungalow_BungalowListingDetail_Out:
         """Returns one listing's full detail — room-level rent and availability, amenities,
         promotions and tour-booking availability.
+        """
+
+class Prv_businessinsider_com(Protocol):
+    """Reads Business Insider's news, markets and guides verticals — section listings
+    implemented, most functions still queued.
+    """
+
+    async def listArticlesBySection(self, args: Prv_businessinsider_com_ListArticlesBySectionArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderListedArticle_Out]:
+        """Lists recent articles off one businessinsider.com section/vertical page (tech, markets,
+        politics, economy, retail, science, health, etc), title and URL per article,
+        newest-first as the site orders its grid.
         """
 
 class Prv_bykoket(Protocol):
@@ -36800,6 +36866,12 @@ class Prv_goodreads(Protocol):
     async def searchBooks(self, query: str, /) -> list[Prv_goodreads_GoodreadsBookRow_Out]:
         """Runs goodreads.com's book search and returns title, author, url and (when the card shows
         one) average rating per row.
+        """
+
+    async def getBook(self, idOrUrl: str, /) -> Prv_goodreads_GoodreadsBook_Out:
+        """Reads one book's full record off its page — title, author, format, page count, ISBN,
+        genres, description, and Goodreads' own weighted average rating with rating and review
+        counts. Takes the numeric id or the full URL searchBooks returns.
         """
 
 class Prv_goodway(Protocol):
@@ -45457,6 +45529,17 @@ class Prv_trektravel(Protocol):
         find current ones.
         """
 
+class Prv_tripadvisor(Protocol):
+    """Travel reviews worldwide — find a city, hotel, restaurant or attraction by name; list
+    and read hotels, restaurants, things to do and tours with ratings, reviews, Q&A and
+    partner prices; and (once a caller signs in) save places to Trips and post reviews.
+    """
+
+    async def search(self, args: Prv_tripadvisor_SearchArgs_In, /) -> Prv_tripadvisor_SearchResult_Out:
+        """Finds places by query — a city or region, hotel, restaurant, attraction, tour or airline
+        name — returning each match's id, type, name, parent place hierarchy and url.
+        """
+
 class Prv_trojanstorage(Protocol):
     """Reads Trojan Storage's own live per-facility unit pricing and availability — real size,
     features, regular and current promo price, and a pre-computed Quikstor move-in handoff
@@ -47588,6 +47671,7 @@ class BowmarkProviders(Protocol):
     buildingengines: Prv_buildingengines
     bulletproof: Prv_bulletproof
     bungalow: Prv_bungalow
+    businessinsider_com: Prv_businessinsider_com
     bykoket: Prv_bykoket
     byltbasics: Prv_byltbasics
     cabinsforyou: Prv_cabinsforyou
@@ -47972,6 +48056,7 @@ class BowmarkProviders(Protocol):
     travelinsured: Prv_travelinsured
     trawickinternational: Prv_trawickinternational
     trektravel: Prv_trektravel
+    tripadvisor: Prv_tripadvisor
     trojanstorage: Prv_trojanstorage
     trophysignaturehomes: Prv_trophysignaturehomes
     trustpilot: Prv_trustpilot

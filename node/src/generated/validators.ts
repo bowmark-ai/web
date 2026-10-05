@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: faf0ebd70d25b2a21a0b5eaa16ae4f4d00421312f7cbff59efc3be12beaaec7c
-// 1819 checked, 20 unchecked.
+// Manifest version: 325a4d4619c6d9e4e4eaec8e9bc88b79bd27a58d088fd17a222903a0a6840a47
+// 1822 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "faf0ebd70d25b2a21a0b5eaa16ae4f4d00421312f7cbff59efc3be12beaaec7c",
+  "version": "325a4d4619c6d9e4e4eaec8e9bc88b79bd27a58d088fd17a222903a0a6840a47",
   "units": {
     "address_validation": {
       "defs": {
@@ -12478,6 +12478,41 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.businessinsider_com": {
+      "defs": {
+        "ListArticlesBySectionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listArticlesBySection": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListArticlesBySectionArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.bykoket": {
       "defs": {},
       "functions": {
@@ -22378,6 +22413,15 @@ export const VALIDATORS: ValidatorTable = {
         "searchBooks": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getBook": [
+          {
+            "name": "idOrUrl",
             "schema": {
               "k": "string"
             },
@@ -47855,6 +47899,34 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tripadvisor": {
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
             },
             "optional": false
           }

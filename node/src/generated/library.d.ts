@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: faf0ebd70d25b2a21a0b5eaa16ae4f4d00421312f7cbff59efc3be12beaaec7c
-// 76 capabilities, 526 providers, 1837 typed functions, 20 refused.
+// Manifest version: 325a4d4619c6d9e4e4eaec8e9bc88b79bd27a58d088fd17a222903a0a6840a47
+// 76 capabilities, 528 providers, 1840 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -607,7 +607,8 @@ type CallOptions = {
    * Search car hire at an airport for a date range and get back normalized offers, cheapest
    * total first — total and per-day price, the agency you collect from AND the separate company
    * that sold the booking, vehicle class, seats/bags/doors, transmission, mileage and
-   * cancellation policy, and whether pickup is in-terminal or a shuttle. Direct API, no browser.
+   * cancellation policy, and whether pickup is in-terminal or a shuttle. Searches Momondo, Kayak
+   * and Cheapflights together and returns each offer once.
    */
   interface Unit {
     /**
@@ -623,7 +624,9 @@ type CallOptions = {
      * airport with no availability. And when NO site answered at all this THROWS rather than
      * returning `cars: []`, because those two are the same value and only one of them means there
      * are no cars: a list you receive is always a list a site actually gave. `options.timeoutMs`
-     * sets the per-site budget (default 30000).
+     * sets the per-site budget (default 30000; each site is given at least 50000, because a site
+     * that refuses its fast path is searched in a real browser, ~10-25s). Momondo, Kayak and
+     * Cheapflights are searched together and the same offer is returned once, at its cheapest.
      */
     search(query: CarQuery, limit?: number, options?: CallOptions): Promise<CarSearchResult>;
   }
@@ -1425,10 +1428,10 @@ type CallOptions = {
    */
   interface Unit {
     /**
-     * Event space quote for a party, offsite or shoot. Pass "City, ST" or { city, state, guests?,
-     * hours?, category? }. Returns Peerspace venues that hold the headcount, cheapest first, each
-     * with its hourly rate, minimum booking length and `estimatedTotal` for the hours asked. No
-     * inquiry is submitted to any venue; open a quote's `url` to book or message the host.
+     * Find event spaces and get venue pricing quotes by city, state, headcount and hours. Call
+     * with { city: "City", state: "ST", guests?: number, hours?: number, category?: "party" |
+     * "photo-shoot" | "off-site" } to get back Peerspace venues with hourly rates and estimated
+     * totals, cheapest first. No inquiry is submitted; open a quote's url to contact the venue.
      */
     getQuotes(args: string | EventSpaceQuoteArgs, options?: CallOptions): Promise<EventSpaceQuoteResult>;
   }
@@ -2043,10 +2046,11 @@ type CallOptions = {
      * present and names anything dropped or clamped — INCLUDING a site that timed out or failed,
      * which returned nothing and is not the same as a sold-out destination. And when NO site
      * answered at all this THROWS rather than returning `hotels: []`, because those two are the
-     * same value and only one of them means there is nowhere to stay. This route drives a real
-     * browser and is the slowest thing in the library: 21-26s measured, against
-     * `options.timeoutMs`'s 30000 default. RAISE that budget rather than lowering it if you batch
-     * several searches into one call.
+     * same value and only one of them means there is nowhere to stay. Kayak and Cheapflights are
+     * searched together and the same property is returned once, at its cheapest. This route drives
+     * a real browser and is the slowest thing in the library: 11-26s measured; each site is given
+     * at least 50000ms whatever `options.timeoutMs` says, because a refused exit costs a second
+     * browser session.
      */
     search(query: HotelQuery, limit?: number, options?: CallOptions): Promise<HotelSearchResult>;
   }
@@ -12096,6 +12100,34 @@ interface BungalowListingDetail {
      * and tour-booking availability.
      */
     getListing(slug: string): Promise<BungalowListingDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_businessinsider_com {
+  // ── Business Insider — the unit's own declarations, verbatim ──
+interface businessinsider_comRow {
+  id: string;
+}
+interface ListArticlesBySectionArgs {
+  section: string;
+  limit?: number;
+}
+interface BusinessInsiderListedArticle {
+  title: string;
+  url: string;
+}
+
+  /**
+   * Reads Business Insider's news, markets and guides verticals — section listings implemented,
+   * most functions still queued.
+   */
+  interface Unit {
+    /**
+     * Lists recent articles off one businessinsider.com section/vertical page (tech, markets,
+     * politics, economy, retail, science, health, etc), title and URL per article, newest-first as
+     * the site orders its grid.
+     */
+    listArticlesBySection(args: ListArticlesBySectionArgs): Promise<BusinessInsiderListedArticle[]>;
   }
 }
 
@@ -22499,7 +22531,32 @@ interface GoloadupServiceAvailability {
 declare namespace BowmarkProvider_goodreads {
   // ── Goodreads — the unit's own declarations, verbatim ──
 interface GoodreadsBookRow {
-  id: string;
+  legacyId: string;
+  title: string;
+  url: string;
+  authorName?: string;
+  authorUrl?: string;
+  averageRating?: number;
+  ratingsCount?: number;
+  textReviewsCount?: number;
+}
+interface GoodreadsBook {
+  legacyId: string;
+  title: string;
+  titleComplete?: string;
+  url: string;
+  authorName?: string;
+  authorUrl?: string;
+  format?: string;
+  pageCount?: number;
+  isbn?: string;
+  language?: string;
+  publisher?: string;
+  genres: string[];
+  description?: string;
+  averageRating?: number;
+  ratingsCount?: number;
+  textReviewsCount?: number;
 }
 
   /**
@@ -22512,6 +22569,13 @@ interface GoodreadsBookRow {
      * one) average rating per row.
      */
     searchBooks(query: string): Promise<GoodreadsBookRow[]>;
+
+    /**
+     * Reads one book's full record off its page — title, author, format, page count, ISBN, genres,
+     * description, and Goodreads' own weighted average rating with rating and review counts. Takes
+     * the numeric id or the full URL searchBooks returns.
+     */
+    getBook(idOrUrl: string): Promise<GoodreadsBook>;
   }
 }
 
@@ -45731,6 +45795,38 @@ interface TrekTravelSearchFilters {
   }
 }
 
+declare namespace BowmarkProvider_tripadvisor {
+  // ── Tripadvisor — the unit's own declarations, verbatim ──
+interface TripadvisorLocation {
+  id: string;
+  placeType: "GEO" | "ACCOMMODATION" | "ATTRACTION" | "EATERY" | "AIRLINE" | "ATTRACTION_PRODUCT" | string;
+  localizedName: string;
+  webLinkUrl?: string;
+  parentPlace?: { id?: string; localizedName?: string }[];
+}
+
+interface SearchArgs {
+  query: string;
+}
+
+interface SearchResult {
+  results: TripadvisorLocation[];
+}
+
+  /**
+   * Travel reviews worldwide — find a city, hotel, restaurant or attraction by name; list and
+   * read hotels, restaurants, things to do and tours with ratings, reviews, Q&A and partner
+   * prices; and (once a caller signs in) save places to Trips and post reviews.
+   */
+  interface Unit {
+    /**
+     * Finds places by query — a city or region, hotel, restaurant, attraction, tour or airline
+     * name — returning each match's id, type, name, parent place hierarchy and url.
+     */
+    search(args: SearchArgs): Promise<SearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_trojanstorage {
   // ── Trojan Storage — the unit's own declarations, verbatim ──
 // Trojan Storage's OWN shapes — not a capability contract.
@@ -52170,6 +52266,7 @@ interface BowmarkProviders {
   buildingengines: BowmarkProvider_buildingengines.Unit;
   bulletproof: BowmarkProvider_bulletproof.Unit;
   bungalow: BowmarkProvider_bungalow.Unit;
+  businessinsider_com: BowmarkProvider_businessinsider_com.Unit;
   bykoket: BowmarkProvider_bykoket.Unit;
   byltbasics: BowmarkProvider_byltbasics.Unit;
   cabinsforyou: BowmarkProvider_cabinsforyou.Unit;
@@ -52554,6 +52651,7 @@ interface BowmarkProviders {
   travelinsured: BowmarkProvider_travelinsured.Unit;
   trawickinternational: BowmarkProvider_trawickinternational.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
+  tripadvisor: BowmarkProvider_tripadvisor.Unit;
   trojanstorage: BowmarkProvider_trojanstorage.Unit;
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
   trustpilot: BowmarkProvider_trustpilot.Unit;
