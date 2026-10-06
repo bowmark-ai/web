@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 266b090601a50e580867c4f71a02e1fdbd68e6a20dba59c6f10595a3c9994484
-# 76 capabilities, 536 providers, 1871 typed functions, 20 refused.
+# Manifest version: 5d261bca306a5b3109ead7b8215ed3e80eb8b42483e0e1f34bf549cca2fda14d
+# 76 capabilities, 536 providers, 1874 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5526,6 +5526,34 @@ class Prv_bbc_BbcGetCurrentWeatherResult_Out(TypedDict):
     humidityPercent: float | None
     pressureMb: float | None
     visibility: str | None
+
+class Prv_bbc_BbcGetWeatherWarningsResult_Out(TypedDict):
+    warningType: Literal["weather"] | Literal["floods"]
+    groups: list[Prv_bbc_BbcWeatherWarningGroup_Out]
+
+class Prv_bbc_BbcWeatherWarningGroup_Out(TypedDict):
+    region: str
+    agency: str | None
+    agencyUrl: str | None
+    warnings: list[Prv_bbc_BbcWeatherWarning_Out]
+
+class Prv_bbc_BbcWeatherWarning_Out(TypedDict):
+    warningType: str
+    warningLevel: str
+    warningTitle: str
+    description: str
+    source: str
+    severity: str | None
+    severityLabel: str | None
+    areasAffected: str | None
+    validFrom: Prv_bbc_BbcWeatherWarningTime_Out | None
+    validTo: Prv_bbc_BbcWeatherWarningTime_Out | None
+    issuedAt: Prv_bbc_BbcWeatherWarningTime_Out | None
+    active: bool
+
+class Prv_bbc_BbcWeatherWarningTime_Out(TypedDict):
+    visualTime: str
+    screenReaderTime: str
 
 class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
     resourceLocationId: float
@@ -12627,6 +12655,13 @@ class Prv_goodreads_GoodreadsBook_Out(TypedDict):
     averageRating: NotRequired[float]
     ratingsCount: NotRequired[float]
     textReviewsCount: NotRequired[float]
+
+class Prv_goodreads_GoodreadsReviewRow_Out(TypedDict):
+    id: str
+    text: str
+    createdAt: NotRequired[float]
+    reviewerName: NotRequired[str]
+    reviewerUrl: NotRequired[str]
 
 class Prv_goodway_GoodwayProductSummary_Out(TypedDict):
     sku: str
@@ -24067,6 +24102,12 @@ class Prv_steam_RemoveFromWishlistResult_Out(TypedDict):
     appid: str
     removed: Literal[True]
 
+class Prv_steam_GetWishlistArgs_In(TypedDict):
+    pass
+
+class Prv_steam_GetWishlistResponse_Out(TypedDict):
+    appids: list[str]
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -32955,6 +32996,14 @@ class Prv_bbc(Protocol):
         searchWeatherLocations.
         """
 
+    async def getWeatherWarnings(self, type: Literal["weather"] | Literal["floods"] | None = None, /) -> Prv_bbc_BbcGetWeatherWarningsResult_Out:
+        """UK weather or flood warnings currently in force, grouped by region and issuing agency
+        (Met Office for weather; the Environment Agency, SEPA or Natural Resources Wales for
+        floods): severity, areas affected, description and validity. Takes `type` ("weather" or
+        "floods", default "weather"). An empty `warnings` array on a group is a real "nothing
+        active" answer.
+        """
+
 class Prv_bcparkscamping(Protocol):
     """camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
     campground by name, then read its real per-site, per-night availability for a stay.
@@ -37822,6 +37871,12 @@ class Prv_goodreads(Protocol):
         """Reads one book's full record off its page — title, author, format, page count, ISBN,
         genres, description, and Goodreads' own weighted average rating with rating and review
         counts. Takes the numeric id or the full URL searchBooks returns.
+        """
+
+    async def getBookReviews(self, idOrUrl: str, pageNumber: float | None = None, /) -> list[Prv_goodreads_GoodreadsReviewRow_Out]:
+        """Reads a page of member reviews for one book — reviewer name, review text, and creation
+        timestamp per row. Takes the numeric id or the full URL searchBooks returns, and an
+        optional 1-indexed page number (defaults to 1).
         """
 
 class Prv_goodway(Protocol):
@@ -45515,6 +45570,11 @@ class Prv_steam(Protocol):
         """Removes a game from the signed-in caller's wishlist by appid, off the store's own
         removefromwishlist door — the exact sibling of addToWishlist. NEEDS A SIGN-IN — the
         caller signs in, not us.
+        """
+
+    async def getWishlist(self, args: Prv_steam_GetWishlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetWishlistResponse_Out:
+        """Fetches the signed-in caller's complete wishlist — the list of all games currently saved
+        to their wishlist, by appid. NEEDS A SIGN-IN — the caller signs in, not us.
         """
 
 class Prv_stickergiant(Protocol):

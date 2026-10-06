@@ -1,5 +1,5 @@
 {
-  "version": "266b090601a50e580867c4f71a02e1fdbd68e6a20dba59c6f10595a3c9994484",
+  "version": "5d261bca306a5b3109ead7b8215ed3e80eb8b42483e0e1f34bf549cca2fda14d",
   "units": {
     "address_validation": {
       "defs": {
@@ -10401,6 +10401,25 @@
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getWeatherWarnings": [
+          {
+            "name": "type",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "weather"
+                },
+                {
+                  "k": "literal",
+                  "v": "floods"
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -23011,6 +23030,22 @@
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getBookReviews": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pageNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }
@@ -45849,6 +45884,10 @@
             }
           ]
         },
+        "GetWishlistArgs": {
+          "k": "object",
+          "props": []
+        },
         "ListFeaturedGamesArgs": {
           "k": "object",
           "props": [
@@ -46198,6 +46237,32 @@
             "schema": {
               "k": "ref",
               "name": "RemoveFromWishlistArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getWishlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetWishlistArgs"
             },
             "optional": false
           },

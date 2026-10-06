@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 266b090601a50e580867c4f71a02e1fdbd68e6a20dba59c6f10595a3c9994484
-// 1871 checked, 20 unchecked.
+// Manifest version: 5d261bca306a5b3109ead7b8215ed3e80eb8b42483e0e1f34bf549cca2fda14d
+// 1874 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "266b090601a50e580867c4f71a02e1fdbd68e6a20dba59c6f10595a3c9994484",
+  "version": "5d261bca306a5b3109ead7b8215ed3e80eb8b42483e0e1f34bf549cca2fda14d",
   "units": {
     "address_validation": {
       "defs": {
@@ -10413,6 +10413,25 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getWeatherWarnings": [
+          {
+            "name": "type",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "weather"
+                },
+                {
+                  "k": "literal",
+                  "v": "floods"
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -23023,6 +23042,22 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getBookReviews": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pageNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }
@@ -45861,6 +45896,10 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetWishlistArgs": {
+          "k": "object",
+          "props": []
+        },
         "ListFeaturedGamesArgs": {
           "k": "object",
           "props": [
@@ -46210,6 +46249,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "RemoveFromWishlistArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getWishlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetWishlistArgs"
             },
             "optional": false
           },

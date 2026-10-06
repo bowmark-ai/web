@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 266b090601a50e580867c4f71a02e1fdbd68e6a20dba59c6f10595a3c9994484
-// 76 capabilities, 536 providers, 1889 typed functions, 20 refused.
+// Manifest version: 5d261bca306a5b3109ead7b8215ed3e80eb8b42483e0e1f34bf549cca2fda14d
+// 76 capabilities, 536 providers, 1892 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9768,6 +9768,38 @@ interface BbcGetTeamResult {
   stories: BbcTeamStory[];
 }
 
+interface BbcWeatherWarningTime {
+  visualTime: string;
+  screenReaderTime: string;
+}
+
+interface BbcWeatherWarning {
+  warningType: string;   // the site's own hazard word, e.g. "flood"
+  warningLevel: string;
+  warningTitle: string;
+  description: string;
+  source: string;
+  severity: string | null;      // "red" | "amber" | "yellow", the site's own label
+  severityLabel: string | null; // e.g. "Flooding possible - Be prepared"
+  areasAffected: string | null;
+  validFrom: BbcWeatherWarningTime | null;
+  validTo: BbcWeatherWarningTime | null;
+  issuedAt: BbcWeatherWarningTime | null;
+  active: boolean;
+}
+
+interface BbcWeatherWarningGroup {
+  region: string; // "uk" for weather; "england" | "scotland" | "wales" for floods
+  agency: string | null;
+  agencyUrl: string | null;
+  warnings: BbcWeatherWarning[]; // [] is a real "nothing active" answer
+}
+
+interface BbcGetWeatherWarningsResult {
+  warningType: "weather" | "floods";
+  groups: BbcWeatherWarningGroup[];
+}
+
 interface bbcRow {
   id: string;
 }
@@ -9888,6 +9920,14 @@ interface bbcRow {
      * searchWeatherLocations.
      */
     getCurrentWeather(locationId: string): Promise<BbcGetCurrentWeatherResult>;
+
+    /**
+     * UK weather or flood warnings currently in force, grouped by region and issuing agency (Met
+     * Office for weather; the Environment Agency, SEPA or Natural Resources Wales for floods):
+     * severity, areas affected, description and validity. Takes `type` ("weather" or "floods",
+     * default "weather"). An empty `warnings` array on a group is a real "nothing active" answer.
+     */
+    getWeatherWarnings(type?: "weather" | "floods"): Promise<BbcGetWeatherWarningsResult>;
   }
 }
 
@@ -23012,6 +23052,13 @@ interface GoodreadsBook {
   ratingsCount?: number;
   textReviewsCount?: number;
 }
+interface GoodreadsReviewRow {
+  id: string;
+  text: string;
+  createdAt?: number;
+  reviewerName?: string;
+  reviewerUrl?: string;
+}
 
   /**
    * A social network for book readers: book details and ratings, member reviews, curated lists,
@@ -23030,6 +23077,13 @@ interface GoodreadsBook {
      * the numeric id or the full URL searchBooks returns.
      */
     getBook(idOrUrl: string): Promise<GoodreadsBook>;
+
+    /**
+     * Reads a page of member reviews for one book — reviewer name, review text, and creation
+     * timestamp per row. Takes the numeric id or the full URL searchBooks returns, and an optional
+     * 1-indexed page number (defaults to 1).
+     */
+    getBookReviews(idOrUrl: string, pageNumber?: number): Promise<GoodreadsReviewRow[]>;
   }
 }
 
@@ -43667,6 +43721,13 @@ interface AddToWishlistResult {
   added: true;
 }
 
+interface GetWishlistArgs {
+}
+
+interface GetWishlistResponse {
+  appids: string[];
+}
+
 interface RemoveFromWishlistArgs {
   appid: string | number;
 }
@@ -43774,6 +43835,12 @@ interface RemoveFromWishlistResult {
      * signs in, not us.
      */
     removeFromWishlist(args: RemoveFromWishlistArgs, opts?: ConnectionOption): Promise<RemoveFromWishlistResult>;
+
+    /**
+     * Fetches the signed-in caller's complete wishlist — the list of all games currently saved to
+     * their wishlist, by appid. NEEDS A SIGN-IN — the caller signs in, not us.
+     */
+    getWishlist(args: GetWishlistArgs, opts?: ConnectionOption): Promise<GetWishlistResponse>;
   }
 }
 
