@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5038b757b78ad1ab1be37e63c53cc5ecd23cc5bce5a1eb31ced6931c5c4be75f
-// 77 capabilities, 537 providers, 1894 typed functions, 20 refused.
+// Manifest version: dc5bce9928c01d0f2d9ff8ad4f453e9944f2d63745088ed4f2115279c414c4ad
+// 77 capabilities, 537 providers, 1895 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35195,6 +35195,12 @@ interface ListHeadlinesArgs {
   limit?: number;
 }
 
+interface NprSection {
+  slug: string;
+  title: string;
+  url: string;
+}
+
   /**
    * NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast program
    * rundowns, and the member-station finder with live streams.
@@ -35206,6 +35212,13 @@ interface ListHeadlinesArgs {
      * story carries no NPR id or date. Optional limit.
      */
     listHeadlines(args?: ListHeadlinesArgs): Promise<NprHeadline[]>;
+
+    /**
+     * NPR's news sections and topics (news, politics, business, science, health, culture,
+     * music-features, national, climate, race…) with the slug each one takes, e.g. for
+     * listSectionStories. A site label can differ from its own slug ("Race" is slug "codeswitch").
+     */
+    listSections(): Promise<NprSection[]>;
   }
 }
 

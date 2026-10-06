@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5038b757b78ad1ab1be37e63c53cc5ecd23cc5bce5a1eb31ced6931c5c4be75f
-# 77 capabilities, 537 providers, 1876 typed functions, 20 refused.
+# Manifest version: dc5bce9928c01d0f2d9ff8ad4f453e9944f2d63745088ed4f2115279c414c4ad
+# 77 capabilities, 537 providers, 1877 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18747,6 +18747,11 @@ class Prv_npr_NprHeadline_Out(TypedDict):
     section: NotRequired[str]
     sectionUrl: NotRequired[str]
     publishedDate: NotRequired[str]
+
+class Prv_npr_NprSection_Out(TypedDict):
+    slug: str
+    title: str
+    url: str
 
 class Prv_nurturelife_GetMealPlansResult_Out(TypedDict):
     plans: list[Prv_nurturelife_NurtureLifeMealPlan_Out]
@@ -42425,6 +42430,13 @@ class Prv_npr(Protocol):
         """The homepage's current top stories in the site's own order — headline, url, teaser,
         section and (for an npr.org story) its story id and published date. A syndicated
         member-station story carries no NPR id or date. Optional limit.
+        """
+
+    async def listSections(self, /) -> list[Prv_npr_NprSection_Out]:
+        """NPR's news sections and topics (news, politics, business, science, health, culture,
+        music-features, national, climate, race…) with the slug each one takes, e.g. for
+        listSectionStories. A site label can differ from its own slug ("Race" is slug
+        "codeswitch").
         """
 
 class Prv_nurturelife(Protocol):

@@ -2958,7 +2958,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | 🟡 |
 | `walmart.getRegistry` | walmart.com | Reads one public registry — the items on it, how many are wanted and how many were… | ⚪ |
 | `walmart.getSeller` | walmart.com | Reads a Marketplace seller's page — name, rating, review count — for the… | 🟢 |
-| `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | ⚪ |
+| `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | 🟢 |
 | `walmart.getWeeklyAd` | walmart.com | Reads the current local weekly ad / rollback & clearance circular for a store or zip —… | ⚪ |
 | `walmart.listAddresses` | walmart.com | Lists the delivery addresses saved on the signed-in account. | ⚪ |
 | `walmart.listDeals` | walmart.com | Lists what is on sale right now — Rollbacks, clearance and the site's current deal… | 🟢 |
