@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0cddbe8407c182c18730711ce77ba0cf3ceb973df8f48c6baf7aef6baf9f464f
-// 1882 checked, 20 unchecked.
+// Manifest version: 46913916a042c5d722cde7ab49b2381598050f79f132f85d1962fd71817a46f9
+// 1883 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0cddbe8407c182c18730711ce77ba0cf3ceb973df8f48c6baf7aef6baf9f464f",
+  "version": "46913916a042c5d722cde7ab49b2381598050f79f132f85d1962fd71817a46f9",
   "units": {
     "address_validation": {
       "defs": {
@@ -40003,6 +40003,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.quora": {
       "defs": {
+        "GetProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetQuestionArgs": {
           "k": "object",
           "props": [
@@ -40030,6 +40049,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetQuestionArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProfileArgs"
             },
             "optional": false
           }

@@ -1,5 +1,5 @@
 {
-  "version": "0cddbe8407c182c18730711ce77ba0cf3ceb973df8f48c6baf7aef6baf9f464f",
+  "version": "46913916a042c5d722cde7ab49b2381598050f79f132f85d1962fd71817a46f9",
   "units": {
     "address_validation": {
       "defs": {
@@ -39991,6 +39991,25 @@
     },
     "providers.quora": {
       "defs": {
+        "GetProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetQuestionArgs": {
           "k": "object",
           "props": [
@@ -40018,6 +40037,16 @@
             "schema": {
               "k": "ref",
               "name": "GetQuestionArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProfileArgs"
             },
             "optional": false
           }

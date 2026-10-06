@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0cddbe8407c182c18730711ce77ba0cf3ceb973df8f48c6baf7aef6baf9f464f
-# 77 capabilities, 538 providers, 1882 typed functions, 20 refused.
+# Manifest version: 46913916a042c5d722cde7ab49b2381598050f79f132f85d1962fd71817a46f9
+# 77 capabilities, 538 providers, 1883 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21396,6 +21396,26 @@ class Prv_quora_QuoraQuestion_Out_relatedQuestions_item_Out(TypedDict):
     id: str
     title: str
     url: str
+
+class Prv_quora_GetProfileArgs_In(TypedDict):
+    url: NotRequired[str]
+    name: NotRequired[str]
+
+class Prv_quora_QuoraProfile_Out(TypedDict):
+    id: str
+    name: str
+    displayName: str
+    bio: NotRequired[str]
+    credentialText: NotRequired[str]
+    followerCount: NotRequired[float]
+    answerCount: NotRequired[float]
+    questionCount: NotRequired[float]
+    spaces: NotRequired[list[Prv_quora_QuoraProfile_Out_spaces_item_Out]]
+
+class Prv_quora_QuoraProfile_Out_spaces_item_Out(TypedDict):
+    id: str
+    name: str
+    description: NotRequired[str]
 
 class Prv_reddit_search_query_u1_In(TypedDict):
     query: str
@@ -44201,6 +44221,12 @@ class Prv_quora(Protocol):
         """Reads one question off its page — the question text, answer count, related questions,
         and the first page of answers (author, content, upvote count) — taking a Quora question
         URL or its exact title text.
+        """
+
+    async def getProfile(self, args: Prv_quora_GetProfileArgs_In, /) -> Prv_quora_QuoraProfile_Out:
+        """Reads a member's public profile — display name, bio, credential, follower count, answer
+        count, question count, and their Spaces — taking a Quora profile URL or the name as it
+        appears in the URL.
         """
 
 class Prv_reddit(Protocol):

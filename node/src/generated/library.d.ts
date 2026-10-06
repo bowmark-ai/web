@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0cddbe8407c182c18730711ce77ba0cf3ceb973df8f48c6baf7aef6baf9f464f
-// 77 capabilities, 538 providers, 1900 typed functions, 20 refused.
+// Manifest version: 46913916a042c5d722cde7ab49b2381598050f79f132f85d1962fd71817a46f9
+// 77 capabilities, 538 providers, 1901 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39568,6 +39568,25 @@ interface GetQuestionArgs {
   url?: string;
   title?: string;
 }
+interface QuoraProfile {
+  id: string;
+  name: string;
+  displayName: string;
+  bio?: string;
+  credentialText?: string;
+  followerCount?: number;
+  answerCount?: number;
+  questionCount?: number;
+  spaces?: Array<{
+    id: string;
+    name: string;
+    description?: string;
+  }>;
+}
+interface GetProfileArgs {
+  url?: string;
+  name?: string;
+}
 
   /**
    * A question-and-answer site: questions and their answers, member profiles and Spaces, and
@@ -39581,6 +39600,13 @@ interface GetQuestionArgs {
      * its exact title text.
      */
     getQuestion(args: GetQuestionArgs): Promise<QuoraQuestion>;
+
+    /**
+     * Reads a member's public profile — display name, bio, credential, follower count, answer
+     * count, question count, and their Spaces — taking a Quora profile URL or the name as it
+     * appears in the URL.
+     */
+    getProfile(args: GetProfileArgs): Promise<QuoraProfile>;
   }
 }
 
