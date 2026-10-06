@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dc5bce9928c01d0f2d9ff8ad4f453e9944f2d63745088ed4f2115279c414c4ad
-# 77 capabilities, 537 providers, 1877 typed functions, 20 refused.
+# Manifest version: 8d8a31df02a39c0b41f214cf09ae6da17d2e66d332b590edff580d5b16acde50
+# 77 capabilities, 537 providers, 1878 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27166,6 +27166,9 @@ class Prv_walmart_walmartSeller_Out(TypedDict):
     rating: float | None
     reviewCount: float
 
+class Prv_walmart_getStore_args_In(TypedDict):
+    storeId: str
+
 class Prv_waterfurnace_lookupHomeDetails_input_In(TypedDict):
     address: str
     city: NotRequired[str]
@@ -41395,15 +41398,17 @@ class Prv_luma(Protocol):
     RSVP registration questions (to draft an application before registering), or discover
     upcoming events in a city by day and topic (AI, tech, crypto, arts…), or list every
     upcoming event on one organizer's calendar or profile page (a recurring meetup or
-    demo-night series).
+    demo-night series). Get all questions from an approval-gated event's form to draft an
+    RSVP or application without loading the page.
     """
 
     async def getEvent(self, args: Prv_luma_GetEventArgs_In, /) -> Prv_luma_LumaEvent_Out:
-        """Read one Luma event page with its full RSVP or application registration questions
-        (label, required, type, options, terms) — so a complete application can be drafted
-        before the RSVP form loads — plus date and time with timezone, venue and full address,
-        price, spots remaining, sold out, hosts, categories, and the description as markdown
-        (agenda, prerequisites, what to bring).
+        """Read one Luma event page with its full RSVP or application registration form questions
+        (label, required, type, options, terms) so a complete application can be drafted before
+        submitting the form — whether the event requires approval or is first-come-first-served
+        — plus date and time with timezone, venue and full address, price, spots remaining, sold
+        out, hosts, categories, and the description as markdown (agenda, prerequisites, what to
+        bring).
         """
 
     async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
@@ -47584,6 +47589,11 @@ class Prv_walmart(Protocol):
         """Reads one Marketplace seller's profile page — name, rating, and review count — for the
         `catalogSellerId` (a short numeric id) a seller's own `/global/seller/<id>` URL carries.
         NOT the GUID `listSellerOffers` returns.
+        """
+
+    async def getStore(self, args: Prv_walmart_getStore_args_In, /) -> Prv_walmart_walmartStore_Out:
+        """Reads one store's page — address, phone, opening hours, and which departments and
+        services (pharmacy, auto care, pickup) it has — for a store id `findStores` returned.
         """
 
 class Prv_waterfurnace(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dc5bce9928c01d0f2d9ff8ad4f453e9944f2d63745088ed4f2115279c414c4ad
-// 77 capabilities, 537 providers, 1895 typed functions, 20 refused.
+// Manifest version: 8d8a31df02a39c0b41f214cf09ae6da17d2e66d332b590edff580d5b16acde50
+// 77 capabilities, 537 providers, 1896 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32168,15 +32168,17 @@ interface DiscoverEventsArgs {
    * Luma (lu.ma) events — read one event's date, time, venue, price, spots remaining and RSVP
    * registration questions (to draft an application before registering), or discover upcoming
    * events in a city by day and topic (AI, tech, crypto, arts…), or list every upcoming event on
-   * one organizer's calendar or profile page (a recurring meetup or demo-night series).
+   * one organizer's calendar or profile page (a recurring meetup or demo-night series). Get all
+   * questions from an approval-gated event's form to draft an RSVP or application without
+   * loading the page.
    */
   interface Unit {
     /**
-     * Read one Luma event page with its full RSVP or application registration questions (label,
-     * required, type, options, terms) — so a complete application can be drafted before the RSVP
-     * form loads — plus date and time with timezone, venue and full address, price, spots
-     * remaining, sold out, hosts, categories, and the description as markdown (agenda,
-     * prerequisites, what to bring).
+     * Read one Luma event page with its full RSVP or application registration form questions
+     * (label, required, type, options, terms) so a complete application can be drafted before
+     * submitting the form — whether the event requires approval or is first-come-first-served —
+     * plus date and time with timezone, venue and full address, price, spots remaining, sold out,
+     * hosts, categories, and the description as markdown (agenda, prerequisites, what to bring).
      */
     getEvent(args: GetEventArgs): Promise<LumaEvent>;
 
@@ -49205,6 +49207,12 @@ interface walmartSeller {
      * the GUID `listSellerOffers` returns.
      */
     getSeller(args: { sellerId: string }): Promise<walmartSeller>;
+
+    /**
+     * Reads one store's page — address, phone, opening hours, and which departments and services
+     * (pharmacy, auto care, pickup) it has — for a store id `findStores` returned.
+     */
+    getStore(args: { storeId: string }): Promise<walmartStore>;
   }
 }
 
