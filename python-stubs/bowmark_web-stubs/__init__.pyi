@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5d261bca306a5b3109ead7b8215ed3e80eb8b42483e0e1f34bf549cca2fda14d
+# Manifest version: ddf84d10fd66935342ec98b94a288d587a20360e9a08403d1756d970262ba93d
 # 76 capabilities, 536 providers, 1874 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -41330,17 +41330,18 @@ class Prv_lululemon(Protocol):
         """
 
 class Prv_luma(Protocol):
-    """Luma (lu.ma) events — read one event's date, time, venue, price and spots remaining, or
-    discover upcoming events in a city by day and topic (AI, tech, crypto, arts…), or list
-    every upcoming event on one organizer's calendar or profile page (a recurring meetup or
+    """Luma (lu.ma) events — read one event's date, time, venue, price, spots remaining and
+    RSVP registration questions (to draft an application before registering), or discover
+    upcoming events in a city by day and topic (AI, tech, crypto, arts…), or list every
+    upcoming event on one organizer's calendar or profile page (a recurring meetup or
     demo-night series).
     """
 
     async def getEvent(self, args: Prv_luma_GetEventArgs_In, /) -> Prv_luma_LumaEvent_Out:
-        """Read one Luma event page: date and time with timezone, venue and full address, price,
-        spots remaining, sold out, hosts, categories, the description as markdown (agenda,
-        prerequisites, what to bring) and the registration questions its RSVP or application
-        form asks, so an application can be drafted before registering.
+        """Read one Luma event page: the registration questions its RSVP or application form asks
+        (so an application can be drafted before registering), plus date and time with timezone,
+        venue and full address, price, spots remaining, sold out, hosts, categories, and the
+        description as markdown (agenda, prerequisites, what to bring).
         """
 
     async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:

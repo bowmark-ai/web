@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5d261bca306a5b3109ead7b8215ed3e80eb8b42483e0e1f34bf549cca2fda14d
+// Manifest version: ddf84d10fd66935342ec98b94a288d587a20360e9a08403d1756d970262ba93d
 // 76 capabilities, 536 providers, 1892 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -32116,17 +32116,17 @@ interface DiscoverEventsArgs {
 }
 
   /**
-   * Luma (lu.ma) events — read one event's date, time, venue, price and spots remaining, or
-   * discover upcoming events in a city by day and topic (AI, tech, crypto, arts…), or list every
-   * upcoming event on one organizer's calendar or profile page (a recurring meetup or demo-night
-   * series).
+   * Luma (lu.ma) events — read one event's date, time, venue, price, spots remaining and RSVP
+   * registration questions (to draft an application before registering), or discover upcoming
+   * events in a city by day and topic (AI, tech, crypto, arts…), or list every upcoming event on
+   * one organizer's calendar or profile page (a recurring meetup or demo-night series).
    */
   interface Unit {
     /**
-     * Read one Luma event page: date and time with timezone, venue and full address, price, spots
-     * remaining, sold out, hosts, categories, the description as markdown (agenda, prerequisites,
-     * what to bring) and the registration questions its RSVP or application form asks, so an
-     * application can be drafted before registering.
+     * Read one Luma event page: the registration questions its RSVP or application form asks (so
+     * an application can be drafted before registering), plus date and time with timezone, venue
+     * and full address, price, spots remaining, sold out, hosts, categories, and the description
+     * as markdown (agenda, prerequisites, what to bring).
      */
     getEvent(args: GetEventArgs): Promise<LumaEvent>;
 
