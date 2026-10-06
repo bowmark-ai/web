@@ -2031,7 +2031,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nws.listTextProducts` | api.weather.gov | Which text products an office issues and the recent issuances of one type, with ids… | ⚪ |
 | `nws.lookupGlossary` | api.weather.gov | What an NWS term means — "red flag warning", "dewpoint", "QPF" — from NWS's own… | ⚪ |
 | `nws.searchAlerts` | api.weather.gov | Alerts that were issued in a past window — "every tornado warning in Oklahoma since… | ⚪ |
-| `nws.searchLocation` | api.weather.gov | Turn what a person types into weather.gov's own search box — "Boston, MA", a ZIP like… | ⚪ |
+| `nws.searchLocation` | api.weather.gov | Turn what a person types into weather.gov's own search box — "Boston, MA", a ZIP like… | 🟢 |
 | `nyt_cooking.addRecipeToFolder` | cooking.nytimes.com | Files a saved recipe into one of the signed-in reader's Recipe Box folders. | ⚪ |
 | `nyt_cooking.addToGroceryList` | cooking.nytimes.com | Adds a recipe's ingredients (or plain items) to the signed-in reader's grocery list. | ⚪ |
 | `nyt_cooking.clearGroceryList` | cooking.nytimes.com | Clears the signed-in reader's whole grocery list. | ⚪ |
@@ -3086,7 +3086,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.listWatchlists` | finance.yahoo.com | Reads the signed-in viewer's saved watchlists with their tickers and current quotes —… | 🟢 |
 | `yahoo_finance.searchSymbols` | finance.yahoo.com | Resolves what a person would type — a company name ("Apple"), a ticker ("AAPL") or a… | 🟢 |
 | `yahoo_mail.deleteMessage` | mail.yahoo.com | Deletes one of the CALLER's own messages (moves it to Trash, matching what the site's… | ⚪ |
-| `yahoo_mail.getMessage` | mail.yahoo.com | Reads one message in full from the CALLER's own mailbox — sender, recipients, subject… | ⚪ |
+| `yahoo_mail.getMessage` | mail.yahoo.com | Reads one message in full from the CALLER's own mailbox — sender, recipients, subject… | 🟢 |
 | `yahoo_mail.listFolders` | mail.yahoo.com | Lists the CALLER's own mail folders — Inbox, Sent, Drafts, Spam, Trash and any custom… | 🟢 |
 | `yahoo_mail.listMessages` | mail.yahoo.com | Lists messages in the CALLER's own mailbox, newest first, from a chosen folder (inbox… | ⚪ |
 | `yahoo_mail.markAsRead` | mail.yahoo.com | Marks one or more of the CALLER's own messages read or unread. | ⚪ |

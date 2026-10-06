@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 62dc258f7556aef5c81b251c396df97d1baf71dfde7ba33b40f84d18363b48f3
+# Manifest version: 3a97e04e9f8c006bbd06e2d1ee368492848126fb99daf270fc3f4816db18ab6e
 # 77 capabilities, 537 providers, 1880 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -29981,10 +29981,11 @@ class Cap_flights(Protocol):
         all. Three of the four sites run one shared engine, so they tend to fail together — and
         when ALL FOUR are gone this THROWS instead of returning `flights: []`, since an empty
         list would otherwise be indistinguishable from a route nobody flies. `options.timeoutMs`
-        sets the per-site budget (default 30000) — a site slower than that is dropped and named,
-        so the answer arrives inside the calling client's own tool-call limit rather than not at
-        all. **For 'which day is cheapest' over a range of dates, do not call this once per
-        date**: `bowmark.providers.google_flights.getPriceGraph(query: FlightQuery):
+        sets the per-site budget (default 30000; kayak, momondo and cheapflights are each given
+        at least 50000, because a site whose fast path does not answer is searched in a real
+        browser) — a site slower than that is dropped and named, so the answer arrives rather
+        than not at all. **For 'which day is cheapest' over a range of dates, do not call this
+        once per date**: `bowmark.providers.google_flights.getPriceGraph(query: FlightQuery):
         Promise<PriceGraph>` (both typed above) prices every departure date from about depart-7
         to depart+52 in one call.
         """
