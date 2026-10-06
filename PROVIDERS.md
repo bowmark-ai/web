@@ -1969,7 +1969,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getTropicalWeatherDiscussion` | nhc.noaa.gov | Get the Tropical Weather Discussion for the Atlantic or East Pacific: the analysts'… | ⚪ |
 | `nhc.getWatchesWarnings` | nhc.noaa.gov | Get the coastal hurricane, tropical storm and storm surge watches and warnings in… | ⚪ |
 | `nhc.getWindSpeedProbabilities` | nhc.noaa.gov | Get the probability of tropical-storm-force (34 kt), 50 kt and hurricane-force (64 kt)… | ⚪ |
-| `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | ⚪ |
+| `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | 🟢 |
 | `nhc.listMarineZones` | nhc.noaa.gov | List the offshore waters and high seas forecast areas NHC covers, with the zone code… | ⚪ |
 | `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name, class and dates. | ⚪ |
 | `nhc.listStormAdvisories` | nhc.noaa.gov | List every advisory, forecast advisory, discussion and wind probability product issued… | ⚪ |

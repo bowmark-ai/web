@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bb73f6e1555179c31c7d255871104872dceca3086857f5106bac8c9ac9df6259
-// 1875 checked, 20 unchecked.
+// Manifest version: 5038b757b78ad1ab1be37e63c53cc5ecd23cc5bce5a1eb31ced6931c5c4be75f
+// 1876 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bb73f6e1555179c31c7d255871104872dceca3086857f5106bac8c9ac9df6259",
+  "version": "5038b757b78ad1ab1be37e63c53cc5ecd23cc5bce5a1eb31ced6931c5c4be75f",
   "units": {
     "address_validation": {
       "defs": {
@@ -33473,6 +33473,43 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.nhc": {
+      "defs": {},
+      "functions": {
+        "listCurrentStorms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "basin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "AL"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "EP"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "CP"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

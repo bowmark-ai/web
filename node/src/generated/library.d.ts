@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bb73f6e1555179c31c7d255871104872dceca3086857f5106bac8c9ac9df6259
-// 77 capabilities, 536 providers, 1893 typed functions, 20 refused.
+// Manifest version: 5038b757b78ad1ab1be37e63c53cc5ecd23cc5bce5a1eb31ced6931c5c4be75f
+// 77 capabilities, 537 providers, 1894 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32172,10 +32172,11 @@ interface DiscoverEventsArgs {
    */
   interface Unit {
     /**
-     * Read one Luma event page: the registration questions its RSVP or application form asks (so
-     * an application can be drafted before registering), plus date and time with timezone, venue
-     * and full address, price, spots remaining, sold out, hosts, categories, and the description
-     * as markdown (agenda, prerequisites, what to bring).
+     * Read one Luma event page with its full RSVP or application registration questions (label,
+     * required, type, options, terms) — so a complete application can be drafted before the RSVP
+     * form loads — plus date and time with timezone, venue and full address, price, spots
+     * remaining, sold out, hosts, categories, and the description as markdown (agenda,
+     * prerequisites, what to bring).
      */
     getEvent(args: GetEventArgs): Promise<LumaEvent>;
 
@@ -35125,6 +35126,31 @@ interface NfaEntity {
      * for you). THROWS if BASIC lists no registrant under that id.
      */
     lookupByNfaId(nfaId: string): Promise<NfaEntity>;
+  }
+}
+
+declare namespace BowmarkProvider_nhc {
+  // ── National Hurricane Center — the unit's own declarations, verbatim ──
+interface nhcCurrentStorm {
+  id: string;
+  bin: string;
+  name: string;
+  classification: string;
+  intensity: number;
+  pressure: number;
+  position: { lat: number; lon: number };
+}
+
+  /**
+   * Current and recent tropical storms and hurricanes from NOAA's Hurricane Center, keyless and
+   * public.
+   */
+  interface Unit {
+    /**
+     * List every active tropical storm and hurricane across the Atlantic, East Pacific and Central
+     * Pacific, with position, intensity and pressure. Pass `basin` to narrow to one of them.
+     */
+    listCurrentStorms(args?: { basin?: 'AL' | 'EP' | 'CP' }): Promise<nhcCurrentStorm[]>;
   }
 }
 
@@ -53892,6 +53918,7 @@ interface BowmarkProviders {
   newageproducts: BowmarkProvider_newageproducts.Unit;
   newegg: BowmarkProvider_newegg.Unit;
   nfa_futures_org: BowmarkProvider_nfa_futures_org.Unit;
+  nhc: BowmarkProvider_nhc.Unit;
   npmjs: BowmarkProvider_npmjs.Unit;
   npr: BowmarkProvider_npr.Unit;
   nurturelife: BowmarkProvider_nurturelife.Unit;

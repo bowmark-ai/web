@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bb73f6e1555179c31c7d255871104872dceca3086857f5106bac8c9ac9df6259
-# 77 capabilities, 536 providers, 1875 typed functions, 20 refused.
+# Manifest version: 5038b757b78ad1ab1be37e63c53cc5ecd23cc5bce5a1eb31ced6931c5c4be75f
+# 77 capabilities, 537 providers, 1876 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18713,6 +18713,22 @@ class Prv_nfa_futures_org_NfaEntity_Out(TypedDict):
     hasRegulatoryActions: bool
     entityToken: str
     profileUrl: str
+
+class Prv_nhc_listCurrentStorms_args_In(TypedDict):
+    basin: NotRequired[Literal["AL"] | Literal["EP"] | Literal["CP"]]
+
+class Prv_nhc_nhcCurrentStorm_Out(TypedDict):
+    id: str
+    bin: str
+    name: str
+    classification: str
+    intensity: float
+    pressure: float
+    position: Prv_nhc_nhcCurrentStorm_Out_position_Out
+
+class Prv_nhc_nhcCurrentStorm_Out_position_Out(TypedDict):
+    lat: float
+    lon: float
 
 class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     package: str
@@ -41378,10 +41394,11 @@ class Prv_luma(Protocol):
     """
 
     async def getEvent(self, args: Prv_luma_GetEventArgs_In, /) -> Prv_luma_LumaEvent_Out:
-        """Read one Luma event page: the registration questions its RSVP or application form asks
-        (so an application can be drafted before registering), plus date and time with timezone,
-        venue and full address, price, spots remaining, sold out, hosts, categories, and the
-        description as markdown (agenda, prerequisites, what to bring).
+        """Read one Luma event page with its full RSVP or application registration questions
+        (label, required, type, options, terms) — so a complete application can be drafted
+        before the RSVP form loads — plus date and time with timezone, venue and full address,
+        price, spots remaining, sold out, hosts, categories, and the description as markdown
+        (agenda, prerequisites, what to bring).
         """
 
     async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
@@ -42373,6 +42390,17 @@ class Prv_nfa_futures_org(Protocol):
         """One firm or individual's current NFA membership status and registration types, by NFA ID
         (e.g. "0229152"), or by pasting a BasicNet profile URL (its "nfaid" query parameter is
         read for you). THROWS if BASIC lists no registrant under that id.
+        """
+
+class Prv_nhc(Protocol):
+    """Current and recent tropical storms and hurricanes from NOAA's Hurricane Center, keyless
+    and public.
+    """
+
+    async def listCurrentStorms(self, args: Prv_nhc_listCurrentStorms_args_In | None = None, /) -> list[Prv_nhc_nhcCurrentStorm_Out]:
+        """List every active tropical storm and hurricane across the Atlantic, East Pacific and
+        Central Pacific, with position, intensity and pressure. Pass `basin` to narrow to one of
+        them.
         """
 
 class Prv_npmjs(Protocol):
@@ -49245,6 +49273,7 @@ class BowmarkProviders(Protocol):
     newageproducts: Prv_newageproducts
     newegg: Prv_newegg
     nfa_futures_org: Prv_nfa_futures_org
+    nhc: Prv_nhc
     npmjs: Prv_npmjs
     npr: Prv_npr
     nurturelife: Prv_nurturelife
