@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 04b1aa138013c4e31215ec8f420c1e1d1b727cf599cc6906f3b058fec33360bd
-// 77 capabilities, 537 providers, 1897 typed functions, 20 refused.
+// Manifest version: 62dc258f7556aef5c81b251c396df97d1baf71dfde7ba33b40f84d18363b48f3
+// 77 capabilities, 537 providers, 1898 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17482,6 +17482,18 @@ interface DeviantartDeviation {
   stats?: { views?: number; favourites?: number; comments?: number; downloads?: number };
 }
 
+interface DeviantartUserProfile {
+  userId: number;
+  username: string;
+  usericon?: string;
+  tagline?: string;
+  country?: string;
+  website?: string;
+  gender?: string;
+  joinedDate?: string;
+  stats?: { deviations?: number; watchers?: number; watching?: number; pageviews?: number; favourites?: number; commentsReceivedProfile?: number };
+}
+
   /**
    * DeviantArt artwork — search deviations, read one with its comments, browse a tag or the
    * Daily Deviations, and pull an artist's profile, gallery, favourites and posts; once a caller
@@ -17501,6 +17513,13 @@ interface DeviantartDeviation {
      * deviantart.com/<user>/art/<slug>-<id> url or the numeric id plus its author.
      */
     getDeviation(args: { url: string } | { deviationId: string; username: string }): Promise<DeviantartDeviation>;
+
+    /**
+     * Reads an artist's public profile — display name, avatar, tagline, country, website, join
+     * date, and deviation/watcher/watching/pageview/favourite counts — taking their username (the
+     * name in deviantart.com/<username>).
+     */
+    getUserProfile(args: { username: string }): Promise<DeviantartUserProfile>;
   }
 }
 

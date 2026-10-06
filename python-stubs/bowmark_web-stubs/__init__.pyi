@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 04b1aa138013c4e31215ec8f420c1e1d1b727cf599cc6906f3b058fec33360bd
-# 77 capabilities, 537 providers, 1879 typed functions, 20 refused.
+# Manifest version: 62dc258f7556aef5c81b251c396df97d1baf71dfde7ba33b40f84d18363b48f3
+# 77 capabilities, 537 providers, 1880 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9662,6 +9662,28 @@ class Prv_deviantart_DeviantartDeviation_Out_stats_Out(TypedDict):
     favourites: NotRequired[float]
     comments: NotRequired[float]
     downloads: NotRequired[float]
+
+class Prv_deviantart_getUserProfile_args_In(TypedDict):
+    username: str
+
+class Prv_deviantart_DeviantartUserProfile_Out(TypedDict):
+    userId: float
+    username: str
+    usericon: NotRequired[str]
+    tagline: NotRequired[str]
+    country: NotRequired[str]
+    website: NotRequired[str]
+    gender: NotRequired[str]
+    joinedDate: NotRequired[str]
+    stats: NotRequired[Prv_deviantart_DeviantartUserProfile_Out_stats_Out]
+
+class Prv_deviantart_DeviantartUserProfile_Out_stats_Out(TypedDict):
+    deviations: NotRequired[float]
+    watchers: NotRequired[float]
+    watching: NotRequired[float]
+    pageviews: NotRequired[float]
+    favourites: NotRequired[float]
+    commentsReceivedProfile: NotRequired[float]
 
 class Prv_dice_DiceSearchResponse_Out(TypedDict):
     jobs: list[Prv_dice_DiceSearchResult_Out]
@@ -35878,6 +35900,12 @@ class Prv_deviantart(Protocol):
         """Reads one deviation in full — title, author, published time, description text, tags,
         media url and original dimensions, license, mature/AI flags, and stats — taking a
         deviantart.com/<user>/art/<slug>-<id> url or the numeric id plus its author.
+        """
+
+    async def getUserProfile(self, args: Prv_deviantart_getUserProfile_args_In, /) -> Prv_deviantart_DeviantartUserProfile_Out:
+        """Reads an artist's public profile — display name, avatar, tagline, country, website, join
+        date, and deviation/watcher/watching/pageview/favourite counts — taking their username
+        (the name in deviantart.com/<username>).
         """
 
 class Prv_dice(Protocol):

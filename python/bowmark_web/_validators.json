@@ -1,5 +1,5 @@
 {
-  "version": "04b1aa138013c4e31215ec8f420c1e1d1b727cf599cc6906f3b058fec33360bd",
+  "version": "62dc258f7556aef5c81b251c396df97d1baf71dfde7ba33b40f84d18363b48f3",
   "units": {
     "address_validation": {
       "defs": {
@@ -17395,6 +17395,24 @@
                       "optional": false
                     }
                   ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getUserProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },
