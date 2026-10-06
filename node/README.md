@@ -52,8 +52,8 @@ This is everything you need to write code that calls Bowmark:
 - **[Configuration](#configuration)** — How to pass your API key and other options
 
 Stop here if you just need to call the library. What exists to call is listed in
-[`CAPABILITIES.md`](https://github.com/bowmark-ai/web/blob/main/CAPABILITIES.md) and
-[`PROVIDERS.md`](https://github.com/bowmark-ai/web/blob/main/PROVIDERS.md) — absolute
+[`CAPABILITIES.md`](https://raw.githubusercontent.com/bowmark-ai/web/main/CAPABILITIES.md) and
+[`PROVIDERS.md`](https://raw.githubusercontent.com/bowmark-ai/web/main/PROVIDERS.md) — absolute
 URLs, because this README is read on npm where a relative link resolves to nothing.
 
 ---

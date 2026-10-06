@@ -37,8 +37,8 @@ rule, two languages, so the two clients cannot come to disagree about what the l
 offers. A gate in the source repo asserts the parity on every change.
 
 Everything the library can do is in
-[CAPABILITIES.md](https://github.com/bowmark-ai/web/blob/main/CAPABILITIES.md) and
-[PROVIDERS.md](https://github.com/bowmark-ai/web/blob/main/PROVIDERS.md), regenerated
+[CAPABILITIES.md](https://raw.githubusercontent.com/bowmark-ai/web/main/CAPABILITIES.md) and
+[PROVIDERS.md](https://raw.githubusercontent.com/bowmark-ai/web/main/PROVIDERS.md), regenerated
 daily.
 
 ## What it deliberately does NOT type
