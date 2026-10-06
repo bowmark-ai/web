@@ -276,7 +276,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | 🟢 |
 | `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | 🟢 |
 | `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | 🟢 |
-| `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | 🟢 |
+| `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | 🟡 |
 | `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, and its episodes newest first — title… | ⚪ |
 | `bbc.getPodcastEpisode` | bbc.com | One podcast episode: title, synopsis, duration, broadcast date, and the playable media… | ⚪ |
 | `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | 🟢 |
@@ -842,7 +842,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.getUserFavourites` | deviantart.com | Lists the deviations an artist has favourited — their public 'Favourites' collections… | ⚪ |
 | `deviantart.getUserGallery` | deviantart.com | Lists an artist's gallery — every deviation they posted, newest first, or one gallery… | ⚪ |
 | `deviantart.getUserPosts` | deviantart.com | Lists an artist's posts — journals, status updates and polls from their Posts tab —… | ⚪ |
-| `deviantart.getUserProfile` | deviantart.com | Reads an artist's public profile — display name, avatar, tagline, bio, location, join… | ⚪ |
+| `deviantart.getUserProfile` | deviantart.com | Reads an artist's public profile — display name, avatar, tagline, country, website… | 🟢 |
 | `deviantart.getWatchFeed` | deviantart.com | Reads the signed-in caller's Watch feed — the newest deviations and posts from the… | ⚪ |
 | `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | ⚪ |
 | `deviantart.listNotes` | deviantart.com | Reads the signed-in caller's Notes inbox — each note's sender, subject, time and body. | ⚪ |
@@ -2606,7 +2606,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getGameVideos` | steampowered.com | Fetches a game's trailers and video clips by appid, returning each video's name… | 🟢 |
 | `steam.getLibrary` | steampowered.com | Lists all games the caller owns, with installation status, play time, and last-played… | ⚪ |
 | `steam.getMarketPrice` | steampowered.com | Retrieves current Community Market price information for an item, including listing… | ⚪ |
-| `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by its ID or URL. | 🟢 |
+| `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by its ID or URL. | 🟡 |
 | `steam.getPlayTime` | steampowered.com | Returns total playtime in hours for a specific game owned by the caller. | ⚪ |
 | `steam.getProfile` | steampowered.com | Retrieves a Steam profile by username or ID, including profile name, avatar, status… | ⚪ |
 | `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | 🟢 |
@@ -2986,7 +2986,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
 | `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
 | `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟡 |
-| `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟢 |
+| `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟡 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |
 | `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |
 | `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | 🟢 |
