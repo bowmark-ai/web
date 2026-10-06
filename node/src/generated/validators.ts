@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8d8a31df02a39c0b41f214cf09ae6da17d2e66d332b590edff580d5b16acde50
-// 1878 checked, 20 unchecked.
+// Manifest version: 04b1aa138013c4e31215ec8f420c1e1d1b727cf599cc6906f3b058fec33360bd
+// 1879 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8d8a31df02a39c0b41f214cf09ae6da17d2e66d332b590edff580d5b16acde50",
+  "version": "04b1aa138013c4e31215ec8f420c1e1d1b727cf599cc6906f3b058fec33360bd",
   "units": {
     "address_validation": {
       "defs": {
@@ -10179,6 +10179,38 @@ export const VALIDATORS: ValidatorTable = {
     "providers.baublebar": {
       "defs": {},
       "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "inStockOnly",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listBaublebarCollections": [
           {
             "name": "opts",

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8d8a31df02a39c0b41f214cf09ae6da17d2e66d332b590edff580d5b16acde50
-# 77 capabilities, 537 providers, 1878 typed functions, 20 refused.
+# Manifest version: 04b1aa138013c4e31215ec8f420c1e1d1b727cf599cc6906f3b058fec33360bd
+# 77 capabilities, 537 providers, 1879 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5208,6 +5208,27 @@ class Prv_barnesfoundation_BarnesAdmissionQuoteLine_Out(TypedDict):
     unitPrice: float
     subtotal: float
 
+class Prv_baublebar_search_opts_In(TypedDict):
+    inStockOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_baublebar_BaublebarSearchHit_Out(TypedDict):
+    handle: str
+    title: str
+    vendor: str
+    url: str
+    optionNames: list[str]
+    variants: list[Prv_baublebar_BaublebarVariant_Out]
+    inStock: bool
+    images: list[str]
+
+class Prv_baublebar_BaublebarVariant_Out(TypedDict):
+    id: str
+    title: str
+    price: float
+    available: bool
+    options: list[str]
+
 class Prv_baublebar_listBaublebarCollections_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -5243,13 +5264,6 @@ class Prv_baublebar_BaublebarProduct_Out(TypedDict):
     images: list[str]
     personalization: Prv_baublebar_BaublebarPersonalization_Out | None
     shipBy: str | None
-
-class Prv_baublebar_BaublebarVariant_Out(TypedDict):
-    id: str
-    title: str
-    price: float
-    available: bool
-    options: list[str]
 
 class Prv_baublebar_BaublebarPersonalization_Out(TypedDict):
     fields: list[Prv_baublebar_BaublebarPersonalizationField_Out]
@@ -32928,6 +32942,13 @@ class Prv_baublebar(Protocol):
     made-to-order ship-by date — read off the live Shopify storefront, plus a live-validated
     checkout handoff link carrying the personalization.
     """
+
+    async def search(self, query: str, opts: Prv_baublebar_search_opts_In | None = None, /) -> list[Prv_baublebar_BaublebarSearchHit_Out]:
+        """Free-text product search on BaubleBar — "earrings", "gold hoops", "initial necklace" —
+        in the store's own relevance order, each hit carrying every variant with its id, price
+        and live stock. The entry door from a shopper's words straight to products; at most 10
+        hits (the storefront's own predictive-search cap).
+        """
 
     async def listBaublebarCollections(self, opts: Prv_baublebar_listBaublebarCollections_opts_In | None = None, /) -> list[Prv_baublebar_BaublebarCollectionRow_Out]:
         """The entry door: reads BaubleBar's own published list of collections — e.g. "Tennis

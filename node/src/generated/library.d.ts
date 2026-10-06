@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8d8a31df02a39c0b41f214cf09ae6da17d2e66d332b590edff580d5b16acde50
-// 77 capabilities, 537 providers, 1896 typed functions, 20 refused.
+// Manifest version: 04b1aa138013c4e31215ec8f420c1e1d1b727cf599cc6906f3b058fec33360bd
+// 77 capabilities, 537 providers, 1897 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9460,6 +9460,18 @@ interface BaublebarProduct {
   /** The literal made-to-order ship-by date as rendered right now, e.g. "9/11/26", or null. */
   shipBy: string | null;
 }
+interface BaublebarSearchHit {
+  handle: string;
+  title: string;
+  vendor: string;
+  url: string;
+  optionNames: string[];
+  /** Every variant with its id (what a cart permalink takes), price in cents and live stock. */
+  variants: BaublebarVariant[];
+  inStock: boolean;
+  images: string[];
+}
+
 interface BaublebarCatalogueRow {
   handle: string;
   title: string;
@@ -9488,6 +9500,14 @@ interface BaublebarCheckoutLink {
    * carrying the personalization.
    */
   interface Unit {
+    /**
+     * Free-text product search on BaubleBar — "earrings", "gold hoops", "initial necklace" — in
+     * the store's own relevance order, each hit carrying every variant with its id, price and live
+     * stock. The entry door from a shopper's words straight to products; at most 10 hits (the
+     * storefront's own predictive-search cap).
+     */
+    search(query: string, opts?: { inStockOnly?: boolean; limit?: number }): Promise<BaublebarSearchHit[]>;
+
     /**
      * The entry door: reads BaubleBar's own published list of collections — e.g. "Tennis
      * Bracelets", "Personalized Jewelry" — with each one's handle and product count, so a caller
