@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3a97e04e9f8c006bbd06e2d1ee368492848126fb99daf270fc3f4816db18ab6e
-# 77 capabilities, 537 providers, 1880 typed functions, 20 refused.
+# Manifest version: 0cddbe8407c182c18730711ce77ba0cf3ceb973df8f48c6baf7aef6baf9f464f
+# 77 capabilities, 538 providers, 1882 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17552,12 +17552,20 @@ class Prv_mango_MangoColor_Out(TypedDict):
     discountPercent: float | None
     onSale: bool
     sizes: list[Prv_mango_MangoSize_Out]
+    imageUrl: str
+    images: Prv_mango_MangoImages_Out
 
 class Prv_mango_MangoSize_Out(TypedDict):
     sizeId: str
     label: str
     inStock: bool
     lastUnits: bool
+
+class Prv_mango_MangoImages_Out(TypedDict):
+    model: list[str]
+    flat: str
+    detail: str
+    swatch: str
 
 class Prv_marketplace_visualstudio_marketplaceExtensionStats_Out(TypedDict):
     extensionId: str
@@ -18859,6 +18867,15 @@ class Prv_nvisioncenters_NvisioncentersEstimateSavingsInput_In(TypedDict):
     glasses_cost: float
     contacts: float
     contacts_cost: float
+
+class Prv_nws_SearchLocationArgs_In(TypedDict):
+    query: str
+
+class Prv_nws_SearchLocationResult_Out(TypedDict):
+    name: str
+    state: str
+    lat: float
+    lon: float
 
 class Prv_nyt_cooking_NytCookingSearchArgs_In(TypedDict):
     query: str
@@ -28496,6 +28513,24 @@ class Prv_yahoo_mail_YahooMailFolder_Out(TypedDict):
     unreadCount: NotRequired[float]
     totalCount: NotRequired[float]
     raw: Mapping[str, Any]
+
+class Prv_yahoo_mail_GetMessageArgs_In(TypedDict):
+    id: Any
+
+Prv_yahoo_mail_YahooMailMessage_Out = TypedDict(
+    "Prv_yahoo_mail_YahooMailMessage_Out",
+    {
+    "id": NotRequired[str],
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    "subject": NotRequired[str],
+    "body": NotRequired[str],
+    "bodyHtml": NotRequired[str],
+    "receivedAt": NotRequired[str],
+    "unread": NotRequired[bool],
+    "raw": Mapping[str, Any],
+    },
+)
 
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -41572,8 +41607,8 @@ class Prv_mango(Protocol):
 
     async def getProduct(self, productId: str, /) -> Prv_mango_MangoProduct_Out:
         """Reads one Mango product's colors and sizes with each color's price, compare-at price,
-        discount and live per-size stock, so a sold-out size is never shown. Takes the 8-digit
-        reference or the product URL.
+        discount, live per-size stock and photos (model, flat, close-up, swatch), so a sold-out
+        size is never shown. Takes the 8-digit reference or the product URL.
         """
 
 class Prv_marketplace_visualstudio(Protocol):
@@ -42559,6 +42594,17 @@ class Prv_nvisioncenters(Protocol):
         (glasses_cost, contacts_cost) a caller guessed instead of the provider's camelCase — an
         alias, not a second calculator. Throws under the same condition calculateLasikSavings
         does.
+        """
+
+class Prv_nws(Protocol):
+    """National Weather Service forecasts, alerts, current conditions, radar and
+    forecast-office products for any US place, keyless and public.
+    """
+
+    async def searchLocation(self, args: Prv_nws_SearchLocationArgs_In, /) -> list[Prv_nws_SearchLocationResult_Out]:
+        """Turns what a person types into weather.gov's own search box into candidate places with
+        name, state, latitude and longitude — the door every other NWS function needs, since the
+        API only speaks coordinates.
         """
 
 class Prv_nyt_cooking(Protocol):
@@ -48346,6 +48392,13 @@ class Prv_yahoo_mail(Protocol):
         success shape.
         """
 
+    async def getMessage(self, args: Prv_yahoo_mail_GetMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_yahoo_mail_YahooMailMessage_Out:
+        """Reads one message in full from the CALLER's own mailbox, given the message id
+        `listMessages` returns. The caller signs in through the auth relay; Bowmark never signs
+        up on this site. Field values besides `raw` are read defensively and may come back
+        undefined until a real signed-in capture measures the success shape.
+        """
+
 class Prv_yahoo_sports(Protocol):
     """Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages —
     off the site's own server-rendered schema.org markup, no browser and no account.
@@ -49351,6 +49404,7 @@ class BowmarkProviders(Protocol):
     nurturelife: Prv_nurturelife
     nutrafol: Prv_nutrafol
     nvisioncenters: Prv_nvisioncenters
+    nws: Prv_nws
     nyt_cooking: Prv_nyt_cooking
     nyt_games: Prv_nyt_games
     nytimes: Prv_nytimes

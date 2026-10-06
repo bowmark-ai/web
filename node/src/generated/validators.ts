@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3a97e04e9f8c006bbd06e2d1ee368492848126fb99daf270fc3f4816db18ab6e
-// 1880 checked, 20 unchecked.
+// Manifest version: 0cddbe8407c182c18730711ce77ba0cf3ceb973df8f48c6baf7aef6baf9f464f
+// 1882 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3a97e04e9f8c006bbd06e2d1ee368492848126fb99daf270fc3f4816db18ab6e",
+  "version": "0cddbe8407c182c18730711ce77ba0cf3ceb973df8f48c6baf7aef6baf9f464f",
   "units": {
     "address_validation": {
       "defs": {
@@ -33800,6 +33800,34 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.nws": {
+      "defs": {
+        "SearchLocationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLocation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchLocationArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.nyt_cooking": {
       "defs": {
         "NytCookingGetArticleArgs": {
@@ -53644,6 +53672,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.yahoo_mail": {
       "defs": {
+        "GetMessageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "any"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListFoldersArgs": {
           "k": "record",
           "value": {
@@ -53658,6 +53698,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListFoldersArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMessageArgs"
             },
             "optional": false
           },

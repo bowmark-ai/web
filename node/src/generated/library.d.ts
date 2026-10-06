@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3a97e04e9f8c006bbd06e2d1ee368492848126fb99daf270fc3f4816db18ab6e
-// 77 capabilities, 537 providers, 1898 typed functions, 20 refused.
+// Manifest version: 0cddbe8407c182c18730711ce77ba0cf3ceb973df8f48c6baf7aef6baf9f464f
+// 77 capabilities, 538 providers, 1900 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32442,6 +32442,18 @@ interface MangoSearchArgs {
   limit?: number;
 }
 interface MangoSize { sizeId: string; label: string; inStock: boolean; lastUnits: boolean }
+/** Mango's own photo URLs for one color. A product with no studio shoot (home goods)
+ * has only the swatch; its other shots answer 403. */
+interface MangoImages {
+  /** Full-length, front, back — on a model. */
+  model: string[];
+  /** The garment alone. */
+  flat: string;
+  /** A close-up. */
+  detail: string;
+  /** The fabric swatch; always present. */
+  swatch: string;
+}
 interface MangoColor {
   colorId: string;
   label: string;
@@ -32450,7 +32462,11 @@ interface MangoColor {
   compareAtPrice: number | null;
   discountPercent: number | null;
   onSale: boolean;
+  /** Sizes of THIS color. A search's size filter matches the product, so check here. */
   sizes: MangoSize[];
+  /** The first model shot, images.model[0]. */
+  imageUrl: string;
+  images: MangoImages;
 }
 interface MangoProduct {
   productId: string;
@@ -32497,8 +32513,8 @@ interface MangoSearchResult {
 
     /**
      * Reads one Mango product's colors and sizes with each color's price, compare-at price,
-     * discount and live per-size stock, so a sold-out size is never shown. Takes the 8-digit
-     * reference or the product URL.
+     * discount, live per-size stock and photos (model, flat, close-up, swatch), so a sold-out size
+     * is never shown. Takes the 8-digit reference or the product URL.
      */
     getProduct(productId: string): Promise<MangoProduct>;
   }
@@ -35432,6 +35448,37 @@ interface NvisioncentersCandidacyResult {
      * alias, not a second calculator. Throws under the same condition calculateLasikSavings does.
      */
     estimateLasikSavings(input: NvisioncentersEstimateSavingsInput): Promise<NvisioncentersSavingsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_nws {
+  // ── National Weather Service — the unit's own declarations, verbatim ──
+interface nwsRow {
+  id: string;
+}
+
+interface SearchLocationArgs {
+  query: string;
+}
+
+interface SearchLocationResult {
+  name: string;
+  state: string;
+  lat: number;
+  lon: number;
+}
+
+  /**
+   * National Weather Service forecasts, alerts, current conditions, radar and forecast-office
+   * products for any US place, keyless and public.
+   */
+  interface Unit {
+    /**
+     * Turns what a person types into weather.gov's own search box into candidate places with name,
+     * state, latitude and longitude — the door every other NWS function needs, since the API only
+     * speaks coordinates.
+     */
+    searchLocation(args: SearchLocationArgs): Promise<SearchLocationResult[]>;
   }
 }
 
@@ -51184,7 +51231,23 @@ interface YahooMailFolder {
   raw: Record<string, unknown>;
 }
 
+interface YahooMailMessage {
+  id?: string;
+  from?: string;
+  to?: string;
+  subject?: string;
+  body?: string;
+  bodyHtml?: string;
+  receivedAt?: string;
+  unread?: boolean;
+  raw: Record<string, unknown>;
+}
+
 type ListFoldersArgs = Record<string, never>;
+
+interface GetMessageArgs {
+  id: unknown;
+}
 
   /**
    * Reads and sends mail in the CALLER's own Yahoo Mail account — inbox, folders, search,
@@ -51200,6 +51263,14 @@ type ListFoldersArgs = Record<string, never>;
      * shape.
      */
     listFolders(args: ListFoldersArgs, opts?: ConnectionOption): Promise<YahooMailFolder[]>;
+
+    /**
+     * Reads one message in full from the CALLER's own mailbox, given the message id `listMessages`
+     * returns. The caller signs in through the auth relay; Bowmark never signs up on this site.
+     * Field values besides `raw` are read defensively and may come back undefined until a real
+     * signed-in capture measures the success shape.
+     */
+    getMessage(args: GetMessageArgs, opts?: ConnectionOption): Promise<YahooMailMessage>;
   }
 }
 
@@ -53985,6 +54056,7 @@ interface BowmarkProviders {
   nurturelife: BowmarkProvider_nurturelife.Unit;
   nutrafol: BowmarkProvider_nutrafol.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
+  nws: BowmarkProvider_nws.Unit;
   nyt_cooking: BowmarkProvider_nyt_cooking.Unit;
   nyt_games: BowmarkProvider_nyt_games.Unit;
   nytimes: BowmarkProvider_nytimes.Unit;
