@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dcb3397a2aa88dd32dbf4c0e7383ee06d6dd521c89d909d16dc1d3e18ee575aa
-# 76 capabilities, 531 providers, 1837 typed functions, 20 refused.
+# Manifest version: 4dabbe228e0371b2af897079287d97bec9d95a082281c18fb8ce73f60dbd4815
+# 76 capabilities, 532 providers, 1851 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3650,6 +3650,15 @@ class Prv_aol_AolSection_Out(TypedDict):
     path: str
     parentPath: NotRequired[str]
 
+class Prv_aol_AolListSectionArticlesArgs_In(TypedDict):
+    section: str
+    page: NotRequired[float]
+
+class Prv_aol_AolSectionArticles_Out(TypedDict):
+    section: str
+    page: float
+    articles: list[Prv_aol_AolStoryRow_Out]
+
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
     sku: str
@@ -4256,6 +4265,14 @@ class Prv_apple_AppleAddToBagResult_Out(TypedDict):
 class Prv_apple_AppleBagContents_Out(TypedDict):
     hasItems: bool
     raw: Any
+
+class Prv_apple_AppleRemoveFromBagRequest_In(TypedDict):
+    itemUuid: str
+    csrfToken: str
+
+class Prv_apple_AppleRemoveFromBagResult_Out(TypedDict):
+    success: bool
+    message: NotRequired[str]
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -6309,6 +6326,9 @@ class Prv_bluesky_BlueskyRelationship_Out(TypedDict):
     did: str
     following: str | None
     followedBy: str | None
+
+class Prv_bluesky_BlueskySuggestedFollowsResults_Out(TypedDict):
+    suggestions: list[Prv_bluesky_BlueskyPostAuthor_Out]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -9338,6 +9358,14 @@ class Prv_dell_DellDriverFile_Out(TypedDict):
     md5: str | None
     sha1: str | None
     sha256: str | None
+
+class Prv_dell_GetWarrantyInfoArgs_In(TypedDict):
+    serviceTag: str
+
+class Prv_dell_DellWarrantyInfo_Out(TypedDict):
+    serviceTag: str
+    found: bool
+    status: str | None
 
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
     zip: str
@@ -16554,6 +16582,24 @@ class Prv_liquidspace_LiquidspaceWorkspaceRow_Out(TypedDict):
     averageRating: float | None
     ratesCount: float | None
 
+class Prv_liquidspace_getListingDetails_input_In(TypedDict):
+    bookingUrl: str
+
+class Prv_liquidspace_LiquidspaceListingDetails_Out(TypedDict):
+    bookingUrl: str
+    workspaceName: str | None
+    venueName: str | None
+    venueAddress: str | None
+    openStatus: str | None
+    description: str | None
+    amenities: list[str]
+    amenityDetails: list[Prv_liquidspace_LiquidspaceListingDetails_Out_amenityDetails_item_Out]
+    openHours: str | None
+
+class Prv_liquidspace_LiquidspaceListingDetails_Out_amenityDetails_item_Out(TypedDict):
+    name: str
+    note: str | None
+
 class Prv_littlewordsproject_listLittleWordsProjectCollections_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -17138,6 +17184,55 @@ class Prv_maidenhome_MaidenHomeVariantResolution_Out(TypedDict):
     variant: Prv_maidenhome_MaidenHomeVariant_Out | None
     candidates: list[Prv_maidenhome_MaidenHomeVariant_Out]
     message: str
+
+class Prv_mango_MangoCategory_Out(TypedDict):
+    id: str
+    gender: Literal["men"] | Literal["women"] | Literal["kids"]
+    title: str
+
+class Prv_mango_MangoSearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    category: NotRequired[str]
+    gender: NotRequired[Literal["men"] | Literal["women"] | Literal["kids"]]
+    size: NotRequired[str]
+    onSaleOnly: NotRequired[bool]
+    inStockOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_mango_MangoSearchResult_Out(TypedDict):
+    category: Prv_mango_MangoCategory_Out
+    totalInCategory: float
+    scanned: float
+    hits: list[Prv_mango_MangoProduct_Out]
+    warnings: list[str]
+
+class Prv_mango_MangoProduct_Out(TypedDict):
+    productId: str
+    name: str
+    url: str
+    model: str | None
+    collection: str | None
+    gender: str | None
+    families: list[str]
+    colors: list[Prv_mango_MangoColor_Out]
+    minPrice: float | None
+    onSale: bool
+    inStock: bool
+
+class Prv_mango_MangoColor_Out(TypedDict):
+    colorId: str
+    label: str
+    price: float | None
+    compareAtPrice: float | None
+    discountPercent: float | None
+    onSale: bool
+    sizes: list[Prv_mango_MangoSize_Out]
+
+class Prv_mango_MangoSize_Out(TypedDict):
+    sizeId: str
+    label: str
+    inStock: bool
+    lastUnits: bool
 
 class Prv_marketplace_visualstudio_marketplaceExtensionStats_Out(TypedDict):
     extensionId: str
@@ -18583,6 +18678,13 @@ class Prv_nyt_cooking_NytCookingSaveRecipeResult_Out(TypedDict):
     recipeId: float
     saved: Literal[True]
 
+class Prv_nyt_cooking_NytCookingUnsaveRecipeArgs_In(TypedDict):
+    recipeId: float | str
+
+class Prv_nyt_cooking_NytCookingUnsaveRecipeResult_Out(TypedDict):
+    recipeId: float
+    saved: Literal[False]
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -18778,8 +18880,12 @@ class Prv_nyt_games_SportsConnectionsCard_Out(TypedDict):
     content: str
     position: float
 
+class Prv_nyt_games_GetMyStatsArgs_In(TypedDict):
+    game: NotRequired[str]
+    puzzleIds: NotRequired[Sequence[float | str]]
+
 class Prv_nyt_games_NytPlayerStatsData_Out(TypedDict):
-    stats: NotRequired[Mapping[str, Mapping[str, Any]]]
+    states: list[Any]
 
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
@@ -24270,6 +24376,22 @@ class Prv_theguardian_com_GuardianVideoSummary_Out(TypedDict):
     published: str | None
     duration: float | None
 
+class Prv_theguardian_com_GuardianVideo_Out(TypedDict):
+    id: str
+    url: str
+    headline: str
+    standfirst: str | None
+    byline: str | None
+    published: str | None
+    section: str | None
+    tags: list[Prv_theguardian_com_GuardianVideo_Out_tags_item_Out]
+    duration: float | None
+
+class Prv_theguardian_com_GuardianVideo_Out_tags_item_Out(TypedDict):
+    id: str
+    title: str
+    type: str
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -26889,6 +27011,25 @@ class Prv_weather_channel_TropicalSystem_Out(TypedDict):
     headingCardinal: str | None
     headingSpeed: float | None
 
+class Prv_weather_channel_TropicalConeResult_Out(TypedDict):
+    systems: list[Prv_weather_channel_TropicalConeSystem_Out]
+
+class Prv_weather_channel_TropicalConeSystem_Out(TypedDict):
+    stormId: str
+    stormName: str
+    basin: str
+    advisoryNumber: str
+    issuedAt: str
+    latitude: float
+    longitude: float
+    stormType: str
+    stormSubType: str | None
+    headline: list[str]
+    minPressure: float | None
+    maxSustainedWind: float | None
+    windGust: float | None
+    coneCoordinates: list[tuple[float, float]]
+
 class Prv_webshare_WebsharePlanTier_Out(TypedDict):
     productType: Literal["residential"] | Literal["staticResidential"] | Literal["datacenter"]
     tab: str
@@ -27445,6 +27586,48 @@ class Prv_wikipedia_WikipediaFeaturedNews_Out(TypedDict):
 class Prv_wikipedia_WikipediaFeaturedNews_Out_links_item_Out(TypedDict):
     title: str
     url: str
+
+class Prv_wikipedia_getOnThisDay_options_In(TypedDict):
+    type: NotRequired[str]
+    date: NotRequired[str]
+    lang: NotRequired[str]
+
+class Prv_wikipedia_getOnThisDay_return_Out(TypedDict):
+    onThisDay: Prv_wikipedia_WikipediaOnThisDay_Out
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaOnThisDay_Out(TypedDict):
+    date: str
+    type: Literal["all"] | Literal["births"] | Literal["deaths"] | Literal["events"] | Literal["holidays"]
+    items: list[Prv_wikipedia_WikipediaOnThisDayItem_Out]
+
+class Prv_wikipedia_WikipediaOnThisDayItem_Out(TypedDict):
+    year: str
+    text: str
+    pages: list[Prv_wikipedia_WikipediaOnThisDayItem_Out_pages_item_Out]
+
+class Prv_wikipedia_WikipediaOnThisDayItem_Out_pages_item_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_wikipedia_getRandomArticle_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_getRandomArticle_return_Out(TypedDict):
+    randomArticle: Prv_wikipedia_WikipediaRandomArticle_Out
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaRandomArticle_Out(TypedDict):
+    title: str
+    url: str
+    description: str
+    extract: str
+    thumbnail: NotRequired[Prv_wikipedia_WikipediaRandomArticle_Out_thumbnail_Out]
+
+class Prv_wikipedia_WikipediaRandomArticle_Out_thumbnail_Out(TypedDict):
+    url: str
+    width: float
+    height: float
 
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
@@ -31263,6 +31446,12 @@ class Prv_aol(Protocol):
         Animals …) with their paths — the door listSectionArticles takes its section from.
         """
 
+    async def listSectionArticles(self, args: Prv_aol_AolListSectionArticlesArgs_In, /) -> Prv_aol_AolSectionArticles_Out:
+        """Lists the articles in one AOL section or sub-section, newest first, page by page —
+        title, url, source publisher and image. Pass a section path from listSections, e.g. {
+        section: "/news/" }.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -31625,10 +31814,10 @@ class Prv_apple(Protocol):
 
     async def addToBag(self, request: Prv_apple_AppleAddToBagRequest_In, /) -> Prv_apple_AppleAddToBagResult_Out:
         """Add a product to the shopping bag (cart) by part number — NEEDS THE CALLER'S OWN BAG
-        WIDGET SESSION. A THIN GET to /shop/pdpAddToBag, the Bag widget's own API: `part` is the
-        product's part number, `atbtoken` is the widget's bearer read off the `as_atb` cookie,
-        `apiKey` is `config.storeApiKey` and `storefront` is `config.storefront` — all four
-        baked into the running buy page at load time and read off the caller's own browser
+        WIDGET SESSION. A GET to /<storefront>/shop/bag/add, the Bag widget's own API: `part` is
+        the product's part number, `atbtoken` is the widget's bearer read off the `as_atb`
+        cookie, `apiKey` is `config.storeApiKey` and `storefront` is `config.storefront` — all
+        four baked into the running buy page at load time and read off the caller's own browser
         session, never computed or captured here. Returns the site's own `{addedToBag,
         bagQuantity, errorCode, message}` envelope verbatim.
         """
@@ -31640,6 +31829,12 @@ class Prv_apple(Protocol):
         (addToBag needs the caller's own widget session, per AppleAddToBagRequest), so every
         call this provider makes starts a fresh anonymous bag and `raw`'s item-level shape is
         UNMEASURED — read it defensively.
+        """
+
+    async def removeFromBag(self, request: Prv_apple_AppleRemoveFromBagRequest_In, /) -> Prv_apple_AppleRemoveFromBagResult_Out:
+        """Remove an item from the shopping bag by its UUID. Takes the item's UUID from getBag's
+        raw output and the CSRF token from the bag page's meta tag. Returns success
+        confirmation.
         """
 
 class Prv_aquaphoenixsci(Protocol):
@@ -32951,6 +33146,14 @@ class Prv_bluesky(Protocol):
         per `other`, in the order given, each carrying the following/followedBy at:// URI or
         `null` when that direction has no follow. THROWS `blueskyInputError` on any identifier
         the AppView cannot resolve — check the spelling with `searchUsers` or `resolveHandle`.
+        """
+
+    async def getSuggestedFollows(self, actor: str, /) -> Prv_bluesky_BlueskySuggestedFollowsResults_Out:
+        """Accounts bsky.app suggests alongside a given person — the 'similar accounts' list a
+        profile shows. Takes a handle, a DID, or a bsky.app profile URL. Returns each suggested
+        account's handle, DID, display name and avatar; there is no paging, the site answers a
+        fixed-size list. THROWS `blueskyInputError` on an actor the AppView cannot find — check
+        the spelling with `searchUsers` or `resolveHandle`.
         """
 
 class Prv_bmwusa(Protocol):
@@ -35003,6 +35206,9 @@ class Prv_dell(Protocol):
         one operating system — each row carries the download URL and checksums.
         """
 
+    async def getWarrantyInfo(self, args: Prv_dell_GetWarrantyInfoArgs_In, /) -> Prv_dell_DellWarrantyInfo_Out:
+        """Looks up warranty coverage and status for a Dell product by service tag."""
+
 class Prv_deltadentalma(Protocol):
     """Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network
     dentists and clinics near a ZIP — the same live provider data the site's `/fad/search`
@@ -36278,6 +36484,12 @@ class Prv_fomo(Protocol):
         with the author's profile, the trade itself, any written thesis, and reaction and
         comment counts. Caller-scoped by construction: the feed is composed from the signed-in
         user's own follow graph, so two sessions get different answers.
+        """
+
+    async def getTradingActivityFeed(self, cursor: str | None = None, limit: float | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Pages raw trading activity rather than the composed social feed — the unfiltered stream
+        of what is being traded on the platform. Unlike getFeed, this is NOT scoped to the
+        signed-in user's follows, making it the more valuable stream for any non-UI consumer.
         """
 
 class Prv_forbes(Protocol):
@@ -37712,10 +37924,11 @@ class Prv_google_news(Protocol):
         anywhere in the 3.7 MB document — so this reuses the SAME `/my/library` door
         `listFollowedTopics` and `saveArticle` already read, which refuses with the identical
         302 to `accounts.google.com/ServiceLogin` measured 2026-09-28. With no session, or a
-        dead one, this refuses before returning, naming the sign-in. **The signed-in shape is
-        honestly UNMEASURED**, exactly as `listFollowedTopics`' is: nobody here holds a
-        signed-in Google News session, so nobody has ever captured what following actually
-        changes on that page.
+        dead one, this refuses before returning, naming the sign-in. **With a session it also
+        refuses, always** (fixed 2026-10-04, same defect and fix as `saveArticle`): nobody here
+        has found or captured the real "Follow" request a signed-in click sends — the only
+        reachable door, `/my/library`, is read-only and GETting it changes nothing — so this
+        throws rather than reporting a follow that never happened. See BUILD_QUEUE.md.
         """
 
 class Prv_google_sheets(Protocol):
@@ -40297,6 +40510,15 @@ class Prv_liquidspace(Protocol):
         page carries no day-pass inventory today — a real, complete answer, not a failure.
         """
 
+    async def getListingDetails(self, input: Prv_liquidspace_getListingDetails_input_In, /) -> Prv_liquidspace_LiquidspaceListingDetails_Out:
+        """Reads one coworking day-pass or desk listing's own LiquidSpace page — pass a row's
+        `bookingUrl` from `search` — and returns its amenities (WiFi, TV/Monitor, Phone,
+        Print/Scan/Copy, Kitchen, Parking…, with the host's note where it wrote one), the
+        workspace and venue name, address, open status, the host's description, and `openHours`:
+        the opening hours the host stated, verbatim, or null when the listing publishes none.
+        Use it to filter day passes by amenity, e.g. which desks have an external monitor.
+        """
+
 class Prv_littlewordsproject(Protocol):
     """Little Words Project's choose-a-word bead bracelets — every product, its
     bead-pattern/color/size variants and real prices, PLUS the word personalizer's own
@@ -40662,6 +40884,31 @@ class Prv_mailchimp(Protocol):
     # argument, so there is no honest signature to emit.
     # It is CALLABLE at runtime; `bowmark.providers.mailchimp.getPlanPricing` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
+
+class Prv_mango(Protocol):
+    """Mango (mango.com) fashion store, US catalog. Lists a men's/women's category (sweaters,
+    shirts, jeans…) with per-color price, sale compare-at price and per-size stock, filtered
+    by size, on-sale and in-stock; and reads one product's variant sizes, prices and live
+    stock.
+    """
+
+    async def listCategories(self, /) -> list[Prv_mango_MangoCategory_Out]:
+        """Lists the Mango US catalog categories (men's sweaters and cardigans, shirts, jeans,
+        women's dresses…) with the ids searchProducts takes.
+        """
+
+    async def searchProducts(self, args: Prv_mango_MangoSearchArgs_In | str, /) -> Prv_mango_MangoSearchResult_Out:
+        """Searches Mango's apparel catalog for what a shopper asks ("men's sweater", "long sleeve
+        shirt") and returns each product with variant sizes, sale and compare-at prices and
+        per-size stock — filterable to a size, on-sale and in-stock only. The way in; returns
+        the productId getProduct takes.
+        """
+
+    async def getProduct(self, productId: str, /) -> Prv_mango_MangoProduct_Out:
+        """Reads one Mango product's colors and sizes with each color's price, compare-at price,
+        discount and live per-size stock, so a sold-out size is never shown. Takes the 8-digit
+        reference or the product URL.
+        """
 
 class Prv_marketplace_visualstudio(Protocol):
     """The VS Code Marketplace — look up one extension by its publisher.name id and get its
@@ -41691,6 +41938,11 @@ class Prv_nyt_cooking(Protocol):
         to NYT — the run pauses for a login the first time this is called.
         """
 
+    async def unsaveRecipe(self, args: Prv_nyt_cooking_NytCookingUnsaveRecipeArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingUnsaveRecipeResult_Out:
+        """Removes a recipe from the signed-in reader's Recipe Box. Requires the caller to be
+        signed in to NYT — the run pauses for a login the first time this is called.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -41783,10 +42035,10 @@ class Prv_nyt_games(Protocol):
         "soccer-connections" } to customize.
         """
 
-    async def getMyStats(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytPlayerStatsData_Out:
-        """The signed-in player's per-game stats and streaks across all daily puzzles. Requires the
-        caller to be signed in to NYT — the run pauses for a login the first time this is
-        called.
+    async def getMyStats(self, args: Prv_nyt_games_GetMyStatsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytPlayerStatsData_Out:
+        """The signed-in player's saved game state for one puzzle (stats and streaks live inside
+        it) — defaults to { game: "wordleV2" }. Requires the caller to be signed in to NYT — the
+        run pauses for a login the first time this is called.
         """
 
 class Prv_nytimes(Protocol):
@@ -45097,6 +45349,12 @@ class Prv_theguardian_com(Protocol):
         is the main video section.
         """
 
+    async def getVideo(self, videoUrlOrId: str, /) -> Prv_theguardian_com_GuardianVideo_Out:
+        """The full metadata of one Guardian video: headline, byline, publish time, section, tags
+        and duration in seconds. Takes a theguardian.com URL or the path listVideos returns as
+        `id`.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -46787,6 +47045,15 @@ class Prv_weather_channel(Protocol):
         heading.
         """
 
+    async def getTropicalCone(self, stormId: str | None = None, /) -> Prv_weather_channel_TropicalConeResult_Out:
+        """Forecast track cone for active tropical systems worldwide — the uncertainty band
+        weather.com draws around a storm's predicted path. Like getCurrentTropicalPosition, not
+        scoped to a location: with no `stormId` it returns every active system's cone; pass one
+        storm's id (from getCurrentTropicalPosition) to narrow to just that system. Each entry
+        carries the storm's id, name, basin, current position and intensity, plus the cone
+        polygon as `[longitude, latitude]` pairs.
+        """
+
 class Prv_webshare(Protocol):
     """Webshare's own published proxy pricing (webshare.io) — rotating residential, static
     residential and datacenter plan tiers, every pricing tab without clicking.
@@ -47063,6 +47330,20 @@ class Prv_wikipedia(Protocol):
         picture of the day with its caption and licence, and the 'In the news' items with the
         articles they link to. Optional `date` (ISO 8601, defaults to today in UTC) and `lang`
         (defaults to 'en') select the edition.
+        """
+
+    async def getOnThisDay(self, options: Prv_wikipedia_getOnThisDay_options_In | None = None, /) -> Prv_wikipedia_getOnThisDay_return_Out:
+        """Wikipedia's 'On this day' historical feed for a given date: births, deaths, events, and
+        holidays that happened on that day throughout history. Pass `type` to narrow to one
+        category ('births', 'deaths', 'events', 'holidays') or request 'all' for a combined
+        feed. Optional `type` (defaults to 'all'), `date` (ISO 8601, defaults to today in UTC),
+        and `lang` (defaults to 'en') select the edition and content type.
+        """
+
+    async def getRandomArticle(self, options: Prv_wikipedia_getRandomArticle_options_In | None = None, /) -> Prv_wikipedia_getRandomArticle_return_Out:
+        """A random Wikipedia article with its summary information — title, url, description,
+        extract, and thumbnail where one exists. Each call returns a different article. Optional
+        `lang` (defaults to 'en') selects the edition.
         """
 
 class Prv_wikipedia_standings(Protocol):
@@ -48238,6 +48519,7 @@ class BowmarkProviders(Protocol):
     maersk: Prv_maersk
     maidenhome: Prv_maidenhome
     mailchimp: Prv_mailchimp
+    mango: Prv_mango
     marketplace_visualstudio: Prv_marketplace_visualstudio
     marriott: Prv_marriott
     mcdonalds: Prv_mcdonalds

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dcb3397a2aa88dd32dbf4c0e7383ee06d6dd521c89d909d16dc1d3e18ee575aa
-// 76 capabilities, 531 providers, 1855 typed functions, 20 refused.
+// Manifest version: 4dabbe228e0371b2af897079287d97bec9d95a082281c18fb8ce73f60dbd4815
+// 76 capabilities, 532 providers, 1869 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6728,6 +6728,19 @@ interface AolSectionList {
   sections: AolSection[];
 }
 
+interface AolListSectionArticlesArgs {
+  /** A section path from listSections, e.g. "/news/" or "/entertainment/celebrity/". */
+  section: string;
+  /** Page number, 1-based. Default 1. */
+  page?: number;
+}
+
+interface AolSectionArticles {
+  section: string;
+  page: number;
+  articles: AolStoryRow[];
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -6747,6 +6760,13 @@ interface AolSectionList {
      * Animals …) with their paths — the door listSectionArticles takes its section from.
      */
     listSections(): Promise<AolSectionList>;
+
+    /**
+     * Lists the articles in one AOL section or sub-section, newest first, page by page — title,
+     * url, source publisher and image. Pass a section path from listSections, e.g. { section:
+     * "/news/" }.
+     */
+    listSectionArticles(args: AolListSectionArticlesArgs): Promise<AolSectionArticles>;
   }
 }
 
@@ -7477,6 +7497,14 @@ interface AppleBagContents {
   hasItems: boolean;
   raw: unknown;
 }
+interface AppleRemoveFromBagRequest {
+  itemUuid: string;
+  csrfToken: string;
+}
+interface AppleRemoveFromBagResult {
+  success: boolean;
+  message?: string;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -7751,12 +7779,12 @@ interface AppleBagContents {
 
     /**
      * Add a product to the shopping bag (cart) by part number — NEEDS THE CALLER'S OWN BAG WIDGET
-     * SESSION. A THIN GET to /shop/pdpAddToBag, the Bag widget's own API: `part` is the product's
-     * part number, `atbtoken` is the widget's bearer read off the `as_atb` cookie, `apiKey` is
-     * `config.storeApiKey` and `storefront` is `config.storefront` — all four baked into the
-     * running buy page at load time and read off the caller's own browser session, never computed
-     * or captured here. Returns the site's own `{addedToBag, bagQuantity, errorCode, message}`
-     * envelope verbatim.
+     * SESSION. A GET to /<storefront>/shop/bag/add, the Bag widget's own API: `part` is the
+     * product's part number, `atbtoken` is the widget's bearer read off the `as_atb` cookie,
+     * `apiKey` is `config.storeApiKey` and `storefront` is `config.storefront` — all four baked
+     * into the running buy page at load time and read off the caller's own browser session, never
+     * computed or captured here. Returns the site's own `{addedToBag, bagQuantity, errorCode,
+     * message}` envelope verbatim.
      */
     addToBag(request: AppleAddToBagRequest): Promise<AppleAddToBagResult>;
 
@@ -7768,6 +7796,12 @@ interface AppleBagContents {
      * fresh anonymous bag and `raw`'s item-level shape is UNMEASURED — read it defensively.
      */
     getBag(): Promise<AppleBagContents>;
+
+    /**
+     * Remove an item from the shopping bag by its UUID. Takes the item's UUID from getBag's raw
+     * output and the CSRF token from the bag page's meta tag. Returns success confirmation.
+     */
+    removeFromBag(request: AppleRemoveFromBagRequest): Promise<AppleRemoveFromBagResult>;
   }
 }
 
@@ -11167,6 +11201,10 @@ interface BlueskyRelationshipsResults {
   relationships: BlueskyRelationship[];
 }
 
+interface BlueskySuggestedFollowsResults {
+  suggestions: BlueskyPostAuthor[];
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -11300,6 +11338,15 @@ interface BlueskyRelationshipsResults {
      * resolve — check the spelling with `searchUsers` or `resolveHandle`.
      */
     getRelationships(args: { actor: string; others: string | string[] }): Promise<BlueskyRelationshipsResults>;
+
+    /**
+     * Accounts bsky.app suggests alongside a given person — the 'similar accounts' list a profile
+     * shows. Takes a handle, a DID, or a bsky.app profile URL. Returns each suggested account's
+     * handle, DID, display name and avatar; there is no paging, the site answers a fixed-size
+     * list. THROWS `blueskyInputError` on an actor the AppView cannot find — check the spelling
+     * with `searchUsers` or `resolveHandle`.
+     */
+    getSuggestedFollows(actor: string): Promise<BlueskySuggestedFollowsResults>;
   }
 }
 
@@ -16882,6 +16929,16 @@ interface DellDriver {
   file: DellDriverFile | null;
 }
 
+interface GetWarrantyInfoArgs {
+  serviceTag: string;  // the Dell service tag, e.g. "7XFH8Z2"
+}
+
+interface DellWarrantyInfo {
+  serviceTag: string;
+  found: boolean;
+  status: string | null;  // warranty status/coverage info when the service tag is valid; null when not found — the site's own labels — read the values off a result, never guess one from prose
+}
+
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -16968,6 +17025,9 @@ interface DellDriver {
      * operating system — each row carries the download URL and checksums.
      */
     getProductDrivers(args: GetProductDriversArgs): Promise<DellDriver[]>;
+
+    /** Looks up warranty coverage and status for a Dell product by service tag. */
+    getWarrantyInfo(args: GetWarrantyInfoArgs): Promise<DellWarrantyInfo>;
   }
 }
 
@@ -20421,6 +20481,13 @@ interface FomoCandle {
      * graph, so two sessions get different answers.
      */
     getFeed(cursor?: string, limit?: number, opts?: ConnectionOption): Promise<FomoPage<FomoFeedItem>>;
+
+    /**
+     * Pages raw trading activity rather than the composed social feed — the unfiltered stream of
+     * what is being traded on the platform. Unlike getFeed, this is NOT scoped to the signed-in
+     * user's follows, making it the more valuable stream for any non-UI consumer.
+     */
+    getTradingActivityFeed(cursor?: string, limit?: number, opts?: ConnectionOption): Promise<FomoPage<FomoTrade>>;
   }
 }
 
@@ -23724,9 +23791,11 @@ interface GoogleNewsSavedArticle {
      * so this reuses the SAME `/my/library` door `listFollowedTopics` and `saveArticle` already
      * read, which refuses with the identical 302 to `accounts.google.com/ServiceLogin` measured
      * 2026-09-28. With no session, or a dead one, this refuses before returning, naming the
-     * sign-in. **The signed-in shape is honestly UNMEASURED**, exactly as `listFollowedTopics`'
-     * is: nobody here holds a signed-in Google News session, so nobody has ever captured what
-     * following actually changes on that page.
+     * sign-in. **With a session it also refuses, always** (fixed 2026-10-04, same defect and fix
+     * as `saveArticle`): nobody here has found or captured the real "Follow" request a signed-in
+     * click sends — the only reachable door, `/my/library`, is read-only and GETting it changes
+     * nothing — so this throws rather than reporting a follow that never happened. See
+     * BUILD_QUEUE.md.
      */
     followTopic(topicId: string, opts?: ConnectionOption): Promise<void>;
   }
@@ -30730,6 +30799,17 @@ interface LiquidspaceWorkspaceRow {
   averageRating: number | null;
   ratesCount: number | null;
 }
+interface LiquidspaceListingDetails {
+  bookingUrl: string;
+  workspaceName: string | null;
+  venueName: string | null;
+  venueAddress: string | null;
+  openStatus: string | null;      // e.g. "Confirmed Open"
+  description: string | null;     // the host's own listing text
+  amenities: string[];            // e.g. ["WiFi", "TV/Monitor", "Phone", "Print/Scan/Copy ($)"] — "($)" = extra cost
+  amenityDetails: { name: string; note: string | null }[];
+  openHours: string | null;       // hours lines the host wrote, verbatim; null when none published
+}
 
   /**
    * LiquidSpace's own city-listing pages — day-pass coworking pricing and availability across
@@ -30746,6 +30826,16 @@ interface LiquidspaceWorkspaceRow {
      * day-pass inventory today — a real, complete answer, not a failure.
      */
     search(input: { city: string; state: string }): Promise<LiquidspaceWorkspaceRow[]>;
+
+    /**
+     * Reads one coworking day-pass or desk listing's own LiquidSpace page — pass a row's
+     * `bookingUrl` from `search` — and returns its amenities (WiFi, TV/Monitor, Phone,
+     * Print/Scan/Copy, Kitchen, Parking…, with the host's note where it wrote one), the workspace
+     * and venue name, address, open status, the host's description, and `openHours`: the opening
+     * hours the host stated, verbatim, or null when the listing publishes none. Use it to filter
+     * day passes by amenity, e.g. which desks have an external monitor.
+     */
+    getListingDetails(input: { bookingUrl: string }): Promise<LiquidspaceListingDetails>;
   }
 }
 
@@ -31840,6 +31930,85 @@ interface mailchimpPlanPricing {
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.mailchimp.getPlanPricing` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+  }
+}
+
+declare namespace BowmarkProvider_mango {
+  // ── Mango — the unit's own declarations, verbatim ──
+interface MangoCategory { id: string; gender: "men" | "women" | "kids"; title: string }
+interface MangoSearchArgs {
+  /** Shopper words — "sweater", "long sleeve shirt". Matched to a category; with no category match, to product names. */
+  query?: string;
+  /** A category id from listCategories(); overrides the match. */
+  category?: string;
+  gender?: "men" | "women" | "kids";
+  /** Size label as Mango prints it: "M", "XL", "32", "One size". */
+  size?: string;
+  onSaleOnly?: boolean;
+  inStockOnly?: boolean;
+  /** 1-60, default 20. */
+  limit?: number;
+}
+interface MangoSize { sizeId: string; label: string; inStock: boolean; lastUnits: boolean }
+interface MangoColor {
+  colorId: string;
+  label: string;
+  price: number | null;
+  /** Mango's previous price when the color is marked down; null when it is not. */
+  compareAtPrice: number | null;
+  discountPercent: number | null;
+  onSale: boolean;
+  sizes: MangoSize[];
+}
+interface MangoProduct {
+  productId: string;
+  name: string;
+  url: string;
+  model: string | null;
+  collection: string | null;
+  gender: string | null;
+  families: string[];
+  colors: MangoColor[];
+  minPrice: number | null;
+  onSale: boolean;
+  inStock: boolean;
+}
+interface MangoSearchResult {
+  category: MangoCategory;
+  totalInCategory: number;
+  /** Products read to find the hits; a filtered search stops at 120. */
+  scanned: number;
+  hits: MangoProduct[];
+  /** Listed products that could not be read; empty on a whole answer. */
+  warnings: string[];
+}
+
+  /**
+   * Mango (mango.com) fashion store, US catalog. Lists a men's/women's category (sweaters,
+   * shirts, jeans…) with per-color price, sale compare-at price and per-size stock, filtered by
+   * size, on-sale and in-stock; and reads one product's variant sizes, prices and live stock.
+   */
+  interface Unit {
+    /**
+     * Lists the Mango US catalog categories (men's sweaters and cardigans, shirts, jeans, women's
+     * dresses…) with the ids searchProducts takes.
+     */
+    listCategories(): Promise<MangoCategory[]>;
+
+    /**
+     * Searches Mango's apparel catalog for what a shopper asks ("men's sweater", "long sleeve
+     * shirt") and returns each product with variant sizes, sale and compare-at prices and per-size
+     * stock — filterable to a size, on-sale and in-stock only. The way in; returns the productId
+     * getProduct takes.
+     */
+    searchProducts(args: MangoSearchArgs | string): Promise<MangoSearchResult>;
+
+    /**
+     * Reads one Mango product's colors and sizes with each color's price, compare-at price,
+     * discount and live per-size stock, so a sold-out size is never shown. Takes the 8-digit
+     * reference or the product URL.
+     */
+    getProduct(productId: string): Promise<MangoProduct>;
   }
 }
 
@@ -34924,6 +35093,15 @@ interface NytCookingSaveRecipeResult {
   saved: true;
 }
 
+interface NytCookingUnsaveRecipeArgs {
+  recipeId: number | string;
+}
+
+interface NytCookingUnsaveRecipeResult {
+  recipeId: number;
+  saved: false;
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -34994,6 +35172,12 @@ interface NytCookingSaveRecipeResult {
      * NYT — the run pauses for a login the first time this is called.
      */
     saveRecipe(args: NytCookingSaveRecipeArgs, opts?: ConnectionOption): Promise<NytCookingSaveRecipeResult>;
+
+    /**
+     * Removes a recipe from the signed-in reader's Recipe Box. Requires the caller to be signed in
+     * to NYT — the run pauses for a login the first time this is called.
+     */
+    unsaveRecipe(args: NytCookingUnsaveRecipeArgs, opts?: ConnectionOption): Promise<NytCookingUnsaveRecipeResult>;
   }
 }
 
@@ -35033,8 +35217,8 @@ interface SportsConnectionsCard { content: string; position: number; }
 interface SportsConnectionsCategory { title: string; cards: SportsConnectionsCard[]; }
 interface NytSportsConnections { id: string; printDate: string; categories: SportsConnectionsCategory[]; difficulty: number | null; editor: string | null; hintUrl: string | null; }
 interface GetSportsConnectionsArgs { date?: string; edition?: "sports-connections" | "soccer-connections"; }
-interface NytPlayerStatsData { stats?: Record<string, Record<string, unknown>>; }
-interface GetMyStatsArgs {}
+interface NytPlayerStatsData { states: unknown[]; }
+interface GetMyStatsArgs { game?: string; puzzleIds?: Array<number | string>; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -35142,10 +35326,11 @@ interface GetMyStatsArgs {}
     getSportsConnections(args?: GetSportsConnectionsArgs): Promise<NytSportsConnections>;
 
     /**
-     * The signed-in player's per-game stats and streaks across all daily puzzles. Requires the
-     * caller to be signed in to NYT — the run pauses for a login the first time this is called.
+     * The signed-in player's saved game state for one puzzle (stats and streaks live inside it) —
+     * defaults to { game: "wordleV2" }. Requires the caller to be signed in to NYT — the run
+     * pauses for a login the first time this is called.
      */
-    getMyStats(opts?: ConnectionOption): Promise<NytPlayerStatsData>;
+    getMyStats(args?: GetMyStatsArgs, opts?: ConnectionOption): Promise<NytPlayerStatsData>;
   }
 }
 
@@ -44178,6 +44363,12 @@ interface GuardianVideo {
      * main video section.
      */
     listVideos(args?: GuardianListVideosArgs): Promise<GuardianListVideosResult>;
+
+    /**
+     * The full metadata of one Guardian video: headline, byline, publish time, section, tags and
+     * duration in seconds. Takes a theguardian.com URL or the path listVideos returns as `id`.
+     */
+    getVideo(videoUrlOrId: string): Promise<GuardianVideo>;
   }
 }
 
@@ -48646,6 +48837,27 @@ interface TropicalPositionResult {
   storms: TropicalSystem[];
 }
 
+interface TropicalConeSystem {
+  stormId: string;
+  stormName: string;
+  basin: string;
+  advisoryNumber: string;
+  issuedAt: string;
+  latitude: number;
+  longitude: number;
+  stormType: string;
+  stormSubType: string | null;
+  headline: string[];
+  minPressure: number | null;
+  maxSustainedWind: number | null;
+  windGust: number | null;
+  coneCoordinates: [number, number][];
+}
+
+interface TropicalConeResult {
+  systems: TropicalConeSystem[];
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -48782,6 +48994,16 @@ interface TropicalPositionResult {
      * hurricane/typhoon), max sustained wind, gust, minimum pressure and heading.
      */
     getCurrentTropicalPosition(): Promise<TropicalPositionResult>;
+
+    /**
+     * Forecast track cone for active tropical systems worldwide — the uncertainty band weather.com
+     * draws around a storm's predicted path. Like getCurrentTropicalPosition, not scoped to a
+     * location: with no `stormId` it returns every active system's cone; pass one storm's id (from
+     * getCurrentTropicalPosition) to narrow to just that system. Each entry carries the storm's
+     * id, name, basin, current position and intensity, plus the cone polygon as `[longitude,
+     * latitude]` pairs.
+     */
+    getTropicalCone(stormId?: string): Promise<TropicalConeResult>;
   }
 }
 
@@ -49234,6 +49456,30 @@ interface WikipediaFeaturedContent {
   news: WikipediaFeaturedNews[];
 }
 
+interface WikipediaOnThisDayItem {
+  year: string;
+  text: string;
+  pages: { title: string; url: string }[];
+}
+
+interface WikipediaOnThisDay {
+  date: string;
+  type: "all" | "births" | "deaths" | "events" | "holidays";
+  items: WikipediaOnThisDayItem[];
+}
+
+interface WikipediaRandomArticle {
+  title: string;
+  url: string;
+  description: string;
+  extract: string;
+  thumbnail?: {
+    url: string;
+    width: number;
+    height: number;
+  };
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -49477,6 +49723,22 @@ interface WikipediaFeaturedContent {
      * select the edition.
      */
     getFeaturedContent(options?: { date?: string; lang?: string }): Promise<{ content: WikipediaFeaturedContent; warnings: string[] }>;
+
+    /**
+     * Wikipedia's 'On this day' historical feed for a given date: births, deaths, events, and
+     * holidays that happened on that day throughout history. Pass `type` to narrow to one category
+     * ('births', 'deaths', 'events', 'holidays') or request 'all' for a combined feed. Optional
+     * `type` (defaults to 'all'), `date` (ISO 8601, defaults to today in UTC), and `lang`
+     * (defaults to 'en') select the edition and content type.
+     */
+    getOnThisDay(options?: { type?: string; date?: string; lang?: string }): Promise<{ onThisDay: WikipediaOnThisDay; warnings: string[] }>;
+
+    /**
+     * A random Wikipedia article with its summary information — title, url, description, extract,
+     * and thumbnail where one exists. Each call returns a different article. Optional `lang`
+     * (defaults to 'en') selects the edition.
+     */
+    getRandomArticle(options?: { lang?: string }): Promise<{ randomArticle: WikipediaRandomArticle; warnings: string[] }>;
   }
 }
 
@@ -52847,6 +53109,7 @@ interface BowmarkProviders {
   maersk: BowmarkProvider_maersk.Unit;
   maidenhome: BowmarkProvider_maidenhome.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;
+  mango: BowmarkProvider_mango.Unit;
   marketplace_visualstudio: BowmarkProvider_marketplace_visualstudio.Unit;
   marriott: BowmarkProvider_marriott.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;

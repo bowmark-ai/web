@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: dcb3397a2aa88dd32dbf4c0e7383ee06d6dd521c89d909d16dc1d3e18ee575aa
-// 1837 checked, 20 unchecked.
+// Manifest version: 4dabbe228e0371b2af897079287d97bec9d95a082281c18fb8ce73f60dbd4815
+// 1851 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "dcb3397a2aa88dd32dbf4c0e7383ee06d6dd521c89d909d16dc1d3e18ee575aa",
+  "version": "4dabbe228e0371b2af897079287d97bec9d95a082281c18fb8ce73f60dbd4815",
   "units": {
     "address_validation": {
       "defs": {
@@ -7587,7 +7587,27 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.aol": {
-      "defs": {},
+      "defs": {
+        "AolListSectionArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "getFrontPage": [
           {
@@ -7598,7 +7618,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
-        "listSections": []
+        "listSections": [],
+        "listSectionArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AolListSectionArticlesArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.aosom": {
@@ -8191,6 +8221,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "AppleRemoveFromBagRequest": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "csrfToken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -8696,7 +8745,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getBag": []
+        "getBag": [],
+        "removeFromBag": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "AppleRemoveFromBagRequest"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.aquaphoenixsci": {
@@ -11833,6 +11892,15 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getSuggestedFollows": [
+          {
+            "name": "actor",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -16579,6 +16647,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetWarrantyInfoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "serviceTag",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchForumThreadsArgs": {
           "k": "object",
           "props": [
@@ -16798,6 +16878,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetProductDriversArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getWarrantyInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetWarrantyInfoArgs"
             },
             "optional": false
           }
@@ -20643,6 +20733,38 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getFeed": [
+          {
+            "name": "cursor",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTradingActivityFeed": [
           {
             "name": "cursor",
             "schema": {
@@ -30328,6 +30450,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getListingDetails": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookingUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -30974,6 +31114,108 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "getPlanPricing": null
+      }
+    },
+    "providers.mango": {
+      "defs": {
+        "MangoSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "men"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "women"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "kids"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "onSaleOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "inStockOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listCategories": [],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "MangoSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "productId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.marketplace_visualstudio": {
@@ -33140,6 +33382,26 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "NytCookingUnsaveRecipeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -33261,6 +33523,32 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "unsaveRecipe": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingUnsaveRecipeArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -33333,6 +33621,36 @@ export const VALIDATORS: ValidatorTable = {
               "name": "date",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetMyStatsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "game",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "puzzleIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "union",
+                  "of": [
+                    {
+                      "k": "number"
+                    },
+                    {
+                      "k": "string"
+                    }
+                  ]
+                }
               },
               "optional": true
             }
@@ -33553,6 +33871,14 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMyStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMyStatsArgs"
+            },
+            "optional": true
+          },
           {
             "name": "opts",
             "schema": {
@@ -46417,6 +46743,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getVideo": [
+          {
+            "name": "videoUrlOrId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -50988,7 +51323,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getRadarTiles": [],
-        "getCurrentTropicalPosition": []
+        "getCurrentTropicalPosition": [],
+        "getTropicalCone": [
+          {
+            "name": "stormId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.webshare": {
@@ -51942,6 +52286,56 @@ export const VALIDATORS: ValidatorTable = {
                   },
                   "optional": true
                 },
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOnThisDay": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "type",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "date",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getRandomArticle": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
                 {
                   "name": "lang",
                   "schema": {
