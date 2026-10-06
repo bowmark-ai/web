@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4dabbe228e0371b2af897079287d97bec9d95a082281c18fb8ce73f60dbd4815
-# 76 capabilities, 532 providers, 1851 typed functions, 20 refused.
+# Manifest version: 24fbf26a574dadfbf6ddc44cf7bad0daf699d2873ab930e03321d55a65d3131c
+# 76 capabilities, 533 providers, 1856 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2444,6 +2444,7 @@ class Cap_web_form_fields_FormOptions_In(TypedDict):
     strategy: NotRequired[Literal["auto"] | Literal["fetch"] | Literal["browser"]]
     open: NotRequired[str]
     timeoutMs: NotRequired[float]
+    egress: NotRequired[Literal["default"] | Literal["direct"] | Literal["us-datacenter"] | Literal["static-residential"]]
 
 class Cap_web_form_fields_FormInspectionResult_Out(TypedDict):
     url: str
@@ -2478,6 +2479,7 @@ class Cap_web_form_fields_FormFillOptions_In(TypedDict):
     open: NotRequired[str]
     strategy: NotRequired[Literal["browser"]]
     timeoutMs: NotRequired[float]
+    egress: NotRequired[Literal["default"] | Literal["direct"] | Literal["us-datacenter"] | Literal["static-residential"]]
     advance: NotRequired[bool]
     submit: NotRequired[bool]
 
@@ -4661,6 +4663,42 @@ class Prv_atlasseniorliving_AtlasCommunity_Out(TypedDict):
     lng: float
     url: str
 
+class Prv_att_AttDevice_Out(TypedDict):
+    name: str
+    brand: str | None
+    url: str
+    listedPriceUsd: float | None
+
+class Prv_att_AttDevicePricing_Out(TypedDict):
+    url: str
+    name: str
+    manufacturer: str | None
+    variants: list[Prv_att_AttDeviceVariant_Out]
+
+class Prv_att_AttDeviceVariant_Out(TypedDict):
+    skuId: str
+    name: str
+    capacity: str | None
+    color: str | None
+    inStock: bool | None
+    priced: bool
+    fullRetailPriceUsd: float | None
+    installment: Prv_att_AttDeviceVariant_Out_installment_u0_Out | None
+    nextUpAnytimeMonthlyUsd: float | None
+    portInDiscountUsd: float | None
+    promotions: list[Prv_att_AttDeviceVariant_Out_promotions_item_Out]
+
+class Prv_att_AttDeviceVariant_Out_installment_u0_Out(TypedDict):
+    planName: str
+    termMonths: float
+    monthlyUsd: float
+    totalUsd: float
+
+class Prv_att_AttDeviceVariant_Out_promotions_item_Out(TypedDict):
+    type: str
+    monthlyPromoPriceUsd: float | None
+    tradeInCreditUsd: float | None
+
 class Prv_audibel_AudibelClinicSearch_Out(TypedDict):
     search: str
     lat: float
@@ -4943,6 +4981,10 @@ class Prv_azure_AzureService_Out(TypedDict):
     serviceName: str
     serviceId: str
     serviceFamily: str
+
+class Prv_bahn_listDisruptions_options_In(TypedDict):
+    trainCategory: NotRequired[str]
+    includePlanned: NotRequired[bool]
 
 class Prv_bahn_DisruptionRow_Out(TypedDict):
     id: str
@@ -10400,6 +10442,18 @@ class Prv_erieinsurance_ErieAgent_Out(TypedDict):
     linesOfBusinessWritten: str | None
     hours: list[str]
     photoDataUri: str | None
+
+class Prv_espn_ListLeaguesArgs_In(TypedDict):
+    sport: NotRequired[str]
+
+class Prv_espn_EspnLeagueCatalog_Out(TypedDict):
+    sport: str | None
+    sports: list[Prv_espn_EspnSport_Out] | None
+    leagues: list[str] | None
+
+class Prv_espn_EspnSport_Out(TypedDict):
+    slug: str
+    name: str
 
 class Prv_espn_InjuriesArgs_In(TypedDict):
     league: NotRequired[Literal["nfl"] | Literal["nba"] | Literal["wnba"] | Literal["mlb"] | Literal["nhl"]]
@@ -17696,15 +17750,6 @@ class Prv_mergify_mergifyQueuedPull_Out(TypedDict):
     priorityRuleName: str | None
     estimatedMergeAt: str | None
 
-class Prv_meteofrance_MarineWindForecast_Out(TypedDict):
-    region: str
-    timeDate: str
-    windSpeed: float | None
-    windGust: float | None
-    windDirection: str | None
-    waveHeight: float | None
-    warnings: list[str]
-
 class Prv_microcenter_StoreOffer_Out(TypedDict):
     title: str
     price: float | None
@@ -18439,6 +18484,18 @@ class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     downloads: float
     start: str
     end: str
+
+class Prv_npr_ListHeadlinesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_npr_NprHeadline_Out(TypedDict):
+    id: str | None
+    url: str
+    title: str
+    teaser: NotRequired[str]
+    section: NotRequired[str]
+    sectionUrl: NotRequired[str]
+    publishedDate: NotRequired[str]
 
 class Prv_nurturelife_GetMealPlansResult_Out(TypedDict):
     plans: list[Prv_nurturelife_NurtureLifeMealPlan_Out]
@@ -24033,6 +24090,32 @@ class Prv_target_TargetSearchResult_Out(TypedDict):
     reviewCount: float
     sponsored: bool
 
+class Prv_target_getProduct_args_In(TypedDict):
+    tcin: str
+
+class Prv_target_TargetProduct_Out(TypedDict):
+    tcin: str
+    title: str
+    brand: str | None
+    description: str | None
+    price: float | None
+    wasPrice: float | None
+    primaryImage: Prv_target_ProductImage_Out | None
+    images: list[Prv_target_ProductImage_Out]
+    availabilityStatus: str | None
+    inStock: bool
+    variants: list[Prv_target_ProductVariant_Out]
+    warnings: list[str]
+
+class Prv_target_ProductImage_Out(TypedDict):
+    url: str
+    alt: str | None
+
+class Prv_target_ProductVariant_Out(TypedDict):
+    name: str
+    inStock: bool
+    tcin: str | None
+
 class Prv_target_findStore_args_In(TypedDict):
     query: str
 
@@ -25201,10 +25284,18 @@ class Prv_tradingview_Financials_Out(TypedDict):
     totalDebt: NotRequired[float]
     cashAndEquivalents: NotRequired[float]
 
+class Prv_tradingview_getChartData_options_In(TypedDict):
+    interval: NotRequired[Literal["1"] | Literal["3"] | Literal["5"] | Literal["15"] | Literal["30"] | Literal["45"] | Literal["60"] | Literal["120"] | Literal["180"] | Literal["240"] | Literal["D"] | Literal["W"] | Literal["M"]]
+    bars: NotRequired[float]
+
 class Prv_tradingview_ChartData_Out(TypedDict):
     symbol: str
     exchange: str
-    timestamp: float
+    interval: Literal["1"] | Literal["3"] | Literal["5"] | Literal["15"] | Literal["30"] | Literal["45"] | Literal["60"] | Literal["120"] | Literal["180"] | Literal["240"] | Literal["D"] | Literal["W"] | Literal["M"]
+    bars: list[Prv_tradingview_ChartBar_Out]
+
+class Prv_tradingview_ChartBar_Out(TypedDict):
+    time: float
     open: NotRequired[float]
     high: NotRequired[float]
     low: NotRequired[float]
@@ -26684,6 +26775,15 @@ class Prv_walmart_walmartProduct_Out(TypedDict):
     images: list[str]
     description: str | None
     specText: str | None
+
+class Prv_walmart_getSeller_args_In(TypedDict):
+    sellerId: str
+
+class Prv_walmart_walmartSeller_Out(TypedDict):
+    sellerId: str
+    name: str
+    rating: float | None
+    reviewCount: float
 
 class Prv_waterfurnace_lookupHomeDetails_input_In(TypedDict):
     address: str
@@ -28226,16 +28326,6 @@ class Prv_yahoo_sports_YahooFantasyRosterSlot_Out(TypedDict):
     nflPosition: str | None
     nflTeam: str | None
 
-class Prv_yahoo_sports_SetFantasyLineupArgs_In(TypedDict):
-    leagueId: str
-    week: float
-    coveredPlayerIds: Sequence[str]
-
-class Prv_yahoo_sports_YahooFantasyLineupSetResult_Out(TypedDict):
-    leagueId: str
-    week: float
-    coveredPlayerIds: list[str]
-
 class Prv_ycombinator_YCombinatorArticle_Out(TypedDict):
     id: float | None
     slug: str
@@ -28768,6 +28858,15 @@ class Prv_youtube_likeVideo_input_In(TypedDict):
 class Prv_youtube_likeVideo_return_Out(TypedDict):
     video: str
     rating: Literal["like"] | Literal["dislike"] | Literal["none"]
+
+class Prv_youtube_postComment_input_In(TypedDict):
+    video: str
+    text: str
+
+class Prv_youtube_postComment_return_Out(TypedDict):
+    video: str
+    commentId: str | None
+    text: str
 
 class Prv_youtube_listMyVideos_input_In(TypedDict):
     limit: NotRequired[float]
@@ -30601,7 +30700,10 @@ class Cap_web_form_fields(Protocol):
     required-ness — including a booking or quote widget that only appears after a click and
     mounts in its own iframe. `getFields` is read-only. `fillForm` writes answers into those
     same fields and can click 'Next'/'Continue' to advance a multi-step flow, or the control
-    that finally commits it — one call, one step; call it again for the next step.
+    that finally commits it — one call, one step; call it again for the next step. When a
+    CAPTCHA appears, common kinds are solved automatically (reCAPTCHA v2/v3, Cloudflare,
+    Turnstile, hCaptcha, DataDome, AWS WAF, image); unsupported kinds return `needs_input`
+    and wait for a person to solve at `watchUrl`.
     """
 
     async def getFields(self, url: str, options: Cap_web_form_fields_FormOptions_In | None = None, /) -> Cap_web_form_fields_FormInspectionResult_Out:
@@ -32102,6 +32204,28 @@ class Prv_atlasseniorliving(Protocol):
         returns the real, distance-sorted matching Atlas communities.
         """
 
+class Prv_att(Protocol):
+    """att.com's own phone catalog and device pricing — a phone's current full retail price and
+    AT&T Installment Plan financing (term, monthly payment, Next Up Anytime charge, trade-in
+    and port-in promotions), read off AT&T's own product pages.
+    """
+
+    async def findDevices(self, query: str | None = None, /) -> list[Prv_att_AttDevice_Out]:
+        """Every phone on AT&T's own phones listing (att.com/buy/phones/) — name, brand, product
+        page URL and headline price. A query narrows it by words ("iphone 16 pro", "galaxy
+        s25"), shortest name first; no query returns the whole listing. The door: a caller who
+        knows only what the phone is called gets the URL getDevicePricing takes.
+        """
+
+    async def getDevicePricing(self, device: str, /) -> Prv_att_AttDevicePricing_Out:
+        """AT&T's current price and financing for a phone, per storage/colour variant: full retail
+        price, the AT&T Installment Plan (term in months, monthly payment, total), the optional
+        Next Up Anytime monthly charge, the port-in discount and any trade-in promotions.
+        `device` is a NAME ("iPhone 16 Pro", matched against AT&T's phones listing) or an
+        att.com/buy/phones/... page URL. AT&T's page prices only some variants up front; the
+        rest come back with `priced: false`. THROWS if no phone on the listing matches the name.
+        """
+
 class Prv_audibel(Protocol):
     """Audibel's own find-a-clinic locator — a ZIP/city/address search returning the real
     network hearing clinics nearest that point, sorted by distance, each with its full
@@ -32278,15 +32402,19 @@ class Prv_azure(Protocol):
 
 class Prv_bahn(Protocol):
     """Lists current long-distance (ICE/IC/EC) train disruptions across the Deutsche Bahn
-    network — the same live data its verkehrslage.bahnhof.de disruption map shows, read
-    directly off the map widget's own API rather than through the client-side-rendered map.
+    network — disruptions that have already started, by default. Optionally includes
+    announced future disruptions. The same live data its verkehrslage.bahnhof.de disruption
+    map shows, read directly off the map widget's own API rather than through the
+    client-side-rendered map.
     """
 
-    async def listDisruptions(self, trainCategory: str | None = None, /) -> list[Prv_bahn_DisruptionRow_Out]:
+    async def listDisruptions(self, options: Prv_bahn_listDisruptions_options_In | None = None, /) -> list[Prv_bahn_DisruptionRow_Out]:
         """Lists current Deutsche Bahn long-distance (ICE/IC/EC) disruptions network-wide — cause,
         effect, affected train categories, states and named railway sections — read live off the
-        same API bahn.de's own disruption map calls. Pass a trainCategory (e.g. "ICE") to narrow
-        to disruptions affecting that category.
+        same API bahn.de's own disruption map calls. By default returns only disruptions that
+        have started (begin <= now). Pass includePlanned: true to include announced future
+        disruptions, or trainCategory (e.g. "ICE") to narrow to disruptions affecting that
+        category.
         """
 
 class Prv_banana_republic(Protocol):
@@ -35848,6 +35976,12 @@ class Prv_espn(Protocol):
     status (Questionable, Out, Injured Reserve…), body part, expected return date and latest
     note, optionally for one team.
     """
+
+    async def listLeagues(self, args: Prv_espn_ListLeaguesArgs_In | None = None, /) -> Prv_espn_EspnLeagueCatalog_Out:
+        """Every sport ESPN's core API tracks (call with no arguments), or every league slug under
+        one sport (pass `sport`) — the door for a caller holding only a league's common name,
+        before calling any other function.
+        """
 
     async def injuries(self, args: Prv_espn_InjuriesArgs_In | None = None, /) -> Prv_espn_EspnInjuryReport_Out:
         """The ESPN injury report for a league — NFL by default — every injured player with team,
@@ -41172,14 +41306,6 @@ class Prv_mergify(Protocol):
         `auth`.
         """
 
-class Prv_meteofrance(Protocol):
-    """Marine wind forecasts for French coastal regions from the national weather service."""
-
-    async def getMarineWindForecast(self, region: str, /) -> list[Prv_meteofrance_MarineWindForecast_Out]:
-        """Fetches marine wind forecasts for a French coastal region (e.g., Méditerranée,
-        Atlantique), including wind speed, gusts, direction and wave height.
-        """
-
 class Prv_microcenter(Protocol):
     """Micro Center (microcenter.com) — live product search over this store's own catalogue,
     cheapest matching item first.
@@ -41805,6 +41931,17 @@ class Prv_npmjs(Protocol):
         `"last-day"`, `"last-week"` (default) or `"last-month"`, or a custom
         `"YYYY-MM-DD:YYYY-MM-DD"` range. Works on scoped packages (`"@babel/core"`) exactly as
         on unscoped ones.
+        """
+
+class Prv_npr(Protocol):
+    """NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast
+    program rundowns, and the member-station finder with live streams.
+    """
+
+    async def listHeadlines(self, args: Prv_npr_ListHeadlinesArgs_In | None = None, /) -> list[Prv_npr_NprHeadline_Out]:
+        """The homepage's current top stories in the site's own order — headline, url, teaser,
+        section and (for an npr.org story) its story id and published date. A syndicated
+        member-station story carries no NPR id or date. Optional limit.
         """
 
 class Prv_nurturelife(Protocol):
@@ -45164,6 +45301,14 @@ class Prv_target(Protocol):
         rather than nothing.
         """
 
+    async def getProduct(self, args: Prv_target_getProduct_args_In, /) -> Prv_target_TargetProduct_Out:
+        """Reads one product page in full — title, brand, price, long-form description, images,
+        shipping availability, and (for a product with siblings) every size/color option with
+        its own TCIN and stock state — for a product TCIN (Target's internal product id, the
+        trailing digits in a product URL, e.g., `/p/<slug>/-/A-12345678`) that `search` already
+        returned. `variants` is empty for a product with no siblings.
+        """
+
     async def findStore(self, args: Prv_target_findStore_args_In, /) -> Prv_target_TargetStoreSearch_Out:
         """Searches the store-locator for nearby Targets by ZIP, partial ZIP, city, or street+city,
         and returns each store's id, slug, name, address, phone, time-zone and 14-day weekly
@@ -45953,12 +46098,16 @@ class Prv_tradingview(Protocol):
         returns a caller-fixable error.
         """
 
-    async def getChartData(self, exchange: str, symbol: str, /) -> Prv_tradingview_ChartData_Out:
-        """Gets historical chart data (30 daily OHLCV candlesticks) for one symbol on one exchange
-        — e.g. `getChartData("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact
-        `exchange` and `symbol` fields. Returns an array of bars, each with a Unix-seconds
-        timestamp (`time`), open, high, low, close prices and volume, in ascending time order.
-        An unknown or delisted pair returns a caller-fixable error.
+    async def getChartData(self, exchange: str, symbol: str, options: Prv_tradingview_getChartData_options_In | None = None, /) -> Prv_tradingview_ChartData_Out:
+        """Gets historical OHLCV candlesticks for one symbol on one exchange — e.g.
+        `getChartData("NASDAQ", "AAPL")` for the last 30 daily bars, or `getChartData("NASDAQ",
+        "AAPL", { interval: "W", bars: 52 })` for a year of weekly ones. `interval` is minutes
+        as digits (`"1"` .. `"240"`), `"D"`, `"W"` or `"M"`, defaulting to `"D"`; `bars` is how
+        many of the most recent bars to return, 1-5000, defaulting to 30. Use `searchSymbols`
+        first and pass its exact `exchange` and `symbol` fields. Returns `{ symbol, exchange,
+        interval, bars }`, where every entry in `bars` carries its Unix-seconds `time`, open,
+        high, low, close and volume, in ascending time order — e.g. `bars.at(-1).close` is the
+        latest close. An unknown or delisted pair returns a caller-fixable error.
         """
 
     async def getEarnings(self, exchange: str, symbol: str, /) -> Prv_tradingview_Earnings_Out:
@@ -46880,6 +47029,12 @@ class Prv_walmart(Protocol):
         returned. The identity and detail a search row cannot carry.
         """
 
+    async def getSeller(self, args: Prv_walmart_getSeller_args_In, /) -> Prv_walmart_walmartSeller_Out:
+        """Reads one Marketplace seller's profile page — name, rating, and review count — for the
+        `catalogSellerId` (a short numeric id) a seller's own `/global/seller/<id>` URL carries.
+        NOT the GUID `listSellerOffers` returns.
+        """
+
 class Prv_waterfurnace(Protocol):
     """WaterFurnace's Savings Calculator, run for real — the site's own computed Free Savings
     Report (annual dollar savings, energy comparison, carbon footprint, recommended
@@ -47673,12 +47828,6 @@ class Prv_yahoo_sports(Protocol):
         position set, only their one real NFL position and the slot they are in now.
         """
 
-    async def setFantasyLineup(self, args: Prv_yahoo_sports_SetFantasyLineupArgs_In, opts: ConnectionOption | None = None, /) -> Prv_yahoo_sports_YahooFantasyLineupSetResult_Out:
-        """Sets the CALLER's own fantasy lineup for the week by specifying which players should be
-        in coverage (starting) status. The caller must have signed in through the auth relay.
-        NEEDS A SIGN-IN.
-        """
-
 class Prv_ycombinator(Protocol):
     """Y Combinator's own site (ycombinator.com) — reads one Startup Library article or blog
     post by its URL/slug (application and interview guidance, fundraising, pitching,
@@ -48088,6 +48237,18 @@ class Prv_youtube(Protocol):
         exists nowhere else logged out.
         """
 
+    async def postComment(self, input: Prv_youtube_postComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_postComment_return_Out:
+        """Posts a top-level comment on a video as the signed-in account — a PUBLIC write on
+        somebody else's video, visible to anyone who opens it. `video` is a bare 11-character
+        video id or any watch/shorts/youtu.be URL; `text` is the comment body. Walks the same
+        comments panel `listComments` reads to find the viewer's own "Add a comment" box and its
+        one-time `createCommentParams` token, then posts through it — a logged-out viewer's box
+        carries a sign-in prompt instead and no token at all (measured 2026-10-04), which is
+        what this refuses on before any write is attempted. `commentId` is null: YouTube's
+        create-comment response shape has not been captured against a real posted comment yet,
+        so this does not invent one. NEEDS A SIGN-IN and exists nowhere else logged out.
+        """
+
     async def listMyVideos(self, input: Prv_youtube_listMyVideos_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeMyVideoPage_Out:
         """The videos on the signed-in account's OWN channel, newest first, as YouTube Studio lists
         them — private and unlisted ones included, each with its privacy and processing status.
@@ -48231,6 +48392,7 @@ class BowmarkProviders(Protocol):
     astoundgroup: Prv_astoundgroup
     atlasoceanvoyages: Prv_atlasoceanvoyages
     atlasseniorliving: Prv_atlasseniorliving
+    att: Prv_att
     audibel: Prv_audibel
     autocamp: Prv_autocamp
     avalonmalibu_com: Prv_avalonmalibu_com
@@ -48529,7 +48691,6 @@ class BowmarkProviders(Protocol):
     medicare: Prv_medicare
     mercari: Prv_mercari
     mergify: Prv_mergify
-    meteofrance: Prv_meteofrance
     microcenter: Prv_microcenter
     millisaraylar: Prv_millisaraylar
     minimax: Prv_minimax
@@ -48552,6 +48713,7 @@ class BowmarkProviders(Protocol):
     newegg: Prv_newegg
     nfa_futures_org: Prv_nfa_futures_org
     npmjs: Prv_npmjs
+    npr: Prv_npr
     nurturelife: Prv_nurturelife
     nutrafol: Prv_nutrafol
     nvisioncenters: Prv_nvisioncenters

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4dabbe228e0371b2af897079287d97bec9d95a082281c18fb8ce73f60dbd4815
-// 1851 checked, 20 unchecked.
+// Manifest version: 24fbf26a574dadfbf6ddc44cf7bad0daf699d2873ab930e03321d55a65d3131c
+// 1856 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4dabbe228e0371b2af897079287d97bec9d95a082281c18fb8ce73f60dbd4815",
+  "version": "24fbf26a574dadfbf6ddc44cf7bad0daf699d2873ab930e03321d55a65d3131c",
   "units": {
     "address_validation": {
       "defs": {
@@ -5321,6 +5321,31 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             },
             {
+              "name": "egress",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "default"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "direct"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "us-datacenter"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "static-residential"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
               "name": "advance",
               "schema": {
                 "k": "boolean"
@@ -5371,6 +5396,31 @@ export const VALIDATORS: ValidatorTable = {
               "name": "timeoutMs",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "egress",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "default"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "direct"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "us-datacenter"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "static-residential"
+                  }
+                ]
               },
               "optional": true
             }
@@ -9350,6 +9400,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.att": {
+      "defs": {},
+      "functions": {
+        "findDevices": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getDevicePricing": [
+          {
+            "name": "device",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.audibel": {
       "defs": {},
       "functions": {
@@ -9742,9 +9815,25 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listDisruptions": [
           {
-            "name": "trainCategory",
+            "name": "options",
             "schema": {
-              "k": "string"
+              "k": "object",
+              "props": [
+                {
+                  "name": "trainCategory",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "includePlanned",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": true
           }
@@ -18545,9 +18634,31 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ListLeaguesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sport",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
+        "listLeagues": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLeaguesArgs"
+            },
+            "optional": true
+          }
+        ],
         "injuries": [
           {
             "name": "args",
@@ -31796,20 +31907,6 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
-    "providers.meteofrance": {
-      "defs": {},
-      "functions": {
-        "getMarineWindForecast": [
-          {
-            "name": "region",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
     "providers.microcenter": {
       "defs": {},
       "functions": {
@@ -32999,6 +33096,34 @@ export const VALIDATORS: ValidatorTable = {
             "name": "period",
             "schema": {
               "k": "string"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.npr": {
+      "defs": {
+        "ListHeadlinesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listHeadlines": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListHeadlinesArgs"
             },
             "optional": true
           }
@@ -46213,6 +46338,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tcin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "findStore": [
           {
             "name": "args",
@@ -48182,6 +48325,83 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "interval",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "1"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "3"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "5"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "15"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "30"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "45"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "60"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "120"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "180"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "240"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "D"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "W"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "M"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "bars",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getEarnings": [
@@ -50845,6 +51065,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getSeller": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "sellerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -53199,35 +53437,6 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
-        },
-        "SetFantasyLineupArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "leagueId",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "week",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
-            },
-            {
-              "name": "coveredPlayerIds",
-              "schema": {
-                "k": "array",
-                "of": {
-                  "k": "string"
-                }
-              },
-              "optional": false
-            }
-          ]
         }
       },
       "functions": {
@@ -53393,32 +53602,6 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetFantasyTeamArgs"
-            },
-            "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
-          }
-        ],
-        "setFantasyLineup": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "SetFantasyLineupArgs"
             },
             "optional": false
           },
@@ -54855,6 +55038,47 @@ export const VALIDATORS: ValidatorTable = {
                         "v": "none"
                       }
                     ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postComment": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": false
                 }

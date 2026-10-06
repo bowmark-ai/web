@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4dabbe228e0371b2af897079287d97bec9d95a082281c18fb8ce73f60dbd4815
-// 76 capabilities, 532 providers, 1869 typed functions, 20 refused.
+// Manifest version: 24fbf26a574dadfbf6ddc44cf7bad0daf699d2873ab930e03321d55a65d3131c
+// 76 capabilities, 533 providers, 1874 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4510,6 +4510,11 @@ type FormOptions = {
                                            // the full load
   open?: string                            // the control that opens the form: a CSS selector or its visible text
   timeoutMs?: number                       // default 30000
+  egress?: "default" | "direct" | "us-datacenter" | "static-residential"  // which exit IP to
+                                           // use — default is the rotating proxy vendor. Set this
+                                           // for a site that refuses our default route. "direct" is
+                                           // honoured as "static-residential" (our own address is
+                                           // never an exit)
 }
 
 type FormInspectionResult = {
@@ -4530,6 +4535,9 @@ type FormFillOptions = {
   open?: string        // the control that opens the form, if you already know it
   strategy?: "browser" // fillForm always does the full page load; accepted for symmetry with getFields so both can be called the same way
   timeoutMs?: number   // default 30000
+  egress?: "default" | "direct" | "us-datacenter" | "static-residential"  // same meaning as
+                        // FormOptions.egress — use a specific exit IP for a site that refuses
+                        // our default route
   advance?: boolean     // click "Next"/"Continue" once values are written. default false
   submit?: boolean       // click the control that COMMITS the form. default false. wins over advance
 }
@@ -4554,7 +4562,10 @@ type FormFillResult = {
    * including a booking or quote widget that only appears after a click and mounts in its own
    * iframe. `getFields` is read-only. `fillForm` writes answers into those same fields and can
    * click 'Next'/'Continue' to advance a multi-step flow, or the control that finally commits it
-   * — one call, one step; call it again for the next step.
+   * — one call, one step; call it again for the next step. When a CAPTCHA appears, common kinds
+   * are solved automatically (reCAPTCHA v2/v3, Cloudflare, Turnstile, hCaptcha, DataDome, AWS
+   * WAF, image); unsupported kinds return `needs_input` and wait for a person to solve at
+   * `watchUrl`.
    */
   interface Unit {
     /**
@@ -8504,6 +8515,62 @@ interface AtlasSearchCommunitiesResult {
   }
 }
 
+declare namespace BowmarkProvider_att {
+  // ── AT&T — the unit's own declarations, verbatim ──
+interface AttDevice {
+  name: string;                  // "Apple iPhone 16 Pro"
+  brand: string | null;
+  url: string;                   // the product page getDevicePricing takes
+  listedPriceUsd: number | null; // listing headline: monthly installment, or full price
+}
+interface AttDeviceVariant {
+  skuId: string; name: string; capacity: string | null; color: string | null;
+  inStock: boolean | null;
+  priced: boolean;               // false = AT&T's page did not carry this variant's prices
+  fullRetailPriceUsd: number | null;
+  installment: { planName: string; termMonths: number; monthlyUsd: number; totalUsd: number } | null;
+  nextUpAnytimeMonthlyUsd: number | null;
+  portInDiscountUsd: number | null;
+  promotions: Array<{ type: string; monthlyPromoPriceUsd: number | null; tradeInCreditUsd: number | null }>;
+}
+interface AttDevicePricing {
+  url: string; name: string; manufacturer: string | null;
+  variants: AttDeviceVariant[];  // priced variants first
+}
+interface AttPlanTotal {
+  planId: string;
+  lineCount: number;
+  advertisedPricePerLineUsd: number;
+  itemizedFeesUsd: Array<{ label: string; amountUsd: number }>;
+  totalMonthlyUsd: number;
+}
+
+  /**
+   * att.com's own phone catalog and device pricing — a phone's current full retail price and
+   * AT&T Installment Plan financing (term, monthly payment, Next Up Anytime charge, trade-in and
+   * port-in promotions), read off AT&T's own product pages.
+   */
+  interface Unit {
+    /**
+     * Every phone on AT&T's own phones listing (att.com/buy/phones/) — name, brand, product page
+     * URL and headline price. A query narrows it by words ("iphone 16 pro", "galaxy s25"),
+     * shortest name first; no query returns the whole listing. The door: a caller who knows only
+     * what the phone is called gets the URL getDevicePricing takes.
+     */
+    findDevices(query?: string): Promise<AttDevice[]>;
+
+    /**
+     * AT&T's current price and financing for a phone, per storage/colour variant: full retail
+     * price, the AT&T Installment Plan (term in months, monthly payment, total), the optional Next
+     * Up Anytime monthly charge, the port-in discount and any trade-in promotions. `device` is a
+     * NAME ("iPhone 16 Pro", matched against AT&T's phones listing) or an att.com/buy/phones/...
+     * page URL. AT&T's page prices only some variants up front; the rest come back with `priced:
+     * false`. THROWS if no phone on the listing matches the name.
+     */
+    getDevicePricing(device: string): Promise<AttDevicePricing>;
+  }
+}
+
 declare namespace BowmarkProvider_audibel {
   // ── Audibel — the unit's own declarations, verbatim ──
 interface AudibelClinic {
@@ -8996,17 +9063,19 @@ interface DisruptionRow {
 
   /**
    * Lists current long-distance (ICE/IC/EC) train disruptions across the Deutsche Bahn network —
-   * the same live data its verkehrslage.bahnhof.de disruption map shows, read directly off the
-   * map widget's own API rather than through the client-side-rendered map.
+   * disruptions that have already started, by default. Optionally includes announced future
+   * disruptions. The same live data its verkehrslage.bahnhof.de disruption map shows, read
+   * directly off the map widget's own API rather than through the client-side-rendered map.
    */
   interface Unit {
     /**
      * Lists current Deutsche Bahn long-distance (ICE/IC/EC) disruptions network-wide — cause,
      * effect, affected train categories, states and named railway sections — read live off the
-     * same API bahn.de's own disruption map calls. Pass a trainCategory (e.g. "ICE") to narrow to
-     * disruptions affecting that category.
+     * same API bahn.de's own disruption map calls. By default returns only disruptions that have
+     * started (begin <= now). Pass includePlanned: true to include announced future disruptions,
+     * or trainCategory (e.g. "ICE") to narrow to disruptions affecting that category.
      */
-    listDisruptions(trainCategory?: string): Promise<DisruptionRow[]>;
+    listDisruptions(options?: { trainCategory?: string; includePlanned?: boolean }): Promise<DisruptionRow[]>;
   }
 }
 
@@ -18799,6 +18868,23 @@ interface ErieAgent {
 
 declare namespace BowmarkProvider_espn {
   // ── ESPN — the unit's own declarations, verbatim ──
+interface ListLeaguesArgs {
+  /** Narrow to one sport's leagues, by the slug listLeagues() (no args) returns
+   * — "football", "soccer", "basketball". Omit to list the sports instead. */
+  sport?: string;
+}
+
+interface EspnSport {
+  slug: string; // "football", "soccer", "basketball" — this function's own sport arg
+  name: string; // "Football", "Soccer", "Basketball"
+}
+
+interface EspnLeagueCatalog {
+  sport: string | null; // echoes the argument
+  sports: EspnSport[] | null; // populated only when sport was omitted
+  leagues: string[] | null; // populated only when sport was given — e.g. "nfl", "eng.1", "usa.1"
+}
+
 interface InjuriesArgs {
   /** Default "nfl". */
   league?: "nfl" | "nba" | "wnba" | "mlb" | "nhl";
@@ -18834,6 +18920,13 @@ interface EspnInjuryReport {
    * optionally for one team.
    */
   interface Unit {
+    /**
+     * Every sport ESPN's core API tracks (call with no arguments), or every league slug under one
+     * sport (pass `sport`) — the door for a caller holding only a league's common name, before
+     * calling any other function.
+     */
+    listLeagues(args?: ListLeaguesArgs): Promise<EspnLeagueCatalog>;
+
     /**
      * The ESPN injury report for a league — NFL by default — every injured player with team,
      * position, status, body part, expected return date and the latest news note. Pass `team` to
@@ -33133,28 +33226,6 @@ interface mergifyQueueStatus {
   }
 }
 
-declare namespace BowmarkProvider_meteofrance {
-  // ── Météo-France — the unit's own declarations, verbatim ──
-interface MarineWindForecast {
-  region: string;
-  timeDate: string;
-  windSpeed: number | null;
-  windGust: number | null;
-  windDirection: string | null;
-  waveHeight: number | null;
-  warnings: string[];
-}
-
-  /** Marine wind forecasts for French coastal regions from the national weather service. */
-  interface Unit {
-    /**
-     * Fetches marine wind forecasts for a French coastal region (e.g., Méditerranée, Atlantique),
-     * including wind speed, gusts, direction and wave height.
-     */
-    getMarineWindForecast(region: string): Promise<MarineWindForecast[]>;
-  }
-}
-
 declare namespace BowmarkProvider_microcenter {
   // ── Micro Center — the unit's own declarations, verbatim ──
 // Micro Center's OWN row shape — not the `pcparts` capability contract.
@@ -34723,6 +34794,36 @@ interface npmjsDownloads {
      * unscoped ones.
      */
     getDownloads(packageName: string, period?: string): Promise<npmjsDownloads>;
+  }
+}
+
+declare namespace BowmarkProvider_npr {
+  // ── NPR — the unit's own declarations, verbatim ──
+interface NprHeadline {
+  id: string | null;
+  url: string;
+  title: string;
+  teaser?: string;
+  section?: string;
+  sectionUrl?: string;
+  publishedDate?: string;
+}
+
+interface ListHeadlinesArgs {
+  limit?: number;
+}
+
+  /**
+   * NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast program
+   * rundowns, and the member-station finder with live streams.
+   */
+  interface Unit {
+    /**
+     * The homepage's current top stories in the site's own order — headline, url, teaser, section
+     * and (for an npr.org story) its story id and published date. A syndicated member-station
+     * story carries no NPR id or date. Optional limit.
+     */
+    listHeadlines(args?: ListHeadlinesArgs): Promise<NprHeadline[]>;
   }
 }
 
@@ -43805,6 +43906,32 @@ interface TargetSearchResults {
   warnings: string[];
 }
 
+interface ProductImage {
+  url: string;
+  alt: string | null;
+}
+
+interface ProductVariant {
+  name: string;
+  inStock: boolean;
+  tcin: string | null;
+}
+
+interface TargetProduct {
+  tcin: string;
+  title: string;
+  brand: string | null;
+  description: string | null;
+  price: number | null;
+  wasPrice: number | null;
+  primaryImage: ProductImage | null;
+  images: ProductImage[];
+  availabilityStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  inStock: boolean;
+  variants: ProductVariant[];  // flattened from the site's own variation tree; [] when the product has no siblings
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -43821,6 +43948,15 @@ interface TargetSearchResults {
      * nothing.
      */
     search(args: { query: string; limit?: number; offset?: number }): Promise<TargetSearchResults>;
+
+    /**
+     * Reads one product page in full — title, brand, price, long-form description, images,
+     * shipping availability, and (for a product with siblings) every size/color option with its
+     * own TCIN and stock state — for a product TCIN (Target's internal product id, the trailing
+     * digits in a product URL, e.g., `/p/<slug>/-/A-12345678`) that `search` already returned.
+     * `variants` is empty for a product with no siblings.
+     */
+    getProduct(args: { tcin: string }): Promise<TargetProduct>;
 
     /**
      * Searches the store-locator for nearby Targets by ZIP, partial ZIP, city, or street+city, and
@@ -45839,15 +45975,20 @@ interface TechnicalAnalysis {
   };
 }
 
-interface ChartData {
-  symbol: string;
-  exchange: string;
-  timestamp: number;
+interface ChartBar {
+  time: number;
   open?: number;
   high?: number;
   low?: number;
   close?: number;
   volume?: number;
+}
+
+interface ChartData {
+  symbol: string;
+  exchange: string;
+  interval: "1" | "3" | "5" | "15" | "30" | "45" | "60" | "120" | "180" | "240" | "D" | "W" | "M";
+  bars: ChartBar[];
 }
 
 interface Earnings {
@@ -46032,13 +46173,17 @@ interface Idea {
     getFinancials(exchange: string, symbol: string): Promise<Financials>;
 
     /**
-     * Gets historical chart data (30 daily OHLCV candlesticks) for one symbol on one exchange —
-     * e.g. `getChartData("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact
-     * `exchange` and `symbol` fields. Returns an array of bars, each with a Unix-seconds timestamp
-     * (`time`), open, high, low, close prices and volume, in ascending time order. An unknown or
-     * delisted pair returns a caller-fixable error.
+     * Gets historical OHLCV candlesticks for one symbol on one exchange — e.g.
+     * `getChartData("NASDAQ", "AAPL")` for the last 30 daily bars, or `getChartData("NASDAQ",
+     * "AAPL", { interval: "W", bars: 52 })` for a year of weekly ones. `interval` is minutes as
+     * digits (`"1"` .. `"240"`), `"D"`, `"W"` or `"M"`, defaulting to `"D"`; `bars` is how many of
+     * the most recent bars to return, 1-5000, defaulting to 30. Use `searchSymbols` first and pass
+     * its exact `exchange` and `symbol` fields. Returns `{ symbol, exchange, interval, bars }`,
+     * where every entry in `bars` carries its Unix-seconds `time`, open, high, low, close and
+     * volume, in ascending time order — e.g. `bars.at(-1).close` is the latest close. An unknown
+     * or delisted pair returns a caller-fixable error.
      */
-    getChartData(exchange: string, symbol: string): Promise<ChartData>;
+    getChartData(exchange: string, symbol: string, options?: { interval?: "1" | "3" | "5" | "15" | "30" | "45" | "60" | "120" | "180" | "240" | "D" | "W" | "M", bars?: number }): Promise<ChartData>;
 
     /**
      * Gets earnings history and the upcoming earnings date for one symbol on one exchange — e.g.
@@ -48376,6 +48521,13 @@ interface walmartSellerOffer {
   condition: string | null; // the site's own labels — read the values off a result, never guess one from prose
 }
 
+interface walmartSeller {
+  sellerId: string;
+  name: string;
+  rating: number | null;
+  reviewCount: number;
+}
+
   /**
    * Walmart.com — product search, product detail, store-level stock, store locator and more.
    * Eight functions built: keyword search across the catalog, finding nearby stores by ZIP with
@@ -48459,6 +48611,13 @@ interface walmartSellerOffer {
      * returned. The identity and detail a search row cannot carry.
      */
     getProduct(args: { itemId: string }): Promise<walmartProduct>;
+
+    /**
+     * Reads one Marketplace seller's profile page — name, rating, and review count — for the
+     * `catalogSellerId` (a short numeric id) a seller's own `/global/seller/<id>` URL carries. NOT
+     * the GUID `listSellerOffers` returns.
+     */
+    getSeller(args: { sellerId: string }): Promise<walmartSeller>;
   }
 }
 
@@ -50645,15 +50804,6 @@ interface GetFantasyTeamArgs {
   teamId: string;
 }
 
-interface SetFantasyLineupArgs {
-  // The league's numeric id off its own URL (football.fantasysports.yahoo.com/f1/<leagueId>).
-  leagueId: string;
-  // The week number (1-17) to set the lineup for.
-  week: number;
-  // Array of player IDs that should be in coverage (starting) status.
-  coveredPlayerIds: string[];
-}
-
 interface YahooFantasyStandingsRow {
   teamId: string;
   teamName: string;
@@ -50685,12 +50835,6 @@ interface YahooFantasyLeagueDetail {
   week: number | null;
   standings: YahooFantasyStandingsRow[];
   matchups: YahooFantasyMatchup[];
-}
-
-interface YahooFantasyLineupSetResult {
-  leagueId: string;
-  week: number;
-  coveredPlayerIds: string[];
 }
 
 interface YahooFantasyRosterSlot {
@@ -50827,13 +50971,6 @@ interface YahooFantasyTeamDetail {
      * only their one real NFL position and the slot they are in now.
      */
     getFantasyTeam(args: GetFantasyTeamArgs, opts?: ConnectionOption): Promise<YahooFantasyTeamDetail>;
-
-    /**
-     * Sets the CALLER's own fantasy lineup for the week by specifying which players should be in
-     * coverage (starting) status. The caller must have signed in through the auth relay. NEEDS A
-     * SIGN-IN.
-     */
-    setFantasyLineup(args: SetFantasyLineupArgs, opts?: ConnectionOption): Promise<YahooFantasyLineupSetResult>;
   }
 }
 
@@ -51765,6 +51902,19 @@ interface YoutubeStreamFormat {
      * else logged out.
      */
     likeVideo(input: { video: string; rating: "like" | "dislike" | "none" }, opts?: ConnectionOption): Promise<{ video: string; rating: "like" | "dislike" | "none" }>;
+
+    /**
+     * Posts a top-level comment on a video as the signed-in account — a PUBLIC write on somebody
+     * else's video, visible to anyone who opens it. `video` is a bare 11-character video id or any
+     * watch/shorts/youtu.be URL; `text` is the comment body. Walks the same comments panel
+     * `listComments` reads to find the viewer's own "Add a comment" box and its one-time
+     * `createCommentParams` token, then posts through it — a logged-out viewer's box carries a
+     * sign-in prompt instead and no token at all (measured 2026-10-04), which is what this refuses
+     * on before any write is attempted. `commentId` is null: YouTube's create-comment response
+     * shape has not been captured against a real posted comment yet, so this does not invent one.
+     * NEEDS A SIGN-IN and exists nowhere else logged out.
+     */
+    postComment(input: { video: string; text: string }, opts?: ConnectionOption): Promise<{ video: string; commentId: string | null; text: string }>;
 
     /**
      * The videos on the signed-in account's OWN channel, newest first, as YouTube Studio lists
@@ -52821,6 +52971,7 @@ interface BowmarkProviders {
   astoundgroup: BowmarkProvider_astoundgroup.Unit;
   atlasoceanvoyages: BowmarkProvider_atlasoceanvoyages.Unit;
   atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
+  att: BowmarkProvider_att.Unit;
   audibel: BowmarkProvider_audibel.Unit;
   autocamp: BowmarkProvider_autocamp.Unit;
   avalonmalibu_com: BowmarkProvider_avalonmalibu_com.Unit;
@@ -53119,7 +53270,6 @@ interface BowmarkProviders {
   medicare: BowmarkProvider_medicare.Unit;
   mercari: BowmarkProvider_mercari.Unit;
   mergify: BowmarkProvider_mergify.Unit;
-  meteofrance: BowmarkProvider_meteofrance.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
   millisaraylar: BowmarkProvider_millisaraylar.Unit;
   minimax: BowmarkProvider_minimax.Unit;
@@ -53142,6 +53292,7 @@ interface BowmarkProviders {
   newegg: BowmarkProvider_newegg.Unit;
   nfa_futures_org: BowmarkProvider_nfa_futures_org.Unit;
   npmjs: BowmarkProvider_npmjs.Unit;
+  npr: BowmarkProvider_npr.Unit;
   nurturelife: BowmarkProvider_nurturelife.Unit;
   nutrafol: BowmarkProvider_nutrafol.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;

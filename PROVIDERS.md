@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3112 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3160 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -281,6 +281,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | 🟢 |
 | `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | 🟢 |
 | `bbc.getVideo` | bbc.com | One BBC video page as data: title, summary, duration, published time, section, poster… | ⚪ |
+| `bbc.getWeatherWarnings` | bbc.com | The weather warnings BBC Weather shows for a location or region: level, type (rain… | ⚪ |
 | `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | 🟢 |
 | `bbc.listFollowedPodcasts` | bbc.com | The podcasts and series the signed-in reader follows. | ⚪ |
 | `bbc.listHeadlines` | bbc.com | The stories a BBC section page shows right now, in the page's own order and grouping… | 🟢 |
@@ -834,7 +835,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.favouriteDeviation` | deviantart.com | Adds a deviation to the signed-in caller's Favourites (optionally into one collection… | ⚪ |
 | `deviantart.getComments` | deviantart.com | Reads a deviation's comment thread — each comment's author, posted time, text and… | ⚪ |
 | `deviantart.getDailyDeviations` | deviantart.com | Lists the Daily Deviations — the artworks DeviantArt's staff feature each day — for… | ⚪ |
-| `deviantart.getDeviation` | deviantart.com | Reads one deviation in full — title, author, published time, description text, tags… | ⚪ |
+| `deviantart.getDeviation` | deviantart.com | Reads one deviation in full — title, author, published time, description text, tags… | 🟢 |
 | `deviantart.getNotifications` | deviantart.com | Reads the signed-in caller's notifications — comments, favourites, new watchers and… | ⚪ |
 | `deviantart.getRelatedDeviations` | deviantart.com | Lists deviations like a given one — the 'more like this' and 'more from this artist'… | ⚪ |
 | `deviantart.getUserFavourites` | deviantart.com | Lists the deviations an artist has favourited — their public 'Favourites' collections… | ⚪ |
@@ -962,7 +963,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getLibrary` | epicgames.com | The games the signed-in caller owns on Epic — title, namespace, slug, and when it was… | ⚪ |
 | `epicgames.getNewsArticle` | epicgames.com | One Epic Games Store news article's full text (HTML), date, author, category and images. | 🟢 |
 | `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | 🟡 |
-| `epicgames.getRewardsBalance` | epicgames.com | The signed-in caller's Epic Rewards balance — the store credit they have earned from… | ⚪ |
+| `epicgames.getRewardsBalance` | epicgames.com | The signed-in caller's Epic Rewards balance — the store credit they have earned from… | 🟢 |
 | `epicgames.getServiceStatus` | epicgames.com | Whether Epic's services are up — the Epic Games Store, launcher, login, Fortnite… | 🟢 |
 | `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | 🟡 |
 | `epicgames.getWishlist` | epicgames.com | The signed-in caller's Epic Games Store wishlist, with each game's current price and… | ⚪ |
@@ -1598,14 +1599,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟡 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
-| `imdb.getPerson` | imdb.com | Reads a person's biography, birth year, filmography, awards, and known roles. | ⚪ |
-| `imdb.getTitle` | imdb.com | Reads a title's full details: year, runtime, genres, plot, ratings, cast, crew… | ⚪ |
-| `imdb.getTitleReviews` | imdb.com | Reads user reviews for a title, with user rating, text, and helpfulness count. | ⚪ |
+| `imdb.getPerson` | imdb.com | Reads a person's biography, birth year, filmography, awards, and known roles. | 🟢 |
+| `imdb.getTitle` | imdb.com | Reads a title's full details: year, runtime, genres, plot, ratings, cast, crew… | 🟢 |
+| `imdb.getTitleReviews` | imdb.com | Reads user reviews for a title, with user rating, text, and helpfulness count. | 🟢 |
 | `imdb.listCustomLists` | imdb.com | The logged-in user's custom lists of titles. | ⚪ |
 | `imdb.listRatings` | imdb.com | The logged-in user's own ratings across titles and episodes. | ⚪ |
 | `imdb.listWatchlist` | imdb.com | The logged-in user's Watch Later queue, newest first. | ⚪ |
-| `imdb.search` | imdb.com | Full-text search across titles and people, returning matching results ranked by… | ⚪ |
-| `imdb.searchSuggestions` | imdb.com | Typeahead search for quick title and person completion as the user types. | ⚪ |
+| `imdb.search` | imdb.com | Full-text search across titles and people, returning matching results ranked by… | 🟢 |
+| `imdb.searchSuggestions` | imdb.com | Typeahead search for quick title and person completion as the user types. | 🟢 |
 | `indeed.getCompanyDetails` | indeed.com | Fetches a company's full profile off its own /cmp/… snapshot page: overall rating… | 🟢 |
 | `indeed.getJobDetails` | indeed.com | Fetches one job listing's full details — title, company, location, salary… | 🟢 |
 | `indeed.getSalaryDetails` | indeed.com | Fetches the full salary breakdown for one job title off its own… | 🟢 |
@@ -2001,13 +2002,35 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nvisioncenters.calculateLasikSavings` | nvisioncenters.com | Runs NVISION's own LASIK Savings Calculator — age plus glasses/contacts usage and cost… | 🟢 |
 | `nvisioncenters.checkLasikCandidacy` | nvisioncenters.com | Runs NVISION's own LASIK Candidate Quiz disqualification rule — age bracket in, the… | 🟢 |
 | `nvisioncenters.estimateLasikSavings` | nvisioncenters.com | Alias of calculateLasikSavings taking the snake_case argument spelling (glasses_cost… | 🟢 |
-| `nws.getAlerts` | api.weather.gov | Get active weather alerts for a location or area. | ⚪ |
-| `nws.getForecast` | api.weather.gov | Get the hourly or daily forecast for a location (given lat/lng or grid point). | ⚪ |
-| `nws.getGridpointForecast` | api.weather.gov | Get detailed grid point forecast with hourly or daily resolution and additional fields. | ⚪ |
-| `nws.getMetadata` | api.weather.gov | Get metadata for a grid point including timezone, forecast zone, county and marine zone. | ⚪ |
-| `nws.getRadarServer` | api.weather.gov | Get radar and observation data via the NWS Radar and Observation website… | ⚪ |
-| `nws.listStations` | api.weather.gov | List NWS weather stations and observation points for a region. | ⚪ |
-| `nws.searchLocation` | api.weather.gov | Search for a location by latitude and longitude and get its grid point, forecast zone… | ⚪ |
+| `nws.findRadarStations` | api.weather.gov | List NWS radar sites (WSR-88D and TDWR) with id, name, location and whether each is up… | ⚪ |
+| `nws.findStations` | api.weather.gov | Find NWS observation stations — nearest to a place, in a state, or in a forecast zone… | ⚪ |
+| `nws.findZones` | api.weather.gov | List NWS forecast, county, fire or marine zones by state or for a place, with zone id… | ⚪ |
+| `nws.getActiveAlerts` | api.weather.gov | The weather warnings, watches and advisories in effect right now — for a place, a… | ⚪ |
+| `nws.getAlert` | api.weather.gov | One alert in full by its id — the complete text, instructions, every affected zone and… | ⚪ |
+| `nws.getAlertCounts` | api.weather.gov | How many alerts are active right now, nationally and broken down by state, marine… | ⚪ |
+| `nws.getClimateHistory` | api.weather.gov | Daily climate records for a station across a date range — high, low, precipitation and… | ⚪ |
+| `nws.getCurrentConditions` | api.weather.gov | The weather right now at the nearest observing station — temperature, dewpoint… | ⚪ |
+| `nws.getForecast` | api.weather.gov | The 7-day forecast a person reads on weather.gov — fourteen day/night periods, each… | ⚪ |
+| `nws.getForecastDiscussion` | api.weather.gov | The Area Forecast Discussion — the forecasters' own write-up of what they expect and… | ⚪ |
+| `nws.getGridpointData` | api.weather.gov | The raw numbers behind a forecast for one grid cell — rainfall and snowfall amounts… | ⚪ |
+| `nws.getHourlyForecast` | api.weather.gov | The hour-by-hour forecast for the next week — temperature, dewpoint, humidity, wind… | ⚪ |
+| `nws.getMarineForecast` | api.weather.gov | The coastal-waters or offshore marine forecast for one marine zone — winds in knots… | ⚪ |
+| `nws.getObservationHistory` | api.weather.gov | Past observations at a station across a time window — what the temperature, wind and… | ⚪ |
+| `nws.getOffice` | api.weather.gov | One NWS forecast office — its name, street address, phone, email, the counties and… | ⚪ |
+| `nws.getOfficeHeadlines` | api.weather.gov | The headlines a forecast office has posted — event notices, outreach and important… | ⚪ |
+| `nws.getPoint` | api.weather.gov | Everything NWS knows about one place: its forecast office, forecast grid cell… | ⚪ |
+| `nws.getRadarImage` | api.weather.gov | The current radar loop for a radar site, a place's nearest radar, or the whole country… | ⚪ |
+| `nws.getTaf` | api.weather.gov | The Terminal Aerodrome Forecast for an airport — the aviation forecast pilots file… | ⚪ |
+| `nws.getTextProduct` | api.weather.gov | The latest issuance of any NWS text product for an office — Hazardous Weather Outlook… | ⚪ |
+| `nws.getWeatherRadio` | api.weather.gov | The NOAA Weather Radio transmitters that cover a place — call sign, frequency, site —… | ⚪ |
+| `nws.getWeatherStories` | api.weather.gov | The forecast office's current "weather story" graphics — the briefing image with a… | ⚪ |
+| `nws.getZoneForecast` | api.weather.gov | The text forecast NWS writes for a whole forecast zone or fire-weather zone — the… | ⚪ |
+| `nws.listAlertTypes` | api.weather.gov | Every alert event name NWS issues (Tornado Warning, Winter Storm Watch, Heat Advisory… | ⚪ |
+| `nws.listSigmets` | api.weather.gov | The SIGMETs in force — aviation hazard warnings for turbulence, icing, convection and… | ⚪ |
+| `nws.listTextProducts` | api.weather.gov | Which text products an office issues and the recent issuances of one type, with ids… | ⚪ |
+| `nws.lookupGlossary` | api.weather.gov | What an NWS term means — "red flag warning", "dewpoint", "QPF" — from NWS's own… | ⚪ |
+| `nws.searchAlerts` | api.weather.gov | Alerts that were issued in a past window — "every tornado warning in Oklahoma since… | ⚪ |
+| `nws.searchLocation` | api.weather.gov | Turn what a person types into weather.gov's own search box — "Boston, MA", a ZIP like… | ⚪ |
 | `nyt_cooking.addRecipeToFolder` | cooking.nytimes.com | Files a saved recipe into one of the signed-in reader's Recipe Box folders. | ⚪ |
 | `nyt_cooking.addToGroceryList` | cooking.nytimes.com | Adds a recipe's ingredients (or plain items) to the signed-in reader's grocery list. | ⚪ |
 | `nyt_cooking.clearGroceryList` | cooking.nytimes.com | Clears the signed-in reader's whole grocery list. | ⚪ |
@@ -2068,7 +2091,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟢 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
-| `nytimes.getSpellingBee` | nytimes.com | Gets today's Spelling Bee puzzle. | ⚪ |
+| `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟢 |
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets a day's Wordle puzzle — the solution, puzzle id and editor. | 🟢 |
@@ -2200,7 +2223,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `poshmark.getBulkUploadTemplateGuide` | poshmark.com | Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required… | 🟢 |
 | `poshmark.getZipFileGuide` | poshmark.com | Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how… | 🟢 |
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
-| `postiz.createPost` | postiz.com | Create and schedule a new post across a connected social media account. | 🟡 |
+| `postiz.createPost` | postiz.com | Create and schedule a new post on one connected channel, by the channel id… | 🟡 |
+| `postiz.listIntegrations` | postiz.com | List the organization's connected social channels with the id createPost takes, the… | 🟢 |
 | `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟡 |
 | `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟡 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
@@ -2422,6 +2446,30 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | 🟢 |
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟡 |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
+| `scribd.addDocumentToList` | scribd.com | Adds a document to one of the signed-in caller's lists. | ⚪ |
+| `scribd.askDocument` | scribd.com | Asks Scribd's AI assistant a question about one document and returns its answer, as… | ⚪ |
+| `scribd.createList` | scribd.com | Creates a new list (collection) on the signed-in caller's account, public or private… | ⚪ |
+| `scribd.deleteDocument` | scribd.com | Deletes one of the signed-in caller's own uploaded documents. | ⚪ |
+| `scribd.downloadDocument` | scribd.com | Downloads a document's file (PDF, DOCX, TXT … as its formats list offers) for the… | ⚪ |
+| `scribd.getDocument` | scribd.com | Reads one document's metadata — title, uploader (name and profile url), description… | ⚪ |
+| `scribd.getDocumentText` | scribd.com | Reads the full extracted text of a public document, page by page where the site marks… | ⚪ |
+| `scribd.getEmbedCode` | scribd.com | Returns the embed for a public document — Scribd's iframe html, aspect ratio, title… | ⚪ |
+| `scribd.getList` | scribd.com | Reads a public Scribd list (a curated collection) — its name, description, owner, and… | ⚪ |
+| `scribd.getRelatedDocuments` | scribd.com | Lists the documents Scribd recommends alongside one document ("more like this" and… | ⚪ |
+| `scribd.getTrendingDocuments` | scribd.com | Lists the documents trending on Scribd right now, overall or in one category, plus the… | ⚪ |
+| `scribd.getUserProfile` | scribd.com | Reads a Scribd uploader's public profile — display name, avatar and their upload… | ⚪ |
+| `scribd.listCategories` | scribd.com | Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money… | ⚪ |
+| `scribd.listMyLists` | scribd.com | Lists the signed-in caller's own lists (collections), with each list's id, name… | ⚪ |
+| `scribd.listSavedDocuments` | scribd.com | Lists the documents in the signed-in caller's library — saved and finished — with id… | ⚪ |
+| `scribd.listUserUploads` | scribd.com | Lists every document one uploader has published, newest first, a page at a time — each… | ⚪ |
+| `scribd.markDocumentFinished` | scribd.com | Marks a saved document as finished in the signed-in caller's library. | ⚪ |
+| `scribd.rateDocument` | scribd.com | Rates a document helpful or not helpful (Scribd's thumbs up / thumbs down) as the… | ⚪ |
+| `scribd.removeDocumentFromList` | scribd.com | Removes a document from one of the signed-in caller's lists. | ⚪ |
+| `scribd.saveDocument` | scribd.com | Saves a document to the signed-in caller's library (the bookmark icon on every… | ⚪ |
+| `scribd.searchDocuments` | scribd.com | Searches Scribd's user-uploaded documents by free text ("python tutorial", "lease… | ⚪ |
+| `scribd.unsaveDocument` | scribd.com | Removes a document from the signed-in caller's saved library. | ⚪ |
+| `scribd.updateProfile` | scribd.com | Updates the signed-in caller's public profile — display name, about text and profile… | ⚪ |
+| `scribd.uploadDocument` | scribd.com | Uploads a document file to the signed-in caller's Scribd account, with title… | ⚪ |
 | `seakeeper.findNearestDealers` | seakeeper.com | Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest N… | 🟢 |
 | `seakeeper.listAllDealers` | seakeeper.com | Every real Seakeeper dealer worldwide (name, address, contact, coordinates, tier)… | 🟢 |
 | `sears.checkStock` | sears.com | Answers whether a specific product is buyable right now — for delivery or for… | 🟡 |
@@ -2462,7 +2510,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getDeliveryEstimate` | shop.app | Says when a product variant would arrive — the delivery promise Shop shows under the… | ⚪ |
 | `shop_app.getDiscoveryFeed` | shop.app | Reads Shop's home discovery feed — the sections of trending stores and products… | ⚪ |
 | `shop_app.getOrder` | shop.app | Reads one of the caller's orders — items, totals, the shipping address, the receipt… | ⚪ |
-| `shop_app.getProduct` | shop.app | Reads one product in full — title, store, description, price and compare-at price… | ⚪ |
+| `shop_app.getProduct` | shop.app | One product by its numeric id or a shop.app/products/<id>/<slug> url: title… | 🟢 |
 | `shop_app.getProductReviews` | shop.app | Lists a product's reviews — each review's rating, title, text, author name, date and… | ⚪ |
 | `shop_app.getSharedList` | shop.app | Reads a product list someone shared from Shop (a shop.app/collections/<id> link) — the… | ⚪ |
 | `shop_app.getShopCash` | shop.app | Reads the caller's Shop Cash balance and its recent activity. | ⚪ |
@@ -2626,7 +2674,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | 🟢 |
 | `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | 🟡 |
 | `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | 🟢 |
-| `theguardian_com.listNewsletters` | theguardian.com | List available email newsletters. | ⚪ |
+| `theguardian_com.listNewsletters` | theguardian.com | Every email newsletter The Guardian publishes — name, description, frequency, theme… | 🟢 |
 | `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | 🟢 |
 | `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | 🟢 |
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | 🟢 |
