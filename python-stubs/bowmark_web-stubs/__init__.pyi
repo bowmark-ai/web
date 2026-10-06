@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f4002f23b4883f88df528cac73e4bca4604eaa85f02226c310445c206dd41aa3
-# 76 capabilities, 536 providers, 1869 typed functions, 20 refused.
+# Manifest version: 266b090601a50e580867c4f71a02e1fdbd68e6a20dba59c6f10595a3c9994484
+# 76 capabilities, 536 providers, 1871 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17310,6 +17310,7 @@ class Prv_luma_LumaEvent_Out(TypedDict):
     categories: list[str]
     coverUrl: str | None
     description: str | None
+    registrationQuestions: list[Prv_luma_LumaRegistrationQuestion_Out] | None
 
 class Prv_luma_LumaEvent_Out_price_u0_Out(TypedDict):
     cents: float
@@ -17320,6 +17321,14 @@ class Prv_luma_LumaCalendar_Out(TypedDict):
     name: str | None
     slug: str | None
     url: str | None
+
+class Prv_luma_LumaRegistrationQuestion_Out(TypedDict):
+    id: str
+    label: str
+    required: bool
+    type: str
+    options: list[str]
+    terms: str | None
 
 class Prv_luma_DiscoverEventsArgs_In(TypedDict):
     place: str
@@ -18907,6 +18916,14 @@ class Prv_nyt_cooking_NytCookingUnsaveRecipeArgs_In(TypedDict):
 class Prv_nyt_cooking_NytCookingUnsaveRecipeResult_Out(TypedDict):
     recipeId: float
     saved: Literal[False]
+
+class Prv_nyt_cooking_NytCookingRateRecipeArgs_In(TypedDict):
+    recipeId: float | str
+    rating: float
+
+class Prv_nyt_cooking_NytCookingRateRecipeResult_Out(TypedDict):
+    recipeId: float
+    rating: float
 
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
@@ -25792,6 +25809,26 @@ class Prv_tripadvisor_TripadvisorLocation_Out(TypedDict):
 class Prv_tripadvisor_TripadvisorLocation_Out_parentPlace_item_Out(TypedDict):
     id: NotRequired[str]
     localizedName: NotRequired[str]
+
+class Prv_tripadvisor_SearchHotelsArgs_In(TypedDict):
+    geoId: str
+    offset: NotRequired[float]
+
+class Prv_tripadvisor_SearchHotelsResult_Out(TypedDict):
+    hotels: list[Prv_tripadvisor_TripadvisorHotel_Out]
+    offset: float
+    hasMore: bool
+
+class Prv_tripadvisor_TripadvisorHotel_Out(TypedDict):
+    id: str
+    name: str
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+    address: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    priceFrom: NotRequired[float]
+    url: NotRequired[str]
 
 class Prv_trojanstorage_TrojanstorageFacilitySearchFilters_In(TypedDict):
     state: NotRequired[str]
@@ -41246,8 +41283,9 @@ class Prv_luma(Protocol):
 
     async def getEvent(self, args: Prv_luma_GetEventArgs_In, /) -> Prv_luma_LumaEvent_Out:
         """Read one Luma event page: date and time with timezone, venue and full address, price,
-        spots remaining, sold out, hosts, categories and the description as markdown (agenda,
-        prerequisites, what to bring).
+        spots remaining, sold out, hosts, categories, the description as markdown (agenda,
+        prerequisites, what to bring) and the registration questions its RSVP or application
+        form asks, so an application can be drafted before registering.
         """
 
     async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
@@ -41274,17 +41312,16 @@ class Prv_luma(Protocol):
         """
 
 class Prv_lyreco(Protocol):
-    """Nordic B2B office supplies catalog with search and per-variant pricing."""
+    """Lyreco's Swedish B2B office supplies webshop — search and per-product guest pricing."""
 
     async def search(self, query: str, /) -> list[Prv_lyreco_LyrecoSearchResult_Out]:
-        """Runs Lyreco's site search for office supplies and returns matching product rows (product
-        name, product URL, thumbnail image), dedup by URL.
+        """Runs Lyreco's Swedish webshop search for office supplies and returns matching product
+        rows (product name, product URL, thumbnail image), dedup by URL.
         """
 
     async def getProduct(self, url: str, /) -> Prv_lyreco_LyrecoProduct_Out:
-        """Reads one product's detail page and returns its live guest pricing — every variant
-        option offered (size, color, material; display name; product code) with the price
-        clearly bound to the specific variant/SKU being viewed.
+        """Reads one product's detail page and returns its live guest pricing — every priced offer
+        on the page, bound to its own SKU.
         """
 
 class Prv_maersk(Protocol):
@@ -42400,6 +42437,12 @@ class Prv_nyt_cooking(Protocol):
     async def unsaveRecipe(self, args: Prv_nyt_cooking_NytCookingUnsaveRecipeArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingUnsaveRecipeResult_Out:
         """Removes a recipe from the signed-in reader's Recipe Box. Requires the caller to be
         signed in to NYT — the run pauses for a login the first time this is called.
+        """
+
+    async def rateRecipe(self, args: Prv_nyt_cooking_NytCookingRateRecipeArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingRateRecipeResult_Out:
+        """Submits the signed-in reader's own rating for a recipe, on NYT Cooking's own 1-4 scale.
+        Requires the caller to be signed in to NYT — the run pauses for a login the first time
+        this is called.
         """
 
 class Prv_nyt_games(Protocol):
@@ -46628,6 +46671,12 @@ class Prv_tripadvisor(Protocol):
     async def search(self, args: Prv_tripadvisor_SearchArgs_In, /) -> Prv_tripadvisor_SearchResult_Out:
         """Finds places by query — a city or region, hotel, restaurant, attraction, tour or airline
         name — returning each match's id, type, name, parent place hierarchy and url.
+        """
+
+    async def searchHotels(self, args: Prv_tripadvisor_SearchHotelsArgs_In, /) -> Prv_tripadvisor_SearchHotelsResult_Out:
+        """Lists the hotels in a city or region, in Tripadvisor's ranking, with each hotel's id,
+        name, rating, review count, address, coordinates and 'from' price, paginated 30 at a
+        time.
         """
 
 class Prv_trojanstorage(Protocol):

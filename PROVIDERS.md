@@ -2608,7 +2608,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by its ID or URL. | 🟢 |
 | `steam.getPlayTime` | steampowered.com | Returns total playtime in hours for a specific game owned by the caller. | ⚪ |
 | `steam.getProfile` | steampowered.com | Retrieves a Steam profile by username or ID, including profile name, avatar, status… | ⚪ |
-| `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | ⚪ |
+| `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | 🟢 |
 | `steam.listFeaturedGames` | steampowered.com | Fetches the current list of featured games displayed on the Steam store homepage… | 🟢 |
 | `steam.listGamesByCategory` | steampowered.com | Lists games filtered by one of Steam's own genre/category tags (Action, Adventure… | 🟢 |
 | `steam.listGameTags` | steampowered.com | Lists every tag users can apply to games on the Steam store, in the site's own… | 🟢 |

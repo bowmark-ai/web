@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f4002f23b4883f88df528cac73e4bca4604eaa85f02226c310445c206dd41aa3
-// 76 capabilities, 536 providers, 1887 typed functions, 20 refused.
+// Manifest version: 266b090601a50e580867c4f71a02e1fdbd68e6a20dba59c6f10595a3c9994484
+// 76 capabilities, 536 providers, 1889 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32009,6 +32009,19 @@ interface LumaEvent {
   categories: string[];
   coverUrl: string | null;
   description: string | null;
+  /** The RSVP / application form, in order. null on discover and calendar rows. */
+  registrationQuestions: LumaRegistrationQuestion[] | null;
+}
+interface LumaRegistrationQuestion {
+  id: string;
+  label: string;
+  required: boolean;
+  /** text, long-text, select, multi-select, url, linkedin, github, company, terms… */
+  type: string;
+  /** A select's choices; [] otherwise. */
+  options: string[];
+  /** A terms question's text as markdown. */
+  terms: string | null;
 }
 interface LumaCalendar {
   /** cal-… */
@@ -32057,8 +32070,9 @@ interface DiscoverEventsArgs {
   interface Unit {
     /**
      * Read one Luma event page: date and time with timezone, venue and full address, price, spots
-     * remaining, sold out, hosts, categories and the description as markdown (agenda,
-     * prerequisites, what to bring).
+     * remaining, sold out, hosts, categories, the description as markdown (agenda, prerequisites,
+     * what to bring) and the registration questions its RSVP or application form asks, so an
+     * application can be drafted before registering.
      */
     getEvent(args: GetEventArgs): Promise<LumaEvent>;
 
@@ -32111,18 +32125,17 @@ interface LyrecoProduct {
   variants: LyrecoVariant[];
 }
 
-  /** Nordic B2B office supplies catalog with search and per-variant pricing. */
+  /** Lyreco's Swedish B2B office supplies webshop — search and per-product guest pricing. */
   interface Unit {
     /**
-     * Runs Lyreco's site search for office supplies and returns matching product rows (product
-     * name, product URL, thumbnail image), dedup by URL.
+     * Runs Lyreco's Swedish webshop search for office supplies and returns matching product rows
+     * (product name, product URL, thumbnail image), dedup by URL.
      */
     search(query: string): Promise<LyrecoSearchResult[]>;
 
     /**
-     * Reads one product's detail page and returns its live guest pricing — every variant option
-     * offered (size, color, material; display name; product code) with the price clearly bound to
-     * the specific variant/SKU being viewed.
+     * Reads one product's detail page and returns its live guest pricing — every priced offer on
+     * the page, bound to its own SKU.
      */
     getProduct(url: string): Promise<LyrecoProduct>;
   }
@@ -35443,6 +35456,16 @@ interface NytCookingUnsaveRecipeResult {
   saved: false;
 }
 
+interface NytCookingRateRecipeArgs {
+  recipeId: number | string;
+  rating: number;
+}
+
+interface NytCookingRateRecipeResult {
+  recipeId: number;
+  rating: number;
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -35519,6 +35542,13 @@ interface NytCookingUnsaveRecipeResult {
      * to NYT — the run pauses for a login the first time this is called.
      */
     unsaveRecipe(args: NytCookingUnsaveRecipeArgs, opts?: ConnectionOption): Promise<NytCookingUnsaveRecipeResult>;
+
+    /**
+     * Submits the signed-in reader's own rating for a recipe, on NYT Cooking's own 1-4 scale.
+     * Requires the caller to be signed in to NYT — the run pauses for a login the first time this
+     * is called.
+     */
+    rateRecipe(args: NytCookingRateRecipeArgs, opts?: ConnectionOption): Promise<NytCookingRateRecipeResult>;
   }
 }
 
@@ -46833,12 +46863,35 @@ interface TripadvisorLocation {
   parentPlace?: { id?: string; localizedName?: string }[];
 }
 
+interface TripadvisorHotel {
+  id: string;
+  name: string;
+  rating?: number;
+  reviewCount?: number;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+  priceFrom?: number;
+  url?: string;
+}
+
 interface SearchArgs {
   query: string;
 }
 
 interface SearchResult {
   results: TripadvisorLocation[];
+}
+
+interface SearchHotelsArgs {
+  geoId: string;
+  offset?: number;
+}
+
+interface SearchHotelsResult {
+  hotels: TripadvisorHotel[];
+  offset: number;
+  hasMore: boolean;
 }
 
   /**
@@ -46852,6 +46905,12 @@ interface SearchResult {
      * name — returning each match's id, type, name, parent place hierarchy and url.
      */
     search(args: SearchArgs): Promise<SearchResult>;
+
+    /**
+     * Lists the hotels in a city or region, in Tripadvisor's ranking, with each hotel's id, name,
+     * rating, review count, address, coordinates and 'from' price, paginated 30 at a time.
+     */
+    searchHotels(args: SearchHotelsArgs): Promise<SearchHotelsResult>;
   }
 }
 

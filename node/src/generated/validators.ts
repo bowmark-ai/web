@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f4002f23b4883f88df528cac73e4bca4604eaa85f02226c310445c206dd41aa3
-// 1869 checked, 20 unchecked.
+// Manifest version: 266b090601a50e580867c4f71a02e1fdbd68e6a20dba59c6f10595a3c9994484
+// 1871 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f4002f23b4883f88df528cac73e4bca4604eaa85f02226c310445c206dd41aa3",
+  "version": "266b090601a50e580867c4f71a02e1fdbd68e6a20dba59c6f10595a3c9994484",
   "units": {
     "address_validation": {
       "defs": {
@@ -33739,6 +33739,33 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NytCookingRateRecipeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "rating",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingSaveRecipeArgs": {
           "k": "object",
           "props": [
@@ -33939,6 +33966,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "NytCookingUnsaveRecipeArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "rateRecipe": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingRateRecipeArgs"
             },
             "optional": false
           },
@@ -49247,6 +49300,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SearchHotelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "geoId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -49256,6 +49328,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchHotels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchHotelsArgs"
             },
             "optional": false
           }
