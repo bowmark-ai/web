@@ -291,7 +291,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
 | `bbc.listSections` | bbc.com | The BBC's own section list, read off the bbc.com top navigation — Home, News (US &… | 🟢 |
 | `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | 🟡 |
-| `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | 🟢 |
+| `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | 🟡 |
 | `bbc.listVideos` | bbc.com | The videos the BBC's video hub shows: title, summary, duration, url, video id, section… | ⚪ |
 | `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `bbc.saveArticle` | bbc.com | Save a BBC article to the signed-in reader's saved list (the page's bookmark button).… | ⚪ |
@@ -1187,7 +1187,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getToken` | fomo.family | Returns one token's full detail — name, symbol, decimals, image, description and… | 🟢 |
 | `fomo.getTokenAllowlist` | fomo.family | Returns the list of tokens fomo allows trading on — just their addresses and network… | 🟢 |
 | `fomo.getTokenAllowlistDetailed` | fomo.family | The token allowlist with each entry's full record — the same set as… | 🟢 |
-| `fomo.getTokenFeed` | fomo.family | Pages the posts and trades attached to one specific token — the conversation on a… | ⚪ |
+| `fomo.getTokenFeed` | fomo.family | Pages all trades for one token — the global stream of every buy and sell of the… | 🟢 |
 | `fomo.getTokenThesis` | fomo.family | Returns the written theses traders have posted about one token, ranked by the site's… | ⚪ |
 | `fomo.getTokenWarnings` | fomo.family | Returns fomo's risk flags for one token — the honeypot, mint-authority… | 🟢 |
 | `fomo.getTopHolders` | fomo.family | Returns the largest holders of each requested token, one result array per token in the… | 🟢 |
@@ -1821,8 +1821,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `luma.listCalendarEvents` | luma.com | Lists every upcoming event on one Luma calendar or organizer profile page… | 🟢 |
 | `luma.listCategories` | luma.com | Lists Luma's discover topic categories with the category slug discoverEvents takes. | 🟢 |
 | `luma.listPlaces` | luma.com | Lists every city Luma's discover page covers, with the place slug discoverEvents takes. | 🟢 |
-| `lyreco.getProduct` | lyreco.com | Reads one product's detail page and returns its live guest pricing — every variant… | 🟢 |
-| `lyreco.search` | lyreco.com | Runs Lyreco's site search for office supplies and returns matching product rows… | 🟡 |
+| `lyreco.getProduct` | lyreco.se | Reads one product's detail page and returns its live guest pricing — every priced… | 🟢 |
+| `lyreco.search` | lyreco.se | Runs Lyreco's Swedish webshop search for office supplies and returns matching product… | 🟡 |
 | `maersk.track` | maersk.com | Tracks a container or bill-of-lading number on Maersk's documented Track & Trace API… | 🟢 |
 | `maidenhome.getProduct` | maidenhome.com | Reads one configurable product's complete Size x Wood Finish variant grid — every… | 🟢 |
 | `maidenhome.resolveVariant` | maidenhome.com | Resolves a free-text product + size + wood finish to the exact priced variant and its… | 🟢 |
@@ -2057,7 +2057,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.listRecipeBoxFolders` | cooking.nytimes.com | Lists the signed-in reader's own Recipe Box folders. | ⚪ |
 | `nyt_cooking.listTopics` | cooking.nytimes.com | Lists the site's topic pages off its own navigation — the finder for a topic a caller… | 🟢 |
 | `nyt_cooking.markRecipeCooked` | cooking.nytimes.com | Marks a recipe as cooked on the signed-in reader's account. | ⚪ |
-| `nyt_cooking.rateRecipe` | cooking.nytimes.com | Submits the signed-in reader's own 1-4 star rating for a recipe. | ⚪ |
+| `nyt_cooking.rateRecipe` | cooking.nytimes.com | Submits the signed-in reader's own rating for a recipe, on NYT Cooking's own 1-4 scale. | 🟢 |
 | `nyt_cooking.removeFromGroceryList` | cooking.nytimes.com | Removes one item from the signed-in reader's grocery list. | ⚪ |
 | `nyt_cooking.removeRecipeFromFolder` | cooking.nytimes.com | Removes a saved recipe from one of the signed-in reader's Recipe Box folders. | ⚪ |
 | `nyt_cooking.renameRecipeBoxFolder` | cooking.nytimes.com | Renames one of the signed-in reader's Recipe Box folders. | ⚪ |
@@ -3086,7 +3086,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.searchSymbols` | finance.yahoo.com | Resolves what a person would type — a company name ("Apple"), a ticker ("AAPL") or a… | 🟢 |
 | `yahoo_mail.deleteMessage` | mail.yahoo.com | Deletes one of the CALLER's own messages (moves it to Trash, matching what the site's… | ⚪ |
 | `yahoo_mail.getMessage` | mail.yahoo.com | Reads one message in full from the CALLER's own mailbox — sender, recipients, subject… | ⚪ |
-| `yahoo_mail.listFolders` | mail.yahoo.com | Lists the CALLER's own mail folders — Inbox, Sent, Drafts, Spam, Trash and any custom… | ⚪ |
+| `yahoo_mail.listFolders` | mail.yahoo.com | Lists the CALLER's own mail folders — Inbox, Sent, Drafts, Spam, Trash and any custom… | 🟢 |
 | `yahoo_mail.listMessages` | mail.yahoo.com | Lists messages in the CALLER's own mailbox, newest first, from a chosen folder (inbox… | ⚪ |
 | `yahoo_mail.markAsRead` | mail.yahoo.com | Marks one or more of the CALLER's own messages read or unread. | ⚪ |
 | `yahoo_mail.moveMessage` | mail.yahoo.com | Moves one of the CALLER's own messages to another folder (archive, trash, a custom… | ⚪ |
