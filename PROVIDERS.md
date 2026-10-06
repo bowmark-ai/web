@@ -796,7 +796,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `davidsonhomes.listRegions` | davidsonhomes.com | Lists every market region Davidson Homes currently builds in — state/metro area, live… | 🟢 |
 | `deangroup.getRateCalendar` | deangroup.com | Reads 36 consecutive nights of per-night pricing and sold-out flags for one property… | 🟢 |
 | `deangroup.listProperties` | deangroup.com | Lists every Dean Group hotel — Dublin Centre, Cork, Galway, Dublin Docklands, Berlin —… | 🟢 |
-| `deangroup.searchAvailability` | deangroup.com | Searches one property for a date range and party size and returns every bookable rate… | 🟢 |
+| `deangroup.searchAvailability` | deangroup.com | Searches one property for a date range and party size and returns every bookable rate… | 🟡 |
 | `decked.getVehicleClass` | decked.com | Reads one vehicle class's complete fit list — every model it fits, each with its own… | 🟢 |
 | `decked.priceCabSideOption` | decked.com | Prices the Load Floor vs Cab-side Gap 8'-bed accessory-pack option for one vehicle +… | 🟢 |
 | `decked.resolveFitment` | decked.com | Resolves a free-text vehicle to its real fitted SKU and live price, mirroring the… | 🟢 |
@@ -1988,7 +1988,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.listPodcastCategories` | npr.org | List the podcast directory's categories with the id each one takes. | ⚪ |
 | `npr.listPodcastEpisodes` | npr.org | List a podcast's episodes, newest first, with title, date, duration and audio URL… | ⚪ |
 | `npr.listPodcasts` | npr.org | List NPR's podcasts and shows, optionally filtered to one category (news, technology… | ⚪ |
-| `npr.listSections` | npr.org | List NPR's news sections and topics (news, politics, business, science, health… | ⚪ |
+| `npr.listSections` | npr.org | List NPR's news sections and topics (news, politics, business, science, health… | 🟢 |
 | `npr.listSectionStories` | npr.org | List the latest stories in one section or topic, given its slug from listSections. | ⚪ |
 | `npr.listSeries` | npr.org | List NPR's series (Tiny Desk Concerts, New Music Friday, Life Kit…) with the slug or… | ⚪ |
 | `npr.listSeriesStories` | npr.org | List the latest entries of one series, e.g. Tiny Desk Concerts, given its slug from… | ⚪ |
