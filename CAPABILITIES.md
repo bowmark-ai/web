@@ -84,7 +84,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `pricing.checkPersonalization` | Reads one product page's price once per persona (default: desktop + mobile, each a… | 0 | 🟢 |
 | `products.getAvailability` | Reads one product page and returns its price and stock status, from the page's own… | 4 | 🟢 |
 | `products.search` | Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and… | 4 | 🟡 |
-| `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟢 |
+| `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟡 |
 | `prospect_screening.screenCompany` | Fetches the homepage, reads any schema.org employee-count signal and any… | 0 | 🟢 |
 | `read.page` | Loads one page and returns its content. | 0 | 🟢 |
 | `read.pages` | The same read over many urls: requests to the SAME origin are serialized (one at a… | 0 | 🟢 |

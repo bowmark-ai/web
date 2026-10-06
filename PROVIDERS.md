@@ -281,7 +281,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | 🟢 |
 | `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | 🟢 |
 | `bbc.getVideo` | bbc.com | One BBC video page as data: title, summary, duration, published time, section, poster… | ⚪ |
-| `bbc.getWeatherWarnings` | bbc.com | The weather warnings BBC Weather shows for a location or region: level, type (rain… | ⚪ |
+| `bbc.getWeatherWarnings` | bbc.com | UK weather or flood warnings currently in force, grouped by region and issuing agency… | 🟢 |
 | `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | 🟢 |
 | `bbc.listFollowedPodcasts` | bbc.com | The podcasts and series the signed-in reader follows. | ⚪ |
 | `bbc.listHeadlines` | bbc.com | The stories a BBC section page shows right now, in the page's own order and grouping… | 🟢 |
@@ -347,9 +347,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bishops.listLocations` | bishops.co | Reads the live list of every Bishops Cuts/Color location off the site's own sitemap… | 🟢 |
 | `bishops.listServices` | bishops.co | Reads one location's real, live service catalog (name, description, price, duration)… | 🟢 |
 | `blackstoneproducts.findNearbyDealers` | blackstoneproducts.com | Runs Blackstone's own real-time Stockist dealer locator (the widget embedded on… | 🟢 |
-| `blenderseyewear.getRxConfigurator` | blenderseyewear.com | Reads one Rx frame style's real option tree (Prescription Type: Single… | 🟢 |
-| `blenderseyewear.listRxFrameStyles` | blenderseyewear.com | Searches Blenders Eyewear's real prescription (Rx) frame catalog across both the men's… | 🟢 |
-| `blenderseyewear.priceRxConfiguration` | blenderseyewear.com | Resolves one exact Rx build (a frame handle + a chosen prescription type + lens color… | 🟢 |
+| `blenderseyewear.getRxConfigurator` | blenderseyewear.com | Reads one Rx frame style's real option tree (Prescription Type: Single… | 🟡 |
+| `blenderseyewear.listRxFrameStyles` | blenderseyewear.com | Searches Blenders Eyewear's real prescription (Rx) frame catalog across both the men's… | 🟡 |
+| `blenderseyewear.priceRxConfiguration` | blenderseyewear.com | Resolves one exact Rx build (a frame handle + a chosen prescription type + lens color… | 🟡 |
 | `bluehaven.checkPoolSiteFeasibility` | bluehaven.com | Runs a US street address through Blue Haven's own site-planning tool the way their… | 🟢 |
 | `bluehaven.getPoolPriceEstimate` | bluehaven.com | Prices one of Blue Haven's own pool designs at a specific sited address, the way the… | ⚪ |
 | `bluehaven.listPoolDesigns` | bluehaven.com | Reads Blue Haven's own live inground pool design catalog off their site-planning… | 🟢 |
@@ -734,7 +734,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `coops.listStations` | tidesandcurrents.noaa.gov | Find tide/current stations, optionally filtered by product type or state — the finder… | ⚪ |
 | `costco.search` | costco.com | Runs a search on Costco's product catalog and returns matching items (title, brand… | 🟢 |
 | `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
-| `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
+| `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟡 |
 | `crecipr.searchCredenciados` | crecipr.gov.br | Searches CRECI-PR's accredited brokers registry by name or CRECI registration number. | 🟡 |
 | `crecipr.verifyBroker` | crecipr.gov.br | Verifies whether a broker or agency is currently licensed and in good standing at… | 🟡 |
 | `credibly_com.getApplicationForm` | credibly.com | Reads the visible questions and select choices on Credibly's public business-financing… | 🟢 |
@@ -1390,7 +1390,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.followUser` | goodreads.com | Follows another member as the signed-in caller. | ⚪ |
 | `goodreads.getAuthor` | goodreads.com | Reads one author's bio, stats and bibliography off their page, taking a name or a… | ⚪ |
 | `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | 🟢 |
-| `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer, star rating, the review text… | ⚪ |
+| `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer name, review text, and creation… | 🟢 |
 | `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | ⚪ |
 | `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | ⚪ |
 | `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | ⚪ |
@@ -2807,7 +2807,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
 | `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟢 |
 | `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region — attractions, tours and activities — in… | ⚪ |
-| `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | ⚪ |
+| `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟢 |
 | `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | ⚪ |
 | `tripadvisor.writeReview` | tripadvisor.com | Posts a review of a listing from the signed-in caller's account — rating, title, text… | ⚪ |
 | `trojanstorage.getFacilityUnits` | trojanstorage.com | Reads one Trojan Storage facility's currently-listed units (from `listFacilities`'s… | 🟢 |
