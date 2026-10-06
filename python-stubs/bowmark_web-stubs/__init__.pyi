@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ddf84d10fd66935342ec98b94a288d587a20360e9a08403d1756d970262ba93d
-# 76 capabilities, 536 providers, 1874 typed functions, 20 refused.
+# Manifest version: bb73f6e1555179c31c7d255871104872dceca3086857f5106bac8c9ac9df6259
+# 77 capabilities, 536 providers, 1875 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -997,6 +997,31 @@ class Cap_event_space_quote_EventSpaceQuote_Out(TypedDict):
 class Cap_event_space_quote_EventSpaceQuoteResult_Out_submission_Out(TypedDict):
     automated: Literal[False]
     how: str
+
+class Cap_event_tickets_EventTicketsArgs_In(TypedDict):
+    query: str
+    location: NotRequired[str]
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+
+class Cap_event_tickets_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_event_tickets_event_ticketsResult_Out(TypedDict):
+    events: list[Cap_event_tickets_EventListing_Out]
+    warnings: list[str]
+
+class Cap_event_tickets_EventListing_Out(TypedDict):
+    provider: str
+    id: str
+    name: str
+    url: str
+    start: str | None
+    venue: str | None
+    city: str | None
+    priceFrom: float | None
+    currency: str | None
+    status: str | None
 
 Cap_flights_FlightQuery_In = TypedDict(
     "Cap_flights_FlightQuery_In",
@@ -29859,6 +29884,21 @@ class Cap_event_space_quote(Protocol):
         result includes a URL to book or contact the venue directly.
         """
 
+class Cap_event_tickets(Protocol):
+    """Finds live events with tickets on sale — concerts, shows, performances — by artist or
+    keyword and an optional city, across Eventbrite and Eventim (eventim.de), merged into
+    one list with date, venue, lowest price where the site shows one, and the ticket page
+    link. No login, no purchase.
+    """
+
+    async def search(self, args: str | Cap_event_tickets_EventTicketsArgs_In, options: Cap_event_tickets_CallOptions_In | None = None, /) -> Cap_event_tickets_event_ticketsResult_Out:
+        """Searches event-ticket listings by artist, show or keyword, optionally in one city —
+        `bowmark.event_tickets.search({ query: "jazz", location: "New York, NY" })`. Fans out to
+        Eventbrite (only when a location is given) and Eventim, and returns every match with its
+        name, start, venue, city, lowest price (Eventim only), availability and ticket page url.
+        `warnings` names any site skipped or that did not answer.
+        """
+
 class Cap_flights(Protocol):
     """Search flights with one call and get back normalized, price-sorted results (the same
     physical flight appears once). Each result carries the site it came from (`site`) and
@@ -49412,6 +49452,7 @@ class Bowmark(Protocol):
     entertainment_merch: Cap_entertainment_merch
     essen_roadworks: Cap_essen_roadworks
     event_space_quote: Cap_event_space_quote
+    event_tickets: Cap_event_tickets
     flights: Cap_flights
     fuel_card_fees: Cap_fuel_card_fees
     furnished_apartment_rental: Cap_furnished_apartment_rental

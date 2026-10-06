@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ddf84d10fd66935342ec98b94a288d587a20360e9a08403d1756d970262ba93d
-// 76 capabilities, 536 providers, 1892 typed functions, 20 refused.
+// Manifest version: bb73f6e1555179c31c7d255871104872dceca3086857f5106bac8c9ac9df6259
+// 77 capabilities, 536 providers, 1893 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1434,6 +1434,55 @@ type CallOptions = {
      * URL to book or contact the venue directly.
      */
     getQuotes(args: string | EventSpaceQuoteArgs, options?: CallOptions): Promise<EventSpaceQuoteResult>;
+  }
+}
+
+declare namespace BowmarkCapability_event_tickets {
+  // ── Event tickets — the unit's own declarations, verbatim ──
+type EventListing = {
+  provider: string          // "eventbrite" | "eventim"
+  id: string
+  name: string
+  url: string               // the ticket page on that site
+  start: string | null      // "2026-11-02" or "2026-11-02T19:30"
+  venue: string | null
+  city: string | null
+  priceFrom: number | null  // lowest price; always null from eventbrite (call providers.eventbrite.getEvent)
+  currency: string | null
+  status: string | null     // the site's own availability label
+}
+type EventTicketsArgs = {
+  query: string             // artist, show or kind of event, e.g. "Coldplay", "jazz"
+  location?: string         // a city, e.g. "New York, NY" or "Berlin". Eventbrite is only searched when this is set
+  startDate?: string        // YYYY-MM-DD, eventbrite only
+  endDate?: string          // YYYY-MM-DD, eventbrite only
+}
+type event_ticketsResult = {
+  events: EventListing[]
+  warnings: string[]        // names any site skipped or that did not answer
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Finds live events with tickets on sale — concerts, shows, performances — by artist or
+   * keyword and an optional city, across Eventbrite and Eventim (eventim.de), merged into one
+   * list with date, venue, lowest price where the site shows one, and the ticket page link. No
+   * login, no purchase.
+   */
+  interface Unit {
+    /**
+     * Searches event-ticket listings by artist, show or keyword, optionally in one city —
+     * `bowmark.event_tickets.search({ query: "jazz", location: "New York, NY" })`. Fans out to
+     * Eventbrite (only when a location is given) and Eventim, and returns every match with its
+     * name, start, venue, city, lowest price (Eventim only), availability and ticket page url.
+     * `warnings` names any site skipped or that did not answer.
+     */
+    search(args: string | EventTicketsArgs, options?: CallOptions): Promise<event_ticketsResult>;
   }
 }
 
@@ -103921,6 +103970,7 @@ interface BowmarkLibrary {
   entertainment_merch: BowmarkCapability_entertainment_merch.Unit;
   essen_roadworks: BowmarkCapability_essen_roadworks.Unit;
   event_space_quote: BowmarkCapability_event_space_quote.Unit;
+  event_tickets: BowmarkCapability_event_tickets.Unit;
   flights: BowmarkCapability_flights.Unit;
   fuel_card_fees: BowmarkCapability_fuel_card_fees.Unit;
   furnished_apartment_rental: BowmarkCapability_furnished_apartment_rental.Unit;

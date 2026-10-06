@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ddf84d10fd66935342ec98b94a288d587a20360e9a08403d1756d970262ba93d
-// 1874 checked, 20 unchecked.
+// Manifest version: bb73f6e1555179c31c7d255871104872dceca3086857f5106bac8c9ac9df6259
+// 1875 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ddf84d10fd66935342ec98b94a288d587a20360e9a08403d1756d970262ba93d",
+  "version": "bb73f6e1555179c31c7d255871104872dceca3086857f5106bac8c9ac9df6259",
   "units": {
     "address_validation": {
       "defs": {
@@ -1647,6 +1647,83 @@ export const VALIDATORS: ValidatorTable = {
                 {
                   "k": "ref",
                   "name": "EventSpaceQuoteArgs"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "event_tickets": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "EventTicketsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "EventTicketsArgs"
                 }
               ]
             },
