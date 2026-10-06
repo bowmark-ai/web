@@ -6,6 +6,113 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.25.4 (2026-10-06)
+
+**Capabilities**
+
+- New capability **event_space_quote** (1 function): `event_space_quote.getQuotes`
+- New capability **event_tickets** (1 function): `event_tickets.search`
+- New capability **pallet_freight_quote** (1 function): `pallet_freight_quote.quote`
+
+**Providers**
+
+- New provider **aol.com** (3 functions): `aol.getFrontPage`, `aol.listSectionArticles`, `aol.listSections`
+- New provider **att.com** (2 functions): `att.findDevices`, `att.getDevicePricing`
+- New provider **bananarepublic.gap.com** (2 functions): `banana_republic.getProduct`, `banana_republic.searchProducts`
+- New provider **businessinsider.com** (2 functions): `businessinsider_com.getArticle`, `businessinsider_com.listArticlesBySection`
+- New provider **dailymotion.com** (2 functions): `dailymotion.getVideo`, `dailymotion.searchVideos`
+- New provider **deviantart.com** (3 functions): `deviantart.getDeviation`, `deviantart.getUserProfile`, `deviantart.searchDeviations`
+- New provider **espn.com** (2 functions): `espn.injuries`, `espn.listLeagues`
+- New provider **eventbrite.com** (3 functions): `eventbrite.getEvent`, `eventbrite.getOrganizer`, `eventbrite.searchEvents`
+- New provider **eventim.com** (1 function): `eventim.search`
+- New provider **foxnews.com** (1 function): `foxnews.searchArticles`
+- New provider **goodreads.com** (3 functions): `goodreads.getBook`, `goodreads.getBookReviews`, `goodreads.searchBooks`
+- New provider **idealista.com** (1 function): `idealista.search`
+- New provider **imdb.com** (5 functions): `imdb.getPerson`, `imdb.getTitle`, `imdb.getTitleReviews`, `imdb.search`, `imdb.searchSuggestions`
+- New provider **mango.com** (3 functions): `mango.getProduct`, `mango.listCategories`, `mango.searchProducts`
+- New provider **nhc.noaa.gov** (1 function): `nhc.listCurrentStorms`
+- New provider **npr.org** (2 functions): `npr.listHeadlines`, `npr.listSections`
+- New provider **quora.com** (1 function): `quora.getQuestion`
+- New provider **rei.com** (2 functions): `rei.getSku`, `rei.search`
+- New provider **seoulfood.kotra.or.kr** (2 functions): `seoulfood.getBoothQuote`, `seoulfood.getExhibitorPricing`
+- New provider **shop.app** (1 function): `shop_app.getProduct`
+- New provider **start.gg** (2 functions): `start_gg.findVideogames`, `start_gg.searchTournaments`
+- New provider **suitsupply.com** (3 functions): `suitsupply.getProduct`, `suitsupply.listCategory`, `suitsupply.search`
+- New provider **tripadvisor.com** (2 functions): `tripadvisor.search`, `tripadvisor.searchHotels`
+- New provider **webshare.io** (1 function): `webshare.getPlans`
+- New provider **mail.yahoo.com** (1 function): `yahoo_mail.listFolders`
+- Added `apple.removeFromBag`
+- Added `baublebar.search`
+- Added `bbc.getTeam`
+- Added `bbc.getWeatherWarnings`
+- Added `bluesky.getFollowers`
+- Added `bluesky.getFollows`
+- Added `bluesky.getRelationships`
+- Added `bluesky.getSuggestedFollows`
+- Added `cnn.followTopic`
+- Added `cnn.listMyNews`
+- Added `cnn.subscribeToNewsletter`
+- Added `cnn.unfollowTopic`
+- Added `dell.getWarrantyInfo`
+- Added `epicgames.getAccount`
+- Added `epicgames.getRewardsBalance`
+- Added `fomo.getTokenFeed`
+- Added `fomo.getTradingActivityFeed`
+- Added `google_news.followTopic`
+- Added `liquidspace.getListingDetails`
+- Added `luma.listCalendarEvents`
+- Added `nyt_cooking.rateRecipe`
+- Added `nyt_cooking.unsaveRecipe`
+- Added `nytimes.getConnections`
+- Added `nytimes.getSpellingBee`
+- Added `nytimes.getWordle`
+- Added `nytimes.getWriter`
+- Added `nytimes.listEpisodes`
+- Added `nytimes.listWriterArticles`
+- Added `nytimes.searchWriters`
+- Added `postiz.listIntegrations`
+- Added `reuters.getMarketOverview`
+- Added `steam.getWishlist`
+- Added `steam.removeFromWishlist`
+- Added `target.getProduct`
+- Added `theguardian_com.getVideo`
+- Added `theguardian_com.listNewsletters`
+- Added `theguardian_com.listVideos`
+- Added `tiktok.getOwnProfile`
+- Added `tiktok.listFollowingFeed`
+- Added `tiktok.listForYouFeed`
+- Added `tiktok.listSoundVideos`
+- Added `tradingview.getEconomicCalendar`
+- Added `tradingview.listIdeas`
+- Added `twitch.getStream`
+- Added `twitch.listLiveStreams`
+- Added `twitch.unfollowChannel`
+- Added `walmart.getSeller`
+- Added `walmart.getStore`
+- Added `weather_channel.getCurrentTropicalPosition`
+- Added `weather_channel.getHistoricalDailySummary`
+- Added `weather_channel.getTropicalCone`
+- Added `wikipedia.getOnThisDay`
+- Added `wikipedia.getRandomArticle`
+- Added `yahoo_sports.getFantasyTeam`
+- Added `yahoo_sports.getOdds`
+- Added `youtube.postComment`
+- Removed **freightliner**
+- Removed **meteofrance**
+- Removed `github.createComment`
+- Removed `github.createIssue`
+- Removed `github.createPullRequest`
+- Removed `github.deleteComment`
+- Removed `github.starRepository`
+- Removed `github.unstarRepository`
+- Removed `github.unwatchRepository`
+- Removed `github.updateComment`
+- Removed `github.updateIssue`
+- Removed `github.watchRepository`
+- Removed `yahoo_sports.setFantasyLineup`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.25.3 (2026-10-03)
 
 **Capabilities**
