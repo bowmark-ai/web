@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 24fbf26a574dadfbf6ddc44cf7bad0daf699d2873ab930e03321d55a65d3131c
-# 76 capabilities, 533 providers, 1856 typed functions, 20 refused.
+# Manifest version: f4002f23b4883f88df528cac73e4bca4604eaa85f02226c310445c206dd41aa3
+# 76 capabilities, 536 providers, 1869 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1061,7 +1061,7 @@ class Cap_flights_BookingOption_Out(TypedDict):
     deepLink: str | None
 
 class Cap_flights_FlightStatusQuery_In(TypedDict):
-    airline: str
+    airline: NotRequired[str]
     date: str
     flightNumber: NotRequired[str]
     origin: NotRequired[str]
@@ -2456,6 +2456,7 @@ class Cap_web_form_fields_FormInspectionResult_Out(TypedDict):
     multiStep: bool
     stepLabel: str | None
     wall: Cap_web_form_fields_FormInspectionResult_Out_wall_u0_Out | None
+    needsLogin: bool
     warnings: list[str]
 
 class Cap_web_form_fields_InspectedForm_Out(TypedDict):
@@ -2495,6 +2496,7 @@ class Cap_web_form_fields_FormFillResult_Out(TypedDict):
     autocompleteSelected: list[str]
     resultContent: str | None
     wall: Cap_web_form_fields_FormFillResult_Out_wall_u0_Out | None
+    needsLogin: bool
     warnings: list[str]
 
 class Cap_web_form_fields_FormFillResult_Out_wall_u0_Out(TypedDict):
@@ -3280,6 +3282,7 @@ class Prv_amazon_ListCategoryProductsArgs_In(TypedDict):
 
 class Prv_amazon_AmazonCategoryListing_Out(TypedDict):
     department: str
+    departmentAlias: str
     products: list[Prv_amazon_AmazonProduct_Out]
 
 class Prv_amazon_AmazonKeywordSuggestion_Out(TypedDict):
@@ -3852,6 +3855,7 @@ class Prv_app_store_AppStoreChartApp_Out(TypedDict):
     name: str
     subtitle: str
     developer: str
+    developerId: NotRequired[str]
     ageRating: str
     price: str
     rating: Prv_app_store_AppStoreChartApp_Out_rating_u0_Out | None
@@ -5292,8 +5296,11 @@ class Prv_bbc_BbcGetFixturesResult_Out(TypedDict):
 class Prv_bbc_BbcFixtureMatch_Out(TypedDict):
     matchId: str
     competition: str
+    competitionPath: NotRequired[str]
     homeTeam: str
     awayTeam: str
+    homeTeamPath: NotRequired[str]
+    awayTeamPath: NotRequired[str]
     homeScore: NotRequired[str]
     awayScore: NotRequired[str]
     status: str
@@ -6794,6 +6801,7 @@ class Prv_bungalow_BungalowListingSummary_Out(TypedDict):
     sqft: float | None
     city: str
     neighborhood: str | None
+    neighborhoodSlug: str | None
     marketSlug: str
     marketDisplayName: str
     isComingSoon: bool
@@ -7143,6 +7151,8 @@ class Prv_caliberhealth_CaliberhealthJobDetail_Out(TypedDict):
     jobId: str
     postedDate: str
     specialty: str
+    credentialType: str | None
+    specialtyLine: str
     location: str
     facilityType: str | None
     schedule: str | None
@@ -9552,6 +9562,40 @@ class Prv_deviantart_DeviantartDeviationRow_Out_stats_Out(TypedDict):
     favourites: NotRequired[float]
     comments: NotRequired[float]
 
+class Prv_deviantart_getDeviation_args_u0_In(TypedDict):
+    url: str
+
+class Prv_deviantart_getDeviation_args_u1_In(TypedDict):
+    deviationId: str
+    username: str
+
+class Prv_deviantart_DeviantartDeviation_Out(TypedDict):
+    deviationId: str
+    title: str
+    url: NotRequired[str]
+    author: NotRequired[Prv_deviantart_DeviantartDeviation_Out_author_Out]
+    publishedTime: NotRequired[str]
+    type: NotRequired[str]
+    mediaUrl: NotRequired[str]
+    originalWidth: NotRequired[float]
+    originalHeight: NotRequired[float]
+    description: NotRequired[str]
+    tags: NotRequired[list[str]]
+    license: NotRequired[str]
+    isMature: NotRequired[bool]
+    isAiGenerated: NotRequired[bool]
+    stats: NotRequired[Prv_deviantart_DeviantartDeviation_Out_stats_Out]
+
+class Prv_deviantart_DeviantartDeviation_Out_author_Out(TypedDict):
+    username: NotRequired[str]
+    usericon: NotRequired[str]
+
+class Prv_deviantart_DeviantartDeviation_Out_stats_Out(TypedDict):
+    views: NotRequired[float]
+    favourites: NotRequired[float]
+    comments: NotRequired[float]
+    downloads: NotRequired[float]
+
 class Prv_dice_DiceSearchResponse_Out(TypedDict):
     jobs: list[Prv_dice_DiceSearchResult_Out]
     totalResults: float
@@ -10308,6 +10352,11 @@ class Prv_epicgames_ServiceIncident_Out(TypedDict):
 
 class Prv_epicgames_GetAccountResult_Out(TypedDict):
     account: Any
+
+class Prv_epicgames_GetRewardsBalanceResult_Out(TypedDict):
+    balance: float
+    balanceCurrency: str
+    pendingBalance: float
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -14473,6 +14522,111 @@ class Prv_ihg_ihgRow_Out_highestCashOnlyCost_u0_Out(TypedDict):
     baseAmount: str
     ratePlanType: str | None
 
+class Prv_imdb_ImdbSearchArgs_In(TypedDict):
+    query: str
+    type: NotRequired[Literal["title"] | Literal["person"] | Literal["all"]]
+    limit: NotRequired[float]
+
+class Prv_imdb_ImdbSearchResponse_Out(TypedDict):
+    query: str
+    results: list[Prv_imdb_ImdbSearchResult_Out]
+
+class Prv_imdb_ImdbSearchResult_Out(TypedDict):
+    kind: Literal["title"] | Literal["person"]
+    id: str
+    name: str
+    url: str
+    titleType: str | None
+    year: float | None
+    endYear: float | None
+    rating: float | None
+    voteCount: float | None
+    professions: list[str]
+    knownFor: str | None
+    imageUrl: str | None
+
+class Prv_imdb_ImdbSuggestionsResponse_Out(TypedDict):
+    query: str
+    suggestions: list[Prv_imdb_ImdbSuggestion_Out]
+
+class Prv_imdb_ImdbSuggestion_Out(TypedDict):
+    id: str
+    kind: Literal["title"] | Literal["person"] | Literal["other"]
+    name: str
+    yearLabel: str | None
+    detail: str | None
+    titleType: str | None
+    url: str
+    imageUrl: str | None
+
+class Prv_imdb_ImdbTitle_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    originalTitle: str | None
+    titleType: str | None
+    year: float | None
+    endYear: float | None
+    releaseDate: str | None
+    runtimeMinutes: float | None
+    certificate: str | None
+    rating: float | None
+    voteCount: float | None
+    metascore: float | None
+    genres: list[str]
+    plot: str | None
+    posterUrl: str | None
+    countries: list[str]
+    languages: list[str]
+    directors: list[Prv_imdb_ImdbCredit_Out]
+    writers: list[Prv_imdb_ImdbCredit_Out]
+    cast: list[Prv_imdb_ImdbCredit_Out]
+
+class Prv_imdb_ImdbCredit_Out(TypedDict):
+    id: str
+    name: str
+    characters: list[str]
+
+class Prv_imdb_ImdbPerson_Out(TypedDict):
+    id: str
+    url: str
+    name: str
+    birthDate: str | None
+    deathDate: str | None
+    bio: str | None
+    professions: list[str]
+    imageUrl: str | None
+    knownFor: list[Prv_imdb_ImdbKnownFor_Out]
+    awardWins: float | None
+    awardNominations: float | None
+
+class Prv_imdb_ImdbKnownFor_Out(TypedDict):
+    id: str
+    title: str
+    titleType: str | None
+    year: float | None
+
+class Prv_imdb_ImdbReviewsArgs_In(TypedDict):
+    id: str
+    limit: NotRequired[float]
+
+class Prv_imdb_ImdbReviewsResponse_Out(TypedDict):
+    id: str
+    title: str | None
+    totalReviews: float
+    reviews: list[Prv_imdb_ImdbReview_Out]
+
+class Prv_imdb_ImdbReview_Out(TypedDict):
+    id: str
+    author: str | None
+    rating: float | None
+    headline: str | None
+    text: str
+    upVotes: float
+    downVotes: float
+    date: str | None
+    spoiler: bool
+
 class Prv_indeed_IndeedSearchJobsArgs_In(TypedDict):
     query: str
     location: NotRequired[str]
@@ -17152,7 +17306,7 @@ class Prv_luma_LumaEvent_Out(TypedDict):
     requiresApproval: bool
     guestCount: float | None
     hosts: list[str]
-    calendar: str | None
+    calendar: Prv_luma_LumaCalendar_Out | None
     categories: list[str]
     coverUrl: str | None
     description: str | None
@@ -17161,6 +17315,12 @@ class Prv_luma_LumaEvent_Out_price_u0_Out(TypedDict):
     cents: float
     currency: str
 
+class Prv_luma_LumaCalendar_Out(TypedDict):
+    id: str
+    name: str | None
+    slug: str | None
+    url: str | None
+
 class Prv_luma_DiscoverEventsArgs_In(TypedDict):
     place: str
     category: NotRequired[str]
@@ -17168,9 +17328,15 @@ class Prv_luma_DiscoverEventsArgs_In(TypedDict):
     limit: NotRequired[float]
 
 class Prv_luma_ListCalendarEventsArgs_In(TypedDict):
-    calendar: str
+    calendar: str | Prv_luma_LumaCalendar_In
     past: NotRequired[bool]
     limit: NotRequired[float]
+
+class Prv_luma_LumaCalendar_In(TypedDict):
+    id: str
+    name: str | None
+    slug: str | None
+    url: str | None
 
 class Prv_luma_LumaPlace_Out(TypedDict):
     slug: str
@@ -18972,14 +19138,17 @@ class Prv_nytimes_NytimesArticle_Out(TypedDict):
     description: NotRequired[str]
     body: NotRequired[str]
     tone: NotRequired[str]
-    section: NotRequired[Prv_nytimes_NytimesArticle_Out_section_Out]
+    section: NotRequired[Prv_nytimes_NytimesArticleSection_Out]
     bylines: NotRequired[list[Prv_nytimes_NytimesArticle_Out_bylines_item_Out]]
     firstPublished: NotRequired[str]
     lastModified: NotRequired[str]
     commentsCount: NotRequired[float]
 
-class Prv_nytimes_NytimesArticle_Out_section_Out(TypedDict):
+class Prv_nytimes_NytimesArticleSection_Out(TypedDict):
     name: str
+    displayName: NotRequired[str]
+    slug: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_nytimes_NytimesArticle_Out_bylines_item_Out(TypedDict):
     name: str
@@ -19117,6 +19286,15 @@ class Prv_nytimes_NytimesConnectionsCategory_Out(TypedDict):
 class Prv_nytimes_NytimesConnectionsCard_Out(TypedDict):
     content: str
     position: float
+
+class Prv_nytimes_NytimesSpellingBeePuzzle_Out(TypedDict):
+    id: float
+    printDate: str
+    editor: NotRequired[str]
+    centerLetter: str
+    outerLetters: list[str]
+    validWords: list[str]
+    pangrams: list[str]
 
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
@@ -19351,8 +19529,8 @@ class Prv_pacificabeauty_PacificabeautyRecommendedProduct_Out(TypedDict):
     url: str
 
 class Prv_pacificcompanies_searchJobs_args_In(TypedDict):
-    specialty: NotRequired[str]
-    state: NotRequired[str]
+    specialty: NotRequired[str | float | Sequence[str | float]]
+    state: NotRequired[str | float | Sequence[str | float]]
     query: NotRequired[str]
     limit: NotRequired[float]
 
@@ -20146,16 +20324,42 @@ class Prv_postiz_PostizPost_Out(TypedDict):
     content: str
     state: NotRequired[str]
     publishDate: NotRequired[str]
-    integration: NotRequired[str]
+    integrationId: NotRequired[str]
+    integration: NotRequired[Prv_postiz_PostizPost_Out_integration_Out]
     group: NotRequired[str]
 
+class Prv_postiz_PostizPost_Out_integration_Out(TypedDict):
+    id: str
+    providerIdentifier: NotRequired[str]
+    name: NotRequired[str]
+    picture: NotRequired[str]
+
 class Prv_postiz_CreatePostArgs_In(TypedDict):
-    integrationId: str
+    integrationId: str | Prv_postiz_CreatePostArgs_In_integrationId_u1_In
     content: str
     type: NotRequired[Literal["draft"] | Literal["schedule"] | Literal["now"]]
     date: NotRequired[str]
     settings: NotRequired[Mapping[str, Any]]
     shortLink: NotRequired[bool]
+
+class Prv_postiz_CreatePostArgs_In_integrationId_u1_In(TypedDict):
+    id: str
+
+class Prv_postiz_ListIntegrationsArgs_In(TypedDict):
+    group: NotRequired[str]
+
+class Prv_postiz_PostizIntegration_Out(TypedDict):
+    id: str
+    name: str
+    identifier: str
+    picture: NotRequired[str]
+    disabled: bool
+    profile: NotRequired[str]
+    customer: NotRequired[Prv_postiz_PostizIntegration_Out_customer_Out]
+
+class Prv_postiz_PostizIntegration_Out_customer_Out(TypedDict):
+    id: str
+    name: str
 
 class Prv_powys_powysSearchResult_Out(TypedDict):
     results: list[Prv_powys_powysApplication_Out]
@@ -21074,6 +21278,7 @@ class Prv_reddit_RedditPost_Out(TypedDict):
     createdAt: str
     editedAt: str | None
     flair: str | None
+    flairId: str | None
     over18: bool
     spoiler: bool
     stickied: bool
@@ -21907,6 +22112,7 @@ class Prv_reuters_ReutersSearchResult_Out(TypedDict):
     headline: str
     url: str
     section: str | None
+    sectionPath: str | None
     publishedAt: str | None
     image: str | None
 
@@ -22985,6 +23191,43 @@ class Prv_serper_SerperOrganicResult_Out(TypedDict):
     link: str
     snippet: str | None
     date: str | None
+
+class Prv_shop_app_ShopAppProduct_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    descriptionHtml: str | None
+    url: str
+    store: Prv_shop_app_ShopAppProduct_Out_store_Out
+    rating: float | None
+    reviewCount: float | None
+    variantsCount: float | None
+    options: list[Prv_shop_app_ShopAppProductOption_Out]
+    selectedVariant: Prv_shop_app_ShopAppSelectedVariant_Out | None
+    imageUrls: list[str]
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppProduct_Out_store_Out(TypedDict):
+    id: str
+    name: str
+    handle: str | None
+
+class Prv_shop_app_ShopAppProductOption_Out(TypedDict):
+    name: str
+    values: list[str]
+
+class Prv_shop_app_ShopAppSelectedVariant_Out(TypedDict):
+    id: str
+    title: str
+    availableForSale: bool
+    price: float | None
+    currency: str | None
+    imageUrl: str | None
+    selectedOptions: list[Prv_shop_app_ShopAppSelectedVariant_Out_selectedOptions_item_Out]
+
+class Prv_shop_app_ShopAppSelectedVariant_Out_selectedOptions_item_Out(TypedDict):
+    name: str
+    value: str
 
 class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
     zip: str
@@ -24475,6 +24718,19 @@ class Prv_theguardian_com_GuardianVideo_Out_tags_item_Out(TypedDict):
     title: str
     type: str
 
+class Prv_theguardian_com_GuardianListNewslettersResult_Out(TypedDict):
+    newsletters: list[Prv_theguardian_com_GuardianNewsletter_Out]
+
+class Prv_theguardian_com_GuardianNewsletter_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    frequency: str
+    theme: str
+    group: str
+    regionFocus: str | None
+    exampleUrl: str | None
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -25888,7 +26144,8 @@ class Prv_twitch_TwitchFollowStatus_Out(TypedDict):
     followedAt: str | None
 
 class Prv_twitch_SendChatMessageArgs_In(TypedDict):
-    channelId: str
+    channelId: NotRequired[str]
+    login: NotRequired[str]
     message: str
 
 class Prv_twitch_TwitchChatMessage_Out(TypedDict):
@@ -28070,6 +28327,13 @@ class Prv_yahoo_finance_YahooFinanceWatchlistItem_Out(TypedDict):
     change: float | None
     changePercent: float | None
 
+class Prv_yahoo_mail_YahooMailFolder_Out(TypedDict):
+    id: NotRequired[str]
+    name: NotRequired[str]
+    unreadCount: NotRequired[float]
+    totalCount: NotRequired[float]
+    raw: Mapping[str, Any]
+
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
     week: NotRequired[float]
@@ -28242,6 +28506,7 @@ class Prv_yahoo_sports_YahooSportsPlayerDetail_Out(TypedDict):
     name: str
     position: str
     team: str
+    teamSlug: str | None
     college: str | None
     displayHeight: str | None
     weight: float | None
@@ -29569,20 +29834,22 @@ class Cap_flights(Protocol):
 
     async def getFlightStatus(self, query: Cap_flights_FlightStatusQuery_In, options: Cap_flights_CallOptions_In | None = None, /) -> Cap_flights_FlightStatusResult_Out:
         """A flight's live status, checked directly with the airline that flies it. Pass `airline`
-        (an IATA carrier code, e.g. "AA") plus `date` (the flight's ORIGIN date, ISO
-        "2026-08-04") and EITHER `flightNumber` OR both `origin` and `destination` (IATA airport
-        codes) to get every nonstop that airline flies on that route that day. Each returned leg
-        carries the airline's own status wording and a stable status key to branch on, the
-        canceled/diverted/inFlight/landed booleans, scheduled/estimated/actual times at both
-        ends as ISO strings with each airport's own UTC offset, gate, terminal and baggage
-        claim, the aircraft, codeshare and operating carrier, and the airline's passenger-facing
-        disruption message. THROWS for an `airline` no provider behind this capability
-        implements, naming which ones can answer — there is no default carrier to guess, unlike
-        `search`, which has no caller-supplied identity to route on in the first place. An empty
-        `flights` array is a real answer: that airline flies no such flight that day, not a
-        failure. `warnings` is always present, same contract as every other function here,
-        though today it can only ever report a clamped `timeoutMs` — a single-carrier route has
-        no fan-out to go thin.
+        (an IATA carrier code, e.g. "AA", or the carrier name a `search` row carries in
+        `airlines`, e.g. "American" — so `airline: row.airlines[0], date: row.date` plus the
+        searched route works; omit it when `flightNumber` is a full one like "AA2005") plus
+        `date` (the flight's ORIGIN date, ISO "2026-08-04") and EITHER `flightNumber` OR both
+        `origin` and `destination` (IATA airport codes) to get every nonstop that airline flies
+        on that route that day. Each returned leg carries the airline's own status wording and a
+        stable status key to branch on, the canceled/diverted/inFlight/landed booleans,
+        scheduled/estimated/actual times at both ends as ISO strings with each airport's own UTC
+        offset, gate, terminal and baggage claim, the aircraft, codeshare and operating carrier,
+        and the airline's passenger-facing disruption message. THROWS for an `airline` no
+        provider behind this capability implements, naming which ones can answer — there is no
+        default carrier to guess, unlike `search`, which has no caller-supplied identity to
+        route on in the first place. An empty `flights` array is a real answer: that airline
+        flies no such flight that day, not a failure. `warnings` is always present, same
+        contract as every other function here, though today it can only ever report a clamped
+        `timeoutMs` — a single-carrier route has no fan-out to go thin.
         """
 
 class Cap_fuel_card_fees(Protocol):
@@ -32582,8 +32849,9 @@ class Prv_bbc(Protocol):
 
     async def getStandings(self, competition: str, /) -> Prv_bbc_BbcGetStandingsResult_Out:
         """A competition's league table: position, team, played, won, drawn, lost, goals/points for
-        and against, goal difference and points. Takes a competition from listCompetitions (e.g.
-        premier-league).
+        and against, goal difference and points. Takes a competition path from listCompetitions
+        or a getFixtures row's competitionPath (e.g. /sport/football/premier-league), or a
+        football competition's exact name.
         """
 
     async def getMatch(self, matchId: str, /) -> Prv_bbc_BbcGetMatchResult_Out:
@@ -32594,8 +32862,8 @@ class Prv_bbc(Protocol):
 
     async def getTeam(self, teamSlugOrUrl: str, /) -> Prv_bbc_BbcGetTeamResult_Out:
         """One team's BBC Sport page: name, competition, its recent results and upcoming fixtures,
-        and its latest stories. Takes a team slug, which getStandings and getFixtures rows
-        carry.
+        and its latest stories. Takes a team path — a getStandings row's teamPath or a
+        getFixtures row's homeTeamPath/awayTeamPath — or a bare slug like manchester-united.
         """
 
     async def listHeadlines(self, args: Prv_bbc_listHeadlines_args_In | None = None, /) -> Prv_bbc_BbcListHeadlinesResult_Out:
@@ -35435,6 +35703,12 @@ class Prv_deviantart(Protocol):
         site's own cursor.
         """
 
+    async def getDeviation(self, args: Prv_deviantart_getDeviation_args_u0_In | Prv_deviantart_getDeviation_args_u1_In, /) -> Prv_deviantart_DeviantartDeviation_Out:
+        """Reads one deviation in full — title, author, published time, description text, tags,
+        media url and original dimensions, license, mature/AI flags, and stats — taking a
+        deviantart.com/<user>/art/<slug>-<id> url or the numeric id plus its author.
+        """
+
 class Prv_dice(Protocol):
     """Dice — the US technology-only job board. Reaches each posting's full description and
     skill list through Dice's own keyless MCP server at mcp.dice.com/mcp; declares tech-job
@@ -35886,6 +36160,11 @@ class Prv_epicgames(Protocol):
     async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_GetAccountResult_Out:
         """The signed-in caller's own Epic Games account settings, returned raw (no fleet-held Epic
         Games session exists to pin individual field names). Needs the caller signed in.
+        """
+
+    async def getRewardsBalance(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_GetRewardsBalanceResult_Out:
+        """The signed-in caller's Epic Rewards balance — the store credit they have earned from
+        purchases and what is pending.
         """
 
 class Prv_epromos(Protocol):
@@ -36624,6 +36903,13 @@ class Prv_fomo(Protocol):
         """Pages raw trading activity rather than the composed social feed — the unfiltered stream
         of what is being traded on the platform. Unlike getFeed, this is NOT scoped to the
         signed-in user's follows, making it the more valuable stream for any non-UI consumer.
+        """
+
+    async def getTokenFeed(self, address: str, chain: str, cursor: str | None = None, limit: float | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Pages all trades for one token — the global stream of every buy and sell of the
+        specified token across all traders on the platform. Keyed on `address` and `chain` (the
+        chain slug from `searchTokens`), this is the token-specific view of trading activity.
+        Returns cursor-paged trades just like `getTradingActivityFeed`, but scoped to one token.
         """
 
 class Prv_forbes(Protocol):
@@ -39135,6 +39421,40 @@ class Prv_ihg(Protocol):
         display names.
         """
 
+class Prv_imdb(Protocol):
+    """IMDb — the movie and TV database. Search films, shows and people; read a title's rating,
+    cast, crew, plot and runtime; read a person's bio and filmography; read user reviews.
+    Logged out, no browser.
+    """
+
+    async def search(self, args: Prv_imdb_ImdbSearchArgs_In, /) -> Prv_imdb_ImdbSearchResponse_Out:
+        """Search IMDb for movies, TV shows and people by name — the site's own ranked search. Each
+        result carries the tt…/nm… id getTitle and getPerson take, plus year and IMDb rating for
+        a title.
+        """
+
+    async def searchSuggestions(self, query: str, /) -> Prv_imdb_ImdbSuggestionsResponse_Out:
+        """IMDb's typeahead — the same quick completions its search box shows as you type, with
+        top-billed cast or known-for credits beside each.
+        """
+
+    async def getTitle(self, id: str, /) -> Prv_imdb_ImdbTitle_Out:
+        """Read one movie or TV show on IMDb: IMDb rating and vote count, Metascore, year, release
+        date, runtime, certificate, genres, plot, directors, writers and top-billed cast. Takes
+        a tt… id or an imdb.com/title URL.
+        """
+
+    async def getPerson(self, id: str, /) -> Prv_imdb_ImdbPerson_Out:
+        """Read one actor, director or crew member on IMDb: bio, birth and death dates,
+        professions, known-for titles and award win/nomination counts. Takes an nm… id or an
+        imdb.com/name URL.
+        """
+
+    async def getTitleReviews(self, args: Prv_imdb_ImdbReviewsArgs_In, /) -> Prv_imdb_ImdbReviewsResponse_Out:
+        """Read IMDb user reviews for a title — each reviewer's 1-10 rating, headline, full text,
+        helpfulness votes and date — plus the title's total review count.
+        """
+
 class Prv_indeed(Protocol):
     """Job search on the US's largest job board — listings with salary, location and
     posted-date, straight off Indeed's own search results.
@@ -40938,9 +41258,11 @@ class Prv_luma(Protocol):
         """
 
     async def listCalendarEvents(self, args: Prv_luma_ListCalendarEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
-        """Every upcoming event on one Luma calendar or organizer profile (luma.com/<calendar> or
-        luma.com/user/<name>) — the schedule of a recurring meetup, demo night or event series,
-        soonest first. `past: true` lists past editions instead.
+        """Every upcoming event on one Luma calendar or organizer profile — the schedule of a
+        recurring meetup, demo night or event series, soonest first. Takes an event's `calendar`
+        exactly as getEvent or discoverEvents returned it, a calendar id (cal-…), or a calendar,
+        profile or EVENT url (luma.com/<calendar>, luma.com/user/<name>, luma.com/<event>).
+        `past: true` lists past editions instead.
         """
 
     async def listPlaces(self, /) -> list[Prv_luma_LumaPlace_Out]:
@@ -41567,8 +41889,8 @@ class Prv_msc(Protocol):
     """Track MSC container and shipment status — get real-time location and estimated delivery."""
 
     async def trackShipment(self, trackingNumber: str, type: Literal["container"] | Literal["bl"] | Literal["booking"] | None = None, /) -> Prv_msc_TrackingResult_Out:
-        """Tracks a shipment by container/BL number, returning the current status and location
-        information.
+        """Track MSC container and shipment status — get real-time location, current status, and
+        estimated delivery date for any container number, bill of lading, or booking reference.
         """
 
 class Prv_msn(Protocol):
@@ -42292,6 +42614,12 @@ class Prv_nytimes(Protocol):
         America/New_York.
         """
 
+    async def getSpellingBee(self, date: str | None = None, /) -> Prv_nytimes_NytimesSpellingBeePuzzle_Out:
+        """Gets a day's Spelling Bee puzzle off the site's own JSON endpoint (the center letter,
+        the seven available letters, all valid words, and all pangrams). Takes an optional
+        "YYYY-MM-DD" date, defaulting to today in America/New_York.
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -42461,9 +42789,10 @@ class Prv_pacificcompanies(Protocol):
 
     async def searchJobs(self, args: Prv_pacificcompanies_searchJobs_args_In | None = None, /) -> list[Prv_pacificcompanies_PacificCompaniesJob_Out]:
         """Runs Pacific Companies' own job-board search — filters real open physician/APP roles by
-        specialty (slug, e.g. "cardiovascular-surgery" — see getJobCategories) and/or US state,
-        or free-text query. Returns real postings with real location/comp/client detail, live
-        right now.
+        specialty (slug, e.g. "cardiovascular-surgery" — see getJobCategories — or a posting's
+        own `specialty` term ids) and/or US state (two-letter code, or a posting's own `state`
+        ids), or free-text query. Returns real postings with real location/comp/client detail,
+        live right now.
         """
 
     async def getJobCategories(self, /) -> list[Prv_pacificcompanies_PacificCompaniesTerm_Out]:
@@ -42950,7 +43279,16 @@ class Prv_postiz(Protocol):
         """List scheduled and published posts for a workspace within a date range."""
 
     async def createPost(self, args: Prv_postiz_CreatePostArgs_In, /) -> Prv_postiz_PostizPost_Out:
-        """Create and schedule a new post across a connected social media account."""
+        """Create and schedule a new post on one connected channel. `integrationId` is a channel id
+        from listIntegrations or a listed post's `integrationId` (the row or `integration`
+        object itself is accepted too).
+        """
+
+    async def listIntegrations(self, args: Prv_postiz_ListIntegrationsArgs_In | None = None, /) -> list[Prv_postiz_PostizIntegration_Out]:
+        """List the organization's connected social channels (integrations) with the id createPost
+        takes, the platform, display name, handle and whether it is disabled. `group` filters to
+        one customer's channels.
+        """
 
 class Prv_powys(Protocol):
     """Search Powys County Council planning applications by reference, address, or description."""
@@ -43149,17 +43487,19 @@ class Prv_prime_video(Protocol):
     async def listTop10(self, list: Literal["tv"] | Literal["movies"] | Literal["channel"], channelId: str | None = None, /) -> list[Prv_prime_video_PrimeVideoTop10Entry_Out]:
         """Prime Video's own top ten right now — the most-watched TV shows in the US ("tv", off
         `/tv`), the top films to rent or buy ("movies", off `/store`), or the top ten on one
-        add-on channel ("channel", off that channel's own page — pass its uuid as `channelId`,
-        e.g. one read off listChannels() or a channel URL). The read behind "what is everyone
-        watching", and one search can never give you, because search ranks by relevance and this
-        ranks by what is actually being played. Every row carries `position` (the card's own
-        1-based rank within that list — Prime Video never prints a rank number, so this is the
-        card's own order) and `list` (which of the three it came from) alongside the same fields
-        searchTitles() returns; a merged top ten that does not say whether it means streaming or
-        renting is a wrong answer wearing a right one. **The row is intermittent** — measured
-        this build pass, three spaced captures of `/tv` in one minute carried it on only one —
-        so a request that lands without it returns `[]`, a real and honest answer, never an
-        error.
+        add-on channel ("channel", off that channel's own page — `channelId` takes exactly what
+        getChannel() takes: its uuid or `/channel/<uuid>` URL off listChannels().channelId /
+        getWatchOptions().channel.link, OR its benefit slug or `/storefront/subscription/<slug>`
+        link off getWatchOptions().offers[].channel.benefitId / .link). The read behind "what is
+        everyone watching", and one search can never give you, because search ranks by relevance
+        and this ranks by what is actually being played. Every row carries `position` (the
+        card's own 1-based rank within that list — Prime Video never prints a rank number, so
+        this is the card's own order) and `list` (which of the three it came from) alongside the
+        same fields searchTitles() returns; a merged top ten that does not say whether it means
+        streaming or renting is a wrong answer wearing a right one. **The row is intermittent**
+        — measured this build pass, three spaced captures of `/tv` in one minute carried it on
+        only one — so a request that lands without it returns `[]`, a real and honest answer,
+        never an error.
         """
 
     async def listDeals(self, /) -> list[Prv_prime_video_PrimeVideoCategoryRow_Out]:
@@ -44695,6 +45035,21 @@ class Prv_serper(Protocol):
         instead.
         """
 
+class Prv_shop_app(Protocol):
+    """Shop (Shopify's shopping app) — search products across every Shopify store, read a
+    product with its variants, reviews and delivery estimate, and browse a store's
+    catalogue, collections, reviews and policies; once a caller signs in, list and track
+    their orders, save products, follow stores and fill a cart up to checkout.
+    """
+
+    async def getProduct(self, input: str, /) -> Prv_shop_app_ShopAppProduct_Out:
+        """One product by its numeric id or a shop.app/products/<id>/<slug> url: title,
+        description, store, rating, every option axis ("Color", "Size") with its values, and the
+        selected/first-available variant's own price, stock and image. The door carries only ONE
+        priced variant, not a full per-combination list — pick a different one with getVariant
+        (queued).
+        """
+
 class Prv_sitmeanssit(Protocol):
     """Reads Sit Means Sit's own real-time Dog Training Locator directly (the same admin-ajax
     endpoint the site's /locations/ map runs) — the nearest real franchise locations to a US
@@ -45498,6 +45853,11 @@ class Prv_theguardian_com(Protocol):
         """The full metadata of one Guardian video: headline, byline, publish time, section, tags
         and duration in seconds. Takes a theguardian.com URL or the path listVideos returns as
         `id`.
+        """
+
+    async def listNewsletters(self, /) -> Prv_theguardian_com_GuardianListNewslettersResult_Out:
+        """Every email newsletter The Guardian publishes — name, description, frequency, theme and
+        which edition it targets (when the site declares one).
         """
 
 class Prv_therabody(Protocol):
@@ -46491,8 +46851,9 @@ class Prv_twitch(Protocol):
         """
 
     async def sendChatMessage(self, args: Prv_twitch_SendChatMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchChatMessage_Out:
-        """Sends a chat message to a Twitch channel. NEEDS the viewer's Twitch sign-in and the
-        channel id (not login). Returns the message id and text.
+        """Sends a chat message to a Twitch channel. NEEDS the viewer's Twitch sign-in. The channel
+        is its numeric `channelId`, or its `login` (the `channel` createHighlight/followChannel
+        return), which is resolved to the id first. Returns the message id and text.
         """
 
     async def listWatchLater(self, args: Prv_twitch_ListWatchLaterArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_twitch_TwitchVideo_Out]:
@@ -47721,6 +48082,20 @@ class Prv_yahoo_finance(Protocol):
         every call, not assumed.
         """
 
+class Prv_yahoo_mail(Protocol):
+    """Reads and sends mail in the CALLER's own Yahoo Mail account — inbox, folders, search,
+    compose — through the auth relay. Every function needs the caller signed in; none of it
+    works on a fleet persona.
+    """
+
+    async def listFolders(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> list[Prv_yahoo_mail_YahooMailFolder_Out]:
+        """Lists the CALLER's own mail folders — Inbox, Sent, Drafts, Spam, Trash and any custom
+        folders — the way the sidebar does. The caller signs in through the auth relay; Bowmark
+        never signs up on this site. Takes no arguments. Field values besides `raw` are read
+        defensively and may come back undefined until a real signed-in capture measures the
+        success shape.
+        """
+
 class Prv_yahoo_sports(Protocol):
     """Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages —
     off the site's own server-rendered schema.org markup, no browser and no account.
@@ -47782,19 +48157,25 @@ class Prv_yahoo_sports(Protocol):
 
     async def getSchedule(self, args: Prv_yahoo_sports_GetScheduleArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsScheduleRow_Out]:
         """Reads one team's full schedule for the season off Yahoo Sports' own Schedule page —
-        every game, opponent, date and result if played. Takes league and team slug.
+        every game, opponent, date and result if played. Takes league and team slug. teamSlug is
+        a slug (listTeams/getStandings `slug`, getPlayer/getInjuries `teamSlug`) or an exact
+        team name/abbreviation such as getOdds' `abbr` ("IND").
         """
 
     async def getTeamRoster(self, args: Prv_yahoo_sports_GetTeamRosterArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsRosterRow_Out]:
         """Reads one team's current roster off Yahoo Sports' own Roster page — every player,
-        position, jersey number and status. Takes league and team slug.
+        position, jersey number and status. Takes league and team slug. teamSlug is a slug
+        (listTeams/getStandings `slug`, getPlayer/getInjuries `teamSlug`) or an exact team
+        name/abbreviation such as getOdds' `abbr` ("IND").
         """
 
     async def findPlayers(self, args: Prv_yahoo_sports_FindPlayersArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsPlayerRow_Out]:
         """Finds players on one team's roster by name — the door for `getPlayer`, so a caller
         holding a name and a team can reach that player's own page. Yahoo Sports publishes no
         cross-team player search, so this reads one team's Roster page and filters it; it does
-        not search a whole league in one call.
+        not search a whole league in one call. teamSlug is a slug (listTeams/getStandings
+        `slug`, getPlayer/getInjuries `teamSlug`) or an exact team name/abbreviation such as
+        getOdds' `abbr` ("IND").
         """
 
     async def getPlayer(self, args: Prv_yahoo_sports_GetPlayerArgs_In, /) -> Prv_yahoo_sports_YahooSportsPlayerDetail_Out:
@@ -48041,7 +48422,8 @@ class Prv_youtube(Protocol):
         video count, lifetime view count, country, the ISO date it joined, the links it lists
         (resolved to their real destination, not YouTube's redirect wrapper), and its avatar and
         banner images. `channel` is a channel id (`UC…`), an `@handle`, or a channel URL — not a
-        plain name, which `findChannel` resolves to an id first. Every field past
+        plain name, which `findChannel` resolves to an id first; a getVideo or search row's own
+        `channelId` (or the row itself) is accepted as-is. Every field past
         `channelId`/`handle`/`title` comes off the About panel; on the rare response that
         carries no panel at all they come back null/empty rather than throwing.
         """
@@ -48630,6 +49012,7 @@ class BowmarkProviders(Protocol):
     idealista: Prv_idealista
     identitygroup: Prv_identitygroup
     ihg: Prv_ihg
+    imdb: Prv_imdb
     indeed: Prv_indeed
     inspirecommunities: Prv_inspirecommunities
     instagram: Prv_instagram
@@ -48790,6 +49173,7 @@ class BowmarkProviders(Protocol):
     semihandmade: Prv_semihandmade
     seoulfood: Prv_seoulfood
     serper: Prv_serper
+    shop_app: Prv_shop_app
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
     smartsign: Prv_smartsign
@@ -48875,6 +49259,7 @@ class BowmarkProviders(Protocol):
     x: Prv_x
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     yahoo_finance: Prv_yahoo_finance
+    yahoo_mail: Prv_yahoo_mail
     yahoo_sports: Prv_yahoo_sports
     ycombinator: Prv_ycombinator
     yelp: Prv_yelp

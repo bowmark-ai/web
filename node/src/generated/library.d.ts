@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 24fbf26a574dadfbf6ddc44cf7bad0daf699d2873ab930e03321d55a65d3131c
-// 76 capabilities, 533 providers, 1874 typed functions, 20 refused.
+// Manifest version: f4002f23b4883f88df528cac73e4bca4604eaa85f02226c310445c206dd41aa3
+// 76 capabilities, 536 providers, 1887 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1531,11 +1531,15 @@ type BookingOptionsResult = {
 }
 
 // Give EITHER flightNumber OR both origin and destination, plus date and airline.
+// From a search row: airline = row.airlines[0], date = row.date, and the route you
+// searched as origin/destination — search rows carry no flight number.
 type FlightStatusQuery = {
-  airline: string          // IATA carrier code, e.g. "AA" — routes to the airline
-                            // that flies it; there is no default to guess
+  airline?: string          // IATA carrier code ("AA") OR the carrier name a search
+                            // row carries in `airlines` ("American") — exact match,
+                            // routes to the airline that flies it. May be omitted
+                            // only when flightNumber carries the code ("AA2005")
   date: string              // the flight's ORIGIN date, ISO "2026-08-04"
-  flightNumber?: string     // "100", "2005", or "AA2005"
+  flightNumber?: string     // "100", "2005", or "AA2005" / "AA 2005"
   origin?: string           // IATA code — with destination, returns every NONSTOP
   destination?: string      // that airline flies on the route that day
 }
@@ -1647,10 +1651,12 @@ type FlightStatusResult = {
 
     /**
      * A flight's live status, checked directly with the airline that flies it. Pass `airline` (an
-     * IATA carrier code, e.g. "AA") plus `date` (the flight's ORIGIN date, ISO "2026-08-04") and
-     * EITHER `flightNumber` OR both `origin` and `destination` (IATA airport codes) to get every
-     * nonstop that airline flies on that route that day. Each returned leg carries the airline's
-     * own status wording and a stable status key to branch on, the
+     * IATA carrier code, e.g. "AA", or the carrier name a `search` row carries in `airlines`, e.g.
+     * "American" — so `airline: row.airlines[0], date: row.date` plus the searched route works;
+     * omit it when `flightNumber` is a full one like "AA2005") plus `date` (the flight's ORIGIN
+     * date, ISO "2026-08-04") and EITHER `flightNumber` OR both `origin` and `destination` (IATA
+     * airport codes) to get every nonstop that airline flies on that route that day. Each returned
+     * leg carries the airline's own status wording and a stable status key to branch on, the
      * canceled/diverted/inFlight/landed booleans, scheduled/estimated/actual times at both ends as
      * ISO strings with each airport's own UTC offset, gate, terminal and baggage claim, the
      * aircraft, codeshare and operating carrier, and the airline's passenger-facing disruption
@@ -4528,6 +4534,9 @@ type FormInspectionResult = {
   multiStep: boolean                 // more steps follow; the count is the visible step only
   stepLabel: string | null           // the form's own "Step 2 of 4", when it prints one
   wall: { vendor: string; cleared: boolean } | null  // a bot challenge seen on the page, if any — never set in fast mode
+  needsLogin: boolean                // the form is behind the site's sign-in: the page, or the control
+                                     // that opens it, landed on a login screen. fieldCount 0 beside it
+                                     // means "members only", not "no form"
   warnings: string[]
 }
 
@@ -4554,6 +4563,7 @@ type FormFillResult = {
   autocompleteSelected: string[]  // "<field>: <suggestion>" for each address/lookup field a suggestion was picked for
   resultContent: string | null  // what the site answered back, read after submit/advance — null otherwise
   wall: { vendor: string; cleared: boolean } | null  // a bot challenge this call saw on the page, if any
+  needsLogin: boolean         // opening the form landed on the site's sign-in, so nothing was filled
   warnings: string[]
 }
 
@@ -5948,7 +5958,8 @@ interface ListCategoryProductsArgs {
   page?: number;
 }
 interface AmazonCategoryListing {
-  department: string;
+  department: string; // display label, e.g. "Kitchen & Dining" — not an input anywhere
+  departmentAlias: string; // the &i= alias that produced the page: pass THIS back to listCategoryProducts / searchProducts as department (not a listBestSellers slug)
   products: AmazonProduct[];
 }
 interface AmazonKeywordSuggestion {
@@ -6945,7 +6956,8 @@ interface AppStoreChartApp {
   bundleId: string;
   name: string;
   subtitle: string;
-  developer: string;
+  developer: string; // display name only — for this developer's catalog call listDeveloperApps({ app: row.id })
+  developerId?: string; // artist id, ONLY on rows hydrated past the page's first 25 — listDeveloperApps({ developer: row.developerId })
   ageRating: string;
   price: string;
   rating: { average: number; countLabel: string } | null;
@@ -6998,7 +7010,7 @@ interface AppStoreStoryApp {
   bundleId: string;
   name: string;
   subtitle: string;
-  developer: string;
+  developer: string; // display name only (the story page carries no id) — for this developer's catalog call listDeveloperApps({ app: row.id })
   ageRating: string;
   rating: { average: number; countLabel: string } | null;
   price: string;
@@ -9596,9 +9608,12 @@ interface BbcListCompetitionsResult {
 
 interface BbcFixtureMatch {
   matchId: string;
-  competition: string; // the site's own tournament name, e.g. "Premier League"
+  competition: string; // the site's own tournament name, e.g. "Premier League" — a label; pass competitionPath on
+  competitionPath?: string; // e.g. "/sport/football/nations-league" — what getFixtures' competition and getStandings take
   homeTeam: string;
   awayTeam: string;
+  homeTeamPath?: string; // e.g. "/sport/football/teams/belgium" — what getTeam takes
+  awayTeamPath?: string; // e.g. "/sport/football/teams/france" — what getTeam takes
   homeScore?: string;   // absent before kickoff and on a cancelled match
   awayScore?: string;
   status: string;       // "upcoming" | "live" | "finished" | "cancelled" for the four states measured; an unmapped BBC status passes through verbatim
@@ -9616,7 +9631,7 @@ interface BbcGetFixturesResult {
 interface BbcStandingsRow {
   rank: number;
   team: string;
-  teamPath: string;     // site-relative, e.g. "/sport/football/teams/manchester-city"
+  teamPath: string;     // site-relative, e.g. "/sport/football/teams/manchester-city" — what getTeam takes
   played: number;
   won: number;
   drawn: number;
@@ -9636,7 +9651,7 @@ interface BbcGetStandingsResult {
 
 interface BbcMatchTeam {
   name: string;
-  teamPath?: string;      // site-relative, e.g. "/sport/football/teams/manchester-city" — what a future getTeam would take
+  teamPath?: string;      // site-relative, e.g. "/sport/football/teams/manchester-city" — what getTeam takes
   score?: number;
   penaltyScore?: number;  // penalty shootout score, when applicable
 }
@@ -9794,8 +9809,9 @@ interface bbcRow {
 
     /**
      * A competition's league table: position, team, played, won, drawn, lost, goals/points for and
-     * against, goal difference and points. Takes a competition from listCompetitions (e.g.
-     * premier-league).
+     * against, goal difference and points. Takes a competition path from listCompetitions or a
+     * getFixtures row's competitionPath (e.g. /sport/football/premier-league), or a football
+     * competition's exact name.
      */
     getStandings(competition: string): Promise<BbcGetStandingsResult>;
 
@@ -9807,7 +9823,8 @@ interface bbcRow {
 
     /**
      * One team's BBC Sport page: name, competition, its recent results and upcoming fixtures, and
-     * its latest stories. Takes a team slug, which getStandings and getFixtures rows carry.
+     * its latest stories. Takes a team path — a getStandings row's teamPath or a getFixtures row's
+     * homeTeamPath/awayTeamPath — or a bare slug like manchester-united.
      */
     getTeam(teamSlugOrUrl: string): Promise<BbcGetTeamResult>;
 
@@ -11429,8 +11446,8 @@ interface BmwusaBuiltVehicleOption {
 
 interface BmwusaBuiltVehicle {
   modelCode: string;
-  modelName: string;
-  series: string;
+  modelName: string;  // searchCertifiedPreOwned's options.model takes this verbatim ("X5 40 xDrive" keeps the X5 rows)
+  series: string;  // searchCertifiedPreOwned's options.model takes this verbatim too ("2 Series", "X5")
   bodyStyle: string;
   year: number;
   basePrice: number;
@@ -11468,7 +11485,7 @@ interface BmwusaCpoVehicle {
 interface BmwusaCpoSearchOptions {
   radius?: number;
   limit?: number;
-  model?: string;
+  model?: string;  // a substring of a row's model ("x5"), or buildVehicle's / listOffers' own modelName or series, verbatim
   minYear?: number;
   maxYear?: number;
   maxPrice?: number;
@@ -11530,9 +11547,9 @@ interface BmwusaFinanceOffer {
 }
 
 interface BmwusaOffer {
-  modelCode: string;
-  modelName: string;
-  series: string;
+  modelCode: string;  // buildVehicle takes this
+  modelName: string;  // searchCertifiedPreOwned's options.model takes this verbatim
+  series: string;  // searchCertifiedPreOwned's options.model takes this verbatim too
   bodyStyle: string;
   msrp: number;
   lease: BmwusaLeaseOffer | null;
@@ -12191,7 +12208,8 @@ interface BungalowListingSummary {
   numBathrooms: string;
   sqft: number | null;
   city: string;
-  neighborhood: string | null;
+  neighborhood: string | null; // display label
+  neighborhoodSlug: string | null; // searchListings({ neighborhoodSlug }) takes this back
   marketSlug: string;
   marketDisplayName: string;
   isComingSoon: boolean;
@@ -12206,7 +12224,7 @@ interface BungalowSearchResult {
 interface BungalowSearchFilters {
   marketSlug: string;
   marketingType?: "co_living" | "group_living";
-  neighborhoodSlug?: string;
+  neighborhoodSlug?: string; // a listing's neighborhoodSlug, e.g. "mar-vista"
   minPrice?: number;
   maxPrice?: number;
   petFriendly?: boolean;
@@ -12818,7 +12836,7 @@ interface CaliberhealthJobListing {
   title: string;
   jobId: string;
   postedDate: string;
-  specialty: string;
+  specialty: string;  // search({ specialty }) takes this back verbatim
   credentialType: string | null;
   state: string | null;
   zip: string | null;
@@ -12833,7 +12851,7 @@ interface CaliberhealthSearchResult {
 }
 
 interface CaliberhealthSearchArgs {
-  specialty?: string;
+  specialty?: string;  // substring of a card's specialty, or of its credential + specialty ("MD/DO OB/GYN, Hospitalist")
   location?: string;
   keywords?: string;
   page?: number;
@@ -12843,7 +12861,9 @@ interface CaliberhealthJobDetail {
   title: string;
   jobId: string;
   postedDate: string;
-  specialty: string;
+  specialty: string;  // the tag(s) alone, e.g. "OB/GYN, Hospitalist" — search({ specialty }) takes this back verbatim
+  credentialType: string | null;  // e.g. "MD/DO" — the same value a search card carries
+  specialtyLine: string;  // the site's own "Speciality:" line verbatim, e.g. "MD/DO OB/GYN, Hospitalist" — search({ specialty }) takes this too
   location: string;
   facilityType: string | null;
   schedule: string | null;
@@ -17335,6 +17355,24 @@ interface DeviantartSearchResult {
   nextCursor?: string;
 }
 
+interface DeviantartDeviation {
+  deviationId: string;
+  title: string;
+  url?: string;
+  author?: { username?: string; usericon?: string };
+  publishedTime?: string;
+  type?: string;
+  mediaUrl?: string;
+  originalWidth?: number;
+  originalHeight?: number;
+  description?: string;
+  tags?: string[];
+  license?: string;
+  isMature?: boolean;
+  isAiGenerated?: boolean;
+  stats?: { views?: number; favourites?: number; comments?: number; downloads?: number };
+}
+
   /**
    * DeviantArt artwork — search deviations, read one with its comments, browse a tag or the
    * Daily Deviations, and pull an artist's profile, gallery, favourites and posts; once a caller
@@ -17347,6 +17385,13 @@ interface DeviantartSearchResult {
      * cursor.
      */
     searchDeviations(args: { query: string; cursor?: string }): Promise<DeviantartSearchResult>;
+
+    /**
+     * Reads one deviation in full — title, author, published time, description text, tags, media
+     * url and original dimensions, license, mature/AI flags, and stats — taking a
+     * deviantart.com/<user>/art/<slug>-<id> url or the numeric id plus its author.
+     */
+    getDeviation(args: { url: string } | { deviationId: string; username: string }): Promise<DeviantartDeviation>;
   }
 }
 
@@ -18527,6 +18572,12 @@ interface GetAccountResult {
   account: unknown;
 }
 
+interface GetRewardsBalanceResult {
+  balance: number;
+  balanceCurrency: string;
+  pendingBalance: number;
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -18613,6 +18664,12 @@ interface GetAccountResult {
      * Games session exists to pin individual field names). Needs the caller signed in.
      */
     getAccount(opts?: ConnectionOption): Promise<GetAccountResult>;
+
+    /**
+     * The signed-in caller's Epic Rewards balance — the store credit they have earned from
+     * purchases and what is pending.
+     */
+    getRewardsBalance(opts?: ConnectionOption): Promise<GetRewardsBalanceResult>;
   }
 }
 
@@ -20581,6 +20638,14 @@ interface FomoCandle {
      * user's follows, making it the more valuable stream for any non-UI consumer.
      */
     getTradingActivityFeed(cursor?: string, limit?: number, opts?: ConnectionOption): Promise<FomoPage<FomoTrade>>;
+
+    /**
+     * Pages all trades for one token — the global stream of every buy and sell of the specified
+     * token across all traders on the platform. Keyed on `address` and `chain` (the chain slug
+     * from `searchTokens`), this is the token-specific view of trading activity. Returns
+     * cursor-paged trades just like `getTradingActivityFeed`, but scoped to one token.
+     */
+    getTokenFeed(address: string, chain: string, cursor?: string, limit?: number, opts?: ConnectionOption): Promise<FomoPage<FomoTrade>>;
   }
 }
 
@@ -27036,6 +27101,169 @@ interface ihgRow { id: string; brandCode: string; availabilityStatus: string; lo
   }
 }
 
+declare namespace BowmarkProvider_imdb {
+  // ── IMDb — the unit's own declarations, verbatim ──
+interface ImdbSearchArgs {
+  /** Free text — a title, a person's name, or both, e.g. "inception" or "christopher nolan". */
+  query: string;
+  /** "title", "person" or "all" (default). */
+  type?: "title" | "person" | "all";
+  /** 1-50, default 10. */
+  limit?: number;
+}
+interface ImdbSearchResult {
+  kind: "title" | "person";
+  /** tt… for a title (pass to getTitle), nm… for a person (pass to getPerson). */
+  id: string;
+  name: string;
+  url: string;
+  /** Title only: "Movie", "TV Series", "Short"… */
+  titleType: string | null;
+  year: number | null;
+  endYear: number | null;
+  rating: number | null;
+  voteCount: number | null;
+  /** Person only: their primary professions. */
+  professions: string[];
+  /** Person only: the title they are best known for. */
+  knownFor: string | null;
+  imageUrl: string | null;
+}
+interface ImdbSearchResponse {
+  query: string;
+  results: ImdbSearchResult[];
+}
+interface ImdbSuggestion {
+  id: string;
+  kind: "title" | "person" | "other";
+  name: string;
+  /** Title: the year label, e.g. "2010" or "2008-2013". Person: null. */
+  yearLabel: string | null;
+  /** Title: top-billed cast. Person: what they are known for, e.g. "Director, Oppenheimer (2023)". */
+  detail: string | null;
+  titleType: string | null;
+  url: string;
+  imageUrl: string | null;
+}
+interface ImdbSuggestionsResponse {
+  query: string;
+  suggestions: ImdbSuggestion[];
+}
+interface ImdbCredit {
+  id: string;
+  name: string;
+  /** Cast only: the characters played. */
+  characters: string[];
+}
+interface ImdbTitle {
+  id: string;
+  url: string;
+  title: string;
+  originalTitle: string | null;
+  titleType: string | null;
+  year: number | null;
+  endYear: number | null;
+  /** ISO date, as precise as IMDb knows it (YYYY, YYYY-MM or YYYY-MM-DD). */
+  releaseDate: string | null;
+  runtimeMinutes: number | null;
+  certificate: string | null;
+  rating: number | null;
+  voteCount: number | null;
+  metascore: number | null;
+  genres: string[];
+  plot: string | null;
+  posterUrl: string | null;
+  countries: string[];
+  languages: string[];
+  directors: ImdbCredit[];
+  writers: ImdbCredit[];
+  /** Top-billed cast, up to 15. */
+  cast: ImdbCredit[];
+}
+interface ImdbKnownFor {
+  id: string;
+  title: string;
+  titleType: string | null;
+  year: number | null;
+}
+interface ImdbPerson {
+  id: string;
+  url: string;
+  name: string;
+  birthDate: string | null;
+  deathDate: string | null;
+  bio: string | null;
+  professions: string[];
+  imageUrl: string | null;
+  knownFor: ImdbKnownFor[];
+  awardWins: number | null;
+  awardNominations: number | null;
+}
+interface ImdbReviewsArgs {
+  /** A title id (tt…) or an imdb.com/title/… URL. */
+  id: string;
+  /** 1-25, default 10. */
+  limit?: number;
+}
+interface ImdbReview {
+  id: string;
+  author: string | null;
+  /** The reviewer's own 1-10 rating, when they gave one. */
+  rating: number | null;
+  headline: string | null;
+  text: string;
+  upVotes: number;
+  downVotes: number;
+  date: string | null;
+  spoiler: boolean;
+}
+interface ImdbReviewsResponse {
+  id: string;
+  title: string | null;
+  totalReviews: number;
+  reviews: ImdbReview[];
+}
+
+  /**
+   * IMDb — the movie and TV database. Search films, shows and people; read a title's rating,
+   * cast, crew, plot and runtime; read a person's bio and filmography; read user reviews. Logged
+   * out, no browser.
+   */
+  interface Unit {
+    /**
+     * Search IMDb for movies, TV shows and people by name — the site's own ranked search. Each
+     * result carries the tt…/nm… id getTitle and getPerson take, plus year and IMDb rating for a
+     * title.
+     */
+    search(args: ImdbSearchArgs): Promise<ImdbSearchResponse>;
+
+    /**
+     * IMDb's typeahead — the same quick completions its search box shows as you type, with
+     * top-billed cast or known-for credits beside each.
+     */
+    searchSuggestions(query: string): Promise<ImdbSuggestionsResponse>;
+
+    /**
+     * Read one movie or TV show on IMDb: IMDb rating and vote count, Metascore, year, release
+     * date, runtime, certificate, genres, plot, directors, writers and top-billed cast. Takes a
+     * tt… id or an imdb.com/title URL.
+     */
+    getTitle(id: string): Promise<ImdbTitle>;
+
+    /**
+     * Read one actor, director or crew member on IMDb: bio, birth and death dates, professions,
+     * known-for titles and award win/nomination counts. Takes an nm… id or an imdb.com/name URL.
+     */
+    getPerson(id: string): Promise<ImdbPerson>;
+
+    /**
+     * Read IMDb user reviews for a title — each reviewer's 1-10 rating, headline, full text,
+     * helpfulness votes and date — plus the title's total review count.
+     */
+    getTitleReviews(args: ImdbReviewsArgs): Promise<ImdbReviewsResponse>;
+  }
+}
+
 declare namespace BowmarkProvider_indeed {
   // ── Indeed — the unit's own declarations, verbatim ──
 interface IndeedSearchJobsArgs {
@@ -31776,10 +32004,18 @@ interface LumaEvent {
   requiresApproval: boolean;
   guestCount: number | null;
   hosts: string[];
-  calendar: string | null;
+  /** Pass this straight to listCalendarEvents({ calendar }). `name` is a label, never an argument. */
+  calendar: LumaCalendar | null;
   categories: string[];
   coverUrl: string | null;
   description: string | null;
+}
+interface LumaCalendar {
+  /** cal-… */
+  id: string;
+  name: string | null;
+  slug: string | null;
+  url: string | null;
 }
 interface LumaPlace {
   slug: string;
@@ -31796,7 +32032,9 @@ interface GetEventArgs {
   url: string;
 }
 interface ListCalendarEventsArgs {
-  calendar: string;
+  /** An event's `calendar` as returned, its id (cal-…) or url, or any luma.com calendar,
+   * profile or event url or slug. An event url lists that event's own calendar. */
+  calendar: string | LumaCalendar;
   past?: boolean;
   /** Default 50, at most 1000. */
   limit?: number;
@@ -31832,9 +32070,11 @@ interface DiscoverEventsArgs {
     discoverEvents(args: DiscoverEventsArgs): Promise<LumaEvent[]>;
 
     /**
-     * Every upcoming event on one Luma calendar or organizer profile (luma.com/<calendar> or
-     * luma.com/user/<name>) — the schedule of a recurring meetup, demo night or event series,
-     * soonest first. `past: true` lists past editions instead.
+     * Every upcoming event on one Luma calendar or organizer profile — the schedule of a recurring
+     * meetup, demo night or event series, soonest first. Takes an event's `calendar` exactly as
+     * getEvent or discoverEvents returned it, a calendar id (cal-…), or a calendar, profile or
+     * EVENT url (luma.com/<calendar>, luma.com/user/<name>, luma.com/<event>). `past: true` lists
+     * past editions instead.
      */
     listCalendarEvents(args: ListCalendarEventsArgs): Promise<LumaEvent[]>;
 
@@ -33916,7 +34156,7 @@ interface MossyoakCheckoutLink {
 }
 
 declare namespace BowmarkProvider_msc {
-  // ── MSC shipment tracking — the unit's own declarations, verbatim ──
+  // ── MSC shipment tracking — track containers and bills of lading — the unit's own declarations, verbatim ──
 interface TrackingResult {
   status: string; // the site's own labels — read the values off a result, never guess one from prose
   location: string;
@@ -33928,8 +34168,8 @@ interface TrackingResult {
   /** Track MSC container and shipment status — get real-time location and estimated delivery. */
   interface Unit {
     /**
-     * Tracks a shipment by container/BL number, returning the current status and location
-     * information.
+     * Track MSC container and shipment status — get real-time location, current status, and
+     * estimated delivery date for any container number, bill of lading, or booking reference.
      */
     trackShipment(trackingNumber: string, type?: 'container' | 'bl' | 'booking'): Promise<TrackingResult>;
   }
@@ -35443,11 +35683,17 @@ interface NytimesArticle {
   description?: string;
   body?: string;
   tone?: string;
-  section?: { name: string };
+  section?: NytimesArticleSection; // pass it (or its slug) to listArticles / getSection
   bylines?: Array<{ name: string }>;
   firstPublished?: string;
   lastModified?: string;
   commentsCount?: number;
+}
+interface NytimesArticleSection {
+  name: string;          // the site's short name, e.g. "world"
+  displayName?: string;  // e.g. "World"
+  slug?: string;         // e.g. "world" or "world/middleeast" — what listArticles and getSection take
+  url?: string;          // e.g. "https://www.nytimes.com/section/world" — also accepted by listArticles and getSection
 }
 interface NytimesSection {
   name: string;
@@ -35459,7 +35705,7 @@ interface NytimesSearchResult {
   headline?: string;
   description?: string;
   url?: string;
-  section?: string;
+  section?: string; // display name, e.g. "U.S." — listArticles / getSection resolve it by exact name
   bylines?: Array<{ name: string }>;
   firstPublished?: string;
 }
@@ -35599,6 +35845,15 @@ interface NytimesConnectionsPuzzle {
   editor?: string;
   categories: NytimesConnectionsCategory[];
 }
+interface NytimesSpellingBeePuzzle {
+  id: number;
+  printDate: string;
+  editor?: string;
+  centerLetter: string;
+  outerLetters: string[];
+  validWords: string[];
+  pangrams: string[];
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -35728,6 +35983,13 @@ interface NytimesConnectionsPuzzle {
      * their cards). Takes an optional "YYYY-MM-DD" date, defaulting to today in America/New_York.
      */
     getConnections(date?: string): Promise<NytimesConnectionsPuzzle>;
+
+    /**
+     * Gets a day's Spelling Bee puzzle off the site's own JSON endpoint (the center letter, the
+     * seven available letters, all valid words, and all pangrams). Takes an optional "YYYY-MM-DD"
+     * date, defaulting to today in America/New_York.
+     */
+    getSpellingBee(date?: string): Promise<NytimesSpellingBeePuzzle>;
   }
 }
 
@@ -36153,8 +36415,8 @@ interface PacificCompaniesJob {
   title: string;
   url: string;
   publishedAt: string;
-  specialty: string[]; // job-category term ids, as strings
-  state: string[]; // job-state term ids, as strings
+  specialty: string[]; // job-category term ids, as strings — searchJobs({ specialty }) takes these back (one id or the whole array)
+  state: string[]; // job-state term ids, as strings — searchJobs({ state }) takes these back (one id or the whole array)
   jobType: string[]; // job-type term ids, as strings
   city: string | null;
   stateName: string | null;
@@ -36197,11 +36459,12 @@ interface AssembledApplication {
   interface Unit {
     /**
      * Runs Pacific Companies' own job-board search — filters real open physician/APP roles by
-     * specialty (slug, e.g. "cardiovascular-surgery" — see getJobCategories) and/or US state, or
+     * specialty (slug, e.g. "cardiovascular-surgery" — see getJobCategories — or a posting's own
+     * `specialty` term ids) and/or US state (two-letter code, or a posting's own `state` ids), or
      * free-text query. Returns real postings with real location/comp/client detail, live right
      * now.
      */
-    searchJobs(args?: { specialty?: string; state?: string; query?: string; limit?: number }): Promise<PacificCompaniesJob[]>;
+    searchJobs(args?: { specialty?: string | number | Array<string | number>; state?: string | number | Array<string | number>; query?: string; limit?: number }): Promise<PacificCompaniesJob[]>;
 
     /**
      * Lists every specialty Pacific Companies recruits for, with a live open-posting count — the
@@ -37379,7 +37642,23 @@ interface PostizPost {
   content: string;
   state?: string;
   publishDate?: string;
-  integration?: string;
+  integrationId?: string;      // the channel's integration id — what createPost's integrationId takes
+  integration?: { id: string; providerIdentifier?: string; name?: string; picture?: string }; // createPost also takes this object as integrationId
+  group?: string;
+}
+
+interface PostizIntegration {  // one connected channel; its id is what createPost's integrationId takes
+  id: string;
+  name: string;
+  identifier: string;          // the platform, e.g. "x", "linkedin", "bluesky"
+  picture?: string;
+  disabled: boolean;
+  profile?: string;            // the account handle
+  customer?: { id: string; name: string };
+}
+
+interface ListIntegrationsArgs {
+  /** A customer (group) id — returns only that group's channels. */
   group?: string;
 }
 
@@ -37391,7 +37670,7 @@ interface ListPostsArgs {
 }
 
 interface CreatePostArgs {
-  integrationId: string;
+  integrationId: string | { id: string }; // an id from listIntegrations / a post's integrationId, or the row itself
   content: string;
   type?: "draft" | "schedule" | "now";
   date?: string;
@@ -37404,8 +37683,19 @@ interface CreatePostArgs {
     /** List scheduled and published posts for a workspace within a date range. */
     listPosts(args: ListPostsArgs): Promise<PostizPost[]>;
 
-    /** Create and schedule a new post across a connected social media account. */
+    /**
+     * Create and schedule a new post on one connected channel. `integrationId` is a channel id
+     * from listIntegrations or a listed post's `integrationId` (the row or `integration` object
+     * itself is accepted too).
+     */
     createPost(args: CreatePostArgs): Promise<PostizPost>;
+
+    /**
+     * List the organization's connected social channels (integrations) with the id createPost
+     * takes, the platform, display name, handle and whether it is disabled. `group` filters to one
+     * customer's channels.
+     */
+    listIntegrations(args?: ListIntegrationsArgs): Promise<PostizIntegration[]>;
   }
 }
 
@@ -37848,16 +38138,18 @@ interface PrimeVideoLiveSportsEvent {
     /**
      * Prime Video's own top ten right now — the most-watched TV shows in the US ("tv", off `/tv`),
      * the top films to rent or buy ("movies", off `/store`), or the top ten on one add-on channel
-     * ("channel", off that channel's own page — pass its uuid as `channelId`, e.g. one read off
-     * listChannels() or a channel URL). The read behind "what is everyone watching", and one
-     * search can never give you, because search ranks by relevance and this ranks by what is
-     * actually being played. Every row carries `position` (the card's own 1-based rank within that
-     * list — Prime Video never prints a rank number, so this is the card's own order) and `list`
-     * (which of the three it came from) alongside the same fields searchTitles() returns; a merged
-     * top ten that does not say whether it means streaming or renting is a wrong answer wearing a
-     * right one. **The row is intermittent** — measured this build pass, three spaced captures of
-     * `/tv` in one minute carried it on only one — so a request that lands without it returns
-     * `[]`, a real and honest answer, never an error.
+     * ("channel", off that channel's own page — `channelId` takes exactly what getChannel() takes:
+     * its uuid or `/channel/<uuid>` URL off listChannels().channelId /
+     * getWatchOptions().channel.link, OR its benefit slug or `/storefront/subscription/<slug>`
+     * link off getWatchOptions().offers[].channel.benefitId / .link). The read behind "what is
+     * everyone watching", and one search can never give you, because search ranks by relevance and
+     * this ranks by what is actually being played. Every row carries `position` (the card's own
+     * 1-based rank within that list — Prime Video never prints a rank number, so this is the
+     * card's own order) and `list` (which of the three it came from) alongside the same fields
+     * searchTitles() returns; a merged top ten that does not say whether it means streaming or
+     * renting is a wrong answer wearing a right one. **The row is intermittent** — measured this
+     * build pass, three spaced captures of `/tv` in one minute carried it on only one — so a
+     * request that lands without it returns `[]`, a real and honest answer, never an error.
      */
     listTop10(list: "tv" | "movies" | "channel", channelId?: string): Promise<PrimeVideoTop10Entry[]>;
 
@@ -39048,7 +39340,8 @@ interface RedditPost {
   numComments: number;
   createdAt: string;
   editedAt: string | null;
-  flair: string | null;
+  flair: string | null;        // the flair's display text — submitPost's `flairText`
+  flairId: string | null;      // the flair TEMPLATE id — submitPost's `flairId` (same id listPostFlairs returns)
   over18: boolean;
   spoiler: boolean;
   stickied: boolean;           // pinned by the moderators
@@ -39971,7 +40264,7 @@ interface ReutersHeadline {
   publishedAt: string;     // ISO timestamp or null
 }
 interface ListHeadlinesArgs {
-  section?: string;        // a path from listSections (e.g. "business"), omit for home page
+  section?: string;        // a path from listSections (e.g. "/business/" or "business") or a section's exact name; omit for home page
   limit?: number;          // 1-1000, default 100
 }
 interface ReutersLatestStory {
@@ -39983,7 +40276,7 @@ interface ReutersLatestStory {
   image: string | null;
 }
 interface ListLatestNewsArgs {
-  section?: string;        // a path from listSections, e.g. "/business/"
+  section?: string;        // a path from listSections, e.g. "/business/", or a section's exact name ("Middle East")
   limit?: number;          // 1-500, default 50
 }
 interface ReutersArchivedArticle {
@@ -40071,7 +40364,8 @@ interface GetArticleArgs {
 interface ReutersSearchResult {
   headline: string;
   url: string;                   // pass to getArticle
-  section: string | null;        // the kicker's first name, e.g. "World", "Business"
+  section: string | null;        // the kicker's first name, e.g. "World", "Business" — a label
+  sectionPath: string | null;    // the article's section path, e.g. "/world/china/" — what listLatestNews / listHeadlines take
   publishedAt: string | null;
   image: string | null;
 }
@@ -42011,6 +42305,58 @@ interface SerperSearchResult {
      * key as the `x-bowmark-vendor-key-serper` header to spend your own credits instead.
      */
     searchGoogle(query: string, opts?: SerperSearchOptions): Promise<SerperSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_shop_app {
+  // ── Shop — the unit's own declarations, verbatim ──
+interface ShopAppProductRow {
+  id: string;
+}
+interface ShopAppProductOption {
+  name: string;
+  values: string[];
+}
+interface ShopAppSelectedVariant {
+  id: string;
+  title: string;
+  availableForSale: boolean;
+  price: number | null;
+  currency: string | null;
+  imageUrl: string | null;
+  selectedOptions: { name: string; value: string }[];
+}
+interface ShopAppProduct {
+  id: string;
+  title: string;
+  description: string | null;
+  descriptionHtml: string | null;
+  url: string;
+  store: { id: string; name: string; handle: string | null };
+  rating: number | null;
+  reviewCount: number | null;
+  variantsCount: number | null;
+  options: ShopAppProductOption[];
+  selectedVariant: ShopAppSelectedVariant | null;
+  imageUrls: string[];
+  warnings: string[];
+}
+
+  /**
+   * Shop (Shopify's shopping app) — search products across every Shopify store, read a product
+   * with its variants, reviews and delivery estimate, and browse a store's catalogue,
+   * collections, reviews and policies; once a caller signs in, list and track their orders, save
+   * products, follow stores and fill a cart up to checkout.
+   */
+  interface Unit {
+    /**
+     * One product by its numeric id or a shop.app/products/<id>/<slug> url: title, description,
+     * store, rating, every option axis ("Color", "Size") with its values, and the
+     * selected/first-available variant's own price, stock and image. The door carries only ONE
+     * priced variant, not a full per-combination list — pick a different one with getVariant
+     * (queued).
+     */
+    getProduct(input: string): Promise<ShopAppProduct>;
   }
 }
 
@@ -44221,6 +44567,7 @@ interface GuardianListArticlesArgs {
   limit?: number;
 }
 interface GuardianListArticlesResult {
+  /** The feed's path, e.g. "world", "tone/minutebyminute", "profile/marinahyde" — what listArticlesBySection takes. */
   section: string;
   title: string | null;
   articles: GuardianArticleSummary[];
@@ -44385,6 +44732,23 @@ interface GuardianVideo {
   tags: { id: string; title: string; type: string }[];
   duration: number | null;
 }
+interface GuardianNewsletter {
+  /** The newsletter's own slug, e.g. "first-edition" or "bookmarks". */
+  id: string;
+  name: string;
+  description: string;
+  frequency: string;
+  theme: string;
+  /** The grouping The Guardian lists it under, e.g. "News in depth", "Culture". */
+  group: string;
+  /** The edition it targets, e.g. "UK", "US", "AU", when the site declares one. */
+  regionFocus: string | null;
+  /** A page showing a recent issue, when the site publishes one. */
+  exampleUrl: string | null;
+}
+interface GuardianListNewslettersResult {
+  newsletters: GuardianNewsletter[];
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -44505,6 +44869,12 @@ interface GuardianVideo {
      * duration in seconds. Takes a theguardian.com URL or the path listVideos returns as `id`.
      */
     getVideo(videoUrlOrId: string): Promise<GuardianVideo>;
+
+    /**
+     * Every email newsletter The Guardian publishes — name, description, frequency, theme and
+     * which edition it targets (when the site declares one).
+     */
+    listNewsletters(): Promise<GuardianListNewslettersResult>;
   }
 }
 
@@ -46740,7 +47110,7 @@ interface TwiddyRentalDetail {
   identifier: string;
   description: string;
   streetAddress: string;
-  town: string;
+  town: string; // the page's own spelling (e.g. "4 x 4") — searchRentals({ town }) takes it back
   petsAllowed: boolean;
   amenities: string[];  // the site's own labels — read the values off a result, never guess one from prose
   numberOfBedrooms: number | null;
@@ -46932,7 +47302,7 @@ interface TwitchHighlight {
   vodId: string;
   startSeconds: number;
   endSeconds: number;
-  channel: string;
+  channel: string; // the channel LOGIN — what sendChatMessage/followChannel take as `login`
   dashboardUrl: string;
 }
 interface SetChannelArgs {
@@ -47024,8 +47394,10 @@ interface TwitchFollowStatus {
   followedAt: string | null;
 }
 interface SendChatMessageArgs {
-  /** A Twitch channel id (not login). */
-  channelId: string;
+  /** The channel's numeric Twitch id — or pass `login` instead. */
+  channelId?: string;
+  /** The channel's login, e.g. "ninja" — the `channel` createHighlight, followChannel and unfollowChannel return. Resolved to its id first. */
+  login?: string;
   /** The message to send to the channel. */
   message: string;
 }
@@ -47086,7 +47458,7 @@ interface UnfollowChannelArgs {
   login: string;
 }
 interface TwitchFollowChannelResult {
-  channel: string;
+  channel: string; // the channel LOGIN — what sendChatMessage/followChannel take as `login`
   following: boolean;
 }
 
@@ -47212,8 +47584,9 @@ interface TwitchFollowChannelResult {
     getFollowStatus(args: GetFollowStatusArgs, opts?: ConnectionOption): Promise<TwitchFollowStatus>;
 
     /**
-     * Sends a chat message to a Twitch channel. NEEDS the viewer's Twitch sign-in and the channel
-     * id (not login). Returns the message id and text.
+     * Sends a chat message to a Twitch channel. NEEDS the viewer's Twitch sign-in. The channel is
+     * its numeric `channelId`, or its `login` (the `channel` createHighlight/followChannel
+     * return), which is resolved to the id first. Returns the message id and text.
      */
     sendChatMessage(args: SendChatMessageArgs, opts?: ConnectionOption): Promise<TwitchChatMessage>;
 
@@ -50530,6 +50903,44 @@ interface YahooFinanceWatchlists {
   }
 }
 
+declare namespace BowmarkProvider_yahoo_mail {
+  // ── Yahoo Mail — the unit's own declarations, verbatim ──
+interface YahooMailMessageRow {
+  id: string;
+  from: string;
+  subject: string;
+  snippet: string;
+  receivedAt: string;
+  unread: boolean;
+}
+
+interface YahooMailFolder {
+  id?: string;
+  name?: string;
+  unreadCount?: number;
+  totalCount?: number;
+  raw: Record<string, unknown>;
+}
+
+type ListFoldersArgs = Record<string, never>;
+
+  /**
+   * Reads and sends mail in the CALLER's own Yahoo Mail account — inbox, folders, search,
+   * compose — through the auth relay. Every function needs the caller signed in; none of it
+   * works on a fleet persona.
+   */
+  interface Unit {
+    /**
+     * Lists the CALLER's own mail folders — Inbox, Sent, Drafts, Spam, Trash and any custom
+     * folders — the way the sidebar does. The caller signs in through the auth relay; Bowmark
+     * never signs up on this site. Takes no arguments. Field values besides `raw` are read
+     * defensively and may come back undefined until a real signed-in capture measures the success
+     * shape.
+     */
+    listFolders(args: ListFoldersArgs, opts?: ConnectionOption): Promise<YahooMailFolder[]>;
+  }
+}
+
 declare namespace BowmarkProvider_yahoo_sports {
   // ── Yahoo Sports — the unit's own declarations, verbatim ──
 interface YahooSportsGameRow {
@@ -50628,7 +51039,7 @@ interface YahooSportsStatLeaderRow {
   rank: number;
   name: string;
   url: string | null;
-  team: string | null; // an abbreviation ("PIT") or team nickname ("Saints") depending on Yahoo's own CDN asset for that row — null for a team-level row
+  team: string | null; // an abbreviation ("PIT") or team nickname ("Saints") depending on Yahoo's own CDN asset for that row — null for a team-level row. getSchedule/getTeamRoster/findPlayers take an abbreviation as teamSlug; a nickname is refused (pass listTeams' slug)
   value: string; // the site's own displayed value, not re-parsed (some categories are decimals)
   statLabel: string; // the site's own label for what value measures, e.g. "Passing Yards"
 }
@@ -50638,8 +51049,8 @@ interface GetOddsArgs {
 }
 
 interface YahooSportsOddsTeamLine {
-  team: string;
-  abbr: string;
+  team: string; // full display name, e.g. "Indianapolis Colts" — a label, not a teamSlug
+  abbr: string; // e.g. "IND" — getSchedule/getTeamRoster/findPlayers take this as teamSlug
   spread: string | null; // e.g. "-3.5" — null if the market has not posted one
   spreadNote: string | null;
   total: string | null; // WITH its own over/under marker, e.g. "O 48.5", "U 48.5"
@@ -50657,13 +51068,17 @@ interface YahooSportsOddsGame {
 
 interface GetScheduleArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  // A team slug ("detroit") as listTeams/getStandings (slug), getPlayer/getInjuries (teamSlug)
+  // return it — or an exact team name/abbreviation (getOdds' abbr "IND"), resolved via standings.
   teamSlug: string;
 }
 
 interface GetTeamRosterArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   // The site's own short team slug off that team's /teams/<slug>/ page —
-  // e.g. "detroit", "ny-yankees" — not a name-derived guess.
+  // e.g. "detroit", "ny-yankees" — as listTeams/getStandings (slug) and
+  // getPlayer/getInjuries (teamSlug) return it. An exact team name or
+  // abbreviation (getOdds' abbr "IND") is resolved via standings; no fuzzy guess.
   teamSlug: string;
 }
 
@@ -50731,7 +51146,9 @@ interface YahooSportsPlayerRow {
 interface FindPlayersArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   // The site's own short team slug off that team's /teams/<slug>/ page —
-  // e.g. "detroit", "ny-yankees" — not a name-derived guess.
+  // e.g. "detroit", "ny-yankees" — as listTeams/getStandings (slug) and
+  // getPlayer/getInjuries (teamSlug) return it. An exact team name or
+  // abbreviation (getOdds' abbr "IND") is resolved via standings; no fuzzy guess.
   teamSlug: string;
   query: string;
 }
@@ -50751,7 +51168,8 @@ interface YahooSportsPlayerDetail {
   playerId: string;
   name: string;
   position: string;
-  team: string;
+  team: string; // display label, e.g. "Detroit Lions"
+  teamSlug: string | null; // e.g. "detroit" — getSchedule/getTeamRoster/findPlayers take this as teamSlug
   college: string | null;
   displayHeight: string | null;
   weight: number | null;
@@ -50919,13 +51337,17 @@ interface YahooFantasyTeamDetail {
 
     /**
      * Reads one team's full schedule for the season off Yahoo Sports' own Schedule page — every
-     * game, opponent, date and result if played. Takes league and team slug.
+     * game, opponent, date and result if played. Takes league and team slug. teamSlug is a slug
+     * (listTeams/getStandings `slug`, getPlayer/getInjuries `teamSlug`) or an exact team
+     * name/abbreviation such as getOdds' `abbr` ("IND").
      */
     getSchedule(args: GetScheduleArgs): Promise<YahooSportsScheduleRow[]>;
 
     /**
      * Reads one team's current roster off Yahoo Sports' own Roster page — every player, position,
-     * jersey number and status. Takes league and team slug.
+     * jersey number and status. Takes league and team slug. teamSlug is a slug
+     * (listTeams/getStandings `slug`, getPlayer/getInjuries `teamSlug`) or an exact team
+     * name/abbreviation such as getOdds' `abbr` ("IND").
      */
     getTeamRoster(args: GetTeamRosterArgs): Promise<YahooSportsRosterRow[]>;
 
@@ -50933,7 +51355,9 @@ interface YahooFantasyTeamDetail {
      * Finds players on one team's roster by name — the door for `getPlayer`, so a caller holding a
      * name and a team can reach that player's own page. Yahoo Sports publishes no cross-team
      * player search, so this reads one team's Roster page and filters it; it does not search a
-     * whole league in one call.
+     * whole league in one call. teamSlug is a slug (listTeams/getStandings `slug`,
+     * getPlayer/getInjuries `teamSlug`) or an exact team name/abbreviation such as getOdds' `abbr`
+     * ("IND").
      */
     findPlayers(args: FindPlayersArgs): Promise<YahooSportsPlayerRow[]>;
 
@@ -51191,7 +51615,7 @@ interface YoutubeSearchVideo {
   videoId: string;
   url: string;
   title: string;
-  channel: string | null;
+  channel: string | null;  // display name — pass channelId (below), not this, to getChannel / listChannel* / searchWithinChannel
   channelId: string | null;
   published: string | null;          // YouTube's own phrase, e.g. "4 weeks ago"
   publishedAgeSeconds: number | null; // that phrase in seconds, to order newest-first
@@ -51213,7 +51637,7 @@ interface YoutubeChannelRef {
 interface YoutubeVideo {
   videoId: string;
   title: string;
-  channel: string;
+  channel: string;  // display name — pass channelId (below), not this, to getChannel / listChannel* / searchWithinChannel
   channelId: string;
   description: string;       // the full watch-page description, not a truncated snippet
   viewCount: number;
@@ -51402,7 +51826,7 @@ interface YoutubeRelatedVideo {
   videoId: string;
   url: string;
   title: string;
-  channel: string | null;
+  channel: string | null;  // display name — pass channelId (below), not this, to getChannel / listChannel* / searchWithinChannel
   channelId: string | null;
   views: string | null;       // YouTube's own abbreviated text, e.g. "206M" — the bare number, not "206M views"
   published: string | null;   // YouTube's own phrase, e.g. "16y ago"
@@ -51690,9 +52114,10 @@ interface YoutubeStreamFormat {
      * lifetime view count, country, the ISO date it joined, the links it lists (resolved to their
      * real destination, not YouTube's redirect wrapper), and its avatar and banner images.
      * `channel` is a channel id (`UC…`), an `@handle`, or a channel URL — not a plain name, which
-     * `findChannel` resolves to an id first. Every field past `channelId`/`handle`/`title` comes
-     * off the About panel; on the rare response that carries no panel at all they come back
-     * null/empty rather than throwing.
+     * `findChannel` resolves to an id first; a getVideo or search row's own `channelId` (or the
+     * row itself) is accepted as-is. Every field past `channelId`/`handle`/`title` comes off the
+     * About panel; on the rare response that carries no panel at all they come back null/empty
+     * rather than throwing.
      */
     getChannel(input: { channel: string }): Promise<YoutubeChannel>;
 
@@ -53209,6 +53634,7 @@ interface BowmarkProviders {
   idealista: BowmarkProvider_idealista.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
   ihg: BowmarkProvider_ihg.Unit;
+  imdb: BowmarkProvider_imdb.Unit;
   indeed: BowmarkProvider_indeed.Unit;
   inspirecommunities: BowmarkProvider_inspirecommunities.Unit;
   instagram: BowmarkProvider_instagram.Unit;
@@ -53369,6 +53795,7 @@ interface BowmarkProviders {
   semihandmade: BowmarkProvider_semihandmade.Unit;
   seoulfood: BowmarkProvider_seoulfood.Unit;
   serper: BowmarkProvider_serper.Unit;
+  shop_app: BowmarkProvider_shop_app.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
   smartsign: BowmarkProvider_smartsign.Unit;
@@ -53454,6 +53881,7 @@ interface BowmarkProviders {
   x: BowmarkProvider_x.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yahoo_finance: BowmarkProvider_yahoo_finance.Unit;
+  yahoo_mail: BowmarkProvider_yahoo_mail.Unit;
   yahoo_sports: BowmarkProvider_yahoo_sports.Unit;
   ycombinator: BowmarkProvider_ycombinator.Unit;
   yelp: BowmarkProvider_yelp.Unit;
