@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3110 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3112 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -195,6 +195,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | 🟢 |
 | `apple.listTodaySessions` | apple.com | The free Today at Apple sessions one store is running — every upcoming one, with what… | 🟢 |
 | `apple.listTradeInValues` | apple.com | The whole Apple Trade In price list in one call. "smartphone" is the rich catalogue… | 🟢 |
+| `apple.removeFromBag` | apple.com | Remove an item from the shopping bag by its UUID. | 🟢 |
 | `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | 🟢 |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |
 | `apple.searchSupport` | apple.com | Search Apple's own support library the way a person describes a problem — "iphone… | 🟢 |
@@ -227,6 +228,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `atlasoceanvoyages.getVoyage` | atlasoceanvoyages.com | Reads one voyage's own detail page: the full port-by-port day itinerary with… | 🟢 |
 | `atlasoceanvoyages.searchVoyages` | atlasoceanvoyages.com | Runs the /search voyage finder — destination, ship, duration and departure-date… | 🟢 |
 | `atlasseniorliving.searchCommunities` | atlasseniorliving.com | Runs the site's own 'Find a Community' search at… | 🟢 |
+| `att.findDevices` | att.com | Every phone on AT&T's own phones listing (att.com/buy/phones/) - name, brand, product… | 🟢 |
+| `att.getDevicePricing` | att.com | AT&T's current device price and financing for a phone (e.g. iPhone 16 Pro): full… | 🟢 |
 | `att.getPlanTotal` | att.com | Walks AT&T's new-line plan-builder / order flow (att.com/plans/unlimited-data-plans/ →… | ⚪ |
 | `audibel.findClinics` | audibel.com | Runs Audibel's find-a-clinic locator for a ZIP code, city or address and returns the… | 🟢 |
 | `autocamp.listProperties` | autocamp.com | Lists AutoCamp's active properties (name, location, the reservations-engine hotel id)… | 🟢 |
@@ -252,7 +255,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `azure.listRegions` | azure.microsoft.com | Returns Azure's datacenter regions — the ARM region name a caller has to pass to every… | ⚪ |
 | `azure.listServices` | azure.microsoft.com | Returns the Azure service catalogue derived live from `prices.azure.com`'s own rows —… | 🟢 |
 | `azure.listVmSizes` | azure.microsoft.com | Returns Azure's virtual-machine SKUs with the specifications a sizing decision is… | ⚪ |
-| `bahn.listDisruptions` | bahn.de | Lists current long-distance (ICE/IC/EC) train disruptions network-wide — cause… | 🟢 |
+| `bahn.listDisruptions` | bahn.de | Lists current long-distance (ICE/IC/EC) train disruptions that have started — cause… | 🟢 |
 | `banana_republic.getProduct` | bananarepublic.gap.com | Reads one Banana Republic product's variant-level sizes, colors and fits with each… | 🟢 |
 | `banana_republic.searchProducts` | bananarepublic.gap.com | Searches Banana Republic's live apparel catalog (bananarepublic.gap.com clothing… | 🟢 |
 | `bankmycell.getTradeInQuote` | bankmycell.com | Reads live trade-in offers for a device's bankmycell.com sell page from every merchant… | 🟢 |
@@ -278,7 +281,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | 🟢 |
 | `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | 🟢 |
 | `bbc.getVideo` | bbc.com | One BBC video page as data: title, summary, duration, published time, section, poster… | ⚪ |
-| `bbc.getWeatherWarnings` | bbc.com | The weather warnings BBC Weather shows for a location or region: level, type (rain… | ⚪ |
 | `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | 🟢 |
 | `bbc.listFollowedPodcasts` | bbc.com | The podcasts and series the signed-in reader follows. | ⚪ |
 | `bbc.listHeadlines` | bbc.com | The stories a BBC section page shows right now, in the page's own order and grouping… | 🟢 |
@@ -1020,7 +1022,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.getTeam` | espn.com | One team's page header — record, standing in its division, next game, coach, venue and… | ⚪ |
 | `espn.injuries` | espn.com | Reads a league's injury report the way ESPN's own /nfl/injuries page does — every… | 🟢 |
 | `espn.listFavorites` | espn.com | The CALLER's My ESPN favourites — the teams, leagues and players they follow, which… | ⚪ |
-| `espn.listLeagues` | espn.com | Every sport and league ESPN covers, with the slug every other function takes — nfl… | ⚪ |
+| `espn.listLeagues` | espn.com | Every sport ESPN's core API tracks (call with no arguments), or every league slug… | 🟢 |
 | `espn.listMyFantasyTeams` | espn.com | The CALLER's own ESPN fantasy teams across every game (football, baseball, basketball… | ⚪ |
 | `espn.listTeams` | espn.com | Every team in a league with its ESPN id, abbreviation, name, location, colours and… | ⚪ |
 | `espn.listVideos` | espn.com | ESPN's highlight and analysis video clips for a league, a team or a game — title… | ⚪ |
@@ -1874,7 +1876,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mercari.search` | mercari.com | Runs a Mercari US keyword search the way mercari.com's own search box does and returns… | 🟢 |
 | `mergify.pullStatus` | mergify.com | One pull request's own position in the merge queue — queued-at time, queue position… | ⚪ |
 | `mergify.queueStatus` | mergify.com | The live state of a repo's Mergify merge queue — every active batch (its status code… | 🟢 |
-| `meteofrance.getMarineWindForecast` | meteofrance.com | Marine wind forecast for French coastal regions, including wind speed, gusts, and… | 🟡 |
+| `meteofrance.getMarineWindForecast` | meteofrance.com | Marine wind forecast for French coastal regions, including wind speed, gusts, and… | ⚪ |
 | `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟡 |
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
@@ -1980,7 +1982,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.getStation` | npr.org | Read one member station's details — brand, frequency, market, homepage, donation page… | ⚪ |
 | `npr.getStory` | npr.org | Read one NPR story given its URL or story id (nx-s1-…): headline, bylines, date, full… | ⚪ |
 | `npr.getTranscript` | npr.org | Read the broadcast transcript of a story or episode that aired, given its story id. | ⚪ |
-| `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | ⚪ |
+| `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | 🟢 |
 | `npr.listNewsletters` | npr.org | List NPR's email newsletters with what each one covers. | ⚪ |
 | `npr.listPodcastCategories` | npr.org | List the podcast directory's categories with the id each one takes. | ⚪ |
 | `npr.listPodcastEpisodes` | npr.org | List a podcast's episodes, newest first, with title, date, duration and audio URL… | ⚪ |
@@ -2039,7 +2041,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.saveRecipe` | cooking.nytimes.com | Saves a recipe to the signed-in reader's Recipe Box. | 🟢 |
 | `nyt_cooking.searchMyRecipeBox` | cooking.nytimes.com | Searches inside the signed-in reader's own saved Recipe Box, rather than the whole site. | ⚪ |
 | `nyt_cooking.searchRecipes` | cooking.nytimes.com | Runs the site's own recipe search (query text plus cuisine/diet/mealType/cookTime… | 🟢 |
-| `nyt_cooking.unsaveRecipe` | cooking.nytimes.com | Removes a recipe from the signed-in reader's Recipe Box. | ⚪ |
+| `nyt_cooking.unsaveRecipe` | cooking.nytimes.com | Removes a recipe from the signed-in reader's Recipe Box. | 🟢 |
 | `nyt_cooking.updateRecipeNote` | cooking.nytimes.com | Edits one of the signed-in reader's own private cook notes. | ⚪ |
 | `nyt_games.getConnections` | games.nytimes.com | Retrieves the daily Connections puzzle with category groupings and answers. | 🟢 |
 | `nyt_games.getCrosswordArchive` | games.nytimes.com | Retrieves historical crossword puzzles dating back to 1995. | 🟢 |
@@ -2592,7 +2594,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.findRegistry` | target.com | Finds a Target Gift Registry by the registrant's name, event date or registry id — the… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getCart` | target.com | Reads what is in the CALLER's own Target cart — line items, quantities, per-item and… | ⚪ |
-| `target.getProduct` | target.com | Reads one product page in full — price, variant/size options, description, images —… | ⚪ |
+| `target.getProduct` | target.com | Reads one product page in full — title, brand, price, long-form description, images… | 🟢 |
 | `target.getRegistry` | target.com | Reads one Target Gift Registry's items, quantities already purchased, and ship-to info… | ⚪ |
 | `target.listCategories` | target.com | Reads Target's own category taxonomy (department → aisle, e.g. Grocery → Snacks) with… | ⚪ |
 | `target.listDeals` | target.com | Reads Target's published weekly ad / deals page — the site's own current promotions… | ⚪ |
@@ -2907,7 +2909,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getPickupDeliverySlots` | walmart.com | Reads the available pickup or delivery time windows for a store/zip — the scheduling… | ⚪ |
 | `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | 🟡 |
 | `walmart.getRegistry` | walmart.com | Reads one public registry — the items on it, how many are wanted and how many were… | ⚪ |
-| `walmart.getSeller` | walmart.com | Reads a Marketplace seller's page — name, rating, review count, return policy — for a… | ⚪ |
+| `walmart.getSeller` | walmart.com | Reads a Marketplace seller's page — name, rating, review count — for the… | 🟢 |
 | `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | ⚪ |
 | `walmart.getWeeklyAd` | walmart.com | Reads the current local weekly ad / rollback & clearance circular for a store or zip —… | ⚪ |
 | `walmart.listAddresses` | walmart.com | Lists the delivery addresses saved on the signed-in account. | ⚪ |
@@ -2978,9 +2980,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getFeaturedContent` | wikipedia.org | Wikipedia's own front page for a given date, as data — the featured article, the… | 🟢 |
 | `wikipedia.getImage` | wikipedia.org | One media file's real details — the full-size url, dimensions, MIME type, and the… | 🟢 |
 | `wikipedia.getInfobox` | wikipedia.org | The grey fact box at the top right of an article, as key/value pairs a caller can… | 🟡 |
-| `wikipedia.getOnThisDay` | wikipedia.org | What happened on this calendar day in history, according to Wikipedia — events… | ⚪ |
+| `wikipedia.getOnThisDay` | wikipedia.org | What happened on this calendar day in history, according to Wikipedia — events… | 🟢 |
 | `wikipedia.getPageviews` | wikipedia.org | How many people actually read an article, per day, over a date range — the closest… | 🟢 |
-| `wikipedia.getRandomArticle` | wikipedia.org | A genuinely random Wikipedia article, or several — title, url and summary. | ⚪ |
+| `wikipedia.getRandomArticle` | wikipedia.org | A genuinely random Wikipedia article — title, url, description, extract and thumbnail. | 🟢 |
 | `wikipedia.getRevision` | wikipedia.org | One specific revision of an article by id — its content, editor, timestamp, size and… | 🟢 |
 | `wikipedia.getSection` | wikipedia.org | One named or numbered section of an article as plain text, without downloading the… | 🟢 |
 | `wikipedia.getSections` | wikipedia.org | The article's table of contents — every section with its number, heading, nesting… | 🟡 |
@@ -3057,7 +3059,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getStatLeaders` | sports.yahoo.com | Reads the season-to-date individual leaderboard for one category off the site's own… | 🟢 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟡 |
-| `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | 🟢 |
+| `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |
 | `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🟡 |
@@ -3100,7 +3102,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listTrending` | youtube.com | YouTube's Trending feed — what is being watched across the site right now, and the… | ⚪ |
 | `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | 🟢 |
 | `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟡 |
-| `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | ⚪ |
+| `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | 🟢 |
 | `youtube.removeFromPlaylist` | youtube.com | Remove one or more videos from one of the signed-in account's own playlists. | 🟢 |
 | `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
 | `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back the videos the… | 🟢 |
