@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 118 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 119 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -46,6 +46,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `entertainment_merch.search` | Searches Hot Topic and BoxLunch in parallel for a franchise/character/show and returns… | 2 | 🟢 |
 | `essen_roadworks.list` | Roadworks in Essen. | 0 | 🟢 |
 | `event_space_quote.getQuotes` | Submit an event space quote request form: get pricing for venues that fit a headcount… | 1 | 🟢 |
+| `event_tickets.search` | Searches event-ticket listings by artist, show or keyword, optionally in one city —… | 2 | 🟢 |
 | `flights.getBookingOptions` | Every seller on offer for ONE result — pass the whole row from `search()`, not its id. | 5 | 🟢 |
 | `flights.getFlightStatus` | A flight's live status, checked directly with the airline that flies it. | 5 | 🟢 |
 | `flights.search` | Searches for flights matching the query and returns `{ flights, warnings }`. `flights`… | 5 | 🟢 |
