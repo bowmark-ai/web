@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 983139c855ab8bb4f08742c77f3d771764f08e83424b0e90fca656832a0be410
+# Manifest version: bfa0dd4c3f5126ae434867535642b6c50f69e8a3a4eebca7d601b85896a1fb70
 # 77 capabilities, 538 providers, 1884 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -36240,42 +36240,47 @@ class Prv_dumpsters(Protocol):
         """
 
 class Prv_ebay(Protocol):
-    """eBay's own documented Browse API (api.ebay.com) — searches live eBay listings by query
-    and returns title, price, condition, buying option, seller and the item's own ebay.com
-    URL, without scraping the (Akamai-defended) public search page.
+    """Live eBay listings — search by keyword, category or seller, read one listing,
+    autosuggest and deals — returning title, price, condition, buying option, seller and the
+    item's own ebay.com URL. No key needed: it reads eBay's own pages, and uses eBay's
+    documented Browse API instead when a caller brings an OAuth key.
     """
 
     async def search(self, args: str | Prv_ebay_search_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
-        """Runs an eBay item search the way ebay.com's own search box does, via eBay's documented
-        Browse API, and returns the matching listings — title, price, condition, buying option
-        (auction/fixed-price/best-offer), seller and the item's own ebay.com URL. `limit` caps
-        the row count (default 20, eBay's own ceiling 200). Requires an eBay OAuth application
-        key — see this provider's `auth`.
+        """Runs an eBay item search the way ebay.com's own search box does and returns the matching
+        listings — title, price, condition, buying option (auction/fixed-price/best-offer),
+        seller and the item's own ebay.com URL. `limit` caps the row count (default 20, ceiling
+        200). `seller` is null on rows where the results page does not print it. Works with no
+        key: without one it reads eBay's own page, which walls a share of requests, so it can
+        fail and is worth one retry; with an eBay OAuth key it uses the Browse API instead.
         """
 
     async def getItem(self, itemId: str, /) -> Prv_ebay_ebayItemDetail_Out:
-        """Reads one eBay listing by its Browse API `itemId` (the id `search` returns, e.g.
-        `v1|110034424734|0`) via eBay's documented Browse API — title, price, condition, buying
+        """Reads one eBay listing by the `itemId` `search` returns (`137474897118`, or the Browse
+        API's `v1|110034424734|0`, or an ebay.com/itm/ URL) — title, price, condition, buying
         options, seller feedback, item location, the site's own default shipping option, and
-        current bid / bid count for an active auction. Requires an eBay OAuth application key —
-        see this provider's `auth`.
+        current bid / bid count for an active auction. Works with no key: without one it reads
+        eBay's own page, which walls a share of requests, so it can fail and is worth one retry;
+        with an eBay OAuth key it uses the Browse API instead.
         """
 
     async def searchByCategory(self, args: str | Prv_ebay_searchByCategory_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
-        """Runs eBay's Browse API `item_summary/search` scoped to one category id (the id
-        `search`/`getItem` rows carry under `categories`, e.g. `"15709"` for Men's Athletic
-        Shoes), with an optional keyword query narrowing within the category. Same rows, same
-        fields, as `search`. `limit` caps the row count (default 20, eBay's own ceiling 200).
-        Requires an eBay OAuth application key — see this provider's `auth`.
+        """Searches one eBay category by id (e.g. `"15709"` for Men's Athletic Shoes, as eBay's own
+        category URLs carry it), with an optional keyword query narrowing within the category.
+        Same rows, same fields, as `search`. `limit` caps the row count (default 20, ceiling
+        200). `seller` is null on rows where the results page does not print it. Works with no
+        key: without one it reads eBay's own page, which walls a share of requests, so it can
+        fail and is worth one retry; with an eBay OAuth key it uses the Browse API instead.
         """
 
     async def getSellerListings(self, args: Prv_ebay_getSellerListings_args_In, /) -> list[Prv_ebay_ebayItem_Out]:
-        """Runs eBay's Browse API `item_summary/search` filtered to one seller's own listings (the
-        username `search`/`getItem` rows carry under `seller`) that match `query`. eBay's Browse
-        API requires a keyword, category or product id on every search — a seller filter cannot
-        stand alone — so `query` is required alongside `seller`. Same rows, same fields, as
-        `search`. `limit` caps the row count (default 20, eBay's own ceiling 200). Requires an
-        eBay OAuth application key — see this provider's `auth`.
+        """Searches one seller's own eBay listings (the username `search`/`getItem` rows carry
+        under `seller`) that match `query` — a seller filter cannot stand alone on eBay's Browse
+        API, so `query` is required alongside `seller`. Same rows, same fields, as `search`.
+        `limit` caps the row count (default 20, ceiling 200). `seller` is null on rows where the
+        results page does not print it. Works with no key: without one it reads eBay's own page,
+        which walls a share of requests, so it can fail and is worth one retry; with an eBay
+        OAuth key it uses the Browse API instead.
         """
 
     async def searchAutocomplete(self, args: str | Prv_ebay_searchAutocomplete_args_u1_In, /) -> Prv_ebay_ebayAutocompleteResult_Out:
