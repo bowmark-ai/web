@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5f9251cbcc17c770deeb9c13a042d6bebc6c4c85ab252bb3881dfb9812e70f48
-// 78 capabilities, 544 providers, 1926 typed functions, 20 refused.
+// Manifest version: 00970c456ba61853f206daa67c83baa0d41218ec0272bda8c88f2f64270efc07
+// 78 capabilities, 545 providers, 1928 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16706,6 +16706,49 @@ interface DailymotionSearchResult {
      * description, uploader, duration, views, likes, tags and embed URL.
      */
     getVideo(video: string): Promise<DailymotionVideo>;
+  }
+}
+
+declare namespace BowmarkProvider_dangotecement {
+  // ── Dangote Cement — the unit's own declarations, verbatim ──
+interface DangoteDistributor {
+  name: string;
+  type: string;   // the site's own label: "Distributor" | "Retailer"
+  address: string;
+  phone: string | null;
+  region: string; // the site's own region, e.g. "Lagos Ogun", "North Central", "South West"
+}
+interface FindDistributorsFilters {
+  query?: string;  // free text over name + address — a city or state works, e.g. "Kano"
+  type?: "distributor" | "retailer";
+  region?: string; // exact site region name; read the values off a result
+}
+interface DangoteNewsPost {
+  id: number;
+  title: string;
+  date: string;    // ISO, site-local time
+  url: string;
+  excerpt: string;
+}
+
+  /**
+   * Dangote Cement (dangotecement.com) — Africa's largest cement maker. findDistributors
+   * searches its authorised Nigerian distributor & retailer directory (name, address, phone,
+   * region); searchNews reads its press releases and news posts.
+   */
+  interface Unit {
+    /**
+     * Searches Dangote Cement's authorised distributor & retailer directory for Nigeria (~300
+     * dealers) — where to buy Dangote cement near a city or state, with each dealer's address,
+     * phone and sales region.
+     */
+    findDistributors(filters?: FindDistributorsFilters): Promise<DangoteDistributor[]>;
+
+    /**
+     * Searches Dangote Cement's own news and press releases (newest first when no query) — title,
+     * date, link and excerpt. limit defaults to 10, max 50.
+     */
+    searchNews(query?: string, limit?: number): Promise<DangoteNewsPost[]>;
   }
 }
 
@@ -54976,6 +55019,7 @@ interface BowmarkProviders {
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   dahlconsulting: BowmarkProvider_dahlconsulting.Unit;
   dailymotion: BowmarkProvider_dailymotion.Unit;
+  dangotecement: BowmarkProvider_dangotecement.Unit;
   dansons: BowmarkProvider_dansons.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;

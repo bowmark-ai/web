@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3180 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3182 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -796,7 +796,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.updateProfile` | dailymotion.com | Edit the signed-in caller's own profile — display name, description, avatar. | ⚪ |
 | `dailymotion.updateVideo` | dailymotion.com | Edit one of the signed-in caller's videos — title, description, tags, category… | ⚪ |
 | `dailymotion.uploadVideo` | dailymotion.com | Upload a video file to the signed-in caller's channel with title, description, tags… | ⚪ |
+| `dangotecement.findDistributors` | dangotecement.com | Searches Dangote Cement's authorised distributor & retailer directory for Nigeria… | 🟢 |
 | `dangotecement.getPriceList` | dangotecement.com | Would return current cement price list from Dangote Cement with prices per bag size… | ⚪ |
+| `dangotecement.searchNews` | dangotecement.com | Searches Dangote Cement's own news and press releases (newest first when no query) —… | 🟢 |
 | `dansons.identifyProduct` | pitboss-grills.com | Identifies which Pit Boss product(s) a free-text description matches — the same… | 🟢 |
 | `dansons.listRegisterableProducts` | pitboss-grills.com | Lists every Pit Boss product eligible for warranty registration — the exact catalog… | 🟢 |
 | `davidsonhomes.getCommunity` | davidsonhomes.com | Reads one community's own page: its ACTUAL available homes right now — real street… | 🟢 |
@@ -2488,7 +2490,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `scribd.uploadDocument` | scribd.com | Uploads a document file to the signed-in caller's Scribd account, with title… | ⚪ |
 | `seakeeper.findNearestDealers` | seakeeper.com | Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest N… | 🟢 |
 | `seakeeper.listAllDealers` | seakeeper.com | Every real Seakeeper dealer worldwide (name, address, contact, coordinates, tier)… | 🟢 |
-| `sears.checkStock` | sears.com | Answers whether a specific product is buyable right now — for delivery or for… | 🟡 |
+| `sears.checkStock` | sears.com | Answers whether a specific product is buyable right now — for delivery or for… | 🟢 |
 | `sears.findStores` | sears.com | Finds physical Sears/Sears Hometown stores near a zip code or city the way the site's… | ⚪ |
 | `sears.getProduct` | sears.com | Reads one product in full the way its own product detail page does — given a URL or… | 🟢 |
 | `sears.search` | sears.com | Searches Sears' live catalog by free-text keyword the way the site's own search bar… | 🟢 |

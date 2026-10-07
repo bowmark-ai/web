@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5f9251cbcc17c770deeb9c13a042d6bebc6c4c85ab252bb3881dfb9812e70f48
-# 78 capabilities, 544 providers, 1908 typed functions, 20 refused.
+# Manifest version: 00970c456ba61853f206daa67c83baa0d41218ec0272bda8c88f2f64270efc07
+# 78 capabilities, 545 providers, 1910 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9261,6 +9261,25 @@ class Prv_dailymotion_DailymotionVideo_Out_owner_Out(TypedDict):
     id: str | None
     name: str | None
     username: str | None
+
+class Prv_dangotecement_FindDistributorsFilters_In(TypedDict):
+    query: NotRequired[str]
+    type: NotRequired[Literal["distributor"] | Literal["retailer"]]
+    region: NotRequired[str]
+
+class Prv_dangotecement_DangoteDistributor_Out(TypedDict):
+    name: str
+    type: str
+    address: str
+    phone: str | None
+    region: str
+
+class Prv_dangotecement_DangoteNewsPost_Out(TypedDict):
+    id: float
+    title: str
+    date: str
+    url: str
+    excerpt: str
 
 class Prv_dansons_dansonsRegisterableProduct_Out(TypedDict):
     productId: str
@@ -36537,6 +36556,23 @@ class Prv_dailymotion(Protocol):
         title, description, uploader, duration, views, likes, tags and embed URL.
         """
 
+class Prv_dangotecement(Protocol):
+    """Dangote Cement (dangotecement.com) — Africa's largest cement maker. findDistributors
+    searches its authorised Nigerian distributor & retailer directory (name, address, phone,
+    region); searchNews reads its press releases and news posts.
+    """
+
+    async def findDistributors(self, filters: Prv_dangotecement_FindDistributorsFilters_In | None = None, /) -> list[Prv_dangotecement_DangoteDistributor_Out]:
+        """Searches Dangote Cement's authorised distributor & retailer directory for Nigeria (~300
+        dealers) — where to buy Dangote cement near a city or state, with each dealer's address,
+        phone and sales region.
+        """
+
+    async def searchNews(self, query: str | None = None, limit: float | None = None, /) -> list[Prv_dangotecement_DangoteNewsPost_Out]:
+        """Searches Dangote Cement's own news and press releases (newest first when no query) —
+        title, date, link and excerpt. limit defaults to 10, max 50.
+        """
+
 class Prv_dansons(Protocol):
     """Identifies which Pit Boss grill/smoker a free-text description matches, and lists the
     products eligible for warranty registration — read live off Pit Boss's own
@@ -50364,6 +50400,7 @@ class BowmarkProviders(Protocol):
     cyberpowerpc: Prv_cyberpowerpc
     dahlconsulting: Prv_dahlconsulting
     dailymotion: Prv_dailymotion
+    dangotecement: Prv_dangotecement
     dansons: Prv_dansons
     davidsonhomes: Prv_davidsonhomes
     deangroup: Prv_deangroup

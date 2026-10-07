@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5f9251cbcc17c770deeb9c13a042d6bebc6c4c85ab252bb3881dfb9812e70f48
-// 1908 checked, 20 unchecked.
+// Manifest version: 00970c456ba61853f206daa67c83baa0d41218ec0272bda8c88f2f64270efc07
+// 1910 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5f9251cbcc17c770deeb9c13a042d6bebc6c4c85ab252bb3881dfb9812e70f48",
+  "version": "00970c456ba61853f206daa67c83baa0d41218ec0272bda8c88f2f64270efc07",
   "units": {
     "address_validation": {
       "defs": {
@@ -16919,6 +16919,74 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dangotecement": {
+      "defs": {
+        "FindDistributorsFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "distributor"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "retailer"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "region",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findDistributors": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "FindDistributorsFilters"
+            },
+            "optional": true
+          }
+        ],
+        "searchNews": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }
