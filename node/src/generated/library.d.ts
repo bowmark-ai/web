@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 84aa4aa237bed88a9736f2a7997e464d4b70bd666c66613433eb1c5be0b8e563
-// 77 capabilities, 542 providers, 1912 typed functions, 20 refused.
+// Manifest version: 0c0fbb31d2081809b86768cb17f2c362855a803ab36c938101a6c0924fe747d4
+// 77 capabilities, 542 providers, 1915 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4402,6 +4402,24 @@ interface PlaylistEdit {
   url: string
   warnings: string[]
 }
+interface RemoveFromPlaylistOptions {
+  playlist: string       // a playlist id, or any URL carrying a "list" param
+  videos: string[]       // one or more video ids or watch URLs to remove
+}
+interface PlaylistRemoved {
+  playlistId: string
+  removed: string[]      // what was sent and removed, in order
+  url: string
+  warnings: string[]
+}
+interface DeletePlaylistOptions {
+  playlist: string       // a playlist id, or any URL carrying a "list" param
+}
+interface DeletedPlaylist {
+  playlistId: string
+  deleted: boolean       // either way it is gone and cannot be undone
+  warnings: string[]
+}
 
 type CallOptions = {
   timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
@@ -4464,6 +4482,20 @@ type CallOptions = {
      * which is which. Needs a YouTube sign-in.
      */
     addToPlaylist(options: AddToPlaylistOptions): Promise<PlaylistEdit>;
+
+    /**
+     * Removes one or many videos from one of the caller's own playlists. Removing a video that is
+     * not in the playlist, or that is in it more than once, removes only one occurrence. Needs a
+     * YouTube sign-in.
+     */
+    removeFromPlaylist(options: RemoveFromPlaylistOptions): Promise<PlaylistRemoved>;
+
+    /**
+     * PERMANENTLY deletes one of the caller's own playlists, with its entire contents — YouTube
+     * has no undo. Refuses any playlist that does not belong to the caller's account. Only call it
+     * when the account holder asked for that specific playlist to go. Needs a YouTube sign-in.
+     */
+    deletePlaylist(options: DeletePlaylistOptions): Promise<DeletedPlaylist>;
 
     /**
      * The videos on the caller's OWN channel, newest first, including private and unlisted ones,
@@ -44907,6 +44939,22 @@ interface TargetProduct {
   warnings: string[];
 }
 
+interface TargetReviewPhoto {
+  url: string;  // a shopper's own photo (scene7 GUEST_ image), not a catalog shot
+  rating: number | null;  // 1-5 stars on the review it came with
+  submittedAt: string | null;  // ISO timestamp
+  reviewId: string;
+  reviewTitle: string | null;
+  reviewText: string | null;
+}
+
+interface TargetReviewPhotos {
+  tcin: string;
+  photos: TargetReviewPhoto[];  // newest review first; one row per photo
+  reviewsWithPhotos: number | null;  // the site's count of reviews carrying a photo
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -44938,6 +44986,14 @@ interface TargetProduct {
      * returns each store's id, slug, name, address, phone, time-zone and 14-day weekly hours.
      */
     findStore(args: { query: string }): Promise<TargetStoreSearch>;
+
+    /**
+     * Returns customer review photos for one product — the real-world pictures shoppers attached
+     * to their reviews, as opposed to the catalog images `getProduct` returns — newest review
+     * first, one row per photo with the image URL, the review's star rating, submission date,
+     * title and text. Takes a TCIN from `search`. `limit` defaults to 20, max 200.
+     */
+    reviewPhotos(args: { tcin: string; limit?: number }): Promise<TargetReviewPhotos>;
   }
 }
 

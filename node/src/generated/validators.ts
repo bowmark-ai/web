@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 84aa4aa237bed88a9736f2a7997e464d4b70bd666c66613433eb1c5be0b8e563
-// 1894 checked, 20 unchecked.
+// Manifest version: 0c0fbb31d2081809b86768cb17f2c362855a803ab36c938101a6c0924fe747d4
+// 1897 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "84aa4aa237bed88a9736f2a7997e464d4b70bd666c66613433eb1c5be0b8e563",
+  "version": "0c0fbb31d2081809b86768cb17f2c362855a803ab36c938101a6c0924fe747d4",
   "units": {
     "address_validation": {
       "defs": {
@@ -5036,6 +5036,40 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "DeletePlaylistOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playlist",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "RemoveFromPlaylistOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playlist",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "videos",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
         "SetThumbnailOptions": {
           "k": "object",
           "props": [
@@ -5270,6 +5304,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AddToPlaylistOptions"
+            },
+            "optional": false
+          }
+        ],
+        "removeFromPlaylist": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "RemoveFromPlaylistOptions"
+            },
+            "optional": false
+          }
+        ],
+        "deletePlaylist": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "DeletePlaylistOptions"
             },
             "optional": false
           }
@@ -47436,6 +47490,31 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "reviewPhotos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tcin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },

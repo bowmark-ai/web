@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 84aa4aa237bed88a9736f2a7997e464d4b70bd666c66613433eb1c5be0b8e563
-# 77 capabilities, 542 providers, 1894 typed functions, 20 refused.
+# Manifest version: 0c0fbb31d2081809b86768cb17f2c362855a803ab36c938101a6c0924fe747d4
+# 77 capabilities, 542 providers, 1897 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2370,6 +2370,24 @@ class Cap_video_library_PlaylistEdit_Out(TypedDict):
     playlistId: str
     added: list[str]
     url: str
+    warnings: list[str]
+
+class Cap_video_library_RemoveFromPlaylistOptions_In(TypedDict):
+    playlist: str
+    videos: Sequence[str]
+
+class Cap_video_library_PlaylistRemoved_Out(TypedDict):
+    playlistId: str
+    removed: list[str]
+    url: str
+    warnings: list[str]
+
+class Cap_video_library_DeletePlaylistOptions_In(TypedDict):
+    playlist: str
+
+class Cap_video_library_DeletedPlaylist_Out(TypedDict):
+    playlistId: str
+    deleted: bool
     warnings: list[str]
 
 class Cap_video_library_myVideos_options_In(TypedDict):
@@ -24787,6 +24805,24 @@ class Prv_target_TargetStoreHoursInterval_Out(TypedDict):
     end_date: str
     end_time: str
 
+class Prv_target_reviewPhotos_args_In(TypedDict):
+    tcin: str
+    limit: NotRequired[float]
+
+class Prv_target_TargetReviewPhotos_Out(TypedDict):
+    tcin: str
+    photos: list[Prv_target_TargetReviewPhoto_Out]
+    reviewsWithPhotos: float | None
+    warnings: list[str]
+
+class Prv_target_TargetReviewPhoto_Out(TypedDict):
+    url: str
+    rating: float | None
+    submittedAt: str | None
+    reviewId: str
+    reviewTitle: str | None
+    reviewText: str | None
+
 class Prv_tatcha_TatchaRitualQuizOptions_Out(TypedDict):
     skinTypes: list[Prv_tatcha_TatchaQuizOption_Out]
     benefits: list[Prv_tatcha_TatchaQuizOption_Out]
@@ -31465,6 +31501,19 @@ class Cap_video_library(Protocol):
         """Adds one or many videos to one of the caller's own playlists, as a single edit. Adding a
         video already in the playlist adds it again — YouTube permits duplicates and does not
         report which is which. Needs a YouTube sign-in.
+        """
+
+    async def removeFromPlaylist(self, options: Cap_video_library_RemoveFromPlaylistOptions_In, /) -> Cap_video_library_PlaylistRemoved_Out:
+        """Removes one or many videos from one of the caller's own playlists. Removing a video that
+        is not in the playlist, or that is in it more than once, removes only one occurrence.
+        Needs a YouTube sign-in.
+        """
+
+    async def deletePlaylist(self, options: Cap_video_library_DeletePlaylistOptions_In, /) -> Cap_video_library_DeletedPlaylist_Out:
+        """PERMANENTLY deletes one of the caller's own playlists, with its entire contents —
+        YouTube has no undo. Refuses any playlist that does not belong to the caller's account.
+        Only call it when the account holder asked for that specific playlist to go. Needs a
+        YouTube sign-in.
         """
 
     async def myVideos(self, options: Cap_video_library_myVideos_options_In | None = None, /) -> Cap_video_library_MyVideoPage_Out:
@@ -46375,6 +46424,14 @@ class Prv_target(Protocol):
         """Searches the store-locator for nearby Targets by ZIP, partial ZIP, city, or street+city,
         and returns each store's id, slug, name, address, phone, time-zone and 14-day weekly
         hours.
+        """
+
+    async def reviewPhotos(self, args: Prv_target_reviewPhotos_args_In, /) -> Prv_target_TargetReviewPhotos_Out:
+        """Returns customer review photos for one product — the real-world pictures shoppers
+        attached to their reviews, as opposed to the catalog images `getProduct` returns —
+        newest review first, one row per photo with the image URL, the review's star rating,
+        submission date, title and text. Takes a TCIN from `search`. `limit` defaults to 20, max
+        200.
         """
 
 class Prv_tatcha(Protocol):
