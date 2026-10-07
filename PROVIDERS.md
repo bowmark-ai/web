@@ -928,19 +928,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.addToWatchlist` | ebay.com | Add an item to the caller's watch list. | ⚪ |
 | `ebay.getCart` | ebay.com | Get the caller's shopping cart — items they have added but not yet purchased. | ⚪ |
 | `ebay.getDeals` | ebay.com | Reads eBay's own `/deals` page — the spotlight, trending and featured deals a shopper… | 🟢 |
-| `ebay.getItem` | ebay.com | Reads one eBay listing by its Browse API item id — title, current price, condition… | 🟢 |
+| `ebay.getItem` | ebay.com | Reads one eBay listing by the id `search` returns — title, current price, condition… | 🟢 |
 | `ebay.getMyAccount` | ebay.com | Get the caller's account settings and preferences. | ⚪ |
 | `ebay.getMyListings` | ebay.com | Get the caller's active selling listings (for sellers). | ⚪ |
 | `ebay.getMyMessages` | ebay.com | Get the caller's eBay messages — inbox, sent, and resolved messages. | ⚪ |
 | `ebay.getProfile` | ebay.com | Get the caller's profile information. | ⚪ |
-| `ebay.getSellerListings` | ebay.com | Runs an eBay Browse API search filtered to one seller's own listings, matching a… | 🟢 |
+| `ebay.getSellerListings` | ebay.com | Searches one seller's own eBay listings for a keyword — the same rows `search` returns. | 🟢 |
 | `ebay.getSellerProfile` | ebay.com | Get seller information — feedback score, seller type (individual/business), member… | ⚪ |
 | `ebay.getWatchlist` | ebay.com | Get the caller's watch list — items they are monitoring for price changes. | ⚪ |
 | `ebay.removeFromCart` | ebay.com | Remove an item from the caller's shopping cart. | ⚪ |
 | `ebay.removeFromWatchlist` | ebay.com | Remove an item from the caller's watch list. | ⚪ |
 | `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🟢 |
 | `ebay.searchAutocomplete` | ebay.com | Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's… | 🟢 |
-| `ebay.searchByCategory` | ebay.com | Runs eBay's Browse API `item_summary/search` scoped to one category id, with an… | 🟢 |
+| `ebay.searchByCategory` | ebay.com | Searches one eBay category by id, with an optional keyword narrowing within it — the… | 🟢 |
 | `ebay.searchSold` | ebay.com | Searches eBay's completed/SOLD listings (not live asking prices) for a query and… | ⚪ |
 | `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🟡 |
 | `elase.findLocation` | elase.com | Resolves a slug/neighborhood query to the matching real Elase location(s) — name… | 🟢 |

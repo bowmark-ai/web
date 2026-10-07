@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8df215fc2cd3ff74e9538f2ea3e0821f741f66acd3ad64ad7fbaf543732524eb
+// Manifest version: 983139c855ab8bb4f08742c77f3d771764f08e83424b0e90fca656832a0be410
 // 77 capabilities, 538 providers, 1902 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -5879,7 +5879,7 @@ interface alibabaSupplierProfileRow {
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /** Search for products by keyword, returning results with title, price, supplier and details. */
-    searchProducts(args: { query: string, language?: string, country?: string, currency?: string }): Promise<alibabaSearchRow[]>;
+    searchProducts(args: { query: string, language?: string, country?: string }): Promise<alibabaSearchRow[]>;
 
     /**
      * Get detailed information for a single product by ID or URL, including title, price ladder,

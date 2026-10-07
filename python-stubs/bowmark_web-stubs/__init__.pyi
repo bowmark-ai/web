@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8df215fc2cd3ff74e9538f2ea3e0821f741f66acd3ad64ad7fbaf543732524eb
+# Manifest version: 983139c855ab8bb4f08742c77f3d771764f08e83424b0e90fca656832a0be410
 # 77 capabilities, 538 providers, 1884 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -3188,7 +3188,6 @@ class Prv_alibaba_searchProducts_args_In(TypedDict):
     query: str
     language: NotRequired[str]
     country: NotRequired[str]
-    currency: NotRequired[str]
 
 class Prv_alibaba_alibabaSearchRow_Out(TypedDict):
     id: float
