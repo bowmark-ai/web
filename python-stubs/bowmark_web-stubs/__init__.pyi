@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0f9f6ff90e5fe8c7abe9415f74688f2f56e7af9170b98d707853b714129f69b3
-# 77 capabilities, 541 providers, 1890 typed functions, 20 refused.
+# Manifest version: 096486408bc5f45fbc298ae7db2a33b14f508d5ec1d47ea462ea17677c3c4571
+# 77 capabilities, 541 providers, 1892 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19163,6 +19163,13 @@ class Prv_nyt_cooking_NytCookingRateRecipeResult_Out(TypedDict):
     recipeId: float
     rating: float
 
+class Prv_nyt_cooking_NytCookingGetMyRatingArgs_In(TypedDict):
+    recipeId: float | str
+
+class Prv_nyt_cooking_NytCookingGetMyRatingResult_Out(TypedDict):
+    recipeId: float
+    rating: float | None
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -26467,6 +26474,9 @@ class Prv_twitch_TwitchClip_Out(TypedDict):
     creatorLogin: str | None
     gameName: str | None
     url: str
+
+class Prv_twitch_GetClipArgs_In(TypedDict):
+    slug: str
 
 class Prv_twitch_GetChannelScheduleInput_In(TypedDict):
     login: str
@@ -43012,6 +43022,11 @@ class Prv_nyt_cooking(Protocol):
         this is called.
         """
 
+    async def getMyRating(self, args: Prv_nyt_cooking_NytCookingGetMyRatingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingGetMyRatingResult_Out:
+        """Reads the signed-in reader's own rating for a recipe, if one exists. Requires the caller
+        to be signed in to NYT — the run pauses for a login the first time this is called.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -47453,6 +47468,12 @@ class Prv_twitch(Protocol):
         date, view count, duration, who cut it, and the category being played. No sign-in.
         THROWS naming the login when Twitch has no such channel. Returns one page — up to
         `limit`, default 20, max 100.
+        """
+
+    async def getClip(self, args: Prv_twitch_GetClipArgs_In, /) -> Prv_twitch_TwitchClip_Out:
+        """Reads one clip by its slug from clips.twitch.tv or twitch.tv/<login>/clip/<slug>: title,
+        creation date, view count, duration, who cut it, and the category being played. Keyless,
+        same door as listChannelClips. THROWS naming the slug when Twitch has no such clip.
         """
 
     async def getChannelSchedule(self, args: Prv_twitch_GetChannelScheduleInput_In, /) -> list[Prv_twitch_TwitchScheduleSegment_Out]:

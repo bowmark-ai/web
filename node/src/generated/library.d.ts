@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0f9f6ff90e5fe8c7abe9415f74688f2f56e7af9170b98d707853b714129f69b3
-// 77 capabilities, 541 providers, 1908 typed functions, 20 refused.
+// Manifest version: 096486408bc5f45fbc298ae7db2a33b14f508d5ec1d47ea462ea17677c3c4571
+// 77 capabilities, 541 providers, 1910 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35840,6 +35840,15 @@ interface NytCookingRateRecipeResult {
   rating: number;
 }
 
+interface NytCookingGetMyRatingArgs {
+  recipeId: number | string;
+}
+
+interface NytCookingGetMyRatingResult {
+  recipeId: number;
+  rating: number | null;
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -35923,6 +35932,12 @@ interface NytCookingRateRecipeResult {
      * is called.
      */
     rateRecipe(args: NytCookingRateRecipeArgs, opts?: ConnectionOption): Promise<NytCookingRateRecipeResult>;
+
+    /**
+     * Reads the signed-in reader's own rating for a recipe, if one exists. Requires the caller to
+     * be signed in to NYT — the run pauses for a login the first time this is called.
+     */
+    getMyRating(args: NytCookingGetMyRatingArgs, opts?: ConnectionOption): Promise<NytCookingGetMyRatingResult>;
   }
 }
 
@@ -47937,6 +47952,10 @@ interface ListChannelClipsArgs {
   /** Max clips to return, 1-100. Default 20. */
   limit?: number;
 }
+interface GetClipArgs {
+  /** A Twitch clip slug — a clips.twitch.tv url, a twitch.tv/<login>/clip/<slug> url, or the slug alone. */
+  slug: string;
+}
 interface TwitchClip {
   id: string;
   title: string;
@@ -48112,6 +48131,13 @@ interface TwitchFollowChannelResult {
      * 20, max 100.
      */
     listChannelClips(args: ListChannelClipsArgs): Promise<TwitchClip[]>;
+
+    /**
+     * Reads one clip by its slug from clips.twitch.tv or twitch.tv/<login>/clip/<slug>: title,
+     * creation date, view count, duration, who cut it, and the category being played. Keyless,
+     * same door as listChannelClips. THROWS naming the slug when Twitch has no such clip.
+     */
+    getClip(args: GetClipArgs): Promise<TwitchClip>;
 
     /**
      * Reads a channel's scheduled broadcast times and upcoming events (if public). Returns an
@@ -50610,6 +50636,14 @@ interface WikipediaUser {
   editCount: number;
   registrationDate: string;
   groups: string[];
+}
+
+interface WikipediaCurrentUser {
+  id: number;
+  name: string;
+  editCount: number;
+  registrationTime: string;
+  isBlocked: boolean;
 }
 
 interface WikipediaUserContribution {

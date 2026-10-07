@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3167 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3168 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2048,7 +2048,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getCookedRecipes` | cooking.nytimes.com | Lists the recipes the signed-in reader has marked cooked. | ⚪ |
 | `nyt_cooking.getGroceryList` | cooking.nytimes.com | Reads the signed-in reader's own grocery list. | ⚪ |
 | `nyt_cooking.getMyNotes` | cooking.nytimes.com | Reads the signed-in reader's own private cook notes on a recipe. | ⚪ |
-| `nyt_cooking.getMyRating` | cooking.nytimes.com | Reads the signed-in reader's own rating for a recipe. | ⚪ |
+| `nyt_cooking.getMyRating` | cooking.nytimes.com | Reads the signed-in reader's own rating for a recipe. | 🟢 |
 | `nyt_cooking.getRecipe` | cooking.nytimes.com | Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors… | 🟡 |
 | `nyt_cooking.getRecipeNotes` | cooking.nytimes.com | Reads a recipe's reader notes — the site's "Top Comments" (sort: "helpful", the… | 🟢 |
 | `nyt_cooking.getRelatedRecipes` | cooking.nytimes.com | Reads a recipe's own "More like this" carousels (e.g. "Trending On Cooking") off its… | 🟢 |
@@ -2856,6 +2856,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.getChannel` | twitch.tv | Reads the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
 | `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | 🟢 |
 | `twitch.getChannelSchedule` | twitch.tv | Reads a channel's scheduled broadcast times and upcoming events (if public). Logged… | 🟢 |
+| `twitch.getClip` | twitch.tv | Reads one clip by its slug, a clips.twitch.tv link or a twitch.tv/<login>/clip/<slug>… | 🟢 |
 | `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | 🟢 |
 | `twitch.getStream` | twitch.tv | Reads a channel's LIVE state right now: whether it is live, title, game, viewer count… | 🟢 |
 | `twitch.getSubscriptionStatus` | twitch.tv | Checks whether the signed-in user is subscribed to one named channel: id, Twitch's own… | 🟢 |

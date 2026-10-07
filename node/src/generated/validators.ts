@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0f9f6ff90e5fe8c7abe9415f74688f2f56e7af9170b98d707853b714129f69b3
-// 1890 checked, 20 unchecked.
+// Manifest version: 096486408bc5f45fbc298ae7db2a33b14f508d5ec1d47ea462ea17677c3c4571
+// 1892 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0f9f6ff90e5fe8c7abe9415f74688f2f56e7af9170b98d707853b714129f69b3",
+  "version": "096486408bc5f45fbc298ae7db2a33b14f508d5ec1d47ea462ea17677c3c4571",
   "units": {
     "address_validation": {
       "defs": {
@@ -33957,6 +33957,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NytCookingGetMyRatingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingGetRecipeArgs": {
           "k": "object",
           "props": [
@@ -34311,6 +34331,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "NytCookingRateRecipeArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMyRating": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingGetMyRatingArgs"
             },
             "optional": false
           },
@@ -50175,6 +50221,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetClipArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetFollowStatusArgs": {
           "k": "object",
           "props": [
@@ -50504,6 +50562,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListChannelClipsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getClip": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetClipArgs"
             },
             "optional": false
           }
