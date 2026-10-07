@@ -2067,7 +2067,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.listFeaturedCollections` | cooking.nytimes.com | Lists the collections currently featured on the site's own homepage — the entry point… | 🟢 |
 | `nyt_cooking.listRecipeBoxFolders` | cooking.nytimes.com | Lists the signed-in reader's own Recipe Box folders. | ⚪ |
 | `nyt_cooking.listTopics` | cooking.nytimes.com | Lists the site's topic pages off its own navigation — the finder for a topic a caller… | 🟢 |
-| `nyt_cooking.markRecipeCooked` | cooking.nytimes.com | Marks a recipe as cooked on the signed-in reader's account. | ⚪ |
+| `nyt_cooking.markRecipeCooked` | cooking.nytimes.com | Marks a recipe as cooked on the signed-in reader's account. | 🟢 |
 | `nyt_cooking.rateRecipe` | cooking.nytimes.com | Submits the signed-in reader's own rating for a recipe, on NYT Cooking's own 1-4 scale. | 🟢 |
 | `nyt_cooking.removeFromGroceryList` | cooking.nytimes.com | Removes one item from the signed-in reader's grocery list. | ⚪ |
 | `nyt_cooking.removeRecipeFromFolder` | cooking.nytimes.com | Removes a saved recipe from one of the signed-in reader's Recipe Box folders. | ⚪ |
@@ -2084,7 +2084,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | 🟢 |
 | `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | 🟢 |
 | `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | 🟢 |
-| `nyt_games.getMyStats` | games.nytimes.com | The signed-in player's saved game state for one puzzle (stats and streaks live inside… | 🟢 |
+| `nyt_games.getMyStats` | games.nytimes.com | The signed-in player's saved game state for one puzzle (stats and streaks live inside… | ⚪ |
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle — all three difficulties, each with its dominoes… | 🟢 |
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
 | `nyt_games.getSportsConnections` | games.nytimes.com | Retrieves the daily Sports Connections puzzle with four category groupings and their… | 🟢 |
