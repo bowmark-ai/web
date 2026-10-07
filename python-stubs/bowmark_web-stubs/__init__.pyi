@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8d1fc06515bc5f390143b00e235a6459a8b47f0cf129278b218288d84485c1b4
-# 77 capabilities, 543 providers, 1902 typed functions, 20 refused.
+# Manifest version: d05d8f9de495769f39e66e57dcea2096e7f56105330c6de0e94218fd08deee5c
+# 77 capabilities, 544 providers, 1907 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6110,6 +6110,15 @@ class Prv_bing_BingDefinition_Out(TypedDict):
     partOfSpeech: str
     meaning: str
 
+Prv_bing_translateText_args_In = TypedDict(
+    "Prv_bing_translateText_args_In",
+    {
+    "text": str,
+    "to": str,
+    "from": NotRequired[str],
+    },
+)
+
 class Prv_bing_BingTranslationResult_Out(TypedDict):
     translatedText: str
     detectedSourceLanguage: str | None
@@ -11952,6 +11961,26 @@ class Prv_foxnews_FoxnewsArticleRow_Out(TypedDict):
     isBreaking: NotRequired[bool]
     duration: NotRequired[str]
 
+class Prv_foxnews_getArticle_args_In(TypedDict):
+    url: str
+
+class Prv_foxnews_FoxnewsArticle_Out(TypedDict):
+    headline: str
+    url: str
+    description: str
+    articleBody: str
+    articleSection: NotRequired[str]
+    keywords: NotRequired[list[str]]
+    datePublished: NotRequired[str]
+    dateModified: NotRequired[str]
+    author: NotRequired[list[Prv_foxnews_FoxnewsArticle_Out_author_item_Out]]
+    imageUrl: NotRequired[str]
+    wordCount: NotRequired[float]
+
+class Prv_foxnews_FoxnewsArticle_Out_author_item_Out(TypedDict):
+    name: NotRequired[str]
+    url: NotRequired[str]
+
 class Prv_framebridge_FramebridgeFrameStyle_Out(TypedDict):
     productId: str
     handle: str
@@ -17398,9 +17427,24 @@ class Prv_lululemon_LululemonRow_Out(TypedDict):
     category: str | None
     colorFamilies: list[str]
 
-class Prv_lululemon_getProduct_query_In(TypedDict):
+class Prv_lululemon_getProduct_query_u0_In(TypedDict):
     productId: str
     country: NotRequired[Literal["us"] | Literal["ca"]]
+
+class Prv_lululemon_LululemonRow_In(TypedDict):
+    id: str
+    title: str
+    url: str
+    priceLow: float | None
+    priceHigh: float | None
+    colorCount: float | None
+    inStock: bool | None
+    onSale: bool | None
+    priced: bool
+    image: str | None
+    currency: str | None
+    category: str | None
+    colorFamilies: Sequence[str]
 
 class Prv_lululemon_LululemonProduct_Out(TypedDict):
     id: str
@@ -17535,7 +17579,7 @@ class Prv_lululemon_LululemonProductBatch_Out_missing_item_Out(TypedDict):
     productId: str
     detail: str
 
-class Prv_lululemon_getProductAttributes_query_In(TypedDict):
+class Prv_lululemon_getProductAttributes_query_u0_In(TypedDict):
     productId: str
     country: NotRequired[Literal["us"] | Literal["ca"]]
 
@@ -17578,7 +17622,7 @@ class Prv_lululemon_Completeness_Out(TypedDict):
     unreachableFields: list[str]
     sourcesUsed: list[str]
 
-class Prv_lululemon_getSimilarProducts_query_In(TypedDict):
+class Prv_lululemon_getSimilarProducts_query_u0_In(TypedDict):
     productId: str
     limit: NotRequired[float]
 
@@ -17588,7 +17632,7 @@ class Prv_lululemon_LululemonSimilarProducts_Out(TypedDict):
     totalRanked: float | None
     warnings: list[str]
 
-class Prv_lululemon_getReviews_query_In(TypedDict):
+class Prv_lululemon_getReviews_query_u0_In(TypedDict):
     productId: str
     country: NotRequired[Literal["us"] | Literal["ca"]]
 
@@ -17605,7 +17649,7 @@ class Prv_lululemon_LululemonReview_Out(TypedDict):
     reviewerName: str | None
     sizeAndFit: str | None
 
-class Prv_lululemon_getSizeGuide_query_In(TypedDict):
+class Prv_lululemon_getSizeGuide_query_u0_In(TypedDict):
     productId: str
     country: NotRequired[Literal["us"] | Literal["ca"]]
 
@@ -21887,6 +21931,59 @@ class Prv_proxy_cheap_CoverageRegion_Out(TypedDict):
     country: str
     region: str
     url: str
+
+class Prv_pullandbear_listCategories_args_In(TypedDict):
+    gender: NotRequired[Literal["men"] | Literal["women"]]
+
+class Prv_pullandbear_PullAndBearCategory_Out(TypedDict):
+    id: str
+    gender: Literal["men"] | Literal["women"]
+    title: str
+    keyword: str
+
+class Prv_pullandbear_PullAndBearSearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    gender: NotRequired[Literal["men"] | Literal["women"]]
+    category: NotRequired[str]
+    size: NotRequired[str]
+    onSaleOnly: NotRequired[bool]
+    inStockOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_pullandbear_PullAndBearSearchResult_Out(TypedDict):
+    category: Prv_pullandbear_PullAndBearCategory_Out
+    totalInCategory: float
+    hits: list[Prv_pullandbear_PullAndBearProduct_Out]
+    warnings: list[str]
+
+class Prv_pullandbear_PullAndBearProduct_Out(TypedDict):
+    productId: str
+    name: str
+    url: str
+    gender: Literal["men"] | Literal["women"]
+    colors: list[Prv_pullandbear_PullAndBearColor_Out]
+    minPrice: float | None
+    onSale: bool
+    inStock: bool
+
+class Prv_pullandbear_PullAndBearColor_Out(TypedDict):
+    colorId: str
+    label: str
+    price: float | None
+    compareAtPrice: float | None
+    discountPercent: float | None
+    onSale: bool
+    sizes: list[Prv_pullandbear_PullAndBearSize_Out]
+
+class Prv_pullandbear_PullAndBearSize_Out(TypedDict):
+    sizeId: str
+    label: str
+    inStock: bool
+    backSoon: bool
+
+class Prv_pullandbear_getProduct_arg_u1_In(TypedDict):
+    productId: str
+    gender: NotRequired[Literal["men"] | Literal["women"]]
 
 class Prv_puls_com_PulsApplianceCategory_Out(TypedDict):
     deviceId: float
@@ -28071,6 +28168,23 @@ class Prv_weather_channel_WeatherLocation_Out(TypedDict):
     timeZone: str | None
     placeId: str | None
     type: str | None
+
+class Prv_weather_channel_SearchNewsResult_Out(TypedDict):
+    articles: list[Prv_weather_channel_NewsArticle_Out]
+
+class Prv_weather_channel_NewsArticle_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    slug: str
+    collection: Literal["articles"] | Literal["videos"] | str
+    publishDate: str
+    updatedAt: str
+    score: float
+    thumbnailUrl: str | None
+    readTimeMinutes: float | None
+    watchTimeMinutes: float | None
+    durationSeconds: float | None
 
 class Prv_weather_channel_Location_u1_In(TypedDict):
     latitude: float
@@ -34259,10 +34373,11 @@ class Prv_bing(Protocol):
         for 'what does this word mean'.
         """
 
-    async def translateText(self, text: str, /) -> Prv_bing_BingTranslationResult_Out:
-        """Translates text to Spanish through Bing Translator and returns the translated result and
-        the detected source language when auto-detected. Use this when a caller needs text
-        translated by Bing's translation engine.
+    async def translateText(self, args: Prv_bing_translateText_args_In, /) -> Prv_bing_BingTranslationResult_Out:
+        """Translates text through Bing Translator to a specified target language and returns the
+        translated result and the detected source language when auto-detected. The `to`
+        parameter is required and sets the target language code (e.g., 'es', 'fr', 'ja'). The
+        `from` parameter is optional — Bing detects the source language if omitted.
         """
 
     async def findPlace(self, query: str, /) -> Prv_bing_BingMapsFindPlaceResult_Out:
@@ -38179,6 +38294,12 @@ class Prv_foxnews(Protocol):
         """Searches Fox News for stories and video clips matching free text, returning each hit's
         title, description, url, section, authors, publication date and image, newest first with
         paging.
+        """
+
+    async def getArticle(self, args: Prv_foxnews_getArticle_args_In, /) -> Prv_foxnews_FoxnewsArticle_Out:
+        """Reads one Fox News article in full — headline, description, the whole body text, authors
+        with their profile urls, section, keywords, publication and update times, the lead image
+        and any embedded video.
         """
 
 class Prv_framebridge(Protocol):
@@ -42238,7 +42359,7 @@ class Prv_lululemon(Protocol):
         `currency` say which store answered.
         """
 
-    async def getProduct(self, query: Prv_lululemon_getProduct_query_In, /) -> Prv_lululemon_LululemonProduct_Out:
+    async def getProduct(self, query: Prv_lululemon_getProduct_query_u0_In | Prv_lululemon_LululemonRow_In, /) -> Prv_lululemon_LululemonProduct_Out:
         """Reads one product's full configurator the way its product page presents it — every
         colourway with its own price, sale price, currency, swatch, image set and a URL pinned
         to THAT colour; the size picker listing the garment's whole size run in that colourway;
@@ -42278,7 +42399,7 @@ class Prv_lululemon(Protocol):
         default is.
         """
 
-    async def getProductAttributes(self, query: Prv_lululemon_getProductAttributes_query_In, /) -> Prv_lululemon_LululemonProductAttributes_Out:
+    async def getProductAttributes(self, query: Prv_lululemon_getProductAttributes_query_u0_In | Prv_lululemon_LululemonRow_In, /) -> Prv_lululemon_LululemonProductAttributes_Out:
         """Reads what lululemon publishes ABOUT a garment rather than what it costs: the category
         it is filed under, the collection description, the trademarked fabric it is cut from,
         the fit and the rise, every product-detail bullet verbatim, and — in the store's own
@@ -42296,7 +42417,7 @@ class Prv_lululemon(Protocol):
         store's record.
         """
 
-    async def getSimilarProducts(self, query: Prv_lululemon_getSimilarProducts_query_In, /) -> Prv_lululemon_LululemonSimilarProducts_Out:
+    async def getSimilarProducts(self, query: Prv_lululemon_getSimilarProducts_query_u0_In | Prv_lululemon_LululemonRow_In, /) -> Prv_lululemon_LululemonSimilarProducts_Out:
         """Returns the products lululemon's own product pages recommend alongside one product — the
         'You may also like' rail — as priced rows in the store's own ranked order, de-duplicated
         to one row per style. It is the store's ranking, not ours, and it does NOT reliably
@@ -42310,7 +42431,7 @@ class Prv_lululemon(Protocol):
         input error rather than answered with US rows and US prices.
         """
 
-    async def getReviews(self, query: Prv_lululemon_getReviews_query_In, /) -> Prv_lululemon_getReviews_return_Out:
+    async def getReviews(self, query: Prv_lululemon_getReviews_query_u0_In | Prv_lululemon_LululemonRow_In, /) -> Prv_lululemon_getReviews_return_Out:
         """Reads the customer reviews on one product — rating, title, body, number of helpful
         votes, date, the reviewer's screen name and (when the review carries it) the size they
         say they bought — the way the review section of its product page does. Reviews live on
@@ -42320,7 +42441,7 @@ class Prv_lululemon(Protocol):
         `country` like `getProduct`, and reads the `reviewsId` off that store's record.
         """
 
-    async def getSizeGuide(self, query: Prv_lululemon_getSizeGuide_query_In, /) -> Prv_lululemon_LululemonSizeGuide_Out:
+    async def getSizeGuide(self, query: Prv_lululemon_getSizeGuide_query_u0_In | Prv_lululemon_LululemonRow_In, /) -> Prv_lululemon_LululemonSizeGuide_Out:
         """Returns lululemon's size chart for one garment — the body measurements (waist, hip,
         bust, inseam, foot length…) each numeric and alpha size maps to, in inches AND
         centimetres — the way the 'Size guide' link on its product page does. The product names
@@ -45067,6 +45188,31 @@ class Prv_proxy_cheap(Protocol):
 
     async def listCoverage(self, /) -> list[Prv_proxy_cheap_CoverageRegion_Out]:
         """Lists the proxy locations (countries, by region) Proxy-Cheap features on its site."""
+
+class Prv_pullandbear(Protocol):
+    """Pull&Bear (pullandbear.com) fast-fashion store, US catalog. Lists a men's/women's
+    category (jackets, jeans, t-shirts…) with per-colour price, sale compare-at price and
+    per-size stock, filtered by size, on-sale and in-stock; and reads one product's colours
+    and sizes.
+    """
+
+    async def listCategories(self, args: Prv_pullandbear_listCategories_args_In | None = None, /) -> list[Prv_pullandbear_PullAndBearCategory_Out]:
+        """Lists Pull&Bear's US catalog categories (jackets, jeans, t-shirts…), read live off the
+        site's own navigation, with the ids searchProducts takes.
+        """
+
+    async def searchProducts(self, args: Prv_pullandbear_PullAndBearSearchArgs_In | str, /) -> Prv_pullandbear_PullAndBearSearchResult_Out:
+        """Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer jacket")
+        and returns each product with every colour's price, sale compare-at price and per-size
+        stock — filterable to a size, on-sale and in-stock only. The way in; returns the
+        productId getProduct takes.
+        """
+
+    async def getProduct(self, arg: str | Prv_pullandbear_getProduct_arg_u1_In, /) -> Prv_pullandbear_PullAndBearProduct_Out:
+        """Reads one Pull&Bear product's colours and sizes with each colour's price, compare-at
+        price and live per-size stock, so a sold-out size is never shown. Gender is optional —
+        omitted, it tries both stores.
+        """
 
 class Prv_puls_com(Protocol):
     """On-demand home-appliance and electronics repair booking. listApplianceCategories lists
@@ -48716,6 +48862,13 @@ class Prv_weather_channel(Protocol):
         ambiguous matches; an unknown place is a caller-fixable error.
         """
 
+    async def searchNews(self, query: str, /) -> Prv_weather_channel_SearchNewsResult_Out:
+        """Searches weather.com articles and videos — e.g. `searchNews("winter storm")` — the same
+        search its site search runs. Each result carries the article/video title, URL, publish
+        date, relevance score, thumbnail URL, and for videos the watch time in minutes.
+        `collection` names the source (articles or videos). Results are ordered by relevance.
+        """
+
     async def getLocation(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_WeatherLocation_Out:
         """Gets detailed location information for a place name, postal code, or coordinates — e.g.
         `getLocation("Toronto")`, `getLocation("10001")`, or `getLocation({ latitude: 40.7,
@@ -50420,6 +50573,7 @@ class BowmarkProviders(Protocol):
     provenwinners: Prv_provenwinners
     proxmox: Prv_proxmox
     proxy_cheap: Prv_proxy_cheap
+    pullandbear: Prv_pullandbear
     puls_com: Prv_puls_com
     quince: Prv_quince
     quora: Prv_quora

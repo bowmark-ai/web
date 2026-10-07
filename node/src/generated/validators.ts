@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8d1fc06515bc5f390143b00e235a6459a8b47f0cf129278b218288d84485c1b4
-// 1902 checked, 20 unchecked.
+// Manifest version: d05d8f9de495769f39e66e57dcea2096e7f56105330c6de0e94218fd08deee5c
+// 1907 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8d1fc06515bc5f390143b00e235a6459a8b47f0cf129278b218288d84485c1b4",
+  "version": "d05d8f9de495769f39e66e57dcea2096e7f56105330c6de0e94218fd08deee5c",
   "units": {
     "address_validation": {
       "defs": {
@@ -11563,9 +11563,32 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "translateText": [
           {
-            "name": "text",
+            "name": "args",
             "schema": {
-              "k": "string"
+              "k": "object",
+              "props": [
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -21977,6 +22000,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -32231,7 +32272,171 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.lululemon": {
-      "defs": {},
+      "defs": {
+        "LululemonRow": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "priceLow",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "priceHigh",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "colorCount",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "inStock",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "boolean"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "onSale",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "boolean"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "priced",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "image",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "colorFamilies",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "search": [
           {
@@ -32286,31 +32491,40 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "object",
-              "props": [
+              "k": "union",
+              "of": [
                 {
-                  "name": "productId",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "productId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "us"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
                 },
                 {
-                  "name": "country",
-                  "schema": {
-                    "k": "union",
-                    "of": [
-                      {
-                        "k": "literal",
-                        "v": "us"
-                      },
-                      {
-                        "k": "literal",
-                        "v": "ca"
-                      }
-                    ]
-                  },
-                  "optional": true
+                  "k": "ref",
+                  "name": "LululemonRow"
                 }
               ]
             },
@@ -32359,31 +32573,40 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "object",
-              "props": [
+              "k": "union",
+              "of": [
                 {
-                  "name": "productId",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "productId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "us"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
                 },
                 {
-                  "name": "country",
-                  "schema": {
-                    "k": "union",
-                    "of": [
-                      {
-                        "k": "literal",
-                        "v": "us"
-                      },
-                      {
-                        "k": "literal",
-                        "v": "ca"
-                      }
-                    ]
-                  },
-                  "optional": true
+                  "k": "ref",
+                  "name": "LululemonRow"
                 }
               ]
             },
@@ -32394,21 +32617,30 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "object",
-              "props": [
+              "k": "union",
+              "of": [
                 {
-                  "name": "productId",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "productId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
                 },
                 {
-                  "name": "limit",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": true
+                  "k": "ref",
+                  "name": "LululemonRow"
                 }
               ]
             },
@@ -32419,31 +32651,40 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "object",
-              "props": [
+              "k": "union",
+              "of": [
                 {
-                  "name": "productId",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "productId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "us"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
                 },
                 {
-                  "name": "country",
-                  "schema": {
-                    "k": "union",
-                    "of": [
-                      {
-                        "k": "literal",
-                        "v": "us"
-                      },
-                      {
-                        "k": "literal",
-                        "v": "ca"
-                      }
-                    ]
-                  },
-                  "optional": true
+                  "k": "ref",
+                  "name": "LululemonRow"
                 }
               ]
             },
@@ -32454,31 +32695,40 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "object",
-              "props": [
+              "k": "union",
+              "of": [
                 {
-                  "name": "productId",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "productId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "us"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
                 },
                 {
-                  "name": "country",
-                  "schema": {
-                    "k": "union",
-                    "of": [
-                      {
-                        "k": "literal",
-                        "v": "us"
-                      },
-                      {
-                        "k": "literal",
-                        "v": "ca"
-                      }
-                    ]
-                  },
-                  "optional": true
+                  "k": "ref",
+                  "name": "LululemonRow"
                 }
               ]
             },
@@ -41942,6 +42192,165 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listPlans": [],
         "listCoverage": []
+      }
+    },
+    "providers.pullandbear": {
+      "defs": {
+        "PullAndBearSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "men"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "women"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "onSaleOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "inStockOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "gender",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "men"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "women"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "PullAndBearSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "productId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "gender",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "men"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "women"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.puls_com": {
@@ -54730,6 +55139,15 @@ export const VALIDATORS: ValidatorTable = {
       },
       "functions": {
         "searchLocations": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchNews": [
           {
             "name": "query",
             "schema": {

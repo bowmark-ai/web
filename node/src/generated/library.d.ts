@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8d1fc06515bc5f390143b00e235a6459a8b47f0cf129278b218288d84485c1b4
-// 77 capabilities, 543 providers, 1920 typed functions, 20 refused.
+// Manifest version: d05d8f9de495769f39e66e57dcea2096e7f56105330c6de0e94218fd08deee5c
+// 77 capabilities, 544 providers, 1925 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10928,11 +10928,12 @@ interface BingSaveResultResult {
     define(word: string): Promise<BingDictEntry>;
 
     /**
-     * Translates text to Spanish through Bing Translator and returns the translated result and the
-     * detected source language when auto-detected. Use this when a caller needs text translated by
-     * Bing's translation engine.
+     * Translates text through Bing Translator to a specified target language and returns the
+     * translated result and the detected source language when auto-detected. The `to` parameter is
+     * required and sets the target language code (e.g., 'es', 'fr', 'ja'). The `from` parameter is
+     * optional — Bing detects the source language if omitted.
      */
-    translateText(text: string): Promise<BingTranslationResult>;
+    translateText(args: { text: string, to: string, from?: string }): Promise<BingTranslationResult>;
 
     /**
      * Looks up a place on Bing Maps by name or address and returns its name, full address,
@@ -21700,6 +21701,20 @@ interface SearchArticlesArgs {
   offset?: number;
 }
 
+interface FoxnewsArticle {
+  headline: string;
+  url: string;
+  description: string;
+  articleBody: string;
+  articleSection?: string;
+  keywords?: string[];
+  datePublished?: string;
+  dateModified?: string;
+  author?: Array<{ name?: string; url?: string }>;
+  imageUrl?: string;
+  wordCount?: number;
+}
+
   /**
    * Fox News (foxnews.com) — search stories and clips, read an article in full, get the top
    * stories, the latest news and any section's front, look up authors and Fox News Channel
@@ -21714,6 +21729,13 @@ interface SearchArticlesArgs {
      * paging.
      */
     searchArticles(args: SearchArticlesArgs): Promise<{ articles: FoxnewsArticleRow[] }>;
+
+    /**
+     * Reads one Fox News article in full — headline, description, the whole body text, authors
+     * with their profile urls, section, keywords, publication and update times, the lead image and
+     * any embedded video.
+     */
+    getArticle(args: { url: string }): Promise<FoxnewsArticle>;
   }
 }
 
@@ -32399,7 +32421,7 @@ interface LululemonSizeGuide {
      * or a whole `search` row. The 10-character ids answer in both stores; an explicit `country`
      * wins over the URL.
      */
-    getProduct(query: { productId: string; country?: "us" | "ca" }): Promise<LululemonProduct>;
+    getProduct(query: { productId: string; country?: "us" | "ca" } | LululemonRow): Promise<LululemonProduct>;
 
     /**
      * Reads the full configurator for MANY products in one call — the shape for ranking a
@@ -32431,7 +32453,7 @@ interface LululemonSizeGuide {
      * did get was actually read. `country: "ca"` (or an /en-ca/ product URL as `productId`) reads
      * the Canadian store's record.
      */
-    getProductAttributes(query: { productId: string; country?: "us" | "ca" }): Promise<LululemonProductAttributes>;
+    getProductAttributes(query: { productId: string; country?: "us" | "ca" } | LululemonRow): Promise<LululemonProductAttributes>;
 
     /**
      * Returns the products lululemon's own product pages recommend alongside one product — the
@@ -32446,7 +32468,7 @@ interface LululemonSizeGuide {
      * "ca"` (or an /en-ca/ product URL) is refused with an input error rather than answered with
      * US rows and US prices.
      */
-    getSimilarProducts(query: { productId: string; limit?: number }): Promise<LululemonSimilarProducts>;
+    getSimilarProducts(query: { productId: string; limit?: number } | LululemonRow): Promise<LululemonSimilarProducts>;
 
     /**
      * Reads the customer reviews on one product — rating, title, body, number of helpful votes,
@@ -32457,7 +32479,7 @@ interface LululemonSizeGuide {
      * `reviews` and a `warnings` entry naming why rather than throwing. Takes `country` like
      * `getProduct`, and reads the `reviewsId` off that store's record.
      */
-    getReviews(query: { productId: string; country?: "us" | "ca" }): Promise<{ reviews: LululemonReview[]; warnings: string[] }>;
+    getReviews(query: { productId: string; country?: "us" | "ca" } | LululemonRow): Promise<{ reviews: LululemonReview[]; warnings: string[] }>;
 
     /**
      * Returns lululemon's size chart for one garment — the body measurements (waist, hip, bust,
@@ -32469,7 +32491,7 @@ interface LululemonSizeGuide {
      * `warnings` says so. Throws for a product that names no size guide (bags, accessories).
      * `country: "ca"` (or an /en-ca/ product URL) returns the Canadian store's guide page.
      */
-    getSizeGuide(query: { productId: string; country?: "us" | "ca" }): Promise<LululemonSizeGuide>;
+    getSizeGuide(query: { productId: string; country?: "us" | "ca" } | LululemonRow): Promise<LululemonSizeGuide>;
   }
 }
 
@@ -40105,6 +40127,81 @@ interface CoverageRegion {
 
     /** Lists the proxy locations (countries, by region) Proxy-Cheap features on its site. */
     listCoverage(): Promise<CoverageRegion[]>;
+  }
+}
+
+declare namespace BowmarkProvider_pullandbear {
+  // ── Pull&Bear — the unit's own declarations, verbatim ──
+interface PullAndBearCategory { id: string; gender: "men" | "women"; title: string; keyword: string }
+interface PullAndBearSearchArgs {
+  /** Shopper words — "jacket", "puffer jacket". Matched against the site's own category names. */
+  query?: string;
+  gender?: "men" | "women";
+  /** A category id from listCategories(); overrides the word match. */
+  category?: string;
+  /** Size label as Pull&Bear prints it: "M", "XL", "32". */
+  size?: string;
+  onSaleOnly?: boolean;
+  inStockOnly?: boolean;
+  /** 1-50, default 20. */
+  limit?: number;
+}
+interface PullAndBearSize { sizeId: string; label: string; inStock: boolean; backSoon: boolean }
+interface PullAndBearColor {
+  colorId: string;
+  /** The site's own Spanish colour name — no English label exists on this door. */
+  label: string;
+  price: number | null;
+  /** Pull&Bear's previous price when the colour is marked down; null when it is not. */
+  compareAtPrice: number | null;
+  discountPercent: number | null;
+  onSale: boolean;
+  sizes: PullAndBearSize[];
+}
+interface PullAndBearProduct {
+  productId: string;
+  name: string;
+  url: string;
+  gender: "men" | "women";
+  colors: PullAndBearColor[];
+  minPrice: number | null;
+  onSale: boolean;
+  inStock: boolean;
+}
+interface PullAndBearSearchResult {
+  category: PullAndBearCategory;
+  totalInCategory: number;
+  hits: PullAndBearProduct[];
+  /** Listed products that could not be read; empty on a whole answer. */
+  warnings: string[];
+}
+
+  /**
+   * Pull&Bear (pullandbear.com) fast-fashion store, US catalog. Lists a men's/women's category
+   * (jackets, jeans, t-shirts…) with per-colour price, sale compare-at price and per-size stock,
+   * filtered by size, on-sale and in-stock; and reads one product's colours and sizes.
+   */
+  interface Unit {
+    /**
+     * Lists Pull&Bear's US catalog categories (jackets, jeans, t-shirts…), read live off the
+     * site's own navigation, with the ids searchProducts takes.
+     */
+    listCategories(args?: { gender?: "men" | "women" }): Promise<PullAndBearCategory[]>;
+
+    /**
+     * Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer jacket") and
+     * returns each product with every colour's price, sale compare-at price and per-size stock —
+     * filterable to a size, on-sale and in-stock only. The way in; returns the productId
+     * getProduct takes.
+     */
+    searchProducts(args: PullAndBearSearchArgs | string): Promise<PullAndBearSearchResult>;
+
+    /**
+     * Reads one Pull&Bear product's colours and sizes with each colour's price, compare-at price
+     * and live per-size stock, so a sold-out size is never shown. Gender is optional — omitted, it
+     * tries both stores.
+     */
+    getProduct(arg: string | { productId: string; gender?: "men" | "women" }): Promise<PullAndBearProduct>;
   }
 }
 
@@ -50597,6 +50694,25 @@ interface TropicalConeResult {
   systems: TropicalConeSystem[];
 }
 
+interface NewsArticle {
+  id: string;
+  title: string;
+  url: string;
+  slug: string;
+  collection: "articles" | "videos" | string;
+  publishDate: string;
+  updatedAt: string;
+  score: number;
+  thumbnailUrl: string | null;
+  readTimeMinutes: number | null;
+  watchTimeMinutes: number | null;
+  durationSeconds: number | null;
+}
+
+interface SearchNewsResult {
+  articles: NewsArticle[];
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -50610,6 +50726,14 @@ interface TropicalConeResult {
      * unknown place is a caller-fixable error.
      */
     searchLocations(query: string): Promise<WeatherLocation[]>;
+
+    /**
+     * Searches weather.com articles and videos — e.g. `searchNews("winter storm")` — the same
+     * search its site search runs. Each result carries the article/video title, URL, publish date,
+     * relevance score, thumbnail URL, and for videos the watch time in minutes. `collection` names
+     * the source (articles or videos). Results are ordered by relevance.
+     */
+    searchNews(query: string): Promise<SearchNewsResult>;
 
     /**
      * Gets detailed location information for a place name, postal code, or coordinates — e.g.
@@ -55048,6 +55172,7 @@ interface BowmarkProviders {
   provenwinners: BowmarkProvider_provenwinners.Unit;
   proxmox: BowmarkProvider_proxmox.Unit;
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
+  pullandbear: BowmarkProvider_pullandbear.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;
