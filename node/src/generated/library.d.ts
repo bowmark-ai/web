@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 00970c456ba61853f206daa67c83baa0d41218ec0272bda8c88f2f64270efc07
+// Manifest version: 4b3201f78c0c8e879389aa32f4e2dec98782220716df109646459ff7fcff66c0
 // 78 capabilities, 545 providers, 1928 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -3300,6 +3300,9 @@ type ReadOptions = {
                              // reading many pages: e.g., 10 pages × 60KB ≈ 700MB.
                              // For large single pages, use strategy: "fetch" to get
                              // even oversized responses without the full-load overhead.
+                             // A page with a huge DOM (30k+ elements, e.g. a long
+                             // tariff or data table) is read by a lighter extractor
+                             // and a warning says so — the content is all there.
   timeoutMs?: number         // default 45000: the budget for the WHOLE read, end to
                              // end. Clamped to 55000 — past that your own client
                              // kills the call first and you get its bare "The
