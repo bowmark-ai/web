@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d59c7445f4a63c7c59a75a11128031e8ade7c03f33d9218341f844cba7797c7b
-// 77 capabilities, 541 providers, 1910 typed functions, 20 refused.
+// Manifest version: 3fb4db62b1fd57ba628d6b925c4b56818bb7e25c93805b1945fe604c750e72c4
+// 77 capabilities, 542 providers, 1911 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18228,6 +18228,54 @@ interface DoordashSearchResult {
      * stores with DoorDash's own advertised delivery fee, rating and ETA. Read-only.
      */
     search(args: DoordashSearchArgs): Promise<DoordashSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_duckduckgo {
+  // ── DuckDuckGo — the unit's own declarations, verbatim ──
+interface DuckDuckGoSearchWebArgs {
+  /** What you would type into duckduckgo.com's search box. */
+  query: string;
+  /** DuckDuckGo region code, e.g. "us-en", "uk-en", "fr-fr", "wt-wt" (no region). */
+  region?: string;
+  safeSearch?: "strict" | "moderate" | "off";
+  time?: "day" | "week" | "month" | "year";
+  /** The `next` value a previous call returned, to fetch the following page. */
+  cursor?: string;
+}
+
+interface DuckDuckGoWebResult {
+  position: number;
+  title: string;
+  url: string;
+  displayUrl: string;
+  snippet: string;
+  /** ISO date DuckDuckGo shows beside the result, or null. */
+  date: string | null;
+}
+
+interface DuckDuckGoSearchWebResult {
+  query: string;
+  results: DuckDuckGoWebResult[];
+  /** Pass back as `cursor` for the next page; null on the last page. */
+  next: string | null;
+}
+
+  /**
+   * DuckDuckGo (duckduckgo.com) — private web, image, video, news and maps search, Instant
+   * Answers, autocomplete, the dictionary, currency, weather, time and translation answers,
+   * !bangs, and Duck.ai chat; once a caller signs in, their Email Protection @duck.com
+   * addresses.
+   */
+  interface Unit {
+    /**
+     * Searches the web the way duckduckgo.com's own search box does and returns the ranked organic
+     * results (ads skipped) — title, destination URL, display URL, DuckDuckGo's snippet and a date
+     * when it shows one — about ten per page. Optional `region` ("us-en", "uk-en", "wt-wt"…),
+     * `safeSearch` and `time` filters; pass the returned `next` back as `cursor` for the following
+     * page.
+     */
+    searchWeb(args: DuckDuckGoSearchWebArgs): Promise<DuckDuckGoSearchWebResult>;
   }
 }
 
@@ -54299,6 +54347,7 @@ interface BowmarkProviders {
   disney: BowmarkProvider_disney.Unit;
   donsappliances: BowmarkProvider_donsappliances.Unit;
   doordash: BowmarkProvider_doordash.Unit;
+  duckduckgo: BowmarkProvider_duckduckgo.Unit;
   dumpsters: BowmarkProvider_dumpsters.Unit;
   ebay: BowmarkProvider_ebay.Unit;
   elase: BowmarkProvider_elase.Unit;

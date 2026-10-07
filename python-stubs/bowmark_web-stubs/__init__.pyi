@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d59c7445f4a63c7c59a75a11128031e8ade7c03f33d9218341f844cba7797c7b
-# 77 capabilities, 541 providers, 1892 typed functions, 20 refused.
+# Manifest version: 3fb4db62b1fd57ba628d6b925c4b56818bb7e25c93805b1945fe604c750e72c4
+# 77 capabilities, 542 providers, 1893 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10027,6 +10027,26 @@ class Prv_doordash_DoordashSearchResult_Out(TypedDict):
     deliveryFee: float | None
     rating: float | None
     etaMinutes: float | None
+
+class Prv_duckduckgo_DuckDuckGoSearchWebArgs_In(TypedDict):
+    query: str
+    region: NotRequired[str]
+    safeSearch: NotRequired[Literal["strict"] | Literal["moderate"] | Literal["off"]]
+    time: NotRequired[Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"]]
+    cursor: NotRequired[str]
+
+class Prv_duckduckgo_DuckDuckGoSearchWebResult_Out(TypedDict):
+    query: str
+    results: list[Prv_duckduckgo_DuckDuckGoWebResult_Out]
+    next: str | None
+
+class Prv_duckduckgo_DuckDuckGoWebResult_Out(TypedDict):
+    position: float
+    title: str
+    url: str
+    displayUrl: str
+    snippet: str
+    date: str | None
 
 class Prv_dumpsters_DumpstersGetQuoteArgs_In(TypedDict):
     address: str
@@ -36510,6 +36530,21 @@ class Prv_doordash(Protocol):
         Read-only.
         """
 
+class Prv_duckduckgo(Protocol):
+    """DuckDuckGo (duckduckgo.com) — private web, image, video, news and maps search, Instant
+    Answers, autocomplete, the dictionary, currency, weather, time and translation answers,
+    !bangs, and Duck.ai chat; once a caller signs in, their Email Protection @duck.com
+    addresses.
+    """
+
+    async def searchWeb(self, args: Prv_duckduckgo_DuckDuckGoSearchWebArgs_In, /) -> Prv_duckduckgo_DuckDuckGoSearchWebResult_Out:
+        """Searches the web the way duckduckgo.com's own search box does and returns the ranked
+        organic results (ads skipped) — title, destination URL, display URL, DuckDuckGo's
+        snippet and a date when it shows one — about ten per page. Optional `region` ("us-en",
+        "uk-en", "wt-wt"…), `safeSearch` and `time` filters; pass the returned `next` back as
+        `cursor` for the following page.
+        """
+
 class Prv_dumpsters(Protocol):
     """Real per-size roll-off dumpster pricing + next available delivery date for a US address,
     straight from Dumpsters.com's own /cart ordering tool — prefer this over general
@@ -49613,6 +49648,7 @@ class BowmarkProviders(Protocol):
     disney: Prv_disney
     donsappliances: Prv_donsappliances
     doordash: Prv_doordash
+    duckduckgo: Prv_duckduckgo
     dumpsters: Prv_dumpsters
     ebay: Prv_ebay
     elase: Prv_elase

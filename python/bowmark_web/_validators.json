@@ -1,5 +1,5 @@
 {
-  "version": "d59c7445f4a63c7c59a75a11128031e8ade7c03f33d9218341f844cba7797c7b",
+  "version": "3fb4db62b1fd57ba628d6b925c4b56818bb7e25c93805b1945fe604c750e72c4",
   "units": {
     "address_validation": {
       "defs": {
@@ -17944,6 +17944,94 @@
             "schema": {
               "k": "ref",
               "name": "DoordashSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.duckduckgo": {
+      "defs": {
+        "DuckDuckGoSearchWebArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "region",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "safeSearch",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "strict"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "moderate"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "off"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "day"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "week"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "month"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "year"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchWeb": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DuckDuckGoSearchWebArgs"
             },
             "optional": false
           }
