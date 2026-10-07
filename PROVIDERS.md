@@ -2100,7 +2100,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getConnections` | nytimes.com | Gets a day's Connections puzzle — the four categories and their cards. | 🟢 |
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟡 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
-| `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟢 |
+| `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟡 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟢 |
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
@@ -2616,7 +2616,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getGameScreenshots` | steampowered.com | Fetches a game's screenshots and promotional images, returning image URLs, captions… | 🟢 |
 | `steam.getGameStats` | steampowered.com | Reads a game's current concurrent player count and its global achievement completion… | 🟢 |
 | `steam.getGameVideos` | steampowered.com | Fetches a game's trailers and video clips by appid, returning each video's name… | 🟢 |
-| `steam.getLibrary` | steampowered.com | Lists all games the caller owns, with installation status, play time, and last-played… | ⚪ |
+| `steam.getLibrary` | steampowered.com | Fetches the signed-in caller's owned-games library — the appid of every game they own… | 🟢 |
 | `steam.getMarketPrice` | steampowered.com | Retrieves current Community Market price information for an item, including listing… | ⚪ |
 | `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by its ID or URL. | 🟡 |
 | `steam.getPlayTime` | steampowered.com | Returns total playtime in hours for a specific game owned by the caller. | ⚪ |

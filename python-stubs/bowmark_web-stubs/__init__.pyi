@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3fb4db62b1fd57ba628d6b925c4b56818bb7e25c93805b1945fe604c750e72c4
-# 77 capabilities, 542 providers, 1893 typed functions, 20 refused.
+# Manifest version: e651d3dc8080ee13c0525a943768fb725cb6a371fb10f8598dd0e737832aa565
+# 77 capabilities, 542 providers, 1894 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24436,6 +24436,12 @@ class Prv_steam_GetWishlistArgs_In(TypedDict):
 class Prv_steam_GetWishlistResponse_Out(TypedDict):
     appids: list[str]
 
+class Prv_steam_GetLibraryArgs_In(TypedDict):
+    pass
+
+class Prv_steam_GetLibraryResponse_Out(TypedDict):
+    appids: list[str]
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -24729,6 +24735,9 @@ class Prv_target_TargetProduct_Out(TypedDict):
     description: str | None
     price: float | None
     wasPrice: float | None
+    unitPrice: float | None
+    unitPriceUnit: str | None
+    circlePrice: float | None
     primaryImage: Prv_target_ProductImage_Out | None
     images: list[Prv_target_ProductImage_Out]
     availabilityStatus: str | None
@@ -46162,6 +46171,12 @@ class Prv_steam(Protocol):
     async def getWishlist(self, args: Prv_steam_GetWishlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetWishlistResponse_Out:
         """Fetches the signed-in caller's complete wishlist — the list of all games currently saved
         to their wishlist, by appid. NEEDS A SIGN-IN — the caller signs in, not us.
+        """
+
+    async def getLibrary(self, args: Prv_steam_GetLibraryArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetLibraryResponse_Out:
+        """Fetches the signed-in caller's owned-games library — the appid of every game they own,
+        off the same userdata door getWishlist reads. NEEDS A SIGN-IN — the caller signs in, not
+        us.
         """
 
 class Prv_stickergiant(Protocol):

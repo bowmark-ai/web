@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3fb4db62b1fd57ba628d6b925c4b56818bb7e25c93805b1945fe604c750e72c4
-// 1893 checked, 20 unchecked.
+// Manifest version: e651d3dc8080ee13c0525a943768fb725cb6a371fb10f8598dd0e737832aa565
+// 1894 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3fb4db62b1fd57ba628d6b925c4b56818bb7e25c93805b1945fe604c750e72c4",
+  "version": "e651d3dc8080ee13c0525a943768fb725cb6a371fb10f8598dd0e737832aa565",
   "units": {
     "address_validation": {
       "defs": {
@@ -46414,6 +46414,10 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetLibraryArgs": {
+          "k": "object",
+          "props": []
+        },
         "GetNewsItemArgs": {
           "k": "object",
           "props": [
@@ -46805,6 +46809,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetWishlistArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getLibrary": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetLibraryArgs"
             },
             "optional": false
           },

@@ -1,5 +1,5 @@
 {
-  "version": "3fb4db62b1fd57ba628d6b925c4b56818bb7e25c93805b1945fe604c750e72c4",
+  "version": "e651d3dc8080ee13c0525a943768fb725cb6a371fb10f8598dd0e737832aa565",
   "units": {
     "address_validation": {
       "defs": {
@@ -46402,6 +46402,10 @@
             }
           ]
         },
+        "GetLibraryArgs": {
+          "k": "object",
+          "props": []
+        },
         "GetNewsItemArgs": {
           "k": "object",
           "props": [
@@ -46793,6 +46797,32 @@
             "schema": {
               "k": "ref",
               "name": "GetWishlistArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getLibrary": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetLibraryArgs"
             },
             "optional": false
           },

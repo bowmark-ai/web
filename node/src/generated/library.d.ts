@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3fb4db62b1fd57ba628d6b925c4b56818bb7e25c93805b1945fe604c750e72c4
-// 77 capabilities, 542 providers, 1911 typed functions, 20 refused.
+// Manifest version: e651d3dc8080ee13c0525a943768fb725cb6a371fb10f8598dd0e737832aa565
+// 77 capabilities, 542 providers, 1912 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -44241,6 +44241,13 @@ interface GetWishlistResponse {
   appids: string[];
 }
 
+interface GetLibraryArgs {
+}
+
+interface GetLibraryResponse {
+  appids: string[];
+}
+
 interface RemoveFromWishlistArgs {
   appid: string | number;
 }
@@ -44354,6 +44361,12 @@ interface RemoveFromWishlistResult {
      * their wishlist, by appid. NEEDS A SIGN-IN — the caller signs in, not us.
      */
     getWishlist(args: GetWishlistArgs, opts?: ConnectionOption): Promise<GetWishlistResponse>;
+
+    /**
+     * Fetches the signed-in caller's owned-games library — the appid of every game they own, off
+     * the same userdata door getWishlist reads. NEEDS A SIGN-IN — the caller signs in, not us.
+     */
+    getLibrary(args: GetLibraryArgs, opts?: ConnectionOption): Promise<GetLibraryResponse>;
   }
 }
 
@@ -44878,8 +44891,11 @@ interface TargetProduct {
   title: string;
   brand: string | null;
   description: string | null;
-  price: number | null;
+  price: number | null;  // the shelf price a non-member pays — same figure search returns
   wasPrice: number | null;
+  unitPrice: number | null;  // the site's per-unit figure ("$0.32/ounce"), never a substitute for price
+  unitPriceUnit: string | null;  // what unitPrice is per, the site's own word ("ounce")
+  circlePrice: number | null;  // Target Circle members-only deal, when shown
   primaryImage: ProductImage | null;
   images: ProductImage[];
   availabilityStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
