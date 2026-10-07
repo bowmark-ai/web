@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 46913916a042c5d722cde7ab49b2381598050f79f132f85d1962fd71817a46f9
-// 77 capabilities, 538 providers, 1901 typed functions, 20 refused.
+// Manifest version: 8df215fc2cd3ff74e9538f2ea3e0821f741f66acd3ad64ad7fbaf543732524eb
+// 77 capabilities, 538 providers, 1902 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9585,6 +9585,21 @@ interface BbcListMostReadResult {
   headlines: BbcMostReadEntry[]; // ranked, the site's own order
 }
 
+interface BbcVideo {
+  title: string;
+  summary: string;
+  duration?: string;
+  url: string;
+  videoId: string;
+  section: string;
+  date?: string;
+  image?: string;
+}
+
+interface BbcListVideosResult {
+  videos: BbcVideo[];
+}
+
 interface BbcListTopicStoriesResult {
   headlines: BbcHeadline[]; // the topic page's own order, newest first
 }
@@ -9943,6 +9958,12 @@ interface bbcRow {
      * article id, image and last-updated time, in the site's own order.
      */
     listMostRead(): Promise<BbcListMostReadResult>;
+
+    /**
+     * The videos the BBC's video hub shows: title, summary, duration, url, video id, section and
+     * date.
+     */
+    listVideos(): Promise<BbcListVideosResult>;
 
     /**
      * The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id, date —

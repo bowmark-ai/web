@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 46913916a042c5d722cde7ab49b2381598050f79f132f85d1962fd71817a46f9
-# 77 capabilities, 538 providers, 1883 typed functions, 20 refused.
+# Manifest version: 8df215fc2cd3ff74e9538f2ea3e0821f741f66acd3ad64ad7fbaf543732524eb
+# 77 capabilities, 538 providers, 1884 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5450,6 +5450,19 @@ class Prv_bbc_BbcMostReadEntry_Out(TypedDict):
     image: NotRequired[str]
     section: str
     lastUpdated: NotRequired[str]
+
+class Prv_bbc_BbcListVideosResult_Out(TypedDict):
+    videos: list[Prv_bbc_BbcVideo_Out]
+
+class Prv_bbc_BbcVideo_Out(TypedDict):
+    title: str
+    summary: str
+    duration: NotRequired[str]
+    url: str
+    videoId: str
+    section: str
+    date: NotRequired[str]
+    image: NotRequired[str]
 
 class Prv_bbc_listTopicStories_args_In(TypedDict):
     topicId: str
@@ -33117,6 +33130,11 @@ class Prv_bbc(Protocol):
     async def listMostRead(self, /) -> Prv_bbc_BbcListMostReadResult_Out:
         """The "Most read" list the BBC shows on its news front page: rank, headline, summary, url,
         article id, image and last-updated time, in the site's own order.
+        """
+
+    async def listVideos(self, /) -> Prv_bbc_BbcListVideosResult_Out:
+        """The videos the BBC's video hub shows: title, summary, duration, url, video id, section
+        and date.
         """
 
     async def listTopicStories(self, args: Prv_bbc_listTopicStories_args_In, /) -> Prv_bbc_BbcListTopicStoriesResult_Out:
