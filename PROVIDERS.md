@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3176 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3177 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2662,6 +2662,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.listOrders` | target.com | The CALLER's own signed-in order history on target.com — what they bought, when, for… | ⚪ |
 | `target.listReviews` | target.com | Reads a product's customer reviews (by TCIN) — rating, text, title, verified-purchase… | ⚪ |
 | `target.listWishlists` | target.com | The CALLER's own saved lists on target.com (their “Lists” — Target's wishlist feature)… | ⚪ |
+| `target.reviewPhotos` | target.com | Returns the photos shoppers attached to their reviews of one product (by TCIN) —… | 🟢 |
 | `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟡 |
 | `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |
 | `target.writeReview` | target.com | Submits a customer review (rating plus text) for one product, as the CALLER's own… | ⚪ |
