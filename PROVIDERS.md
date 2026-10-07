@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3168 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3176 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -83,6 +83,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.trackOrder` | alibaba.com | Get shipment tracking information and current delivery status. | ⚪ |
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
+| `aliexpress.addToCart` | aliexpress.us | Adds a product variant to the user's shopping cart. | ⚪ |
+| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | ⚪ |
+| `aliexpress.getStore` | aliexpress.us | Retrieves seller/store information including store name, ratings, product count, and… | ⚪ |
+| `aliexpress.listCart` | aliexpress.us | Lists items currently in the user's shopping cart. | ⚪ |
+| `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | ⚪ |
+| `aliexpress.listOrders` | aliexpress.us | Lists the user's purchase history and order status. | ⚪ |
+| `aliexpress.listWishlist` | aliexpress.us | Lists products in the user's wishlist. | ⚪ |
+| `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | ⚪ |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
 | `amazon.addToCart` | www.amazon.com | Put one unit of a product in the anonymous guest cart and report what the cart then… | 🟢 |
@@ -911,7 +919,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | ⚪ |
 | `duckduckgo.searchPlaces` | duckduckgo.com | Find places on DuckDuckGo Maps by what and where ("coffee in Seattle") — name… | ⚪ |
 | `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | ⚪ |
-| `duckduckgo.searchWeb` | duckduckgo.com | Search the web the way duckduckgo.com's own search box does and return the ranked… | ⚪ |
+| `duckduckgo.searchWeb` | duckduckgo.com | Search the web the way duckduckgo.com's own search box does and return the ranked… | 🟢 |
 | `duckduckgo.setPrivateDuckAddressActive` | duckduckgo.com | Turn one of the signed-in caller's private @duck.com addresses off (stop forwarding)… | ⚪ |
 | `duckduckgo.suggestQueries` | duckduckgo.com | Return DuckDuckGo's search-box autocomplete suggestions for a partial query. | ⚪ |
 | `duckduckgo.translateText` | duckduckgo.com | Translate text into a chosen language the way DuckDuckGo's translation answer does… | ⚪ |
