@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e651d3dc8080ee13c0525a943768fb725cb6a371fb10f8598dd0e737832aa565
+// Manifest version: 84aa4aa237bed88a9736f2a7997e464d4b70bd666c66613433eb1c5be0b8e563
 // 77 capabilities, 542 providers, 1912 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -34522,7 +34522,7 @@ interface MossyoakCheckoutLink {
 }
 
 declare namespace BowmarkProvider_msc {
-  // ── MSC shipment tracking — track containers and bills of lading — the unit's own declarations, verbatim ──
+  // ── MSC shipment tracking — track containers, bills of lading, and booking numbers — the unit's own declarations, verbatim ──
 interface TrackingResult {
   status: string; // the site's own labels — read the values off a result, never guess one from prose
   location: string;
@@ -34531,7 +34531,10 @@ interface TrackingResult {
   rawData?: Record<string, unknown>;
 }
 
-  /** Track MSC container and shipment status — get real-time location and estimated delivery. */
+  /**
+   * Track shipment status for MSC container, bill of lading, or booking reference — get
+   * real-time location, current status, and estimated delivery date.
+   */
   interface Unit {
     /**
      * Track MSC container and shipment status — get real-time location, current status, and

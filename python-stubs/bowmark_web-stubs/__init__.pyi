@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e651d3dc8080ee13c0525a943768fb725cb6a371fb10f8598dd0e737832aa565
+# Manifest version: 84aa4aa237bed88a9736f2a7997e464d4b70bd666c66613433eb1c5be0b8e563
 # 77 capabilities, 542 providers, 1894 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -42515,7 +42515,9 @@ class Prv_mossyoak(Protocol):
         """
 
 class Prv_msc(Protocol):
-    """Track MSC container and shipment status — get real-time location and estimated delivery."""
+    """Track shipment status for MSC container, bill of lading, or booking reference — get
+    real-time location, current status, and estimated delivery date.
+    """
 
     async def trackShipment(self, trackingNumber: str, type: Literal["container"] | Literal["bl"] | Literal["booking"] | None = None, /) -> Prv_msc_TrackingResult_Out:
         """Track MSC container and shipment status — get real-time location, current status, and
