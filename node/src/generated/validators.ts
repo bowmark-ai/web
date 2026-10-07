@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bfa0dd4c3f5126ae434867535642b6c50f69e8a3a4eebca7d601b85896a1fb70
-// 1884 checked, 20 unchecked.
+// Manifest version: 0f9f6ff90e5fe8c7abe9415f74688f2f56e7af9170b98d707853b714129f69b3
+// 1890 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bfa0dd4c3f5126ae434867535642b6c50f69e8a3a4eebca7d601b85896a1fb70",
+  "version": "0f9f6ff90e5fe8c7abe9415f74688f2f56e7af9170b98d707853b714129f69b3",
   "units": {
     "address_validation": {
       "defs": {
@@ -21883,6 +21883,89 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.gap": {
+      "defs": {
+        "GapSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "department",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "men"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "women"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "inStockOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "onSaleOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "GapSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "ccId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.gasbuddy": {
       "defs": {
         "GasbuddyFindCheapestNearbyArgs": {
@@ -30143,7 +30226,21 @@ export const VALIDATORS: ValidatorTable = {
                       "schema": {
                         "k": "string"
                       },
-                      "optional": false
+                      "optional": true
+                    },
+                    {
+                      "name": "firstName",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "lastName",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
                     },
                     {
                       "name": "limit",
@@ -34954,6 +35051,89 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.old_navy": {
+      "defs": {
+        "OldNavySearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "department",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "men"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "women"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "inStockOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "onSaleOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "OldNavySearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "ccId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -50810,6 +50990,326 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.uniqlo": {
+      "defs": {
+        "UniqloColorRef": {
+          "k": "object",
+          "props": [
+            {
+              "name": "code",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "image",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "UniqloSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "department",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "men"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "women"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "kids"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "baby"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "onSaleOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "UniqloSearchHit": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "priceGroup",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "regularPrice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "onSale",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "rating",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewCount",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "colors",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "UniqloColorRef"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "sizes",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "image",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "UniqloSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "productId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "priceGroup",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "ref",
+                  "name": "UniqloSearchHit"
                 }
               ]
             },

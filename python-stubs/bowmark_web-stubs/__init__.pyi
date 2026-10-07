@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bfa0dd4c3f5126ae434867535642b6c50f69e8a3a4eebca7d601b85896a1fb70
-# 77 capabilities, 538 providers, 1884 typed functions, 20 refused.
+# Manifest version: 0f9f6ff90e5fe8c7abe9415f74688f2f56e7af9170b98d707853b714129f69b3
+# 77 capabilities, 541 providers, 1890 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5036,7 +5036,11 @@ class Prv_banana_republic_BananaRepublicSearchResult_Out(TypedDict):
     query: str
     department: Literal["Men"] | Literal["Women"] | None
     total: float
+    pagesRead: float
+    pageCount: float
+    hasMore: bool
     hits: list[Prv_banana_republic_BananaRepublicSearchHit_Out]
+    warnings: list[str]
 
 class Prv_banana_republic_BananaRepublicSearchHit_Out(TypedDict):
     styleId: str
@@ -5051,6 +5055,7 @@ class Prv_banana_republic_BananaRepublicSearchHit_Out(TypedDict):
     percentOff: float | None
     onSale: bool
     inStock: bool
+    lowStock: bool
     inventoryStatus: str | None
     reviewScore: float | None
     reviewCount: float | None
@@ -5071,6 +5076,7 @@ class Prv_banana_republic_BananaRepublicColor_Out(TypedDict):
     ccId: str
     color: str | None
     fit: str
+    url: str
     price: float | None
     regularPrice: float | None
     percentOff: float | None
@@ -5078,6 +5084,9 @@ class Prv_banana_republic_BananaRepublicColor_Out(TypedDict):
     inStock: bool
     sizesInStock: list[str]
     sizesOutOfStock: list[str]
+    image: str | None
+    images: list[str]
+    swatch: str | None
 
 class Prv_banana_republic_BananaRepublicSku_Out(TypedDict):
     skuId: str
@@ -12057,6 +12066,84 @@ class Prv_g2_G2Product_Out(TypedDict):
     bestRating: float | None
     reviewCount: float | None
 
+class Prv_gap_GapSearchArgs_In(TypedDict):
+    query: str
+    department: NotRequired[Literal["men"] | Literal["women"]]
+    inStockOnly: NotRequired[bool]
+    onSaleOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_gap_GapSearchResult_Out(TypedDict):
+    query: str
+    department: Literal["Men"] | Literal["Women"] | None
+    total: float
+    pagesRead: float
+    pageCount: float
+    hasMore: bool
+    hits: list[Prv_gap_GapSearchHit_Out]
+    warnings: list[str]
+
+class Prv_gap_GapSearchHit_Out(TypedDict):
+    styleId: str
+    ccId: str
+    url: str
+    title: str
+    color: str | None
+    colorDescription: str | None
+    productType: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    inventoryStatus: str | None
+    reviewScore: float | None
+    reviewCount: float | None
+    image: str | None
+
+class Prv_gap_GapProduct_Out(TypedDict):
+    styleId: str
+    ccId: str
+    url: str
+    title: str
+    fits: list[str]
+    sizes: list[str]
+    colors: list[Prv_gap_GapColor_Out]
+    skus: list[Prv_gap_GapSku_Out]
+    inStock: bool
+
+class Prv_gap_GapColor_Out(TypedDict):
+    ccId: str
+    color: str | None
+    fit: str
+    url: str
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    sizesInStock: list[str]
+    sizesOutOfStock: list[str]
+    image: str | None
+    images: list[str]
+    swatch: str | None
+
+class Prv_gap_GapSku_Out(TypedDict):
+    skuId: str
+    fit: str
+    ccId: str
+    color: str | None
+    size: str | None
+    size2: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    status: str | None
+
 class Prv_gasbuddy_GasbuddyFindCheapestNearbyArgs_In(TypedDict):
     zip: str
     limit: NotRequired[float]
@@ -16538,6 +16625,7 @@ class Prv_linkedin_LinkedinJobSearchResult_Out(TypedDict):
 
 class Prv_linkedin_LinkedinCompany_Out(TypedDict):
     id: str
+    companyId: str | None
     url: str
     name: str
     tagline: str | None
@@ -16588,6 +16676,7 @@ class Prv_linkedin_LinkedinProfile_Out(TypedDict):
     country: str | None
     photoUrl: str | None
     followers: float | None
+    connections: float | None
     currentTitle: str | None
     currentTitleSource: Literal["position"] | Literal["headline"] | None
     currentEmployer: str | None
@@ -16597,6 +16686,7 @@ class Prv_linkedin_LinkedinProfile_Out(TypedDict):
     pastOrganizations: list[Prv_linkedin_LinkedinProfileSchool_Out]
     languages: list[str]
     masked: bool
+    readAs: Literal["anonymous"] | Literal["preview"] | Literal["signed-in"]
 
 class Prv_linkedin_LinkedinProfilePosition_Out(TypedDict):
     title: str | None
@@ -16613,7 +16703,9 @@ class Prv_linkedin_LinkedinProfileSchool_Out(TypedDict):
     endDate: str | None
 
 class Prv_linkedin_searchPeople_query_u1_In(TypedDict):
-    query: str
+    query: NotRequired[str]
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
     limit: NotRequired[float]
 
 class Prv_linkedin_LinkedinPeopleSearch_Out(TypedDict):
@@ -19470,6 +19562,84 @@ Prv_oanda_OandaConversion_Out = TypedDict(
     "asOf": str,
     },
 )
+
+class Prv_old_navy_OldNavySearchArgs_In(TypedDict):
+    query: str
+    department: NotRequired[Literal["men"] | Literal["women"]]
+    inStockOnly: NotRequired[bool]
+    onSaleOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_old_navy_OldNavySearchResult_Out(TypedDict):
+    query: str
+    department: Literal["Men"] | Literal["Women"] | None
+    total: float
+    pagesRead: float
+    pageCount: float
+    hasMore: bool
+    hits: list[Prv_old_navy_OldNavySearchHit_Out]
+    warnings: list[str]
+
+class Prv_old_navy_OldNavySearchHit_Out(TypedDict):
+    styleId: str
+    ccId: str
+    url: str
+    title: str
+    color: str | None
+    colorDescription: str | None
+    productType: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    inventoryStatus: str | None
+    reviewScore: float | None
+    reviewCount: float | None
+    image: str | None
+
+class Prv_old_navy_OldNavyProduct_Out(TypedDict):
+    styleId: str
+    ccId: str
+    url: str
+    title: str
+    fits: list[str]
+    sizes: list[str]
+    colors: list[Prv_old_navy_OldNavyColor_Out]
+    skus: list[Prv_old_navy_OldNavySku_Out]
+    inStock: bool
+
+class Prv_old_navy_OldNavyColor_Out(TypedDict):
+    ccId: str
+    color: str | None
+    fit: str
+    url: str
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    sizesInStock: list[str]
+    sizesOutOfStock: list[str]
+    image: str | None
+    images: list[str]
+    swatch: str | None
+
+class Prv_old_navy_OldNavySku_Out(TypedDict):
+    skuId: str
+    fit: str
+    ccId: str
+    color: str | None
+    size: str | None
+    size2: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    status: str | None
 
 class Prv_oliverwinery_OliverwineryWine_Out(TypedDict):
     id: str
@@ -26502,6 +26672,111 @@ class Prv_ulrichlifestyle_UlrichPriceLine_Out(TypedDict):
     description: str
     price: float
 
+class Prv_uniqlo_UniqloSearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    department: NotRequired[Literal["men"] | Literal["women"] | Literal["kids"] | Literal["baby"]]
+    onSaleOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_uniqlo_UniqloSearchResult_Out(TypedDict):
+    query: str | None
+    department: Literal["men"] | Literal["women"] | Literal["kids"] | Literal["baby"] | None
+    onSaleOnly: bool
+    total: float
+    hasMore: bool
+    hits: list[Prv_uniqlo_UniqloSearchHit_Out]
+    warnings: list[str]
+
+class Prv_uniqlo_UniqloSearchHit_Out(TypedDict):
+    productId: str
+    priceGroup: str
+    url: str
+    name: str
+    gender: str | None
+    price: float | None
+    regularPrice: float | None
+    onSale: bool
+    currency: str | None
+    rating: float | None
+    reviewCount: float | None
+    colors: list[Prv_uniqlo_UniqloColorRef_Out]
+    sizes: list[str]
+    image: str | None
+
+class Prv_uniqlo_UniqloColorRef_Out(TypedDict):
+    code: str
+    name: str | None
+    image: str | None
+
+class Prv_uniqlo_getProduct_product_u1_In(TypedDict):
+    productId: str
+    priceGroup: NotRequired[str]
+
+class Prv_uniqlo_UniqloSearchHit_In(TypedDict):
+    productId: str
+    priceGroup: str
+    url: str
+    name: str
+    gender: str | None
+    price: float | None
+    regularPrice: float | None
+    onSale: bool
+    currency: str | None
+    rating: float | None
+    reviewCount: float | None
+    colors: Sequence[Prv_uniqlo_UniqloColorRef_In]
+    sizes: Sequence[str]
+    image: str | None
+
+class Prv_uniqlo_UniqloColorRef_In(TypedDict):
+    code: str
+    name: str | None
+    image: str | None
+
+class Prv_uniqlo_UniqloProduct_Out(TypedDict):
+    productId: str
+    priceGroup: str
+    url: str
+    name: str
+    gender: str | None
+    price: float | None
+    regularPrice: float | None
+    onSale: bool
+    currency: str | None
+    rating: float | None
+    reviewCount: float | None
+    composition: str | None
+    sizes: list[str]
+    colors: list[Prv_uniqlo_UniqloColor_Out]
+    skus: list[Prv_uniqlo_UniqloSku_Out]
+    inStock: bool
+    warnings: list[str]
+
+class Prv_uniqlo_UniqloColor_Out(TypedDict):
+    code: str
+    name: str | None
+    url: str
+    image: str | None
+    images: list[str]
+    inStock: bool
+    sizesInStock: list[str]
+    sizesOutOfStock: list[str]
+
+class Prv_uniqlo_UniqloSku_Out(TypedDict):
+    l2Id: str
+    color: str | None
+    colorCode: str | None
+    size: str | None
+    sizeCode: str | None
+    url: str
+    price: float | None
+    regularPrice: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    quantity: float | None
+    status: str | None
+
 class Prv_upkeepstl_com_UpkeepstlPlanBuilder_Out(TypedDict):
     homeTypes: list[Prv_upkeepstl_com_UpkeepstlPricedOption_Out]
     plans: list[Prv_upkeepstl_com_UpkeepstlPricedOption_Out]
@@ -32932,21 +33207,21 @@ class Prv_bahn(Protocol):
 
 class Prv_banana_republic(Protocol):
     """Banana Republic (bananarepublic.gap.com) apparel store. Searches the live catalog
-    (men's/women's, on-sale, in-stock, with sale and regular prices) and reads one product's
-    per-size, per-color price and live stock.
+    (men's/women's, on-sale, in-stock, with sale and regular prices, every page) and reads
+    one product's per-size, per-color price, live stock and photos.
     """
 
     async def searchProducts(self, args: Prv_banana_republic_BananaRepublicSearchArgs_In | str, /) -> Prv_banana_republic_BananaRepublicSearchResult_Out:
-        """Searches Banana Republic's live apparel catalog the way a shopper would ("sweater",
-        "long sleeve shirt"), optionally narrowed to men/women, on-sale and in-stock only. One
-        row per product color with sale price, regular (compare-at) price, percent off, stock,
-        and the ccId getProduct takes. The way in.
+        """Searches Banana Republic's live apparel catalog the way a shopper would ("sweater"),
+        optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
+        `limit` is met. One row per product color with sale price, regular (compare-at) price,
+        percent off, stock, a photo, and the ccId getProduct takes. The way in.
         """
 
     async def getProduct(self, ccId: str, /) -> Prv_banana_republic_BananaRepublicProduct_Out:
         """Reads one Banana Republic product's every fit × color × size SKU with its price, regular
-        price and live in-stock flag, plus per-color in-stock and sold-out size lists, so a
-        sold-out size is never shown. Takes the ccId or url searchProducts returns.
+        price and live in-stock flag, plus per-color in-stock and sold-out size lists and
+        photos, so a sold-out size is never shown. Takes the ccId or url searchProducts returns.
         """
 
 class Prv_bankmycell(Protocol):
@@ -37576,6 +37851,25 @@ class Prv_g2(Protocol):
         Takes the `url` a `search` row already carries.
         """
 
+class Prv_gap(Protocol):
+    """Gap (www.gap.com) clothing store. Searches the live catalog (men's/women's, on-sale,
+    in-stock, with sale and regular prices, every page) and reads one product's per-size,
+    per-color price, live stock and photos.
+    """
+
+    async def searchProducts(self, args: Prv_gap_GapSearchArgs_In | str, /) -> Prv_gap_GapSearchResult_Out:
+        """Searches Gap's live apparel catalog the way a shopper would ("button up shirt"),
+        optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
+        `limit` is met. One row per product color with sale price, regular (compare-at) price,
+        percent off, stock, a photo, and the ccId getProduct takes. The way in.
+        """
+
+    async def getProduct(self, ccId: str, /) -> Prv_gap_GapProduct_Out:
+        """Reads one Gap product's every fit × color × size SKU with its price, regular price and
+        live in-stock flag, plus per-color in-stock and sold-out size lists and photos, so a
+        sold-out size is never shown. Takes the ccId or url searchProducts returns.
+        """
+
 class Prv_gasbuddy(Protocol):
     """GasBuddy's real, crowdsourced per-station gas prices — runs the site's own ZIP-radius
     search and returns currently-reported stations (brand, address, fuel price, how long ago
@@ -41018,54 +41312,48 @@ class Prv_linkedin(Protocol):
         employer, full position history, education, and past organisations (board seats, prior
         employers LinkedIn files under the same field as schools). Takes the profile URL
         (`https://www.linkedin.com/in/williamhgates/`) or the bare slug ("williamhgates"). TWO
-        CONVENTIONS THAT LOOK LIKE BUGS AND ARE LINKEDIN'S OWN. (1) `headline` and `badge` are
-        the OPPOSITE of what their names suggest: the member's real one-line headline lives in
-        the page's `description` field, and `badge` (a status like "Top Voice") lives in
-        `disambiguatingDescription` — swapped here from the source so the returned names
-        describe their content, not LinkedIn's. (2) `education` and `pastOrganizations` are
-        split out of ONE LinkedIn field (`alumniOf`) that mixes schools and former
-        employers/board seats, discriminated only by an internal type marker never exposed here
-        — a school stays a school, a past employer never gets reported as one.
-        `currentTitle`/`currentEmployer` are the first entry of `positions`, which is null on a
-        profile that publishes no positions at all — not every member does. When LinkedIn MASKS
-        the position titles on an anonymous read, `currentTitle` is recovered from the member's
-        unmasked headline where it can be, and `currentTitleSource` says "headline" rather than
-        "position". Skills and certifications are NOT returned in this version: they live in a
-        separate DOM region this parse does not read yet, and reporting empty arrays for a
-        section that is really unread would be indistinguishable from a member who has none.
-        Throws rather than returning a profile of nulls when the page does not render or
-        LinkedIn declines the anonymous read, because "this person has no name" and "we could
-        not read them" are opposite answers.
+        CONVENTIONS THAT LOOK LIKE BUGS AND ARE LINKEDIN'S OWN. (1) `headline` is the page's
+        `description`, which for most members is the opening of their About text cut with "…",
+        not the line under their name — LinkedIn does not serve that line to a logged-out reader
+        — and `badge` (a status like "Top Voice") comes from `disambiguatingDescription`. (2)
+        `education` and `pastOrganizations` are split out of ONE LinkedIn field (`alumniOf`)
+        that mixes schools and former employers/board seats, discriminated only by an internal
+        type marker never exposed here — a school stays a school, a past employer never gets
+        reported as one. `currentTitle`/`currentEmployer` are the first entry of `positions`,
+        which is null on a profile that publishes no positions at all — not every member does.
+        When LinkedIn MASKS the position titles on an anonymous read, `currentTitle` is
+        recovered from the member's unmasked headline where it can be, and `currentTitleSource`
+        says "headline" rather than "position". Skills and certifications are NOT returned in
+        this version: they live in a separate DOM region this parse does not read yet, and
+        reporting empty arrays for a section that is really unread would be indistinguishable
+        from a member who has none. WHO IT CAN READ WITHOUT A SIGN-IN: anyone. LinkedIn walls
+        most members from an anonymous browser, so this reads the page LinkedIn serves to
+        link-preview clients instead (`readAs: "anonymous"` for the full public record,
+        `"preview"` for a thinner one with titles withheld). Some members' titles and employers
+        still come back hidden (`masked: true`); with a live LinkedIn sign-in this re-reads
+        exactly those members signed in (`readAs: "signed-in"`), and never asks you to sign in.
+        A slug nobody holds throws "no member at" (HTTP 404). `connections` is the member's
+        connection count where the page shows one. Throws rather than returning a profile of
+        nulls when the page does not render, because "this person has no name" and "we could not
+        read them" are opposite answers.
         """
 
     async def searchPeople(self, query: str | Prv_linkedin_searchPeople_query_u1_In, /) -> Prv_linkedin_LinkedinPeopleSearch_Out:
-        """Finds LinkedIn members by NAME and returns each match's full public profile — the same
-        shape `getProfile` returns, in full, not a snippet. Takes a bare string or `{query,
-        limit}`; `query` is a name, optionally with more identifying text appended ("Satya
-        Nadella Microsoft"), and `limit` caps how many profiles are fetched (default 5, capped
-        at 10). NONE OF LINKEDIN'S OWN PEOPLE-SEARCH SURFACES ARE REACHABLE ANONYMOUSLY — this
-        function is built on a THIRD-PARTY INDEX (a `site:linkedin.com/in` web search) that has
-        already crawled the public profile pages, and it is why this comes with real limits a
-        caller must know rather than a promise this is LinkedIn's own search. (1) RESULTS ARE
-        RANKED BY THE INDEX, NOT BY LINKEDIN — the ordering is that third party's relevance
-        judgment and its data may lag LinkedIn's own by however long the index takes to recrawl
-        a page. (2) ONLY A NAME LOOKUP IS PROVEN. There is no separate
-        `employer`/`title`/`location` filter, because none has been measured to actually narrow
-        a result set — pass them as extra words in `query` and they help the ranking the same
-        way any search engine's extra keywords do, with no guarantee they filter. (3) A RETURNED
-        PROFILE IS ALWAYS REAL AND CURRENT: every hit is read through `getProfile`'s own live
-        rung, never returned from the index's cached snippet, so what you get back is what that
-        person's profile says right now — one stale index entry that no longer resolves among
-        several is skipped rather than returned wrong, but if EVERY candidate fails to read this
-        throws (that is `getProfile`'s reach failing for the whole batch, not nobody matching).
-        **A SKIPPED CANDIDATE IS NAMED IN `warnings`, and reading it is not optional**: the
-        answer is `{profiles, warnings}`, and a short `profiles` with an EMPTY `warnings` means
-        the index knew of that many people, while a short one WITH warnings means the rest
-        refused us — the profile list alone cannot tell those apart, and only the second is a
-        fact about us rather than about the person you searched for. Do not present the results
-        as everyone by that name without checking it. (4) Throws if the index itself refuses the
-        query (a bot challenge or non-200) — a real "the search failed" distinct from "nobody
-        matched", which returns an empty `profiles` with no warnings.
+        """Finds LinkedIn members by NAME, using LinkedIn's own public people directory, and
+        returns each match's full public profile (the same shape `getProfile` returns) plus
+        every other person the directory listed. Takes a bare string or `{query, limit,
+        firstName, lastName}`. `query` is a name, optionally with context appended ("Satya
+        Nadella Microsoft", "Martin Lima Itau"): the first words are read as the name, and every
+        word ranks the results, so context moves the right person up without filtering anyone
+        out. Pass `firstName`/`lastName` when you know which words are which. `limit` caps how
+        many profiles are read in full (default 5, max 10); `candidates` holds up to 25
+        directory cards (name, place, employer line) at no extra cost, and any `id` there feeds
+        `getProfile`. A name LinkedIn has nobody under returns empty `profiles` and `candidates`
+        with no warnings. A one-word query, or a directory that refuses us, falls back to a
+        third-party web index, and `warnings` says so. **Read `warnings`**: it names every
+        candidate that could not be read, so a short `profiles` with warnings means some refused
+        us, not that fewer people match. Throws when no index would answer at all, which is
+        never the same as nobody matching.
         """
 
     async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinMe_Out:
@@ -42957,6 +43245,25 @@ class Prv_oanda(Protocol):
         weekend/holiday, exactly like the site's own converter. THROWS when neither currency
         resolves or the site has no rate for the pair/date (e.g. before its data starts, or an
         unknown code).
+        """
+
+class Prv_old_navy(Protocol):
+    """Old Navy (oldnavy.gap.com) family clothing store. Searches the live catalog
+    (men's/women's, on-sale, in-stock, with sale and regular prices, every page) and reads
+    one product's per-size, per-color price, live stock and photos.
+    """
+
+    async def searchProducts(self, args: Prv_old_navy_OldNavySearchArgs_In | str, /) -> Prv_old_navy_OldNavySearchResult_Out:
+        """Searches Old Navy's live apparel catalog the way a shopper would ("button up shirt"),
+        optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
+        `limit` is met. One row per product color with sale price, regular (compare-at) price,
+        percent off, stock, a photo, and the ccId getProduct takes. The way in.
+        """
+
+    async def getProduct(self, ccId: str, /) -> Prv_old_navy_OldNavyProduct_Out:
+        """Reads one Old Navy product's every fit × color × size SKU with its price, regular price
+        and live in-stock flag, plus per-color in-stock and sold-out size lists and photos, so a
+        sold-out size is never shown. Takes the ccId or url searchProducts returns.
         """
 
 class Prv_oliverwinery(Protocol):
@@ -47306,6 +47613,27 @@ class Prv_ulrichlifestyle(Protocol):
         the priced total; see this provider's file-top note.
         """
 
+class Prv_uniqlo(Protocol):
+    """Uniqlo US (uniqlo.com/us) clothing store. Searches the live catalog by keyword and/or
+    department (men's, women's, kids, baby), Sale items only if asked, every page; reads one
+    product's per-color, per-size price, live stock with quantity, and photos.
+    """
+
+    async def searchProducts(self, args: Prv_uniqlo_UniqloSearchArgs_In | str, /) -> Prv_uniqlo_UniqloSearchResult_Out:
+        """Searches Uniqlo US's live catalog the way a shopper would ("button up shirt"), narrowed
+        to a department (men/women/kids/baby) and optionally Sale only — or lists a whole
+        department with no query — walking result pages until `limit` is met. One row per
+        product with price, Sale flag, every color with its photo, and the sizes it comes in.
+        The way in.
+        """
+
+    async def getProduct(self, product: str | Prv_uniqlo_getProduct_product_u1_In | Prv_uniqlo_UniqloSearchHit_In, /) -> Prv_uniqlo_UniqloProduct_Out:
+        """Reads one Uniqlo product's every color × size with its price, Sale flag, live stock
+        status and unit count, plus per-color in-stock and sold-out size lists, photos, and a
+        URL that opens that exact color and size. Takes a productId, a search hit, or a
+        uniqlo.com product url.
+        """
+
 class Prv_upkeepstl_com(Protocol):
     """Reads UPKEEP STL's home-maintenance-plan builder — plan tiers, home types, add-ons,
     warranty terms and their prices — and estimates a plan's total cost, with no submission.
@@ -48412,18 +48740,17 @@ class Prv_yahoo_finance(Protocol):
 
     async def listWatchlists(self, opts: ConnectionOption | None = None, /) -> Prv_yahoo_finance_YahooFinanceWatchlists_Out:
         """Reads the signed-in viewer's saved watchlists with their tickers and current quotes, the
-        way the site's own watchlists page does. NEEDS A SIGN-IN: Bowmark holds no fleet-wide
-        Yahoo Finance login, so every call reaches the watchlists page logged out and throws
-        with the real redirect Yahoo Finance answered — the auth requirement this function is
-        refused on is measured on every call, not assumed.
+        way the site's own watchlists page does. NEEDS THE CALLER'S YAHOO SIGN-IN: with none
+        saved the run pauses for one before any request. With one, the watchlists page is
+        reached but its signed-in shape has never been measured, so the call still throws rather
+        than guess.
         """
 
     async def addToWatchlist(self, watchlistName: str, symbol: str, opts: ConnectionOption | None = None, /) -> Any:
         """Adds a ticker to one of the signed-in viewer's watchlists, for a caller managing their
-        own market watch. NEEDS A SIGN-IN: Bowmark holds no fleet-wide Yahoo Finance login, so
-        every call reaches the watchlists page logged out and throws with the real redirect
-        Yahoo Finance answered — the auth requirement this function is refused on is measured on
-        every call, not assumed.
+        own market watch. NEEDS THE CALLER'S YAHOO SIGN-IN: with none saved the run pauses for
+        one before any request. With one, the watchlists page is reached but its signed-in shape
+        has never been measured, so the call still throws rather than guess.
         """
 
 class Prv_yahoo_mail(Protocol):
@@ -49311,6 +49638,7 @@ class BowmarkProviders(Protocol):
     fred: Prv_fred
     furniture: Prv_furniture
     g2: Prv_g2
+    gap: Prv_gap
     gasbuddy: Prv_gasbuddy
     gazelle: Prv_gazelle
     geico: Prv_geico
@@ -49457,6 +49785,7 @@ class BowmarkProviders(Protocol):
     nyt_games: Prv_nyt_games
     nytimes: Prv_nytimes
     oanda: Prv_oanda
+    old_navy: Prv_old_navy
     oliverwinery: Prv_oliverwinery
     onthemarket: Prv_onthemarket
     openai: Prv_openai
@@ -49583,6 +49912,7 @@ class BowmarkProviders(Protocol):
     uhaul: Prv_uhaul
     uhc_smallbusiness: Prv_uhc_smallbusiness
     ulrichlifestyle: Prv_ulrichlifestyle
+    uniqlo: Prv_uniqlo
     upkeepstl_com: Prv_upkeepstl_com
     ups: Prv_ups
     usps: Prv_usps

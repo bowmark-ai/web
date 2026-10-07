@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bfa0dd4c3f5126ae434867535642b6c50f69e8a3a4eebca7d601b85896a1fb70
-// 77 capabilities, 538 providers, 1902 typed functions, 20 refused.
+// Manifest version: 0f9f6ff90e5fe8c7abe9415f74688f2f56e7af9170b98d707853b714129f69b3
+// 77 capabilities, 541 providers, 1908 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9148,31 +9148,36 @@ interface BananaRepublicSearchArgs {
   department?: "men" | "women";
   inStockOnly?: boolean;
   onSaleOnly?: boolean;
-  limit?: number;
+  limit?: number; // default 24, max 2000; the search walks result pages until it has this many
 }
 interface BananaRepublicSearchHit {
   styleId: string;
   ccId: string; // pass to getProduct
-  url: string;
+  url: string; // opens this color
   title: string;
   color: string | null;
   colorDescription: string | null;
-  productType: string | null; // e.g. "mens sweaters"
+  productType: string | null; // e.g. "mens shirts"
   price: number | null; // what it costs now
   regularPrice: number | null; // compare-at
   percentOff: number | null;
   onSale: boolean;
-  inStock: boolean;
-  inventoryStatus: string | null;
+  inStock: boolean; // "In Stock", "Low" and "Very Low" are all in stock
+  lowStock: boolean; // "Low" / "Very Low"
+  inventoryStatus: string | null; // "In Stock" | "Low" | "Very Low" | …
   reviewScore: number | null;
   reviewCount: number | null;
-  image: string | null;
+  image: string | null; // this color's product photo
 }
 interface BananaRepublicSearchResult {
   query: string;
   department: "Men" | "Women" | null;
   total: number; // colors the site matched, before inStockOnly/onSaleOnly/limit
+  pagesRead: number;
+  pageCount: number; // result pages the site has for this query (200 colors each)
+  hasMore: boolean; // true when more matching colors exist past `limit`
   hits: BananaRepublicSearchHit[];
+  warnings: string[]; // a results page that failed after the first; empty when complete
 }
 interface BananaRepublicSku {
   skuId: string;
@@ -9193,6 +9198,7 @@ interface BananaRepublicColor {
   ccId: string;
   color: string | null;
   fit: string;
+  url: string; // opens this color
   price: number | null;
   regularPrice: number | null;
   percentOff: number | null;
@@ -9200,6 +9206,9 @@ interface BananaRepublicColor {
   inStock: boolean;
   sizesInStock: string[];
   sizesOutOfStock: string[];
+  image: string | null; // main photo of this color
+  images: string[]; // main photo first, then the alternate views
+  swatch: string | null; // fabric swatch
 }
 interface BananaRepublicProduct {
   styleId: string;
@@ -9215,22 +9224,22 @@ interface BananaRepublicProduct {
 
   /**
    * Banana Republic (bananarepublic.gap.com) apparel store. Searches the live catalog
-   * (men's/women's, on-sale, in-stock, with sale and regular prices) and reads one product's
-   * per-size, per-color price and live stock.
+   * (men's/women's, on-sale, in-stock, with sale and regular prices, every page) and reads one
+   * product's per-size, per-color price, live stock and photos.
    */
   interface Unit {
     /**
-     * Searches Banana Republic's live apparel catalog the way a shopper would ("sweater", "long
-     * sleeve shirt"), optionally narrowed to men/women, on-sale and in-stock only. One row per
-     * product color with sale price, regular (compare-at) price, percent off, stock, and the ccId
-     * getProduct takes. The way in.
+     * Searches Banana Republic's live apparel catalog the way a shopper would ("sweater"),
+     * optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
+     * `limit` is met. One row per product color with sale price, regular (compare-at) price,
+     * percent off, stock, a photo, and the ccId getProduct takes. The way in.
      */
     searchProducts(args: BananaRepublicSearchArgs | string): Promise<BananaRepublicSearchResult>;
 
     /**
      * Reads one Banana Republic product's every fit × color × size SKU with its price, regular
-     * price and live in-stock flag, plus per-color in-stock and sold-out size lists, so a sold-out
-     * size is never shown. Takes the ccId or url searchProducts returns.
+     * price and live in-stock flag, plus per-color in-stock and sold-out size lists and photos, so
+     * a sold-out size is never shown. Takes the ccId or url searchProducts returns.
      */
     getProduct(ccId: string): Promise<BananaRepublicProduct>;
   }
@@ -21948,6 +21957,110 @@ interface G2Product {
   }
 }
 
+declare namespace BowmarkProvider_gap {
+  // ── Gap — the unit's own declarations, verbatim ──
+interface GapSearchArgs {
+  query: string;
+  department?: "men" | "women";
+  inStockOnly?: boolean;
+  onSaleOnly?: boolean;
+  limit?: number; // default 24, max 2000; the search walks result pages until it has this many
+}
+interface GapSearchHit {
+  styleId: string;
+  ccId: string; // pass to getProduct
+  url: string; // opens this color
+  title: string;
+  color: string | null;
+  colorDescription: string | null;
+  productType: string | null; // e.g. "mens shirts"
+  price: number | null; // what it costs now
+  regularPrice: number | null; // compare-at
+  percentOff: number | null;
+  onSale: boolean;
+  inStock: boolean; // "In Stock", "Low" and "Very Low" are all in stock
+  lowStock: boolean; // "Low" / "Very Low"
+  inventoryStatus: string | null; // "In Stock" | "Low" | "Very Low" | …
+  reviewScore: number | null;
+  reviewCount: number | null;
+  image: string | null; // this color's product photo
+}
+interface GapSearchResult {
+  query: string;
+  department: "Men" | "Women" | null;
+  total: number; // colors the site matched, before inStockOnly/onSaleOnly/limit
+  pagesRead: number;
+  pageCount: number; // result pages the site has for this query (200 colors each)
+  hasMore: boolean; // true when more matching colors exist past `limit`
+  hits: GapSearchHit[];
+  warnings: string[]; // a results page that failed after the first; empty when complete
+}
+interface GapSku {
+  skuId: string;
+  fit: string; // "REGULAR", "TALL", "PETITE", …
+  ccId: string;
+  color: string | null;
+  size: string | null;
+  size2: string | null; // second size dimension (e.g. inseam), when the product has one
+  price: number | null;
+  regularPrice: number | null;
+  percentOff: number | null;
+  onSale: boolean;
+  inStock: boolean;
+  lowStock: boolean;
+  status: string | null; // "IN_STOCK" | "OUT_OF_STOCK" | …
+}
+interface GapColor {
+  ccId: string;
+  color: string | null;
+  fit: string;
+  url: string; // opens this color
+  price: number | null;
+  regularPrice: number | null;
+  percentOff: number | null;
+  onSale: boolean;
+  inStock: boolean;
+  sizesInStock: string[];
+  sizesOutOfStock: string[];
+  image: string | null; // main photo of this color
+  images: string[]; // main photo first, then the alternate views
+  swatch: string | null; // fabric swatch
+}
+interface GapProduct {
+  styleId: string;
+  ccId: string;
+  url: string;
+  title: string;
+  fits: string[];
+  sizes: string[];
+  colors: GapColor[];
+  skus: GapSku[];
+  inStock: boolean;
+}
+
+  /**
+   * Gap (www.gap.com) clothing store. Searches the live catalog (men's/women's, on-sale,
+   * in-stock, with sale and regular prices, every page) and reads one product's per-size,
+   * per-color price, live stock and photos.
+   */
+  interface Unit {
+    /**
+     * Searches Gap's live apparel catalog the way a shopper would ("button up shirt"), optionally
+     * narrowed to men/women, on-sale and in-stock only, walking result pages until `limit` is met.
+     * One row per product color with sale price, regular (compare-at) price, percent off, stock, a
+     * photo, and the ccId getProduct takes. The way in.
+     */
+    searchProducts(args: GapSearchArgs | string): Promise<GapSearchResult>;
+
+    /**
+     * Reads one Gap product's every fit × color × size SKU with its price, regular price and live
+     * in-stock flag, plus per-color in-stock and sold-out size lists and photos, so a sold-out
+     * size is never shown. Takes the ccId or url searchProducts returns.
+     */
+    getProduct(ccId: string): Promise<GapProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_gasbuddy {
   // ── GasBuddy — the unit's own declarations, verbatim ──
 interface GasbuddyFindCheapestNearbyArgs {
@@ -30739,12 +30852,16 @@ interface LinkedinProfile {
   id: string;                  // the URL slug, e.g. "williamhgates"
   url: string;
   name: string;
-  headline: string | null;     // the member's own one-liner
+  // The page's description as LinkedIn serves it to a logged-out reader: the opening
+  // of the member's About text (for some, a headline-like line), often cut with "…".
+  // The headline under the name is not served anonymously.
+  headline: string | null;
   badge: string | null;        // a status badge ("Creator", "Top Voice"), where the member has one
   location: string | null;
   country: string | null;      // ISO 3166 alpha-2, e.g. "US"
   photoUrl: string | null;
   followers: number | null;
+  connections: number | null;  // first-degree connections, where the page shows them (capped at 500)
   currentTitle: string | null;
   // "headline" when the position title was masked and currentTitle was parsed
   // out of the member's unmasked headline instead ("Co-Founder @Checkly" → "Co-Founder").
@@ -30755,10 +30872,15 @@ interface LinkedinProfile {
   education: LinkedinProfileSchool[];      // schools only
   pastOrganizations: LinkedinProfileSchool[]; // past employers and board seats, not schools
   languages: string[];
-  // True when LinkedIn hid a title or the headline from this logged-out read
-  // (served as asterisks). Those fields come back null, not as asterisks — so a
-  // null with masked:true means "hidden", not "the member left it blank".
+  // True when LinkedIn hid a title, employer or the headline from this logged-out
+  // read. Those come back null or are left out, never as asterisks or blank rows —
+  // so a null with masked:true means "hidden", not "the member left it blank".
   masked: boolean;
+  // "anonymous": the full public page. "preview": a thinner link-preview read, every
+  // title withheld. "signed-in": read through YOUR LinkedIn sign-in, used for a
+  // masked member when you have one live — then badge, followers and languages are
+  // null/empty, and past employers are in positions (with an endDate).
+  readAs: "anonymous" | "preview" | "signed-in";
 }
 
 interface LinkedinProfilePosition {
@@ -30779,6 +30901,7 @@ interface LinkedinProfileSchool {
 
 interface LinkedinCompany {
   id: string;                  // the URL handle, e.g. "microsoft" — what getCompany takes
+  companyId: string | null;    // LinkedIn's numeric id, e.g. "1035" — what listCompanyEmployees and searchMembers({ currentCompany }) take
   url: string;
   name: string;
   tagline: string | null;      // the one-line pitch under the name
@@ -30971,55 +31094,49 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * employer, full position history, education, and past organisations (board seats, prior
      * employers LinkedIn files under the same field as schools). Takes the profile URL
      * (`https://www.linkedin.com/in/williamhgates/`) or the bare slug ("williamhgates"). TWO
-     * CONVENTIONS THAT LOOK LIKE BUGS AND ARE LINKEDIN'S OWN. (1) `headline` and `badge` are the
-     * OPPOSITE of what their names suggest: the member's real one-line headline lives in the
-     * page's `description` field, and `badge` (a status like "Top Voice") lives in
-     * `disambiguatingDescription` — swapped here from the source so the returned names describe
-     * their content, not LinkedIn's. (2) `education` and `pastOrganizations` are split out of ONE
-     * LinkedIn field (`alumniOf`) that mixes schools and former employers/board seats,
-     * discriminated only by an internal type marker never exposed here — a school stays a school,
-     * a past employer never gets reported as one. `currentTitle`/`currentEmployer` are the first
-     * entry of `positions`, which is null on a profile that publishes no positions at all — not
-     * every member does. When LinkedIn MASKS the position titles on an anonymous read,
-     * `currentTitle` is recovered from the member's unmasked headline where it can be, and
-     * `currentTitleSource` says "headline" rather than "position". Skills and certifications are
-     * NOT returned in this version: they live in a separate DOM region this parse does not read
-     * yet, and reporting empty arrays for a section that is really unread would be
-     * indistinguishable from a member who has none. Throws rather than returning a profile of
-     * nulls when the page does not render or LinkedIn declines the anonymous read, because "this
-     * person has no name" and "we could not read them" are opposite answers.
+     * CONVENTIONS THAT LOOK LIKE BUGS AND ARE LINKEDIN'S OWN. (1) `headline` is the page's
+     * `description`, which for most members is the opening of their About text cut with "…", not
+     * the line under their name — LinkedIn does not serve that line to a logged-out reader — and
+     * `badge` (a status like "Top Voice") comes from `disambiguatingDescription`. (2) `education`
+     * and `pastOrganizations` are split out of ONE LinkedIn field (`alumniOf`) that mixes schools
+     * and former employers/board seats, discriminated only by an internal type marker never
+     * exposed here — a school stays a school, a past employer never gets reported as one.
+     * `currentTitle`/`currentEmployer` are the first entry of `positions`, which is null on a
+     * profile that publishes no positions at all — not every member does. When LinkedIn MASKS the
+     * position titles on an anonymous read, `currentTitle` is recovered from the member's unmasked
+     * headline where it can be, and `currentTitleSource` says "headline" rather than "position".
+     * Skills and certifications are NOT returned in this version: they live in a separate DOM
+     * region this parse does not read yet, and reporting empty arrays for a section that is really
+     * unread would be indistinguishable from a member who has none. WHO IT CAN READ WITHOUT A
+     * SIGN-IN: anyone. LinkedIn walls most members from an anonymous browser, so this reads the
+     * page LinkedIn serves to link-preview clients instead (`readAs: "anonymous"` for the full
+     * public record, `"preview"` for a thinner one with titles withheld). Some members' titles and
+     * employers still come back hidden (`masked: true`); with a live LinkedIn sign-in this
+     * re-reads exactly those members signed in (`readAs: "signed-in"`), and never asks you to sign
+     * in. A slug nobody holds throws "no member at" (HTTP 404). `connections` is the member's
+     * connection count where the page shows one. Throws rather than returning a profile of nulls
+     * when the page does not render, because "this person has no name" and "we could not read
+     * them" are opposite answers.
      */
     getProfile(urlOrSlug: string): Promise<LinkedinProfile>;
 
     /**
-     * Finds LinkedIn members by NAME and returns each match's full public profile — the same shape
-     * `getProfile` returns, in full, not a snippet. Takes a bare string or `{query, limit}`;
-     * `query` is a name, optionally with more identifying text appended ("Satya Nadella
-     * Microsoft"), and `limit` caps how many profiles are fetched (default 5, capped at 10). NONE
-     * OF LINKEDIN'S OWN PEOPLE-SEARCH SURFACES ARE REACHABLE ANONYMOUSLY — this function is built
-     * on a THIRD-PARTY INDEX (a `site:linkedin.com/in` web search) that has already crawled the
-     * public profile pages, and it is why this comes with real limits a caller must know rather
-     * than a promise this is LinkedIn's own search. (1) RESULTS ARE RANKED BY THE INDEX, NOT BY
-     * LINKEDIN — the ordering is that third party's relevance judgment and its data may lag
-     * LinkedIn's own by however long the index takes to recrawl a page. (2) ONLY A NAME LOOKUP IS
-     * PROVEN. There is no separate `employer`/`title`/`location` filter, because none has been
-     * measured to actually narrow a result set — pass them as extra words in `query` and they help
-     * the ranking the same way any search engine's extra keywords do, with no guarantee they
-     * filter. (3) A RETURNED PROFILE IS ALWAYS REAL AND CURRENT: every hit is read through
-     * `getProfile`'s own live rung, never returned from the index's cached snippet, so what you
-     * get back is what that person's profile says right now — one stale index entry that no longer
-     * resolves among several is skipped rather than returned wrong, but if EVERY candidate fails
-     * to read this throws (that is `getProfile`'s reach failing for the whole batch, not nobody
-     * matching). **A SKIPPED CANDIDATE IS NAMED IN `warnings`, and reading it is not optional**:
-     * the answer is `{profiles, warnings}`, and a short `profiles` with an EMPTY `warnings` means
-     * the index knew of that many people, while a short one WITH warnings means the rest refused
-     * us — the profile list alone cannot tell those apart, and only the second is a fact about us
-     * rather than about the person you searched for. Do not present the results as everyone by
-     * that name without checking it. (4) Throws if the index itself refuses the query (a bot
-     * challenge or non-200) — a real "the search failed" distinct from "nobody matched", which
-     * returns an empty `profiles` with no warnings.
+     * Finds LinkedIn members by NAME, using LinkedIn's own public people directory, and returns
+     * each match's full public profile (the same shape `getProfile` returns) plus every other
+     * person the directory listed. Takes a bare string or `{query, limit, firstName, lastName}`.
+     * `query` is a name, optionally with context appended ("Satya Nadella Microsoft", "Martin Lima
+     * Itau"): the first words are read as the name, and every word ranks the results, so context
+     * moves the right person up without filtering anyone out. Pass `firstName`/`lastName` when you
+     * know which words are which. `limit` caps how many profiles are read in full (default 5, max
+     * 10); `candidates` holds up to 25 directory cards (name, place, employer line) at no extra
+     * cost, and any `id` there feeds `getProfile`. A name LinkedIn has nobody under returns empty
+     * `profiles` and `candidates` with no warnings. A one-word query, or a directory that refuses
+     * us, falls back to a third-party web index, and `warnings` says so. **Read `warnings`**: it
+     * names every candidate that could not be read, so a short `profiles` with warnings means some
+     * refused us, not that fewer people match. Throws when no index would answer at all, which is
+     * never the same as nobody matching.
      */
-    searchPeople(query: string | {query: string, limit?: number}): Promise<LinkedinPeopleSearch>;
+    searchPeople(query: string | {query?: string, firstName?: string, lastName?: string, limit?: number}): Promise<LinkedinPeopleSearch>;
 
     /**
      * Returns the signed-in caller's own LinkedIn member record — name, headline, profile URL and
@@ -36307,6 +36424,110 @@ interface OandaConversion {
      * for the pair/date (e.g. before its data starts, or an unknown code).
      */
     convertCurrency(amount: number, from: string, to: string, date?: string): Promise<OandaConversion>;
+  }
+}
+
+declare namespace BowmarkProvider_old_navy {
+  // ── Old Navy — the unit's own declarations, verbatim ──
+interface OldNavySearchArgs {
+  query: string;
+  department?: "men" | "women";
+  inStockOnly?: boolean;
+  onSaleOnly?: boolean;
+  limit?: number; // default 24, max 2000; the search walks result pages until it has this many
+}
+interface OldNavySearchHit {
+  styleId: string;
+  ccId: string; // pass to getProduct
+  url: string; // opens this color
+  title: string;
+  color: string | null;
+  colorDescription: string | null;
+  productType: string | null; // e.g. "mens shirts"
+  price: number | null; // what it costs now
+  regularPrice: number | null; // compare-at
+  percentOff: number | null;
+  onSale: boolean;
+  inStock: boolean; // "In Stock", "Low" and "Very Low" are all in stock
+  lowStock: boolean; // "Low" / "Very Low"
+  inventoryStatus: string | null; // "In Stock" | "Low" | "Very Low" | …
+  reviewScore: number | null;
+  reviewCount: number | null;
+  image: string | null; // this color's product photo
+}
+interface OldNavySearchResult {
+  query: string;
+  department: "Men" | "Women" | null;
+  total: number; // colors the site matched, before inStockOnly/onSaleOnly/limit
+  pagesRead: number;
+  pageCount: number; // result pages the site has for this query (200 colors each)
+  hasMore: boolean; // true when more matching colors exist past `limit`
+  hits: OldNavySearchHit[];
+  warnings: string[]; // a results page that failed after the first; empty when complete
+}
+interface OldNavySku {
+  skuId: string;
+  fit: string; // "REGULAR", "TALL", "PETITE", …
+  ccId: string;
+  color: string | null;
+  size: string | null;
+  size2: string | null; // second size dimension (e.g. inseam), when the product has one
+  price: number | null;
+  regularPrice: number | null;
+  percentOff: number | null;
+  onSale: boolean;
+  inStock: boolean;
+  lowStock: boolean;
+  status: string | null; // "IN_STOCK" | "OUT_OF_STOCK" | …
+}
+interface OldNavyColor {
+  ccId: string;
+  color: string | null;
+  fit: string;
+  url: string; // opens this color
+  price: number | null;
+  regularPrice: number | null;
+  percentOff: number | null;
+  onSale: boolean;
+  inStock: boolean;
+  sizesInStock: string[];
+  sizesOutOfStock: string[];
+  image: string | null; // main photo of this color
+  images: string[]; // main photo first, then the alternate views
+  swatch: string | null; // fabric swatch
+}
+interface OldNavyProduct {
+  styleId: string;
+  ccId: string;
+  url: string;
+  title: string;
+  fits: string[];
+  sizes: string[];
+  colors: OldNavyColor[];
+  skus: OldNavySku[];
+  inStock: boolean;
+}
+
+  /**
+   * Old Navy (oldnavy.gap.com) family clothing store. Searches the live catalog (men's/women's,
+   * on-sale, in-stock, with sale and regular prices, every page) and reads one product's
+   * per-size, per-color price, live stock and photos.
+   */
+  interface Unit {
+    /**
+     * Searches Old Navy's live apparel catalog the way a shopper would ("button up shirt"),
+     * optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
+     * `limit` is met. One row per product color with sale price, regular (compare-at) price,
+     * percent off, stock, a photo, and the ccId getProduct takes. The way in.
+     */
+    searchProducts(args: OldNavySearchArgs | string): Promise<OldNavySearchResult>;
+
+    /**
+     * Reads one Old Navy product's every fit × color × size SKU with its price, regular price and
+     * live in-stock flag, plus per-color in-stock and sold-out size lists and photos, so a
+     * sold-out size is never shown. Takes the ccId or url searchProducts returns.
+     */
+    getProduct(ccId: string): Promise<OldNavyProduct>;
   }
 }
 
@@ -48189,6 +48410,113 @@ interface UlrichPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_uniqlo {
+  // ── Uniqlo — the unit's own declarations, verbatim ──
+interface UniqloSearchArgs {
+  query?: string; // a query, a department, or both
+  department?: "men" | "women" | "kids" | "baby"; // department alone lists the whole department
+  onSaleOnly?: boolean; // the site's own Sale filter
+  limit?: number; // default 24, max 1000; the search walks result pages until it has this many
+}
+interface UniqloColorRef {
+  code: string; // color display code, e.g. "69"
+  name: string | null; // "NAVY"
+  image: string | null; // this color's product photo
+}
+interface UniqloSearchHit {
+  productId: string; // pass with priceGroup to getProduct (or pass the hit itself)
+  priceGroup: string; // "00" full price, "01" a reduced price for select colors/sizes
+  url: string;
+  name: string;
+  gender: string | null; // "MEN" | "WOMEN" | "UNISEX" | …
+  price: number | null; // what it costs now
+  regularPrice: number | null; // the original, ONLY when the site publishes one — usually null on a Sale item
+  onSale: boolean; // the site marks it Sale
+  currency: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  colors: UniqloColorRef[];
+  sizes: string[];
+  image: string | null;
+}
+interface UniqloSearchResult {
+  query: string | null;
+  department: "men" | "women" | "kids" | "baby" | null;
+  onSaleOnly: boolean;
+  total: number; // products the site matched
+  hasMore: boolean; // true when more matching products exist past `limit`
+  hits: UniqloSearchHit[];
+  warnings: string[]; // a results page that failed after the first; empty when complete
+}
+interface UniqloSku {
+  l2Id: string;
+  color: string | null;
+  colorCode: string | null;
+  size: string | null; // "M", "L", "3XL", …
+  sizeCode: string | null;
+  url: string; // opens this color AND size
+  price: number | null;
+  regularPrice: number | null; // original, when published; else null
+  onSale: boolean;
+  inStock: boolean; // IN_STOCK or LOW_STOCK
+  lowStock: boolean;
+  quantity: number | null; // units the site reports
+  status: string | null; // "IN_STOCK" | "LOW_STOCK" | "STOCK_OUT"
+}
+interface UniqloColor {
+  code: string;
+  name: string | null;
+  url: string; // opens this color
+  image: string | null; // main photo
+  images: string[]; // main photo first, then this color's other views
+  inStock: boolean;
+  sizesInStock: string[];
+  sizesOutOfStock: string[];
+}
+interface UniqloProduct {
+  productId: string;
+  priceGroup: string;
+  url: string;
+  name: string;
+  gender: string | null;
+  price: number | null;
+  regularPrice: number | null; // original, when published; else null
+  onSale: boolean;
+  currency: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  composition: string | null; // "100% Cotton\nImported"
+  sizes: string[];
+  colors: UniqloColor[];
+  skus: UniqloSku[];
+  inStock: boolean;
+  warnings: string[]; // the full-price lookup for a reduced price group failed; empty otherwise
+}
+
+  /**
+   * Uniqlo US (uniqlo.com/us) clothing store. Searches the live catalog by keyword and/or
+   * department (men's, women's, kids, baby), Sale items only if asked, every page; reads one
+   * product's per-color, per-size price, live stock with quantity, and photos.
+   */
+  interface Unit {
+    /**
+     * Searches Uniqlo US's live catalog the way a shopper would ("button up shirt"), narrowed to a
+     * department (men/women/kids/baby) and optionally Sale only — or lists a whole department with
+     * no query — walking result pages until `limit` is met. One row per product with price, Sale
+     * flag, every color with its photo, and the sizes it comes in. The way in.
+     */
+    searchProducts(args: UniqloSearchArgs | string): Promise<UniqloSearchResult>;
+
+    /**
+     * Reads one Uniqlo product's every color × size with its price, Sale flag, live stock status
+     * and unit count, plus per-color in-stock and sold-out size lists, photos, and a URL that
+     * opens that exact color and size. Takes a productId, a search hit, or a uniqlo.com product
+     * url.
+     */
+    getProduct(product: string | { productId: string; priceGroup?: string } | UniqloSearchHit): Promise<UniqloProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_upkeepstl_com {
   // ── UPKEEP Home Maintenance Plans — the unit's own declarations, verbatim ──
 interface UpkeepstlPricedOption {
@@ -51246,19 +51574,17 @@ interface YahooFinanceWatchlists {
 
     /**
      * Reads the signed-in viewer's saved watchlists with their tickers and current quotes, the way
-     * the site's own watchlists page does. NEEDS A SIGN-IN: Bowmark holds no fleet-wide Yahoo
-     * Finance login, so every call reaches the watchlists page logged out and throws with the real
-     * redirect Yahoo Finance answered — the auth requirement this function is refused on is
-     * measured on every call, not assumed.
+     * the site's own watchlists page does. NEEDS THE CALLER'S YAHOO SIGN-IN: with none saved the
+     * run pauses for one before any request. With one, the watchlists page is reached but its
+     * signed-in shape has never been measured, so the call still throws rather than guess.
      */
     listWatchlists(opts?: ConnectionOption): Promise<YahooFinanceWatchlists>;
 
     /**
      * Adds a ticker to one of the signed-in viewer's watchlists, for a caller managing their own
-     * market watch. NEEDS A SIGN-IN: Bowmark holds no fleet-wide Yahoo Finance login, so every
-     * call reaches the watchlists page logged out and throws with the real redirect Yahoo Finance
-     * answered — the auth requirement this function is refused on is measured on every call, not
-     * assumed.
+     * market watch. NEEDS THE CALLER'S YAHOO SIGN-IN: with none saved the run pauses for one
+     * before any request. With one, the watchlists page is reached but its signed-in shape has
+     * never been measured, so the call still throws rather than guess.
      */
     addToWatchlist(watchlistName: string, symbol: string, opts?: ConnectionOption): Promise<void>;
   }
@@ -53985,6 +54311,7 @@ interface BowmarkProviders {
   fred: BowmarkProvider_fred.Unit;
   furniture: BowmarkProvider_furniture.Unit;
   g2: BowmarkProvider_g2.Unit;
+  gap: BowmarkProvider_gap.Unit;
   gasbuddy: BowmarkProvider_gasbuddy.Unit;
   gazelle: BowmarkProvider_gazelle.Unit;
   geico: BowmarkProvider_geico.Unit;
@@ -54131,6 +54458,7 @@ interface BowmarkProviders {
   nyt_games: BowmarkProvider_nyt_games.Unit;
   nytimes: BowmarkProvider_nytimes.Unit;
   oanda: BowmarkProvider_oanda.Unit;
+  old_navy: BowmarkProvider_old_navy.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
   onthemarket: BowmarkProvider_onthemarket.Unit;
   openai: BowmarkProvider_openai.Unit;
@@ -54257,6 +54585,7 @@ interface BowmarkProviders {
   uhaul: BowmarkProvider_uhaul.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
+  uniqlo: BowmarkProvider_uniqlo.Unit;
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
   ups: BowmarkProvider_ups.Unit;
   usps: BowmarkProvider_usps.Unit;
