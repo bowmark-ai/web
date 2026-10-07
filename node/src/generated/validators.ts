@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0c0fbb31d2081809b86768cb17f2c362855a803ab36c938101a6c0924fe747d4
-// 1897 checked, 20 unchecked.
+// Manifest version: 6a771f5b5e7e47e2ddee1a8719aeac87f699496efd19b6e315c85247122cf034
+// 1901 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0c0fbb31d2081809b86768cb17f2c362855a803ab36c938101a6c0924fe747d4",
+  "version": "6a771f5b5e7e47e2ddee1a8719aeac87f699496efd19b6e315c85247122cf034",
   "units": {
     "address_validation": {
       "defs": {
@@ -7802,6 +7802,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -10013,6 +10022,251 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BananaRepublicSearchHit": {
+          "k": "object",
+          "props": [
+            {
+              "name": "styleId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "ccId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "color",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "colorDescription",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "productType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "regularPrice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "percentOff",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "onSale",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "inStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "lowStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "inventoryStatus",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewScore",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewCount",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "image",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
             }
           ]
         }
@@ -10038,9 +10292,47 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getProduct": [
           {
-            "name": "ccId",
+            "name": "product",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "ccId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "us"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "ref",
+                  "name": "BananaRepublicSearchHit"
+                }
+              ]
             },
             "optional": false
           }
@@ -22074,6 +22366,251 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GapSearchHit": {
+          "k": "object",
+          "props": [
+            {
+              "name": "styleId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "ccId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "color",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "colorDescription",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "productType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "regularPrice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "percentOff",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "onSale",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "inStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "lowStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "inventoryStatus",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewScore",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewCount",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "image",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
             }
           ]
         }
@@ -22099,9 +22636,47 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getProduct": [
           {
-            "name": "ccId",
+            "name": "product",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "ccId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "us"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "ref",
+                  "name": "GapSearchHit"
+                }
+              ]
             },
             "optional": false
           }
@@ -28550,6 +29125,23 @@ export const VALIDATORS: ValidatorTable = {
                 }
               },
               "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         },
@@ -28581,6 +29173,23 @@ export const VALIDATORS: ValidatorTable = {
               "name": "fit",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
               },
               "optional": true
             }
@@ -28635,6 +29244,23 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         },
@@ -28647,6 +29273,30 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -28662,6 +29312,23 @@ export const VALIDATORS: ValidatorTable = {
                 }
               },
               "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         },
@@ -28679,6 +29346,23 @@ export const VALIDATORS: ValidatorTable = {
               "name": "levels",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
               },
               "optional": true
             }
@@ -28717,6 +29401,23 @@ export const VALIDATORS: ValidatorTable = {
               "name": "categoryId",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
               },
               "optional": true
             }
@@ -28762,6 +29463,23 @@ export const VALIDATORS: ValidatorTable = {
                 }
               },
               "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         },
@@ -28774,6 +29492,23 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         }
@@ -28813,8 +29548,16 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "ref",
-              "name": "GetProductArgs"
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "GetProductArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
             },
             "optional": false
           }
@@ -31908,6 +32651,288 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.mango": {
       "defs": {
+        "MangoColor": {
+          "k": "object",
+          "props": [
+            {
+              "name": "colorId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "label",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "compareAtPrice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "discountPercent",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "onSale",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "sizes",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "MangoSize"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "imageUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "images",
+              "schema": {
+                "k": "ref",
+                "name": "MangoImages"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MangoCountry": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "us"
+            },
+            {
+              "k": "literal",
+              "v": "ca"
+            }
+          ]
+        },
+        "MangoImages": {
+          "k": "object",
+          "props": [
+            {
+              "name": "model",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "flat",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "detail",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "swatch",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MangoProduct": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "ref",
+                "name": "MangoCountry"
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "model",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "collection",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "families",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "colors",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "MangoColor"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "onSale",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "inStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            }
+          ]
+        },
         "MangoSearchArgs": {
           "k": "object",
           "props": [
@@ -31973,6 +32998,47 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "ref",
+                "name": "MangoCountry"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MangoSize": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sizeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "label",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "inStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastUnits",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
             }
           ]
         }
@@ -32001,7 +33067,36 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "productId",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "MangoProduct"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "productId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "ref",
+                        "name": "MangoCountry"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -32025,6 +33120,211 @@ export const VALIDATORS: ValidatorTable = {
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.marks": {
+      "defs": {
+        "MarksFindStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "radiusKm",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MarksProductOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "storeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MarksProductRef": {
+          "k": "object",
+          "props": [
+            {
+              "name": "code",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "storeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MarksSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "storeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "men"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "women"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "onSaleOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "MarksSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "MarksProductRef"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "MarksProductOptions"
+            },
+            "optional": true
+          }
+        ],
+        "findStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MarksFindStoresArgs"
             },
             "optional": false
           }
@@ -35292,6 +36592,251 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "OldNavySearchHit": {
+          "k": "object",
+          "props": [
+            {
+              "name": "styleId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "ccId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "color",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "colorDescription",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "productType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "regularPrice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "percentOff",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "onSale",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "inStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "lowStock",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "inventoryStatus",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewScore",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewCount",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "image",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
             }
           ]
         }
@@ -35317,9 +36862,47 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getProduct": [
           {
-            "name": "ccId",
+            "name": "product",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "ccId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "us"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "ref",
+                  "name": "OldNavySearchHit"
+                }
+              ]
             },
             "optional": false
           }
@@ -40282,6 +41865,46 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.quince": {
       "defs": {
+        "QuinceCountry": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "us"
+            },
+            {
+              "k": "literal",
+              "v": "ca"
+            }
+          ]
+        },
+        "QuinceProductRef": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "ref",
+                "name": "QuinceCountry"
+              },
+              "optional": true
+            }
+          ]
+        },
         "QuinceSearchArgs": {
           "k": "object",
           "props": [
@@ -40329,6 +41952,14 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "ref",
+                "name": "QuinceCountry"
+              },
+              "optional": true
             }
           ]
         }
@@ -40356,7 +41987,16 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "handle",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "QuinceProductRef"
+                }
+              ]
             },
             "optional": false
           }
@@ -51355,6 +52995,23 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         },
@@ -51372,6 +53029,23 @@ export const VALIDATORS: ValidatorTable = {
               "name": "priceGroup",
               "schema": {
                 "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "us"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ca"
+                  }
+                ]
               },
               "optional": false
             },
@@ -51567,6 +53241,23 @@ export const VALIDATORS: ValidatorTable = {
                       "name": "priceGroup",
                       "schema": {
                         "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "country",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "us"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "ca"
+                          }
+                        ]
                       },
                       "optional": true
                     }

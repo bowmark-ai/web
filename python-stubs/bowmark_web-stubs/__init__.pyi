@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0c0fbb31d2081809b86768cb17f2c362855a803ab36c938101a6c0924fe747d4
-# 77 capabilities, 542 providers, 1897 typed functions, 20 refused.
+# Manifest version: 6a771f5b5e7e47e2ddee1a8719aeac87f699496efd19b6e315c85247122cf034
+# 77 capabilities, 543 providers, 1901 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3706,6 +3706,17 @@ class Prv_aol_AolSectionArticles_Out(TypedDict):
     page: float
     articles: list[Prv_aol_AolStoryRow_Out]
 
+class Prv_aol_AolArticle_Out(TypedDict):
+    title: str
+    url: str
+    author: NotRequired[str]
+    publisher: NotRequired[str]
+    publishedAt: NotRequired[str]
+    modifiedAt: NotRequired[str]
+    body: str
+    images: list[str]
+    commentCount: NotRequired[str]
+
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
     sku: str
@@ -5049,10 +5060,13 @@ class Prv_banana_republic_BananaRepublicSearchArgs_In(TypedDict):
     inStockOnly: NotRequired[bool]
     onSaleOnly: NotRequired[bool]
     limit: NotRequired[float]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_banana_republic_BananaRepublicSearchResult_Out(TypedDict):
     query: str
     department: Literal["Men"] | Literal["Women"] | None
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     total: float
     pagesRead: float
     pageCount: float
@@ -5063,6 +5077,33 @@ class Prv_banana_republic_BananaRepublicSearchResult_Out(TypedDict):
 class Prv_banana_republic_BananaRepublicSearchHit_Out(TypedDict):
     styleId: str
     ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
+    url: str
+    title: str
+    color: str | None
+    colorDescription: str | None
+    productType: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    inventoryStatus: str | None
+    reviewScore: float | None
+    reviewCount: float | None
+    image: str | None
+
+class Prv_banana_republic_getProduct_product_u1_In(TypedDict):
+    ccId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
+
+class Prv_banana_republic_BananaRepublicSearchHit_In(TypedDict):
+    styleId: str
+    ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     url: str
     title: str
     color: str | None
@@ -5082,6 +5123,8 @@ class Prv_banana_republic_BananaRepublicSearchHit_Out(TypedDict):
 class Prv_banana_republic_BananaRepublicProduct_Out(TypedDict):
     styleId: str
     ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     url: str
     title: str
     fits: list[str]
@@ -12110,10 +12153,13 @@ class Prv_gap_GapSearchArgs_In(TypedDict):
     inStockOnly: NotRequired[bool]
     onSaleOnly: NotRequired[bool]
     limit: NotRequired[float]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_gap_GapSearchResult_Out(TypedDict):
     query: str
     department: Literal["Men"] | Literal["Women"] | None
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     total: float
     pagesRead: float
     pageCount: float
@@ -12124,6 +12170,33 @@ class Prv_gap_GapSearchResult_Out(TypedDict):
 class Prv_gap_GapSearchHit_Out(TypedDict):
     styleId: str
     ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
+    url: str
+    title: str
+    color: str | None
+    colorDescription: str | None
+    productType: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    inventoryStatus: str | None
+    reviewScore: float | None
+    reviewCount: float | None
+    image: str | None
+
+class Prv_gap_getProduct_product_u1_In(TypedDict):
+    ccId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
+
+class Prv_gap_GapSearchHit_In(TypedDict):
+    styleId: str
+    ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     url: str
     title: str
     color: str | None
@@ -12143,6 +12216,8 @@ class Prv_gap_GapSearchHit_Out(TypedDict):
 class Prv_gap_GapProduct_Out(TypedDict):
     styleId: str
     ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     url: str
     title: str
     fits: list[str]
@@ -15681,6 +15756,7 @@ class Prv_jasmine_dilucci_FormField_Out(TypedDict):
 class Prv_jcrew_ListCategoriesArgs_In(TypedDict):
     categoryId: NotRequired[str]
     levels: NotRequired[float]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_jcrew_ListCategoriesResult_Out(TypedDict):
     categoryId: str
@@ -15698,9 +15774,12 @@ class Prv_jcrew_SearchProductsArgs_In(TypedDict):
     count: NotRequired[float]
     sort: NotRequired[str]
     refine: NotRequired[Mapping[str, str]]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_jcrew_SearchProductsResult_Out(TypedDict):
     query: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     total: float
     pageSize: float
     products: list[Prv_jcrew_JcrewSearchProduct_Out]
@@ -15720,9 +15799,12 @@ class Prv_jcrew_BrowseCategoryArgs_In(TypedDict):
     count: NotRequired[float]
     sort: NotRequired[str]
     refine: NotRequired[Mapping[str, str]]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_jcrew_BrowseCategoryResult_Out(TypedDict):
     categoryId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     total: float
     pageSize: float
     products: list[Prv_jcrew_BrowseCategoryResult_Out_products_item_Out]
@@ -15738,9 +15820,13 @@ class Prv_jcrew_BrowseCategoryResult_Out_products_item_Out(TypedDict):
 
 class Prv_jcrew_GetProductArgs_In(TypedDict):
     id: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
+    url: NotRequired[str]
 
 class Prv_jcrew_GetProductResult_Out(TypedDict):
     id: str
+    country: Literal["us"] | Literal["ca"]
+    url: str
     name: str
     description: str | None
     longDescription: str | None
@@ -15776,8 +15862,11 @@ class Prv_jcrew_JcrewProductImage_Out(TypedDict):
 
 class Prv_jcrew_GetProductsArgs_In(TypedDict):
     ids: Sequence[str]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_jcrew_GetProductsResult_Out(TypedDict):
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     products: list[Prv_jcrew_GetProductsItem_Out]
     missing: list[str]
 
@@ -15804,9 +15893,12 @@ class Prv_jcrew_CheckVariantStockArgs_In(TypedDict):
     colour: str
     size: str
     fit: NotRequired[str]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_jcrew_CheckVariantStockResult_Out(TypedDict):
     id: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     variantId: str
     colour: str
     size: str
@@ -15818,9 +15910,12 @@ class Prv_jcrew_CheckVariantStockResult_Out(TypedDict):
 
 class Prv_jcrew_SuggestSearchTermsArgs_In(TypedDict):
     query: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_jcrew_SuggestSearchTermsResult_Out(TypedDict):
     query: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     terms: list[str]
     categories: list[Prv_jcrew_JcrewSuggestedCategory_Out]
     products: list[Prv_jcrew_JcrewSuggestedProduct_Out]
@@ -15838,6 +15933,7 @@ class Prv_jcrew_JcrewSuggestedProduct_Out(TypedDict):
 
 class Prv_jcrew_GetCategoryArgs_In(TypedDict):
     categoryId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_jcrew_GetCategoryResult_Out(TypedDict):
     id: str
@@ -15852,10 +15948,12 @@ class Prv_jcrew_JcrewCategoryAncestor_Out(TypedDict):
 class Prv_jcrew_ListSearchRefinementsArgs_In(TypedDict):
     query: NotRequired[str]
     categoryId: NotRequired[str]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_jcrew_ListSearchRefinementsResult_Out(TypedDict):
     query: str | None
     categoryId: str | None
+    country: Literal["us"] | Literal["ca"]
     refinements: list[Prv_jcrew_JcrewRefinementGroup_Out]
 
 class Prv_jcrew_JcrewRefinementGroup_Out(TypedDict):
@@ -17665,8 +17763,11 @@ class Prv_mango_MangoSearchArgs_In(TypedDict):
     onSaleOnly: NotRequired[bool]
     inStockOnly: NotRequired[bool]
     limit: NotRequired[float]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_mango_MangoSearchResult_Out(TypedDict):
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     category: Prv_mango_MangoCategory_Out
     totalInCategory: float
     scanned: float
@@ -17675,6 +17776,8 @@ class Prv_mango_MangoSearchResult_Out(TypedDict):
 
 class Prv_mango_MangoProduct_Out(TypedDict):
     productId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     name: str
     url: str
     model: str | None
@@ -17709,6 +17812,48 @@ class Prv_mango_MangoImages_Out(TypedDict):
     detail: str
     swatch: str
 
+class Prv_mango_MangoProduct_In(TypedDict):
+    productId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
+    name: str
+    url: str
+    model: str | None
+    collection: str | None
+    gender: str | None
+    families: Sequence[str]
+    colors: Sequence[Prv_mango_MangoColor_In]
+    minPrice: float | None
+    onSale: bool
+    inStock: bool
+
+class Prv_mango_MangoColor_In(TypedDict):
+    colorId: str
+    label: str
+    price: float | None
+    compareAtPrice: float | None
+    discountPercent: float | None
+    onSale: bool
+    sizes: Sequence[Prv_mango_MangoSize_In]
+    imageUrl: str
+    images: Prv_mango_MangoImages_In
+
+class Prv_mango_MangoSize_In(TypedDict):
+    sizeId: str
+    label: str
+    inStock: bool
+    lastUnits: bool
+
+class Prv_mango_MangoImages_In(TypedDict):
+    model: Sequence[str]
+    flat: str
+    detail: str
+    swatch: str
+
+class Prv_mango_getProduct_productId_u2_In(TypedDict):
+    productId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
+
 class Prv_marketplace_visualstudio_marketplaceExtensionStats_Out(TypedDict):
     extensionId: str
     displayName: str
@@ -17728,6 +17873,147 @@ class Prv_marketplace_visualstudio_marketplaceSearchResult_Out(TypedDict):
     installCount: float
     averageRating: float | None
     ratingCount: float
+
+class Prv_marks_MarksSearchArgs_In(TypedDict):
+    query: str
+    storeId: NotRequired[str | float]
+    gender: NotRequired[Literal["men"] | Literal["women"]]
+    onSaleOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_marks_MarksSearchResult_Out(TypedDict):
+    query: str
+    gender: Literal["men"] | Literal["women"] | None
+    onSaleOnly: bool
+    storeId: str | None
+    currency: Literal["CAD"]
+    total: float
+    pageCount: float
+    pagesRead: float
+    hasMore: bool
+    redirectUrl: str | None
+    hits: list[Prv_marks_MarksSearchHit_Out]
+    warnings: list[str]
+
+class Prv_marks_MarksSearchHit_Out(TypedDict):
+    code: str
+    title: str
+    brand: str | None
+    url: str
+    image: str | None
+    currency: Literal["CAD"]
+    price: float | None
+    originalPrice: float | None
+    onSale: bool
+    salePercent: float | None
+    saleEndsOn: str | None
+    rating: float | None
+    ratingsCount: float | None
+    badges: list[str]
+    colours: list[Prv_marks_MarksColour_Out]
+
+class Prv_marks_MarksColour_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    price: float | None
+    originalPrice: float | None
+    onSale: bool
+    salePercent: float | None
+    saleEndsOn: str | None
+    availableToSell: float | None
+    image: str | None
+    images: list[str]
+    swatch: str | None
+    skuCodes: list[str]
+
+class Prv_marks_MarksProductRef_In(TypedDict):
+    code: NotRequired[str]
+    url: NotRequired[str]
+    storeId: NotRequired[str | float]
+
+class Prv_marks_MarksProductOptions_In(TypedDict):
+    storeId: NotRequired[str | float]
+
+class Prv_marks_MarksProduct_Out(TypedDict):
+    code: str
+    name: str
+    brand: str | None
+    url: str
+    currency: Literal["CAD"]
+    price: float | None
+    originalPrice: float | None
+    onSale: bool
+    salePercent: float | None
+    saleEndsOn: str | None
+    rating: float | None
+    ratingsCount: float | None
+    description: str | None
+    features: list[str]
+    images: list[str]
+    options: list[Prv_marks_MarksOptionAxis_Out]
+    colours: list[Prv_marks_MarksColour_Out]
+    sizes: list[str]
+    skus: list[Prv_marks_MarksSku_Out]
+    storeId: str | None
+    inStockOnline: bool
+    warnings: list[str]
+
+class Prv_marks_MarksOptionAxis_Out(TypedDict):
+    descriptor: str
+    name: str
+    values: list[str]
+
+class Prv_marks_MarksSku_Out(TypedDict):
+    sku: str
+    url: str
+    colour: str | None
+    size: str | None
+    options: Mapping[str, str]
+    price: float | None
+    originalPrice: float | None
+    onSale: bool
+    salePercent: float | None
+    saleEndsOn: str | None
+    onlineQuantity: float | None
+    inStockOnline: bool | None
+    storeQuantity: float | None
+    inStockAtStore: bool | None
+    lowStock: bool
+    sellable: bool
+
+class Prv_marks_MarksFindStoresArgs_In(TypedDict):
+    latitude: float
+    longitude: float
+    radiusKm: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_marks_MarksStoreSearch_Out(TypedDict):
+    latitude: float
+    longitude: float
+    radiusKm: float
+    stores: list[Prv_marks_MarksStore_Out]
+
+class Prv_marks_MarksStore_Out(TypedDict):
+    storeId: str
+    name: str
+    address: str | None
+    city: str | None
+    province: str | None
+    postalCode: str | None
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    distanceKm: float | None
+    url: str
+    inStorePickup: bool
+    hours: list[Prv_marks_MarksStoreHours_Out]
+
+class Prv_marks_MarksStoreHours_Out(TypedDict):
+    day: str
+    open: str | None
+    close: str | None
+    closed: bool
 
 class Prv_marriott_findHotels_args_In(TypedDict):
     place: str
@@ -19614,10 +19900,13 @@ class Prv_old_navy_OldNavySearchArgs_In(TypedDict):
     inStockOnly: NotRequired[bool]
     onSaleOnly: NotRequired[bool]
     limit: NotRequired[float]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_old_navy_OldNavySearchResult_Out(TypedDict):
     query: str
     department: Literal["Men"] | Literal["Women"] | None
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     total: float
     pagesRead: float
     pageCount: float
@@ -19628,6 +19917,33 @@ class Prv_old_navy_OldNavySearchResult_Out(TypedDict):
 class Prv_old_navy_OldNavySearchHit_Out(TypedDict):
     styleId: str
     ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
+    url: str
+    title: str
+    color: str | None
+    colorDescription: str | None
+    productType: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    inventoryStatus: str | None
+    reviewScore: float | None
+    reviewCount: float | None
+    image: str | None
+
+class Prv_old_navy_getProduct_product_u1_In(TypedDict):
+    ccId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
+
+class Prv_old_navy_OldNavySearchHit_In(TypedDict):
+    styleId: str
+    ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     url: str
     title: str
     color: str | None
@@ -19647,6 +19963,8 @@ class Prv_old_navy_OldNavySearchHit_Out(TypedDict):
 class Prv_old_navy_OldNavyProduct_Out(TypedDict):
     styleId: str
     ccId: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     url: str
     title: str
     fits: list[str]
@@ -21553,9 +21871,12 @@ class Prv_quince_QuinceSearchArgs_In(TypedDict):
     size: NotRequired[str]
     inStockOnly: NotRequired[bool]
     limit: NotRequired[float]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_quince_QuinceSearchResult_Out(TypedDict):
     query: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     total: float
     hits: list[Prv_quince_QuinceSearchHit_Out]
 
@@ -21563,6 +21884,8 @@ class Prv_quince_QuinceSearchHit_Out(TypedDict):
     productId: float
     handle: str
     url: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     title: str
     color: str | None
     department: str | None
@@ -21574,10 +21897,17 @@ class Prv_quince_QuinceSearchHit_Out(TypedDict):
     inStock: bool
     image: str | None
 
+class Prv_quince_QuinceProductRef_In(TypedDict):
+    handle: NotRequired[str]
+    url: NotRequired[str]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
+
 class Prv_quince_QuinceProduct_Out(TypedDict):
     productId: float
     handle: str
     url: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     title: str
     productType: str | None
     gender: str | None
@@ -26752,11 +27082,13 @@ class Prv_uniqlo_UniqloSearchArgs_In(TypedDict):
     department: NotRequired[Literal["men"] | Literal["women"] | Literal["kids"] | Literal["baby"]]
     onSaleOnly: NotRequired[bool]
     limit: NotRequired[float]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_uniqlo_UniqloSearchResult_Out(TypedDict):
     query: str | None
     department: Literal["men"] | Literal["women"] | Literal["kids"] | Literal["baby"] | None
     onSaleOnly: bool
+    country: Literal["us"] | Literal["ca"]
     total: float
     hasMore: bool
     hits: list[Prv_uniqlo_UniqloSearchHit_Out]
@@ -26765,6 +27097,7 @@ class Prv_uniqlo_UniqloSearchResult_Out(TypedDict):
 class Prv_uniqlo_UniqloSearchHit_Out(TypedDict):
     productId: str
     priceGroup: str
+    country: Literal["us"] | Literal["ca"]
     url: str
     name: str
     gender: str | None
@@ -26786,10 +27119,12 @@ class Prv_uniqlo_UniqloColorRef_Out(TypedDict):
 class Prv_uniqlo_getProduct_product_u1_In(TypedDict):
     productId: str
     priceGroup: NotRequired[str]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_uniqlo_UniqloSearchHit_In(TypedDict):
     productId: str
     priceGroup: str
+    country: Literal["us"] | Literal["ca"]
     url: str
     name: str
     gender: str | None
@@ -26811,6 +27146,7 @@ class Prv_uniqlo_UniqloColorRef_In(TypedDict):
 class Prv_uniqlo_UniqloProduct_Out(TypedDict):
     productId: str
     priceGroup: str
+    country: Literal["us"] | Literal["ca"]
     url: str
     name: str
     gender: str | None
@@ -32430,6 +32766,12 @@ class Prv_aol(Protocol):
         section: "/news/" }.
         """
 
+    async def getArticle(self, url: str, /) -> Prv_aol_AolArticle_Out:
+        """Reads one AOL article in full — headline, author, source publisher, publication date,
+        the whole body text, images and comment count. Pass the URL from getFrontPage or
+        listSectionArticles, or a raw slug.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -33294,22 +33636,26 @@ class Prv_bahn(Protocol):
         """
 
 class Prv_banana_republic(Protocol):
-    """Banana Republic (bananarepublic.gap.com) apparel store. Searches the live catalog
-    (men's/women's, on-sale, in-stock, with sale and regular prices, every page) and reads
-    one product's per-size, per-color price, live stock and photos.
+    """Banana Republic (bananarepublic.gap.com, and the Canadian store
+    bananarepublic.gapcanada.ca) apparel store. Searches the live catalog (men's/women's,
+    on-sale, in-stock, with sale and regular prices, every page) and reads one product's
+    per-size, per-color price, live stock and photos. Pass country: "ca" for the Canadian
+    store in CAD.
     """
 
     async def searchProducts(self, args: Prv_banana_republic_BananaRepublicSearchArgs_In | str, /) -> Prv_banana_republic_BananaRepublicSearchResult_Out:
         """Searches Banana Republic's live apparel catalog the way a shopper would ("sweater"),
         optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
-        `limit` is met. One row per product color with sale price, regular (compare-at) price,
-        percent off, stock, a photo, and the ccId getProduct takes. The way in.
+        `limit` is met, from the US store or (country: "ca") the Canadian one in CAD. One row
+        per product color with sale price, regular (compare-at) price, percent off, stock, a
+        photo, and the ccId getProduct takes. The way in.
         """
 
-    async def getProduct(self, ccId: str, /) -> Prv_banana_republic_BananaRepublicProduct_Out:
+    async def getProduct(self, product: str | Prv_banana_republic_getProduct_product_u1_In | Prv_banana_republic_BananaRepublicSearchHit_In, /) -> Prv_banana_republic_BananaRepublicProduct_Out:
         """Reads one Banana Republic product's every fit × color × size SKU with its price, regular
         price and live in-stock flag, plus per-color in-stock and sold-out size lists and
-        photos, so a sold-out size is never shown. Takes the ccId or url searchProducts returns.
+        photos, so a sold-out size is never shown. Takes the hit, ccId or url searchProducts
+        returns; a Canadian ccId needs country: "ca" (a hit or url carries it).
         """
 
 class Prv_bankmycell(Protocol):
@@ -37955,22 +38301,25 @@ class Prv_g2(Protocol):
         """
 
 class Prv_gap(Protocol):
-    """Gap (www.gap.com) clothing store. Searches the live catalog (men's/women's, on-sale,
-    in-stock, with sale and regular prices, every page) and reads one product's per-size,
-    per-color price, live stock and photos.
+    """Gap (www.gap.com, and the Canadian store www.gapcanada.ca) clothing store. Searches the
+    live catalog (men's/women's, on-sale, in-stock, with sale and regular prices, every
+    page) and reads one product's per-size, per-color price, live stock and photos. Pass
+    country: "ca" for the Canadian store in CAD.
     """
 
     async def searchProducts(self, args: Prv_gap_GapSearchArgs_In | str, /) -> Prv_gap_GapSearchResult_Out:
         """Searches Gap's live apparel catalog the way a shopper would ("button up shirt"),
         optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
-        `limit` is met. One row per product color with sale price, regular (compare-at) price,
-        percent off, stock, a photo, and the ccId getProduct takes. The way in.
+        `limit` is met, from the US store or (country: "ca") the Canadian one in CAD. One row
+        per product color with sale price, regular (compare-at) price, percent off, stock, a
+        photo, and the ccId getProduct takes. The way in.
         """
 
-    async def getProduct(self, ccId: str, /) -> Prv_gap_GapProduct_Out:
+    async def getProduct(self, product: str | Prv_gap_getProduct_product_u1_In | Prv_gap_GapSearchHit_In, /) -> Prv_gap_GapProduct_Out:
         """Reads one Gap product's every fit × color × size SKU with its price, regular price and
         live in-stock flag, plus per-color in-stock and sold-out size lists and photos, so a
-        sold-out size is never shown. Takes the ccId or url searchProducts returns.
+        sold-out size is never shown. Takes the hit, ccId or url searchProducts returns; a
+        Canadian ccId needs country: "ca" (a hit or url carries it).
         """
 
 class Prv_gasbuddy(Protocol):
@@ -40741,7 +41090,8 @@ class Prv_jasmine_dilucci(Protocol):
 
 class Prv_jcrew(Protocol):
     """Search and read J.Crew's clothing catalogue — products, prices, colours, sizes and stock
-    — off the site's own OCAPI storefront API, no browser and no account.
+    — off the site's own OCAPI storefront API, no browser and no account. US store by
+    default; pass country: "ca" for the Canadian store (prices in CAD, /ca/ product URLs).
     """
 
     async def listCategories(self, args: Prv_jcrew_ListCategoriesArgs_In | None = None, /) -> Prv_jcrew_ListCategoriesResult_Out:
@@ -40749,7 +41099,8 @@ class Prv_jcrew(Protocol):
         requested number of levels (0-4, default 2), returning each descendant's id, display
         name and parent — so a caller holding the word "shirts" can find the id `browseCategory`
         needs. `mens`, `levels: 3` reaches `mens|categories|clothing|shirts`, the id
-        `browseCategory`'s own example uses.
+        `browseCategory`'s own example uses. Takes `country: "ca"` too; the Canadian store has
+        the same tree and ids.
         """
 
     async def searchProducts(self, args: Prv_jcrew_SearchProductsArgs_In, /) -> Prv_jcrew_SearchProductsResult_Out:
@@ -40757,7 +41108,10 @@ class Prv_jcrew(Protocol):
         such as "oxford shirt" — and returns matching product rows with name, style id, price,
         currency, whether it is orderable, a thumbnail and the product URL, paginated and
         optionally sorted by the site's own sort orders. This is the DOOR for `getProduct`: it
-        is where a caller holding only words gets the style id every other function takes.
+        is where a caller holding only words gets the style id every other function takes. Pass
+        `country: "ca"` for the Canadian store: prices in CAD and `/ca/p/...` URLs, and a row
+        passed whole to `getProduct` stays in that store. Canada's search leaves out a few
+        styles not sold there.
         """
 
     async def browseCategory(self, args: Prv_jcrew_BrowseCategoryArgs_In, /) -> Prv_jcrew_BrowseCategoryResult_Out:
@@ -40771,23 +41125,31 @@ class Prv_jcrew(Protocol):
         ids with `getProducts` in batches of 24 and keep variants where `onSale && orderable`.
         Use `v.onSale`, not a style-level price comparison: a Tall or Slim fit can list higher
         than Classic. FIT (Slim/Athletic) is not reliably filterable on the server for sale
-        items: read the `fit` on each variant and the product name after getProducts.
+        items: read the `fit` on each variant and the product name after getProducts. CANADA:
+        pass `country: "ca"` (same category ids, prices in CAD); there `c_isSaleSkuUs` is the US
+        store's flag, so narrow on `c_discountPercentageCAD` (e.g. `"lessThan40Off"`) and pass
+        the same `country: "ca"` to `getProducts`.
         """
 
-    async def getProduct(self, args: Prv_jcrew_GetProductArgs_In, /) -> Prv_jcrew_GetProductResult_Out:
+    async def getProduct(self, args: Prv_jcrew_GetProductArgs_In | str, /) -> Prv_jcrew_GetProductResult_Out:
         """Reads one J.Crew product in full — given the style id at the end of a product URL, e.g.
-        `BX291` — returning the name, descriptions, price, the pre-discount list price,
-        currency, online inventory (orderable and stock level), the site's own aggregate rating
-        and review count, every colour and size the style comes in, every variant with its own
-        price and availability, and the full image set. The normalized variant list replaces the
-        raw 502+ variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
+        `BX291`, the URL itself, or a `searchProducts` row — returning the name, descriptions,
+        price, the pre-discount list price, currency, online inventory (orderable and stock
+        level), the site's own aggregate rating and review count, every colour and size the
+        style comes in, every variant with its own price and availability, and the full image
+        set. The normalized variant list replaces the raw 502+ variants from J.Crew's OCAPI with
+        a browseable (colour × size × fit) grid. `{ id, country: "ca" }` or a `/ca/p/...` URL
+        reads the Canadian store: CAD prices, Canadian sale prices and the `/ca/` page `url`.
+        Stock and orderable are the US warehouse's in both stores.
         """
 
     async def getProducts(self, args: Prv_jcrew_GetProductsArgs_In, /) -> Prv_jcrew_GetProductsResult_Out:
         """Reads several J.Crew products in one call — the batch form of `getProduct`, for an agent
         comparing a handful of items without paying a request each. Takes a list of style ids
         (maximum 24 per call — J.Crew's own batch limit) and returns each product's full detail
-        in the same shape as `getProduct`, plus a list of ids that were not found.
+        in the same shape as `getProduct`, plus a list of ids that were not found. `country:
+        "ca"` (or `/ca/` product URLs as ids) reads the whole batch from the Canadian store in
+        CAD.
         """
 
     async def checkVariantStock(self, args: Prv_jcrew_CheckVariantStockArgs_In, /) -> Prv_jcrew_CheckVariantStockResult_Out:
@@ -40796,21 +41158,23 @@ class Prv_jcrew(Protocol):
         e.g. `{ id: "BX291", colour: "White", size: "M" }` — resolving them to that variant's
         own id and returning whether it is orderable and at what price. Matches
         case-insensitively; refuses with the current colours, sizes and fits when the
-        combination does not exist on the style.
+        combination does not exist on the style. `country: "ca"` prices it in the Canadian store
+        (CAD); orderable is the US warehouse's in both.
         """
 
     async def suggestSearchTerms(self, args: Prv_jcrew_SuggestSearchTermsArgs_In, /) -> Prv_jcrew_SuggestSearchTermsResult_Out:
         """Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50
         characters long, e.g. "oxford" — returning the corrected/completed terms, matching
         categories and matching products the site itself would suggest. The door in front of
-        `searchProducts` for a caller that does not yet know the site's vocabulary.
+        `searchProducts` for a caller that does not yet know the site's vocabulary. `country:
+        "ca"` prices the suggested products in CAD.
         """
 
     async def getCategory(self, args: Prv_jcrew_GetCategoryArgs_In, /) -> Prv_jcrew_GetCategoryResult_Out:
         """Reads one J.Crew category by id — given the id `listCategories` returns, e.g.
         `"mens|categories|clothing|shirts"` — returning its display name, its immediate parent's
         id (`null` at the top of the tree) and the full ancestor chain back to the top, root
-        first.
+        first. Takes `country: "ca"` too; the Canadian store has the same categories.
         """
 
     async def listSearchRefinements(self, args: Prv_jcrew_ListSearchRefinementsArgs_In, /) -> Prv_jcrew_ListSearchRefinementsResult_Out:
@@ -40819,7 +41183,8 @@ class Prv_jcrew(Protocol):
         how many products in that result set carry them. Give a `query` (same bound as
         `searchProducts`) or a `categoryId` (same as `browseCategory`), not both. Drops the
         site's own internal merchandising facets (promotion ids, country allow-lists) that no
-        shopper-facing filter uses.
+        shopper-facing filter uses. `country: "ca"` gives the Canadian store's counts and its
+        own discount group, `c_discountPercentageCAD`.
         """
 
     async def listSortOptions(self, /) -> Prv_jcrew_ListSortOptionsResult_Out:
@@ -42020,28 +42385,31 @@ class Prv_mailchimp(Protocol):
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
 class Prv_mango(Protocol):
-    """Mango (mango.com) fashion store, US catalog. Lists a men's/women's category (sweaters,
-    shirts, jeans…) with per-color price, sale compare-at price and per-size stock, filtered
-    by size, on-sale and in-stock; and reads one product's variant sizes, prices and live
-    stock.
+    """Mango (mango.com) fashion store, US catalog by default or the Canadian store (country:
+    "ca", CAD prices). Lists a men's/women's category (sweaters, shirts, jeans…) with
+    per-color price, sale compare-at price and per-size stock, filtered by size, on-sale and
+    in-stock; and reads one product's variant sizes, prices and live stock.
     """
 
     async def listCategories(self, /) -> list[Prv_mango_MangoCategory_Out]:
-        """Lists the Mango US catalog categories (men's sweaters and cardigans, shirts, jeans,
-        women's dresses…) with the ids searchProducts takes.
+        """Lists the Mango catalog categories (men's sweaters and cardigans, shirts, jeans, women's
+        dresses…) with the ids searchProducts takes; the same ids serve the US and Canadian
+        stores.
         """
 
     async def searchProducts(self, args: Prv_mango_MangoSearchArgs_In | str, /) -> Prv_mango_MangoSearchResult_Out:
         """Searches Mango's apparel catalog for what a shopper asks ("men's sweater", "long sleeve
         shirt") and returns each product with variant sizes, sale and compare-at prices and
-        per-size stock — filterable to a size, on-sale and in-stock only. The way in; returns
-        the productId getProduct takes.
+        per-size stock — filterable to a size, on-sale and in-stock only, from the US store or
+        the Canadian one (country: "ca", CAD). The way in; returns the productId getProduct
+        takes.
         """
 
-    async def getProduct(self, productId: str, /) -> Prv_mango_MangoProduct_Out:
+    async def getProduct(self, productId: str | Prv_mango_MangoProduct_In | Prv_mango_getProduct_productId_u2_In, /) -> Prv_mango_MangoProduct_Out:
         """Reads one Mango product's colors and sizes with each color's price, compare-at price,
         discount, live per-size stock and photos (model, flat, close-up, swatch), so a sold-out
-        size is never shown. Takes the 8-digit reference or the product URL.
+        size is never shown. Takes the 8-digit reference, the product URL, or a searchProducts
+        hit (which keeps its US or Canadian store).
         """
 
 class Prv_marketplace_visualstudio(Protocol):
@@ -42065,6 +42433,32 @@ class Prv_marketplace_visualstudio(Protocol):
         and returns up to 20 results ordered by install count, most popular first. Each result
         carries the "publisher.name" id to pass to getExtensionStats() for the latest version
         and last-updated date.
+        """
+
+class Prv_marks(Protocol):
+    """Mark's (marks.com), Canada's clothing and workwear chain (Canada only, prices in CAD).
+    Searches the live catalog (men's/women's, on-sale), reads one product's every size and
+    colour with current and regular price, online stock and a chosen store's stock, and
+    finds stores near a point.
+    """
+
+    async def searchProducts(self, args: Prv_marks_MarksSearchArgs_In | str, /) -> Prv_marks_MarksSearchResult_Out:
+        """Searches Mark's live catalog the way a shopper would ("jeans", "work boots"), optionally
+        men's/women's and on-sale only, walking result pages until `limit` is met. One row per
+        product with each colour's current and regular CAD price, sale % and end date, photos,
+        and the code getProduct takes. The way in.
+        """
+
+    async def getProduct(self, product: str | Prv_marks_MarksProductRef_In, options: Prv_marks_MarksProductOptions_In | None = None, /) -> Prv_marks_MarksProduct_Out:
+        """Reads one Mark's product: its size and colour options and every SKU with price, regular
+        price, sale, online quantity and — when `storeId` is given — that store's quantity, plus
+        photos and marks.com URLs that open the product and each SKU. Takes the code, a search
+        hit, or a marks.com product URL.
+        """
+
+    async def findStores(self, args: Prv_marks_MarksFindStoresArgs_In, /) -> Prv_marks_MarksStoreSearch_Out:
+        """Lists Mark's stores nearest a latitude/longitude with address, distance, hours and the
+        storeId getProduct takes for per-store stock.
         """
 
 class Prv_marriott(Protocol):
@@ -43358,22 +43752,25 @@ class Prv_oanda(Protocol):
         """
 
 class Prv_old_navy(Protocol):
-    """Old Navy (oldnavy.gap.com) family clothing store. Searches the live catalog
-    (men's/women's, on-sale, in-stock, with sale and regular prices, every page) and reads
-    one product's per-size, per-color price, live stock and photos.
+    """Old Navy (oldnavy.gap.com, and the Canadian store oldnavy.gapcanada.ca) family clothing
+    store. Searches the live catalog (men's/women's, on-sale, in-stock, with sale and
+    regular prices, every page) and reads one product's per-size, per-color price, live
+    stock and photos. Pass country: "ca" for the Canadian store in CAD.
     """
 
     async def searchProducts(self, args: Prv_old_navy_OldNavySearchArgs_In | str, /) -> Prv_old_navy_OldNavySearchResult_Out:
         """Searches Old Navy's live apparel catalog the way a shopper would ("button up shirt"),
         optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
-        `limit` is met. One row per product color with sale price, regular (compare-at) price,
-        percent off, stock, a photo, and the ccId getProduct takes. The way in.
+        `limit` is met, from the US store or (country: "ca") the Canadian one in CAD. One row
+        per product color with sale price, regular (compare-at) price, percent off, stock, a
+        photo, and the ccId getProduct takes. The way in.
         """
 
-    async def getProduct(self, ccId: str, /) -> Prv_old_navy_OldNavyProduct_Out:
+    async def getProduct(self, product: str | Prv_old_navy_getProduct_product_u1_In | Prv_old_navy_OldNavySearchHit_In, /) -> Prv_old_navy_OldNavyProduct_Out:
         """Reads one Old Navy product's every fit × color × size SKU with its price, regular price
         and live in-stock flag, plus per-color in-stock and sold-out size lists and photos, so a
-        sold-out size is never shown. Takes the ccId or url searchProducts returns.
+        sold-out size is never shown. Takes the hit, ccId or url searchProducts returns; a
+        Canadian ccId needs country: "ca" (a hit or url carries it).
         """
 
 class Prv_oliverwinery(Protocol):
@@ -44635,19 +45032,23 @@ class Prv_puls_com(Protocol):
 class Prv_quince(Protocol):
     """Quince (quince.com) apparel and home store. Searches the live catalog (men's/women's,
     size, in-stock) and reads one product's per-variant size, color, price and live stock.
+    US store by default; country "ca" reads the Canadian store in CAD.
     """
 
     async def searchProducts(self, args: Prv_quince_QuinceSearchArgs_In | str, /) -> Prv_quince_QuinceSearchResult_Out:
         """Searches Quince's live apparel catalog the way a shopper would ("men's sweater",
         "cashmere crewneck"), optionally narrowed to men/women, a size and in-stock only.
-        Returns one row per product color with its price and the handle getProduct takes. The
-        way in.
+        Returns one row per product color with its price and the handle getProduct takes. US
+        store by default; country: "ca" searches the Canadian store, prices in CAD, /ca/ URLs.
+        The way in.
         """
 
-    async def getProduct(self, handle: str, /) -> Prv_quince_QuinceProduct_Out:
+    async def getProduct(self, handle: str | Prv_quince_QuinceProductRef_In, /) -> Prv_quince_QuinceProduct_Out:
         """Reads one Quince product page's per-variant (color × size) price, traditional-retail
         comparison price, savings and live stock count, so a sold-out size is never shown. Takes
-        the handle or URL searchProducts returns.
+        the handle or URL searchProducts returns, or the hit itself; a /ca/ URL or { handle,
+        country: "ca" } reads the Canadian store in CAD, whose variants have their own ids and
+        stock.
         """
 
 class Prv_quora(Protocol):
@@ -47744,24 +48145,26 @@ class Prv_ulrichlifestyle(Protocol):
         """
 
 class Prv_uniqlo(Protocol):
-    """Uniqlo US (uniqlo.com/us) clothing store. Searches the live catalog by keyword and/or
-    department (men's, women's, kids, baby), Sale items only if asked, every page; reads one
-    product's per-color, per-size price, live stock with quantity, and photos.
+    """Uniqlo clothing store, US (uniqlo.com/us, USD) or Canada (uniqlo.com/ca, CAD) via
+    country. Searches the live catalog by keyword and/or department (men's, women's, kids,
+    baby), Sale items only if asked, every page; reads one product's per-color, per-size
+    price, live stock with quantity, and photos.
     """
 
     async def searchProducts(self, args: Prv_uniqlo_UniqloSearchArgs_In | str, /) -> Prv_uniqlo_UniqloSearchResult_Out:
-        """Searches Uniqlo US's live catalog the way a shopper would ("button up shirt"), narrowed
-        to a department (men/women/kids/baby) and optionally Sale only — or lists a whole
-        department with no query — walking result pages until `limit` is met. One row per
-        product with price, Sale flag, every color with its photo, and the sizes it comes in.
-        The way in.
+        """Searches Uniqlo's live catalog the way a shopper would ("button up shirt"), US store by
+        default or Canada with country: "ca" (CAD prices), narrowed to a department
+        (men/women/kids/baby) and optionally Sale only — or lists a whole department with no
+        query — walking result pages until `limit` is met. One row per product with price, Sale
+        flag, every color with its photo, and the sizes it comes in. The way in.
         """
 
     async def getProduct(self, product: str | Prv_uniqlo_getProduct_product_u1_In | Prv_uniqlo_UniqloSearchHit_In, /) -> Prv_uniqlo_UniqloProduct_Out:
         """Reads one Uniqlo product's every color × size with its price, Sale flag, live stock
         status and unit count, plus per-color in-stock and sold-out size lists, photos, and a
-        URL that opens that exact color and size. Takes a productId, a search hit, or a
-        uniqlo.com product url.
+        URL that opens that exact color and size. Takes a productId (US store, or { productId,
+        country: "ca" } for Canada), a search hit (read from the hit's own store), or a
+        uniqlo.com/us or /ca product url.
         """
 
 class Prv_upkeepstl_com(Protocol):
@@ -49876,6 +50279,7 @@ class BowmarkProviders(Protocol):
     mailchimp: Prv_mailchimp
     mango: Prv_mango
     marketplace_visualstudio: Prv_marketplace_visualstudio
+    marks: Prv_marks
     marriott: Prv_marriott
     mcdonalds: Prv_mcdonalds
     mcp_registry: Prv_mcp_registry

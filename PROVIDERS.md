@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3177 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3180 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1845,6 +1845,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mango.searchProducts` | mango.com | Searches Mango's apparel catalog for what a shopper asks (men's sweater, long sleeve… | 🟢 |
 | `marketplace_visualstudio.getExtensionStats` | marketplace.visualstudio.com | Looks up one VS Code extension by its "publisher.extension" id (the id shown in the… | 🟢 |
 | `marketplace_visualstudio.searchExtensions` | marketplace.visualstudio.com | Full-text searches the VS Code Marketplace for extensions matching a query, ordered by… | 🟢 |
+| `marks.findStores` | www.marks.com | Lists the Mark's stores nearest a latitude/longitude with address, distance, opening… | 🟢 |
+| `marks.getProduct` | www.marks.com | Reads one Mark's product's size and colour options and every SKU with its CAD price… | 🟢 |
+| `marks.searchProducts` | www.marks.com | Searches Mark's live clothing and workwear catalog (www.marks.com, Canada only) for… | 🟢 |
 | `marriott.findHotels` | marriott.com | Lists Marriott-family properties published on the site's own hotel-sitemap directory… | 🟢 |
 | `marriott.getAwardAvailability` | marriott.com | Searches Marriott's live award (Marriott Bonvoy points) availability for a property… | ⚪ |
 | `marriott.getDeals` | marriott.com | Reads Marriott's currently published promotions and offers — the site's own "Deals"… | ⚪ |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0c0fbb31d2081809b86768cb17f2c362855a803ab36c938101a6c0924fe747d4
-// 77 capabilities, 542 providers, 1915 typed functions, 20 refused.
+// Manifest version: 6a771f5b5e7e47e2ddee1a8719aeac87f699496efd19b6e315c85247122cf034
+// 77 capabilities, 543 providers, 1919 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6845,6 +6845,18 @@ interface AolSectionArticles {
   articles: AolStoryRow[];
 }
 
+interface AolArticle {
+  title: string;
+  url: string;
+  author?: string;
+  publisher?: string;
+  publishedAt?: string;
+  modifiedAt?: string;
+  body: string;
+  images: string[];
+  commentCount?: string;
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -6871,6 +6883,13 @@ interface AolSectionArticles {
      * "/news/" }.
      */
     listSectionArticles(args: AolListSectionArticlesArgs): Promise<AolSectionArticles>;
+
+    /**
+     * Reads one AOL article in full — headline, author, source publisher, publication date, the
+     * whole body text, images and comment count. Pass the URL from getFrontPage or
+     * listSectionArticles, or a raw slug.
+     */
+    getArticle(url: string): Promise<AolArticle>;
   }
 }
 
@@ -9181,10 +9200,13 @@ interface BananaRepublicSearchArgs {
   inStockOnly?: boolean;
   onSaleOnly?: boolean;
   limit?: number; // default 24, max 2000; the search walks result pages until it has this many
+  country?: "us" | "ca"; // which store; default "us". "ca" = bananarepublic.gapcanada.ca, prices in CAD
 }
 interface BananaRepublicSearchHit {
   styleId: string;
-  ccId: string; // pass to getProduct
+  ccId: string; // pass to getProduct (or pass the whole hit, which carries its country)
+  country: "us" | "ca";
+  currency: string; // "USD" | "CAD"
   url: string; // opens this color
   title: string;
   color: string | null;
@@ -9204,6 +9226,8 @@ interface BananaRepublicSearchHit {
 interface BananaRepublicSearchResult {
   query: string;
   department: "Men" | "Women" | null;
+  country: "us" | "ca";
+  currency: string;
   total: number; // colors the site matched, before inStockOnly/onSaleOnly/limit
   pagesRead: number;
   pageCount: number; // result pages the site has for this query (200 colors each)
@@ -9245,6 +9269,8 @@ interface BananaRepublicColor {
 interface BananaRepublicProduct {
   styleId: string;
   ccId: string;
+  country: "us" | "ca";
+  currency: string; // every price on this product is in this currency
   url: string;
   title: string;
   fits: string[];
@@ -9255,25 +9281,28 @@ interface BananaRepublicProduct {
 }
 
   /**
-   * Banana Republic (bananarepublic.gap.com) apparel store. Searches the live catalog
-   * (men's/women's, on-sale, in-stock, with sale and regular prices, every page) and reads one
-   * product's per-size, per-color price, live stock and photos.
+   * Banana Republic (bananarepublic.gap.com, and the Canadian store bananarepublic.gapcanada.ca)
+   * apparel store. Searches the live catalog (men's/women's, on-sale, in-stock, with sale and
+   * regular prices, every page) and reads one product's per-size, per-color price, live stock
+   * and photos. Pass country: "ca" for the Canadian store in CAD.
    */
   interface Unit {
     /**
      * Searches Banana Republic's live apparel catalog the way a shopper would ("sweater"),
      * optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
-     * `limit` is met. One row per product color with sale price, regular (compare-at) price,
-     * percent off, stock, a photo, and the ccId getProduct takes. The way in.
+     * `limit` is met, from the US store or (country: "ca") the Canadian one in CAD. One row per
+     * product color with sale price, regular (compare-at) price, percent off, stock, a photo, and
+     * the ccId getProduct takes. The way in.
      */
     searchProducts(args: BananaRepublicSearchArgs | string): Promise<BananaRepublicSearchResult>;
 
     /**
      * Reads one Banana Republic product's every fit × color × size SKU with its price, regular
      * price and live in-stock flag, plus per-color in-stock and sold-out size lists and photos, so
-     * a sold-out size is never shown. Takes the ccId or url searchProducts returns.
+     * a sold-out size is never shown. Takes the hit, ccId or url searchProducts returns; a
+     * Canadian ccId needs country: "ca" (a hit or url carries it).
      */
-    getProduct(ccId: string): Promise<BananaRepublicProduct>;
+    getProduct(product: string | { ccId: string; country?: "us" | "ca" } | BananaRepublicSearchHit): Promise<BananaRepublicProduct>;
   }
 }
 
@@ -22045,10 +22074,13 @@ interface GapSearchArgs {
   inStockOnly?: boolean;
   onSaleOnly?: boolean;
   limit?: number; // default 24, max 2000; the search walks result pages until it has this many
+  country?: "us" | "ca"; // which store; default "us". "ca" = www.gapcanada.ca, prices in CAD
 }
 interface GapSearchHit {
   styleId: string;
-  ccId: string; // pass to getProduct
+  ccId: string; // pass to getProduct (or pass the whole hit, which carries its country)
+  country: "us" | "ca";
+  currency: string; // "USD" | "CAD"
   url: string; // opens this color
   title: string;
   color: string | null;
@@ -22068,6 +22100,8 @@ interface GapSearchHit {
 interface GapSearchResult {
   query: string;
   department: "Men" | "Women" | null;
+  country: "us" | "ca";
+  currency: string;
   total: number; // colors the site matched, before inStockOnly/onSaleOnly/limit
   pagesRead: number;
   pageCount: number; // result pages the site has for this query (200 colors each)
@@ -22109,6 +22143,8 @@ interface GapColor {
 interface GapProduct {
   styleId: string;
   ccId: string;
+  country: "us" | "ca";
+  currency: string; // every price on this product is in this currency
   url: string;
   title: string;
   fits: string[];
@@ -22119,25 +22155,28 @@ interface GapProduct {
 }
 
   /**
-   * Gap (www.gap.com) clothing store. Searches the live catalog (men's/women's, on-sale,
-   * in-stock, with sale and regular prices, every page) and reads one product's per-size,
-   * per-color price, live stock and photos.
+   * Gap (www.gap.com, and the Canadian store www.gapcanada.ca) clothing store. Searches the live
+   * catalog (men's/women's, on-sale, in-stock, with sale and regular prices, every page) and
+   * reads one product's per-size, per-color price, live stock and photos. Pass country: "ca" for
+   * the Canadian store in CAD.
    */
   interface Unit {
     /**
      * Searches Gap's live apparel catalog the way a shopper would ("button up shirt"), optionally
-     * narrowed to men/women, on-sale and in-stock only, walking result pages until `limit` is met.
-     * One row per product color with sale price, regular (compare-at) price, percent off, stock, a
-     * photo, and the ccId getProduct takes. The way in.
+     * narrowed to men/women, on-sale and in-stock only, walking result pages until `limit` is met,
+     * from the US store or (country: "ca") the Canadian one in CAD. One row per product color with
+     * sale price, regular (compare-at) price, percent off, stock, a photo, and the ccId getProduct
+     * takes. The way in.
      */
     searchProducts(args: GapSearchArgs | string): Promise<GapSearchResult>;
 
     /**
      * Reads one Gap product's every fit × color × size SKU with its price, regular price and live
      * in-stock flag, plus per-color in-stock and sold-out size lists and photos, so a sold-out
-     * size is never shown. Takes the ccId or url searchProducts returns.
+     * size is never shown. Takes the hit, ccId or url searchProducts returns; a Canadian ccId
+     * needs country: "ca" (a hit or url carries it).
      */
-    getProduct(ccId: string): Promise<GapProduct>;
+    getProduct(product: string | { ccId: string; country?: "us" | "ca" } | GapSearchHit): Promise<GapProduct>;
   }
 }
 
@@ -29190,9 +29229,14 @@ interface JcrewCategory {
   name: string;
   parentId: string;
 }
+/** Every catalogue read takes country: "us" (default) | "ca". "ca" is the
+ * Canadian store: prices in CAD, /ca/p/... URLs. Stock (stockLevel,
+ * orderable) is the US warehouse's in both stores. */
 interface ListCategoriesArgs {
   categoryId?: string;
   levels?: number;
+  /** "us" (default) | "ca" — the same tree and ids in both. */
+  country?: "us" | "ca";
 }
 interface ListCategoriesResult {
   categoryId: string;
@@ -29222,9 +29266,15 @@ interface SearchProductsArgs {
    * { c_productGender: "Men" } (keeps women's items out of a search),
    * { c_masterSize: "LARGE" }. At most 4. */
   refine?: Record<string, string>;
+  /** "us" (default) | "ca" — the Canadian store, prices in CAD. Its search
+   * leaves out a few styles not sold in Canada. */
+  country?: "us" | "ca";
 }
 interface SearchProductsResult {
   query: string;
+  country: "us" | "ca";
+  /** "USD" | "CAD" — every price on the page. */
+  currency: string;
   total: number;
   pageSize: number;
   products: JcrewSearchProduct[];
@@ -29242,9 +29292,12 @@ interface JcrewSuggestedProduct {
 }
 interface SuggestSearchTermsArgs {
   query: string;
+  country?: "us" | "ca";
 }
 interface SuggestSearchTermsResult {
   query: string;
+  country: "us" | "ca";
+  currency: string;
   terms: string[];
   categories: JcrewSuggestedCategory[];
   products: JcrewSuggestedProduct[];
@@ -29270,10 +29323,18 @@ interface JcrewProductImage {
   alt: string | null;
 }
 interface GetProductArgs {
+  /** A style id ("BX291") or a jcrew.com product URL — a /ca/p/... URL reads
+   * the Canadian store. A searchProducts row can be passed whole. */
   id: string;
+  /** "us" (default) | "ca". Absent, a /ca/ URL in id (or the row's url) decides. */
+  country?: "us" | "ca";
+  url?: string;
 }
 interface GetProductResult {
   id: string;
+  country: "us" | "ca";
+  /** This product's page in that store. */
+  url: string;
   name: string;
   description: string | null;
   longDescription: string | null;
@@ -29330,9 +29391,15 @@ interface GetProductsItem {
   images: JcrewProductImage[];
 }
 interface GetProductsArgs {
+  /** Style ids or product URLs, at most 24. */
   ids: string[];
+  /** "us" (default) | "ca". Absent, /ca/ URLs in ids decide. */
+  country?: "us" | "ca";
 }
 interface GetProductsResult {
+  country: "us" | "ca";
+  /** "USD" | "CAD" — every price in every product. */
+  currency: string;
   products: GetProductsItem[];
   missing: string[];
 }
@@ -29341,9 +29408,13 @@ interface CheckVariantStockArgs {
   colour: string;
   size: string;
   fit?: string;
+  country?: "us" | "ca";
 }
 interface CheckVariantStockResult {
   id: string;
+  country: "us" | "ca";
+  /** "USD" | "CAD" — price and listPrice. */
+  currency: string;
   variantId: string;
   colour: string;
   size: string;
@@ -29365,11 +29436,17 @@ interface BrowseCategoryArgs {
   /** Filters, refinement id -> value from listSearchRefinements(), e.g.
    * { c_isSaleSkuUs: "true" } (items actually marked down),
    * { c_productGender: "Men" } (keeps women's items out of a search),
-   * { c_masterSize: "LARGE" }. At most 4. */
+   * { c_masterSize: "LARGE" }. At most 4. In the Canadian store,
+   * c_isSaleSkuUs is the US store's flag; narrow on the CAD discount band
+   * { c_discountPercentageCAD: "lessThan40Off" } instead. */
   refine?: Record<string, string>;
+  /** "us" (default) | "ca" — same category ids, prices in CAD. */
+  country?: "us" | "ca";
 }
 interface BrowseCategoryResult {
   categoryId: string;
+  country: "us" | "ca";
+  currency: string;
   total: number;
   pageSize: number;
   products: Array<{
@@ -29388,6 +29465,7 @@ interface JcrewCategoryAncestor {
 }
 interface GetCategoryArgs {
   categoryId: string;
+  country?: "us" | "ca";
 }
 interface GetCategoryResult {
   id: string;
@@ -29408,10 +29486,14 @@ interface JcrewRefinementGroup {
 interface ListSearchRefinementsArgs {
   query?: string;
   categoryId?: string;
+  /** "us" (default) | "ca" — the Canadian store's counts, and its
+   * c_discountPercentageCAD "Discount" group. */
+  country?: "us" | "ca";
 }
 interface ListSearchRefinementsResult {
   query: string | null;
   categoryId: string | null;
+  country: "us" | "ca";
   refinements: JcrewRefinementGroup[];
 }
 interface JcrewSortOption {
@@ -29468,7 +29550,8 @@ interface FindStoresResult {
 
   /**
    * Search and read J.Crew's clothing catalogue — products, prices, colours, sizes and stock —
-   * off the site's own OCAPI storefront API, no browser and no account.
+   * off the site's own OCAPI storefront API, no browser and no account. US store by default;
+   * pass country: "ca" for the Canadian store (prices in CAD, /ca/ product URLs).
    */
   interface Unit {
     /**
@@ -29476,7 +29559,7 @@ interface FindStoresResult {
      * requested number of levels (0-4, default 2), returning each descendant's id, display name
      * and parent — so a caller holding the word "shirts" can find the id `browseCategory` needs.
      * `mens`, `levels: 3` reaches `mens|categories|clothing|shirts`, the id `browseCategory`'s own
-     * example uses.
+     * example uses. Takes `country: "ca"` too; the Canadian store has the same tree and ids.
      */
     listCategories(args?: ListCategoriesArgs): Promise<ListCategoriesResult>;
 
@@ -29485,7 +29568,9 @@ interface FindStoresResult {
      * "oxford shirt" — and returns matching product rows with name, style id, price, currency,
      * whether it is orderable, a thumbnail and the product URL, paginated and optionally sorted by
      * the site's own sort orders. This is the DOOR for `getProduct`: it is where a caller holding
-     * only words gets the style id every other function takes.
+     * only words gets the style id every other function takes. Pass `country: "ca"` for the
+     * Canadian store: prices in CAD and `/ca/p/...` URLs, and a row passed whole to `getProduct`
+     * stays in that store. Canada's search leaves out a few styles not sold there.
      */
     searchProducts(args: SearchProductsArgs): Promise<SearchProductsResult>;
 
@@ -29500,25 +29585,32 @@ interface FindStoresResult {
      * batches of 24 and keep variants where `onSale && orderable`. Use `v.onSale`, not a
      * style-level price comparison: a Tall or Slim fit can list higher than Classic. FIT
      * (Slim/Athletic) is not reliably filterable on the server for sale items: read the `fit` on
-     * each variant and the product name after getProducts.
+     * each variant and the product name after getProducts. CANADA: pass `country: "ca"` (same
+     * category ids, prices in CAD); there `c_isSaleSkuUs` is the US store's flag, so narrow on
+     * `c_discountPercentageCAD` (e.g. `"lessThan40Off"`) and pass the same `country: "ca"` to
+     * `getProducts`.
      */
     browseCategory(args: BrowseCategoryArgs): Promise<BrowseCategoryResult>;
 
     /**
      * Reads one J.Crew product in full — given the style id at the end of a product URL, e.g.
-     * `BX291` — returning the name, descriptions, price, the pre-discount list price, currency,
-     * online inventory (orderable and stock level), the site's own aggregate rating and review
-     * count, every colour and size the style comes in, every variant with its own price and
-     * availability, and the full image set. The normalized variant list replaces the raw 502+
-     * variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
+     * `BX291`, the URL itself, or a `searchProducts` row — returning the name, descriptions,
+     * price, the pre-discount list price, currency, online inventory (orderable and stock level),
+     * the site's own aggregate rating and review count, every colour and size the style comes in,
+     * every variant with its own price and availability, and the full image set. The normalized
+     * variant list replaces the raw 502+ variants from J.Crew's OCAPI with a browseable (colour ×
+     * size × fit) grid. `{ id, country: "ca" }` or a `/ca/p/...` URL reads the Canadian store: CAD
+     * prices, Canadian sale prices and the `/ca/` page `url`. Stock and orderable are the US
+     * warehouse's in both stores.
      */
-    getProduct(args: GetProductArgs): Promise<GetProductResult>;
+    getProduct(args: GetProductArgs | string): Promise<GetProductResult>;
 
     /**
      * Reads several J.Crew products in one call — the batch form of `getProduct`, for an agent
      * comparing a handful of items without paying a request each. Takes a list of style ids
      * (maximum 24 per call — J.Crew's own batch limit) and returns each product's full detail in
-     * the same shape as `getProduct`, plus a list of ids that were not found.
+     * the same shape as `getProduct`, plus a list of ids that were not found. `country: "ca"` (or
+     * `/ca/` product URLs as ids) reads the whole batch from the Canadian store in CAD.
      */
     getProducts(args: GetProductsArgs): Promise<GetProductsResult>;
 
@@ -29528,6 +29620,8 @@ interface FindStoresResult {
      * id: "BX291", colour: "White", size: "M" }` — resolving them to that variant's own id and
      * returning whether it is orderable and at what price. Matches case-insensitively; refuses
      * with the current colours, sizes and fits when the combination does not exist on the style.
+     * `country: "ca"` prices it in the Canadian store (CAD); orderable is the US warehouse's in
+     * both.
      */
     checkVariantStock(args: CheckVariantStockArgs): Promise<CheckVariantStockResult>;
 
@@ -29535,7 +29629,8 @@ interface FindStoresResult {
      * Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50
      * characters long, e.g. "oxford" — returning the corrected/completed terms, matching
      * categories and matching products the site itself would suggest. The door in front of
-     * `searchProducts` for a caller that does not yet know the site's vocabulary.
+     * `searchProducts` for a caller that does not yet know the site's vocabulary. `country: "ca"`
+     * prices the suggested products in CAD.
      */
     suggestSearchTerms(args: SuggestSearchTermsArgs): Promise<SuggestSearchTermsResult>;
 
@@ -29543,6 +29638,7 @@ interface FindStoresResult {
      * Reads one J.Crew category by id — given the id `listCategories` returns, e.g.
      * `"mens|categories|clothing|shirts"` — returning its display name, its immediate parent's id
      * (`null` at the top of the tree) and the full ancestor chain back to the top, root first.
+     * Takes `country: "ca"` too; the Canadian store has the same categories.
      */
     getCategory(args: GetCategoryArgs): Promise<GetCategoryResult>;
 
@@ -29552,7 +29648,8 @@ interface FindStoresResult {
      * products in that result set carry them. Give a `query` (same bound as `searchProducts`) or a
      * `categoryId` (same as `browseCategory`), not both. Drops the site's own internal
      * merchandising facets (promotion ids, country allow-lists) that no shopper-facing filter
-     * uses.
+     * uses. `country: "ca"` gives the Canadian store's counts and its own discount group,
+     * `c_discountPercentageCAD`.
      */
     listSearchRefinements(args: ListSearchRefinementsArgs): Promise<ListSearchRefinementsResult>;
 
@@ -32651,6 +32748,8 @@ interface mailchimpPlanPricing {
 declare namespace BowmarkProvider_mango {
   // ── Mango — the unit's own declarations, verbatim ──
 interface MangoCategory { id: string; gender: "men" | "women" | "kids"; title: string }
+/** Which Mango store: "us" (default, USD) or "ca" (Canada, CAD). Catalogs differ by store. */
+type MangoCountry = "us" | "ca";
 interface MangoSearchArgs {
   /** Shopper words — "sweater", "long sleeve shirt". Matched to a category; with no category match, to product names. */
   query?: string;
@@ -32663,6 +32762,8 @@ interface MangoSearchArgs {
   inStockOnly?: boolean;
   /** 1-60, default 20. */
   limit?: number;
+  /** "us" (default) or "ca" for Canadian prices (CAD), stock and URLs. */
+  country?: MangoCountry;
 }
 interface MangoSize { sizeId: string; label: string; inStock: boolean; lastUnits: boolean }
 /** Mango's own photo URLs for one color. A product with no studio shoot (home goods)
@@ -32693,6 +32794,10 @@ interface MangoColor {
 }
 interface MangoProduct {
   productId: string;
+  /** The store it was read from. Pass the hit itself to getProduct to stay in that store. */
+  country: MangoCountry;
+  /** "USD" or "CAD"; every price on this product is in it. */
+  currency: string;
   name: string;
   url: string;
   model: string | null;
@@ -32705,6 +32810,8 @@ interface MangoProduct {
   inStock: boolean;
 }
 interface MangoSearchResult {
+  country: MangoCountry;
+  currency: string;
   category: MangoCategory;
   totalInCategory: number;
   /** Products read to find the hits; a filtered search stops at 120. */
@@ -32715,31 +32822,33 @@ interface MangoSearchResult {
 }
 
   /**
-   * Mango (mango.com) fashion store, US catalog. Lists a men's/women's category (sweaters,
-   * shirts, jeans…) with per-color price, sale compare-at price and per-size stock, filtered by
-   * size, on-sale and in-stock; and reads one product's variant sizes, prices and live stock.
+   * Mango (mango.com) fashion store, US catalog by default or the Canadian store (country: "ca",
+   * CAD prices). Lists a men's/women's category (sweaters, shirts, jeans…) with per-color price,
+   * sale compare-at price and per-size stock, filtered by size, on-sale and in-stock; and reads
+   * one product's variant sizes, prices and live stock.
    */
   interface Unit {
     /**
-     * Lists the Mango US catalog categories (men's sweaters and cardigans, shirts, jeans, women's
-     * dresses…) with the ids searchProducts takes.
+     * Lists the Mango catalog categories (men's sweaters and cardigans, shirts, jeans, women's
+     * dresses…) with the ids searchProducts takes; the same ids serve the US and Canadian stores.
      */
     listCategories(): Promise<MangoCategory[]>;
 
     /**
      * Searches Mango's apparel catalog for what a shopper asks ("men's sweater", "long sleeve
      * shirt") and returns each product with variant sizes, sale and compare-at prices and per-size
-     * stock — filterable to a size, on-sale and in-stock only. The way in; returns the productId
-     * getProduct takes.
+     * stock — filterable to a size, on-sale and in-stock only, from the US store or the Canadian
+     * one (country: "ca", CAD). The way in; returns the productId getProduct takes.
      */
     searchProducts(args: MangoSearchArgs | string): Promise<MangoSearchResult>;
 
     /**
      * Reads one Mango product's colors and sizes with each color's price, compare-at price,
      * discount, live per-size stock and photos (model, flat, close-up, swatch), so a sold-out size
-     * is never shown. Takes the 8-digit reference or the product URL.
+     * is never shown. Takes the 8-digit reference, the product URL, or a searchProducts hit (which
+     * keeps its US or Canadian store).
      */
-    getProduct(productId: string): Promise<MangoProduct>;
+    getProduct(productId: string | MangoProduct | { productId: string; country?: MangoCountry }): Promise<MangoProduct>;
   }
 }
 
@@ -32789,6 +32898,181 @@ interface marketplaceSearchResult {
      * last-updated date.
      */
     searchExtensions(query: string): Promise<marketplaceSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_marks {
+  // ── Mark's — the unit's own declarations, verbatim ──
+interface MarksSearchArgs {
+  query: string;
+  storeId?: string | number; // a findStores storeId; only scopes the site's own search, stock is getProduct's job
+  gender?: "men" | "women";
+  onSaleOnly?: boolean; // the site's own "Sale" deal filter (Clearance is a separate deal)
+  limit?: number; // default 24, max 1000; walks result pages until it has this many
+}
+interface MarksColour {
+  id: string; // e.g. "COLOUR_Light_Wash"
+  name: string; // e.g. "Light Wash"
+  url: string; // opens the product on this colour
+  price: number | null; // CAD, what it costs now
+  originalPrice: number | null; // CAD, the regular price
+  onSale: boolean;
+  salePercent: number | null;
+  saleEndsOn: string | null; // ISO date the sale price ends
+  availableToSell: number | null; // the site's max units available for any one SKU of this colour (search only)
+  image: string | null;
+  images: string[];
+  swatch: string | null;
+  skuCodes: string[];
+}
+interface MarksSearchHit {
+  code: string; // pass to getProduct
+  title: string;
+  brand: string | null;
+  url: string; // marks.com product page
+  image: string | null;
+  currency: "CAD";
+  price: number | null; // cheapest colour's current price
+  originalPrice: number | null; // that colour's regular price
+  onSale: boolean; // any colour on sale
+  salePercent: number | null;
+  saleEndsOn: string | null;
+  rating: number | null;
+  ratingsCount: number | null;
+  badges: string[]; // e.g. "SALE", "BESTSELLER", "Flash_Sale"
+  colours: MarksColour[];
+}
+interface MarksSearchResult {
+  query: string;
+  gender: "men" | "women" | null;
+  onSaleOnly: boolean;
+  storeId: string | null;
+  currency: "CAD";
+  total: number; // products the site matched
+  pageCount: number;
+  pagesRead: number;
+  hasMore: boolean;
+  redirectUrl: string | null; // set when the site sends this query to a category page instead
+  hits: MarksSearchHit[];
+  warnings: string[]; // a results page that failed after the first; empty when complete
+}
+interface MarksProductRef {
+  code?: string;
+  url?: string;
+  storeId?: string | number;
+}
+interface MarksProductOptions {
+  storeId?: string | number; // a findStores storeId; adds that store's per-SKU quantity
+}
+interface MarksOptionAxis {
+  descriptor: string; // e.g. "WAIST_SIZE_CD"
+  name: string; // e.g. "Waist/Size", "Pants Length", "Primary Colour"
+  values: string[];
+}
+interface MarksSku {
+  sku: string;
+  url: string; // opens the product on exactly this SKU
+  colour: string | null;
+  size: string | null; // the non-colour options, waist first: "32 / 30"
+  options: Record<string, string>; // axis name -> value
+  price: number | null; // CAD
+  originalPrice: number | null; // CAD
+  onSale: boolean;
+  salePercent: number | null;
+  saleEndsOn: string | null; // ISO date
+  onlineQuantity: number | null; // units available to ship (null if stock could not be read)
+  inStockOnline: boolean | null;
+  storeQuantity: number | null; // units at options.storeId; null when no storeId was given
+  inStockAtStore: boolean | null;
+  lowStock: boolean;
+  sellable: boolean;
+}
+interface MarksProduct {
+  code: string;
+  name: string;
+  brand: string | null;
+  url: string;
+  currency: "CAD";
+  price: number | null;
+  originalPrice: number | null;
+  onSale: boolean;
+  salePercent: number | null;
+  saleEndsOn: string | null;
+  rating: number | null;
+  ratingsCount: number | null;
+  description: string | null;
+  features: string[];
+  images: string[];
+  options: MarksOptionAxis[];
+  colours: MarksColour[];
+  sizes: string[];
+  skus: MarksSku[];
+  storeId: string | null; // the store storeQuantity is for; null = online stock only
+  inStockOnline: boolean;
+  warnings: string[]; // stock that could not be read for some SKUs; empty when complete
+}
+interface MarksFindStoresArgs {
+  latitude: number;
+  longitude: number;
+  radiusKm?: number; // default 25, max 2000
+  limit?: number; // default 10, max 50
+}
+interface MarksStoreHours {
+  day: string;
+  open: string | null; // "10:00 AM"
+  close: string | null;
+  closed: boolean;
+}
+interface MarksStore {
+  storeId: string; // pass to getProduct / searchProducts as storeId
+  name: string;
+  address: string | null;
+  city: string | null;
+  province: string | null; // "ON"
+  postalCode: string | null;
+  phone: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  distanceKm: number | null;
+  url: string;
+  inStorePickup: boolean;
+  hours: MarksStoreHours[];
+}
+interface MarksStoreSearch {
+  latitude: number;
+  longitude: number;
+  radiusKm: number;
+  stores: MarksStore[]; // nearest first; empty when no Mark's is inside the radius
+}
+
+  /**
+   * Mark's (marks.com), Canada's clothing and workwear chain (Canada only, prices in CAD).
+   * Searches the live catalog (men's/women's, on-sale), reads one product's every size and
+   * colour with current and regular price, online stock and a chosen store's stock, and finds
+   * stores near a point.
+   */
+  interface Unit {
+    /**
+     * Searches Mark's live catalog the way a shopper would ("jeans", "work boots"), optionally
+     * men's/women's and on-sale only, walking result pages until `limit` is met. One row per
+     * product with each colour's current and regular CAD price, sale % and end date, photos, and
+     * the code getProduct takes. The way in.
+     */
+    searchProducts(args: MarksSearchArgs | string): Promise<MarksSearchResult>;
+
+    /**
+     * Reads one Mark's product: its size and colour options and every SKU with price, regular
+     * price, sale, online quantity and — when `storeId` is given — that store's quantity, plus
+     * photos and marks.com URLs that open the product and each SKU. Takes the code, a search hit,
+     * or a marks.com product URL.
+     */
+    getProduct(product: string | MarksProductRef, options?: MarksProductOptions): Promise<MarksProduct>;
+
+    /**
+     * Lists Mark's stores nearest a latitude/longitude with address, distance, hours and the
+     * storeId getProduct takes for per-store stock.
+     */
+    findStores(args: MarksFindStoresArgs): Promise<MarksStoreSearch>;
   }
 }
 
@@ -36533,10 +36817,13 @@ interface OldNavySearchArgs {
   inStockOnly?: boolean;
   onSaleOnly?: boolean;
   limit?: number; // default 24, max 2000; the search walks result pages until it has this many
+  country?: "us" | "ca"; // which store; default "us". "ca" = oldnavy.gapcanada.ca, prices in CAD
 }
 interface OldNavySearchHit {
   styleId: string;
-  ccId: string; // pass to getProduct
+  ccId: string; // pass to getProduct (or pass the whole hit, which carries its country)
+  country: "us" | "ca";
+  currency: string; // "USD" | "CAD"
   url: string; // opens this color
   title: string;
   color: string | null;
@@ -36556,6 +36843,8 @@ interface OldNavySearchHit {
 interface OldNavySearchResult {
   query: string;
   department: "Men" | "Women" | null;
+  country: "us" | "ca";
+  currency: string;
   total: number; // colors the site matched, before inStockOnly/onSaleOnly/limit
   pagesRead: number;
   pageCount: number; // result pages the site has for this query (200 colors each)
@@ -36597,6 +36886,8 @@ interface OldNavyColor {
 interface OldNavyProduct {
   styleId: string;
   ccId: string;
+  country: "us" | "ca";
+  currency: string; // every price on this product is in this currency
   url: string;
   title: string;
   fits: string[];
@@ -36607,25 +36898,28 @@ interface OldNavyProduct {
 }
 
   /**
-   * Old Navy (oldnavy.gap.com) family clothing store. Searches the live catalog (men's/women's,
-   * on-sale, in-stock, with sale and regular prices, every page) and reads one product's
-   * per-size, per-color price, live stock and photos.
+   * Old Navy (oldnavy.gap.com, and the Canadian store oldnavy.gapcanada.ca) family clothing
+   * store. Searches the live catalog (men's/women's, on-sale, in-stock, with sale and regular
+   * prices, every page) and reads one product's per-size, per-color price, live stock and
+   * photos. Pass country: "ca" for the Canadian store in CAD.
    */
   interface Unit {
     /**
      * Searches Old Navy's live apparel catalog the way a shopper would ("button up shirt"),
      * optionally narrowed to men/women, on-sale and in-stock only, walking result pages until
-     * `limit` is met. One row per product color with sale price, regular (compare-at) price,
-     * percent off, stock, a photo, and the ccId getProduct takes. The way in.
+     * `limit` is met, from the US store or (country: "ca") the Canadian one in CAD. One row per
+     * product color with sale price, regular (compare-at) price, percent off, stock, a photo, and
+     * the ccId getProduct takes. The way in.
      */
     searchProducts(args: OldNavySearchArgs | string): Promise<OldNavySearchResult>;
 
     /**
      * Reads one Old Navy product's every fit × color × size SKU with its price, regular price and
      * live in-stock flag, plus per-color in-stock and sold-out size lists and photos, so a
-     * sold-out size is never shown. Takes the ccId or url searchProducts returns.
+     * sold-out size is never shown. Takes the hit, ccId or url searchProducts returns; a Canadian
+     * ccId needs country: "ca" (a hit or url carries it).
      */
-    getProduct(ccId: string): Promise<OldNavyProduct>;
+    getProduct(product: string | { ccId: string; country?: "us" | "ca" } | OldNavySearchHit): Promise<OldNavyProduct>;
   }
 }
 
@@ -39813,17 +40107,30 @@ interface GetRepairQuoteResult {
 
 declare namespace BowmarkProvider_quince {
   // ── Quince — the unit's own declarations, verbatim ──
+type QuinceCountry = "us" | "ca";
 interface QuinceSearchArgs {
   query: string;
   gender?: "men" | "women";
   size?: string;
   inStockOnly?: boolean;
   limit?: number;
+  /** Which store: "us" (default, USD) or "ca" (Canadian store, CAD, a smaller catalogue). */
+  country?: QuinceCountry;
+}
+interface QuinceProductRef {
+  /** A handle or quince.com URL; a /ca/ URL implies country "ca". */
+  handle?: string;
+  url?: string;
+  country?: QuinceCountry;
 }
 interface QuinceSearchHit {
   productId: number;
   handle: string;
+  /** The product page in this hit's store: https://www.quince.com/ca/... for Canada. */
   url: string;
+  country: QuinceCountry;
+  /** "USD" or "CAD": the currency minPrice and maxPrice are in. */
+  currency: string;
   title: string;
   color: string | null;
   department: string | null;
@@ -39837,6 +40144,8 @@ interface QuinceSearchHit {
 }
 interface QuinceSearchResult {
   query: string;
+  country: QuinceCountry;
+  currency: string;
   total: number;
   hits: QuinceSearchHit[];
 }
@@ -39857,6 +40166,9 @@ interface QuinceProduct {
   productId: number;
   handle: string;
   url: string;
+  country: QuinceCountry;
+  /** "USD" or "CAD": the currency every variant's price and traditionalRetailPrice is in. */
+  currency: string;
   title: string;
   productType: string | null;
   gender: string | null;
@@ -39868,22 +40180,25 @@ interface QuinceProduct {
 
   /**
    * Quince (quince.com) apparel and home store. Searches the live catalog (men's/women's, size,
-   * in-stock) and reads one product's per-variant size, color, price and live stock.
+   * in-stock) and reads one product's per-variant size, color, price and live stock. US store by
+   * default; country "ca" reads the Canadian store in CAD.
    */
   interface Unit {
     /**
      * Searches Quince's live apparel catalog the way a shopper would ("men's sweater", "cashmere
      * crewneck"), optionally narrowed to men/women, a size and in-stock only. Returns one row per
-     * product color with its price and the handle getProduct takes. The way in.
+     * product color with its price and the handle getProduct takes. US store by default; country:
+     * "ca" searches the Canadian store, prices in CAD, /ca/ URLs. The way in.
      */
     searchProducts(args: QuinceSearchArgs | string): Promise<QuinceSearchResult>;
 
     /**
      * Reads one Quince product page's per-variant (color × size) price, traditional-retail
      * comparison price, savings and live stock count, so a sold-out size is never shown. Takes the
-     * handle or URL searchProducts returns.
+     * handle or URL searchProducts returns, or the hit itself; a /ca/ URL or { handle, country:
+     * "ca" } reads the Canadian store in CAD, whose variants have their own ids and stock.
      */
-    getProduct(handle: string): Promise<QuinceProduct>;
+    getProduct(handle: string | QuinceProductRef): Promise<QuinceProduct>;
   }
 }
 
@@ -48566,6 +48881,7 @@ interface UniqloSearchArgs {
   department?: "men" | "women" | "kids" | "baby"; // department alone lists the whole department
   onSaleOnly?: boolean; // the site's own Sale filter
   limit?: number; // default 24, max 1000; the search walks result pages until it has this many
+  country?: "us" | "ca"; // which store: "us" (default, USD) or "ca" (Canada, CAD prices and Canadian stock)
 }
 interface UniqloColorRef {
   code: string; // color display code, e.g. "69"
@@ -48574,14 +48890,15 @@ interface UniqloColorRef {
 }
 interface UniqloSearchHit {
   productId: string; // pass with priceGroup to getProduct (or pass the hit itself)
-  priceGroup: string; // "00" full price, "01" a reduced price for select colors/sizes
+  priceGroup: string; // "00" full price, "01"/"02" a reduced price for select colors/sizes
+  country: "us" | "ca"; // the store this hit came from; getProduct(hit) reads the same store
   url: string;
   name: string;
   gender: string | null; // "MEN" | "WOMEN" | "UNISEX" | …
   price: number | null; // what it costs now
   regularPrice: number | null; // the original, ONLY when the site publishes one — usually null on a Sale item
   onSale: boolean; // the site marks it Sale
-  currency: string | null;
+  currency: string | null; // "USD" | "CAD"
   rating: number | null;
   reviewCount: number | null;
   colors: UniqloColorRef[];
@@ -48592,6 +48909,7 @@ interface UniqloSearchResult {
   query: string | null;
   department: "men" | "women" | "kids" | "baby" | null;
   onSaleOnly: boolean;
+  country: "us" | "ca";
   total: number; // products the site matched
   hasMore: boolean; // true when more matching products exist past `limit`
   hits: UniqloSearchHit[];
@@ -48625,13 +48943,14 @@ interface UniqloColor {
 interface UniqloProduct {
   productId: string;
   priceGroup: string;
+  country: "us" | "ca";
   url: string;
   name: string;
   gender: string | null;
   price: number | null;
   regularPrice: number | null; // original, when published; else null
   onSale: boolean;
-  currency: string | null;
+  currency: string | null; // "USD" | "CAD"
   rating: number | null;
   reviewCount: number | null;
   composition: string | null; // "100% Cotton\nImported"
@@ -48643,26 +48962,29 @@ interface UniqloProduct {
 }
 
   /**
-   * Uniqlo US (uniqlo.com/us) clothing store. Searches the live catalog by keyword and/or
-   * department (men's, women's, kids, baby), Sale items only if asked, every page; reads one
-   * product's per-color, per-size price, live stock with quantity, and photos.
+   * Uniqlo clothing store, US (uniqlo.com/us, USD) or Canada (uniqlo.com/ca, CAD) via country.
+   * Searches the live catalog by keyword and/or department (men's, women's, kids, baby), Sale
+   * items only if asked, every page; reads one product's per-color, per-size price, live stock
+   * with quantity, and photos.
    */
   interface Unit {
     /**
-     * Searches Uniqlo US's live catalog the way a shopper would ("button up shirt"), narrowed to a
-     * department (men/women/kids/baby) and optionally Sale only — or lists a whole department with
-     * no query — walking result pages until `limit` is met. One row per product with price, Sale
-     * flag, every color with its photo, and the sizes it comes in. The way in.
+     * Searches Uniqlo's live catalog the way a shopper would ("button up shirt"), US store by
+     * default or Canada with country: "ca" (CAD prices), narrowed to a department
+     * (men/women/kids/baby) and optionally Sale only — or lists a whole department with no query —
+     * walking result pages until `limit` is met. One row per product with price, Sale flag, every
+     * color with its photo, and the sizes it comes in. The way in.
      */
     searchProducts(args: UniqloSearchArgs | string): Promise<UniqloSearchResult>;
 
     /**
      * Reads one Uniqlo product's every color × size with its price, Sale flag, live stock status
      * and unit count, plus per-color in-stock and sold-out size lists, photos, and a URL that
-     * opens that exact color and size. Takes a productId, a search hit, or a uniqlo.com product
-     * url.
+     * opens that exact color and size. Takes a productId (US store, or { productId, country: "ca"
+     * } for Canada), a search hit (read from the hit's own store), or a uniqlo.com/us or /ca
+     * product url.
      */
-    getProduct(product: string | { productId: string; priceGroup?: string } | UniqloSearchHit): Promise<UniqloProduct>;
+    getProduct(product: string | { productId: string; priceGroup?: string; country?: "us" | "ca" } | UniqloSearchHit): Promise<UniqloProduct>;
   }
 }
 
@@ -54576,6 +54898,7 @@ interface BowmarkProviders {
   mailchimp: BowmarkProvider_mailchimp.Unit;
   mango: BowmarkProvider_mango.Unit;
   marketplace_visualstudio: BowmarkProvider_marketplace_visualstudio.Unit;
+  marks: BowmarkProvider_marks.Unit;
   marriott: BowmarkProvider_marriott.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
   mcp_registry: BowmarkProvider_mcp_registry.Unit;
