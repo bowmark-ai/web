@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6a771f5b5e7e47e2ddee1a8719aeac87f699496efd19b6e315c85247122cf034
-// 1901 checked, 20 unchecked.
+// Manifest version: 8d1fc06515bc5f390143b00e235a6459a8b47f0cf129278b218288d84485c1b4
+// 1902 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6a771f5b5e7e47e2ddee1a8719aeac87f699496efd19b6e315c85247122cf034",
+  "version": "8d1fc06515bc5f390143b00e235a6459a8b47f0cf129278b218288d84485c1b4",
   "units": {
     "address_validation": {
       "defs": {
@@ -32259,6 +32259,23 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": true
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "us"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "ca"
+                      }
+                    ]
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -32277,6 +32294,23 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "us"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "ca"
+                      }
+                    ]
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -32298,6 +32332,23 @@ export const VALIDATORS: ValidatorTable = {
                     }
                   },
                   "optional": false
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "us"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "ca"
+                      }
+                    ]
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -32316,6 +32367,23 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "us"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "ca"
+                      }
+                    ]
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -32359,6 +32427,23 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "us"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "ca"
+                      }
+                    ]
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -32377,6 +32462,23 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "us"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "ca"
+                      }
+                    ]
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -35093,6 +35195,24 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "getStormInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "stormId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6a771f5b5e7e47e2ddee1a8719aeac87f699496efd19b6e315c85247122cf034
-// 77 capabilities, 543 providers, 1919 typed functions, 20 refused.
+// Manifest version: 8d1fc06515bc5f390143b00e235a6459a8b47f0cf129278b218288d84485c1b4
+// 77 capabilities, 543 providers, 1920 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32143,7 +32143,12 @@ interface LululemonProduct {
   id: string;
   title: string;
   brand: string;
+  /** The product page on the store it was read from — /en-ca/ for Canada. */
   url: string;
+  /** Which storefront answered: "us" (the default) or "ca". */
+  country: "us" | "ca";
+  /** ISO 4217 for every price on this record: "USD", or "CAD" for Canada. */
+  currency: string | null;
   /** The store's own audience attribute, e.g. "women". */
   gender: string | null;
   rating: number | null;
@@ -32177,6 +32182,8 @@ interface LululemonProductAttributes {
   productId: string;
   url: string;
   title: string;
+  /** Which storefront answered: "us" or "ca". */
+  country: "us" | "ca";
   /** The site's own ProductGroup category, e.g. "Leggings". */
   category: string | null;
   description: string | null;
@@ -32268,12 +32275,17 @@ interface LululemonRow {
   /** False only on the fallback path (the store's search did not answer). */
   priced: boolean;
   image: string | null;
+  /** ISO 4217 for priceLow/priceHigh: "USD", or "CAD" on a Canadian search. */
   currency: string | null;
   category: string | null;
   colorFamilies: string[];
 }
 interface LululemonSearch {
   query: string;
+  /** Which storefront was searched: "us" (the default) or "ca". */
+  country: "us" | "ca";
+  /** That storefront's currency: "USD" or "CAD". */
+  currency: string;
   products: LululemonRow[];
   /** How many products matched IN TOTAL. Exact on the first page; a later page
    * may only know offset + rows, so keep the first page's value. */
@@ -32287,6 +32299,7 @@ interface LululemonSearch {
   nextOffset: number | null;
   warnings: string[];
 }
+/** US store only: the rail is a third party's, and it has no Canadian catalogue. */
 interface LululemonSimilarProducts {
   seedProductId: string;
   products: LululemonRow[];
@@ -32330,7 +32343,9 @@ interface LululemonSizeGuide {
   productName: string | null;
   /** The store's own key for the guide, e.g. "womens-pants". */
   sizeGuideCategory: string;
+  /** The guide page on that storefront — /en-ca/help/size-guide/… for Canada. */
   guideUrl: string;
+  country: "us" | "ca";
   charts: LululemonSizeChart[];
   warnings: string[];
 }
@@ -32353,9 +32368,12 @@ interface LululemonSizeGuide {
      * 24), `offset` where the page starts (default 0). An offset past the end is an empty page,
      * not an error. A category is just a query — the site's own URL segments (`womens-leggings`,
      * `men-joggers`) are ranked over, so `{ query: "womens leggings", offset }` walks that
-     * category.
+     * category. CANADA: `country: "ca"` searches the Canadian store (shop.lululemon.com/en-ca) —
+     * CAD prices, Canadian sale prices and stock, and every row's `url` is the /en-ca/ page, so
+     * the row passed straight to `getProduct` reads the Canadian record too. Default "us". The
+     * answer's `country` and `currency` say which store answered.
      */
-    search(query: { query: string; limit?: number; offset?: number }): Promise<LululemonSearch>;
+    search(query: { query: string; limit?: number; offset?: number; country?: "us" | "ca" }): Promise<LululemonSearch>;
 
     /**
      * Reads one product's full configurator the way its product page presents it — every colourway
@@ -32375,9 +32393,13 @@ interface LululemonSizeGuide {
      * colourway (`shopThisLook`), resolved to the real companion product it names over a second
      * keyless GET — a merchandiser's styling choice, not the algorithmic "You may also like" rail
      * `getSimilarProducts` exposes. Empty when a colourway named none, or named only ids the store
-     * no longer carries.
+     * no longer carries. CANADA: `country: "ca"` reads the Canadian store — CAD prices, Canadian
+     * markdowns and Canadian per-SKU stock, /en-ca/ urls; the record's `country` and `currency`
+     * say which. `productId` may also be a product URL (an /en-ca/ one selects Canada by itself)
+     * or a whole `search` row. The 10-character ids answer in both stores; an explicit `country`
+     * wins over the URL.
      */
-    getProduct(query: { productId: string }): Promise<LululemonProduct>;
+    getProduct(query: { productId: string; country?: "us" | "ca" }): Promise<LululemonProduct>;
 
     /**
      * Reads the full configurator for MANY products in one call — the shape for ranking a
@@ -32387,9 +32409,11 @@ interface LululemonSizeGuide {
      * 2026-09-20 over 72 real ids, 72 of 72. An id that still does not read is named in `missing`
      * with the store's own sentence rather than throwing and taking the other rows with it. At
      * most 24 ids, which is `search`'s own row cap, so one full search page is always one batch.
-     * Same `retailerSetEvidence` resolution as `getProduct`, per id.
+     * Same `retailerSetEvidence` resolution as `getProduct`, per id. `country: "ca"` reads every
+     * id from the Canadian store in CAD; an entry may also be a product URL or a `search` row, and
+     * an /en-ca/ one is read from Canada whatever the batch default is.
      */
-    getProducts(query: { productIds: string[] }): Promise<LululemonProductBatch>;
+    getProducts(query: { productIds: string[]; country?: "us" | "ca" }): Promise<LululemonProductBatch>;
 
     /**
      * Reads what lululemon publishes ABOUT a garment rather than what it costs: the category it is
@@ -32404,9 +32428,10 @@ interface LululemonSizeGuide {
      * is therefore below 1 on a perfectly healthy read (0.75 typically, lower when a garment has
      * no rise). It THROWS when the door does not answer, rather than returning an empty record:
      * this function has no browser fallback, by declaration, so a caller can trust that a field it
-     * did get was actually read.
+     * did get was actually read. `country: "ca"` (or an /en-ca/ product URL as `productId`) reads
+     * the Canadian store's record.
      */
-    getProductAttributes(query: { productId: string }): Promise<LululemonProductAttributes>;
+    getProductAttributes(query: { productId: string; country?: "us" | "ca" }): Promise<LululemonProductAttributes>;
 
     /**
      * Returns the products lululemon's own product pages recommend alongside one product — the
@@ -32417,6 +32442,9 @@ interface LululemonSizeGuide {
      * is a `search`. An old-style `prod…` id is accepted: lululemon renumbered its catalogue in
      * October 2026 and the rail knows only the new ids, so the old one is resolved through the
      * store's own product service first, and `seedProductId` names the id the rail was built from.
+     * US STORE ONLY: the rail is a third party's and it has no Canadian catalogue, so `country:
+     * "ca"` (or an /en-ca/ product URL) is refused with an input error rather than answered with
+     * US rows and US prices.
      */
     getSimilarProducts(query: { productId: string; limit?: number }): Promise<LululemonSimilarProducts>;
 
@@ -32426,9 +32454,10 @@ interface LululemonSizeGuide {
      * bought — the way the review section of its product page does. Reviews live on Bazaarvoice, a
      * third party, keyed off the `reviewsId` slug lululemon's own product door publishes; a
      * product with no reviewsId, or a Bazaarvoice call that fails, comes back with an empty
-     * `reviews` and a `warnings` entry naming why rather than throwing.
+     * `reviews` and a `warnings` entry naming why rather than throwing. Takes `country` like
+     * `getProduct`, and reads the `reviewsId` off that store's record.
      */
-    getReviews(query: { productId: string }): Promise<{ reviews: LululemonReview[]; warnings: string[] }>;
+    getReviews(query: { productId: string; country?: "us" | "ca" }): Promise<{ reviews: LululemonReview[]; warnings: string[] }>;
 
     /**
      * Returns lululemon's size chart for one garment — the body measurements (waist, hip, bust,
@@ -32438,8 +32467,9 @@ interface LululemonSizeGuide {
      * garment, each row a `{ label, values }` with one value per size column. When the store's
      * category matches no chart by name, `charts` is EVERY chart on that gender's guide page and
      * `warnings` says so. Throws for a product that names no size guide (bags, accessories).
+     * `country: "ca"` (or an /en-ca/ product URL) returns the Canadian store's guide page.
      */
-    getSizeGuide(query: { productId: string }): Promise<LululemonSizeGuide>;
+    getSizeGuide(query: { productId: string; country?: "us" | "ca" }): Promise<LululemonSizeGuide>;
   }
 }
 
@@ -35709,6 +35739,16 @@ interface nhcCurrentStorm {
   position: { lat: number; lon: number };
 }
 
+interface nhcStormInfo extends nhcCurrentStorm {
+  movement: { direction: string; speed: number };
+  links: {
+    publicAdvisory?: string;
+    forecastAdvisory?: string;
+    forecastDiscussion?: string;
+    windSpeedProbabilities?: string;
+  };
+}
+
   /**
    * Current and recent tropical storms and hurricanes from NOAA's Hurricane Center, keyless and
    * public.
@@ -35719,6 +35759,13 @@ interface nhcCurrentStorm {
      * Pacific, with position, intensity and pressure. Pass `basin` to narrow to one of them.
      */
     listCurrentStorms(args?: { basin?: 'AL' | 'EP' | 'CP' }): Promise<nhcCurrentStorm[]>;
+
+    /**
+     * Get one active storm's current status — position, intensity, pressure, movement,
+     * classification and links to its latest advisory products — by the id returned from
+     * listCurrentStorms.
+     */
+    getStormInfo(args: { stormId: string }): Promise<nhcStormInfo>;
   }
 }
 
@@ -53742,8 +53789,9 @@ interface SaleEvidence {
   /** The published "was" price. Strictly greater than currentPrice when
    * evidenceType is "compare_at_price". Null when nothing published one. */
   originalPrice: string | null;
-  /** ISO 4217, from the storefront's own /meta.json. Null only when that read
-   * failed — never defaulted to "USD", which is wrong on every non-US store. */
+  /** ISO 4217 — the same value as the product's own currency. Null only when
+   * that read failed — never defaulted to "USD", which is wrong on every non-US
+   * store. */
   currency: string | null;
   promotionMessage: string | null;
   /** How it was decided. "compare_at_price" is a struck-through price;
@@ -53875,8 +53923,15 @@ interface ShopifyProduct {
   descriptionHtml: string | null;
   /** The same copy with its markup removed. */
   descriptionText: string | null;
-  /** ISO 4217, read once per store from its own /meta.json. */
+  /** ISO 4217 of THIS row's prices. Read once per store from its own /meta.json;
+   * on a call that passed { country } it is that MARKET's currency instead (e.g.
+   * "CAD"), read from the market's own answer. Null when the read failed — never
+   * guessed. */
   currency: string | null;
+  /** The market asked for with { country: "CA" }, upper-cased. ABSENT when the
+   * call passed none. A country the store does not sell to is answered in its
+   * default market, with no error — read currency to see which market answered. */
+  country?: string;
   /** When the store's door ANSWERED this row, ISO 8601 UTC. Every field here is
    * a live fact with a shelf life — the price, the markdown, the per-variant
    * stock flag — so read it before treating a cached row as current. Stamped per
@@ -54016,7 +54071,11 @@ interface ShopifyCart {
   /** Units, NOT lines: two of one variant is one line and two items. */
   itemCount: number;
   subtotal: string;
+  /** The cart's own currency. A cart keeps the market of the call that created
+   * it, so pass the same { country } to every cart call. */
   currency: string;
+  /** The market asked for with { country }. Absent when the call passed none. */
+  country?: string;
   cartUrl: string;
   checkoutUrl: string;
 }
@@ -54032,7 +54091,7 @@ interface ShopifyCart {
      * current prices and per-variant stock. Goes through the store's OWN MCP server, so the
      * ranking is the store's own. Its variants[].id is the only thing the cart takes.
      */
-    search(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number; withSaleEvidence?: boolean }): Promise<ShopifyProduct[]>;
+    search(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number; withSaleEvidence?: boolean; country?: string }): Promise<ShopifyProduct[]>;
 
     /**
      * Reads one product by handle — every variant, its exact price, its SKU and whether that
@@ -54040,7 +54099,7 @@ interface ShopifyCart {
      * star rating and review count from whichever review app the merchant installed; it is off by
      * default because it costs a second origin and usually the rendered product page too.
      */
-    getProduct(handle: string): Promise<ShopifyProduct>;
+    getProduct(handle: string, opts?: { country?: string }): Promise<ShopifyProduct>;
 
     /**
      * Turns a product URL into the product, which is the address a caller actually holds when a
@@ -54051,7 +54110,7 @@ interface ShopifyCart {
      * true } option as getProduct, on the same default: a url is another way of naming one
      * product, so holding a link rather than a handle must not cost a caller the rating.
      */
-    resolveProductUrl(url: string): Promise<ShopifyProductFromUrl>;
+    resolveProductUrl(url: string, opts?: { country?: string }): Promise<ShopifyProductFromUrl>;
 
     /**
      * Reads FULL detail for many products in one call — the shape for ranking a candidate set,
@@ -54063,7 +54122,7 @@ interface ShopifyCart {
      * option, and is the shape to use for it: the review app's key is learned from the first pages
      * and reused, so ratings for twenty handles cost a handful of page fetches rather than twenty.
      */
-    getProducts(handles: string[]): Promise<ShopifyProductBatch>;
+    getProducts(handles: string[], opts?: { country?: string }): Promise<ShopifyProductBatch>;
 
     /**
      * Walks the store's WHOLE catalogue a page at a time, in its own merchandised order — the
@@ -54086,7 +54145,7 @@ interface ShopifyCart {
      * walk is not something to wait through: page in smaller calls, carry the cursor, and come
      * back.
      */
-    listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
+    listProducts(opts?: { limit?: number; cursor?: string | null; country?: string }): Promise<ShopifyProductPage>;
 
     /**
      * Lists EVERY one of the store's own merchandised collections, walked page by page, optionally
@@ -54103,7 +54162,7 @@ interface ShopifyCart {
      * products through this door — but an UNKNOWN handle throws, naming the collections that match
      * it, because the products door answers an empty list for any handle.
      */
-    getCollection(handle: string, opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyCollectionProducts>;
+    getCollection(handle: string, opts?: { limit?: number; cursor?: string | null; country?: string }): Promise<ShopifyCollectionProducts>;
 
     /**
      * Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the order
@@ -54122,14 +54181,14 @@ interface ShopifyCart {
      * run's cookie jar. Buys nothing — checkoutUrl is where a shopper would pay. Absent on a
      * member whose cart door is not reachable.
      */
-    addToCart(items: Array<{ variantId: string; quantity?: number }>): Promise<ShopifyCart>;
+    addToCart(items: Array<{ variantId: string; quantity?: number }>, opts?: { country?: string }): Promise<ShopifyCart>;
 
     /**
      * Reads THIS run's cart back — lines, quantities, per-line and order totals, and the real cart
      * and checkout URLs. An empty cart is an ordinary answer, not an error. Absent on a member
      * whose cart door is not reachable.
      */
-    getCart(): Promise<ShopifyCart>;
+    getCart(opts?: { country?: string }): Promise<ShopifyCart>;
   }
 }
 
@@ -54180,8 +54239,9 @@ interface SaleEvidence {
   /** The published "was" price. Strictly greater than currentPrice when
    * evidenceType is "compare_at_price". Null when nothing published one. */
   originalPrice: string | null;
-  /** ISO 4217, from the storefront's own /meta.json. Null only when that read
-   * failed — never defaulted to "USD", which is wrong on every non-US store. */
+  /** ISO 4217 — the same value as the product's own currency. Null only when
+   * that read failed — never defaulted to "USD", which is wrong on every non-US
+   * store. */
   currency: string | null;
   promotionMessage: string | null;
   /** How it was decided. "compare_at_price" is a struck-through price;
@@ -54313,8 +54373,15 @@ interface ShopifyProduct {
   descriptionHtml: string | null;
   /** The same copy with its markup removed. */
   descriptionText: string | null;
-  /** ISO 4217, read once per store from its own /meta.json. */
+  /** ISO 4217 of THIS row's prices. Read once per store from its own /meta.json;
+   * on a call that passed { country } it is that MARKET's currency instead (e.g.
+   * "CAD"), read from the market's own answer. Null when the read failed — never
+   * guessed. */
   currency: string | null;
+  /** The market asked for with { country: "CA" }, upper-cased. ABSENT when the
+   * call passed none. A country the store does not sell to is answered in its
+   * default market, with no error — read currency to see which market answered. */
+  country?: string;
   /** When the store's door ANSWERED this row, ISO 8601 UTC. Every field here is
    * a live fact with a shelf life — the price, the markdown, the per-variant
    * stock flag — so read it before treating a cached row as current. Stamped per
@@ -54454,7 +54521,11 @@ interface ShopifyCart {
   /** Units, NOT lines: two of one variant is one line and two items. */
   itemCount: number;
   subtotal: string;
+  /** The cart's own currency. A cart keeps the market of the call that created
+   * it, so pass the same { country } to every cart call. */
   currency: string;
+  /** The market asked for with { country }. Absent when the call passed none. */
+  country?: string;
   cartUrl: string;
   checkoutUrl: string;
 }
@@ -54470,7 +54541,7 @@ interface ShopifyCart {
      * current prices and per-variant stock. Goes through the store's OWN MCP server, so the
      * ranking is the store's own. Its variants[].id is the only thing the cart takes.
      */
-    search(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number; withSaleEvidence?: boolean }): Promise<ShopifyProduct[]>;
+    search(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number; withSaleEvidence?: boolean; country?: string }): Promise<ShopifyProduct[]>;
 
     /**
      * Reads one product by handle — every variant, its exact price, its SKU and whether that
@@ -54478,7 +54549,7 @@ interface ShopifyCart {
      * star rating and review count from whichever review app the merchant installed; it is off by
      * default because it costs a second origin and usually the rendered product page too.
      */
-    getProduct(handle: string): Promise<ShopifyProduct>;
+    getProduct(handle: string, opts?: { country?: string }): Promise<ShopifyProduct>;
 
     /**
      * Turns a product URL into the product, which is the address a caller actually holds when a
@@ -54489,7 +54560,7 @@ interface ShopifyCart {
      * true } option as getProduct, on the same default: a url is another way of naming one
      * product, so holding a link rather than a handle must not cost a caller the rating.
      */
-    resolveProductUrl(url: string): Promise<ShopifyProductFromUrl>;
+    resolveProductUrl(url: string, opts?: { country?: string }): Promise<ShopifyProductFromUrl>;
 
     /**
      * Reads FULL detail for many products in one call — the shape for ranking a candidate set,
@@ -54501,7 +54572,7 @@ interface ShopifyCart {
      * option, and is the shape to use for it: the review app's key is learned from the first pages
      * and reused, so ratings for twenty handles cost a handful of page fetches rather than twenty.
      */
-    getProducts(handles: string[]): Promise<ShopifyProductBatch>;
+    getProducts(handles: string[], opts?: { country?: string }): Promise<ShopifyProductBatch>;
 
     /**
      * Walks the store's WHOLE catalogue a page at a time, in its own merchandised order — the
@@ -54524,7 +54595,7 @@ interface ShopifyCart {
      * walk is not something to wait through: page in smaller calls, carry the cursor, and come
      * back.
      */
-    listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
+    listProducts(opts?: { limit?: number; cursor?: string | null; country?: string }): Promise<ShopifyProductPage>;
 
     /**
      * Lists EVERY one of the store's own merchandised collections, walked page by page, optionally
@@ -54541,7 +54612,7 @@ interface ShopifyCart {
      * products through this door — but an UNKNOWN handle throws, naming the collections that match
      * it, because the products door answers an empty list for any handle.
      */
-    getCollection(handle: string, opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyCollectionProducts>;
+    getCollection(handle: string, opts?: { limit?: number; cursor?: string | null; country?: string }): Promise<ShopifyCollectionProducts>;
 
     /**
      * Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the order

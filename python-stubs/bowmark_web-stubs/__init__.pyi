@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6a771f5b5e7e47e2ddee1a8719aeac87f699496efd19b6e315c85247122cf034
-# 77 capabilities, 543 providers, 1901 typed functions, 20 refused.
+# Manifest version: 8d1fc06515bc5f390143b00e235a6459a8b47f0cf129278b218288d84485c1b4
+# 77 capabilities, 543 providers, 1902 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17371,9 +17371,12 @@ class Prv_lululemon_search_query_In(TypedDict):
     query: str
     limit: NotRequired[float]
     offset: NotRequired[float]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_lululemon_LululemonSearch_Out(TypedDict):
     query: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str
     products: list[Prv_lululemon_LululemonRow_Out]
     matched: float
     offset: float
@@ -17397,12 +17400,15 @@ class Prv_lululemon_LululemonRow_Out(TypedDict):
 
 class Prv_lululemon_getProduct_query_In(TypedDict):
     productId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_lululemon_LululemonProduct_Out(TypedDict):
     id: str
     title: str
     brand: str
     url: str
+    country: Literal["us"] | Literal["ca"]
+    currency: str | None
     gender: str | None
     rating: float | None
     reviewCount: float | None
@@ -17517,6 +17523,7 @@ class Prv_lululemon_RetailerSetEvidence_Out_relatedProducts_item_Out(TypedDict):
 
 class Prv_lululemon_getProducts_query_In(TypedDict):
     productIds: Sequence[str]
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_lululemon_LululemonProductBatch_Out(TypedDict):
     products: list[Prv_lululemon_LululemonProduct_Out]
@@ -17530,11 +17537,13 @@ class Prv_lululemon_LululemonProductBatch_Out_missing_item_Out(TypedDict):
 
 class Prv_lululemon_getProductAttributes_query_In(TypedDict):
     productId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_lululemon_LululemonProductAttributes_Out(TypedDict):
     productId: str
     url: str
     title: str
+    country: Literal["us"] | Literal["ca"]
     category: str | None
     description: str | None
     fabrics: list[str]
@@ -17581,6 +17590,7 @@ class Prv_lululemon_LululemonSimilarProducts_Out(TypedDict):
 
 class Prv_lululemon_getReviews_query_In(TypedDict):
     productId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_lululemon_getReviews_return_Out(TypedDict):
     reviews: list[Prv_lululemon_LululemonReview_Out]
@@ -17597,12 +17607,14 @@ class Prv_lululemon_LululemonReview_Out(TypedDict):
 
 class Prv_lululemon_getSizeGuide_query_In(TypedDict):
     productId: str
+    country: NotRequired[Literal["us"] | Literal["ca"]]
 
 class Prv_lululemon_LululemonSizeGuide_Out(TypedDict):
     productId: str
     productName: str | None
     sizeGuideCategory: str
     guideUrl: str
+    country: Literal["us"] | Literal["ca"]
     charts: list[Prv_lululemon_LululemonSizeChart_Out]
     warnings: list[str]
 
@@ -19201,6 +19213,34 @@ class Prv_nhc_nhcCurrentStorm_Out(TypedDict):
 class Prv_nhc_nhcCurrentStorm_Out_position_Out(TypedDict):
     lat: float
     lon: float
+
+class Prv_nhc_getStormInfo_args_In(TypedDict):
+    stormId: str
+
+class Prv_nhc_nhcStormInfo_Out(TypedDict):
+    id: str
+    bin: str
+    name: str
+    classification: str
+    intensity: float
+    pressure: float
+    position: Prv_nhc_nhcStormInfo_Out_position_Out
+    movement: Prv_nhc_nhcStormInfo_Out_movement_Out
+    links: Prv_nhc_nhcStormInfo_Out_links_Out
+
+class Prv_nhc_nhcStormInfo_Out_position_Out(TypedDict):
+    lat: float
+    lon: float
+
+class Prv_nhc_nhcStormInfo_Out_movement_Out(TypedDict):
+    direction: str
+    speed: float
+
+class Prv_nhc_nhcStormInfo_Out_links_Out(TypedDict):
+    publicAdvisory: NotRequired[str]
+    forecastAdvisory: NotRequired[str]
+    forecastDiscussion: NotRequired[str]
+    windSpeedProbabilities: NotRequired[str]
 
 class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     package: str
@@ -42191,7 +42231,11 @@ class Prv_lululemon(Protocol):
         `limit` is rows per page (default 8, max 24), `offset` where the page starts (default
         0). An offset past the end is an empty page, not an error. A category is just a query —
         the site's own URL segments (`womens-leggings`, `men-joggers`) are ranked over, so `{
-        query: "womens leggings", offset }` walks that category.
+        query: "womens leggings", offset }` walks that category. CANADA: `country: "ca"`
+        searches the Canadian store (shop.lululemon.com/en-ca) — CAD prices, Canadian sale
+        prices and stock, and every row's `url` is the /en-ca/ page, so the row passed straight
+        to `getProduct` reads the Canadian record too. Default "us". The answer's `country` and
+        `currency` say which store answered.
         """
 
     async def getProduct(self, query: Prv_lululemon_getProduct_query_In, /) -> Prv_lululemon_LululemonProduct_Out:
@@ -42213,7 +42257,11 @@ class Prv_lululemon(Protocol):
         (`shopThisLook`), resolved to the real companion product it names over a second keyless
         GET — a merchandiser's styling choice, not the algorithmic "You may also like" rail
         `getSimilarProducts` exposes. Empty when a colourway named none, or named only ids the
-        store no longer carries.
+        store no longer carries. CANADA: `country: "ca"` reads the Canadian store — CAD prices,
+        Canadian markdowns and Canadian per-SKU stock, /en-ca/ urls; the record's `country` and
+        `currency` say which. `productId` may also be a product URL (an /en-ca/ one selects
+        Canada by itself) or a whole `search` row. The 10-character ids answer in both stores;
+        an explicit `country` wins over the URL.
         """
 
     async def getProducts(self, query: Prv_lululemon_getProducts_query_In, /) -> Prv_lululemon_LululemonProductBatch_Out:
@@ -42225,6 +42273,9 @@ class Prv_lululemon(Protocol):
         in `missing` with the store's own sentence rather than throwing and taking the other
         rows with it. At most 24 ids, which is `search`'s own row cap, so one full search page
         is always one batch. Same `retailerSetEvidence` resolution as `getProduct`, per id.
+        `country: "ca"` reads every id from the Canadian store in CAD; an entry may also be a
+        product URL or a `search` row, and an /en-ca/ one is read from Canada whatever the batch
+        default is.
         """
 
     async def getProductAttributes(self, query: Prv_lululemon_getProductAttributes_query_In, /) -> Prv_lululemon_LululemonProductAttributes_Out:
@@ -42241,7 +42292,8 @@ class Prv_lululemon(Protocol):
         healthy read (0.75 typically, lower when a garment has no rise). It THROWS when the door
         does not answer, rather than returning an empty record: this function has no browser
         fallback, by declaration, so a caller can trust that a field it did get was actually
-        read.
+        read. `country: "ca"` (or an /en-ca/ product URL as `productId`) reads the Canadian
+        store's record.
         """
 
     async def getSimilarProducts(self, query: Prv_lululemon_getSimilarProducts_query_In, /) -> Prv_lululemon_LululemonSimilarProducts_Out:
@@ -42253,7 +42305,9 @@ class Prv_lululemon(Protocol):
         reaching another length is a `search`. An old-style `prod…` id is accepted: lululemon
         renumbered its catalogue in October 2026 and the rail knows only the new ids, so the old
         one is resolved through the store's own product service first, and `seedProductId` names
-        the id the rail was built from.
+        the id the rail was built from. US STORE ONLY: the rail is a third party's and it has no
+        Canadian catalogue, so `country: "ca"` (or an /en-ca/ product URL) is refused with an
+        input error rather than answered with US rows and US prices.
         """
 
     async def getReviews(self, query: Prv_lululemon_getReviews_query_In, /) -> Prv_lululemon_getReviews_return_Out:
@@ -42262,7 +42316,8 @@ class Prv_lululemon(Protocol):
         say they bought — the way the review section of its product page does. Reviews live on
         Bazaarvoice, a third party, keyed off the `reviewsId` slug lululemon's own product door
         publishes; a product with no reviewsId, or a Bazaarvoice call that fails, comes back
-        with an empty `reviews` and a `warnings` entry naming why rather than throwing.
+        with an empty `reviews` and a `warnings` entry naming why rather than throwing. Takes
+        `country` like `getProduct`, and reads the `reviewsId` off that store's record.
         """
 
     async def getSizeGuide(self, query: Prv_lululemon_getSizeGuide_query_In, /) -> Prv_lululemon_LululemonSizeGuide_Out:
@@ -42273,7 +42328,8 @@ class Prv_lululemon(Protocol):
         chart(s) for that kind of garment, each row a `{ label, values }` with one value per
         size column. When the store's category matches no chart by name, `charts` is EVERY chart
         on that gender's guide page and `warnings` says so. Throws for a product that names no
-        size guide (bags, accessories).
+        size guide (bags, accessories). `country: "ca"` (or an /en-ca/ product URL) returns the
+        Canadian store's guide page.
         """
 
 class Prv_luma(Protocol):
@@ -43325,6 +43381,12 @@ class Prv_nhc(Protocol):
         """List every active tropical storm and hurricane across the Atlantic, East Pacific and
         Central Pacific, with position, intensity and pressure. Pass `basin` to narrow to one of
         them.
+        """
+
+    async def getStormInfo(self, args: Prv_nhc_getStormInfo_args_In, /) -> Prv_nhc_nhcStormInfo_Out:
+        """Get one active storm's current status — position, intensity, pressure, movement,
+        classification and links to its latest advisory products — by the id returned from
+        listCurrentStorms.
         """
 
 class Prv_npmjs(Protocol):
