@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3161 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3167 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1301,6 +1301,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟢 |
 | `g2.getProduct` | g2.com | Reads one product's `/products/<slug>/reviews` page for its published aggregate rating… | 🟢 |
 | `g2.search` | g2.com | Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a… | 🟢 |
+| `gap.getProduct` | www.gap.com | Reads one Gap product's variant-level sizes, colors and fits with each SKU's sale… | 🟢 |
+| `gap.searchProducts` | www.gap.com | Searches Gap's live apparel catalog (www.gap.com) for what a shopper types — men's… | 🟢 |
 | `gasbuddy.findCheapestNearby` | gasbuddy.com | Runs GasBuddy's own ZIP-radius station search and returns real, currently-reported… | 🟢 |
 | `gazelle.findDevices` | gazelle.com | Every device gazelle.com takes in trade, off gazelle's own sitemap — name, brand… | 🟢 |
 | `gazelle.getTradeInQuote` | gazelle.com | Reads gazelle.com's own current trade-in offer for a device named by NAME or by URL… | 🟢 |
@@ -2114,6 +2116,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.unsaveArticle` | nytimes.com | Removes an article from the reader's collection (requires auth). | ⚪ |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
 | `odfl.estimateFreightQuote` | odfl.com | Generates a shipping rate quote for an LTL freight shipment from ODFL. | ⚪ |
+| `old_navy.getProduct` | oldnavy.gap.com | Reads one Old Navy product's variant-level sizes, colors and fits with each SKU's sale… | 🟢 |
+| `old_navy.searchProducts` | oldnavy.gap.com | Searches Old Navy's live apparel catalog (oldnavy.gap.com) for what a shopper types —… | 🟢 |
 | `oliverwinery.checkShippingAvailability` | oliverwinery.com | Checks whether Oliver Winery currently ships wine to one US state, read off the… | 🟢 |
 | `oliverwinery.getWine` | oliverwinery.com | Reads one wine's full Commerce7 product record by its storefront slug (e.g.… | 🟢 |
 | `oliverwinery.listWines` | oliverwinery.com | Lists Oliver Winery's own Commerce7 shop catalog — real bottle titles, USD prices and… | 🟢 |
@@ -2878,6 +2882,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ulrichlifestyle.getConfigurator` | ulrichlifestyle.com | Reads one model's default configurator: its base price (before delivery/tax) plus… | 🟢 |
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
 | `ulrichlifestyle.priceConfiguration` | ulrichlifestyle.com | Configures and prices one specific build (dimensions, wall height, siding, delivery… | 🟢 |
+| `uniqlo.getProduct` | uniqlo.com | Reads one Uniqlo product's every color × size with its price, live stock status and… | 🟢 |
+| `uniqlo.searchProducts` | uniqlo.com | Searches Uniqlo US's live clothing catalog (uniqlo.com/us) by keyword and/or… | 🟢 |
 | `upkeepstl_com.estimatePlanCost` | upkeepstl.com | Computes the total contract price and per-year price for one plan selection (home… | 🟢 |
 | `upkeepstl_com.getPlanBuilder` | upkeepstl.com | Reads UPKEEP's public 'Build Your Plan' quote-form schema: the home-warranty plan… | 🟢 |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
