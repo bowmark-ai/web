@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d05d8f9de495769f39e66e57dcea2096e7f56105330c6de0e94218fd08deee5c
-// 77 capabilities, 544 providers, 1925 typed functions, 20 refused.
+// Manifest version: 5f9251cbcc17c770deeb9c13a042d6bebc6c4c85ab252bb3881dfb9812e70f48
+// 78 capabilities, 544 providers, 1926 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -464,6 +464,57 @@ interface BundleAvailability {
      * item is reported as not buildable instead, with its reason.
      */
     checkAvailability(items: { url: string }[]): Promise<BundleAvailability>;
+  }
+}
+
+declare namespace BowmarkCapability_business_electricity_quote {
+  // ── Business electricity quote — retailer plans and prices for a postcode — the unit's own declarations, verbatim ──
+type BusinessElectricityPlan = {
+  retailer: string               // e.g. "Origin Energy"
+  title: string
+  code: string                   // the retailer's own product code
+  description: string
+  contractPeriod: number | null
+  distributor: string | null     // the network, e.g. "Ausgrid"
+  tariffName: string | null
+  referenceUsage: string         // what the price assumes, e.g. "10000 kWh / yearly"
+  annualCost: number | null      // AUD at referenceUsage
+  monthlyCost: number | null
+  referenceCost: number | null   // the regulated default offer it is benchmarked against
+  percentSavingVsReference: number | null
+}
+type BusinessElectricityRetailerResult = {
+  retailer: string
+  serviceable: boolean           // false = the retailer does not sell into this postcode
+  planCount: number
+}
+type BusinessElectricityQuoteResult = {
+  postcode: string
+  plans: BusinessElectricityPlan[]          // cheapest annualCost first
+  retailers: BusinessElectricityRetailerResult[]
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Quotes business electricity for an Australian postcode: every plan a retailer sells there,
+   * priced at the regulator's reference usage, cheapest first. Origin Energy today;
+   * EnergyAustralia's quote endpoint is down and a warning says so.
+   */
+  interface Unit {
+    /**
+     * Business electricity quote for an Australian 4-digit postcode — every business electricity
+     * plan offered there with annual and monthly cost at the regulator's reference usage (10,000
+     * kWh/year), its network and tariff, sorted cheapest first. `retailers[].serviceable` is false
+     * where a retailer does not sell into that postcode (WA, TAS, NT for Origin) — a real empty
+     * answer, not an error.
+     */
+    getQuote(args: { postcode: string }, options?: CallOptions): Promise<BusinessElectricityQuoteResult>;
   }
 }
 
@@ -18442,8 +18493,8 @@ interface ebayDeal {
      * listings — title, price, condition, buying option (auction/fixed-price/best-offer), seller
      * and the item's own ebay.com URL. `limit` caps the row count (default 20, ceiling 200).
      * `seller` is null on rows where the results page does not print it. Works with no key:
-     * without one it reads eBay's own page, which walls a share of requests, so it can fail and is
-     * worth one retry; with an eBay OAuth key it uses the Browse API instead.
+     * without one it reads eBay's own page, which walls most requests and was open only for a
+     * window when last measured; with an eBay OAuth key it uses the Browse API instead.
      */
     search(args: string | { query: string; limit?: number }): Promise<ebayItem[]>;
 
@@ -18452,8 +18503,8 @@ interface ebayDeal {
      * `v1|110034424734|0`, or an ebay.com/itm/ URL) — title, price, condition, buying options,
      * seller feedback, item location, the site's own default shipping option, and current bid /
      * bid count for an active auction. Works with no key: without one it reads eBay's own page,
-     * which walls a share of requests, so it can fail and is worth one retry; with an eBay OAuth
-     * key it uses the Browse API instead.
+     * which walls most requests and was open only for a window when last measured; with an eBay
+     * OAuth key it uses the Browse API instead.
      */
     getItem(itemId: string): Promise<ebayItemDetail>;
 
@@ -18462,8 +18513,8 @@ interface ebayDeal {
      * category URLs carry it), with an optional keyword query narrowing within the category. Same
      * rows, same fields, as `search`. `limit` caps the row count (default 20, ceiling 200).
      * `seller` is null on rows where the results page does not print it. Works with no key:
-     * without one it reads eBay's own page, which walls a share of requests, so it can fail and is
-     * worth one retry; with an eBay OAuth key it uses the Browse API instead.
+     * without one it reads eBay's own page, which walls most requests and was open only for a
+     * window when last measured; with an eBay OAuth key it uses the Browse API instead.
      */
     searchByCategory(args: string | { categoryId: string; query?: string; limit?: number }): Promise<ebayItem[]>;
 
@@ -18472,9 +18523,9 @@ interface ebayDeal {
      * `seller`) that match `query` — a seller filter cannot stand alone on eBay's Browse API, so
      * `query` is required alongside `seller`. Same rows, same fields, as `search`. `limit` caps
      * the row count (default 20, ceiling 200). `seller` is null on rows where the results page
-     * does not print it. Works with no key: without one it reads eBay's own page, which walls a
-     * share of requests, so it can fail and is worth one retry; with an eBay OAuth key it uses the
-     * Browse API instead.
+     * does not print it. Works with no key: without one it reads eBay's own page, which walls most
+     * requests and was open only for a window when last measured; with an eBay OAuth key it uses
+     * the Browse API instead.
      */
     getSellerListings(args: { seller: string; query: string; limit?: number }): Promise<ebayItem[]>;
 
@@ -36285,6 +36336,15 @@ interface NytCookingGetMyRatingResult {
   rating: number | null;
 }
 
+interface NytCookingMarkRecipeCookedArgs {
+  recipeId: number | string;
+}
+
+interface NytCookingMarkRecipeCookedResult {
+  recipeId: number;
+  marked: true;
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -36374,6 +36434,12 @@ interface NytCookingGetMyRatingResult {
      * be signed in to NYT — the run pauses for a login the first time this is called.
      */
     getMyRating(args: NytCookingGetMyRatingArgs, opts?: ConnectionOption): Promise<NytCookingGetMyRatingResult>;
+
+    /**
+     * Marks a recipe as cooked in the signed-in reader's Recipe Box. Requires the caller to be
+     * signed in to NYT — the run pauses for a login the first time this is called.
+     */
+    markRecipeCooked(args: NytCookingMarkRecipeCookedArgs, opts?: ConnectionOption): Promise<NytCookingMarkRecipeCookedResult>;
   }
 }
 
@@ -36413,8 +36479,6 @@ interface SportsConnectionsCard { content: string; position: number; }
 interface SportsConnectionsCategory { title: string; cards: SportsConnectionsCard[]; }
 interface NytSportsConnections { id: string; printDate: string; categories: SportsConnectionsCategory[]; difficulty: number | null; editor: string | null; hintUrl: string | null; }
 interface GetSportsConnectionsArgs { date?: string; edition?: "sports-connections" | "soccer-connections"; }
-interface NytPlayerStatsData { states: unknown[]; }
-interface GetMyStatsArgs { game?: string; puzzleIds?: Array<number | string>; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -36425,93 +36489,93 @@ interface GetMyStatsArgs { game?: string; puzzleIds?: Array<number | string>; }
      * Reads one day's Wordle answer, puzzle number and editor. Defaults to today in New York; pass
      * { date: "YYYY-MM-DD" } for any day since 2021-06-19.
      */
-    getWordle(args?: GetWordleArgs): Promise<NytWordle>;
+    getWordle(args?: GetWordleArgs, opts?: ConnectionOption): Promise<NytWordle>;
 
     /**
      * Retrieves the daily Connections puzzle with four category groupings and their cards.
      * Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
      */
-    getConnections(args?: GetConnectionsArgs): Promise<NytConnections>;
+    getConnections(args?: GetConnectionsArgs, opts?: ConnectionOption): Promise<NytConnections>;
 
     /**
      * Retrieves the daily Spelling Bee puzzle with center letter, outer letters, valid answers and
      * pangrams. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
      */
-    getSpellingBee(args?: GetSpellingBeeArgs): Promise<NytSpellingBee>;
+    getSpellingBee(args?: GetSpellingBeeArgs, opts?: ConnectionOption): Promise<NytSpellingBee>;
 
     /**
      * Retrieves the daily Letter Boxed puzzle with the four letter sides, complete dictionary, and
      * the official solution. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any
      * day.
      */
-    getLetterBoxed(args?: GetLetterBoxedArgs): Promise<NytLetterBoxed>;
+    getLetterBoxed(args?: GetLetterBoxedArgs, opts?: ConnectionOption): Promise<NytLetterBoxed>;
 
     /**
      * Retrieves the daily Strands puzzle: theme words, spangram, clue, the letter board and each
      * answer's board path. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
      */
-    getStrands(args?: GetStrandsArgs): Promise<NytStrands>;
+    getStrands(args?: GetStrandsArgs, opts?: ConnectionOption): Promise<NytStrands>;
 
     /**
      * Retrieves the daily crossword: grid dimensions, editor, constructors, and every clue with
      * its answer spelled out from the grid. Defaults to today in New York; the archive runs back
      * to 1993.
      */
-    getCrosswordDaily(args?: GetCrosswordDailyArgs): Promise<NytCrossword>;
+    getCrosswordDaily(args?: GetCrosswordDailyArgs, opts?: ConnectionOption): Promise<NytCrossword>;
 
     /**
      * Retrieves the mini crossword: grid dimensions, editor, constructors, and every clue with its
      * answer spelled out from the grid. Defaults to today in New York; the mini launched
      * 2014-08-21.
      */
-    getCrosswordMini(args?: GetCrosswordMiniArgs): Promise<NytCrossword>;
+    getCrosswordMini(args?: GetCrosswordMiniArgs, opts?: ConnectionOption): Promise<NytCrossword>;
 
     /**
      * Retrieves the midi crossword: grid dimensions, editor, constructors, and every clue with its
      * answer spelled out from the grid. Defaults to today in New York; the midi launched 2024-04.
      */
-    getCrosswordMidi(args?: GetCrosswordMidiArgs): Promise<NytCrossword>;
+    getCrosswordMidi(args?: GetCrosswordMidiArgs, opts?: ConnectionOption): Promise<NytCrossword>;
 
     /**
      * Retrieves the daily Pips puzzle: all three difficulties (easy, medium, hard), each with its
      * dominoes, board regions and official solution. Defaults to today in New York; pass { date:
      * "YYYY-MM-DD" } for any day.
      */
-    getPips(args?: GetPipsArgs): Promise<NytPips>;
+    getPips(args?: GetPipsArgs, opts?: ConnectionOption): Promise<NytPips>;
 
     /**
      * Retrieves today's Sudoku: all three difficulties (easy, medium, hard), each with its board
      * (0 for a blank cell) and the official solution. NYT publishes Sudoku for today only — there
      * is no dated archive, so this takes no arguments.
      */
-    getSudoku(): Promise<NytSudoku>;
+    getSudoku(opts?: ConnectionOption): Promise<NytSudoku>;
 
     /**
      * Retrieves today's Tiles puzzle with its name, creator, board color and every earlier
      * palette. NYT publishes Tiles for today only — there is no dated archive, so this takes no
      * arguments.
      */
-    getTiles(): Promise<NytTiles>;
+    getTiles(opts?: ConnectionOption): Promise<NytTiles>;
 
     /**
      * Lists all available crossword puzzles from NYT, including daily, mini, and midi, ordered by
      * publication date (newest first). Each puzzle includes its ID, author, editor, title, and
      * publication date.
      */
-    listCrosswordPuzzles(): Promise<CrosswordPuzzleList>;
+    listCrosswordPuzzles(opts?: ConnectionOption): Promise<CrosswordPuzzleList>;
 
     /**
      * Retrieves a historical crossword puzzle from the archive dating back to 1995. Requires {
      * date: "YYYY-MM-DD" }.
      */
-    getCrosswordArchive(args: GetCrosswordArchiveArgs): Promise<NytCrossword>;
+    getCrosswordArchive(args: GetCrosswordArchiveArgs, opts?: ConnectionOption): Promise<NytCrossword>;
 
     /**
      * Lists this week's Bonus Puzzles drop (Wordle in 1, Connections 3x3, Colorful Strands, a
      * mystery mini and more), each with its title, constructors, editors and page URL. Defaults to
      * the most recent drop; pass { dropDate: "YYYY-MM-DD" } for an earlier week.
      */
-    listBonusPuzzles(args?: ListBonusPuzzlesArgs): Promise<BonusPuzzlesWeek>;
+    listBonusPuzzles(args?: ListBonusPuzzlesArgs, opts?: ConnectionOption): Promise<BonusPuzzlesWeek>;
 
     /**
      * Retrieves the daily Sports Connections puzzle with four category groupings and their cards.
@@ -36519,14 +36583,7 @@ interface GetMyStatsArgs { game?: string; puzzleIds?: Array<number | string>; }
      * in New York and the standard edition; pass { date: "YYYY-MM-DD", edition:
      * "soccer-connections" } to customize.
      */
-    getSportsConnections(args?: GetSportsConnectionsArgs): Promise<NytSportsConnections>;
-
-    /**
-     * The signed-in player's saved game state for one puzzle (stats and streaks live inside it) —
-     * defaults to { game: "wordleV2" }. Requires the caller to be signed in to NYT — the run
-     * pauses for a login the first time this is called.
-     */
-    getMyStats(args?: GetMyStatsArgs, opts?: ConnectionOption): Promise<NytPlayerStatsData>;
+    getSportsConnections(args?: GetSportsConnectionsArgs, opts?: ConnectionOption): Promise<NytSportsConnections>;
   }
 }
 
@@ -105185,6 +105242,7 @@ interface BowmarkLibrary {
   booking_links: BowmarkCapability_booking_links.Unit;
   browser_agent: BowmarkCapability_browser_agent.Unit;
   bundles: BowmarkCapability_bundles.Unit;
+  business_electricity_quote: BowmarkCapability_business_electricity_quote.Unit;
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   candy_prices: BowmarkCapability_candy_prices.Unit;
   cars: BowmarkCapability_cars.Unit;

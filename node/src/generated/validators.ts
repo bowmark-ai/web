@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d05d8f9de495769f39e66e57dcea2096e7f56105330c6de0e94218fd08deee5c
-// 1907 checked, 20 unchecked.
+// Manifest version: 5f9251cbcc17c770deeb9c13a042d6bebc6c4c85ab252bb3881dfb9812e70f48
+// 1908 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d05d8f9de495769f39e66e57dcea2096e7f56105330c6de0e94218fd08deee5c",
+  "version": "5f9251cbcc17c770deeb9c13a042d6bebc6c4c85ab252bb3881dfb9812e70f48",
   "units": {
     "address_validation": {
       "defs": {
@@ -440,6 +440,50 @@ export const VALIDATORS: ValidatorTable = {
               }
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "business_electricity_quote": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "postcode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -35890,6 +35934,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NytCookingMarkRecipeCookedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingRateRecipeArgs": {
           "k": "object",
           "props": [
@@ -36188,6 +36252,32 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "markRecipeCooked": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingMarkRecipeCookedArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -36260,36 +36350,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "date",
               "schema": {
                 "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "GetMyStatsArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "game",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "puzzleIds",
-              "schema": {
-                "k": "array",
-                "of": {
-                  "k": "union",
-                  "of": [
-                    {
-                      "k": "number"
-                    },
-                    {
-                      "k": "string"
-                    }
-                  ]
-                }
               },
               "optional": true
             }
@@ -36394,6 +36454,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetWordleArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getConnections": [
@@ -36402,6 +36478,22 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetConnectionsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -36414,6 +36506,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetSpellingBeeArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getLetterBoxed": [
@@ -36422,6 +36530,22 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetLetterBoxedArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -36434,6 +36558,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetStrandsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getCrosswordDaily": [
@@ -36442,6 +36582,22 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCrosswordDailyArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -36454,6 +36610,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetCrosswordMiniArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getCrosswordMidi": [
@@ -36462,6 +36634,22 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCrosswordMidiArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -36474,11 +36662,78 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetPipsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
-        "getSudoku": [],
-        "getTiles": [],
-        "listCrosswordPuzzles": [],
+        "getSudoku": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTiles": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listCrosswordPuzzles": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getCrosswordArchive": [
           {
             "name": "args",
@@ -36487,6 +36742,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetCrosswordArchiveArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "listBonusPuzzles": [
@@ -36497,6 +36768,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListBonusPuzzlesArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getSportsConnections": [
@@ -36505,16 +36792,6 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSportsConnectionsArgs"
-            },
-            "optional": true
-          }
-        ],
-        "getMyStats": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetMyStatsArgs"
             },
             "optional": true
           },

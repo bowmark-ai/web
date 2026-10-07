@@ -1,5 +1,5 @@
 {
-  "version": "d05d8f9de495769f39e66e57dcea2096e7f56105330c6de0e94218fd08deee5c",
+  "version": "5f9251cbcc17c770deeb9c13a042d6bebc6c4c85ab252bb3881dfb9812e70f48",
   "units": {
     "address_validation": {
       "defs": {
@@ -428,6 +428,50 @@
               }
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "business_electricity_quote": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "postcode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -35878,6 +35922,26 @@
             }
           ]
         },
+        "NytCookingMarkRecipeCookedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingRateRecipeArgs": {
           "k": "object",
           "props": [
@@ -36176,6 +36240,32 @@
             },
             "optional": true
           }
+        ],
+        "markRecipeCooked": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingMarkRecipeCookedArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -36248,36 +36338,6 @@
               "name": "date",
               "schema": {
                 "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "GetMyStatsArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "game",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "puzzleIds",
-              "schema": {
-                "k": "array",
-                "of": {
-                  "k": "union",
-                  "of": [
-                    {
-                      "k": "number"
-                    },
-                    {
-                      "k": "string"
-                    }
-                  ]
-                }
               },
               "optional": true
             }
@@ -36382,6 +36442,22 @@
               "name": "GetWordleArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getConnections": [
@@ -36390,6 +36466,22 @@
             "schema": {
               "k": "ref",
               "name": "GetConnectionsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -36402,6 +36494,22 @@
               "name": "GetSpellingBeeArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getLetterBoxed": [
@@ -36410,6 +36518,22 @@
             "schema": {
               "k": "ref",
               "name": "GetLetterBoxedArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -36422,6 +36546,22 @@
               "name": "GetStrandsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getCrosswordDaily": [
@@ -36430,6 +36570,22 @@
             "schema": {
               "k": "ref",
               "name": "GetCrosswordDailyArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -36442,6 +36598,22 @@
               "name": "GetCrosswordMiniArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getCrosswordMidi": [
@@ -36450,6 +36622,22 @@
             "schema": {
               "k": "ref",
               "name": "GetCrosswordMidiArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -36462,11 +36650,78 @@
               "name": "GetPipsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
-        "getSudoku": [],
-        "getTiles": [],
-        "listCrosswordPuzzles": [],
+        "getSudoku": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTiles": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listCrosswordPuzzles": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getCrosswordArchive": [
           {
             "name": "args",
@@ -36475,6 +36730,22 @@
               "name": "GetCrosswordArchiveArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "listBonusPuzzles": [
@@ -36485,6 +36756,22 @@
               "name": "ListBonusPuzzlesArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getSportsConnections": [
@@ -36493,16 +36780,6 @@
             "schema": {
               "k": "ref",
               "name": "GetSportsConnectionsArgs"
-            },
-            "optional": true
-          }
-        ],
-        "getMyStats": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetMyStatsArgs"
             },
             "optional": true
           },

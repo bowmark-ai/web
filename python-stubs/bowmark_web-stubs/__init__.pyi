@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d05d8f9de495769f39e66e57dcea2096e7f56105330c6de0e94218fd08deee5c
-# 77 capabilities, 544 providers, 1907 typed functions, 20 refused.
+# Manifest version: 5f9251cbcc17c770deeb9c13a042d6bebc6c4c85ab252bb3881dfb9812e70f48
+# 78 capabilities, 544 providers, 1908 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -469,6 +469,37 @@ class Cap_bundles_BundleItemAvailability_Out_price_u0_Out(TypedDict):
 class Cap_bundles_BundleAvailability_Out_totalPrice_u0_Out(TypedDict):
     amount: float
     currency: str
+
+class Cap_business_electricity_quote_getQuote_args_In(TypedDict):
+    postcode: str
+
+class Cap_business_electricity_quote_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_business_electricity_quote_BusinessElectricityQuoteResult_Out(TypedDict):
+    postcode: str
+    plans: list[Cap_business_electricity_quote_BusinessElectricityPlan_Out]
+    retailers: list[Cap_business_electricity_quote_BusinessElectricityRetailerResult_Out]
+    warnings: list[str]
+
+class Cap_business_electricity_quote_BusinessElectricityPlan_Out(TypedDict):
+    retailer: str
+    title: str
+    code: str
+    description: str
+    contractPeriod: float | None
+    distributor: str | None
+    tariffName: str | None
+    referenceUsage: str
+    annualCost: float | None
+    monthlyCost: float | None
+    referenceCost: float | None
+    percentSavingVsReference: float | None
+
+class Cap_business_electricity_quote_BusinessElectricityRetailerResult_Out(TypedDict):
+    retailer: str
+    serviceable: bool
+    planCount: float
 
 class Cap_cable_railing_quote_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -19578,6 +19609,13 @@ class Prv_nyt_cooking_NytCookingGetMyRatingResult_Out(TypedDict):
     recipeId: float
     rating: float | None
 
+class Prv_nyt_cooking_NytCookingMarkRecipeCookedArgs_In(TypedDict):
+    recipeId: float | str
+
+class Prv_nyt_cooking_NytCookingMarkRecipeCookedResult_Out(TypedDict):
+    recipeId: float
+    marked: Literal[True]
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -19772,13 +19810,6 @@ class Prv_nyt_games_SportsConnectionsCategory_Out(TypedDict):
 class Prv_nyt_games_SportsConnectionsCard_Out(TypedDict):
     content: str
     position: float
-
-class Prv_nyt_games_GetMyStatsArgs_In(TypedDict):
-    game: NotRequired[str]
-    puzzleIds: NotRequired[Sequence[float | str]]
-
-class Prv_nyt_games_NytPlayerStatsData_Out(TypedDict):
-    states: list[Any]
 
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
@@ -30507,6 +30538,20 @@ class Cap_bundles(Protocol):
         dead item url; that item is reported as not buildable instead, with its reason.
         """
 
+class Cap_business_electricity_quote(Protocol):
+    """Quotes business electricity for an Australian postcode: every plan a retailer sells
+    there, priced at the regulator's reference usage, cheapest first. Origin Energy today;
+    EnergyAustralia's quote endpoint is down and a warning says so.
+    """
+
+    async def getQuote(self, args: Cap_business_electricity_quote_getQuote_args_In, options: Cap_business_electricity_quote_CallOptions_In | None = None, /) -> Cap_business_electricity_quote_BusinessElectricityQuoteResult_Out:
+        """Business electricity quote for an Australian 4-digit postcode — every business
+        electricity plan offered there with annual and monthly cost at the regulator's reference
+        usage (10,000 kWh/year), its network and tariff, sorted cheapest first.
+        `retailers[].serviceable` is false where a retailer does not sell into that postcode
+        (WA, TAS, NT for Origin) — a real empty answer, not an error.
+        """
+
 class Cap_cable_railing_quote(Protocol):
     """Returns the real material and mounting-style choices behind Viewrail's Victor
     cable-railing design app. There is no automated instant price to return alongside them —
@@ -37130,8 +37175,8 @@ class Prv_ebay(Protocol):
         listings — title, price, condition, buying option (auction/fixed-price/best-offer),
         seller and the item's own ebay.com URL. `limit` caps the row count (default 20, ceiling
         200). `seller` is null on rows where the results page does not print it. Works with no
-        key: without one it reads eBay's own page, which walls a share of requests, so it can
-        fail and is worth one retry; with an eBay OAuth key it uses the Browse API instead.
+        key: without one it reads eBay's own page, which walls most requests and was open only
+        for a window when last measured; with an eBay OAuth key it uses the Browse API instead.
         """
 
     async def getItem(self, itemId: str, /) -> Prv_ebay_ebayItemDetail_Out:
@@ -37139,8 +37184,8 @@ class Prv_ebay(Protocol):
         API's `v1|110034424734|0`, or an ebay.com/itm/ URL) — title, price, condition, buying
         options, seller feedback, item location, the site's own default shipping option, and
         current bid / bid count for an active auction. Works with no key: without one it reads
-        eBay's own page, which walls a share of requests, so it can fail and is worth one retry;
-        with an eBay OAuth key it uses the Browse API instead.
+        eBay's own page, which walls most requests and was open only for a window when last
+        measured; with an eBay OAuth key it uses the Browse API instead.
         """
 
     async def searchByCategory(self, args: str | Prv_ebay_searchByCategory_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
@@ -37148,8 +37193,8 @@ class Prv_ebay(Protocol):
         category URLs carry it), with an optional keyword query narrowing within the category.
         Same rows, same fields, as `search`. `limit` caps the row count (default 20, ceiling
         200). `seller` is null on rows where the results page does not print it. Works with no
-        key: without one it reads eBay's own page, which walls a share of requests, so it can
-        fail and is worth one retry; with an eBay OAuth key it uses the Browse API instead.
+        key: without one it reads eBay's own page, which walls most requests and was open only
+        for a window when last measured; with an eBay OAuth key it uses the Browse API instead.
         """
 
     async def getSellerListings(self, args: Prv_ebay_getSellerListings_args_In, /) -> list[Prv_ebay_ebayItem_Out]:
@@ -37158,8 +37203,8 @@ class Prv_ebay(Protocol):
         API, so `query` is required alongside `seller`. Same rows, same fields, as `search`.
         `limit` caps the row count (default 20, ceiling 200). `seller` is null on rows where the
         results page does not print it. Works with no key: without one it reads eBay's own page,
-        which walls a share of requests, so it can fail and is worth one retry; with an eBay
-        OAuth key it uses the Browse API instead.
+        which walls most requests and was open only for a window when last measured; with an
+        eBay OAuth key it uses the Browse API instead.
         """
 
     async def searchAutocomplete(self, args: str | Prv_ebay_searchAutocomplete_args_u1_In, /) -> Prv_ebay_ebayAutocompleteResult_Out:
@@ -43699,102 +43744,101 @@ class Prv_nyt_cooking(Protocol):
         to be signed in to NYT — the run pauses for a login the first time this is called.
         """
 
+    async def markRecipeCooked(self, args: Prv_nyt_cooking_NytCookingMarkRecipeCookedArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingMarkRecipeCookedResult_Out:
+        """Marks a recipe as cooked in the signed-in reader's Recipe Box. Requires the caller to be
+        signed in to NYT — the run pauses for a login the first time this is called.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
     """
 
-    async def getWordle(self, args: Prv_nyt_games_GetWordleArgs_In | None = None, /) -> Prv_nyt_games_NytWordle_Out:
+    async def getWordle(self, args: Prv_nyt_games_GetWordleArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytWordle_Out:
         """Reads one day's Wordle answer, puzzle number and editor. Defaults to today in New York;
         pass { date: "YYYY-MM-DD" } for any day since 2021-06-19.
         """
 
-    async def getConnections(self, args: Prv_nyt_games_GetConnectionsArgs_In | None = None, /) -> Prv_nyt_games_NytConnections_Out:
+    async def getConnections(self, args: Prv_nyt_games_GetConnectionsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytConnections_Out:
         """Retrieves the daily Connections puzzle with four category groupings and their cards.
         Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
         """
 
-    async def getSpellingBee(self, args: Prv_nyt_games_GetSpellingBeeArgs_In | None = None, /) -> Prv_nyt_games_NytSpellingBee_Out:
+    async def getSpellingBee(self, args: Prv_nyt_games_GetSpellingBeeArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytSpellingBee_Out:
         """Retrieves the daily Spelling Bee puzzle with center letter, outer letters, valid answers
         and pangrams. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
         """
 
-    async def getLetterBoxed(self, args: Prv_nyt_games_GetLetterBoxedArgs_In | None = None, /) -> Prv_nyt_games_NytLetterBoxed_Out:
+    async def getLetterBoxed(self, args: Prv_nyt_games_GetLetterBoxedArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytLetterBoxed_Out:
         """Retrieves the daily Letter Boxed puzzle with the four letter sides, complete dictionary,
         and the official solution. Defaults to today in New York; pass { date: "YYYY-MM-DD" }
         for any day.
         """
 
-    async def getStrands(self, args: Prv_nyt_games_GetStrandsArgs_In | None = None, /) -> Prv_nyt_games_NytStrands_Out:
+    async def getStrands(self, args: Prv_nyt_games_GetStrandsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytStrands_Out:
         """Retrieves the daily Strands puzzle: theme words, spangram, clue, the letter board and
         each answer's board path. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for
         any day.
         """
 
-    async def getCrosswordDaily(self, args: Prv_nyt_games_GetCrosswordDailyArgs_In | None = None, /) -> Prv_nyt_games_NytCrossword_Out:
+    async def getCrosswordDaily(self, args: Prv_nyt_games_GetCrosswordDailyArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytCrossword_Out:
         """Retrieves the daily crossword: grid dimensions, editor, constructors, and every clue
         with its answer spelled out from the grid. Defaults to today in New York; the archive
         runs back to 1993.
         """
 
-    async def getCrosswordMini(self, args: Prv_nyt_games_GetCrosswordMiniArgs_In | None = None, /) -> Prv_nyt_games_NytCrossword_Out:
+    async def getCrosswordMini(self, args: Prv_nyt_games_GetCrosswordMiniArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytCrossword_Out:
         """Retrieves the mini crossword: grid dimensions, editor, constructors, and every clue with
         its answer spelled out from the grid. Defaults to today in New York; the mini launched
         2014-08-21.
         """
 
-    async def getCrosswordMidi(self, args: Prv_nyt_games_GetCrosswordMidiArgs_In | None = None, /) -> Prv_nyt_games_NytCrossword_Out:
+    async def getCrosswordMidi(self, args: Prv_nyt_games_GetCrosswordMidiArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytCrossword_Out:
         """Retrieves the midi crossword: grid dimensions, editor, constructors, and every clue with
         its answer spelled out from the grid. Defaults to today in New York; the midi launched
         2024-04.
         """
 
-    async def getPips(self, args: Prv_nyt_games_GetPipsArgs_In | None = None, /) -> Prv_nyt_games_NytPips_Out:
+    async def getPips(self, args: Prv_nyt_games_GetPipsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytPips_Out:
         """Retrieves the daily Pips puzzle: all three difficulties (easy, medium, hard), each with
         its dominoes, board regions and official solution. Defaults to today in New York; pass {
         date: "YYYY-MM-DD" } for any day.
         """
 
-    async def getSudoku(self, /) -> Prv_nyt_games_NytSudoku_Out:
+    async def getSudoku(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytSudoku_Out:
         """Retrieves today's Sudoku: all three difficulties (easy, medium, hard), each with its
         board (0 for a blank cell) and the official solution. NYT publishes Sudoku for today
         only — there is no dated archive, so this takes no arguments.
         """
 
-    async def getTiles(self, /) -> Prv_nyt_games_NytTiles_Out:
+    async def getTiles(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytTiles_Out:
         """Retrieves today's Tiles puzzle with its name, creator, board color and every earlier
         palette. NYT publishes Tiles for today only — there is no dated archive, so this takes
         no arguments.
         """
 
-    async def listCrosswordPuzzles(self, /) -> Prv_nyt_games_CrosswordPuzzleList_Out:
+    async def listCrosswordPuzzles(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_CrosswordPuzzleList_Out:
         """Lists all available crossword puzzles from NYT, including daily, mini, and midi, ordered
         by publication date (newest first). Each puzzle includes its ID, author, editor, title,
         and publication date.
         """
 
-    async def getCrosswordArchive(self, args: Prv_nyt_games_GetCrosswordArchiveArgs_In, /) -> Prv_nyt_games_NytCrossword_Out:
+    async def getCrosswordArchive(self, args: Prv_nyt_games_GetCrosswordArchiveArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytCrossword_Out:
         """Retrieves a historical crossword puzzle from the archive dating back to 1995. Requires {
         date: "YYYY-MM-DD" }.
         """
 
-    async def listBonusPuzzles(self, args: Prv_nyt_games_ListBonusPuzzlesArgs_In | None = None, /) -> Prv_nyt_games_BonusPuzzlesWeek_Out:
+    async def listBonusPuzzles(self, args: Prv_nyt_games_ListBonusPuzzlesArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_BonusPuzzlesWeek_Out:
         """Lists this week's Bonus Puzzles drop (Wordle in 1, Connections 3x3, Colorful Strands, a
         mystery mini and more), each with its title, constructors, editors and page URL.
         Defaults to the most recent drop; pass { dropDate: "YYYY-MM-DD" } for an earlier week.
         """
 
-    async def getSportsConnections(self, args: Prv_nyt_games_GetSportsConnectionsArgs_In | None = None, /) -> Prv_nyt_games_NytSportsConnections_Out:
+    async def getSportsConnections(self, args: Prv_nyt_games_GetSportsConnectionsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytSportsConnections_Out:
         """Retrieves the daily Sports Connections puzzle with four category groupings and their
         cards. Available in standard (Connections: Sports Edition) and soccer variants. Defaults
         to today in New York and the standard edition; pass { date: "YYYY-MM-DD", edition:
         "soccer-connections" } to customize.
-        """
-
-    async def getMyStats(self, args: Prv_nyt_games_GetMyStatsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytPlayerStatsData_Out:
-        """The signed-in player's saved game state for one puzzle (stats and streaks live inside
-        it) — defaults to { game: "wordleV2" }. Requires the caller to be signed in to NYT — the
-        run pauses for a login the first time this is called.
         """
 
 class Prv_nytimes(Protocol):
@@ -50715,6 +50759,7 @@ class Bowmark(Protocol):
     booking_links: Cap_booking_links
     browser_agent: Cap_browser_agent
     bundles: Cap_bundles
+    business_electricity_quote: Cap_business_electricity_quote
     cable_railing_quote: Cap_cable_railing_quote
     candy_prices: Cap_candy_prices
     cars: Cap_cars
