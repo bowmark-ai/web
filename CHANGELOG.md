@@ -6,6 +6,51 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.25.5 (2026-10-08)
+
+**Capabilities**
+
+- New capability **business_electricity_quote** (1 function): `business_electricity_quote.getQuote`
+- New capability **job_search** (1 function): `job_search.search`
+- Added `video_library.deletePlaylist`
+- Added `video_library.removeFromPlaylist`
+
+**Providers**
+
+- New provider **cerebralvalley.ai** (2 functions): `cerebralvalley.getEvent`, `cerebralvalley.listEvents`
+- New provider **dangotecement.com** (2 functions): `dangotecement.findDistributors`, `dangotecement.searchNews`
+- New provider **duckduckgo.com** (2 functions): `duckduckgo.searchNews`, `duckduckgo.searchWeb`
+- New provider **www.gap.com** (2 functions): `gap.getProduct`, `gap.searchProducts`
+- New provider **www.marks.com** (3 functions): `marks.findStores`, `marks.getProduct`, `marks.searchProducts`
+- New provider **api.weather.gov** (1 function): `nws.searchLocation`
+- New provider **oldnavy.gap.com** (2 functions): `old_navy.getProduct`, `old_navy.searchProducts`
+- New provider **pullandbear.com** (3 functions): `pullandbear.getProduct`, `pullandbear.listCategories`, `pullandbear.searchProducts`
+- New provider **raadvanstate.nl** (2 functions): `raadvanstate_nl.getRuling`, `raadvanstate_nl.searchRulings`
+- New provider **uniqlo.com** (2 functions): `uniqlo.getProduct`, `uniqlo.searchProducts`
+- Added `aol.getArticle`
+- Added `bbc.getVideo`
+- Added `bbc.listVideos`
+- Added `bluesky.getSuggestedUsers`
+- Added `businessinsider_com.listSections`
+- Added `ebay.getMyListings`
+- Added `ebay.getWatchlist`
+- Added `foxnews.getArticle`
+- Added `nhc.getStormInfo`
+- Added `nyt_cooking.getMyRating`
+- Added `nyt_cooking.markRecipeCooked`
+- Added `quora.getProfile`
+- Added `quora.getSpace`
+- Added `steam.getLibrary`
+- Added `target.reviewPhotos`
+- Added `twitch.getClip`
+- Added `weather_channel.searchNews`
+- Added `wikipedia.getCurrentUser`
+- Added `wikipedia.listWatchlist`
+- Added `yahoo_mail.getMessage`
+- Removed `nyt_games.getMyStats`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.25.4 (2026-10-06)
 
 **Capabilities**

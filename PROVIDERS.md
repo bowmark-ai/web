@@ -385,7 +385,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getListFeed` | bsky.app | The posts from everyone on a curation list, as the list's own feed tab shows them. | ⚪ |
 | `bluesky.getMe` | bsky.app | Who the signed-in caller is: their DID, handle, email-confirmed flag and PDS host. | ⚪ |
 | `bluesky.getMyLikes` | bsky.app | The posts the caller has liked. | ⚪ |
-| `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟢 |
+| `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟡 |
 | `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | 🟡 |
 | `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | 🟢 |
 | `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | 🟢 |
@@ -395,7 +395,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | ⚪ |
 | `bluesky.getSuggestedFollows` | bsky.app | Accounts Bluesky suggests alongside a given person — its 'similar accounts' list on a… | 🟢 |
 | `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, as shown on the Discover and Explore pages. | 🟢 |
-| `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | 🟢 |
+| `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | 🟡 |
 | `bluesky.getTimeline` | bsky.app | The caller's home Following feed, newest first, page by page. | ⚪ |
 | `bluesky.getTrendingTopics` | bsky.app | What is trending on Bluesky right now: the topics and the links to their search or… | 🟢 |
 | `bluesky.getTrends` | bsky.app | The richer trending list the Explore page shows: each trend's post count, status… | ⚪ |
