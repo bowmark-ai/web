@@ -504,7 +504,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.listGuides` | businessinsider.com | List buying guides and product reviews from the Guides vertical. | ⚪ |
 | `businessinsider_com.listMarketIndices` | businessinsider.com | List major market indices (S&P 500, Dow Jones, Nasdaq, etc) with their current levels. | ⚪ |
 | `businessinsider_com.listOpinionPieces` | businessinsider.com | List opinion and analysis pieces from the Opinion section. | ⚪ |
-| `businessinsider_com.listSections` | businessinsider.com | List the site's news sections and verticals. | ⚪ |
+| `businessinsider_com.listSections` | businessinsider.com | List the site's news sections and verticals. | 🟢 |
 | `businessinsider_com.listTrendingArticles` | businessinsider.com | List the homepage's current most-read/trending articles. | ⚪ |
 | `businessinsider_com.listVideos` | businessinsider.com | List videos from the Video vertical. | ⚪ |
 | `businessinsider_com.postComment` | businessinsider.com | Post a comment on an article as the signed-in caller. | ⚪ |
@@ -2324,7 +2324,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary. | ⚪ |
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟢 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟢 |
-| `quora.getSpace` | quora.com | Reads one Space — its description, member count, and its most recent questions —… | ⚪ |
+| `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟢 |
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name and description — taking a topic URL or name. | ⚪ |
 | `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | ⚪ |
 | `quora.postComment` | quora.com | Posts a comment on an answer as the signed-in caller. | ⚪ |
