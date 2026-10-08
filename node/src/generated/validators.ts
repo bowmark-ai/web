@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cea722c52a7b4b2c01af255d53196fe04b5ea5f57dc0a7828be302e03fcd2a37
-// 1923 checked, 20 unchecked.
+// Manifest version: fcde78a977de2c0620e432d60c74bcbdee24e7cebe2ae2c7bea35b33939a3e45
+// 1926 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cea722c52a7b4b2c01af255d53196fe04b5ea5f57dc0a7828be302e03fcd2a37",
+  "version": "fcde78a977de2c0620e432d60c74bcbdee24e7cebe2ae2c7bea35b33939a3e45",
   "units": {
     "address_validation": {
       "defs": {
@@ -15121,6 +15121,42 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.cerebralvalley": {
+      "defs": {
+        "GetEventArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetEventArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listEvents": []
+      }
+    },
     "providers.cftc": {
       "defs": {},
       "functions": {
@@ -18731,9 +18767,31 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SearchNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
+        "searchNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchNewsArgs"
+            },
+            "optional": false
+          }
+        ],
         "searchWeb": [
           {
             "name": "args",

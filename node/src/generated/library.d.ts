@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cea722c52a7b4b2c01af255d53196fe04b5ea5f57dc0a7828be302e03fcd2a37
-// 80 capabilities, 546 providers, 1941 typed functions, 20 refused.
+// Manifest version: fcde78a977de2c0620e432d60c74bcbdee24e7cebe2ae2c7bea35b33939a3e45
+// 80 capabilities, 547 providers, 1944 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14531,6 +14531,71 @@ interface ValidateAddressArgs {
   }
 }
 
+declare namespace BowmarkProvider_cerebralvalley {
+  // ── Cerebral Valley — the unit's own declarations, verbatim ──
+interface GetEventArgs {
+  /** An event url, e.g. "https://cerebralvalley.ai/e/crusoe-recursive-agents-hackathon". */
+  url?: string;
+  /** Or the slug alone. */
+  slug?: string;
+}
+interface CerebralValleyQuestion {
+  id: string;
+  question: string;
+  required: boolean;
+  type: string;
+  preset: string | null;
+  options: string[] | null;
+}
+interface CerebralValleyEvent {
+  id: string;
+  slug: string;
+  url: string;
+  name: string;
+  summary: string | null;
+  startDateTime: string | null;
+  endDateTime: string | null;
+  timeZone: string | null;
+  venue: string | null;
+  address: string | null;
+  city: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  approvalRequired: boolean;
+  registrationClosed: boolean;
+  isHackathon: boolean;
+  capacity: number | null;
+  hosts: string[];
+  questions: CerebralValleyQuestion[];
+}
+interface CerebralValleyEventLink {
+  slug: string;
+  url: string;
+  name: string | null;
+}
+
+  /**
+   * Cerebral Valley (cerebralvalley.ai) AI hackathons and events: list upcoming events, and read
+   * one event's date, venue, hosts, approval requirement and its full application questions
+   * without signing in.
+   */
+  interface Unit {
+    /**
+     * Read one Cerebral Valley (cerebralvalley.ai) event and its application questions without the
+     * sign-in wall: every question the apply form asks (text, required, type, select options,
+     * profile presets), whether approval is required and registration is closed, plus name, date
+     * and time with timezone, venue and address, city, hosts and a summary.
+     */
+    getEvent(args: GetEventArgs): Promise<CerebralValleyEvent>;
+
+    /**
+     * List the upcoming Cerebral Valley AI hackathons, build days and events on
+     * cerebralvalley.ai/events, each with its slug, url and name to pass to getEvent.
+     */
+    listEvents(): Promise<CerebralValleyEventLink[]>;
+  }
+}
+
 declare namespace BowmarkProvider_cftc {
   // ── CFTC — Industry Filings (Designated Contract Market Rules) — the unit's own declarations, verbatim ──
 interface CftcRuleFiling {
@@ -18544,6 +18609,19 @@ interface DoordashSearchResult {
 
 declare namespace BowmarkProvider_duckduckgo {
   // ── DuckDuckGo — the unit's own declarations, verbatim ──
+interface DuckDuckGoNewsStory {
+  title: string;
+  url: string;
+  excerpt: string;
+  date: number;
+  source: string;
+  image?: string;
+}
+
+interface SearchNewsArgs {
+  query: string;
+}
+
 interface DuckDuckGoSearchWebArgs {
   /** What you would type into duckduckgo.com's search box. */
   query: string;
@@ -18579,6 +18657,9 @@ interface DuckDuckGoSearchWebResult {
    * addresses.
    */
   interface Unit {
+    /** Search DuckDuckGo News vertical and returns news stories. */
+    searchNews(args: SearchNewsArgs): Promise<DuckDuckGoNewsStory[]>;
+
     /**
      * Searches the web the way duckduckgo.com's own search box does and returns the ranked organic
      * results (ads skipped) — title, destination URL, display URL, DuckDuckGo's snippet and a date
@@ -55279,6 +55360,7 @@ interface BowmarkProviders {
   cascadiaseniorliving_com: BowmarkProvider_cascadiaseniorliving_com.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
   census_api: BowmarkProvider_census_api.Unit;
+  cerebralvalley: BowmarkProvider_cerebralvalley.Unit;
   cftc: BowmarkProvider_cftc.Unit;
   champxpress: BowmarkProvider_champxpress.Unit;
   chantecaille: BowmarkProvider_chantecaille.Unit;

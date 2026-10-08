@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cea722c52a7b4b2c01af255d53196fe04b5ea5f57dc0a7828be302e03fcd2a37
-# 80 capabilities, 546 providers, 1923 typed functions, 20 refused.
+# Manifest version: fcde78a977de2c0620e432d60c74bcbdee24e7cebe2ae2c7bea35b33939a3e45
+# 80 capabilities, 547 providers, 1926 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8173,6 +8173,44 @@ class Prv_census_api_AddressMatch_Out(TypedDict):
     latitude: float
     longitude: float
 
+class Prv_cerebralvalley_GetEventArgs_In(TypedDict):
+    url: NotRequired[str]
+    slug: NotRequired[str]
+
+class Prv_cerebralvalley_CerebralValleyEvent_Out(TypedDict):
+    id: str
+    slug: str
+    url: str
+    name: str
+    summary: str | None
+    startDateTime: str | None
+    endDateTime: str | None
+    timeZone: str | None
+    venue: str | None
+    address: str | None
+    city: str | None
+    latitude: float | None
+    longitude: float | None
+    approvalRequired: bool
+    registrationClosed: bool
+    isHackathon: bool
+    capacity: float | None
+    hosts: list[str]
+    questions: list[Prv_cerebralvalley_CerebralValleyQuestion_Out]
+
+class Prv_cerebralvalley_CerebralValleyQuestion_Out(TypedDict):
+    id: str
+    question: str
+    required: bool
+    type: str
+    preset: str | None
+    options: list[str] | None
+
+class Prv_cerebralvalley_CerebralValleyEventLink_Out(TypedDict):
+    slug: str
+    url: str
+    name: str | None
+
 class Prv_cftc_searchRules_args_In(TypedDict):
     organization: NotRequired[str]
     status: NotRequired[str]
@@ -10252,6 +10290,17 @@ class Prv_doordash_DoordashSearchResult_Out(TypedDict):
     deliveryFee: float | None
     rating: float | None
     etaMinutes: float | None
+
+class Prv_duckduckgo_SearchNewsArgs_In(TypedDict):
+    query: str
+
+class Prv_duckduckgo_DuckDuckGoNewsStory_Out(TypedDict):
+    title: str
+    url: str
+    excerpt: str
+    date: float
+    source: str
+    image: NotRequired[str]
 
 class Prv_duckduckgo_DuckDuckGoSearchWebArgs_In(TypedDict):
     query: str
@@ -35923,6 +35972,24 @@ class Prv_census_api(Protocol):
         ambiguous
         """
 
+class Prv_cerebralvalley(Protocol):
+    """Cerebral Valley (cerebralvalley.ai) AI hackathons and events: list upcoming events, and
+    read one event's date, venue, hosts, approval requirement and its full application
+    questions without signing in.
+    """
+
+    async def getEvent(self, args: Prv_cerebralvalley_GetEventArgs_In, /) -> Prv_cerebralvalley_CerebralValleyEvent_Out:
+        """Read one Cerebral Valley (cerebralvalley.ai) event and its application questions without
+        the sign-in wall: every question the apply form asks (text, required, type, select
+        options, profile presets), whether approval is required and registration is closed, plus
+        name, date and time with timezone, venue and address, city, hosts and a summary.
+        """
+
+    async def listEvents(self, /) -> list[Prv_cerebralvalley_CerebralValleyEventLink_Out]:
+        """List the upcoming Cerebral Valley AI hackathons, build days and events on
+        cerebralvalley.ai/events, each with its slug, url and name to pass to getEvent.
+        """
+
 class Prv_cftc(Protocol):
     """Searches the CFTC's own register of exchange rule filings (self-certifications, rule
     amendments and approvals) by organization and status.
@@ -37433,6 +37500,9 @@ class Prv_duckduckgo(Protocol):
     !bangs, and Duck.ai chat; once a caller signs in, their Email Protection @duck.com
     addresses.
     """
+
+    async def searchNews(self, args: Prv_duckduckgo_SearchNewsArgs_In, /) -> list[Prv_duckduckgo_DuckDuckGoNewsStory_Out]:
+        """Search DuckDuckGo News vertical and returns news stories."""
 
     async def searchWeb(self, args: Prv_duckduckgo_DuckDuckGoSearchWebArgs_In, /) -> Prv_duckduckgo_DuckDuckGoSearchWebResult_Out:
         """Searches the web the way duckduckgo.com's own search box does and returns the ranked
@@ -50674,6 +50744,7 @@ class BowmarkProviders(Protocol):
     cascadiaseniorliving_com: Prv_cascadiaseniorliving_com
     cbhhomes: Prv_cbhhomes
     census_api: Prv_census_api
+    cerebralvalley: Prv_cerebralvalley
     cftc: Prv_cftc
     champxpress: Prv_champxpress
     chantecaille: Prv_chantecaille
