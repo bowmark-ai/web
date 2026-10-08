@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a5f39a0cbb1ba0855698a03c059488c89cf33978432bde8452afd7f771d75de4
-// 79 capabilities, 546 providers, 1937 typed functions, 20 refused.
+// Manifest version: c408d44af8d16b3f4a658ad7c7de6ee10b7cd8d592a576372662ac213435a2e3
+// 79 capabilities, 546 providers, 1938 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18684,6 +18684,14 @@ interface ebayWatchlistItem extends ebayItem {
      * ceiling 200).
      */
     getWatchlist(args?: { limit?: number }): Promise<ebayWatchlistItem[]>;
+
+    /**
+     * Get the caller's own active selling listings. Needs a signed-in eBay account; the caller
+     * supplies their session. Returns the same fields as `search` — `seller` is always `null`,
+     * since the page is the caller's own listings and does not print their username back to them.
+     * `limit` caps the row count (default 20, ceiling 200).
+     */
+    getMyListings(args?: { limit?: number }): Promise<ebayItem[]>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a5f39a0cbb1ba0855698a03c059488c89cf33978432bde8452afd7f771d75de4
-# 79 capabilities, 546 providers, 1919 typed functions, 20 refused.
+# Manifest version: c408d44af8d16b3f4a658ad7c7de6ee10b7cd8d592a576372662ac213435a2e3
+# 79 capabilities, 546 providers, 1920 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10357,6 +10357,9 @@ class Prv_ebay_ebayWatchlistItem_Out(TypedDict):
 class Prv_ebay_ebayWatchlistItem_Out_price_u0_Out(TypedDict):
     value: str
     currency: str
+
+class Prv_ebay_getMyListings_args_In(TypedDict):
+    limit: NotRequired[float]
 
 class Prv_elase_ElaseLocationLink_Out(TypedDict):
     slug: str
@@ -37430,6 +37433,13 @@ class Prv_ebay(Protocol):
         signed-in eBay account; the caller supplies their session. Returns the same fields as
         `search`, plus a `watchlistPosition` (1-indexed order in the list). `limit` caps the row
         count (default 20, ceiling 200).
+        """
+
+    async def getMyListings(self, args: Prv_ebay_getMyListings_args_In | None = None, /) -> list[Prv_ebay_ebayItem_Out]:
+        """Get the caller's own active selling listings. Needs a signed-in eBay account; the caller
+        supplies their session. Returns the same fields as `search` — `seller` is always `null`,
+        since the page is the caller's own listings and does not print their username back to
+        them. `limit` caps the row count (default 20, ceiling 200).
         """
 
 class Prv_elase(Protocol):
