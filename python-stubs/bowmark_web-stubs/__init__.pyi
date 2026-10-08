@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c408d44af8d16b3f4a658ad7c7de6ee10b7cd8d592a576372662ac213435a2e3
-# 79 capabilities, 546 providers, 1920 typed functions, 20 refused.
+# Manifest version: d5478e2b079bff53037a110d3531fc3d97fe8a80f10e131921e334f6d98c55b0
+# 79 capabilities, 546 providers, 1921 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6604,6 +6604,12 @@ class Prv_bluesky_BlueskyRelationship_Out(TypedDict):
 
 class Prv_bluesky_BlueskySuggestedFollowsResults_Out(TypedDict):
     suggestions: list[Prv_bluesky_BlueskyPostAuthor_Out]
+
+class Prv_bluesky_getSuggestedUsers_options_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_bluesky_BlueskySuggestedUsersResults_Out(TypedDict):
+    users: list[Prv_bluesky_BlueskyPostAuthor_Out]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -34908,6 +34914,13 @@ class Prv_bluesky(Protocol):
         account's handle, DID, display name and avatar; there is no paging, the site answers a
         fixed-size list. THROWS `blueskyInputError` on an actor the AppView cannot find — check
         the spelling with `searchUsers` or `resolveHandle`.
+        """
+
+    async def getSuggestedUsers(self, options: Prv_bluesky_getSuggestedUsers_options_In | None = None, /) -> Prv_bluesky_BlueskySuggestedUsersResults_Out:
+        """Bluesky's own suggested accounts to follow, as shown on the Discover and Explore pages.
+        Optionally accepts a `limit` parameter (1–100) to control the number of results. Returns
+        each suggested account's handle, DID, display name and avatar; there is no paging, the
+        site answers a fixed-size list.
         """
 
 class Prv_bmwusa(Protocol):
