@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 589c92d2f94da946c56d9ad9f4248504ded3dd2418ce90fc16c5e72715226ada
-// 1915 checked, 20 unchecked.
+// Manifest version: ec96126de1468d8d819c7a8ab6f7584cde9f2968461d6bb356e426b3e7c72c16
+// 1917 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "589c92d2f94da946c56d9ad9f4248504ded3dd2418ce90fc16c5e72715226ada",
+  "version": "ec96126de1468d8d819c7a8ab6f7584cde9f2968461d6bb356e426b3e7c72c16",
   "units": {
     "address_validation": {
       "defs": {
@@ -2842,6 +2842,62 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "job_search": {
+      "defs": {
+        "JobSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "US"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "CA"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "NL"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "JobSearchArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -56784,6 +56840,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getCurrentUser": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWatchlist": [
           {
             "name": "opts",
             "schema": {

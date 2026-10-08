@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 589c92d2f94da946c56d9ad9f4248504ded3dd2418ce90fc16c5e72715226ada
-# 78 capabilities, 546 providers, 1915 typed functions, 20 refused.
+# Manifest version: ec96126de1468d8d819c7a8ab6f7584cde9f2968461d6bb356e426b3e7c72c16
+# 79 capabilities, 546 providers, 1917 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1504,6 +1504,32 @@ class Cap_istanbul_schedules_AttractionHoursResult_Out(TypedDict):
     email: str | None
     url: str
     warnings: list[str]
+
+class Cap_job_search_JobSearchArgs_In(TypedDict):
+    query: str
+    location: NotRequired[str]
+    country: NotRequired[Literal["US"] | Literal["CA"] | Literal["NL"]]
+
+class Cap_job_search_job_searchResult_Out(TypedDict):
+    query: str
+    location: str | None
+    country: str
+    jobs: list[Cap_job_search_JobListing_Out]
+    warnings: list[str]
+
+class Cap_job_search_JobListing_Out(TypedDict):
+    title: str
+    company: str
+    location: str
+    remote: bool
+    salary: str | None
+    salaryMin: float | None
+    salaryMax: float | None
+    salaryPeriod: str | None
+    postedRelative: str | None
+    snippet: str | None
+    url: str
+    source: str
 
 class Cap_kenya_fuel_prices_kenya_fuel_pricesResult_Out(TypedDict):
     prices: list[Cap_kenya_fuel_prices_FuelPrice_Out]
@@ -29153,6 +29179,24 @@ class Prv_wikipedia_WikipediaCurrentUser_Out(TypedDict):
     registrationTime: str
     isBlocked: bool
 
+class Prv_wikipedia_listWatchlist_return_Out(TypedDict):
+    items: list[Prv_wikipedia_WikipediaWatchlistItem_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaWatchlistItem_Out(TypedDict):
+    title: str
+    pageId: float
+    revisionId: float
+    oldRevisionId: float
+    namespace: float
+    user: str
+    anonymous: bool
+    timestamp: str
+    comment: str
+    minor: bool
+    isNew: bool
+    bot: bool
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -31371,6 +31415,16 @@ class Cap_istanbul_schedules(Protocol):
         attraction's opening/closing hours, ticket-office closing time and closed days. THROWS a
         caller-fixable error naming the listing when nothing matches — the listing is a curated
         highlight subset, not the whole ministry catalog.
+        """
+
+class Cap_job_search(Protocol):
+    """Open job listings for a role in a city — title, company, location, salary and age — off
+    Indeed's own regional results page (US, Canada, Netherlands).
+    """
+
+    async def search(self, args: Cap_job_search_JobSearchArgs_In, /) -> Cap_job_search_job_searchResult_Out:
+        """Open job listings for a role, optionally in a city — picks Indeed's regional board from
+        the location (Toronto → ca.indeed.com).
         """
 
 class Cap_kenya_fuel_prices(Protocol):
@@ -49467,6 +49521,12 @@ class Prv_wikipedia(Protocol):
         a session replayed at all.
         """
 
+    async def listWatchlist(self, opts: ConnectionOption | None = None, /) -> Prv_wikipedia_listWatchlist_return_Out:
+        """The signed-in caller's watchlist — the pages they follow and recent changes to them,
+        newest first. Returns the page title, namespace, the most recent editor and edit
+        summary, and whether that edit was minor or created a new page.
+        """
+
 class Prv_wikipedia_standings(Protocol):
     """Search Wikipedia for sports league standings with goal differential data."""
 
@@ -50939,6 +50999,7 @@ class Bowmark(Protocol):
     industrial_supply: Cap_industrial_supply
     insurance: Cap_insurance
     istanbul_schedules: Cap_istanbul_schedules
+    job_search: Cap_job_search
     kenya_fuel_prices: Cap_kenya_fuel_prices
     local_database_gui: Cap_local_database_gui
     local_html_preview: Cap_local_html_preview

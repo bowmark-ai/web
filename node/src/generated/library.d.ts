@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 589c92d2f94da946c56d9ad9f4248504ded3dd2418ce90fc16c5e72715226ada
-// 78 capabilities, 546 providers, 1933 typed functions, 20 refused.
+// Manifest version: ec96126de1468d8d819c7a8ab6f7584cde9f2968461d6bb356e426b3e7c72c16
+// 79 capabilities, 546 providers, 1935 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2547,6 +2547,56 @@ type CallOptions = {
      * highlight subset, not the whole ministry catalog.
      */
     attractionHours(query: string, options?: CallOptions): Promise<AttractionHoursResult>;
+  }
+}
+
+declare namespace BowmarkCapability_job_search {
+  // ── Job Search — the unit's own declarations, verbatim ──
+interface JobSearchArgs {
+  query: string;     // the role, e.g. "data engineer"
+  location?: string; // e.g. "Toronto, ON"; omit for anywhere
+  country?: "US" | "CA" | "NL"; // inferred from location when omitted
+}
+
+interface JobListing {
+  title: string;
+  company: string;
+  location: string;
+  remote: boolean;
+  salary: string | null; // the board's own text
+  salaryMin: number | null;
+  salaryMax: number | null;
+  salaryPeriod: string | null; // "YEARLY", "HOURLY", …
+  postedRelative: string | null; // "3 days ago"
+  snippet: string | null;
+  url: string; // feed to bowmark.providers.indeed.getJobDetails({ url }) for the full posting
+  source: string;
+}
+
+interface job_searchResult {
+  query: string;
+  location: string | null;
+  country: string;
+  jobs: JobListing[];
+  warnings: string[];
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Open job listings for a role in a city — title, company, location, salary and age — off
+   * Indeed's own regional results page (US, Canada, Netherlands).
+   */
+  interface Unit {
+    /**
+     * Open job listings for a role, optionally in a city — picks Indeed's regional board from the
+     * location (Toronto → ca.indeed.com).
+     */
+    search(args: JobSearchArgs): Promise<job_searchResult>;
   }
 }
 
@@ -51543,6 +51593,21 @@ interface WikipediaRandomArticle {
   };
 }
 
+interface WikipediaWatchlistItem {
+  title: string;
+  pageId: number;
+  revisionId: number;
+  oldRevisionId: number;
+  namespace: number;
+  user: string;
+  anonymous: boolean;
+  timestamp: string;
+  comment: string;
+  minor: boolean;
+  isNew: boolean;
+  bot: boolean;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -51809,6 +51874,13 @@ interface WikipediaRandomArticle {
      * replayed at all.
      */
     getCurrentUser(opts?: ConnectionOption): Promise<WikipediaCurrentUser>;
+
+    /**
+     * The signed-in caller's watchlist — the pages they follow and recent changes to them, newest
+     * first. Returns the page title, namespace, the most recent editor and edit summary, and
+     * whether that edit was minor or created a new page.
+     */
+    listWatchlist(opts?: ConnectionOption): Promise<{ items: WikipediaWatchlistItem[]; warnings: string[] }>;
   }
 }
 
@@ -105423,6 +105495,7 @@ interface BowmarkLibrary {
   industrial_supply: BowmarkCapability_industrial_supply.Unit;
   insurance: BowmarkCapability_insurance.Unit;
   istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
+  job_search: BowmarkCapability_job_search.Unit;
   kenya_fuel_prices: BowmarkCapability_kenya_fuel_prices.Unit;
   local_database_gui: BowmarkCapability_local_database_gui.Unit;
   local_html_preview: BowmarkCapability_local_html_preview.Unit;
