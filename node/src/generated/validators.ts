@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd
-// 1914 checked, 20 unchecked.
+// Manifest version: efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf
+// 1915 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd",
+  "version": "efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf",
   "units": {
     "address_validation": {
       "defs": {
@@ -10813,6 +10813,15 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listMostRead": [],
         "listVideos": [],
+        "getVideo": [
+          {
+            "name": "videoIdOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listTopicStories": [
           {
             "name": "args",

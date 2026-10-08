@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd
-# 78 capabilities, 546 providers, 1914 typed functions, 20 refused.
+# Manifest version: efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf
+# 78 capabilities, 546 providers, 1915 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5564,6 +5564,21 @@ class Prv_bbc_BbcVideo_Out(TypedDict):
     date: NotRequired[str]
     image: NotRequired[str]
 
+class Prv_bbc_BbcGetVideoResult_Out(TypedDict):
+    videoId: str
+    title: str
+    summary: str
+    duration: NotRequired[float]
+    published: NotRequired[str]
+    section: NotRequired[str]
+    image: NotRequired[str]
+    url: str
+    relatedLinks: list[Prv_bbc_BbcRelatedLink_Out]
+
+class Prv_bbc_BbcRelatedLink_Out(TypedDict):
+    headline: str
+    url: str
+
 class Prv_bbc_listTopicStories_args_In(TypedDict):
     topicId: str
     page: NotRequired[float]
@@ -5611,10 +5626,6 @@ class Prv_bbc_BbcArticleBlock_Out(TypedDict):
     text: NotRequired[str]
     imageUrl: NotRequired[str]
     caption: NotRequired[str]
-
-class Prv_bbc_BbcRelatedLink_Out(TypedDict):
-    headline: str
-    url: str
 
 class Prv_bbc_BbcGetLivePageResult_Out(TypedDict):
     liveId: str
@@ -30611,9 +30622,9 @@ class Cap_bundles(Protocol):
         """
 
 class Cap_business_electricity_quote(Protocol):
-    """Quotes business electricity for an Australian postcode: every plan a retailer sells
-    there, priced at the regulator's reference usage, cheapest first. Origin Energy today;
-    EnergyAustralia's quote endpoint is down and a warning says so.
+    """Get business electricity quotes for an Australian postcode from Origin Energy. Returns
+    every available plan with annual and monthly costs at the regulator's reference usage,
+    sorted cheapest first. EnergyAustralia unavailable.
     """
 
     async def getQuote(self, args: Cap_business_electricity_quote_getQuote_args_In, options: Cap_business_electricity_quote_CallOptions_In | None = None, /) -> Cap_business_electricity_quote_BusinessElectricityQuoteResult_Out:
@@ -34114,6 +34125,12 @@ class Prv_bbc(Protocol):
     async def listVideos(self, /) -> Prv_bbc_BbcListVideosResult_Out:
         """The videos the BBC's video hub shows: title, summary, duration, url, video id, section
         and date.
+        """
+
+    async def getVideo(self, videoIdOrUrl: str, /) -> Prv_bbc_BbcGetVideoResult_Out:
+        """One BBC video page as data: title, summary, duration, published time, section, poster
+        image and the related-story links. Takes a video id or URL from listVideos or
+        listHeadlines.
         """
 
     async def listTopicStories(self, args: Prv_bbc_listTopicStories_args_In, /) -> Prv_bbc_BbcListTopicStoriesResult_Out:

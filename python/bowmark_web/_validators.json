@@ -1,5 +1,5 @@
 {
-  "version": "86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd",
+  "version": "efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf",
   "units": {
     "address_validation": {
       "defs": {
@@ -10801,6 +10801,15 @@
         ],
         "listMostRead": [],
         "listVideos": [],
+        "getVideo": [
+          {
+            "name": "videoIdOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listTopicStories": [
           {
             "name": "args",

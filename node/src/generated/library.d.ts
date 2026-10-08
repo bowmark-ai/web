@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd
-// 78 capabilities, 546 providers, 1932 typed functions, 20 refused.
+// Manifest version: efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf
+// 78 capabilities, 546 providers, 1933 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -468,7 +468,7 @@ interface BundleAvailability {
 }
 
 declare namespace BowmarkCapability_business_electricity_quote {
-  // ── Business electricity quote — retailer plans and prices for a postcode — the unit's own declarations, verbatim ──
+  // ── Business electricity quote — get retailer plans for an Australian postcode — the unit's own declarations, verbatim ──
 type BusinessElectricityPlan = {
   retailer: string               // e.g. "Origin Energy"
   title: string
@@ -502,9 +502,9 @@ type CallOptions = {
 }
 
   /**
-   * Quotes business electricity for an Australian postcode: every plan a retailer sells there,
-   * priced at the regulator's reference usage, cheapest first. Origin Energy today;
-   * EnergyAustralia's quote endpoint is down and a warning says so.
+   * Get business electricity quotes for an Australian postcode from Origin Energy. Returns every
+   * available plan with annual and monthly costs at the regulator's reference usage, sorted
+   * cheapest first. EnergyAustralia unavailable.
    */
   interface Unit {
     /**
@@ -9724,6 +9724,18 @@ interface BbcListVideosResult {
   videos: BbcVideo[];
 }
 
+interface BbcGetVideoResult {
+  videoId: string;
+  title: string;
+  summary: string;
+  duration?: number;  // seconds, from the video's own primary version
+  published?: string; // ISO
+  section?: string;
+  image?: string;
+  url: string;
+  relatedLinks: BbcRelatedLink[];
+}
+
 interface BbcListTopicStoriesResult {
   headlines: BbcHeadline[]; // the topic page's own order, newest first
 }
@@ -10088,6 +10100,12 @@ interface bbcRow {
      * date.
      */
     listVideos(): Promise<BbcListVideosResult>;
+
+    /**
+     * One BBC video page as data: title, summary, duration, published time, section, poster image
+     * and the related-story links. Takes a video id or URL from listVideos or listHeadlines.
+     */
+    getVideo(videoIdOrUrl: string): Promise<BbcGetVideoResult>;
 
     /**
      * The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id, date —
