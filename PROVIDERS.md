@@ -107,7 +107,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | 🟢 |
 | `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | 🟢 |
 | `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | 🟢 |
-| `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together" and… | 🟢 |
+| `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together" and… | 🟡 |
 | `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟡 |
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | 🟢 |
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
@@ -940,7 +940,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.getDeals` | ebay.com | Reads eBay's own `/deals` page — the spotlight, trending and featured deals a shopper… | 🟢 |
 | `ebay.getItem` | ebay.com | Reads one eBay listing by the id `search` returns — title, current price, condition… | 🟢 |
 | `ebay.getMyAccount` | ebay.com | Get the caller's account settings and preferences. | ⚪ |
-| `ebay.getMyListings` | ebay.com | Get the caller's active selling listings (for sellers). | ⚪ |
+| `ebay.getMyListings` | ebay.com | Get the caller's own active selling listings. | 🟢 |
 | `ebay.getMyMessages` | ebay.com | Get the caller's eBay messages — inbox, sent, and resolved messages. | ⚪ |
 | `ebay.getProfile` | ebay.com | Get the caller's profile information. | ⚪ |
 | `ebay.getSellerListings` | ebay.com | Searches one seller's own eBay listings for a keyword — the same rows `search` returns. | 🟢 |
@@ -1494,7 +1494,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grandwelcome.searchRentals` | grandwelcome.com | Runs Grand Welcome's own destination search (a real market slug like… | 🟢 |
 | `greatlakesbrewing.getEGiftCardOptions` | store.greatlakesbrewing.com | Reads Great Lakes Brewing Co.'s live eGift-card denominations, permitted custom range… | 🟢 |
 | `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
-| `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟢 |
+| `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟡 |
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
 | `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟡 |
 | `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟢 |
