@@ -1047,7 +1047,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.proposeFantasyTrade` | espn.com | Proposes a trade from the CALLER's own ESPN fantasy team to another team in the same… | ⚪ |
 | `espn.rankings` | espn.com | College polls — the AP Top 25, the Coaches Poll and the playoff rankings for college… | ⚪ |
 | `espn.removeFavorite` | espn.com | Removes a team, league or player from the CALLER's My ESPN favourites. | ⚪ |
-| `espn.scoreboard` | espn.com | A league's games for today, a date, a date range or a football week — teams, live or… | ⚪ |
+| `espn.scoreboard` | espn.com | A league's games for today, a date, a date range or a football week — teams, live or… | 🟢 |
 | `espn.search` | espn.com | ESPN's own site search — players, teams, leagues and articles matching free text, each… | ⚪ |
 | `espn.setFantasyLineup` | espn.com | Moves players between the CALLER's starting lineup and bench in one of their own ESPN… | ⚪ |
 | `espn.standings` | espn.com | A league's current standings by conference and division — wins, losses, ties, win… | ⚪ |
@@ -1964,21 +1964,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_365.listDocumentVersions` | TODO example.com | TODO — what listDocumentVersions does on the live site, and what interaction it… | ⚪ |
 | `microsoft_365.restoreDocumentVersion` | TODO example.com | TODO — what restoreDocumentVersion does on the live site, and what interaction it… | ⚪ |
 | `microsoft_365.shareDocument` | TODO example.com | TODO — what shareDocument does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_onedrive.deleteFile` | TODO example.com | TODO — what deleteFile does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_onedrive.getFile` | TODO example.com | TODO — what getFile does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_onedrive.listFiles` | TODO example.com | TODO — what listFiles does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_onedrive.listSharedFiles` | TODO example.com | TODO — what listSharedFiles does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_onedrive.moveFile` | TODO example.com | TODO — what moveFile does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_onedrive.shareFile` | TODO example.com | TODO — what shareFile does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_onedrive.uploadFile` | TODO example.com | TODO — what uploadFile does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.createCalendarEvent` | TODO example.com | TODO — what createCalendarEvent does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.createContact` | TODO example.com | TODO — what createContact does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.getCalendarEvents` | TODO example.com | TODO — what getCalendarEvents does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.getContact` | TODO example.com | TODO — what getContact does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.getMail` | TODO example.com | TODO — what getMail does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.listContacts` | TODO example.com | TODO — what listContacts does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.readMailFolder` | TODO example.com | TODO — what readMailFolder does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.sendMail` | TODO example.com | TODO — what sendMail does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.createFolder` | onedrive.live.com | TODO — what createFolder does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.deleteFile` | onedrive.live.com | TODO — what deleteFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.getFile` | onedrive.live.com | TODO — what getFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.listFiles` | onedrive.live.com | Lists files and folders in the user's OneDrive root or a specified path. | ⚪ |
+| `microsoft_onedrive.listFolders` | onedrive.live.com | TODO — what listFolders does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.shareFile` | onedrive.live.com | TODO — what shareFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.uploadFile` | onedrive.live.com | TODO — what uploadFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.createCalendarEvent` | outlook.live.com | TODO — what createCalendarEvent does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.createContact` | outlook.live.com | TODO — what createContact does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.getCalendarEvents` | outlook.live.com | TODO — what getCalendarEvents does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.getContact` | outlook.live.com | TODO — what getContact does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.getMail` | outlook.live.com | TODO — what getMail does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.listContacts` | outlook.live.com | TODO — what listContacts does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.readMailFolder` | outlook.live.com | TODO — what readMailFolder does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.sendMail` | outlook.live.com | TODO — what sendMail does on the live site, and what interaction it performs. | ⚪ |
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |
@@ -2234,7 +2234,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `otto.browseCategory` | otto.de | Lists products under one of OTTO's own department/category pages (e.g. Damenmode… | ⚪ |
 | `otto.getProduct` | otto.de | Reads one OTTO product page — price, current availability, delivery-time estimate (the… | 🟢 |
 | `otto.getReviews` | otto.de | Reads the customer reviews on one OTTO product — rating, review text… | ⚪ |
-| `otto.search` | otto.de | Searches OTTO's catalog for a keyword the way the site's own search bar does, across… | 🟡 |
+| `otto.search` | otto.de | Searches OTTO's catalog for a keyword the way the site's own search bar does, across… | 🔴 |
 | `otto.trackOrder` | otto.de | Looks up shipment/delivery status for an OTTO order by order number plus the account… | ⚪ |
 | `outdoorresearch.checkClaimEligibility` | outdoorresearch.com | Starts an Infinite Guarantee warranty claim by order number + email against the live… | 🟢 |
 | `outdoorresearch.getWarrantyPolicy` | outdoorresearch.com | Reads Outdoor Research's Infinite Guarantee warranty program settings straight from… | 🟢 |

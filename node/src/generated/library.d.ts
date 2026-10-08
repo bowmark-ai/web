@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 28f2e9c73eeb16c128d6a718fb8a4138b93971ac9d69385667baea5f40aa173a
-// 81 capabilities, 550 providers, 1948 typed functions, 20 refused.
+// Manifest version: e50b1ba6fe9cc44d63a1de59ad282ae530ed054d78b26b4df36cbec42c376daf
+// 81 capabilities, 550 providers, 1949 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19634,6 +19634,38 @@ interface EspnInjuryReport {
   injuries: EspnInjury[];
 }
 
+interface ScoreboardArgs {
+  /** League slug: "nfl", "nba", "eng.1", etc. */
+  league: string;
+  /** Optional: one specific date (YYYY-MM-DD format). Defaults to today. */
+  date?: string;
+  /** Optional: date range, format "YYYY-MM-DD to YYYY-MM-DD". Overrides date. */
+  dates?: string;
+  /** Optional: for football leagues only. "preseason", "regular", or "postseason". */
+  seasonType?: "preseason" | "regular" | "postseason";
+  /** Optional: for football leagues only. The week number. */
+  week?: number;
+}
+
+interface Game {
+  eventId: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  homeTeam: { name: string; abbreviation: string; id: string };
+  awayTeam: { name: string; abbreviation: string; id: string };
+  homeScore: number | null;
+  awayScore: number | null;
+  dateTime: string;
+  venue: string | null;
+  broadcasts: string[];
+  period: number | null;
+  timeRemaining: string | null;
+}
+
+interface ScoreboardResult {
+  league: string;
+  games: Game[];
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -19647,6 +19679,12 @@ interface EspnInjuryReport {
      * calling any other function.
      */
     listLeagues(args?: ListLeaguesArgs): Promise<EspnLeagueCatalog>;
+
+    /**
+     * A league's scoreboard for today, a date, a date range, or a football week — every game with
+     * teams, score, status, venue, broadcast and event id for getGame.
+     */
+    scoreboard(args: ScoreboardArgs): Promise<ScoreboardResult>;
 
     /**
      * The ESPN injury report for a league — NFL by default — every injured player with team,

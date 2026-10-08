@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 28f2e9c73eeb16c128d6a718fb8a4138b93971ac9d69385667baea5f40aa173a
-# 81 capabilities, 550 providers, 1930 typed functions, 20 refused.
+# Manifest version: e50b1ba6fe9cc44d63a1de59ad282ae530ed054d78b26b4df36cbec42c376daf
+# 81 capabilities, 550 providers, 1931 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10954,6 +10954,40 @@ class Prv_espn_EspnLeagueCatalog_Out(TypedDict):
 class Prv_espn_EspnSport_Out(TypedDict):
     slug: str
     name: str
+
+class Prv_espn_ScoreboardArgs_In(TypedDict):
+    league: str
+    date: NotRequired[str]
+    dates: NotRequired[str]
+    seasonType: NotRequired[Literal["preseason"] | Literal["regular"] | Literal["postseason"]]
+    week: NotRequired[float]
+
+class Prv_espn_ScoreboardResult_Out(TypedDict):
+    league: str
+    games: list[Prv_espn_Game_Out]
+
+class Prv_espn_Game_Out(TypedDict):
+    eventId: str
+    status: str
+    homeTeam: Prv_espn_Game_Out_homeTeam_Out
+    awayTeam: Prv_espn_Game_Out_awayTeam_Out
+    homeScore: float | None
+    awayScore: float | None
+    dateTime: str
+    venue: str | None
+    broadcasts: list[str]
+    period: float | None
+    timeRemaining: str | None
+
+class Prv_espn_Game_Out_homeTeam_Out(TypedDict):
+    name: str
+    abbreviation: str
+    id: str
+
+class Prv_espn_Game_Out_awayTeam_Out(TypedDict):
+    name: str
+    abbreviation: str
+    id: str
 
 class Prv_espn_InjuriesArgs_In(TypedDict):
     league: NotRequired[Literal["nfl"] | Literal["nba"] | Literal["wnba"] | Literal["mlb"] | Literal["nhl"]]
@@ -37936,6 +37970,11 @@ class Prv_espn(Protocol):
         """Every sport ESPN's core API tracks (call with no arguments), or every league slug under
         one sport (pass `sport`) — the door for a caller holding only a league's common name,
         before calling any other function.
+        """
+
+    async def scoreboard(self, args: Prv_espn_ScoreboardArgs_In, /) -> Prv_espn_ScoreboardResult_Out:
+        """A league's scoreboard for today, a date, a date range, or a football week — every game
+        with teams, score, status, venue, broadcast and event id for getGame.
         """
 
     async def injuries(self, args: Prv_espn_InjuriesArgs_In | None = None, /) -> Prv_espn_EspnInjuryReport_Out:

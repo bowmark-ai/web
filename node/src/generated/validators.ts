@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 28f2e9c73eeb16c128d6a718fb8a4138b93971ac9d69385667baea5f40aa173a
-// 1930 checked, 20 unchecked.
+// Manifest version: e50b1ba6fe9cc44d63a1de59ad282ae530ed054d78b26b4df36cbec42c376daf
+// 1931 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "28f2e9c73eeb16c128d6a718fb8a4138b93971ac9d69385667baea5f40aa173a",
+  "version": "e50b1ba6fe9cc44d63a1de59ad282ae530ed054d78b26b4df36cbec42c376daf",
   "units": {
     "address_validation": {
       "defs": {
@@ -19759,6 +19759,60 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ScoreboardArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "dates",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "seasonType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "preseason"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "regular"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "postseason"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "week",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -19770,6 +19824,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListLeaguesArgs"
             },
             "optional": true
+          }
+        ],
+        "scoreboard": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ScoreboardArgs"
+            },
+            "optional": false
           }
         ],
         "injuries": [
