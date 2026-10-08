@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1608fc3fa2a64293af42d97c9366c31aa9b203aa6bac33df791d99abe36b9084
+// Manifest version: 7ca9fa038c017618eca9c52b5e28fefe4d7a7bffba2808aa562d40e9ac96b350
 // 79 capabilities, 547 providers, 1942 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -9878,7 +9878,7 @@ interface BbcListCompetitionsResult {
 }
 
 interface BbcFixtureMatch {
-  matchId: string;
+  matchId?: string; // what getMatch takes — present only when BBC built a live-coverage page for this match
   competition: string; // the site's own tournament name, e.g. "Premier League" — a label; pass competitionPath on
   competitionPath?: string; // e.g. "/sport/football/nations-league" — what getFixtures' competition and getStandings take
   homeTeam: string;
@@ -9922,17 +9922,14 @@ interface BbcGetStandingsResult {
 
 interface BbcMatchTeam {
   name: string;
-  teamPath?: string;      // site-relative, e.g. "/sport/football/teams/manchester-city" — what getTeam takes
-  score?: number;
-  penaltyScore?: number;  // penalty shootout score, when applicable
+  score?: string;         // the site's own score as of this read, e.g. "1" — absent before kickoff
 }
 
 interface BbcMatchTimelineEvent {
   minute: number;
-  type: string;           // "goal" | "own-goal" | "card" | "substitution" | other site-defined types
+  type: string;           // "Goal" | "Penalty" | other site-defined action types, passed through verbatim
   team: string;
   player?: string;
-  detail?: string;
 }
 
 interface BbcMatchPlayer {
@@ -9957,9 +9954,9 @@ interface BbcGetMatchResult {
   statusDetail: string;   // the site's own short status word, e.g. "FT", "90'+2", "Scheduled", "Match Cancelled"
   venue?: string;
   competition?: string;   // the competition this match belongs to
-  timeline?: BbcMatchTimelineEvent[]; // goal and event timeline, newest-first order — absent when not available
-  lineups?: BbcMatchLineup[];         // team lineups — absent when not available
-  stats?: Record<string, unknown>;    // match statistics — absent when not available
+  timeline?: BbcMatchTimelineEvent[]; // goal/penalty timeline built from the site's own per-team action lists — absent when none
+  lineups?: BbcMatchLineup[];         // team lineups — absent when BBC does not cover this match that closely
+  stats?: Record<string, unknown>;    // the page's own match-stats module, { home: {...}, away: {...} } — absent when not covered
 }
 
 interface BbcWeatherLocation {
@@ -10017,25 +10014,22 @@ interface BbcGetCurrentWeatherResult {
 
 interface BbcTeamFixture {
   opponent: string;
-  date: string;
+  date: string;          // ISO date-time string
   status: string;
-  score?: string;
-  matchId?: string;
+  score?: string;        // "<this team's score>-<opponent's score>"
+  matchId?: string;      // what getMatch takes — present only when BBC built a live-coverage page
 }
 
 interface BbcTeamStory {
   headline: string;
   url: string;
-  date: string;
+  date: string;          // the site's own display timestamp, e.g. "12:46 BST" — not an ISO date
 }
 
 interface BbcGetTeamResult {
   name: string;
-  competition?: string;
-  record?: string;
-  position?: number;
-  recentResults: BbcTeamFixture[];
-  upcomingFixtures: BbcTeamFixture[];
+  recentResults: BbcTeamFixture[];   // most recent first
+  upcomingFixtures: BbcTeamFixture[]; // oldest first, matching the site's own order
   stories: BbcTeamStory[];
 }
 
@@ -10119,14 +10113,16 @@ interface bbcRow {
     getStandings(competition: string): Promise<BbcGetStandingsResult>;
 
     /**
-     * One match as BBC Sport shows it: teams, score, status, venue, and — where the sport carries
-     * them — goal/event timeline, line-ups and match stats. Takes a match id from getFixtures.
+     * One match's live-coverage page as BBC Sport shows it: teams, score, status, venue,
+     * competition, and — where BBC covers the match that closely — a goal/penalty timeline,
+     * line-ups and match stats. Takes a getFixtures row's matchId (present only when BBC built a
+     * live page for that match).
      */
     getMatch(matchId: string): Promise<BbcGetMatchResult>;
 
     /**
-     * One team's BBC Sport page: name, competition, its recent results and upcoming fixtures, and
-     * its latest stories. Takes a team path — a getStandings row's teamPath or a getFixtures row's
+     * One team's BBC Sport page: name, its recent results and upcoming fixtures, and its latest
+     * stories. Takes a team path — a getStandings row's teamPath or a getFixtures row's
      * homeTeamPath/awayTeamPath — or a bare slug like manchester-united.
      */
     getTeam(teamSlugOrUrl: string): Promise<BbcGetTeamResult>;

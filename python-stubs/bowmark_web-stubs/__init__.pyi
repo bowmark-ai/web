@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1608fc3fa2a64293af42d97c9366c31aa9b203aa6bac33df791d99abe36b9084
+# Manifest version: 7ca9fa038c017618eca9c52b5e28fefe4d7a7bffba2808aa562d40e9ac96b350
 # 79 capabilities, 547 providers, 1924 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -5459,7 +5459,7 @@ class Prv_bbc_BbcGetFixturesResult_Out(TypedDict):
     matches: list[Prv_bbc_BbcFixtureMatch_Out]
 
 class Prv_bbc_BbcFixtureMatch_Out(TypedDict):
-    matchId: str
+    matchId: NotRequired[str]
     competition: str
     competitionPath: NotRequired[str]
     homeTeam: str
@@ -5506,16 +5506,13 @@ class Prv_bbc_BbcGetMatchResult_Out(TypedDict):
 
 class Prv_bbc_BbcMatchTeam_Out(TypedDict):
     name: str
-    teamPath: NotRequired[str]
-    score: NotRequired[float]
-    penaltyScore: NotRequired[float]
+    score: NotRequired[str]
 
 class Prv_bbc_BbcMatchTimelineEvent_Out(TypedDict):
     minute: float
     type: str
     team: str
     player: NotRequired[str]
-    detail: NotRequired[str]
 
 class Prv_bbc_BbcMatchLineup_Out(TypedDict):
     team: str
@@ -5530,9 +5527,6 @@ class Prv_bbc_BbcMatchPlayer_Out(TypedDict):
 
 class Prv_bbc_BbcGetTeamResult_Out(TypedDict):
     name: str
-    competition: NotRequired[str]
-    record: NotRequired[str]
-    position: NotRequired[float]
     recentResults: list[Prv_bbc_BbcTeamFixture_Out]
     upcomingFixtures: list[Prv_bbc_BbcTeamFixture_Out]
     stories: list[Prv_bbc_BbcTeamStory_Out]
@@ -34248,15 +34242,16 @@ class Prv_bbc(Protocol):
         """
 
     async def getMatch(self, matchId: str, /) -> Prv_bbc_BbcGetMatchResult_Out:
-        """One match as BBC Sport shows it: teams, score, status, venue, and — where the sport
-        carries them — goal/event timeline, line-ups and match stats. Takes a match id from
-        getFixtures.
+        """One match's live-coverage page as BBC Sport shows it: teams, score, status, venue,
+        competition, and — where BBC covers the match that closely — a goal/penalty timeline,
+        line-ups and match stats. Takes a getFixtures row's matchId (present only when BBC built
+        a live page for that match).
         """
 
     async def getTeam(self, teamSlugOrUrl: str, /) -> Prv_bbc_BbcGetTeamResult_Out:
-        """One team's BBC Sport page: name, competition, its recent results and upcoming fixtures,
-        and its latest stories. Takes a team path — a getStandings row's teamPath or a
-        getFixtures row's homeTeamPath/awayTeamPath — or a bare slug like manchester-united.
+        """One team's BBC Sport page: name, its recent results and upcoming fixtures, and its
+        latest stories. Takes a team path — a getStandings row's teamPath or a getFixtures row's
+        homeTeamPath/awayTeamPath — or a bare slug like manchester-united.
         """
 
     async def listHeadlines(self, args: Prv_bbc_listHeadlines_args_In | None = None, /) -> Prv_bbc_BbcListHeadlinesResult_Out:
