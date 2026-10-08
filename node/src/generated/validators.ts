@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ec96126de1468d8d819c7a8ab6f7584cde9f2968461d6bb356e426b3e7c72c16
-// 1917 checked, 20 unchecked.
+// Manifest version: a5f39a0cbb1ba0855698a03c059488c89cf33978432bde8452afd7f771d75de4
+// 1919 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ec96126de1468d8d819c7a8ab6f7584cde9f2968461d6bb356e426b3e7c72c16",
+  "version": "a5f39a0cbb1ba0855698a03c059488c89cf33978432bde8452afd7f771d75de4",
   "units": {
     "address_validation": {
       "defs": {
@@ -13304,9 +13304,23 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ListSectionsArgs": {
+          "k": "object",
+          "props": []
         }
       },
       "functions": {
+        "listSections": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSectionsArgs"
+            },
+            "optional": false
+          }
+        ],
         "listArticlesBySection": [
           {
             "name": "args",
@@ -43006,6 +43020,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "GetSpaceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -43025,6 +43058,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetProfileArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSpace": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSpaceArgs"
             },
             "optional": false
           }

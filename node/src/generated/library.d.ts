@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ec96126de1468d8d819c7a8ab6f7584cde9f2968461d6bb356e426b3e7c72c16
-// 79 capabilities, 546 providers, 1935 typed functions, 20 refused.
+// Manifest version: a5f39a0cbb1ba0855698a03c059488c89cf33978432bde8452afd7f771d75de4
+// 79 capabilities, 546 providers, 1937 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12612,8 +12612,14 @@ interface BusinessInsiderListedArticle {
   title: string;
   url: string;
 }
+interface ListSectionsArgs {
+}
 interface GetArticleArgs {
   url: string;
+}
+interface BusinessInsiderSection {
+  slug: string;
+  displayName: string;
 }
 interface BusinessInsiderArticleAuthor {
   name: string;
@@ -12639,6 +12645,12 @@ interface BusinessInsiderArticleRecord {
    * article reads implemented, most other functions still queued.
    */
   interface Unit {
+    /**
+     * Lists the site's news sections and verticals (tech, markets, opinion, guides, politics,
+     * economy, retail, science, health, personal-finance, video, games, community).
+     */
+    listSections(args: ListSectionsArgs): Promise<BusinessInsiderSection[]>;
+
     /**
      * Lists recent articles off one businessinsider.com section/vertical page (tech, markets,
      * politics, economy, retail, science, health, etc), title and URL per article, newest-first as
@@ -23861,6 +23873,16 @@ interface DirectionsStep {
   instruction: string;
   distance: string;
   duration: string;
+  transit?: {
+    line: string;
+    vehicle?: string;
+    headsign?: string;
+    boardStop: string;
+    alightStop: string;
+    departureTime?: string;
+    arrivalTime?: string;
+    numStops?: number;
+  };
 }
 interface GetDirectionsResult {
   distance: string;
@@ -23868,6 +23890,7 @@ interface GetDirectionsResult {
   distanceMeters: number;
   durationSeconds: number;
   steps: DirectionsStep[];
+  numTransfers?: number;
 }
 interface ResolvePlaceUrlArgs {
   url: string;
@@ -24074,10 +24097,15 @@ interface SavePlaceResult {
      * through the identical door and the real per-leg totals summed; distance and duration are
      * then OUR text rather than the site's own (still real numbers, never invented). Returns the
      * site's own trip total (distance, duration, traffic-aware for driving) plus the turn-by-turn
-     * instructions, each carrying the site's own distance and duration text. Throws when any leg
-     * does not resolve to a route. Always the current right-now trip — arriveBy and departAt are
-     * refused by name rather than silently accepted and ignored (qa/20); nobody has measured this
-     * door's clock-time anchor yet.
+     * instructions, each carrying the site's own distance and duration text. Transit mode steps
+     * are not only walking instructions: each bus or train ride is its own step carrying transit:
+     * { line (the line name, e.g. "1 California" is line "1", "594"), vehicle ("Bus", "Cable car",
+     * "Light rail"), headsign, boardStop, alightStop (the stop to board and the stop to alight
+     * at), departureTime, arrivalTime, numStops }, between the walking steps, and the result
+     * carries numTransfers — the transfer count, i.e. the number of transfers — exactly what
+     * Google's own transit panel shows. Throws when any leg does not resolve to a route. Always
+     * the current right-now trip — arriveBy and departAt are refused by name rather than silently
+     * accepted and ignored (qa/20); nobody has measured this door's clock-time anchor yet.
      */
     getDirections(args: GetDirectionsArgs): Promise<GetDirectionsResult>;
 
@@ -32775,11 +32803,11 @@ interface DiscoverEventsArgs {
     getEvent(args: GetEventArgs): Promise<LumaEvent>;
 
     /**
-     * Upcoming Luma events in a city (place slug like sf, nyc, london), optionally searched by a
-     * free-text keyword query (retail, robotics, loss prevention — any topic, not only Luma's
-     * categories) or filtered to one topic category, and to one local day. Without a category it
-     * reads the city's short curated list; with one, the category's whole feed around the city, so
-     * any future day works.
+     * Search and discover upcoming Luma events in a city by free-text keyword query (retail, loss
+     * prevention, robotics — any topic, not just Luma's categories) or filter by topic category
+     * (ai, tech, crypto). Supports searching by local date. Pass the `query` parameter for keyword
+     * filtering, the `category` slug for topic filtering, or both for a keyword search across the
+     * whole feed around the city.
      */
     discoverEvents(args: DiscoverEventsArgs): Promise<LumaEvent[]>;
 
@@ -40579,6 +40607,22 @@ interface GetProfileArgs {
   url?: string;
   name?: string;
 }
+interface QuoraSpace {
+  id: string;
+  name: string;
+  description?: string;
+  memberCount?: number;
+  followCount?: number;
+  questions?: Array<{
+    id: string;
+    title: string;
+    url: string;
+  }>;
+}
+interface GetSpaceArgs {
+  url?: string;
+  name?: string;
+}
 
   /**
    * A question-and-answer site: questions and their answers, member profiles and Spaces, and
@@ -40599,6 +40643,12 @@ interface GetProfileArgs {
      * appears in the URL.
      */
     getProfile(args: GetProfileArgs): Promise<QuoraProfile>;
+
+    /**
+     * Reads one Space — its name, description, member count, and its most recent questions —
+     * taking a Space URL or name (e.g., 'technology' or 'https://technology.quora.com').
+     */
+    getSpace(args: GetSpaceArgs): Promise<QuoraSpace>;
   }
 }
 

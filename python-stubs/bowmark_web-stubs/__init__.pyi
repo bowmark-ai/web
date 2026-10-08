@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ec96126de1468d8d819c7a8ab6f7584cde9f2968461d6bb356e426b3e7c72c16
-# 79 capabilities, 546 providers, 1917 typed functions, 20 refused.
+# Manifest version: a5f39a0cbb1ba0855698a03c059488c89cf33978432bde8452afd7f771d75de4
+# 79 capabilities, 546 providers, 1919 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7054,6 +7054,13 @@ class Prv_bungalow_BungalowListingDetail_Out_showingsAvailable_Out(TypedDict):
     virtual: str | None
     inPerson: str | None
 
+class Prv_businessinsider_com_ListSectionsArgs_In(TypedDict):
+    pass
+
+class Prv_businessinsider_com_BusinessInsiderSection_Out(TypedDict):
+    slug: str
+    displayName: str
+
 class Prv_businessinsider_com_ListArticlesBySectionArgs_In(TypedDict):
     section: str
     limit: NotRequired[float]
@@ -13269,11 +13276,23 @@ class Prv_google_maps_GetDirectionsResult_Out(TypedDict):
     distanceMeters: float
     durationSeconds: float
     steps: list[Prv_google_maps_DirectionsStep_Out]
+    numTransfers: NotRequired[float]
 
 class Prv_google_maps_DirectionsStep_Out(TypedDict):
     instruction: str
     distance: str
     duration: str
+    transit: NotRequired[Prv_google_maps_DirectionsStep_Out_transit_Out]
+
+class Prv_google_maps_DirectionsStep_Out_transit_Out(TypedDict):
+    line: str
+    vehicle: NotRequired[str]
+    headsign: NotRequired[str]
+    boardStop: str
+    alightStop: str
+    departureTime: NotRequired[str]
+    arrivalTime: NotRequired[str]
+    numStops: NotRequired[float]
 
 class Prv_google_maps_ResolvePlaceUrlArgs_In(TypedDict):
     url: str
@@ -22216,6 +22235,23 @@ class Prv_quora_QuoraProfile_Out_spaces_item_Out(TypedDict):
     id: str
     name: str
     description: NotRequired[str]
+
+class Prv_quora_GetSpaceArgs_In(TypedDict):
+    url: NotRequired[str]
+    name: NotRequired[str]
+
+class Prv_quora_QuoraSpace_Out(TypedDict):
+    id: str
+    name: str
+    description: NotRequired[str]
+    memberCount: NotRequired[float]
+    followCount: NotRequired[float]
+    questions: NotRequired[list[Prv_quora_QuoraSpace_Out_questions_item_Out]]
+
+class Prv_quora_QuoraSpace_Out_questions_item_Out(TypedDict):
+    id: str
+    title: str
+    url: str
 
 class Prv_raadvanstate_nl_RaadvanstateSearchResult_Out(TypedDict):
     query: str
@@ -35161,6 +35197,11 @@ class Prv_businessinsider_com(Protocol):
     article reads implemented, most other functions still queued.
     """
 
+    async def listSections(self, args: Prv_businessinsider_com_ListSectionsArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderSection_Out]:
+        """Lists the site's news sections and verticals (tech, markets, opinion, guides, politics,
+        economy, retail, science, health, personal-finance, video, games, community).
+        """
+
     async def listArticlesBySection(self, args: Prv_businessinsider_com_ListArticlesBySectionArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderListedArticle_Out]:
         """Lists recent articles off one businessinsider.com section/vertical page (tech, markets,
         politics, economy, retail, science, health, etc), title and URL per article,
@@ -39378,9 +39419,15 @@ class Prv_google_maps(Protocol):
         distance and duration are then OUR text rather than the site's own (still real numbers,
         never invented). Returns the site's own trip total (distance, duration, traffic-aware
         for driving) plus the turn-by-turn instructions, each carrying the site's own distance
-        and duration text. Throws when any leg does not resolve to a route. Always the current
-        right-now trip — arriveBy and departAt are refused by name rather than silently accepted
-        and ignored (qa/20); nobody has measured this door's clock-time anchor yet.
+        and duration text. Transit mode steps are not only walking instructions: each bus or
+        train ride is its own step carrying transit: { line (the line name, e.g. "1 California"
+        is line "1", "594"), vehicle ("Bus", "Cable car", "Light rail"), headsign, boardStop,
+        alightStop (the stop to board and the stop to alight at), departureTime, arrivalTime,
+        numStops }, between the walking steps, and the result carries numTransfers — the
+        transfer count, i.e. the number of transfers — exactly what Google's own transit panel
+        shows. Throws when any leg does not resolve to a route. Always the current right-now
+        trip — arriveBy and departAt are refused by name rather than silently accepted and
+        ignored (qa/20); nobody has measured this door's clock-time anchor yet.
         """
 
     async def resolvePlaceUrl(self, args: Prv_google_maps_ResolvePlaceUrlArgs_In, /) -> Prv_google_maps_GoogleMapsPlace_Out:
@@ -42685,11 +42732,11 @@ class Prv_luma(Protocol):
         """
 
     async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
-        """Upcoming Luma events in a city (place slug like sf, nyc, london), optionally searched by
-        a free-text keyword query (retail, robotics, loss prevention — any topic, not only
-        Luma's categories) or filtered to one topic category, and to one local day. Without a
-        category it reads the city's short curated list; with one, the category's whole feed
-        around the city, so any future day works.
+        """Search and discover upcoming Luma events in a city by free-text keyword query (retail,
+        loss prevention, robotics — any topic, not just Luma's categories) or filter by topic
+        category (ai, tech, crypto). Supports searching by local date. Pass the `query`
+        parameter for keyword filtering, the `category` slug for topic filtering, or both for a
+        keyword search across the whole feed around the city.
         """
 
     async def listCalendarEvents(self, args: Prv_luma_ListCalendarEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
@@ -45488,6 +45535,11 @@ class Prv_quora(Protocol):
         """Reads a member's public profile — display name, bio, credential, follower count, answer
         count, question count, and their Spaces — taking a Quora profile URL or the name as it
         appears in the URL.
+        """
+
+    async def getSpace(self, args: Prv_quora_GetSpaceArgs_In, /) -> Prv_quora_QuoraSpace_Out:
+        """Reads one Space — its name, description, member count, and its most recent questions —
+        taking a Space URL or name (e.g., 'technology' or 'https://technology.quora.com').
         """
 
 class Prv_raadvanstate_nl(Protocol):
