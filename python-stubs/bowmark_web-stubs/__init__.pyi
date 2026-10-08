@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0ffe8c91d4130d1a26584ef3962ba3dc2f0c6e816b690a305ac3d9dfae811c5f
-# 80 capabilities, 550 providers, 1928 typed functions, 20 refused.
+# Manifest version: 28f2e9c73eeb16c128d6a718fb8a4138b93971ac9d69385667baea5f40aa173a
+# 81 capabilities, 550 providers, 1930 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2344,6 +2344,61 @@ class Cap_theme_park_tickets_TicketOption_Out(TypedDict):
     priceModifier: str | None
     wasPriceAmount: float | None
     buyUrl: str | None
+
+class Cap_vacation_rental_search_args_In(TypedDict):
+    location: str
+    checkin: NotRequired[str]
+    checkout: NotRequired[str]
+    adults: NotRequired[float]
+    children: NotRequired[float]
+    infants: NotRequired[float]
+    pets: NotRequired[float]
+
+class Cap_vacation_rental_vacation_rentalSearchResult_Out(TypedDict):
+    rentals: list[Cap_vacation_rental_VacationRentalListing_Out]
+    warnings: list[str]
+
+class Cap_vacation_rental_VacationRentalListing_Out(TypedDict):
+    id: str
+    title: str
+    subtitle: str | None
+    rating: float | None
+    reviewCount: float | None
+    displayPrice: str | None
+    photoUrl: str | None
+    url: str
+    provider: str
+
+class Cap_vacation_rental_quote_args_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+    checkin: str
+    checkout: str
+    adults: NotRequired[float]
+    currency: NotRequired[str]
+
+class Cap_vacation_rental_vacation_rentalQuoteResult_Out(TypedDict):
+    quote: Cap_vacation_rental_VacationRentalQuote_Out
+    warnings: list[str]
+
+class Cap_vacation_rental_VacationRentalQuote_Out(TypedDict):
+    id: str
+    url: str
+    provider: str
+    checkin: str | None
+    checkout: str | None
+    currency: str
+    available: bool | None
+    unavailableReason: str | None
+    total: str | None
+    originalTotal: str | None
+    nights: float | None
+    nightlyRate: str | None
+    lines: list[Cap_vacation_rental_VacationRentalQuote_Out_lines_item_Out]
+
+class Cap_vacation_rental_VacationRentalQuote_Out_lines_item_Out(TypedDict):
+    description: str
+    price: str | None
 
 class Cap_video_editing_EditFootageOptions_In(TypedDict):
     video: str
@@ -32281,6 +32336,23 @@ class Cap_theme_park_tickets(Protocol):
         the ~33 parks in the covered portfolio.
         """
 
+class Cap_vacation_rental(Protocol):
+    """Find short-stay vacation rentals in a city and get the all-in total price for a stay,
+    fees included.
+    """
+
+    async def search(self, args: Cap_vacation_rental_search_args_In, /) -> Cap_vacation_rental_vacation_rentalSearchResult_Out:
+        """Search vacation rentals for a free-text location (e.g. "Austin, Texas"), optional
+        `checkin`/`checkout` (`YYYY-MM-DD`) and guest counts. Returns each rental's title,
+        rating, display price and url — pass a rental's `id` to `quote` for its total price.
+        """
+
+    async def quote(self, args: Cap_vacation_rental_quote_args_In, /) -> Cap_vacation_rental_vacation_rentalQuoteResult_Out:
+        """The total price for a stay at one vacation rental — `id` or `url` from `search`, plus
+        `checkin`/`checkout` (`YYYY-MM-DD`). Returns the booking panel's all-in total with fees,
+        nights, nightly rate and line items, or the reason the dates cannot be booked.
+        """
+
 class Cap_video_editing(Protocol):
     """Changes the FOOTAGE of a video on the caller's own YouTube channel — trim it, cut parts
     out, blur faces or specific things — by handing exact instructions for YouTube Studio's
@@ -51313,6 +51385,7 @@ class Bowmark(Protocol):
     tariff: Cap_tariff
     text_to_speech: Cap_text_to_speech
     theme_park_tickets: Cap_theme_park_tickets
+    vacation_rental: Cap_vacation_rental
     video_editing: Cap_video_editing
     video_library: Cap_video_library
     vpn_dedicated_ip: Cap_vpn_dedicated_ip

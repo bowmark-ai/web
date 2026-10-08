@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0ffe8c91d4130d1a26584ef3962ba3dc2f0c6e816b690a305ac3d9dfae811c5f
-// 80 capabilities, 550 providers, 1946 typed functions, 20 refused.
+// Manifest version: 28f2e9c73eeb16c128d6a718fb8a4138b93971ac9d69385667baea5f40aa173a
+// 81 capabilities, 550 providers, 1948 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4337,6 +4337,64 @@ type CallOptions = {
      * ~33 parks in the covered portfolio.
      */
     search(park: string | { park: string }, options?: CallOptions): Promise<ThemeParkTicketsResult>;
+  }
+}
+
+declare namespace BowmarkCapability_vacation_rental {
+  // ── Vacation Rental Search and Total Price — the unit's own declarations, verbatim ──
+interface VacationRentalListing {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  displayPrice: string | null;   // the results page's own price string — NOT the total
+  photoUrl: string | null;
+  url: string;
+  provider: string;
+}
+
+interface VacationRentalQuote {
+  id: string;
+  url: string;
+  provider: string;
+  checkin: string | null;
+  checkout: string | null;
+  currency: string;
+  available: boolean | null;
+  unavailableReason: string | null;
+  total: string | null;          // all-in stay total, fees included
+  originalTotal: string | null;
+  nights: number | null;
+  nightlyRate: string | null;
+  lines: Array<{ description: string; price: string | null }>;
+}
+
+interface vacation_rentalSearchResult { rentals: VacationRentalListing[]; warnings: string[] }
+interface vacation_rentalQuoteResult { quote: VacationRentalQuote; warnings: string[] }
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000
+}
+
+  /**
+   * Find short-stay vacation rentals in a city and get the all-in total price for a stay, fees
+   * included.
+   */
+  interface Unit {
+    /**
+     * Search vacation rentals for a free-text location (e.g. "Austin, Texas"), optional
+     * `checkin`/`checkout` (`YYYY-MM-DD`) and guest counts. Returns each rental's title, rating,
+     * display price and url — pass a rental's `id` to `quote` for its total price.
+     */
+    search(args: { location: string, checkin?: string, checkout?: string, adults?: number, children?: number, infants?: number, pets?: number }): Promise<vacation_rentalSearchResult>;
+
+    /**
+     * The total price for a stay at one vacation rental — `id` or `url` from `search`, plus
+     * `checkin`/`checkout` (`YYYY-MM-DD`). Returns the booking panel's all-in total with fees,
+     * nights, nightly rate and line items, or the reason the dates cannot be booked.
+     */
+    quote(args: { id?: string, url?: string, checkin: string, checkout: string, adults?: number, currency?: string }): Promise<vacation_rentalQuoteResult>;
   }
 }
 
@@ -105833,6 +105891,7 @@ interface BowmarkLibrary {
   tariff: BowmarkCapability_tariff.Unit;
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
   theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;
+  vacation_rental: BowmarkCapability_vacation_rental.Unit;
   video_editing: BowmarkCapability_video_editing.Unit;
   video_library: BowmarkCapability_video_library.Unit;
   vpn_dedicated_ip: BowmarkCapability_vpn_dedicated_ip.Unit;
