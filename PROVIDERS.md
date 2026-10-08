@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3278 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3284 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2409,6 +2409,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pullandbear.searchProducts` | pullandbear.com | Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer… | 🟢 |
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
+| `purevpn.getDedicatedIp` | purevpn.com | Reads PureVPN's own dedicated / static IP page and returns every country and city it… | 🟢 |
+| `purevpn.getPlans` | purevpn.com | PureVPN's standard VPN subscription plans and prices. | ⚪ |
 | `quince.getProduct` | quince.com | Reads one Quince product's variant-level sizes and colors, price, traditional-retail… | 🟢 |
 | `quince.searchProducts` | quince.com | Searches Quince's live apparel catalog (quince.com clothing store) for what a shopper… | 🟢 |
 | `quora.askQuestion` | quora.com | Posts a new question as the signed-in caller. | ⚪ |
@@ -2747,6 +2749,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sunhomesaunas.getSaunaFinderQuestions` | sunhomesaunas.com | Reads Sun Home Saunas' real, live Digioh buyer quiz from its public breakpoint… | 🟢 |
 | `sunlighten.getModelPricing` | sunlighten.com | Reads the real, currently-quoted price for a Sunlighten sauna model off the public… | 🟢 |
 | `sunlighten.matchSauna` | sunlighten.com | Runs Sunlighten's own 'Find My Sauna' quiz match — the same wellness-goal +… | 🟢 |
+| `surfshark.getDedicatedIp` | surfshark.com | Reads Surfshark's own dedicated / static IP page and returns every country and city it… | 🟢 |
+| `surfshark.getPlans` | surfshark.com | Surfshark's VPN subscription plans and prices (surfshark.com/pricing). | ⚪ |
 | `tagtrans_net.createShipmentRateEmail` | tagtrans.net | Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request… | 🟢 |
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
@@ -3177,6 +3181,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.undoRevision` | wikipedia.org | Undo one edit to an article — MediaWiki's own revert, which reverses a single revision… | ⚪ |
 | `wikipedia.unwatchPage` | wikipedia.org | Remove an article from the caller's watchlist. `POST /w/api.php?action=watch&unwatch=1`. | ⚪ |
 | `wikipedia.watchPage` | wikipedia.org | Add an article to the caller's watchlist so they are told when it changes. `POST… | ⚪ |
+| `windscribe.getDedicatedIp` | windscribe.com | Reads Windscribe's own dedicated / static IP page and returns every country and city… | 🟢 |
+| `windscribe.getServerLocations` | windscribe.com | Windscribe's full shared VPN server-location list (windscribe.com/status). | ⚪ |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |

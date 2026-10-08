@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 123 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 124 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -126,6 +126,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `video_library.updateVideo` | Changes the details of one of the caller's own videos — title, description, tags… | 1 | 🟢 |
 | `video_library.uploadVideo` | Uploads a video file to the caller's own YouTube channel and returns its id and link. | 1 | 🟢 |
 | `video_library.watchLater` | The caller's own Watch Later queue, newest first. | 1 | 🟡 |
+| `vpn_dedicated_ip.compare` | Compare VPN dedicated/static IP providers (Windscribe, Surfshark, PureVPN): where each… | 3 | 🟢 |
 | `weather.forecast` | Geocodes a place name and returns its daily forecast (default 5 days, max 16 —… | 0 | 🟢 |
 | `web_form_fields.fillForm` | Opens the page (and the booking/quote widget behind a button, exactly as `getFields`… | 0 | 🟢 |
 | `web_form_fields.getFields` | Reads a page and returns its forms plus a total field count, each field with its… | 0 | 🟢 |
