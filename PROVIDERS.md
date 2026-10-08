@@ -1826,7 +1826,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.getSizeGuide` | shop.lululemon.com | Returns lululemon's size chart for one garment — the body measurements each numeric… | 🟢 |
 | `lululemon.listCategory` | shop.lululemon.com | Browses one category the way the site's own navigation does — Women's Leggings, Men's… | ⚪ |
 | `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
-| `luma.discoverEvents` | luma.com | Lists upcoming events on Luma's discover page for one city (sf, nyc, london…)… | 🟢 |
+| `luma.discoverEvents` | luma.com | Search and discover upcoming Luma events in a city by free-text keyword query (retail… | 🟢 |
 | `luma.getEvent` | luma.com | Reads one Luma event page (luma.com/<slug> or lu.ma/<slug>) and returns its date, time… | 🟢 |
 | `luma.listCalendarEvents` | luma.com | Lists every upcoming event on one Luma calendar or organizer profile page… | 🟢 |
 | `luma.listCategories` | luma.com | Lists Luma's discover topic categories with the category slug discoverEvents takes. | 🟢 |
@@ -2108,7 +2108,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets a day's Wordle puzzle — the solution, puzzle id and editor. | 🟢 |
-| `nytimes.getWriter` | nytimes.com | Gets a writer's own profile off their /by/<slug> page — the site's real name and short… | 🟢 |
+| `nytimes.getWriter` | nytimes.com | Gets a writer's own profile off their /by/<slug> page — the site's real name and short… | 🟡 |
 | `nytimes.listArticles` | nytimes.com | Lists a section's own article grid, newest first, with metadata. | 🟢 |
 | `nytimes.listEpisodes` | nytimes.com | Lists a podcast's own episodes off its column page. | 🟢 |
 | `nytimes.listNewsletters` | nytimes.com | Lists NYT's own email newsletters off the signup page's catalog tray — up to 13, the… | 🟢 |
