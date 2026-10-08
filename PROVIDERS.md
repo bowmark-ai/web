@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3276 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3278 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -627,6 +627,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
 | `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | 🟡 |
 | `census_api.validateAddress` | api.census.gov | Validates and standardizes a US street address against the Census Geocoder… | 🟢 |
+| `cerebralvalley.getEvent` | cerebralvalley.ai | Reads one cerebralvalley.ai event page (/e/<slug>) and returns its name, date and time… | 🟢 |
+| `cerebralvalley.listEvents` | cerebralvalley.ai | Lists the upcoming events on cerebralvalley.ai/events with each one's slug, url and… | 🟢 |
 | `cftc.searchRules` | cftc.gov | Searches the CFTC's Designated Contract Market rule filings register —… | 🟢 |
 | `champxpress.getPlanQuote` | champxpress.com | Runs the site's own state → location price computation for one location (matched by… | 🟡 |
 | `champxpress.listLocations` | champxpress.com | Lists every wash location currently enrolled in Champion Xpress's "25 for Life" MVP… | 🟡 |
@@ -918,7 +920,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.listRegions` | duckduckgo.com | List the search regions DuckDuckGo offers ("us-en", "uk-en", "de-de"…) with their… | ⚪ |
 | `duckduckgo.resolveBang` | duckduckgo.com | Turn a !bang query ("!w duck", "!a usb-c cable") into the destination URL DuckDuckGo… | ⚪ |
 | `duckduckgo.searchImages` | duckduckgo.com | Search DuckDuckGo Images and return each hit's thumbnail, full-size image URL, the… | ⚪ |
-| `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | ⚪ |
+| `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | 🟢 |
 | `duckduckgo.searchPlaces` | duckduckgo.com | Find places on DuckDuckGo Maps by what and where ("coffee in Seattle") — name… | ⚪ |
 | `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | ⚪ |
 | `duckduckgo.searchWeb` | duckduckgo.com | Search the web the way duckduckgo.com's own search box does and return the ranked… | 🟢 |
