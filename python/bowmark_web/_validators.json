@@ -1,5 +1,5 @@
 {
-  "version": "7ca9fa038c017618eca9c52b5e28fefe4d7a7bffba2808aa562d40e9ac96b350",
+  "version": "0ffe8c91d4130d1a26584ef3962ba3dc2f0c6e816b690a305ac3d9dfae811c5f",
   "units": {
     "address_validation": {
       "defs": {
@@ -5487,6 +5487,41 @@
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "vpn_dedicated_ip": {
+      "defs": {
+        "CompareArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "compare": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CompareArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -42923,6 +42958,29 @@
         ]
       }
     },
+    "providers.purevpn": {
+      "defs": {},
+      "functions": {
+        "getDedicatedIp": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.quince": {
       "defs": {
         "QuinceCountry": {
@@ -49988,6 +50046,29 @@
         ]
       }
     },
+    "providers.surfshark": {
+      "defs": {},
+      "functions": {
+        "getDedicatedIp": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.tagtrans_net": {
       "defs": {
         "CreateTagtransShipmentRateEmailArgs": {
@@ -57012,6 +57093,29 @@
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.windscribe": {
+      "defs": {},
+      "functions": {
+        "getDedicatedIp": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

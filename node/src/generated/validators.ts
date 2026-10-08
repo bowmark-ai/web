@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7ca9fa038c017618eca9c52b5e28fefe4d7a7bffba2808aa562d40e9ac96b350
-// 1924 checked, 20 unchecked.
+// Manifest version: 0ffe8c91d4130d1a26584ef3962ba3dc2f0c6e816b690a305ac3d9dfae811c5f
+// 1928 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7ca9fa038c017618eca9c52b5e28fefe4d7a7bffba2808aa562d40e9ac96b350",
+  "version": "0ffe8c91d4130d1a26584ef3962ba3dc2f0c6e816b690a305ac3d9dfae811c5f",
   "units": {
     "address_validation": {
       "defs": {
@@ -5499,6 +5499,41 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "vpn_dedicated_ip": {
+      "defs": {
+        "CompareArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "compare": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CompareArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -42935,6 +42970,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.purevpn": {
+      "defs": {},
+      "functions": {
+        "getDedicatedIp": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.quince": {
       "defs": {
         "QuinceCountry": {
@@ -50000,6 +50058,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.surfshark": {
+      "defs": {},
+      "functions": {
+        "getDedicatedIp": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.tagtrans_net": {
       "defs": {
         "CreateTagtransShipmentRateEmailArgs": {
@@ -57024,6 +57105,29 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.windscribe": {
+      "defs": {},
+      "functions": {
+        "getDedicatedIp": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

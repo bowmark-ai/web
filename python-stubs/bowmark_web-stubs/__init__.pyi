@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7ca9fa038c017618eca9c52b5e28fefe4d7a7bffba2808aa562d40e9ac96b350
-# 79 capabilities, 547 providers, 1924 typed functions, 20 refused.
+# Manifest version: 0ffe8c91d4130d1a26584ef3962ba3dc2f0c6e816b690a305ac3d9dfae811c5f
+# 80 capabilities, 550 providers, 1928 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2519,6 +2519,38 @@ class Cap_video_library_DeletedVideo_Out(TypedDict):
     videoId: str
     status: Literal["deleted"] | Literal["deleting"]
     warnings: list[str]
+
+class Cap_vpn_dedicated_ip_CompareArgs_In(TypedDict):
+    city: NotRequired[str]
+    country: NotRequired[str]
+
+class Cap_vpn_dedicated_ip_vpn_dedicated_ipResult_Out(TypedDict):
+    query: Cap_vpn_dedicated_ip_vpn_dedicated_ipResult_Out_query_Out
+    offers: list[Cap_vpn_dedicated_ip_DedicatedIpOffer_Out]
+    warnings: list[str]
+
+class Cap_vpn_dedicated_ip_vpn_dedicated_ipResult_Out_query_Out(TypedDict):
+    city: str | None
+    country: str | None
+
+class Cap_vpn_dedicated_ip_DedicatedIpOffer_Out(TypedDict):
+    provider: str
+    locations: list[Cap_vpn_dedicated_ip_DedicatedIpLocation_Out]
+    matches: list[Cap_vpn_dedicated_ip_DedicatedIpLocation_Out]
+    lowestMonthlyUsd: float
+    plans: list[Cap_vpn_dedicated_ip_DedicatedIpPlan_Out]
+    url: str
+
+class Cap_vpn_dedicated_ip_DedicatedIpLocation_Out(TypedDict):
+    country: str
+    countryCode: str
+    city: str | None
+    kind: Literal["datacenter"] | Literal["residential"] | None
+
+class Cap_vpn_dedicated_ip_DedicatedIpPlan_Out(TypedDict):
+    name: str
+    priceUsd: float
+    per: str
 
 class Cap_weather_ForecastResult_Out(TypedDict):
     location: str
@@ -22179,6 +22211,26 @@ class Prv_puls_com_GetRepairQuoteResult_Out(TypedDict):
     marketName: str | None
     serviceCallFee: float | None
 
+class Prv_purevpn_getDedicatedIp_args_In(TypedDict):
+    country: NotRequired[str]
+
+class Prv_purevpn_PureVpnDedicatedIp_Out(TypedDict):
+    provider: Literal["PureVPN"]
+    locations: list[Prv_purevpn_PureVpnDedicatedIpLocation_Out]
+    plans: list[Prv_purevpn_PureVpnDedicatedIpPlan_Out]
+    url: str
+
+class Prv_purevpn_PureVpnDedicatedIpLocation_Out(TypedDict):
+    country: str
+    countryCode: str
+    city: str | None
+    kind: Literal["datacenter"] | Literal["residential"] | None
+
+class Prv_purevpn_PureVpnDedicatedIpPlan_Out(TypedDict):
+    name: str
+    priceUsd: float
+    per: str
+
 class Prv_quince_QuinceSearchArgs_In(TypedDict):
     query: str
     gender: NotRequired[Literal["men"] | Literal["women"]]
@@ -25332,6 +25384,26 @@ class Prv_sunlighten_SunlightenPriceListing_Out(TypedDict):
     price: str | None
     available: bool
     url: str
+
+class Prv_surfshark_getDedicatedIp_args_In(TypedDict):
+    country: NotRequired[str]
+
+class Prv_surfshark_SurfsharkDedicatedIp_Out(TypedDict):
+    provider: Literal["Surfshark"]
+    locations: list[Prv_surfshark_SurfsharkDedicatedIpLocation_Out]
+    plans: list[Prv_surfshark_SurfsharkDedicatedIpPlan_Out]
+    url: str
+
+class Prv_surfshark_SurfsharkDedicatedIpLocation_Out(TypedDict):
+    country: str
+    countryCode: str
+    city: str | None
+    kind: Literal["datacenter"] | Literal["residential"] | None
+
+class Prv_surfshark_SurfsharkDedicatedIpPlan_Out(TypedDict):
+    name: str
+    priceUsd: float
+    per: str
 
 class Prv_tagtrans_net_TagtransShipmentRateForm_Out(TypedDict):
     formUrl: str
@@ -29299,6 +29371,26 @@ class Prv_wikipedia_standings_StandingsRow_Out(TypedDict):
     goalDiff: float
     points: NotRequired[float]
 
+class Prv_windscribe_getDedicatedIp_args_In(TypedDict):
+    country: NotRequired[str]
+
+class Prv_windscribe_WindscribeDedicatedIp_Out(TypedDict):
+    provider: Literal["Windscribe"]
+    locations: list[Prv_windscribe_WindscribeDedicatedIpLocation_Out]
+    plans: list[Prv_windscribe_WindscribeDedicatedIpPlan_Out]
+    url: str
+
+class Prv_windscribe_WindscribeDedicatedIpLocation_Out(TypedDict):
+    country: str
+    countryCode: str
+    city: str | None
+    kind: Literal["datacenter"] | Literal["residential"] | None
+
+class Prv_windscribe_WindscribeDedicatedIpPlan_Out(TypedDict):
+    name: str
+    priceUsd: float
+    per: str
+
 class Prv_winestyles_WinestylesStore_Out(TypedDict):
     storeId: str
     city: str
@@ -32317,6 +32409,17 @@ class Cap_video_library(Protocol):
         """PERMANENTLY deletes one of the caller's own videos, with its views and comments —
         YouTube has no undo. Refuses any video that is not on the caller's channel. Only call it
         when the account holder asked for that specific video to go. Needs a YouTube sign-in.
+        """
+
+class Cap_vpn_dedicated_ip(Protocol):
+    """Compare VPN providers that sell a dedicated (static) IP — which cities/countries each
+    offers it in, and the price — read off each provider's own page.
+    """
+
+    async def compare(self, args: Cap_vpn_dedicated_ip_CompareArgs_In | None = None, /) -> Cap_vpn_dedicated_ip_vpn_dedicated_ipResult_Out:
+        """Compare VPN dedicated/static IP providers (Windscribe, Surfshark, PureVPN): where each
+        sells a dedicated IP, filtered to a city and/or country, with each provider's published
+        price.
         """
 
 class Cap_weather(Protocol):
@@ -45588,6 +45691,16 @@ class Prv_puls_com(Protocol):
         `marketName`/`marketId` are `null` when the ZIP is outside Puls' service area.
         """
 
+class Prv_purevpn(Protocol):
+    """PureVPN's own dedicated IP offer — every country it sells a dedicated IP in, and the
+    Dedicated IP plan price on each billing term.
+    """
+
+    async def getDedicatedIp(self, args: Prv_purevpn_getDedicatedIp_args_In | None = None, /) -> Prv_purevpn_PureVpnDedicatedIp_Out:
+        """Every country PureVPN sells a dedicated IP in, and its Dedicated IP plan price per
+        billing term, optionally filtered to one `country`, read off purevpn.com/dedicated-ip.
+        """
+
 class Prv_quince(Protocol):
     """Quince (quince.com) apparel and home store. Searches the live catalog (men's/women's,
     size, in-stock) and reads one product's per-variant size, color, price and live stock.
@@ -47334,6 +47447,17 @@ class Prv_sunlighten(Protocol):
         storefront's own product titles (case-insensitive), e.g. matchSauna's returned name. A
         model sells in more than one wood finish, so this returns every matching listing rather
         than guessing a canonical one.
+        """
+
+class Prv_surfshark(Protocol):
+    """Surfshark VPN's own dedicated IP offer — every country and city it sells a dedicated IP
+    in, and its published starting price.
+    """
+
+    async def getDedicatedIp(self, args: Prv_surfshark_getDedicatedIp_args_In | None = None, /) -> Prv_surfshark_SurfsharkDedicatedIp_Out:
+        """Every country and city Surfshark sells a dedicated IP in, and its published 'from'
+        monthly price, optionally filtered to one `country`, read off
+        surfshark.com/dedicated-ip.
         """
 
 class Prv_tagtrans_net(Protocol):
@@ -49678,6 +49802,17 @@ class Prv_wikipedia_standings(Protocol):
         differential data.
         """
 
+class Prv_windscribe(Protocol):
+    """Windscribe VPN's own static (dedicated) IP offer — every datacenter and residential
+    static-IP city it sells, and the yearly price of each kind.
+    """
+
+    async def getDedicatedIp(self, args: Prv_windscribe_getDedicatedIp_args_In | None = None, /) -> Prv_windscribe_WindscribeDedicatedIp_Out:
+        """Every city Windscribe sells a static (dedicated) IP in — datacenter or residential — and
+        the yearly price of each, optionally filtered to one `country`, read off
+        windscribe.com/staticips.
+        """
+
 class Prv_winestyles(Protocol):
     """Which WineStyles franchise locations offer online order-for-pickup, and a live search of
     one store's own in-stock wine/beer/cheese catalog with real prices and quantities — read
@@ -50965,6 +51100,7 @@ class BowmarkProviders(Protocol):
     proxy_cheap: Prv_proxy_cheap
     pullandbear: Prv_pullandbear
     puls_com: Prv_puls_com
+    purevpn: Prv_purevpn
     quince: Prv_quince
     quora: Prv_quora
     raadvanstate_nl: Prv_raadvanstate_nl
@@ -51016,6 +51152,7 @@ class BowmarkProviders(Protocol):
     summerfridaysquiz: Prv_summerfridaysquiz
     sunhomesaunas: Prv_sunhomesaunas
     sunlighten: Prv_sunlighten
+    surfshark: Prv_surfshark
     tagtrans_net: Prv_tagtrans_net
     tamarackidaho: Prv_tamarackidaho
     tapfiliate: Prv_tapfiliate
@@ -51079,6 +51216,7 @@ class BowmarkProviders(Protocol):
     wholefoodsmarket: Prv_wholefoodsmarket
     wikipedia: Prv_wikipedia
     wikipedia_standings: Prv_wikipedia_standings
+    windscribe: Prv_windscribe
     winestyles: Prv_winestyles
     wunderflats: Prv_wunderflats
     x: Prv_x
@@ -51177,6 +51315,7 @@ class Bowmark(Protocol):
     theme_park_tickets: Cap_theme_park_tickets
     video_editing: Cap_video_editing
     video_library: Cap_video_library
+    vpn_dedicated_ip: Cap_vpn_dedicated_ip
     weather: Cap_weather
     web_form_fields: Cap_web_form_fields
     wireless: Cap_wireless

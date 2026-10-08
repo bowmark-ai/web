@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7ca9fa038c017618eca9c52b5e28fefe4d7a7bffba2808aa562d40e9ac96b350
-// 79 capabilities, 547 providers, 1942 typed functions, 20 refused.
+// Manifest version: 0ffe8c91d4130d1a26584ef3962ba3dc2f0c6e816b690a305ac3d9dfae811c5f
+// 80 capabilities, 550 providers, 1946 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4646,6 +4646,50 @@ type CallOptions = {
      * account holder asked for that specific video to go. Needs a YouTube sign-in.
      */
     deleteVideo(options: { video: string }): Promise<DeletedVideo>;
+  }
+}
+
+declare namespace BowmarkCapability_vpn_dedicated_ip {
+  // ── VPN Dedicated / Static IP Providers — the unit's own declarations, verbatim ──
+interface CompareArgs {
+  city?: string;    // e.g. "Vancouver"
+  country?: string; // ISO-2 code or name, e.g. "CA" or "Canada"
+}
+
+interface DedicatedIpLocation {
+  country: string;
+  countryCode: string;
+  city: string | null; // null when sold by country only
+  kind: "datacenter" | "residential" | null;
+}
+
+interface DedicatedIpPlan { name: string; priceUsd: number; per: string }
+
+interface DedicatedIpOffer {
+  provider: string; // "Windscribe" | "Surfshark" | "PureVPN"
+  locations: DedicatedIpLocation[]; // everything it sells
+  matches: DedicatedIpLocation[];   // filtered to city/country; same-country fallback when the city has none
+  lowestMonthlyUsd: number;
+  plans: DedicatedIpPlan[];
+  url: string;
+}
+
+interface vpn_dedicated_ipResult {
+  query: { city: string | null; country: string | null };
+  offers: DedicatedIpOffer[]; // providers with matches first, then cheapest
+  warnings: string[];
+}
+
+  /**
+   * Compare VPN providers that sell a dedicated (static) IP — which cities/countries each offers
+   * it in, and the price — read off each provider's own page.
+   */
+  interface Unit {
+    /**
+     * Compare VPN dedicated/static IP providers (Windscribe, Surfshark, PureVPN): where each sells
+     * a dedicated IP, filtered to a city and/or country, with each provider's published price.
+     */
+    compare(args?: CompareArgs): Promise<vpn_dedicated_ipResult>;
   }
 }
 
@@ -40564,6 +40608,42 @@ interface GetRepairQuoteResult {
   }
 }
 
+declare namespace BowmarkProvider_purevpn {
+  // ── PureVPN — the unit's own declarations, verbatim ──
+// PureVPN's OWN shapes — not a capability contract.
+interface PureVpnDedicatedIpLocation {
+  country: string;
+  countryCode: string; // ISO-3166 alpha-2
+  city: string | null; // PureVPN sells by country — always null
+  kind: "datacenter" | "residential" | null;
+}
+
+interface PureVpnDedicatedIpPlan {
+  name: string;
+  priceUsd: number;
+  per: string; // "month (2-year plan)", "month (1-year plan)", "month (monthly plan)"
+}
+
+interface PureVpnDedicatedIp {
+  provider: "PureVPN";
+  locations: PureVpnDedicatedIpLocation[];
+  plans: PureVpnDedicatedIpPlan[];
+  url: string;
+}
+
+  /**
+   * PureVPN's own dedicated IP offer — every country it sells a dedicated IP in, and the
+   * Dedicated IP plan price on each billing term.
+   */
+  interface Unit {
+    /**
+     * Every country PureVPN sells a dedicated IP in, and its Dedicated IP plan price per billing
+     * term, optionally filtered to one `country`, read off purevpn.com/dedicated-ip.
+     */
+    getDedicatedIp(args?: { country?: string }): Promise<PureVpnDedicatedIp>;
+  }
+}
+
 declare namespace BowmarkProvider_quince {
   // ── Quince — the unit's own declarations, verbatim ──
 type QuinceCountry = "us" | "ca";
@@ -45581,6 +45661,42 @@ interface SunlightenPriceListing {
      * canonical one.
      */
     getModelPricing(input: { model: string }): Promise<SunlightenPriceListing[]>;
+  }
+}
+
+declare namespace BowmarkProvider_surfshark {
+  // ── Surfshark — the unit's own declarations, verbatim ──
+// Surfshark's OWN shapes — not a capability contract.
+interface SurfsharkDedicatedIpLocation {
+  country: string;
+  countryCode: string; // ISO-3166 alpha-2
+  city: string | null;
+  kind: "datacenter" | "residential" | null; // Surfshark does not say; always null
+}
+
+interface SurfsharkDedicatedIpPlan {
+  name: string;
+  priceUsd: number;
+  per: string; // "month"
+}
+
+interface SurfsharkDedicatedIp {
+  provider: "Surfshark";
+  locations: SurfsharkDedicatedIpLocation[];
+  plans: SurfsharkDedicatedIpPlan[];
+  url: string;
+}
+
+  /**
+   * Surfshark VPN's own dedicated IP offer — every country and city it sells a dedicated IP in,
+   * and its published starting price.
+   */
+  interface Unit {
+    /**
+     * Every country and city Surfshark sells a dedicated IP in, and its published 'from' monthly
+     * price, optionally filtered to one `country`, read off surfshark.com/dedicated-ip.
+     */
+    getDedicatedIp(args?: { country?: string }): Promise<SurfsharkDedicatedIp>;
   }
 }
 
@@ -52061,6 +52177,43 @@ interface SearchResult {
   }
 }
 
+declare namespace BowmarkProvider_windscribe {
+  // ── Windscribe — the unit's own declarations, verbatim ──
+// Windscribe's OWN shapes — not a capability contract.
+interface WindscribeDedicatedIpLocation {
+  country: string;
+  countryCode: string; // ISO-3166 alpha-2
+  city: string | null;
+  kind: "datacenter" | "residential" | null;
+}
+
+interface WindscribeDedicatedIpPlan {
+  name: string;
+  priceUsd: number;
+  per: string; // "year"
+}
+
+interface WindscribeDedicatedIp {
+  provider: "Windscribe";
+  locations: WindscribeDedicatedIpLocation[];
+  plans: WindscribeDedicatedIpPlan[];
+  url: string;
+}
+
+  /**
+   * Windscribe VPN's own static (dedicated) IP offer — every datacenter and residential
+   * static-IP city it sells, and the yearly price of each kind.
+   */
+  interface Unit {
+    /**
+     * Every city Windscribe sells a static (dedicated) IP in — datacenter or residential — and the
+     * yearly price of each, optionally filtered to one `country`, read off
+     * windscribe.com/staticips.
+     */
+    getDedicatedIp(args?: { country?: string }): Promise<WindscribeDedicatedIp>;
+  }
+}
+
 declare namespace BowmarkProvider_winestyles {
   // ── WineStyles — the unit's own declarations, verbatim ──
 interface WinestylesStore {
@@ -55596,6 +55749,7 @@ interface BowmarkProviders {
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
   pullandbear: BowmarkProvider_pullandbear.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
+  purevpn: BowmarkProvider_purevpn.Unit;
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;
   raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
@@ -55647,6 +55801,7 @@ interface BowmarkProviders {
   summerfridaysquiz: BowmarkProvider_summerfridaysquiz.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   sunlighten: BowmarkProvider_sunlighten.Unit;
+  surfshark: BowmarkProvider_surfshark.Unit;
   tagtrans_net: BowmarkProvider_tagtrans_net.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
   tapfiliate: BowmarkProvider_tapfiliate.Unit;
@@ -55710,6 +55865,7 @@ interface BowmarkProviders {
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   wikipedia: BowmarkProvider_wikipedia.Unit;
   wikipedia_standings: BowmarkProvider_wikipedia_standings.Unit;
+  windscribe: BowmarkProvider_windscribe.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
   wunderflats: BowmarkProvider_wunderflats.Unit;
   x: BowmarkProvider_x.Unit;
@@ -105679,6 +105835,7 @@ interface BowmarkLibrary {
   theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;
   video_editing: BowmarkCapability_video_editing.Unit;
   video_library: BowmarkCapability_video_library.Unit;
+  vpn_dedicated_ip: BowmarkCapability_vpn_dedicated_ip.Unit;
   weather: BowmarkCapability_weather.Unit;
   web_form_fields: BowmarkCapability_web_form_fields.Unit;
   wireless: BowmarkCapability_wireless.Unit;
