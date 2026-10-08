@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3210 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3276 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1087,6 +1087,40 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
 | `extraspace.search` | extraspace.com | Searches Extra Space Storage's live facility inventory the way its own homepage… | 🟢 |
+| `facebook.commentOnPost` | facebook.com | Leave a comment on a post — someone else's or the caller's own. | ⚪ |
+| `facebook.followPage` | facebook.com | Follow a Page to receive its posts in the caller's feed. | ⚪ |
+| `facebook.getConversation` | facebook.com | Read messages in a private conversation thread with another user or group. | ⚪ |
+| `facebook.getEventDetails` | facebook.com | Read details on a Facebook Event — name, date, location, description, attendance count. | ⚪ |
+| `facebook.getGroupInfo` | facebook.com | Read a Group's details — name, description, member count, profile photo. | ⚪ |
+| `facebook.getGroupPosts` | facebook.com | List posts in a Group, newest first and paged. | ⚪ |
+| `facebook.getMarketplaceListingDetails` | facebook.com | Read details on one Marketplace listing — title, photos, price, seller info… | ⚪ |
+| `facebook.getMarketplaceListings` | facebook.com | Search Marketplace listings by category, location, price range and keywords. | ⚪ |
+| `facebook.getPageInfo` | facebook.com | Read a Page's details — name, about section, follower count, category, profile and… | ⚪ |
+| `facebook.getPagePosts` | facebook.com | List posts published on a Page, newest first and paged. | ⚪ |
+| `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio, friend count, and publicly… | ⚪ |
+| `facebook.getPhotoAlbum` | facebook.com | Read an album's details — title, creation date, photo count. | ⚪ |
+| `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings — who can see posts, send messages, etc. | ⚪ |
+| `facebook.getVideo` | facebook.com | Read details on a Facebook video — title, description, view count, comments. | ⚪ |
+| `facebook.joinGroup` | facebook.com | Request to join or join a Group. | ⚪ |
+| `facebook.likePhoto` | facebook.com | Like or unlike a photo. | ⚪ |
+| `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | ⚪ |
+| `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | ⚪ |
+| `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | ⚪ |
+| `facebook.listNotifications` | facebook.com | List the caller's notifications — friend requests, reactions, comments, mentions. | ⚪ |
+| `facebook.listPhotos` | facebook.com | List photos in an album or from a person's timeline, with timestamps and descriptions. | ⚪ |
+| `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | ⚪ |
+| `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | ⚪ |
+| `facebook.postToTimeline` | facebook.com | Write a post to the caller's own timeline — text, photos, video. | ⚪ |
+| `facebook.reactToPost` | facebook.com | React to a post with a like, love, haha, wow, sad, or angry reaction. | ⚪ |
+| `facebook.replyToComment` | facebook.com | Reply to a specific comment. | ⚪ |
+| `facebook.savePost` | facebook.com | Save (bookmark) a post for later or add to a saved collection. | ⚪ |
+| `facebook.searchGroups` | facebook.com | Search for Groups by name or topic. | ⚪ |
+| `facebook.searchPages` | facebook.com | Search for Pages by name or category. | ⚪ |
+| `facebook.searchPeople` | facebook.com | Search for Facebook users by name. | ⚪ |
+| `facebook.sendMessage` | facebook.com | Send a direct message to another user. | ⚪ |
+| `facebook.sharePost` | facebook.com | Share someone else's post to the caller's own timeline or to a Group. | ⚪ |
+| `facebook.updatePrivacySettings` | facebook.com | Change the caller's privacy settings. | ⚪ |
+| `facebook.updateProfile` | facebook.com | Edit the caller's own profile — bio, profile photo, cover photo, contact info. | ⚪ |
 | `faceforwardaesthetics.checkAvailability` | faceforwardaesthetics.com | Reads real open appointment slots for a service and date. | 🟢 |
 | `faceforwardaesthetics.listLocations` | faceforwardaesthetics.com | Lists Face Forward Aesthetics' real bookable Zenoti locations (9 centers, OH/IN/NV/PA). | 🟢 |
 | `faceforwardaesthetics.listServices` | faceforwardaesthetics.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
@@ -1921,6 +1955,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
+| `microsoft_365.createDocument` | TODO example.com | TODO — what createDocument does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_365.deleteDocument` | TODO example.com | TODO — what deleteDocument does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_365.getDocument` | TODO example.com | TODO — what getDocument does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_365.listDocuments` | TODO example.com | TODO — what listDocuments does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_365.listDocumentVersions` | TODO example.com | TODO — what listDocumentVersions does on the live site, and what interaction it… | ⚪ |
+| `microsoft_365.restoreDocumentVersion` | TODO example.com | TODO — what restoreDocumentVersion does on the live site, and what interaction it… | ⚪ |
+| `microsoft_365.shareDocument` | TODO example.com | TODO — what shareDocument does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.deleteFile` | TODO example.com | TODO — what deleteFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.getFile` | TODO example.com | TODO — what getFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.listFiles` | TODO example.com | TODO — what listFiles does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.listSharedFiles` | TODO example.com | TODO — what listSharedFiles does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.moveFile` | TODO example.com | TODO — what moveFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.shareFile` | TODO example.com | TODO — what shareFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.uploadFile` | TODO example.com | TODO — what uploadFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.createCalendarEvent` | TODO example.com | TODO — what createCalendarEvent does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.createContact` | TODO example.com | TODO — what createContact does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.getCalendarEvents` | TODO example.com | TODO — what getCalendarEvents does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.getContact` | TODO example.com | TODO — what getContact does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.getMail` | TODO example.com | TODO — what getMail does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.listContacts` | TODO example.com | TODO — what listContacts does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.readMailFolder` | TODO example.com | TODO — what readMailFolder does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.sendMail` | TODO example.com | TODO — what sendMail does on the live site, and what interaction it performs. | ⚪ |
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |
@@ -2013,6 +2069,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name, class and dates. | ⚪ |
 | `nhc.listStormAdvisories` | nhc.noaa.gov | List every advisory, forecast advisory, discussion and wind probability product issued… | ⚪ |
 | `nhc.searchStorms` | nhc.noaa.gov | Find a storm, current or historical, by name and optional year and basin, returning… | ⚪ |
+| `nintendo.browseCategory` | www.nintendo.com | Browse a whole department or platform family with no keyword — "what's in Nintendo… | ⚪ |
+| `nintendo.getMyNintendoRewardsBalance` | www.nintendo.com | Read the signed-in caller's My Nintendo Points balance and reward history — the… | ⚪ |
+| `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | ⚪ |
+| `nintendo.getSupportArticle` | www.nintendo.com | Read one support article in full — title, body steps, and any linked follow-ups — the… | ⚪ |
+| `nintendo.listCategories` | www.nintendo.com | List the store's own departments and platform families — Games, Nintendo Switch… | ⚪ |
+| `nintendo.listDeals` | www.nintendo.com | Today's discounted games and hardware on the Nintendo store — the read behind "what's… | ⚪ |
+| `nintendo.listNews` | www.nintendo.com | Nintendo's own announcements and news articles — game reveals, updates, events — from… | ⚪ |
+| `nintendo.listOrders` | www.nintendo.com | Read the signed-in caller's Nintendo eShop / store order history. | ⚪ |
+| `nintendo.searchProducts` | www.nintendo.com | Search Nintendo's own store catalog by keyword — games, hardware, accessories and… | ⚪ |
+| `nintendo.searchSupport` | www.nintendo.com | Search Nintendo's support knowledge base by keyword — "Switch won't charge", "error… | ⚪ |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
 | `npr.findStations` | npr.org | Find NPR member stations by city, zip code, call letters or coordinates — call sign… | ⚪ |
 | `npr.getAuthorStories` | npr.org | List stories by one NPR correspondent or host, given their name or byline page. | ⚪ |
