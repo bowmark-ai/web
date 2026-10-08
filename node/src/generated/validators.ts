@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: edded1896b3b223ccd26ed26d3f20a742898af40997bbf986e167d0bf69805e6
-// 1911 checked, 20 unchecked.
+// Manifest version: 86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd
+// 1914 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "edded1896b3b223ccd26ed26d3f20a742898af40997bbf986e167d0bf69805e6",
+  "version": "86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd",
   "units": {
     "address_validation": {
       "defs": {
@@ -18763,7 +18763,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getDeals": []
+        "getDeals": [],
+        "getWatchlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.elase": {
@@ -32876,6 +32894,13 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             },
             {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
               "name": "limit",
               "schema": {
                 "k": "number"
@@ -42935,6 +42960,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetProfileArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.raadvanstate_nl": {
+      "defs": {},
+      "functions": {
+        "searchRulings": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "getRuling": [
+          {
+            "name": "ecli",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: edded1896b3b223ccd26ed26d3f20a742898af40997bbf986e167d0bf69805e6
-// 78 capabilities, 545 providers, 1929 typed functions, 20 refused.
+// Manifest version: 86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd
+// 78 capabilities, 546 providers, 1932 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18527,6 +18527,10 @@ interface ebayDeal {
   imageUrl: string | null;
 }
 
+interface ebayWatchlistItem extends ebayItem {
+  watchlistPosition: number;  // 1-indexed position in the watchlist
+}
+
   /**
    * Live eBay listings — search by keyword, category or seller, read one listing, autosuggest
    * and deals — returning title, price, condition, buying option, seller and the item's own
@@ -18592,6 +18596,14 @@ interface ebayDeal {
      * discount badge.
      */
     getDeals(): Promise<ebayDeal[]>;
+
+    /**
+     * Get the caller's watch list — items they are monitoring for price changes. Needs a signed-in
+     * eBay account; the caller supplies their session. Returns the same fields as `search`, plus a
+     * `watchlistPosition` (1-indexed order in the list). `limit` caps the row count (default 20,
+     * ceiling 200).
+     */
+    getWatchlist(args?: { limit?: number }): Promise<ebayWatchlistItem[]>;
   }
 }
 
@@ -32669,6 +32681,9 @@ interface DiscoverEventsArgs {
   category?: string;
   /** YYYY-MM-DD, the event's own local day. */
   date?: string;
+  /** Free-text keyword ("retail", "robotics"), matched by Luma's own search within the city.
+   * Searches every topic, so it cannot be combined with category. */
+  query?: string;
   /** Default 50, at most 1000. */
   limit?: number;
 }
@@ -32692,9 +32707,11 @@ interface DiscoverEventsArgs {
     getEvent(args: GetEventArgs): Promise<LumaEvent>;
 
     /**
-     * Upcoming Luma events in a city (place slug like sf, nyc, london), optionally filtered to one
-     * topic category and one local day. Without a category it reads the city's short curated list;
-     * with one, the category's whole feed around the city, so any future day works.
+     * Upcoming Luma events in a city (place slug like sf, nyc, london), optionally searched by a
+     * free-text keyword query (retail, robotics, loss prevention — any topic, not only Luma's
+     * categories) or filtered to one topic category, and to one local day. Without a category it
+     * reads the city's short curated list; with one, the category's whole feed around the city, so
+     * any future day works.
      */
     discoverEvents(args: DiscoverEventsArgs): Promise<LumaEvent[]>;
 
@@ -40514,6 +40531,59 @@ interface GetProfileArgs {
      * appears in the URL.
      */
     getProfile(args: GetProfileArgs): Promise<QuoraProfile>;
+  }
+}
+
+declare namespace BowmarkProvider_raadvanstate_nl {
+  // ── Raad van State — the unit's own declarations, verbatim ──
+interface RaadvanstateRulingHit {
+  caseNumber: string;        // e.g. "202304490/1/R3"
+  ecli: string | null;       // e.g. "ECLI:NL:RVS:2026:5911" — pass to getRuling
+  date: string | null;       // as printed, e.g. "7 oktober 2026"
+  summary: string | null;
+  tags: string[];            // e.g. ["Eerste aanleg - meervoudig", "RO - Friesland"]
+  url: string;
+}
+interface RaadvanstateSearchResult {
+  query: string;
+  page: number;              // zero-based
+  total: number | null;      // total hits for the query
+  rulings: RaadvanstateRulingHit[];  // up to 10 per page
+}
+interface RaadvanstateRuling {
+  ecli: string;
+  caseNumber: string | null;
+  date: string | null;       // ISO, e.g. "2026-10-07"
+  published: string | null;  // ISO
+  court: string | null;
+  procedure: string | null;
+  subject: string | null;    // area of law, e.g. "Bestuursrecht"
+  title: string | null;
+  summary: string | null;    // the court's inhoudsindicatie
+  text: string;              // full ruling, one paragraph per line
+  url: string;
+}
+
+  /**
+   * Searches the Dutch Council of State's (Raad van State) case register of administrative-court
+   * rulings and reads any ruling in full by ECLI — no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Searches the Raad van State (Dutch Council of State) case register — the rulings of the
+     * Netherlands' highest administrative court — and returns ten hits per page, newest first,
+     * each with case number, ECLI, ruling date, summary and tags. `query` is a keyword (Dutch
+     * works best: "omgevingsvergunning", "stikstof", "vreemdelingen") or a case number like
+     * "202304490/1/R3". `page` is zero-based. Pass a hit's `ecli` to getRuling for the full text.
+     */
+    searchRulings(query: string, page?: number): Promise<RaadvanstateSearchResult>;
+
+    /**
+     * Reads one Raad van State ruling in full by its ECLI (e.g. "ECLI:NL:RVS:2026:5911", as
+     * returned by searchRulings) — case number, dates, procedure, area of law, the court's summary
+     * and the complete ruling text, from the Dutch judiciary's open-data service.
+     */
+    getRuling(ecli: string): Promise<RaadvanstateRuling>;
   }
 }
 
@@ -55287,6 +55357,7 @@ interface BowmarkProviders {
   puls_com: BowmarkProvider_puls_com.Unit;
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;
+  raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   rei: BowmarkProvider_rei.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;

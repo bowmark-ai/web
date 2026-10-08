@@ -1,5 +1,5 @@
 {
-  "version": "edded1896b3b223ccd26ed26d3f20a742898af40997bbf986e167d0bf69805e6",
+  "version": "86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd",
   "units": {
     "address_validation": {
       "defs": {
@@ -18751,7 +18751,25 @@
             "optional": false
           }
         ],
-        "getDeals": []
+        "getDeals": [],
+        "getWatchlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.elase": {
@@ -32864,6 +32882,13 @@
               "optional": true
             },
             {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
               "name": "limit",
               "schema": {
                 "k": "number"
@@ -42923,6 +42948,36 @@
             "schema": {
               "k": "ref",
               "name": "GetProfileArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.raadvanstate_nl": {
+      "defs": {},
+      "functions": {
+        "searchRulings": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "getRuling": [
+          {
+            "name": "ecli",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

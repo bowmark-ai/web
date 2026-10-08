@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: edded1896b3b223ccd26ed26d3f20a742898af40997bbf986e167d0bf69805e6
-# 78 capabilities, 545 providers, 1911 typed functions, 20 refused.
+# Manifest version: 86bb8c9a82b3052ec062a9631dbe7981f7e4950c9700ea18f7a82a74953979fd
+# 78 capabilities, 546 providers, 1914 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10296,6 +10296,24 @@ class Prv_ebay_ebayDeal_Out_originalPrice_u0_Out(TypedDict):
     value: str
     currency: str
 
+class Prv_ebay_getWatchlist_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_ebay_ebayWatchlistItem_Out(TypedDict):
+    itemId: str
+    title: str
+    price: Prv_ebay_ebayWatchlistItem_Out_price_u0_Out | None
+    condition: str | None
+    buyingOptions: list[str]
+    url: str
+    imageUrl: str | None
+    seller: str | None
+    watchlistPosition: float
+
+class Prv_ebay_ebayWatchlistItem_Out_price_u0_Out(TypedDict):
+    value: str
+    currency: str
+
 class Prv_elase_ElaseLocationLink_Out(TypedDict):
     slug: str
     url: str
@@ -17776,6 +17794,7 @@ class Prv_luma_DiscoverEventsArgs_In(TypedDict):
     place: str
     category: NotRequired[str]
     date: NotRequired[str]
+    query: NotRequired[str]
     limit: NotRequired[float]
 
 class Prv_luma_ListCalendarEventsArgs_In(TypedDict):
@@ -22160,6 +22179,33 @@ class Prv_quora_QuoraProfile_Out_spaces_item_Out(TypedDict):
     id: str
     name: str
     description: NotRequired[str]
+
+class Prv_raadvanstate_nl_RaadvanstateSearchResult_Out(TypedDict):
+    query: str
+    page: float
+    total: float | None
+    rulings: list[Prv_raadvanstate_nl_RaadvanstateRulingHit_Out]
+
+class Prv_raadvanstate_nl_RaadvanstateRulingHit_Out(TypedDict):
+    caseNumber: str
+    ecli: str | None
+    date: str | None
+    summary: str | None
+    tags: list[str]
+    url: str
+
+class Prv_raadvanstate_nl_RaadvanstateRuling_Out(TypedDict):
+    ecli: str
+    caseNumber: str | None
+    date: str | None
+    published: str | None
+    court: str | None
+    procedure: str | None
+    subject: str | None
+    title: str | None
+    summary: str | None
+    text: str
+    url: str
 
 class Prv_reddit_search_query_u1_In(TypedDict):
     query: str
@@ -37266,6 +37312,13 @@ class Prv_ebay(Protocol):
         carries a discount badge.
         """
 
+    async def getWatchlist(self, args: Prv_ebay_getWatchlist_args_In | None = None, /) -> list[Prv_ebay_ebayWatchlistItem_Out]:
+        """Get the caller's watch list — items they are monitoring for price changes. Needs a
+        signed-in eBay account; the caller supplies their session. Returns the same fields as
+        `search`, plus a `watchlistPosition` (1-indexed order in the list). `limit` caps the row
+        count (default 20, ceiling 200).
+        """
+
 class Prv_elase(Protocol):
     """Elase Med Spa's real location directory, live per-location service catalog, and real
     open-slot appointment availability — the same Zenoti booking backend the site's own
@@ -42560,10 +42613,11 @@ class Prv_luma(Protocol):
         """
 
     async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
-        """Upcoming Luma events in a city (place slug like sf, nyc, london), optionally filtered to
-        one topic category and one local day. Without a category it reads the city's short
-        curated list; with one, the category's whole feed around the city, so any future day
-        works.
+        """Upcoming Luma events in a city (place slug like sf, nyc, london), optionally searched by
+        a free-text keyword query (retail, robotics, loss prevention — any topic, not only
+        Luma's categories) or filtered to one topic category, and to one local day. Without a
+        category it reads the city's short curated list; with one, the category's whole feed
+        around the city, so any future day works.
         """
 
     async def listCalendarEvents(self, args: Prv_luma_ListCalendarEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
@@ -45362,6 +45416,26 @@ class Prv_quora(Protocol):
         """Reads a member's public profile — display name, bio, credential, follower count, answer
         count, question count, and their Spaces — taking a Quora profile URL or the name as it
         appears in the URL.
+        """
+
+class Prv_raadvanstate_nl(Protocol):
+    """Searches the Dutch Council of State's (Raad van State) case register of
+    administrative-court rulings and reads any ruling in full by ECLI — no key, no browser.
+    """
+
+    async def searchRulings(self, query: str, page: float | None = None, /) -> Prv_raadvanstate_nl_RaadvanstateSearchResult_Out:
+        """Searches the Raad van State (Dutch Council of State) case register — the rulings of the
+        Netherlands' highest administrative court — and returns ten hits per page, newest first,
+        each with case number, ECLI, ruling date, summary and tags. `query` is a keyword (Dutch
+        works best: "omgevingsvergunning", "stikstof", "vreemdelingen") or a case number like
+        "202304490/1/R3". `page` is zero-based. Pass a hit's `ecli` to getRuling for the full
+        text.
+        """
+
+    async def getRuling(self, ecli: str, /) -> Prv_raadvanstate_nl_RaadvanstateRuling_Out:
+        """Reads one Raad van State ruling in full by its ECLI (e.g. "ECLI:NL:RVS:2026:5911", as
+        returned by searchRulings) — case number, dates, procedure, area of law, the court's
+        summary and the complete ruling text, from the Dutch judiciary's open-data service.
         """
 
 class Prv_reddit(Protocol):
@@ -50671,6 +50745,7 @@ class BowmarkProviders(Protocol):
     puls_com: Prv_puls_com
     quince: Prv_quince
     quora: Prv_quora
+    raadvanstate_nl: Prv_raadvanstate_nl
     reddit: Prv_reddit
     rei: Prv_rei
     reliancepartners: Prv_reliancepartners
