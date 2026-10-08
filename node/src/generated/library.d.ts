@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d5478e2b079bff53037a110d3531fc3d97fe8a80f10e131921e334f6d98c55b0
+// Manifest version: b00341d77fa4fd7f8491879697a3b32beca788bf1163d4455c6abe6dd1614bcd
 // 79 capabilities, 546 providers, 1939 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17691,11 +17691,13 @@ interface DialogpostRate {
   description?: string;
 }
 
-  /** Dialogpost pricing for unaddressed bulk direct mail in Germany. */
+  /** Dialogpost pricing for addressed advertising mail (Werbesendungen) in Germany. */
   interface Unit {
     /**
-     * Retrieves Deutsche Post Dialogpost pricing rates by weight and format. Returns rates for
-     * unaddressed bulk direct mail delivery (household-level distribution).
+     * Retrieves Deutsche Post Dialogpost pricing rates by weight and format. Dialogpost is
+     * Deutsche Post's ADDRESSED advertising-mail product — every piece carries a recipient name
+     * and address — so these are the rates for an addressed direct-mail campaign within Germany.
+     * Mail with no recipient address is a different product (Postwurfsendung) and is not covered.
      */
     getDialogpostRates(options?: { format?: string }): Promise<DialogpostRate[]>;
   }

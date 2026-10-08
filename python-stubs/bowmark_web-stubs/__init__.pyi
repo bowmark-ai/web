@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d5478e2b079bff53037a110d3531fc3d97fe8a80f10e131921e334f6d98c55b0
+# Manifest version: b00341d77fa4fd7f8491879697a3b32beca788bf1163d4455c6abe6dd1614bcd
 # 79 capabilities, 546 providers, 1921 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -37063,11 +37063,14 @@ class Prv_detailxperts(Protocol):
         """
 
 class Prv_deutschepost(Protocol):
-    """Dialogpost pricing for unaddressed bulk direct mail in Germany."""
+    """Dialogpost pricing for addressed advertising mail (Werbesendungen) in Germany."""
 
     async def getDialogpostRates(self, options: Prv_deutschepost_getDialogpostRates_options_In | None = None, /) -> list[Prv_deutschepost_DialogpostRate_Out]:
-        """Retrieves Deutsche Post Dialogpost pricing rates by weight and format. Returns rates for
-        unaddressed bulk direct mail delivery (household-level distribution).
+        """Retrieves Deutsche Post Dialogpost pricing rates by weight and format. Dialogpost is
+        Deutsche Post's ADDRESSED advertising-mail product — every piece carries a recipient
+        name and address — so these are the rates for an addressed direct-mail campaign within
+        Germany. Mail with no recipient address is a different product (Postwurfsendung) and is
+        not covered.
         """
 
 class Prv_developersopenai(Protocol):
