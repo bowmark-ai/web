@@ -3074,7 +3074,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listRelated` | wikipedia.org | Articles about things like this one — Wikipedia's own "more like this", for a caller… | 🟢 |
 | `wikipedia.listRevisions` | wikipedia.org | An article's edit history — each revision with its id, timestamp, editor, edit… | 🟢 |
 | `wikipedia.listUserContributions` | wikipedia.org | Every edit one named editor has made, newest first — page, timestamp, edit summary and… | 🟢 |
-| `wikipedia.listWatchlist` | wikipedia.org | The caller's own watchlist — the pages they follow and the recent changes to them… | ⚪ |
+| `wikipedia.listWatchlist` | wikipedia.org | The caller's own watchlist — the pages they follow and the recent changes to them… | 🟢 |
 | `wikipedia.postTalkMessage` | wikipedia.org | Post a message to an article's talk page or to a user's talk page, under the caller's… | ⚪ |
 | `wikipedia.search` | wikipedia.org | Search the encyclopedia the way a person types into Wikipedia's search box, and get… | 🟢 |
 | `wikipedia.searchNearby` | wikipedia.org | Wikipedia articles about places near a point — hand it a latitude and longitude and a… | 🟢 |

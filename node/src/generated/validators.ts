@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf
+// Manifest version: 589c92d2f94da946c56d9ad9f4248504ded3dd2418ce90fc16c5e72715226ada
 // 1915 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf",
+  "version": "589c92d2f94da946c56d9ad9f4248504ded3dd2418ce90fc16c5e72715226ada",
   "units": {
     "address_validation": {
       "defs": {
@@ -49053,6 +49053,21 @@ export const VALIDATORS: ValidatorTable = {
         "GetNewsItemArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
             {
               "name": "newsId",
               "schema": {

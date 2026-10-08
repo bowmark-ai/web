@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf
+# Manifest version: 589c92d2f94da946c56d9ad9f4248504ded3dd2418ce90fc16c5e72715226ada
 # 78 capabilities, 546 providers, 1915 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -24956,6 +24956,7 @@ class Prv_steam_SteamNewsItem_Out(TypedDict):
     tags: list[str]
 
 class Prv_steam_GetNewsItemArgs_In(TypedDict):
+    appid: str | float
     newsId: str
 
 class Prv_steam_NewsItemResponse_Out(TypedDict):
@@ -44045,11 +44046,11 @@ class Prv_nytimes(Protocol):
         """
 
     async def listPodcasts(self, /) -> list[Prv_nytimes_NytimesPodcast_Out]:
-        """Lists NYT's own podcasts from podcasts.nytimes.com."""
+        """Lists NYT's own podcasts off its /spotlight/podcasts page."""
 
     async def getPodcast(self, slug: str, /) -> Prv_nytimes_NytimesPodcast_Out:
-        """Gets one podcast's own details (title, description, image). Takes a podcast slug like
-        "the-daily" (from listPodcasts) or a path like "/podcasts/the-daily".
+        """Gets one podcast's own details (title, description) off its /column/<slug> page. Takes a
+        podcast slug like "the-daily" (from listPodcasts) or a path like "/podcasts/the-daily".
         """
 
     async def listEpisodes(self, slug: str, /) -> list[Prv_nytimes_NytimesEpisode_Out]:
@@ -46975,8 +46976,8 @@ class Prv_steam(Protocol):
         """
 
     async def getNewsItem(self, args: Prv_steam_GetNewsItemArgs_In, /) -> Prv_steam_NewsItemResponse_Out:
-        """Fetches the full text of a specific news article by its ID, including title, author,
-        publication date, and complete HTML content.
+        """Fetches the full text of a specific news article by appid and id (both from listNews or
+        searchNews results), including title, author, publication date, and complete content.
         """
 
     async def searchNews(self, args: Prv_steam_SearchNewsArgs_In, /) -> Prv_steam_SearchNewsResponse_Out:

@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf
+// Manifest version: 589c92d2f94da946c56d9ad9f4248504ded3dd2418ce90fc16c5e72715226ada
 // 78 capabilities, 546 providers, 1933 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -36949,12 +36949,12 @@ interface NytimesSpellingBeePuzzle {
      */
     getNewsletter(slug: string): Promise<NytimesNewsletter>;
 
-    /** Lists NYT's own podcasts from podcasts.nytimes.com. */
+    /** Lists NYT's own podcasts off its /spotlight/podcasts page. */
     listPodcasts(): Promise<NytimesPodcast[]>;
 
     /**
-     * Gets one podcast's own details (title, description, image). Takes a podcast slug like
-     * "the-daily" (from listPodcasts) or a path like "/podcasts/the-daily".
+     * Gets one podcast's own details (title, description) off its /column/<slug> page. Takes a
+     * podcast slug like "the-daily" (from listPodcasts) or a path like "/podcasts/the-daily".
      */
     getPodcast(slug: string): Promise<NytimesPodcast>;
 
@@ -44847,6 +44847,7 @@ interface ListNewsResponse {
 }
 
 interface GetNewsItemArgs {
+  appid: string | number;
   newsId: string;
 }
 
@@ -45004,8 +45005,8 @@ interface RemoveFromWishlistResult {
     listNews(args: ListNewsArgs): Promise<ListNewsResponse>;
 
     /**
-     * Fetches the full text of a specific news article by its ID, including title, author,
-     * publication date, and complete HTML content.
+     * Fetches the full text of a specific news article by appid and id (both from listNews or
+     * searchNews results), including title, author, publication date, and complete content.
      */
     getNewsItem(args: GetNewsItemArgs): Promise<NewsItemResponse>;
 

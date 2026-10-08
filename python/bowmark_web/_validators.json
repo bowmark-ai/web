@@ -1,5 +1,5 @@
 {
-  "version": "efca93d01feb1b3f5cff6a28896416b2cfa26e8b526ee421f7dda5560f4387bf",
+  "version": "589c92d2f94da946c56d9ad9f4248504ded3dd2418ce90fc16c5e72715226ada",
   "units": {
     "address_validation": {
       "defs": {
@@ -49041,6 +49041,21 @@
         "GetNewsItemArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
             {
               "name": "newsId",
               "schema": {
