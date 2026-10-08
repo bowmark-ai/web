@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b00341d77fa4fd7f8491879697a3b32beca788bf1163d4455c6abe6dd1614bcd
-// 1921 checked, 20 unchecked.
+// Manifest version: cea722c52a7b4b2c01af255d53196fe04b5ea5f57dc0a7828be302e03fcd2a37
+// 1923 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b00341d77fa4fd7f8491879697a3b32beca788bf1163d4455c6abe6dd1614bcd",
+  "version": "cea722c52a7b4b2c01af255d53196fe04b5ea5f57dc0a7828be302e03fcd2a37",
   "units": {
     "address_validation": {
       "defs": {
@@ -4898,6 +4898,124 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "vacation_rental": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "checkout",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "children",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "infants",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "pets",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "quote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "checkin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkout",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "currency",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
