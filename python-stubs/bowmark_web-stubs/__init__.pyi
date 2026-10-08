@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4b3201f78c0c8e879389aa32f4e2dec98782220716df109646459ff7fcff66c0
-# 78 capabilities, 545 providers, 1910 typed functions, 20 refused.
+# Manifest version: edded1896b3b223ccd26ed26d3f20a742898af40997bbf986e167d0bf69805e6
+# 78 capabilities, 545 providers, 1911 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -29088,6 +29088,13 @@ class Prv_wikipedia_WikipediaRandomArticle_Out_thumbnail_Out(TypedDict):
     width: float
     height: float
 
+class Prv_wikipedia_WikipediaCurrentUser_Out(TypedDict):
+    id: float
+    name: str
+    editCount: float
+    registrationTime: str
+    isBlocked: bool
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -49360,6 +49367,12 @@ class Prv_wikipedia(Protocol):
         """A random Wikipedia article with its summary information — title, url, description,
         extract, and thumbnail where one exists. Each call returns a different article. Optional
         `lang` (defaults to 'en') selects the edition.
+        """
+
+    async def getCurrentUser(self, opts: ConnectionOption | None = None, /) -> Prv_wikipedia_WikipediaCurrentUser_Out:
+        """The currently signed-in user's id, name, edit count, registration time, and block
+        status. The entry point to every other signed-in read here, and the cheapest proof that
+        a session replayed at all.
         """
 
 class Prv_wikipedia_standings(Protocol):

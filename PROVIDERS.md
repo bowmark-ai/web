@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3182 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3184 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -945,7 +945,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.getProfile` | ebay.com | Get the caller's profile information. | ⚪ |
 | `ebay.getSellerListings` | ebay.com | Searches one seller's own eBay listings for a keyword — the same rows `search` returns. | 🟢 |
 | `ebay.getSellerProfile` | ebay.com | Get seller information — feedback score, seller type (individual/business), member… | ⚪ |
-| `ebay.getWatchlist` | ebay.com | Get the caller's watch list — items they are monitoring for price changes. | ⚪ |
+| `ebay.getWatchlist` | ebay.com | Get the caller's watch list — items they are monitoring for price changes. | 🟢 |
 | `ebay.removeFromCart` | ebay.com | Remove an item from the caller's shopping cart. | ⚪ |
 | `ebay.removeFromWatchlist` | ebay.com | Remove an item from the caller's watch list. | ⚪ |
 | `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🟡 |
@@ -1664,12 +1664,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `interiordefine.priceConfiguration` | interiordefine.com | Prices a specific configuration (a choice per option category) against… | 🟢 |
 | `interiordefine.searchProducts` | interiordefine.com | Searches Interior Define's custom-furniture catalog (sofas, sectionals, chairs) by… | 🟢 |
 | `iproyal_reseller.extendPeriod` | apid.iproyal.com | Extends one order's term (POST /orders/{id}/extend) — spends real money; a new prepaid… | ⚪ |
-| `iproyal_reseller.getAccountBalance` | apid.iproyal.com | Bowmark's own prepaid IPRoyal balance (GET /balance) — used to fence a lease purchase… | 🟢 |
-| `iproyal_reseller.getCatalogue` | apid.iproyal.com | Reads IPRoyal's live reseller catalogue for one lease kind (GET /products) —… | 🟢 |
-| `iproyal_reseller.getOrder` | apid.iproyal.com | Reads one order by IPRoyal's own id (GET /orders/{id}) — status, endpoints, expiry… | 🟢 |
-| `iproyal_reseller.listOrders` | apid.iproyal.com | Every order on Bowmark's account for one product line (GET /orders, paged), including… | 🟢 |
+| `iproyal_reseller.getAccountBalance` | apid.iproyal.com | Bowmark's own prepaid IPRoyal balance (GET /balance) — used to fence a lease purchase… | 🟡 |
+| `iproyal_reseller.getCatalogue` | apid.iproyal.com | Reads IPRoyal's live reseller catalogue for one lease kind (GET /products) —… | 🟡 |
+| `iproyal_reseller.getOrder` | apid.iproyal.com | Reads one order by IPRoyal's own id (GET /orders/{id}) — status, endpoints, expiry… | 🟡 |
+| `iproyal_reseller.listOrders` | apid.iproyal.com | Every order on Bowmark's account for one product line (GET /orders, paged), including… | 🟡 |
 | `iproyal_reseller.placeOrder` | apid.iproyal.com | Places one real IPRoyal order (POST /orders) — spends real money on Bowmark's shared… | ⚪ |
-| `iproyal_reseller.quotePrice` | apid.iproyal.com | Prices one order before it is placed (GET /orders/calculate-pricing) — the vendor-cost… | 🟢 |
+| `iproyal_reseller.quotePrice` | apid.iproyal.com | Prices one order before it is placed (GET /orders/calculate-pricing) — the vendor-cost… | 🟡 |
 | `iproyal_reseller.setAutoExtend` | apid.iproyal.com | Sets the vendor's own auto-renew flag on one order (POST /orders/toggle-auto-extend) —… | ⚪ |
 | `iproyal.getPlans` | iproyal.com | Reads IPRoyal's own published proxy pricing — residential, datacenter, ISP and mobile… | 🟢 |
 | `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
@@ -2331,6 +2331,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.searchQuestions` | quora.com | Runs Quora's own search and returns matching questions with their urls — the finder a… | ⚪ |
 | `quora.upvoteAnswer` | quora.com | Upvotes an answer as the signed-in caller. | ⚪ |
 | `quora.writeAnswer` | quora.com | Posts a text answer to a question as the signed-in caller. | ⚪ |
+| `raadvanstate_nl.getRuling` | raadvanstate.nl | Reads one Council of State ruling in full by ECLI — case number, dates, procedure… | 🟢 |
+| `raadvanstate_nl.searchRulings` | raadvanstate.nl | Searches the Council of State's case register (raadvanstate.nl/uitspraken) by keyword… | 🟢 |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
 | `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | 🟡 |
 | `reddit.browseSubreddits` | reddit.com | Lists communities without a query — Reddit's own most-popular and newest communities… | 🟢 |
@@ -2699,7 +2701,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | 🟢 |
 | `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
 | `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟡 |
-| `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | 🟢 |
+| `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | 🟡 |
 | `theguardian_com.searchArticles` | theguardian.com | Search articles across the site by keyword. | ⚪ |
 | `therabody.getTheragunProduct` | therabody.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `therabody.listTheragunProducts` | therabody.com | Reads the live Therabody catalogue as Therabody publishes it — every product, its… | 🟢 |
@@ -2756,7 +2758,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | 🟢 |
 | `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟡 |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | ⚪ |
-| `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟢 |
+| `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟡 |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id and caption for each — the door from a handle to their… | 🟢 |
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | ⚪ |
 | `tiktok.searchUsers` | tiktok.com | Search TikTok for creators matching a query and get back handle, nickname and follower… | 🟡 |
@@ -3046,7 +3048,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.editPage` | wikipedia.org | Change an article — replace a page or one of its sections with new wikitext, under the… | ⚪ |
 | `wikipedia.getArticle` | wikipedia.org | The whole article as an agent wants to read it: title, Wikipedia's own short… | 🟢 |
 | `wikipedia.getArticleHtml` | wikipedia.org | The article's rendered HTML — the real page body, with tables, references, footnotes… | 🟢 |
-| `wikipedia.getCurrentUser` | wikipedia.org | Who the caller is signed in as on Wikipedia — username, user id, edit count, the… | ⚪ |
+| `wikipedia.getCurrentUser` | wikipedia.org | Who the caller is signed in as on Wikipedia — username, user id, edit count, the… | 🟢 |
 | `wikipedia.getFeaturedContent` | wikipedia.org | Wikipedia's own front page for a given date, as data — the featured article, the… | 🟢 |
 | `wikipedia.getImage` | wikipedia.org | One media file's real details — the full-size url, dimensions, MIME type, and the… | 🟢 |
 | `wikipedia.getInfobox` | wikipedia.org | The grey fact box at the top right of an article, as key/value pairs a caller can… | 🟡 |

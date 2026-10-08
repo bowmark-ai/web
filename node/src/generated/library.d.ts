@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4b3201f78c0c8e879389aa32f4e2dec98782220716df109646459ff7fcff66c0
-// 78 capabilities, 545 providers, 1928 typed functions, 20 refused.
+// Manifest version: edded1896b3b223ccd26ed26d3f20a742898af40997bbf986e167d0bf69805e6
+// 78 capabilities, 545 providers, 1929 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -51713,6 +51713,13 @@ interface WikipediaRandomArticle {
      * (defaults to 'en') selects the edition.
      */
     getRandomArticle(options?: { lang?: string }): Promise<{ randomArticle: WikipediaRandomArticle; warnings: string[] }>;
+
+    /**
+     * The currently signed-in user's id, name, edit count, registration time, and block status.
+     * The entry point to every other signed-in read here, and the cheapest proof that a session
+     * replayed at all.
+     */
+    getCurrentUser(opts?: ConnectionOption): Promise<WikipediaCurrentUser>;
   }
 }
 
