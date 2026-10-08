@@ -2625,7 +2625,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getGameVideos` | steampowered.com | Fetches a game's trailers and video clips by appid, returning each video's name… | 🟢 |
 | `steam.getLibrary` | steampowered.com | Fetches the signed-in caller's owned-games library — the appid of every game they own… | 🟢 |
 | `steam.getMarketPrice` | steampowered.com | Retrieves current Community Market price information for an item, including listing… | ⚪ |
-| `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by its ID or URL. | 🟡 |
+| `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by appid and id (both from listNews… | 🟡 |
 | `steam.getPlayTime` | steampowered.com | Returns total playtime in hours for a specific game owned by the caller. | ⚪ |
 | `steam.getProfile` | steampowered.com | Retrieves a Steam profile by username or ID, including profile name, avatar, status… | ⚪ |
 | `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | 🟢 |
