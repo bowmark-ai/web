@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e50b1ba6fe9cc44d63a1de59ad282ae530ed054d78b26b4df36cbec42c376daf
+// Manifest version: acd57c528a828fe430874b4f9880fc03e11ecd188fef30c0d17cf3fc4e478ce7
 // 81 capabilities, 550 providers, 1949 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -941,7 +941,7 @@ type CallOptions = {
 }
 
 declare namespace BowmarkCapability_currency_exchange {
-  // ── Currency exchange — the unit's own declarations, verbatim ──
+  // ── Currency exchange rates and conversion — the unit's own declarations, verbatim ──
 interface currency_exchangeResult {
   rate: number;
   warnings: string[];
@@ -952,7 +952,10 @@ type CallOptions = {
                        // NAMED in warnings — never silently absent
 }
 
-  /** Get real-time exchange rates between currencies */
+  /**
+   * Get the current exchange rate between two fiat currencies today and convert an amount — e.g.
+   * USD to Turkish lira (TRY), EUR to USD
+   */
   interface Unit {
     /** Returns the current exchange rate between two currencies */
     getRate(from: string, to: string, options?: CallOptions): Promise<currency_exchangeResult>;

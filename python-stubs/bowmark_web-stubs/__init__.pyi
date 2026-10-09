@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e50b1ba6fe9cc44d63a1de59ad282ae530ed054d78b26b4df36cbec42c376daf
+# Manifest version: acd57c528a828fe430874b4f9880fc03e11ecd188fef30c0d17cf3fc4e478ce7
 # 81 capabilities, 550 providers, 1931 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -31090,7 +31090,9 @@ class Cap_crypto_exchange(Protocol):
         """
 
 class Cap_currency_exchange(Protocol):
-    """Get real-time exchange rates between currencies"""
+    """Get the current exchange rate between two fiat currencies today and convert an amount —
+    e.g. USD to Turkish lira (TRY), EUR to USD
+    """
 
     async def getRate(self, from_: str, to: str, options: Cap_currency_exchange_CallOptions_In | None = None, /) -> Cap_currency_exchange_currency_exchangeResult_Out:
         """Returns the current exchange rate between two currencies"""
