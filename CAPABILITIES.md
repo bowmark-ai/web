@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 129 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 131 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -27,6 +27,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `census_tract_household_income.householdIncome` | Retrieves median household income from US Census Bureau data for a given location. | 1 | 🟡 |
 | `concert_setlist.search` | Search for concert setlists by artist name, venue, or date. | 0 | 🟢 |
 | `condition_monitoring.check` | Diffs `current` against `options.previous` (the snapshot an earlier check returned)… | 0 | 🟢 |
+| `corporate_facts.findCompany` | Find SEC-registered public companies by ticker or name ("apple") — name, ticker and CIK. | 1 | 🟢 |
+| `corporate_facts.lookup` | A company's reported financial facts by ticker, CIK or name ("AAPL", "Microsoft") —… | 1 | 🟢 |
 | `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟡 |
 | `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
 | `crypto_exchange.getRate` | Current price of a cryptocurrency (symbol or name: "BTC", "bitcoin") in a quote… | 1 | 🟢 |

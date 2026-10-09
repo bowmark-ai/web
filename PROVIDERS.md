@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3313 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3317 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2621,6 +2621,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sears.findStores` | sears.com | Finds physical Sears/Sears Hometown stores near a zip code or city the way the site's… | ⚪ |
 | `sears.getProduct` | sears.com | Reads one product in full the way its own product detail page does — given a URL or… | 🟢 |
 | `sears.search` | sears.com | Searches Sears' live catalog by free-text keyword the way the site's own search bar… | 🟢 |
+| `sec_edgar.companyFacts` | sec.gov | A public company's own reported XBRL facts from its 10-K / 10-Q filings — revenue, net… | 🟢 |
+| `sec_edgar.findCompany` | sec.gov | Find SEC-registered public companies by ticker, CIK or name from EDGAR's own… | 🟢 |
+| `sec_edgar.fullTextSearch` | sec.gov | Search the text of every EDGAR filing since 2001 for a phrase, via… | ⚪ |
+| `sec_edgar.listFilings` | sec.gov | A company's filing history (10-K, 10-Q, 8-K, proxy statements) with dates and document… | ⚪ |
 | `secondswing.getQuoteAttributes` | 2ndswing.com | Lists the condition and club-number (loft/iron-number) options the Value Guide asks… | 🟢 |
 | `secondswing.getTradeInValue` | 2ndswing.com | Runs the Value Guide's real quotePreview computation for a SKU + condition/club-number… | 🟢 |
 | `secondswing.searchClubs` | 2ndswing.com | Runs the Value Guide's model quick-search for a make/model query and returns the… | 🟢 |
