@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a49fd0054fb6c77cf12744177fc0301fa56a91dad80c8431ed03accd69e684b9
-// 1948 checked, 20 unchecked.
+// Manifest version: a4dba86db13bccd48759e9a001e835fa910435d483989bd1e311b8c2f76666db
+// 1950 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a49fd0054fb6c77cf12744177fc0301fa56a91dad80c8431ed03accd69e684b9",
+  "version": "a4dba86db13bccd48759e9a001e835fa910435d483989bd1e311b8c2f76666db",
   "units": {
     "address_validation": {
       "defs": {
@@ -35927,6 +35927,40 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getFile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -37236,6 +37270,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.nintendo": {
+      "defs": {},
+      "functions": {
+        "getProduct": [
+          {
+            "name": "ref",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a49fd0054fb6c77cf12744177fc0301fa56a91dad80c8431ed03accd69e684b9
-# 82 capabilities, 557 providers, 1948 typed functions, 20 refused.
+# Manifest version: a4dba86db13bccd48759e9a001e835fa910435d483989bd1e311b8c2f76666db
+# 82 capabilities, 558 providers, 1950 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19183,6 +19183,9 @@ class Prv_microsoft_onedrive_microsoft_onedriveRow_Out(TypedDict):
     lastModifiedDateTime: str
     isFolder: NotRequired[bool]
 
+class Prv_microsoft_onedrive_getFile_args_In(TypedDict):
+    id: str
+
 class Prv_microsoft_outlook_microsoft_outlookFolder_Out(TypedDict):
     id: str
     name: str
@@ -19971,6 +19974,25 @@ class Prv_nhc_nhcStormInfo_Out_links_Out(TypedDict):
     forecastAdvisory: NotRequired[str]
     forecastDiscussion: NotRequired[str]
     windSpeedProbabilities: NotRequired[str]
+
+class Prv_nintendo_NintendoProduct_Out(TypedDict):
+    sku: str
+    nsuid: str | None
+    name: str
+    urlKey: str
+    url: str
+    platform: str | None
+    currency: str | None
+    regularPrice: float | None
+    finalPrice: float | None
+    discounted: bool | None
+    imageUrl: str | None
+    availability: list[str]
+    features: list[str]
+    genres: list[str]
+    compatibilityStatus: str | None
+    compatibilityCaption: str | None
+    description: str | None
 
 class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     package: str
@@ -44125,6 +44147,9 @@ class Prv_microsoft_onedrive(Protocol):
     async def listFiles(self, args: Prv_microsoft_onedrive_listFiles_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_onedrive_microsoft_onedriveRow_Out]:
         """Lists files and folders in the user's OneDrive root or a specified path."""
 
+    async def getFile(self, args: Prv_microsoft_onedrive_getFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_onedrive_microsoft_onedriveRow_Out:
+        """Gets metadata for a specific file by ID."""
+
 class Prv_microsoft_outlook(Protocol):
     """Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
     (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a
@@ -44736,6 +44761,18 @@ class Prv_nhc(Protocol):
         """Get one active storm's current status — position, intensity, pressure, movement,
         classification and links to its latest advisory products — by the id returned from
         listCurrentStorms.
+        """
+
+class Prv_nintendo(Protocol):
+    """Nintendo's own store catalog, support knowledge base and news — games, hardware and
+    accessories by name or category, no login needed.
+    """
+
+    async def getProduct(self, ref: str, /) -> Prv_nintendo_NintendoProduct_Out:
+        """Reads one Nintendo store product page the way a shopper would: name, platform, current
+        and list price, in-stock flag, description, box art, genre/feature tags and
+        compatibility note. Takes a urlKey or a nintendo.com product url (not yet a bare product
+        name — that needs searchProducts).
         """
 
 class Prv_npmjs(Protocol):
@@ -51840,6 +51877,7 @@ class BowmarkProviders(Protocol):
     newegg: Prv_newegg
     nfa_futures_org: Prv_nfa_futures_org
     nhc: Prv_nhc
+    nintendo: Prv_nintendo
     npmjs: Prv_npmjs
     npr: Prv_npr
     nurturelife: Prv_nurturelife

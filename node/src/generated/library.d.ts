@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a49fd0054fb6c77cf12744177fc0301fa56a91dad80c8431ed03accd69e684b9
-// 82 capabilities, 557 providers, 1966 typed functions, 20 refused.
+// Manifest version: a4dba86db13bccd48759e9a001e835fa910435d483989bd1e311b8c2f76666db
+// 82 capabilities, 558 providers, 1968 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35303,6 +35303,9 @@ interface microsoft_onedriveRow {
   interface Unit {
     /** Lists files and folders in the user's OneDrive root or a specified path. */
     listFiles(args?: { path?: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow[]>;
+
+    /** Gets metadata for a specific file by ID. */
+    getFile(args: { id: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow>;
   }
 }
 
@@ -36929,6 +36932,43 @@ interface nhcStormInfo extends nhcCurrentStorm {
      * listCurrentStorms.
      */
     getStormInfo(args: { stormId: string }): Promise<nhcStormInfo>;
+  }
+}
+
+declare namespace BowmarkProvider_nintendo {
+  // ── Nintendo — the unit's own declarations, verbatim ──
+interface NintendoProduct {
+  sku: string;
+  nsuid: string | null;
+  name: string;
+  urlKey: string;
+  url: string;
+  platform: string | null;
+  currency: string | null;
+  regularPrice: number | null;
+  finalPrice: number | null;
+  discounted: boolean | null;
+  imageUrl: string | null;
+  availability: string[];  // the site's own labels — read the values off a result, never guess one from prose
+  features: string[];  // the site's own labels — read the values off a result, never guess one from prose
+  genres: string[];
+  compatibilityStatus: string | null;
+  compatibilityCaption: string | null;
+  description: string | null;
+}
+
+  /**
+   * Nintendo's own store catalog, support knowledge base and news — games, hardware and
+   * accessories by name or category, no login needed.
+   */
+  interface Unit {
+    /**
+     * Reads one Nintendo store product page the way a shopper would: name, platform, current and
+     * list price, in-stock flag, description, box art, genre/feature tags and compatibility note.
+     * Takes a urlKey or a nintendo.com product url (not yet a bare product name — that needs
+     * searchProducts).
+     */
+    getProduct(ref: string): Promise<NintendoProduct>;
   }
 }
 
@@ -56671,6 +56711,7 @@ interface BowmarkProviders {
   newegg: BowmarkProvider_newegg.Unit;
   nfa_futures_org: BowmarkProvider_nfa_futures_org.Unit;
   nhc: BowmarkProvider_nhc.Unit;
+  nintendo: BowmarkProvider_nintendo.Unit;
   npmjs: BowmarkProvider_npmjs.Unit;
   npr: BowmarkProvider_npr.Unit;
   nurturelife: BowmarkProvider_nurturelife.Unit;
