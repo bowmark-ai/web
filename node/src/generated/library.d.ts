@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0949e1121efd4e530c21e3f2fbdccdf1f03101bc645e6ed4a48174d5c93f6cee
-// 84 capabilities, 559 providers, 1980 typed functions, 20 refused.
+// Manifest version: 33991ce0a28cd99de38fb3b44744cd1a02a5e13483090a5dcd762520fd196856
+// 85 capabilities, 559 providers, 1982 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -146,6 +146,67 @@ type CallOptions = {
      * ambiguous. US only. `options.timeoutMs` sets the budget (default 30000).
      */
     validate(params: ValidateParams, options?: CallOptions): Promise<address_validationResult>;
+  }
+}
+
+declare namespace BowmarkCapability_bank_transactions {
+  // ── Bank transactions — read a bank statement export (OFX, QFX, CSV) into transactions — the unit's own declarations, verbatim ──
+
+interface ParseOptions {
+  format?: "ofx" | "csv"             // default: sniffed
+  dateOrder?: "auto" | "mdy" | "dmy" // how to read 03/04/2026; default auto
+}
+
+interface Transaction {
+  date: string | null      // YYYY-MM-DD
+  amount: number           // negative = money out, positive = money in
+  description: string
+  payee: string | null
+  memo: string | null
+  id: string | null        // the bank's FITID / reference
+  type: string | null      // DEBIT, CREDIT, POS, ATM…
+  balance: number | null   // running balance, when the export has one
+}
+
+interface ParseResult {
+  format: "ofx" | "csv"
+  account: { bankId: string | null, accountId: string | null, accountType: string | null,
+             currency: string | null, ledgerBalance: number | null } | null  // OFX only
+  transactions: Transaction[]
+  count: number
+  warnings: string[]       // CSV: always says which columns were read as what
+}
+
+interface Summary {
+  count: number
+  from: string | null
+  to: string | null
+  inflow: number
+  outflow: number          // positive number
+  net: number
+  topPayees: { payee: string, total: number, count: number }[]  // ten largest by money out
+  byMonth: { month: string, inflow: number, outflow: number, net: number }[]
+  warnings: string[]
+}
+
+  /**
+   * Turn a bank or credit-card statement export you already hold (OFX/QFX, or the bank's CSV
+   * download) into signed, dated transactions, and total them by payee and month — no network,
+   * no bank login. It cannot fetch transactions from a bank.
+   */
+  interface Unit {
+    /**
+     * Reads a bank statement export's text — OFX/QFX (Quicken, Money, most US banks) or a bank CSV
+     * (any column names: Date/Amount, Debit/Credit, Withdrawals/Deposits) — into transactions with
+     * a YYYY-MM-DD date and a signed amount.
+     */
+    parse(text: string, options?: ParseOptions): Promise<ParseResult>;
+
+    /**
+     * Totals money in and out, the ten biggest payees by spend, and a per-month breakdown — from a
+     * statement's text or from transactions parse already returned.
+     */
+    summarize(textOrTransactions: string | Transaction[], options?: ParseOptions): Promise<Summary>;
   }
 }
 
@@ -28890,6 +28951,14 @@ interface InstagramDirectMessageThread {
   lastMessageTimestamp: string | null;
   isSpamThread: boolean;
 }
+interface InstagramDirectMessage {
+  id: string;
+  senderUsername: string;
+  senderId: string;
+  text: string | null;
+  timestamp: string | null;
+  isUnsent: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -28917,6 +28986,13 @@ interface InstagramDirectMessageThread {
      * each thread. Requires the caller to be signed in through the relay.
      */
     getDirectMessages(): Promise<InstagramDirectMessageThread[]>;
+
+    /**
+     * Reads the message history for one direct message thread, ordered from oldest to newest.
+     * Includes message sender, text, timestamp, and unsent flag. Requires the caller to be signed
+     * in through the relay.
+     */
+    getThreadMessages(threadId: string): Promise<InstagramDirectMessage[]>;
   }
 }
 
@@ -52558,13 +52634,6 @@ interface SearchNewsResult {
      * scale) and category ("None", "Low", "Moderate", "High", "Very High").
      */
     getPollenForecast(location: Location): Promise<PollenForecastResult>;
-
-    /**
-     * Radar imagery tile server configuration for map overlays — precipitation radar mosaic,
-     * available data layers (productSets), zoom levels and tile URL pattern. Used to assemble
-     * radar map visualizations on weather.com.
-     */
-    getRadarTiles(): Promise<RadarTile>;
 
     /**
      * Current position of every active tropical cyclone/hurricane worldwide — the same global list
@@ -107011,6 +107080,7 @@ interface BowmarkProviders {
  * generated once precisely so those two cannot drift. */
 interface BowmarkLibrary {
   address_validation: BowmarkCapability_address_validation.Unit;
+  bank_transactions: BowmarkCapability_bank_transactions.Unit;
   booking_links: BowmarkCapability_booking_links.Unit;
   browser_agent: BowmarkCapability_browser_agent.Unit;
   bundles: BowmarkCapability_bundles.Unit;

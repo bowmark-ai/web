@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0949e1121efd4e530c21e3f2fbdccdf1f03101bc645e6ed4a48174d5c93f6cee
-# 84 capabilities, 559 providers, 1962 typed functions, 20 refused.
+# Manifest version: 33991ce0a28cd99de38fb3b44744cd1a02a5e13483090a5dcd762520fd196856
+# 85 capabilities, 559 providers, 1964 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -279,6 +279,70 @@ class Cap_address_validation_ValidatedAddress_Out(TypedDict):
     latitude: float
     longitude: float
     source: str
+
+class Cap_bank_transactions_ParseOptions_In(TypedDict):
+    format: NotRequired[Literal["ofx"] | Literal["csv"]]
+    dateOrder: NotRequired[Literal["auto"] | Literal["mdy"] | Literal["dmy"]]
+
+class Cap_bank_transactions_ParseResult_Out(TypedDict):
+    format: Literal["ofx"] | Literal["csv"]
+    account: Cap_bank_transactions_ParseResult_Out_account_u0_Out | None
+    transactions: list[Cap_bank_transactions_Transaction_Out]
+    count: float
+    warnings: list[str]
+
+class Cap_bank_transactions_ParseResult_Out_account_u0_Out(TypedDict):
+    bankId: str | None
+    accountId: str | None
+    accountType: str | None
+    currency: str | None
+    ledgerBalance: float | None
+
+class Cap_bank_transactions_Transaction_Out(TypedDict):
+    date: str | None
+    amount: float
+    description: str
+    payee: str | None
+    memo: str | None
+    id: str | None
+    type: str | None
+    balance: float | None
+
+class Cap_bank_transactions_Transaction_In(TypedDict):
+    date: str | None
+    amount: float
+    description: str
+    payee: str | None
+    memo: str | None
+    id: str | None
+    type: str | None
+    balance: float | None
+
+Cap_bank_transactions_Summary_Out = TypedDict(
+    "Cap_bank_transactions_Summary_Out",
+    {
+    "count": float,
+    "from": str | None,
+    "to": str | None,
+    "inflow": float,
+    "outflow": float,
+    "net": float,
+    "topPayees": list[Cap_bank_transactions_Summary_Out_topPayees_item_Out],
+    "byMonth": list[Cap_bank_transactions_Summary_Out_byMonth_item_Out],
+    "warnings": list[str],
+    },
+)
+
+class Cap_bank_transactions_Summary_Out_topPayees_item_Out(TypedDict):
+    payee: str
+    total: float
+    count: float
+
+class Cap_bank_transactions_Summary_Out_byMonth_item_Out(TypedDict):
+    month: str
+    inflow: float
+    outflow: float
+    net: float
 
 class Cap_booking_links_FindBookingLinksInput_In(TypedDict):
     name: str
@@ -15743,6 +15807,14 @@ class Prv_instagram_InstagramDirectMessageThread_Out(TypedDict):
     lastMessageTimestamp: str | None
     isSpamThread: bool
 
+class Prv_instagram_InstagramDirectMessage_Out(TypedDict):
+    id: str
+    senderUsername: str
+    senderId: str
+    text: str | None
+    timestamp: str | None
+    isUnsent: bool
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -29468,12 +29540,6 @@ class Prv_weather_channel_PollenDaypart_Out(TypedDict):
     ragweedIndex: float | None
     ragweedCategory: str | None
 
-class Prv_weather_channel_RadarTile_Out(TypedDict):
-    serverHost: str | None
-    productSets: list[str]
-    zoomRange: tuple[float, float] | None
-    tileUrlPattern: str | None
-
 class Prv_weather_channel_TropicalPositionResult_Out(TypedDict):
     storms: list[Prv_weather_channel_TropicalSystem_Out]
 
@@ -31490,6 +31556,23 @@ class Cap_address_validation(Protocol):
         whether it matched a real address; `address` is the standardized form (street, city,
         state, ZIP, lat/lng) when exactly one matched; `candidates` lists every match when the
         input is ambiguous. US only. `options.timeoutMs` sets the budget (default 30000).
+        """
+
+class Cap_bank_transactions(Protocol):
+    """Turn a bank or credit-card statement export you already hold (OFX/QFX, or the bank's CSV
+    download) into signed, dated transactions, and total them by payee and month — no
+    network, no bank login. It cannot fetch transactions from a bank.
+    """
+
+    async def parse(self, text: str, options: Cap_bank_transactions_ParseOptions_In | None = None, /) -> Cap_bank_transactions_ParseResult_Out:
+        """Reads a bank statement export's text — OFX/QFX (Quicken, Money, most US banks) or a bank
+        CSV (any column names: Date/Amount, Debit/Credit, Withdrawals/Deposits) — into
+        transactions with a YYYY-MM-DD date and a signed amount.
+        """
+
+    async def summarize(self, textOrTransactions: str | Sequence[Cap_bank_transactions_Transaction_In], options: Cap_bank_transactions_ParseOptions_In | None = None, /) -> Cap_bank_transactions_Summary_Out:
+        """Totals money in and out, the ten biggest payees by spend, and a per-month breakdown —
+        from a statement's text or from transactions parse already returned.
         """
 
 class Cap_booking_links(Protocol):
@@ -42129,6 +42212,12 @@ class Prv_instagram(Protocol):
         in each thread. Requires the caller to be signed in through the relay.
         """
 
+    async def getThreadMessages(self, threadId: str, /) -> list[Prv_instagram_InstagramDirectMessage_Out]:
+        """Reads the message history for one direct message thread, ordered from oldest to newest.
+        Includes message sender, text, timestamp, and unsent flag. Requires the caller to be
+        signed in through the relay.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -50540,12 +50629,6 @@ class Prv_weather_channel(Protocol):
         "High", "Very High").
         """
 
-    async def getRadarTiles(self, /) -> Prv_weather_channel_RadarTile_Out:
-        """Radar imagery tile server configuration for map overlays — precipitation radar mosaic,
-        available data layers (productSets), zoom levels and tile URL pattern. Used to assemble
-        radar map visualizations on weather.com.
-        """
-
     async def getCurrentTropicalPosition(self, /) -> Prv_weather_channel_TropicalPositionResult_Out:
         """Current position of every active tropical cyclone/hurricane worldwide — the same global
         list weather.com's tropical tracker shows. Not scoped to a location: every call returns
@@ -52326,6 +52409,7 @@ class Bowmark(Protocol):
     generated once precisely so those two cannot drift."""
 
     address_validation: Cap_address_validation
+    bank_transactions: Cap_bank_transactions
     booking_links: Cap_booking_links
     browser_agent: Cap_browser_agent
     bundles: Cap_bundles

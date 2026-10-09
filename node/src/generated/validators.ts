@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0949e1121efd4e530c21e3f2fbdccdf1f03101bc645e6ed4a48174d5c93f6cee
-// 1962 checked, 20 unchecked.
+// Manifest version: 33991ce0a28cd99de38fb3b44744cd1a02a5e13483090a5dcd762520fd196856
+// 1964 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0949e1121efd4e530c21e3f2fbdccdf1f03101bc645e6ed4a48174d5c93f6cee",
+  "version": "33991ce0a28cd99de38fb3b44744cd1a02a5e13483090a5dcd762520fd196856",
   "units": {
     "address_validation": {
       "defs": {
@@ -55,6 +55,210 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "bank_transactions": {
+      "defs": {
+        "ParseOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "format",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "ofx"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "csv"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "dateOrder",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "auto"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mdy"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "dmy"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "Transaction": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "amount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "payee",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "balance",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "parse": [
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ParseOptions"
+            },
+            "optional": true
+          }
+        ],
+        "summarize": [
+          {
+            "name": "textOrTransactions",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "ref",
+                    "name": "Transaction"
+                  }
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ParseOptions"
             },
             "optional": true
           }
@@ -29043,7 +29247,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getDirectMessages": []
+        "getDirectMessages": [],
+        "getThreadMessages": [
+          {
+            "name": "threadId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.insurify": {
@@ -58340,7 +58553,6 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getRadarTiles": [],
         "getCurrentTropicalPosition": [],
         "getTropicalCone": [
           {
