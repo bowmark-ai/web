@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3310 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3313 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -497,7 +497,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.findTicker` | businessinsider.com | Resolve a company or asset name to its market symbol and markets.businessinsider.com… | ⚪ |
 | `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | 🟢 |
 | `businessinsider_com.getArticleComments` | businessinsider.com | Read the public comments/discussion thread under one article. | ⚪ |
-| `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | ⚪ |
+| `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | 🟢 |
 | `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | ⚪ |
 | `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | ⚪ |
 | `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | ⚪ |
@@ -1536,6 +1536,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟡 |
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
 | `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟡 |
+| `hackernews.getItem` | news.ycombinator.com | Returns one Hacker News item — story, comment, job or poll — by its numeric id or… | 🟢 |
+| `hackernews.search` | news.ycombinator.com | Keyword-searches every Hacker News story through HN's own search (hn.algolia.com)… | 🟢 |
+| `hackernews.topStories` | news.ycombinator.com | Returns the stories on the Hacker News front page (or the new, best, Ask HN, Show HN… | 🟢 |
 | `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟢 |
 | `handypro.checkServiceArea` | handypro.com | Checks whether a ZIP is served by a real local HandyPro franchisee and returns that… | 🟢 |
 | `handypro.checkTechnicianAvailability` | handypro.com | Would find the next available technician slot for a category + ZIP via… | ⚪ |
