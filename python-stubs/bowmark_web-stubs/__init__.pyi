@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5a05c237cfe03b66646a3c61a9ab6b2ba191ac748fea9da27b000617b56fb90a
-# 81 capabilities, 550 providers, 1932 typed functions, 20 refused.
+# Manifest version: dea1d4219571dff84a2428d68aed242419c68efe328f69bbffa283459c947350
+# 81 capabilities, 552 providers, 1934 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16818,19 +16818,39 @@ class Prv_keepa_getProduct_args_In(TypedDict):
     asin: str
     domain: NotRequired[float]
     stats: NotRequired[float]
+    source: NotRequired[Literal["api"] | Literal["site"]]
 
 class Prv_keepa_KeepaProductResult_Out(TypedDict):
+    source: Literal["api"] | Literal["site"]
     product: Prv_keepa_KeepaProduct_Out
     tokensLeft: float | None
     tokensConsumed: float | None
     refillRate: float | None
+    chart: NotRequired[Prv_keepa_KeepaChart_Out]
+    warnings: list[str]
 
 class Prv_keepa_KeepaProduct_Out(TypedDict):
     asin: str
     domainId: float
-    title: str
+    title: str | None
     csv: NotRequired[list[Any]]
     stats: NotRequired[Mapping[str, Any]]
+
+class Prv_keepa_KeepaChart_Out(TypedDict):
+    url: str
+    contentType: Literal["image/png"]
+    bytes: float
+    width: float
+    height: float
+    file: NotRequired[Prv_keepa_KeepaChart_Out_file_Out]
+
+class Prv_keepa_KeepaChart_Out_file_Out(TypedDict):
+    id: str
+    name: str
+    contentType: str
+    bytes: float
+    url: str
+    expiresAt: str
 
 class Prv_kingsdown_KingsdownGetBedMatchResultArgs_In(TypedDict):
     name: str
@@ -18996,6 +19016,37 @@ class Prv_microcenter_StoreShelf_Out(TypedDict):
     inStock: bool
     url: str
 
+class Prv_microsoft_365_ListDocumentsArgs_In(TypedDict):
+    folderId: NotRequired[str]
+
+class Prv_microsoft_365_microsoft_365Document_Out(TypedDict):
+    id: str
+    name: str
+    size: NotRequired[float]
+    lastModifiedDateTime: NotRequired[str]
+    webUrl: NotRequired[str]
+    createdDateTime: NotRequired[str]
+    lastModifiedBy: NotRequired[Prv_microsoft_365_microsoft_365Document_Out_lastModifiedBy_Out]
+    parentReference: NotRequired[Prv_microsoft_365_microsoft_365Document_Out_parentReference_Out]
+    file: NotRequired[Prv_microsoft_365_microsoft_365Document_Out_file_Out]
+    folder: NotRequired[Prv_microsoft_365_microsoft_365Document_Out_folder_Out]
+    isFile: bool
+
+class Prv_microsoft_365_microsoft_365Document_Out_lastModifiedBy_Out(TypedDict):
+    user: NotRequired[Prv_microsoft_365_microsoft_365Document_Out_lastModifiedBy_Out_user_Out]
+
+class Prv_microsoft_365_microsoft_365Document_Out_lastModifiedBy_Out_user_Out(TypedDict):
+    displayName: NotRequired[str]
+
+class Prv_microsoft_365_microsoft_365Document_Out_parentReference_Out(TypedDict):
+    driveId: NotRequired[str]
+
+class Prv_microsoft_365_microsoft_365Document_Out_file_Out(TypedDict):
+    mimeType: NotRequired[str]
+
+class Prv_microsoft_365_microsoft_365Document_Out_folder_Out(TypedDict):
+    childCount: NotRequired[float]
+
 class Prv_millisaraylar_MillisaraylarPalace_Out(TypedDict):
     id: str
     name: str
@@ -19307,6 +19358,64 @@ class Prv_msc_TrackingResult_Out(TypedDict):
     lastUpdate: str
     estimatedDelivery: NotRequired[str]
     rawData: NotRequired[Mapping[str, Any]]
+
+class Prv_msc_fema_FloodZoneArgs_In(TypedDict):
+    address: NotRequired[str]
+    lat: NotRequired[float]
+    lon: NotRequired[float]
+
+class Prv_msc_fema_FloodZoneResult_Out(TypedDict):
+    lat: float
+    lon: float
+    matchedAddress: str | None
+    locationSource: Literal["census-geocoder-address-range"] | Literal["coordinates"]
+    zone: str | None
+    zoneSubtype: str | None
+    isSpecialFloodHazardArea: bool | None
+    riskLevel: Literal["high"] | Literal["moderate"] | Literal["minimal"] | Literal["undetermined"] | None
+    baseFloodElevation: Prv_msc_fema_BaseFloodElevation_Out | None
+    floodDepth: Prv_msc_fema_FloodDepth_Out | None
+    nearbyBaseFloodElevations: list[Prv_msc_fema_NearbyBaseFloodElevation_Out]
+    otherZonesNearby: list[Prv_msc_fema_NearbyZone_Out]
+    firmPanel: Prv_msc_fema_FirmPanel_Out | None
+    community: Prv_msc_fema_FloodCommunity_Out | None
+    dfirmId: str | None
+    url: str
+    source: str
+    warnings: list[str]
+
+class Prv_msc_fema_BaseFloodElevation_Out(TypedDict):
+    elevation: float
+    unit: str | None
+    datum: str | None
+
+class Prv_msc_fema_FloodDepth_Out(TypedDict):
+    depth: float
+    unit: str | None
+
+class Prv_msc_fema_NearbyBaseFloodElevation_Out(TypedDict):
+    elevation: float
+    unit: str | None
+    datum: str | None
+    distanceMeters: float
+    dfirmId: str | None
+
+class Prv_msc_fema_NearbyZone_Out(TypedDict):
+    zone: str
+    zoneSubtype: str | None
+    baseFloodElevation: float | None
+    floodDepth: float | None
+
+class Prv_msc_fema_FirmPanel_Out(TypedDict):
+    panelNumber: str
+    effectiveDate: str | None
+    panelType: str | None
+    printed: bool | None
+    notPrintedReason: str | None
+
+class Prv_msc_fema_FloodCommunity_Out(TypedDict):
+    name: str
+    communityId: str | None
 
 class Prv_msn_MsnTopStories_Out(TypedDict):
     stories: list[Prv_msn_MsnStory_Out]
@@ -42391,16 +42500,21 @@ class Prv_kbb(Protocol):
         """
 
 class Prv_keepa(Protocol):
-    """Keepa's documented Amazon product API — reads a product's native price history and
-    metadata by ASIN. Uses Bowmark's Keepa key and charges each request to your account;
-    send your own key as the `x-bowmark-vendor-key-keepa` header to spend your own Keepa
-    tokens instead.
+    """Amazon price history from Keepa. With a Keepa API key (send your own as the
+    `x-bowmark-vendor-key-keepa` header) it reads Keepa's documented API: the product's
+    native price-history series and metadata by ASIN, spending your Keepa tokens. With no
+    key it reads keepa.com itself and returns the price-history chart image Keepa shows any
+    visitor, and says so in `warnings`.
     """
 
     async def getProduct(self, args: Prv_keepa_getProduct_args_In, /) -> Prv_keepa_KeepaProductResult_Out:
-        """Reads Keepa's native Amazon product record and compact price-history series for one
-        ASIN. Uses Bowmark's Keepa key and charges each request to your account; send your own
-        key as the `x-bowmark-vendor-key-keepa` header to spend your own Keepa tokens instead.
+        """Amazon price history for one ASIN. With a Keepa API key (your own, sent as the
+        `x-bowmark-vendor-key-keepa` header) it reads Keepa's documented API: the native product
+        record and compact price-history series (`source: "api"`), spending your Keepa tokens.
+        With no key it reads keepa.com itself and returns the price-history chart image Keepa
+        shows any visitor with no account (`source: "site"`, `chart.url`): a picture with the
+        latest price of each series in its legend, not the numeric series, which `warnings`
+        says. `source` forces one door.
         """
 
 class Prv_kingsdown(Protocol):
@@ -43735,6 +43849,15 @@ class Prv_microcenter(Protocol):
         read it" are opposite answers.
         """
 
+class Prv_microsoft_365(Protocol):
+    """TODO — one line an agent reads to decide whether to call this."""
+
+    async def listDocuments(self, args: Prv_microsoft_365_ListDocumentsArgs_In | None = None, /) -> list[Prv_microsoft_365_microsoft_365Document_Out]:
+        """Lists documents from the user's Microsoft 365 OneDrive, including files and folders with
+        metadata. The optional `folderId` parameter filters to a specific folder; defaults to
+        the root drive.
+        """
+
 class Prv_millisaraylar(Protocol):
     """Türkiye's Presidential Administration of National Palaces — the palace/kiosk/pavilion
     list, closed days and ticket-office hours, and domestic/domestic-student/foreign ticket
@@ -43956,6 +44079,18 @@ class Prv_msc(Protocol):
     async def trackShipment(self, trackingNumber: str, type: Literal["container"] | Literal["bl"] | Literal["booking"] | None = None, /) -> Prv_msc_TrackingResult_Out:
         """Track MSC container and shipment status — get real-time location, current status, and
         estimated delivery date for any container number, bill of lading, or booking reference.
+        """
+
+class Prv_msc_fema(Protocol):
+    """FEMA flood zone for a US address or a lat/lon point: zone (A, AE, X, VE…), Special Flood
+    Hazard Area, base flood elevation, FIRM panel and community, no API key
+    """
+
+    async def getFloodZone(self, args: Prv_msc_fema_FloodZoneArgs_In, /) -> Prv_msc_fema_FloodZoneResult_Out:
+        """What FEMA flood zone is this US address (or lat/lon) in? Returns the zone code (A, AE,
+        X, VE…), whether it is a Special Flood Hazard Area, base flood elevation, FIRM panel
+        with effective date, and community. An unmapped point is zone null plus a warning, never
+        a guess.
         """
 
 class Prv_msn(Protocol):
@@ -51388,6 +51523,7 @@ class BowmarkProviders(Protocol):
     mercari: Prv_mercari
     mergify: Prv_mergify
     microcenter: Prv_microcenter
+    microsoft_365: Prv_microsoft_365
     millisaraylar: Prv_millisaraylar
     minimax: Prv_minimax
     minted: Prv_minted
@@ -51397,6 +51533,7 @@ class BowmarkProviders(Protocol):
     momondo: Prv_momondo
     mossyoak: Prv_mossyoak
     msc: Prv_msc
+    msc_fema: Prv_msc_fema
     msn: Prv_msn
     municipal_recreation_fees_fetcher: Prv_municipal_recreation_fees_fetcher
     muze_gov_tr: Prv_muze_gov_tr

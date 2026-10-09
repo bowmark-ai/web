@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5a05c237cfe03b66646a3c61a9ab6b2ba191ac748fea9da27b000617b56fb90a
-// 81 capabilities, 550 providers, 1950 typed functions, 20 refused.
+// Manifest version: dea1d4219571dff84a2428d68aed242419c68efe328f69bbffa283459c947350
+// 81 capabilities, 552 providers, 1952 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30940,21 +30940,28 @@ interface KbbTrimPricing {
 
 declare namespace BowmarkProvider_keepa {
   // ── Keepa — the unit's own declarations, verbatim ──
-interface KeepaProductResult { product: KeepaProduct; tokensLeft: number | null; tokensConsumed: number | null; refillRate: number | null; }
-interface KeepaProduct { asin: string; domainId: number; title: string; csv?: unknown[]; stats?: Record<string, unknown>; }
+interface KeepaProductResult { source: "api" | "site"; product: KeepaProduct; tokensLeft: number | null; tokensConsumed: number | null; refillRate: number | null; chart?: KeepaChart; warnings: string[]; }
+interface KeepaProduct { asin: string; domainId: number; title: string | null; csv?: unknown[]; stats?: Record<string, unknown>; }
+interface KeepaChart { url: string; contentType: "image/png"; bytes: number; width: number; height: number; file?: { id: string; name: string; contentType: string; bytes: number; url: string; expiresAt: string }; }
 
   /**
-   * Keepa's documented Amazon product API — reads a product's native price history and metadata
-   * by ASIN. Uses Bowmark's Keepa key and charges each request to your account; send your own
-   * key as the `x-bowmark-vendor-key-keepa` header to spend your own Keepa tokens instead.
+   * Amazon price history from Keepa. With a Keepa API key (send your own as the
+   * `x-bowmark-vendor-key-keepa` header) it reads Keepa's documented API: the product's native
+   * price-history series and metadata by ASIN, spending your Keepa tokens. With no key it reads
+   * keepa.com itself and returns the price-history chart image Keepa shows any visitor, and says
+   * so in `warnings`.
    */
   interface Unit {
     /**
-     * Reads Keepa's native Amazon product record and compact price-history series for one ASIN.
-     * Uses Bowmark's Keepa key and charges each request to your account; send your own key as the
-     * `x-bowmark-vendor-key-keepa` header to spend your own Keepa tokens instead.
+     * Amazon price history for one ASIN. With a Keepa API key (your own, sent as the
+     * `x-bowmark-vendor-key-keepa` header) it reads Keepa's documented API: the native product
+     * record and compact price-history series (`source: "api"`), spending your Keepa tokens. With
+     * no key it reads keepa.com itself and returns the price-history chart image Keepa shows any
+     * visitor with no account (`source: "site"`, `chart.url`): a picture with the latest price of
+     * each series in its legend, not the numeric series, which `warnings` says. `source` forces
+     * one door.
      */
-    getProduct(args: { asin: string; domain?: number; stats?: number }): Promise<KeepaProductResult>;
+    getProduct(args: { asin: string; domain?: number; stats?: number; source?: "api" | "site" }): Promise<KeepaProductResult>;
   }
 }
 
@@ -34983,6 +34990,37 @@ interface StoreShelfRoster {
   }
 }
 
+declare namespace BowmarkProvider_microsoft_365 {
+  // ── TODO — the unit's own declarations, verbatim ──
+interface microsoft_365Document {
+  id: string;
+  name: string;
+  size?: number;
+  lastModifiedDateTime?: string;
+  webUrl?: string;
+  createdDateTime?: string;
+  lastModifiedBy?: { user?: { displayName?: string } };
+  parentReference?: { driveId?: string };
+  file?: { mimeType?: string };
+  folder?: { childCount?: number };
+  isFile: boolean;
+}
+
+interface ListDocumentsArgs {
+  folderId?: string;
+}
+
+  /** TODO — one line an agent reads to decide whether to call this. */
+  interface Unit {
+    /**
+     * Lists documents from the user's Microsoft 365 OneDrive, including files and folders with
+     * metadata. The optional `folderId` parameter filters to a specific folder; defaults to the
+     * root drive.
+     */
+    listDocuments(args?: ListDocumentsArgs): Promise<microsoft_365Document[]>;
+  }
+}
+
 declare namespace BowmarkProvider_millisaraylar {
   // ── millisaraylar.gov.tr — Türkiye Presidential Administration of National Palaces — the unit's own declarations, verbatim ──
 interface MillisaraylarPalace {
@@ -35576,6 +35614,119 @@ interface TrackingResult {
      * estimated delivery date for any container number, bill of lading, or booking reference.
      */
     trackShipment(trackingNumber: string, type?: 'container' | 'bl' | 'booking'): Promise<TrackingResult>;
+  }
+}
+
+declare namespace BowmarkProvider_msc_fema {
+  // ── FEMA Flood Map Service Center — the unit's own declarations, verbatim ──
+interface FloodZoneArgs {
+  /** A US street address, geocoded with the US Census Geocoder. Pass this OR lat and lon.
+   * An address that matches two places throws, listing both: pass one back verbatim. */
+  address?: string;
+  /** WGS84 decimal degrees; pass with lon instead of an address. Longitudes in the Americas are negative. */
+  lat?: number;
+  lon?: number;
+}
+
+type FloodRiskLevel = "high" | "moderate" | "minimal" | "undetermined";
+
+interface BaseFloodElevation {
+  /** The one elevation the flood-zone polygon itself carries (FEMA's STATIC_BFE). */
+  elevation: number;
+  /** As FEMA writes it, e.g. "Feet". */
+  unit: string | null;
+  /** Vertical datum, e.g. "NAVD88" or "NGVD29". Never compare elevations across datums. */
+  datum: string | null;
+}
+
+interface FloodDepth {
+  /** Expected depth of flooding in a shallow-flooding (AO) zone. */
+  depth: number;
+  unit: string | null;
+}
+
+interface NearbyBaseFloodElevation {
+  /** The elevation of a BFE line in the same study, NOT the BFE at the point: between lines it is interpolated. */
+  elevation: number;
+  unit: string | null;
+  datum: string | null;
+  /** Straight-line metres from the point to the line. */
+  distanceMeters: number;
+  dfirmId: string | null;
+}
+
+interface NearbyZone {
+  zone: string;
+  zoneSubtype: string | null;
+  /** A different polygon can carry a different elevation: two VE zones a few metres apart may sit at 18 and 19 feet. */
+  baseFloodElevation: number | null;
+  floodDepth: number | null;
+}
+
+interface FirmPanel {
+  /** The Flood Insurance Rate Map panel, e.g. "12086C0317L". */
+  panelNumber: string;
+  /** Calendar date (UTC) the panel took effect, e.g. "2009-09-11". */
+  effectiveDate: string | null;
+  /** e.g. "Countywide, Panel Printed" or "Countywide, Not Printed". */
+  panelType: string | null;
+  /** False for a panel FEMA never printed: the zone is still the digital map's answer. */
+  printed: boolean | null;
+  notPrintedReason: string | null;
+}
+
+interface FloodCommunity {
+  /** The jurisdiction as FEMA names it, e.g. "CITY OF MIAMI BEACH". */
+  name: string;
+  /** NFIP community id (CID), e.g. "120651" — what an insurance agent asks for. */
+  communityId: string | null;
+}
+
+interface FloodZoneResult {
+  /** The point that was looked up: the geocoded point for an address, else the coordinates passed. */
+  lat: number;
+  lon: number;
+  /** The Census Geocoder's standardised address, e.g. "1700 CONVENTION CENTER DR, MIAMI BEACH, FL, 33139"; null for lat/lon input. */
+  matchedAddress: string | null;
+  /** "census-geocoder-address-range": placed by interpolating along the street segment, so it can be off by tens of metres. "coordinates": exactly what the caller passed. */
+  locationSource: "census-geocoder-address-range" | "coordinates";
+  /** FEMA's flood zone code at the point, e.g. "AE", "VE", "AO", "A", "X", "D". null when no polygon covers it (unmapped: see warnings). */
+  zone: string | null;
+  /** e.g. "FLOODWAY", "0.2 PCT ANNUAL CHANCE FLOOD HAZARD", "AREA OF MINIMAL FLOOD HAZARD", "AREA WITH REDUCED FLOOD RISK DUE TO LEVEE"; null when FEMA gives none. */
+  zoneSubtype: string | null;
+  /** True inside the 1%-annual-chance floodplain (the A and V zones), the area where the NFIP's mandatory flood-insurance purchase requirement applies to federally backed mortgages. */
+  isSpecialFloodHazardArea: boolean | null;
+  /** FEMA's grouping of the zone; null where FEMA does not group it. */
+  riskLevel: FloodRiskLevel | null;
+  /** Present when the zone polygon carries its own base flood elevation (VE, some AE and AH zones). */
+  baseFloodElevation: BaseFloodElevation | null;
+  floodDepth: FloodDepth | null;
+  /** For a high-risk zone with no elevation of its own: the BFE lines within 250 m, nearest first. Empty is normal (zone A has no BFE). */
+  nearbyBaseFloodElevations: NearbyBaseFloodElevation[];
+  /** Other flood zones within 50 m of an address's geocoded point; non-empty means the answer is boundary-sensitive. */
+  otherZonesNearby: NearbyZone[];
+  firmPanel: FirmPanel | null;
+  community: FloodCommunity | null;
+  /** FEMA's study id (DFIRM_ID) the zone came from, e.g. "12086C". */
+  dfirmId: string | null;
+  /** The FEMA Flood Map Service Center search for the same place, to see the map itself. */
+  url: string;
+  source: string;
+  /** Empty on a clean answer. Names an unmapped point, an ambiguous or approximate geocode, a zone boundary within 50 m, overlapping polygons, and any lookup that failed. */
+  warnings: string[];
+}
+
+  /**
+   * FEMA flood zone for a US address or a lat/lon point: zone (A, AE, X, VE…), Special Flood
+   * Hazard Area, base flood elevation, FIRM panel and community, no API key
+   */
+  interface Unit {
+    /**
+     * What FEMA flood zone is this US address (or lat/lon) in? Returns the zone code (A, AE, X,
+     * VE…), whether it is a Special Flood Hazard Area, base flood elevation, FIRM panel with
+     * effective date, and community. An unmapped point is zone null plus a warning, never a guess.
+     */
+    getFloodZone(args: FloodZoneArgs): Promise<FloodZoneResult>;
   }
 }
 
@@ -56127,6 +56278,7 @@ interface BowmarkProviders {
   mercari: BowmarkProvider_mercari.Unit;
   mergify: BowmarkProvider_mergify.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
+  microsoft_365: BowmarkProvider_microsoft_365.Unit;
   millisaraylar: BowmarkProvider_millisaraylar.Unit;
   minimax: BowmarkProvider_minimax.Unit;
   minted: BowmarkProvider_minted.Unit;
@@ -56136,6 +56288,7 @@ interface BowmarkProviders {
   momondo: BowmarkProvider_momondo.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
   msc: BowmarkProvider_msc.Unit;
+  msc_fema: BowmarkProvider_msc_fema.Unit;
   msn: BowmarkProvider_msn.Unit;
   municipal_recreation_fees_fetcher: BowmarkProvider_municipal_recreation_fees_fetcher.Unit;
   muze_gov_tr: BowmarkProvider_muze_gov_tr.Unit;

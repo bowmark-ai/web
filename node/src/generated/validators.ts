@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5a05c237cfe03b66646a3c61a9ab6b2ba191ac748fea9da27b000617b56fb90a
-// 1932 checked, 20 unchecked.
+// Manifest version: dea1d4219571dff84a2428d68aed242419c68efe328f69bbffa283459c947350
+// 1934 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5a05c237cfe03b66646a3c61a9ab6b2ba191ac748fea9da27b000617b56fb90a",
+  "version": "dea1d4219571dff84a2428d68aed242419c68efe328f69bbffa283459c947350",
   "units": {
     "address_validation": {
       "defs": {
@@ -31378,6 +31378,23 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": true
+                },
+                {
+                  "name": "source",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "api"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "site"
+                      }
+                    ]
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -35581,6 +35598,34 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.microsoft_365": {
+      "defs": {
+        "ListDocumentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "folderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listDocuments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListDocumentsArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.millisaraylar": {
       "defs": {},
       "functions": {
@@ -36255,6 +36300,48 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.msc_fema": {
+      "defs": {
+        "FloodZoneArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lon",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getFloodZone": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FloodZoneArgs"
+            },
+            "optional": false
           }
         ]
       }
