@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 126 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 127 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -68,6 +68,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `insurance.getLicensing` | Reads the regulators' own licensing record for ONE carrier, keyed on the `naicCode`… | 4 | 🟢 |
 | `insurance.listReferralCarriers` | Lists the carriers a referral/marketplace program actually places business with — the… | 4 | 🟢 |
 | `insurance.searchCarriers` | Searches the US insurance regulators' register — `{ name: "GEICO" }`, `{ licensedIn… | 4 | 🟢 |
+| `ip_asn_lookup.lookup` | Look up the ASN and ISP of an IP address ("8.8.8.8" or an IPv6 address), with its… | 1 | 🟢 |
 | `istanbul_schedules.attractionHours` | Matches `query` against muze.gov.tr's own museum/site listing (a substring match on… | 1 | 🟢 |
 | `job_search.search` | Open job listings for a role, optionally in a city — picks Indeed's regional board… | 1 | 🟢 |
 | `kenya_fuel_prices.search` | Returns current Kenya pump prices for diesel, petrol, or kerosene. | 0 | 🟢 |

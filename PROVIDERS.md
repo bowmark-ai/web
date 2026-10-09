@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3308 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3309 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1721,6 +1721,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `interiordefine.getConfigurator` | interiordefine.com | Reads one product's whole customizer: every option category (fabric color, leg finish… | 🟢 |
 | `interiordefine.priceConfiguration` | interiordefine.com | Prices a specific configuration (a choice per option category) against… | 🟢 |
 | `interiordefine.searchProducts` | interiordefine.com | Searches Interior Define's custom-furniture catalog (sofas, sectionals, chairs) by… | 🟢 |
+| `ipinfo.lookup` | ipinfo.io | Look up an IPv4 or IPv6 address: its autonomous system number (ASN), the ISP / network… | 🟢 |
 | `iproyal_reseller.extendPeriod` | apid.iproyal.com | Extends one order's term (POST /orders/{id}/extend) — spends real money; a new prepaid… | ⚪ |
 | `iproyal_reseller.getAccountBalance` | apid.iproyal.com | Bowmark's own prepaid IPRoyal balance (GET /balance) — used to fence a lease purchase… | 🟡 |
 | `iproyal_reseller.getCatalogue` | apid.iproyal.com | Reads IPRoyal's live reseller catalogue for one lease kind (GET /products) —… | 🟡 |
