@@ -1992,7 +1992,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_365.shareDocument` | TODO example.com | TODO — what shareDocument does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_onedrive.createFolder` | onedrive.live.com | TODO — what createFolder does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_onedrive.deleteFile` | onedrive.live.com | TODO — what deleteFile does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_onedrive.getFile` | onedrive.live.com | TODO — what getFile does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.getFile` | onedrive.live.com | Gets metadata for a specific file by ID. | 🟢 |
 | `microsoft_onedrive.listFiles` | onedrive.live.com | Lists files and folders in the user's OneDrive root or a specified path. | 🟢 |
 | `microsoft_onedrive.listFolders` | onedrive.live.com | TODO — what listFolders does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_onedrive.shareFile` | onedrive.live.com | TODO — what shareFile does on the live site, and what interaction it performs. | ⚪ |
@@ -2953,7 +2953,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.removeFromTrip` | tripadvisor.com | Removes a saved place from one of the signed-in caller's Trips. | ⚪ |
 | `tripadvisor.replyToForumTopic` | tripadvisor.com | Posts a reply to a travel-forum thread from the signed-in caller's account. | ⚪ |
 | `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
-| `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟢 |
+| `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟡 |
 | `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region — attractions, tours and activities — in… | ⚪ |
 | `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟢 |
 | `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | ⚪ |
