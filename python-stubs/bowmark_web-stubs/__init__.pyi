@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bc40e76b7491a34ad61113835d31528176987f4565da9deae5adacc980feff90
-# 81 capabilities, 552 providers, 1935 typed functions, 20 refused.
+# Manifest version: 6a3cb25ceb17f7259635548b9d6224d3338fb87ae6e715184c6b8398e3ad091b
+# 81 capabilities, 553 providers, 1936 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19057,6 +19057,17 @@ class Prv_microsoft_365_microsoft_365Document_Out_file_Out(TypedDict):
 
 class Prv_microsoft_365_microsoft_365Document_Out_folder_Out(TypedDict):
     childCount: NotRequired[float]
+
+class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
+    path: NotRequired[str]
+
+class Prv_microsoft_onedrive_microsoft_onedriveRow_Out(TypedDict):
+    id: str
+    name: str
+    size: float
+    webUrl: str
+    lastModifiedDateTime: str
+    isFolder: NotRequired[bool]
 
 class Prv_millisaraylar_MillisaraylarPalace_Out(TypedDict):
     id: str
@@ -43878,6 +43889,12 @@ class Prv_microsoft_365(Protocol):
         the root drive.
         """
 
+class Prv_microsoft_onedrive(Protocol):
+    """Cloud file storage and sharing through Microsoft OneDrive."""
+
+    async def listFiles(self, args: Prv_microsoft_onedrive_listFiles_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_onedrive_microsoft_onedriveRow_Out]:
+        """Lists files and folders in the user's OneDrive root or a specified path."""
+
 class Prv_millisaraylar(Protocol):
     """Türkiye's Presidential Administration of National Palaces — the palace/kiosk/pavilion
     list, closed days and ticket-office hours, and domestic/domestic-student/foreign ticket
@@ -51544,6 +51561,7 @@ class BowmarkProviders(Protocol):
     mergify: Prv_mergify
     microcenter: Prv_microcenter
     microsoft_365: Prv_microsoft_365
+    microsoft_onedrive: Prv_microsoft_onedrive
     millisaraylar: Prv_millisaraylar
     minimax: Prv_minimax
     minted: Prv_minted

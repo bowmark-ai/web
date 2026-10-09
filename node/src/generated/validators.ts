@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bc40e76b7491a34ad61113835d31528176987f4565da9deae5adacc980feff90
-// 1935 checked, 20 unchecked.
+// Manifest version: 6a3cb25ceb17f7259635548b9d6224d3338fb87ae6e715184c6b8398e3ad091b
+// 1936 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bc40e76b7491a34ad61113835d31528176987f4565da9deae5adacc980feff90",
+  "version": "6a3cb25ceb17f7259635548b9d6224d3338fb87ae6e715184c6b8398e3ad091b",
   "units": {
     "address_validation": {
       "defs": {
@@ -35638,6 +35638,45 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListDocumentsArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.microsoft_onedrive": {
+      "defs": {},
+      "functions": {
+        "listFiles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }

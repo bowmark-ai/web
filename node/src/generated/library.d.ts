@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bc40e76b7491a34ad61113835d31528176987f4565da9deae5adacc980feff90
-// 81 capabilities, 552 providers, 1953 typed functions, 20 refused.
+// Manifest version: 6a3cb25ceb17f7259635548b9d6224d3338fb87ae6e715184c6b8398e3ad091b
+// 81 capabilities, 553 providers, 1954 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35039,6 +35039,24 @@ interface ListDocumentsArgs {
   }
 }
 
+declare namespace BowmarkProvider_microsoft_onedrive {
+  // ── Microsoft OneDrive — the unit's own declarations, verbatim ──
+interface microsoft_onedriveRow {
+  id: string;
+  name: string;
+  size: number;
+  webUrl: string;
+  lastModifiedDateTime: string;
+  isFolder?: boolean;
+}
+
+  /** Cloud file storage and sharing through Microsoft OneDrive. */
+  interface Unit {
+    /** Lists files and folders in the user's OneDrive root or a specified path. */
+    listFiles(args?: { path?: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow[]>;
+  }
+}
+
 declare namespace BowmarkProvider_millisaraylar {
   // ── millisaraylar.gov.tr — Türkiye Presidential Administration of National Palaces — the unit's own declarations, verbatim ──
 interface MillisaraylarPalace {
@@ -56297,6 +56315,7 @@ interface BowmarkProviders {
   mergify: BowmarkProvider_mergify.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
   microsoft_365: BowmarkProvider_microsoft_365.Unit;
+  microsoft_onedrive: BowmarkProvider_microsoft_onedrive.Unit;
   millisaraylar: BowmarkProvider_millisaraylar.Unit;
   minimax: BowmarkProvider_minimax.Unit;
   minted: BowmarkProvider_minted.Unit;

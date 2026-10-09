@@ -1,13 +1,14 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3306 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3307 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
 
 | Function | Site | What it does | Status |
 |---|---|---|---|
+| `a16z_speedrun.getApplicationForm` | speedrun.a16z.com | Returns every question on the a16z speedrun accelerator's application form… | 🟢 |
 | `a1storage.getFacilityUnits` | a1storage.com | Reads one facility's live unit inventory by size group (from `listFacilities`'s… | 🟢 |
 | `a1storage.getMoveInCost` | a1storage.com | Computes the itemized pre-rental move-in cost for one selected unit (from… | 🟢 |
 | `a1storage.listFacilities` | a1storage.com | Lists every A-1 Self Storage facility (51 today) with its address, phone, email… | 🟢 |
@@ -1980,7 +1981,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `microsoft_365.createDocument` | TODO example.com | TODO — what createDocument does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_365.deleteDocument` | TODO example.com | TODO — what deleteDocument does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_365.getDocument` | TODO example.com | TODO — what getDocument does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_365.getDocument` | TODO example.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
 | `microsoft_365.listDocuments` | TODO example.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
 | `microsoft_365.listDocumentVersions` | TODO example.com | TODO — what listDocumentVersions does on the live site, and what interaction it… | ⚪ |
 | `microsoft_365.restoreDocumentVersion` | TODO example.com | TODO — what restoreDocumentVersion does on the live site, and what interaction it… | ⚪ |
