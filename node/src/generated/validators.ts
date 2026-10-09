@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6a3cb25ceb17f7259635548b9d6224d3338fb87ae6e715184c6b8398e3ad091b
-// 1936 checked, 20 unchecked.
+// Manifest version: de4801a614459bb6cb2ff9f43d250410b750779a07115657d7b5870c8022fea1
+// 1938 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6a3cb25ceb17f7259635548b9d6224d3338fb87ae6e715184c6b8398e3ad091b",
+  "version": "de4801a614459bb6cb2ff9f43d250410b750779a07115657d7b5870c8022fea1",
   "units": {
     "address_validation": {
       "defs": {
@@ -5953,6 +5953,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      }
+    },
+    "providers.a16z_speedrun": {
+      "defs": {},
+      "functions": {
+        "getApplicationForm": []
       }
     },
     "providers.a1storage": {
@@ -35618,6 +35624,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.microsoft_365": {
       "defs": {
+        "GetDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListDocumentsArgs": {
           "k": "object",
           "props": [
@@ -35640,6 +35658,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListDocumentsArgs"
             },
             "optional": true
+          }
+        ],
+        "getDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDocumentArgs"
+            },
+            "optional": false
           }
         ]
       }

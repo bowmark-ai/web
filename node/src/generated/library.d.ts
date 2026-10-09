@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6a3cb25ceb17f7259635548b9d6224d3338fb87ae6e715184c6b8398e3ad091b
-// 81 capabilities, 553 providers, 1954 typed functions, 20 refused.
+// Manifest version: de4801a614459bb6cb2ff9f43d250410b750779a07115657d7b5870c8022fea1
+// 81 capabilities, 554 providers, 1956 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4857,7 +4857,9 @@ type FormFillResult = {
   filled: string[]           // the values keys that matched a field and were written
   notFound: string[]         // the values keys nothing on the page matched
   advanced: boolean           // a Next/Continue control was found and clicked
-  submitted: boolean          // a submit/book/place-order control was found and clicked
+  submitted: boolean          // a submit control was clicked AND the site took it (navigated, or the
+                              // form's own submit event fired with no validation text). False with
+                              // resultContent set: that text is the site's answer, read it
   openedWith: string | null
   multiStep: boolean          // the step now on screen continues past this one
   stepLabel: string | null
@@ -4980,6 +4982,55 @@ type CallOptions = {
      * be indistinguishable from 'nobody sells this'.
      */
     search(query: string, options?: { limit?: number; timeoutMs?: number }): Promise<YogaOutfitSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_a16z_speedrun {
+  // ── a16z speedrun — the unit's own declarations, verbatim ──
+interface SpeedrunFormField {
+  label: string;
+  /** The form's own field key ("oneLiner", "ceo.relevantExperience"); "list[]" for a repeated row; null when built at runtime. */
+  name: string | null;
+  required: boolean;
+  /** Character cap the form enforces; null when it sets none. */
+  maxLength: number | null;
+  /** "number", "email", "url", "date", …; null for plain text and textareas. */
+  type: string | null;
+}
+
+interface SpeedrunFormSection {
+  /** The question as the form words it, without its trailing " *". */
+  title: string;
+  required: boolean;
+  description: string | null;
+  fields: SpeedrunFormField[];
+  /** The fixed choices a radio group offers (categories, education, full/part-time). */
+  options: string[] | null;
+}
+
+interface SpeedrunApplicationForm {
+  applyUrl: string;
+  /** The Next.js chunk the questions were read from. */
+  chunkUrl: string;
+  /** In the order the site's bundle declares them (attachments, traction, funding, team, startup). */
+  sections: SpeedrunFormSection[];
+  checkedAt: string;
+}
+
+  /**
+   * Andreessen Horowitz's speedrun accelerator. getApplicationForm returns every question on the
+   * /apply form — title, description, required flag, field labels, per-field character limits
+   * and option lists — which the page only renders after its email gate.
+   */
+  interface Unit {
+    /**
+     * The a16z speedrun accelerator application form (speedrun.a16z.com/apply): every question
+     * with its description, whether it is required, the field labels, per-field character limits
+     * (one-liner 100, startup description 800, experience 1000, …) and option lists (primary
+     * category, education). The live page shows only an email gate; this reads the questions out
+     * of the site's own JS bundle. Takes no arguments. Read-only — submits nothing.
+     */
+    getApplicationForm(): Promise<SpeedrunApplicationForm>;
   }
 }
 
@@ -35028,6 +35079,10 @@ interface ListDocumentsArgs {
   folderId?: string;
 }
 
+interface GetDocumentArgs {
+  itemId: string;
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /**
@@ -35036,6 +35091,13 @@ interface ListDocumentsArgs {
      * root drive.
      */
     listDocuments(args?: ListDocumentsArgs): Promise<microsoft_365Document[]>;
+
+    /**
+     * Retrieves metadata for a specific document or folder in the user's Microsoft 365 OneDrive by
+     * item ID. Returns the document's properties including name, size, last modified date, sharing
+     * information, and type.
+     */
+    getDocument(args: GetDocumentArgs): Promise<microsoft_365Document>;
   }
 }
 
@@ -55966,6 +56028,7 @@ interface ShopifyCart {
  * wire — the id in the manifest, the trace, the namespace and a script are one
  * string, so there is no camelCase alias to be uncertain about. */
 interface BowmarkProviders {
+  a16z_speedrun: BowmarkProvider_a16z_speedrun.Unit;
   a1storage: BowmarkProvider_a1storage.Unit;
   aa: BowmarkProvider_aa.Unit;
   aauto: BowmarkProvider_aauto.Unit;

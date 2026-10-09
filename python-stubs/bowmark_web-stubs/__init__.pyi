@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6a3cb25ceb17f7259635548b9d6224d3338fb87ae6e715184c6b8398e3ad091b
-# 81 capabilities, 553 providers, 1936 typed functions, 20 refused.
+# Manifest version: de4801a614459bb6cb2ff9f43d250410b750779a07115657d7b5870c8022fea1
+# 81 capabilities, 554 providers, 1938 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2733,6 +2733,26 @@ class Cap_yoga_outfit_shopping_YogaOutfitItem_Out(TypedDict):
     garmentType: str | None
     colorFamily: str | None
     fabrics: list[str]
+
+class Prv_a16z_speedrun_SpeedrunApplicationForm_Out(TypedDict):
+    applyUrl: str
+    chunkUrl: str
+    sections: list[Prv_a16z_speedrun_SpeedrunFormSection_Out]
+    checkedAt: str
+
+class Prv_a16z_speedrun_SpeedrunFormSection_Out(TypedDict):
+    title: str
+    required: bool
+    description: str | None
+    fields: list[Prv_a16z_speedrun_SpeedrunFormField_Out]
+    options: list[str] | None
+
+class Prv_a16z_speedrun_SpeedrunFormField_Out(TypedDict):
+    label: str
+    name: str | None
+    required: bool
+    maxLength: float | None
+    type: str | None
 
 class Prv_a1storage_a1storageFacilitySearchFilters_In(TypedDict):
     state: NotRequired[str]
@@ -19058,6 +19078,9 @@ class Prv_microsoft_365_microsoft_365Document_Out_file_Out(TypedDict):
 class Prv_microsoft_365_microsoft_365Document_Out_folder_Out(TypedDict):
     childCount: NotRequired[float]
 
+class Prv_microsoft_365_GetDocumentArgs_In(TypedDict):
+    itemId: str
+
 class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
     path: NotRequired[str]
 
@@ -32975,6 +32998,21 @@ class Cap_yoga_outfit_shopping(Protocol):
         result, which would be indistinguishable from 'nobody sells this'.
         """
 
+class Prv_a16z_speedrun(Protocol):
+    """Andreessen Horowitz's speedrun accelerator. getApplicationForm returns every question on
+    the /apply form — title, description, required flag, field labels, per-field character
+    limits and option lists — which the page only renders after its email gate.
+    """
+
+    async def getApplicationForm(self, /) -> Prv_a16z_speedrun_SpeedrunApplicationForm_Out:
+        """The a16z speedrun accelerator application form (speedrun.a16z.com/apply): every question
+        with its description, whether it is required, the field labels, per-field character
+        limits (one-liner 100, startup description 800, experience 1000, …) and option lists
+        (primary category, education). The live page shows only an email gate; this reads the
+        questions out of the site's own JS bundle. Takes no arguments. Read-only — submits
+        nothing.
+        """
+
 class Prv_a1storage(Protocol):
     """Reads A-1 Self Storage's own live unit availability, pricing and per-unit itemized
     move-in cost — real size, category, live rate and any active promo, and the exact
@@ -43889,6 +43927,12 @@ class Prv_microsoft_365(Protocol):
         the root drive.
         """
 
+    async def getDocument(self, args: Prv_microsoft_365_GetDocumentArgs_In, /) -> Prv_microsoft_365_microsoft_365Document_Out:
+        """Retrieves metadata for a specific document or folder in the user's Microsoft 365
+        OneDrive by item ID. Returns the document's properties including name, size, last
+        modified date, sharing information, and type.
+        """
+
 class Prv_microsoft_onedrive(Protocol):
     """Cloud file storage and sharing through Microsoft OneDrive."""
 
@@ -51212,6 +51256,7 @@ class BowmarkProviders(Protocol):
     wire — the id in the manifest, the trace, the namespace and a script are one
     string, so there is no camelCase alias to be uncertain about."""
 
+    a16z_speedrun: Prv_a16z_speedrun
     a1storage: Prv_a1storage
     aa: Prv_aa
     aauto: Prv_aauto

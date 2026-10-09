@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3307 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3308 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2496,7 +2496,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reddit.vote` | reddit.com | Upvotes, downvotes or clears the caller's vote on a post or a comment, as the… | 🟡 |
 | `rei.addToCart` | rei.com | Adds a SKU to the visitor's cart. | ⚪ |
 | `rei.findStores` | rei.com | Finds REI stores near a location, with hours. | ⚪ |
-| `rei.getProductStock` | rei.com | Reads one product page's per-size, per-colour online and in-store stock. | ⚪ |
+| `rei.getProduct` | rei.com | Reads one REI product by name or keyword: its price, product-level availability and… | 🟢 |
+| `rei.getProductStock` | rei.com | Reads one product's per-size, per-colour IN-STORE stock at a chosen REI store. | ⚪ |
 | `rei.getSku` | rei.com | Reads one REI SKU: its size, colour, price, compare-at price and sale flag, plus every… | 🟢 |
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟡 |
