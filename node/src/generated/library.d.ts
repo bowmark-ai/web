@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 11d8e092629600bb962ba7a101a93a9aee79224b63f441ffd91c6ebfa740f8f6
-// 83 capabilities, 558 providers, 1973 typed functions, 20 refused.
+// Manifest version: b950a70b8b4df7e683420a32a907e126cc7ef01e30a99d56d8e7a0be3e3dd76a
+// 83 capabilities, 558 providers, 1975 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22457,6 +22457,11 @@ interface SearchArticlesArgs {
   offset?: number;
 }
 
+interface ListLatestArgs {
+  limit?: number;
+  offset?: number;
+}
+
 interface FoxnewsArticle {
   headline: string;
   url: string;
@@ -22492,6 +22497,9 @@ interface FoxnewsArticle {
      * any embedded video.
      */
     getArticle(args: { url: string }): Promise<FoxnewsArticle>;
+
+    /** Returns the latest Fox News articles and clips without filtering, newest first with paging. */
+    listLatest(args: ListLatestArgs): Promise<{ articles: FoxnewsArticleRow[] }>;
   }
 }
 
@@ -46976,6 +46984,19 @@ interface TargetReviewPhotos {
   warnings: string[];
 }
 
+interface TargetCheckStockResult {
+  tcin: string;
+  available: boolean;  // whether the product is available for same-day pickup or ship-to at this store
+  availabilityStatus: string;  // the site's own availability status code — the site's own labels — read the values off a result, never guess one from prose
+  inStock: boolean;
+  fulfillmentOptions: {
+    ship: boolean;
+    pickup: boolean;
+  };
+  storeId?: number;  // which Target store these results are scoped to
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -47001,6 +47022,13 @@ interface TargetReviewPhotos {
      * `variants` is empty for a product with no siblings.
      */
     getProduct(args: { tcin: string }): Promise<TargetProduct>;
+
+    /**
+     * Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a given
+     * store or ZIP — the check a caller does before committing to a product. Returns null if the
+     * product is not found.
+     */
+    checkStock(args: { tcin: string; keyword?: string; storeId?: number; zip?: string }): Promise<TargetCheckStockResult | null>;
 
     /**
      * Searches the store-locator for nearby Targets by ZIP, partial ZIP, city, or street+city, and

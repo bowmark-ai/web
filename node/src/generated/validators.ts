@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 11d8e092629600bb962ba7a101a93a9aee79224b63f441ffd91c6ebfa740f8f6
-// 1955 checked, 20 unchecked.
+// Manifest version: b950a70b8b4df7e683420a32a907e126cc7ef01e30a99d56d8e7a0be3e3dd76a
+// 1957 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "11d8e092629600bb962ba7a101a93a9aee79224b63f441ffd91c6ebfa740f8f6",
+  "version": "b950a70b8b4df7e683420a32a907e126cc7ef01e30a99d56d8e7a0be3e3dd76a",
   "units": {
     "address_validation": {
       "defs": {
@@ -22940,6 +22940,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.foxnews": {
       "defs": {
+        "ListLatestArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArticlesArgs": {
           "k": "object",
           "props": [
@@ -22992,6 +23011,16 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "listLatest": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLatestArgs"
             },
             "optional": false
           }
@@ -52412,6 +52441,45 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "checkStock": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tcin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "keyword",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "storeId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
                 }
               ]
             },

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 11d8e092629600bb962ba7a101a93a9aee79224b63f441ffd91c6ebfa740f8f6
-# 83 capabilities, 558 providers, 1955 typed functions, 20 refused.
+# Manifest version: b950a70b8b4df7e683420a32a907e126cc7ef01e30a99d56d8e7a0be3e3dd76a
+# 83 capabilities, 558 providers, 1957 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12449,6 +12449,13 @@ class Prv_foxnews_FoxnewsArticle_Out(TypedDict):
 class Prv_foxnews_FoxnewsArticle_Out_author_item_Out(TypedDict):
     name: NotRequired[str]
     url: NotRequired[str]
+
+class Prv_foxnews_ListLatestArgs_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_foxnews_listLatest_return_Out(TypedDict):
+    articles: list[Prv_foxnews_FoxnewsArticleRow_Out]
 
 class Prv_framebridge_FramebridgeFrameStyle_Out(TypedDict):
     productId: str
@@ -26189,6 +26196,25 @@ class Prv_target_ProductVariant_Out(TypedDict):
     inStock: bool
     tcin: str | None
 
+class Prv_target_checkStock_args_In(TypedDict):
+    tcin: str
+    keyword: NotRequired[str]
+    storeId: NotRequired[float]
+    zip: NotRequired[str]
+
+class Prv_target_TargetCheckStockResult_Out(TypedDict):
+    tcin: str
+    available: bool
+    availabilityStatus: str
+    inStock: bool
+    fulfillmentOptions: Prv_target_TargetCheckStockResult_Out_fulfillmentOptions_Out
+    storeId: NotRequired[float]
+    warnings: list[str]
+
+class Prv_target_TargetCheckStockResult_Out_fulfillmentOptions_Out(TypedDict):
+    ship: bool
+    pickup: bool
+
 class Prv_target_findStore_args_In(TypedDict):
     query: str
 
@@ -39522,6 +39548,11 @@ class Prv_foxnews(Protocol):
         and any embedded video.
         """
 
+    async def listLatest(self, args: Prv_foxnews_ListLatestArgs_In, /) -> Prv_foxnews_listLatest_return_Out:
+        """Returns the latest Fox News articles and clips without filtering, newest first with
+        paging.
+        """
+
 class Prv_framebridge(Protocol):
     """Framebridge's real custom picture-framing catalog and CPQ pricing engine — search real
     frame styles, read a style's real sizes and the site's live mat catalog, and price an
@@ -48430,6 +48461,12 @@ class Prv_target(Protocol):
         its own TCIN and stock state — for a product TCIN (Target's internal product id, the
         trailing digits in a product URL, e.g., `/p/<slug>/-/A-12345678`) that `search` already
         returned. `variants` is empty for a product with no siblings.
+        """
+
+    async def checkStock(self, args: Prv_target_checkStock_args_In, /) -> Prv_target_TargetCheckStockResult_Out | None:
+        """Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a
+        given store or ZIP — the check a caller does before committing to a product. Returns
+        null if the product is not found.
         """
 
     async def findStore(self, args: Prv_target_findStore_args_In, /) -> Prv_target_TargetStoreSearch_Out:
