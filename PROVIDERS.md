@@ -1669,7 +1669,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.blockUser` | instagram.com | Blocks a user from seeing the signed-in account's posts and sending messages. | ⚪ |
 | `instagram.commentOnPost` | instagram.com | Posts a comment on a photo or video. | ⚪ |
 | `instagram.followUser` | instagram.com | Sends a follow request to a user (or follows directly if not private). | ⚪ |
-| `instagram.getDirectMessages` | instagram.com | Lists the signed-in user's direct message threads with preview of the latest message… | ⚪ |
+| `instagram.getDirectMessages` | instagram.com | Lists the signed-in user's direct message threads with preview of the latest message… | 🟢 |
 | `instagram.getHomeFeed` | instagram.com | Reads the signed-in user's home feed — the newest posts from accounts they follow… | ⚪ |
 | `instagram.getNotifications` | instagram.com | Reads the signed-in user's activity feed — likes, comments, follows, and direct… | ⚪ |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
@@ -2124,7 +2124,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.listPodcastEpisodes` | npr.org | List a podcast's episodes, newest first, with title, date, duration and audio URL… | ⚪ |
 | `npr.listPodcasts` | npr.org | List NPR's podcasts and shows, optionally filtered to one category (news, technology… | ⚪ |
 | `npr.listSections` | npr.org | List NPR's news sections and topics (news, politics, business, science, health… | 🟢 |
-| `npr.listSectionStories` | npr.org | List the latest stories in one section or topic, given its slug from listSections. | ⚪ |
+| `npr.listSectionStories` | npr.org | List the latest stories in one section or topic, given its slug from listSections. | 🟢 |
 | `npr.listSeries` | npr.org | List NPR's series (Tiny Desk Concerts, New Music Friday, Life Kit…) with the slug or… | ⚪ |
 | `npr.listSeriesStories` | npr.org | List the latest entries of one series, e.g. Tiny Desk Concerts, given its slug from… | ⚪ |
 | `npr.searchStories` | npr.org | Search NPR stories, episodes and segments by keyword, newest or most relevant first. | ⚪ |
