@@ -1,5 +1,5 @@
 {
-  "version": "7866c950471e0b318e9f9fe55b96bf16fd1a41c97dbfc3117b627c5fd304da52",
+  "version": "11d8e092629600bb962ba7a101a93a9aee79224b63f441ffd91c6ebfa740f8f6",
   "units": {
     "address_validation": {
       "defs": {
@@ -28947,7 +28947,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "getDirectMessages": []
       }
     },
     "providers.insurify": {
@@ -37403,6 +37404,25 @@
               "optional": true
             }
           ]
+        },
+        "ListSectionStoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -37416,7 +37436,17 @@
             "optional": true
           }
         ],
-        "listSections": []
+        "listSections": [],
+        "listSectionStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSectionStoriesArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.nurturelife": {

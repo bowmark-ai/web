@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7866c950471e0b318e9f9fe55b96bf16fd1a41c97dbfc3117b627c5fd304da52
-// 83 capabilities, 558 providers, 1971 typed functions, 20 refused.
+// Manifest version: 11d8e092629600bb962ba7a101a93a9aee79224b63f441ffd91c6ebfa740f8f6
+// 83 capabilities, 558 providers, 1973 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -28828,6 +28828,14 @@ interface InstagramPost {
   commentCount: number;
   takenAt: string;
 }
+interface InstagramDirectMessageThread {
+  id: string;
+  recipientUsername: string;
+  recipientId: string;
+  lastMessageText: string | null;
+  lastMessageTimestamp: string | null;
+  isSpamThread: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -28849,6 +28857,12 @@ interface InstagramPost {
      * none to a logged-out reader.
      */
     getPosts(username: string): Promise<InstagramPost[]>;
+
+    /**
+     * Lists the signed-in user's direct message threads with the most recent message preview in
+     * each thread. Requires the caller to be signed in through the relay.
+     */
+    getDirectMessages(): Promise<InstagramDirectMessageThread[]>;
   }
 }
 
@@ -37080,6 +37094,11 @@ interface NprSection {
   url: string;
 }
 
+interface ListSectionStoriesArgs {
+  slug: string;
+  limit?: number;
+}
+
   /**
    * NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast program
    * rundowns, and the member-station finder with live streams.
@@ -37098,6 +37117,12 @@ interface NprSection {
      * listSectionStories. A site label can differ from its own slug ("Race" is slug "codeswitch").
      */
     listSections(): Promise<NprSection[]>;
+
+    /**
+     * Stories on a section front page (/sections/<slug>/), server-rendered. Returns headlines with
+     * title, url, teaser, section eyebrow and (for npr.org stories) the story id. Optional limit.
+     */
+    listSectionStories(args: ListSectionStoriesArgs): Promise<NprHeadline[]>;
   }
 }
 

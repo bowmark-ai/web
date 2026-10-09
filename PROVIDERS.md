@@ -1317,7 +1317,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.getVideo` | foxnews.com | Reads one Fox News video clip — title, description, duration, upload date, thumbnail… | ⚪ |
 | `foxnews.listAuthorArticles` | foxnews.com | Lists every story by one Fox News author, newest first with paging, past the handful… | ⚪ |
 | `foxnews.listElectionRaces` | foxnews.com | Lists the races Fox News's Elections Center covers for an election (Senate, House… | ⚪ |
-| `foxnews.listLatest` | foxnews.com | Lists the newest stories and clips published anywhere on Fox News, newest first, with… | ⚪ |
+| `foxnews.listLatest` | foxnews.com | Lists the newest stories and clips published anywhere on Fox News, newest first, with… | 🟢 |
 | `foxnews.listLiveBlogs` | foxnews.com | Lists Fox News's live-coverage pages (rolling blogs for wars, elections, trials… | ⚪ |
 | `foxnews.listNewsletters` | foxnews.com | Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics… | ⚪ |
 | `foxnews.listPodcastEpisodes` | foxnews.com | Lists one Fox News podcast's episodes, newest first — title, date, description… | ⚪ |
@@ -2785,7 +2785,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
 | `tapfiliate.listAffiliates` | tapfiliate.com | Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by… | 🟢 |
 | `target.addToCart` | target.com | Adds one product (by TCIN) to the CALLER's own Target cart. | ⚪ |
-| `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | ⚪ |
+| `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | 🟢 |
 | `target.findRegistry` | target.com | Finds a Target Gift Registry by the registrant's name, event date or registry id — the… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getCart` | target.com | Reads what is in the CALLER's own Target cart — line items, quantities, per-item and… | ⚪ |

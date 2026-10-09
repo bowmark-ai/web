@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7866c950471e0b318e9f9fe55b96bf16fd1a41c97dbfc3117b627c5fd304da52
-// 1953 checked, 20 unchecked.
+// Manifest version: 11d8e092629600bb962ba7a101a93a9aee79224b63f441ffd91c6ebfa740f8f6
+// 1955 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7866c950471e0b318e9f9fe55b96bf16fd1a41c97dbfc3117b627c5fd304da52",
+  "version": "11d8e092629600bb962ba7a101a93a9aee79224b63f441ffd91c6ebfa740f8f6",
   "units": {
     "address_validation": {
       "defs": {
@@ -28959,7 +28959,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getDirectMessages": []
       }
     },
     "providers.insurify": {
@@ -37415,6 +37416,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ListSectionStoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -37428,7 +37448,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
-        "listSections": []
+        "listSections": [],
+        "listSectionStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSectionStoriesArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.nurturelife": {

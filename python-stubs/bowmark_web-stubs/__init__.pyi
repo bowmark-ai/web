@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7866c950471e0b318e9f9fe55b96bf16fd1a41c97dbfc3117b627c5fd304da52
-# 83 capabilities, 558 providers, 1953 typed functions, 20 refused.
+# Manifest version: 11d8e092629600bb962ba7a101a93a9aee79224b63f441ffd91c6ebfa740f8f6
+# 83 capabilities, 558 providers, 1955 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15683,6 +15683,14 @@ class Prv_instagram_InstagramPost_Out(TypedDict):
     commentCount: float
     takenAt: str
 
+class Prv_instagram_InstagramDirectMessageThread_Out(TypedDict):
+    id: str
+    recipientUsername: str
+    recipientId: str
+    lastMessageText: str | None
+    lastMessageTimestamp: str | None
+    isSpamThread: bool
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -20060,6 +20068,10 @@ class Prv_npr_NprSection_Out(TypedDict):
     slug: str
     title: str
     url: str
+
+class Prv_npr_ListSectionStoriesArgs_In(TypedDict):
+    slug: str
+    limit: NotRequired[float]
 
 class Prv_nurturelife_GetMealPlansResult_Out(TypedDict):
     plans: list[Prv_nurturelife_NurtureLifeMealPlan_Out]
@@ -41969,6 +41981,11 @@ class Prv_instagram(Protocol):
         itself serves none to a logged-out reader.
         """
 
+    async def getDirectMessages(self, /) -> list[Prv_instagram_InstagramDirectMessageThread_Out]:
+        """Lists the signed-in user's direct message threads with the most recent message preview
+        in each thread. Requires the caller to be signed in through the relay.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -44866,6 +44883,12 @@ class Prv_npr(Protocol):
         music-features, national, climate, race…) with the slug each one takes, e.g. for
         listSectionStories. A site label can differ from its own slug ("Race" is slug
         "codeswitch").
+        """
+
+    async def listSectionStories(self, args: Prv_npr_ListSectionStoriesArgs_In, /) -> list[Prv_npr_NprHeadline_Out]:
+        """Stories on a section front page (/sections/<slug>/), server-rendered. Returns headlines
+        with title, url, teaser, section eyebrow and (for npr.org stories) the story id.
+        Optional limit.
         """
 
 class Prv_nurturelife(Protocol):
