@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: acd57c528a828fe430874b4f9880fc03e11ecd188fef30c0d17cf3fc4e478ce7
-# 81 capabilities, 550 providers, 1931 typed functions, 20 refused.
+# Manifest version: 5a05c237cfe03b66646a3c61a9ab6b2ba191ac748fea9da27b000617b56fb90a
+# 81 capabilities, 550 providers, 1932 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -913,6 +913,11 @@ class Cap_delivery_DeliveryFeeQuote_Out(TypedDict):
     deliveryFee: float | None
     url: str
     rating: float | None
+
+class Cap_developer_api_key_signup_DeveloperApiKeySignupDetails_In(TypedDict):
+    organization: str
+    email: str
+    occupation: NotRequired[str]
 
 class Cap_developer_api_key_signup_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -2657,7 +2662,12 @@ class Cap_web_form_fields_FormField_Out(TypedDict):
     label: str | None
     type: str
     required: bool
-    options: NotRequired[list[str]]
+    value: NotRequired[str]
+    options: NotRequired[list[Cap_web_form_fields_FormFieldOption_Out]]
+
+class Cap_web_form_fields_FormFieldOption_Out(TypedDict):
+    value: str
+    label: str
 
 class Cap_web_form_fields_FormInspectionResult_Out_wall_u0_Out(TypedDict):
     vendor: str
@@ -4995,6 +5005,11 @@ class Prv_avenuehealthcare_SearchResult_Out(TypedDict):
     medicalCentres: list[str]
     services: list[str]
 
+class Prv_avis_AvisSearchLocationsArgs_In(TypedDict):
+    query: str
+    stateCode: NotRequired[str]
+    country: NotRequired[str]
+
 class Prv_avis_AvisLocationRow_Out(TypedDict):
     mnemonic: str
     name: str
@@ -5016,6 +5031,11 @@ class Prv_avis_AvisLocationRow_Out_address_Out(TypedDict):
     postalCode: str | None
     countryCode: str | None
     countryName: str | None
+
+class Prv_avis_AvisGetLocationArgs_In(TypedDict):
+    mnemonic: str
+    cityName: NotRequired[str]
+    country: NotRequired[str]
 
 class Prv_avis_AvisLocationDetail_Out(TypedDict):
     mnemonic: str
@@ -5066,6 +5086,12 @@ class Prv_avis_AvisLocationDetail_Out_holidays_item_Out(TypedDict):
 class Prv_avis_AvisLocationDetail_Out_associatedLocation_u0_Out(TypedDict):
     mnemonic: str | None
     name: str | None
+
+class Prv_ayreshotels_AyreshotelsCheckRatesArgs_In(TypedDict):
+    property: str
+    checkIn: str
+    checkOut: str
+    adults: NotRequired[float]
 
 class Prv_ayreshotels_CheckRatesResult_Out(TypedDict):
     property: str
@@ -6284,6 +6310,22 @@ class Prv_bing_BingMapPlace_Out(TypedDict):
     longitude: float
     category: str | None
 
+class Prv_bing_BingMapsSearchPlacesResult_Out(TypedDict):
+    places: list[Prv_bing_BingMapPlaceDetailed_Out]
+    warnings: list[str]
+
+class Prv_bing_BingMapPlaceDetailed_Out(TypedDict):
+    name: str
+    address: str
+    latitude: float
+    longitude: float
+    category: str | None
+    rating: float | None
+    ratingCount: float | None
+    phone: str | None
+    website: str | None
+    openHours: str | None
+
 class Prv_bing_BingListSavesResult_Out(TypedDict):
     items: list[Prv_bing_BingSavedItem_Out]
     warnings: list[str]
@@ -6447,12 +6489,22 @@ class Prv_blueribbonhomewarranty_com_blueribbonhomewarranty_comPageContent_Out(T
     hasApplicationForm: bool
     applicationFormQuestions: list[str]
 
+class Prv_bluesignal_BlueSignalSearchJobsArgs_In(TypedDict):
+    keywords: NotRequired[str]
+    location: NotRequired[str]
+    remote: NotRequired[bool]
+    limit: NotRequired[float]
+
 class Prv_bluesignal_BlueSignalJobSummary_Out(TypedDict):
     id: str
     title: str
     location: str
     remote: bool
     url: str
+
+class Prv_bluesignal_BlueSignalGetJobArgs_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_bluesignal_BlueSignalJobDetail_Out(TypedDict):
     id: str
@@ -8856,6 +8908,9 @@ class Prv_clboyd_CLBoydEquipment_Out(TypedDict):
     hours: float | None
     stockNumber: str | None
 
+class Prv_cleanairlawncare_CleanAirCheckServiceAreaArgs_In(TypedDict):
+    zip: str
+
 class Prv_cleanairlawncare_CheckServiceAreaResult_Out(TypedDict):
     zip: str
     inServiceArea: bool
@@ -8875,6 +8930,9 @@ class Prv_cleanairlawncare_CleanAirEstimateAvailability_Out(TypedDict):
     slot_minutes: float
     recurring: Mapping[str, tuple[str, str]]
     overrides: Mapping[str, tuple[str, str] | tuple[()]]
+
+class Prv_cleanairlawncare_CleanAirGetAvailableSlotsArgs_In(TypedDict):
+    zip: str
 
 class Prv_cleanairlawncare_GetAvailableSlotsResult_Out(TypedDict):
     zip: str
@@ -9903,6 +9961,9 @@ class Prv_deutschepost_DialogpostRate_Out(TypedDict):
     currency: str
     description: NotRequired[str]
 
+class Prv_developersopenai_DevelopersOpenaiGetDocPageArgs_In(TypedDict):
+    path: NotRequired[str]
+
 class Prv_developersopenai_DevelopersOpenaiDocPage_Out(TypedDict):
     path: str
     title: str
@@ -10264,6 +10325,15 @@ class Prv_discounttire_DiscounttireTireResult_Out(TypedDict):
 class Prv_discounttire_DiscounttireTireResult_Out_price_u0_Out(TypedDict):
     value: float | None
     formatted: str | None
+
+class Prv_disney_DisneyGetTicketPriceArgs_In(TypedDict):
+    resort: Literal["wdw"]
+    days: float
+    partySize: Prv_disney_DisneyGetTicketPriceArgs_In_partySize_In
+
+class Prv_disney_DisneyGetTicketPriceArgs_In_partySize_In(TypedDict):
+    adults: float
+    children: float
 
 class Prv_disney_DisneyTicketPrice_Out(TypedDict):
     resort: Literal["wdw"]
@@ -11283,6 +11353,9 @@ class Prv_evolvemedspa_EvolveMedSpaAvailability_Out(TypedDict):
 class Prv_evolvemedspa_EvolveMedSpaAvailability_Out_slots_item_Out(TypedDict):
     time: str
 
+class Prv_executivehomecare_ExecutivehomecareFindLocalOfficeArgs_In(TypedDict):
+    zip: str
+
 class Prv_executivehomecare_FindLocalOfficeResult_Out(TypedDict):
     zip: str
     inServiceArea: bool
@@ -11733,6 +11806,9 @@ class Prv_fivestarbathsolutions_FivestarLocation_Out(TypedDict):
     longitude: float
     url: str
 
+class Prv_fivestarbathsolutions_FivestarbathsolutionsGetAvailableSlotsArgs_In(TypedDict):
+    region: str
+
 class Prv_fivestarbathsolutions_GetAvailableSlotsResult_Out(TypedDict):
     region: str
     usingRegionSlots: bool
@@ -11857,6 +11933,9 @@ class Prv_fomo_FomoTokenRow_Out(TypedDict):
 class Prv_fomo_FomoTokenAllowlistEntry_Out(TypedDict):
     address: str
     networkId: float
+
+class Prv_fomo_FomoFilterTokensArgs_In(TypedDict):
+    pass
 
 class Prv_fomo_FomoTokenWarning_Out(TypedDict):
     code: str
@@ -13924,6 +14003,9 @@ class Prv_gotchacovered_GotchaCoveredQuizResult_Out(TypedDict):
     recommendedProducts: str | None
     url: str
 
+class Prv_grainger_GraingerSearchArgs_In(TypedDict):
+    query: str
+
 class Prv_grainger_graingerSearchRow_Out(TypedDict):
     itemNumber: str
     name: str
@@ -13936,6 +14018,11 @@ class Prv_grainger_graingerSearchRow_Out_price_u0_Out(TypedDict):
     amount: float
     currency: str
     perUnit: str
+
+class Prv_grainger_GraingerFindBranchArgs_In(TypedDict):
+    zip: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
 
 class Prv_grainger_graingerBranchRow_Out(TypedDict):
     branchNumber: str
@@ -13957,6 +14044,10 @@ class Prv_grainger_graingerBranchRow_Out_hours_item_Out(TypedDict):
     day: str
     hours: str
 
+class Prv_grainger_GraingerGetProductArgs_In(TypedDict):
+    itemNumber: NotRequired[str]
+    url: NotRequired[str]
+
 class Prv_grainger_graingerProductRow_Out(TypedDict):
     itemNumber: str
     manufacturerModel: str | None
@@ -13977,6 +14068,12 @@ class Prv_grainger_graingerProductRow_Out_price_u0_Out(TypedDict):
 class Prv_grainger_graingerProductRow_Out_specs_item_Out(TypedDict):
     name: str
     value: str
+
+class Prv_grainger_GraingerCheckStockArgs_In(TypedDict):
+    itemNumber: NotRequired[str]
+    url: NotRequired[str]
+    zip: str
+    quantity: NotRequired[float]
 
 class Prv_grainger_graingerStockRow_Out(TypedDict):
     itemNumber: str
@@ -14171,6 +14268,10 @@ class Prv_handypro_HandyproCategoryPrice_Out(TypedDict):
     pricingKind: Literal["estimate"] | Literal["fixedJob"] | Literal["unpriced"]
     price: float | None
     whatsIncluded: str
+
+class Prv_hansons_HansonsCheckAvailabilityArgs_In(TypedDict):
+    zipcode: str
+    virtual: NotRequired[bool]
 
 class Prv_hansons_CheckAvailabilityResult_Out(TypedDict):
     inServiceArea: bool
@@ -14721,6 +14822,12 @@ class Prv_highlandhomes_HighlandHomesHome_Out(TypedDict):
     communityPhone: str | None
     url: str
     imageUrl: str | None
+
+class Prv_hilton_HiltonSearchArgs_In(TypedDict):
+    hotelSlug: str
+    arrivalDate: str
+    departureDate: str
+    numAdults: NotRequired[float]
 
 class Prv_hilton_hiltonRoomOffer_Out(TypedDict):
     roomTypeCode: str
@@ -16466,6 +16573,9 @@ class Prv_joycefactorydirect_JoyceCalculatorOption_Out(TypedDict):
     label: str
     answerId: str
 
+class Prv_junkluggers_findFranchise_args_In(TypedDict):
+    zip: str
+
 class Prv_junkluggers_JunkluggersFranchiseLookup_Out(TypedDict):
     zip: str
     inService: bool
@@ -16475,12 +16585,20 @@ class Prv_junkluggers_JunkluggersFranchise_Out(TypedDict):
     franchiseId: float
     franchiseName: str
 
+class Prv_junkluggers_getServiceTypes_args_In(TypedDict):
+    zip: str
+
 class Prv_junkluggers_JunkluggersServiceType_Out(TypedDict):
     serviceTypeId: float
     serviceType: str
     isOnline: bool
     franchiseId: float
     franchiseName: str
+
+class Prv_junkluggers_JunkluggersGetAvailabilityArgs_In(TypedDict):
+    zip: str
+    serviceTypeId: NotRequired[float]
+    daysAhead: NotRequired[float]
 
 class Prv_junkluggers_JunkluggersAvailability_Out(TypedDict):
     zip: str
@@ -16713,6 +16831,17 @@ class Prv_keepa_KeepaProduct_Out(TypedDict):
     title: str
     csv: NotRequired[list[Any]]
     stats: NotRequired[Mapping[str, Any]]
+
+class Prv_kingsdown_KingsdownGetBedMatchResultArgs_In(TypedDict):
+    name: str
+    ageBand: Literal[20] | Literal[33] | Literal[48] | Literal[63] | Literal[85]
+    gender: Literal["F"] | Literal["M"] | Literal["N"]
+    position: Literal[1] | Literal[2] | Literal[3]
+    heightBand: Literal[50] | Literal[57.5] | Literal[63.5] | Literal[69] | Literal[75.5] | Literal[78]
+    weightBand: Literal[1] | Literal[2] | Literal[3] | Literal[4] | Literal[5] | Literal[6] | Literal[7] | Literal[8]
+    pantBand: Literal[1] | Literal[2] | Literal[3] | Literal[4] | Literal[5] | Literal[6]
+    shirtBand: Literal[1] | Literal[2] | Literal[3] | Literal[4] | Literal[5] | Literal[6]
+    painAreas: NotRequired[Sequence[Literal["Neck"] | Literal["Shoulder"] | Literal["Hip"] | Literal["MidBack"] | Literal["LowerBack"] | Literal["Other"]]]
 
 class Prv_kingsdown_kingsdownBedmatchResult_Out(TypedDict):
     zoneName: Literal["Gold"] | Literal["Green"] | Literal["Blue"] | Literal["Red"]
@@ -17549,6 +17678,9 @@ class Prv_lonelyplanet_LonelyPlanetSearchResult_Out(TypedDict):
     subtitle: str | None
     collection: str
     url: str
+
+class Prv_louvershop_LouvershopFindLocalDealerArgs_In(TypedDict):
+    zip: str
 
 class Prv_louvershop_FindLocalDealerResult_Out(TypedDict):
     zip: str
@@ -19278,6 +19410,12 @@ class Prv_my_auroramedicalspa_com_AuroraProvider_Out(TypedDict):
     name: str
     title: str | None
 
+class Prv_myollie_MyollieGetMealPlanArgs_In(TypedDict):
+    weightLbs: float
+    activityLevel: Literal["Low"] | Literal["Moderate"] | Literal["High"]
+    isNeutered: bool
+    gender: NotRequired[Literal["Male"] | Literal["Female"]]
+
 class Prv_myollie_GetMealPlanResult_Out(TypedDict):
     weightLbs: float
     activityLevel: Literal["Low"] | Literal["Moderate"] | Literal["High"]
@@ -20647,6 +20785,12 @@ class Prv_pacificcompanies_ApplicationField_Out(TypedDict):
     label: str
     type: Literal["text"] | Literal["email"] | Literal["tel"]
     required: bool
+
+class Prv_pacificcompanies_PacificCompaniesAssembleApplicationArgs_In(TypedDict):
+    firstName: str
+    lastName: str
+    email: str
+    phone: str
 
 class Prv_pacificcompanies_AssembledApplication_Out(TypedDict):
     valid: bool
@@ -23167,6 +23311,71 @@ class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_
     value: str
     label: str
 
+class Prv_reliancepartners_ReliancePartnersAssembleApplicationArgs_In(TypedDict):
+    businessName: str
+    preferredLanguage: NotRequired[str]
+    fmcsaType: str
+    fmcsaId: str
+    ein: str
+    yearsInBusiness: NotRequired[float]
+    truckCount: float
+    trailerCount: float
+    targetEffectiveDate: str
+    address: Prv_reliancepartners_ReliancePartnersAssembleApplicationArgs_In_address_In
+    contact: Prv_reliancepartners_ReliancePartnersAssembleApplicationArgs_In_contact_In
+    coverage: Sequence[Prv_reliancepartners_ReliancePartnersCoverageSelection_In]
+    operationRadius: NotRequired[Prv_reliancepartners_ReliancePartnersAssembleApplicationArgs_In_operationRadius_In]
+    estimatedAnnualMileage: NotRequired[float]
+    estimatedAnnualRevenue: NotRequired[float]
+    commodities: NotRequired[Sequence[Prv_reliancepartners_ReliancePartnersCommoditySelection_In]]
+    drivers: NotRequired[Sequence[Prv_reliancepartners_ReliancePartnersDriver_In]]
+    tractors: NotRequired[Sequence[Prv_reliancepartners_ReliancePartnersEquipmentItem_In]]
+    trailers: NotRequired[Sequence[Prv_reliancepartners_ReliancePartnersEquipmentItem_In]]
+
+class Prv_reliancepartners_ReliancePartnersAssembleApplicationArgs_In_address_In(TypedDict):
+    line1: str
+    line2: NotRequired[str]
+    city: str
+    state: str
+    zip: str
+
+class Prv_reliancepartners_ReliancePartnersAssembleApplicationArgs_In_contact_In(TypedDict):
+    name: str
+    email: str
+    phone: str
+    fax: NotRequired[str]
+
+class Prv_reliancepartners_ReliancePartnersCoverageSelection_In(TypedDict):
+    coverage: str
+    insuranceLimit: NotRequired[float]
+    deductible: NotRequired[float]
+
+class Prv_reliancepartners_ReliancePartnersAssembleApplicationArgs_In_operationRadius_In(TypedDict):
+    upTo50Miles: NotRequired[float]
+    from51to200Miles: NotRequired[float]
+    over500Miles: NotRequired[float]
+    averageRadius: NotRequired[float]
+    maximumRadius: NotRequired[float]
+
+class Prv_reliancepartners_ReliancePartnersCommoditySelection_In(TypedDict):
+    commodity: str
+    haulPercent: NotRequired[float]
+
+class Prv_reliancepartners_ReliancePartnersDriver_In(TypedDict):
+    name: str
+    licenseNumber: NotRequired[str]
+    state: NotRequired[str]
+    dateOfBirth: NotRequired[str]
+    yearsExperience: NotRequired[float]
+
+class Prv_reliancepartners_ReliancePartnersEquipmentItem_In(TypedDict):
+    description: str
+    year: NotRequired[float]
+    make: NotRequired[str]
+    vin: NotRequired[str]
+    value: NotRequired[float]
+    lienholder: NotRequired[str]
+
 class Prv_reliancepartners_AssembledApplication_Out(TypedDict):
     valid: bool
     errors: list[str]
@@ -24235,6 +24444,9 @@ class Prv_sede_valencia_es_SedeValenciaTariffFingerprint_Out(TypedDict):
     pdfCreated: str | None
     pdfModified: str | None
     lastModifiedHeader: str | None
+
+class Prv_seegarsfence_SeegarsCheckServiceAreaArgs_In(TypedDict):
+    address: str
 
 class Prv_seegarsfence_CheckServiceAreaResult_Out(TypedDict):
     address: Prv_seegarsfence_SeegarsGeocodedAddress_Out
@@ -26686,6 +26898,9 @@ class Prv_topviewtix_topviewtixPackageSummary_Out(TypedDict):
     kidsPrice: float | None
     url: str
 
+class Prv_topviewtix_TopviewtixGetPackageDetailsArgs_In(TypedDict):
+    slug: str
+
 class Prv_topviewtix_topviewtixPackageDetails_Out(TypedDict):
     id: float
     slug: str
@@ -28834,6 +29049,12 @@ class Prv_webshare_WebsharePlanTier_Out(TypedDict):
     discount: str | None
     mostPopular: bool
 
+class Prv_wellfound_WellfoundSearchJobsArgs_In(TypedDict):
+    role: NotRequired[str]
+    location: NotRequired[str]
+    remoteOnly: NotRequired[bool]
+    page: NotRequired[float]
+
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
     title: str
@@ -28854,6 +29075,15 @@ class Prv_wellfound_wellfoundRow_Out_company_Out(TypedDict):
     name: str
     slug: str
     url: str
+
+class Prv_wellfound_WellfoundSearchCompaniesArgs_In(TypedDict):
+    role: NotRequired[str]
+    location: NotRequired[str]
+    page: NotRequired[float]
+    activelyHiringOnly: NotRequired[bool]
+    market: NotRequired[str]
+    minEmployees: NotRequired[float]
+    maxEmployees: NotRequired[float]
 
 class Prv_wellfound_wellfoundCompanyRow_Out(TypedDict):
     id: str
@@ -30843,17 +31073,22 @@ class Cap_browser_agent(Protocol):
     user's account. If your user asked you to get the thing done, `start({ task })` and in
     the same reply tell them it is running, that it costs money, and give them the
     `watchUrl`. A login only they hold does not stop it — they sign in themselves on the
-    live browser through that link, no saved credentials needed. **Either way, never leave
-    it unmentioned:** if you hold off for any reason, your reply must name this option —
-    what it would do, that it is billed, and that they can sign in on the live page — rather
-    than ending on a manual workaround alone. After `start` in one run, call `status(id)`
-    from LATER runs — the 120s wall-clock cap is on each `run()`, NOT on the agent, which
-    keeps working between them. **A normal task takes 1-3 minutes; give it up to 5 before
-    your own code gives up** — any client deadline shorter than that cuts off runs that were
-    about to finish. When `status` returns `needs_input`, relay `question` to your user and
-    `send` their answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop`
-    a session when done — an idle browser keeps costing money. **A turn that runs too long
-    is cancelled automatically:** Bowmark itself cuts off any turn stuck past a few minutes
+    live browser through that link, no saved credentials needed. **That sign-in is the real
+    site, under their real account — never a copy inside Bowmark's own browser.** Anything
+    it adds to a cart, saves to a wishlist or submits there is on their account on the real
+    site, exactly as if they had clicked it themselves, so it is there when they check out
+    or return to the site later in their own browser. Running in Bowmark's browser is about
+    WHERE the clicking happens, not where the result lives. **Either way, never leave it
+    unmentioned:** if you hold off for any reason, your reply must name this option — what
+    it would do, that it is billed, and that they can sign in on the live page — rather than
+    ending on a manual workaround alone. After `start` in one run, call `status(id)` from
+    LATER runs — the 120s wall-clock cap is on each `run()`, NOT on the agent, which keeps
+    working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
+    code gives up** — any client deadline shorter than that cuts off runs that were about to
+    finish. When `status` returns `needs_input`, relay `question` to your user and `send`
+    their answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop` a
+    session when done — an idle browser keeps costing money. **A turn that runs too long is
+    cancelled automatically:** Bowmark itself cuts off any turn stuck past a few minutes
     with no result and reports status `failed` (see `error` for what it was last doing)
     rather than leaving you polling forever — the session stays open, so `send` a narrower
     instruction or `stop` it. **One task = one independent goal. Do not bundle multiple date
@@ -30872,17 +31107,18 @@ class Cap_browser_agent(Protocol):
         `running`. Handle both. Not a watcher — it cannot poll on a schedule or run unattended.
         Billed per turn: when your user asked you to get the thing done, start it and in the
         same reply tell them it is running, that it costs money, and give them `watchUrl` — a
-        login only they hold is signed in there, on the live page. If you do not start it, still
-        name it to them with its cost; never end on a manual workaround without mentioning it.
-        **One session = one independent goal** — never bundle multiple date ranges, SKUs or
-        queries into one session; the agent silently reuses results across them. Start a
-        separate session for each distinct query. Then `status(id)` from later runs (each
-        `run()` is capped at 120s; the agent is not — a task normally takes 1-3 minutes, so do
-        not give up on it before 5); on `needs_input` relay `question` and `send` the answer; on
-        `idle` read `result` and `stop(id)`. A login persists for the life of the session, so
-        later `send()` calls into the same session do not need re-authentication. Always stop
-        sessions when done — idle browsers keep costing money. Account limit: 3 concurrent
-        sessions.
+        login only they hold is signed in there, on the live page, as their real account on the
+        real site, so anything the agent then adds to a cart or saves is really on their account
+        rather than lost inside Bowmark's own browser. If you do not start it, still name it to
+        them with its cost; never end on a manual workaround without mentioning it. **One
+        session = one independent goal** — never bundle multiple date ranges, SKUs or queries
+        into one session; the agent silently reuses results across them. Start a separate
+        session for each distinct query. Then `status(id)` from later runs (each `run()` is
+        capped at 120s; the agent is not — a task normally takes 1-3 minutes, so do not give up
+        on it before 5); on `needs_input` relay `question` and `send` the answer; on `idle` read
+        `result` and `stop(id)`. A login persists for the life of the session, so later `send()`
+        calls into the same session do not need re-authentication. Always stop sessions when
+        done — idle browsers keep costing money. Account limit: 3 concurrent sessions.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -31209,7 +31445,7 @@ class Cap_developer_api_key_signup(Protocol):
     literal example email gets "Redundant origin" on the second and every later run.
     """
 
-    async def signUp(self, service: str, details: Any, options: Cap_developer_api_key_signup_CallOptions_In | None = None, /) -> Cap_developer_api_key_signup_DeveloperApiKeySignupResult_Out:
+    async def signUp(self, service: str, details: Cap_developer_api_key_signup_DeveloperApiKeySignupDetails_In, options: Cap_developer_api_key_signup_CallOptions_In | None = None, /) -> Cap_developer_api_key_signup_DeveloperApiKeySignupResult_Out:
         """Signs up for a real developer API key on a dashboard. `service` selects which dashboard:
         "alphavantage" for stock data. For alphavantage: `details.organization` and
         `details.email` required (MAKE EMAIL UNIQUE PER CALL, e.g.
@@ -34150,7 +34386,7 @@ class Prv_avis(Protocol):
     avis.com. searchLocations and getLocation are live; the rest are stubs.
     """
 
-    async def searchLocations(self, args: Any, /) -> list[Prv_avis_AvisLocationRow_Out]:
+    async def searchLocations(self, args: Prv_avis_AvisSearchLocationsArgs_In, /) -> list[Prv_avis_AvisLocationRow_Out]:
         """Finds Avis rental locations matching a full city name or an airport code (`query`, e.g.
         "Chicago" or "ORD" — an exact token match, not a substring or address search) off the
         site's own location-search API, optionally narrowed to one US state (`stateCode`).
@@ -34158,7 +34394,7 @@ class Prv_avis(Protocol):
         city dock, …), address, phone and coordinates. Empty array on no match, never an error.
         """
 
-    async def getLocation(self, args: Any, /) -> Prv_avis_AvisLocationDetail_Out:
+    async def getLocation(self, args: Prv_avis_AvisGetLocationArgs_In, /) -> Prv_avis_AvisLocationDetail_Out:
         """Reads one Avis rental location in full off the site's own location-search API for a
         station code (`mnemonic`, e.g. "ORD"). For an airport code, `cityName` is optional and
         the mnemonic itself is used; for a non-airport mnemonic the caller must pass the city
@@ -34177,7 +34413,7 @@ class Prv_ayreshotels(Protocol):
     renders before any guest information is entered.
     """
 
-    async def checkRates(self, args: Any, /) -> Prv_ayreshotels_CheckRatesResult_Out:
+    async def checkRates(self, args: Prv_ayreshotels_AyreshotelsCheckRatesArgs_In, /) -> Prv_ayreshotels_CheckRatesResult_Out:
         """Checks a property's real live rate/availability for a date range. Pass `property` (the
         reservations subdomain slug from that hotel's own "Book Now" link, e.g. "costa-mesa"),
         `checkIn`/`checkOut` (ISO dates), and optionally `adults` (default 2). Returns the
@@ -34875,6 +35111,14 @@ class Prv_bing(Protocol):
         place name needs before any maps read that requires a location.
         """
 
+    async def searchPlaces(self, query: str, /) -> Prv_bing_BingMapsSearchPlacesResult_Out:
+        """Searches Bing Maps and returns every place result rendered for the query ('coffee shops
+        near Pike Place' wants several places, not one), each with name, address, coordinates,
+        category, rating, rating count, phone, website and open-hours text when Bing publishes
+        them. The same page findPlace reads, read in full rather than taking only the first
+        card.
+        """
+
     async def listSaves(self, opts: ConnectionOption | None = None, /) -> Prv_bing_BingListSavesResult_Out:
         """Lists the pages, searches and images the signed-in caller has saved to Bing Collections
         (bing.com/saves) — the browser-parity read for an account feature a signed-in visitor
@@ -35029,7 +35273,7 @@ class Prv_bluesignal(Protocol):
     getJob returns the real apply-form URL as a handoff instead.
     """
 
-    async def searchJobs(self, args: Any | None = None, /) -> list[Prv_bluesignal_BlueSignalJobSummary_Out]:
+    async def searchJobs(self, args: Prv_bluesignal_BlueSignalSearchJobsArgs_In | None = None, /) -> list[Prv_bluesignal_BlueSignalJobSummary_Out]:
         """Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by
         Loxo). Filters honestly by `keywords` (title substring), `location` (substring) and
         `remote` (boolean) — the same combined filter the site's own widget offers only as
@@ -35037,7 +35281,7 @@ class Prv_bluesignal(Protocol):
         max 100). Call with no args to browse the current board.
         """
 
-    async def getJob(self, args: Any, /) -> Prv_bluesignal_BlueSignalJobDetail_Out:
+    async def getJob(self, args: Prv_bluesignal_BlueSignalGetJobArgs_In, /) -> Prv_bluesignal_BlueSignalJobDetail_Out:
         """Gets one job's full posting — pass the `id` or `url` from a `searchJobs` result. Returns
         the site's own description HTML plus `applyUrl`, the real per-job apply form on
         bluesignal.com's ATS. This function never submits the application — that write stays the
@@ -36569,14 +36813,14 @@ class Prv_cleanairlawncare(Protocol):
     Broadcast stays read/compute-only here, handing off to the site's own widget instead.
     """
 
-    async def checkServiceArea(self, args: Any, /) -> Prv_cleanairlawncare_CheckServiceAreaResult_Out:
+    async def checkServiceArea(self, args: Prv_cleanairlawncare_CleanAirCheckServiceAreaArgs_In, /) -> Prv_cleanairlawncare_CheckServiceAreaResult_Out:
         """Checks a 5-digit US zip (`zip`) against Clean Air Lawn Care's live caw-estimate-widget
         backend — the same area lookup the site's own homepage widget runs — and returns whether
         it's in-area, the local franchise org that would service it, and whether that org has
         online scheduling enabled.
         """
 
-    async def getAvailableSlots(self, args: Any, /) -> Prv_cleanairlawncare_GetAvailableSlotsResult_Out:
+    async def getAvailableSlots(self, args: Prv_cleanairlawncare_CleanAirGetAvailableSlotsArgs_In, /) -> Prv_cleanairlawncare_GetAvailableSlotsResult_Out:
         """For a zip (`zip`), runs the same area check as checkServiceArea and, when the resolved
         org has online scheduling enabled, returns the real candidate date/time slots computed
         from that org's own recurring-hours + daily-cap + override calendar config.
@@ -37352,7 +37596,7 @@ class Prv_developersopenai(Protocol):
     / OAuth connector guide.
     """
 
-    async def getDocPage(self, args: Any | None = None, /) -> Prv_developersopenai_DevelopersOpenaiDocPage_Out:
+    async def getDocPage(self, args: Prv_developersopenai_DevelopersOpenaiGetDocPageArgs_In | None = None, /) -> Prv_developersopenai_DevelopersOpenaiDocPage_Out:
         """Reads one page of OpenAI's developer docs and returns its title, canonical URL and full
         article text. Pass `path` (e.g. "/api/docs/mcp") to pick a page; omitting it defaults to
         "/api/docs/mcp" — the guide for building a remote MCP server, connecting it to
@@ -37587,7 +37831,7 @@ class Prv_disney(Protocol):
     days), the multi-day total for a party, and which dates that starting price applies to.
     """
 
-    async def getTicketPrice(self, args: Any, /) -> Prv_disney_DisneyTicketPrice_Out:
+    async def getTicketPrice(self, args: Prv_disney_DisneyGetTicketPriceArgs_In, /) -> Prv_disney_DisneyTicketPrice_Out:
         """Reads Walt Disney World's own ticket page for a real per-person price by ticket length
         and the multi-day total for a party. Takes `resort` ("wdw" only today), `days` (1-10)
         and `partySize: { adults, children }`. The price is the site's own "starting from"
@@ -38129,7 +38373,7 @@ class Prv_executivehomecare(Protocol):
     or that the ZIP is outside the franchise network.
     """
 
-    async def findLocalOffice(self, args: Any, /) -> Prv_executivehomecare_FindLocalOfficeResult_Out:
+    async def findLocalOffice(self, args: Prv_executivehomecare_ExecutivehomecareFindLocalOfficeArgs_In, /) -> Prv_executivehomecare_FindLocalOfficeResult_Out:
         """Looks up the Executive Home Care franchise office that covers a US ZIP (`zip`, a 5-digit
         string, e.g. "90210") — the same ZIP-to-office lookup the site's own "Find a Location"
         widget runs. Returns whether the ZIP is in the franchise network and, when it is, the
@@ -38383,7 +38627,7 @@ class Prv_fivestarbathsolutions(Protocol):
         takes), title, owner, phone, mailing address, state and lat/long. No arguments.
         """
 
-    async def getAvailableSlots(self, args: Any, /) -> Prv_fivestarbathsolutions_GetAvailableSlotsResult_Out:
+    async def getAvailableSlots(self, args: Prv_fivestarbathsolutions_FivestarbathsolutionsGetAvailableSlotsArgs_In, /) -> Prv_fivestarbathsolutions_GetAvailableSlotsResult_Out:
         """Checks one franchise region's real free design-consultation scheduler and returns the
         actual open appointment days and times over the site's own 3-week booking window. Pass
         `region` (the geo slug from `listLocations`' `id` field, e.g. "livonia-mi"). Returns
@@ -38518,7 +38762,7 @@ class Prv_fomo(Protocol):
         numeric networkId.
         """
 
-    async def filterTokens(self, filters: Any, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenRow_Out]:
+    async def filterTokens(self, filters: Prv_fomo_FomoFilterTokensArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenRow_Out]:
         """The full token screener — a POST taking the site's own filter object and returning
         matching tokens with their market numbers. The most powerful read in this provider: fomo
         indexes launchpad tokens from the bonding curve onward, well before they appear anywhere
@@ -40307,7 +40551,7 @@ class Prv_grainger(Protocol):
     pickup-at-nearest-branch fulfillment estimates) are all live.
     """
 
-    async def search(self, args: Any, /) -> list[Prv_grainger_graingerSearchRow_Out]:
+    async def search(self, args: Prv_grainger_GraingerSearchArgs_In, /) -> list[Prv_grainger_graingerSearchRow_Out]:
         """Searches Grainger's industrial MRO catalog by keyword, returning matching products —
         item number, name, brand, list price and thumbnail. Takes `query` (free text, e.g.
         "antistatic gloves"). A SPECIFIC query resolves to Grainger's own matching leaf category
@@ -40316,7 +40560,7 @@ class Prv_grainger(Protocol):
         throws rather than returning an empty array — narrow the query if that happens.
         """
 
-    async def findBranch(self, args: Any, /) -> list[Prv_grainger_graingerBranchRow_Out]:
+    async def findBranch(self, args: Prv_grainger_GraingerFindBranchArgs_In, /) -> list[Prv_grainger_graingerBranchRow_Out]:
         """Finds Grainger's own U.S. branches near a ZIP, city or state — address, phone, hours and
         curbside-pickup availability, off the site's own nationwide directory. `zip` matches by
         its first three digits (a real USPS regional grouping; there is no geocode on either
@@ -40325,7 +40569,7 @@ class Prv_grainger(Protocol):
         than silently truncating.
         """
 
-    async def getProduct(self, args: Any, /) -> Prv_grainger_graingerProductRow_Out:
+    async def getProduct(self, args: Prv_grainger_GraingerGetProductArgs_In, /) -> Prv_grainger_graingerProductRow_Out:
         """Reads one Grainger product page in full — price and pack size/unit of measure, the full
         spec table, the manufacturer's own part number, and a shipping/pickup availability
         summary. Takes `itemNumber` (Grainger's own catalog id, e.g. "26K909" — resolves
@@ -40333,7 +40577,7 @@ class Prv_grainger(Protocol):
         if the item number doesn't exist (a clean 404) rather than returning an empty row.
         """
 
-    async def checkStock(self, args: Any, /) -> Prv_grainger_graingerStockRow_Out:
+    async def checkStock(self, args: Prv_grainger_GraingerCheckStockArgs_In, /) -> Prv_grainger_graingerStockRow_Out:
         """Checks real fulfillment availability for one item (`itemNumber` or `url`, same as
         `getProduct`) at a caller-supplied `zip` (required, 5-digit US) — both
         shipping-to-that-zip and pickup-at-the-nearest-branch-to-that-zip, in one call. Returns
@@ -40462,7 +40706,7 @@ class Prv_hansons(Protocol):
     submit) is a stub — see its notImplemented reason.
     """
 
-    async def checkAvailability(self, args: Any, /) -> Prv_hansons_CheckAvailabilityResult_Out:
+    async def checkAvailability(self, args: Prv_hansons_HansonsCheckAvailabilityArgs_In, /) -> Prv_hansons_CheckAvailabilityResult_Out:
         """Checks a 5-digit US ZIP (`zipcode`, e.g. "48104") against Hansons' real Free Estimate
         scheduler and returns the actual open appointment slots for an at-home or virtual
         consultation — the same ZIP-gated availability check the site's own scheduler performs
@@ -40875,14 +41119,16 @@ class Prv_highlandhomes(Protocol):
 class Prv_hilton(Protocol):
     """Hilton-family hotel search, award availability, reservation lookup and property details."""
 
-    async def search(self, args: Any, /) -> list[Prv_hilton_hiltonRoomOffer_Out]:
+    async def search(self, args: Prv_hilton_HiltonSearchArgs_In, /) -> list[Prv_hilton_hiltonRoomOffer_Out]:
         """Searches Hilton's live cash room availability for one property (by its hilton.com URL
         slug), a date range and adult count — returns the priced room types on offer: name, bed
         configuration, features, rate plan, and nightly/total rate. Only Hilton properties
         served by the site's `dx-curated-ui` app (Hilton Hotels & Resorts, Waldorf Astoria —
         confirmed; likely Conrad too) are supported today; other brands (DoubleTree confirmed)
         run a second app this function does not parse yet and throws a clear, distinguishable
-        error rather than a wrong or empty result. See manifest.json's `reach.why`.
+        error rather than a wrong or empty result. Hampton by Hilton and Embassy Suites have not
+        been measured: if one runs the second app, the call throws that error, which names the
+        app and says it is not supported yet. See manifest.json's `reach.why`.
         """
 
 class Prv_hipcamp(Protocol):
@@ -42016,21 +42262,21 @@ class Prv_junkluggers(Protocol):
     booking is created.
     """
 
-    async def findFranchise(self, args: Any, /) -> Prv_junkluggers_JunkluggersFranchiseLookup_Out:
+    async def findFranchise(self, args: Prv_junkluggers_findFranchise_args_In, /) -> Prv_junkluggers_JunkluggersFranchiseLookup_Out:
         """Resolves the local Junkluggers franchise for a zip code (`zip`) — the same lookup the
         `/book-now/` widget runs as its first step. Returns `inService: false` (not an error)
         when the zip falls outside every franchise's coverage area, e.g. `{ zip: "78701" }` ->
         `{ inService: true, franchise: { franchiseId: 137, franchiseName: "TX - Austin" } }`.
         """
 
-    async def getServiceTypes(self, args: Any, /) -> list[Prv_junkluggers_JunkluggersServiceType_Out]:
+    async def getServiceTypes(self, args: Prv_junkluggers_getServiceTypes_args_In, /) -> list[Prv_junkluggers_JunkluggersServiceType_Out]:
         """Lists the service types the zip's resolved franchise offers (`zip`), each flagged
         `isOnline` for whether the public widget lets a visitor book it directly (most
         franchises expose only "Junk Removal"; a handful of internal types like "National
         Accounts" are staff-only). Empty array for a zip outside every franchise's area.
         """
 
-    async def getAvailability(self, args: Any, /) -> Prv_junkluggers_JunkluggersAvailability_Out:
+    async def getAvailability(self, args: Prv_junkluggers_JunkluggersGetAvailabilityArgs_In, /) -> Prv_junkluggers_JunkluggersAvailability_Out:
         """The computed result: real open 2-hour appointment windows for a zip (`zip`), from
         Junkluggers' live Vonigo scheduling backend — the same call the `/book-now/` widget
         makes after zip -> franchise -> service-type resolution, exactly what ChatGPT cannot see
@@ -42164,7 +42410,7 @@ class Prv_kingsdown(Protocol):
     handoff URLs.
     """
 
-    async def getBedMatchResult(self, profile: Any, /) -> Prv_kingsdown_kingsdownBedmatchResult_Out:
+    async def getBedMatchResult(self, profile: Prv_kingsdown_KingsdownGetBedMatchResultArgs_In, /) -> Prv_kingsdown_kingsdownBedmatchResult_Out:
         """Runs Kingsdown's live bedMATCH diagnostic for one sleeper profile and returns the real
         computed support-color classification (`zoneName`: "Gold" | "Green" | "Blue" | "Red",
         with the raw fit `scalar` behind it), plus Kingsdown's own `findDealerUrl` and `buyUrl`
@@ -42816,8 +43062,8 @@ class Prv_louvershop(Protocol):
     the actual in-home consultation request) is a stub — see its notImplemented reason.
     """
 
-    async def findLocalDealer(self, args: Any, /) -> Prv_louvershop_FindLocalDealerResult_Out:
-        """Looks up the Louver Shop dealer/branch that covers a US ZIP (`zip`, a 4-5 digit string,
+    async def findLocalDealer(self, args: Prv_louvershop_LouvershopFindLocalDealerArgs_In, /) -> Prv_louvershop_FindLocalDealerResult_Out:
+        """Looks up the Louver Shop dealer/branch that covers a US ZIP (`zip`, a 5-digit string,
         e.g. "30301") — the same lookup the site's own "Free In-Home Design Consultation" form
         and "Find a Consultant" locator both run before offering a booking path. Returns whether
         the ZIP is in the dealer network, the matched branch (name, phone, page slug), the
@@ -43827,7 +44073,7 @@ class Prv_myollie(Protocol):
     computed starting price, plus a checkout link that carries the answers forward.
     """
 
-    async def getMealPlan(self, args: Any, /) -> Prv_myollie_GetMealPlanResult_Out:
+    async def getMealPlan(self, args: Prv_myollie_MyollieGetMealPlanArgs_In, /) -> Prv_myollie_GetMealPlanResult_Out:
         """Computes Ollie's personalized fresh-food meal plan and REAL weekly price for a dog,
         given `weightLbs` (number, e.g. 45), `activityLevel` ("Low"|"Moderate"|"High"),
         `isNeutered` (boolean) and optional `gender` ("Male"|"Female"). Returns all four plan
@@ -44696,7 +44942,7 @@ class Prv_pacificcompanies(Protocol):
         Name, Email, Phone, and the CV-upload field name. Never submits anything.
         """
 
-    async def assembleApplication(self, idOrSlug: str, input: Any, /) -> Prv_pacificcompanies_AssembledApplication_Out:
+    async def assembleApplication(self, idOrSlug: str, input: Prv_pacificcompanies_PacificCompaniesAssembleApplicationArgs_In, /) -> Prv_pacificcompanies_AssembledApplication_Out:
         """Validates a caller's name/email/phone against the posting's live apply-form requirements
         and maps it onto the site's own Gravity Forms field names, ready to submit. Never
         submits it — attach a resume on the returned `cvFieldName` yourself; the site marks the
@@ -46267,7 +46513,7 @@ class Prv_reliancepartners(Protocol):
         all US states).
         """
 
-    async def assembleApplication(self, args: Any, /) -> Prv_reliancepartners_AssembledApplication_Out:
+    async def assembleApplication(self, args: Prv_reliancepartners_ReliancePartnersAssembleApplicationArgs_In, /) -> Prv_reliancepartners_AssembledApplication_Out:
         """Validates a caller's trucking-insurance application against the live schema's own field
         requirements and enumerated catalogs, then maps it onto the site's own Gravity Forms
         field names — exact, ready to submit. Never submits it; the site's own flow ends in a
@@ -46870,7 +47116,7 @@ class Prv_seegarsfence(Protocol):
     reason.
     """
 
-    async def checkServiceArea(self, args: Any, /) -> Prv_seegarsfence_CheckServiceAreaResult_Out:
+    async def checkServiceArea(self, args: Prv_seegarsfence_SeegarsCheckServiceAreaArgs_In, /) -> Prv_seegarsfence_CheckServiceAreaResult_Out:
         """Geocodes a free-text address (`address`, e.g. "301 Fayetteville St, Raleigh, NC 27601")
         against Seegars Fence's own address-lookup API, then checks it against the branch's
         published service-area polygon — the same check the site's own Fence Price Estimator
@@ -48351,7 +48597,7 @@ class Prv_topviewtix(Protocol):
         picks the `slug` to look one up in full.
         """
 
-    async def getPackageDetails(self, args: Any, /) -> Prv_topviewtix_topviewtixPackageDetails_Out:
+    async def getPackageDetails(self, args: Prv_topviewtix_TopviewtixGetPackageDetailsArgs_In, /) -> Prv_topviewtix_topviewtixPackageDetails_Out:
         """Reads one TopView tour package in full — name, description, adult/kid price, and the
         site's OWN live booking calendar (which dates are open, blocked, or sold out, and how
         far out the calendar reaches). Takes `slug`, the package's own URL slug off
@@ -49621,14 +49867,14 @@ class Prv_wellfound(Protocol):
     startup profiles and their open roles.
     """
 
-    async def searchJobs(self, args: Any | None = None, /) -> list[Prv_wellfound_wellfoundRow_Out]:
+    async def searchJobs(self, args: Prv_wellfound_WellfoundSearchJobsArgs_In | None = None, /) -> list[Prv_wellfound_wellfoundRow_Out]:
         """Searches Wellfound's startup job board — by role (`/role/<slug>`) or by city
         (`/location/<slug>`), each a real paginated search — returning postings with the SALARY
         BAND and EQUITY range the site publishes. `{ role, location }` together is a client-side
         post-filter: the site's two search routes do not compose natively (measured 2026-08-04).
         """
 
-    async def searchCompanies(self, args: Any, /) -> list[Prv_wellfound_wellfoundCompanyRow_Out]:
+    async def searchCompanies(self, args: Prv_wellfound_WellfoundSearchCompaniesArgs_In, /) -> list[Prv_wellfound_wellfoundCompanyRow_Out]:
         """Finds startups the way Wellfound's own search groups them — one row per COMPANY, off the
         same `/role/<slug>` and `/location/<slug>` search `searchJobs` reads, carrying
         headcount, market (B2B/B2C), funding stage, the Actively-Hiring badge, the site's

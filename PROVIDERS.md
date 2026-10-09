@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3285 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3305 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1661,9 +1661,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |
 | `indeed.searchSalaries` | indeed.com | Searches Indeed's own salary data by job title and location, returning salary ranges… | 🟢 |
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
+| `instagram.blockUser` | instagram.com | Blocks a user from seeing the signed-in account's posts and sending messages. | ⚪ |
+| `instagram.commentOnPost` | instagram.com | Posts a comment on a photo or video. | ⚪ |
+| `instagram.followUser` | instagram.com | Sends a follow request to a user (or follows directly if not private). | ⚪ |
+| `instagram.getDirectMessages` | instagram.com | Lists the signed-in user's direct message threads with preview of the latest message… | ⚪ |
+| `instagram.getHomeFeed` | instagram.com | Reads the signed-in user's home feed — the newest posts from accounts they follow… | ⚪ |
+| `instagram.getNotifications` | instagram.com | Reads the signed-in user's activity feed — likes, comments, follows, and direct… | ⚪ |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
-| `instagram.searchProfiles` | instagram.com | Searches Instagram for accounts matching a query and returns each match's username… | ⚪ |
+| `instagram.getSavedPosts` | instagram.com | Lists the signed-in user's saved posts, grouped by collection. | ⚪ |
+| `instagram.getStories` | instagram.com | Lists stories from accounts the signed-in user follows, with expiration times. | ⚪ |
+| `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | ⚪ |
+| `instagram.likePost` | instagram.com | Likes a post by its id or shortcode. | ⚪ |
+| `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in user's feed. | ⚪ |
+| `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | ⚪ |
+| `instagram.searchAccounts` | instagram.com | Searches Instagram for public accounts matching a query. | ⚪ |
+| `instagram.sendDirectMessage` | instagram.com | Sends a direct message to one user. | ⚪ |
+| `instagram.unblockUser` | instagram.com | Unblocks a previously blocked user. | ⚪ |
+| `instagram.unfollowUser` | instagram.com | Unfollows a user the signed-in account is currently following. | ⚪ |
+| `instagram.unlikePost` | instagram.com | Removes a like from a previously liked post. | ⚪ |
+| `instagram.unmuteUser` | instagram.com | Unmutes a previously muted user. | ⚪ |
+| `instagram.unsavePost` | instagram.com | Removes a post from the signed-in user's saved collection. | ⚪ |
+| `instagram.updateProfile` | instagram.com | Updates the signed-in user's profile information such as biography, full name, or… | ⚪ |
 | `insurify.estimateAutoCost` | insurify.com | Returns an estimated monthly car insurance cost for a driver profile — age, location… | ⚪ |
 | `insurify.getAutoQuotes` | insurify.com | Returns real-time side-by-side car insurance rates from the carriers that will… | 🟢 |
 | `insurify.getAutoWarrantyQuotes` | insurify.com | Returns extended vehicle service contract (auto warranty) prices for a vehicle's make… | ⚪ |
@@ -1752,7 +1771,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kayak.searchCars` | kayak.com | Runs the car-hire search on kayak.com and returns priced vehicles for a pickup… | 🟢 |
 | `kayak.searchHotels` | kayak.com | Runs the stays search on kayak.com — the site's own second vertical — and returns… | 🟢 |
 | `kbb.getTrimPricing` | kbb.com | Reads kbb.com's own per-trim MSRP and Fair Purchase Price for a make and model, e.g.… | 🟢 |
-| `keepa.getProduct` | keepa.com | Reads Keepa's native Amazon product record, including its compact price-history… | 🟢 |
+| `keepa.getProduct` | keepa.com | Amazon price history for one ASIN. | 🟢 |
 | `keepa.searchProducts` | keepa.com | Searches Keepa's Amazon product index by keyword through its documented Product Search… | ⚪ |
 | `kingsdown.getBedMatchResult` | kingsdown.com | Runs Kingsdown's own bedMATCH diagnostic — the same multi-step questionnaire embedded… | 🟢 |
 | `kitchentuneup.listCabinetStyles` | kitchentuneup.com | Reads Kitchen Tune-Up's own AI Design Tool catalog off its visualizer vendor's API —… | 🟢 |
@@ -1961,7 +1980,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_365.createDocument` | TODO example.com | TODO — what createDocument does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_365.deleteDocument` | TODO example.com | TODO — what deleteDocument does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_365.getDocument` | TODO example.com | TODO — what getDocument does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_365.listDocuments` | TODO example.com | TODO — what listDocuments does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_365.listDocuments` | TODO example.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
 | `microsoft_365.listDocumentVersions` | TODO example.com | TODO — what listDocumentVersions does on the live site, and what interaction it… | ⚪ |
 | `microsoft_365.restoreDocumentVersion` | TODO example.com | TODO — what restoreDocumentVersion does on the live site, and what interaction it… | ⚪ |
 | `microsoft_365.shareDocument` | TODO example.com | TODO — what shareDocument does on the live site, and what interaction it performs. | ⚪ |
@@ -2006,6 +2025,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.getMossyoakProduct` | mossyoak.com | Reads one product by its handle — every camo-pattern/size variant, its exact price and… | 🟢 |
 | `mossyoak.listMossyoakProducts` | mossyoak.com | Reads the live Mossy Oak catalogue as the storefront publishes it — every camo-apparel… | 🟢 |
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
+| `msc_fema.getFloodZone` | msc.fema.gov | Looks up the FEMA flood zone for a US street address (geocoded with the US Census… | 🟢 |
 | `msc.trackShipment` | msc.com | Track MSC container and shipment status — get real-time location, current status, and… | 🟡 |
 | `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | ⚪ |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: acd57c528a828fe430874b4f9880fc03e11ecd188fef30c0d17cf3fc4e478ce7
-// 1931 checked, 20 unchecked.
+// Manifest version: 5a05c237cfe03b66646a3c61a9ab6b2ba191ac748fea9da27b000617b56fb90a
+// 1932 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "acd57c528a828fe430874b4f9880fc03e11ecd188fef30c0d17cf3fc4e478ce7",
+  "version": "5a05c237cfe03b66646a3c61a9ab6b2ba191ac748fea9da27b000617b56fb90a",
   "units": {
     "address_validation": {
       "defs": {
@@ -1440,6 +1440,32 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "DeveloperApiKeySignupDetails": {
+          "k": "object",
+          "props": [
+            {
+              "name": "organization",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "occupation",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -1454,7 +1480,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "details",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "DeveloperApiKeySignupDetails"
             },
             "optional": false
           },
@@ -9974,13 +10001,67 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.avis": {
-      "defs": {},
+      "defs": {
+        "AvisGetLocationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "mnemonic",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cityName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "AvisSearchLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "stateCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "searchLocations": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "AvisSearchLocationsArgs"
             },
             "optional": false
           }
@@ -9989,7 +10070,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "AvisGetLocationArgs"
             },
             "optional": false
           }
@@ -9997,13 +10079,48 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.ayreshotels": {
-      "defs": {},
+      "defs": {
+        "AyreshotelsCheckRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "property",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "checkRates": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "AyreshotelsCheckRatesArgs"
             },
             "optional": false
           }
@@ -11864,6 +11981,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "searchPlaces": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listSaves": [
           {
             "name": "opts",
@@ -12123,13 +12249,67 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.bluesignal": {
-      "defs": {},
+      "defs": {
+        "BlueSignalGetJobArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BlueSignalSearchJobsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "keywords",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "remote",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "searchJobs": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "BlueSignalSearchJobsArgs"
             },
             "optional": true
           }
@@ -12138,7 +12318,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "BlueSignalGetJobArgs"
             },
             "optional": false
           }
@@ -16391,13 +16572,39 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.cleanairlawncare": {
-      "defs": {},
+      "defs": {
+        "CleanAirCheckServiceAreaArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "CleanAirGetAvailableSlotsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "checkServiceArea": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "CleanAirCheckServiceAreaArgs"
             },
             "optional": false
           }
@@ -16406,7 +16613,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "CleanAirGetAvailableSlotsArgs"
             },
             "optional": false
           }
@@ -18091,13 +18299,27 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.developersopenai": {
-      "defs": {},
+      "defs": {
+        "DevelopersOpenaiGetDocPageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "path",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "getDocPage": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "DevelopersOpenaiGetDocPageArgs"
             },
             "optional": true
           }
@@ -18637,13 +18859,58 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.disney": {
-      "defs": {},
+      "defs": {
+        "DisneyGetTicketPriceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "resort",
+              "schema": {
+                "k": "literal",
+                "v": "wdw"
+              },
+              "optional": false
+            },
+            {
+              "name": "days",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "adults",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "children",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "getTicketPrice": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "DisneyGetTicketPriceArgs"
             },
             "optional": false
           }
@@ -20296,13 +20563,27 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.executivehomecare": {
-      "defs": {},
+      "defs": {
+        "ExecutivehomecareFindLocalOfficeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "findLocalOffice": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "ExecutivehomecareFindLocalOfficeArgs"
             },
             "optional": false
           }
@@ -20933,14 +21214,28 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.fivestarbathsolutions": {
-      "defs": {},
+      "defs": {
+        "FivestarbathsolutionsGetAvailableSlotsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "region",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "listLocations": [],
         "getAvailableSlots": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "FivestarbathsolutionsGetAvailableSlotsArgs"
             },
             "optional": false
           }
@@ -21202,6 +21497,13 @@ export const VALIDATORS: ValidatorTable = {
               "v": "monad"
             }
           ]
+        },
+        "FomoFilterTokensArgs": {
+          "k": "object",
+          "props": [],
+          "index": {
+            "k": "any"
+          }
         },
         "FomoLeaderboardWindow": {
           "k": "union",
@@ -21575,7 +21877,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "filters",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "FomoFilterTokensArgs"
             },
             "optional": false
           },
@@ -26087,13 +26390,105 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.grainger": {
-      "defs": {},
+      "defs": {
+        "GraingerCheckStockArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GraingerFindBranchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GraingerGetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GraingerSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "search": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "GraingerSearchArgs"
             },
             "optional": false
           }
@@ -26102,7 +26497,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "GraingerFindBranchArgs"
             },
             "optional": false
           }
@@ -26111,7 +26507,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "GraingerGetProductArgs"
             },
             "optional": false
           }
@@ -26120,7 +26517,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "GraingerCheckStockArgs"
             },
             "optional": false
           }
@@ -26331,13 +26729,34 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.hansons": {
-      "defs": {},
+      "defs": {
+        "HansonsCheckAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zipcode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "virtual",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "checkAvailability": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "HansonsCheckAvailabilityArgs"
             },
             "optional": false
           }
@@ -27235,13 +27654,48 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.hilton": {
-      "defs": {},
+      "defs": {
+        "HiltonSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hotelSlug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "arrivalDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "departureDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "numAdults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "search": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "HiltonSearchArgs"
             },
             "optional": false
           }
@@ -30302,13 +30756,49 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.junkluggers": {
-      "defs": {},
+      "defs": {
+        "JunkluggersGetAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "serviceTypeId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "daysAhead",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "findFranchise": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
@@ -30317,7 +30807,16 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
@@ -30326,7 +30825,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "JunkluggersGetAvailabilityArgs"
             },
             "optional": false
           }
@@ -30887,13 +31387,274 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.kingsdown": {
-      "defs": {},
+      "defs": {
+        "KingsdownGetBedMatchResultArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "ageBand",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 20
+                  },
+                  {
+                    "k": "literal",
+                    "v": 33
+                  },
+                  {
+                    "k": "literal",
+                    "v": 48
+                  },
+                  {
+                    "k": "literal",
+                    "v": 63
+                  },
+                  {
+                    "k": "literal",
+                    "v": 85
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "F"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "M"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "N"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "position",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 1
+                  },
+                  {
+                    "k": "literal",
+                    "v": 2
+                  },
+                  {
+                    "k": "literal",
+                    "v": 3
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "heightBand",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 50
+                  },
+                  {
+                    "k": "literal",
+                    "v": 57.5
+                  },
+                  {
+                    "k": "literal",
+                    "v": 63.5
+                  },
+                  {
+                    "k": "literal",
+                    "v": 69
+                  },
+                  {
+                    "k": "literal",
+                    "v": 75.5
+                  },
+                  {
+                    "k": "literal",
+                    "v": 78
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "weightBand",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 1
+                  },
+                  {
+                    "k": "literal",
+                    "v": 2
+                  },
+                  {
+                    "k": "literal",
+                    "v": 3
+                  },
+                  {
+                    "k": "literal",
+                    "v": 4
+                  },
+                  {
+                    "k": "literal",
+                    "v": 5
+                  },
+                  {
+                    "k": "literal",
+                    "v": 6
+                  },
+                  {
+                    "k": "literal",
+                    "v": 7
+                  },
+                  {
+                    "k": "literal",
+                    "v": 8
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "pantBand",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 1
+                  },
+                  {
+                    "k": "literal",
+                    "v": 2
+                  },
+                  {
+                    "k": "literal",
+                    "v": 3
+                  },
+                  {
+                    "k": "literal",
+                    "v": 4
+                  },
+                  {
+                    "k": "literal",
+                    "v": 5
+                  },
+                  {
+                    "k": "literal",
+                    "v": 6
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "shirtBand",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 1
+                  },
+                  {
+                    "k": "literal",
+                    "v": 2
+                  },
+                  {
+                    "k": "literal",
+                    "v": 3
+                  },
+                  {
+                    "k": "literal",
+                    "v": 4
+                  },
+                  {
+                    "k": "literal",
+                    "v": 5
+                  },
+                  {
+                    "k": "literal",
+                    "v": 6
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "painAreas",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "union",
+                  "of": [
+                    {
+                      "k": "literal",
+                      "v": "Neck"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "Shoulder"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "Hip"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "MidBack"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "LowerBack"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "Other"
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "getBedMatchResult": [
           {
             "name": "profile",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "KingsdownGetBedMatchResultArgs"
             },
             "optional": false
           }
@@ -32637,13 +33398,27 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.louvershop": {
-      "defs": {},
+      "defs": {
+        "LouvershopFindLocalDealerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "findLocalDealer": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "LouvershopFindLocalDealerArgs"
             },
             "optional": false
           }
@@ -35657,13 +36432,72 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.myollie": {
-      "defs": {},
+      "defs": {
+        "MyollieGetMealPlanArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "weightLbs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "activityLevel",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Low"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Moderate"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "High"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "isNeutered",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Male"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Female"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "getMealPlan": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "MyollieGetMealPlanArgs"
             },
             "optional": false
           }
@@ -38323,7 +39157,41 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.pacificcompanies": {
-      "defs": {},
+      "defs": {
+        "PacificCompaniesAssembleApplicationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "searchJobs": [
           {
@@ -38438,7 +39306,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "input",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "PacificCompaniesAssembleApplicationArgs"
             },
             "optional": false
           }
@@ -45660,14 +46529,410 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.reliancepartners": {
-      "defs": {},
+      "defs": {
+        "ReliancePartnersAssembleApplicationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "businessName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "preferredLanguage",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "fmcsaType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "fmcsaId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "ein",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "yearsInBusiness",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "truckCount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "trailerCount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "targetEffectiveDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "line1",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "line2",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "city",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "state",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "zip",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "contact",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "name",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "email",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "phone",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "fax",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "coverage",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "ReliancePartnersCoverageSelection"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "operationRadius",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "upTo50Miles",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "from51to200Miles",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "over500Miles",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "averageRadius",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "maximumRadius",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "estimatedAnnualMileage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "estimatedAnnualRevenue",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "commodities",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "ReliancePartnersCommoditySelection"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "drivers",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "ReliancePartnersDriver"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "tractors",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "ReliancePartnersEquipmentItem"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "trailers",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "ReliancePartnersEquipmentItem"
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ReliancePartnersCommoditySelection": {
+          "k": "object",
+          "props": [
+            {
+              "name": "commodity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "haulPercent",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ReliancePartnersCoverageSelection": {
+          "k": "object",
+          "props": [
+            {
+              "name": "coverage",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "insuranceLimit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "deductible",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ReliancePartnersDriver": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "licenseNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "dateOfBirth",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "yearsExperience",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ReliancePartnersEquipmentItem": {
+          "k": "object",
+          "props": [
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "make",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "vin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "value",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lienholder",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "getApplicationSchema": [],
         "assembleApplication": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "ReliancePartnersAssembleApplicationArgs"
             },
             "optional": false
           }
@@ -47832,13 +49097,27 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.seegarsfence": {
-      "defs": {},
+      "defs": {
+        "SeegarsCheckServiceAreaArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "checkServiceArea": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "SeegarsCheckServiceAreaArgs"
             },
             "optional": false
           }
@@ -52297,14 +53576,28 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.topviewtix": {
-      "defs": {},
+      "defs": {
+        "TopviewtixGetPackageDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "listPackages": [],
         "getPackageDetails": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "TopviewtixGetPackageDetailsArgs"
             },
             "optional": false
           }
@@ -56260,13 +57553,102 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.wellfound": {
-      "defs": {},
+      "defs": {
+        "WellfoundSearchCompaniesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "role",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "activelyHiringOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "market",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minEmployees",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxEmployees",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "WellfoundSearchJobsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "role",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "remoteOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "searchJobs": [
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "WellfoundSearchJobsArgs"
             },
             "optional": true
           }
@@ -56275,7 +57657,8 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "any"
+              "k": "ref",
+              "name": "WellfoundSearchCompaniesArgs"
             },
             "optional": false
           }
