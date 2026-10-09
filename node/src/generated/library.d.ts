@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dea1d4219571dff84a2428d68aed242419c68efe328f69bbffa283459c947350
-// 81 capabilities, 552 providers, 1952 typed functions, 20 refused.
+// Manifest version: bc40e76b7491a34ad61113835d31528176987f4565da9deae5adacc980feff90
+// 81 capabilities, 552 providers, 1953 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19083,6 +19083,14 @@ interface elevenlabsVoice {
   name: string;
   requiresVerification: boolean;
 }
+interface elevenlabsVoiceListing {
+  voiceId: string;
+  name: string;
+  category: string | null;
+  description: string | null;
+  labels: Record<string, string>;
+  previewUrl: string | null;
+}
 
   /**
    * ElevenLabs' own documented REST API (api.elevenlabs.io) — converts text into spoken audio in
@@ -19106,6 +19114,16 @@ interface elevenlabsVoice {
      * ElevenLabs API key — see this provider's `auth`.
      */
     cloneVoice(args: { name: string; sampleUrls: string[]; description?: string }): Promise<elevenlabsVoice>;
+
+    /**
+     * Lists the voices in the caller's ElevenLabs account (premade, cloned and library voices) via
+     * ElevenLabs' documented `GET /v1/voices` — or finds an existing voice by name: `name` narrows
+     * to voices whose name contains it, case-insensitive, exact matches first. Returns each
+     * voice's id, which `synthesize`'s `voiceId` accepts, so a caller who knows a voice's name
+     * never has to dig its id out of the ElevenLabs dashboard. Requires an ElevenLabs API key —
+     * see this provider's `auth`.
+     */
+    listVoices(args?: { name?: string }): Promise<elevenlabsVoiceListing[]>;
   }
 }
 

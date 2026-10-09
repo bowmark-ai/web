@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dea1d4219571dff84a2428d68aed242419c68efe328f69bbffa283459c947350
-# 81 capabilities, 552 providers, 1934 typed functions, 20 refused.
+# Manifest version: bc40e76b7491a34ad61113835d31528176987f4565da9deae5adacc980feff90
+# 81 capabilities, 552 providers, 1935 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10615,6 +10615,17 @@ class Prv_elevenlabs_elevenlabsVoice_Out(TypedDict):
     voiceId: str
     name: str
     requiresVerification: bool
+
+class Prv_elevenlabs_listVoices_args_In(TypedDict):
+    name: NotRequired[str]
+
+class Prv_elevenlabs_elevenlabsVoiceListing_Out(TypedDict):
+    voiceId: str
+    name: str
+    category: str | None
+    description: str | None
+    labels: Mapping[str, str]
+    previewUrl: str | None
 
 class Prv_embroker_EmbrokerCoverageCatalog_Out(TypedDict):
     coverageLines: list[str]
@@ -38137,6 +38148,15 @@ class Prv_elevenlabs(Protocol):
         (Instant Voice Cloning) — downloads each sample and uploads it to ElevenLabs'
         `voices/add`. Returns the new voice's id, which `synthesize`'s `voiceId` then accepts.
         Requires an ElevenLabs API key — see this provider's `auth`.
+        """
+
+    async def listVoices(self, args: Prv_elevenlabs_listVoices_args_In | None = None, /) -> list[Prv_elevenlabs_elevenlabsVoiceListing_Out]:
+        """Lists the voices in the caller's ElevenLabs account (premade, cloned and library voices)
+        via ElevenLabs' documented `GET /v1/voices` — or finds an existing voice by name: `name`
+        narrows to voices whose name contains it, case-insensitive, exact matches first. Returns
+        each voice's id, which `synthesize`'s `voiceId` accepts, so a caller who knows a voice's
+        name never has to dig its id out of the ElevenLabs dashboard. Requires an ElevenLabs API
+        key — see this provider's `auth`.
         """
 
 class Prv_embroker(Protocol):
