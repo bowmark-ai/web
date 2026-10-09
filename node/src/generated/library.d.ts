@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b950a70b8b4df7e683420a32a907e126cc7ef01e30a99d56d8e7a0be3e3dd76a
-// 83 capabilities, 558 providers, 1975 typed functions, 20 refused.
+// Manifest version: 28fe50735241f73b0555bafa6bf01a7a3019ce12e9c87dea2347a7b167a23d45
+// 84 capabilities, 559 providers, 1979 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -820,6 +820,52 @@ interface CheckResult {
      * Persist `snapshot` and pass it back next run. No network — fetch the value first.
      */
     check(current: unknown, options?: CheckOptions): Promise<CheckResult>;
+  }
+}
+
+declare namespace BowmarkCapability_corporate_facts {
+  // ── Look up a public company's reported financial facts — the unit's own declarations, verbatim ──
+interface CorporateCompany { name: string; ticker: string; cik: string }
+interface CorporateFact {
+  key: string;            // "revenue", "netIncome", … or a requested concept
+  concept: string;        // "us-gaap:NetIncomeLoss"
+  label: string;
+  unit: string;           // "USD", "USD/shares", "shares"
+  value: number;
+  periodStart: string | null; // null for a point-in-time value
+  periodEnd: string;
+  fiscalYear: number | null;
+  fiscalPeriod: string | null; // "FY" | "Q1" | "Q2" | "Q3"
+  form: string;           // "10-K", "10-Q"
+  filed: string;
+}
+interface CorporateFacts {
+  company: { name: string; ticker: string | null; cik: string };
+  // keys: revenue, netIncome, operatingIncome, epsDiluted, epsBasic, totalAssets,
+  // totalLiabilities, stockholdersEquity, cash, sharesOutstanding, publicFloat, + requested concepts
+  facts: Record<string, { latest: CorporateFact | null; latestAnnual: CorporateFact | null }>;
+  filingsUrl: string;     // the company's EDGAR filing index
+  source: string;
+}
+interface CorporateFactsOptions { concepts?: string[]; timeoutMs?: number }
+interface corporate_factsResult { result: CorporateFacts; warnings: string[] }
+interface corporate_factsCompanies { companies: CorporateCompany[]; warnings: string[] }
+
+  /**
+   * A US public company's own reported facts from its SEC filings (investor relations numbers):
+   * revenue, net income, EPS, assets, liabilities, equity, cash, shares outstanding, public
+   * float — by ticker or name.
+   */
+  interface Unit {
+    /**
+     * A company's reported financial facts by ticker, CIK or name ("AAPL", "Microsoft") — latest
+     * quarter and latest full year for revenue, net income, EPS, assets, equity, cash, shares
+     * outstanding; pass `concepts` for any other XBRL fact.
+     */
+    lookup(company: string, options?: CorporateFactsOptions): Promise<corporate_factsResult>;
+
+    /** Find SEC-registered public companies by ticker or name ("apple") — name, ticker and CIK. */
+    findCompany(query: string): Promise<corporate_factsCompanies>;
   }
 }
 
@@ -44446,6 +44492,67 @@ interface SearsStock {
   }
 }
 
+declare namespace BowmarkProvider_sec_edgar {
+  // ── SEC EDGAR — the unit's own declarations, verbatim ──
+interface sec_edgarCompany {
+  cik: string;    // ten digits, zero-padded
+  ticker: string;
+  name: string;
+}
+interface sec_edgarFindArgs { query: string; limit?: number }
+interface sec_edgarFactsArgs {
+  company: string;      // ticker "AAPL", CIK "320193" or name "Apple"
+  concepts?: string[];  // extra XBRL concepts, e.g. ["ResearchAndDevelopmentExpense"]
+}
+interface sec_edgarFact {
+  key: string;          // "revenue", "netIncome", … or the requested concept
+  concept: string;      // "us-gaap:NetIncomeLoss"
+  label: string;
+  unit: string;         // "USD", "USD/shares", "shares"
+  value: number;
+  periodStart: string | null; // null for a point-in-time value
+  periodEnd: string;
+  fiscalYear: number | null;
+  fiscalPeriod: string | null; // "FY" | "Q1" | "Q2" | "Q3"
+  form: string;         // "10-K", "10-Q"
+  filed: string;
+  accessionNumber: string;
+}
+interface sec_edgarKeyFact {
+  key: string;
+  latest: sec_edgarFact | null;       // most recent period, any form
+  latestAnnual: sec_edgarFact | null; // most recent full fiscal year, from a 10-K
+}
+interface sec_edgarCompanyFacts {
+  cik: string;
+  name: string;
+  ticker: string | null;
+  filingsUrl: string;
+  facts: sec_edgarKeyFact[]; // revenue, netIncome, operatingIncome, epsDiluted, epsBasic, totalAssets,
+                             // totalLiabilities, stockholdersEquity, cash, sharesOutstanding, publicFloat
+  conceptCount: number;
+}
+
+  /**
+   * A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
+   * assets, shares outstanding), from SEC EDGAR
+   */
+  interface Unit {
+    /**
+     * Find SEC-registered public companies by ticker or name ({ query: "Apple" }) — returns CIK,
+     * ticker and legal name
+     */
+    findCompany(args: sec_edgarFindArgs): Promise<sec_edgarCompany[]>;
+
+    /**
+     * A company's own reported financial facts from its 10-K / 10-Q filings ({ company: "AAPL" })
+     * — revenue, net income, EPS, assets, liabilities, equity, cash, shares outstanding, public
+     * float; latest and latest full year
+     */
+    companyFacts(args: sec_edgarFactsArgs): Promise<sec_edgarCompanyFacts>;
+  }
+}
+
 declare namespace BowmarkProvider_secondswing {
   // ── 2nd Swing Golf — the unit's own declarations, verbatim ──
 interface SecondswingClubModel {
@@ -56901,6 +57008,7 @@ interface BowmarkProviders {
   scentbird: BowmarkProvider_scentbird.Unit;
   seakeeper: BowmarkProvider_seakeeper.Unit;
   sears: BowmarkProvider_sears.Unit;
+  sec_edgar: BowmarkProvider_sec_edgar.Unit;
   secondswing: BowmarkProvider_secondswing.Unit;
   sede_valencia_es: BowmarkProvider_sede_valencia_es.Unit;
   seegarsfence: BowmarkProvider_seegarsfence.Unit;
@@ -106899,6 +107007,7 @@ interface BowmarkLibrary {
   census_tract_household_income: BowmarkCapability_census_tract_household_income.Unit;
   concert_setlist: BowmarkCapability_concert_setlist.Unit;
   condition_monitoring: BowmarkCapability_condition_monitoring.Unit;
+  corporate_facts: BowmarkCapability_corporate_facts.Unit;
   costume_size_check: BowmarkCapability_costume_size_check.Unit;
   coworking: BowmarkCapability_coworking.Unit;
   crypto_exchange: BowmarkCapability_crypto_exchange.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b950a70b8b4df7e683420a32a907e126cc7ef01e30a99d56d8e7a0be3e3dd76a
-// 1957 checked, 20 unchecked.
+// Manifest version: 28fe50735241f73b0555bafa6bf01a7a3019ce12e9c87dea2347a7b167a23d45
+// 1961 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b950a70b8b4df7e683420a32a907e126cc7ef01e30a99d56d8e7a0be3e3dd76a",
+  "version": "28fe50735241f73b0555bafa6bf01a7a3019ce12e9c87dea2347a7b167a23d45",
   "units": {
     "address_validation": {
       "defs": {
@@ -877,6 +877,60 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CheckOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "corporate_facts": {
+      "defs": {
+        "CorporateFactsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "concepts",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "lookup": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CorporateFactsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "findCompany": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -49593,6 +49647,73 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.sec_edgar": {
+      "defs": {
+        "sec_edgarFactsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "company",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "concepts",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
+        "sec_edgarFindArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findCompany": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "sec_edgarFindArgs"
+            },
+            "optional": false
+          }
+        ],
+        "companyFacts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "sec_edgarFactsArgs"
+            },
+            "optional": false
           }
         ]
       }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b950a70b8b4df7e683420a32a907e126cc7ef01e30a99d56d8e7a0be3e3dd76a
-# 83 capabilities, 558 providers, 1957 typed functions, 20 refused.
+# Manifest version: 28fe50735241f73b0555bafa6bf01a7a3019ce12e9c87dea2347a7b167a23d45
+# 84 capabilities, 559 providers, 1961 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -661,6 +661,51 @@ class Cap_condition_monitoring_Snapshot_Out(TypedDict):
     fingerprint: str
     value: Any
     checkedAt: str
+
+class Cap_corporate_facts_CorporateFactsOptions_In(TypedDict):
+    concepts: NotRequired[Sequence[str]]
+    timeoutMs: NotRequired[float]
+
+class Cap_corporate_facts_corporate_factsResult_Out(TypedDict):
+    result: Cap_corporate_facts_CorporateFacts_Out
+    warnings: list[str]
+
+class Cap_corporate_facts_CorporateFacts_Out(TypedDict):
+    company: Cap_corporate_facts_CorporateFacts_Out_company_Out
+    facts: Mapping[str, Cap_corporate_facts_CorporateFacts_Out_facts_value_Out]
+    filingsUrl: str
+    source: str
+
+class Cap_corporate_facts_CorporateFacts_Out_company_Out(TypedDict):
+    name: str
+    ticker: str | None
+    cik: str
+
+class Cap_corporate_facts_CorporateFacts_Out_facts_value_Out(TypedDict):
+    latest: Cap_corporate_facts_CorporateFact_Out | None
+    latestAnnual: Cap_corporate_facts_CorporateFact_Out | None
+
+class Cap_corporate_facts_CorporateFact_Out(TypedDict):
+    key: str
+    concept: str
+    label: str
+    unit: str
+    value: float
+    periodStart: str | None
+    periodEnd: str
+    fiscalYear: float | None
+    fiscalPeriod: str | None
+    form: str
+    filed: str
+
+class Cap_corporate_facts_corporate_factsCompanies_Out(TypedDict):
+    companies: list[Cap_corporate_facts_CorporateCompany_Out]
+    warnings: list[str]
+
+class Cap_corporate_facts_CorporateCompany_Out(TypedDict):
+    name: str
+    ticker: str
+    cik: str
 
 class Cap_costume_size_check_checkSize_args_In(TypedDict):
     character: str
@@ -24739,6 +24784,46 @@ class Prv_sears_SearsStockStore_Out(TypedDict):
     promiseDate: str | None
     ffmType: str | None
 
+class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_sec_edgar_sec_edgarCompany_Out(TypedDict):
+    cik: str
+    ticker: str
+    name: str
+
+class Prv_sec_edgar_sec_edgarFactsArgs_In(TypedDict):
+    company: str
+    concepts: NotRequired[Sequence[str]]
+
+class Prv_sec_edgar_sec_edgarCompanyFacts_Out(TypedDict):
+    cik: str
+    name: str
+    ticker: str | None
+    filingsUrl: str
+    facts: list[Prv_sec_edgar_sec_edgarKeyFact_Out]
+    conceptCount: float
+
+class Prv_sec_edgar_sec_edgarKeyFact_Out(TypedDict):
+    key: str
+    latest: Prv_sec_edgar_sec_edgarFact_Out | None
+    latestAnnual: Prv_sec_edgar_sec_edgarFact_Out | None
+
+class Prv_sec_edgar_sec_edgarFact_Out(TypedDict):
+    key: str
+    concept: str
+    label: str
+    unit: str
+    value: float
+    periodStart: str | None
+    periodEnd: str
+    fiscalYear: float | None
+    fiscalPeriod: str | None
+    form: str
+    filed: str
+    accessionNumber: str
+
 class Prv_secondswing_SecondswingSearchArgs_In(TypedDict):
     searchText: str
 
@@ -31659,6 +31744,21 @@ class Cap_condition_monitoring(Protocol):
         evaluates `options.when`. `notify` is true exactly when the condition has just become
         true. Persist `snapshot` and pass it back next run. No network — fetch the value first.
         """
+
+class Cap_corporate_facts(Protocol):
+    """A US public company's own reported facts from its SEC filings (investor relations
+    numbers): revenue, net income, EPS, assets, liabilities, equity, cash, shares
+    outstanding, public float — by ticker or name.
+    """
+
+    async def lookup(self, company: str, options: Cap_corporate_facts_CorporateFactsOptions_In | None = None, /) -> Cap_corporate_facts_corporate_factsResult_Out:
+        """A company's reported financial facts by ticker, CIK or name ("AAPL", "Microsoft") —
+        latest quarter and latest full year for revenue, net income, EPS, assets, equity, cash,
+        shares outstanding; pass `concepts` for any other XBRL fact.
+        """
+
+    async def findCompany(self, query: str, /) -> Cap_corporate_facts_corporate_factsCompanies_Out:
+        """Find SEC-registered public companies by ticker or name ("apple") — name, ticker and CIK."""
 
 class Cap_costume_size_check(Protocol):
     """Given a costume character and a size, fans out to Target, Walmart, and Spirit Halloween
@@ -47646,6 +47746,22 @@ class Prv_sears(Protocol):
         `search`/`getProduct` — same as `getProduct`.
         """
 
+class Prv_sec_edgar(Protocol):
+    """A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
+    assets, shares outstanding), from SEC EDGAR
+    """
+
+    async def findCompany(self, args: Prv_sec_edgar_sec_edgarFindArgs_In, /) -> list[Prv_sec_edgar_sec_edgarCompany_Out]:
+        """Find SEC-registered public companies by ticker or name ({ query: "Apple" }) — returns
+        CIK, ticker and legal name
+        """
+
+    async def companyFacts(self, args: Prv_sec_edgar_sec_edgarFactsArgs_In, /) -> Prv_sec_edgar_sec_edgarCompanyFacts_Out:
+        """A company's own reported financial facts from its 10-K / 10-Q filings ({ company: "AAPL"
+        }) — revenue, net income, EPS, assets, liabilities, equity, cash, shares outstanding,
+        public float; latest and latest full year
+        """
+
 class Prv_secondswing(Protocol):
     """2nd Swing's Value Guide — search a golf club and get its real instant cash trade-in
     offer, the same number the site's own widget shows before any contact info is collected.
@@ -52075,6 +52191,7 @@ class BowmarkProviders(Protocol):
     scentbird: Prv_scentbird
     seakeeper: Prv_seakeeper
     sears: Prv_sears
+    sec_edgar: Prv_sec_edgar
     secondswing: Prv_secondswing
     sede_valencia_es: Prv_sede_valencia_es
     seegarsfence: Prv_seegarsfence
@@ -52202,6 +52319,7 @@ class Bowmark(Protocol):
     census_tract_household_income: Cap_census_tract_household_income
     concert_setlist: Cap_concert_setlist
     condition_monitoring: Cap_condition_monitoring
+    corporate_facts: Cap_corporate_facts
     costume_size_check: Cap_costume_size_check
     coworking: Cap_coworking
     crypto_exchange: Cap_crypto_exchange
