@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a81f928a8d38e8cfe8af12abd40915ee71f3a0a76375572606e16420fedb8a80
-// 82 capabilities, 556 providers, 1961 typed functions, 20 refused.
+// Manifest version: a49fd0054fb6c77cf12744177fc0301fa56a91dad80c8431ed03accd69e684b9
+// 82 capabilities, 557 providers, 1966 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12891,6 +12891,10 @@ interface ListArticlesBySectionArgs {
   section: string;
   limit?: number;
 }
+interface GetAuthorArticlesArgs {
+  author: string;
+  limit?: number;
+}
 interface BusinessInsiderListedArticle {
   title: string;
   url: string;
@@ -12940,6 +12944,12 @@ interface BusinessInsiderArticleRecord {
      * the site orders its grid.
      */
     listArticlesBySection(args: ListArticlesBySectionArgs): Promise<BusinessInsiderListedArticle[]>;
+
+    /**
+     * Lists articles by a byline author slug, title and URL per article, newest-first as the site
+     * orders its grid.
+     */
+    getAuthorArticles(args: GetAuthorArticlesArgs): Promise<BusinessInsiderListedArticle[]>;
 
     /**
      * Reads one businessinsider.com article's full text and metadata (headline, author, section,
@@ -18862,6 +18872,35 @@ interface SearchNewsArgs {
   query: string;
 }
 
+interface DuckDuckGoVideo {
+  title: string;
+  /** The video's own page — usually a `youtube.com/watch?v=` URL. */
+  url: string;
+  description: string;
+  /** "16:05"-style run time, or null when DuckDuckGo does not carry one. */
+  duration: string | null;
+  /** The hosting platform ("YouTube", "Vimeo", …), or null. */
+  publisher: string | null;
+  /** The channel or account that posted it, or null. */
+  uploader: string | null;
+  /** ISO-ish timestamp DuckDuckGo carries for the video, or null. */
+  published: string | null;
+  viewCount: number | null;
+  thumbnail: string | null;
+}
+
+interface SearchVideosArgs {
+  query: string;
+  /** The `next` value a previous call returned, to fetch the following page. */
+  cursor?: string;
+}
+
+interface SearchVideosResult {
+  query: string;
+  results: DuckDuckGoVideo[];
+  next: string | null;
+}
+
 interface DuckDuckGoSearchWebArgs {
   /** What you would type into duckduckgo.com's search box. */
   query: string;
@@ -18908,6 +18947,13 @@ interface DuckDuckGoSearchWebResult {
      * page.
      */
     searchWeb(args: DuckDuckGoSearchWebArgs): Promise<DuckDuckGoSearchWebResult>;
+
+    /**
+     * Searches DuckDuckGo's Videos vertical and returns each hit's title, page URL (usually
+     * YouTube), description, duration, publisher, uploader, publish date, view count and thumbnail
+     * — about 60 per page. Pass the returned `next` back as `cursor` for the following page.
+     */
+    searchVideos(args: SearchVideosArgs): Promise<SearchVideosResult>;
   }
 }
 
@@ -25866,6 +25912,67 @@ interface gst_indiaRow {
      * record of comes back with status "unknown" and a warning.
      */
     lookup(gstin: string): Promise<gst_indiaRow>;
+  }
+}
+
+declare namespace BowmarkProvider_hackernews {
+  // ── Hacker News — the unit's own declarations, verbatim ──
+interface HackerNewsItem {
+  id: number;
+  type: string;
+  title: string | null;
+  url: string | null;
+  text: string | null;
+  by: string | null;
+  score: number | null;
+  time: string | null;
+  commentCount: number | null;
+  kids: number[];
+  parent: number | null;
+  hnUrl: string;
+}
+interface HackerNewsSearchHit {
+  id: number;
+  title: string;
+  url: string | null;
+  author: string | null;
+  points: number | null;
+  commentCount: number | null;
+  createdAt: string | null;
+  hnUrl: string;
+}
+interface HackerNewsTopStoriesArgs {
+  list?: "top" | "new" | "best" | "ask" | "show" | "job";
+  limit?: number;
+}
+
+  /**
+   * Hacker News (news.ycombinator.com) — the current top / new / best / Ask HN / Show HN / job
+   * stories with title, link, points and comment count, one item (story or comment) by id, and
+   * keyword search over every HN story, through HN's own public API.
+   */
+  interface Unit {
+    /**
+     * The stories on the Hacker News front page right now, in rank order — title, link, points,
+     * author, comment count and the HN discussion url. `list` picks top (default), new, best, ask,
+     * show or job; `limit` is 1-30, default 10. Example: topStories({ limit: 5 }).
+     */
+    topStories(args?: HackerNewsTopStoriesArgs): Promise<HackerNewsItem[]>;
+
+    /**
+     * One Hacker News item — a story, comment, job or poll — by its numeric id or
+     * news.ycombinator.com/item?id= url. `kids` holds the ids of its direct replies, so a thread
+     * is read by calling getItem on them. THROWS on an id HN has no item for. Example:
+     * getItem(8863).
+     */
+    getItem(id: number): Promise<HackerNewsItem>;
+
+    /**
+     * Keyword search over every Hacker News story, through HN's own search (hn.algolia.com) — up
+     * to 20 hits ranked by relevance with title, link, points, comment count and date. Returns []
+     * on no match. Example: search("rust").
+     */
+    search(query: string): Promise<HackerNewsSearchHit[]>;
   }
 }
 
@@ -56445,6 +56552,7 @@ interface BowmarkProviders {
   greatlakesbrewing: BowmarkProvider_greatlakesbrewing.Unit;
   greatlakesdentaltech: BowmarkProvider_greatlakesdentaltech.Unit;
   gst_india: BowmarkProvider_gst_india.Unit;
+  hackernews: BowmarkProvider_hackernews.Unit;
   hamptonwaterwine: BowmarkProvider_hamptonwaterwine.Unit;
   handypro: BowmarkProvider_handypro.Unit;
   hansons: BowmarkProvider_hansons.Unit;

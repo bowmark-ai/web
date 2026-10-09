@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a81f928a8d38e8cfe8af12abd40915ee71f3a0a76375572606e16420fedb8a80
-# 82 capabilities, 556 providers, 1943 typed functions, 20 refused.
+# Manifest version: a49fd0054fb6c77cf12744177fc0301fa56a91dad80c8431ed03accd69e684b9
+# 82 capabilities, 557 providers, 1948 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7246,6 +7246,10 @@ class Prv_businessinsider_com_BusinessInsiderListedArticle_Out(TypedDict):
     title: str
     url: str
 
+class Prv_businessinsider_com_GetAuthorArticlesArgs_In(TypedDict):
+    author: str
+    limit: NotRequired[float]
+
 class Prv_businessinsider_com_GetArticleArgs_In(TypedDict):
     url: str
 
@@ -10455,6 +10459,26 @@ class Prv_duckduckgo_DuckDuckGoWebResult_Out(TypedDict):
     displayUrl: str
     snippet: str
     date: str | None
+
+class Prv_duckduckgo_SearchVideosArgs_In(TypedDict):
+    query: str
+    cursor: NotRequired[str]
+
+class Prv_duckduckgo_SearchVideosResult_Out(TypedDict):
+    query: str
+    results: list[Prv_duckduckgo_DuckDuckGoVideo_Out]
+    next: str | None
+
+class Prv_duckduckgo_DuckDuckGoVideo_Out(TypedDict):
+    title: str
+    url: str
+    description: str
+    duration: str | None
+    publisher: str | None
+    uploader: str | None
+    published: str | None
+    viewCount: float | None
+    thumbnail: str | None
 
 class Prv_dumpsters_DumpstersGetQuoteArgs_In(TypedDict):
     address: str
@@ -14274,6 +14298,34 @@ class Prv_gst_india_gst_indiaRow_Out(TypedDict):
     taxpayerType: NotRequired[str]
     address: NotRequired[str]
     warnings: list[str]
+
+class Prv_hackernews_HackerNewsTopStoriesArgs_In(TypedDict):
+    list: NotRequired[Literal["top"] | Literal["new"] | Literal["best"] | Literal["ask"] | Literal["show"] | Literal["job"]]
+    limit: NotRequired[float]
+
+class Prv_hackernews_HackerNewsItem_Out(TypedDict):
+    id: float
+    type: str
+    title: str | None
+    url: str | None
+    text: str | None
+    by: str | None
+    score: float | None
+    time: str | None
+    commentCount: float | None
+    kids: list[float]
+    parent: float | None
+    hnUrl: str
+
+class Prv_hackernews_HackerNewsSearchHit_Out(TypedDict):
+    id: float
+    title: str
+    url: str | None
+    author: str | None
+    points: float | None
+    commentCount: float | None
+    createdAt: str | None
+    hnUrl: str
 
 class Prv_hamptonwaterwine_HamptonWaterNearbyRetailers_Out(TypedDict):
     zip: str
@@ -35974,6 +36026,11 @@ class Prv_businessinsider_com(Protocol):
         newest-first as the site orders its grid.
         """
 
+    async def getAuthorArticles(self, args: Prv_businessinsider_com_GetAuthorArticlesArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderListedArticle_Out]:
+        """Lists articles by a byline author slug, title and URL per article, newest-first as the
+        site orders its grid.
+        """
+
     async def getArticle(self, args: Prv_businessinsider_com_GetArticleArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderArticleRecord_Out:
         """Reads one businessinsider.com article's full text and metadata (headline, author,
         section, dates, body, free/paywalled) off its page's own NewsArticle JSON-LD record,
@@ -38139,6 +38196,13 @@ class Prv_duckduckgo(Protocol):
         snippet and a date when it shows one — about ten per page. Optional `region` ("us-en",
         "uk-en", "wt-wt"…), `safeSearch` and `time` filters; pass the returned `next` back as
         `cursor` for the following page.
+        """
+
+    async def searchVideos(self, args: Prv_duckduckgo_SearchVideosArgs_In, /) -> Prv_duckduckgo_SearchVideosResult_Out:
+        """Searches DuckDuckGo's Videos vertical and returns each hit's title, page URL (usually
+        YouTube), description, duration, publisher, uploader, publish date, view count and
+        thumbnail — about 60 per page. Pass the returned `next` back as `cursor` for the
+        following page.
         """
 
 class Prv_dumpsters(Protocol):
@@ -40922,6 +40986,32 @@ class Prv_gst_india(Protocol):
         """Returns the GSTIN holder's legal name, registration status (active/cancelled/suspended),
         state, trade name, registration date and address. A well-formed GSTIN the registry has
         no record of comes back with status "unknown" and a warning.
+        """
+
+class Prv_hackernews(Protocol):
+    """Hacker News (news.ycombinator.com) — the current top / new / best / Ask HN / Show HN /
+    job stories with title, link, points and comment count, one item (story or comment) by
+    id, and keyword search over every HN story, through HN's own public API.
+    """
+
+    async def topStories(self, args: Prv_hackernews_HackerNewsTopStoriesArgs_In | None = None, /) -> list[Prv_hackernews_HackerNewsItem_Out]:
+        """The stories on the Hacker News front page right now, in rank order — title, link,
+        points, author, comment count and the HN discussion url. `list` picks top (default),
+        new, best, ask, show or job; `limit` is 1-30, default 10. Example: topStories({ limit: 5
+        }).
+        """
+
+    async def getItem(self, id: float, /) -> Prv_hackernews_HackerNewsItem_Out:
+        """One Hacker News item — a story, comment, job or poll — by its numeric id or
+        news.ycombinator.com/item?id= url. `kids` holds the ids of its direct replies, so a
+        thread is read by calling getItem on them. THROWS on an id HN has no item for. Example:
+        getItem(8863).
+        """
+
+    async def search(self, query: str, /) -> list[Prv_hackernews_HackerNewsSearchHit_Out]:
+        """Keyword search over every Hacker News story, through HN's own search (hn.algolia.com) —
+        up to 20 hits ranked by relevance with title, link, points, comment count and date.
+        Returns [] on no match. Example: search("rust").
         """
 
 class Prv_hamptonwaterwine(Protocol):
@@ -51631,6 +51721,7 @@ class BowmarkProviders(Protocol):
     greatlakesbrewing: Prv_greatlakesbrewing
     greatlakesdentaltech: Prv_greatlakesdentaltech
     gst_india: Prv_gst_india
+    hackernews: Prv_hackernews
     hamptonwaterwine: Prv_hamptonwaterwine
     handypro: Prv_handypro
     hansons: Prv_hansons

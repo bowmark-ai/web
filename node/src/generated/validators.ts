@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a81f928a8d38e8cfe8af12abd40915ee71f3a0a76375572606e16420fedb8a80
-// 1943 checked, 20 unchecked.
+// Manifest version: a49fd0054fb6c77cf12744177fc0301fa56a91dad80c8431ed03accd69e684b9
+// 1948 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a81f928a8d38e8cfe8af12abd40915ee71f3a0a76375572606e16420fedb8a80",
+  "version": "a49fd0054fb6c77cf12744177fc0301fa56a91dad80c8431ed03accd69e684b9",
   "units": {
     "address_validation": {
       "defs": {
@@ -13658,6 +13658,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetAuthorArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "author",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListArticlesBySectionArgs": {
           "k": "object",
           "props": [
@@ -13699,6 +13718,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListArticlesBySectionArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAuthorArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAuthorArticlesArgs"
             },
             "optional": false
           }
@@ -19101,6 +19130,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SearchVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -19120,6 +19168,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "DuckDuckGoSearchWebArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchVideosArgs"
             },
             "optional": false
           }
@@ -26707,6 +26765,85 @@ export const VALIDATORS: ValidatorTable = {
         "lookup": [
           {
             "name": "gstin",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.hackernews": {
+      "defs": {
+        "HackerNewsTopStoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "list",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "top"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "new"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "best"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ask"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "show"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "job"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "topStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HackerNewsTopStoriesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getItem": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

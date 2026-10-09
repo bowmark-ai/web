@@ -2101,7 +2101,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.searchStorms` | nhc.noaa.gov | Find a storm, current or historical, by name and optional year and basin, returning… | ⚪ |
 | `nintendo.browseCategory` | www.nintendo.com | Browse a whole department or platform family with no keyword — "what's in Nintendo… | ⚪ |
 | `nintendo.getMyNintendoRewardsBalance` | www.nintendo.com | Read the signed-in caller's My Nintendo Points balance and reward history — the… | ⚪ |
-| `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | ⚪ |
+| `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | 🟢 |
 | `nintendo.getSupportArticle` | www.nintendo.com | Read one support article in full — title, body steps, and any linked follow-ups — the… | ⚪ |
 | `nintendo.listCategories` | www.nintendo.com | List the store's own departments and platform families — Games, Nintendo Switch… | ⚪ |
 | `nintendo.listDeals` | www.nintendo.com | Today's discounted games and hardware on the Nintendo store — the read behind "what's… | ⚪ |
