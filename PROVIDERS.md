@@ -2004,7 +2004,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_outlook.getMail` | outlook.live.com | TODO — what getMail does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.listContacts` | outlook.live.com | TODO — what listContacts does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.listMailFolders` | outlook.live.com | Lists the mail folders (Inbox, Sent, Drafts, etc.) available to the signed-in user… | 🟢 |
-| `microsoft_outlook.readMailFolder` | outlook.live.com | TODO — what readMailFolder does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.readMailFolder` | outlook.live.com | Reads the mail items in a specific folder, returning subject, sender, date, and… | 🟢 |
 | `microsoft_outlook.sendMail` | outlook.live.com | TODO — what sendMail does on the live site, and what interaction it performs. | ⚪ |
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
@@ -3127,7 +3127,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.setPreferredStore` | walmart.com | Sets the shopper's store, so stock, prices and pickup slots answer for that store. | ⚪ |
 | `walmart.startReturn` | walmart.com | Starts a return for an item in a delivered order. | ⚪ |
 | `walmart.suggestSearches` | walmart.com | Autocomplete for the search bar — what the site suggests as you type a partial word… | 🟢 |
-| `walmart.trackOrder` | walmart.com | Looks up shipment/delivery status for a guest order by order number plus the email or… | ⚪ |
+| `walmart.trackOrder` | walmart.com | Looks up shipment/delivery status for a guest order by order number plus the email… | ⚪ |
 | `walmart.updateCartItem` | walmart.com | Changes the quantity of an item already in the cart. | ⚪ |
 | `walmart.updateProfile` | walmart.com | Edits the signed-in shopper's profile name. | ⚪ |
 | `waterfurnace.estimateGeothermalSavings` | waterfurnace.com | Runs the Savings Calculator's real backend computation (the same one the site's 3-step… | 🟢 |

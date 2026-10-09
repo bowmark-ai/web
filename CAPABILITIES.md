@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 127 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 129 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -75,6 +75,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `local_database_gui.browse` | Parses the HTML of a local database GUI page (e.g. the caller's own agent read it off… | 0 | 🟢 |
 | `local_html_preview.render` | Parses supplied HTML (a local file's contents, or a fragment) and returns a structured… | 0 | 🟢 |
 | `mac_trade_in.estimate` | Get the Apple Trade In credit value for a Mac model, with optional specs. | 1 | 🟢 |
+| `mandi_prices_india.findMandis` | Finds Indian mandis (APMC markets) by name or district, best match first. | 0 | 🟢 |
+| `mandi_prices_india.prices` | Returns the latest min/max/modal ₹/quintal prices at a named mandi, optionally for one… | 0 | 🟢 |
 | `mcp_registry.search` | Lists or searches the official MCP server registry (registry.modelcontextprotocol.io)… | 1 | 🟢 |
 | `municipal_recreation_fees.getFeeSchedule` | Retrieves annual recreation centre membership fees (adult and family passes) for a… | 1 | 🟢 |
 | `music.getTrack` | Reads ONE track you already have a URL for — a public track link, or a `Track` that… | 1 | 🟢 |
