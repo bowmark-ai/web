@@ -924,7 +924,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.searchImages` | duckduckgo.com | Search DuckDuckGo Images and return each hit's thumbnail, full-size image URL, the… | ⚪ |
 | `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | 🟢 |
 | `duckduckgo.searchPlaces` | duckduckgo.com | Find places on DuckDuckGo Maps by what and where ("coffee in Seattle") — name… | ⚪ |
-| `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | ⚪ |
+| `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | 🟢 |
 | `duckduckgo.searchWeb` | duckduckgo.com | Search the web the way duckduckgo.com's own search box does and return the ranked… | 🟢 |
 | `duckduckgo.setPrivateDuckAddressActive` | duckduckgo.com | Turn one of the signed-in caller's private @duck.com addresses off (stop forwarding)… | ⚪ |
 | `duckduckgo.suggestQueries` | duckduckgo.com | Return DuckDuckGo's search-box autocomplete suggestions for a partial query. | ⚪ |
