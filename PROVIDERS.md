@@ -1988,7 +1988,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_onedrive.createFolder` | onedrive.live.com | TODO — what createFolder does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_onedrive.deleteFile` | onedrive.live.com | TODO — what deleteFile does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_onedrive.getFile` | onedrive.live.com | TODO — what getFile does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_onedrive.listFiles` | onedrive.live.com | Lists files and folders in the user's OneDrive root or a specified path. | ⚪ |
+| `microsoft_onedrive.listFiles` | onedrive.live.com | Lists files and folders in the user's OneDrive root or a specified path. | 🟢 |
 | `microsoft_onedrive.listFolders` | onedrive.live.com | TODO — what listFolders does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_onedrive.shareFile` | onedrive.live.com | TODO — what shareFile does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_onedrive.uploadFile` | onedrive.live.com | TODO — what uploadFile does on the live site, and what interaction it performs. | ⚪ |
