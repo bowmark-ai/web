@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3309 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3310 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1980,7 +1980,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
-| `microsoft_365.createDocument` | TODO example.com | TODO — what createDocument does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_365.createDocument` | TODO example.com | Creates a new document in the user's Microsoft 365 OneDrive with the specified name… | 🟢 |
 | `microsoft_365.deleteDocument` | TODO example.com | TODO — what deleteDocument does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_365.getDocument` | TODO example.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
 | `microsoft_365.listDocuments` | TODO example.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
@@ -2000,6 +2000,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_outlook.getContact` | outlook.live.com | TODO — what getContact does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.getMail` | outlook.live.com | TODO — what getMail does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.listContacts` | outlook.live.com | TODO — what listContacts does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.listMailFolders` | outlook.live.com | Lists the mail folders (Inbox, Sent, Drafts, etc.) available to the signed-in user… | 🟢 |
 | `microsoft_outlook.readMailFolder` | outlook.live.com | TODO — what readMailFolder does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.sendMail` | outlook.live.com | TODO — what sendMail does on the live site, and what interaction it performs. | ⚪ |
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |

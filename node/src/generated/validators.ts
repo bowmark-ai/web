@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b9e4cf2561bb9a64d5ce9989f51e867e9c5b7ad08a4ff710a8cf9bcda1727499
-// 1941 checked, 20 unchecked.
+// Manifest version: e12c72b401f906566290b710ecda5de8c3e695dd167dbd9795d1576c2ab81f20
+// 1942 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b9e4cf2561bb9a64d5ce9989f51e867e9c5b7ad08a4ff710a8cf9bcda1727499",
+  "version": "e12c72b401f906566290b710ecda5de8c3e695dd167dbd9795d1576c2ab81f20",
   "units": {
     "address_validation": {
       "defs": {
@@ -35652,6 +35652,50 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.microsoft_365": {
       "defs": {
+        "CreateDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "parentFolderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "fileType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "word"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "excel"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "powerpoint"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "onenote"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetDocumentArgs": {
           "k": "object",
           "props": [
@@ -35694,6 +35738,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetDocumentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "createDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CreateDocumentArgs"
             },
             "optional": false
           }

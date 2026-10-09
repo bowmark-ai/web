@@ -52,7 +52,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `flights.getFlightStatus` | A flight's live status, checked directly with the airline that flies it. | 5 | 🟢 |
 | `flights.search` | Searches for flights matching the query and returns `{ flights, warnings }`. `flights`… | 5 | 🟢 |
 | `fuel_card_fees.estimateMonthly` | Monthly card fees for a fleet of `cards` drivers/cards, per issuer, from each issuer's… | 1 | 🟢 |
-| `furnished_apartment_rental.search` | Search for furnished apartments in the specified city across multiple providers. | 1 | 🟢 |
+| `furnished_apartment_rental.search` | Search for furnished apartments in the specified city. | 1 | 🟢 |
 | `game_soundtrack_composer_credits.getCredits` | Looks up one soundtrack release-group by id (from search()) and returns its full… | 0 | 🟢 |
 | `game_soundtrack_composer_credits.search` | Searches MusicBrainz for soundtrack releases matching a game title and returns each… | 0 | 🟢 |
 | `gas_prices.search` | Returns cheapest gas stations near a US ZIP code, sorted by price ascending. fuelType… | 1 | 🟢 |

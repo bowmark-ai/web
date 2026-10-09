@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b9e4cf2561bb9a64d5ce9989f51e867e9c5b7ad08a4ff710a8cf9bcda1727499
-// 82 capabilities, 555 providers, 1959 typed functions, 20 refused.
+// Manifest version: e12c72b401f906566290b710ecda5de8c3e695dd167dbd9795d1576c2ab81f20
+// 82 capabilities, 555 providers, 1960 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35148,6 +35148,12 @@ interface GetDocumentArgs {
   itemId: string;
 }
 
+interface CreateDocumentArgs {
+  name: string;
+  parentFolderId?: string;
+  fileType?: "word" | "excel" | "powerpoint" | "onenote";
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /**
@@ -35163,6 +35169,13 @@ interface GetDocumentArgs {
      * information, and type.
      */
     getDocument(args: GetDocumentArgs): Promise<microsoft_365Document>;
+
+    /**
+     * Creates a new document in the user's Microsoft 365 OneDrive with the specified name and
+     * optional type (Word, Excel, PowerPoint, or OneNote). Returns the metadata of the newly
+     * created document.
+     */
+    createDocument(args: CreateDocumentArgs): Promise<microsoft_365Document>;
   }
 }
 

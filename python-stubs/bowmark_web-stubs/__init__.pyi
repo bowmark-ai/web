@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b9e4cf2561bb9a64d5ce9989f51e867e9c5b7ad08a4ff710a8cf9bcda1727499
-# 82 capabilities, 555 providers, 1941 typed functions, 20 refused.
+# Manifest version: e12c72b401f906566290b710ecda5de8c3e695dd167dbd9795d1576c2ab81f20
+# 82 capabilities, 555 providers, 1942 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19115,6 +19115,11 @@ class Prv_microsoft_365_microsoft_365Document_Out_folder_Out(TypedDict):
 
 class Prv_microsoft_365_GetDocumentArgs_In(TypedDict):
     itemId: str
+
+class Prv_microsoft_365_CreateDocumentArgs_In(TypedDict):
+    name: str
+    parentFolderId: NotRequired[str]
+    fileType: NotRequired[Literal["word"] | Literal["excel"] | Literal["powerpoint"] | Literal["onenote"]]
 
 class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
     path: NotRequired[str]
@@ -44011,6 +44016,12 @@ class Prv_microsoft_365(Protocol):
         """Retrieves metadata for a specific document or folder in the user's Microsoft 365
         OneDrive by item ID. Returns the document's properties including name, size, last
         modified date, sharing information, and type.
+        """
+
+    async def createDocument(self, args: Prv_microsoft_365_CreateDocumentArgs_In, /) -> Prv_microsoft_365_microsoft_365Document_Out:
+        """Creates a new document in the user's Microsoft 365 OneDrive with the specified name and
+        optional type (Word, Excel, PowerPoint, or OneNote). Returns the metadata of the newly
+        created document.
         """
 
 class Prv_microsoft_onedrive(Protocol):
