@@ -1675,7 +1675,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
 | `instagram.getSavedPosts` | instagram.com | Lists the signed-in user's saved posts, grouped by collection. | ⚪ |
-| `instagram.getStories` | instagram.com | Lists stories from accounts the signed-in user follows, with expiration times. | ⚪ |
+| `instagram.getStories` | instagram.com | Lists stories from accounts the signed-in user follows, with expiration times. | 🟢 |
 | `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | 🟢 |
 | `instagram.likePost` | instagram.com | Likes a post by its id or shortcode. | ⚪ |
 | `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in user's feed. | ⚪ |
@@ -3156,7 +3156,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getObservations` | weather.com | Current observations from weather stations — actual measured conditions from the field. | ⚪ |
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
 | `weather_channel.getPollenHealth` | weather.com | Cognitive/health indices related to pollen and air quality — allergy forecasts, cold &… | ⚪ |
-| `weather_channel.getRadarTiles` | weather.com | Radar imagery tiles for map overlays — precipitation radar mosaic for a region. | 🟡 |
+| `weather_channel.getRadarTiles` | weather.com | Radar imagery tiles for map overlays — precipitation radar mosaic for a region. | ⚪ |
 | `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | 🟢 |
 | `weather_channel.getWeeklyAd` | weather.com | Weekly promotional content and special notices — featured forecasts or seasonal alerts. | ⚪ |
 | `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | 🟢 |
