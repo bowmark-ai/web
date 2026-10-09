@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e12c72b401f906566290b710ecda5de8c3e695dd167dbd9795d1576c2ab81f20
-# 82 capabilities, 555 providers, 1942 typed functions, 20 refused.
+# Manifest version: a81f928a8d38e8cfe8af12abd40915ee71f3a0a76375572606e16420fedb8a80
+# 82 capabilities, 556 providers, 1943 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1203,14 +1203,13 @@ class Cap_furnished_apartment_rental_furnished_apartment_rentalResult_Out(TypedD
 class Cap_furnished_apartment_rental_FurnishedApartmentListing_Out(TypedDict):
     id: str
     title: str
-    address: str
     city: str
     country: str
     pricePerMonth: float | None
     currency: str
+    rooms: float | None
     bedrooms: float | None
     squareMeters: float | None
-    availableFrom: str | None
     furnished: bool
     url: str
 
@@ -19132,6 +19131,11 @@ class Prv_microsoft_onedrive_microsoft_onedriveRow_Out(TypedDict):
     lastModifiedDateTime: str
     isFolder: NotRequired[bool]
 
+class Prv_microsoft_outlook_microsoft_outlookFolder_Out(TypedDict):
+    id: str
+    name: str
+    unreadCount: NotRequired[float]
+
 class Prv_millisaraylar_MillisaraylarPalace_Out(TypedDict):
     id: str
     name: str
@@ -29961,14 +29965,13 @@ class Prv_wunderflats_search_args_In(TypedDict):
 class Prv_wunderflats_wunderflatsListing_Out(TypedDict):
     id: str
     title: str
-    address: str
     city: str
     country: str
     pricePerMonth: float | None
     currency: str
+    rooms: float | None
     bedrooms: float | None
     squareMeters: float | None
-    availableFrom: str | None
     furnished: bool
     url: str
 
@@ -31851,10 +31854,12 @@ class Cap_fuel_card_fees(Protocol):
         """
 
 class Cap_furnished_apartment_rental(Protocol):
-    """Find furnished apartments available for rent, furnished by multiple providers."""
+    """Find furnished apartments available for rent."""
 
     async def search(self, args: Cap_furnished_apartment_rental_search_args_In, /) -> Cap_furnished_apartment_rental_furnished_apartment_rentalResult_Out:
-        """Search for furnished apartments in the specified city across multiple providers."""
+        """Search for furnished apartments in the specified city. Backed by Wunderflats today; no
+        address or availability date is published on its search page.
+        """
 
 class Cap_game_soundtrack_composer_credits(Protocol):
     """Looks up a video game's soundtrack release and who composed it, via MusicBrainz's own
@@ -44030,6 +44035,18 @@ class Prv_microsoft_onedrive(Protocol):
     async def listFiles(self, args: Prv_microsoft_onedrive_listFiles_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_onedrive_microsoft_onedriveRow_Out]:
         """Lists files and folders in the user's OneDrive root or a specified path."""
 
+class Prv_microsoft_outlook(Protocol):
+    """Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
+    (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a
+    personal inbox is identity-sensitive. Mail, calendar and contacts reads/writes are
+    declared but not built yet.
+    """
+
+    async def listMailFolders(self, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_outlook_microsoft_outlookFolder_Out]:
+        """Lists the mail folders (Inbox, Sent, Drafts, etc.) available to the signed-in user, with
+        optional unread counts.
+        """
+
 class Prv_millisaraylar(Protocol):
     """Türkiye's Presidential Administration of National Palaces — the palace/kiosk/pavilion
     list, closed days and ticket-office hours, and domestic/domestic-student/foreign ticket
@@ -50509,7 +50526,9 @@ class Prv_wunderflats(Protocol):
     """Search for furnished apartments across German cities."""
 
     async def search(self, args: Prv_wunderflats_search_args_In, /) -> list[Prv_wunderflats_wunderflatsListing_Out]:
-        """Runs the search and returns the server-rendered listing cards for a city."""
+        """Runs the search and returns the server-rendered listing cards for a city — price, room
+        count and size; no address or availability date is published on this page.
+        """
 
 class Prv_x(Protocol):
     """Read public user timelines and post data from X (Twitter)."""
@@ -51707,6 +51726,7 @@ class BowmarkProviders(Protocol):
     microcenter: Prv_microcenter
     microsoft_365: Prv_microsoft_365
     microsoft_onedrive: Prv_microsoft_onedrive
+    microsoft_outlook: Prv_microsoft_outlook
     millisaraylar: Prv_millisaraylar
     minimax: Prv_minimax
     minted: Prv_minted

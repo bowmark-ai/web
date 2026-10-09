@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e12c72b401f906566290b710ecda5de8c3e695dd167dbd9795d1576c2ab81f20
-// 82 capabilities, 555 providers, 1960 typed functions, 20 refused.
+// Manifest version: a81f928a8d38e8cfe8af12abd40915ee71f3a0a76375572606e16420fedb8a80
+// 82 capabilities, 556 providers, 1961 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1821,14 +1821,13 @@ declare namespace BowmarkCapability_furnished_apartment_rental {
 interface FurnishedApartmentListing {
   id: string;
   title: string;
-  address: string;
   city: string;
   country: string;
   pricePerMonth: number | null;
   currency: string;
-  bedrooms: number | null;
+  rooms: number | null;      // the provider's own room count ("1 Room" on Wunderflats = a studio)
+  bedrooms: number | null;   // derived: 0 for a studio, otherwise rooms minus the living room
   squareMeters: number | null;
-  availableFrom: string | null;
   furnished: boolean;
   url: string;
 }
@@ -1844,9 +1843,12 @@ type CallOptions = {
                        // NAMED in warnings — never silently absent
 }
 
-  /** Find furnished apartments available for rent, furnished by multiple providers. */
+  /** Find furnished apartments available for rent. */
   interface Unit {
-    /** Search for furnished apartments in the specified city across multiple providers. */
+    /**
+     * Search for furnished apartments in the specified city. Backed by Wunderflats today; no
+     * address or availability date is published on its search page.
+     */
     search(args: { city: string }): Promise<furnished_apartment_rentalResult>;
   }
 }
@@ -35197,6 +35199,33 @@ interface microsoft_onedriveRow {
   }
 }
 
+declare namespace BowmarkProvider_microsoft_outlook {
+  // ── Outlook — the unit's own declarations, verbatim ──
+interface microsoft_outlookFolder {
+  id: string;
+  name: string;
+  unreadCount?: number;
+}
+
+interface microsoft_outlookRow {
+  id: string;
+}
+
+  /**
+   * Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
+   * (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a personal
+   * inbox is identity-sensitive. Mail, calendar and contacts reads/writes are declared but not
+   * built yet.
+   */
+  interface Unit {
+    /**
+     * Lists the mail folders (Inbox, Sent, Drafts, etc.) available to the signed-in user, with
+     * optional unread counts.
+     */
+    listMailFolders(opts?: ConnectionOption): Promise<microsoft_outlookFolder[]>;
+  }
+}
+
 declare namespace BowmarkProvider_millisaraylar {
   // ── millisaraylar.gov.tr — Türkiye Presidential Administration of National Palaces — the unit's own declarations, verbatim ──
 interface MillisaraylarPalace {
@@ -53087,27 +53116,31 @@ interface WinestylesInventorySearch {
 declare namespace BowmarkProvider_wunderflats {
   // ── Wunderflats — the unit's own declarations, verbatim ──
 interface SearchArgs {
-  city: string;
+  city: string; // the city's common short or English name works too — "Frankfurt",
+                 // "Munich", "Cologne" are all resolved even when typed as
+                 // "Frankfurt am Main", "München", "Köln"
 }
 
 interface wunderflatsListing {
   id: string;
   title: string;
-  address: string;
   city: string;
   country: string;
   pricePerMonth: number | null;
   currency: string;
-  bedrooms: number | null;
+  rooms: number | null;      // the site's own room count ("1 Room" = a studio)
+  bedrooms: number | null;   // derived from rooms: 0 for a studio, rooms - 1 otherwise
   squareMeters: number | null;
-  availableFrom: string | null;
   furnished: boolean;
   url: string;
 }
 
   /** Search for furnished apartments across German cities. */
   interface Unit {
-    /** Runs the search and returns the server-rendered listing cards for a city. */
+    /**
+     * Runs the search and returns the server-rendered listing cards for a city — price, room count
+     * and size; no address or availability date is published on this page.
+     */
     search(args: { city: string }): Promise<wunderflatsListing[]>;
   }
 }
@@ -56507,6 +56540,7 @@ interface BowmarkProviders {
   microcenter: BowmarkProvider_microcenter.Unit;
   microsoft_365: BowmarkProvider_microsoft_365.Unit;
   microsoft_onedrive: BowmarkProvider_microsoft_onedrive.Unit;
+  microsoft_outlook: BowmarkProvider_microsoft_outlook.Unit;
   millisaraylar: BowmarkProvider_millisaraylar.Unit;
   minimax: BowmarkProvider_minimax.Unit;
   minted: BowmarkProvider_minted.Unit;

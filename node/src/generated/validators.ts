@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e12c72b401f906566290b710ecda5de8c3e695dd167dbd9795d1576c2ab81f20
-// 1942 checked, 20 unchecked.
+// Manifest version: a81f928a8d38e8cfe8af12abd40915ee71f3a0a76375572606e16420fedb8a80
+// 1943 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e12c72b401f906566290b710ecda5de8c3e695dd167dbd9795d1576c2ab81f20",
+  "version": "a81f928a8d38e8cfe8af12abd40915ee71f3a0a76375572606e16420fedb8a80",
   "units": {
     "address_validation": {
       "defs": {
@@ -35774,6 +35774,29 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.microsoft_outlook": {
+      "defs": {},
+      "functions": {
+        "listMailFolders": [
           {
             "name": "opts",
             "schema": {
