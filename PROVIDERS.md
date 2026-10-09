@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3305 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3306 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -960,6 +960,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `elase.listLocations` | elase.com | Reads the live list of every Elase Med Spa location off the site's own /locations/… | 🟢 |
 | `elase.listServices` | elase.com | Reads one location's real, live service catalog (name, description, price, duration)… | 🟢 |
 | `elevenlabs.cloneVoice` | elevenlabs.io | Creates a new ElevenLabs voice cloned from one or more caller-supplied audio sample… | 🟢 |
+| `elevenlabs.listVoices` | elevenlabs.io | Lists the voices in the caller's ElevenLabs account, or finds an existing voice by… | 🟢 |
 | `elevenlabs.synthesize` | elevenlabs.io | Converts text into spoken audio (MP3 by default) using an ElevenLabs voice — the… | 🟢 |
 | `embroker.getBusinessInsuranceQuote` | embroker.com | Returns a priced business-insurance coverage package for a company's profile… | ⚪ |
 | `embroker.getQuoteEntryPoint` | embroker.com | Returns the live entry URL for Embroker's self-serve quote wizard for one coverage… | 🟢 |
