@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a4dba86db13bccd48759e9a001e835fa910435d483989bd1e311b8c2f76666db
-# 82 capabilities, 558 providers, 1950 typed functions, 20 refused.
+# Manifest version: 7866c950471e0b318e9f9fe55b96bf16fd1a41c97dbfc3117b627c5fd304da52
+# 83 capabilities, 558 providers, 1953 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1625,6 +1625,38 @@ class Cap_mac_trade_in_MacTradeInEstimate_Out(TypedDict):
     condition: NotRequired[Literal["like_new"] | Literal["good"] | Literal["fair"] | Literal["broken"]]
     appleTradeInValue: float | None
     warnings: list[str]
+
+class Cap_mandi_prices_india_FindMandisResult_Out(TypedDict):
+    mandis: list[Cap_mandi_prices_india_Mandi_Out]
+    warnings: list[str]
+
+class Cap_mandi_prices_india_Mandi_Out(TypedDict):
+    name: str
+    slug: str
+    state: str
+    district: str
+    url: str
+
+class Cap_mandi_prices_india_MandiPricesArgs_In(TypedDict):
+    mandi: str
+    state: NotRequired[str]
+    commodity: NotRequired[str]
+
+class Cap_mandi_prices_india_MandiPricesResult_Out(TypedDict):
+    mandi: Cap_mandi_prices_india_Mandi_Out | None
+    prices: list[Cap_mandi_prices_india_MandiPrice_Out]
+    source: str
+    warnings: list[str]
+
+class Cap_mandi_prices_india_MandiPrice_Out(TypedDict):
+    commodity: str
+    category: str | None
+    modalPrice: float | None
+    minPrice: float | None
+    maxPrice: float | None
+    unit: Literal["INR/quintal"]
+    priceDate: str | None
+    arrivals: str | None
 
 class Cap_mcp_registry_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -19191,6 +19223,18 @@ class Prv_microsoft_outlook_microsoft_outlookFolder_Out(TypedDict):
     name: str
     unreadCount: NotRequired[float]
 
+Prv_microsoft_outlook_microsoft_outlookMailItem_Out = TypedDict(
+    "Prv_microsoft_outlook_microsoft_outlookMailItem_Out",
+    {
+    "id": str,
+    "subject": str,
+    "from": str,
+    "receivedDateTime": str,
+    "preview": NotRequired[str],
+    "isRead": NotRequired[bool],
+    },
+)
+
 class Prv_millisaraylar_MillisaraylarPalace_Out(TypedDict):
     id: str
     name: str
@@ -32290,6 +32334,19 @@ class Cap_mac_trade_in(Protocol):
     async def estimate(self, model: str, options: Cap_mac_trade_in_estimate_options_In | None = None, /) -> Cap_mac_trade_in_MacTradeInEstimate_Out:
         """Get the Apple Trade In credit value for a Mac model, with optional specs."""
 
+class Cap_mandi_prices_india(Protocol):
+    """Get today's wholesale mandi (APMC) prices in India — min, max and modal ₹/quintal per
+    commodity, with the reported date — for any named mandi.
+    """
+
+    async def findMandis(self, query: str, state: str | None = None, /) -> Cap_mandi_prices_india_FindMandisResult_Out:
+        """Finds Indian mandis (APMC markets) by name or district, best match first."""
+
+    async def prices(self, args: Cap_mandi_prices_india_MandiPricesArgs_In, /) -> Cap_mandi_prices_india_MandiPricesResult_Out:
+        """Returns the latest min/max/modal ₹/quintal prices at a named mandi, optionally for one
+        commodity.
+        """
+
 class Cap_mcp_registry(Protocol):
     """Search or browse the official Model Context Protocol server registry — find a published
     MCP server by name and get its install or connect URL.
@@ -44162,6 +44219,11 @@ class Prv_microsoft_outlook(Protocol):
         optional unread counts.
         """
 
+    async def readMailFolder(self, folderId: str | float, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_outlook_microsoft_outlookMailItem_Out]:
+        """Reads the mail items in a specific folder, returning subject, sender, date, and preview
+        for each message.
+        """
+
 class Prv_millisaraylar(Protocol):
     """Türkiye's Presidential Administration of National Palaces — the palace/kiosk/pavilion
     list, closed days and ticket-office hours, and domestic/domestic-student/foreign ticket
@@ -52115,6 +52177,7 @@ class Bowmark(Protocol):
     local_database_gui: Cap_local_database_gui
     local_html_preview: Cap_local_html_preview
     mac_trade_in: Cap_mac_trade_in
+    mandi_prices_india: Cap_mandi_prices_india
     mcp_registry: Cap_mcp_registry
     municipal_recreation_fees: Cap_municipal_recreation_fees
     music: Cap_music

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a4dba86db13bccd48759e9a001e835fa910435d483989bd1e311b8c2f76666db
-// 82 capabilities, 558 providers, 1968 typed functions, 20 refused.
+// Manifest version: 7866c950471e0b318e9f9fe55b96bf16fd1a41c97dbfc3117b627c5fd304da52
+// 83 capabilities, 558 providers, 1971 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2766,6 +2766,52 @@ interface MacTradeInEstimate {
   interface Unit {
     /** Get the Apple Trade In credit value for a Mac model, with optional specs. */
     estimate(model: string, options?: { chip?: string; storage?: string; ram?: string; condition?: string }): Promise<MacTradeInEstimate>;
+  }
+}
+
+declare namespace BowmarkCapability_mandi_prices_india {
+  // ── Mandi prices India — the unit's own declarations, verbatim ──
+interface Mandi { name: string; slug: string; state: string; district: string; url: string }
+
+interface MandiPrice {
+  commodity: string;
+  category: string | null;
+  modalPrice: number | null; // ₹ per quintal
+  minPrice: number | null;
+  maxPrice: number | null;
+  unit: "INR/quintal";
+  priceDate: string | null; // ISO; each commodity has its own and it can lag
+  arrivals: string | null;
+}
+
+interface MandiPricesArgs {
+  mandi: string;
+  state?: string;
+  commodity?: string;
+}
+
+interface FindMandisResult { mandis: Mandi[]; warnings: string[] }
+
+interface MandiPricesResult {
+  mandi: Mandi | null;
+  prices: MandiPrice[];
+  source: string;
+  warnings: string[];
+}
+
+  /**
+   * Get today's wholesale mandi (APMC) prices in India — min, max and modal ₹/quintal per
+   * commodity, with the reported date — for any named mandi.
+   */
+  interface Unit {
+    /** Finds Indian mandis (APMC markets) by name or district, best match first. */
+    findMandis(query: string, state?: string): Promise<FindMandisResult>;
+
+    /**
+     * Returns the latest min/max/modal ₹/quintal prices at a named mandi, optionally for one
+     * commodity.
+     */
+    prices(args: MandiPricesArgs): Promise<MandiPricesResult>;
   }
 }
 
@@ -35317,6 +35363,15 @@ interface microsoft_outlookFolder {
   unreadCount?: number;
 }
 
+interface microsoft_outlookMailItem {
+  id: string;
+  subject: string;
+  from: string;
+  receivedDateTime: string;
+  preview?: string;
+  isRead?: boolean;
+}
+
 interface microsoft_outlookRow {
   id: string;
 }
@@ -35333,6 +35388,12 @@ interface microsoft_outlookRow {
      * optional unread counts.
      */
     listMailFolders(opts?: ConnectionOption): Promise<microsoft_outlookFolder[]>;
+
+    /**
+     * Reads the mail items in a specific folder, returning subject, sender, date, and preview for
+     * each message.
+     */
+    readMailFolder(folderId: string | number, opts?: ConnectionOption): Promise<microsoft_outlookMailItem[]>;
   }
 }
 
@@ -106820,6 +106881,7 @@ interface BowmarkLibrary {
   local_database_gui: BowmarkCapability_local_database_gui.Unit;
   local_html_preview: BowmarkCapability_local_html_preview.Unit;
   mac_trade_in: BowmarkCapability_mac_trade_in.Unit;
+  mandi_prices_india: BowmarkCapability_mandi_prices_india.Unit;
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
   municipal_recreation_fees: BowmarkCapability_municipal_recreation_fees.Unit;
   music: BowmarkCapability_music.Unit;

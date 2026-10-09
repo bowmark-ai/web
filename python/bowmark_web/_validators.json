@@ -1,5 +1,5 @@
 {
-  "version": "a4dba86db13bccd48759e9a001e835fa910435d483989bd1e311b8c2f76666db",
+  "version": "7866c950471e0b318e9f9fe55b96bf16fd1a41c97dbfc3117b627c5fd304da52",
   "units": {
     "address_validation": {
       "defs": {
@@ -3069,6 +3069,64 @@
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "mandi_prices_india": {
+      "defs": {
+        "MandiPricesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "mandi",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "commodity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findMandis": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "state",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "prices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MandiPricesArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -35956,6 +36014,39 @@
       "defs": {},
       "functions": {
         "listMailFolders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "readMailFolder": [
+          {
+            "name": "folderId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
