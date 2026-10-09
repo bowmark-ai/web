@@ -2001,7 +2001,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_outlook.createContact` | outlook.live.com | TODO — what createContact does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.getCalendarEvents` | outlook.live.com | TODO — what getCalendarEvents does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.getContact` | outlook.live.com | TODO — what getContact does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.getMail` | outlook.live.com | TODO — what getMail does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.getMail` | outlook.live.com | Opens one mail item from readMailFolder's results and returns the full message —… | 🟢 |
 | `microsoft_outlook.listContacts` | outlook.live.com | TODO — what listContacts does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.listMailFolders` | outlook.live.com | Lists the mail folders (Inbox, Sent, Drafts, etc.) available to the signed-in user… | 🟢 |
 | `microsoft_outlook.readMailFolder` | outlook.live.com | Reads the mail items in a specific folder, returning subject, sender, date, and… | 🟢 |
