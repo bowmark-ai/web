@@ -1,5 +1,5 @@
 {
-  "version": "de4801a614459bb6cb2ff9f43d250410b750779a07115657d7b5870c8022fea1",
+  "version": "b9e4cf2561bb9a64d5ce9989f51e867e9c5b7ad08a4ff710a8cf9bcda1727499",
   "units": {
     "address_validation": {
       "defs": {
@@ -2822,6 +2822,20 @@
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "ip_asn_lookup": {
+      "defs": {},
+      "functions": {
+        "lookup": [
+          {
+            "name": "ip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -29824,6 +29838,20 @@
         ]
       }
     },
+    "providers.ipinfo": {
+      "defs": {},
+      "functions": {
+        "lookup": [
+          {
+            "name": "ip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.iproyal": {
       "defs": {
         "IproyalProductType": {
@@ -46569,6 +46597,25 @@
     },
     "providers.rei": {
       "defs": {
+        "ReiGetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ReiGetSkuArgs": {
           "k": "object",
           "props": [
@@ -46682,6 +46729,16 @@
             "schema": {
               "k": "ref",
               "name": "ReiGetSkuArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ReiGetProductArgs"
             },
             "optional": false
           }

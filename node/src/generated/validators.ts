@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: de4801a614459bb6cb2ff9f43d250410b750779a07115657d7b5870c8022fea1
-// 1938 checked, 20 unchecked.
+// Manifest version: b9e4cf2561bb9a64d5ce9989f51e867e9c5b7ad08a4ff710a8cf9bcda1727499
+// 1941 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "de4801a614459bb6cb2ff9f43d250410b750779a07115657d7b5870c8022fea1",
+  "version": "b9e4cf2561bb9a64d5ce9989f51e867e9c5b7ad08a4ff710a8cf9bcda1727499",
   "units": {
     "address_validation": {
       "defs": {
@@ -2834,6 +2834,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "ip_asn_lookup": {
+      "defs": {},
+      "functions": {
+        "lookup": [
+          {
+            "name": "ip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -29836,6 +29850,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.ipinfo": {
+      "defs": {},
+      "functions": {
+        "lookup": [
+          {
+            "name": "ip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.iproyal": {
       "defs": {
         "IproyalProductType": {
@@ -46581,6 +46609,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.rei": {
       "defs": {
+        "ReiGetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ReiGetSkuArgs": {
           "k": "object",
           "props": [
@@ -46694,6 +46741,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ReiGetSkuArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ReiGetProductArgs"
             },
             "optional": false
           }

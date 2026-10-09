@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: de4801a614459bb6cb2ff9f43d250410b750779a07115657d7b5870c8022fea1
-// 81 capabilities, 554 providers, 1956 typed functions, 20 refused.
+// Manifest version: b9e4cf2561bb9a64d5ce9989f51e867e9c5b7ad08a4ff710a8cf9bcda1727499
+// 82 capabilities, 555 providers, 1959 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2513,6 +2513,42 @@ type CallOptions = {
      * (default 30000).
      */
     getHomeQuotes(query: HomeQuoteQuery, options?: CallOptions): Promise<HomeQuoteResult>;
+  }
+}
+
+declare namespace BowmarkCapability_ip_asn_lookup {
+  // ── Look up the ASN and ISP of an IP address — the unit's own declarations, verbatim ──
+interface IpAsnInfo {
+  ip: string;
+  bogon: boolean;          // private/reserved — no ASN, ISP or location
+  asn: string | null;      // "AS15169"
+  asnNumber: number | null;
+  isp: string | null;      // the network announcing it, e.g. "Google LLC"
+  hostname: string | null; // reverse DNS
+  city: string | null;
+  region: string | null;
+  countryCode: string | null; // ISO-2
+  latitude: number | null;
+  longitude: number | null;
+  timezone: string | null;
+  source: string;          // "ipinfo.io"
+}
+
+interface ip_asn_lookupResult {
+  result: IpAsnInfo;
+  warnings: string[];
+}
+
+  /**
+   * Look up the ASN and ISP of an IP address (IPv4 or IPv6), plus its reverse hostname and
+   * approximate location.
+   */
+  interface Unit {
+    /**
+     * Look up the ASN and ISP of an IP address ("8.8.8.8" or an IPv6 address), with its reverse
+     * hostname and approximate city/country.
+     */
+    lookup(ip: string): Promise<ip_asn_lookupResult>;
   }
 }
 
@@ -29695,6 +29731,35 @@ interface InteriorDefineCartHandoff {
   }
 }
 
+declare namespace BowmarkProvider_ipinfo {
+  // ── IPinfo — the unit's own declarations, verbatim ──
+interface ipinfoLookup {
+  ip: string;
+  bogon: boolean;          // private/reserved address — no ASN, ISP or location
+  asn: string | null;      // "AS13335"
+  asnNumber: number | null;
+  isp: string | null;      // the network announcing it, e.g. "Cloudflare, Inc."
+  hostname: string | null; // reverse DNS
+  city: string | null;
+  region: string | null;
+  countryCode: string | null; // ISO-2
+  postal: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  timezone: string | null;
+  anycast: boolean;
+}
+
+  /** Look up an IP address's ASN, ISP, hostname and approximate location, from IPinfo */
+  interface Unit {
+    /**
+     * ASN, ISP / network name, reverse hostname and approximate location of an IPv4 or IPv6
+     * address ("8.8.8.8")
+     */
+    lookup(ip: string): Promise<ipinfoLookup>;
+  }
+}
+
 declare namespace BowmarkProvider_iproyal {
   // ── IPRoyal — the unit's own declarations, verbatim ──
 type IproyalProductType = "residential" | "datacenter" | "isp" | "mobile";
@@ -42203,9 +42268,9 @@ interface ReiSearchArgs {
   query?: string;
   /** Or a category slug from an rei.com/c/<slug> url: "mens-fleece-jackets". */
   category?: string;
-  /** REI's own size labels: "Small", "Medium", "Large", "32". Only products
-   * offered in that size are returned. An unknown label is refused with the
-   * labels REI uses. */
+  /** REI's own size labels: "Small", "Medium", "Large", "32". Only products with that
+   * size in stock online are returned. An unknown label is refused with the labels REI
+   * uses. */
   sizes?: string[];
   /** "Men's", "Women's", "Unisex", "Kids'". */
   gender?: string;
@@ -42261,18 +42326,58 @@ interface ReiSku {
   /** Every SKU of the same product (all sizes and colours). */
   siblingSkus: string[];
 }
+interface ReiGetProductArgs {
+  /** Product name or search term, e.g. "Fjord Flannel Shirt - Men's". REI's search always
+   * answers something, so check the returned name. */
+  query: string;
+  /** The id search() returned for the product. Pass it with the name: two styles can share one
+   * name, and without it you get the one REI ranks first. Refused if the search did not return it. */
+  productId?: string;
+}
+/** One SKU REI will sell online now. A SKU that is not listed is sold out; a listed one may be
+ * backordered, which REI's grid does not mark. */
+interface ReiStockVariant {
+  sku: string;
+  /** REI's vendor colour name, e.g. "BLACK". */
+  color: string;
+  /** REI's size label ("S", "XL", "8.5", "9 Wide"); null for a one-size product. */
+  size: string | null;
+  inStock: true;
+  /** REI's own "Low" inventory flag for this SKU; null when the flag could not be read. */
+  lowStock: boolean | null;
+}
+interface ReiProductDetails {
+  id: string;
+  name: string;
+  brand: string;
+  url: string;
+  price: number | null;
+  compareAtPrice: number | null;
+  onSale: boolean;
+  available: boolean;
+  /** Sizes with at least one colour in stock, in REI's own order; empty for a one-size product. */
+  sizesInStock: string[];
+  /** Every SKU REI will sell online now, one row per size and colour. A size or colour that
+   * is not listed is sold out. A listed SKU may be backordered: REI's grid does not say. */
+  variants: ReiStockVariant[];
+  /** What could not be read, so a missing flag is not mistaken for a plain "no". */
+  warnings: string[];
+  rating: number | null;
+  reviewCount: number | null;
+  imageUrl: string | null;
+}
 
   /**
    * REI Co-op outdoor gear and apparel. Searches the catalog by keyword or category, filtered to
    * a size, gender and deals, with sale vs compare-at price and availability; reads one SKU's
-   * price, size and colour.
+   * price, size and colour; reads a product's in-stock sizes and colours.
    */
   interface Unit {
     /**
      * Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece jacket")
      * or category, filtered to a size ("Medium"), gender ("Men's") and deals only, and returns
      * products with current vs compare-at price, percent off, availability, rating and colourways.
-     * Use the size filter to see what is in stock in your size.
+     * The size filter keeps only products with that size in stock online.
      */
     search(args: ReiSearchArgs): Promise<ReiSearch>;
 
@@ -42281,6 +42386,15 @@ interface ReiSku {
      * price and sale flag, plus every sibling SKU of the same product.
      */
     getSku(args: ReiGetSkuArgs): Promise<ReiSku>;
+
+    /**
+     * Reads one REI product by name or keyword: its price, product-level availability and which
+     * sizes and colours are in stock online right now (one row per in-stock SKU, with REI's own
+     * Low-stock flag). Pass the name and, from search(), the id. A size that is not listed is sold
+     * out; a listed one may be backordered, which REI's grid does not mark. REI exposes a Low
+     * flag, not a quantity, and says nothing about in-store stock.
+     */
+    getProduct(args: ReiGetProductArgs): Promise<ReiProductDetails>;
   }
 }
 
@@ -56320,6 +56434,7 @@ interface BowmarkProviders {
   insurify: BowmarkProvider_insurify.Unit;
   intactinsurance: BowmarkProvider_intactinsurance.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
+  ipinfo: BowmarkProvider_ipinfo.Unit;
   iproyal: BowmarkProvider_iproyal.Unit;
   islllc: BowmarkProvider_islllc.Unit;
   istanbulkart: BowmarkProvider_istanbulkart.Unit;
@@ -106502,6 +106617,7 @@ interface BowmarkLibrary {
   hvac: BowmarkCapability_hvac.Unit;
   industrial_supply: BowmarkCapability_industrial_supply.Unit;
   insurance: BowmarkCapability_insurance.Unit;
+  ip_asn_lookup: BowmarkCapability_ip_asn_lookup.Unit;
   istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
   job_search: BowmarkCapability_job_search.Unit;
   kenya_fuel_prices: BowmarkCapability_kenya_fuel_prices.Unit;

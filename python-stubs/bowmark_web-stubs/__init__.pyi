@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: de4801a614459bb6cb2ff9f43d250410b750779a07115657d7b5870c8022fea1
-# 81 capabilities, 554 providers, 1938 typed functions, 20 refused.
+# Manifest version: b9e4cf2561bb9a64d5ce9989f51e867e9c5b7ad08a4ff710a8cf9bcda1727499
+# 82 capabilities, 555 providers, 1941 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1493,6 +1493,25 @@ class Cap_insurance_HomeQuote_Out(TypedDict):
 class Cap_insurance_DeclinedHomeCarrier_Out(TypedDict):
     source: str
     carrier: str
+
+class Cap_ip_asn_lookup_ip_asn_lookupResult_Out(TypedDict):
+    result: Cap_ip_asn_lookup_IpAsnInfo_Out
+    warnings: list[str]
+
+class Cap_ip_asn_lookup_IpAsnInfo_Out(TypedDict):
+    ip: str
+    bogon: bool
+    asn: str | None
+    asnNumber: float | None
+    isp: str | None
+    hostname: str | None
+    city: str | None
+    region: str | None
+    countryCode: str | None
+    latitude: float | None
+    longitude: float | None
+    timezone: str | None
+    source: str
 
 class Cap_istanbul_schedules_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -16094,6 +16113,22 @@ class Prv_interiordefine_InteriorDefineCartHandoff_Out(TypedDict):
     missingRequired: list[str]
     unmatched: list[str]
 
+class Prv_ipinfo_ipinfoLookup_Out(TypedDict):
+    ip: str
+    bogon: bool
+    asn: str | None
+    asnNumber: float | None
+    isp: str | None
+    hostname: str | None
+    city: str | None
+    region: str | None
+    countryCode: str | None
+    postal: str | None
+    latitude: float | None
+    longitude: float | None
+    timezone: str | None
+    anycast: bool
+
 class Prv_iproyal_IproyalPlanTier_Out(TypedDict):
     productType: Literal["residential"] | Literal["datacenter"] | Literal["isp"] | Literal["mobile"]
     tier: str
@@ -23427,6 +23462,33 @@ class Prv_rei_ReiSku_Out(TypedDict):
     gender: str | None
     url: str
     siblingSkus: list[str]
+
+class Prv_rei_ReiGetProductArgs_In(TypedDict):
+    query: str
+    productId: NotRequired[str]
+
+class Prv_rei_ReiProductDetails_Out(TypedDict):
+    id: str
+    name: str
+    brand: str
+    url: str
+    price: float | None
+    compareAtPrice: float | None
+    onSale: bool
+    available: bool
+    sizesInStock: list[str]
+    variants: list[Prv_rei_ReiStockVariant_Out]
+    warnings: list[str]
+    rating: float | None
+    reviewCount: float | None
+    imageUrl: str | None
+
+class Prv_rei_ReiStockVariant_Out(TypedDict):
+    sku: str
+    color: str
+    size: str | None
+    inStock: Literal[True]
+    lowStock: bool | None
 
 class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out(TypedDict):
     entryUrl: str
@@ -32056,6 +32118,16 @@ class Cap_insurance(Protocol):
         reach for failed, this THROWS rather than returning an empty list, which would otherwise
         read as "nobody would insure this property". `options.timeoutMs` sets the per-source
         budget (default 30000).
+        """
+
+class Cap_ip_asn_lookup(Protocol):
+    """Look up the ASN and ISP of an IP address (IPv4 or IPv6), plus its reverse hostname and
+    approximate location.
+    """
+
+    async def lookup(self, ip: str, /) -> Cap_ip_asn_lookup_ip_asn_lookupResult_Out:
+        """Look up the ASN and ISP of an IP address ("8.8.8.8" or an IPv6 address), with its
+        reverse hostname and approximate city/country.
         """
 
 class Cap_istanbul_schedules(Protocol):
@@ -42155,6 +42227,14 @@ class Prv_interiordefine(Protocol):
         silently mispricing it.
         """
 
+class Prv_ipinfo(Protocol):
+    """Look up an IP address's ASN, ISP, hostname and approximate location, from IPinfo"""
+
+    async def lookup(self, ip: str, /) -> Prv_ipinfo_ipinfoLookup_Out:
+        """ASN, ISP / network name, reverse hostname and approximate location of an IPv4 or IPv6
+        address ("8.8.8.8")
+        """
+
 class Prv_iproyal(Protocol):
     """IPRoyal's own published proxy pricing (iproyal.com) — residential, datacenter, ISP and
     mobile plan tiers, straight off their public pricing pages.
@@ -46702,19 +46782,27 @@ class Prv_reddit(Protocol):
 class Prv_rei(Protocol):
     """REI Co-op outdoor gear and apparel. Searches the catalog by keyword or category,
     filtered to a size, gender and deals, with sale vs compare-at price and availability;
-    reads one SKU's price, size and colour.
+    reads one SKU's price, size and colour; reads a product's in-stock sizes and colours.
     """
 
     async def search(self, args: Prv_rei_ReiSearchArgs_In, /) -> Prv_rei_ReiSearch_Out:
         """Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece
         jacket") or category, filtered to a size ("Medium"), gender ("Men's") and deals only,
         and returns products with current vs compare-at price, percent off, availability, rating
-        and colourways. Use the size filter to see what is in stock in your size.
+        and colourways. The size filter keeps only products with that size in stock online.
         """
 
     async def getSku(self, args: Prv_rei_ReiGetSkuArgs_In, /) -> Prv_rei_ReiSku_Out:
         """Reads one REI SKU (from search's colors[].sampleSku): its size, colour, price,
         compare-at price and sale flag, plus every sibling SKU of the same product.
+        """
+
+    async def getProduct(self, args: Prv_rei_ReiGetProductArgs_In, /) -> Prv_rei_ReiProductDetails_Out:
+        """Reads one REI product by name or keyword: its price, product-level availability and
+        which sizes and colours are in stock online right now (one row per in-stock SKU, with
+        REI's own Low-stock flag). Pass the name and, from search(), the id. A size that is not
+        listed is sold out; a listed one may be backordered, which REI's grid does not mark. REI
+        exposes a Low flag, not a quantity, and says nothing about in-store stock.
         """
 
 class Prv_reliancepartners(Protocol):
@@ -51548,6 +51636,7 @@ class BowmarkProviders(Protocol):
     insurify: Prv_insurify
     intactinsurance: Prv_intactinsurance
     interiordefine: Prv_interiordefine
+    ipinfo: Prv_ipinfo
     iproyal: Prv_iproyal
     islllc: Prv_islllc
     istanbulkart: Prv_istanbulkart
@@ -51859,6 +51948,7 @@ class Bowmark(Protocol):
     hvac: Cap_hvac
     industrial_supply: Cap_industrial_supply
     insurance: Cap_insurance
+    ip_asn_lookup: Cap_ip_asn_lookup
     istanbul_schedules: Cap_istanbul_schedules
     job_search: Cap_job_search
     kenya_fuel_prices: Cap_kenya_fuel_prices
