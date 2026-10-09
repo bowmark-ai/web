@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 28fe50735241f73b0555bafa6bf01a7a3019ce12e9c87dea2347a7b167a23d45
-// 84 capabilities, 559 providers, 1979 typed functions, 20 refused.
+// Manifest version: 0949e1121efd4e530c21e3f2fbdccdf1f03101bc645e6ed4a48174d5c93f6cee
+// 84 capabilities, 559 providers, 1980 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35444,11 +35444,20 @@ interface microsoft_outlookRow {
   id: string;
 }
 
+interface microsoft_outlookMailDetail {
+  id: string;
+  subject: string;
+  from: string;
+  to?: string;
+  receivedDateTime: string;
+  body: string;
+}
+
   /**
    * Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
    * (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a personal
-   * inbox is identity-sensitive. Mail, calendar and contacts reads/writes are declared but not
-   * built yet.
+   * inbox is identity-sensitive. Mail reads cover the folder list, a folder's messages, and one
+   * opened message; calendar and contacts reads/writes are declared but not built yet.
    */
   interface Unit {
     /**
@@ -35462,6 +35471,12 @@ interface microsoft_outlookRow {
      * each message.
      */
     readMailFolder(folderId: string | number, opts?: ConnectionOption): Promise<microsoft_outlookMailItem[]>;
+
+    /**
+     * Opens one mail item from readMailFolder's results and returns the full message — subject,
+     * from, to, date and body — read from the reading pane.
+     */
+    getMail(mailId: string | number, opts?: ConnectionOption): Promise<microsoft_outlookMailDetail>;
   }
 }
 

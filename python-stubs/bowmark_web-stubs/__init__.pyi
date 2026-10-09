@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 28fe50735241f73b0555bafa6bf01a7a3019ce12e9c87dea2347a7b167a23d45
-# 84 capabilities, 559 providers, 1961 typed functions, 20 refused.
+# Manifest version: 0949e1121efd4e530c21e3f2fbdccdf1f03101bc645e6ed4a48174d5c93f6cee
+# 84 capabilities, 559 providers, 1962 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19292,6 +19292,18 @@ Prv_microsoft_outlook_microsoft_outlookMailItem_Out = TypedDict(
     "receivedDateTime": str,
     "preview": NotRequired[str],
     "isRead": NotRequired[bool],
+    },
+)
+
+Prv_microsoft_outlook_microsoft_outlookMailDetail_Out = TypedDict(
+    "Prv_microsoft_outlook_microsoft_outlookMailDetail_Out",
+    {
+    "id": str,
+    "subject": str,
+    "from": str,
+    "to": NotRequired[str],
+    "receivedDateTime": str,
+    "body": str,
     },
 )
 
@@ -44358,8 +44370,9 @@ class Prv_microsoft_onedrive(Protocol):
 class Prv_microsoft_outlook(Protocol):
     """Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
     (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a
-    personal inbox is identity-sensitive. Mail, calendar and contacts reads/writes are
-    declared but not built yet.
+    personal inbox is identity-sensitive. Mail reads cover the folder list, a folder's
+    messages, and one opened message; calendar and contacts reads/writes are declared but
+    not built yet.
     """
 
     async def listMailFolders(self, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_outlook_microsoft_outlookFolder_Out]:
@@ -44370,6 +44383,11 @@ class Prv_microsoft_outlook(Protocol):
     async def readMailFolder(self, folderId: str | float, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_outlook_microsoft_outlookMailItem_Out]:
         """Reads the mail items in a specific folder, returning subject, sender, date, and preview
         for each message.
+        """
+
+    async def getMail(self, mailId: str | float, opts: ConnectionOption | None = None, /) -> Prv_microsoft_outlook_microsoft_outlookMailDetail_Out:
+        """Opens one mail item from readMailFolder's results and returns the full message —
+        subject, from, to, date and body — read from the reading pane.
         """
 
 class Prv_millisaraylar(Protocol):

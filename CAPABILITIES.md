@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 131 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 133 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -9,6 +9,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | Function | What it does | Providers | Status |
 |---|---|---|---|
 | `address_validation.validate` | Validates a one-line US street address against the US Census Geocoder. `valid` says… | 1 | 🟢 |
+| `bank_transactions.parse` | Reads a bank statement export's text — OFX/QFX (Quicken, Money, most US banks) or a… | 0 | 🟢 |
+| `bank_transactions.summarize` | Totals money in and out, the ten biggest payees by spend, and a per-month breakdown —… | 0 | 🟢 |
 | `booking_links.find` | Finds a person's public booking links from their name. | 5 | 🟡 |
 | `booking_links.read` | Reads a Calendly or Cal.com booking page without booking: who owns it, the events it… | 5 | 🟢 |
 | `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 5 | 🟢 |

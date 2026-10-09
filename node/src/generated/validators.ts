@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 28fe50735241f73b0555bafa6bf01a7a3019ce12e9c87dea2347a7b167a23d45
-// 1961 checked, 20 unchecked.
+// Manifest version: 0949e1121efd4e530c21e3f2fbdccdf1f03101bc645e6ed4a48174d5c93f6cee
+// 1962 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "28fe50735241f73b0555bafa6bf01a7a3019ce12e9c87dea2347a7b167a23d45",
+  "version": "0949e1121efd4e530c21e3f2fbdccdf1f03101bc645e6ed4a48174d5c93f6cee",
   "units": {
     "address_validation": {
       "defs": {
@@ -36130,6 +36130,39 @@ export const VALIDATORS: ValidatorTable = {
         "readMailFolder": [
           {
             "name": "folderId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMail": [
+          {
+            "name": "mailId",
             "schema": {
               "k": "union",
               "of": [

@@ -861,7 +861,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | ⚪ |
 | `deviantart.listNotes` | deviantart.com | Reads the signed-in caller's Notes inbox — each note's sender, subject, time and body. | ⚪ |
 | `deviantart.postComment` | deviantart.com | Posts a comment on a deviation (or a reply to a comment) as the signed-in caller. | ⚪ |
-| `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | 🟢 |
+| `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | 🟡 |
 | `deviantart.searchShop` | deviantart.com | Searches DeviantArt's Shop — prints, downloads, adoptables and commissions artists… | ⚪ |
 | `deviantart.sendNote` | deviantart.com | Sends a private Note (DeviantArt's direct message) from the signed-in caller to… | ⚪ |
 | `deviantart.submitDeviation` | deviantart.com | Submits a new deviation from the signed-in caller's account — an image with title… | ⚪ |
@@ -1676,7 +1676,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
 | `instagram.getSavedPosts` | instagram.com | Lists the signed-in user's saved posts, grouped by collection. | ⚪ |
 | `instagram.getStories` | instagram.com | Lists stories from accounts the signed-in user follows, with expiration times. | ⚪ |
-| `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | ⚪ |
+| `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | 🟢 |
 | `instagram.likePost` | instagram.com | Likes a post by its id or shortcode. | ⚪ |
 | `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in user's feed. | ⚪ |
 | `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | ⚪ |
@@ -2518,7 +2518,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getCompanyKeyMetrics` | www.reuters.com | A company's key ratios on Reuters — valuation, profitability, growth, dividends and… | ⚪ |
 | `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile: description, sector, industry, address, website… | ⚪ |
 | `reuters.getLiveCoverage` | www.reuters.com | Read one Reuters live-coverage page (/live/…) — the running updates, newest first… | ⚪ |
-| `reuters.getMarketOverview` | www.reuters.com | The market tables Reuters shows on its Markets pages — major indices, currencies… | 🟢 |
+| `reuters.getMarketOverview` | www.reuters.com | The market tables Reuters shows on its Markets pages — major indices, currencies… | 🟡 |
 | `reuters.getMyNewsFeed` | www.reuters.com | The signed-in reader's My News feed — the latest stories from everything they follow… | ⚪ |
 | `reuters.getPictureGallery` | www.reuters.com | One Reuters photo gallery: every picture with its caption, photographer credit and… | ⚪ |
 | `reuters.getPressRelease` | www.reuters.com | Read one press release on reuters.com in full: title, issuer, date and body. | ⚪ |
