@@ -921,7 +921,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.listDuckAiModels` | duckduckgo.com | List the AI models Duck.ai currently offers (e.g. GPT, Claude, Llama, Mistral… | ⚪ |
 | `duckduckgo.listRegions` | duckduckgo.com | List the search regions DuckDuckGo offers ("us-en", "uk-en", "de-de"…) with their… | ⚪ |
 | `duckduckgo.resolveBang` | duckduckgo.com | Turn a !bang query ("!w duck", "!a usb-c cable") into the destination URL DuckDuckGo… | ⚪ |
-| `duckduckgo.searchImages` | duckduckgo.com | Search DuckDuckGo Images and return each hit's thumbnail, full-size image URL, the… | ⚪ |
+| `duckduckgo.searchImages` | duckduckgo.com | Searches DuckDuckGo's Images vertical and returns each result's title, page URL… | 🟢 |
 | `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | 🟢 |
 | `duckduckgo.searchPlaces` | duckduckgo.com | Find places on DuckDuckGo Maps by what and where ("coffee in Seattle") — name… | 🟢 |
 | `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | 🟢 |
