@@ -1995,7 +1995,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_onedrive.uploadFile` | onedrive.live.com | Uploads a file to OneDrive at the specified path. | ⚪ |
 | `microsoft_outlook.createCalendarEvent` | outlook.live.com | TODO — what createCalendarEvent does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.createContact` | outlook.live.com | TODO — what createContact does on the live site, and what interaction it performs. | ⚪ |
-| `microsoft_outlook.getCalendarEvents` | outlook.live.com | TODO — what getCalendarEvents does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.getCalendarEvents` | outlook.live.com | Returns calendar events within a specified date range, including title, start/end… | 🟢 |
 | `microsoft_outlook.getContact` | outlook.live.com | TODO — what getContact does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.getMail` | outlook.live.com | Opens one mail item from readMailFolder's results and returns the full message —… | 🟢 |
 | `microsoft_outlook.listContacts` | outlook.live.com | TODO — what listContacts does on the live site, and what interaction it performs. | ⚪ |
