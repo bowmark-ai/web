@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f430b0774290c2014b3cb764bb17270d2ee730151e5d14b118296ad9db7c737d
-# 85 capabilities, 561 providers, 1997 typed functions, 20 refused.
+# Manifest version: 7ff011dc221bcafd8c44cd9df8ab9174b5ea210b24dcaaff3418f661ba240192
+# 85 capabilities, 561 providers, 1998 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16001,6 +16001,10 @@ class Prv_instagram_InstagramCommentResult_Out(TypedDict):
     mediaId: str
     text: str
     timestamp: str | None
+
+class Prv_instagram_InstagramSaveResult_Out(TypedDict):
+    mediaId: str
+    hasSaved: bool
 
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
@@ -42666,6 +42670,11 @@ class Prv_instagram(Protocol):
     async def commentOnPost(self, mediaId: str, commentText: str, /) -> Prv_instagram_InstagramCommentResult_Out:
         """Posts a comment on a photo or video by its media id. Returns the created comment's id,
         text and timestamp. Requires the caller to be signed in through the relay.
+        """
+
+    async def savePost(self, mediaId: str, /) -> Prv_instagram_InstagramSaveResult_Out:
+        """Saves a post to the signed-in user's default saved collection. Returns the media id and
+        the save state. Requires the caller to be signed in through the relay.
         """
 
 class Prv_insurify(Protocol):
