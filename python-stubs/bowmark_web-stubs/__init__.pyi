@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 61f327b447fd912ec49c3b2514f1c2eb9cc6ff2ca439ffb4313eaa5f0e062534
-# 85 capabilities, 560 providers, 1991 typed functions, 20 refused.
+# Manifest version: f8cbabeff0dd13f871a57801a29e34c8f7ea862a10fbc2b00c9593260415b8ce
+# 85 capabilities, 560 providers, 1992 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1786,11 +1786,13 @@ class Cap_mcp_registry_McpRegistryEntry_Out(TypedDict):
 class Cap_municipal_recreation_fees_municipal_recreation_feesResult_Out(TypedDict):
     municipality: str
     fees: list[Cap_municipal_recreation_fees_FeeEntry_Out]
+    coverage: list[str]
     warnings: list[str]
 
 class Cap_municipal_recreation_fees_FeeEntry_Out(TypedDict):
     feeType: str
-    annualCost: float
+    cost: float
+    period: Literal["year"] | Literal["month"] | Literal["visit"] | Literal["season"]
     description: NotRequired[str]
 
 class Cap_music_CallOptions_In(TypedDict):
@@ -19567,6 +19569,10 @@ class Prv_microsoft_onedrive_deleteFile_args_In(TypedDict):
 class Prv_microsoft_onedrive_listFolders_args_In(TypedDict):
     path: NotRequired[str]
 
+class Prv_microsoft_onedrive_createFolder_args_In(TypedDict):
+    name: str
+    path: NotRequired[str]
+
 class Prv_microsoft_outlook_microsoft_outlookFolder_Out(TypedDict):
     id: str
     name: str
@@ -20052,11 +20058,13 @@ class Prv_msn_MsnMarketSummary_Out(TypedDict):
 class Prv_municipal_recreation_fees_fetcher_municipal_recreation_fees_fetcherRow_Out(TypedDict):
     municipality: str
     fees: list[Prv_municipal_recreation_fees_fetcher_FeeEntry_Out]
+    coverage: list[str]
     warnings: list[str]
 
 class Prv_municipal_recreation_fees_fetcher_FeeEntry_Out(TypedDict):
     feeType: str
-    annualCost: float
+    cost: float
+    period: Literal["year"] | Literal["month"] | Literal["visit"] | Literal["season"]
     description: NotRequired[str]
 
 class Prv_muze_gov_tr_MuzeVisitingHours_Out(TypedDict):
@@ -32923,11 +32931,13 @@ class Cap_mcp_registry(Protocol):
         """
 
 class Cap_municipal_recreation_fees(Protocol):
-    """Annual recreation centre membership fees for Canadian municipalities."""
+    """Recreation centre membership and pass fees, each with its billing period, for
+    Fredericton and Dieppe (New Brunswick) only.
+    """
 
     async def getFeeSchedule(self, municipality: str, /) -> Cap_municipal_recreation_fees_municipal_recreation_feesResult_Out:
-        """Retrieves annual recreation centre membership fees (adult and family passes) for a
-        municipality.
+        """Retrieves recreation centre membership and pass fees (adult and family), each with its
+        billing period, for Fredericton or Dieppe.
         """
 
 class Cap_music(Protocol):
@@ -44886,6 +44896,9 @@ class Prv_microsoft_onedrive(Protocol):
     async def listFolders(self, args: Prv_microsoft_onedrive_listFolders_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_onedrive_microsoft_onedriveRow_Out]:
         """Lists folders in the user's OneDrive root or a specified path."""
 
+    async def createFolder(self, args: Prv_microsoft_onedrive_createFolder_args_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_onedrive_microsoft_onedriveRow_Out:
+        """Creates a new folder in OneDrive at the specified path."""
+
 class Prv_microsoft_outlook(Protocol):
     """Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
     (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a
@@ -45223,10 +45236,14 @@ class Prv_msn(Protocol):
         """
 
 class Prv_municipal_recreation_fees_fetcher(Protocol):
-    """Fetches annual recreation centre membership fees from New Brunswick municipalities."""
+    """Fetches recreation centre membership and pass fees from Fredericton and Dieppe, with
+    periods (annual, monthly, per-visit).
+    """
 
     async def getFeeSchedule(self, municipality: str, /) -> Prv_municipal_recreation_fees_fetcher_municipal_recreation_fees_fetcherRow_Out:
-        """Returns annual recreation centre membership fees for a New Brunswick municipality"""
+        """Returns recreation centre membership fees with periods (annual, monthly, per-visit) for
+        Fredericton or Dieppe
+        """
 
 class Prv_muze_gov_tr(Protocol):
     """Turkey's Ministry of Culture and Tourism museums portal — opening/closing hours,
@@ -47332,7 +47349,7 @@ class Prv_quora(Protocol):
 
     async def getSpace(self, args: Prv_quora_GetSpaceArgs_In, /) -> Prv_quora_QuoraSpace_Out:
         """Reads one Space — its name, description, member count, and its most recent questions —
-        taking a Space URL or name (e.g., 'technology' or 'https://technology.quora.com').
+        taking a Space URL or name (e.g., 'askscience' or 'https://askscience.quora.com').
         """
 
 class Prv_raadvanstate_nl(Protocol):

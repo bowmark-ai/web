@@ -2641,11 +2641,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seoulfood.getExhibitorPricing` | seoulfood.kotra.or.kr | Reads the organizer's published exhibitor booth rate card (trade show booth quote)… | 🟢 |
 | `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |
 | `serper.searchGoogle` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
-| `shein.getProduct` | TODO example.com | Returns product details: title, description, sizes, colors, price, reviews and… | ⚪ |
-| `shein.getProductReviews` | TODO example.com | Returns customer reviews for a product: rating, text, verified-purchase flag. | ⚪ |
-| `shein.listCategories` | TODO example.com | Lists the top-level product categories on Shein. | ⚪ |
-| `shein.listProductsByCategory` | TODO example.com | Lists products in a category with pagination. | ⚪ |
-| `shein.search` | TODO example.com | Searches products by keyword and returns results with price, images and availability. | ⚪ |
+| `shein.getProduct` | shein.com | Returns product details: title, description, sizes, colors, price, reviews and… | ⚪ |
+| `shein.getProductReviews` | shein.com | Returns customer reviews for a product: rating, text, verified-purchase flag. | ⚪ |
+| `shein.listCategories` | shein.com | Lists the top-level product categories on Shein. | 🟢 |
+| `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | ⚪ |
+| `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | ⚪ |
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | ⚪ |
 | `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart, or changes its quantity (0 removes… | ⚪ |
 | `shop_app.addToProductList` | shop.app | Adds a product to one of the caller's lists, or removes it (remove: true). | ⚪ |

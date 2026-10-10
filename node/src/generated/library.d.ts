@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 61f327b447fd912ec49c3b2514f1c2eb9cc6ff2ca439ffb4313eaa5f0e062534
-// 85 capabilities, 560 providers, 2009 typed functions, 20 refused.
+// Manifest version: f8cbabeff0dd13f871a57801a29e34c8f7ea862a10fbc2b00c9593260415b8ce
+// 85 capabilities, 560 providers, 2010 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2970,21 +2970,26 @@ declare namespace BowmarkCapability_municipal_recreation_fees {
   // ── Municipal Recreation Centre Membership Fees — the unit's own declarations, verbatim ──
 interface FeeEntry {
   feeType: string;
-  annualCost: number;
+  cost: number;                                    // for ONE period, never annualised
+  period: "year" | "month" | "visit" | "season";
   description?: string;
 }
 
 interface municipal_recreation_feesResult {
   municipality: string;
   fees: FeeEntry[];
+  coverage: string[];                              // the only municipalities served
   warnings: string[];
 }
 
-  /** Annual recreation centre membership fees for Canadian municipalities. */
+  /**
+   * Recreation centre membership and pass fees, each with its billing period, for Fredericton
+   * and Dieppe (New Brunswick) only.
+   */
   interface Unit {
     /**
-     * Retrieves annual recreation centre membership fees (adult and family passes) for a
-     * municipality.
+     * Retrieves recreation centre membership and pass fees (adult and family), each with its
+     * billing period, for Fredericton or Dieppe.
      */
     getFeeSchedule(municipality: string): Promise<municipal_recreation_feesResult>;
   }
@@ -35836,6 +35841,9 @@ interface microsoft_onedriveRow {
 
     /** Lists folders in the user's OneDrive root or a specified path. */
     listFolders(args?: { path?: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow[]>;
+
+    /** Creates a new folder in OneDrive at the specified path. */
+    createFolder(args: { name: string; path?: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow>;
   }
 }
 
@@ -36802,19 +36810,27 @@ declare namespace BowmarkProvider_municipal_recreation_fees_fetcher {
   // ── New Brunswick Municipal Recreation Centre Fees — the unit's own declarations, verbatim ──
 interface FeeEntry {
   feeType: string;
-  annualCost: number;
+  cost: number;
+  period: "year" | "month" | "visit" | "season";
   description?: string;
 }
 
 interface municipal_recreation_fees_fetcherRow {
   municipality: string;
   fees: FeeEntry[];
+  coverage: string[];
   warnings: string[];
 }
 
-  /** Fetches annual recreation centre membership fees from New Brunswick municipalities. */
+  /**
+   * Fetches recreation centre membership and pass fees from Fredericton and Dieppe, with periods
+   * (annual, monthly, per-visit).
+   */
   interface Unit {
-    /** Returns annual recreation centre membership fees for a New Brunswick municipality */
+    /**
+     * Returns recreation centre membership fees with periods (annual, monthly, per-visit) for
+     * Fredericton or Dieppe
+     */
     getFeeSchedule(municipality: string): Promise<municipal_recreation_fees_fetcherRow>;
   }
 }
@@ -42322,7 +42338,7 @@ interface GetSpaceArgs {
 
     /**
      * Reads one Space — its name, description, member count, and its most recent questions —
-     * taking a Space URL or name (e.g., 'technology' or 'https://technology.quora.com').
+     * taking a Space URL or name (e.g., 'askscience' or 'https://askscience.quora.com').
      */
     getSpace(args: GetSpaceArgs): Promise<QuoraSpace>;
   }
