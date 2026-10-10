@@ -1,5 +1,5 @@
 {
-  "version": "d7798d0fa3f35c7da86cc72df9714db1b606ecd940584bd7f81204dfb5edfd52",
+  "version": "f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2",
   "units": {
     "address_validation": {
       "defs": {
@@ -29317,7 +29317,23 @@
           }
         ],
         "getStories": [],
-        "getNotifications": []
+        "getNotifications": [],
+        "sendDirectMessage": [
+          {
+            "name": "recipientId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageText",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.insurify": {
@@ -36404,6 +36420,25 @@
     },
     "providers.microsoft_outlook": {
       "defs": {
+        "microsoft_outlookGetCalendarEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "microsoft_outlookSendMailArgs": {
           "k": "object",
           "props": [
@@ -36522,6 +36557,32 @@
             "schema": {
               "k": "ref",
               "name": "microsoft_outlookSendMailArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCalendarEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "microsoft_outlookGetCalendarEventsArgs"
             },
             "optional": false
           },

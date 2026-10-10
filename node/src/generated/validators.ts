@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d7798d0fa3f35c7da86cc72df9714db1b606ecd940584bd7f81204dfb5edfd52
-// 1971 checked, 20 unchecked.
+// Manifest version: f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2
+// 1973 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d7798d0fa3f35c7da86cc72df9714db1b606ecd940584bd7f81204dfb5edfd52",
+  "version": "f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2",
   "units": {
     "address_validation": {
       "defs": {
@@ -29329,7 +29329,23 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getStories": [],
-        "getNotifications": []
+        "getNotifications": [],
+        "sendDirectMessage": [
+          {
+            "name": "recipientId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "messageText",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.insurify": {
@@ -36416,6 +36432,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.microsoft_outlook": {
       "defs": {
+        "microsoft_outlookGetCalendarEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "microsoft_outlookSendMailArgs": {
           "k": "object",
           "props": [
@@ -36534,6 +36569,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "microsoft_outlookSendMailArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCalendarEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "microsoft_outlookGetCalendarEventsArgs"
             },
             "optional": false
           },

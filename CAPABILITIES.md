@@ -96,7 +96,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `products.search` | Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and… | 4 | 🟡 |
 | `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟡 |
 | `prospect_screening.screenCompany` | Fetches the homepage, reads any schema.org employee-count signal and any… | 0 | 🟢 |
-| `read.page` | Loads one page and returns its content. | 0 | 🟢 |
+| `read.page` | Loads one page and returns its content. **On a booking calendar or a… | 0 | 🟢 |
 | `read.pages` | The same read over many urls: requests to the SAME origin are serialized (one at a… | 0 | 🟢 |
 | `read.urls` | Lists the pages a site has, so you can pick which to `read.page` instead of guessing… | 0 | 🟢 |
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 1 | 🟡 |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d7798d0fa3f35c7da86cc72df9714db1b606ecd940584bd7f81204dfb5edfd52
-# 85 capabilities, 560 providers, 1971 typed functions, 20 refused.
+# Manifest version: f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2
+# 85 capabilities, 560 providers, 1973 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15878,6 +15878,12 @@ class Prv_instagram_InstagramNotification_Out(TypedDict):
     timestamp: str | None
     isViewed: bool
 
+class Prv_instagram_InstagramSentDirectMessage_Out(TypedDict):
+    id: str
+    text: str
+    timestamp: str | None
+    success: bool
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -19469,6 +19475,20 @@ class Prv_microsoft_outlook_microsoft_outlookSendMailArgs_In(TypedDict):
 class Prv_microsoft_outlook_microsoft_outlookSendMailResult_Out(TypedDict):
     id: str
     status: Literal["sent"] | Literal["draft"]
+
+class Prv_microsoft_outlook_microsoft_outlookGetCalendarEventsArgs_In(TypedDict):
+    startDate: str
+    endDate: str
+
+class Prv_microsoft_outlook_microsoft_outlookCalendarEvent_Out(TypedDict):
+    id: str
+    title: str
+    startDateTime: str
+    endDateTime: str
+    attendees: NotRequired[list[str]]
+    organizer: NotRequired[str]
+    description: NotRequired[str]
+    isAllDay: NotRequired[bool]
 
 class Prv_millisaraylar_MillisaraylarPalace_Out(TypedDict):
     id: str
@@ -42351,6 +42371,11 @@ class Prv_instagram(Protocol):
         the caller to be signed in through the relay.
         """
 
+    async def sendDirectMessage(self, recipientId: str, messageText: str, /) -> Prv_instagram_InstagramSentDirectMessage_Out:
+        """Sends a direct message to a specified user. Returns the sent message's ID, text, and
+        timestamp. Requires the caller to be signed in through the relay.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -44620,6 +44645,11 @@ class Prv_microsoft_outlook(Protocol):
     async def sendMail(self, args: Prv_microsoft_outlook_microsoft_outlookSendMailArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_outlook_microsoft_outlookSendMailResult_Out:
         """Composes and sends a new email message to the specified recipient with the given subject
         and body.
+        """
+
+    async def getCalendarEvents(self, args: Prv_microsoft_outlook_microsoft_outlookGetCalendarEventsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_outlook_microsoft_outlookCalendarEvent_Out]:
+        """Returns calendar events within a specified date range, including title, start/end times,
+        and attendee information.
         """
 
 class Prv_millisaraylar(Protocol):

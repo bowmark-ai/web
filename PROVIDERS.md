@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3313 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3314 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1990,6 +1990,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_365.listDocumentVersions` | TODO example.com | Lists the version history of a specific document in the user's Microsoft 365 OneDrive. | 🟢 |
 | `microsoft_365.restoreDocumentVersion` | TODO example.com | TODO — what restoreDocumentVersion does on the live site, and what interaction it… | ⚪ |
 | `microsoft_365.shareDocument` | TODO example.com | TODO — what shareDocument does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_onedrive.deleteFile` | onedrive.live.com | Deletes a file from OneDrive by ID. | 🟢 |
 | `microsoft_onedrive.getFile` | onedrive.live.com | Gets metadata for a specific file by ID. | 🟢 |
 | `microsoft_onedrive.listFiles` | onedrive.live.com | Lists files and folders in the user's OneDrive root or a specified path. | 🟢 |
 | `microsoft_onedrive.uploadFile` | onedrive.live.com | Uploads a file to OneDrive at the specified path. | ⚪ |

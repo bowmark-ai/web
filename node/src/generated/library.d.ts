@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d7798d0fa3f35c7da86cc72df9714db1b606ecd940584bd7f81204dfb5edfd52
-// 85 capabilities, 560 providers, 1989 typed functions, 20 refused.
+// Manifest version: f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2
+// 85 capabilities, 560 providers, 1991 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29052,6 +29052,12 @@ interface InstagramNotification {
   timestamp: string | null;
   isViewed: boolean;
 }
+interface InstagramSentDirectMessage {
+  id: string;
+  text: string;
+  timestamp: string | null;
+  success: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29099,6 +29105,12 @@ interface InstagramNotification {
      * caller to be signed in through the relay.
      */
     getNotifications(): Promise<InstagramNotification[]>;
+
+    /**
+     * Sends a direct message to a specified user. Returns the sent message's ID, text, and
+     * timestamp. Requires the caller to be signed in through the relay.
+     */
+    sendDirectMessage(recipientId: string, messageText: string): Promise<InstagramSentDirectMessage>;
   }
 }
 
@@ -35664,6 +35676,22 @@ interface microsoft_outlookSendMailResult {
   status: "sent" | "draft";
 }
 
+interface microsoft_outlookGetCalendarEventsArgs {
+  startDate: string;
+  endDate: string;
+}
+
+interface microsoft_outlookCalendarEvent {
+  id: string;
+  title: string;
+  startDateTime: string;
+  endDateTime: string;
+  attendees?: string[];
+  organizer?: string;
+  description?: string;
+  isAllDay?: boolean;
+}
+
   /**
    * Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
    * (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a personal
@@ -35694,6 +35722,12 @@ interface microsoft_outlookSendMailResult {
      * body.
      */
     sendMail(args: microsoft_outlookSendMailArgs, opts?: ConnectionOption): Promise<microsoft_outlookSendMailResult>;
+
+    /**
+     * Returns calendar events within a specified date range, including title, start/end times, and
+     * attendee information.
+     */
+    getCalendarEvents(args: microsoft_outlookGetCalendarEventsArgs, opts?: ConnectionOption): Promise<microsoft_outlookCalendarEvent[]>;
   }
 }
 
