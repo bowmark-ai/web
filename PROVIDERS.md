@@ -693,7 +693,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnbc_com.getInvestingClubContent` | cnbc.com | Returns Investing Club portfolio recommendations and analysis. | ⚪ |
 | `cnbc_com.getMarketData` | cnbc.com | Returns detailed data for one market index or commodity — price, high, low, open… | ⚪ |
 | `cnbc_com.getPremiumContent` | cnbc.com | Returns CNBC Pro premium articles and analysis. | ⚪ |
-| `cnbc_com.getQuote` | cnbc.com | Returns the current stock quote for one symbol — price, change, percent change, open… | ⚪ |
+| `cnbc_com.getQuote` | cnbc.com | Returns the current stock quote for one symbol — price, change, percent change, open… | 🟢 |
 | `cnbc_com.getVideo` | cnbc.com | Returns details of a CNBC video — title, description, duration, transcript (if… | ⚪ |
 | `cnbc_com.getWatchlist` | cnbc.com | Returns the user's saved watchlist of stocks — symbols, current price, change and… | ⚪ |
 | `cnbc_com.listArticlesByAuthor` | cnbc.com | Lists all articles published by a specific CNBC journalist or contributor, with… | ⚪ |
@@ -1671,7 +1671,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.followUser` | instagram.com | Sends a follow request to a user (or follows directly if not private). | ⚪ |
 | `instagram.getDirectMessages` | instagram.com | Lists the signed-in user's direct message threads with preview of the latest message… | 🟢 |
 | `instagram.getHomeFeed` | instagram.com | Reads the signed-in user's home feed — the newest posts from accounts they follow… | ⚪ |
-| `instagram.getNotifications` | instagram.com | Reads the signed-in user's activity feed — likes, comments, follows, and direct… | ⚪ |
+| `instagram.getNotifications` | instagram.com | Reads the signed-in user's activity feed — likes, comments, follows, and direct… | 🟢 |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
 | `instagram.getSavedPosts` | instagram.com | Lists the signed-in user's saved posts, grouped by collection. | ⚪ |
@@ -1987,7 +1987,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_365.deleteDocument` | TODO example.com | TODO — what deleteDocument does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_365.getDocument` | TODO example.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
 | `microsoft_365.listDocuments` | TODO example.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
-| `microsoft_365.listDocumentVersions` | TODO example.com | TODO — what listDocumentVersions does on the live site, and what interaction it… | ⚪ |
+| `microsoft_365.listDocumentVersions` | TODO example.com | Lists the version history of a specific document in the user's Microsoft 365 OneDrive. | 🟢 |
 | `microsoft_365.restoreDocumentVersion` | TODO example.com | TODO — what restoreDocumentVersion does on the live site, and what interaction it… | ⚪ |
 | `microsoft_365.shareDocument` | TODO example.com | TODO — what shareDocument does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_onedrive.getFile` | onedrive.live.com | Gets metadata for a specific file by ID. | 🟢 |
@@ -2659,7 +2659,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getProductReviews` | shop.app | Lists a product's reviews — each review's rating, title, text, author name, date and… | ⚪ |
 | `shop_app.getSharedList` | shop.app | Reads a product list someone shared from Shop (a shop.app/collections/<id> link) — the… | ⚪ |
 | `shop_app.getShopCash` | shop.app | Reads the caller's Shop Cash balance and its recent activity. | ⚪ |
-| `shop_app.getStore` | shop.app | Reads one store's Shop page — name, logo, description, rating and review count… | ⚪ |
+| `shop_app.getStore` | shop.app | Reads one store's Shop page — name, logo, description, rating and review count… | 🟢 |
 | `shop_app.getStoreCollection` | shop.app | Lists the products in one of a store's collections ("Best Sellers", "Sugar-Free")… | ⚪ |
 | `shop_app.getStoreContacts` | shop.app | Reads how to reach a store — its support email, phone or contact page as Shop lists… | ⚪ |
 | `shop_app.getStorePolicies` | shop.app | Reads a store's refund and shipping policies as text — the policy sheet on its Shop… | ⚪ |

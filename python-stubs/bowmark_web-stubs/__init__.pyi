@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b68a20d718fa442be33ca7bc5afc1bdff6a7b20f382c993ab480a58fc9405a1c
-# 85 capabilities, 559 providers, 1967 typed functions, 20 refused.
+# Manifest version: 6c8212edd702e4d408e340ff0885f73d9534acc2694184ede76f9871ed302211
+# 85 capabilities, 560 providers, 1970 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9235,6 +9235,24 @@ class Prv_clubchampion_ClubchampionSlot_Out(TypedDict):
     status: str
     resourceId: str
 
+class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
+    symbol: str
+
+class Prv_cnbc_com_cnbc_comRow_Out(TypedDict):
+    symbol: str
+    name: NotRequired[str]
+    price: NotRequired[str]
+    change: NotRequired[str]
+    changePercent: NotRequired[str]
+    open: NotRequired[str]
+    high: NotRequired[str]
+    low: NotRequired[str]
+    fiftyTwoWeekHigh: NotRequired[str]
+    fiftyTwoWeekLow: NotRequired[str]
+    marketCap: NotRequired[str]
+    peRatio: NotRequired[str]
+    dividend: NotRequired[str]
+
 class Prv_cnn_SearchArticlesArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -15848,6 +15866,18 @@ class Prv_instagram_InstagramStory_Out(TypedDict):
     expiresAt: str | None
     hasBeenSeen: bool
 
+class Prv_instagram_InstagramNotification_Out(TypedDict):
+    id: str
+    type: Literal["like"] | Literal["comment"] | Literal["follow"] | Literal["mention"] | Literal["tag"] | Literal["message"] | Literal["other"]
+    senderUsername: str
+    senderId: str
+    senderProfilePicUrl: str | None
+    actionText: str
+    mediaId: str | None
+    mediaUrl: str | None
+    timestamp: str | None
+    isViewed: bool
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -19368,6 +19398,25 @@ class Prv_microsoft_365_CreateDocumentArgs_In(TypedDict):
     name: str
     parentFolderId: NotRequired[str]
     fileType: NotRequired[Literal["word"] | Literal["excel"] | Literal["powerpoint"] | Literal["onenote"]]
+
+class Prv_microsoft_365_ListDocumentVersionsArgs_In(TypedDict):
+    itemId: str
+
+class Prv_microsoft_365_DocumentVersion_Out(TypedDict):
+    id: str
+    versionNumber: NotRequired[float]
+    lastModifiedDateTime: NotRequired[str]
+    lastModifiedBy: NotRequired[Prv_microsoft_365_DocumentVersion_Out_lastModifiedBy_Out]
+    publication: NotRequired[Prv_microsoft_365_DocumentVersion_Out_publication_Out]
+
+class Prv_microsoft_365_DocumentVersion_Out_lastModifiedBy_Out(TypedDict):
+    user: NotRequired[Prv_microsoft_365_DocumentVersion_Out_lastModifiedBy_Out_user_Out]
+
+class Prv_microsoft_365_DocumentVersion_Out_lastModifiedBy_Out_user_Out(TypedDict):
+    displayName: NotRequired[str]
+
+class Prv_microsoft_365_DocumentVersion_Out_publication_Out(TypedDict):
+    level: NotRequired[str]
 
 class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
     path: NotRequired[str]
@@ -37550,6 +37599,15 @@ class Prv_clubchampion(Protocol):
         ~60-day booking horizon — not an error.
         """
 
+class Prv_cnbc_com(Protocol):
+    """Stock quotes, market data, news, videos and analysis from CNBC."""
+
+    async def getQuote(self, args: Prv_cnbc_com_GetQuoteArgs_In, /) -> Prv_cnbc_com_cnbc_comRow_Out:
+        """Returns the current stock quote for one symbol — price, change, percent change, open,
+        high, low, 52-week high/low, market cap, P/E ratio and dividend, read from
+        quote.cnbc.com's keyless JSON quote service.
+        """
+
 class Prv_cnn(Protocol):
     """Breaking news, articles, video segments and markets data from CNN."""
 
@@ -42274,6 +42332,12 @@ class Prv_instagram(Protocol):
         seen status. Requires the caller to be signed in through the relay.
         """
 
+    async def getNotifications(self, /) -> list[Prv_instagram_InstagramNotification_Out]:
+        """Reads the signed-in user's activity feed — likes, comments, follows, mentions, and other
+        interactions. Includes sender information, timestamp, and notification type. Requires
+        the caller to be signed in through the relay.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -44501,6 +44565,11 @@ class Prv_microsoft_365(Protocol):
         """Creates a new document in the user's Microsoft 365 OneDrive with the specified name and
         optional type (Word, Excel, PowerPoint, or OneNote). Returns the metadata of the newly
         created document.
+        """
+
+    async def listDocumentVersions(self, args: Prv_microsoft_365_ListDocumentVersionsArgs_In, /) -> list[Prv_microsoft_365_DocumentVersion_Out]:
+        """Lists the version history of a specific document in the user's Microsoft 365 OneDrive.
+        Returns an array of versions with timestamps and metadata for each version.
         """
 
 class Prv_microsoft_onedrive(Protocol):
@@ -52046,6 +52115,7 @@ class BowmarkProviders(Protocol):
     cleanairlawncare: Prv_cleanairlawncare
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
+    cnbc_com: Prv_cnbc_com
     cnn: Prv_cnn
     coast: Prv_coast
     code_claude_com: Prv_code_claude_com

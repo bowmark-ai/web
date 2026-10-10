@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b68a20d718fa442be33ca7bc5afc1bdff6a7b20f382c993ab480a58fc9405a1c
-// 1967 checked, 20 unchecked.
+// Manifest version: 6c8212edd702e4d408e340ff0885f73d9534acc2694184ede76f9871ed302211
+// 1970 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b68a20d718fa442be33ca7bc5afc1bdff6a7b20f382c993ab480a58fc9405a1c",
+  "version": "6c8212edd702e4d408e340ff0885f73d9534acc2694184ede76f9871ed302211",
   "units": {
     "address_validation": {
       "defs": {
@@ -17063,6 +17063,34 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.cnbc_com": {
+      "defs": {
+        "GetQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "symbol",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetQuoteArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.cnn": {
       "defs": {
         "ListSectionHeadlinesArgs": {
@@ -29300,7 +29328,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getStories": []
+        "getStories": [],
+        "getNotifications": []
       }
     },
     "providers.insurify": {
@@ -36244,6 +36273,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListDocumentVersionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListDocumentsArgs": {
           "k": "object",
           "props": [
@@ -36284,6 +36325,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CreateDocumentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listDocumentVersions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListDocumentVersionsArgs"
             },
             "optional": false
           }

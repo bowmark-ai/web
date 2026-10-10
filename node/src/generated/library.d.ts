@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b68a20d718fa442be33ca7bc5afc1bdff6a7b20f382c993ab480a58fc9405a1c
-// 85 capabilities, 559 providers, 1985 typed functions, 20 refused.
+// Manifest version: 6c8212edd702e4d408e340ff0885f73d9534acc2694184ede76f9871ed302211
+// 85 capabilities, 560 providers, 1988 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16410,6 +16410,40 @@ interface ClubchampionAvailability {
   }
 }
 
+declare namespace BowmarkProvider_cnbc_com {
+  // ── CNBC — the unit's own declarations, verbatim ──
+interface cnbc_comRow {
+  symbol: string;
+  name?: string;
+  price?: string;
+  change?: string;
+  changePercent?: string;
+  open?: string;
+  high?: string;
+  low?: string;
+  fiftyTwoWeekHigh?: string;
+  fiftyTwoWeekLow?: string;
+  marketCap?: string;
+  peRatio?: string;
+  dividend?: string;
+  [key: string]: unknown;
+}
+
+interface GetQuoteArgs {
+  symbol: string;
+}
+
+  /** Stock quotes, market data, news, videos and analysis from CNBC. */
+  interface Unit {
+    /**
+     * Returns the current stock quote for one symbol — price, change, percent change, open, high,
+     * low, 52-week high/low, market cap, P/E ratio and dividend, read from quote.cnbc.com's
+     * keyless JSON quote service.
+     */
+    getQuote(args: GetQuoteArgs): Promise<cnbc_comRow>;
+  }
+}
+
 declare namespace BowmarkProvider_cnn {
   // ── CNN — the unit's own declarations, verbatim ──
 interface cnnRow {
@@ -29006,6 +29040,18 @@ interface InstagramStory {
   expiresAt: string | null;
   hasBeenSeen: boolean;
 }
+interface InstagramNotification {
+  id: string;
+  type: "like" | "comment" | "follow" | "mention" | "tag" | "message" | "other";
+  senderUsername: string;
+  senderId: string;
+  senderProfilePicUrl: string | null;
+  actionText: string;
+  mediaId: string | null;
+  mediaUrl: string | null;
+  timestamp: string | null;
+  isViewed: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29046,6 +29092,13 @@ interface InstagramStory {
      * seen status. Requires the caller to be signed in through the relay.
      */
     getStories(): Promise<InstagramStory[]>;
+
+    /**
+     * Reads the signed-in user's activity feed — likes, comments, follows, mentions, and other
+     * interactions. Includes sender information, timestamp, and notification type. Requires the
+     * caller to be signed in through the relay.
+     */
+    getNotifications(): Promise<InstagramNotification[]>;
   }
 }
 
@@ -35506,6 +35559,18 @@ interface CreateDocumentArgs {
   fileType?: "word" | "excel" | "powerpoint" | "onenote";
 }
 
+interface ListDocumentVersionsArgs {
+  itemId: string;
+}
+
+interface DocumentVersion {
+  id: string;
+  versionNumber?: number;
+  lastModifiedDateTime?: string;
+  lastModifiedBy?: { user?: { displayName?: string } };
+  publication?: { level?: string };
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /**
@@ -35528,6 +35593,12 @@ interface CreateDocumentArgs {
      * created document.
      */
     createDocument(args: CreateDocumentArgs): Promise<microsoft_365Document>;
+
+    /**
+     * Lists the version history of a specific document in the user's Microsoft 365 OneDrive.
+     * Returns an array of versions with timestamps and metadata for each version.
+     */
+    listDocumentVersions(args: ListDocumentVersionsArgs): Promise<DocumentVersion[]>;
   }
 }
 
@@ -56855,6 +56926,7 @@ interface BowmarkProviders {
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
+  cnbc_com: BowmarkProvider_cnbc_com.Unit;
   cnn: BowmarkProvider_cnn.Unit;
   coast: BowmarkProvider_coast.Unit;
   code_claude_com: BowmarkProvider_code_claude_com.Unit;
