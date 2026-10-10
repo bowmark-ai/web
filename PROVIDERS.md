@@ -463,7 +463,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.listSavedPaymentMethods` | booking.com | List payment methods saved to the caller's account. | ⚪ |
 | `booking_com.listWishlist` | booking.com | List properties the caller has saved to their wishlist. | ⚪ |
 | `booking_com.removeFromWishlist` | booking.com | Remove a property from the caller's wishlist. | ⚪ |
-| `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | ⚪ |
+| `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | 🟢 |
 | `booking_com.writeReview` | booking.com | Write a review for a property the caller has booked. | ⚪ |
 | `borsheims.configureRing` | borsheims.com | Composes a setting product page and a diamond/center-stone product page into a priced… | 🟢 |
 | `borsheims.getProduct` | borsheims.com | Reads one product's real, live price straight off its product page's own embedded data… | 🟢 |
