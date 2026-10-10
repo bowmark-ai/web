@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 95c1cb06f32fd35e11400014fe15b80f2e1e30c3815fcf2bc448f93cfd5ac90d
-// 1981 checked, 20 unchecked.
+// Manifest version: e9777eb96052822b0007c7d426216fa7b85ee9b8f3a7975f9a2f6789f9cf2a50
+// 1984 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "95c1cb06f32fd35e11400014fe15b80f2e1e30c3815fcf2bc448f93cfd5ac90d",
+  "version": "e9777eb96052822b0007c7d426216fa7b85ee9b8f3a7975f9a2f6789f9cf2a50",
   "units": {
     "address_validation": {
       "defs": {
@@ -29383,6 +29383,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "unfollowUser": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -36369,6 +36378,42 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "ShareDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "shareWith",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "permissionType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "read"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "edit"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -36418,6 +36463,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "RestoreDocumentVersionArgs"
+            },
+            "optional": false
+          }
+        ],
+        "shareDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShareDocumentArgs"
             },
             "optional": false
           }
@@ -36511,6 +36566,40 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFolders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           },
           {
             "name": "opts",

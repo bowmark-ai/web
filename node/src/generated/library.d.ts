@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 95c1cb06f32fd35e11400014fe15b80f2e1e30c3815fcf2bc448f93cfd5ac90d
-// 85 capabilities, 560 providers, 1999 typed functions, 20 refused.
+// Manifest version: e9777eb96052822b0007c7d426216fa7b85ee9b8f3a7975f9a2f6789f9cf2a50
+// 85 capabilities, 560 providers, 2002 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29105,6 +29105,11 @@ interface InstagramFollowResult {
   following: boolean;
   followRequested: boolean;
 }
+interface InstagramUnfollowResult {
+  userId: string;
+  username: string;
+  following: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29165,6 +29170,12 @@ interface InstagramFollowResult {
      * a follow request was sent. Requires the caller to be signed in through the relay.
      */
     followUser(userId: string): Promise<InstagramFollowResult>;
+
+    /**
+     * Unfollows a user the signed-in account is currently following. Returns the resulting follow
+     * state. Requires the caller to be signed in through the relay.
+     */
+    unfollowUser(userId: string): Promise<InstagramUnfollowResult>;
   }
 }
 
@@ -35642,6 +35653,12 @@ interface RestoreDocumentVersionArgs {
   versionId: string;
 }
 
+interface ShareDocumentArgs {
+  itemId: string;
+  shareWith: string;
+  permissionType?: "read" | "edit";
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /**
@@ -35676,6 +35693,13 @@ interface RestoreDocumentVersionArgs {
      * document ID and version ID, and returns the metadata of the restored document.
      */
     restoreDocumentVersion(args: RestoreDocumentVersionArgs): Promise<microsoft_365Document>;
+
+    /**
+     * Shares a document in Microsoft 365 OneDrive with another user by email address. Takes the
+     * document ID, recipient email, and optional permission type (read or edit), and returns the
+     * share details.
+     */
+    shareDocument(args: ShareDocumentArgs): Promise<{ id: string }>;
   }
 }
 
@@ -35700,6 +35724,9 @@ interface microsoft_onedriveRow {
 
     /** Deletes a file from OneDrive by ID. */
     deleteFile(args: { id: string }, opts?: ConnectionOption): Promise<void>;
+
+    /** Lists folders in the user's OneDrive root or a specified path. */
+    listFolders(args?: { path?: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow[]>;
   }
 }
 

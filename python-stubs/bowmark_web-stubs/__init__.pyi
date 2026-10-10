@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 95c1cb06f32fd35e11400014fe15b80f2e1e30c3815fcf2bc448f93cfd5ac90d
-# 85 capabilities, 560 providers, 1981 typed functions, 20 refused.
+# Manifest version: e9777eb96052822b0007c7d426216fa7b85ee9b8f3a7975f9a2f6789f9cf2a50
+# 85 capabilities, 560 providers, 1984 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15920,6 +15920,11 @@ class Prv_instagram_InstagramFollowResult_Out(TypedDict):
     following: bool
     followRequested: bool
 
+class Prv_instagram_InstagramUnfollowResult_Out(TypedDict):
+    userId: str
+    username: str
+    following: bool
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -19464,6 +19469,14 @@ class Prv_microsoft_365_RestoreDocumentVersionArgs_In(TypedDict):
     itemId: str
     versionId: str
 
+class Prv_microsoft_365_ShareDocumentArgs_In(TypedDict):
+    itemId: str
+    shareWith: str
+    permissionType: NotRequired[Literal["read"] | Literal["edit"]]
+
+class Prv_microsoft_365_shareDocument_return_Out(TypedDict):
+    id: str
+
 class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
     path: NotRequired[str]
 
@@ -19480,6 +19493,9 @@ class Prv_microsoft_onedrive_getFile_args_In(TypedDict):
 
 class Prv_microsoft_onedrive_deleteFile_args_In(TypedDict):
     id: str
+
+class Prv_microsoft_onedrive_listFolders_args_In(TypedDict):
+    path: NotRequired[str]
 
 class Prv_microsoft_outlook_microsoft_outlookFolder_Out(TypedDict):
     id: str
@@ -42497,6 +42513,11 @@ class Prv_instagram(Protocol):
         and if a follow request was sent. Requires the caller to be signed in through the relay.
         """
 
+    async def unfollowUser(self, userId: str, /) -> Prv_instagram_InstagramUnfollowResult_Out:
+        """Unfollows a user the signed-in account is currently following. Returns the resulting
+        follow state. Requires the caller to be signed in through the relay.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -44736,6 +44757,12 @@ class Prv_microsoft_365(Protocol):
         document ID and version ID, and returns the metadata of the restored document.
         """
 
+    async def shareDocument(self, args: Prv_microsoft_365_ShareDocumentArgs_In, /) -> Prv_microsoft_365_shareDocument_return_Out:
+        """Shares a document in Microsoft 365 OneDrive with another user by email address. Takes
+        the document ID, recipient email, and optional permission type (read or edit), and
+        returns the share details.
+        """
+
 class Prv_microsoft_onedrive(Protocol):
     """Cloud file storage and sharing through Microsoft OneDrive."""
 
@@ -44747,6 +44774,9 @@ class Prv_microsoft_onedrive(Protocol):
 
     async def deleteFile(self, args: Prv_microsoft_onedrive_deleteFile_args_In, opts: ConnectionOption | None = None, /) -> Any:
         """Deletes a file from OneDrive by ID."""
+
+    async def listFolders(self, args: Prv_microsoft_onedrive_listFolders_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_onedrive_microsoft_onedriveRow_Out]:
+        """Lists folders in the user's OneDrive root or a specified path."""
 
 class Prv_microsoft_outlook(Protocol):
     """Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
