@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 63f3029131af18771604ba9293a9cb50a6b7b14508222a0621e4821579cc4fce
-// 86 capabilities, 562 providers, 2020 typed functions, 20 refused.
+// Manifest version: 7443a6d51b4a6b805985c75e47f8ff26792944f3b135af766dafebed878d1189
+// 86 capabilities, 562 providers, 2021 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29344,6 +29344,10 @@ interface InstagramSaveResult {
   mediaId: string;
   hasSaved: boolean;
 }
+interface InstagramUnsaveResult {
+  mediaId: string;
+  hasSaved: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29434,6 +29438,12 @@ interface InstagramSaveResult {
      * save state. Requires the caller to be signed in through the relay.
      */
     savePost(mediaId: string): Promise<InstagramSaveResult>;
+
+    /**
+     * Removes a post from the signed-in user's saved collection. Returns the media id and the
+     * resulting save state. Requires the caller to be signed in through the relay.
+     */
+    unsavePost(mediaId: string): Promise<InstagramUnsaveResult>;
   }
 }
 

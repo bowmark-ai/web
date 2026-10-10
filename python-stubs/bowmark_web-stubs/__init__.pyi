@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 63f3029131af18771604ba9293a9cb50a6b7b14508222a0621e4821579cc4fce
-# 86 capabilities, 562 providers, 2002 typed functions, 20 refused.
+# Manifest version: 7443a6d51b4a6b805985c75e47f8ff26792944f3b135af766dafebed878d1189
+# 86 capabilities, 562 providers, 2003 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16072,6 +16072,10 @@ class Prv_instagram_InstagramCommentResult_Out(TypedDict):
     timestamp: str | None
 
 class Prv_instagram_InstagramSaveResult_Out(TypedDict):
+    mediaId: str
+    hasSaved: bool
+
+class Prv_instagram_InstagramUnsaveResult_Out(TypedDict):
     mediaId: str
     hasSaved: bool
 
@@ -42776,6 +42780,11 @@ class Prv_instagram(Protocol):
     async def savePost(self, mediaId: str, /) -> Prv_instagram_InstagramSaveResult_Out:
         """Saves a post to the signed-in user's default saved collection. Returns the media id and
         the save state. Requires the caller to be signed in through the relay.
+        """
+
+    async def unsavePost(self, mediaId: str, /) -> Prv_instagram_InstagramUnsaveResult_Out:
+        """Removes a post from the signed-in user's saved collection. Returns the media id and the
+        resulting save state. Requires the caller to be signed in through the relay.
         """
 
 class Prv_insurify(Protocol):
