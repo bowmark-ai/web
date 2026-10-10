@@ -841,7 +841,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deltadentalma.lastUpdated` | deltadentalma.com | Returns the timestamp the directory data was last refreshed, so a caller can say how… | 🟢 |
 | `deltadentalma.search` | deltadentalma.com | Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network… | 🟡 |
 | `dentalplans.getPlan` | dentalplans.com | Reads one plan's own detail page — its marketing description and the site's own… | 🟢 |
-| `dentalplans.search` | dentalplans.com | Runs DentalPlans.com's own live plan search (/plan-search-results/?zip=) for a 5-digit… | 🟢 |
+| `dentalplans.search` | dentalplans.com | Runs DentalPlans.com's own live plan search (/plan-search-results/?zip=) for a 5-digit… | 🟡 |
 | `detailxperts.bookAppointment` | detailxperts.com | Submits the booking form (name, phone, email, service address, vehicle, chosen… | ⚪ |
 | `detailxperts.checkServiceArea` | detailxperts.com | Checks whether a service address is inside a DetailXPerts franchise's mobile service… | 🟡 |
 | `detailxperts.getQuote` | detailxperts.com | Prices a mobile detail for one vehicle type and dirt/pet-hair/interior-dirt condition… | 🟡 |
