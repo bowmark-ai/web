@@ -58,6 +58,9 @@ export interface CallEnvelope<T = unknown> {
   ms?: number;
   needs?: AuthNeed[];
   meta?: { handoff?: Handoff };
+  /** What the call said about an answer that is WHOLE (how it was reached, an argument
+   * Bowmark adjusted, a caveat for one use of the content). Never a failure. */
+  notes?: string[];
 }
 
 /** The wire shape `POST /v1/run` returns. Mirrors `RunEnvelope` in
@@ -73,6 +76,9 @@ export interface RunEnvelope<T = unknown> {
   ms?: number;
   needs?: AuthNeed[];
   incomplete?: { summary: string; [key: string]: unknown };
+  /** What each call said about an answer that is WHOLE. Never moves `status`: a note is
+   * not a reason for `partial`, which is what `incomplete` is for. */
+  notes?: { path: string; notes: string[] }[];
   meta?: { handoff?: Handoff; wwwAuthenticate?: string };
   /** Present when the account owner has not accepted Bowmark's current Terms or
    * Privacy Policy. The run is unaffected; `notice.message` is for your user. */
