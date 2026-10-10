@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d48c0b390015a07a5846c9a0f910d0de29c238a05d1710960bc0183ce5570ba5
-// 85 capabilities, 560 providers, 1996 typed functions, 20 refused.
+// Manifest version: 95c1cb06f32fd35e11400014fe15b80f2e1e30c3815fcf2bc448f93cfd5ac90d
+// 85 capabilities, 560 providers, 1999 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20157,6 +20157,38 @@ interface ScoreboardResult {
   games: Game[];
 }
 
+interface GetGameArgs {
+  /** Event id from scoreboard or teamSchedule */
+  eventId: string;
+  /** League slug (required to construct the API URL) */
+  league: string;
+}
+
+interface GameDetail {
+  eventId: string;
+  league: string;
+  status: string; // the site's own labels — read the values off a result, never guess one from prose
+  homeTeam: {
+    name: string;
+    abbreviation: string;
+    id: string;
+    score: number | null;
+  };
+  awayTeam: {
+    name: string;
+    abbreviation: string;
+    id: string;
+    score: number | null;
+  };
+  dateTime: string;
+  venue: string | null;
+  broadcasts: string[];
+  period: number | null;
+  timeRemaining: string | null;
+  attendance: number | null;
+  weather: string | null;
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -20176,6 +20208,13 @@ interface ScoreboardResult {
      * teams, score, status, venue, broadcast and event id for getGame.
      */
     scoreboard(args: ScoreboardArgs): Promise<ScoreboardResult>;
+
+    /**
+     * One game in full, with score by period, every player's box-score line, team stats, scoring
+     * plays, play-by-play, game leaders, venue, attendance, weather and officials. Takes an event
+     * id from scoreboard or teamSchedule.
+     */
+    getGame(args: GetGameArgs): Promise<GameDetail>;
 
     /**
      * The ESPN injury report for a league — NFL by default — every injured player with team,
@@ -29060,6 +29099,12 @@ interface InstagramSentDirectMessage {
   timestamp: string | null;
   success: boolean;
 }
+interface InstagramFollowResult {
+  userId: string;
+  username: string;
+  following: boolean;
+  followRequested: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29113,6 +29158,13 @@ interface InstagramSentDirectMessage {
      * timestamp. Requires the caller to be signed in through the relay.
      */
     sendDirectMessage(recipientId: string, messageText: string): Promise<InstagramSentDirectMessage>;
+
+    /**
+     * Follows a user. For public accounts, follows immediately; for private accounts, sends a
+     * follow request. Returns the follow result including whether the follow was successful and if
+     * a follow request was sent. Requires the caller to be signed in through the relay.
+     */
+    followUser(userId: string): Promise<InstagramFollowResult>;
   }
 }
 
@@ -54436,6 +54488,11 @@ interface YahooMailMessage {
 
 type ListFoldersArgs = Record<string, never>;
 
+interface ListMessagesArgs {
+  folderId?: unknown;
+  limit?: unknown;
+}
+
 interface GetMessageArgs {
   id: unknown;
 }
@@ -54454,6 +54511,14 @@ interface GetMessageArgs {
      * shape.
      */
     listFolders(args: ListFoldersArgs, opts?: ConnectionOption): Promise<YahooMailFolder[]>;
+
+    /**
+     * Lists messages in the CALLER's own mailbox from a chosen folder (Inbox by default), newest
+     * first — sender, subject, snippet, received time and read/unread state, the way the inbox
+     * list view does. The door for `getMessage`. Field values are read defensively and may come
+     * back as empty strings until a real signed-in capture measures the success shape.
+     */
+    listMessages(args: ListMessagesArgs, opts?: ConnectionOption): Promise<YahooMailMessageRow[]>;
 
     /**
      * Reads one message in full from the CALLER's own mailbox, given the message id `listMessages`

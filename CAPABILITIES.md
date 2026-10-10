@@ -122,7 +122,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `vacation_rental.quote` | The total price for a stay at one vacation rental — `id` or `url` from `search`, plus… | 1 | 🟢 |
 | `vacation_rental.search` | Search vacation rentals for a free-text location (e.g. "Austin, Texas"), optional… | 1 | 🟢 |
 | `video_editing.editFootage` | Trims, cuts or blurs one of the caller's own YouTube videos by starting a hosted… | 1 | 🟢 |
-| `video_library.addToPlaylist` | Adds one or many videos to one of the caller's own playlists, as a single edit. | 1 | 🟡 |
+| `video_library.addToPlaylist` | Adds one or many videos to one of the caller's own playlists, as a single edit. | 1 | 🟢 |
 | `video_library.createChannel` | Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and… | 1 | 🟡 |
 | `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟡 |
 | `video_library.deletePlaylist` | PERMANENTLY deletes one of the caller's own playlists, with its entire contents —… | 1 | 🟢 |

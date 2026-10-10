@@ -1,5 +1,5 @@
 {
-  "version": "d48c0b390015a07a5846c9a0f910d0de29c238a05d1710960bc0183ce5570ba5",
+  "version": "95c1cb06f32fd35e11400014fe15b80f2e1e30c3815fcf2bc448f93cfd5ac90d",
   "units": {
     "address_validation": {
       "defs": {
@@ -20445,6 +20445,25 @@
     },
     "providers.espn": {
       "defs": {
+        "GetGameArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "eventId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "InjuriesArgs": {
           "k": "object",
           "props": [
@@ -20570,6 +20589,16 @@
             "schema": {
               "k": "ref",
               "name": "ScoreboardArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getGame": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameArgs"
             },
             "optional": false
           }
@@ -29328,6 +29357,15 @@
           },
           {
             "name": "messageText",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "followUser": [
+          {
+            "name": "userId",
             "schema": {
               "k": "string"
             },
@@ -60478,6 +60516,25 @@
           "value": {
             "k": "any"
           }
+        },
+        "ListMessagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "folderId",
+              "schema": {
+                "k": "any"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "any"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -60487,6 +60544,32 @@
             "schema": {
               "k": "ref",
               "name": "ListFoldersArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMessages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListMessagesArgs"
             },
             "optional": false
           },

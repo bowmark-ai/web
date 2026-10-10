@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d48c0b390015a07a5846c9a0f910d0de29c238a05d1710960bc0183ce5570ba5
-// 1978 checked, 20 unchecked.
+// Manifest version: 95c1cb06f32fd35e11400014fe15b80f2e1e30c3815fcf2bc448f93cfd5ac90d
+// 1981 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d48c0b390015a07a5846c9a0f910d0de29c238a05d1710960bc0183ce5570ba5",
+  "version": "95c1cb06f32fd35e11400014fe15b80f2e1e30c3815fcf2bc448f93cfd5ac90d",
   "units": {
     "address_validation": {
       "defs": {
@@ -20457,6 +20457,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.espn": {
       "defs": {
+        "GetGameArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "eventId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "InjuriesArgs": {
           "k": "object",
           "props": [
@@ -20582,6 +20601,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ScoreboardArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getGame": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameArgs"
             },
             "optional": false
           }
@@ -29340,6 +29369,15 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "messageText",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "followUser": [
+          {
+            "name": "userId",
             "schema": {
               "k": "string"
             },
@@ -60490,6 +60528,25 @@ export const VALIDATORS: ValidatorTable = {
           "value": {
             "k": "any"
           }
+        },
+        "ListMessagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "folderId",
+              "schema": {
+                "k": "any"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "any"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -60499,6 +60556,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListFoldersArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMessages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListMessagesArgs"
             },
             "optional": false
           },

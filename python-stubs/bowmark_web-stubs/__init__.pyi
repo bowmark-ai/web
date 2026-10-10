@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d48c0b390015a07a5846c9a0f910d0de29c238a05d1710960bc0183ce5570ba5
-# 85 capabilities, 560 providers, 1978 typed functions, 20 refused.
+# Manifest version: 95c1cb06f32fd35e11400014fe15b80f2e1e30c3815fcf2bc448f93cfd5ac90d
+# 85 capabilities, 560 providers, 1981 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11315,6 +11315,36 @@ class Prv_espn_Game_Out_awayTeam_Out(TypedDict):
     abbreviation: str
     id: str
 
+class Prv_espn_GetGameArgs_In(TypedDict):
+    eventId: str
+    league: str
+
+class Prv_espn_GameDetail_Out(TypedDict):
+    eventId: str
+    league: str
+    status: str
+    homeTeam: Prv_espn_GameDetail_Out_homeTeam_Out
+    awayTeam: Prv_espn_GameDetail_Out_awayTeam_Out
+    dateTime: str
+    venue: str | None
+    broadcasts: list[str]
+    period: float | None
+    timeRemaining: str | None
+    attendance: float | None
+    weather: str | None
+
+class Prv_espn_GameDetail_Out_homeTeam_Out(TypedDict):
+    name: str
+    abbreviation: str
+    id: str
+    score: float | None
+
+class Prv_espn_GameDetail_Out_awayTeam_Out(TypedDict):
+    name: str
+    abbreviation: str
+    id: str
+    score: float | None
+
 class Prv_espn_InjuriesArgs_In(TypedDict):
     league: NotRequired[Literal["nfl"] | Literal["nba"] | Literal["wnba"] | Literal["mlb"] | Literal["nhl"]]
     team: NotRequired[str]
@@ -15883,6 +15913,12 @@ class Prv_instagram_InstagramSentDirectMessage_Out(TypedDict):
     text: str
     timestamp: str | None
     success: bool
+
+class Prv_instagram_InstagramFollowResult_Out(TypedDict):
+    userId: str
+    username: str
+    following: bool
+    followRequested: bool
 
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
@@ -30767,6 +30803,22 @@ class Prv_yahoo_mail_YahooMailFolder_Out(TypedDict):
     totalCount: NotRequired[float]
     raw: Mapping[str, Any]
 
+class Prv_yahoo_mail_ListMessagesArgs_In(TypedDict):
+    folderId: NotRequired[Any]
+    limit: NotRequired[Any]
+
+Prv_yahoo_mail_YahooMailMessageRow_Out = TypedDict(
+    "Prv_yahoo_mail_YahooMailMessageRow_Out",
+    {
+    "id": str,
+    "from": str,
+    "subject": str,
+    "snippet": str,
+    "receivedAt": str,
+    "unread": bool,
+    },
+)
+
 class Prv_yahoo_mail_GetMessageArgs_In(TypedDict):
     id: Any
 
@@ -39058,6 +39110,12 @@ class Prv_espn(Protocol):
         with teams, score, status, venue, broadcast and event id for getGame.
         """
 
+    async def getGame(self, args: Prv_espn_GetGameArgs_In, /) -> Prv_espn_GameDetail_Out:
+        """One game in full, with score by period, every player's box-score line, team stats,
+        scoring plays, play-by-play, game leaders, venue, attendance, weather and officials.
+        Takes an event id from scoreboard or teamSchedule.
+        """
+
     async def injuries(self, args: Prv_espn_InjuriesArgs_In | None = None, /) -> Prv_espn_EspnInjuryReport_Out:
         """The ESPN injury report for a league — NFL by default — every injured player with team,
         position, status, body part, expected return date and the latest news note. Pass `team`
@@ -42431,6 +42489,12 @@ class Prv_instagram(Protocol):
     async def sendDirectMessage(self, recipientId: str, messageText: str, /) -> Prv_instagram_InstagramSentDirectMessage_Out:
         """Sends a direct message to a specified user. Returns the sent message's ID, text, and
         timestamp. Requires the caller to be signed in through the relay.
+        """
+
+    async def followUser(self, userId: str, /) -> Prv_instagram_InstagramFollowResult_Out:
+        """Follows a user. For public accounts, follows immediately; for private accounts, sends a
+        follow request. Returns the follow result including whether the follow was successful
+        and if a follow request was sent. Requires the caller to be signed in through the relay.
         """
 
 class Prv_insurify(Protocol):
@@ -51455,6 +51519,14 @@ class Prv_yahoo_mail(Protocol):
         never signs up on this site. Takes no arguments. Field values besides `raw` are read
         defensively and may come back undefined until a real signed-in capture measures the
         success shape.
+        """
+
+    async def listMessages(self, args: Prv_yahoo_mail_ListMessagesArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_yahoo_mail_YahooMailMessageRow_Out]:
+        """Lists messages in the CALLER's own mailbox from a chosen folder (Inbox by default),
+        newest first — sender, subject, snippet, received time and read/unread state, the way
+        the inbox list view does. The door for `getMessage`. Field values are read defensively
+        and may come back as empty strings until a real signed-in capture measures the success
+        shape.
         """
 
     async def getMessage(self, args: Prv_yahoo_mail_GetMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_yahoo_mail_YahooMailMessage_Out:

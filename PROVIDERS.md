@@ -3272,7 +3272,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |
-| `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟡 |
+| `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟢 |
 | `youtube.createChannel` | youtube.com | Creates the signed-in Google account's YouTube CHANNEL, using the account's own name… | 🟡 |
 | `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟡 |
 | `youtube.deletePlaylist` | youtube.com | Permanently delete one of the signed-in account's own playlists. | 🟢 |
