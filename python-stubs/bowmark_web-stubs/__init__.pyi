@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28
-# 85 capabilities, 560 providers, 1990 typed functions, 20 refused.
+# Manifest version: 61f327b447fd912ec49c3b2514f1c2eb9cc6ff2ca439ffb4313eaa5f0e062534
+# 85 capabilities, 560 providers, 1991 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10703,6 +10703,24 @@ class Prv_duckduckgo_DuckDuckGoPlace_Out(TypedDict):
 class Prv_duckduckgo_DuckDuckGoPlace_Out_coordinates_Out(TypedDict):
     latitude: float
     longitude: float
+
+class Prv_duckduckgo_SearchImagesArgs_In(TypedDict):
+    query: str
+    cursor: NotRequired[str]
+
+class Prv_duckduckgo_SearchImagesResult_Out(TypedDict):
+    query: str
+    results: list[Prv_duckduckgo_DuckDuckGoImage_Out]
+    next: str | None
+
+class Prv_duckduckgo_DuckDuckGoImage_Out(TypedDict):
+    title: str
+    url: str
+    image: str
+    thumbnail: str | None
+    height: float | None
+    width: float | None
+    source: str | None
 
 class Prv_dumpsters_DumpstersGetQuoteArgs_In(TypedDict):
     address: str
@@ -38856,6 +38874,12 @@ class Prv_duckduckgo(Protocol):
         address, phone number, coordinates, rating and hours of operation — about 19 per page.
         Optional `latitude` and `longitude` for location-based search. Pass the returned `next`
         back as `cursor` for the following page.
+        """
+
+    async def searchImages(self, args: Prv_duckduckgo_SearchImagesArgs_In, /) -> Prv_duckduckgo_SearchImagesResult_Out:
+        """Searches DuckDuckGo's Images vertical and returns each result's title, page URL, direct
+        image URL, thumbnail, dimensions, and source site. Pass the returned `next` back as
+        `cursor` for the following page.
         """
 
 class Prv_dumpsters(Protocol):

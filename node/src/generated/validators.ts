@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28
-// 1990 checked, 20 unchecked.
+// Manifest version: 61f327b447fd912ec49c3b2514f1c2eb9cc6ff2ca439ffb4313eaa5f0e062534
+// 1991 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28",
+  "version": "61f327b447fd912ec49c3b2514f1c2eb9cc6ff2ca439ffb4313eaa5f0e062534",
   "units": {
     "address_validation": {
       "defs": {
@@ -19547,6 +19547,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchImagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchNewsArgs": {
           "k": "object",
           "props": [
@@ -19649,6 +19668,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchPlacesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchImages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchImagesArgs"
             },
             "optional": false
           }

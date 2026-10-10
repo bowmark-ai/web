@@ -1,5 +1,5 @@
 {
-  "version": "f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28",
+  "version": "61f327b447fd912ec49c3b2514f1c2eb9cc6ff2ca439ffb4313eaa5f0e062534",
   "units": {
     "address_validation": {
       "defs": {
@@ -19535,6 +19535,25 @@
             }
           ]
         },
+        "SearchImagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchNewsArgs": {
           "k": "object",
           "props": [
@@ -19637,6 +19656,16 @@
             "schema": {
               "k": "ref",
               "name": "SearchPlacesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchImages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchImagesArgs"
             },
             "optional": false
           }

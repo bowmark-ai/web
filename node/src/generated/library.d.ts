@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28
-// 85 capabilities, 560 providers, 2008 typed functions, 20 refused.
+// Manifest version: 61f327b447fd912ec49c3b2514f1c2eb9cc6ff2ca439ffb4313eaa5f0e062534
+// 85 capabilities, 560 providers, 2009 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19203,6 +19203,32 @@ interface SearchPlacesResult {
   next: string | null;
 }
 
+interface DuckDuckGoImage {
+  title: string;
+  url: string;
+  /** The direct image URL. */
+  image: string;
+  /** Thumbnail URL, usually a resized version of the main image. */
+  thumbnail: string | null;
+  height: number | null;
+  width: number | null;
+  /** The site the image comes from. */
+  source: string | null;
+}
+
+interface SearchImagesArgs {
+  query: string;
+  /** The `next` value a previous call returned, to fetch the following page. */
+  cursor?: string;
+}
+
+interface SearchImagesResult {
+  query: string;
+  results: DuckDuckGoImage[];
+  /** Pass back as `cursor` for the next page; null on the last page. */
+  next: string | null;
+}
+
   /**
    * DuckDuckGo (duckduckgo.com) — private web, image, video, news and maps search, Instant
    * Answers, autocomplete, the dictionary, currency, weather, time and translation answers,
@@ -19236,6 +19262,13 @@ interface SearchPlacesResult {
      * as `cursor` for the following page.
      */
     searchPlaces(args: SearchPlacesArgs): Promise<SearchPlacesResult>;
+
+    /**
+     * Searches DuckDuckGo's Images vertical and returns each result's title, page URL, direct
+     * image URL, thumbnail, dimensions, and source site. Pass the returned `next` back as `cursor`
+     * for the following page.
+     */
+    searchImages(args: SearchImagesArgs): Promise<SearchImagesResult>;
   }
 }
 
