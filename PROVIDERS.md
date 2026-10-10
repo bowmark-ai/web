@@ -1681,7 +1681,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in user's feed. | ⚪ |
 | `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | ⚪ |
 | `instagram.searchAccounts` | instagram.com | Searches Instagram for public accounts matching a query. | ⚪ |
-| `instagram.sendDirectMessage` | instagram.com | Sends a direct message to one user. | ⚪ |
+| `instagram.sendDirectMessage` | instagram.com | Sends a direct message to one user. | 🟢 |
 | `instagram.unblockUser` | instagram.com | Unblocks a previously blocked user. | ⚪ |
 | `instagram.unfollowUser` | instagram.com | Unfollows a user the signed-in account is currently following. | ⚪ |
 | `instagram.unlikePost` | instagram.com | Removes a like from a previously liked post. | ⚪ |
