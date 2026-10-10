@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2e6e03dd1ab53bad87e20e6d643b1fc6e4fae298ab81b2d00ed494a0bfbc17ed
-// 1993 checked, 20 unchecked.
+// Manifest version: e9c65a29e069dcf0a29b244a4de3d9d37a81b260cd66ae34d000e19247aeac13
+// 1995 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2e6e03dd1ab53bad87e20e6d643b1fc6e4fae298ab81b2d00ed494a0bfbc17ed",
+  "version": "e9c65a29e069dcf0a29b244a4de3d9d37a81b260cd66ae34d000e19247aeac13",
   "units": {
     "address_validation": {
       "defs": {
@@ -29514,6 +29514,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "unlikePost": [
+          {
+            "name": "mediaId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -36672,6 +36681,61 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "uploadFile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "base64",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "mimeType",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
                 }
               ]
             },

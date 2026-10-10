@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2e6e03dd1ab53bad87e20e6d643b1fc6e4fae298ab81b2d00ed494a0bfbc17ed
-// 85 capabilities, 561 providers, 2011 typed functions, 20 refused.
+// Manifest version: e9c65a29e069dcf0a29b244a4de3d9d37a81b260cd66ae34d000e19247aeac13
+// 85 capabilities, 561 providers, 2013 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29208,6 +29208,11 @@ interface InstagramLikeResult {
   likeCount: number;
   hasLiked: boolean;
 }
+interface InstagramUnlikeResult {
+  mediaId: string;
+  likeCount: number;
+  hasLiked: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29280,6 +29285,12 @@ interface InstagramLikeResult {
      * caller to be signed in through the relay.
      */
     likePost(mediaId: string): Promise<InstagramLikeResult>;
+
+    /**
+     * Removes a like from a previously liked post. Returns the resulting like count and like
+     * state. Requires the caller to be signed in through the relay.
+     */
+    unlikePost(mediaId: string): Promise<InstagramUnlikeResult>;
   }
 }
 
@@ -35835,6 +35846,9 @@ interface microsoft_onedriveRow {
 
     /** Gets metadata for a specific file by ID. */
     getFile(args: { id: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow>;
+
+    /** Uploads a file to OneDrive at the specified path. */
+    uploadFile(args: { name: string; base64: string; path?: string; mimeType?: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow>;
 
     /** Deletes a file from OneDrive by ID. */
     deleteFile(args: { id: string }, opts?: ConnectionOption): Promise<void>;

@@ -1667,7 +1667,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `indeed.searchSalaries` | indeed.com | Searches Indeed's own salary data by job title and location, returning salary ranges… | 🟢 |
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
 | `instagram.blockUser` | instagram.com | Blocks a user from seeing the signed-in account's posts and sending messages. | ⚪ |
-| `instagram.commentOnPost` | instagram.com | Posts a comment on a photo or video. | ⚪ |
+| `instagram.commentOnPost` | instagram.com | Posts a comment on a photo or video by its media id. | 🟢 |
 | `instagram.followUser` | instagram.com | Follows a user. | 🟢 |
 | `instagram.getDirectMessages` | instagram.com | Lists the signed-in user's direct message threads with preview of the latest message… | 🟢 |
 | `instagram.getHomeFeed` | instagram.com | Reads the signed-in user's home feed — the newest posts from accounts they follow… | ⚪ |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2e6e03dd1ab53bad87e20e6d643b1fc6e4fae298ab81b2d00ed494a0bfbc17ed
-# 85 capabilities, 561 providers, 1993 typed functions, 20 refused.
+# Manifest version: e9c65a29e069dcf0a29b244a4de3d9d37a81b260cd66ae34d000e19247aeac13
+# 85 capabilities, 561 providers, 1995 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15991,6 +15991,11 @@ class Prv_instagram_InstagramLikeResult_Out(TypedDict):
     likeCount: float
     hasLiked: bool
 
+class Prv_instagram_InstagramUnlikeResult_Out(TypedDict):
+    mediaId: str
+    likeCount: float
+    hasLiked: bool
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -19562,6 +19567,12 @@ class Prv_microsoft_onedrive_microsoft_onedriveRow_Out(TypedDict):
 
 class Prv_microsoft_onedrive_getFile_args_In(TypedDict):
     id: str
+
+class Prv_microsoft_onedrive_uploadFile_args_In(TypedDict):
+    name: str
+    base64: str
+    path: NotRequired[str]
+    mimeType: NotRequired[str]
 
 class Prv_microsoft_onedrive_deleteFile_args_In(TypedDict):
     id: str
@@ -42636,6 +42647,11 @@ class Prv_instagram(Protocol):
         the caller to be signed in through the relay.
         """
 
+    async def unlikePost(self, mediaId: str, /) -> Prv_instagram_InstagramUnlikeResult_Out:
+        """Removes a like from a previously liked post. Returns the resulting like count and like
+        state. Requires the caller to be signed in through the relay.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -44894,6 +44910,9 @@ class Prv_microsoft_onedrive(Protocol):
 
     async def getFile(self, args: Prv_microsoft_onedrive_getFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_onedrive_microsoft_onedriveRow_Out:
         """Gets metadata for a specific file by ID."""
+
+    async def uploadFile(self, args: Prv_microsoft_onedrive_uploadFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_onedrive_microsoft_onedriveRow_Out:
+        """Uploads a file to OneDrive at the specified path."""
 
     async def deleteFile(self, args: Prv_microsoft_onedrive_deleteFile_args_In, opts: ConnectionOption | None = None, /) -> Any:
         """Deletes a file from OneDrive by ID."""
