@@ -1,5 +1,5 @@
 {
-  "version": "6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41",
+  "version": "6276ef94e3aaf24a1e564a7f49bdecb0e4ff695f67bf3113e6983a07425a546a",
   "units": {
     "address_validation": {
       "defs": {
@@ -55622,6 +55622,25 @@
     },
     "providers.tripadvisor": {
       "defs": {
+        "GetHotelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -55671,6 +55690,16 @@
             "schema": {
               "k": "ref",
               "name": "SearchHotelsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHotel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHotelArgs"
             },
             "optional": false
           }

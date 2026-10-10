@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41
-// 85 capabilities, 560 providers, 1992 typed functions, 20 refused.
+// Manifest version: 6276ef94e3aaf24a1e564a7f49bdecb0e4ff695f67bf3113e6983a07425a546a
+// 85 capabilities, 560 providers, 1993 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -50001,6 +50001,29 @@ interface SearchHotelsResult {
   hasMore: boolean;
 }
 
+interface GetHotelArgs {
+  id?: string;
+  url?: string;
+}
+
+interface TripadvisorHotelDetail {
+  id: string;
+  name: string;
+  rating?: number;
+  reviewCount?: number;
+  address?: string;
+  phone?: string;
+  latitude?: number;
+  longitude?: number;
+  url?: string;
+  starClass?: number;
+  subRatings?: Record<string, number>;
+  amenities?: string[]; // the site's own labels — read the values off a result, never guess one from prose
+  roomFeatures?: string[];
+  nearbyPlaces?: Array<{ name: string; distance?: string }>;
+  priceFrom?: number;
+}
+
   /**
    * Travel reviews worldwide — find a city, hotel, restaurant or attraction by name; list and
    * read hotels, restaurants, things to do and tours with ratings, reviews, Q&A and partner
@@ -50018,6 +50041,12 @@ interface SearchHotelsResult {
      * rating, review count, address, coordinates and 'from' price, paginated 30 at a time.
      */
     searchHotels(args: SearchHotelsArgs): Promise<SearchHotelsResult>;
+
+    /**
+     * Reads one hotel in full: name, address, phone, star class, rating and sub-ratings, review
+     * count, amenities, room features, nearby places and headline price.
+     */
+    getHotel(args: GetHotelArgs): Promise<TripadvisorHotelDetail>;
   }
 }
 

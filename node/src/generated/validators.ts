@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41
-// 1974 checked, 20 unchecked.
+// Manifest version: 6276ef94e3aaf24a1e564a7f49bdecb0e4ff695f67bf3113e6983a07425a546a
+// 1975 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41",
+  "version": "6276ef94e3aaf24a1e564a7f49bdecb0e4ff695f67bf3113e6983a07425a546a",
   "units": {
     "address_validation": {
       "defs": {
@@ -55634,6 +55634,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.tripadvisor": {
       "defs": {
+        "GetHotelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -55683,6 +55702,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchHotelsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHotel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHotelArgs"
             },
             "optional": false
           }

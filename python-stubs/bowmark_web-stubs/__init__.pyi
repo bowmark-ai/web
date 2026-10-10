@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41
-# 85 capabilities, 560 providers, 1974 typed functions, 20 refused.
+# Manifest version: 6276ef94e3aaf24a1e564a7f49bdecb0e4ff695f67bf3113e6983a07425a546a
+# 85 capabilities, 560 providers, 1975 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27986,6 +27986,31 @@ class Prv_tripadvisor_TripadvisorHotel_Out(TypedDict):
     priceFrom: NotRequired[float]
     url: NotRequired[str]
 
+class Prv_tripadvisor_GetHotelArgs_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_tripadvisor_TripadvisorHotelDetail_Out(TypedDict):
+    id: str
+    name: str
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+    address: NotRequired[str]
+    phone: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    url: NotRequired[str]
+    starClass: NotRequired[float]
+    subRatings: NotRequired[Mapping[str, float]]
+    amenities: NotRequired[list[str]]
+    roomFeatures: NotRequired[list[str]]
+    nearbyPlaces: NotRequired[list[Prv_tripadvisor_TripadvisorHotelDetail_Out_nearbyPlaces_item_Out]]
+    priceFrom: NotRequired[float]
+
+class Prv_tripadvisor_TripadvisorHotelDetail_Out_nearbyPlaces_item_Out(TypedDict):
+    name: str
+    distance: NotRequired[str]
+
 class Prv_trojanstorage_TrojanstorageFacilitySearchFilters_In(TypedDict):
     state: NotRequired[str]
     city: NotRequired[str]
@@ -49856,6 +49881,11 @@ class Prv_tripadvisor(Protocol):
         """Lists the hotels in a city or region, in Tripadvisor's ranking, with each hotel's id,
         name, rating, review count, address, coordinates and 'from' price, paginated 30 at a
         time.
+        """
+
+    async def getHotel(self, args: Prv_tripadvisor_GetHotelArgs_In, /) -> Prv_tripadvisor_TripadvisorHotelDetail_Out:
+        """Reads one hotel in full: name, address, phone, star class, rating and sub-ratings,
+        review count, amenities, room features, nearby places and headline price.
         """
 
 class Prv_trojanstorage(Protocol):

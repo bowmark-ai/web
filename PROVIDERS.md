@@ -1988,7 +1988,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_365.getDocument` | TODO example.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
 | `microsoft_365.listDocuments` | TODO example.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
 | `microsoft_365.listDocumentVersions` | TODO example.com | Lists the version history of a specific document in the user's Microsoft 365 OneDrive. | 🟢 |
-| `microsoft_365.restoreDocumentVersion` | TODO example.com | TODO — what restoreDocumentVersion does on the live site, and what interaction it… | ⚪ |
+| `microsoft_365.restoreDocumentVersion` | TODO example.com | Restores a document in Microsoft 365 OneDrive to a specified previous version. | 🟢 |
 | `microsoft_365.shareDocument` | TODO example.com | TODO — what shareDocument does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_onedrive.deleteFile` | onedrive.live.com | Deletes a file from OneDrive by ID. | 🟢 |
 | `microsoft_onedrive.getFile` | onedrive.live.com | Gets metadata for a specific file by ID. | 🟢 |
@@ -2113,7 +2113,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.getPodcast` | npr.org | Read one podcast or show's details — description, hosts, artwork and its RSS feed —… | ⚪ |
 | `npr.getProgramRundown` | npr.org | List the segments one broadcast program (Morning Edition, All Things Considered… | ⚪ |
 | `npr.getStation` | npr.org | Read one member station's details — brand, frequency, market, homepage, donation page… | ⚪ |
-| `npr.getStory` | npr.org | Read one NPR story given its URL or story id (nx-s1-…): headline, bylines, date, full… | ⚪ |
+| `npr.getStory` | npr.org | A complete NPR story — headline, publication date, author, body text and (when… | 🟢 |
 | `npr.getTranscript` | npr.org | Read the broadcast transcript of a story or episode that aired, given its story id. | ⚪ |
 | `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | 🟢 |
 | `npr.listNewsletters` | npr.org | List NPR's email newsletters with what each one covers. | ⚪ |
@@ -2346,7 +2346,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | 🟢 |
 | `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
 | `pizzahut.priceOrder` | pizzahut.com | Prices a configured basket at a store WITHOUT placing it — line items with their… | 🟢 |
-| `planning_inspectorate_ni.search` | national-infrastructure-consenting.planninginspectorate.gov.uk | Searches the UK national infrastructure planning register by project name or keywords… | 🟡 |
+| `planning_inspectorate_ni.search` | national-infrastructure-consenting.planninginspectorate.gov.uk | Searches the UK national infrastructure planning register by project name or keywords… | 🟢 |
 | `platform_claude_com.getDocPage` | platform.claude.com | Reads one page of platform.claude.com's own /docs/** documentation by URL or path and… | 🟢 |
 | `platform_claude_com.getPage` | platform.claude.com | Reads a non-/docs page (e.g. /plugins/submit) and returns its title and meta… | ⚪ |
 | `platform_claude_com.listDocPages` | platform.claude.com | Lists every English /docs page platform.claude.com publishes, parsed from the site's… | 🟢 |
