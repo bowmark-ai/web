@@ -2041,7 +2041,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `msn.listSavedArticles` | msn.com | Lists the articles the signed-in caller has saved to their MSN reading list — the… | ⚪ |
 | `msn.saveArticle` | msn.com | Adds an article to the signed-in caller's MSN reading list — the write half of… | ⚪ |
 | `msn.searchNews` | msn.com | Searches MSN's own aggregated news index the way its front-page search does and… | 🟢 |
-| `municipal_recreation_fees_fetcher.getFeeSchedule` | fredericton.ca, dieppe.ca | Retrieves annual recreation centre membership fees (adult and family passes) for a New… | 🟢 |
+| `municipal_recreation_fees_fetcher.getFeeSchedule` | fredericton.ca, dieppe.ca | Retrieves recreation centre membership and pass fees (adult and family), each with its… | 🟢 |
 | `muze_gov_tr.getVisitingHours` | muze.gov.tr | Matches a museum name against muze.gov.tr's own highlight listing and reads that… | 🟢 |
 | `my_auroramedicalspa_com.getProviders` | my.auroramedicalspa.com | Lists the providers who can perform one service at one location, including the site's… | 🟢 |
 | `my_auroramedicalspa_com.getServiceCategories` | my.auroramedicalspa.com | Lists the treatment categories one location offers online (Botox, Injectable… | 🟢 |

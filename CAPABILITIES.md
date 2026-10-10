@@ -82,7 +82,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `mandi_prices_india.findMandis` | Finds Indian mandis (APMC markets) by name or district, best match first. | 0 | 🟢 |
 | `mandi_prices_india.prices` | Returns the latest min/max/modal ₹/quintal prices at a named mandi, optionally for one… | 0 | 🟢 |
 | `mcp_registry.search` | Lists or searches the official MCP server registry (registry.modelcontextprotocol.io)… | 1 | 🟢 |
-| `municipal_recreation_fees.getFeeSchedule` | Retrieves annual recreation centre membership fees (adult and family passes) for a… | 1 | 🟢 |
+| `municipal_recreation_fees.getFeeSchedule` | Retrieves recreation centre membership and pass fees (adult and family), each with its… | 1 | 🟢 |
 | `music.getTrack` | Reads ONE track you already have a URL for — a public track link, or a `Track` that… | 1 | 🟢 |
 | `music.search` | Searches the catalogue for tracks matching free text ("aphex twin", "lofi hip hop"… | 1 | 🟢 |
 | `pallet_freight_quote.quote` | Live pallet freight quotes for one or more pallets between two UK-mainland postcodes… | 1 | 🟡 |
