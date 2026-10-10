@@ -1677,7 +1677,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.getSavedPosts` | instagram.com | Lists the signed-in user's saved posts, grouped by collection. | ⚪ |
 | `instagram.getStories` | instagram.com | Lists stories from accounts the signed-in user follows, with expiration times. | 🟢 |
 | `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | 🟢 |
-| `instagram.likePost` | instagram.com | Likes a post by its id or shortcode. | ⚪ |
+| `instagram.likePost` | instagram.com | Likes a post by its media id. | 🟢 |
 | `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in user's feed. | ⚪ |
 | `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | ⚪ |
 | `instagram.searchAccounts` | instagram.com | Searches Instagram for public accounts matching a query. | ⚪ |
@@ -1984,7 +1984,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `microsoft_365.createDocument` | TODO example.com | Creates a new document in the user's Microsoft 365 OneDrive with the specified name… | 🟢 |
-| `microsoft_365.deleteDocument` | TODO example.com | TODO — what deleteDocument does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_365.deleteDocument` | TODO example.com | Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. | 🟢 |
 | `microsoft_365.getDocument` | TODO example.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
 | `microsoft_365.listDocuments` | TODO example.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
 | `microsoft_365.listDocumentVersions` | TODO example.com | Lists the version history of a specific document in the user's Microsoft 365 OneDrive. | 🟢 |
