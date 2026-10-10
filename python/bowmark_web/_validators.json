@@ -1,5 +1,5 @@
 {
-  "version": "e9c65a29e069dcf0a29b244a4de3d9d37a81b260cd66ae34d000e19247aeac13",
+  "version": "206f69e965ff303444f710139db100ff24cdb5f82091b388ce747a383a74d215",
   "units": {
     "address_validation": {
       "defs": {
@@ -29506,6 +29506,22 @@
         "unlikePost": [
           {
             "name": "mediaId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "commentOnPost": [
+          {
+            "name": "mediaId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "commentText",
             "schema": {
               "k": "string"
             },

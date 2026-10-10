@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e9c65a29e069dcf0a29b244a4de3d9d37a81b260cd66ae34d000e19247aeac13
-// 1995 checked, 20 unchecked.
+// Manifest version: 206f69e965ff303444f710139db100ff24cdb5f82091b388ce747a383a74d215
+// 1996 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e9c65a29e069dcf0a29b244a4de3d9d37a81b260cd66ae34d000e19247aeac13",
+  "version": "206f69e965ff303444f710139db100ff24cdb5f82091b388ce747a383a74d215",
   "units": {
     "address_validation": {
       "defs": {
@@ -29518,6 +29518,22 @@ export const VALIDATORS: ValidatorTable = {
         "unlikePost": [
           {
             "name": "mediaId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "commentOnPost": [
+          {
+            "name": "mediaId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "commentText",
             "schema": {
               "k": "string"
             },

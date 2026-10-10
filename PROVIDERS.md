@@ -2870,7 +2870,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.bookmarkVideo` | tiktok.com | Save a video to the signed-in caller's own Favorites/bookmarks. | ⚪ |
 | `tiktok.deleteComment` | tiktok.com | Delete the caller's own comment — the reverse of postComment, and how a test write is… | ⚪ |
 | `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | ⚪ |
-| `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | ⚪ |
+| `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | 🟢 |
 | `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller. | ⚪ |
 | `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟡 |
 | `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | 🟢 |

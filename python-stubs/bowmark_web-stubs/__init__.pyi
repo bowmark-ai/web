@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e9c65a29e069dcf0a29b244a4de3d9d37a81b260cd66ae34d000e19247aeac13
-# 85 capabilities, 561 providers, 1995 typed functions, 20 refused.
+# Manifest version: 206f69e965ff303444f710139db100ff24cdb5f82091b388ce747a383a74d215
+# 85 capabilities, 561 providers, 1996 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15995,6 +15995,12 @@ class Prv_instagram_InstagramUnlikeResult_Out(TypedDict):
     mediaId: str
     likeCount: float
     hasLiked: bool
+
+class Prv_instagram_InstagramCommentResult_Out(TypedDict):
+    commentId: str
+    mediaId: str
+    text: str
+    timestamp: str | None
 
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
@@ -42650,6 +42656,11 @@ class Prv_instagram(Protocol):
     async def unlikePost(self, mediaId: str, /) -> Prv_instagram_InstagramUnlikeResult_Out:
         """Removes a like from a previously liked post. Returns the resulting like count and like
         state. Requires the caller to be signed in through the relay.
+        """
+
+    async def commentOnPost(self, mediaId: str, commentText: str, /) -> Prv_instagram_InstagramCommentResult_Out:
+        """Posts a comment on a photo or video by its media id. Returns the created comment's id,
+        text and timestamp. Requires the caller to be signed in through the relay.
         """
 
 class Prv_insurify(Protocol):

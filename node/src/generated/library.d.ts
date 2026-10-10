@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e9c65a29e069dcf0a29b244a4de3d9d37a81b260cd66ae34d000e19247aeac13
-// 85 capabilities, 561 providers, 2013 typed functions, 20 refused.
+// Manifest version: 206f69e965ff303444f710139db100ff24cdb5f82091b388ce747a383a74d215
+// 85 capabilities, 561 providers, 2014 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29213,6 +29213,12 @@ interface InstagramUnlikeResult {
   likeCount: number;
   hasLiked: boolean;
 }
+interface InstagramCommentResult {
+  commentId: string;
+  mediaId: string;
+  text: string;
+  timestamp: string | null;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29291,6 +29297,12 @@ interface InstagramUnlikeResult {
      * state. Requires the caller to be signed in through the relay.
      */
     unlikePost(mediaId: string): Promise<InstagramUnlikeResult>;
+
+    /**
+     * Posts a comment on a photo or video by its media id. Returns the created comment's id, text
+     * and timestamp. Requires the caller to be signed in through the relay.
+     */
+    commentOnPost(mediaId: string, commentText: string): Promise<InstagramCommentResult>;
   }
 }
 
