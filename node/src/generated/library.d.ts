@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8214b85848fe02a3d4ebf6020156e3ccd8dc70e20d92fe57f7bf8e7b21061791
-// 85 capabilities, 559 providers, 1983 typed functions, 20 refused.
+// Manifest version: b68a20d718fa442be33ca7bc5afc1bdff6a7b20f382c993ab480a58fc9405a1c
+// 85 capabilities, 559 providers, 1985 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1551,7 +1551,7 @@ interface essen_roadworksResult {
 }
 
 declare namespace BowmarkCapability_event_space_quote {
-  // ── Get event space quotes from venues by city, date, and headcount — the unit's own declarations, verbatim ──
+  // ── Book party and event venue spaces by location, date, and headcount — the unit's own declarations, verbatim ──
 type EventSpaceQuoteArgs = {
   city: string
   state: string              // two-letter US state, e.g. "NY"
@@ -3653,38 +3653,38 @@ type UrlsResult = {
      * only when the response proves the page needs one (a bot wall, an interstitial, or markup
      * carrying no words). Reports a failure IN the result rather than throwing. **A PDF url (a
      * datasheet, a price list, a filing) comes back as the document's extracted text** in
-     * `content`, with a warning naming the page count; a scanned PDF with no text layer is `ok:
-     * false`. A site that refuses automated access comes back `ok: false` with `wall` naming the
-     * bot-management vendor and a warning saying so — that is the site's answer, and retrying the
-     * same read will not change it; an HTTP 4xx/5xx page is `ok: false` too. TIME: `timeoutMs` is
-     * the budget for the WHOLE read, end to end (default 45,000, max 55,000) — deliberately under
-     * the ~60s at which a chat client kills a tool call, so a slow page comes back as a real
-     * result saying what ran out instead of your client's bare "The operation timed out.".
-     * **`strategy: "fetch"` is fast mode, the fast-fail escape** for a page you do not want to
-     * wait on: it never waits on a slow page, returns in ~200ms, and still sets `escalationReason`
-     * so you learn the page needed more than that. Several urls? Pass them to `read.pages`, not a
-     * loop of `page()` calls — a loop's reads add up, and three slow ones outlast the client,
-     * while `pages` holds the whole batch to the same 55s. **Hitting a site's own JSON endpoint?
-     * Read `result.json`, never `content`** — `const { json } = await bowmark.read.page(apiUrl)`
-     * hands back the parsed body directly, unfenced, whenever the response is JSON (a `json`
-     * content-type, or a body that parses whole). Do not hand-strip a ``` fence from `content` to
-     * `JSON.parse` it yourself; `json` is absent on every non-JSON page and costs nothing
-     * otherwise. **A price you need bound to a specific item is the one thing the default
-     * `"markdown"` format cannot promise** — it flattens the DOM, so a price can end up textually
-     * next to a link for a DIFFERENT size/color/variant; `warnings` names it when the page carries
-     * the structured data to prove it, but the safe read is `{ format: "cleanHtml" }`, which keeps
-     * the price inside its own item's markup. **`content` is the page's TEXT, even on a fully
-     * loaded page** — the page rendering does not mean every widget on it became words. A booking
-     * calendar whose open and blocked days are drawn only by styling, a widget inside a
-     * cross-origin iframe or a canvas, and a rate or quote the page shows only after dates are
-     * picked or a form is filled come back as bare day numbers, empty characters or nothing at all
-     * — usually with `ok: true` and no warning. So a missing price or availability here is not
-     * proof the page has none: putting the dates in the url is worth one try, and past that use
-     * the site's own provider if `get_library` has one, or `bowmark.browser_agent.start` to
-     * operate the widget. RUN-ONLY: because how each page is loaded is decided per call, neither
-     * `session()` nor the bare top-level `bowmark` client (which opens a session internally, even
-     * for one call) can serve this — both are refused with code "rung_undeclared". Call it through
-     * `run()` instead.
+     * `content`, with a note in the run's `notes` naming the page count; a scanned PDF with no
+     * text layer is `ok: false`. A site that refuses automated access comes back `ok: false` with
+     * `wall` naming the bot-management vendor and a warning saying so — that is the site's answer,
+     * and retrying the same read will not change it; an HTTP 4xx/5xx page is `ok: false` too.
+     * TIME: `timeoutMs` is the budget for the WHOLE read, end to end (default 45,000, max 55,000)
+     * — deliberately under the ~60s at which a chat client kills a tool call, so a slow page comes
+     * back as a real result saying what ran out instead of your client's bare "The operation timed
+     * out.". **`strategy: "fetch"` is fast mode, the fast-fail escape** for a page you do not want
+     * to wait on: it never waits on a slow page, returns in ~200ms, and still sets
+     * `escalationReason` so you learn the page needed more than that. Several urls? Pass them to
+     * `read.pages`, not a loop of `page()` calls — a loop's reads add up, and three slow ones
+     * outlast the client, while `pages` holds the whole batch to the same 55s. **Hitting a site's
+     * own JSON endpoint? Read `result.json`, never `content`** — `const { json } = await
+     * bowmark.read.page(apiUrl)` hands back the parsed body directly, unfenced, whenever the
+     * response is JSON (a `json` content-type, or a body that parses whole). Do not hand-strip a
+     * ``` fence from `content` to `JSON.parse` it yourself; `json` is absent on every non-JSON
+     * page and costs nothing otherwise. **A price you need bound to a specific item is the one
+     * thing the default `"markdown"` format cannot promise** — it flattens the DOM, so a price can
+     * end up textually next to a link for a DIFFERENT size/color/variant; the run's `notes` names
+     * it when the page carries the structured data to prove it (a note, so the run stays `ok`),
+     * but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own item's
+     * markup. **`content` is the page's TEXT, even on a fully loaded page** — the page rendering
+     * does not mean every widget on it became words. A booking calendar whose open and blocked
+     * days are drawn only by styling, a widget inside a cross-origin iframe or a canvas, and a
+     * rate or quote the page shows only after dates are picked or a form is filled come back as
+     * bare day numbers, empty characters or nothing at all — usually with `ok: true` and no
+     * warning. So a missing price or availability here is not proof the page has none: putting the
+     * dates in the url is worth one try, and past that use the site's own provider if
+     * `get_library` has one, or `bowmark.browser_agent.start` to operate the widget. RUN-ONLY:
+     * because how each page is loaded is decided per call, neither `session()` nor the bare
+     * top-level `bowmark` client (which opens a session internally, even for one call) can serve
+     * this — both are refused with code "rung_undeclared". Call it through `run()` instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -3929,8 +3929,9 @@ type SearchWebResult = {
                               // is the difference between the primary engine's
                               // ranking and the standby's
   results: SearchResult[]
-  warnings: string[]          // always present. Names every engine tried and
-                              // FAILED before the one that answered
+  warnings: string[]          // always present. What the answering engine's own
+                              // results lack; an engine tried and FAILED before it is
+                              // named in the run's `notes` instead
 }
 
 // news adds the two things a news index has and a web index does not
@@ -3982,12 +3983,13 @@ type CallOptions = {
      * Searches the web and returns ranked results — title, destination URL, snippet — from the
      * first engine in the chain that answers: Bing, then Google through Serper (metered, charged
      * to your account) when Bing is down or answered a different query. `engine` names which one
-     * that was, and `warnings` names any that were tried and failed first. Feed a result's `url`
-     * straight to bowmark.read.page to actually read it. THREE THINGS TO KNOW BEFORE YOU TRUST A
-     * BING ROW (engine "bing"; a "serper" answer is Google's and honours operators). (1) The
-     * engine NEVER returns an empty list, so results are its best offer rather than proof anything
-     * matched — a long-tail query (an obscure company name plus "pricing", say) can come back with
-     * ten confident rows about something else entirely. (2) It IGNORES operators — a
+     * that was, and the run's `notes` names any that were tried and failed first (a note, not a
+     * warning: the answering engine's results are whole). Feed a result's `url` straight to
+     * bowmark.read.page to actually read it. THREE THINGS TO KNOW BEFORE YOU TRUST A BING ROW
+     * (engine "bing"; a "serper" answer is Google's and honours operators). (1) The engine NEVER
+     * returns an empty list, so results are its best offer rather than proof anything matched — a
+     * long-tail query (an obscure company name plus "pricing", say) can come back with ten
+     * confident rows about something else entirely. (2) It IGNORES operators — a
      * `site:example.com` query is not scoped to that site. (3) MEASURED 2026-09-11, AND THE ONE
      * THAT HITS ORDINARY RESEARCH: it answers a MULTI-WORD query by reducing it to the single most
      * popular word in it and returning that word's results. "React useEffect dependency array"
@@ -19082,6 +19084,34 @@ interface DuckDuckGoSearchWebResult {
   next: string | null;
 }
 
+interface DuckDuckGoPlace {
+  title: string;
+  url: string;
+  address: string;
+  phone?: string;
+  coordinates?: { latitude: number; longitude: number };
+  rating?: number;
+  hours?: string;
+}
+
+interface SearchPlacesArgs {
+  /** What you would type into a maps search box. */
+  query: string;
+  /** Latitude for location-based search; used alongside longitude. */
+  latitude?: number;
+  /** Longitude for location-based search; used alongside latitude. */
+  longitude?: number;
+  /** The `next` value a previous call returned, to fetch the following page. */
+  cursor?: string;
+}
+
+interface SearchPlacesResult {
+  query: string;
+  results: DuckDuckGoPlace[];
+  /** Pass back as `cursor` for the next page; null on the last page. */
+  next: string | null;
+}
+
   /**
    * DuckDuckGo (duckduckgo.com) — private web, image, video, news and maps search, Instant
    * Answers, autocomplete, the dictionary, currency, weather, time and translation answers,
@@ -19107,6 +19137,14 @@ interface DuckDuckGoSearchWebResult {
      * — about 60 per page. Pass the returned `next` back as `cursor` for the following page.
      */
     searchVideos(args: SearchVideosArgs): Promise<SearchVideosResult>;
+
+    /**
+     * Searches DuckDuckGo's Maps vertical for places and returns each location's name, URL,
+     * address, phone number, coordinates, rating and hours of operation — about 19 per page.
+     * Optional `latitude` and `longitude` for location-based search. Pass the returned `next` back
+     * as `cursor` for the following page.
+     */
+    searchPlaces(args: SearchPlacesArgs): Promise<SearchPlacesResult>;
   }
 }
 
@@ -35544,6 +35582,17 @@ interface microsoft_outlookMailDetail {
   body: string;
 }
 
+interface microsoft_outlookSendMailArgs {
+  to: string;
+  subject: string;
+  body: string;
+}
+
+interface microsoft_outlookSendMailResult {
+  id: string;
+  status: "sent" | "draft";
+}
+
   /**
    * Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
    * (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a personal
@@ -35568,6 +35617,12 @@ interface microsoft_outlookMailDetail {
      * from, to, date and body — read from the reading pane.
      */
     getMail(mailId: string | number, opts?: ConnectionOption): Promise<microsoft_outlookMailDetail>;
+
+    /**
+     * Composes and sends a new email message to the specified recipient with the given subject and
+     * body.
+     */
+    sendMail(args: microsoft_outlookSendMailArgs, opts?: ConnectionOption): Promise<microsoft_outlookSendMailResult>;
   }
 }
 

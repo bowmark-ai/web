@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8214b85848fe02a3d4ebf6020156e3ccd8dc70e20d92fe57f7bf8e7b21061791
-# 85 capabilities, 559 providers, 1965 typed functions, 20 refused.
+# Manifest version: b68a20d718fa442be33ca7bc5afc1bdff6a7b20f382c993ab480a58fc9405a1c
+# 85 capabilities, 559 providers, 1967 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10621,6 +10621,30 @@ class Prv_duckduckgo_DuckDuckGoVideo_Out(TypedDict):
     viewCount: float | None
     thumbnail: str | None
 
+class Prv_duckduckgo_SearchPlacesArgs_In(TypedDict):
+    query: str
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_duckduckgo_SearchPlacesResult_Out(TypedDict):
+    query: str
+    results: list[Prv_duckduckgo_DuckDuckGoPlace_Out]
+    next: str | None
+
+class Prv_duckduckgo_DuckDuckGoPlace_Out(TypedDict):
+    title: str
+    url: str
+    address: str
+    phone: NotRequired[str]
+    coordinates: NotRequired[Prv_duckduckgo_DuckDuckGoPlace_Out_coordinates_Out]
+    rating: NotRequired[float]
+    hours: NotRequired[str]
+
+class Prv_duckduckgo_DuckDuckGoPlace_Out_coordinates_Out(TypedDict):
+    latitude: float
+    longitude: float
+
 class Prv_dumpsters_DumpstersGetQuoteArgs_In(TypedDict):
     address: str
     projectType: NotRequired[Literal["homeCleanout"] | Literal["homeRemodel"] | Literal["yardCleanupOrLandscaping"] | Literal["bathroomOrKitchenDemo"] | Literal["roofingOrSidingTearDown"] | Literal["other"]]
@@ -19387,6 +19411,15 @@ Prv_microsoft_outlook_microsoft_outlookMailDetail_Out = TypedDict(
     "body": str,
     },
 )
+
+class Prv_microsoft_outlook_microsoft_outlookSendMailArgs_In(TypedDict):
+    to: str
+    subject: str
+    body: str
+
+class Prv_microsoft_outlook_microsoft_outlookSendMailResult_Out(TypedDict):
+    id: str
+    status: Literal["sent"] | Literal["draft"]
 
 class Prv_millisaraylar_MillisaraylarPalace_Out(TypedDict):
     id: str
@@ -32817,39 +32850,40 @@ class Cap_read(Protocol):
         load only when the response proves the page needs one (a bot wall, an interstitial, or
         markup carrying no words). Reports a failure IN the result rather than throwing. **A PDF
         url (a datasheet, a price list, a filing) comes back as the document's extracted text**
-        in `content`, with a warning naming the page count; a scanned PDF with no text layer is
-        `ok: false`. A site that refuses automated access comes back `ok: false` with `wall`
-        naming the bot-management vendor and a warning saying so — that is the site's answer,
-        and retrying the same read will not change it; an HTTP 4xx/5xx page is `ok: false` too.
-        TIME: `timeoutMs` is the budget for the WHOLE read, end to end (default 45,000, max
-        55,000) — deliberately under the ~60s at which a chat client kills a tool call, so a
-        slow page comes back as a real result saying what ran out instead of your client's bare
-        "The operation timed out.". **`strategy: "fetch"` is fast mode, the fast-fail escape**
-        for a page you do not want to wait on: it never waits on a slow page, returns in ~200ms,
-        and still sets `escalationReason` so you learn the page needed more than that. Several
-        urls? Pass them to `read.pages`, not a loop of `page()` calls — a loop's reads add up,
-        and three slow ones outlast the client, while `pages` holds the whole batch to the same
-        55s. **Hitting a site's own JSON endpoint? Read `result.json`, never `content`** —
-        `const { json } = await bowmark.read.page(apiUrl)` hands back the parsed body directly,
-        unfenced, whenever the response is JSON (a `json` content-type, or a body that parses
-        whole). Do not hand-strip a ``` fence from `content` to `JSON.parse` it yourself; `json`
-        is absent on every non-JSON page and costs nothing otherwise. **A price you need bound
-        to a specific item is the one thing the default `"markdown"` format cannot promise** —
-        it flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
-        size/color/variant; `warnings` names it when the page carries the structured data to
-        prove it, but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside
-        its own item's markup. **`content` is the page's TEXT, even on a fully loaded page** —
-        the page rendering does not mean every widget on it became words. A booking calendar
-        whose open and blocked days are drawn only by styling, a widget inside a cross-origin
-        iframe or a canvas, and a rate or quote the page shows only after dates are picked or a
-        form is filled come back as bare day numbers, empty characters or nothing at all —
-        usually with `ok: true` and no warning. So a missing price or availability here is not
-        proof the page has none: putting the dates in the url is worth one try, and past that
-        use the site's own provider if `get_library` has one, or `bowmark.browser_agent.start`
-        to operate the widget. RUN-ONLY: because how each page is loaded is decided per call,
-        neither `session()` nor the bare top-level `bowmark` client (which opens a session
-        internally, even for one call) can serve this — both are refused with code
-        "rung_undeclared". Call it through `run()` instead.
+        in `content`, with a note in the run's `notes` naming the page count; a scanned PDF with
+        no text layer is `ok: false`. A site that refuses automated access comes back `ok:
+        false` with `wall` naming the bot-management vendor and a warning saying so — that is
+        the site's answer, and retrying the same read will not change it; an HTTP 4xx/5xx page
+        is `ok: false` too. TIME: `timeoutMs` is the budget for the WHOLE read, end to end
+        (default 45,000, max 55,000) — deliberately under the ~60s at which a chat client kills
+        a tool call, so a slow page comes back as a real result saying what ran out instead of
+        your client's bare "The operation timed out.". **`strategy: "fetch"` is fast mode, the
+        fast-fail escape** for a page you do not want to wait on: it never waits on a slow page,
+        returns in ~200ms, and still sets `escalationReason` so you learn the page needed more
+        than that. Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a
+        loop's reads add up, and three slow ones outlast the client, while `pages` holds the
+        whole batch to the same 55s. **Hitting a site's own JSON endpoint? Read `result.json`,
+        never `content`** — `const { json } = await bowmark.read.page(apiUrl)` hands back the
+        parsed body directly, unfenced, whenever the response is JSON (a `json` content-type, or
+        a body that parses whole). Do not hand-strip a ``` fence from `content` to `JSON.parse`
+        it yourself; `json` is absent on every non-JSON page and costs nothing otherwise. **A
+        price you need bound to a specific item is the one thing the default `"markdown"` format
+        cannot promise** — it flattens the DOM, so a price can end up textually next to a link
+        for a DIFFERENT size/color/variant; the run's `notes` names it when the page carries the
+        structured data to prove it (a note, so the run stays `ok`), but the safe read is `{
+        format: "cleanHtml" }`, which keeps the price inside its own item's markup. **`content`
+        is the page's TEXT, even on a fully loaded page** — the page rendering does not mean
+        every widget on it became words. A booking calendar whose open and blocked days are
+        drawn only by styling, a widget inside a cross-origin iframe or a canvas, and a rate or
+        quote the page shows only after dates are picked or a form is filled come back as bare
+        day numbers, empty characters or nothing at all — usually with `ok: true` and no
+        warning. So a missing price or availability here is not proof the page has none: putting
+        the dates in the url is worth one try, and past that use the site's own provider if
+        `get_library` has one, or `bowmark.browser_agent.start` to operate the widget. RUN-ONLY:
+        because how each page is loaded is decided per call, neither `session()` nor the bare
+        top-level `bowmark` client (which opens a session internally, even for one call) can
+        serve this — both are refused with code "rung_undeclared". Call it through `run()`
+        instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -32994,30 +33028,31 @@ class Cap_search(Protocol):
         """Searches the web and returns ranked results — title, destination URL, snippet — from the
         first engine in the chain that answers: Bing, then Google through Serper (metered,
         charged to your account) when Bing is down or answered a different query. `engine` names
-        which one that was, and `warnings` names any that were tried and failed first. Feed a
-        result's `url` straight to bowmark.read.page to actually read it. THREE THINGS TO KNOW
-        BEFORE YOU TRUST A BING ROW (engine "bing"; a "serper" answer is Google's and honours
-        operators). (1) The engine NEVER returns an empty list, so results are its best offer
-        rather than proof anything matched — a long-tail query (an obscure company name plus
-        "pricing", say) can come back with ten confident rows about something else entirely. (2)
-        It IGNORES operators — a `site:example.com` query is not scoped to that site. (3)
-        MEASURED 2026-09-11, AND THE ONE THAT HITS ORDINARY RESEARCH: it answers a MULTI-WORD
-        query by reducing it to the single most popular word in it and returning that word's
-        results. "React useEffect dependency array" comes back as React's own homepage, and a
-        nine-word query naming a company, a job and a protocol came back as the results for the
-        one two-letter acronym in it. Quoting the proper noun, shortening the query and
-        site-scoping it were all tried on the same queries and all returned the identical
-        substituted set, so rewriting the query does not help — search the ONE thing you most
-        need, or read a URL you already know. `warnings` flags four shapes. Three read the
-        words: no row sharing a single word with the query, every row matching only a generic
-        word like "pricing" while the subject you named is absent, or fewer than half the
-        query's subject words appearing anywhere in the results. The fourth reads the engine's
-        own behaviour and is the reliable one: the query is asked TWICE down the same exit, and
-        an answer that comes back different the second time is a random decoy rather than a bad
-        ranking — measured 2026-09-12, an answerable query repeats identically while an
-        unanswerable one returns a fresh unrelated set every time. A partially-relevant
-        substitution is still not caught. When every engine fails this THROWS rather than
-        returning zero rows, because no engine reached is not the same as nothing found.
+        which one that was, and the run's `notes` names any that were tried and failed first (a
+        note, not a warning: the answering engine's results are whole). Feed a result's `url`
+        straight to bowmark.read.page to actually read it. THREE THINGS TO KNOW BEFORE YOU TRUST
+        A BING ROW (engine "bing"; a "serper" answer is Google's and honours operators). (1) The
+        engine NEVER returns an empty list, so results are its best offer rather than proof
+        anything matched — a long-tail query (an obscure company name plus "pricing", say) can
+        come back with ten confident rows about something else entirely. (2) It IGNORES
+        operators — a `site:example.com` query is not scoped to that site. (3) MEASURED
+        2026-09-11, AND THE ONE THAT HITS ORDINARY RESEARCH: it answers a MULTI-WORD query by
+        reducing it to the single most popular word in it and returning that word's results.
+        "React useEffect dependency array" comes back as React's own homepage, and a nine-word
+        query naming a company, a job and a protocol came back as the results for the one
+        two-letter acronym in it. Quoting the proper noun, shortening the query and site-scoping
+        it were all tried on the same queries and all returned the identical substituted set, so
+        rewriting the query does not help — search the ONE thing you most need, or read a URL
+        you already know. `warnings` flags four shapes. Three read the words: no row sharing a
+        single word with the query, every row matching only a generic word like "pricing" while
+        the subject you named is absent, or fewer than half the query's subject words appearing
+        anywhere in the results. The fourth reads the engine's own behaviour and is the reliable
+        one: the query is asked TWICE down the same exit, and an answer that comes back
+        different the second time is a random decoy rather than a bad ranking — measured
+        2026-09-12, an answerable query repeats identically while an unanswerable one returns a
+        fresh unrelated set every time. A partially-relevant substitution is still not caught.
+        When every engine fails this THROWS rather than returning zero rows, because no engine
+        reached is not the same as nothing found.
         """
 
     async def news(self, query: str | Cap_search_news_query_u1_In, limit: float | None = None, options: Cap_search_CallOptions_In | None = None, /) -> Cap_search_SearchNewsResult_Out:
@@ -38524,6 +38559,13 @@ class Prv_duckduckgo(Protocol):
         YouTube), description, duration, publisher, uploader, publish date, view count and
         thumbnail — about 60 per page. Pass the returned `next` back as `cursor` for the
         following page.
+        """
+
+    async def searchPlaces(self, args: Prv_duckduckgo_SearchPlacesArgs_In, /) -> Prv_duckduckgo_SearchPlacesResult_Out:
+        """Searches DuckDuckGo's Maps vertical for places and returns each location's name, URL,
+        address, phone number, coordinates, rating and hours of operation — about 19 per page.
+        Optional `latitude` and `longitude` for location-based search. Pass the returned `next`
+        back as `cursor` for the following page.
         """
 
 class Prv_dumpsters(Protocol):
@@ -44491,6 +44533,11 @@ class Prv_microsoft_outlook(Protocol):
     async def getMail(self, mailId: str | float, opts: ConnectionOption | None = None, /) -> Prv_microsoft_outlook_microsoft_outlookMailDetail_Out:
         """Opens one mail item from readMailFolder's results and returns the full message —
         subject, from, to, date and body — read from the reading pane.
+        """
+
+    async def sendMail(self, args: Prv_microsoft_outlook_microsoft_outlookSendMailArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_outlook_microsoft_outlookSendMailResult_Out:
+        """Composes and sends a new email message to the specified recipient with the given subject
+        and body.
         """
 
 class Prv_millisaraylar(Protocol):

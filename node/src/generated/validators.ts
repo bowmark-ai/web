@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8214b85848fe02a3d4ebf6020156e3ccd8dc70e20d92fe57f7bf8e7b21061791
-// 1965 checked, 20 unchecked.
+// Manifest version: b68a20d718fa442be33ca7bc5afc1bdff6a7b20f382c993ab480a58fc9405a1c
+// 1967 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8214b85848fe02a3d4ebf6020156e3ccd8dc70e20d92fe57f7bf8e7b21061791",
+  "version": "b68a20d718fa442be33ca7bc5afc1bdff6a7b20f382c993ab480a58fc9405a1c",
   "units": {
     "address_validation": {
       "defs": {
@@ -19447,6 +19447,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchPlacesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchVideosArgs": {
           "k": "object",
           "props": [
@@ -19494,6 +19527,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchPlaces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchPlacesArgs"
             },
             "optional": false
           }
@@ -36321,7 +36364,34 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.microsoft_outlook": {
-      "defs": {},
+      "defs": {
+        "microsoft_outlookSendMailArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "subject",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "body",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "listMailFolders": [
           {
@@ -36387,6 +36457,32 @@ export const VALIDATORS: ValidatorTable = {
                   "k": "number"
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendMail": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "microsoft_outlookSendMailArgs"
             },
             "optional": false
           },
