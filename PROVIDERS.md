@@ -850,7 +850,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.favouriteDeviation` | deviantart.com | Adds a deviation to the signed-in caller's Favourites (optionally into one collection… | ⚪ |
 | `deviantart.getComments` | deviantart.com | Reads a deviation's comment thread — each comment's author, posted time, text and… | ⚪ |
 | `deviantart.getDailyDeviations` | deviantart.com | Lists the Daily Deviations — the artworks DeviantArt's staff feature each day — for… | ⚪ |
-| `deviantart.getDeviation` | deviantart.com | Reads one deviation in full — title, author, published time, description text, tags… | 🟢 |
+| `deviantart.getDeviation` | deviantart.com | Reads one deviation in full — title, author, published time, description text, tags… | 🟡 |
 | `deviantart.getNotifications` | deviantart.com | Reads the signed-in caller's notifications — comments, favourites, new watchers and… | ⚪ |
 | `deviantart.getRelatedDeviations` | deviantart.com | Lists deviations like a given one — the 'more like this' and 'more from this artist'… | ⚪ |
 | `deviantart.getUserFavourites` | deviantart.com | Lists the deviations an artist has favourited — their public 'Favourites' collections… | ⚪ |
@@ -1034,7 +1034,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.getArticle` | espn.com | The full text of one ESPN story — headline, byline, published and updated times, body… | ⚪ |
 | `espn.getFantasyLeague` | espn.com | One ESPN fantasy league — settings, scoring, standings, this week's matchups and… | ⚪ |
 | `espn.getFantasyTeam` | espn.com | One team in an ESPN fantasy league — its roster with each player's slot, projected and… | ⚪ |
-| `espn.getGame` | espn.com | One game in full, as its Gamecast and box score pages show it — score by period, every… | ⚪ |
+| `espn.getGame` | espn.com | One game in full, with score by period, every player's box-score line, team stats… | 🟢 |
 | `espn.getPlayer` | espn.com | One player's page — team, position, jersey, age, height, weight, birthplace, college… | ⚪ |
 | `espn.getTeam` | espn.com | One team's page header — record, standing in its division, next game, coach, venue and… | ⚪ |
 | `espn.injuries` | espn.com | Reads a league's injury report the way ESPN's own /nfl/injuries page does — every… | 🟢 |
@@ -1668,7 +1668,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
 | `instagram.blockUser` | instagram.com | Blocks a user from seeing the signed-in account's posts and sending messages. | ⚪ |
 | `instagram.commentOnPost` | instagram.com | Posts a comment on a photo or video. | ⚪ |
-| `instagram.followUser` | instagram.com | Sends a follow request to a user (or follows directly if not private). | ⚪ |
+| `instagram.followUser` | instagram.com | Follows a user. | 🟢 |
 | `instagram.getDirectMessages` | instagram.com | Lists the signed-in user's direct message threads with preview of the latest message… | 🟢 |
 | `instagram.getHomeFeed` | instagram.com | Reads the signed-in user's home feed — the newest posts from accounts they follow… | ⚪ |
 | `instagram.getNotifications` | instagram.com | Reads the signed-in user's activity feed — likes, comments, follows, and direct… | 🟢 |
@@ -2223,7 +2223,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟡 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
-| `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟢 |
+| `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟡 |
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets a day's Wordle puzzle — the solution, puzzle id and editor. | 🟢 |
@@ -2358,7 +2358,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `poshmark.getZipFileGuide` | poshmark.com | Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how… | 🟢 |
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
 | `postiz.createPost` | postiz.com | Create and schedule a new post on one connected channel, by the channel id… | 🟡 |
-| `postiz.listIntegrations` | postiz.com | List the organization's connected social channels with the id createPost takes, the… | 🟢 |
+| `postiz.listIntegrations` | postiz.com | List the organization's connected social channels with the id createPost takes, the… | 🟡 |
 | `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟡 |
 | `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟡 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
@@ -2956,7 +2956,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
 | `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟡 |
 | `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region — attractions, tours and activities — in… | ⚪ |
-| `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟢 |
+| `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟡 |
 | `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | ⚪ |
 | `tripadvisor.writeReview` | tripadvisor.com | Posts a review of a listing from the signed-in caller's account — rating, title, text… | ⚪ |
 | `trojanstorage.getFacilityUnits` | trojanstorage.com | Reads one Trojan Storage facility's currently-listed units (from `listFacilities`'s… | 🟢 |
@@ -3241,7 +3241,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_mail.deleteMessage` | mail.yahoo.com | Deletes one of the CALLER's own messages (moves it to Trash, matching what the site's… | ⚪ |
 | `yahoo_mail.getMessage` | mail.yahoo.com | Reads one message in full from the CALLER's own mailbox — sender, recipients, subject… | 🟢 |
 | `yahoo_mail.listFolders` | mail.yahoo.com | Lists the CALLER's own mail folders — Inbox, Sent, Drafts, Spam, Trash and any custom… | 🟢 |
-| `yahoo_mail.listMessages` | mail.yahoo.com | Lists messages in the CALLER's own mailbox, newest first, from a chosen folder (inbox… | ⚪ |
+| `yahoo_mail.listMessages` | mail.yahoo.com | Lists messages in the CALLER's own mailbox from a chosen folder (Inbox by default)… | 🟢 |
 | `yahoo_mail.markAsRead` | mail.yahoo.com | Marks one or more of the CALLER's own messages read or unread. | ⚪ |
 | `yahoo_mail.moveMessage` | mail.yahoo.com | Moves one of the CALLER's own messages to another folder (archive, trash, a custom… | ⚪ |
 | `yahoo_mail.searchMessages` | mail.yahoo.com | Searches the CALLER's own mailbox the way Yahoo Mail's own search bar does — by… | ⚪ |
