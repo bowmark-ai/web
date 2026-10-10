@@ -2001,7 +2001,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_outlook.listContacts` | outlook.live.com | TODO — what listContacts does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.listMailFolders` | outlook.live.com | Lists the mail folders (Inbox, Sent, Drafts, etc.) available to the signed-in user… | 🟢 |
 | `microsoft_outlook.readMailFolder` | outlook.live.com | Reads the mail items in a specific folder, returning subject, sender, date, and… | 🟢 |
-| `microsoft_outlook.sendMail` | outlook.live.com | TODO — what sendMail does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.sendMail` | outlook.live.com | Composes and sends a new email message to the specified recipient with the given… | 🟢 |
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |

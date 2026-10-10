@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 33991ce0a28cd99de38fb3b44744cd1a02a5e13483090a5dcd762520fd196856
-// 85 capabilities, 559 providers, 1982 typed functions, 20 refused.
+// Manifest version: 8214b85848fe02a3d4ebf6020156e3ccd8dc70e20d92fe57f7bf8e7b21061791
+// 85 capabilities, 559 providers, 1983 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -28959,6 +28959,15 @@ interface InstagramDirectMessage {
   timestamp: string | null;
   isUnsent: boolean;
 }
+interface InstagramStory {
+  id: string;
+  ownerUsername: string;
+  ownerId: string;
+  mediaUrl: string;
+  isVideo: boolean;
+  expiresAt: string | null;
+  hasBeenSeen: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -28993,6 +29002,12 @@ interface InstagramDirectMessage {
      * in through the relay.
      */
     getThreadMessages(threadId: string): Promise<InstagramDirectMessage[]>;
+
+    /**
+     * Lists stories from accounts the signed-in user follows, with media, expiration time, and
+     * seen status. Requires the caller to be signed in through the relay.
+     */
+    getStories(): Promise<InstagramStory[]>;
   }
 }
 

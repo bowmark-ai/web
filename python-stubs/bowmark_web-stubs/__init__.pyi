@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 33991ce0a28cd99de38fb3b44744cd1a02a5e13483090a5dcd762520fd196856
-# 85 capabilities, 559 providers, 1964 typed functions, 20 refused.
+# Manifest version: 8214b85848fe02a3d4ebf6020156e3ccd8dc70e20d92fe57f7bf8e7b21061791
+# 85 capabilities, 559 providers, 1965 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15814,6 +15814,15 @@ class Prv_instagram_InstagramDirectMessage_Out(TypedDict):
     text: str | None
     timestamp: str | None
     isUnsent: bool
+
+class Prv_instagram_InstagramStory_Out(TypedDict):
+    id: str
+    ownerUsername: str
+    ownerId: str
+    mediaUrl: str
+    isVideo: bool
+    expiresAt: str | None
+    hasBeenSeen: bool
 
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
@@ -42216,6 +42225,11 @@ class Prv_instagram(Protocol):
         """Reads the message history for one direct message thread, ordered from oldest to newest.
         Includes message sender, text, timestamp, and unsent flag. Requires the caller to be
         signed in through the relay.
+        """
+
+    async def getStories(self, /) -> list[Prv_instagram_InstagramStory_Out]:
+        """Lists stories from accounts the signed-in user follows, with media, expiration time, and
+        seen status. Requires the caller to be signed in through the relay.
         """
 
 class Prv_insurify(Protocol):
