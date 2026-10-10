@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f799483a4f7a2583b8f9d2c9e8545b9414068b0fcc9c79c43d95ac5f7352ae99
-// 1987 checked, 20 unchecked.
+// Manifest version: f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28
+// 1990 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f799483a4f7a2583b8f9d2c9e8545b9414068b0fcc9c79c43d95ac5f7352ae99",
+  "version": "f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28",
   "units": {
     "address_validation": {
       "defs": {
@@ -17126,6 +17126,21 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "ListQuotesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "symbols",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -17135,6 +17150,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetQuoteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listQuotes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListQuotesArgs"
             },
             "optional": false
           }
@@ -29451,6 +29476,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "likePost": [
+          {
+            "name": "mediaId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -36383,6 +36417,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "DeleteDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetDocumentArgs": {
           "k": "object",
           "props": [
@@ -36532,6 +36578,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ShareDocumentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "deleteDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeleteDocumentArgs"
             },
             "optional": false
           }

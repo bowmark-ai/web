@@ -1,5 +1,5 @@
 {
-  "version": "f799483a4f7a2583b8f9d2c9e8545b9414068b0fcc9c79c43d95ac5f7352ae99",
+  "version": "f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28",
   "units": {
     "address_validation": {
       "defs": {
@@ -17114,6 +17114,21 @@
               "optional": false
             }
           ]
+        },
+        "ListQuotesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "symbols",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -17123,6 +17138,16 @@
             "schema": {
               "k": "ref",
               "name": "GetQuoteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listQuotes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListQuotesArgs"
             },
             "optional": false
           }
@@ -29439,6 +29464,15 @@
             },
             "optional": false
           }
+        ],
+        "likePost": [
+          {
+            "name": "mediaId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -36371,6 +36405,18 @@
             }
           ]
         },
+        "DeleteDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetDocumentArgs": {
           "k": "object",
           "props": [
@@ -36520,6 +36566,16 @@
             "schema": {
               "k": "ref",
               "name": "ShareDocumentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "deleteDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeleteDocumentArgs"
             },
             "optional": false
           }

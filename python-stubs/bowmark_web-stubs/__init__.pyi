@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f799483a4f7a2583b8f9d2c9e8545b9414068b0fcc9c79c43d95ac5f7352ae99
-# 85 capabilities, 560 providers, 1987 typed functions, 20 refused.
+# Manifest version: f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28
+# 85 capabilities, 560 providers, 1990 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9271,6 +9271,9 @@ class Prv_cnbc_com_cnbc_comRow_Out(TypedDict):
     peRatio: NotRequired[str]
     dividend: NotRequired[str]
 
+class Prv_cnbc_com_ListQuotesArgs_In(TypedDict):
+    symbols: Sequence[str]
+
 class Prv_cnn_SearchArticlesArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -15963,6 +15966,11 @@ class Prv_instagram_InstagramUnfollowResult_Out(TypedDict):
     username: str
     following: bool
 
+class Prv_instagram_InstagramLikeResult_Out(TypedDict):
+    mediaId: str
+    likeCount: float
+    hasLiked: bool
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -19513,6 +19521,12 @@ class Prv_microsoft_365_ShareDocumentArgs_In(TypedDict):
     permissionType: NotRequired[Literal["read"] | Literal["edit"]]
 
 class Prv_microsoft_365_shareDocument_return_Out(TypedDict):
+    id: str
+
+class Prv_microsoft_365_DeleteDocumentArgs_In(TypedDict):
+    itemId: str
+
+class Prv_microsoft_365_deleteDocument_return_Out(TypedDict):
     id: str
 
 class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
@@ -37815,6 +37829,11 @@ class Prv_cnbc_com(Protocol):
         quote.cnbc.com's keyless JSON quote service.
         """
 
+    async def listQuotes(self, args: Prv_cnbc_com_ListQuotesArgs_In, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
+        """Returns current stock quotes for multiple symbols as an array, with same fields as
+        getQuote.
+        """
+
 class Prv_cnn(Protocol):
     """Breaking news, articles, video segments and markets data from CNN."""
 
@@ -42573,6 +42592,11 @@ class Prv_instagram(Protocol):
         follow state. Requires the caller to be signed in through the relay.
         """
 
+    async def likePost(self, mediaId: str, /) -> Prv_instagram_InstagramLikeResult_Out:
+        """Likes a post by its media id. Returns the resulting like count and like state. Requires
+        the caller to be signed in through the relay.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -44816,6 +44840,11 @@ class Prv_microsoft_365(Protocol):
         """Shares a document in Microsoft 365 OneDrive with another user by email address. Takes
         the document ID, recipient email, and optional permission type (read or edit), and
         returns the share details.
+        """
+
+    async def deleteDocument(self, args: Prv_microsoft_365_DeleteDocumentArgs_In, /) -> Prv_microsoft_365_deleteDocument_return_Out:
+        """Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. Returns
+        the deleted item's ID.
         """
 
 class Prv_microsoft_onedrive(Protocol):

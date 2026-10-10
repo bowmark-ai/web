@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f799483a4f7a2583b8f9d2c9e8545b9414068b0fcc9c79c43d95ac5f7352ae99
-// 85 capabilities, 560 providers, 2005 typed functions, 20 refused.
+// Manifest version: f10b3258a71702447c6331c46a9ff0211b32821f4becaa4c67606b633dbcad28
+// 85 capabilities, 560 providers, 2008 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16456,6 +16456,10 @@ interface GetQuoteArgs {
   symbol: string;
 }
 
+interface ListQuotesArgs {
+  symbols: string[];
+}
+
   /** Stock quotes, market data, news, videos and analysis from CNBC. */
   interface Unit {
     /**
@@ -16464,6 +16468,9 @@ interface GetQuoteArgs {
      * keyless JSON quote service.
      */
     getQuote(args: GetQuoteArgs): Promise<cnbc_comRow>;
+
+    /** Returns current stock quotes for multiple symbols as an array, with same fields as getQuote. */
+    listQuotes(args: ListQuotesArgs): Promise<cnbc_comRow[]>;
   }
 }
 
@@ -29158,6 +29165,11 @@ interface InstagramUnfollowResult {
   username: string;
   following: boolean;
 }
+interface InstagramLikeResult {
+  mediaId: string;
+  likeCount: number;
+  hasLiked: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29224,6 +29236,12 @@ interface InstagramUnfollowResult {
      * state. Requires the caller to be signed in through the relay.
      */
     unfollowUser(userId: string): Promise<InstagramUnfollowResult>;
+
+    /**
+     * Likes a post by its media id. Returns the resulting like count and like state. Requires the
+     * caller to be signed in through the relay.
+     */
+    likePost(mediaId: string): Promise<InstagramLikeResult>;
   }
 }
 
@@ -35707,6 +35725,10 @@ interface ShareDocumentArgs {
   permissionType?: "read" | "edit";
 }
 
+interface DeleteDocumentArgs {
+  itemId: string;
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /**
@@ -35748,6 +35770,12 @@ interface ShareDocumentArgs {
      * share details.
      */
     shareDocument(args: ShareDocumentArgs): Promise<{ id: string }>;
+
+    /**
+     * Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. Returns the
+     * deleted item's ID.
+     */
+    deleteDocument(args: DeleteDocumentArgs): Promise<{ id: string }>;
   }
 }
 
