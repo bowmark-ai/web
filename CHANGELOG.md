@@ -6,6 +6,64 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.25.6 (2026-10-10)
+
+**Capabilities**
+
+- New capability **bank_transactions** (2 functions): `bank_transactions.parse`, `bank_transactions.summarize`
+- New capability **corporate_facts** (2 functions): `corporate_facts.findCompany`, `corporate_facts.lookup`
+- New capability **ip_asn_lookup** (1 function): `ip_asn_lookup.lookup`
+- New capability **mandi_prices_india** (2 functions): `mandi_prices_india.findMandis`, `mandi_prices_india.prices`
+- New capability **vacation_rental** (2 functions): `vacation_rental.quote`, `vacation_rental.search`
+- New capability **vpn_dedicated_ip** (1 function): `vpn_dedicated_ip.compare`
+
+**Providers**
+
+- New provider **speedrun.a16z.com** (1 function): `a16z_speedrun.getApplicationForm`
+- New provider **cnbc.com** (2 functions): `cnbc_com.getQuote`, `cnbc_com.listQuotes`
+- New provider **news.ycombinator.com** (3 functions): `hackernews.getItem`, `hackernews.search`, `hackernews.topStories`
+- New provider **ipinfo.io** (1 function): `ipinfo.lookup`
+- New provider **TODO example.com** (7 functions): `microsoft_365.createDocument`, `microsoft_365.deleteDocument`, `microsoft_365.getDocument`, `microsoft_365.listDocuments`, `microsoft_365.listDocumentVersions`, `microsoft_365.restoreDocumentVersion`, `microsoft_365.shareDocument`
+- New provider **onedrive.live.com** (6 functions): `microsoft_onedrive.createFolder`, `microsoft_onedrive.deleteFile`, `microsoft_onedrive.getFile`, `microsoft_onedrive.listFiles`, `microsoft_onedrive.listFolders`, `microsoft_onedrive.uploadFile`
+- New provider **outlook.live.com** (7 functions): `microsoft_outlook.createCalendarEvent`, `microsoft_outlook.getCalendarEvents`, `microsoft_outlook.getMail`, `microsoft_outlook.listContacts`, `microsoft_outlook.listMailFolders`, `microsoft_outlook.readMailFolder`, `microsoft_outlook.sendMail`
+- New provider **msc.fema.gov** (1 function): `msc_fema.getFloodZone`
+- New provider **www.nintendo.com** (1 function): `nintendo.getProduct`
+- New provider **purevpn.com** (1 function): `purevpn.getDedicatedIp`
+- New provider **sec.gov** (2 functions): `sec_edgar.companyFacts`, `sec_edgar.findCompany`
+- New provider **shein.com** (1 function): `shein.listCategories`
+- New provider **surfshark.com** (1 function): `surfshark.getDedicatedIp`
+- New provider **windscribe.com** (1 function): `windscribe.getDedicatedIp`
+- Added `bing.searchPlaces`
+- Added `booking_com.search`
+- Added `businessinsider_com.getAuthorArticles`
+- Added `dailymotion.searchChannels`
+- Added `duckduckgo.searchImages`
+- Added `duckduckgo.searchPlaces`
+- Added `duckduckgo.searchVideos`
+- Added `elevenlabs.listVoices`
+- Added `espn.getGame`
+- Added `espn.scoreboard`
+- Added `foxnews.listLatest`
+- Added `instagram.followUser`
+- Added `instagram.getDirectMessages`
+- Added `instagram.getNotifications`
+- Added `instagram.getStories`
+- Added `instagram.getThreadMessages`
+- Added `instagram.likePost`
+- Added `instagram.sendDirectMessage`
+- Added `instagram.unfollowUser`
+- Added `instagram.unlikePost`
+- Added `npr.getStory`
+- Added `npr.listSectionStories`
+- Added `rei.getProduct`
+- Added `shop_app.getStore`
+- Added `target.checkStock`
+- Added `tripadvisor.getHotel`
+- Added `yahoo_mail.listMessages`
+- Removed `weather_channel.getRadarTiles`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.25.5 (2026-10-08)
 
 **Capabilities**
