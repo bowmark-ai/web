@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 206f69e965ff303444f710139db100ff24cdb5f82091b388ce747a383a74d215
-// 85 capabilities, 561 providers, 2014 typed functions, 20 refused.
+// Manifest version: f430b0774290c2014b3cb764bb17270d2ee730151e5d14b118296ad9db7c737d
+// 85 capabilities, 561 providers, 2015 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -49305,6 +49305,11 @@ interface tiktokOwnProfile {
   privateAccount?: boolean;
 }
 type GetOwnProfileArgs = Record<string, never>;
+type EditProfileArgs = {
+  nickname?: string;
+  signature?: string;
+  bioLink?: string;
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -49434,6 +49439,16 @@ type GetOwnProfileArgs = Record<string, never>;
      * shape.
      */
     getOwnProfile(args: GetOwnProfileArgs, opts?: ConnectionOption): Promise<tiktokOwnProfile>;
+
+    /**
+     * Change the signed-in caller's own profile — display name (nickname), bio (signature), or bio
+     * link. Takes optional nickname, signature, and bioLink fields. Writes via POST to
+     * /passport/web/user/info/ with the caller's session cookies, no browser. The caller signs in
+     * through the auth relay; Bowmark never signs up on this site. Returns the updated account
+     * facts. Field values are read defensively and may come back undefined until a real signed-in
+     * capture measures the success shape.
+     */
+    editProfile(args: EditProfileArgs, opts?: ConnectionOption): Promise<tiktokOwnProfile>;
   }
 }
 

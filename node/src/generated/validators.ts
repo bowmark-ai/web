@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 206f69e965ff303444f710139db100ff24cdb5f82091b388ce747a383a74d215
-// 1996 checked, 20 unchecked.
+// Manifest version: f430b0774290c2014b3cb764bb17270d2ee730151e5d14b118296ad9db7c737d
+// 1997 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "206f69e965ff303444f710139db100ff24cdb5f82091b388ce747a383a74d215",
+  "version": "f430b0774290c2014b3cb764bb17270d2ee730151e5d14b118296ad9db7c737d",
   "units": {
     "address_validation": {
       "defs": {
@@ -54929,6 +54929,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.tiktok": {
       "defs": {
+        "EditProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "nickname",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "signature",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "bioLink",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetHashtagArgs": {
           "k": "object",
           "props": [
@@ -55300,6 +55326,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetOwnProfileArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "editProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EditProfileArgs"
             },
             "optional": false
           },

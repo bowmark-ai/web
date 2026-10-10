@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 206f69e965ff303444f710139db100ff24cdb5f82091b388ce747a383a74d215
-# 85 capabilities, 561 providers, 1996 typed functions, 20 refused.
+# Manifest version: f430b0774290c2014b3cb764bb17270d2ee730151e5d14b118296ad9db7c737d
+# 85 capabilities, 561 providers, 1997 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27665,6 +27665,11 @@ class Prv_tiktok_tiktokOwnProfile_Out(TypedDict):
     mobileBound: NotRequired[bool]
     privateAccount: NotRequired[bool]
 
+class Prv_tiktok_EditProfileArgs_In(TypedDict):
+    nickname: NotRequired[str]
+    signature: NotRequired[str]
+    bioLink: NotRequired[str]
+
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
     name: str
@@ -49859,6 +49864,15 @@ class Prv_tiktok(Protocol):
         caller signs in through the auth relay; Bowmark never signs up on this site. Takes no
         arguments. Field values are read defensively and may come back undefined until a real
         signed-in capture measures the success shape.
+        """
+
+    async def editProfile(self, args: Prv_tiktok_EditProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokOwnProfile_Out:
+        """Change the signed-in caller's own profile — display name (nickname), bio (signature), or
+        bio link. Takes optional nickname, signature, and bioLink fields. Writes via POST to
+        /passport/web/user/info/ with the caller's session cookies, no browser. The caller signs
+        in through the auth relay; Bowmark never signs up on this site. Returns the updated
+        account facts. Field values are read defensively and may come back undefined until a
+        real signed-in capture measures the success shape.
         """
 
 class Prv_tilsonhomes(Protocol):

@@ -1679,7 +1679,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | 🟢 |
 | `instagram.likePost` | instagram.com | Likes a post by its media id. | 🟢 |
 | `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in user's feed. | ⚪ |
-| `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | ⚪ |
+| `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | 🟢 |
 | `instagram.searchAccounts` | instagram.com | Searches Instagram for public accounts matching a query. | ⚪ |
 | `instagram.sendDirectMessage` | instagram.com | Sends a direct message to one user. | 🟢 |
 | `instagram.unblockUser` | instagram.com | Unblocks a previously blocked user. | ⚪ |
