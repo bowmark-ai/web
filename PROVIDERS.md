@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3318 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3319 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1997,6 +1997,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_onedrive.getFile` | onedrive.live.com | Gets metadata for a specific file by ID. | 🟢 |
 | `microsoft_onedrive.listFiles` | onedrive.live.com | Lists files and folders in the user's OneDrive root or a specified path. | 🟢 |
 | `microsoft_onedrive.listFolders` | onedrive.live.com | Lists folders in the user's OneDrive root or a specified path. | 🟢 |
+| `microsoft_onedrive.shareFile` | onedrive.live.com | Shares a file with another user, creating a sharing link or permission grant. | 🟢 |
 | `microsoft_onedrive.uploadFile` | onedrive.live.com | Uploads a file to OneDrive at the specified path. | 🟢 |
 | `microsoft_outlook.createCalendarEvent` | outlook.live.com | Creates a new calendar event with the specified title, start/end times, and optional… | 🟢 |
 | `microsoft_outlook.createContact` | outlook.live.com | TODO — what createContact does on the live site, and what interaction it performs. | ⚪ |
