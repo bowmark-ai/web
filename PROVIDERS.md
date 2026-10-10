@@ -1684,7 +1684,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.sendDirectMessage` | instagram.com | Sends a direct message to one user. | 🟢 |
 | `instagram.unblockUser` | instagram.com | Unblocks a previously blocked user. | ⚪ |
 | `instagram.unfollowUser` | instagram.com | Unfollows a user the signed-in account is currently following. | 🟢 |
-| `instagram.unlikePost` | instagram.com | Removes a like from a previously liked post. | ⚪ |
+| `instagram.unlikePost` | instagram.com | Removes a like from a previously liked post. | 🟢 |
 | `instagram.unmuteUser` | instagram.com | Unmutes a previously muted user. | ⚪ |
 | `instagram.unsavePost` | instagram.com | Removes a post from the signed-in user's saved collection. | ⚪ |
 | `instagram.updateProfile` | instagram.com | Updates the signed-in user's profile information such as biography, full name, or… | ⚪ |
@@ -1995,7 +1995,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_onedrive.getFile` | onedrive.live.com | Gets metadata for a specific file by ID. | 🟢 |
 | `microsoft_onedrive.listFiles` | onedrive.live.com | Lists files and folders in the user's OneDrive root or a specified path. | 🟢 |
 | `microsoft_onedrive.listFolders` | onedrive.live.com | Lists folders in the user's OneDrive root or a specified path. | 🟢 |
-| `microsoft_onedrive.uploadFile` | onedrive.live.com | Uploads a file to OneDrive at the specified path. | ⚪ |
+| `microsoft_onedrive.uploadFile` | onedrive.live.com | Uploads a file to OneDrive at the specified path. | 🟢 |
 | `microsoft_outlook.createCalendarEvent` | outlook.live.com | Creates a new calendar event with the specified title, start/end times, and optional… | 🟢 |
 | `microsoft_outlook.createContact` | outlook.live.com | TODO — what createContact does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.getCalendarEvents` | outlook.live.com | Returns calendar events within a specified date range, including title, start/end… | 🟢 |
@@ -3021,7 +3021,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.setChannel` | twitch.tv | Updates the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
 | `twitch.signUp` | twitch.tv | Registers a new developer application on the Twitch console. | ⚪ |
 | `twitch.unfollowChannel` | twitch.tv | Removes a channel from the signed-in user's followed list. | 🟢 |
-| `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟡 |
+| `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟢 |
 | `ubereats.getCheckoutTotal` | ubereats.com | Would open a specific restaurant, add real menu items to the cart, set a delivery… | ⚪ |
 | `ubereats.search` | ubereats.com | Would run Uber Eats' own restaurant search for a free-text query + address and return… | ⚪ |
 | `uhaul.getRates` | uhaul.com | Gets U-Haul truck or trailer rental rates for a pickup location and date — in-town, or… | 🟢 |
