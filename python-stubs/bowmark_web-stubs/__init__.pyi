@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f8cbabeff0dd13f871a57801a29e34c8f7ea862a10fbc2b00c9593260415b8ce
-# 85 capabilities, 560 providers, 1992 typed functions, 20 refused.
+# Manifest version: 2e6e03dd1ab53bad87e20e6d643b1fc6e4fae298ab81b2d00ed494a0bfbc17ed
+# 85 capabilities, 561 providers, 1993 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -25440,6 +25440,11 @@ class Prv_serper_SerperOrganicResult_Out(TypedDict):
     snippet: str | None
     date: str | None
 
+class Prv_shein_sheinCategory_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+
 class Prv_shop_app_ShopAppProduct_Out(TypedDict):
     id: str
     title: str
@@ -48508,6 +48513,12 @@ class Prv_serper(Protocol):
         instead.
         """
 
+class Prv_shein(Protocol):
+    """Shein's category tree, read past its risk wall with a home-warmed browser."""
+
+    async def listCategories(self, /) -> list[Prv_shein_sheinCategory_Out]:
+        """The top-level category tree read off the homepage — id, name and url for each."""
+
 class Prv_shop_app(Protocol):
     """Shop (Shopify's shopping app) — search products across every Shopify store, read a
     product with its variants, reviews and delivery estimate, and browse a store's
@@ -52794,6 +52805,7 @@ class BowmarkProviders(Protocol):
     semihandmade: Prv_semihandmade
     seoulfood: Prv_seoulfood
     serper: Prv_serper
+    shein: Prv_shein
     shop_app: Prv_shop_app
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags

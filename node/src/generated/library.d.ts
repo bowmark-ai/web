@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f8cbabeff0dd13f871a57801a29e34c8f7ea862a10fbc2b00c9593260415b8ce
-// 85 capabilities, 560 providers, 2010 typed functions, 20 refused.
+// Manifest version: 2e6e03dd1ab53bad87e20e6d643b1fc6e4fae298ab81b2d00ed494a0bfbc17ed
+// 85 capabilities, 561 providers, 2011 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -45578,6 +45578,24 @@ interface SerperSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_shein {
+  // ── Shein — the unit's own declarations, verbatim ──
+interface sheinRow {
+  id: string;
+}
+interface sheinCategory {
+  id: string;
+  name: string;
+  url: string;
+}
+
+  /** Shein's category tree, read past its risk wall with a home-warmed browser. */
+  interface Unit {
+    /** The top-level category tree read off the homepage — id, name and url for each. */
+    listCategories(): Promise<sheinCategory[]>;
+  }
+}
+
 declare namespace BowmarkProvider_shop_app {
   // ── Shop — the unit's own declarations, verbatim ──
 interface ShopAppProductRow {
@@ -57612,6 +57630,7 @@ interface BowmarkProviders {
   semihandmade: BowmarkProvider_semihandmade.Unit;
   seoulfood: BowmarkProvider_seoulfood.Unit;
   serper: BowmarkProvider_serper.Unit;
+  shein: BowmarkProvider_shein.Unit;
   shop_app: BowmarkProvider_shop_app.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;

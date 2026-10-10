@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f8cbabeff0dd13f871a57801a29e34c8f7ea862a10fbc2b00c9593260415b8ce
-// 1992 checked, 20 unchecked.
+// Manifest version: 2e6e03dd1ab53bad87e20e6d643b1fc6e4fae298ab81b2d00ed494a0bfbc17ed
+// 1993 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f8cbabeff0dd13f871a57801a29e34c8f7ea862a10fbc2b00c9593260415b8ce",
+  "version": "2e6e03dd1ab53bad87e20e6d643b1fc6e4fae298ab81b2d00ed494a0bfbc17ed",
   "units": {
     "address_validation": {
       "defs": {
@@ -51074,6 +51074,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      }
+    },
+    "providers.shein": {
+      "defs": {},
+      "functions": {
+        "listCategories": []
       }
     },
     "providers.shop_app": {
