@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6c8212edd702e4d408e340ff0885f73d9534acc2694184ede76f9871ed302211
-# 85 capabilities, 560 providers, 1970 typed functions, 20 refused.
+# Manifest version: d7798d0fa3f35c7da86cc72df9714db1b606ecd940584bd7f81204dfb5edfd52
+# 85 capabilities, 560 providers, 1971 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -25290,6 +25290,19 @@ class Prv_shop_app_ShopAppSelectedVariant_Out_selectedOptions_item_Out(TypedDict
     name: str
     value: str
 
+class Prv_shop_app_ShopAppStore_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    descriptionHtml: str | None
+    url: str
+    handle: str
+    logoUrl: str | None
+    rating: float | None
+    reviewCount: float | None
+    followerCount: float | None
+    warnings: list[str]
+
 class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
     zip: str
     locations: list[Prv_sitmeanssit_SitmeanssitLocation_Out]
@@ -48178,6 +48191,12 @@ class Prv_shop_app(Protocol):
         selected/first-available variant's own price, stock and image. The door carries only ONE
         priced variant, not a full per-combination list — pick a different one with getVariant
         (queued).
+        """
+
+    async def getStore(self, input: str, /) -> Prv_shop_app_ShopAppStore_Out:
+        """One store's Shop page by its handle (shop.app/m/<handle>) or a product id from that
+        store: name, logo, description, rating, follower count, and the collection titles the
+        store publishes.
         """
 
 class Prv_sitmeanssit(Protocol):

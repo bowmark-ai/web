@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6c8212edd702e4d408e340ff0885f73d9534acc2694184ede76f9871ed302211
-// 85 capabilities, 560 providers, 1988 typed functions, 20 refused.
+// Manifest version: d7798d0fa3f35c7da86cc72df9714db1b606ecd940584bd7f81204dfb5edfd52
+// 85 capabilities, 560 providers, 1989 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -45304,6 +45304,19 @@ interface ShopAppProduct {
   imageUrls: string[];
   warnings: string[];
 }
+interface ShopAppStore {
+  id: string;
+  name: string;
+  description: string | null;
+  descriptionHtml: string | null;
+  url: string;
+  handle: string;
+  logoUrl: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  followerCount: number | null;
+  warnings: string[];
+}
 
   /**
    * Shop (Shopify's shopping app) — search products across every Shopify store, read a product
@@ -45320,6 +45333,13 @@ interface ShopAppProduct {
      * (queued).
      */
     getProduct(input: string): Promise<ShopAppProduct>;
+
+    /**
+     * One store's Shop page by its handle (shop.app/m/<handle>) or a product id from that store:
+     * name, logo, description, rating, follower count, and the collection titles the store
+     * publishes.
+     */
+    getStore(input: string): Promise<ShopAppStore>;
   }
 }
 
