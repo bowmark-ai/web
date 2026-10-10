@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2
-// 1973 checked, 20 unchecked.
+// Manifest version: 6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41
+// 1974 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2",
+  "version": "6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41",
   "units": {
     "address_validation": {
       "defs": {
@@ -36395,6 +36395,40 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getFile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteFile": [
           {
             "name": "args",
             "schema": {

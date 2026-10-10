@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2
-# 85 capabilities, 560 providers, 1973 typed functions, 20 refused.
+# Manifest version: 6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41
+# 85 capabilities, 560 providers, 1974 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19438,6 +19438,9 @@ class Prv_microsoft_onedrive_microsoft_onedriveRow_Out(TypedDict):
 class Prv_microsoft_onedrive_getFile_args_In(TypedDict):
     id: str
 
+class Prv_microsoft_onedrive_deleteFile_args_In(TypedDict):
+    id: str
+
 class Prv_microsoft_outlook_microsoft_outlookFolder_Out(TypedDict):
     id: str
     name: str
@@ -32928,44 +32931,45 @@ class Cap_read(Protocol):
     """
 
     async def page(self, url: str, options: Cap_read_ReadOptions_In | None = None, /) -> Cap_read_ReadResult_Out:
-        """Loads one page and returns its content. Takes a fast read first and does a full page
-        load only when the response proves the page needs one (a bot wall, an interstitial, or
-        markup carrying no words). Reports a failure IN the result rather than throwing. **A PDF
-        url (a datasheet, a price list, a filing) comes back as the document's extracted text**
-        in `content`, with a note in the run's `notes` naming the page count; a scanned PDF with
-        no text layer is `ok: false`. A site that refuses automated access comes back `ok:
-        false` with `wall` naming the bot-management vendor and a warning saying so — that is
-        the site's answer, and retrying the same read will not change it; an HTTP 4xx/5xx page
-        is `ok: false` too. TIME: `timeoutMs` is the budget for the WHOLE read, end to end
-        (default 45,000, max 55,000) — deliberately under the ~60s at which a chat client kills
-        a tool call, so a slow page comes back as a real result saying what ran out instead of
-        your client's bare "The operation timed out.". **`strategy: "fetch"` is fast mode, the
-        fast-fail escape** for a page you do not want to wait on: it never waits on a slow page,
-        returns in ~200ms, and still sets `escalationReason` so you learn the page needed more
-        than that. Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a
-        loop's reads add up, and three slow ones outlast the client, while `pages` holds the
-        whole batch to the same 55s. **Hitting a site's own JSON endpoint? Read `result.json`,
-        never `content`** — `const { json } = await bowmark.read.page(apiUrl)` hands back the
-        parsed body directly, unfenced, whenever the response is JSON (a `json` content-type, or
-        a body that parses whole). Do not hand-strip a ``` fence from `content` to `JSON.parse`
-        it yourself; `json` is absent on every non-JSON page and costs nothing otherwise. **A
-        price you need bound to a specific item is the one thing the default `"markdown"` format
-        cannot promise** — it flattens the DOM, so a price can end up textually next to a link
-        for a DIFFERENT size/color/variant; the run's `notes` names it when the page carries the
-        structured data to prove it (a note, so the run stays `ok`), but the safe read is `{
-        format: "cleanHtml" }`, which keeps the price inside its own item's markup. **`content`
-        is the page's TEXT, even on a fully loaded page** — the page rendering does not mean
-        every widget on it became words. A booking calendar whose open and blocked days are
-        drawn only by styling, a widget inside a cross-origin iframe or a canvas, and a rate or
-        quote the page shows only after dates are picked or a form is filled come back as bare
-        day numbers, empty characters or nothing at all — usually with `ok: true` and no
-        warning. So a missing price or availability here is not proof the page has none: putting
-        the dates in the url is worth one try, and past that use the site's own provider if
-        `get_library` has one, or `bowmark.browser_agent.start` to operate the widget. RUN-ONLY:
-        because how each page is loaded is decided per call, neither `session()` nor the bare
-        top-level `bowmark` client (which opens a session internally, even for one call) can
-        serve this — both are refused with code "rung_undeclared". Call it through `run()`
-        instead.
+        """Loads one page and returns its content. **On a booking calendar or a price/availability
+        widget, expect this to come back empty: `content` is the page's TEXT, and the page
+        rendering does not mean every widget on it became words.** A calendar whose open and
+        blocked days are drawn only by styling, a widget inside a cross-origin iframe or a
+        canvas, and a rate or quote the page shows only after dates are picked or a form is
+        filled come back as bare day numbers, empty characters or nothing at all — usually with
+        `ok: true` and no warning. This is the expected outcome for any OTA-style booking
+        widget, not an edge case. A missing price or availability here is not proof the page has
+        none: putting the dates in the url is worth one try, and past that use the site's own
+        provider if `get_library` has one, or `bowmark.browser_agent.start` to operate the
+        widget. Takes a fast read first and does a full page load only when the response proves
+        the page needs one (a bot wall, an interstitial, or markup carrying no words). Reports a
+        failure IN the result rather than throwing. **A PDF url (a datasheet, a price list, a
+        filing) comes back as the document's extracted text** in `content`, with a note in the
+        run's `notes` naming the page count; a scanned PDF with no text layer is `ok: false`. A
+        site that refuses automated access comes back `ok: false` with `wall` naming the
+        bot-management vendor and a warning saying so — that is the site's answer, and retrying
+        the same read will not change it; an HTTP 4xx/5xx page is `ok: false` too. TIME:
+        `timeoutMs` is the budget for the WHOLE read, end to end (default 45,000, max 55,000) —
+        deliberately under the ~60s at which a chat client kills a tool call, so a slow page
+        comes back as a real result saying what ran out instead of your client's bare "The
+        operation timed out.". **`strategy: "fetch"` is fast mode, the fast-fail escape** for a
+        page you do not want to wait on: it never waits on a slow page, returns in ~200ms, and
+        still sets `escalationReason` so you learn the page needed more than that. Several urls?
+        Pass them to `read.pages`, not a loop of `page()` calls — a loop's reads add up, and
+        three slow ones outlast the client, while `pages` holds the whole batch to the same 55s.
+        **Hitting a site's own JSON endpoint? Read `result.json`, never `content`** — `const {
+        json } = await bowmark.read.page(apiUrl)` hands back the parsed body directly, unfenced,
+        whenever the response is JSON (a `json` content-type, or a body that parses whole). Do
+        not hand-strip a ``` fence from `content` to `JSON.parse` it yourself; `json` is absent
+        on every non-JSON page and costs nothing otherwise. **A price you need bound to a
+        specific item is the one thing the default `"markdown"` format cannot promise** — it
+        flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
+        size/color/variant; the run's `notes` names it when the page carries the structured data
+        to prove it (a note, so the run stays `ok`), but the safe read is `{ format: "cleanHtml"
+        }`, which keeps the price inside its own item's markup. RUN-ONLY: because how each page
+        is loaded is decided per call, neither `session()` nor the bare top-level `bowmark`
+        client (which opens a session internally, even for one call) can serve this — both are
+        refused with code "rung_undeclared". Call it through `run()` instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -44618,6 +44622,9 @@ class Prv_microsoft_onedrive(Protocol):
 
     async def getFile(self, args: Prv_microsoft_onedrive_getFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_onedrive_microsoft_onedriveRow_Out:
         """Gets metadata for a specific file by ID."""
+
+    async def deleteFile(self, args: Prv_microsoft_onedrive_deleteFile_args_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Deletes a file from OneDrive by ID."""
 
 class Prv_microsoft_outlook(Protocol):
     """Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only

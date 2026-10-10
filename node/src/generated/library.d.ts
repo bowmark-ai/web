@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2
-// 85 capabilities, 560 providers, 1991 typed functions, 20 refused.
+// Manifest version: 6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41
+// 85 capabilities, 560 providers, 1992 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3649,10 +3649,19 @@ type UrlsResult = {
    */
   interface Unit {
     /**
-     * Loads one page and returns its content. Takes a fast read first and does a full page load
-     * only when the response proves the page needs one (a bot wall, an interstitial, or markup
-     * carrying no words). Reports a failure IN the result rather than throwing. **A PDF url (a
-     * datasheet, a price list, a filing) comes back as the document's extracted text** in
+     * Loads one page and returns its content. **On a booking calendar or a price/availability
+     * widget, expect this to come back empty: `content` is the page's TEXT, and the page rendering
+     * does not mean every widget on it became words.** A calendar whose open and blocked days are
+     * drawn only by styling, a widget inside a cross-origin iframe or a canvas, and a rate or
+     * quote the page shows only after dates are picked or a form is filled come back as bare day
+     * numbers, empty characters or nothing at all — usually with `ok: true` and no warning. This
+     * is the expected outcome for any OTA-style booking widget, not an edge case. A missing price
+     * or availability here is not proof the page has none: putting the dates in the url is worth
+     * one try, and past that use the site's own provider if `get_library` has one, or
+     * `bowmark.browser_agent.start` to operate the widget. Takes a fast read first and does a full
+     * page load only when the response proves the page needs one (a bot wall, an interstitial, or
+     * markup carrying no words). Reports a failure IN the result rather than throwing. **A PDF url
+     * (a datasheet, a price list, a filing) comes back as the document's extracted text** in
      * `content`, with a note in the run's `notes` naming the page count; a scanned PDF with no
      * text layer is `ok: false`. A site that refuses automated access comes back `ok: false` with
      * `wall` naming the bot-management vendor and a warning saying so — that is the site's answer,
@@ -3674,17 +3683,10 @@ type UrlsResult = {
      * end up textually next to a link for a DIFFERENT size/color/variant; the run's `notes` names
      * it when the page carries the structured data to prove it (a note, so the run stays `ok`),
      * but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own item's
-     * markup. **`content` is the page's TEXT, even on a fully loaded page** — the page rendering
-     * does not mean every widget on it became words. A booking calendar whose open and blocked
-     * days are drawn only by styling, a widget inside a cross-origin iframe or a canvas, and a
-     * rate or quote the page shows only after dates are picked or a form is filled come back as
-     * bare day numbers, empty characters or nothing at all — usually with `ok: true` and no
-     * warning. So a missing price or availability here is not proof the page has none: putting the
-     * dates in the url is worth one try, and past that use the site's own provider if
-     * `get_library` has one, or `bowmark.browser_agent.start` to operate the widget. RUN-ONLY:
-     * because how each page is loaded is decided per call, neither `session()` nor the bare
-     * top-level `bowmark` client (which opens a session internally, even for one call) can serve
-     * this — both are refused with code "rung_undeclared". Call it through `run()` instead.
+     * markup. RUN-ONLY: because how each page is loaded is decided per call, neither `session()`
+     * nor the bare top-level `bowmark` client (which opens a session internally, even for one
+     * call) can serve this — both are refused with code "rung_undeclared". Call it through `run()`
+     * instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -35632,6 +35634,9 @@ interface microsoft_onedriveRow {
 
     /** Gets metadata for a specific file by ID. */
     getFile(args: { id: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow>;
+
+    /** Deletes a file from OneDrive by ID. */
+    deleteFile(args: { id: string }, opts?: ConnectionOption): Promise<void>;
   }
 }
 

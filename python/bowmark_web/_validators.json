@@ -1,5 +1,5 @@
 {
-  "version": "f5b253f9fcaebb18465460b45c401d27f8adcfeaab5f4790ebcf5048c49ba4a2",
+  "version": "6d903b793588f0b66ba89bbcebcc77866eed2d1c694b9a2c79fadc99bd36fa41",
   "units": {
     "address_validation": {
       "defs": {
@@ -36383,6 +36383,40 @@
           }
         ],
         "getFile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteFile": [
           {
             "name": "args",
             "schema": {
