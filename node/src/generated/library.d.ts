@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7ff011dc221bcafd8c44cd9df8ab9174b5ea210b24dcaaff3418f661ba240192
-// 85 capabilities, 561 providers, 2016 typed functions, 20 refused.
+// Manifest version: 63f3029131af18771604ba9293a9cb50a6b7b14508222a0621e4821579cc4fce
+// 86 capabilities, 562 providers, 2020 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1199,6 +1199,70 @@ type CallOptions = {
      * one.
      */
     priceConfiguration(id: string, selections: Record<string, string>): Promise<CustomSofaPriceResult>;
+  }
+}
+
+declare namespace BowmarkCapability_cve_lookup {
+  // ── Look up a CVE vulnerability — the unit's own declarations, verbatim ──
+interface CveAffected {
+  vendor: string | null;
+  product: string | null;
+  versions: string[];          // the CNA's own ranges, e.g. "2.0-beta9 < log4j-core*"
+}
+
+interface Cve {
+  id: string;                  // "CVE-2021-44228"
+  state: string;               // "PUBLISHED" | "REJECTED"
+  title: string | null;
+  description: string | null;
+  published: string | null;    // ISO
+  updated: string | null;
+  assigner: string | null;     // the CNA, e.g. "apache"
+  cvssScore: number | null;    // 0-10
+  severity: string | null;     // "CRITICAL" | "HIGH" | "MEDIUM" | "LOW"
+  cvssVector: string | null;
+  cvssVersion: string | null;
+  exploitation: string | null; // CISA SSVC: "active" | "poc" | "none"
+  cwes: string[];              // ["CWE-502"]
+  affected: CveAffected[];
+  references: string[];        // advisory / patch URLs
+  url: string;
+  source: string;              // "cve.circl.lu"
+}
+
+interface cve_lookupResult {
+  result: Cve | null;          // null when no CVE has that id
+  warnings: string[];
+}
+
+interface cve_lookupSearchArgs {
+  query: string;               // product, keyword or phrase: "openssh", "log4j remote code"
+  limit?: number;              // 1-100, default 10
+}
+
+interface cve_lookupSearchResult {
+  results: Cve[];
+  total: number;
+  warnings: string[];
+}
+
+  /**
+   * Look up a CVE security vulnerability by id, or search CVEs by product or keyword —
+   * description, CVSS score/severity, affected versions, references, exploited-in-the-wild
+   * status.
+   */
+  interface Unit {
+    /**
+     * One CVE by id ("CVE-2021-44228"): description, CVSS score and severity, CWE, affected
+     * products and versions, references, and CISA exploitation status.
+     */
+    lookup(id: string): Promise<cve_lookupResult>;
+
+    /**
+     * Search CVE vulnerabilities by product, keyword or phrase ({ query: "openssh" }); each result
+     * is the full record lookup returns.
+     */
+    search(args: cve_lookupSearchArgs): Promise<cve_lookupSearchResult>;
   }
 }
 
@@ -15680,6 +15744,63 @@ interface chromium_googlesource_comRepo {
      * v8/v8, depot_tools, infra …) with its clone url and description.
      */
     listRepos(): Promise<chromium_googlesource_comRepo[]>;
+  }
+}
+
+declare namespace BowmarkProvider_circl {
+  // ── CIRCL Vulnerability-Lookup — the unit's own declarations, verbatim ──
+interface circlAffected {
+  vendor: string | null;
+  product: string | null;
+  versions: string[];        // the CNA's own ranges, e.g. "2.0-beta9 < log4j-core*"
+}
+
+interface circlCve {
+  id: string;                // "CVE-2021-44228"
+  state: string;             // "PUBLISHED" | "REJECTED"
+  title: string | null;
+  description: string | null;
+  published: string | null;  // ISO
+  updated: string | null;
+  assigner: string | null;   // the CNA, e.g. "apache"
+  cvssScore: number | null;  // 0-10
+  severity: string | null;   // "CRITICAL" | "HIGH" | "MEDIUM" | "LOW"
+  cvssVector: string | null;
+  cvssVersion: string | null;
+  scoreSource: string | null; // "cna" | "cisa-adp"
+  exploitation: string | null; // CISA SSVC: "active" | "poc" | "none"
+  cwes: string[];            // ["CWE-502"]
+  affected: circlAffected[];
+  references: string[];      // advisory / patch URLs
+  url: string;               // the record on cve.circl.lu
+}
+
+interface circlSearchArgs {
+  query: string;             // keyword, product or phrase: "openssh", "log4j remote code"
+  limit?: number;            // 1-100, default 10
+}
+
+interface circlSearchResult {
+  total: number;
+  results: circlCve[];
+}
+
+  /**
+   * Look up a CVE (description, CVSS score and severity, affected products, references) or
+   * search CVEs by keyword, from CIRCL Vulnerability-Lookup
+   */
+  interface Unit {
+    /**
+     * One CVE record by id ("CVE-2021-44228"): description, CVSS score and severity, CWE, affected
+     * products and versions, references, CISA exploitation status. null when the id is unknown
+     */
+    getCve(id: string): Promise<circlCve | null>;
+
+    /**
+     * Full-text search of CVE records by keyword, product or phrase ({ query: "openssh" }), each
+     * result the same record getCve returns
+     */
+    search(args: circlSearchArgs): Promise<circlSearchResult>;
   }
 }
 
@@ -57354,6 +57475,7 @@ interface BowmarkProviders {
   christianbrothersauto: BowmarkProvider_christianbrothersauto.Unit;
   christydawn: BowmarkProvider_christydawn.Unit;
   chromium_googlesource_com: BowmarkProvider_chromium_googlesource_com.Unit;
+  circl: BowmarkProvider_circl.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classicrockfab: BowmarkProvider_classicrockfab.Unit;
   classpass: BowmarkProvider_classpass.Unit;
@@ -107680,6 +107802,7 @@ interface BowmarkLibrary {
   currency_exchange: BowmarkCapability_currency_exchange.Unit;
   custom_packaging_quote: BowmarkCapability_custom_packaging_quote.Unit;
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
+  cve_lookup: BowmarkCapability_cve_lookup.Unit;
   delegate: BowmarkCapability_delegate.Unit;
   delivery: BowmarkCapability_delivery.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7ff011dc221bcafd8c44cd9df8ab9174b5ea210b24dcaaff3418f661ba240192
-// 1998 checked, 20 unchecked.
+// Manifest version: 63f3029131af18771604ba9293a9cb50a6b7b14508222a0621e4821579cc4fce
+// 2002 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7ff011dc221bcafd8c44cd9df8ab9174b5ea210b24dcaaff3418f661ba240192",
+  "version": "63f3029131af18771604ba9293a9cb50a6b7b14508222a0621e4821579cc4fce",
   "units": {
     "address_validation": {
       "defs": {
@@ -1433,6 +1433,50 @@ export const VALIDATORS: ValidatorTable = {
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "cve_lookup": {
+      "defs": {
+        "cve_lookupSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "lookup": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "cve_lookupSearchArgs"
             },
             "optional": false
           }
@@ -16642,6 +16686,50 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listRepos": []
+      }
+    },
+    "providers.circl": {
+      "defs": {
+        "circlSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getCve": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "circlSearchArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.classichome": {

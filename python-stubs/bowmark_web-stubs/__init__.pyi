@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7ff011dc221bcafd8c44cd9df8ab9174b5ea210b24dcaaff3418f661ba240192
-# 85 capabilities, 561 providers, 1998 typed functions, 20 refused.
+# Manifest version: 63f3029131af18771604ba9293a9cb50a6b7b14508222a0621e4821579cc4fce
+# 86 capabilities, 562 providers, 2002 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -927,6 +927,43 @@ class Cap_custom_sofa_configurator_CustomSofaPriceLine_Out(TypedDict):
     option: str
     choice: str
     priceDelta: float
+
+class Cap_cve_lookup_cve_lookupResult_Out(TypedDict):
+    result: Cap_cve_lookup_Cve_Out | None
+    warnings: list[str]
+
+class Cap_cve_lookup_Cve_Out(TypedDict):
+    id: str
+    state: str
+    title: str | None
+    description: str | None
+    published: str | None
+    updated: str | None
+    assigner: str | None
+    cvssScore: float | None
+    severity: str | None
+    cvssVector: str | None
+    cvssVersion: str | None
+    exploitation: str | None
+    cwes: list[str]
+    affected: list[Cap_cve_lookup_CveAffected_Out]
+    references: list[str]
+    url: str
+    source: str
+
+class Cap_cve_lookup_CveAffected_Out(TypedDict):
+    vendor: str | None
+    product: str | None
+    versions: list[str]
+
+class Cap_cve_lookup_cve_lookupSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Cap_cve_lookup_cve_lookupSearchResult_Out(TypedDict):
+    results: list[Cap_cve_lookup_Cve_Out]
+    total: float
+    warnings: list[str]
 
 class Cap_delegate_StartDelegateOptions_In(TypedDict):
     prompt: str
@@ -8878,6 +8915,38 @@ class Prv_chromium_googlesource_com_chromium_googlesource_comRepo_Out(TypedDict)
     name: str
     cloneUrl: str
     description: str | None
+
+class Prv_circl_circlCve_Out(TypedDict):
+    id: str
+    state: str
+    title: str | None
+    description: str | None
+    published: str | None
+    updated: str | None
+    assigner: str | None
+    cvssScore: float | None
+    severity: str | None
+    cvssVector: str | None
+    cvssVersion: str | None
+    scoreSource: str | None
+    exploitation: str | None
+    cwes: list[str]
+    affected: list[Prv_circl_circlAffected_Out]
+    references: list[str]
+    url: str
+
+class Prv_circl_circlAffected_Out(TypedDict):
+    vendor: str | None
+    product: str | None
+    versions: list[str]
+
+class Prv_circl_circlSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_circl_circlSearchResult_Out(TypedDict):
+    total: float
+    results: list[Prv_circl_circlCve_Out]
 
 class Prv_classichome_ClassicHomeProduct_Out(TypedDict):
     handle: str
@@ -32315,6 +32384,22 @@ class Cap_custom_sofa_configurator(Protocol):
         sofa — never invent one.
         """
 
+class Cap_cve_lookup(Protocol):
+    """Look up a CVE security vulnerability by id, or search CVEs by product or keyword —
+    description, CVSS score/severity, affected versions, references, exploited-in-the-wild
+    status.
+    """
+
+    async def lookup(self, id: str, /) -> Cap_cve_lookup_cve_lookupResult_Out:
+        """One CVE by id ("CVE-2021-44228"): description, CVSS score and severity, CWE, affected
+        products and versions, references, and CISA exploitation status.
+        """
+
+    async def search(self, args: Cap_cve_lookup_cve_lookupSearchArgs_In, /) -> Cap_cve_lookup_cve_lookupSearchResult_Out:
+        """Search CVE vulnerabilities by product, keyword or phrase ({ query: "openssh" }); each
+        result is the full record lookup returns.
+        """
+
 class Cap_delegate(Protocol):
     """**A coding agent (Claude Code) in a fresh, throwaway Linux machine, for a task that
     needs a real computer**: write and run code, work in a git repo, install packages,
@@ -37605,6 +37690,22 @@ class Prv_chromium_googlesource_com(Protocol):
     async def listRepos(self, /) -> list[Prv_chromium_googlesource_com_chromium_googlesource_comRepo_Out]:
         """Lists every git repository hosted on chromium.googlesource.com (thousands —
         chromium/src, v8/v8, depot_tools, infra …) with its clone url and description.
+        """
+
+class Prv_circl(Protocol):
+    """Look up a CVE (description, CVSS score and severity, affected products, references) or
+    search CVEs by keyword, from CIRCL Vulnerability-Lookup
+    """
+
+    async def getCve(self, id: str, /) -> Prv_circl_circlCve_Out | None:
+        """One CVE record by id ("CVE-2021-44228"): description, CVSS score and severity, CWE,
+        affected products and versions, references, CISA exploitation status. null when the id
+        is unknown
+        """
+
+    async def search(self, args: Prv_circl_circlSearchArgs_In, /) -> Prv_circl_circlSearchResult_Out:
+        """Full-text search of CVE records by keyword, product or phrase ({ query: "openssh" }),
+        each result the same record getCve returns
         """
 
 class Prv_classichome(Protocol):
@@ -52531,6 +52632,7 @@ class BowmarkProviders(Protocol):
     christianbrothersauto: Prv_christianbrothersauto
     christydawn: Prv_christydawn
     chromium_googlesource_com: Prv_chromium_googlesource_com
+    circl: Prv_circl
     classichome: Prv_classichome
     classicrockfab: Prv_classicrockfab
     classpass: Prv_classpass
@@ -52986,6 +53088,7 @@ class Bowmark(Protocol):
     currency_exchange: Cap_currency_exchange
     custom_packaging_quote: Cap_custom_packaging_quote
     custom_sofa_configurator: Cap_custom_sofa_configurator
+    cve_lookup: Cap_cve_lookup
     delegate: Cap_delegate
     delivery: Cap_delivery
     developer_api_key_signup: Cap_developer_api_key_signup

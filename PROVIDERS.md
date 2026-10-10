@@ -1688,7 +1688,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.unfollowUser` | instagram.com | Unfollows a user the signed-in account is currently following. | 🟢 |
 | `instagram.unlikePost` | instagram.com | Removes a like from a previously liked post. | 🟢 |
 | `instagram.unmuteUser` | instagram.com | Unmutes a previously muted user. | ⚪ |
-| `instagram.unsavePost` | instagram.com | Removes a post from the signed-in user's saved collection. | ⚪ |
+| `instagram.unsavePost` | instagram.com | Removes a post from the signed-in user's saved collection. | 🟢 |
 | `instagram.updateProfile` | instagram.com | Updates the signed-in user's profile information such as biography, full name, or… | ⚪ |
 | `insurify.estimateAutoCost` | insurify.com | Returns an estimated monthly car insurance cost for a driver profile — age, location… | ⚪ |
 | `insurify.getAutoQuotes` | insurify.com | Returns real-time side-by-side car insurance rates from the carriers that will… | 🟢 |
@@ -2553,7 +2553,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟡 |
 | `rishitea.getTeaFinderQuiz` | rishi-tea.com | Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —… | 🟢 |
 | `rishitea.matchTeaFinderQuiz` | rishi-tea.com | Submits a full set of answers to Okendo's quiz engine and returns the same… | 🟢 |
-| `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟢 |
+| `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟡 |
 | `ritani.priceConfiguration` | ritani.com | Prices one exact custom-ring build against Ritani's own live Ring Studio pricing… | 🟢 |
 | `rivian.estimateLeasePayment` | rivian.com | Prices a 36- or 24-month Rivian lease for a 2027-model-year R1T Premium — monthly… | 🟢 |
 | `roofmaxx.estimateRoofReplacementCost` | roofmaxx.com | Runs Roof Maxx's own Roof Replacement Cost Calculator — given a home's square footage… | 🟢 |
