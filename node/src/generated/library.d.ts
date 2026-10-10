@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6276ef94e3aaf24a1e564a7f49bdecb0e4ff695f67bf3113e6983a07425a546a
-// 85 capabilities, 560 providers, 1993 typed functions, 20 refused.
+// Manifest version: d48c0b390015a07a5846c9a0f910d0de29c238a05d1710960bc0183ce5570ba5
+// 85 capabilities, 560 providers, 1996 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35585,6 +35585,11 @@ interface DocumentVersion {
   publication?: { level?: string };
 }
 
+interface RestoreDocumentVersionArgs {
+  itemId: string;
+  versionId: string;
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /**
@@ -35613,6 +35618,12 @@ interface DocumentVersion {
      * Returns an array of versions with timestamps and metadata for each version.
      */
     listDocumentVersions(args: ListDocumentVersionsArgs): Promise<DocumentVersion[]>;
+
+    /**
+     * Restores a document in Microsoft 365 OneDrive to a specified previous version. Takes the
+     * document ID and version ID, and returns the metadata of the restored document.
+     */
+    restoreDocumentVersion(args: RestoreDocumentVersionArgs): Promise<microsoft_365Document>;
   }
 }
 
@@ -35697,6 +35708,20 @@ interface microsoft_outlookCalendarEvent {
   isAllDay?: boolean;
 }
 
+interface microsoft_outlookCreateCalendarEventArgs {
+  title: string;
+  startDateTime: string;
+  endDateTime: string;
+  description?: string;
+  isAllDay?: boolean;
+  attendees?: string | string[];
+}
+
+interface microsoft_outlookCreateCalendarEventResult {
+  id: string;
+  status: "created" | "created_draft";
+}
+
   /**
    * Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
    * (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a personal
@@ -35733,6 +35758,12 @@ interface microsoft_outlookCalendarEvent {
      * attendee information.
      */
     getCalendarEvents(args: microsoft_outlookGetCalendarEventsArgs, opts?: ConnectionOption): Promise<microsoft_outlookCalendarEvent[]>;
+
+    /**
+     * Creates a new calendar event with the specified title, start/end times, and optional
+     * description and attendees.
+     */
+    createCalendarEvent(args: microsoft_outlookCreateCalendarEventArgs, opts?: ConnectionOption): Promise<microsoft_outlookCreateCalendarEventResult>;
   }
 }
 
@@ -37409,6 +37440,20 @@ interface NprHeadline {
   publishedDate?: string;
 }
 
+interface GetStoryArgs {
+  url: string;
+}
+
+interface NprStory {
+  title: string;
+  url: string;
+  description?: string;
+  publishedDate?: string;
+  author?: string;
+  body?: string;
+  audioUrl?: string;
+}
+
 interface ListHeadlinesArgs {
   limit?: number;
 }
@@ -37429,6 +37474,12 @@ interface ListSectionStoriesArgs {
    * rundowns, and the member-station finder with live streams.
    */
   interface Unit {
+    /**
+     * A complete NPR story — headline, publication date, author, body text and (when available) a
+     * link to the audio. Accepts a story URL (www.npr.org or text.npr.org) or just the story id.
+     */
+    getStory(args: GetStoryArgs): Promise<NprStory>;
+
     /**
      * The homepage's current top stories in the site's own order — headline, url, teaser, section
      * and (for an npr.org story) its story id and published date. A syndicated member-station

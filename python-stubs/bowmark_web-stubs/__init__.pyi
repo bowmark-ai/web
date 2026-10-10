@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6276ef94e3aaf24a1e564a7f49bdecb0e4ff695f67bf3113e6983a07425a546a
-# 85 capabilities, 560 providers, 1975 typed functions, 20 refused.
+# Manifest version: d48c0b390015a07a5846c9a0f910d0de29c238a05d1710960bc0183ce5570ba5
+# 85 capabilities, 560 providers, 1978 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19424,6 +19424,10 @@ class Prv_microsoft_365_DocumentVersion_Out_lastModifiedBy_Out_user_Out(TypedDic
 class Prv_microsoft_365_DocumentVersion_Out_publication_Out(TypedDict):
     level: NotRequired[str]
 
+class Prv_microsoft_365_RestoreDocumentVersionArgs_In(TypedDict):
+    itemId: str
+    versionId: str
+
 class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
     path: NotRequired[str]
 
@@ -19492,6 +19496,18 @@ class Prv_microsoft_outlook_microsoft_outlookCalendarEvent_Out(TypedDict):
     organizer: NotRequired[str]
     description: NotRequired[str]
     isAllDay: NotRequired[bool]
+
+class Prv_microsoft_outlook_microsoft_outlookCreateCalendarEventArgs_In(TypedDict):
+    title: str
+    startDateTime: str
+    endDateTime: str
+    description: NotRequired[str]
+    isAllDay: NotRequired[bool]
+    attendees: NotRequired[str | Sequence[str]]
+
+class Prv_microsoft_outlook_microsoft_outlookCreateCalendarEventResult_Out(TypedDict):
+    id: str
+    status: Literal["created"] | Literal["created_draft"]
 
 class Prv_millisaraylar_MillisaraylarPalace_Out(TypedDict):
     id: str
@@ -20301,6 +20317,18 @@ class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     downloads: float
     start: str
     end: str
+
+class Prv_npr_GetStoryArgs_In(TypedDict):
+    url: str
+
+class Prv_npr_NprStory_Out(TypedDict):
+    title: str
+    url: str
+    description: NotRequired[str]
+    publishedDate: NotRequired[str]
+    author: NotRequired[str]
+    body: NotRequired[str]
+    audioUrl: NotRequired[str]
 
 class Prv_npr_ListHeadlinesArgs_In(TypedDict):
     limit: NotRequired[float]
@@ -44639,6 +44667,11 @@ class Prv_microsoft_365(Protocol):
         Returns an array of versions with timestamps and metadata for each version.
         """
 
+    async def restoreDocumentVersion(self, args: Prv_microsoft_365_RestoreDocumentVersionArgs_In, /) -> Prv_microsoft_365_microsoft_365Document_Out:
+        """Restores a document in Microsoft 365 OneDrive to a specified previous version. Takes the
+        document ID and version ID, and returns the metadata of the restored document.
+        """
+
 class Prv_microsoft_onedrive(Protocol):
     """Cloud file storage and sharing through Microsoft OneDrive."""
 
@@ -44682,6 +44715,11 @@ class Prv_microsoft_outlook(Protocol):
     async def getCalendarEvents(self, args: Prv_microsoft_outlook_microsoft_outlookGetCalendarEventsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_outlook_microsoft_outlookCalendarEvent_Out]:
         """Returns calendar events within a specified date range, including title, start/end times,
         and attendee information.
+        """
+
+    async def createCalendarEvent(self, args: Prv_microsoft_outlook_microsoft_outlookCreateCalendarEventArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_outlook_microsoft_outlookCreateCalendarEventResult_Out:
+        """Creates a new calendar event with the specified title, start/end times, and optional
+        description and attendees.
         """
 
 class Prv_millisaraylar(Protocol):
@@ -45314,6 +45352,12 @@ class Prv_npr(Protocol):
     """NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast
     program rundowns, and the member-station finder with live streams.
     """
+
+    async def getStory(self, args: Prv_npr_GetStoryArgs_In, /) -> Prv_npr_NprStory_Out:
+        """A complete NPR story — headline, publication date, author, body text and (when
+        available) a link to the audio. Accepts a story URL (www.npr.org or text.npr.org) or
+        just the story id.
+        """
 
     async def listHeadlines(self, args: Prv_npr_ListHeadlinesArgs_In | None = None, /) -> list[Prv_npr_NprHeadline_Out]:
         """The homepage's current top stories in the site's own order — headline, url, teaser,

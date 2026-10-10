@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6276ef94e3aaf24a1e564a7f49bdecb0e4ff695f67bf3113e6983a07425a546a
-// 1975 checked, 20 unchecked.
+// Manifest version: d48c0b390015a07a5846c9a0f910d0de29c238a05d1710960bc0183ce5570ba5
+// 1978 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6276ef94e3aaf24a1e564a7f49bdecb0e4ff695f67bf3113e6983a07425a546a",
+  "version": "d48c0b390015a07a5846c9a0f910d0de29c238a05d1710960bc0183ce5570ba5",
   "units": {
     "address_validation": {
       "defs": {
@@ -36312,6 +36312,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "RestoreDocumentVersionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "versionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -36351,6 +36370,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListDocumentVersionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "restoreDocumentVersion": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RestoreDocumentVersionArgs"
             },
             "optional": false
           }
@@ -36466,6 +36495,64 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.microsoft_outlook": {
       "defs": {
+        "microsoft_outlookCreateCalendarEventArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startDateTime",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDateTime",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "isAllDay",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "attendees",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "microsoft_outlookGetCalendarEventsArgs": {
           "k": "object",
           "props": [
@@ -36629,6 +36716,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "microsoft_outlookGetCalendarEventsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createCalendarEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "microsoft_outlookCreateCalendarEventArgs"
             },
             "optional": false
           },
@@ -37977,6 +38090,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.npr": {
       "defs": {
+        "GetStoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListHeadlinesArgs": {
           "k": "object",
           "props": [
@@ -38010,6 +38135,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getStory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStoryArgs"
+            },
+            "optional": false
+          }
+        ],
         "listHeadlines": [
           {
             "name": "args",
