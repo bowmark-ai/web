@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3316 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3318 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -657,6 +657,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chromium_googlesource_com.listDirectory` | chromium.googlesource.com | Lists one directory of a chromium.googlesource.com repository (default chromium/src at… | 🟢 |
 | `chromium_googlesource_com.listRepos` | chromium.googlesource.com | Lists every git repository hosted on chromium.googlesource.com with its clone url and… | 🟢 |
 | `chromium_googlesource_com.searchCode` | chromium.googlesource.com | Full-text search across Chromium source (source.chromium.org's code search). | ⚪ |
+| `circl.getCve` | cve.circl.lu | Fetch one CVE record by id from CIRCL's documented JSON API: description, CVSS score… | 🟢 |
+| `circl.search` | cve.circl.lu | Full-text search of CVE records by keyword, product or phrase through CIRCL's… | 🟢 |
 | `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟡 |
 | `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟡 |
 | `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟢 |

@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 133 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 135 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -39,6 +39,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `custom_sofa_configurator.getConfigurator` | Reads one sofa's full configurator — every option slot (Fabric, Wood Stain, Color… | 2 | 🟢 |
 | `custom_sofa_configurator.listSofas` | Lists configurable sofas/sectionals across every maker — Joybird's whole catalogue… | 2 | 🟢 |
 | `custom_sofa_configurator.priceConfiguration` | Prices ONE exact configuration against the maker's own live customizer and returns the… | 2 | 🟢 |
+| `cve_lookup.lookup` | One CVE by id ("CVE-2021-44228"): description, CVSS score and severity, CWE, affected… | 1 | 🟢 |
+| `cve_lookup.search` | Search CVE vulnerabilities by product, keyword or phrase ({ query: "openssh" }); each… | 1 | 🟢 |
 | `delegate.list` | Lists this account's delegate sessions (open ones by default). | 1 | 🟢 |
 | `delegate.send` | Continues the same conversation in the same machine after a turn has finished: a… | 1 | 🟢 |
 | `delegate.start` | Boots a fresh Linux machine running Claude Code on `prompt`, optionally inside a clone… | 1 | 🟢 |
