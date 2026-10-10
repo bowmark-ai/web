@@ -1,5 +1,5 @@
 {
-  "version": "e9777eb96052822b0007c7d426216fa7b85ee9b8f3a7975f9a2f6789f9cf2a50",
+  "version": "f799483a4f7a2583b8f9d2c9e8545b9414068b0fcc9c79c43d95ac5f7352ae99",
   "units": {
     "address_validation": {
       "defs": {
@@ -13518,6 +13518,46 @@
               "optional": true
             }
           ]
+        },
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "children",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -13527,6 +13567,16 @@
             "schema": {
               "k": "ref",
               "name": "AutocompleteDestinationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
             },
             "optional": false
           }
@@ -17790,6 +17840,15 @@
         "getVideo": [
           {
             "name": "video",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchChannels": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },
@@ -36860,6 +36919,24 @@
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listContacts": [
           {
             "name": "opts",
             "schema": {

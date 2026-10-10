@@ -93,7 +93,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aliexpress.listWishlist` | aliexpress.us | Lists products in the user's wishlist. | ⚪ |
 | `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | ⚪ |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
-| `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
+| `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟡 |
 | `amazon.addToCart` | www.amazon.com | Put one unit of a product in the anonymous guest cart and report what the cart then… | 🟢 |
 | `amazon.getCart` | www.amazon.com | Read what is in the cart — line items, quantities, per-item and total price — so an… | 🟢 |
 | `amazon.getDeliveryEstimate` | www.amazon.com | When a product would actually arrive at a given US ZIP, and what it costs to get it… | 🟢 |
@@ -702,7 +702,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnbc_com.listCurrencies` | cnbc.com | Lists major currency exchange rates — USD/EUR, USD/GBP, USD/JPY and others — with… | ⚪ |
 | `cnbc_com.listMarkets` | cnbc.com | Returns the current state of all major market indices — Dow Jones, S&P 500, Nasdaq… | ⚪ |
 | `cnbc_com.listNews` | cnbc.com | Returns the latest news and articles from CNBC — headlines, publication date, author… | ⚪ |
-| `cnbc_com.listQuotes` | cnbc.com | Returns stock quotes for multiple symbols in one call — the same fields as getQuote… | ⚪ |
+| `cnbc_com.listQuotes` | cnbc.com | Returns stock quotes for multiple symbols in one call — the same fields as getQuote… | 🟢 |
 | `cnbc_com.listSectors` | cnbc.com | Lists S&P 500 sector performance — sector name, price change, percent change, and top… | ⚪ |
 | `cnbc_com.listVideosByCategory` | cnbc.com | Lists CNBC videos by category (latest, trending, live, channels) — title, description… | ⚪ |
 | `cnbc_com.removeFromWatchlist` | cnbc.com | Removes a stock symbol from the user's watchlist. | ⚪ |
@@ -794,7 +794,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listTrendingVideos` | dailymotion.com | List the videos trending on Dailymotion now, optionally for one country or language. | ⚪ |
 | `dailymotion.listWatchHistory` | dailymotion.com | List the videos the signed-in caller has watched, newest first. | ⚪ |
 | `dailymotion.listWatchLater` | dailymotion.com | List the signed-in caller's Watch Later videos. | ⚪ |
-| `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion channels (uploaders) by name — id, username, display name, follower… | ⚪ |
+| `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion channels (uploaders) by name — id, username, display name, follower… | 🟢 |
 | `dailymotion.searchPlaylists` | dailymotion.com | Search Dailymotion playlists by keyword, as the site's own search page does under its… | ⚪ |
 | `dailymotion.searchVideos` | dailymotion.com | Search Dailymotion videos by keyword — title, uploader, duration, views, publish date… | 🟢 |
 | `dailymotion.updateProfile` | dailymotion.com | Edit the signed-in caller's own profile — display name, description, avatar. | ⚪ |
@@ -2000,7 +2000,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_outlook.getCalendarEvents` | outlook.live.com | Returns calendar events within a specified date range, including title, start/end… | 🟢 |
 | `microsoft_outlook.getContact` | outlook.live.com | TODO — what getContact does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.getMail` | outlook.live.com | Opens one mail item from readMailFolder's results and returns the full message —… | 🟢 |
-| `microsoft_outlook.listContacts` | outlook.live.com | TODO — what listContacts does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.listContacts` | outlook.live.com | Lists the signed-in user's contacts from the Outlook people page, with email and phone… | 🟢 |
 | `microsoft_outlook.listMailFolders` | outlook.live.com | Lists the mail folders (Inbox, Sent, Drafts, etc.) available to the signed-in user… | 🟢 |
 | `microsoft_outlook.readMailFolder` | outlook.live.com | Reads the mail items in a specific folder, returning subject, sender, date, and… | 🟢 |
 | `microsoft_outlook.sendMail` | outlook.live.com | Composes and sends a new email message to the specified recipient with the given… | 🟢 |

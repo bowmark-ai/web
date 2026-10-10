@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e9777eb96052822b0007c7d426216fa7b85ee9b8f3a7975f9a2f6789f9cf2a50
-// 85 capabilities, 560 providers, 2002 typed functions, 20 refused.
+// Manifest version: f799483a4f7a2583b8f9d2c9e8545b9414068b0fcc9c79c43d95ac5f7352ae99
+// 85 capabilities, 560 providers, 2005 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -449,11 +449,11 @@ type CallOptions = {
      * mentioning it. **One session = one independent goal** — never bundle multiple date ranges,
      * SKUs or queries into one session; the agent silently reuses results across them. Start a
      * separate session for each distinct query. Then `status(id)` from later runs (each `run()` is
-     * capped at 120s; the agent is not — a task normally takes 1-3 minutes, so do not give up on
-     * it before 5); on `needs_input` relay `question` and `send` the answer; on `idle` read
-     * `result` and `stop(id)`. A login persists for the life of the session, so later `send()`
-     * calls into the same session do not need re-authentication. Always stop sessions when done —
-     * idle browsers keep costing money. Account limit: 3 concurrent sessions.
+     * capped at 90s; the agent is not — a task normally takes 1-3 minutes, so do not give up on it
+     * before 5); on `needs_input` relay `question` and `send` the answer; on `idle` read `result`
+     * and `stop(id)`. A login persists for the life of the session, so later `send()` calls into
+     * the same session do not need re-authentication. Always stop sessions when done — idle
+     * browsers keep costing money. Account limit: 3 concurrent sessions.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -464,8 +464,8 @@ type CallOptions = {
      * was last doing. A site that blocks the browser outright (a bot wall, not a login or captcha)
      * also reads `failed`, quickly, with `error` starting `blocked: ` — nobody can take over and
      * clear that, so treat it as a hard failure for that site rather than retrying. Pass the
-     * previous `cursor` for only new steps, and `waitMs` (≤ 45000 — kept under the ~60s ceiling
-     * most chat clients kill a tool call at) to wait for a change instead of polling tightly.
+     * previous `cursor` for only new steps, and `waitMs` (≤ 45000 — kept under the ~60s at which
+     * most chat clients kill a tool call) to wait for a change instead of polling tightly.
      */
     status(id: string, options?: BrowserAgentStatusOptions): Promise<BrowserAgentStatusResult>;
 
@@ -1262,7 +1262,7 @@ type CallOptions = {
    * anything a developer would open a terminal for. `start({ prompt, env?, repo? })` boots the
    * machine and returns `id` at once; the agent works on its own for seconds to many minutes.
    * Poll `status(id, { waitMs: 60000 })` from LATER runs — never in a loop in one run (a run is
-   * killed at 120s). When `status` is `idle`, read `result`, `files` (what it left in its output
+   * killed at 90s). When `status` is `idle`, read `result`, `files` (what it left in its output
    * folder) and `diff` (its changes to the repo), then `stop(id)`. `send(id, message)` continues
    * the same conversation in the same machine. Billed to your user's account for machine time
    * and model tokens, under `maxCostUsd` (default $5): tell your user it is running and that it
@@ -12566,6 +12566,21 @@ interface AutocompleteDestinationArgs {
   query: string;
   limit?: number;
 }
+interface SearchPropertyListing {
+  id: string;
+  name: string;
+  url: string;
+  pricePerNight: number | null;
+  rating: number | null;
+  reviewCount: number | null;
+}
+interface SearchArgs {
+  destination: string;
+  checkIn: string;
+  checkOut: string;
+  adults?: number;
+  children?: number;
+}
 
   /**
    * Global online travel reservation service with property search, reviews and booking
@@ -12577,6 +12592,12 @@ interface AutocompleteDestinationArgs {
      * name, with booking.com's own dest_id/dest_type, coordinates and hotel count.
      */
     autocompleteDestination(args: AutocompleteDestinationArgs): Promise<{ destinations: BookingDestination[] }>;
+
+    /**
+     * Search for accommodations by destination, check-in/check-out dates; returns property
+     * listings with pricing and ratings.
+     */
+    search(args: SearchArgs): Promise<{ properties: SearchPropertyListing[] }>;
   }
 }
 
@@ -17300,6 +17321,26 @@ interface dahlconsultingSearchFilters { query?: string; location?: string; limit
 
 declare namespace BowmarkProvider_dailymotion {
   // ── Dailymotion — the unit's own declarations, verbatim ──
+interface DailymotionChannel {
+  id: string;
+  username: string;
+  displayName: string | null;
+  avatarUrl: string | null;
+  followerCount: number | null;
+  followingCount: number | null;
+  videoCount: number | null;
+  playlistCount: number | null;
+  description: string | null;
+  country: string | null;
+  verified: boolean;
+}
+interface DailymotionChannelSearchResult {
+  query: string;
+  page: number;
+  total: number;
+  hasMore: boolean;
+  channels: DailymotionChannel[];
+}
 interface DailymotionVideo {
   id: string;
   title: string;
@@ -17350,6 +17391,13 @@ interface DailymotionSearchResult {
      * description, uploader, duration, views, likes, tags and embed URL.
      */
     getVideo(video: string): Promise<DailymotionVideo>;
+
+    /**
+     * Search Dailymotion channels (uploaders) by name — sorted by relevance — returning id,
+     * username, display name, follower and video counts. The finder for getChannel,
+     * listChannelVideos and listChannelPlaylists.
+     */
+    searchChannels(query: string): Promise<DailymotionChannelSearchResult>;
   }
 }
 
@@ -35801,6 +35849,13 @@ interface microsoft_outlookCreateCalendarEventResult {
   status: "created" | "created_draft";
 }
 
+interface microsoft_outlookContact {
+  id: string;
+  name: string;
+  email?: string;
+  phone?: string;
+}
+
   /**
    * Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only
    * (`ProviderAuth.authFunctions`, relay login); no persona ever signs up here, since a personal
@@ -35843,6 +35898,12 @@ interface microsoft_outlookCreateCalendarEventResult {
      * description and attendees.
      */
     createCalendarEvent(args: microsoft_outlookCreateCalendarEventArgs, opts?: ConnectionOption): Promise<microsoft_outlookCreateCalendarEventResult>;
+
+    /**
+     * Lists the signed-in user's contacts from the Outlook people page, with email and phone where
+     * present.
+     */
+    listContacts(opts?: ConnectionOption): Promise<microsoft_outlookContact[]>;
   }
 }
 

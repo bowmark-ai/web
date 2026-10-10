@@ -45,7 +45,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `delegate.status` | Reads a session: `running`, `idle` (done — read `result`, `files`, `diff`), `failed`… | 1 | 🟢 |
 | `delegate.stop` | Destroys the machine and closes the session. | 1 | 🟢 |
 | `delivery.compareDeliveryFees` | Runs a free-text search — `bowmark.delivery.compareDeliveryFees("pad thai austin tx")`… | 1 | 🟢 |
-| `developer_api_key_signup.signUp` | Signs up for a real developer API key on a dashboard. `service` selects which… | 1 | 🟢 |
+| `developer_api_key_signup.signUp` | Signs up for a real developer API key on a dashboard. `service` selects which… | 1 | 🟡 |
 | `domain.checkAvailability` | Looks up a domain name (e.g. "example.com") against its authoritative RDAP server and… | 0 | 🟢 |
 | `email.findDomain` | Turns a company NAME into the domain it sends mail from — findDomain("Basecamp LLC")… | 1 | 🟢 |
 | `entertainment_merch.search` | Searches Hot Topic and BoxLunch in parallel for a franchise/character/show and returns… | 2 | 🟢 |
