@@ -400,7 +400,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | 🟡 |
 | `bluesky.getTimeline` | bsky.app | The caller's home Following feed, newest first, page by page. | ⚪ |
 | `bluesky.getTrendingTopics` | bsky.app | What is trending on Bluesky right now: the topics and the links to their search or… | 🟢 |
-| `bluesky.getTrends` | bsky.app | The richer trending list the Explore page shows: each trend's post count, status… | ⚪ |
+| `bluesky.getTrends` | bsky.app | The richer trending list the Explore page shows: each trend's post count, status… | 🟢 |
 | `bluesky.getUserFeeds` | bsky.app | The custom feeds a person has made. | ⚪ |
 | `bluesky.getUserLists` | bsky.app | The lists (curation and moderation lists) a person has made. | ⚪ |
 | `bluesky.getUserPosts` | bsky.app | A person's posts, newest first, as their profile tabs show them — posts only, posts… | 🟢 |
@@ -2134,7 +2134,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.listSectionStories` | npr.org | List the latest stories in one section or topic, given its slug from listSections. | 🟢 |
 | `npr.listSeries` | npr.org | List NPR's series (Tiny Desk Concerts, New Music Friday, Life Kit…) with the slug or… | ⚪ |
 | `npr.listSeriesStories` | npr.org | List the latest entries of one series, e.g. Tiny Desk Concerts, given its slug from… | ⚪ |
-| `npr.searchStories` | npr.org | Search NPR stories, episodes and segments by keyword, newest or most relevant first. | ⚪ |
+| `npr.searchStories` | npr.org | Search NPR stories, episodes and segments by keyword, newest or most relevant first. | 🟢 |
 | `npr.subscribeNewsletter` | npr.org | Subscribe an email address the caller owns to one NPR newsletter. | ⚪ |
 | `nurturelife.getMealBundle` | nurturelife.com | Returns Nurture Life's currently-offered curated meal bundles with their real, current… | 🟢 |
 | `nurturelife.getMealPlans` | nurturelife.com | Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's… | 🟢 |
