@@ -1,5 +1,5 @@
 {
-  "version": "5b66da58b3291b6cceda908a2f9deb9da2ef8ea2a3b4b218951e5533ec046424",
+  "version": "4a03baffa71f0daa3bd2aa25d309d7fc550fbf91bf76ba0736bc1e521ca60d34",
   "units": {
     "address_validation": {
       "defs": {
@@ -29775,6 +29775,15 @@
           }
         ],
         "muteUser": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "unmuteUser": [
           {
             "name": "userId",
             "schema": {

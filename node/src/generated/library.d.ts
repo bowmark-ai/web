@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5b66da58b3291b6cceda908a2f9deb9da2ef8ea2a3b4b218951e5533ec046424
-// 86 capabilities, 563 providers, 2036 typed functions, 20 refused.
+// Manifest version: 4a03baffa71f0daa3bd2aa25d309d7fc550fbf91bf76ba0736bc1e521ca60d34
+// 86 capabilities, 563 providers, 2037 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5120,7 +5120,7 @@ type FormFillOptions = {
 type FormFillResult = {
   url: string
   filled: string[]           // the values keys that matched a field and were written
-  notFound: string[]         // the values keys nothing on the page matched
+  notFound: string[]         // the values keys that were not set — matched nothing, or matched a field that could not be set (a warning names which and why)
   advanced: boolean           // a Next/Continue control was found and clicked
   submitted: boolean          // a submit control was clicked AND the site took it (navigated, or the
                               // form's own submit event fired with no validation text). False with
@@ -5128,7 +5128,7 @@ type FormFillResult = {
   openedWith: string | null
   multiStep: boolean          // the step now on screen continues past this one
   stepLabel: string | null
-  autocompleteSelected: string[]  // "<field>: <suggestion>" for each address/lookup field a suggestion was picked for
+  autocompleteSelected: string[]  // "<field>: <choice>" for each address/lookup suggestion or pop-up menu option that was picked
   resultContent: string | null  // what the site answered back, read after submit/advance — null otherwise
   wall: { vendor: string; cleared: boolean } | null  // a bot challenge this call saw on the page, if any
   needsLogin: boolean         // opening the form landed on the site's sign-in, so nothing was filled
@@ -5164,11 +5164,14 @@ type FormFillResult = {
      * click 'Next'/'Continue' once everything is written, or `submit: true` to click the control
      * that actually commits the form (submit wins if both are set). One call is one step — call it
      * again with the next step's `values` to walk a wizard forward. `notFound` names any `values`
-     * key nothing on the page matched, so a caller who guessed a label wrong sees that rather than
-     * silence. When a click registers, `resultContent` carries what the site answered back — a
-     * matched branch, a calculated price, a stock status — read off the destination page or widget
-     * and capped at 4000 characters; `null` when neither `submit` nor `advance` was requested or
-     * the click never registered.
+     * key that was not set, so a caller who guessed a label wrong sees that rather than silence;
+     * when the key DID match a field that could not be set (disabled until an earlier choice, no
+     * option matching the value), a warning names the field and the reason. A pop-up menu with no
+     * text box (a select-only combobox) is opened and the option matching the value is clicked —
+     * never a default one. When a click registers, `resultContent` carries what the site answered
+     * back — a matched branch, a calculated price, a stock status — read off the destination page
+     * or widget and capped at 4000 characters; `null` when neither `submit` nor `advance` was
+     * requested or the click never registered.
      */
     fillForm(url: string, values: Record<string, string>, options?: FormFillOptions): Promise<FormFillResult>;
   }
@@ -29470,6 +29473,10 @@ interface InstagramMuteResult {
   userId: string;
   muting: boolean;
 }
+interface InstagramUnmuteResult {
+  userId: string;
+  muting: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29588,6 +29595,13 @@ interface InstagramMuteResult {
      * relay.
      */
     muteUser(userId: string): Promise<InstagramMuteResult>;
+
+    /**
+     * Unmutes a previously muted user, restoring their posts and stories to the signed-in
+     * account's feed. Returns the resulting mute state. Requires the caller to be signed in
+     * through the relay.
+     */
+    unmuteUser(userId: string): Promise<InstagramUnmuteResult>;
   }
 }
 

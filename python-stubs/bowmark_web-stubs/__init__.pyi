@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5b66da58b3291b6cceda908a2f9deb9da2ef8ea2a3b4b218951e5533ec046424
-# 86 capabilities, 563 providers, 2018 typed functions, 20 refused.
+# Manifest version: 4a03baffa71f0daa3bd2aa25d309d7fc550fbf91bf76ba0736bc1e521ca60d34
+# 86 capabilities, 563 providers, 2019 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16157,6 +16157,10 @@ class Prv_instagram_InstagramUnblockResult_Out(TypedDict):
     blocking: bool
 
 class Prv_instagram_InstagramMuteResult_Out(TypedDict):
+    userId: str
+    muting: bool
+
+class Prv_instagram_InstagramUnmuteResult_Out(TypedDict):
     userId: str
     muting: bool
 
@@ -34022,11 +34026,15 @@ class Cap_web_form_fields(Protocol):
         `advance: true` to click 'Next'/'Continue' once everything is written, or `submit: true`
         to click the control that actually commits the form (submit wins if both are set). One
         call is one step — call it again with the next step's `values` to walk a wizard forward.
-        `notFound` names any `values` key nothing on the page matched, so a caller who guessed a
-        label wrong sees that rather than silence. When a click registers, `resultContent`
-        carries what the site answered back — a matched branch, a calculated price, a stock
-        status — read off the destination page or widget and capped at 4000 characters; `null`
-        when neither `submit` nor `advance` was requested or the click never registered.
+        `notFound` names any `values` key that was not set, so a caller who guessed a label
+        wrong sees that rather than silence; when the key DID match a field that could not be
+        set (disabled until an earlier choice, no option matching the value), a warning names
+        the field and the reason. A pop-up menu with no text box (a select-only combobox) is
+        opened and the option matching the value is clicked — never a default one. When a click
+        registers, `resultContent` carries what the site answered back — a matched branch, a
+        calculated price, a stock status — read off the destination page or widget and capped at
+        4000 characters; `null` when neither `submit` nor `advance` was requested or the click
+        never registered.
         """
 
 class Cap_wireless(Protocol):
@@ -43000,6 +43008,12 @@ class Prv_instagram(Protocol):
         """Mutes a user's posts and stories from the signed-in account's feed, without unfollowing
         them. Returns the resulting mute state. Requires the caller to be signed in through the
         relay.
+        """
+
+    async def unmuteUser(self, userId: str, /) -> Prv_instagram_InstagramUnmuteResult_Out:
+        """Unmutes a previously muted user, restoring their posts and stories to the signed-in
+        account's feed. Returns the resulting mute state. Requires the caller to be signed in
+        through the relay.
         """
 
 class Prv_insurify(Protocol):
