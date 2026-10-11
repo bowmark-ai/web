@@ -150,7 +150,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | ⚪ |
 | `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | ⚪ |
 | `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | ⚪ |
-| `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | ⚪ |
+| `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | 🟢 |
 | `aol.listFavorites` | aol.com | Reads the signed-in caller's AOL Favorites — their saved links and the folders holding… | ⚪ |
 | `aol.listGames` | aol.com | Lists AOL Games' free web games by category (board, card, casino, puzzle, other) with… | ⚪ |
 | `aol.listNewsletters` | aol.com | Lists the email newsletters aol.com offers — id, title and what each one sends. | ⚪ |

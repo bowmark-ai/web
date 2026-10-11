@@ -1,5 +1,5 @@
 {
-  "version": "4a03baffa71f0daa3bd2aa25d309d7fc550fbf91bf76ba0736bc1e521ca60d34",
+  "version": "088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d",
   "units": {
     "address_validation": {
       "defs": {
@@ -8483,6 +8483,15 @@
               ]
             },
             "optional": true
+          }
+        ],
+        "getWeather": [
+          {
+            "name": "woeid",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

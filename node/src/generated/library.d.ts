@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4a03baffa71f0daa3bd2aa25d309d7fc550fbf91bf76ba0736bc1e521ca60d34
-// 86 capabilities, 563 providers, 2037 typed functions, 20 refused.
+// Manifest version: 088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d
+// 86 capabilities, 563 providers, 2038 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7403,6 +7403,66 @@ interface AolWeatherLocation {
   longitude?: number;
 }
 
+/** Current conditions. US units: °F, mph, miles, inHg. */
+interface AolWeatherCondition {
+  description: string;
+  /** °F */
+  temperature: number;
+  /** Percent. */
+  humidity?: number;
+  /** mph */
+  windSpeed?: number;
+  /** inHg */
+  pressure?: number;
+  uvIndex?: number;
+  /** Miles. */
+  visibility?: number;
+  /** °F */
+  dewPoint?: number;
+}
+
+interface AolWeatherHour {
+  /** ISO 8601, UTC. */
+  time: string;
+  description: string;
+  /** °F */
+  temperature: number;
+  /** Percent chance of precipitation. */
+  chanceOfRain?: number;
+}
+
+interface AolWeatherForecastDay {
+  /** YYYY-MM-DD in the location's own time zone. */
+  date: string;
+  description: string;
+  /** °F */
+  high: number;
+  /** °F */
+  low: number;
+  /** Percent chance of precipitation. */
+  chanceOfRain?: number;
+  /** HH:MM local time. */
+  sunrise?: string;
+  /** HH:MM local time. */
+  sunset?: string;
+}
+
+interface AolWeatherData {
+  location: {
+    woeid: string;
+    name: string;
+    state?: string;
+    countryCode?: string;
+    country?: string;
+    utcOffsetSeconds?: number;
+    latitude?: number;
+    longitude?: number;
+  };
+  current: AolWeatherCondition;
+  hourly: AolWeatherHour[];
+  daily: AolWeatherForecastDay[];
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -7442,6 +7502,13 @@ interface AolWeatherLocation {
      * identifier needed for getWeather. Pass an optional country code to narrow results.
      */
     searchWeatherLocations(args?: { query?: string; country?: string }): Promise<{ locations: AolWeatherLocation[] }>;
+
+    /**
+     * Reads current conditions (temperature, humidity, pressure, wind speed, UV, dew point,
+     * visibility), the hourly forecast and the ten-day forecast (highs, lows, chance of rain,
+     * sunrise, sunset) for one location, in US units. Pass a woeid from searchWeatherLocations.
+     */
+    getWeather(woeid: string): Promise<AolWeatherData>;
   }
 }
 

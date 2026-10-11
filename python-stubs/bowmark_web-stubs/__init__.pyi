@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4a03baffa71f0daa3bd2aa25d309d7fc550fbf91bf76ba0736bc1e521ca60d34
-# 86 capabilities, 563 providers, 2019 typed functions, 20 refused.
+# Manifest version: 088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d
+# 86 capabilities, 563 providers, 2020 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4102,6 +4102,47 @@ class Prv_aol_AolWeatherLocation_Out(TypedDict):
     fullDisplayName: str
     latitude: NotRequired[float]
     longitude: NotRequired[float]
+
+class Prv_aol_AolWeatherData_Out(TypedDict):
+    location: Prv_aol_AolWeatherData_Out_location_Out
+    current: Prv_aol_AolWeatherCondition_Out
+    hourly: list[Prv_aol_AolWeatherHour_Out]
+    daily: list[Prv_aol_AolWeatherForecastDay_Out]
+
+class Prv_aol_AolWeatherData_Out_location_Out(TypedDict):
+    woeid: str
+    name: str
+    state: NotRequired[str]
+    countryCode: NotRequired[str]
+    country: NotRequired[str]
+    utcOffsetSeconds: NotRequired[float]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+
+class Prv_aol_AolWeatherCondition_Out(TypedDict):
+    description: str
+    temperature: float
+    humidity: NotRequired[float]
+    windSpeed: NotRequired[float]
+    pressure: NotRequired[float]
+    uvIndex: NotRequired[float]
+    visibility: NotRequired[float]
+    dewPoint: NotRequired[float]
+
+class Prv_aol_AolWeatherHour_Out(TypedDict):
+    time: str
+    description: str
+    temperature: float
+    chanceOfRain: NotRequired[float]
+
+class Prv_aol_AolWeatherForecastDay_Out(TypedDict):
+    date: str
+    description: str
+    high: float
+    low: float
+    chanceOfRain: NotRequired[float]
+    sunrise: NotRequired[str]
+    sunset: NotRequired[str]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -34885,6 +34926,13 @@ class Prv_aol(Protocol):
     async def searchWeatherLocations(self, args: Prv_aol_searchWeatherLocations_args_In | None = None, /) -> Prv_aol_searchWeatherLocations_return_Out:
         """Searches for weather locations by name (e.g. 'San Francisco', 'Paris') to get the woeid
         identifier needed for getWeather. Pass an optional country code to narrow results.
+        """
+
+    async def getWeather(self, woeid: str, /) -> Prv_aol_AolWeatherData_Out:
+        """Reads current conditions (temperature, humidity, pressure, wind speed, UV, dew point,
+        visibility), the hourly forecast and the ten-day forecast (highs, lows, chance of rain,
+        sunrise, sunset) for one location, in US units. Pass a woeid from
+        searchWeatherLocations.
         """
 
 class Prv_aosom(Protocol):

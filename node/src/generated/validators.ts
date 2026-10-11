@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4a03baffa71f0daa3bd2aa25d309d7fc550fbf91bf76ba0736bc1e521ca60d34
-// 2019 checked, 20 unchecked.
+// Manifest version: 088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d
+// 2020 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4a03baffa71f0daa3bd2aa25d309d7fc550fbf91bf76ba0736bc1e521ca60d34",
+  "version": "088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d",
   "units": {
     "address_validation": {
       "defs": {
@@ -8495,6 +8495,15 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "getWeather": [
+          {
+            "name": "woeid",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
