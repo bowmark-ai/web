@@ -1685,7 +1685,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.getStories` | instagram.com | Lists stories from accounts the signed-in user follows, with expiration times. | 🟢 |
 | `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | 🟢 |
 | `instagram.likePost` | instagram.com | Likes a post by its media id. | 🟢 |
-| `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in user's feed. | ⚪ |
+| `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in account's feed, without… | 🟢 |
 | `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | 🟢 |
 | `instagram.searchAccounts` | instagram.com | Searches Instagram for public accounts matching a query. | ⚪ |
 | `instagram.sendDirectMessage` | instagram.com | Sends a direct message to one user. | 🟢 |
@@ -2653,7 +2653,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.getProductReviews` | shein.com | Returns customer reviews for a product: rating, text, verified-purchase flag. | ⚪ |
 | `shein.listCategories` | shein.com | Lists the top-level product categories on Shein. | 🟢 |
 | `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | ⚪ |
-| `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | ⚪ |
+| `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | 🟢 |
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | ⚪ |
 | `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart, or changes its quantity (0 removes… | ⚪ |
 | `shop_app.addToProductList` | shop.app | Adds a product to one of the caller's lists, or removes it (remove: true). | ⚪ |

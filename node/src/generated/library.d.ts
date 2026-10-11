@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6ba65596869a2a093a177f039d94b410de36e25b6b17b5b44672f5318a03f882
-// 86 capabilities, 563 providers, 2031 typed functions, 20 refused.
+// Manifest version: 159b6fe88efd2bdca2138ae4865e62f0836c43573f8e4fac1396c915c893f73d
+// 86 capabilities, 563 providers, 2032 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17617,6 +17617,12 @@ interface DailymotionSearchResult {
      * listChannelVideos and listChannelPlaylists.
      */
     searchChannels(query: string): Promise<DailymotionChannelSearchResult>;
+
+    /**
+     * Read one Dailymotion channel from its id (x123abc) or username: display name, avatar,
+     * follower and video counts, description and verified status.
+     */
+    getChannel(channel: string): Promise<DailymotionChannel>;
   }
 }
 

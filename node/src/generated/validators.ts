@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6ba65596869a2a093a177f039d94b410de36e25b6b17b5b44672f5318a03f882
-// 2013 checked, 20 unchecked.
+// Manifest version: 159b6fe88efd2bdca2138ae4865e62f0836c43573f8e4fac1396c915c893f73d
+// 2014 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6ba65596869a2a093a177f039d94b410de36e25b6b17b5b44672f5318a03f882",
+  "version": "159b6fe88efd2bdca2138ae4865e62f0836c43573f8e4fac1396c915c893f73d",
   "units": {
     "address_validation": {
       "defs": {
@@ -18078,6 +18078,15 @@ export const VALIDATORS: ValidatorTable = {
         "searchChannels": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getChannel": [
+          {
+            "name": "channel",
             "schema": {
               "k": "string"
             },
