@@ -2678,7 +2678,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.listOrders` | shop.app | Lists the signed-in caller's orders from every store they bought from with Shop —… | ⚪ |
 | `shop_app.listProductLists` | shop.app | Lists the caller's own product lists (wishlists) with each list's items. | ⚪ |
 | `shop_app.listSavedProducts` | shop.app | Lists the products the caller has saved (hearted) on Shop. | ⚪ |
-| `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | ⚪ |
+| `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | 🟢 |
 | `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's orders as delivered, or un-marks it. | ⚪ |
 | `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | ⚪ |
 | `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | ⚪ |
@@ -2881,7 +2881,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.getSound` | tiktok.com | A sound/music track's own facts — title, artist, duration, how many videos use it —… | 🟢 |
 | `tiktok.getTranscript` | tiktok.com | A video's own caption track, read off `itemStruct.video.subtitleInfos` — the WebVTT… | 🟢 |
 | `tiktok.getVideo` | tiktok.com | One video's own facts, off the watch page's embedded state: caption, hashtags, create… | 🟢 |
-| `tiktok.likeVideo` | tiktok.com | Like a video as the signed-in caller — the heart button. | ⚪ |
+| `tiktok.likeVideo` | tiktok.com | Like a video as the signed-in caller — the heart button. | 🟢 |
 | `tiktok.listBookmarkedVideos` | tiktok.com | The signed-in caller's own saved videos — the companion read to bookmarkVideo. | ⚪ |
 | `tiktok.listCaptionTracks` | tiktok.com | Which languages a video's captions are available in and which TikTok shows by default… | 🟢 |
 | `tiktok.listCommentReplies` | tiktok.com | The replies under one comment thread, hidden behind TikTok's "N replies" button and… | 🟢 |
