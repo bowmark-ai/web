@@ -961,7 +961,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.removeFromWatchlist` | ebay.com | Remove an item from the caller's watch list. | ⚪ |
 | `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🟡 |
 | `ebay.searchAutocomplete` | ebay.com | Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's… | 🟢 |
-| `ebay.searchByCategory` | ebay.com | Searches one eBay category by id, with an optional keyword narrowing within it — the… | 🟢 |
+| `ebay.searchByCategory` | ebay.com | Searches one eBay category by id, with an optional keyword narrowing within it — the… | 🟡 |
 | `ebay.searchSold` | ebay.com | Searches eBay's completed/SOLD listings (not live asking prices) for a query and… | ⚪ |
 | `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🟡 |
 | `elase.findLocation` | elase.com | Resolves a slug/neighborhood query to the matching real Elase location(s) — name… | 🟢 |

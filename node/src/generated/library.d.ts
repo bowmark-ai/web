@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ad31a515ceb8a46b7ac140f88cc9b56c55f2ec11457b69fb69b9bdfc6314c880
-// 86 capabilities, 562 providers, 2026 typed functions, 20 refused.
+// Manifest version: 6d1e2a2b7f145082a785e28da4964a0a54667b0cc7976d4634ba65b53ea2c87f
+// 86 capabilities, 563 providers, 2028 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17213,6 +17213,78 @@ interface CruiseLakeGenevaTourDetail extends CruiseLakeGenevaTour {
   }
 }
 
+declare namespace BowmarkProvider_crunchbase {
+  // ── Crunchbase — the unit's own declarations, verbatim ──
+interface CrunchbaseOrgRef {
+  name: string;
+  slug: string;   // Crunchbase's own permalink: https://www.crunchbase.com/organization/<slug>
+  url: string;
+}
+
+interface CrunchbaseFundingRound {
+  rank: number;                 // 1-10 within its week; ties share a rank
+  tied: boolean;
+  company: { name: string; slug: string | null; url: string | null };
+  amountText: string;           // as printed, e.g. "$255.5M"
+  amountUsd: number | null;     // whole US dollars; null for a non-$ amount
+  sector: string | null;        // the column's own label, e.g. "AI infrastructure"
+  roundType: string | null;     // "Series C", "Seed", "Pre-Seed", "Debt", "Growth" — null when the article names none
+  leadInvestors: CrunchbaseOrgRef[];        // read off "led by …" prose; empty when the article does not say
+  linkedOrganizations: CrunchbaseOrgRef[];  // every other organization the entry links (participants, parent, sometimes the reporting outlet)
+  summary: string;              // the entry as plain text: location, valuation, total raised to date when stated
+  period: string | null;        // the week covered, e.g. "Oct. 3-9, 2026"
+  articleTitle: string;
+  articleUrl: string;
+  publishedAt: string;          // ISO 8601, UTC
+}
+
+interface RecentFundingRoundsArgs {
+  weeks?: number;               // 1-8 weekly columns, newest first. Default 1.
+  minAmountUsd?: number;        // keep rounds of at least this many US dollars
+  sector?: string;              // keep rounds whose sector label contains this, case-insensitive
+}
+
+interface CrunchbaseNewsArticle {
+  id: number;
+  title: string;
+  url: string;
+  publishedAt: string;          // ISO 8601, UTC
+  excerpt: string;
+  organizations: CrunchbaseOrgRef[];        // every Crunchbase organization the article links
+  matchingRounds: CrunchbaseFundingRound[]; // when the article is a weekly biggest-rounds column: its entries for the queried company
+}
+
+interface SearchNewsArgs {
+  query: string;                // a company or topic, e.g. "Supabase"
+  limit?: number;               // 1-20, default 10. Newest first.
+}
+
+  /**
+   * Crunchbase — which startups raised money this week (the week's biggest U.S. rounds with
+   * amount, round type, lead investors and the company's Crunchbase slug) and Crunchbase News
+   * coverage of any company. Company profiles and full funding histories are NOT reachable yet.
+   */
+  interface Unit {
+    /**
+     * The week's 10 biggest announced funding rounds raised by U.S.-based startups, from
+     * Crunchbase News' weekly column (published Fridays, built from the Crunchbase database) —
+     * company and its Crunchbase slug, amount in USD, sector, round type, lead investors,
+     * valuation/total-raised prose and the week covered. `weeks` reaches back up to 8 columns.
+     * Only each week's ten largest U.S. rounds are covered (the smallest are typically
+     * $75M-$125M); smaller rounds and non-U.S. companies are not.
+     */
+    recentFundingRounds(options?: RecentFundingRoundsArgs): Promise<CrunchbaseFundingRound[]>;
+
+    /**
+     * Searches Crunchbase News for a company or topic, newest first — each article's title, date,
+     * excerpt and the Crunchbase organizations it links (with their slugs). When a hit is a weekly
+     * biggest-rounds column, `matchingRounds` carries that company's parsed round. Use it to see a
+     * company's recent raises, layoffs, acquisitions or IPO coverage.
+     */
+    searchNews(args: SearchNewsArgs | string): Promise<CrunchbaseNewsArticle[]>;
+  }
+}
+
 declare namespace BowmarkProvider_culturefly {
   // ── CultureFly — the unit's own declarations, verbatim ──
 interface CultureFlyBoxSummary {
@@ -29371,8 +29443,9 @@ interface InstagramBlockResult {
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
-   * follower/following counts, and the latest posts' captions, like and comment counts, off the
-   * site's own logged-out profile-info endpoint.
+   * follower/following counts, verified/private flags, and the latest posts' captions, like and
+   * comment counts, by loading the profile page in a headless browser and parsing the rendered
+   * DOM.
    */
   interface Unit {
     /**
@@ -32916,14 +32989,22 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Returns the signed-in caller's own LinkedIn member record — name, headline, profile URL and
      * photo, and whether the account is Premium. Signed in: acts as the caller's own LinkedIn
      * account; with no saved sign-in the run pauses and hands back a link where they sign in.
+     * Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that
+     * refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
+     * pace throws LinkedinRateLimited saying when to retry: wait that long.
      */
     getMyProfile(opts?: ConnectionOption): Promise<LinkedinMe>;
 
     /**
      * Lists the caller's first-degree connections, most recently connected first, with each
      * person's name, headline, profile URL and when they connected. `count` up to 100 per page
-     * (default 40). Signed in: acts as the caller's own LinkedIn account; with no saved sign-in
-     * the run pauses and hands back a link where they sign in.
+     * (default 40). A headline usually names the person's title and employer, so this answers
+     * "where do my connections work" 100 people per request, where getProfileDetails answers one.
+     * Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses
+     * and hands back a link where they sign in. Paced per LinkedIn account across runs — 20
+     * requests a minute, and a reserve of 1,000 that refills about 42 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long.
      */
     listConnections(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ connections: LinkedinConnection[]; start: number; nextStart: number | null }>;
 
@@ -32932,8 +33013,14 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * summary, location, industry, every position with its dates and company, and every school —
      * from a profile URL or slug. Richer than getProfile, which reads only the public preview and
      * needs no sign-in. Skills and contact details are not returned: LinkedIn's API no longer
-     * serves contact info (HTTP 410). Signed in: acts as the caller's own LinkedIn account; with
-     * no saved sign-in the run pauses and hands back a link where they sign in.
+     * serves contact info (HTTP 410). Full profiles draw on a per-account reserve of 250 that
+     * refills about 10 an hour, and about 20 fit in one run. To learn where many connections work,
+     * read the headline listConnections returns (up to 100 people per call) and call this only for
+     * the rest. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the
+     * run pauses and hands back a link where they sign in. Paced per LinkedIn account across runs
+     * — 20 requests a minute, and a reserve of 1,000 that refills about 42 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long.
      */
     getProfileDetails(profile: string, opts?: ConnectionOption): Promise<LinkedinMemberProfile>;
 
@@ -32944,7 +33031,10 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * location, profile URL and the caller's degree of connection. Unlike searchPeople, which
      * needs no sign-in and relies on a web index, this is LinkedIn's ranking and filters. Signed
      * in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
-     * hands back a link where they sign in.
+     * hands back a link where they sign in. Paced per LinkedIn account across runs — 20 requests a
+     * minute, and a reserve of 1,000 that refills about 42 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long.
      */
     searchMembers(input: string | { keywords: string; currentCompany?: string | string[]; title?: string; location?: string; network?: string | string[]; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember>>;
 
@@ -32953,7 +33043,10 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * with each one's handle, numeric id, industry, location and follower count. The handle feeds
      * getCompany; the id feeds listCompanyEmployees and searchMembers. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in.
+     * where they sign in. Paced per LinkedIn account across runs — 20 requests a minute, and a
+     * reserve of 1,000 that refills about 42 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long.
      */
     searchCompanies(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchCompany>>;
 
@@ -32962,7 +33055,10 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * ("stripe") or numeric id — 10 per page with name, headline, location and profile URL,
      * optionally narrowed by keywords or job title. It is LinkedIn's people search with the
      * current-company filter applied. Signed in: acts as the caller's own LinkedIn account; with
-     * no saved sign-in the run pauses and hands back a link where they sign in.
+     * no saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
+     * account across runs — 20 requests a minute, and a reserve of 1,000 that refills about 42 an
+     * hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long.
      */
     listCompanyEmployees(input: string | { company: string; keywords?: string; title?: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember> & { companyId: string }>;
 
@@ -32970,7 +33066,10 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Searches LinkedIn posts by keyword and returns them with author, text, how long ago each was
      * posted, its reaction, comment and repost counts, and its URL. Signed in: acts as the
      * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
-     * where they sign in.
+     * where they sign in. Paced per LinkedIn account across runs — 20 requests a minute, and a
+     * reserve of 1,000 that refills about 42 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long.
      */
     searchPosts(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinPost>>;
 
@@ -32978,7 +33077,10 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL for
      * each post. Promoted posts are left out. `count` up to 100 (default 10). Signed in: acts as
      * the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-     * link where they sign in.
+     * link where they sign in. Paced per LinkedIn account across runs — 20 requests a minute, and
+     * a reserve of 1,000 that refills about 42 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long.
      */
     getHomeFeed(input?: { count?: number; start?: number }, opts?: ConnectionOption): Promise<{ posts: LinkedinPost[]; start: number; nextStart: number | null }>;
 
@@ -32986,6 +33088,9 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Lists the caller's LinkedIn message threads, most recent first, with the other participants,
      * unread count and the latest message in each. Signed in: acts as the caller's own LinkedIn
      * account; with no saved sign-in the run pauses and hands back a link where they sign in.
+     * Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that
+     * refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the
+     * pace throws LinkedinRateLimited saying when to retry: wait that long.
      */
     listConversations(opts?: ConnectionOption): Promise<{ conversations: LinkedinConversation[] }>;
 
@@ -32993,21 +33098,30 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Reads one LinkedIn message thread in order, oldest first — who sent each message, its text
      * and when — from a conversation id or urn out of listConversations, or a /messaging/thread/
      * URL. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run
-     * pauses and hands back a link where they sign in.
+     * pauses and hands back a link where they sign in. Paced per LinkedIn account across runs — 20
+     * requests a minute, and a reserve of 1,000 that refills about 42 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long.
      */
     getConversation(conversation: string, opts?: ConnectionOption): Promise<{ conversationUrn: string; messages: LinkedinMessage[] }>;
 
     /**
      * Lists the connection invitations the caller has received and not yet answered — who sent
      * each, their note if any, and when. Signed in: acts as the caller's own LinkedIn account;
-     * with no saved sign-in the run pauses and hands back a link where they sign in.
+     * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+     * LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that refills
+     * about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
+     * throws LinkedinRateLimited saying when to retry: wait that long.
      */
     listInvitations(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ invitations: LinkedinInvitation[]; start: number; nextStart: number | null }>;
 
     /**
      * Lists the connection invitations the caller has sent that are still pending — who each went
      * to, the note, and when it was sent. Signed in: acts as the caller's own LinkedIn account;
-     * with no saved sign-in the run pauses and hands back a link where they sign in.
+     * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+     * LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that refills
+     * about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
+     * throws LinkedinRateLimited saying when to retry: wait that long.
      */
     listSentInvitations(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ invitations: LinkedinInvitation[]; start: number; nextStart: number | null }>;
 
@@ -33015,7 +33129,10 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Returns "who viewed your profile" for the caller: the view count LinkedIn reports and the
      * viewers it names. Without Premium LinkedIn names only a few of them, so `viewers` can be
      * shorter than `views`. Signed in: acts as the caller's own LinkedIn account; with no saved
-     * sign-in the run pauses and hands back a link where they sign in.
+     * sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn account
+     * across runs — 20 requests a minute, and a reserve of 1,000 that refills about 42 an hour —
+     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long.
      */
     getProfileViews(opts?: ConnectionOption): Promise<{ views: number | null; viewers: LinkedinMember[] }>;
 
@@ -39351,12 +39468,13 @@ interface ottoSearchQuery {
      * across its whole marketplace (OTTO's own catalog and third-party sellers) and returns
      * matching rows: price (current + UVP + the site's own comparison price when it publishes
      * one), availability, brand, rating and a thumbnail. `matchType` on each row is the site's own
-     * retrieval-type token ("hybrid" for a real keyword match, "semantic" when nothing matched
-     * literally and the site is showing similar items instead — OTTO's engine almost never returns
-     * a hard empty result). Returns one page (up to ~150 rows); `totalCount` on each row is the
-     * site's own total match count across every page. `url` feeds `getProduct` directly for OTTO's
-     * own catalog rows; a third-party marketplace row's URL does not match `getProduct`'s current
-     * `-C<id>/` pattern.
+     * retrieval-type token, verbatim — observed "lexical" / "hybrid" / "lexicalSemantic" when the
+     * row matched the query's words, and "semantic" when it did not and the site is showing
+     * similar items instead (OTTO's engine almost never returns a hard empty result); "unknown" on
+     * a sponsored row, which carries none. Returns one page (up to ~120 rows); `totalCount` on
+     * each row is the site's own total match count across every page. `url` feeds `getProduct`
+     * directly for OTTO's own catalog rows; a third-party marketplace row's URL does not match
+     * `getProduct`'s current `-C<id>/` pattern.
      */
     search(query: ottoSearchQuery): Promise<ottoSearchResult[]>;
   }
@@ -57573,6 +57691,7 @@ interface BowmarkProviders {
   crecipr: BowmarkProvider_crecipr.Unit;
   credibly_com: BowmarkProvider_credibly_com.Unit;
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;
+  crunchbase: BowmarkProvider_crunchbase.Unit;
   culturefly: BowmarkProvider_culturefly.Unit;
   curiocity: BowmarkProvider_curiocity.Unit;
   currency_exchange: BowmarkProvider_currency_exchange.Unit;

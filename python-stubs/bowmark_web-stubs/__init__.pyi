@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ad31a515ceb8a46b7ac140f88cc9b56c55f2ec11457b69fb69b9bdfc6314c880
-# 86 capabilities, 562 providers, 2008 typed functions, 20 refused.
+# Manifest version: 6d1e2a2b7f145082a785e28da4964a0a54667b0cc7976d4634ba65b53ea2c87f
+# 86 capabilities, 563 providers, 2010 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9623,6 +9623,50 @@ class Prv_cruiselakegeneva_CruiseLakeGenevaTourDetail_Out_highlights_item_Out(Ty
 class Prv_cruiselakegeneva_CruiseLakeGenevaTourDetail_Out_faqs_item_Out(TypedDict):
     question: str
     answer: str
+
+class Prv_crunchbase_RecentFundingRoundsArgs_In(TypedDict):
+    weeks: NotRequired[float]
+    minAmountUsd: NotRequired[float]
+    sector: NotRequired[str]
+
+class Prv_crunchbase_CrunchbaseFundingRound_Out(TypedDict):
+    rank: float
+    tied: bool
+    company: Prv_crunchbase_CrunchbaseFundingRound_Out_company_Out
+    amountText: str
+    amountUsd: float | None
+    sector: str | None
+    roundType: str | None
+    leadInvestors: list[Prv_crunchbase_CrunchbaseOrgRef_Out]
+    linkedOrganizations: list[Prv_crunchbase_CrunchbaseOrgRef_Out]
+    summary: str
+    period: str | None
+    articleTitle: str
+    articleUrl: str
+    publishedAt: str
+
+class Prv_crunchbase_CrunchbaseFundingRound_Out_company_Out(TypedDict):
+    name: str
+    slug: str | None
+    url: str | None
+
+class Prv_crunchbase_CrunchbaseOrgRef_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+
+class Prv_crunchbase_SearchNewsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_crunchbase_CrunchbaseNewsArticle_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    publishedAt: str
+    excerpt: str
+    organizations: list[Prv_crunchbase_CrunchbaseOrgRef_Out]
+    matchingRounds: list[Prv_crunchbase_CrunchbaseFundingRound_Out]
 
 class Prv_culturefly_CultureFlyBoxSummary_Out(TypedDict):
     handle: str
@@ -38306,6 +38350,29 @@ class Prv_cruiselakegeneva(Protocol):
         reserve. `slug` comes from listTours(). THROWS on an unknown slug.
         """
 
+class Prv_crunchbase(Protocol):
+    """Crunchbase — which startups raised money this week (the week's biggest U.S. rounds with
+    amount, round type, lead investors and the company's Crunchbase slug) and Crunchbase
+    News coverage of any company. Company profiles and full funding histories are NOT
+    reachable yet.
+    """
+
+    async def recentFundingRounds(self, options: Prv_crunchbase_RecentFundingRoundsArgs_In | None = None, /) -> list[Prv_crunchbase_CrunchbaseFundingRound_Out]:
+        """The week's 10 biggest announced funding rounds raised by U.S.-based startups, from
+        Crunchbase News' weekly column (published Fridays, built from the Crunchbase database) —
+        company and its Crunchbase slug, amount in USD, sector, round type, lead investors,
+        valuation/total-raised prose and the week covered. `weeks` reaches back up to 8 columns.
+        Only each week's ten largest U.S. rounds are covered (the smallest are typically
+        $75M-$125M); smaller rounds and non-U.S. companies are not.
+        """
+
+    async def searchNews(self, args: Prv_crunchbase_SearchNewsArgs_In | str, /) -> list[Prv_crunchbase_CrunchbaseNewsArticle_Out]:
+        """Searches Crunchbase News for a company or topic, newest first — each article's title,
+        date, excerpt and the Crunchbase organizations it links (with their slugs). When a hit
+        is a weekly biggest-rounds column, `matchingRounds` carries that company's parsed round.
+        Use it to see a company's recent raises, layoffs, acquisitions or IPO coverage.
+        """
+
 class Prv_culturefly(Protocol):
     """CultureFly's licensed pop-culture subscription boxes — the live catalogue, every box's
     real size + cadence (One-Time/Quarterly/Annual) options and price, and a ready checkout
@@ -42761,8 +42828,9 @@ class Prv_inspirecommunities(Protocol):
 
 class Prv_instagram(Protocol):
     """Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
-    follower/following counts, and the latest posts' captions, like and comment counts, off
-    the site's own logged-out profile-info endpoint.
+    follower/following counts, verified/private flags, and the latest posts' captions, like
+    and comment counts, by loading the profile page in a headless browser and parsing the
+    rendered DOM.
     """
 
     async def getProfile(self, username: str, /) -> Prv_instagram_InstagramProfile_Out:
@@ -44123,14 +44191,21 @@ class Prv_linkedin(Protocol):
         """Returns the signed-in caller's own LinkedIn member record — name, headline, profile URL
         and photo, and whether the account is Premium. Signed in: acts as the caller's own
         LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
-        sign in.
+        sign in. Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of
+        1,000 that refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a
+        call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
         """
 
     async def listConnections(self, input: Prv_linkedin_listConnections_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listConnections_return_Out:
         """Lists the caller's first-degree connections, most recently connected first, with each
         person's name, headline, profile URL and when they connected. `count` up to 100 per page
-        (default 40). Signed in: acts as the caller's own LinkedIn account; with no saved
-        sign-in the run pauses and hands back a link where they sign in.
+        (default 40). A headline usually names the person's title and employer, so this answers
+        "where do my connections work" 100 people per request, where getProfileDetails answers
+        one. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run
+        pauses and hands back a link where they sign in. Paced per LinkedIn account across runs
+        — 20 requests a minute, and a reserve of 1,000 that refills about 42 an hour — and held
+        30 minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
+        saying when to retry: wait that long.
         """
 
     async def getProfileDetails(self, profile: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinMemberProfile_Out:
@@ -44138,9 +44213,14 @@ class Prv_linkedin(Protocol):
         summary, location, industry, every position with its dates and company, and every school
         — from a profile URL or slug. Richer than getProfile, which reads only the public
         preview and needs no sign-in. Skills and contact details are not returned: LinkedIn's
-        API no longer serves contact info (HTTP 410). Signed in: acts as the caller's own
-        LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
-        sign in.
+        API no longer serves contact info (HTTP 410). Full profiles draw on a per-account
+        reserve of 250 that refills about 10 an hour, and about 20 fit in one run. To learn
+        where many connections work, read the headline listConnections returns (up to 100 people
+        per call) and call this only for the rest. Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000
+        that refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call
+        over the pace throws LinkedinRateLimited saying when to retry: wait that long.
         """
 
     async def searchMembers(self, input: str | Prv_linkedin_searchMembers_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
@@ -44150,7 +44230,10 @@ class Prv_linkedin(Protocol):
         headline, location, profile URL and the caller's degree of connection. Unlike
         searchPeople, which needs no sign-in and relies on a web index, this is LinkedIn's
         ranking and filters. Signed in: acts as the caller's own LinkedIn account; with no saved
-        sign-in the run pauses and hands back a link where they sign in.
+        sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
+        account across runs — 20 requests a minute, and a reserve of 1,000 that refills about 42
+        an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long.
         """
 
     async def searchCompanies(self, input: str | Prv_linkedin_searchCompanies_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
@@ -44158,7 +44241,10 @@ class Prv_linkedin(Protocol):
         page with each one's handle, numeric id, industry, location and follower count. The
         handle feeds getCompany; the id feeds listCompanyEmployees and searchMembers. Signed in:
         acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
-        hands back a link where they sign in.
+        hands back a link where they sign in. Paced per LinkedIn account across runs — 20
+        requests a minute, and a reserve of 1,000 that refills about 42 an hour — and held 30
+        minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
+        saying when to retry: wait that long.
         """
 
     async def listCompanyEmployees(self, input: str | Prv_linkedin_listCompanyEmployees_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
@@ -44167,53 +44253,77 @@ class Prv_linkedin(Protocol):
         URL, optionally narrowed by keywords or job title. It is LinkedIn's people search with
         the current-company filter applied. Signed in: acts as the caller's own LinkedIn
         account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000
+        that refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call
+        over the pace throws LinkedinRateLimited saying when to retry: wait that long.
         """
 
     async def searchPosts(self, input: str | Prv_linkedin_searchPosts_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
         """Searches LinkedIn posts by keyword and returns them with author, text, how long ago each
         was posted, its reaction, comment and repost counts, and its URL. Signed in: acts as the
         caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-        link where they sign in.
+        link where they sign in. Paced per LinkedIn account across runs — 20 requests a minute,
+        and a reserve of 1,000 that refills about 42 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long.
         """
 
     async def getHomeFeed(self, input: Prv_linkedin_getHomeFeed_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getHomeFeed_return_Out:
         """Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL
         for each post. Promoted posts are left out. `count` up to 100 (default 10). Signed in:
         acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
-        hands back a link where they sign in.
+        hands back a link where they sign in. Paced per LinkedIn account across runs — 20
+        requests a minute, and a reserve of 1,000 that refills about 42 an hour — and held 30
+        minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
+        saying when to retry: wait that long.
         """
 
     async def listConversations(self, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listConversations_return_Out:
         """Lists the caller's LinkedIn message threads, most recent first, with the other
         participants, unread count and the latest message in each. Signed in: acts as the
         caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-        link where they sign in.
+        link where they sign in. Paced per LinkedIn account across runs — 20 requests a minute,
+        and a reserve of 1,000 that refills about 42 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long.
         """
 
     async def getConversation(self, conversation: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getConversation_return_Out:
         """Reads one LinkedIn message thread in order, oldest first — who sent each message, its
         text and when — from a conversation id or urn out of listConversations, or a
         /messaging/thread/ URL. Signed in: acts as the caller's own LinkedIn account; with no
-        saved sign-in the run pauses and hands back a link where they sign in.
+        saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that refills
+        about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
+        throws LinkedinRateLimited saying when to retry: wait that long.
         """
 
     async def listInvitations(self, input: Prv_linkedin_listInvitations_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listInvitations_return_Out:
         """Lists the connection invitations the caller has received and not yet answered — who sent
         each, their note if any, and when. Signed in: acts as the caller's own LinkedIn account;
-        with no saved sign-in the run pauses and hands back a link where they sign in.
+        with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that refills
+        about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
+        throws LinkedinRateLimited saying when to retry: wait that long.
         """
 
     async def listSentInvitations(self, input: Prv_linkedin_listSentInvitations_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listSentInvitations_return_Out:
         """Lists the connection invitations the caller has sent that are still pending — who each
         went to, the note, and when it was sent. Signed in: acts as the caller's own LinkedIn
         account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000
+        that refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call
+        over the pace throws LinkedinRateLimited saying when to retry: wait that long.
         """
 
     async def getProfileViews(self, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getProfileViews_return_Out:
         """Returns "who viewed your profile" for the caller: the view count LinkedIn reports and
         the viewers it names. Without Premium LinkedIn names only a few of them, so `viewers`
         can be shorter than `views`. Signed in: acts as the caller's own LinkedIn account; with
-        no saved sign-in the run pauses and hands back a link where they sign in.
+        no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that refills
+        about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
+        throws LinkedinRateLimited saying when to retry: wait that long.
         """
 
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
@@ -46338,12 +46448,13 @@ class Prv_otto(Protocol):
         across its whole marketplace (OTTO's own catalog and third-party sellers) and returns
         matching rows: price (current + UVP + the site's own comparison price when it publishes
         one), availability, brand, rating and a thumbnail. `matchType` on each row is the site's
-        own retrieval-type token ("hybrid" for a real keyword match, "semantic" when nothing
-        matched literally and the site is showing similar items instead — OTTO's engine almost
-        never returns a hard empty result). Returns one page (up to ~150 rows); `totalCount` on
-        each row is the site's own total match count across every page. `url` feeds `getProduct`
-        directly for OTTO's own catalog rows; a third-party marketplace row's URL does not match
-        `getProduct`'s current `-C<id>/` pattern.
+        own retrieval-type token, verbatim — observed "lexical" / "hybrid" / "lexicalSemantic"
+        when the row matched the query's words, and "semantic" when it did not and the site is
+        showing similar items instead (OTTO's engine almost never returns a hard empty result);
+        "unknown" on a sponsored row, which carries none. Returns one page (up to ~120 rows);
+        `totalCount` on each row is the site's own total match count across every page. `url`
+        feeds `getProduct` directly for OTTO's own catalog rows; a third-party marketplace row's
+        URL does not match `getProduct`'s current `-C<id>/` pattern.
         """
 
 class Prv_outdoorresearch(Protocol):
@@ -52743,6 +52854,7 @@ class BowmarkProviders(Protocol):
     crecipr: Prv_crecipr
     credibly_com: Prv_credibly_com
     cruiselakegeneva: Prv_cruiselakegeneva
+    crunchbase: Prv_crunchbase
     culturefly: Prv_culturefly
     curiocity: Prv_curiocity
     currency_exchange: Prv_currency_exchange

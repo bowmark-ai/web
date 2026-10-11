@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ad31a515ceb8a46b7ac140f88cc9b56c55f2ec11457b69fb69b9bdfc6314c880
-// 2008 checked, 20 unchecked.
+// Manifest version: 6d1e2a2b7f145082a785e28da4964a0a54667b0cc7976d4634ba65b53ea2c87f
+// 2010 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ad31a515ceb8a46b7ac140f88cc9b56c55f2ec11457b69fb69b9bdfc6314c880",
+  "version": "6d1e2a2b7f145082a785e28da4964a0a54667b0cc7976d4634ba65b53ea2c87f",
   "units": {
     "address_validation": {
       "defs": {
@@ -17711,6 +17711,85 @@ export const VALIDATORS: ValidatorTable = {
             "name": "slug",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.crunchbase": {
+      "defs": {
+        "RecentFundingRoundsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "weeks",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minAmountUsd",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sector",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "recentFundingRounds": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "RecentFundingRoundsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "SearchNewsArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
             },
             "optional": false
           }
