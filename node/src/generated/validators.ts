@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 159b6fe88efd2bdca2138ae4865e62f0836c43573f8e4fac1396c915c893f73d
-// 2014 checked, 20 unchecked.
+// Manifest version: 18b991ff18a03eac457d9932773d20db49e0d1c6f5a3263f7abc74ae5062a22f
+// 2016 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "159b6fe88efd2bdca2138ae4865e62f0836c43573f8e4fac1396c915c893f73d",
+  "version": "18b991ff18a03eac457d9932773d20db49e0d1c6f5a3263f7abc74ae5062a22f",
   "units": {
     "address_validation": {
       "defs": {
@@ -29785,6 +29785,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "muteUser": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -51469,9 +51478,32 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.shein": {
-      "defs": {},
+      "defs": {
+        "SheinSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
-        "listCategories": []
+        "listCategories": [],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinSearchArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.shop_app": {

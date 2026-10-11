@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 159b6fe88efd2bdca2138ae4865e62f0836c43573f8e4fac1396c915c893f73d
-// 86 capabilities, 563 providers, 2032 typed functions, 20 refused.
+// Manifest version: 18b991ff18a03eac457d9932773d20db49e0d1c6f5a3263f7abc74ae5062a22f
+// 86 capabilities, 563 providers, 2034 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -246,7 +246,7 @@ interface FindBookingLinksInput {
 }
 
 interface FindBookingLinksOptions {
-  archive?: boolean      // read Wayback captures of the domain's about/team/contact pages; default true with a domain
+  archive?: boolean      // also read Wayback captures of the domain's about/team/contact pages, for links since removed; default false — slow (often 10-30s) and the archive is often overloaded
   search?: boolean       // Google site:cal.com "<name>" via Serper; default true; each search is charged to your account, or send your own key as the x-bowmark-vendor-key-serper header
   timeoutMs?: number
 }
@@ -290,9 +290,9 @@ type CallOptions = {
 
   /**
    * Finds the public booking link (Calendly, Cal.com, SavvyCal, HubSpot…) a named person
-   * publishes — on their company's pages, their GitHub, an old archived copy of their site, or
-   * under their own name on Calendly and Cal.com — and reads what the booking form asks and
-   * whether the calendar is open, without booking anything.
+   * publishes — on their company's pages, their GitHub, an old archived copy of their site (on
+   * request), or under their own name on Calendly and Cal.com — and reads what the booking form
+   * asks and whether the calendar is open, without booking anything.
    */
   interface Unit {
     /**
@@ -29465,6 +29465,10 @@ interface InstagramUnblockResult {
   username: string;
   blocking: boolean;
 }
+interface InstagramMuteResult {
+  userId: string;
+  muting: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29576,6 +29580,13 @@ interface InstagramUnblockResult {
      * through the relay.
      */
     unblockUser(userId: string): Promise<InstagramUnblockResult>;
+
+    /**
+     * Mutes a user's posts and stories from the signed-in account's feed, without unfollowing
+     * them. Returns the resulting mute state. Requires the caller to be signed in through the
+     * relay.
+     */
+    muteUser(userId: string): Promise<InstagramMuteResult>;
   }
 }
 
@@ -45946,11 +45957,24 @@ interface sheinCategory {
   name: string;
   url: string;
 }
+interface sheinProduct {
+  id: string;
+  title: string;
+  price: string;
+  imageUrl: string;
+  productUrl: string;
+}
+interface SheinSearchArgs {
+  query: string;
+}
 
   /** Shein's category tree, read past its risk wall with a home-warmed browser. */
   interface Unit {
     /** The top-level category tree read off the homepage — id, name and url for each. */
     listCategories(): Promise<sheinCategory[]>;
+
+    /** Searches products by keyword and returns title, price, image and product page URL. */
+    search(args: SheinSearchArgs): Promise<sheinProduct[]>;
   }
 }
 

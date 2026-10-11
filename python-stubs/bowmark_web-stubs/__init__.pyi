@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 159b6fe88efd2bdca2138ae4865e62f0836c43573f8e4fac1396c915c893f73d
-# 86 capabilities, 563 providers, 2014 typed functions, 20 refused.
+# Manifest version: 18b991ff18a03eac457d9932773d20db49e0d1c6f5a3263f7abc74ae5062a22f
+# 86 capabilities, 563 providers, 2016 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16156,6 +16156,10 @@ class Prv_instagram_InstagramUnblockResult_Out(TypedDict):
     username: str
     blocking: bool
 
+class Prv_instagram_InstagramMuteResult_Out(TypedDict):
+    userId: str
+    muting: bool
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -25629,6 +25633,16 @@ class Prv_shein_sheinCategory_Out(TypedDict):
     name: str
     url: str
 
+class Prv_shein_SheinSearchArgs_In(TypedDict):
+    query: str
+
+class Prv_shein_sheinProduct_Out(TypedDict):
+    id: str
+    title: str
+    price: str
+    imageUrl: str
+    productUrl: str
+
 class Prv_shop_app_ShopAppProduct_Out(TypedDict):
     id: str
     title: str
@@ -32130,9 +32144,9 @@ class Cap_bank_transactions(Protocol):
 
 class Cap_booking_links(Protocol):
     """Finds the public booking link (Calendly, Cal.com, SavvyCal, HubSpot…) a named person
-    publishes — on their company's pages, their GitHub, an old archived copy of their site,
-    or under their own name on Calendly and Cal.com — and reads what the booking form asks
-    and whether the calendar is open, without booking anything.
+    publishes — on their company's pages, their GitHub, an old archived copy of their site
+    (on request), or under their own name on Calendly and Cal.com — and reads what the
+    booking form asks and whether the calendar is open, without booking anything.
     """
 
     async def find(self, person: Cap_booking_links_FindBookingLinksInput_In, options: Cap_booking_links_FindBookingLinksOptions_In | None = None, /) -> Cap_booking_links_BookingLinkSearch_Out:
@@ -42955,6 +42969,12 @@ class Prv_instagram(Protocol):
         signed in through the relay.
         """
 
+    async def muteUser(self, userId: str, /) -> Prv_instagram_InstagramMuteResult_Out:
+        """Mutes a user's posts and stories from the signed-in account's feed, without unfollowing
+        them. Returns the resulting mute state. Requires the caller to be signed in through the
+        relay.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -48891,6 +48911,9 @@ class Prv_shein(Protocol):
 
     async def listCategories(self, /) -> list[Prv_shein_sheinCategory_Out]:
         """The top-level category tree read off the homepage — id, name and url for each."""
+
+    async def search(self, args: Prv_shein_SheinSearchArgs_In, /) -> list[Prv_shein_sheinProduct_Out]:
+        """Searches products by keyword and returns title, price, image and product page URL."""
 
 class Prv_shop_app(Protocol):
     """Shop (Shopify's shopping app) — search products across every Shopify store, read a
