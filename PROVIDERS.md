@@ -452,7 +452,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.checkPrice` | booking.com | Check price and availability for a property on specific dates. | ⚪ |
 | `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | ⚪ |
 | `booking_com.getBooking` | booking.com | Get details of one past or upcoming booking. | ⚪ |
-| `booking_com.getProperty` | booking.com | Fetch detailed property information including amenities, photos and reviews. | ⚪ |
+| `booking_com.getProperty` | booking.com | Fetch detailed property information including amenities, photos and reviews. | 🟢 |
 | `booking_com.getReviewBreakdown` | booking.com | Get overall review score and category breakdown for a property. | ⚪ |
 | `booking_com.listAvailability` | booking.com | List available properties for a given search with availability status and pricing. | ⚪ |
 | `booking_com.listBookings` | booking.com | List the caller's past and upcoming bookings. | ⚪ |
@@ -787,7 +787,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listCategories` | dailymotion.com | List Dailymotion's video categories (news, music, sport, animals …) with their ids. | ⚪ |
 | `dailymotion.listCategoryVideos` | dailymotion.com | List the newest or most-viewed videos in one Dailymotion category, such as news or… | ⚪ |
 | `dailymotion.listChannelPlaylists` | dailymotion.com | List the playlists one Dailymotion channel has published — id, name and video count… | ⚪ |
-| `dailymotion.listChannelVideos` | dailymotion.com | List the videos one Dailymotion uploader has published, newest first. | ⚪ |
+| `dailymotion.listChannelVideos` | dailymotion.com | List the videos one Dailymotion uploader has published, newest first, paged — same… | 🟢 |
 | `dailymotion.listFollowedChannels` | dailymotion.com | List the channels the signed-in caller follows. | ⚪ |
 | `dailymotion.listFollowingFeed` | dailymotion.com | List the newest videos from the channels the signed-in caller follows — the site's… | ⚪ |
 | `dailymotion.listHashtagVideos` | dailymotion.com | List Dailymotion videos carrying one tag or hashtag. | ⚪ |
@@ -914,7 +914,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🟡 |
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
 | `doordash.getCheckoutTotal` | doordash.com | Would open a specific store, add real menu items to the cart, set a delivery address… | ⚪ |
-| `doordash.search` | doordash.com | Runs DoorDash's own store search for a free-text query and returns the real… | 🟢 |
+| `doordash.search` | doordash.com | Runs DoorDash's own store search for a free-text query and returns the real… | 🟡 |
 | `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | ⚪ |
 | `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | ⚪ |
 | `duckduckgo.convertCurrency` | duckduckgo.com | Convert an amount between two currencies at DuckDuckGo's current mid-market rate (from… | ⚪ |
@@ -1164,7 +1164,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.listUserContributions` | fandom.com | Every edit one named editor has made on this wiki, newest first. `GET… | ⚪ |
 | `fandom.listWatchlist` | fandom.com | The caller's own watchlist on one wiki — the pages they follow and recent changes to… | ⚪ |
 | `fandom.postDiscussionPost` | fandom.com | Post a new message to a wiki's Discussions forum, under the caller's own account.… | ⚪ |
-| `fandom.search` | fandom.com | Search one wiki the way a person types into its search box — hand it a `wiki`… | ⚪ |
+| `fandom.search` | fandom.com | Search one wiki the way a person types into its search box — hand it a `wiki`… | 🟢 |
 | `fandom.suggestTitles` | fandom.com | Autocomplete a partial title within one wiki, the way its search box does as you type.… | ⚪ |
 | `fandom.undoRevision` | fandom.com | Undo one edit to an article — MediaWiki's own revert, reversing a single revision… | ⚪ |
 | `fandom.unwatchPage` | fandom.com | Remove an article from the caller's watchlist. `POST /api.php?action=watch&unwatch=1`. | ⚪ |
@@ -1414,7 +1414,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | 🟢 |
 | `github.getUserRepositories` | github.com | Lists every public repository a user owns — description, fork/archived flags, default… | 🟢 |
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
-| `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟡 |
+| `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟢 |
 | `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟢 |
 | `github.listNotifications` | github.com | Lists the signed-in caller's GitHub notifications inbox, 25 per page — repository… | 🟢 |
 | `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
@@ -1455,7 +1455,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | ⚪ |
 | `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | ⚪ |
 | `goodreads.getOwnProfile` | goodreads.com | Reads the signed-in caller's own profile — their shelves with counts, friend list, and… | ⚪ |
-| `goodreads.listGenreBooks` | goodreads.com | Browses one genre shelf — the books Goodreads itself files under that genre tag… | ⚪ |
+| `goodreads.listGenreBooks` | goodreads.com | Browses one genre shelf — the books Goodreads itself files under that genre tag… | 🟢 |
 | `goodreads.rateBook` | goodreads.com | Sets the signed-in caller's own star rating (1-5) on a book. | ⚪ |
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | ⚪ |
 | `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | 🟢 |
@@ -1470,12 +1470,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.geocodeAddress` | google.com/maps | A street address or place name in, coordinates and the matching Google Maps place out. | 🟢 |
 | `google_maps.getDirections` | google.com/maps | Route between two places — the site's own trip total (distance, duration… | 🟢 |
 | `google_maps.getPlace` | google.com/maps | Everything Google Maps shows on one business's panel: name, a shareable url back to… | 🟢 |
-| `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | 🟡 |
+| `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | 🟢 |
 | `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in caller has contributed, with… | 🟢 |
 | `google_maps.listPhotos` | google.com/maps | The photos Google Maps shows in a place's gallery panel — up to 20, each with a url… | 🟢 |
 | `google_maps.listRelatedPlaces` | google.com/maps | Other businesses Google Maps lists "At this place" — the site's own label for a shared… | 🟢 |
 | `google_maps.listReviews` | google.com/maps | The reviews Google Maps shows on a business's own panel — a handful, each with author… | 🟢 |
-| `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in caller saved — Favourites, Want to go, Starred and their own… | 🟡 |
+| `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in caller saved — Favourites, Want to go, Starred and their own… | 🟢 |
 | `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a full /maps/place/… | 🟢 |
 | `google_maps.reverseGeocode` | google.com/maps | A point in — the Plus Code and locality Google Maps shows for it out, the same string… | 🟢 |
 | `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | 🟢 |
@@ -3195,7 +3195,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getRandomArticle` | wikipedia.org | A genuinely random Wikipedia article — title, url, description, extract and thumbnail. | 🟢 |
 | `wikipedia.getRevision` | wikipedia.org | One specific revision of an article by id — its content, editor, timestamp, size and… | 🟢 |
 | `wikipedia.getSection` | wikipedia.org | One named or numbered section of an article as plain text, without downloading the… | 🟢 |
-| `wikipedia.getSections` | wikipedia.org | The article's table of contents — every section with its number, heading, nesting… | 🟡 |
+| `wikipedia.getSections` | wikipedia.org | The article's table of contents — every section with its number, heading, nesting… | 🟢 |
 | `wikipedia.getSummary` | wikipedia.org | The lead of an article and nothing else — the first paragraph as plain text and as… | 🟢 |
 | `wikipedia.getUser` | wikipedia.org | A Wikipedia editor's public record — registration date, total edit count, and the user… | 🟢 |
 | `wikipedia.getWikitext` | wikipedia.org | The article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟡 |
@@ -3270,7 +3270,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟡 |
 | `yahoo_sports.getStatLeaders` | sports.yahoo.com | Reads the season-to-date individual leaderboard for one category off the site's own… | 🟢 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
-| `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟡 |
+| `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟢 |
 | `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |

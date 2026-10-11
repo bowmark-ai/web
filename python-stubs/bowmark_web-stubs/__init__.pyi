@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 00fbb6755ea0b1050d5c26d257b8ee5e25f8e05bdabc114983cf54ffdb3b46f5
-# 86 capabilities, 564 providers, 2025 typed functions, 20 refused.
+# Manifest version: 3f5f2d65b3301a7f3bca9ab9d3a7d1b43ca4d4e5bf5032b2690606b87e3c421a
+# 86 capabilities, 564 providers, 2026 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9913,6 +9913,17 @@ class Prv_dailymotion_DailymotionChannel_Out(TypedDict):
     description: str | None
     country: str | None
     verified: bool
+
+class Prv_dailymotion_ListChannelVideosArgs_In(TypedDict):
+    channel: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionChannelVideosResult_Out(TypedDict):
+    channel: str
+    page: float
+    hasMore: bool
+    videos: list[Prv_dailymotion_DailymotionVideo_Out]
 
 class Prv_dangotecement_FindDistributorsFilters_In(TypedDict):
     query: NotRequired[str]
@@ -38667,6 +38678,11 @@ class Prv_dailymotion(Protocol):
     async def getChannel(self, channel: str, /) -> Prv_dailymotion_DailymotionChannel_Out:
         """Read one Dailymotion channel from its id (x123abc) or username: display name, avatar,
         follower and video counts, description and verified status.
+        """
+
+    async def listChannelVideos(self, args: Prv_dailymotion_ListChannelVideosArgs_In, /) -> Prv_dailymotion_DailymotionChannelVideosResult_Out:
+        """List the videos one Dailymotion uploader has published, newest first, paged — same
+        fields as getVideo.
         """
 
 class Prv_dangotecement(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 00fbb6755ea0b1050d5c26d257b8ee5e25f8e05bdabc114983cf54ffdb3b46f5
-// 86 capabilities, 564 providers, 2043 typed functions, 20 refused.
+// Manifest version: 3f5f2d65b3301a7f3bca9ab9d3a7d1b43ca4d4e5bf5032b2690606b87e3c421a
+// 86 capabilities, 564 providers, 2044 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17680,6 +17680,17 @@ interface DailymotionSearchResult {
   hasMore: boolean;
   videos: DailymotionVideo[];
 }
+interface ListChannelVideosArgs {
+  channel: string;
+  limit?: number;
+  page?: number;
+}
+interface DailymotionChannelVideosResult {
+  channel: string;
+  page: number;
+  hasMore: boolean;
+  videos: DailymotionVideo[];
+}
 
   /**
    * Search Dailymotion videos by keyword and read one video's title, channel, duration, views
@@ -17712,6 +17723,12 @@ interface DailymotionSearchResult {
      * follower and video counts, description and verified status.
      */
     getChannel(channel: string): Promise<DailymotionChannel>;
+
+    /**
+     * List the videos one Dailymotion uploader has published, newest first, paged — same fields as
+     * getVideo.
+     */
+    listChannelVideos(args: ListChannelVideosArgs): Promise<DailymotionChannelVideosResult>;
   }
 }
 
