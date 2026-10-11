@@ -2903,7 +2903,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.searchVideos` | tiktok.com | Search TikTok the way the search box does and get back matching videos — id, caption… | 🟡 |
 | `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller. | ⚪ |
 | `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | ⚪ |
-| `tiktok.unlikeVideo` | tiktok.com | Remove a like the caller placed — the reverse of likeVideo. | ⚪ |
+| `tiktok.unlikeVideo` | tiktok.com | Remove a like the caller placed — the reverse of likeVideo. | 🟢 |
 | `tiktok.uploadVideo` | tiktok.com | Upload a video to the signed-in caller's own account, with caption, hashtags and… | ⚪ |
 | `tilsonhomes.getElevationDetails` | tilsonhomes.com | Reads one plan's elevation — the exterior style's customization range (how far… | 🟢 |
 | `tilsonhomes.listPlans` | tilsonhomes.com | Lists Tilson Homes' Build-On-Your-Land floor plans — model name, bed/bath/size and the… | 🟢 |

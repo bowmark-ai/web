@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 18b991ff18a03eac457d9932773d20db49e0d1c6f5a3263f7abc74ae5062a22f
+// Manifest version: 137fa58b45a9679723d9d3180acab6a13ea5bea0223a32eefa74eb8d88fe8b52
 // 86 capabilities, 563 providers, 2034 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -440,20 +440,21 @@ type CallOptions = {
      * first try a fast agent INSIDE `start` (usually 5-20 s, at most ~40 s): if it finishes,
      * `start` returns `status: "idle"` and the answer is already in `status(id).result`; otherwise
      * Browser Use runs the session and `start` returns `running`. Handle both. Not a watcher — it
-     * cannot poll on a schedule or run unattended. Billed per turn: when your user asked you to
-     * get the thing done, start it and in the same reply tell them it is running, that it costs
+     * cannot poll on a schedule or run unattended. Billed per turn: if your user already asked you
+     * to get the thing done, start it and in the same reply tell them it is running, that it costs
      * money, and give them `watchUrl` — a login only they hold is signed in there, on the live
      * page, as their real account on the real site, so anything the agent then adds to a cart or
-     * saves is really on their account rather than lost inside Bowmark's own browser. If you do
-     * not start it, still name it to them with its cost; never end on a manual workaround without
-     * mentioning it. **One session = one independent goal** — never bundle multiple date ranges,
-     * SKUs or queries into one session; the agent silently reuses results across them. Start a
-     * separate session for each distinct query. Then `status(id)` from later runs (each `run()` is
-     * capped at 90s; the agent is not — a task normally takes 1-3 minutes, so do not give up on it
-     * before 5); on `needs_input` relay `question` and `send` the answer; on `idle` read `result`
-     * and `stop(id)`. A login persists for the life of the session, so later `send()` calls into
-     * the same session do not need re-authentication. Always stop sessions when done — idle
-     * browsers keep costing money. Account limit: 3 concurrent sessions.
+     * saves is really on their account rather than lost inside Bowmark's own browser. Otherwise
+     * tell them what it costs and get a yes before you start it. Either way, never end on a manual
+     * workaround without mentioning this option and its cost. **One session = one independent
+     * goal** — never bundle multiple date ranges, SKUs or queries into one session; the agent
+     * silently reuses results across them. Start a separate session for each distinct query. Then
+     * `status(id)` from later runs (each `run()` is capped at 90s; the agent is not — a task
+     * normally takes 1-3 minutes, so do not give up on it before 5); on `needs_input` relay
+     * `question` and `send` the answer; on `idle` read `result` and `stop(id)`. A login persists
+     * for the life of the session, so later `send()` calls into the same session do not need
+     * re-authentication. Always stop sessions when done — idle browsers keep costing money.
+     * Account limit: 3 concurrent sessions.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
