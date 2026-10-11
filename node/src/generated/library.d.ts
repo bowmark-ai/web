@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7443a6d51b4a6b805985c75e47f8ff26792944f3b135af766dafebed878d1189
-// 86 capabilities, 562 providers, 2021 typed functions, 20 refused.
+// Manifest version: 1cead3589922d2e32a611d85fee953cb99538e8bf5e8406c092371f8641d3fb5
+// 86 capabilities, 562 providers, 2022 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36011,6 +36011,9 @@ interface microsoft_onedriveRow {
 
     /** Creates a new folder in OneDrive at the specified path. */
     createFolder(args: { name: string; path?: string }, opts?: ConnectionOption): Promise<microsoft_onedriveRow>;
+
+    /** Shares a file with another user, creating a sharing link or permission grant. */
+    shareFile(args: { id: string; recipientEmail: string; type?: string }, opts?: ConnectionOption): Promise<{ id: string; link?: string }>;
   }
 }
 

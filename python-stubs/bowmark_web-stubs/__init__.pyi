@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7443a6d51b4a6b805985c75e47f8ff26792944f3b135af766dafebed878d1189
-# 86 capabilities, 562 providers, 2003 typed functions, 20 refused.
+# Manifest version: 1cead3589922d2e32a611d85fee953cb99538e8bf5e8406c092371f8641d3fb5
+# 86 capabilities, 562 providers, 2004 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19666,6 +19666,15 @@ class Prv_microsoft_onedrive_listFolders_args_In(TypedDict):
 class Prv_microsoft_onedrive_createFolder_args_In(TypedDict):
     name: str
     path: NotRequired[str]
+
+class Prv_microsoft_onedrive_shareFile_args_In(TypedDict):
+    id: str
+    recipientEmail: str
+    type: NotRequired[str]
+
+class Prv_microsoft_onedrive_shareFile_return_Out(TypedDict):
+    id: str
+    link: NotRequired[str]
 
 class Prv_microsoft_outlook_microsoft_outlookFolder_Out(TypedDict):
     id: str
@@ -45057,6 +45066,9 @@ class Prv_microsoft_onedrive(Protocol):
 
     async def createFolder(self, args: Prv_microsoft_onedrive_createFolder_args_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_onedrive_microsoft_onedriveRow_Out:
         """Creates a new folder in OneDrive at the specified path."""
+
+    async def shareFile(self, args: Prv_microsoft_onedrive_shareFile_args_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_onedrive_shareFile_return_Out:
+        """Shares a file with another user, creating a sharing link or permission grant."""
 
 class Prv_microsoft_outlook(Protocol):
     """Outlook — mail, calendar and contacts at outlook.live.com. Signed-in only

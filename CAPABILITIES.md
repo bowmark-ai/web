@@ -56,7 +56,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `event_tickets.search` | Searches event-ticket listings by artist, show or keyword, optionally in one city —… | 2 | 🟢 |
 | `flights.getBookingOptions` | Every seller on offer for ONE result — pass the whole row from `search()`, not its id. | 5 | 🟢 |
 | `flights.getFlightStatus` | A flight's live status, checked directly with the airline that flies it. | 5 | 🟢 |
-| `flights.search` | Searches for flights matching the query and returns `{ flights, warnings }`. `flights`… | 5 | 🟢 |
+| `flights.search` | Searches for flights matching the query and returns `{ flights, warnings }`. `flights`… | 5 | 🟡 |
 | `fuel_card_fees.estimateMonthly` | Monthly card fees for a fleet of `cards` drivers/cards, per issuer, from each issuer's… | 1 | 🟢 |
 | `furnished_apartment_rental.search` | Search for furnished apartments in the specified city. | 1 | 🟢 |
 | `game_soundtrack_composer_credits.getCredits` | Looks up one soundtrack release-group by id (from search()) and returns its full… | 0 | 🟢 |

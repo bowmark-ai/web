@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7443a6d51b4a6b805985c75e47f8ff26792944f3b135af766dafebed878d1189
-// 2003 checked, 20 unchecked.
+// Manifest version: 1cead3589922d2e32a611d85fee953cb99538e8bf5e8406c092371f8641d3fb5
+// 2004 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7443a6d51b4a6b805985c75e47f8ff26792944f3b135af766dafebed878d1189",
+  "version": "1cead3589922d2e32a611d85fee953cb99538e8bf5e8406c092371f8641d3fb5",
   "units": {
     "address_validation": {
       "defs": {
@@ -36963,6 +36963,54 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "shareFile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "recipientEmail",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "type",
                   "schema": {
                     "k": "string"
                   },

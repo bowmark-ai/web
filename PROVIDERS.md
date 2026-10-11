@@ -1668,7 +1668,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |
 | `indeed.searchSalaries` | indeed.com | Searches Indeed's own salary data by job title and location, returning salary ranges… | 🟢 |
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
-| `instagram.blockUser` | instagram.com | Blocks a user from seeing the signed-in account's posts and sending messages. | ⚪ |
+| `instagram.blockUser` | instagram.com | Blocks a user, preventing them from seeing the signed-in account's posts and sending… | 🟢 |
 | `instagram.commentOnPost` | instagram.com | Posts a comment on a photo or video by its media id. | 🟢 |
 | `instagram.followUser` | instagram.com | Follows a user. | 🟢 |
 | `instagram.getDirectMessages` | instagram.com | Lists the signed-in user's direct message threads with preview of the latest message… | 🟢 |
@@ -1775,7 +1775,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kalshi.getMarket` | kalshi.com | Reads one Kalshi market's full detail by its own ticker — title, subtitle, status… | 🟢 |
 | `kalshi.getMarkets` | kalshi.com | Lists Kalshi's own live prediction-market contracts — each market's ticker, title… | 🟢 |
 | `kayak.getBookingOptions` | kayak.com | For one result, reads who actually sells the fare and at what price, plus its baggage… | 🟢 |
-| `kayak.search` | kayak.com | Runs the itinerary search on kayak.com and returns its result rows price-ascending. | 🟢 |
+| `kayak.search` | kayak.com | Runs the itinerary search on kayak.com and returns its result rows price-ascending. | 🟡 |
 | `kayak.searchCars` | kayak.com | Runs the car-hire search on kayak.com and returns priced vehicles for a pickup… | 🟢 |
 | `kayak.searchHotels` | kayak.com | Runs the stays search on kayak.com — the site's own second vertical — and returns… | 🟢 |
 | `kbb.getTrimPricing` | kbb.com | Reads kbb.com's own per-trim MSRP and Fair Purchase Price for a make and model, e.g.… | 🟢 |
