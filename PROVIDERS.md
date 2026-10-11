@@ -2093,7 +2093,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getStormAdvisory` | nhc.noaa.gov | Get a storm's public advisory text — the latest, or a given advisory number — with… | 🟢 |
 | `nhc.getStormForecast` | nhc.noaa.gov | Get a storm's forecast positions and intensities out to five days, with wind radii… | ⚪ |
 | `nhc.getStormGraphics` | nhc.noaa.gov | List a storm's current forecast graphics — cone, current wind field, wind history… | ⚪ |
-| `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | 🟢 |
+| `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | 🟡 |
 | `nhc.getStormNames` | nhc.noaa.gov | Get the rotating list of tropical cyclone names for a basin and year, including which… | ⚪ |
 | `nhc.getStormSurge` | nhc.noaa.gov | Get the storm surge watch/warning area and peak storm surge forecast for a storm… | ⚪ |
 | `nhc.getTropicalCycloneReport` | nhc.noaa.gov | Get NHC's post-season Tropical Cyclone Report for a storm: the final meteorological… | ⚪ |
@@ -2110,7 +2110,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nintendo.getMyNintendoRewardsBalance` | www.nintendo.com | Read the signed-in caller's My Nintendo Points balance and reward history — the… | ⚪ |
 | `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | 🟢 |
 | `nintendo.getSupportArticle` | www.nintendo.com | Read one support article in full — title, body steps, and any linked follow-ups — the… | ⚪ |
-| `nintendo.listCategories` | www.nintendo.com | List the store's own departments and platform families — Games, Nintendo Switch… | ⚪ |
+| `nintendo.listCategories` | www.nintendo.com | List the store's own departments and platform families — Games, Nintendo Switch… | 🟢 |
 | `nintendo.listDeals` | www.nintendo.com | Today's discounted games and hardware on the Nintendo store — the read behind "what's… | ⚪ |
 | `nintendo.listNews` | www.nintendo.com | Nintendo's own announcements and news articles — game reveals, updates, events — from… | ⚪ |
 | `nintendo.listOrders` | www.nintendo.com | Read the signed-in caller's Nintendo eShop / store order history. | ⚪ |
@@ -2260,7 +2260,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `oliverwinery.checkShippingAvailability` | oliverwinery.com | Checks whether Oliver Winery currently ships wine to one US state, read off the… | 🟢 |
 | `oliverwinery.getWine` | oliverwinery.com | Reads one wine's full Commerce7 product record by its storefront slug (e.g.… | 🟢 |
 | `oliverwinery.listWines` | oliverwinery.com | Lists Oliver Winery's own Commerce7 shop catalog — real bottle titles, USD prices and… | 🟢 |
-| `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟢 |
+| `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟡 |
 | `openai.helpArticle` | learn.chatgpt.com | Retrieves the full text of a help article by its ID from OpenAI's documentation. | 🟡 |
 | `openai.plans` | learn.chatgpt.com | Returns per-(plan, model) usage limits from learn.chatgpt.com/docs/pricing. | 🟢 |
 | `originenergy_com_au.getBusinessElectricityQuote` | originenergy.com.au | Search originenergy.com.au for business electricity quote: returns every business… | 🟢 |
