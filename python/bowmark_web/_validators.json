@@ -1,5 +1,5 @@
 {
-  "version": "6d1e2a2b7f145082a785e28da4964a0a54667b0cc7976d4634ba65b53ea2c87f",
+  "version": "515339908bcc094a494e6f4441a1d302f452a12e870b6361d455f98b0ec6fd0d",
   "units": {
     "address_validation": {
       "defs": {
@@ -39518,6 +39518,24 @@
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCookedRecipes": [
           {
             "name": "opts",
             "schema": {

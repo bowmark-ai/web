@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6d1e2a2b7f145082a785e28da4964a0a54667b0cc7976d4634ba65b53ea2c87f
-// 2010 checked, 20 unchecked.
+// Manifest version: 515339908bcc094a494e6f4441a1d302f452a12e870b6361d455f98b0ec6fd0d
+// 2011 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6d1e2a2b7f145082a785e28da4964a0a54667b0cc7976d4634ba65b53ea2c87f",
+  "version": "515339908bcc094a494e6f4441a1d302f452a12e870b6361d455f98b0ec6fd0d",
   "units": {
     "address_validation": {
       "defs": {
@@ -39530,6 +39530,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCookedRecipes": [
           {
             "name": "opts",
             "schema": {

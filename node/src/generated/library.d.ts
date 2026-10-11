@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6d1e2a2b7f145082a785e28da4964a0a54667b0cc7976d4634ba65b53ea2c87f
-// 86 capabilities, 563 providers, 2028 typed functions, 20 refused.
+// Manifest version: 515339908bcc094a494e6f4441a1d302f452a12e870b6361d455f98b0ec6fd0d
+// 86 capabilities, 563 providers, 2029 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -38468,6 +38468,11 @@ interface NytCookingMarkRecipeCookedResult {
   marked: true;
 }
 
+interface NytCookingGetCookedRecipesResult {
+  recipes: unknown[];
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -38563,6 +38568,12 @@ interface NytCookingMarkRecipeCookedResult {
      * signed in to NYT — the run pauses for a login the first time this is called.
      */
     markRecipeCooked(args: NytCookingMarkRecipeCookedArgs, opts?: ConnectionOption): Promise<NytCookingMarkRecipeCookedResult>;
+
+    /**
+     * Lists the recipes the signed-in reader has marked cooked. Requires the caller to be signed
+     * in to NYT — the run pauses for a login the first time this is called.
+     */
+    getCookedRecipes(opts?: ConnectionOption): Promise<NytCookingGetCookedRecipesResult>;
   }
 }
 

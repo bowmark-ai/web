@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6d1e2a2b7f145082a785e28da4964a0a54667b0cc7976d4634ba65b53ea2c87f
-# 86 capabilities, 563 providers, 2010 typed functions, 20 refused.
+# Manifest version: 515339908bcc094a494e6f4441a1d302f452a12e870b6361d455f98b0ec6fd0d
+# 86 capabilities, 563 providers, 2011 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20923,6 +20923,10 @@ class Prv_nyt_cooking_NytCookingMarkRecipeCookedArgs_In(TypedDict):
 class Prv_nyt_cooking_NytCookingMarkRecipeCookedResult_Out(TypedDict):
     recipeId: float
     marked: Literal[True]
+
+class Prv_nyt_cooking_NytCookingGetCookedRecipesResult_Out(TypedDict):
+    recipes: list[Any]
+    warnings: NotRequired[list[str]]
 
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
@@ -46095,6 +46099,11 @@ class Prv_nyt_cooking(Protocol):
 
     async def markRecipeCooked(self, args: Prv_nyt_cooking_NytCookingMarkRecipeCookedArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingMarkRecipeCookedResult_Out:
         """Marks a recipe as cooked in the signed-in reader's Recipe Box. Requires the caller to be
+        signed in to NYT — the run pauses for a login the first time this is called.
+        """
+
+    async def getCookedRecipes(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingGetCookedRecipesResult_Out:
+        """Lists the recipes the signed-in reader has marked cooked. Requires the caller to be
         signed in to NYT — the run pauses for a login the first time this is called.
         """
 
