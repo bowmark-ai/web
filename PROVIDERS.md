@@ -999,12 +999,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.listOrders` | epicgames.com | The signed-in caller's Epic purchase history — each transaction's date, items, amount… | ⚪ |
 | `epicgames.listTags` | epicgames.com | The store's browse filters — genres, features, platforms and event tags with their ids… | ⚪ |
 | `epicgames.redeemCode` | epicgames.com | Redeem a product code the caller holds into their Epic library. | ⚪ |
-| `epicgames.removeFriend` | epicgames.com | Remove someone from the signed-in caller's Epic friends. | ⚪ |
+| `epicgames.removeFriend` | epicgames.com | Remove someone from the signed-in caller's Epic friends, by their Epic display name. | 🟢 |
 | `epicgames.removeFromCart` | epicgames.com | Remove a line from the signed-in caller's cart. | ⚪ |
 | `epicgames.removeFromWishlist` | epicgames.com | Remove a game from the signed-in caller's wishlist. | ⚪ |
 | `epicgames.searchGames` | epicgames.com | Keyword search of the Epic Games Store catalogue — title, namespace, current and… | 🟡 |
-| `epicgames.sendFriendRequest` | epicgames.com | Send a friend request from the signed-in caller to an Epic display name. | ⚪ |
-| `epicgames.updateDisplayName` | epicgames.com | Change the signed-in caller's Epic display name. | ⚪ |
+| `epicgames.sendFriendRequest` | epicgames.com | Send a friend request from the signed-in caller to an Epic display name. | 🟢 |
+| `epicgames.updateDisplayName` | epicgames.com | Change the signed-in caller's Epic display name. | 🟢 |
 | `epromos.getProductConfiguration` | epromos.com | Reads one ePromos product's own configurator off its product page — every color/style… | 🟢 |
 | `epromos.listCategoryProducts` | epromos.com | Lists the products ePromos features on one of its category landing pages (e.g.… | 🟢 |
 | `epromos.quoteBulkPrice` | epromos.com | Computes the real per-unit and total price for one product at a caller-given quantity… | 🟢 |
@@ -2876,7 +2876,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ticketmaster.searchAttractions` | ticketmaster.com | Finds attractions — artists, sports teams and other performers — by name and returns… | ⚪ |
 | `ticketmaster.searchVenues` | ticketmaster.com | Finds venues by name or location (city/state/postal or geo radius) and returns each… | ⚪ |
 | `tiktok.bookmarkVideo` | tiktok.com | Save a video to the signed-in caller's own Favorites/bookmarks. | ⚪ |
-| `tiktok.deleteComment` | tiktok.com | Delete the caller's own comment — the reverse of postComment, and how a test write is… | ⚪ |
+| `tiktok.deleteComment` | tiktok.com | Delete the caller's own comment — the reverse of postComment, and how a test write is… | 🟢 |
 | `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | ⚪ |
 | `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | 🟢 |
 | `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller. | ⚪ |
