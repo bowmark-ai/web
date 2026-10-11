@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d
-// 86 capabilities, 563 providers, 2038 typed functions, 20 refused.
+// Manifest version: aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec
+// 86 capabilities, 563 providers, 2039 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -49799,6 +49799,10 @@ type LikeVideoArgs = {
 type UnlikeVideoArgs = {
   video: string;
 };
+type PostCommentArgs = {
+  video: string;
+  text: string;
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -49954,6 +49958,15 @@ type UnlikeVideoArgs = {
      * Bowmark never signs up on this site. Returns a confirmation of the removal.
      */
     unlikeVideo(args: UnlikeVideoArgs, opts?: ConnectionOption): Promise<{ unliked: boolean }>;
+
+    /**
+     * Post a top-level comment on a video as the signed-in caller. Takes a video reference — a
+     * full video URL or a bare video id — and the comment text. Writes via POST to
+     * /api/comment/publish/ with the caller's session cookies, no browser. The caller signs in
+     * through the auth relay; Bowmark never signs up on this site. Returns a confirmation of the
+     * post.
+     */
+    postComment(args: PostCommentArgs, opts?: ConnectionOption): Promise<{ posted: boolean }>;
   }
 }
 

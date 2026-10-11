@@ -1150,7 +1150,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.getSections` | fandom.com | An article's table of contents — every section with its index, heading and nesting… | ⚪ |
 | `fandom.getSummary` | fandom.com | The lead section of an article and nothing else — the first paragraph, for "what is X"… | ⚪ |
 | `fandom.getUser` | fandom.com | A wiki editor's public record on this wiki — registration date, edit count and user… | ⚪ |
-| `fandom.getWikiInfo` | fandom.com | A wiki's own vital stats — its real display name (`Wookieepedia`, not the `starwars`… | ⚪ |
+| `fandom.getWikiInfo` | fandom.com | A wiki's own vital stats — its real display name (`Wookieepedia`, not the `starwars`… | 🟢 |
 | `fandom.getWikitext` | fandom.com | An article's raw wikitext source — what an editor sees in the edit box, templates and… | ⚪ |
 | `fandom.listBacklinks` | fandom.com | What links HERE — every article on the wiki pointing at this one. `GET… | ⚪ |
 | `fandom.listCategories` | fandom.com | The categories an article belongs to — how a Fandom wiki organizes its own subject… | ⚪ |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d
-// 2020 checked, 20 unchecked.
+// Manifest version: aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec
+// 2021 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d",
+  "version": "aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec",
   "units": {
     "address_validation": {
       "defs": {
@@ -55543,6 +55543,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "PostCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchUsersArgs": {
           "k": "object",
           "props": [
@@ -55847,6 +55866,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "UnlikeVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostCommentArgs"
             },
             "optional": false
           },

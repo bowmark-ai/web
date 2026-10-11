@@ -1,5 +1,5 @@
 {
-  "version": "088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d",
+  "version": "aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec",
   "units": {
     "address_validation": {
       "defs": {
@@ -55531,6 +55531,25 @@
             }
           ]
         },
+        "PostCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchUsersArgs": {
           "k": "object",
           "props": [
@@ -55835,6 +55854,32 @@
             "schema": {
               "k": "ref",
               "name": "UnlikeVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostCommentArgs"
             },
             "optional": false
           },

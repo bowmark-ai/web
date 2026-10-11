@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 088b37f9cae1ff72e81f4ead78f73ff6449b7b20aa064cfce17adac4b746ea9d
-# 86 capabilities, 563 providers, 2020 typed functions, 20 refused.
+# Manifest version: aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec
+# 86 capabilities, 563 providers, 2021 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27949,6 +27949,13 @@ class Prv_tiktok_UnlikeVideoArgs_In(TypedDict):
 class Prv_tiktok_unlikeVideo_return_Out(TypedDict):
     unliked: bool
 
+class Prv_tiktok_PostCommentArgs_In(TypedDict):
+    video: str
+    text: str
+
+class Prv_tiktok_postComment_return_Out(TypedDict):
+    posted: bool
+
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
     name: str
@@ -50349,6 +50356,14 @@ class Prv_tiktok(Protocol):
         /api/favorite/del/ with the caller's session cookies, no browser. The caller signs in
         through the auth relay; Bowmark never signs up on this site. Returns a confirmation of
         the removal.
+        """
+
+    async def postComment(self, args: Prv_tiktok_PostCommentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_postComment_return_Out:
+        """Post a top-level comment on a video as the signed-in caller. Takes a video reference — a
+        full video URL or a bare video id — and the comment text. Writes via POST to
+        /api/comment/publish/ with the caller's session cookies, no browser. The caller signs in
+        through the auth relay; Bowmark never signs up on this site. Returns a confirmation of
+        the post.
         """
 
 class Prv_tilsonhomes(Protocol):
