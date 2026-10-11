@@ -143,7 +143,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol_mail.sendMessage` | mail.aol.com | Sends an email from the CALLER's own AOL Mail account. | ⚪ |
 | `aol_mail.updateAccountProfile` | mail.aol.com | Updates the CALLER's own AOL account profile — display name or profile photo — the way… | ⚪ |
 | `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | ⚪ |
-| `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | 🟢 |
+| `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | 🟡 |
 | `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter display name, text, time… | ⚪ |
 | `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | ⚪ |
 | `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | 🟢 |
@@ -1310,7 +1310,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fortressbp.recommendProduct` | fortressbp.com | Walks Fortress's own Simplifinder decision tree (product type, then application and… | 🟢 |
 | `fourseasonsyachts.getVoyage` | fourseasonsyachts.com | Reads one voyage's full itinerary — the day-by-day description, its region, its vessel… | 🟢 |
 | `fourseasonsyachts.getVoyageSailing` | fourseasonsyachts.com | Reads the real, live departure for one voyageCode — exact embark/disembark ports and… | 🟢 |
-| `fourseasonsyachts.searchVoyages` | fourseasonsyachts.com | Reads the live Voyage Finder inventory — every published sailing, its region, vessel… | 🟢 |
+| `fourseasonsyachts.searchVoyages` | fourseasonsyachts.com | Reads the live Voyage Finder inventory — every published sailing, its region, vessel… | 🟡 |
 | `foxnews.deleteComment` | foxnews.com | Deletes one of the signed-in caller's own comments on a Fox News article. | ⚪ |
 | `foxnews.findAuthor` | foxnews.com | Finds a Fox News reporter, columnist, host or contributor by name ("Charles Creitz"… | ⚪ |
 | `foxnews.getAccount` | foxnews.com | Reads the signed-in caller's Fox profile — display name, email, and account details. | ⚪ |
