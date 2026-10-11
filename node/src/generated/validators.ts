@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 83e6030a54fe3d25d50d322b7f6965a09c8210eaabc2a3c09c6614c257e9cd7c
-// 2017 checked, 20 unchecked.
+// Manifest version: 5b66da58b3291b6cceda908a2f9deb9da2ef8ea2a3b4b218951e5533ec046424
+// 2018 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "83e6030a54fe3d25d50d322b7f6965a09c8210eaabc2a3c09c6614c257e9cd7c",
+  "version": "5b66da58b3291b6cceda908a2f9deb9da2ef8ea2a3b4b218951e5533ec046424",
   "units": {
     "address_validation": {
       "defs": {
@@ -38754,6 +38754,24 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "stormId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getStormAdvisory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "advisoryUrl",
                   "schema": {
                     "k": "string"
                   },

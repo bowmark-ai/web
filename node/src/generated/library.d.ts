@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 83e6030a54fe3d25d50d322b7f6965a09c8210eaabc2a3c09c6614c257e9cd7c
-// 86 capabilities, 563 providers, 2035 typed functions, 20 refused.
+// Manifest version: 5b66da58b3291b6cceda908a2f9deb9da2ef8ea2a3b4b218951e5533ec046424
+// 86 capabilities, 563 providers, 2036 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -37909,6 +37909,12 @@ interface nhcCurrentStorm {
   intensity: number;
   pressure: number;
   position: { lat: number; lon: number };
+  links?: {
+    publicAdvisory?: string;
+    forecastAdvisory?: string;
+    forecastDiscussion?: string;
+    windSpeedProbabilities?: string;
+  };
 }
 
 interface nhcStormInfo extends nhcCurrentStorm {
@@ -37919,6 +37925,17 @@ interface nhcStormInfo extends nhcCurrentStorm {
     forecastDiscussion?: string;
     windSpeedProbabilities?: string;
   };
+}
+
+interface nhcAdvisory {
+  number: number;
+  headline: string;
+  location: string;
+  maxWinds: string;
+  pressure: string;
+  movement: string;
+  watchesWarnings: string;
+  hazards: string;
 }
 
   /**
@@ -37938,6 +37955,12 @@ interface nhcStormInfo extends nhcCurrentStorm {
      * listCurrentStorms.
      */
     getStormInfo(args: { stormId: string }): Promise<nhcStormInfo>;
+
+    /**
+     * Get a storm's public advisory text — headline, location, wind/pressure data, watches and
+     * warnings, and hazards information.
+     */
+    getStormAdvisory(args: { advisoryUrl: string }): Promise<nhcAdvisory>;
   }
 }
 

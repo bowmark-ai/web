@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 83e6030a54fe3d25d50d322b7f6965a09c8210eaabc2a3c09c6614c257e9cd7c
-# 86 capabilities, 563 providers, 2017 typed functions, 20 refused.
+# Manifest version: 5b66da58b3291b6cceda908a2f9deb9da2ef8ea2a3b4b218951e5533ec046424
+# 86 capabilities, 563 providers, 2018 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20580,10 +20580,17 @@ class Prv_nhc_nhcCurrentStorm_Out(TypedDict):
     intensity: float
     pressure: float
     position: Prv_nhc_nhcCurrentStorm_Out_position_Out
+    links: NotRequired[Prv_nhc_nhcCurrentStorm_Out_links_Out]
 
 class Prv_nhc_nhcCurrentStorm_Out_position_Out(TypedDict):
     lat: float
     lon: float
+
+class Prv_nhc_nhcCurrentStorm_Out_links_Out(TypedDict):
+    publicAdvisory: NotRequired[str]
+    forecastAdvisory: NotRequired[str]
+    forecastDiscussion: NotRequired[str]
+    windSpeedProbabilities: NotRequired[str]
 
 class Prv_nhc_getStormInfo_args_In(TypedDict):
     stormId: str
@@ -20596,22 +20603,35 @@ class Prv_nhc_nhcStormInfo_Out(TypedDict):
     intensity: float
     pressure: float
     position: Prv_nhc_nhcStormInfo_Out_position_Out
-    movement: Prv_nhc_nhcStormInfo_Out_movement_Out
     links: Prv_nhc_nhcStormInfo_Out_links_Out
+    movement: Prv_nhc_nhcStormInfo_Out_movement_Out
 
 class Prv_nhc_nhcStormInfo_Out_position_Out(TypedDict):
     lat: float
     lon: float
-
-class Prv_nhc_nhcStormInfo_Out_movement_Out(TypedDict):
-    direction: str
-    speed: float
 
 class Prv_nhc_nhcStormInfo_Out_links_Out(TypedDict):
     publicAdvisory: NotRequired[str]
     forecastAdvisory: NotRequired[str]
     forecastDiscussion: NotRequired[str]
     windSpeedProbabilities: NotRequired[str]
+
+class Prv_nhc_nhcStormInfo_Out_movement_Out(TypedDict):
+    direction: str
+    speed: float
+
+class Prv_nhc_getStormAdvisory_args_In(TypedDict):
+    advisoryUrl: str
+
+class Prv_nhc_nhcAdvisory_Out(TypedDict):
+    number: float
+    headline: str
+    location: str
+    maxWinds: str
+    pressure: str
+    movement: str
+    watchesWarnings: str
+    hazards: str
 
 class Prv_nintendo_NintendoProduct_Out(TypedDict):
     sku: str
@@ -45944,6 +45964,11 @@ class Prv_nhc(Protocol):
         """Get one active storm's current status — position, intensity, pressure, movement,
         classification and links to its latest advisory products — by the id returned from
         listCurrentStorms.
+        """
+
+    async def getStormAdvisory(self, args: Prv_nhc_getStormAdvisory_args_In, /) -> Prv_nhc_nhcAdvisory_Out:
+        """Get a storm's public advisory text — headline, location, wind/pressure data, watches and
+        warnings, and hazards information.
         """
 
 class Prv_nintendo(Protocol):

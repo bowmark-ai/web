@@ -1692,7 +1692,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.unblockUser` | instagram.com | Unblocks a previously blocked user. | 🟢 |
 | `instagram.unfollowUser` | instagram.com | Unfollows a user the signed-in account is currently following. | 🟢 |
 | `instagram.unlikePost` | instagram.com | Removes a like from a previously liked post. | 🟢 |
-| `instagram.unmuteUser` | instagram.com | Unmutes a previously muted user. | ⚪ |
+| `instagram.unmuteUser` | instagram.com | Unmutes a previously muted user, restoring their posts and stories to the signed-in… | 🟢 |
 | `instagram.unsavePost` | instagram.com | Removes a post from the signed-in user's saved collection. | 🟢 |
 | `instagram.updateProfile` | instagram.com | Updates the signed-in user's profile information such as biography, full name, or… | ⚪ |
 | `insurify.estimateAutoCost` | insurify.com | Returns an estimated monthly car insurance cost for a driver profile — age, location… | ⚪ |
@@ -2090,7 +2090,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getMarineForecast` | nhc.noaa.gov | Get NHC's offshore waters or high seas marine forecast for a zone: winds, seas and… | ⚪ |
 | `nhc.getReconObservations` | nhc.noaa.gov | Get the latest Hurricane Hunter aircraft reconnaissance reports for a basin: vortex… | ⚪ |
 | `nhc.getSatelliteImagery` | nhc.noaa.gov | Get the latest satellite image links for a basin or an active storm. | ⚪ |
-| `nhc.getStormAdvisory` | nhc.noaa.gov | Get a storm's public advisory text — the latest, or a given advisory number — with… | ⚪ |
+| `nhc.getStormAdvisory` | nhc.noaa.gov | Get a storm's public advisory text — the latest, or a given advisory number — with… | 🟢 |
 | `nhc.getStormForecast` | nhc.noaa.gov | Get a storm's forecast positions and intensities out to five days, with wind radii… | ⚪ |
 | `nhc.getStormGraphics` | nhc.noaa.gov | List a storm's current forecast graphics — cone, current wind field, wind history… | ⚪ |
 | `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | 🟢 |
