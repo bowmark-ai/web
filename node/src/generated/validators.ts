@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec
-// 2021 checked, 20 unchecked.
+// Manifest version: 9a06479996f9d8746d64f047763c8bc1885c0790e946148b946adc09596643e2
+// 2024 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec",
+  "version": "9a06479996f9d8746d64f047763c8bc1885c0790e946148b946adc09596643e2",
   "units": {
     "address_validation": {
       "defs": {
@@ -7475,6 +7475,27 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": true
+                },
+                {
+                  "name": "priceMin",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "priceMax",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -12885,6 +12906,7 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getTrendingTopics": [],
+        "getTrends": [],
         "searchPosts": [
           {
             "name": "query",
@@ -21580,6 +21602,20 @@ export const VALIDATORS: ValidatorTable = {
         "searchAcneExperts": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.fandom": {
+      "defs": {},
+      "functions": {
+        "getWikiInfo": [
+          {
+            "name": "wiki",
             "schema": {
               "k": "string"
             },
@@ -38881,6 +38917,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SearchStoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -38911,6 +38966,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListSectionStoriesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchStoriesArgs"
             },
             "optional": false
           }

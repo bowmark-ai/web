@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec
-# 86 capabilities, 563 providers, 2021 typed functions, 20 refused.
+# Manifest version: 9a06479996f9d8746d64f047763c8bc1885c0790e946148b946adc09596643e2
+# 86 capabilities, 564 providers, 2024 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3578,6 +3578,9 @@ class Prv_alibaba_searchProducts_args_In(TypedDict):
     query: str
     language: NotRequired[str]
     country: NotRequired[str]
+    priceMin: NotRequired[float]
+    priceMax: NotRequired[float]
+    page: NotRequired[float]
 
 class Prv_alibaba_alibabaSearchRow_Out(TypedDict):
     id: float
@@ -6888,6 +6891,16 @@ class Prv_bluesky_BlueskyTrendingTopic_Out(TypedDict):
     description: str
     topic: str
     displayName: str
+
+class Prv_bluesky_BlueskyTrendsResults_Out(TypedDict):
+    trends: list[Prv_bluesky_BlueskyTrend_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyTrend_Out(TypedDict):
+    value: str
+    count: float
+    status: str
+    category: NotRequired[str]
 
 class Prv_bluesky_searchPosts_query_u1_In(TypedDict):
     query: str
@@ -12087,6 +12100,13 @@ class Prv_facerealityskincare_FaceRealitySkincareEstheticianRow_Out_address_u0_O
     country: str | None
     lat: float | None
     lng: float | None
+
+class Prv_fandom_WikiInfo_Out(TypedDict):
+    name: str
+    description: NotRequired[str]
+    mainpage: str
+    logo: str
+    url: str
 
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
@@ -20735,6 +20755,21 @@ class Prv_npr_NprSection_Out(TypedDict):
 class Prv_npr_ListSectionStoriesArgs_In(TypedDict):
     slug: str
     limit: NotRequired[float]
+
+class Prv_npr_SearchStoriesArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_npr_NprSearchResult_Out(TypedDict):
+    url: str
+    title: str
+    id: NotRequired[str]
+    publishedDate: NotRequired[str]
+    bylines: NotRequired[list[str]]
+    teaser: NotRequired[str]
+    show: NotRequired[str]
+    topics: NotRequired[list[str]]
+    audioUrl: NotRequired[str]
 
 class Prv_nurturelife_GetMealPlansResult_Out(TypedDict):
     plans: list[Prv_nurturelife_NurtureLifeMealPlan_Out]
@@ -34505,9 +34540,7 @@ class Prv_alibaba(Protocol):
     """TODO — one line an agent reads to decide whether to call this."""
 
     async def searchProducts(self, args: Prv_alibaba_searchProducts_args_In, /) -> list[Prv_alibaba_alibabaSearchRow_Out]:
-        """Search for products by keyword, returning results with title, price, supplier and
-        details.
-        """
+        """Search for products by keyword, with an optional price range and page number."""
 
     async def getProduct(self, idOrUrl: str | float, /) -> Prv_alibaba_alibabaProductRow_Out:
         """Get detailed information for a single product by ID or URL, including title, price
@@ -36637,6 +36670,11 @@ class Prv_bluesky(Protocol):
     async def getTrendingTopics(self, /) -> Prv_bluesky_BlueskyTrendingTopicsResults_Out:
         """What is trending on Bluesky right now: topics and links to their search or feed pages.
         Returns each trending topic's name, display name, description and link.
+        """
+
+    async def getTrends(self, /) -> Prv_bluesky_BlueskyTrendsResults_Out:
+        """The richer trending list the Explore page shows: each trend's post count, status
+        (hot/new) and category.
         """
 
     async def searchPosts(self, query: str | Prv_bluesky_searchPosts_query_u1_In, /) -> Prv_bluesky_BlueskySearchPostsResults_Out:
@@ -39885,6 +39923,19 @@ class Prv_facerealityskincare(Protocol):
         """Runs Face Reality's own certified-esthetician locator search for a city, state, or
         business name — returns each matched provider's contact, address, geocoordinates,
         Instagram and booking link.
+        """
+
+class Prv_fandom(Protocol):
+    """Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game
+    and franchise community — without a browser: find the right wiki, search it, pull an
+    article, its infobox, categories and discussion posts.
+    """
+
+    async def getWikiInfo(self, wiki: str, /) -> Prv_fandom_WikiInfo_Out:
+        """A wiki's own vital stats — its real display name (`Wookieepedia`, not the `starwars`
+        subdomain), main page, logo, and canonical url, read off `action=query&meta=siteinfo`.
+        Confirms a `wiki` subdomain guess is actually the right wiki before anything else is
+        called against it.
         """
 
 class Prv_fbsappliance(Protocol):
@@ -46093,6 +46144,11 @@ class Prv_npr(Protocol):
         """Stories on a section front page (/sections/<slug>/), server-rendered. Returns headlines
         with title, url, teaser, section eyebrow and (for npr.org stories) the story id.
         Optional limit.
+        """
+
+    async def searchStories(self, args: Prv_npr_SearchStoriesArgs_In, /) -> list[Prv_npr_NprSearchResult_Out]:
+        """Search NPR's story archive by keyword via Algolia. Returns headlines with publication
+        date, author, teaser and (when available) audio URL. Defaults to 10 results; max 250.
         """
 
 class Prv_nurturelife(Protocol):
@@ -53090,6 +53146,7 @@ class BowmarkProviders(Protocol):
     extraspace: Prv_extraspace
     faceforwardaesthetics: Prv_faceforwardaesthetics
     facerealityskincare: Prv_facerealityskincare
+    fandom: Prv_fandom
     fbsappliance: Prv_fbsappliance
     fedex: Prv_fedex
     ferguson: Prv_ferguson

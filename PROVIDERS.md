@@ -1542,7 +1542,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
 | `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟡 |
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
-| `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟡 |
+| `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟢 |
 | `hackernews.getItem` | news.ycombinator.com | Returns one Hacker News item — story, comment, job or poll — by its numeric id or… | 🟢 |
 | `hackernews.search` | news.ycombinator.com | Keyword-searches every Hacker News story through HN's own search (hn.algolia.com)… | 🟢 |
 | `hackernews.topStories` | news.ycombinator.com | Returns the stories on the Hacker News front page (or the new, best, Ask HN, Show HN… | 🟢 |
@@ -1587,7 +1587,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `healthie.searchPractices` | gethealthie.com | Searches for therapists, coaches, dietitians, and other health practitioners by… | 🟡 |
 | `healthie.searchProviders` | gethealthie.com | Searches for individual practitioners (therapists, coaches, dietitians) by… | ⚪ |
 | `heatherwood.getFloorplan` | heatherwood.com | Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently… | 🟡 |
-| `heatherwood.listFloorplans` | heatherwood.com | Lists every floor-plan TYPE Heritage Westminster publishes (studio through 3-bedroom… | 🟢 |
+| `heatherwood.listFloorplans` | heatherwood.com | Lists every floor-plan TYPE Heritage Westminster publishes (studio through 3-bedroom… | 🟡 |
 | `hellofresh.checkDeliveryAvailability` | hellofresh.com | Answers whether HelloFresh delivers to a given ZIP code, and which delivery days that… | 🟢 |
 | `hellofresh.getPlanPricing` | hellofresh.com | Prices a plan configuration — meals per week x servings per meal — into the numbers a… | ⚪ |
 | `hellofresh.getRecipe` | hellofresh.com | Reads one recipe page in full for a recipe URL or bare id that `getWeeklyMenu` (or the… | 🟢 |

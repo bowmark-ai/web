@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec
-// 86 capabilities, 563 providers, 2039 typed functions, 20 refused.
+// Manifest version: 9a06479996f9d8746d64f047763c8bc1885c0790e946148b946adc09596643e2
+// 86 capabilities, 564 providers, 2042 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6448,8 +6448,8 @@ interface alibabaSupplierProfileRow {
 
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
-    /** Search for products by keyword, returning results with title, price, supplier and details. */
-    searchProducts(args: { query: string, language?: string, country?: string }): Promise<alibabaSearchRow[]>;
+    /** Search for products by keyword, with an optional price range and page number. */
+    searchProducts(args: { query: string, language?: string, country?: string, priceMin?: number, priceMax?: number, page?: number }): Promise<alibabaSearchRow[]>;
 
     /**
      * Get detailed information for a single product by ID or URL, including title, price ladder,
@@ -12120,6 +12120,18 @@ interface BlueskyTrendingTopicsResults {
   cursor?: string;
 }
 
+interface BlueskyTrend {
+  value: string;
+  count: number;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  category?: string;
+}
+
+interface BlueskyTrendsResults {
+  trends: BlueskyTrend[];
+  cursor?: string;
+}
+
 interface BlueskySearchFeedResult {
   uri: string;
   name: string;
@@ -12260,6 +12272,12 @@ interface BlueskySuggestedUsersResults {
      * Returns each trending topic's name, display name, description and link.
      */
     getTrendingTopics(): Promise<BlueskyTrendingTopicsResults>;
+
+    /**
+     * The richer trending list the Explore page shows: each trend's post count, status (hot/new)
+     * and category.
+     */
+    getTrends(): Promise<BlueskyTrendsResults>;
 
     /**
      * Searches all public posts by words, the way the Search tab's Posts list does — Top or Latest
@@ -21362,6 +21380,40 @@ interface FaceRealitySkincareEstheticianRow {
      * booking link.
      */
     searchAcneExperts(query: string): Promise<FaceRealitySkincareEstheticianRow[]>;
+  }
+}
+
+declare namespace BowmarkProvider_fandom {
+  // ── Fandom — the unit's own declarations, verbatim ──
+interface fandomRow {
+  id: string;
+}
+
+interface GetWikiInfoArgs {
+  wiki: string;
+}
+
+interface WikiInfo {
+  name: string;
+  description?: string;
+  mainpage: string;
+  logo: string;
+  url: string;
+}
+
+  /**
+   * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
+   * franchise community — without a browser: find the right wiki, search it, pull an article,
+   * its infobox, categories and discussion posts.
+   */
+  interface Unit {
+    /**
+     * A wiki's own vital stats — its real display name (`Wookieepedia`, not the `starwars`
+     * subdomain), main page, logo, and canonical url, read off `action=query&meta=siteinfo`.
+     * Confirms a `wiki` subdomain guess is actually the right wiki before anything else is called
+     * against it.
+     */
+    getWikiInfo(wiki: string): Promise<WikiInfo>;
   }
 }
 
@@ -38148,6 +38200,23 @@ interface ListSectionStoriesArgs {
   limit?: number;
 }
 
+interface SearchStoriesArgs {
+  query: string;
+  limit?: number;
+}
+
+interface NprSearchResult {
+  url: string;
+  title: string;
+  id?: string;
+  publishedDate?: string;
+  bylines?: string[];
+  teaser?: string;
+  show?: string;
+  topics?: string[];
+  audioUrl?: string;
+}
+
   /**
    * NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast program
    * rundowns, and the member-station finder with live streams.
@@ -38178,6 +38247,12 @@ interface ListSectionStoriesArgs {
      * title, url, teaser, section eyebrow and (for npr.org stories) the story id. Optional limit.
      */
     listSectionStories(args: ListSectionStoriesArgs): Promise<NprHeadline[]>;
+
+    /**
+     * Search NPR's story archive by keyword via Algolia. Returns headlines with publication date,
+     * author, teaser and (when available) audio URL. Defaults to 10 results; max 250.
+     */
+    searchStories(args: SearchStoriesArgs): Promise<NprSearchResult[]>;
   }
 }
 
@@ -57939,6 +58014,7 @@ interface BowmarkProviders {
   extraspace: BowmarkProvider_extraspace.Unit;
   faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
+  fandom: BowmarkProvider_fandom.Unit;
   fbsappliance: BowmarkProvider_fbsappliance.Unit;
   fedex: BowmarkProvider_fedex.Unit;
   ferguson: BowmarkProvider_ferguson.Unit;

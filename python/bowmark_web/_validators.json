@@ -1,5 +1,5 @@
 {
-  "version": "aca2d880c383da28e2ddc222ca719c0b83bc3e83598a8c5ec846612da61aa9ec",
+  "version": "9a06479996f9d8746d64f047763c8bc1885c0790e946148b946adc09596643e2",
   "units": {
     "address_validation": {
       "defs": {
@@ -7463,6 +7463,27 @@
                     "k": "string"
                   },
                   "optional": true
+                },
+                {
+                  "name": "priceMin",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "priceMax",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -12873,6 +12894,7 @@
           }
         ],
         "getTrendingTopics": [],
+        "getTrends": [],
         "searchPosts": [
           {
             "name": "query",
@@ -21568,6 +21590,20 @@
         "searchAcneExperts": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.fandom": {
+      "defs": {},
+      "functions": {
+        "getWikiInfo": [
+          {
+            "name": "wiki",
             "schema": {
               "k": "string"
             },
@@ -38869,6 +38905,25 @@
               "optional": true
             }
           ]
+        },
+        "SearchStoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -38899,6 +38954,16 @@
             "schema": {
               "k": "ref",
               "name": "ListSectionStoriesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchStoriesArgs"
             },
             "optional": false
           }
