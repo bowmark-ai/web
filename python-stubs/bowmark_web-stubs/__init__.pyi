@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9a06479996f9d8746d64f047763c8bc1885c0790e946148b946adc09596643e2
-# 86 capabilities, 564 providers, 2024 typed functions, 20 refused.
+# Manifest version: 00fbb6755ea0b1050d5c26d257b8ee5e25f8e05bdabc114983cf54ffdb3b46f5
+# 86 capabilities, 564 providers, 2025 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20716,6 +20716,10 @@ class Prv_nintendo_NintendoProduct_Out(TypedDict):
     compatibilityStatus: str | None
     compatibilityCaption: str | None
     description: str | None
+
+class Prv_nintendo_NintendoCategory_Out(TypedDict):
+    id: str
+    name: str
 
 class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     package: str
@@ -46101,6 +46105,13 @@ class Prv_nintendo(Protocol):
         and list price, in-stock flag, description, box art, genre/feature tags and
         compatibility note. Takes a urlKey or a nintendo.com product url (not yet a bare product
         name — that needs searchProducts).
+        """
+
+    async def listCategories(self, /) -> list[Prv_nintendo_NintendoCategory_Out]:
+        """Lists the store's main departments and platform families — Games, Nintendo Switch,
+        Nintendo Switch 2, Nintendo 3DS Family, Hardware, Accessories — each with the slug the
+        site addresses it by. The slug is what browseCategory and searchProducts use as their
+        category filter.
         """
 
 class Prv_npmjs(Protocol):

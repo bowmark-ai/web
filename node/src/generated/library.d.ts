@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9a06479996f9d8746d64f047763c8bc1885c0790e946148b946adc09596643e2
-// 86 capabilities, 564 providers, 2042 typed functions, 20 refused.
+// Manifest version: 00fbb6755ea0b1050d5c26d257b8ee5e25f8e05bdabc114983cf54ffdb3b46f5
+// 86 capabilities, 564 providers, 2043 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -38118,6 +38118,10 @@ interface NintendoProduct {
   compatibilityCaption: string | null;
   description: string | null;
 }
+interface NintendoCategory {
+  id: string;
+  name: string;
+}
 
   /**
    * Nintendo's own store catalog, support knowledge base and news — games, hardware and
@@ -38131,6 +38135,13 @@ interface NintendoProduct {
      * searchProducts).
      */
     getProduct(ref: string): Promise<NintendoProduct>;
+
+    /**
+     * Lists the store's main departments and platform families — Games, Nintendo Switch, Nintendo
+     * Switch 2, Nintendo 3DS Family, Hardware, Accessories — each with the slug the site addresses
+     * it by. The slug is what browseCategory and searchProducts use as their category filter.
+     */
+    listCategories(): Promise<NintendoCategory[]>;
   }
 }
 
