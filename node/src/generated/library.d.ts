@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976
-// 86 capabilities, 564 providers, 2049 typed functions, 20 refused.
+// Manifest version: 435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072
+// 86 capabilities, 564 providers, 2052 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20167,6 +20167,20 @@ interface GetRewardsBalanceResult {
   pendingBalance: number;
 }
 
+interface SendFriendRequestResult {
+  sent: boolean;
+  friendDisplayName: string;
+}
+
+interface RemoveFriendResult {
+  removed: boolean;
+}
+
+interface UpdateDisplayNameResult {
+  updated: boolean;
+  displayName: string;
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -20259,6 +20273,24 @@ interface GetRewardsBalanceResult {
      * purchases and what is pending.
      */
     getRewardsBalance(opts?: ConnectionOption): Promise<GetRewardsBalanceResult>;
+
+    /**
+     * Send a friend request from the signed-in caller to an Epic display name. Needs the caller
+     * signed in.
+     */
+    sendFriendRequest(displayName: string, opts?: ConnectionOption): Promise<SendFriendRequestResult>;
+
+    /**
+     * Remove someone from the signed-in caller's Epic friends, by their Epic display name. Needs
+     * the caller signed in.
+     */
+    removeFriend(displayName: string, opts?: ConnectionOption): Promise<RemoveFriendResult>;
+
+    /**
+     * Change the signed-in caller's Epic display name. Epic rate-limits how often this can change.
+     * Needs the caller signed in.
+     */
+    updateDisplayName(displayName: string, opts?: ConnectionOption): Promise<UpdateDisplayNameResult>;
   }
 }
 

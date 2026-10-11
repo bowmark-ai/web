@@ -1459,7 +1459,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.rateBook` | goodreads.com | Sets the signed-in caller's own star rating (1-5) on a book. | ⚪ |
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | ⚪ |
 | `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | 🟢 |
-| `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | ⚪ |
+| `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | 🟢 |
 | `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | ⚪ |
 | `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟢 |
 | `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976
-// 2031 checked, 20 unchecked.
+// Manifest version: 435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072
+// 2034 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976",
+  "version": "435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072",
   "units": {
     "address_validation": {
       "defs": {
@@ -20684,6 +20684,81 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getRewardsBalance": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendFriendRequest": [
+          {
+            "name": "displayName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFriend": [
+          {
+            "name": "displayName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateDisplayName": [
+          {
+            "name": "displayName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {

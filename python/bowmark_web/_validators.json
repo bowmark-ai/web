@@ -1,5 +1,5 @@
 {
-  "version": "7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976",
+  "version": "435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072",
   "units": {
     "address_validation": {
       "defs": {
@@ -20672,6 +20672,81 @@
           }
         ],
         "getRewardsBalance": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendFriendRequest": [
+          {
+            "name": "displayName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFriend": [
+          {
+            "name": "displayName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateDisplayName": [
+          {
+            "name": "displayName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {

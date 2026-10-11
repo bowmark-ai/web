@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976
-# 86 capabilities, 564 providers, 2031 typed functions, 20 refused.
+# Manifest version: 435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072
+# 86 capabilities, 564 providers, 2034 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11406,6 +11406,17 @@ class Prv_epicgames_GetRewardsBalanceResult_Out(TypedDict):
     balance: float
     balanceCurrency: str
     pendingBalance: float
+
+class Prv_epicgames_SendFriendRequestResult_Out(TypedDict):
+    sent: bool
+    friendDisplayName: str
+
+class Prv_epicgames_RemoveFriendResult_Out(TypedDict):
+    removed: bool
+
+class Prv_epicgames_UpdateDisplayNameResult_Out(TypedDict):
+    updated: bool
+    displayName: str
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -39636,6 +39647,21 @@ class Prv_epicgames(Protocol):
     async def getRewardsBalance(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_GetRewardsBalanceResult_Out:
         """The signed-in caller's Epic Rewards balance — the store credit they have earned from
         purchases and what is pending.
+        """
+
+    async def sendFriendRequest(self, displayName: str, opts: ConnectionOption | None = None, /) -> Prv_epicgames_SendFriendRequestResult_Out:
+        """Send a friend request from the signed-in caller to an Epic display name. Needs the
+        caller signed in.
+        """
+
+    async def removeFriend(self, displayName: str, opts: ConnectionOption | None = None, /) -> Prv_epicgames_RemoveFriendResult_Out:
+        """Remove someone from the signed-in caller's Epic friends, by their Epic display name.
+        Needs the caller signed in.
+        """
+
+    async def updateDisplayName(self, displayName: str, opts: ConnectionOption | None = None, /) -> Prv_epicgames_UpdateDisplayNameResult_Out:
+        """Change the signed-in caller's Epic display name. Epic rate-limits how often this can
+        change. Needs the caller signed in.
         """
 
 class Prv_epromos(Protocol):
