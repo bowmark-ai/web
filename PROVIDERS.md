@@ -91,7 +91,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | ⚪ |
 | `aliexpress.listOrders` | aliexpress.us | Lists the user's purchase history and order status. | ⚪ |
 | `aliexpress.listWishlist` | aliexpress.us | Lists products in the user's wishlist. | ⚪ |
-| `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | ⚪ |
+| `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟢 |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟡 |
 | `amazon.addToCart` | www.amazon.com | Put one unit of a product in the anonymous guest cart and report what the cart then… | 🟢 |
@@ -2949,7 +2949,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.getForumThread` | tripadvisor.com | Reads one forum thread — the opening post and every reply, with author, date and text… | ⚪ |
 | `tripadvisor.getForumTopics` | tripadvisor.com | Lists a destination's travel-forum topics — title, author, reply count, last post date… | ⚪ |
 | `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟢 |
-| `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | ⚪ |
+| `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | 🟢 |
 | `tripadvisor.getMemberProfile` | tripadvisor.com | Reads a member's public profile — handle, display name, home town, join date… | ⚪ |
 | `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a given listing, nearest or… | ⚪ |
 | `tripadvisor.getOwnProfile` | tripadvisor.com | Reads the signed-in caller's own profile — handle, display name, home town… | ⚪ |
