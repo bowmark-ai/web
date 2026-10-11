@@ -2898,7 +2898,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | ⚪ |
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟡 |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id and caption for each — the door from a handle to their… | 🟢 |
-| `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | ⚪ |
+| `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | 🟢 |
 | `tiktok.searchUsers` | tiktok.com | Search TikTok for creators matching a query and get back handle, nickname and follower… | 🟡 |
 | `tiktok.searchVideos` | tiktok.com | Search TikTok the way the search box does and get back matching videos — id, caption… | 🟡 |
 | `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller. | ⚪ |
