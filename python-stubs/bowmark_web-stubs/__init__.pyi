@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 137fa58b45a9679723d9d3180acab6a13ea5bea0223a32eefa74eb8d88fe8b52
-# 86 capabilities, 563 providers, 2016 typed functions, 20 refused.
+# Manifest version: 83e6030a54fe3d25d50d322b7f6965a09c8210eaabc2a3c09c6614c257e9cd7c
+# 86 capabilities, 563 providers, 2017 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27878,6 +27878,12 @@ class Prv_tiktok_LikeVideoArgs_In(TypedDict):
 class Prv_tiktok_likeVideo_return_Out(TypedDict):
     liked: bool
 
+class Prv_tiktok_UnlikeVideoArgs_In(TypedDict):
+    video: str
+
+class Prv_tiktok_unlikeVideo_return_Out(TypedDict):
+    unliked: bool
+
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
     name: str
@@ -50248,6 +50254,14 @@ class Prv_tiktok(Protocol):
         video URL or a bare video id. Writes via POST to /api/favorite/add/ with the caller's
         session cookies, no browser. The caller signs in through the auth relay; Bowmark never
         signs up on this site. Returns a confirmation of the like.
+        """
+
+    async def unlikeVideo(self, args: Prv_tiktok_UnlikeVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_unlikeVideo_return_Out:
+        """Remove a like (unheart) as the signed-in caller — the reverse of likeVideo. Takes a
+        video reference — a full video URL or a bare video id. Writes via POST to
+        /api/favorite/del/ with the caller's session cookies, no browser. The caller signs in
+        through the auth relay; Bowmark never signs up on this site. Returns a confirmation of
+        the removal.
         """
 
 class Prv_tilsonhomes(Protocol):

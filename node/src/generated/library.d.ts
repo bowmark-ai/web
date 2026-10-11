@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 137fa58b45a9679723d9d3180acab6a13ea5bea0223a32eefa74eb8d88fe8b52
-// 86 capabilities, 563 providers, 2034 typed functions, 20 refused.
+// Manifest version: 83e6030a54fe3d25d50d322b7f6965a09c8210eaabc2a3c09c6614c257e9cd7c
+// 86 capabilities, 563 providers, 2035 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -49692,6 +49692,9 @@ type EditProfileArgs = {
 type LikeVideoArgs = {
   video: string;
 };
+type UnlikeVideoArgs = {
+  video: string;
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -49839,6 +49842,14 @@ type LikeVideoArgs = {
      * this site. Returns a confirmation of the like.
      */
     likeVideo(args: LikeVideoArgs, opts?: ConnectionOption): Promise<{ liked: boolean }>;
+
+    /**
+     * Remove a like (unheart) as the signed-in caller — the reverse of likeVideo. Takes a video
+     * reference — a full video URL or a bare video id. Writes via POST to /api/favorite/del/ with
+     * the caller's session cookies, no browser. The caller signs in through the auth relay;
+     * Bowmark never signs up on this site. Returns a confirmation of the removal.
+     */
+    unlikeVideo(args: UnlikeVideoArgs, opts?: ConnectionOption): Promise<{ unliked: boolean }>;
   }
 }
 

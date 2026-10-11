@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 137fa58b45a9679723d9d3180acab6a13ea5bea0223a32eefa74eb8d88fe8b52
-// 2016 checked, 20 unchecked.
+// Manifest version: 83e6030a54fe3d25d50d322b7f6965a09c8210eaabc2a3c09c6614c257e9cd7c
+// 2017 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "137fa58b45a9679723d9d3180acab6a13ea5bea0223a32eefa74eb8d88fe8b52",
+  "version": "83e6030a54fe3d25d50d322b7f6965a09c8210eaabc2a3c09c6614c257e9cd7c",
   "units": {
     "address_validation": {
       "defs": {
@@ -55530,6 +55530,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "UnlikeVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -55773,6 +55785,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "LikeVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unlikeVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UnlikeVideoArgs"
             },
             "optional": false
           },

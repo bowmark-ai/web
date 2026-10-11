@@ -1,5 +1,5 @@
 {
-  "version": "137fa58b45a9679723d9d3180acab6a13ea5bea0223a32eefa74eb8d88fe8b52",
+  "version": "83e6030a54fe3d25d50d322b7f6965a09c8210eaabc2a3c09c6614c257e9cd7c",
   "units": {
     "address_validation": {
       "defs": {
@@ -55518,6 +55518,18 @@
               "optional": false
             }
           ]
+        },
+        "UnlikeVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -55761,6 +55773,32 @@
             "schema": {
               "k": "ref",
               "name": "LikeVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unlikeVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UnlikeVideoArgs"
             },
             "optional": false
           },
