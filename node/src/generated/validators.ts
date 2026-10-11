@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3efe347dbdf7c635244da6eac4939e7f2d234197c790724c50f7845f3d50962e
-// 2006 checked, 20 unchecked.
+// Manifest version: ad31a515ceb8a46b7ac140f88cc9b56c55f2ec11457b69fb69b9bdfc6314c880
+// 2008 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3efe347dbdf7c635244da6eac4939e7f2d234197c790724c50f7845f3d50962e",
+  "version": "ad31a515ceb8a46b7ac140f88cc9b56c55f2ec11457b69fb69b9bdfc6314c880",
   "units": {
     "address_validation": {
       "defs": {
@@ -51354,6 +51354,45 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listStoreProducts": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "first",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortBy",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "search",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -55193,6 +55232,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "LikeVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListCaptionTracksArgs": {
           "k": "object",
           "props": [
@@ -55524,6 +55575,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "EditProfileArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "likeVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LikeVideoArgs"
             },
             "optional": false
           },

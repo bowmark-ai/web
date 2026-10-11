@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3efe347dbdf7c635244da6eac4939e7f2d234197c790724c50f7845f3d50962e
-// 86 capabilities, 562 providers, 2024 typed functions, 20 refused.
+// Manifest version: ad31a515ceb8a46b7ac140f88cc9b56c55f2ec11457b69fb69b9bdfc6314c880
+// 86 capabilities, 562 providers, 2026 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -45839,6 +45839,22 @@ interface ShopAppStore {
   followerCount: number | null;
   warnings: string[];
 }
+interface ShopAppStoreProduct {
+  id: string;
+  title: string;
+  price: number | null;
+  currency: string | null;
+  imageUrl: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  url: string;
+}
+interface ShopAppStoreProductList {
+  products: ShopAppStoreProduct[];
+  hasNextPage: boolean;
+  cursor: string | null;
+  warnings: string[];
+}
 
   /**
    * Shop (Shopify's shopping app) — search products across every Shopify store, read a product
@@ -45862,6 +45878,12 @@ interface ShopAppStore {
      * publishes.
      */
     getStore(input: string): Promise<ShopAppStore>;
+
+    /**
+     * Lists a store's products — sorted by best-selling, newest or price, filtered to in-stock or
+     * by the store's own filters — with id, title, price, image and rating, a page at a time.
+     */
+    listStoreProducts(handle: string, options?: { first?: number; sortBy?: string; search?: string }): Promise<ShopAppStoreProductList>;
   }
 }
 
@@ -49481,6 +49503,9 @@ type EditProfileArgs = {
   signature?: string;
   bioLink?: string;
 };
+type LikeVideoArgs = {
+  video: string;
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -49620,6 +49645,14 @@ type EditProfileArgs = {
      * capture measures the success shape.
      */
     editProfile(args: EditProfileArgs, opts?: ConnectionOption): Promise<tiktokOwnProfile>;
+
+    /**
+     * Like a video (heart button) as the signed-in caller. Takes a video reference — a full video
+     * URL or a bare video id. Writes via POST to /api/favorite/add/ with the caller's session
+     * cookies, no browser. The caller signs in through the auth relay; Bowmark never signs up on
+     * this site. Returns a confirmation of the like.
+     */
+    likeVideo(args: LikeVideoArgs, opts?: ConnectionOption): Promise<{ liked: boolean }>;
   }
 }
 

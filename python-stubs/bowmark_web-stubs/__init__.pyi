@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3efe347dbdf7c635244da6eac4939e7f2d234197c790724c50f7845f3d50962e
-# 86 capabilities, 562 providers, 2006 typed functions, 20 refused.
+# Manifest version: ad31a515ceb8a46b7ac140f88cc9b56c55f2ec11457b69fb69b9bdfc6314c880
+# 86 capabilities, 562 providers, 2008 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -25612,6 +25612,27 @@ class Prv_shop_app_ShopAppStore_Out(TypedDict):
     followerCount: float | None
     warnings: list[str]
 
+class Prv_shop_app_listStoreProducts_options_In(TypedDict):
+    first: NotRequired[float]
+    sortBy: NotRequired[str]
+    search: NotRequired[str]
+
+class Prv_shop_app_ShopAppStoreProductList_Out(TypedDict):
+    products: list[Prv_shop_app_ShopAppStoreProduct_Out]
+    hasNextPage: bool
+    cursor: str | None
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppStoreProduct_Out(TypedDict):
+    id: str
+    title: str
+    price: float | None
+    currency: str | None
+    imageUrl: str | None
+    rating: float | None
+    reviewCount: float | None
+    url: str
+
 class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
     zip: str
     locations: list[Prv_sitmeanssit_SitmeanssitLocation_Out]
@@ -27769,6 +27790,12 @@ class Prv_tiktok_EditProfileArgs_In(TypedDict):
     nickname: NotRequired[str]
     signature: NotRequired[str]
     bioLink: NotRequired[str]
+
+class Prv_tiktok_LikeVideoArgs_In(TypedDict):
+    video: str
+
+class Prv_tiktok_likeVideo_return_Out(TypedDict):
+    liked: bool
 
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
@@ -48731,6 +48758,12 @@ class Prv_shop_app(Protocol):
         store publishes.
         """
 
+    async def listStoreProducts(self, handle: str, options: Prv_shop_app_listStoreProducts_options_In | None = None, /) -> Prv_shop_app_ShopAppStoreProductList_Out:
+        """Lists a store's products — sorted by best-selling, newest or price, filtered to in-stock
+        or by the store's own filters — with id, title, price, image and rating, a page at a
+        time.
+        """
+
 class Prv_sitmeanssit(Protocol):
     """Reads Sit Means Sit's own real-time Dog Training Locator directly (the same admin-ajax
     endpoint the site's /locations/ map runs) — the nearest real franchise locations to a US
@@ -50029,6 +50062,13 @@ class Prv_tiktok(Protocol):
         in through the auth relay; Bowmark never signs up on this site. Returns the updated
         account facts. Field values are read defensively and may come back undefined until a
         real signed-in capture measures the success shape.
+        """
+
+    async def likeVideo(self, args: Prv_tiktok_LikeVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_likeVideo_return_Out:
+        """Like a video (heart button) as the signed-in caller. Takes a video reference — a full
+        video URL or a bare video id. Writes via POST to /api/favorite/add/ with the caller's
+        session cookies, no browser. The caller signs in through the auth relay; Bowmark never
+        signs up on this site. Returns a confirmation of the like.
         """
 
 class Prv_tilsonhomes(Protocol):
