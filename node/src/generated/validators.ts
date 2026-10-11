@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1cead3589922d2e32a611d85fee953cb99538e8bf5e8406c092371f8641d3fb5
-// 2004 checked, 20 unchecked.
+// Manifest version: 3efe347dbdf7c635244da6eac4939e7f2d234197c790724c50f7845f3d50962e
+// 2006 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1cead3589922d2e32a611d85fee953cb99538e8bf5e8406c092371f8641d3fb5",
+  "version": "3efe347dbdf7c635244da6eac4939e7f2d234197c790724c50f7845f3d50962e",
   "units": {
     "address_validation": {
       "defs": {
@@ -25586,6 +25586,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getList": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -29640,6 +29649,15 @@ export const VALIDATORS: ValidatorTable = {
         "unsavePost": [
           {
             "name": "mediaId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "blockUser": [
+          {
+            "name": "userId",
             "schema": {
               "k": "string"
             },

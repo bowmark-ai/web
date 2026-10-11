@@ -1445,7 +1445,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.getAuthor` | goodreads.com | Reads one author's bio, stats and bibliography off their page, taking a name or a… | ⚪ |
 | `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | 🟢 |
 | `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer name, review text, and creation… | 🟢 |
-| `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | ⚪ |
+| `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | 🟢 |
 | `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | ⚪ |
 | `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | ⚪ |
 | `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | ⚪ |
@@ -2448,7 +2448,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getAnswers` | quora.com | Pages through a question's answers beyond the first 7 that getQuestion returns, using… | ⚪ |
 | `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | ⚪ |
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary. | ⚪ |
-| `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟢 |
+| `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟡 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟢 |
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name and description — taking a topic URL or name. | ⚪ |

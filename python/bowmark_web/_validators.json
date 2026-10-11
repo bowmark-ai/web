@@ -1,5 +1,5 @@
 {
-  "version": "1cead3589922d2e32a611d85fee953cb99538e8bf5e8406c092371f8641d3fb5",
+  "version": "3efe347dbdf7c635244da6eac4939e7f2d234197c790724c50f7845f3d50962e",
   "units": {
     "address_validation": {
       "defs": {
@@ -25574,6 +25574,15 @@
             },
             "optional": true
           }
+        ],
+        "getList": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -29628,6 +29637,15 @@
         "unsavePost": [
           {
             "name": "mediaId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "blockUser": [
+          {
+            "name": "userId",
             "schema": {
               "k": "string"
             },

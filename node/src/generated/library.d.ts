@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1cead3589922d2e32a611d85fee953cb99538e8bf5e8406c092371f8641d3fb5
-// 86 capabilities, 562 providers, 2022 typed functions, 20 refused.
+// Manifest version: 3efe347dbdf7c635244da6eac4939e7f2d234197c790724c50f7845f3d50962e
+// 86 capabilities, 562 providers, 2024 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -24619,6 +24619,15 @@ interface GoodreadsBook {
   ratingsCount?: number;
   textReviewsCount?: number;
 }
+interface GoodreadsListBook {
+  legacyId: string;
+  rank: number;
+  title: string;
+  url: string;
+  authorName?: string;
+  authorUrl?: string;
+  averageRating?: number;
+}
 interface GoodreadsReviewRow {
   id: string;
   text: string;
@@ -24651,6 +24660,12 @@ interface GoodreadsReviewRow {
      * 1-indexed page number (defaults to 1).
      */
     getBookReviews(idOrUrl: string, pageNumber?: number): Promise<GoodreadsReviewRow[]>;
+
+    /**
+     * Reads one curated list's books — rank, title, author, url and (when shown) average rating
+     * per row. Takes the numeric id or the full URL.
+     */
+    getList(idOrUrl: string): Promise<GoodreadsListBook[]>;
   }
 }
 
@@ -29348,6 +29363,11 @@ interface InstagramUnsaveResult {
   mediaId: string;
   hasSaved: boolean;
 }
+interface InstagramBlockResult {
+  userId: string;
+  username: string;
+  blocking: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29444,6 +29464,13 @@ interface InstagramUnsaveResult {
      * resulting save state. Requires the caller to be signed in through the relay.
      */
     unsavePost(mediaId: string): Promise<InstagramUnsaveResult>;
+
+    /**
+     * Blocks a user, preventing them from seeing the signed-in account's posts and sending it
+     * messages. Returns the resulting block state. Requires the caller to be signed in through the
+     * relay.
+     */
+    blockUser(userId: string): Promise<InstagramBlockResult>;
   }
 }
 

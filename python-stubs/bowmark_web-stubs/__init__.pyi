@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1cead3589922d2e32a611d85fee953cb99538e8bf5e8406c092371f8641d3fb5
-# 86 capabilities, 562 providers, 2004 typed functions, 20 refused.
+# Manifest version: 3efe347dbdf7c635244da6eac4939e7f2d234197c790724c50f7845f3d50962e
+# 86 capabilities, 562 providers, 2006 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13752,6 +13752,15 @@ class Prv_goodreads_GoodreadsReviewRow_Out(TypedDict):
     reviewerName: NotRequired[str]
     reviewerUrl: NotRequired[str]
 
+class Prv_goodreads_GoodreadsListBook_Out(TypedDict):
+    legacyId: str
+    rank: float
+    title: str
+    url: str
+    authorName: NotRequired[str]
+    authorUrl: NotRequired[str]
+    averageRating: NotRequired[float]
+
 class Prv_goodway_GoodwayProductSummary_Out(TypedDict):
     sku: str
     title: str
@@ -16078,6 +16087,11 @@ class Prv_instagram_InstagramSaveResult_Out(TypedDict):
 class Prv_instagram_InstagramUnsaveResult_Out(TypedDict):
     mediaId: str
     hasSaved: bool
+
+class Prv_instagram_InstagramBlockResult_Out(TypedDict):
+    userId: str
+    username: str
+    blocking: bool
 
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
@@ -40949,6 +40963,11 @@ class Prv_goodreads(Protocol):
         optional 1-indexed page number (defaults to 1).
         """
 
+    async def getList(self, idOrUrl: str, /) -> list[Prv_goodreads_GoodreadsListBook_Out]:
+        """Reads one curated list's books — rank, title, author, url and (when shown) average
+        rating per row. Takes the numeric id or the full URL.
+        """
+
 class Prv_goodway(Protocol):
     """Goodway's own pressure-washer catalog — real listed prices, or a quote-required flag for
     call-for-price units, and the site's own product page as the buy/quote handoff.
@@ -42794,6 +42813,12 @@ class Prv_instagram(Protocol):
     async def unsavePost(self, mediaId: str, /) -> Prv_instagram_InstagramUnsaveResult_Out:
         """Removes a post from the signed-in user's saved collection. Returns the media id and the
         resulting save state. Requires the caller to be signed in through the relay.
+        """
+
+    async def blockUser(self, userId: str, /) -> Prv_instagram_InstagramBlockResult_Out:
+        """Blocks a user, preventing them from seeing the signed-in account's posts and sending it
+        messages. Returns the resulting block state. Requires the caller to be signed in through
+        the relay.
         """
 
 class Prv_insurify(Protocol):
