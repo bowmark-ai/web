@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3319 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3324 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -756,6 +756,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `credibly_com.getEligibilityRequirements` | credibly.com | Reads Credibly's own published eligibility requirements (time in business, credit… | 🟡 |
 | `cruiselakegeneva.getTour` | cruiselakegeneva.com | Reads one tour's own detail page: full pricing (adult/child/group tiers), duration… | 🟢 |
 | `cruiselakegeneva.listTours` | cruiselakegeneva.com | Lists Cruise Lake Geneva's current tour lineup — every narrated/dining/seasonal boat… | 🟢 |
+| `crunchbase.getFundingRounds` | crunchbase.com | Lists one company's funding rounds — announced date, round type, money raised and lead… | ⚪ |
+| `crunchbase.getOrganization` | crunchbase.com | Reads one company's Crunchbase profile at `/organization/<slug>` — name, website… | ⚪ |
+| `crunchbase.recentFundingRounds` | crunchbase.com | The week's 10 biggest announced funding rounds raised by U.S.-based startups, read off… | 🟢 |
+| `crunchbase.searchNews` | crunchbase.com | Searches Crunchbase News for a company or topic, newest first, through the newsroom's… | 🟢 |
+| `crunchbase.searchOrganizations` | crunchbase.com | Finds companies by name the way the site's header search does — Crunchbase's own… | ⚪ |
 | `culturefly.buildCultureFlyCheckoutLink` | culturefly.com | Resolves a chosen size + cadence against getCultureFlyBoxOptions and returns the exact… | 🟢 |
 | `culturefly.getCultureFlyBoxOptions` | culturefly.com | Reads one box's full configure surface off its own product page — every apparel size… | 🟢 |
 | `culturefly.listCultureFlyBoxes` | culturefly.com | Reads the live CultureFly catalogue for exactly the licensed subscription-box product… | 🟢 |
