@@ -1694,7 +1694,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.unlikePost` | instagram.com | Removes a like from a previously liked post. | 🟢 |
 | `instagram.unmuteUser` | instagram.com | Unmutes a previously muted user, restoring their posts and stories to the signed-in… | 🟢 |
 | `instagram.unsavePost` | instagram.com | Removes a post from the signed-in user's saved collection. | 🟢 |
-| `instagram.updateProfile` | instagram.com | Updates the signed-in user's profile information such as biography, full name, or… | ⚪ |
+| `instagram.updateProfile` | instagram.com | Updates the signed-in user's profile information such as biography, full name, or… | 🟢 |
 | `insurify.estimateAutoCost` | insurify.com | Returns an estimated monthly car insurance cost for a driver profile — age, location… | ⚪ |
 | `insurify.getAutoQuotes` | insurify.com | Returns real-time side-by-side car insurance rates from the carriers that will… | 🟢 |
 | `insurify.getAutoWarrantyQuotes` | insurify.com | Returns extended vehicle service contract (auto warranty) prices for a vehicle's make… | ⚪ |
