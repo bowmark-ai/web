@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 515339908bcc094a494e6f4441a1d302f452a12e870b6361d455f98b0ec6fd0d
-# 86 capabilities, 563 providers, 2011 typed functions, 20 refused.
+# Manifest version: 6ba65596869a2a093a177f039d94b410de36e25b6b17b5b44672f5318a03f882
+# 86 capabilities, 563 providers, 2013 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4088,6 +4088,20 @@ class Prv_aol_AolArticle_Out(TypedDict):
     body: str
     images: list[str]
     commentCount: NotRequired[str]
+
+class Prv_aol_searchWeatherLocations_args_In(TypedDict):
+    query: NotRequired[str]
+    country: NotRequired[str]
+
+class Prv_aol_searchWeatherLocations_return_Out(TypedDict):
+    locations: list[Prv_aol_AolWeatherLocation_Out]
+
+class Prv_aol_AolWeatherLocation_Out(TypedDict):
+    woeid: str
+    displayName: str
+    fullDisplayName: str
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -16133,6 +16147,11 @@ class Prv_instagram_InstagramUnsaveResult_Out(TypedDict):
     hasSaved: bool
 
 class Prv_instagram_InstagramBlockResult_Out(TypedDict):
+    userId: str
+    username: str
+    blocking: bool
+
+class Prv_instagram_InstagramUnblockResult_Out(TypedDict):
     userId: str
     username: str
     blocking: bool
@@ -34814,6 +34833,11 @@ class Prv_aol(Protocol):
         listSectionArticles, or a raw slug.
         """
 
+    async def searchWeatherLocations(self, args: Prv_aol_searchWeatherLocations_args_In | None = None, /) -> Prv_aol_searchWeatherLocations_return_Out:
+        """Searches for weather locations by name (e.g. 'San Francisco', 'Paris') to get the woeid
+        identifier needed for getWeather. Pass an optional country code to narrow results.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -42918,6 +42942,12 @@ class Prv_instagram(Protocol):
         """Blocks a user, preventing them from seeing the signed-in account's posts and sending it
         messages. Returns the resulting block state. Requires the caller to be signed in through
         the relay.
+        """
+
+    async def unblockUser(self, userId: str, /) -> Prv_instagram_InstagramUnblockResult_Out:
+        """Unblocks a previously blocked user, allowing them to see the signed-in account's posts
+        and send messages again. Returns the resulting block state. Requires the caller to be
+        signed in through the relay.
         """
 
 class Prv_insurify(Protocol):

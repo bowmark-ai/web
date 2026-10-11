@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 515339908bcc094a494e6f4441a1d302f452a12e870b6361d455f98b0ec6fd0d
-// 86 capabilities, 563 providers, 2029 typed functions, 20 refused.
+// Manifest version: 6ba65596869a2a093a177f039d94b410de36e25b6b17b5b44672f5318a03f882
+// 86 capabilities, 563 providers, 2031 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7391,6 +7391,14 @@ interface AolArticle {
   commentCount?: string;
 }
 
+interface AolWeatherLocation {
+  woeid: string;
+  displayName: string;
+  fullDisplayName: string;
+  latitude?: number;
+  longitude?: number;
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -7424,6 +7432,12 @@ interface AolArticle {
      * listSectionArticles, or a raw slug.
      */
     getArticle(url: string): Promise<AolArticle>;
+
+    /**
+     * Searches for weather locations by name (e.g. 'San Francisco', 'Paris') to get the woeid
+     * identifier needed for getWeather. Pass an optional country code to narrow results.
+     */
+    searchWeatherLocations(args?: { query?: string; country?: string }): Promise<{ locations: AolWeatherLocation[] }>;
   }
 }
 
@@ -29440,6 +29454,11 @@ interface InstagramBlockResult {
   username: string;
   blocking: boolean;
 }
+interface InstagramUnblockResult {
+  userId: string;
+  username: string;
+  blocking: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29544,6 +29563,13 @@ interface InstagramBlockResult {
      * relay.
      */
     blockUser(userId: string): Promise<InstagramBlockResult>;
+
+    /**
+     * Unblocks a previously blocked user, allowing them to see the signed-in account's posts and
+     * send messages again. Returns the resulting block state. Requires the caller to be signed in
+     * through the relay.
+     */
+    unblockUser(userId: string): Promise<InstagramUnblockResult>;
   }
 }
 

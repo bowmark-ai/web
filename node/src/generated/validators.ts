@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 515339908bcc094a494e6f4441a1d302f452a12e870b6361d455f98b0ec6fd0d
-// 2011 checked, 20 unchecked.
+// Manifest version: 6ba65596869a2a093a177f039d94b410de36e25b6b17b5b44672f5318a03f882
+// 2013 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "515339908bcc094a494e6f4441a1d302f452a12e870b6361d455f98b0ec6fd0d",
+  "version": "6ba65596869a2a093a177f039d94b410de36e25b6b17b5b44672f5318a03f882",
   "units": {
     "address_validation": {
       "defs": {
@@ -8470,6 +8470,31 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "searchWeatherLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -29735,6 +29760,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "blockUser": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "unblockUser": [
           {
             "name": "userId",
             "schema": {
