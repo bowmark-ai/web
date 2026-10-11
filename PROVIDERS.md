@@ -159,7 +159,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.postComment` | aol.com | Posts a comment, or a reply to one, under an AOL article as the signed-in caller. | ⚪ |
 | `aol.removeFavorite` | aol.com | Deletes a saved link or folder from the signed-in caller's AOL Favorites. | ⚪ |
 | `aol.searchRecipes` | aol.com | Searches AOL Food's recipe collection by keyword — recipe id, title, slug and image… | ⚪ |
-| `aol.searchWeatherLocations` | aol.com | Finds weather locations by place name — city, state, country and the location id… | ⚪ |
+| `aol.searchWeatherLocations` | aol.com | Finds weather locations by place name — city, state, country and the location id… | 🟢 |
 | `aol.subscribeNewsletter` | aol.com | Subscribes an email address to one aol.com newsletter, as the site's own sign-up box… | ⚪ |
 | `aosom.getProduct` | aosom.com | Reads one product's live price and the site's own buyability flag straight off its… | 🟢 |
 | `aosom.searchProducts` | aosom.com | Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query… | 🟢 |
@@ -1689,7 +1689,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | 🟢 |
 | `instagram.searchAccounts` | instagram.com | Searches Instagram for public accounts matching a query. | ⚪ |
 | `instagram.sendDirectMessage` | instagram.com | Sends a direct message to one user. | 🟢 |
-| `instagram.unblockUser` | instagram.com | Unblocks a previously blocked user. | ⚪ |
+| `instagram.unblockUser` | instagram.com | Unblocks a previously blocked user. | 🟢 |
 | `instagram.unfollowUser` | instagram.com | Unfollows a user the signed-in account is currently following. | 🟢 |
 | `instagram.unlikePost` | instagram.com | Removes a like from a previously liked post. | 🟢 |
 | `instagram.unmuteUser` | instagram.com | Unmutes a previously muted user. | ⚪ |
@@ -2184,7 +2184,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getArticle` | cooking.nytimes.com | Reads one cooking article or guide's title, summary, authors, full body text and any… | 🟢 |
 | `nyt_cooking.getAuthorRecipes` | cooking.nytimes.com | Lists an author's published recipes off their byline page — the finder for a recipe… | 🟢 |
 | `nyt_cooking.getCollection` | cooking.nytimes.com | Reads one curated editorial collection and the recipe cards inside it, off a… | 🟢 |
-| `nyt_cooking.getCookedRecipes` | cooking.nytimes.com | Lists the recipes the signed-in reader has marked cooked. | ⚪ |
+| `nyt_cooking.getCookedRecipes` | cooking.nytimes.com | Lists the recipes the signed-in reader has marked cooked. | 🟢 |
 | `nyt_cooking.getGroceryList` | cooking.nytimes.com | Reads the signed-in reader's own grocery list. | ⚪ |
 | `nyt_cooking.getMyNotes` | cooking.nytimes.com | Reads the signed-in reader's own private cook notes on a recipe. | ⚪ |
 | `nyt_cooking.getMyRating` | cooking.nytimes.com | Reads the signed-in reader's own rating for a recipe. | 🟢 |
