@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3f5f2d65b3301a7f3bca9ab9d3a7d1b43ca4d4e5bf5032b2690606b87e3c421a
-# 86 capabilities, 564 providers, 2026 typed functions, 20 refused.
+# Manifest version: 5b6b84b950b0165722aaadc757957e77776d45e8fac1635efe661c5ebda488e0
+# 86 capabilities, 564 providers, 2029 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7267,6 +7267,25 @@ class Prv_booking_com_SearchPropertyListing_Out(TypedDict):
     rating: float | None
     reviewCount: float | None
 
+class Prv_booking_com_GetPropertyArgs_In(TypedDict):
+    url: str
+
+class Prv_booking_com_getProperty_return_Out(TypedDict):
+    property: Prv_booking_com_PropertyDetails_Out
+
+class Prv_booking_com_PropertyDetails_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    description: str
+    rating: float | None
+    reviewCount: float | None
+    amenities: list[str]
+    pricePerNight: float | None
+    address: str
+    checkInTime: str | None
+    checkOutTime: str | None
+
 class Prv_borsheims_BorsheimsSearchResult_Out(TypedDict):
     name: str
     url: str
@@ -12118,6 +12137,19 @@ class Prv_fandom_WikiInfo_Out(TypedDict):
     mainpage: str
     logo: str
     url: str
+
+class Prv_fandom_SearchArgs_In(TypedDict):
+    wiki: str
+    query: str
+
+class Prv_fandom_SearchResult_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    size: float
+    wordcount: float
+    timestamp: str
+    snippet: str
 
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
@@ -36905,6 +36937,11 @@ class Prv_booking_com(Protocol):
         listings with pricing and ratings.
         """
 
+    async def getProperty(self, args: Prv_booking_com_GetPropertyArgs_In, /) -> Prv_booking_com_getProperty_return_Out:
+        """Fetch detailed property information including amenities, description, reviews, pricing
+        and check-in/check-out times.
+        """
+
 class Prv_borsheims(Protocol):
     """Reads Borsheims' live product catalog and composes a setting + diamond into a priced
     ring, straight off borsheims.com's own embedded product data — no key, no browser.
@@ -39958,6 +39995,11 @@ class Prv_fandom(Protocol):
         called against it.
         """
 
+    async def search(self, args: Prv_fandom_SearchArgs_In, /) -> list[Prv_fandom_SearchResult_Out]:
+        """Search one wiki the way a person types into its search box — find matching pages with
+        id, title, url, size, word count and timestamp. `GET /api.php?action=query&list=search`.
+        """
+
 class Prv_fbsappliance(Protocol):
     """FBS Appliance's real catalog across 8 Texas showrooms — searchAppliances runs the site's
     own category grid and returns real, currently-listed appliances with live selling price,
@@ -41263,6 +41305,11 @@ class Prv_goodreads(Protocol):
         """Reads a page of member reviews for one book — reviewer name, review text, and creation
         timestamp per row. Takes the numeric id or the full URL searchBooks returns, and an
         optional 1-indexed page number (defaults to 1).
+        """
+
+    async def listGenreBooks(self, genre: str, /) -> list[Prv_goodreads_GoodreadsBookRow_Out]:
+        """Lists books in a Goodreads genre category — all public books on the genre browsing page.
+        Takes the genre name (e.g. 'science-fiction' or 'mystery').
         """
 
     async def getList(self, idOrUrl: str, /) -> list[Prv_goodreads_GoodreadsListBook_Out]:

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3f5f2d65b3301a7f3bca9ab9d3a7d1b43ca4d4e5bf5032b2690606b87e3c421a
-// 86 capabilities, 564 providers, 2044 typed functions, 20 refused.
+// Manifest version: 5b6b84b950b0165722aaadc757957e77776d45e8fac1635efe661c5ebda488e0
+// 86 capabilities, 564 providers, 2047 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12753,6 +12753,22 @@ interface SearchArgs {
   adults?: number;
   children?: number;
 }
+interface PropertyDetails {
+  id: string;
+  name: string;
+  url: string;
+  description: string;
+  rating: number | null;
+  reviewCount: number | null;
+  amenities: string[];  // the site's own labels — read the values off a result, never guess one from prose
+  pricePerNight: number | null;
+  address: string;
+  checkInTime: string | null;
+  checkOutTime: string | null;
+}
+interface GetPropertyArgs {
+  url: string;
+}
 
   /**
    * Global online travel reservation service with property search, reviews and booking
@@ -12770,6 +12786,12 @@ interface SearchArgs {
      * listings with pricing and ratings.
      */
     search(args: SearchArgs): Promise<{ properties: SearchPropertyListing[] }>;
+
+    /**
+     * Fetch detailed property information including amenities, description, reviews, pricing and
+     * check-in/check-out times.
+     */
+    getProperty(args: GetPropertyArgs): Promise<{ property: PropertyDetails }>;
   }
 }
 
@@ -21418,6 +21440,21 @@ interface WikiInfo {
   url: string;
 }
 
+interface SearchArgs {
+  wiki: string;
+  query: string;
+}
+
+interface SearchResult {
+  id: string;
+  title: string;
+  url: string;
+  size: number;
+  wordcount: number;
+  timestamp: string;
+  snippet: string;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -21431,6 +21468,12 @@ interface WikiInfo {
      * against it.
      */
     getWikiInfo(wiki: string): Promise<WikiInfo>;
+
+    /**
+     * Search one wiki the way a person types into its search box — find matching pages with id,
+     * title, url, size, word count and timestamp. `GET /api.php?action=query&list=search`.
+     */
+    search(args: SearchArgs): Promise<SearchResult[]>;
   }
 }
 
@@ -24892,6 +24935,12 @@ interface GoodreadsReviewRow {
      * 1-indexed page number (defaults to 1).
      */
     getBookReviews(idOrUrl: string, pageNumber?: number): Promise<GoodreadsReviewRow[]>;
+
+    /**
+     * Lists books in a Goodreads genre category — all public books on the genre browsing page.
+     * Takes the genre name (e.g. 'science-fiction' or 'mystery').
+     */
+    listGenreBooks(genre: string): Promise<GoodreadsBookRow[]>;
 
     /**
      * Reads one curated list's books — rank, title, author, url and (when shown) average rating

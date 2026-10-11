@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3f5f2d65b3301a7f3bca9ab9d3a7d1b43ca4d4e5bf5032b2690606b87e3c421a
-// 2026 checked, 20 unchecked.
+// Manifest version: 5b6b84b950b0165722aaadc757957e77776d45e8fac1635efe661c5ebda488e0
+// 2029 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3f5f2d65b3301a7f3bca9ab9d3a7d1b43ca4d4e5bf5032b2690606b87e3c421a",
+  "version": "5b6b84b950b0165722aaadc757957e77776d45e8fac1635efe661c5ebda488e0",
   "units": {
     "address_validation": {
       "defs": {
@@ -13631,6 +13631,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPropertyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -13689,6 +13701,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProperty": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPropertyArgs"
             },
             "optional": false
           }
@@ -21647,13 +21669,43 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.fandom": {
-      "defs": {},
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "wiki",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "getWikiInfo": [
           {
             "name": "wiki",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
             },
             "optional": false
           }
@@ -25779,6 +25831,15 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ],
+        "listGenreBooks": [
+          {
+            "name": "genre",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ],
         "getList": [
