@@ -1,5 +1,5 @@
 {
-  "version": "5b6b84b950b0165722aaadc757957e77776d45e8fac1635efe661c5ebda488e0",
+  "version": "7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976",
   "units": {
     "address_validation": {
       "defs": {
@@ -29933,6 +29933,46 @@
             },
             "optional": false
           }
+        ],
+        "updateProfile": [
+          {
+            "name": "updates",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "biography",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "fullName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "website",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "null"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -55499,6 +55539,25 @@
     },
     "providers.tiktok": {
       "defs": {
+        "DeleteCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "commentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "EditProfileArgs": {
           "k": "object",
           "props": [
@@ -56043,6 +56102,32 @@
             "schema": {
               "k": "ref",
               "name": "PostCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeleteCommentArgs"
             },
             "optional": false
           },

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5b6b84b950b0165722aaadc757957e77776d45e8fac1635efe661c5ebda488e0
-# 86 capabilities, 564 providers, 2029 typed functions, 20 refused.
+# Manifest version: 7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976
+# 86 capabilities, 564 providers, 2031 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16268,6 +16268,18 @@ class Prv_instagram_InstagramUnmuteResult_Out(TypedDict):
     userId: str
     muting: bool
 
+class Prv_instagram_updateProfile_updates_In(TypedDict):
+    biography: NotRequired[str]
+    fullName: NotRequired[str]
+    website: NotRequired[str | None]
+
+class Prv_instagram_InstagramUpdateProfileResult_Out(TypedDict):
+    userId: str
+    username: str
+    fullName: str
+    biography: str
+    externalUrl: str | None
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -28037,6 +28049,13 @@ class Prv_tiktok_PostCommentArgs_In(TypedDict):
 
 class Prv_tiktok_postComment_return_Out(TypedDict):
     posted: bool
+
+class Prv_tiktok_DeleteCommentArgs_In(TypedDict):
+    video: str
+    commentId: str
+
+class Prv_tiktok_deleteComment_return_Out(TypedDict):
+    deleted: bool
 
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
@@ -43189,6 +43208,13 @@ class Prv_instagram(Protocol):
         through the relay.
         """
 
+    async def updateProfile(self, updates: Prv_instagram_updateProfile_updates_In, /) -> Prv_instagram_InstagramUpdateProfileResult_Out:
+        """Updates the signed-in user's profile information. Accepts an object with optional
+        fields: biography (profile description), fullName (display name), and website (external
+        link). Returns the updated profile information. Requires the caller to be signed in
+        through the relay.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -50494,6 +50520,15 @@ class Prv_tiktok(Protocol):
         /api/comment/publish/ with the caller's session cookies, no browser. The caller signs in
         through the auth relay; Bowmark never signs up on this site. Returns a confirmation of
         the post.
+        """
+
+    async def deleteComment(self, args: Prv_tiktok_DeleteCommentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_deleteComment_return_Out:
+        """Delete the signed-in caller's own comment — the reverse of postComment, and how a test
+        write is cleaned up. Takes a video reference — a full video URL or a bare video id — and
+        the commentId (the `id` field off postComment/listComments). Writes via POST to
+        /api/comment/delete/ with the caller's session cookies, no browser. The caller signs in
+        through the auth relay; Bowmark never signs up on this site. Returns a confirmation of
+        the deletion.
         """
 
 class Prv_tilsonhomes(Protocol):

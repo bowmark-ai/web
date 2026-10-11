@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5b6b84b950b0165722aaadc757957e77776d45e8fac1635efe661c5ebda488e0
-// 2029 checked, 20 unchecked.
+// Manifest version: 7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976
+// 2031 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5b6b84b950b0165722aaadc757957e77776d45e8fac1635efe661c5ebda488e0",
+  "version": "7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976",
   "units": {
     "address_validation": {
       "defs": {
@@ -29945,6 +29945,46 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "updateProfile": [
+          {
+            "name": "updates",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "biography",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "fullName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "website",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "null"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -55511,6 +55551,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.tiktok": {
       "defs": {
+        "DeleteCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "commentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "EditProfileArgs": {
           "k": "object",
           "props": [
@@ -56055,6 +56114,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "PostCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeleteCommentArgs"
             },
             "optional": false
           },

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5b6b84b950b0165722aaadc757957e77776d45e8fac1635efe661c5ebda488e0
-// 86 capabilities, 564 providers, 2047 typed functions, 20 refused.
+// Manifest version: 7d6d30798c517201bfd3f5f276aed972842db32cbff9fe876d0c1cc1b85b8976
+// 86 capabilities, 564 providers, 2049 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29662,6 +29662,13 @@ interface InstagramUnmuteResult {
   userId: string;
   muting: boolean;
 }
+interface InstagramUpdateProfileResult {
+  userId: string;
+  username: string;
+  fullName: string;
+  biography: string;
+  externalUrl: string | null;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -29787,6 +29794,14 @@ interface InstagramUnmuteResult {
      * through the relay.
      */
     unmuteUser(userId: string): Promise<InstagramUnmuteResult>;
+
+    /**
+     * Updates the signed-in user's profile information. Accepts an object with optional fields:
+     * biography (profile description), fullName (display name), and website (external link).
+     * Returns the updated profile information. Requires the caller to be signed in through the
+     * relay.
+     */
+    updateProfile(updates: { biography?: string; fullName?: string; website?: string | null }): Promise<InstagramUpdateProfileResult>;
   }
 }
 
@@ -49955,6 +49970,10 @@ type PostCommentArgs = {
   video: string;
   text: string;
 };
+type DeleteCommentArgs = {
+  video: string;
+  commentId: string;
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -50119,6 +50138,16 @@ type PostCommentArgs = {
      * post.
      */
     postComment(args: PostCommentArgs, opts?: ConnectionOption): Promise<{ posted: boolean }>;
+
+    /**
+     * Delete the signed-in caller's own comment — the reverse of postComment, and how a test write
+     * is cleaned up. Takes a video reference — a full video URL or a bare video id — and the
+     * commentId (the `id` field off postComment/listComments). Writes via POST to
+     * /api/comment/delete/ with the caller's session cookies, no browser. The caller signs in
+     * through the auth relay; Bowmark never signs up on this site. Returns a confirmation of the
+     * deletion.
+     */
+    deleteComment(args: DeleteCommentArgs, opts?: ConnectionOption): Promise<{ deleted: boolean }>;
   }
 }
 
