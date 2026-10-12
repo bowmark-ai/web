@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a9f20f5655cfaad8623e211a7670f2836b8aa607a1309b8639dbd65ef5f85cea
-# 87 capabilities, 575 providers, 2066 typed functions, 20 refused.
+# Manifest version: 858e5ea60d09479536a57c908632630dea8b4fa37665702a88e271e55b55c50e
+# 87 capabilities, 575 providers, 2067 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12417,6 +12417,15 @@ class Prv_facebook_FacebookProfile_Out(TypedDict):
     profilePhotoUrl: NotRequired[str]
     bio: NotRequired[str]
     friendCount: NotRequired[float]
+
+class Prv_facebook_ListConversationsArgs_In(TypedDict):
+    pass
+
+class Prv_facebook_FacebookConversation_Out(TypedDict):
+    id: str
+    participantName: str
+    lastMessagePreview: NotRequired[str]
+    unread: bool
 
 class Prv_faceforwardaesthetics_FaceForwardAestheticsLocation_Out(TypedDict):
     id: str
@@ -40724,6 +40733,9 @@ class Prv_facebook(Protocol):
 
     async def getPersonProfile(self, args: Prv_facebook_GetPersonProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookProfile_Out:
         """Read a person's public profile — name, photo, bio and friend count."""
+
+    async def listConversations(self, args: Prv_facebook_ListConversationsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookConversation_Out]:
+        """List the caller's private message threads and people they can message."""
 
 class Prv_faceforwardaesthetics(Protocol):
     """Face Forward Aesthetics' live Zenoti locations, service catalog, and bookable

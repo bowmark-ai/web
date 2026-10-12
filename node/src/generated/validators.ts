@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a9f20f5655cfaad8623e211a7670f2836b8aa607a1309b8639dbd65ef5f85cea
-// 2066 checked, 20 unchecked.
+// Manifest version: 858e5ea60d09479536a57c908632630dea8b4fa37665702a88e271e55b55c50e
+// 2067 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a9f20f5655cfaad8623e211a7670f2836b8aa607a1309b8639dbd65ef5f85cea",
+  "version": "858e5ea60d09479536a57c908632630dea8b4fa37665702a88e271e55b55c50e",
   "units": {
     "address_validation": {
       "defs": {
@@ -22047,6 +22047,10 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListConversationsArgs": {
+          "k": "object",
+          "props": []
+        },
         "ListFriendsArgs": {
           "k": "object",
           "props": []
@@ -22123,6 +22127,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetPersonProfileArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listConversations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListConversationsArgs"
             },
             "optional": false
           },
