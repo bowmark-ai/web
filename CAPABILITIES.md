@@ -70,7 +70,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `hvac.getCostEstimate` | Calls the manufacturer's own published cost-guide table and returns a real… | 1 | 🟢 |
 | `industrial_supply.search` | Searches industrial supply catalogs by product name, part number or category… | 1 | 🟢 |
 | `insurance.findAgent` | Finds an insurance agent or agency to actually call, across the two carriers this… | 4 | 🟢 |
-| `insurance.getHomeQuotes` | Returns REAL home insurance quotes — actual carrier premiums for one property address… | 4 | 🟡 |
+| `insurance.getHomeQuotes` | Returns REAL home insurance quotes — actual carrier premiums for one property address… | 4 | 🟢 |
 | `insurance.getLicensing` | Reads the regulators' own licensing record for ONE carrier, keyed on the `naicCode`… | 4 | 🟢 |
 | `insurance.listReferralCarriers` | Lists the carriers a referral/marketplace program actually places business with — the… | 4 | 🟢 |
 | `insurance.searchCarriers` | Searches the US insurance regulators' register — `{ name: "GEICO" }`, `{ licensedIn… | 4 | 🟢 |
