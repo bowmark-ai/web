@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3340 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3346 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1636,6 +1636,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hubspot.searchContacts` | app.hubspot.com | Searches the contacts in the caller's own HubSpot CRM portal by name or email. | ⚪ |
 | `hubspot.searchDeals` | app.hubspot.com | Searches the deals in the caller's own HubSpot CRM portal by name ("Q4 direct mail")… | 🟢 |
 | `hubspot.updateDeal` | app.hubspot.com | Changes a deal's properties (stage, amount, close date) in the caller's own HubSpot… | ⚪ |
+| `huggingface.getModel` | huggingface.co | Returns one Hugging Face model by its repo id or huggingface.co url — task, library… | 🟢 |
+| `huggingface.listTrendingDatasets` | huggingface.co | Returns the trending datasets on the Hub (huggingface.co/datasets sorted by trending). | ⚪ |
+| `huggingface.listTrendingModels` | huggingface.co | Returns the trending models on the Hugging Face Hub right now, in the Hub's own… | 🟢 |
+| `huggingface.listTrendingSpaces` | huggingface.co | Returns the trending Spaces (hosted demo apps) on the Hub. | ⚪ |
+| `huggingface.searchModels` | huggingface.co | Searches every public Hugging Face model by name, author (org) or task, sorted by… | 🟢 |
 | `hunter.countEmails` | hunter.io | Returns how many email addresses Hunter holds for a domain, without returning the… | 🟢 |
 | `hunter.discoverCompanies` | hunter.io | Finds companies matching an ideal-customer-profile description or a set of filters —… | ⚪ |
 | `hunter.discoverPeople` | hunter.io | Finds individual people matching a profile — role, seniority, department, plus the… | ⚪ |
@@ -2004,6 +2009,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_365.getDocument` | m365.cloud.microsoft.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
 | `microsoft_365.listDocuments` | m365.cloud.microsoft.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
 | `microsoft_365.listDocumentVersions` | m365.cloud.microsoft.com | Lists the version history of a specific document in the user's Microsoft 365 OneDrive. | 🟢 |
+| `microsoft_365.listRecentDocuments` | m365.cloud.microsoft.com | Lists the user's recently accessed documents in Microsoft 365 OneDrive, ordered by… | 🟢 |
 | `microsoft_365.restoreDocumentVersion` | m365.cloud.microsoft.com | Restores a document in Microsoft 365 OneDrive to a specified previous version. | 🟢 |
 | `microsoft_365.searchDocuments` | m365.cloud.microsoft.com | Searches for documents in the user's Microsoft 365 OneDrive by name or content. | 🟢 |
 | `microsoft_365.shareDocument` | m365.cloud.microsoft.com | Shares a document in Microsoft 365 OneDrive with another user by email address. | 🟢 |
