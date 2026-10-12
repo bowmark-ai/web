@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072
-// 2034 checked, 20 unchecked.
+// Manifest version: 647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35
+// 2037 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072",
+  "version": "647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35",
   "units": {
     "address_validation": {
       "defs": {
@@ -7552,6 +7552,34 @@ export const VALIDATORS: ValidatorTable = {
             "name": "profileUrl",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.aliexpress": {
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
             },
             "optional": false
           }
@@ -25920,6 +25948,15 @@ export const VALIDATORS: ValidatorTable = {
         "getList": [
           {
             "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchQuotes": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },
@@ -57119,6 +57156,46 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetHotelPricesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hotelId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guests",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -57178,6 +57255,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetHotelArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHotelPrices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHotelPricesArgs"
             },
             "optional": false
           }

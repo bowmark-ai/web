@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072
-# 86 capabilities, 564 providers, 2034 typed functions, 20 refused.
+# Manifest version: 647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35
+# 86 capabilities, 565 providers, 2037 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3632,6 +3632,17 @@ class Prv_alibaba_alibabaSupplierProfileRow_Out(TypedDict):
     address: str | None
     logoUrl: str | None
     identityType: str | None
+
+class Prv_aliexpress_SearchArgs_In(TypedDict):
+    query: str
+
+class Prv_aliexpress_aliexpressProduct_Out(TypedDict):
+    id: str
+    title: str
+    price: float
+    shop_name: str
+    rating: NotRequired[float]
+    shipping_free: NotRequired[bool]
 
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
@@ -13933,6 +13944,16 @@ class Prv_goodreads_GoodreadsListBook_Out(TypedDict):
     authorName: NotRequired[str]
     authorUrl: NotRequired[str]
     averageRating: NotRequired[float]
+
+class Prv_goodreads_GoodreadsQuote_Out(TypedDict):
+    id: str
+    text: str
+    authorName: NotRequired[str]
+    authorUrl: NotRequired[str]
+    bookTitle: NotRequired[str]
+    bookUrl: NotRequired[str]
+    likes: NotRequired[float]
+    tags: list[str]
 
 class Prv_goodway_GoodwayProductSummary_Out(TypedDict):
     sku: str
@@ -28600,6 +28621,23 @@ class Prv_tripadvisor_TripadvisorHotelDetail_Out_nearbyPlaces_item_Out(TypedDict
     name: str
     distance: NotRequired[str]
 
+class Prv_tripadvisor_GetHotelPricesArgs_In(TypedDict):
+    hotelId: str
+    checkIn: str
+    checkOut: str
+    guests: NotRequired[float]
+    rooms: NotRequired[float]
+
+class Prv_tripadvisor_TripadvisorHotelPrices_Out(TypedDict):
+    hotelId: str
+    offers: list[Prv_tripadvisor_TripadvisorHotelPriceOffer_Out]
+
+class Prv_tripadvisor_TripadvisorHotelPriceOffer_Out(TypedDict):
+    partner: str
+    nightlyPrice: NotRequired[float]
+    totalPrice: NotRequired[float]
+    bookingUrl: NotRequired[str]
+
 class Prv_trojanstorage_TrojanstorageFacilitySearchFilters_In(TypedDict):
     state: NotRequired[str]
     city: NotRequired[str]
@@ -34636,6 +34674,14 @@ class Prv_alibaba(Protocol):
     async def getSupplier(self, profileUrl: str, /) -> Prv_alibaba_alibabaSupplierProfileRow_Out:
         """Get a supplier's storefront profile — company info, verification status, rating and
         contact address — from its listSuppliers() profileUrl.
+        """
+
+class Prv_aliexpress(Protocol):
+    """TODO — one line an agent reads to decide whether to call this."""
+
+    async def search(self, args: Prv_aliexpress_SearchArgs_In, /) -> list[Prv_aliexpress_aliexpressProduct_Out]:
+        """Searches AliExpress's product catalog by keyword, returning matching products with
+        price, shop name, rating, and shipping information.
         """
 
 class Prv_allied(Protocol):
@@ -41360,6 +41406,11 @@ class Prv_goodreads(Protocol):
     async def getList(self, idOrUrl: str, /) -> list[Prv_goodreads_GoodreadsListBook_Out]:
         """Reads one curated list's books — rank, title, author, url and (when shown) average
         rating per row. Takes the numeric id or the full URL.
+        """
+
+    async def searchQuotes(self, query: str, /) -> list[Prv_goodreads_GoodreadsQuote_Out]:
+        """Runs the public quotes search and returns quote text with its attributed author, the
+        book it's from (when the card names one), like count and tags.
         """
 
 class Prv_goodway(Protocol):
@@ -50893,6 +50944,11 @@ class Prv_tripadvisor(Protocol):
         review count, amenities, room features, nearby places and headline price.
         """
 
+    async def getHotelPrices(self, args: Prv_tripadvisor_GetHotelPricesArgs_In, /) -> Prv_tripadvisor_TripadvisorHotelPrices_Out:
+        """Reads the booking partners' live prices for one hotel for given check-in/check-out
+        dates, each offer's partner name, nightly price, total and booking url.
+        """
+
 class Prv_trojanstorage(Protocol):
     """Reads Trojan Storage's own live per-facility unit pricing and availability — real size,
     features, regular and current promo price, and a pre-computed Quikstor move-in handoff
@@ -53086,6 +53142,7 @@ class BowmarkProviders(Protocol):
     airtable: Prv_airtable
     ajmadison: Prv_ajmadison
     alibaba: Prv_alibaba
+    aliexpress: Prv_aliexpress
     allied: Prv_allied
     alphavantage: Prv_alphavantage
     amazon: Prv_amazon

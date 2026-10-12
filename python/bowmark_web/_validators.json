@@ -1,5 +1,5 @@
 {
-  "version": "435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072",
+  "version": "647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35",
   "units": {
     "address_validation": {
       "defs": {
@@ -7540,6 +7540,34 @@
             "name": "profileUrl",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.aliexpress": {
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
             },
             "optional": false
           }
@@ -25908,6 +25936,15 @@
         "getList": [
           {
             "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchQuotes": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },
@@ -57107,6 +57144,46 @@
             }
           ]
         },
+        "GetHotelPricesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hotelId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guests",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -57166,6 +57243,16 @@
             "schema": {
               "k": "ref",
               "name": "GetHotelArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHotelPrices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHotelPricesArgs"
             },
             "optional": false
           }

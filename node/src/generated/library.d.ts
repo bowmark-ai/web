@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 435af4c15b8da171b63cefa8ab536c2f7e18a2964b58335d37d3fe5a7adc9072
-// 86 capabilities, 564 providers, 2052 typed functions, 20 refused.
+// Manifest version: 647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35
+// 86 capabilities, 565 providers, 2055 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6471,6 +6471,31 @@ interface alibabaSupplierProfileRow {
      * address — from its listSuppliers() profileUrl.
      */
     getSupplier(profileUrl: string): Promise<alibabaSupplierProfileRow>;
+  }
+}
+
+declare namespace BowmarkProvider_aliexpress {
+  // ── AliExpress — the unit's own declarations, verbatim ──
+interface SearchArgs {
+  query: string;
+}
+
+interface aliexpressProduct {
+  id: string;
+  title: string;
+  price: number;
+  shop_name: string;
+  rating?: number;
+  shipping_free?: boolean;
+}
+
+  /** TODO — one line an agent reads to decide whether to call this. */
+  interface Unit {
+    /**
+     * Searches AliExpress's product catalog by keyword, returning matching products with price,
+     * shop name, rating, and shipping information.
+     */
+    search(args: SearchArgs): Promise<aliexpressProduct[]>;
   }
 }
 
@@ -24942,6 +24967,16 @@ interface GoodreadsReviewRow {
   reviewerName?: string;
   reviewerUrl?: string;
 }
+interface GoodreadsQuote {
+  id: string;
+  text: string;
+  authorName?: string;
+  authorUrl?: string;
+  bookTitle?: string;
+  bookUrl?: string;
+  likes?: number;
+  tags: string[];
+}
 
   /**
    * A social network for book readers: book details and ratings, member reviews, curated lists,
@@ -24979,6 +25014,12 @@ interface GoodreadsReviewRow {
      * per row. Takes the numeric id or the full URL.
      */
     getList(idOrUrl: string): Promise<GoodreadsListBook[]>;
+
+    /**
+     * Runs the public quotes search and returns quote text with its attributed author, the book
+     * it's from (when the card names one), like count and tags.
+     */
+    searchQuotes(query: string): Promise<GoodreadsQuote[]>;
   }
 }
 
@@ -51064,6 +51105,14 @@ interface GetHotelArgs {
   url?: string;
 }
 
+interface GetHotelPricesArgs {
+  hotelId: string;
+  checkIn: string; // ISO date string YYYY-MM-DD
+  checkOut: string; // ISO date string YYYY-MM-DD
+  guests?: number; // number of guests, default 1
+  rooms?: number; // number of rooms, default 1
+}
+
 interface TripadvisorHotelDetail {
   id: string;
   name: string;
@@ -51080,6 +51129,18 @@ interface TripadvisorHotelDetail {
   roomFeatures?: string[];
   nearbyPlaces?: Array<{ name: string; distance?: string }>;
   priceFrom?: number;
+}
+
+interface TripadvisorHotelPriceOffer {
+  partner: string; // "Booking.com", "Expedia", etc.
+  nightlyPrice?: number; // per-night price
+  totalPrice?: number; // total for the stay
+  bookingUrl?: string; // partner's booking link
+}
+
+interface TripadvisorHotelPrices {
+  hotelId: string;
+  offers: TripadvisorHotelPriceOffer[];
 }
 
   /**
@@ -51105,6 +51166,12 @@ interface TripadvisorHotelDetail {
      * count, amenities, room features, nearby places and headline price.
      */
     getHotel(args: GetHotelArgs): Promise<TripadvisorHotelDetail>;
+
+    /**
+     * Reads the booking partners' live prices for one hotel for given check-in/check-out dates,
+     * each offer's partner name, nightly price, total and booking url.
+     */
+    getHotelPrices(args: GetHotelPricesArgs): Promise<TripadvisorHotelPrices>;
   }
 }
 
@@ -57957,6 +58024,7 @@ interface BowmarkProviders {
   airtable: BowmarkProvider_airtable.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
   alibaba: BowmarkProvider_alibaba.Unit;
+  aliexpress: BowmarkProvider_aliexpress.Unit;
   allied: BowmarkProvider_allied.Unit;
   alphavantage: BowmarkProvider_alphavantage.Unit;
   amazon: BowmarkProvider_amazon.Unit;
