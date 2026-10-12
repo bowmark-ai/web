@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cc211ed6bc611cce87d62776fbbc279457ade0c1d2e8eda9fd34ef2aa76be54f
-# 87 capabilities, 568 providers, 2050 typed functions, 20 refused.
+# Manifest version: 0805f2ecee7115ab8e096468532145702a3108779b80494a6263258b10613a91
+# 87 capabilities, 568 providers, 2051 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -29577,6 +29577,19 @@ class Prv_usatoday_usatodaySection_Out(TypedDict):
     id: str
     name: str
 
+class Prv_usatoday_BrowseSectionArgs_In(TypedDict):
+    sectionId: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_usatoday_usatodayArticle_Out(TypedDict):
+    id: str
+    headline: str
+    summary: str
+    url: str
+    publicationDate: str
+    image: NotRequired[str]
+
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
     toZip: str
@@ -51720,6 +51733,11 @@ class Prv_usatoday(Protocol):
     async def listSections(self, /) -> list[Prv_usatoday_usatodaySection_Out]:
         """Lists USA Today's main news sections (news, sports, money, life, tech, opinion), each
         with a section ID and display name. This is the door for browsing a section.
+        """
+
+    async def browseSection(self, args: Prv_usatoday_BrowseSectionArgs_In, /) -> list[Prv_usatoday_usatodayArticle_Out]:
+        """Lists articles in one USA Today section, paginated, showing headline, summary, URL, date
+        and image. Uses the section IDs from listSections.
         """
 
 class Prv_usps(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cc211ed6bc611cce87d62776fbbc279457ade0c1d2e8eda9fd34ef2aa76be54f
-// 87 capabilities, 568 providers, 2068 typed functions, 20 refused.
+// Manifest version: 0805f2ecee7115ab8e096468532145702a3108779b80494a6263258b10613a91
+// 87 capabilities, 568 providers, 2069 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -52757,6 +52757,21 @@ interface usatodaySection {
   name: string;
 }
 
+interface usatodayArticle {
+  id: string;
+  headline: string;
+  summary: string;
+  url: string;
+  publicationDate: string;
+  image?: string;
+}
+
+interface BrowseSectionArgs {
+  sectionId: string;
+  limit?: number;
+  page?: number;
+}
+
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
   interface Unit {
     /**
@@ -52764,6 +52779,12 @@ interface usatodaySection {
      * section ID and display name. This is the door for browsing a section.
      */
     listSections(): Promise<usatodaySection[]>;
+
+    /**
+     * Lists articles in one USA Today section, paginated, showing headline, summary, URL, date and
+     * image. Uses the section IDs from listSections.
+     */
+    browseSection(args: BrowseSectionArgs): Promise<usatodayArticle[]>;
   }
 }
 

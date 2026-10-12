@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cc211ed6bc611cce87d62776fbbc279457ade0c1d2e8eda9fd34ef2aa76be54f
-// 2050 checked, 20 unchecked.
+// Manifest version: 0805f2ecee7115ab8e096468532145702a3108779b80494a6263258b10613a91
+// 2051 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cc211ed6bc611cce87d62776fbbc279457ade0c1d2e8eda9fd34ef2aa76be54f",
+  "version": "0805f2ecee7115ab8e096468532145702a3108779b80494a6263258b10613a91",
   "units": {
     "address_validation": {
       "defs": {
@@ -59599,9 +59599,46 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.usatoday": {
-      "defs": {},
+      "defs": {
+        "BrowseSectionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sectionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
-        "listSections": []
+        "listSections": [],
+        "browseSection": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowseSectionArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.usps": {
