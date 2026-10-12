@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cf497bcc463ec92929789400bb8b5de52a95de6598dfb501a5d72426535111db
-// 86 capabilities, 565 providers, 2058 typed functions, 20 refused.
+// Manifest version: 523175344cb5cbf28509337243e3ddf55fb5a8145ce654282cf9b7ac5f77e738
+// 86 capabilities, 566 providers, 2059 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21432,6 +21432,28 @@ interface ExtraspaceUnitAvailability {
      * only a string that cannot be PARSED as `<number>x<number>` is a caller error.
      */
     checkAvailability(storeId: number | string, unitSize: string): Promise<ExtraspaceAvailabilityResult>;
+  }
+}
+
+declare namespace BowmarkProvider_facebook {
+  // ── Facebook — the unit's own declarations, verbatim ──
+interface FacebookPerson {
+  id: string;
+  name: string;
+  url?: string;
+}
+
+interface SearchPeopleArgs {
+  query: string;
+}
+
+  /**
+   * Facebook — profiles, pages, groups, marketplace, messages and posts. Every function needs
+   * the caller signed in; the caller signs in through the relay.
+   */
+  interface Unit {
+    /** Search for Facebook users by name. */
+    searchPeople(args: SearchPeopleArgs, opts?: ConnectionOption): Promise<FacebookPerson[]>;
   }
 }
 
@@ -58268,6 +58290,7 @@ interface BowmarkProviders {
   evolvemedspa: BowmarkProvider_evolvemedspa.Unit;
   executivehomecare: BowmarkProvider_executivehomecare.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
+  facebook: BowmarkProvider_facebook.Unit;
   faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
   fandom: BowmarkProvider_fandom.Unit;

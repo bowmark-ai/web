@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cf497bcc463ec92929789400bb8b5de52a95de6598dfb501a5d72426535111db
-# 86 capabilities, 565 providers, 2040 typed functions, 20 refused.
+# Manifest version: 523175344cb5cbf28509337243e3ddf55fb5a8145ce654282cf9b7ac5f77e738
+# 86 capabilities, 566 providers, 2041 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12126,6 +12126,14 @@ class Prv_extraspace_ExtraspaceUnitAvailability_Out(TypedDict):
     webRate: float | None
     promotions: list[str]
     features: list[str]
+
+class Prv_facebook_SearchPeopleArgs_In(TypedDict):
+    query: str
+
+class Prv_facebook_FacebookPerson_Out(TypedDict):
+    id: str
+    name: str
+    url: NotRequired[str]
 
 class Prv_faceforwardaesthetics_FaceForwardAestheticsLocation_Out(TypedDict):
     id: str
@@ -40086,6 +40094,14 @@ class Prv_extraspace(Protocol):
         `<number>x<number>` is a caller error.
         """
 
+class Prv_facebook(Protocol):
+    """Facebook — profiles, pages, groups, marketplace, messages and posts. Every function
+    needs the caller signed in; the caller signs in through the relay.
+    """
+
+    async def searchPeople(self, args: Prv_facebook_SearchPeopleArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookPerson_Out]:
+        """Search for Facebook users by name."""
+
 class Prv_faceforwardaesthetics(Protocol):
     """Face Forward Aesthetics' live Zenoti locations, service catalog, and bookable
     appointment slots — no login, no PII, and no browser.
@@ -53391,6 +53407,7 @@ class BowmarkProviders(Protocol):
     evolvemedspa: Prv_evolvemedspa
     executivehomecare: Prv_executivehomecare
     extraspace: Prv_extraspace
+    facebook: Prv_facebook
     faceforwardaesthetics: Prv_faceforwardaesthetics
     facerealityskincare: Prv_facerealityskincare
     fandom: Prv_fandom

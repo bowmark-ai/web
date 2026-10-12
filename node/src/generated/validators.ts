@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cf497bcc463ec92929789400bb8b5de52a95de6598dfb501a5d72426535111db
-// 2040 checked, 20 unchecked.
+// Manifest version: 523175344cb5cbf28509337243e3ddf55fb5a8145ce654282cf9b7ac5f77e738
+// 2041 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cf497bcc463ec92929789400bb8b5de52a95de6598dfb501a5d72426535111db",
+  "version": "523175344cb5cbf28509337243e3ddf55fb5a8145ce654282cf9b7ac5f77e738",
   "units": {
     "address_validation": {
       "defs": {
@@ -21747,6 +21747,50 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.facebook": {
+      "defs": {
+        "SearchPeopleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchPeople": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchPeopleArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
