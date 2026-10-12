@@ -1128,7 +1128,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.savePost` | facebook.com | Save (bookmark) a post for later or add to a saved collection. | ⚪ |
 | `facebook.searchGroups` | facebook.com | Search for Groups by name or topic. | ⚪ |
 | `facebook.searchPages` | facebook.com | Search for Pages by name or category. | ⚪ |
-| `facebook.searchPeople` | facebook.com | Search for Facebook users by name. | ⚪ |
+| `facebook.searchPeople` | facebook.com | Search for Facebook users by name. | 🟢 |
 | `facebook.sendMessage` | facebook.com | Send a direct message to another user. | ⚪ |
 | `facebook.sharePost` | facebook.com | Share someone else's post to the caller's own timeline or to a Group. | ⚪ |
 | `facebook.updatePrivacySettings` | facebook.com | Change the caller's privacy settings. | ⚪ |
