@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: af89f93640fcd447ab926c3c0458ce83fe7906d0e3ecc022f5bf027e3de2d4b0
-// 87 capabilities, 575 providers, 2082 typed functions, 20 refused.
+// Manifest version: 384c809013f4038300bcfae8f4bc2c303b981232f90c60a43123f49a540967b2
+// 87 capabilities, 575 providers, 2083 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12502,6 +12502,18 @@ interface BlueskySuggestedFollowsResults {
   suggestions: BlueskyPostAuthor[];
 }
 
+interface BlueskySuggestedFeedResult {
+  uri: string;
+  name: string;
+  creator: BlueskyPostAuthor;
+  description: string | null;
+  likeCount: number;
+}
+
+interface BlueskySuggestedFeedsResults {
+  feeds: BlueskySuggestedFeedResult[];
+}
+
 interface BlueskySuggestedUsersResults {
   users: BlueskyPostAuthor[];
 }
@@ -12654,6 +12666,14 @@ interface BlueskySuggestedUsersResults {
      * with `searchUsers` or `resolveHandle`.
      */
     getSuggestedFollows(actor: string): Promise<BlueskySuggestedFollowsResults>;
+
+    /**
+     * Bluesky's own suggested custom feeds, as shown on the Discover and Explore pages. Optionally
+     * accepts a `limit` parameter (1–100) to control the number of results. Returns each suggested
+     * feed's URI, name, creator profile, description and like count; there is no paging, the site
+     * answers a fixed-size list.
+     */
+    getSuggestedFeeds(options?: { limit?: number }): Promise<BlueskySuggestedFeedsResults>;
 
     /**
      * Bluesky's own suggested accounts to follow, as shown on the Discover and Explore pages.

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: af89f93640fcd447ab926c3c0458ce83fe7906d0e3ecc022f5bf027e3de2d4b0
-# 87 capabilities, 575 providers, 2064 typed functions, 20 refused.
+# Manifest version: 384c809013f4038300bcfae8f4bc2c303b981232f90c60a43123f49a540967b2
+# 87 capabilities, 575 providers, 2065 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7244,6 +7244,19 @@ class Prv_bluesky_BlueskyRelationship_Out(TypedDict):
 
 class Prv_bluesky_BlueskySuggestedFollowsResults_Out(TypedDict):
     suggestions: list[Prv_bluesky_BlueskyPostAuthor_Out]
+
+class Prv_bluesky_getSuggestedFeeds_options_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_bluesky_BlueskySuggestedFeedsResults_Out(TypedDict):
+    feeds: list[Prv_bluesky_BlueskySuggestedFeedResult_Out]
+
+class Prv_bluesky_BlueskySuggestedFeedResult_Out(TypedDict):
+    uri: str
+    name: str
+    creator: Prv_bluesky_BlueskyPostAuthor_Out
+    description: str | None
+    likeCount: float
 
 class Prv_bluesky_getSuggestedUsers_options_In(TypedDict):
     limit: NotRequired[float]
@@ -37492,6 +37505,13 @@ class Prv_bluesky(Protocol):
         account's handle, DID, display name and avatar; there is no paging, the site answers a
         fixed-size list. THROWS `blueskyInputError` on an actor the AppView cannot find — check
         the spelling with `searchUsers` or `resolveHandle`.
+        """
+
+    async def getSuggestedFeeds(self, options: Prv_bluesky_getSuggestedFeeds_options_In | None = None, /) -> Prv_bluesky_BlueskySuggestedFeedsResults_Out:
+        """Bluesky's own suggested custom feeds, as shown on the Discover and Explore pages.
+        Optionally accepts a `limit` parameter (1–100) to control the number of results. Returns
+        each suggested feed's URI, name, creator profile, description and like count; there is
+        no paging, the site answers a fixed-size list.
         """
 
     async def getSuggestedUsers(self, options: Prv_bluesky_getSuggestedUsers_options_In | None = None, /) -> Prv_bluesky_BlueskySuggestedUsersResults_Out:

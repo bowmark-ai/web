@@ -1113,7 +1113,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getMarketplaceListings` | facebook.com | Search Marketplace listings by category, location, price range and keywords. | ⚪ |
 | `facebook.getPageInfo` | facebook.com | Read a Page's details — name, about section, follower count, category, profile and… | ⚪ |
 | `facebook.getPagePosts` | facebook.com | List posts published on a Page, newest first and paged. | ⚪ |
-| `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio, friend count, and publicly… | ⚪ |
+| `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and friend count. | 🟢 |
 | `facebook.getPhotoAlbum` | facebook.com | Read an album's details — title, creation date, photo count. | ⚪ |
 | `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings — who can see posts, send messages, etc. | ⚪ |
 | `facebook.getVideo` | facebook.com | Read details on a Facebook video — title, description, view count, comments. | ⚪ |
@@ -2259,7 +2259,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
 | `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟢 |
 | `nytimes.saveArticle` | nytimes.com | Saves an article to the reader's collection (requires auth). | ⚪ |
-| `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟢 |
+| `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟡 |
 | `nytimes.searchWriters` | nytimes.com | Searches NYT's own writers by name off its collections sitemap (the site publishes no… | 🟢 |
 | `nytimes.unfollowWriter` | nytimes.com | Unfollows a writer (requires auth). | ⚪ |
 | `nytimes.unsaveArticle` | nytimes.com | Removes an article from the reader's collection (requires auth). | ⚪ |
@@ -2521,7 +2521,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rei.findStores` | rei.com | Finds REI stores near a location, with hours. | ⚪ |
 | `rei.getProduct` | rei.com | Reads one REI product by name or keyword: its price, product-level availability and… | 🟢 |
 | `rei.getProductStock` | rei.com | Reads one product's per-size, per-colour IN-STORE stock at a chosen REI store. | ⚪ |
-| `rei.getSku` | rei.com | Reads one REI SKU: its size, colour, price, compare-at price and sale flag, plus every… | 🟢 |
+| `rei.getSku` | rei.com | Reads one REI SKU: its size, colour, price, compare-at price and sale flag, plus every… | 🟡 |
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟢 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
