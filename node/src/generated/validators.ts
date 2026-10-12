@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 036235f474ec7d4d136e595db784951ee24f0148dd58fe1dc582bb8fc80cf12b
-// 2062 checked, 20 unchecked.
+// Manifest version: af89f93640fcd447ab926c3c0458ce83fe7906d0e3ecc022f5bf027e3de2d4b0
+// 2064 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "036235f474ec7d4d136e595db784951ee24f0148dd58fe1dc582bb8fc80cf12b",
+  "version": "af89f93640fcd447ab926c3c0458ce83fe7906d0e3ecc022f5bf027e3de2d4b0",
   "units": {
     "address_validation": {
       "defs": {
@@ -37944,6 +37944,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchDocumentsArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -39971,7 +39987,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listPodcasts": []
       }
     },
     "providers.nurturelife": {
@@ -56542,6 +56559,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "FollowUserArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "userId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "secUid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetHashtagArgs": {
           "k": "object",
           "props": [
@@ -57086,6 +57122,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "DeleteCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FollowUserArgs"
             },
             "optional": false
           },

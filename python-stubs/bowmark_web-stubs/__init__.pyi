@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 036235f474ec7d4d136e595db784951ee24f0148dd58fe1dc582bb8fc80cf12b
-# 87 capabilities, 575 providers, 2062 typed functions, 20 refused.
+# Manifest version: af89f93640fcd447ab926c3c0458ce83fe7906d0e3ecc022f5bf027e3de2d4b0
+# 87 capabilities, 575 providers, 2064 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21279,6 +21279,11 @@ class Prv_npr_NprSearchResult_Out(TypedDict):
     topics: NotRequired[list[str]]
     audioUrl: NotRequired[str]
 
+class Prv_npr_NprPodcast_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+
 class Prv_nurturelife_GetMealPlansResult_Out(TypedDict):
     plans: list[Prv_nurturelife_NurtureLifeMealPlan_Out]
 
@@ -28577,6 +28582,13 @@ class Prv_tiktok_DeleteCommentArgs_In(TypedDict):
 
 class Prv_tiktok_deleteComment_return_Out(TypedDict):
     deleted: bool
+
+class Prv_tiktok_FollowUserArgs_In(TypedDict):
+    userId: str
+    secUid: str
+
+class Prv_tiktok_followUser_return_Out(TypedDict):
+    followed: bool
 
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
@@ -46289,7 +46301,7 @@ class Prv_microsoft_365(Protocol):
         the deleted item's ID.
         """
 
-    async def searchDocuments(self, args: Prv_microsoft_365_SearchDocumentsArgs_In, /) -> list[Prv_microsoft_365_microsoft_365Document_Out]:
+    async def searchDocuments(self, args: Prv_microsoft_365_SearchDocumentsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_365_microsoft_365Document_Out]:
         """Searches for documents in the user's Microsoft 365 OneDrive by name or content. Takes a
         search query string and returns an array of matching documents with their metadata.
         """
@@ -47037,6 +47049,9 @@ class Prv_npr(Protocol):
         """Search NPR's story archive by keyword via Algolia. Returns headlines with publication
         date, author, teaser and (when available) audio URL. Defaults to 10 results; max 250.
         """
+
+    async def listPodcasts(self, /) -> list[Prv_npr_NprPodcast_Out]:
+        """NPR's complete podcast directory (51 podcasts) with id, title and URL for each."""
 
 class Prv_nurturelife(Protocol):
     """Kids-meal delivery subscription. getMealPlans is live — the site's own real, current
@@ -51356,6 +51371,14 @@ class Prv_tiktok(Protocol):
         /api/comment/delete/ with the caller's session cookies, no browser. The caller signs in
         through the auth relay; Bowmark never signs up on this site. Returns a confirmation of
         the deletion.
+        """
+
+    async def followUser(self, args: Prv_tiktok_FollowUserArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_followUser_return_Out:
+        """Follow a creator as the signed-in caller. Takes the userId and secUid off getProfile's
+        result, not a username — TikTok's follow endpoint keys on both. Writes via POST to
+        /api/follow/user/ with the caller's session cookies, no browser. The caller signs in
+        through the auth relay; Bowmark never signs up on this site. Returns a confirmation of
+        the follow.
         """
 
 class Prv_tilsonhomes(Protocol):

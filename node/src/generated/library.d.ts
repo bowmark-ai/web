@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 036235f474ec7d4d136e595db784951ee24f0148dd58fe1dc582bb8fc80cf12b
-// 87 capabilities, 575 providers, 2080 typed functions, 20 refused.
+// Manifest version: af89f93640fcd447ab926c3c0458ce83fe7906d0e3ecc022f5bf027e3de2d4b0
+// 87 capabilities, 575 providers, 2082 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -37050,7 +37050,7 @@ interface SearchDocumentsArgs {
      * Searches for documents in the user's Microsoft 365 OneDrive by name or content. Takes a
      * search query string and returns an array of matching documents with their metadata.
      */
-    searchDocuments(args: SearchDocumentsArgs): Promise<microsoft_365Document[]>;
+    searchDocuments(args: SearchDocumentsArgs, opts?: ConnectionOption): Promise<microsoft_365Document[]>;
   }
 }
 
@@ -38980,6 +38980,12 @@ interface NprSearchResult {
   audioUrl?: string;
 }
 
+interface NprPodcast {
+  id: string;
+  title: string;
+  url: string;
+}
+
   /**
    * NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast program
    * rundowns, and the member-station finder with live streams.
@@ -39016,6 +39022,9 @@ interface NprSearchResult {
      * author, teaser and (when available) audio URL. Defaults to 10 results; max 250.
      */
     searchStories(args: SearchStoriesArgs): Promise<NprSearchResult[]>;
+
+    /** NPR's complete podcast directory (51 podcasts) with id, title and URL for each. */
+    listPodcasts(): Promise<NprPodcast[]>;
   }
 }
 
@@ -50774,6 +50783,10 @@ type DeleteCommentArgs = {
   video: string;
   commentId: string;
 };
+type FollowUserArgs = {
+  userId: string;
+  secUid: string;
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -50948,6 +50961,14 @@ type DeleteCommentArgs = {
      * deletion.
      */
     deleteComment(args: DeleteCommentArgs, opts?: ConnectionOption): Promise<{ deleted: boolean }>;
+
+    /**
+     * Follow a creator as the signed-in caller. Takes the userId and secUid off getProfile's
+     * result, not a username — TikTok's follow endpoint keys on both. Writes via POST to
+     * /api/follow/user/ with the caller's session cookies, no browser. The caller signs in through
+     * the auth relay; Bowmark never signs up on this site. Returns a confirmation of the follow.
+     */
+    followUser(args: FollowUserArgs, opts?: ConnectionOption): Promise<{ followed: boolean }>;
   }
 }
 
