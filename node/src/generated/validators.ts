@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: da66b514f6e4971cd756d29eb1204fa39c0aaa02f81b4559bc789969b3e540b7
-// 2059 checked, 20 unchecked.
+// Manifest version: 14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594
+// 2061 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "da66b514f6e4971cd756d29eb1204fa39c0aaa02f81b4559bc789969b3e540b7",
+  "version": "14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594",
   "units": {
     "address_validation": {
       "defs": {
@@ -30429,6 +30429,42 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getHomeFeed": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSavedPosts": [
           {
             "name": "opts",
             "schema": {

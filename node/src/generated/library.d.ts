@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: da66b514f6e4971cd756d29eb1204fa39c0aaa02f81b4559bc789969b3e540b7
-// 87 capabilities, 575 providers, 2077 typed functions, 20 refused.
+// Manifest version: 14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594
+// 87 capabilities, 575 providers, 2079 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30212,6 +30212,23 @@ interface InstagramUpdateProfileResult {
   biography: string;
   externalUrl: string | null;
 }
+interface InstagramHomeFeedPost extends InstagramPost {
+  authorUsername: string;
+  authorId: string;
+}
+interface InstagramHomeFeed {
+  posts: InstagramHomeFeedPost[];
+  hasNextPage: boolean;
+}
+interface InstagramSavedPost extends InstagramPost {
+  authorUsername: string;
+  authorId: string;
+  collectionName: string | null;
+}
+interface InstagramSavedPosts {
+  posts: InstagramSavedPost[];
+  hasNextPage: boolean;
+}
 
   /**
    * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
@@ -30243,6 +30260,21 @@ interface InstagramUpdateProfileResult {
      * request.
      */
     searchAccounts(query: string, opts?: ConnectionOption): Promise<InstagramAccountSearchResult[]>;
+
+    /**
+     * Reads the signed-in user's home feed — the newest posts from accounts they follow, including
+     * captions, engagement counts, and media. Returns the first page of the feed and a flag
+     * indicating if more posts are available. Requires the caller to be signed in through the
+     * relay.
+     */
+    getHomeFeed(opts?: ConnectionOption): Promise<InstagramHomeFeed>;
+
+    /**
+     * Lists the signed-in user's saved posts with post metadata including media, captions, and
+     * engagement counts. Returns posts with their collection names and a flag indicating if more
+     * posts are available. Requires the caller to be signed in through the relay.
+     */
+    getSavedPosts(opts?: ConnectionOption): Promise<InstagramSavedPosts>;
 
     /**
      * Lists the signed-in user's direct message threads with the most recent message preview in

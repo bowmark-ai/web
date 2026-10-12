@@ -790,7 +790,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listCaptionTracks` | dailymotion.com | List the caption tracks one Dailymotion video has — language, label, and whether it is… | ⚪ |
 | `dailymotion.listCategories` | dailymotion.com | List Dailymotion's video categories (news, music, sport, animals …) with their ids. | ⚪ |
 | `dailymotion.listCategoryVideos` | dailymotion.com | List the newest or most-viewed videos in one Dailymotion category, such as news or… | ⚪ |
-| `dailymotion.listChannelPlaylists` | dailymotion.com | List the playlists one Dailymotion channel has published — id, name and video count… | ⚪ |
+| `dailymotion.listChannelPlaylists` | dailymotion.com | List the playlists one Dailymotion channel has published — id, name, description… | 🟢 |
 | `dailymotion.listChannelVideos` | dailymotion.com | List the videos one Dailymotion uploader has published, newest first, paged — same… | 🟢 |
 | `dailymotion.listFollowedChannels` | dailymotion.com | List the channels the signed-in caller follows. | ⚪ |
 | `dailymotion.listFollowingFeed` | dailymotion.com | List the newest videos from the channels the signed-in caller follows — the site's… | ⚪ |

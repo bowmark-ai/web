@@ -1,5 +1,5 @@
 {
-  "version": "da66b514f6e4971cd756d29eb1204fa39c0aaa02f81b4559bc789969b3e540b7",
+  "version": "14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594",
   "units": {
     "address_validation": {
       "defs": {
@@ -30417,6 +30417,42 @@
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getHomeFeed": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSavedPosts": [
           {
             "name": "opts",
             "schema": {

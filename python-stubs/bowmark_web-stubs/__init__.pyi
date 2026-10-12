@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: da66b514f6e4971cd756d29eb1204fa39c0aaa02f81b4559bc789969b3e540b7
-# 87 capabilities, 575 providers, 2059 typed functions, 20 refused.
+# Manifest version: 14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594
+# 87 capabilities, 575 providers, 2061 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16529,6 +16529,41 @@ class Prv_instagram_InstagramAccountSearchResult_Out(TypedDict):
     isVerified: bool
     profilePicUrl: str | None
     followerCount: float | None
+
+class Prv_instagram_InstagramHomeFeed_Out(TypedDict):
+    posts: list[Prv_instagram_InstagramHomeFeedPost_Out]
+    hasNextPage: bool
+
+class Prv_instagram_InstagramHomeFeedPost_Out(TypedDict):
+    id: str
+    shortcode: str
+    permalink: str
+    isVideo: bool
+    displayUrl: str
+    caption: str | None
+    likeCount: float
+    commentCount: float
+    takenAt: str
+    authorUsername: str
+    authorId: str
+
+class Prv_instagram_InstagramSavedPosts_Out(TypedDict):
+    posts: list[Prv_instagram_InstagramSavedPost_Out]
+    hasNextPage: bool
+
+class Prv_instagram_InstagramSavedPost_Out(TypedDict):
+    id: str
+    shortcode: str
+    permalink: str
+    isVideo: bool
+    displayUrl: str
+    caption: str | None
+    likeCount: float
+    commentCount: float
+    takenAt: str
+    authorUsername: str
+    authorId: str
+    collectionName: str | None
 
 class Prv_instagram_InstagramDirectMessageThread_Out(TypedDict):
     id: str
@@ -43809,6 +43844,19 @@ class Prv_instagram(Protocol):
         match, ranked the way the site's own search box ranks them. Requires the caller to be
         signed in through the relay — the search endpoint answers a login wall for every
         logged-out request.
+        """
+
+    async def getHomeFeed(self, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramHomeFeed_Out:
+        """Reads the signed-in user's home feed — the newest posts from accounts they follow,
+        including captions, engagement counts, and media. Returns the first page of the feed and
+        a flag indicating if more posts are available. Requires the caller to be signed in
+        through the relay.
+        """
+
+    async def getSavedPosts(self, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramSavedPosts_Out:
+        """Lists the signed-in user's saved posts with post metadata including media, captions, and
+        engagement counts. Returns posts with their collection names and a flag indicating if
+        more posts are available. Requires the caller to be signed in through the relay.
         """
 
     async def getDirectMessages(self, /) -> list[Prv_instagram_InstagramDirectMessageThread_Out]:
