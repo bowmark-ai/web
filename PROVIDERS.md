@@ -282,7 +282,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `baublebar.getBaublebarProduct` | baublebar.com | Reads one product by its handle — every size/color variant with its exact price and… | 🟢 |
 | `baublebar.listBaublebarCollections` | baublebar.com | The entry door: reads the storefront's own published collection index… | 🟢 |
 | `baublebar.listBaublebarProducts` | baublebar.com | Reads a BaubleBar collection's live catalogue as the storefront publishes it — every… | 🟢 |
-| `baublebar.search` | baublebar.com | Free-text product search on BaubleBar — "earrings", "gold hoops", "initial necklace" —… | 🟢 |
+| `baublebar.search` | baublebar.com | Free-text product search on BaubleBar — "earrings", "gold hoops", "initial necklace" —… | 🟡 |
 | `bbc.followPodcast` | bbc.com | Follow a BBC podcast or series for the signed-in reader. | ⚪ |
 | `bbc.getArticle` | bbc.com | One BBC article as data: headline, byline, published and updated times, section, topic… | 🟢 |
 | `bbc.getCurrentWeather` | bbc.com | The latest observation BBC Weather shows for a location: temperature, wind, humidity… | 🟢 |
@@ -398,7 +398,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | 🟢 |
 | `bluesky.getRelationships` | bsky.app | Whether one account follows, or is followed by, each of a list of others. | 🟢 |
 | `bluesky.getStarterPack` | bsky.app | One starter pack: its creator, description, the accounts and feeds it bundles, and how… | ⚪ |
-| `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | ⚪ |
+| `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | 🟢 |
 | `bluesky.getSuggestedFollows` | bsky.app | Accounts Bluesky suggests alongside a given person — its 'similar accounts' list on a… | 🟢 |
 | `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, as shown on the Discover and Explore pages. | 🟢 |
 | `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | 🟡 |
