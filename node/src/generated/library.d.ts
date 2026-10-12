@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 523175344cb5cbf28509337243e3ddf55fb5a8145ce654282cf9b7ac5f77e738
+// Manifest version: a017f1e5f0c0d03f089512d95994d672f0e8f90b217d869f4cd450bf0f3f632f
 // 86 capabilities, 566 providers, 2059 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -5146,7 +5146,9 @@ type FormFillResult = {
    * — one call, one step; call it again for the next step. When a CAPTCHA appears, common kinds
    * are solved automatically (reCAPTCHA v2/v3, Cloudflare, Turnstile, hCaptcha, DataDome, AWS
    * WAF, image); unsupported kinds return `needs_input` and wait for a person to solve at
-   * `watchUrl`.
+   * `watchUrl`. **This is for a form — a booking widget, a quote calculator, an application —
+   * not for reading a static page.** A product listing, a search-results page, an article: those
+   * already show what you need, so `bowmark.read.page` is the right call, not this one.
    */
   interface Unit {
     /**
