@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 384c809013f4038300bcfae8f4bc2c303b981232f90c60a43123f49a540967b2
-// 2065 checked, 20 unchecked.
+// Manifest version: a9f20f5655cfaad8623e211a7670f2836b8aa607a1309b8639dbd65ef5f85cea
+// 2066 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "384c809013f4038300bcfae8f4bc2c303b981232f90c60a43123f49a540967b2",
+  "version": "a9f20f5655cfaad8623e211a7670f2836b8aa607a1309b8639dbd65ef5f85cea",
   "units": {
     "address_validation": {
       "defs": {
@@ -22035,6 +22035,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.facebook": {
       "defs": {
+        "GetPersonProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListFriendsArgs": {
           "k": "object",
           "props": []
@@ -22085,6 +22097,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListFriendsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getPersonProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPersonProfileArgs"
             },
             "optional": false
           },

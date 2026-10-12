@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 384c809013f4038300bcfae8f4bc2c303b981232f90c60a43123f49a540967b2
-// 87 capabilities, 575 providers, 2083 typed functions, 20 refused.
+// Manifest version: a9f20f5655cfaad8623e211a7670f2836b8aa607a1309b8639dbd65ef5f85cea
+// 87 capabilities, 575 providers, 2084 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21803,6 +21803,19 @@ interface FacebookFriend {
 
 interface ListFriendsArgs {}
 
+interface GetPersonProfileArgs {
+  handle: string;
+}
+
+interface FacebookProfile {
+  id: string;
+  name: string;
+  url: string;
+  profilePhotoUrl?: string;
+  bio?: string;
+  friendCount?: number;
+}
+
   /**
    * Facebook — profiles, pages, groups, marketplace, messages and posts. Every function needs
    * the caller signed in; the caller signs in through the relay.
@@ -21813,6 +21826,9 @@ interface ListFriendsArgs {}
 
     /** List the caller's Facebook friends. */
     listFriends(args: ListFriendsArgs, opts?: ConnectionOption): Promise<FacebookFriend[]>;
+
+    /** Read a person's public profile — name, photo, bio and friend count. */
+    getPersonProfile(args: GetPersonProfileArgs, opts?: ConnectionOption): Promise<FacebookProfile>;
   }
 }
 
@@ -27329,12 +27345,13 @@ interface HackerNewsTopStoriesArgs {
     search(query: string): Promise<HackerNewsSearchHit[]>;
 
     /**
-     * Keyword search over every Hacker News COMMENT (not just stories), through HN's own search
-     * (hn.algolia.com) — what the community said about a topic. Each hit has the plain-text
-     * comment, author, date, and the story it was posted under. `since` / `until` bound the date
-     * (ISO date or unix seconds); `sort` is "relevance" (default) or "date" (newest first);
-     * `limit` 1-100, default 20. Returns [] on no match. Example: searchComments({ query: "rust",
-     * since: "2026-01-01" }).
+     * Search Hacker News comments for community discussion and opinion on a topic. Keyword search
+     * over every Hacker News comment (not just stories), through HN's own search (hn.algolia.com)
+     * — what the community said. Each hit has the plain-text comment, author, post date, and the
+     * story it was posted under. `since` / `until` filter by date (ISO date or unix seconds);
+     * `sort` is "relevance" (default) or "date" (newest first); `limit` 1-100, default 20.
+     * Research community opinion and discussion. Returns [] on no match. Example: searchComments({
+     * query: "rust", since: "2026-01-01" }).
      */
     searchComments(args: string | HackerNewsSearchCommentsArgs): Promise<HackerNewsCommentHit[]>;
   }
@@ -67074,6 +67091,7 @@ interface BowmarkProviders {
   bolycscymraeg: BowmarkFamily_shopify_store.Unit;
   bomanz: BowmarkFamily_shopify_store.Unit;
   bombalulus: BowmarkFamily_shopify_store.Unit;
+  bombas: BowmarkFamily_shopify_store.Unit;
   bombayhaircanada: BowmarkFamily_shopify_store.Unit;
   bombayjam: BowmarkFamily_shopify_store.Unit;
   bombayperfumery: BowmarkFamily_shopify_store.Unit;
@@ -107702,7 +107720,6 @@ interface BowmarkProviders {
   bohodigitalproduct: BowmarkFamily_shopify_storeReadOnly.Unit;
   boholovetemplate: BowmarkFamily_shopify_storeReadOnly.Unit;
   boldbohotemplate: BowmarkFamily_shopify_storeReadOnly.Unit;
-  bombas: BowmarkFamily_shopify_storeReadOnly.Unit;
   bonvillano: BowmarkFamily_shopify_storeReadOnly.Unit;
   bookingsloat: BowmarkFamily_shopify_storeReadOnly.Unit;
   bookingsystemcalendar: BowmarkFamily_shopify_storeReadOnly.Unit;

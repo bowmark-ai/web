@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 384c809013f4038300bcfae8f4bc2c303b981232f90c60a43123f49a540967b2
-# 87 capabilities, 575 providers, 2065 typed functions, 20 refused.
+# Manifest version: a9f20f5655cfaad8623e211a7670f2836b8aa607a1309b8639dbd65ef5f85cea
+# 87 capabilities, 575 providers, 2066 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12406,6 +12406,17 @@ class Prv_facebook_FacebookFriend_Out(TypedDict):
     id: str
     name: str
     url: NotRequired[str]
+
+class Prv_facebook_GetPersonProfileArgs_In(TypedDict):
+    handle: str
+
+class Prv_facebook_FacebookProfile_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    profilePhotoUrl: NotRequired[str]
+    bio: NotRequired[str]
+    friendCount: NotRequired[float]
 
 class Prv_faceforwardaesthetics_FaceForwardAestheticsLocation_Out(TypedDict):
     id: str
@@ -40711,6 +40722,9 @@ class Prv_facebook(Protocol):
     async def listFriends(self, args: Prv_facebook_ListFriendsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookFriend_Out]:
         """List the caller's Facebook friends."""
 
+    async def getPersonProfile(self, args: Prv_facebook_GetPersonProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookProfile_Out:
+        """Read a person's public profile — name, photo, bio and friend count."""
+
 class Prv_faceforwardaesthetics(Protocol):
     """Face Forward Aesthetics' live Zenoti locations, service catalog, and bookable
     appointment slots — no login, no PII, and no browser.
@@ -43015,12 +43029,13 @@ class Prv_hackernews(Protocol):
         """
 
     async def searchComments(self, args: str | Prv_hackernews_HackerNewsSearchCommentsArgs_In, /) -> list[Prv_hackernews_HackerNewsCommentHit_Out]:
-        """Keyword search over every Hacker News COMMENT (not just stories), through HN's own
-        search (hn.algolia.com) — what the community said about a topic. Each hit has the
-        plain-text comment, author, date, and the story it was posted under. `since` / `until`
-        bound the date (ISO date or unix seconds); `sort` is "relevance" (default) or "date"
-        (newest first); `limit` 1-100, default 20. Returns [] on no match. Example:
-        searchComments({ query: "rust", since: "2026-01-01" }).
+        """Search Hacker News comments for community discussion and opinion on a topic. Keyword
+        search over every Hacker News comment (not just stories), through HN's own search
+        (hn.algolia.com) — what the community said. Each hit has the plain-text comment, author,
+        post date, and the story it was posted under. `since` / `until` filter by date (ISO date
+        or unix seconds); `sort` is "relevance" (default) or "date" (newest first); `limit`
+        1-100, default 20. Research community opinion and discussion. Returns [] on no match.
+        Example: searchComments({ query: "rust", since: "2026-01-01" }).
         """
 
 class Prv_hamptonwaterwine(Protocol):
