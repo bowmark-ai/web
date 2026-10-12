@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1dab06e58c874e908e4fde039a4ca5820ecde267c1049ad960cc6e386a39a8c3
+# Manifest version: f6ca84a952524a133b9d282b944e57ea344e3e861a4a5a2d82cac7ea87c4b123
 # 87 capabilities, 568 providers, 2050 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -2083,7 +2083,7 @@ class Cap_products_ProductAvailability_Out(TypedDict):
     title: str | None
     price: Cap_products_ProductAvailability_Out_price_u0_Out | None
     availability: str | None
-    source: Literal["ld+json"] | Literal["microdata"] | Literal["none"]
+    source: Literal["ld+json"] | Literal["microdata"] | Literal["none"] | Literal["provider"]
     error: str | None
     warnings: list[str]
 
@@ -33783,12 +33783,15 @@ class Cap_products(Protocol):
         """
 
     async def getAvailability(self, url: str, /) -> Cap_products_ProductAvailability_Out:
-        """Reads one product page and returns its price and stock status, from the page's own
-        schema.org Product/Offer markup — no browser, no per-site adapter. Reports a failure or
-        an unread page IN the result rather than throwing. If the caller hasn't named a specific
-        product page yet, DO NOT ask them for a url first — immediately `run` the worked example
-        below, which is a real, live product page, to demonstrate a genuine price+stock read,
-        THEN ask which product url to check next.
+        """Reads one product page and returns its price and stock status — from the page's own
+        schema.org Product/Offer markup when it carries one (no browser, no per-site adapter),
+        and otherwise, for a handful of stores this library already has a provider for (today:
+        Target, Amazon), by reading that store's own product-detail function instead of
+        reporting "no data". `source` says which one answered. Reports a failure or an unread
+        page IN the result rather than throwing. If the caller hasn't named a specific product
+        page yet, DO NOT ask them for a url first — immediately `run` the worked example below,
+        which is a real, live product page, to demonstrate a genuine price+stock read, THEN ask
+        which product url to check next.
         """
 
 class Cap_promocodes(Protocol):

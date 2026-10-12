@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1dab06e58c874e908e4fde039a4ca5820ecde267c1049ad960cc6e386a39a8c3
+// Manifest version: f6ca84a952524a133b9d282b944e57ea344e3e861a4a5a2d82cac7ea87c4b123
 // 87 capabilities, 568 providers, 2068 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -3476,7 +3476,9 @@ interface ProductAvailability {
   title: string | null
   price: { amount: number; currency: string } | null   // integer minor units
   availability: string | null   // "InStock" | "OutOfStock" | "PreOrder" | "BackOrder" | …
-  source: "ld+json" | "microdata" | "none"
+  source: "ld+json" | "microdata" | "none" | "provider"   // "provider": the page had no markup,
+                                                            // read instead through that store's
+                                                            // OWN provider (today: Target, Amazon)
   error: string | null
   warnings: string[]
 }
@@ -3498,12 +3500,14 @@ interface ProductAvailability {
     search(args: { query: string; site?: 'walmart' | 'target' | 'bestbuy' | 'amazon'; limit?: number }): Promise<ProductSearchResult>;
 
     /**
-     * Reads one product page and returns its price and stock status, from the page's own
-     * schema.org Product/Offer markup — no browser, no per-site adapter. Reports a failure or an
-     * unread page IN the result rather than throwing. If the caller hasn't named a specific
-     * product page yet, DO NOT ask them for a url first — immediately `run` the worked example
-     * below, which is a real, live product page, to demonstrate a genuine price+stock read, THEN
-     * ask which product url to check next.
+     * Reads one product page and returns its price and stock status — from the page's own
+     * schema.org Product/Offer markup when it carries one (no browser, no per-site adapter), and
+     * otherwise, for a handful of stores this library already has a provider for (today: Target,
+     * Amazon), by reading that store's own product-detail function instead of reporting "no data".
+     * `source` says which one answered. Reports a failure or an unread page IN the result rather
+     * than throwing. If the caller hasn't named a specific product page yet, DO NOT ask them for a
+     * url first — immediately `run` the worked example below, which is a real, live product page,
+     * to demonstrate a genuine price+stock read, THEN ask which product url to check next.
      */
     getAvailability(url: string): Promise<ProductAvailability>;
   }
