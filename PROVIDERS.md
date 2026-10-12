@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3324 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3325 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1165,7 +1165,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.listWatchlist` | fandom.com | The caller's own watchlist on one wiki — the pages they follow and recent changes to… | ⚪ |
 | `fandom.postDiscussionPost` | fandom.com | Post a new message to a wiki's Discussions forum, under the caller's own account.… | ⚪ |
 | `fandom.search` | fandom.com | Search one wiki the way a person types into its search box — hand it a `wiki`… | 🟢 |
-| `fandom.suggestTitles` | fandom.com | Autocomplete a partial title within one wiki, the way its search box does as you type.… | ⚪ |
+| `fandom.suggestTitles` | fandom.com | Autocomplete a partial title within one wiki, the way its search box does as you type.… | 🟢 |
 | `fandom.undoRevision` | fandom.com | Undo one edit to an article — MediaWiki's own revert, reversing a single revision… | ⚪ |
 | `fandom.unwatchPage` | fandom.com | Remove an article from the caller's watchlist. `POST /api.php?action=watch&unwatch=1`. | ⚪ |
 | `fandom.watchPage` | fandom.com | Add an article to the caller's watchlist. `POST /api.php?action=watch`. | ⚪ |
@@ -1545,6 +1545,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟢 |
 | `hackernews.getItem` | news.ycombinator.com | Returns one Hacker News item — story, comment, job or poll — by its numeric id or… | 🟢 |
 | `hackernews.search` | news.ycombinator.com | Keyword-searches every Hacker News story through HN's own search (hn.algolia.com)… | 🟢 |
+| `hackernews.searchComments` | news.ycombinator.com | Keyword-searches every Hacker News comment — not just stories — through HN's own… | 🟢 |
 | `hackernews.topStories` | news.ycombinator.com | Returns the stories on the Hacker News front page (or the new, best, Ask HN, Show HN… | 🟢 |
 | `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟢 |
 | `handypro.checkServiceArea` | handypro.com | Checks whether a ZIP is served by a real local HandyPro franchisee and returns that… | 🟢 |
@@ -2802,7 +2803,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.getCart` | target.com | Reads what is in the CALLER's own Target cart — line items, quantities, per-item and… | ⚪ |
 | `target.getProduct` | target.com | Reads one product page in full — title, brand, price, long-form description, images… | 🟢 |
 | `target.getRegistry` | target.com | Reads one Target Gift Registry's items, quantities already purchased, and ship-to info… | ⚪ |
-| `target.listCategories` | target.com | Reads Target's own category taxonomy (department → aisle, e.g. Grocery → Snacks) with… | ⚪ |
+| `target.listCategories` | target.com | Reads Target's own category taxonomy (department → aisle, e.g. Grocery → Snacks) with… | 🟢 |
 | `target.listDeals` | target.com | Reads Target's published weekly ad / deals page — the site's own current promotions… | ⚪ |
 | `target.listOrders` | target.com | The CALLER's own signed-in order history on target.com — what they bought, when, for… | ⚪ |
 | `target.listReviews` | target.com | Reads a product's customer reviews (by TCIN) — rating, text, title, verified-purchase… | ⚪ |
@@ -3060,7 +3061,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | ⚪ |
 | `usatoday.listPuzzles` | usatoday.com | Lists available USA Today puzzles — crossword, Sudoku, etc. — with puzzle IDs and types. | ⚪ |
 | `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |
-| `usatoday.listSections` | usatoday.com | Lists USA Today's main news sections — news, sports, money, life, tech, opinion — each… | ⚪ |
+| `usatoday.listSections` | usatoday.com | Lists USA Today's main news sections — news, sports, money, life, tech, opinion — each… | 🟢 |
 | `usatoday.listVideos` | usatoday.com | Lists USA Today videos, paginated, showing title, description, thumbnail URL, duration… | ⚪ |
 | `usatoday.saveArticle` | usatoday.com | Saves an article to the signed-in user's reading list. | ⚪ |
 | `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | ⚪ |
