@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35
-// 86 capabilities, 565 providers, 2055 typed functions, 20 refused.
+// Manifest version: cf497bcc463ec92929789400bb8b5de52a95de6598dfb501a5d72426535111db
+// 86 capabilities, 565 providers, 2058 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -454,7 +454,9 @@ type CallOptions = {
      * `question` and `send` the answer; on `idle` read `result` and `stop(id)`. A login persists
      * for the life of the session, so later `send()` calls into the same session do not need
      * re-authentication. Always stop sessions when done — idle browsers keep costing money.
-     * Account limit: 3 concurrent sessions.
+     * Account limit: 3 open sessions, counting ones still starting — start 9 at once and 3 run
+     * while 6 are refused with the limit error, so start at most 3 and `stop()` one before
+     * starting the next.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -482,14 +484,15 @@ type CallOptions = {
      * Stops the agent and shuts its browser; the watch link stops working. Always `stop()` a
      * session when you are done with it — an open browser keeps costing money until Bowmark closes
      * it after 20 idle minutes, and the session counts against your 3-session concurrent limit
-     * even while idle.
+     * until it is stopped, whether it is idle, waiting on a question, or `failed`.
      */
     stop(id: string): Promise<StopBrowserAgentResult>;
 
     /**
      * Lists this account's browser agent sessions (open ones by default) — check how many you're
-     * holding before starting a new one, especially when looping. Idle sessions count against the
-     * 3-session concurrent limit until you `stop()` them.
+     * holding before starting a new one, especially when looping. Every session it lists — idle,
+     * needs_input or `failed` alike — counts against the 3-session concurrent limit until you
+     * `stop()` it.
      */
     list(options?: ListBrowserAgentsOptions): Promise<ListBrowserAgentsResult>;
 
@@ -7488,6 +7491,17 @@ interface AolWeatherData {
   daily: AolWeatherForecastDay[];
 }
 
+interface AolLocalNewsArticle {
+  id?: string;
+  title: string;
+  url: string;
+  summary?: string;
+  image?: string;
+  provider?: string;
+  providerLogo?: string;
+  publishedAt?: string;
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -7534,6 +7548,13 @@ interface AolWeatherData {
      * sunrise, sunset) for one location, in US units. Pass a woeid from searchWeatherLocations.
      */
     getWeather(woeid: string): Promise<AolWeatherData>;
+
+    /**
+     * Lists local news for a US city and state — headline, url, summary, image and the local
+     * publisher, the way aol.com/local shows it. Pass city and state as arguments, optionally with
+     * limit (1-100, default unlimited) and page (1-based, default 1).
+     */
+    getLocalNews(args: { city: string; state: string; limit?: number; page?: number }): Promise<{ articles: AolLocalNewsArticle[] }>;
   }
 }
 
@@ -29615,6 +29636,15 @@ interface InspirecommunitiesSearchHomesResult { total: number; pages: number; ho
 
 declare namespace BowmarkProvider_instagram {
   // ── Instagram — the unit's own declarations, verbatim ──
+interface InstagramAccountSearchResult {
+  id: string;
+  username: string;
+  fullName: string;
+  isPrivate: boolean;
+  isVerified: boolean;
+  profilePicUrl: string | null;
+  followerCount: number | null;
+}
 interface InstagramProfile {
   id: string;
   username: string;
@@ -29764,6 +29794,15 @@ interface InstagramUpdateProfileResult {
      * none to a logged-out reader.
      */
     getPosts(username: string): Promise<InstagramPost[]>;
+
+    /**
+     * Searches Instagram for public accounts matching a query (username, full name, or display
+     * name). Returns username, full name, follower count and verified/private flags for each
+     * match, ranked the way the site's own search box ranks them. Requires the caller to be signed
+     * in through the relay — the search endpoint answers a login wall for every logged-out
+     * request.
+     */
+    searchAccounts(query: string, opts?: ConnectionOption): Promise<InstagramAccountSearchResult[]>;
 
     /**
      * Lists the signed-in user's direct message threads with the most recent message preview in
@@ -38861,6 +38900,11 @@ interface NytCookingGetCookedRecipesResult {
   warnings?: string[];
 }
 
+interface NytCookingGetGroceryListResult {
+  lists: unknown[];
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -38962,6 +39006,12 @@ interface NytCookingGetCookedRecipesResult {
      * in to NYT — the run pauses for a login the first time this is called.
      */
     getCookedRecipes(opts?: ConnectionOption): Promise<NytCookingGetCookedRecipesResult>;
+
+    /**
+     * Lists the grocery lists in the signed-in reader's Recipe Box. Requires the caller to be
+     * signed in to NYT — the run pauses for a login the first time this is called.
+     */
+    getGroceryList(opts?: ConnectionOption): Promise<NytCookingGetGroceryListResult>;
   }
 }
 

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35
-// 2037 checked, 20 unchecked.
+// Manifest version: cf497bcc463ec92929789400bb8b5de52a95de6598dfb501a5d72426535111db
+// 2040 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35",
+  "version": "cf497bcc463ec92929789400bb8b5de52a95de6598dfb501a5d72426535111db",
   "units": {
     "address_validation": {
       "defs": {
@@ -8551,6 +8551,45 @@ export const VALIDATORS: ValidatorTable = {
             "name": "woeid",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getLocalNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -29924,6 +29963,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "searchAccounts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getDirectMessages": [],
         "getThreadMessages": [
           {
@@ -39951,6 +40015,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getCookedRecipes": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGroceryList": [
           {
             "name": "opts",
             "schema": {

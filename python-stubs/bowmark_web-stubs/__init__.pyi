@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35
-# 86 capabilities, 565 providers, 2037 typed functions, 20 refused.
+# Manifest version: cf497bcc463ec92929789400bb8b5de52a95de6598dfb501a5d72426535111db
+# 86 capabilities, 565 providers, 2040 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4157,6 +4157,25 @@ class Prv_aol_AolWeatherForecastDay_Out(TypedDict):
     chanceOfRain: NotRequired[float]
     sunrise: NotRequired[str]
     sunset: NotRequired[str]
+
+class Prv_aol_getLocalNews_args_In(TypedDict):
+    city: str
+    state: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_aol_getLocalNews_return_Out(TypedDict):
+    articles: list[Prv_aol_AolLocalNewsArticle_Out]
+
+class Prv_aol_AolLocalNewsArticle_Out(TypedDict):
+    id: NotRequired[str]
+    title: str
+    url: str
+    summary: NotRequired[str]
+    image: NotRequired[str]
+    provider: NotRequired[str]
+    providerLogo: NotRequired[str]
+    publishedAt: NotRequired[str]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -16204,6 +16223,15 @@ class Prv_instagram_InstagramPost_Out(TypedDict):
     commentCount: float
     takenAt: str
 
+class Prv_instagram_InstagramAccountSearchResult_Out(TypedDict):
+    id: str
+    username: str
+    fullName: str
+    isPrivate: bool
+    isVerified: bool
+    profilePicUrl: str | None
+    followerCount: float | None
+
 class Prv_instagram_InstagramDirectMessageThread_Out(TypedDict):
     id: str
     recipientUsername: str
@@ -21140,6 +21168,10 @@ class Prv_nyt_cooking_NytCookingMarkRecipeCookedResult_Out(TypedDict):
 
 class Prv_nyt_cooking_NytCookingGetCookedRecipesResult_Out(TypedDict):
     recipes: list[Any]
+    warnings: NotRequired[list[str]]
+
+class Prv_nyt_cooking_NytCookingGetGroceryListResult_Out(TypedDict):
+    lists: list[Any]
     warnings: NotRequired[list[str]]
 
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
@@ -32474,7 +32506,9 @@ class Cap_browser_agent(Protocol):
         `send` the answer; on `idle` read `result` and `stop(id)`. A login persists for the life
         of the session, so later `send()` calls into the same session do not need
         re-authentication. Always stop sessions when done — idle browsers keep costing money.
-        Account limit: 3 concurrent sessions.
+        Account limit: 3 open sessions, counting ones still starting — start 9 at once and 3 run
+        while 6 are refused with the limit error, so start at most 3 and `stop()` one before
+        starting the next.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -32500,13 +32534,15 @@ class Cap_browser_agent(Protocol):
         """Stops the agent and shuts its browser; the watch link stops working. Always `stop()` a
         session when you are done with it — an open browser keeps costing money until Bowmark
         closes it after 20 idle minutes, and the session counts against your 3-session
-        concurrent limit even while idle.
+        concurrent limit until it is stopped, whether it is idle, waiting on a question, or
+        `failed`.
         """
 
     async def list(self, options: Cap_browser_agent_ListBrowserAgentsOptions_In | None = None, /) -> Cap_browser_agent_ListBrowserAgentsResult_Out:
         """Lists this account's browser agent sessions (open ones by default) — check how many
-        you're holding before starting a new one, especially when looping. Idle sessions count
-        against the 3-session concurrent limit until you `stop()` them.
+        you're holding before starting a new one, especially when looping. Every session it
+        lists — idle, needs_input or `failed` alike — counts against the 3-session concurrent
+        limit until you `stop()` it.
         """
 
     async def watchLink(self, id: str, /) -> Cap_browser_agent_WatchLinkResult_Out:
@@ -35096,6 +35132,12 @@ class Prv_aol(Protocol):
         visibility), the hourly forecast and the ten-day forecast (highs, lows, chance of rain,
         sunrise, sunset) for one location, in US units. Pass a woeid from
         searchWeatherLocations.
+        """
+
+    async def getLocalNews(self, args: Prv_aol_getLocalNews_args_In, /) -> Prv_aol_getLocalNews_return_Out:
+        """Lists local news for a US city and state — headline, url, summary, image and the local
+        publisher, the way aol.com/local shows it. Pass city and state as arguments, optionally
+        with limit (1-100, default unlimited) and page (1-based, default 1).
         """
 
 class Prv_aosom(Protocol):
@@ -43198,6 +43240,14 @@ class Prv_instagram(Protocol):
         itself serves none to a logged-out reader.
         """
 
+    async def searchAccounts(self, query: str, opts: ConnectionOption | None = None, /) -> list[Prv_instagram_InstagramAccountSearchResult_Out]:
+        """Searches Instagram for public accounts matching a query (username, full name, or display
+        name). Returns username, full name, follower count and verified/private flags for each
+        match, ranked the way the site's own search box ranks them. Requires the caller to be
+        signed in through the relay — the search endpoint answers a login wall for every
+        logged-out request.
+        """
+
     async def getDirectMessages(self, /) -> list[Prv_instagram_InstagramDirectMessageThread_Out]:
         """Lists the signed-in user's direct message threads with the most recent message preview
         in each thread. Requires the caller to be signed in through the relay.
@@ -46493,6 +46543,11 @@ class Prv_nyt_cooking(Protocol):
 
     async def getCookedRecipes(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingGetCookedRecipesResult_Out:
         """Lists the recipes the signed-in reader has marked cooked. Requires the caller to be
+        signed in to NYT — the run pauses for a login the first time this is called.
+        """
+
+    async def getGroceryList(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingGetGroceryListResult_Out:
+        """Lists the grocery lists in the signed-in reader's Recipe Box. Requires the caller to be
         signed in to NYT — the run pauses for a login the first time this is called.
         """
 

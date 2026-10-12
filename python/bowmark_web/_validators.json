@@ -1,5 +1,5 @@
 {
-  "version": "647e02476b5f2d43c6d999226a62bbe0dfb18472fc25530824cac3666e795b35",
+  "version": "cf497bcc463ec92929789400bb8b5de52a95de6598dfb501a5d72426535111db",
   "units": {
     "address_validation": {
       "defs": {
@@ -8539,6 +8539,45 @@
             "name": "woeid",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getLocalNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -29912,6 +29951,31 @@
             "optional": false
           }
         ],
+        "searchAccounts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getDirectMessages": [],
         "getThreadMessages": [
           {
@@ -39939,6 +40003,24 @@
           }
         ],
         "getCookedRecipes": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGroceryList": [
           {
             "name": "opts",
             "schema": {
