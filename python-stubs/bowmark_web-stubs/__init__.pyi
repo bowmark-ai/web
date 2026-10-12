@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269
-# 87 capabilities, 567 providers, 2046 typed functions, 20 refused.
+# Manifest version: 1dab06e58c874e908e4fde039a4ca5820ecde267c1049ad960cc6e386a39a8c3
+# 87 capabilities, 568 providers, 2050 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3426,6 +3426,74 @@ class Prv_agakhanhospitals_AgakhanhospitalsSpecialty_Out(TypedDict):
     contact: str | None
     services: list[str]
 
+class Prv_agentstatus_AgentStatusSearchServersArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_agentstatus_SearchServersResult_Out(TypedDict):
+    query: str
+    lastUpdated: str | None
+    serversTracked: float | None
+    servers: list[Prv_agentstatus_AgentStatusServer_Out]
+    submitUrl: str
+
+class Prv_agentstatus_AgentStatusServer_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    homepageUrl: str | None
+    category: str | None
+    categoryLabel: str | None
+    rank: float | None
+    score: float | None
+    grade: Literal["A"] | Literal["B"] | Literal["C"] | Literal["D"] | Literal["F"] | None
+    unrated: bool
+    lowSample: bool
+    status: str | None
+    uptime30d: float | None
+    toolSuccess: float | None
+    protocolConformance: float | None
+    latencyP95Ms: float | None
+    protocolVersion: str | None
+    totalRuns: float | None
+    toolCount: float | None
+    lastCheckedAt: str | None
+    scoreBreakdown: Mapping[str, float] | None
+
+class Prv_agentstatus_AgentStatusGetServerArgs_In(TypedDict):
+    slug: str
+
+class Prv_agentstatus_GetServerResult_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    homepageUrl: str | None
+    category: str | None
+    categoryLabel: str | None
+    rank: float | None
+    score: float | None
+    grade: Literal["A"] | Literal["B"] | Literal["C"] | Literal["D"] | Literal["F"] | None
+    unrated: bool
+    lowSample: bool
+    status: str | None
+    uptime30d: float | None
+    toolSuccess: float | None
+    protocolConformance: float | None
+    latencyP95Ms: float | None
+    protocolVersion: str | None
+    totalRuns: float | None
+    toolCount: float | None
+    lastCheckedAt: str | None
+    scoreBreakdown: Mapping[str, float] | None
+    tools: list[Prv_agentstatus_AgentStatusTool_Out]
+    submitUrl: str
+
+class Prv_agentstatus_AgentStatusTool_Out(TypedDict):
+    name: str
+    description: str | None
+    invocationRate: float | None
+    functionalRate: float | None
+
 class Prv_ai_engineer_listSpeakers_return_Out(TypedDict):
     speakers: list[Prv_ai_engineer_AiEngineerSpeaker_Out]
 
@@ -6059,6 +6127,16 @@ class Prv_bbc_BbcRelatedLink_Out(TypedDict):
     headline: str
     url: str
 
+class Prv_bbc_BbcListPodcastsResult_Out(TypedDict):
+    podcasts: list[Prv_bbc_BbcPodcast_Out]
+
+class Prv_bbc_BbcPodcast_Out(TypedDict):
+    title: str
+    description: str
+    image: NotRequired[str]
+    url: str
+    podcastId: str
+
 class Prv_bbc_listTopicStories_args_In(TypedDict):
     topicId: str
     page: NotRequired[float]
@@ -7604,6 +7682,9 @@ class Prv_businessinsider_com_BusinessInsiderListedArticle_Out(TypedDict):
 
 class Prv_businessinsider_com_GetAuthorArticlesArgs_In(TypedDict):
     author: str
+    limit: NotRequired[float]
+
+class Prv_businessinsider_com_ListOpinionPiecesArgs_In(TypedDict):
     limit: NotRequired[float]
 
 class Prv_businessinsider_com_GetArticleArgs_In(TypedDict):
@@ -34694,6 +34775,28 @@ class Prv_agakhanhospitals(Protocol):
         never an honest answer.
         """
 
+class Prv_agentstatus(Protocol):
+    """AgentStatus's Public MCP Score (agentstatus.dev/mcp-index) — an outside-in reliability
+    index of ~3,300 public MCP servers. searchServers finds a server by name, slug or domain
+    and returns its score, letter grade, uptime, tool success and latency; getServer adds
+    the per-tool results. submitServer (list your MCP server on the index) is a stub — every
+    result carries `submitUrl`, the site's own submit form, because a submission creates a
+    dashboard account under the email given.
+    """
+
+    async def searchServers(self, args: Prv_agentstatus_AgentStatusSearchServersArgs_In, /) -> Prv_agentstatus_SearchServersResult_Out:
+        """Searches AgentStatus's Public MCP Score index by server name, slug or domain and returns
+        each match's reliability score, letter grade, status, uptime, tool success and P95
+        latency. Use it to check whether an MCP server is already listed before submitting it;
+        `submitUrl` is the site's own submit form.
+        """
+
+    async def getServer(self, args: Prv_agentstatus_AgentStatusGetServerArgs_In, /) -> Prv_agentstatus_GetServerResult_Out:
+        """Reads one server off the AgentStatus MCP index by slug (from searchServers): its score
+        and breakdown plus every tool the index probed, with invocation and functional success
+        rates.
+        """
+
 class Prv_ai_engineer(Protocol):
     """Conference speakers and speaker information from the AI Engineer conference."""
 
@@ -36334,6 +36437,11 @@ class Prv_bbc(Protocol):
         listHeadlines.
         """
 
+    async def listPodcasts(self, /) -> Prv_bbc_BbcListPodcastsResult_Out:
+        """The podcasts and audio series featured on BBC Audio (/audio): title, description, image
+        and podcast id — the finder for getPodcast and followPodcast.
+        """
+
     async def listTopicStories(self, args: Prv_bbc_listTopicStories_args_In, /) -> Prv_bbc_BbcListTopicStoriesResult_Out:
         """The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id, date
         — with paging. Takes a topic id from getArticle's tags.
@@ -37351,6 +37459,11 @@ class Prv_businessinsider_com(Protocol):
     async def getAuthorArticles(self, args: Prv_businessinsider_com_GetAuthorArticlesArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderListedArticle_Out]:
         """Lists articles by a byline author slug, title and URL per article, newest-first as the
         site orders its grid.
+        """
+
+    async def listOpinionPieces(self, args: Prv_businessinsider_com_ListOpinionPiecesArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderListedArticle_Out]:
+        """Lists opinion and analysis pieces from the Opinion section, title and URL per article,
+        newest-first as the site orders its grid.
         """
 
     async def getArticle(self, args: Prv_businessinsider_com_GetArticleArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderArticleRecord_Out:
@@ -53345,6 +53458,7 @@ class BowmarkProviders(Protocol):
     achosahw: Prv_achosahw
     acqualinaresort: Prv_acqualinaresort
     agakhanhospitals: Prv_agakhanhospitals
+    agentstatus: Prv_agentstatus
     ai_engineer: Prv_ai_engineer
     aiper: Prv_aiper
     airbnb: Prv_airbnb

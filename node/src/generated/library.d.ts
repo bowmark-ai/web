@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269
-// 87 capabilities, 567 providers, 2064 typed functions, 20 refused.
+// Manifest version: 1dab06e58c874e908e4fde039a4ca5820ecde267c1049ad960cc6e386a39a8c3
+// 87 capabilities, 568 providers, 2068 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6155,6 +6155,92 @@ interface AgakhanhospitalsSpecialty {
   }
 }
 
+declare namespace BowmarkProvider_agentstatus {
+  // ── AgentStatus — the unit's own declarations, verbatim ──
+interface AgentStatusSearchServersArgs {
+  // A server name, slug or domain, e.g. "cocktail" or "github". A bare string is
+  // also accepted. A full MCP URL is reduced to its domain's first label, because
+  // the index matches names and domains, not URLs.
+  query: string;
+  // Default 10, max 50.
+  limit?: number;
+}
+
+interface AgentStatusGetServerArgs {
+  // A slug from searchServers (e.g. "cocktail-glass"), or the server's
+  // agentstatus.dev/mcp-index/<slug> page URL. A bare string is also accepted.
+  slug: string;
+}
+
+interface AgentStatusTool {
+  name: string;
+  description: string | null;
+  invocationRate: number | null;  // share of probe calls that completed, 0-100
+  functionalRate: number | null;  // share whose result looked like the job, 0-100
+}
+
+interface AgentStatusServer {
+  slug: string;
+  name: string;
+  url: string;                    // the server's page on agentstatus.dev
+  homepageUrl: string | null;
+  category: string | null;
+  categoryLabel: string | null;
+  rank: number | null;
+  score: number | null;           // raw 0-100 MCP Reliability Index
+  grade: "A" | "B" | "C" | "D" | "F" | null;  // null when unrated
+  unrated: boolean;
+  lowSample: boolean;
+  status: string | null;          // e.g. "operational"
+  uptime30d: number | null;
+  toolSuccess: number | null;
+  protocolConformance: number | null;
+  latencyP95Ms: number | null;
+  protocolVersion: string | null;
+  totalRuns: number | null;
+  toolCount: number | null;
+  lastCheckedAt: string | null;
+  scoreBreakdown: Record<string, number> | null;
+}
+
+interface SearchServersResult {
+  query: string;
+  lastUpdated: string | null;
+  serversTracked: number | null;
+  servers: AgentStatusServer[];   // [] when nothing on the index matches
+  submitUrl: string;              // the site's own "Submit your MCP server" form
+}
+
+interface GetServerResult extends AgentStatusServer {
+  tools: AgentStatusTool[];
+  submitUrl: string;
+}
+
+  /**
+   * AgentStatus's Public MCP Score (agentstatus.dev/mcp-index) — an outside-in reliability index
+   * of ~3,300 public MCP servers. searchServers finds a server by name, slug or domain and
+   * returns its score, letter grade, uptime, tool success and latency; getServer adds the
+   * per-tool results. submitServer (list your MCP server on the index) is a stub — every result
+   * carries `submitUrl`, the site's own submit form, because a submission creates a dashboard
+   * account under the email given.
+   */
+  interface Unit {
+    /**
+     * Searches AgentStatus's Public MCP Score index by server name, slug or domain and returns
+     * each match's reliability score, letter grade, status, uptime, tool success and P95 latency.
+     * Use it to check whether an MCP server is already listed before submitting it; `submitUrl` is
+     * the site's own submit form.
+     */
+    searchServers(args: AgentStatusSearchServersArgs): Promise<SearchServersResult>;
+
+    /**
+     * Reads one server off the AgentStatus MCP index by slug (from searchServers): its score and
+     * breakdown plus every tool the index probed, with invocation and functional success rates.
+     */
+    getServer(args: AgentStatusGetServerArgs): Promise<GetServerResult>;
+  }
+}
+
 declare namespace BowmarkProvider_ai_engineer {
   // ── AI Engineer — the unit's own declarations, verbatim ──
 interface AiEngineerSpeaker {
@@ -10432,6 +10518,18 @@ interface BbcListVideosResult {
   videos: BbcVideo[];
 }
 
+interface BbcPodcast {
+  title: string;
+  description: string;
+  image?: string;
+  url: string;
+  podcastId: string;
+}
+
+interface BbcListPodcastsResult {
+  podcasts: BbcPodcast[];
+}
+
 interface BbcGetVideoResult {
   videoId: string;
   title: string;
@@ -10810,6 +10908,12 @@ interface bbcRow {
      * and the related-story links. Takes a video id or URL from listVideos or listHeadlines.
      */
     getVideo(videoIdOrUrl: string): Promise<BbcGetVideoResult>;
+
+    /**
+     * The podcasts and audio series featured on BBC Audio (/audio): title, description, image and
+     * podcast id — the finder for getPodcast and followPodcast.
+     */
+    listPodcasts(): Promise<BbcListPodcastsResult>;
 
     /**
      * The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id, date —
@@ -13378,6 +13482,9 @@ interface GetAuthorArticlesArgs {
   author: string;
   limit?: number;
 }
+interface ListOpinionPiecesArgs {
+  limit?: number;
+}
 interface BusinessInsiderListedArticle {
   title: string;
   url: string;
@@ -13433,6 +13540,12 @@ interface BusinessInsiderArticleRecord {
      * orders its grid.
      */
     getAuthorArticles(args: GetAuthorArticlesArgs): Promise<BusinessInsiderListedArticle[]>;
+
+    /**
+     * Lists opinion and analysis pieces from the Opinion section, title and URL per article,
+     * newest-first as the site orders its grid.
+     */
+    listOpinionPieces(args: ListOpinionPiecesArgs): Promise<BusinessInsiderListedArticle[]>;
 
     /**
      * Reads one businessinsider.com article's full text and metadata (headline, author, section,
@@ -58246,6 +58359,7 @@ interface BowmarkProviders {
   achosahw: BowmarkProvider_achosahw.Unit;
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
   agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
+  agentstatus: BowmarkProvider_agentstatus.Unit;
   ai_engineer: BowmarkProvider_ai_engineer.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   airbnb: BowmarkProvider_airbnb.Unit;

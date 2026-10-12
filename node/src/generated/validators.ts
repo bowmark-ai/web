@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269
-// 2046 checked, 20 unchecked.
+// Manifest version: 1dab06e58c874e908e4fde039a4ca5820ecde267c1049ad960cc6e386a39a8c3
+// 2050 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269",
+  "version": "1dab06e58c874e908e4fde039a4ca5820ecde267c1049ad960cc6e386a39a8c3",
   "units": {
     "address_validation": {
       "defs": {
@@ -7129,6 +7129,63 @@ export const VALIDATORS: ValidatorTable = {
         "listSpecialties": []
       }
     },
+    "providers.agentstatus": {
+      "defs": {
+        "AgentStatusGetServerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "AgentStatusSearchServersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchServers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AgentStatusSearchServersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getServer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AgentStatusGetServerArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.ai_engineer": {
       "defs": {},
       "functions": {
@@ -11791,6 +11848,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listPodcasts": [],
         "listTopicStories": [
           {
             "name": "args",
@@ -14392,6 +14450,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListOpinionPiecesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSectionsArgs": {
           "k": "object",
           "props": []
@@ -14424,6 +14494,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetAuthorArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listOpinionPieces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListOpinionPiecesArgs"
             },
             "optional": false
           }

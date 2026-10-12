@@ -1,5 +1,5 @@
 {
-  "version": "0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269",
+  "version": "1dab06e58c874e908e4fde039a4ca5820ecde267c1049ad960cc6e386a39a8c3",
   "units": {
     "address_validation": {
       "defs": {
@@ -7117,6 +7117,63 @@
         "listSpecialties": []
       }
     },
+    "providers.agentstatus": {
+      "defs": {
+        "AgentStatusGetServerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "AgentStatusSearchServersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchServers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AgentStatusSearchServersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getServer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AgentStatusGetServerArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.ai_engineer": {
       "defs": {},
       "functions": {
@@ -11779,6 +11836,7 @@
             "optional": false
           }
         ],
+        "listPodcasts": [],
         "listTopicStories": [
           {
             "name": "args",
@@ -14380,6 +14438,18 @@
             }
           ]
         },
+        "ListOpinionPiecesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSectionsArgs": {
           "k": "object",
           "props": []
@@ -14412,6 +14482,16 @@
             "schema": {
               "k": "ref",
               "name": "GetAuthorArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listOpinionPieces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListOpinionPiecesArgs"
             },
             "optional": false
           }
