@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a017f1e5f0c0d03f089512d95994d672f0e8f90b217d869f4cd450bf0f3f632f
-// 2041 checked, 20 unchecked.
+// Manifest version: 0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269
+// 2046 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a017f1e5f0c0d03f089512d95994d672f0e8f90b217d869f4cd450bf0f3f632f",
+  "version": "0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269",
   "units": {
     "address_validation": {
       "defs": {
@@ -5287,6 +5287,147 @@ export const VALIDATORS: ValidatorTable = {
                       "optional": false
                     }
                   ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "used_car_search": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "UsedCarSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zipCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "make",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxMileage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "certifiedOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "best"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "price"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mileage"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "distance"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "UsedCarSearchArgs"
                 }
               ]
             },
@@ -21874,6 +22015,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SuggestTitlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "wiki",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -21892,6 +22052,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "suggestTitles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SuggestTitlesArgs"
             },
             "optional": false
           }
@@ -27880,6 +28050,72 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.hackernews": {
       "defs": {
+        "HackerNewsSearchCommentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "since",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "until",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "date"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "HackerNewsTopStoriesArgs": {
           "k": "object",
           "props": [
@@ -27951,6 +28187,24 @@ export const VALIDATORS: ValidatorTable = {
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchComments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "HackerNewsSearchCommentsArgs"
+                }
+              ]
             },
             "optional": false
           }
@@ -37250,6 +37504,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListDocumentsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getDocument": [
@@ -37260,6 +37530,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetDocumentArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "createDocument": [
@@ -37270,6 +37556,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CreateDocumentArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "listDocumentVersions": [
@@ -37280,6 +37582,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListDocumentVersionsArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "restoreDocumentVersion": [
@@ -37290,6 +37608,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "RestoreDocumentVersionArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "shareDocument": [
@@ -37300,6 +37634,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ShareDocumentArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "deleteDocument": [
@@ -37310,6 +37660,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "DeleteDocumentArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -54534,6 +54900,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "categoryId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "reviewPhotos": [
           {
             "name": "args",
@@ -59108,6 +59492,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.usatoday": {
+      "defs": {},
+      "functions": {
+        "listSections": []
       }
     },
     "providers.usps": {

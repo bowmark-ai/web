@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a017f1e5f0c0d03f089512d95994d672f0e8f90b217d869f4cd450bf0f3f632f
-// 86 capabilities, 566 providers, 2059 typed functions, 20 refused.
+// Manifest version: 0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269
+// 87 capabilities, 567 providers, 2064 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4616,6 +4616,69 @@ type CallOptions = {
      * ~33 parks in the covered portfolio.
      */
     search(park: string | { park: string }, options?: CallOptions): Promise<ThemeParkTicketsResult>;
+  }
+}
+
+declare namespace BowmarkCapability_used_car_search {
+  // ── Used car search — shop used cars for sale by make, model and ZIP — the unit's own declarations, verbatim ──
+type UsedCarListing = {
+  id: string
+  year: number | null
+  make: string | null
+  model: string | null
+  price: number | null          // asking price, USD
+  mileage: number | null
+  vin: string | null
+  certifiedPreowned: boolean | null
+  zipCode: string | null        // where the car is
+  dealerName: string | null
+  priceBadge: string | null     // the site's own "great deal" badge, usually null
+  listedAt: string | null
+  url: string                   // the listing page — contact the seller there
+  source: "cars.com"
+}
+type UsedCarSearchResult = {
+  totalListings: number         // matches across every page, not just the rows returned
+  listings: UsedCarListing[]    // [] when nothing matches — a real, complete answer
+  appliedFilters: { filter: string; value: string | null }[]  // what the source actually applied
+  warnings: string[]            // always present; e.g. a listing that sold between search and read
+}
+type UsedCarSearchArgs = {
+  zipCode: string               // 5-digit US ZIP
+  make?: string                 // "Toyota"
+  model?: string                // "Camry" (needs make)
+  radiusMiles?: number          // default 50
+  maxPrice?: number
+  minPrice?: number
+  maxMileage?: number
+  certifiedOnly?: boolean       // certified pre-owned only
+  sort?: "best" | "price" | "mileage" | "newest" | "distance"   // default "best"
+  limit?: number                // listings read in full, 1-25, default 10
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Shop used (or certified pre-owned) cars for sale near a US ZIP by make and model — price,
+   * mileage, year, VIN, dealer and the listing link for each, from cars.com's live inventory.
+   * Takes plain text like "used toyota camry near 60601".
+   */
+  interface Unit {
+    /**
+     * Finds used cars for sale near a US ZIP — `bowmark.used_car_search.search("used toyota camry
+     * near 60601")` or `{ zipCode: "60601", make: "Toyota", model: "Camry", maxPrice: 20000 }` —
+     * and reads each match in full: year, make, model, asking price, mileage, VIN, CPO status,
+     * dealer, the car's ZIP and its listing url. `totalListings` is the match count across every
+     * page; `listings` holds the first `limit` (default 10, max 25). The free-text form needs a
+     * 5-digit ZIP and reads the first word as the make and the rest as the model. Check
+     * `appliedFilters` to see what the source actually filtered on. `listings: []` is a real
+     * answer.
+     */
+    search(query: string | UsedCarSearchArgs, options?: CallOptions): Promise<UsedCarSearchResult>;
   }
 }
 
@@ -21557,6 +21620,17 @@ interface SearchResult {
   snippet: string;
 }
 
+interface SuggestTitlesArgs {
+  wiki: string;
+  query: string;
+}
+
+interface SuggestTitle {
+  title: string;
+  description: string;
+  url: string;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -21576,6 +21650,12 @@ interface SearchResult {
      * title, url, size, word count and timestamp. `GET /api.php?action=query&list=search`.
      */
     search(args: SearchArgs): Promise<SearchResult[]>;
+
+    /**
+     * Autocomplete a partial title within one wiki, the way its search box does as you type — get
+     * suggestions with title and description. `GET /api.php?action=opensearch`.
+     */
+    suggestTitles(args: SuggestTitlesArgs): Promise<SuggestTitle[]>;
   }
 }
 
@@ -26843,6 +26923,24 @@ interface HackerNewsSearchHit {
   createdAt: string | null;
   hnUrl: string;
 }
+interface HackerNewsCommentHit {
+  id: number;
+  text: string;
+  author: string | null;
+  createdAt: string | null;
+  parentId: number | null;
+  storyId: number | null;
+  storyTitle: string | null;
+  storyUrl: string | null;
+  hnUrl: string;
+}
+interface HackerNewsSearchCommentsArgs {
+  query: string;
+  since?: string | number;
+  until?: string | number;
+  sort?: "relevance" | "date";
+  limit?: number;
+}
 interface HackerNewsTopStoriesArgs {
   list?: "top" | "new" | "best" | "ask" | "show" | "job";
   limit?: number;
@@ -26851,7 +26949,8 @@ interface HackerNewsTopStoriesArgs {
   /**
    * Hacker News (news.ycombinator.com) — the current top / new / best / Ask HN / Show HN / job
    * stories with title, link, points and comment count, one item (story or comment) by id, and
-   * keyword search over every HN story, through HN's own public API.
+   * keyword search over every HN story or every HN comment (with a date window), through HN's
+   * own public API.
    */
   interface Unit {
     /**
@@ -26875,6 +26974,16 @@ interface HackerNewsTopStoriesArgs {
      * on no match. Example: search("rust").
      */
     search(query: string): Promise<HackerNewsSearchHit[]>;
+
+    /**
+     * Keyword search over every Hacker News COMMENT (not just stories), through HN's own search
+     * (hn.algolia.com) — what the community said about a topic. Each hit has the plain-text
+     * comment, author, date, and the story it was posted under. `since` / `until` bound the date
+     * (ISO date or unix seconds); `sort` is "relevance" (default) or "date" (newest first);
+     * `limit` 1-100, default 20. Returns [] on no match. Example: searchComments({ query: "rust",
+     * since: "2026-01-01" }).
+     */
+    searchComments(args: string | HackerNewsSearchCommentsArgs): Promise<HackerNewsCommentHit[]>;
   }
 }
 
@@ -36413,7 +36522,7 @@ interface StoreShelfRoster {
 }
 
 declare namespace BowmarkProvider_microsoft_365 {
-  // ── TODO — the unit's own declarations, verbatim ──
+  // ── Microsoft 365 — the unit's own declarations, verbatim ──
 interface microsoft_365Document {
   id: string;
   name: string;
@@ -36469,53 +36578,56 @@ interface DeleteDocumentArgs {
   itemId: string;
 }
 
-  /** TODO — one line an agent reads to decide whether to call this. */
+  /**
+   * Microsoft 365 cloud document management — lists, retrieves, creates, versions, restores and
+   * deletes Word, Excel, PowerPoint and OneNote documents in OneDrive.
+   */
   interface Unit {
     /**
      * Lists documents from the user's Microsoft 365 OneDrive, including files and folders with
      * metadata. The optional `folderId` parameter filters to a specific folder; defaults to the
      * root drive.
      */
-    listDocuments(args?: ListDocumentsArgs): Promise<microsoft_365Document[]>;
+    listDocuments(args?: ListDocumentsArgs, opts?: ConnectionOption): Promise<microsoft_365Document[]>;
 
     /**
      * Retrieves metadata for a specific document or folder in the user's Microsoft 365 OneDrive by
      * item ID. Returns the document's properties including name, size, last modified date, sharing
      * information, and type.
      */
-    getDocument(args: GetDocumentArgs): Promise<microsoft_365Document>;
+    getDocument(args: GetDocumentArgs, opts?: ConnectionOption): Promise<microsoft_365Document>;
 
     /**
      * Creates a new document in the user's Microsoft 365 OneDrive with the specified name and
      * optional type (Word, Excel, PowerPoint, or OneNote). Returns the metadata of the newly
      * created document.
      */
-    createDocument(args: CreateDocumentArgs): Promise<microsoft_365Document>;
+    createDocument(args: CreateDocumentArgs, opts?: ConnectionOption): Promise<microsoft_365Document>;
 
     /**
      * Lists the version history of a specific document in the user's Microsoft 365 OneDrive.
      * Returns an array of versions with timestamps and metadata for each version.
      */
-    listDocumentVersions(args: ListDocumentVersionsArgs): Promise<DocumentVersion[]>;
+    listDocumentVersions(args: ListDocumentVersionsArgs, opts?: ConnectionOption): Promise<DocumentVersion[]>;
 
     /**
      * Restores a document in Microsoft 365 OneDrive to a specified previous version. Takes the
      * document ID and version ID, and returns the metadata of the restored document.
      */
-    restoreDocumentVersion(args: RestoreDocumentVersionArgs): Promise<microsoft_365Document>;
+    restoreDocumentVersion(args: RestoreDocumentVersionArgs, opts?: ConnectionOption): Promise<microsoft_365Document>;
 
     /**
      * Shares a document in Microsoft 365 OneDrive with another user by email address. Takes the
      * document ID, recipient email, and optional permission type (read or edit), and returns the
      * share details.
      */
-    shareDocument(args: ShareDocumentArgs): Promise<{ id: string }>;
+    shareDocument(args: ShareDocumentArgs, opts?: ConnectionOption): Promise<{ id: string }>;
 
     /**
      * Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. Returns the
      * deleted item's ID.
      */
-    deleteDocument(args: DeleteDocumentArgs): Promise<{ id: string }>;
+    deleteDocument(args: DeleteDocumentArgs, opts?: ConnectionOption): Promise<{ id: string }>;
   }
 }
 
@@ -48504,6 +48616,19 @@ interface TargetCheckStockResult {
   warnings: string[];
 }
 
+interface TargetCategory {
+  id: string;  // the site's internal category id — the N-<id> segment in the URL
+  name: string;  // display name, e.g. "Grocery" or "Snacks"
+  slug: string;  // URL slug for the category, e.g. "grocery"; empty for the root
+  children: TargetCategory[];  // direct children the page returned, [] for a leaf or a child row (one level deep per call)
+}
+
+interface TargetCategoriesResult {
+  category: TargetCategory | null;  // the category node that was browsed, null if the page shape was unrecognized
+  allCategories: TargetCategory[];  // the browsed category plus its direct children, flattened
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -48542,6 +48667,15 @@ interface TargetCheckStockResult {
      * returns each store's id, slug, name, address, phone, time-zone and 14-day weekly hours.
      */
     findStore(args: { query: string }): Promise<TargetStoreSearch>;
+
+    /**
+     * Reads one node of Target's category taxonomy (department → aisle, e.g. Grocery → Snacks)
+     * plus its direct children — one level per call, the same depth the site's own category page
+     * renders. Called without arguments, returns the 47 top-level departments. `categoryId` is the
+     * site's own id (the `N-<id>` URL segment, e.g. "5xt1a" for Grocery) taken from a prior call's
+     * `TargetCategory.id` to walk one level deeper.
+     */
+    listCategories(args?: { categoryId?: string }): Promise<TargetCategoriesResult>;
 
     /**
      * Returns customer review photos for one product — the real-world pictures shoppers attached
@@ -52433,6 +52567,27 @@ interface upsRatedShipment {
      * this provider's `auth`.
      */
     getRate(args: { fromZip: string; toZip: string; weightOz: number; length?: number; width?: number; height?: number; accountNumber?: string }): Promise<upsRatedShipment[]>;
+  }
+}
+
+declare namespace BowmarkProvider_usatoday {
+  // ── USA Today — the unit's own declarations, verbatim ──
+interface usatodayRow {
+  id: string;
+}
+
+interface usatodaySection {
+  id: string;
+  name: string;
+}
+
+  /** USA Today news site — articles, sections, search, sports scores and puzzles. */
+  interface Unit {
+    /**
+     * Lists USA Today's main news sections (news, sports, money, life, tech, opinion), each with a
+     * section ID and display name. This is the door for browsing a section.
+     */
+    listSections(): Promise<usatodaySection[]>;
   }
 }
 
@@ -58610,6 +58765,7 @@ interface BowmarkProviders {
   uniqlo: BowmarkProvider_uniqlo.Unit;
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
   ups: BowmarkProvider_ups.Unit;
+  usatoday: BowmarkProvider_usatoday.Unit;
   usps: BowmarkProvider_usps.Unit;
   vbt: BowmarkProvider_vbt.Unit;
   verizon: BowmarkProvider_verizon.Unit;
@@ -108605,6 +108761,7 @@ interface BowmarkLibrary {
   tariff: BowmarkCapability_tariff.Unit;
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
   theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;
+  used_car_search: BowmarkCapability_used_car_search.Unit;
   vacation_rental: BowmarkCapability_vacation_rental.Unit;
   video_editing: BowmarkCapability_video_editing.Unit;
   video_library: BowmarkCapability_video_library.Unit;

@@ -1,5 +1,5 @@
 {
-  "version": "a017f1e5f0c0d03f089512d95994d672f0e8f90b217d869f4cd450bf0f3f632f",
+  "version": "0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269",
   "units": {
     "address_validation": {
       "defs": {
@@ -5275,6 +5275,147 @@
                       "optional": false
                     }
                   ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "used_car_search": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "UsedCarSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zipCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "make",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxMileage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "certifiedOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "best"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "price"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mileage"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "distance"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "UsedCarSearchArgs"
                 }
               ]
             },
@@ -21862,6 +22003,25 @@
               "optional": false
             }
           ]
+        },
+        "SuggestTitlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "wiki",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -21880,6 +22040,16 @@
             "schema": {
               "k": "ref",
               "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "suggestTitles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SuggestTitlesArgs"
             },
             "optional": false
           }
@@ -27868,6 +28038,72 @@
     },
     "providers.hackernews": {
       "defs": {
+        "HackerNewsSearchCommentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "since",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "until",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "date"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "HackerNewsTopStoriesArgs": {
           "k": "object",
           "props": [
@@ -27939,6 +28175,24 @@
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchComments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "HackerNewsSearchCommentsArgs"
+                }
+              ]
             },
             "optional": false
           }
@@ -37238,6 +37492,22 @@
               "name": "ListDocumentsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getDocument": [
@@ -37248,6 +37518,22 @@
               "name": "GetDocumentArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "createDocument": [
@@ -37258,6 +37544,22 @@
               "name": "CreateDocumentArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "listDocumentVersions": [
@@ -37268,6 +37570,22 @@
               "name": "ListDocumentVersionsArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "restoreDocumentVersion": [
@@ -37278,6 +37596,22 @@
               "name": "RestoreDocumentVersionArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "shareDocument": [
@@ -37288,6 +37622,22 @@
               "name": "ShareDocumentArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "deleteDocument": [
@@ -37298,6 +37648,22 @@
               "name": "DeleteDocumentArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -54522,6 +54888,24 @@
             "optional": false
           }
         ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "categoryId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "reviewPhotos": [
           {
             "name": "args",
@@ -59096,6 +59480,12 @@
             "optional": false
           }
         ]
+      }
+    },
+    "providers.usatoday": {
+      "defs": {},
+      "functions": {
+        "listSections": []
       }
     },
     "providers.usps": {

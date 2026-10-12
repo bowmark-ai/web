@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a017f1e5f0c0d03f089512d95994d672f0e8f90b217d869f4cd450bf0f3f632f
-# 86 capabilities, 566 providers, 2041 typed functions, 20 refused.
+# Manifest version: 0070743c62404643e2b95c022efcf6c2cff2deee0ae5ade0ca14de4cb2248269
+# 87 capabilities, 567 providers, 2046 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2547,6 +2547,47 @@ class Cap_theme_park_tickets_TicketOption_Out(TypedDict):
     priceModifier: str | None
     wasPriceAmount: float | None
     buyUrl: str | None
+
+class Cap_used_car_search_UsedCarSearchArgs_In(TypedDict):
+    zipCode: str
+    make: NotRequired[str]
+    model: NotRequired[str]
+    radiusMiles: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxMileage: NotRequired[float]
+    certifiedOnly: NotRequired[bool]
+    sort: NotRequired[Literal["best"] | Literal["price"] | Literal["mileage"] | Literal["newest"] | Literal["distance"]]
+    limit: NotRequired[float]
+
+class Cap_used_car_search_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_used_car_search_UsedCarSearchResult_Out(TypedDict):
+    totalListings: float
+    listings: list[Cap_used_car_search_UsedCarListing_Out]
+    appliedFilters: list[Cap_used_car_search_UsedCarSearchResult_Out_appliedFilters_item_Out]
+    warnings: list[str]
+
+class Cap_used_car_search_UsedCarListing_Out(TypedDict):
+    id: str
+    year: float | None
+    make: str | None
+    model: str | None
+    price: float | None
+    mileage: float | None
+    vin: str | None
+    certifiedPreowned: bool | None
+    zipCode: str | None
+    dealerName: str | None
+    priceBadge: str | None
+    listedAt: str | None
+    url: str
+    source: Literal["cars.com"]
+
+class Cap_used_car_search_UsedCarSearchResult_Out_appliedFilters_item_Out(TypedDict):
+    filter: str
+    value: str | None
 
 class Cap_vacation_rental_search_args_In(TypedDict):
     location: str
@@ -12200,6 +12241,15 @@ class Prv_fandom_SearchResult_Out(TypedDict):
     timestamp: str
     snippet: str
 
+class Prv_fandom_SuggestTitlesArgs_In(TypedDict):
+    wiki: str
+    query: str
+
+class Prv_fandom_SuggestTitle_Out(TypedDict):
+    title: str
+    description: str
+    url: str
+
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
     limit: NotRequired[float]
@@ -14905,6 +14955,24 @@ class Prv_hackernews_HackerNewsSearchHit_Out(TypedDict):
     points: float | None
     commentCount: float | None
     createdAt: str | None
+    hnUrl: str
+
+class Prv_hackernews_HackerNewsSearchCommentsArgs_In(TypedDict):
+    query: str
+    since: NotRequired[str | float]
+    until: NotRequired[str | float]
+    sort: NotRequired[Literal["relevance"] | Literal["date"]]
+    limit: NotRequired[float]
+
+class Prv_hackernews_HackerNewsCommentHit_Out(TypedDict):
+    id: float
+    text: str
+    author: str | None
+    createdAt: str | None
+    parentId: float | None
+    storyId: float | None
+    storyTitle: str | None
+    storyUrl: str | None
     hnUrl: str
 
 class Prv_hamptonwaterwine_HamptonWaterNearbyRetailers_Out(TypedDict):
@@ -27163,6 +27231,20 @@ class Prv_target_TargetStoreHoursInterval_Out(TypedDict):
     end_date: str
     end_time: str
 
+class Prv_target_listCategories_args_In(TypedDict):
+    categoryId: NotRequired[str]
+
+class Prv_target_TargetCategoriesResult_Out(TypedDict):
+    category: Prv_target_TargetCategory_Out | None
+    allCategories: list[Prv_target_TargetCategory_Out]
+    warnings: list[str]
+
+class Prv_target_TargetCategory_Out(TypedDict):
+    id: str
+    name: str
+    slug: str
+    children: list[Prv_target_TargetCategory_Out]
+
 class Prv_target_reviewPhotos_args_In(TypedDict):
     tcin: str
     limit: NotRequired[float]
@@ -29355,6 +29437,10 @@ class Prv_ups_upsRatedShipment_Out(TypedDict):
     price: float
     currency: str
     transitDays: float | None
+
+class Prv_usatoday_usatodaySection_Out(TypedDict):
+    id: str
+    name: str
 
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
@@ -34067,6 +34153,23 @@ class Cap_theme_park_tickets(Protocol):
         struck-through "was" price and a buy link, exactly as the park's own site is publishing
         today. Throws naming the closest matches when the park name does not resolve to one of
         the ~33 parks in the covered portfolio.
+        """
+
+class Cap_used_car_search(Protocol):
+    """Shop used (or certified pre-owned) cars for sale near a US ZIP by make and model —
+    price, mileage, year, VIN, dealer and the listing link for each, from cars.com's live
+    inventory. Takes plain text like "used toyota camry near 60601".
+    """
+
+    async def search(self, query: str | Cap_used_car_search_UsedCarSearchArgs_In, options: Cap_used_car_search_CallOptions_In | None = None, /) -> Cap_used_car_search_UsedCarSearchResult_Out:
+        """Finds used cars for sale near a US ZIP — `bowmark.used_car_search.search("used toyota
+        camry near 60601")` or `{ zipCode: "60601", make: "Toyota", model: "Camry", maxPrice:
+        20000 }` — and reads each match in full: year, make, model, asking price, mileage, VIN,
+        CPO status, dealer, the car's ZIP and its listing url. `totalListings` is the match
+        count across every page; `listings` holds the first `limit` (default 10, max 25). The
+        free-text form needs a 5-digit ZIP and reads the first word as the make and the rest as
+        the model. Check `appliedFilters` to see what the source actually filtered on.
+        `listings: []` is a real answer.
         """
 
 class Cap_vacation_rental(Protocol):
@@ -40152,6 +40255,11 @@ class Prv_fandom(Protocol):
         id, title, url, size, word count and timestamp. `GET /api.php?action=query&list=search`.
         """
 
+    async def suggestTitles(self, args: Prv_fandom_SuggestTitlesArgs_In, /) -> list[Prv_fandom_SuggestTitle_Out]:
+        """Autocomplete a partial title within one wiki, the way its search box does as you type —
+        get suggestions with title and description. `GET /api.php?action=opensearch`.
+        """
+
 class Prv_fbsappliance(Protocol):
     """FBS Appliance's real catalog across 8 Texas showrooms — searchAppliances runs the site's
     own category grid and returns real, currently-listed appliances with live selling price,
@@ -42359,7 +42467,8 @@ class Prv_gst_india(Protocol):
 class Prv_hackernews(Protocol):
     """Hacker News (news.ycombinator.com) — the current top / new / best / Ask HN / Show HN /
     job stories with title, link, points and comment count, one item (story or comment) by
-    id, and keyword search over every HN story, through HN's own public API.
+    id, and keyword search over every HN story or every HN comment (with a date window),
+    through HN's own public API.
     """
 
     async def topStories(self, args: Prv_hackernews_HackerNewsTopStoriesArgs_In | None = None, /) -> list[Prv_hackernews_HackerNewsItem_Out]:
@@ -42380,6 +42489,15 @@ class Prv_hackernews(Protocol):
         """Keyword search over every Hacker News story, through HN's own search (hn.algolia.com) —
         up to 20 hits ranked by relevance with title, link, points, comment count and date.
         Returns [] on no match. Example: search("rust").
+        """
+
+    async def searchComments(self, args: str | Prv_hackernews_HackerNewsSearchCommentsArgs_In, /) -> list[Prv_hackernews_HackerNewsCommentHit_Out]:
+        """Keyword search over every Hacker News COMMENT (not just stories), through HN's own
+        search (hn.algolia.com) — what the community said about a topic. Each hit has the
+        plain-text comment, author, date, and the story it was posted under. `since` / `until`
+        bound the date (ISO date or unix seconds); `sort` is "relevance" (default) or "date"
+        (newest first); `limit` 1-100, default 20. Returns [] on no match. Example:
+        searchComments({ query: "rust", since: "2026-01-01" }).
         """
 
 class Prv_hamptonwaterwine(Protocol):
@@ -45612,43 +45730,45 @@ class Prv_microcenter(Protocol):
         """
 
 class Prv_microsoft_365(Protocol):
-    """TODO — one line an agent reads to decide whether to call this."""
+    """Microsoft 365 cloud document management — lists, retrieves, creates, versions, restores
+    and deletes Word, Excel, PowerPoint and OneNote documents in OneDrive.
+    """
 
-    async def listDocuments(self, args: Prv_microsoft_365_ListDocumentsArgs_In | None = None, /) -> list[Prv_microsoft_365_microsoft_365Document_Out]:
+    async def listDocuments(self, args: Prv_microsoft_365_ListDocumentsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_365_microsoft_365Document_Out]:
         """Lists documents from the user's Microsoft 365 OneDrive, including files and folders with
         metadata. The optional `folderId` parameter filters to a specific folder; defaults to
         the root drive.
         """
 
-    async def getDocument(self, args: Prv_microsoft_365_GetDocumentArgs_In, /) -> Prv_microsoft_365_microsoft_365Document_Out:
+    async def getDocument(self, args: Prv_microsoft_365_GetDocumentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_365_microsoft_365Document_Out:
         """Retrieves metadata for a specific document or folder in the user's Microsoft 365
         OneDrive by item ID. Returns the document's properties including name, size, last
         modified date, sharing information, and type.
         """
 
-    async def createDocument(self, args: Prv_microsoft_365_CreateDocumentArgs_In, /) -> Prv_microsoft_365_microsoft_365Document_Out:
+    async def createDocument(self, args: Prv_microsoft_365_CreateDocumentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_365_microsoft_365Document_Out:
         """Creates a new document in the user's Microsoft 365 OneDrive with the specified name and
         optional type (Word, Excel, PowerPoint, or OneNote). Returns the metadata of the newly
         created document.
         """
 
-    async def listDocumentVersions(self, args: Prv_microsoft_365_ListDocumentVersionsArgs_In, /) -> list[Prv_microsoft_365_DocumentVersion_Out]:
+    async def listDocumentVersions(self, args: Prv_microsoft_365_ListDocumentVersionsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_365_DocumentVersion_Out]:
         """Lists the version history of a specific document in the user's Microsoft 365 OneDrive.
         Returns an array of versions with timestamps and metadata for each version.
         """
 
-    async def restoreDocumentVersion(self, args: Prv_microsoft_365_RestoreDocumentVersionArgs_In, /) -> Prv_microsoft_365_microsoft_365Document_Out:
+    async def restoreDocumentVersion(self, args: Prv_microsoft_365_RestoreDocumentVersionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_365_microsoft_365Document_Out:
         """Restores a document in Microsoft 365 OneDrive to a specified previous version. Takes the
         document ID and version ID, and returns the metadata of the restored document.
         """
 
-    async def shareDocument(self, args: Prv_microsoft_365_ShareDocumentArgs_In, /) -> Prv_microsoft_365_shareDocument_return_Out:
+    async def shareDocument(self, args: Prv_microsoft_365_ShareDocumentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_365_shareDocument_return_Out:
         """Shares a document in Microsoft 365 OneDrive with another user by email address. Takes
         the document ID, recipient email, and optional permission type (read or edit), and
         returns the share details.
         """
 
-    async def deleteDocument(self, args: Prv_microsoft_365_DeleteDocumentArgs_In, /) -> Prv_microsoft_365_deleteDocument_return_Out:
+    async def deleteDocument(self, args: Prv_microsoft_365_DeleteDocumentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_365_deleteDocument_return_Out:
         """Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. Returns
         the deleted item's ID.
         """
@@ -49998,6 +50118,14 @@ class Prv_target(Protocol):
         hours.
         """
 
+    async def listCategories(self, args: Prv_target_listCategories_args_In | None = None, /) -> Prv_target_TargetCategoriesResult_Out:
+        """Reads one node of Target's category taxonomy (department → aisle, e.g. Grocery → Snacks)
+        plus its direct children — one level per call, the same depth the site's own category
+        page renders. Called without arguments, returns the 47 top-level departments.
+        `categoryId` is the site's own id (the `N-<id>` URL segment, e.g. "5xt1a" for Grocery)
+        taken from a prior call's `TargetCategory.id` to walk one level deeper.
+        """
+
     async def reviewPhotos(self, args: Prv_target_reviewPhotos_args_In, /) -> Prv_target_TargetReviewPhotos_Out:
         """Returns customer review photos for one product — the real-world pictures shoppers
         attached to their reviews, as opposed to the catalog images `getProduct` returns —
@@ -51418,6 +51546,14 @@ class Prv_ups(Protocol):
         UPS developer account — published rates vary by whether one is sent, and UPS's own
         response passes straight through either way. Requires a UPS OAuth2 client-credentials
         token — see this provider's `auth`.
+        """
+
+class Prv_usatoday(Protocol):
+    """USA Today news site — articles, sections, search, sports scores and puzzles."""
+
+    async def listSections(self, /) -> list[Prv_usatoday_usatodaySection_Out]:
+        """Lists USA Today's main news sections (news, sports, money, life, tech, opinion), each
+        with a section ID and display name. This is the door for browsing a section.
         """
 
 class Prv_usps(Protocol):
@@ -53728,6 +53864,7 @@ class BowmarkProviders(Protocol):
     uniqlo: Prv_uniqlo
     upkeepstl_com: Prv_upkeepstl_com
     ups: Prv_ups
+    usatoday: Prv_usatoday
     usps: Prv_usps
     vbt: Prv_vbt
     verizon: Prv_verizon
@@ -53852,6 +53989,7 @@ class Bowmark(Protocol):
     tariff: Cap_tariff
     text_to_speech: Cap_text_to_speech
     theme_park_tickets: Cap_theme_park_tickets
+    used_car_search: Cap_used_car_search
     vacation_rental: Cap_vacation_rental
     video_editing: Cap_video_editing
     video_library: Cap_video_library

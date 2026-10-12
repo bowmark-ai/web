@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3325 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3328 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -38,6 +38,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
 | `agakhanhospitals.getHospitalInfo` | agakhanhospitals.org | Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services… | 🟢 |
 | `agakhanhospitals.listSpecialties` | agakhanhospitals.org | Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics… | 🟢 |
+| `agentstatus.getServer` | agentstatus.dev | Reads one server's entry on the index by slug, including every tool the index probed… | 🟢 |
+| `agentstatus.searchServers` | agentstatus.dev | Searches the Public MCP Score index (agentstatus.dev/mcp-index) by server name, slug… | 🟢 |
+| `agentstatus.submitServer` | agentstatus.dev | Would submit a public MCP server URL plus an email to the index's "Submit Your MCP… | ⚪ |
 | `ai_engineer.getSpeaker` | ai.engineer | Returns detailed information about one speaker from the AI Engineer conference… | 🟡 |
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟡 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
