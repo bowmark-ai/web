@@ -1551,7 +1551,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟢 |
 | `hackernews.getItem` | news.ycombinator.com | Returns one Hacker News item — story, comment, job or poll — by its numeric id or… | 🟢 |
 | `hackernews.search` | news.ycombinator.com | Keyword-searches every Hacker News story through HN's own search (hn.algolia.com)… | 🟢 |
-| `hackernews.searchComments` | news.ycombinator.com | Keyword-searches every Hacker News comment — not just stories — through HN's own… | 🟢 |
+| `hackernews.searchComments` | news.ycombinator.com | Search Hacker News comments for community discussion and opinion on a topic. | 🟢 |
 | `hackernews.topStories` | news.ycombinator.com | Returns the stories on the Hacker News front page (or the new, best, Ask HN, Show HN… | 🟢 |
 | `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟢 |
 | `handypro.checkServiceArea` | handypro.com | Checks whether a ZIP is served by a real local HandyPro franchisee and returns that… | 🟢 |
