@@ -1119,7 +1119,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getVideo` | facebook.com | Read details on a Facebook video — title, description, view count, comments. | ⚪ |
 | `facebook.joinGroup` | facebook.com | Request to join or join a Group. | ⚪ |
 | `facebook.likePhoto` | facebook.com | Like or unlike a photo. | ⚪ |
-| `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | ⚪ |
+| `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | 🟢 |
 | `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | ⚪ |
 | `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | 🟢 |
 | `facebook.listNotifications` | facebook.com | List the caller's notifications — friend requests, reactions, comments, mentions. | ⚪ |
