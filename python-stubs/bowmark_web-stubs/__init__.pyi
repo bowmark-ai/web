@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0805f2ecee7115ab8e096468532145702a3108779b80494a6263258b10613a91
-# 87 capabilities, 568 providers, 2051 typed functions, 20 refused.
+# Manifest version: da66b514f6e4971cd756d29eb1204fa39c0aaa02f81b4559bc789969b3e540b7
+# 87 capabilities, 575 providers, 2059 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1699,6 +1699,49 @@ class Cap_job_search_JobListing_Out(TypedDict):
     snippet: str | None
     url: str
     source: str
+
+class Cap_job_search_AtCompanyArgs_In(TypedDict):
+    url: NotRequired[str]
+    company: NotRequired[str]
+    query: NotRequired[str]
+    location: NotRequired[str]
+    maxJobs: NotRequired[float]
+
+class Cap_job_search_CompanyJobsResult_Out(TypedDict):
+    company: str | None
+    ats: str
+    boardToken: str
+    boardUrl: str
+    detectedBy: Literal["url"] | Literal["page"] | Literal["name"]
+    detectedOn: str | None
+    total: float
+    jobs: list[Cap_job_search_CompanyJob_Out]
+    alsoFound: list[Cap_job_search_CompanyJobsResult_Out_alsoFound_item_Out]
+    pagesChecked: list[str]
+    warnings: list[str]
+
+class Cap_job_search_CompanyJob_Out(TypedDict):
+    title: str
+    location: str | None
+    department: str | None
+    remote: bool | None
+    employmentType: str | None
+    url: str
+    postedAt: str | None
+    postedRelative: str | None
+    salary: str | None
+    salaryMin: float | None
+    salaryMax: float | None
+    salaryCurrency: str | None
+    salaryPeriod: str | None
+    id: str | None
+    source: str
+
+class Cap_job_search_CompanyJobsResult_Out_alsoFound_item_Out(TypedDict):
+    ats: str
+    boardToken: str
+    boardUrl: str
+    total: float
 
 class Cap_kenya_fuel_prices_kenya_fuel_pricesResult_Out(TypedDict):
     prices: list[Cap_kenya_fuel_prices_FuelPrice_Out]
@@ -5081,6 +5124,35 @@ class Prv_artpix3d_Artpix3dSizePrice_Out(TypedDict):
     inStock: bool
     bestSeller: bool
     lowStockLabel: str | None
+
+class Prv_ashby_AshbyBoard_Out(TypedDict):
+    name: str
+    boardUrl: str
+    total: float
+    postings: list[Prv_ashby_AshbyPosting_Out]
+    warnings: list[str]
+
+class Prv_ashby_AshbyPosting_Out(TypedDict):
+    id: str
+    title: str
+    department: str | None
+    team: str | None
+    employmentType: str | None
+    location: str | None
+    secondaryLocations: list[str]
+    isRemote: bool | None
+    workplaceType: str | None
+    publishedAt: str | None
+    url: str
+    applyUrl: str | None
+    compensationSummary: str | None
+    salary: Prv_ashby_AshbySalary_Out | None
+
+class Prv_ashby_AshbySalary_Out(TypedDict):
+    min: float | None
+    max: float | None
+    currency: str | None
+    interval: str | None
 
 class Prv_ashleyfurniture_AshleyFurnitureSearchArgs_In(TypedDict):
     query: str
@@ -15049,6 +15121,24 @@ class Prv_greatlakesdentaltech_GldtProduct_Out(TypedDict):
     stockMessage: str | None
     url: str
 
+class Prv_greenhouse_GreenhouseBoard_Out(TypedDict):
+    board: str
+    boardUrl: str
+    companyName: str | None
+    total: float
+    jobs: list[Prv_greenhouse_GreenhouseJob_Out]
+    warnings: list[str]
+
+class Prv_greenhouse_GreenhouseJob_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    department: str | None
+    url: str
+    firstPublished: str | None
+    updatedAt: str | None
+    requisitionId: str | None
+
 class Prv_gst_india_gst_indiaRow_Out(TypedDict):
     gstin: str
     name: str
@@ -18195,6 +18285,34 @@ class Prv_letterboxd_login_return_Out(TypedDict):
     account: str
     expiresAt: str
     warnings: NotRequired[list[str]]
+
+class Prv_lever_LeverBoard_Out(TypedDict):
+    site: str
+    boardUrl: str
+    total: float
+    postings: list[Prv_lever_LeverPosting_Out]
+    warnings: list[str]
+
+class Prv_lever_LeverPosting_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    allLocations: list[str]
+    department: str | None
+    team: str | None
+    commitment: str | None
+    workplaceType: str | None
+    country: str | None
+    url: str
+    applyUrl: str | None
+    createdAt: str | None
+    salaryRange: Prv_lever_LeverSalaryRange_Out | None
+
+class Prv_lever_LeverSalaryRange_Out(TypedDict):
+    min: float | None
+    max: float | None
+    currency: str | None
+    interval: str | None
 
 class Prv_lime_LimeCity_Out(TypedDict):
     name: str
@@ -23981,6 +24099,35 @@ class Prv_raadvanstate_nl_RaadvanstateRuling_Out(TypedDict):
     text: str
     url: str
 
+class Prv_recruitee_RecruiteeBoard_Out(TypedDict):
+    company: str
+    companyName: str | None
+    boardUrl: str
+    total: float
+    offers: list[Prv_recruitee_RecruiteeOffer_Out]
+    warnings: list[str]
+
+class Prv_recruitee_RecruiteeOffer_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    city: str | None
+    country: str | None
+    department: str | None
+    remote: bool | None
+    hybrid: bool | None
+    onSite: bool | None
+    employmentType: str | None
+    publishedAt: str | None
+    url: str
+    salary: Prv_recruitee_RecruiteeSalary_Out | None
+
+class Prv_recruitee_RecruiteeSalary_Out(TypedDict):
+    min: float | None
+    max: float | None
+    currency: str | None
+    period: str | None
+
 class Prv_reddit_search_query_u1_In(TypedDict):
     query: str
     subreddit: NotRequired[str]
@@ -26176,6 +26323,31 @@ class Prv_sixflags_SixFlagsPassRow_Out(TypedDict):
     currentPriceModifier: str | None
     strikethroughPrice: str | None
     buyUrl: str | None
+
+class Prv_smartrecruiters_SmartRecruitersListOptions_In(TypedDict):
+    query: NotRequired[str]
+    maxJobs: NotRequired[float]
+
+class Prv_smartrecruiters_SmartRecruitersBoard_Out(TypedDict):
+    company: str
+    companyName: str | None
+    boardUrl: str
+    totalFound: float
+    postings: list[Prv_smartrecruiters_SmartRecruitersPosting_Out]
+    warnings: list[str]
+
+class Prv_smartrecruiters_SmartRecruitersPosting_Out(TypedDict):
+    id: str
+    title: str
+    refNumber: str | None
+    location: str | None
+    remote: bool | None
+    hybrid: bool | None
+    department: str | None
+    employmentType: str | None
+    experienceLevel: str | None
+    releasedDate: str | None
+    url: str
 
 class Prv_smartsign_SmartsignSearchResult_Out(TypedDict):
     sku: str
@@ -31331,6 +31503,48 @@ class Prv_winestyles_WinestylesProduct_Out_price_Out(TypedDict):
     value: float | None
     formatted: str | None
 
+class Prv_workable_WorkableAccount_Out(TypedDict):
+    account: str
+    boardUrl: str
+    companyName: str | None
+    total: float
+    jobs: list[Prv_workable_WorkableJob_Out]
+    warnings: list[str]
+
+class Prv_workable_WorkableJob_Out(TypedDict):
+    shortcode: str
+    title: str
+    department: str | None
+    employmentType: str | None
+    remote: bool
+    city: str | None
+    state: str | None
+    country: str | None
+    locations: list[str]
+    url: str
+    applyUrl: str | None
+    publishedOn: str | None
+
+class Prv_workday_WorkdayListOptions_In(TypedDict):
+    query: NotRequired[str]
+    maxJobs: NotRequired[float]
+
+class Prv_workday_WorkdayBoard_Out(TypedDict):
+    tenant: str
+    pod: str
+    site: str
+    careerSiteUrl: str
+    total: float
+    postings: list[Prv_workday_WorkdayPosting_Out]
+    warnings: list[str]
+
+class Prv_workday_WorkdayPosting_Out(TypedDict):
+    title: str
+    location: str | None
+    postedOn: str | None
+    requisitionId: str | None
+    url: str
+
 class Prv_wunderflats_search_args_In(TypedDict):
     city: str
 
@@ -33602,13 +33816,26 @@ class Cap_istanbul_schedules(Protocol):
         """
 
 class Cap_job_search(Protocol):
-    """Open job listings for a role in a city — title, company, location, salary and age — off
-    Indeed's own regional results page (US, Canada, Netherlands).
+    """Open jobs two ways: for a role in a city off Indeed's own regional results page (US,
+    Canada, Netherlands), or EVERY open job at one company, live off its own
+    applicant-tracking system — Greenhouse, Lever, Ashby, Workable, SmartRecruiters,
+    Recruitee or Workday, detected from the company's site or name.
     """
 
     async def search(self, args: Cap_job_search_JobSearchArgs_In, /) -> Cap_job_search_job_searchResult_Out:
         """Open job listings for a role, optionally in a city — picks Indeed's regional board from
         the location (Toronto → ca.indeed.com).
+        """
+
+    async def atCompany(self, args: Cap_job_search_AtCompanyArgs_In, /) -> Cap_job_search_CompanyJobsResult_Out:
+        """Every open job at ONE company, read live off its own applicant-tracking system. Give
+        `url` (its site "stripe.com", its careers page, or any
+        Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday link) and/or `company`
+        (its name). It follows the company's careers link to find which ATS it uses, and falls
+        back to asking each ATS for a board under the company's name (`detectedBy: "name"` —
+        check `company`). `query` / `location` filter by title/department words and location
+        text. Throws when no supported ATS is found, naming what it checked — an ATS it does not
+        support, or a careers page that loads jobs only in the browser, is the usual reason.
         """
 
 class Cap_kenya_fuel_prices(Protocol):
@@ -35935,6 +36162,18 @@ class Prv_artpix3d(Protocol):
         price, list price, active discount, stock and best-seller status. `shape` is a slug from
         `listShapes()`. THROWS on an unknown shape, naming `listShapes()` as the way to find
         current ones.
+        """
+
+class Prv_ashby(Protocol):
+    """Every listed job on a company's Ashby board (jobs.ashbyhq.com) — title, team, location,
+    remote flag and the posted pay range — live off Ashby's own public job-posting API.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_ashby_AshbyBoard_Out:
+        """Every listed posting on one company's Ashby board, live, with the pay range the posting
+        shows. `company` is the Ashby board name ("openai"), any jobs.ashbyhq.com URL, or the
+        company name ("OpenAI"). Throws, caller-fixable, when Ashby has no board by that name —
+        the company may use a different ATS (`bowmark.job_search.atCompany` finds which).
         """
 
 class Prv_ashleyfurniture(Protocol):
@@ -42629,6 +42868,19 @@ class Prv_greatlakesdentaltech(Protocol):
         plus the page's own URL — where the real Add to Cart action lives.
         """
 
+class Prv_greenhouse(Protocol):
+    """Every open job on a company's Greenhouse job board — title, location, department,
+    posting date and link — live off Greenhouse's own public job-board API.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_greenhouse_GreenhouseBoard_Out:
+        """Every open job on one company's Greenhouse board, live. `company` is the board token
+        ("stripe"), any boards.greenhouse.io / job-boards.greenhouse.io URL, or the company name
+        ("Stripe"), which is folded to Greenhouse's own token form. Throws, caller-fixable, when
+        Greenhouse has no board by that name — the company may use a different ATS
+        (`bowmark.job_search.atCompany` finds which).
+        """
+
 class Prv_gst_india(Protocol):
     """Search India's GST registry for registrant details by GSTIN."""
 
@@ -44779,6 +45031,18 @@ class Prv_letterboxd(Protocol):
         Optionally set `keepAlive: { everyHours }` (or `false` to turn it off) and/or
         `expiresAt` (an ISO date/datetime, a hard ceiling); both default to a 12-hour keep-alive
         and can be changed later with `bm.connections.update(id, …)`.
+        """
+
+class Prv_lever(Protocol):
+    """Every published job on a company's Lever board (jobs.lever.co) — title, location, team,
+    workplace type, pay range when posted — live off Lever's own public Postings API.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_lever_LeverBoard_Out:
+        """Every published posting on one company's Lever board, live. `company` is the Lever site
+        name ("spotify"), any jobs.lever.co URL, or the company name ("Spotify"). Throws,
+        caller-fixable, when Lever has no site by that name — the company may use a different
+        ATS (`bowmark.job_search.atCompany` finds which).
         """
 
 class Prv_lime(Protocol):
@@ -48477,6 +48741,18 @@ class Prv_raadvanstate_nl(Protocol):
         summary and the complete ruling text, from the Dutch judiciary's open-data service.
         """
 
+class Prv_recruitee(Protocol):
+    """Every published job on a company's Recruitee careers site — title, location, department,
+    remote/hybrid/on-site, pay when posted — live off Recruitee's own Careers Site API.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_recruitee_RecruiteeBoard_Out:
+        """Every published offer on one company's Recruitee careers site, live. `company` is the
+        Recruitee subdomain ("bunq"), a {company}.recruitee.com URL, or the company name.
+        Throws, caller-fixable, when Recruitee has no such careers site — the company may use a
+        different ATS (`bowmark.job_search.atCompany` finds which).
+        """
+
 class Prv_reddit(Protocol):
     """Communities, threads and comment trees, and the signed-in account. Public reads need
     nothing: find communities, qualify one (subscribers, activity, whether you may read it),
@@ -49675,6 +49951,21 @@ class Prv_sixflags(Protocol):
         ticket/pass cards exactly as published today — title, subtitle, raw price text (the site
         renders it as `"$$55"`, i.e. `"$" + "$55"`), any "was" price, and a buy/learn-more link.
         Throws if the slug does not resolve to a real park page on the site.
+        """
+
+class Prv_smartrecruiters(Protocol):
+    """Every public posting a company has on SmartRecruiters — title, location, remote/hybrid,
+    department, release date — live off SmartRecruiters' own Posting API, with its keyword
+    filter.
+    """
+
+    async def listJobs(self, company: str, options: Prv_smartrecruiters_SmartRecruitersListOptions_In | None = None, /) -> Prv_smartrecruiters_SmartRecruitersBoard_Out:
+        """Public postings for one company on SmartRecruiters, live, paged until `maxJobs` (default
+        500). `company` is the SmartRecruiters identifier ("ServiceNow"), a
+        jobs.smartrecruiters.com URL, or the company name. `query` is SmartRecruiters' own
+        server-side keyword filter. SmartRecruiters answers an unknown identifier exactly like a
+        company with nothing open (`totalFound: 0`), so an empty board does not prove the
+        company is a customer.
         """
 
 class Prv_smartsign(Protocol):
@@ -52659,6 +52950,36 @@ class Prv_winestyles(Protocol):
         is not a real WineStyles store — call listStores() for real ids.
         """
 
+class Prv_workable(Protocol):
+    """Every published job on a company's Workable careers page (apply.workable.com) — title,
+    department, location, remote flag and posting date — live off Workable's own job-widget
+    feed.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_workable_WorkableAccount_Out:
+        """Every published job on one company's Workable careers page, live. `company` is the
+        Workable account ("huggingface"), an apply.workable.com URL, or the company name
+        ("Hugging Face"). Throws, caller-fixable, when Workable has no account by that name —
+        the company may use a different ATS (`bowmark.job_search.atCompany` finds which).
+        """
+
+class Prv_workday(Protocol):
+    """Open jobs on a company's Workday careers site (*.myworkdayjobs.com) — title, location,
+    posted-when and requisition id — live off the careers site's own job-list endpoint, with
+    Workday's keyword search. Finds the careers site from the company's name for the common
+    site names.
+    """
+
+    async def listJobs(self, company: str, options: Prv_workday_WorkdayListOptions_In | None = None, /) -> Prv_workday_WorkdayBoard_Out:
+        """Open jobs on one company's Workday careers site, live, paged until `maxJobs` (default
+        500). `company` is the careers-site URL the company links to
+        ("https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite") or the company's name
+        ("NVIDIA"); a name is resolved by asking every Workday pod for that tenant and trying
+        the site names Workday customers commonly use, so a company with an unusual site name
+        needs its URL. `query` is Workday's own keyword search. Workday's list carries no
+        department or exact date — `postedOn` is its own relative text.
+        """
+
 class Prv_wunderflats(Protocol):
     """Search for furnished apartments across German cities."""
 
@@ -53559,6 +53880,7 @@ class BowmarkProviders(Protocol):
     archipelago: Prv_archipelago
     archive_org: Prv_archive_org
     artpix3d: Prv_artpix3d
+    ashby: Prv_ashby
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco
     astoundgroup: Prv_astoundgroup
@@ -53782,6 +54104,7 @@ class BowmarkProviders(Protocol):
     grandwelcome: Prv_grandwelcome
     greatlakesbrewing: Prv_greatlakesbrewing
     greatlakesdentaltech: Prv_greatlakesdentaltech
+    greenhouse: Prv_greenhouse
     gst_india: Prv_gst_india
     hackernews: Prv_hackernews
     hamptonwaterwine: Prv_hamptonwaterwine
@@ -53848,6 +54171,7 @@ class BowmarkProviders(Protocol):
     lasikplus: Prv_lasikplus
     legacyhomesal: Prv_legacyhomesal
     letterboxd: Prv_letterboxd
+    lever: Prv_lever
     lime: Prv_lime
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
@@ -53957,6 +54281,7 @@ class BowmarkProviders(Protocol):
     quince: Prv_quince
     quora: Prv_quora
     raadvanstate_nl: Prv_raadvanstate_nl
+    recruitee: Prv_recruitee
     reddit: Prv_reddit
     rei: Prv_rei
     reliancepartners: Prv_reliancepartners
@@ -53991,6 +54316,7 @@ class BowmarkProviders(Protocol):
     shop_app: Prv_shop_app
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
+    smartrecruiters: Prv_smartrecruiters
     smartsign: Prv_smartsign
     smartwool: Prv_smartwool
     smithery: Prv_smithery
@@ -54074,6 +54400,8 @@ class BowmarkProviders(Protocol):
     wikipedia_standings: Prv_wikipedia_standings
     windscribe: Prv_windscribe
     winestyles: Prv_winestyles
+    workable: Prv_workable
+    workday: Prv_workday
     wunderflats: Prv_wunderflats
     x: Prv_x
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare

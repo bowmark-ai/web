@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0805f2ecee7115ab8e096468532145702a3108779b80494a6263258b10613a91
-// 2051 checked, 20 unchecked.
+// Manifest version: da66b514f6e4971cd756d29eb1204fa39c0aaa02f81b4559bc789969b3e540b7
+// 2059 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0805f2ecee7115ab8e096468532145702a3108779b80494a6263258b10613a91",
+  "version": "da66b514f6e4971cd756d29eb1204fa39c0aaa02f81b4559bc789969b3e540b7",
   "units": {
     "address_validation": {
       "defs": {
@@ -3191,6 +3191,46 @@ export const VALIDATORS: ValidatorTable = {
     },
     "job_search": {
       "defs": {
+        "AtCompanyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "company",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxJobs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "JobSearchArgs": {
           "k": "object",
           "props": [
@@ -3239,6 +3279,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "JobSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "atCompany": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AtCompanyArgs"
             },
             "optional": false
           }
@@ -10115,6 +10165,20 @@ export const VALIDATORS: ValidatorTable = {
         "getSizePricing": [
           {
             "name": "shape",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ashby": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
             "schema": {
               "k": "string"
             },
@@ -28116,6 +28180,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.greenhouse": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.gst_india": {
       "defs": {},
       "functions": {
@@ -34124,6 +34202,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.lever": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -47275,6 +47367,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.recruitee": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.reddit": {
       "defs": {},
       "functions": {
@@ -52546,6 +52652,48 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.smartrecruiters": {
+      "defs": {
+        "SmartRecruitersListOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxJobs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "SmartRecruitersListOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -62250,6 +62398,62 @@ export const VALIDATORS: ValidatorTable = {
             "name": "term",
             "schema": {
               "k": "string"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.workable": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.workday": {
+      "defs": {
+        "WorkdayListOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxJobs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "WorkdayListOptions"
             },
             "optional": true
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0805f2ecee7115ab8e096468532145702a3108779b80494a6263258b10613a91
-// 87 capabilities, 568 providers, 2069 typed functions, 20 refused.
+// Manifest version: da66b514f6e4971cd756d29eb1204fa39c0aaa02f81b4559bc789969b3e540b7
+// 87 capabilities, 575 providers, 2077 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2805,6 +2805,46 @@ interface job_searchResult {
   warnings: string[];
 }
 
+interface AtCompanyArgs {
+  url?: string;      // the company's site, careers page, or an ATS board/job link — best
+  company?: string;  // or just its name, e.g. "Stripe"; at least one of url / company
+  query?: string;    // keep jobs whose title or department has every word, e.g. "product manager"
+  location?: string; // keep jobs whose location text contains this, e.g. "New York"
+  maxJobs?: number;  // Workday / SmartRecruiters page cap; default 500
+}
+
+interface CompanyJob {
+  title: string;
+  location: string | null;     // the ATS's own text
+  department: string | null;
+  remote: boolean | null;      // null = the ATS does not say
+  employmentType: string | null;
+  url: string;                 // the posting itself
+  postedAt: string | null;     // ISO
+  postedRelative: string | null; // Workday only: "Posted 3 Days Ago"
+  salary: string | null;       // the posting's own pay text
+  salaryMin: number | null;
+  salaryMax: number | null;
+  salaryCurrency: string | null;
+  salaryPeriod: string | null;
+  id: string | null;
+  source: string;              // "greenhouse" | "lever" | "ashby" | "workable" | "smartrecruiters" | "recruitee" | "workday"
+}
+
+interface CompanyJobsResult {
+  company: string | null;
+  ats: string;                 // which ATS the company uses
+  boardToken: string;          // its id there, e.g. "stripe"
+  boardUrl: string;
+  detectedBy: "url" | "page" | "name"; // "name" = guessed from the company name; check company
+  detectedOn: string | null;   // the page the ATS link was found on
+  total: number;               // open jobs on the board, before query/location
+  jobs: CompanyJob[];
+  alsoFound: { ats: string; boardToken: string; boardUrl: string; total: number }[];
+  pagesChecked: string[];
+  warnings: string[];
+}
+
 type CallOptions = {
   timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
                        // A provider slower than this is DROPPED from the results and
@@ -2812,8 +2852,10 @@ type CallOptions = {
 }
 
   /**
-   * Open job listings for a role in a city — title, company, location, salary and age — off
-   * Indeed's own regional results page (US, Canada, Netherlands).
+   * Open jobs two ways: for a role in a city off Indeed's own regional results page (US, Canada,
+   * Netherlands), or EVERY open job at one company, live off its own applicant-tracking system —
+   * Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee or Workday, detected from the
+   * company's site or name.
    */
   interface Unit {
     /**
@@ -2821,6 +2863,18 @@ type CallOptions = {
      * location (Toronto → ca.indeed.com).
      */
     search(args: JobSearchArgs): Promise<job_searchResult>;
+
+    /**
+     * Every open job at ONE company, read live off its own applicant-tracking system. Give `url`
+     * (its site "stripe.com", its careers page, or any
+     * Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday link) and/or `company`
+     * (its name). It follows the company's careers link to find which ATS it uses, and falls back
+     * to asking each ATS for a board under the company's name (`detectedBy: "name"` — check
+     * `company`). `query` / `location` filter by title/department words and location text. Throws
+     * when no supported ATS is found, naming what it checked — an ATS it does not support, or a
+     * careers page that loads jobs only in the browser, is the usual reason.
+     */
+    atCompany(args: AtCompanyArgs): Promise<CompanyJobsResult>;
   }
 }
 
@@ -9095,6 +9149,55 @@ interface Artpix3dProductPricing {
      * ones.
      */
     getSizePricing(shape: string): Promise<Artpix3dProductPricing>;
+  }
+}
+
+declare namespace BowmarkProvider_ashby {
+  // ── Ashby — the unit's own declarations, verbatim ──
+interface AshbySalary {
+  min: number | null;
+  max: number | null;
+  currency: string | null;   // "USD"
+  interval: string | null;   // "1 YEAR", "1 HOUR"
+}
+
+interface AshbyPosting {
+  id: string;
+  title: string;
+  department: string | null;
+  team: string | null;
+  employmentType: string | null;   // "FullTime", "Intern", …
+  location: string | null;
+  secondaryLocations: string[];
+  isRemote: boolean | null;
+  workplaceType: string | null;    // "Remote" | "Hybrid" | "OnSite"
+  publishedAt: string | null;      // ISO
+  url: string;
+  applyUrl: string | null;
+  compensationSummary: string | null; // "$257K – $335K • Offers Equity"
+  salary: AshbySalary | null;
+}
+
+interface AshbyBoard {
+  name: string;                    // e.g. "openai"
+  boardUrl: string;
+  total: number;
+  postings: AshbyPosting[];
+  warnings: string[];
+}
+
+  /**
+   * Every listed job on a company's Ashby board (jobs.ashbyhq.com) — title, team, location,
+   * remote flag and the posted pay range — live off Ashby's own public job-posting API.
+   */
+  interface Unit {
+    /**
+     * Every listed posting on one company's Ashby board, live, with the pay range the posting
+     * shows. `company` is the Ashby board name ("openai"), any jobs.ashbyhq.com URL, or the
+     * company name ("OpenAI"). Throws, caller-fixable, when Ashby has no board by that name — the
+     * company may use a different ATS (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<AshbyBoard>;
   }
 }
 
@@ -27037,6 +27140,44 @@ interface GldtProduct {
   }
 }
 
+declare namespace BowmarkProvider_greenhouse {
+  // ── Greenhouse — the unit's own declarations, verbatim ──
+interface GreenhouseJob {
+  id: string;              // Greenhouse's job id (gh_jid)
+  title: string;
+  location: string | null; // the board's own text, e.g. "Remote - US"
+  department: string | null;
+  url: string;             // the posting's public page
+  firstPublished: string | null; // ISO
+  updatedAt: string | null;      // ISO
+  requisitionId: string | null;
+}
+
+interface GreenhouseBoard {
+  board: string;           // the token, e.g. "stripe"
+  boardUrl: string;
+  companyName: string | null;
+  total: number;
+  jobs: GreenhouseJob[];
+  warnings: string[];
+}
+
+  /**
+   * Every open job on a company's Greenhouse job board — title, location, department, posting
+   * date and link — live off Greenhouse's own public job-board API.
+   */
+  interface Unit {
+    /**
+     * Every open job on one company's Greenhouse board, live. `company` is the board token
+     * ("stripe"), any boards.greenhouse.io / job-boards.greenhouse.io URL, or the company name
+     * ("Stripe"), which is folded to Greenhouse's own token form. Throws, caller-fixable, when
+     * Greenhouse has no board by that name — the company may use a different ATS
+     * (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<GreenhouseBoard>;
+  }
+}
+
 declare namespace BowmarkProvider_gst_india {
   // ── GST India Search — the unit's own declarations, verbatim ──
 interface gst_indiaRow {
@@ -33258,6 +33399,54 @@ interface LetterboxdDiaryEntry {
      * `bm.connections.update(id, …)`.
      */
     login(creds: LoginInput): Promise<{ connection: string; account: string; expiresAt: string; warnings?: string[] }>;
+  }
+}
+
+declare namespace BowmarkProvider_lever {
+  // ── Lever — the unit's own declarations, verbatim ──
+interface LeverSalaryRange {
+  min: number | null;
+  max: number | null;
+  currency: string | null;
+  interval: string | null; // "per-year-salary", "per-hour-wage", …
+}
+
+interface LeverPosting {
+  id: string;
+  title: string;
+  location: string | null;
+  allLocations: string[];
+  department: string | null;
+  team: string | null;
+  commitment: string | null;     // "Full-time", "Intern", …
+  workplaceType: string | null;  // "remote" | "hybrid" | "onsite" | "unspecified"
+  country: string | null;
+  url: string;
+  applyUrl: string | null;
+  createdAt: string | null;      // ISO
+  salaryRange: LeverSalaryRange | null;
+}
+
+interface LeverBoard {
+  site: string;                  // e.g. "spotify"
+  boardUrl: string;
+  total: number;
+  postings: LeverPosting[];
+  warnings: string[];
+}
+
+  /**
+   * Every published job on a company's Lever board (jobs.lever.co) — title, location, team,
+   * workplace type, pay range when posted — live off Lever's own public Postings API.
+   */
+  interface Unit {
+    /**
+     * Every published posting on one company's Lever board, live. `company` is the Lever site name
+     * ("spotify"), any jobs.lever.co URL, or the company name ("Spotify"). Throws, caller-fixable,
+     * when Lever has no site by that name — the company may use a different ATS
+     * (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<LeverBoard>;
   }
 }
 
@@ -43473,6 +43662,55 @@ interface RaadvanstateRuling {
   }
 }
 
+declare namespace BowmarkProvider_recruitee {
+  // ── Recruitee — the unit's own declarations, verbatim ──
+interface RecruiteeSalary {
+  min: number | null;
+  max: number | null;
+  currency: string | null;
+  period: string | null;     // "year", "month", "hour"
+}
+
+interface RecruiteeOffer {
+  id: string;
+  title: string;
+  location: string | null;   // "Brussels, Brussels, Belgium"
+  city: string | null;
+  country: string | null;
+  department: string | null;
+  remote: boolean | null;
+  hybrid: boolean | null;
+  onSite: boolean | null;
+  employmentType: string | null; // "fulltime_permanent", …
+  publishedAt: string | null;    // ISO
+  url: string;
+  salary: RecruiteeSalary | null;
+}
+
+interface RecruiteeBoard {
+  company: string;           // the subdomain, e.g. "bunq"
+  companyName: string | null;
+  boardUrl: string;
+  total: number;
+  offers: RecruiteeOffer[];
+  warnings: string[];
+}
+
+  /**
+   * Every published job on a company's Recruitee careers site — title, location, department,
+   * remote/hybrid/on-site, pay when posted — live off Recruitee's own Careers Site API.
+   */
+  interface Unit {
+    /**
+     * Every published offer on one company's Recruitee careers site, live. `company` is the
+     * Recruitee subdomain ("bunq"), a {company}.recruitee.com URL, or the company name. Throws,
+     * caller-fixable, when Recruitee has no such careers site — the company may use a different
+     * ATS (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<RecruiteeBoard>;
+  }
+}
+
 declare namespace BowmarkProvider_reddit {
   // ── Reddit — the unit's own declarations, verbatim ──
 interface RedditPost {
@@ -46845,6 +47083,53 @@ interface SixFlagsTicketsResult {
      * Throws if the slug does not resolve to a real park page on the site.
      */
     getTickets(park: string): Promise<SixFlagsTicketsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_smartrecruiters {
+  // ── SmartRecruiters — the unit's own declarations, verbatim ──
+interface SmartRecruitersPosting {
+  id: string;
+  title: string;
+  refNumber: string | null;
+  location: string | null;      // "Toronto, Ontario, Canada"
+  remote: boolean | null;
+  hybrid: boolean | null;
+  department: string | null;
+  employmentType: string | null;
+  experienceLevel: string | null;
+  releasedDate: string | null;  // ISO
+  url: string;
+}
+
+interface SmartRecruitersBoard {
+  company: string;              // the identifier, e.g. "ServiceNow"
+  companyName: string | null;
+  boardUrl: string;
+  totalFound: number;           // matches before maxJobs cut
+  postings: SmartRecruitersPosting[];
+  warnings: string[];
+}
+
+interface SmartRecruitersListOptions {
+  query?: string;   // SmartRecruiters' own keyword filter
+  maxJobs?: number; // default 500, at most 5000
+}
+
+  /**
+   * Every public posting a company has on SmartRecruiters — title, location, remote/hybrid,
+   * department, release date — live off SmartRecruiters' own Posting API, with its keyword
+   * filter.
+   */
+  interface Unit {
+    /**
+     * Public postings for one company on SmartRecruiters, live, paged until `maxJobs` (default
+     * 500). `company` is the SmartRecruiters identifier ("ServiceNow"), a jobs.smartrecruiters.com
+     * URL, or the company name. `query` is SmartRecruiters' own server-side keyword filter.
+     * SmartRecruiters answers an unknown identifier exactly like a company with nothing open
+     * (`totalFound: 0`), so an empty board does not prove the company is a customer.
+     */
+    listJobs(company: string, options?: SmartRecruitersListOptions): Promise<SmartRecruitersBoard>;
   }
 }
 
@@ -55345,6 +55630,93 @@ interface WinestylesInventorySearch {
   }
 }
 
+declare namespace BowmarkProvider_workable {
+  // ── Workable — the unit's own declarations, verbatim ──
+interface WorkableJob {
+  shortcode: string;         // e.g. "81B46579FE"
+  title: string;
+  department: string | null;
+  employmentType: string | null; // "Full-time", …
+  remote: boolean;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  locations: string[];       // "City, Region, Country"
+  url: string;
+  applyUrl: string | null;
+  publishedOn: string | null; // YYYY-MM-DD
+}
+
+interface WorkableAccount {
+  account: string;           // e.g. "huggingface"
+  boardUrl: string;
+  companyName: string | null;
+  total: number;
+  jobs: WorkableJob[];
+  warnings: string[];
+}
+
+  /**
+   * Every published job on a company's Workable careers page (apply.workable.com) — title,
+   * department, location, remote flag and posting date — live off Workable's own job-widget
+   * feed.
+   */
+  interface Unit {
+    /**
+     * Every published job on one company's Workable careers page, live. `company` is the Workable
+     * account ("huggingface"), an apply.workable.com URL, or the company name ("Hugging Face").
+     * Throws, caller-fixable, when Workable has no account by that name — the company may use a
+     * different ATS (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<WorkableAccount>;
+  }
+}
+
+declare namespace BowmarkProvider_workday {
+  // ── Workday — the unit's own declarations, verbatim ──
+interface WorkdayPosting {
+  title: string;
+  location: string | null;       // "US, CA, Santa Clara" or "6 Locations"
+  postedOn: string | null;       // Workday's own text: "Posted Today", "Posted 30+ Days Ago"
+  requisitionId: string | null;  // e.g. "JR2022482"
+  url: string;
+}
+
+interface WorkdayBoard {
+  tenant: string;
+  pod: string;                   // "wd5"
+  site: string;
+  careerSiteUrl: string;         // pass it back to skip discovery
+  total: number;                 // Workday stops counting at 2000
+  postings: WorkdayPosting[];
+  warnings: string[];
+}
+
+interface WorkdayListOptions {
+  query?: string;   // Workday's own keyword search
+  maxJobs?: number; // default 500, at most 2000
+}
+
+  /**
+   * Open jobs on a company's Workday careers site (*.myworkdayjobs.com) — title, location,
+   * posted-when and requisition id — live off the careers site's own job-list endpoint, with
+   * Workday's keyword search. Finds the careers site from the company's name for the common site
+   * names.
+   */
+  interface Unit {
+    /**
+     * Open jobs on one company's Workday careers site, live, paged until `maxJobs` (default 500).
+     * `company` is the careers-site URL the company links to
+     * ("https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite") or the company's name
+     * ("NVIDIA"); a name is resolved by asking every Workday pod for that tenant and trying the
+     * site names Workday customers commonly use, so a company with an unusual site name needs its
+     * URL. `query` is Workday's own keyword search. Workday's list carries no department or exact
+     * date — `postedOn` is its own relative text.
+     */
+    listJobs(company: string, options?: WorkdayListOptions): Promise<WorkdayBoard>;
+  }
+}
+
 declare namespace BowmarkProvider_wunderflats {
   // ── Wunderflats — the unit's own declarations, verbatim ──
 interface SearchArgs {
@@ -58473,6 +58845,7 @@ interface BowmarkProviders {
   archipelago: BowmarkProvider_archipelago.Unit;
   archive_org: BowmarkProvider_archive_org.Unit;
   artpix3d: BowmarkProvider_artpix3d.Unit;
+  ashby: BowmarkProvider_ashby.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
   astoundgroup: BowmarkProvider_astoundgroup.Unit;
@@ -58696,6 +59069,7 @@ interface BowmarkProviders {
   grandwelcome: BowmarkProvider_grandwelcome.Unit;
   greatlakesbrewing: BowmarkProvider_greatlakesbrewing.Unit;
   greatlakesdentaltech: BowmarkProvider_greatlakesdentaltech.Unit;
+  greenhouse: BowmarkProvider_greenhouse.Unit;
   gst_india: BowmarkProvider_gst_india.Unit;
   hackernews: BowmarkProvider_hackernews.Unit;
   hamptonwaterwine: BowmarkProvider_hamptonwaterwine.Unit;
@@ -58762,6 +59136,7 @@ interface BowmarkProviders {
   lasikplus: BowmarkProvider_lasikplus.Unit;
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   letterboxd: BowmarkProvider_letterboxd.Unit;
+  lever: BowmarkProvider_lever.Unit;
   lime: BowmarkProvider_lime.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
@@ -58871,6 +59246,7 @@ interface BowmarkProviders {
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;
   raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
+  recruitee: BowmarkProvider_recruitee.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   rei: BowmarkProvider_rei.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
@@ -58905,6 +59281,7 @@ interface BowmarkProviders {
   shop_app: BowmarkProvider_shop_app.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
+  smartrecruiters: BowmarkProvider_smartrecruiters.Unit;
   smartsign: BowmarkProvider_smartsign.Unit;
   smartwool: BowmarkProvider_smartwool.Unit;
   smithery: BowmarkProvider_smithery.Unit;
@@ -58988,6 +59365,8 @@ interface BowmarkProviders {
   wikipedia_standings: BowmarkProvider_wikipedia_standings.Unit;
   windscribe: BowmarkProvider_windscribe.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
+  workable: BowmarkProvider_workable.Unit;
+  workday: BowmarkProvider_workday.Unit;
   wunderflats: BowmarkProvider_wunderflats.Unit;
   x: BowmarkProvider_x.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
