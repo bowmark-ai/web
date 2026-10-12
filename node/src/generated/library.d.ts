@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f6ca84a952524a133b9d282b944e57ea344e3e861a4a5a2d82cac7ea87c4b123
-// 87 capabilities, 568 providers, 2068 typed functions, 20 refused.
+// Manifest version: a105c8f7e599e9831f2ad2833dda38e224286ed00498181d4d54b0cbd72086ff
+// 87 capabilities, 568 providers, 2070 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -419,7 +419,7 @@ type CallOptions = {
    * way, never leave it unmentioned:** if you hold off for any reason, your reply must name this
    * option — what it would do, that it is billed, and that they can sign in on the live page —
    * rather than ending on a manual workaround alone. After `start` in one run, call `status(id)`
-   * from LATER runs — the 120s wall-clock cap is on each `run()`, NOT on the agent, which keeps
+   * from LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps
    * working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
    * code gives up** — any client deadline shorter than that cuts off runs that were about to
    * finish. When `status` returns `needs_input`, relay `question` to your user and `send` their
@@ -21748,6 +21748,19 @@ interface SuggestTitle {
   url: string;
 }
 
+interface GetArticleArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface Article {
+  title: string;
+  body: string;
+  url: string;
+  id: string;
+  revision: string;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -21773,6 +21786,14 @@ interface SuggestTitle {
      * suggestions with title and description. `GET /api.php?action=opensearch`.
      */
     suggestTitles(args: SuggestTitlesArgs): Promise<SuggestTitle[]>;
+
+    /**
+     * A wiki article in full — title, body as plain text with wiki markup stripped, canonical url,
+     * page id, and revision. Takes a title within a wiki you specify, or a full
+     * `*.fandom.com/wiki/*` url where the wiki is auto-detected. `GET
+     * /api.php?action=parse&prop=text`.
+     */
+    getArticle(args: GetArticleArgs): Promise<Article>;
   }
 }
 
@@ -36695,6 +36716,10 @@ interface DeleteDocumentArgs {
   itemId: string;
 }
 
+interface SearchDocumentsArgs {
+  query: string;
+}
+
   /**
    * Microsoft 365 cloud document management — lists, retrieves, creates, versions, restores and
    * deletes Word, Excel, PowerPoint and OneNote documents in OneDrive.
@@ -36745,6 +36770,12 @@ interface DeleteDocumentArgs {
      * deleted item's ID.
      */
     deleteDocument(args: DeleteDocumentArgs, opts?: ConnectionOption): Promise<{ id: string }>;
+
+    /**
+     * Searches for documents in the user's Microsoft 365 OneDrive by name or content. Takes a
+     * search query string and returns an array of matching documents with their metadata.
+     */
+    searchDocuments(args: SearchDocumentsArgs): Promise<microsoft_365Document[]>;
   }
 }
 

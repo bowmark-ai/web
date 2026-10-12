@@ -127,17 +127,17 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `video_editing.editFootage` | Trims, cuts or blurs one of the caller's own YouTube videos by starting a hosted… | 1 | 🟢 |
 | `video_library.addToPlaylist` | Adds one or many videos to one of the caller's own playlists, as a single edit. | 1 | 🟢 |
 | `video_library.createChannel` | Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and… | 1 | 🟡 |
-| `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟡 |
+| `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟢 |
 | `video_library.deletePlaylist` | PERMANENTLY deletes one of the caller's own playlists, with its entire contents —… | 1 | 🟢 |
 | `video_library.deleteVideo` | PERMANENTLY deletes one of the caller's own videos, with its views and comments —… | 1 | 🟢 |
-| `video_library.homeFeed` | The videos on the caller's OWN YouTube home page — the personalized recommendation… | 1 | 🟡 |
-| `video_library.liked` | The videos the caller has liked, newest first. | 1 | 🟡 |
+| `video_library.homeFeed` | The videos on the caller's OWN YouTube home page — the personalized recommendation… | 1 | 🟢 |
+| `video_library.liked` | The videos the caller has liked, newest first. | 1 | 🟢 |
 | `video_library.myVideos` | The videos on the caller's OWN channel, newest first, including private and unlisted… | 1 | 🟢 |
 | `video_library.removeFromPlaylist` | Removes one or many videos from one of the caller's own playlists. | 1 | 🟢 |
 | `video_library.setThumbnail` | Sets a custom thumbnail (JPG or PNG, up to 2 MB, 1280x720 recommended) on one of the… | 1 | 🟢 |
 | `video_library.updateVideo` | Changes the details of one of the caller's own videos — title, description, tags… | 1 | 🟢 |
 | `video_library.uploadVideo` | Uploads a video file to the caller's own YouTube channel and returns its id and link. | 1 | 🟢 |
-| `video_library.watchLater` | The caller's own Watch Later queue, newest first. | 1 | 🟡 |
+| `video_library.watchLater` | The caller's own Watch Later queue, newest first. | 1 | 🟢 |
 | `vpn_dedicated_ip.compare` | Compare VPN dedicated/static IP providers (Windscribe, Surfshark, PureVPN): where each… | 3 | 🟢 |
 | `weather.forecast` | Geocodes a place name and returns its daily forecast (default 5 days, max 16 —… | 0 | 🟢 |
 | `web_form_fields.fillForm` | Opens the page (and the booking/quote widget behind a button, exactly as `getFields`… | 0 | 🟢 |

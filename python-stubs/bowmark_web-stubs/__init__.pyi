@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f6ca84a952524a133b9d282b944e57ea344e3e861a4a5a2d82cac7ea87c4b123
-# 87 capabilities, 568 providers, 2050 typed functions, 20 refused.
+# Manifest version: a105c8f7e599e9831f2ad2833dda38e224286ed00498181d4d54b0cbd72086ff
+# 87 capabilities, 568 providers, 2052 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12331,6 +12331,17 @@ class Prv_fandom_SuggestTitle_Out(TypedDict):
     description: str
     url: str
 
+class Prv_fandom_GetArticleArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+
+class Prv_fandom_Article_Out(TypedDict):
+    title: str
+    body: str
+    url: str
+    id: str
+    revision: str
+
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
     limit: NotRequired[float]
@@ -20054,6 +20065,9 @@ class Prv_microsoft_365_DeleteDocumentArgs_In(TypedDict):
 
 class Prv_microsoft_365_deleteDocument_return_Out(TypedDict):
     id: str
+
+class Prv_microsoft_365_SearchDocumentsArgs_In(TypedDict):
+    query: str
 
 class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
     path: NotRequired[str]
@@ -32644,7 +32658,7 @@ class Cap_browser_agent(Protocol):
     unmentioned:** if you hold off for any reason, your reply must name this option — what
     it would do, that it is billed, and that they can sign in on the live page — rather than
     ending on a manual workaround alone. After `start` in one run, call `status(id)` from
-    LATER runs — the 120s wall-clock cap is on each `run()`, NOT on the agent, which keeps
+    LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps
     working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
     code gives up** — any client deadline shorter than that cuts off runs that were about to
     finish. When `status` returns `needs_input`, relay `question` to your user and `send`
@@ -40376,6 +40390,13 @@ class Prv_fandom(Protocol):
         get suggestions with title and description. `GET /api.php?action=opensearch`.
         """
 
+    async def getArticle(self, args: Prv_fandom_GetArticleArgs_In, /) -> Prv_fandom_Article_Out:
+        """A wiki article in full — title, body as plain text with wiki markup stripped, canonical
+        url, page id, and revision. Takes a title within a wiki you specify, or a full
+        `*.fandom.com/wiki/*` url where the wiki is auto-detected. `GET
+        /api.php?action=parse&prop=text`.
+        """
+
 class Prv_fbsappliance(Protocol):
     """FBS Appliance's real catalog across 8 Texas showrooms — searchAppliances runs the site's
     own category grid and returns real, currently-listed appliances with live selling price,
@@ -45887,6 +45908,11 @@ class Prv_microsoft_365(Protocol):
     async def deleteDocument(self, args: Prv_microsoft_365_DeleteDocumentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_365_deleteDocument_return_Out:
         """Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. Returns
         the deleted item's ID.
+        """
+
+    async def searchDocuments(self, args: Prv_microsoft_365_SearchDocumentsArgs_In, /) -> list[Prv_microsoft_365_microsoft_365Document_Out]:
+        """Searches for documents in the user's Microsoft 365 OneDrive by name or content. Takes a
+        search query string and returns an array of matching documents with their metadata.
         """
 
 class Prv_microsoft_onedrive(Protocol):

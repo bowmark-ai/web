@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f6ca84a952524a133b9d282b944e57ea344e3e861a4a5a2d82cac7ea87c4b123
-// 2050 checked, 20 unchecked.
+// Manifest version: a105c8f7e599e9831f2ad2833dda38e224286ed00498181d4d54b0cbd72086ff
+// 2052 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f6ca84a952524a133b9d282b944e57ea344e3e861a4a5a2d82cac7ea87c4b123",
+  "version": "a105c8f7e599e9831f2ad2833dda38e224286ed00498181d4d54b0cbd72086ff",
   "units": {
     "address_validation": {
       "defs": {
@@ -22077,6 +22077,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.fandom": {
       "defs": {
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "wiki",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -22142,6 +22161,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SuggestTitlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
             },
             "optional": false
           }
@@ -37538,6 +37567,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchDocumentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ShareDocumentArgs": {
           "k": "object",
           "props": [
@@ -37756,6 +37797,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "searchDocuments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchDocumentsArgs"
+            },
+            "optional": false
           }
         ]
       }

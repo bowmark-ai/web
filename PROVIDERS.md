@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3328 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3329 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -109,16 +109,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | 🟡 |
 | `amazon.listMoversAndShakers` | www.amazon.com | The biggest sales-rank gainers in a department over the past 24 hours — what is… | ⚪ |
 | `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | 🟢 |
-| `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | 🟢 |
-| `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | 🟢 |
+| `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | ⚪ |
+| `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | ⚪ |
 | `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together" and… | 🟡 |
 | `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟡 |
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | 🟢 |
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
-| `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | 🟢 |
+| `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
 | `amazon.searchProducts` | www.amazon.com | Paginate through all Amazon search results by keywords, reaching every row from 1 to… | 🟢 |
 | `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | 🟢 |
-| `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | 🟢 |
+| `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | ⚪ |
 | `americandreamvacations.listLocations` | americandreamvacations.net | Returns American Dream Vacations' own list of rental store locations (city, state and… | 🟢 |
 | `americandreamvacations.searchInventory` | americandreamvacations.net | Runs American Dream Vacations' own "Check availability" search for one store location… | 🟢 |
 | `americanstandard.getSystemCostEstimate` | americanstandardair.com | Reads American Standard's own published cost guide for one system type ("Air… | 🟢 |
@@ -1120,7 +1120,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.likePhoto` | facebook.com | Like or unlike a photo. | ⚪ |
 | `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | ⚪ |
 | `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | ⚪ |
-| `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | ⚪ |
+| `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | 🟢 |
 | `facebook.listNotifications` | facebook.com | List the caller's notifications — friend requests, reactions, comments, mentions. | ⚪ |
 | `facebook.listPhotos` | facebook.com | List photos in an album or from a person's timeline, with timestamps and descriptions. | ⚪ |
 | `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | ⚪ |
@@ -1143,7 +1143,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.createPage` | fandom.com | Create an article that does not exist yet, under the caller's own account. `POST… | ⚪ |
 | `fandom.editPage` | fandom.com | Change an article — replace a page or one of its sections with new wikitext, under the… | ⚪ |
 | `fandom.findWiki` | fandom.com | Find which Fandom wiki covers a topic — hand it "star wars" or "minecraft" and get… | ⚪ |
-| `fandom.getArticle` | fandom.com | A wiki article in full — title, the body as plain text with wiki markup stripped, the… | ⚪ |
+| `fandom.getArticle` | fandom.com | A wiki article in full — title, the body as plain text with wiki markup stripped, the… | 🟢 |
 | `fandom.getCurrentUser` | fandom.com | Who the caller is signed in as on Fandom — username, global user id, and which wikis… | ⚪ |
 | `fandom.getDiscussionPost` | fandom.com | One Discussions post by id, with its full text and its replies. `GET… | ⚪ |
 | `fandom.getImage` | fandom.com | One image file's real details — full-size url, dimensions, MIME type and licensing… | ⚪ |
@@ -2000,6 +2000,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_365.listDocuments` | m365.cloud.microsoft.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
 | `microsoft_365.listDocumentVersions` | m365.cloud.microsoft.com | Lists the version history of a specific document in the user's Microsoft 365 OneDrive. | 🟢 |
 | `microsoft_365.restoreDocumentVersion` | m365.cloud.microsoft.com | Restores a document in Microsoft 365 OneDrive to a specified previous version. | 🟢 |
+| `microsoft_365.searchDocuments` | m365.cloud.microsoft.com | Searches for documents in the user's Microsoft 365 OneDrive by name or content. | 🟢 |
 | `microsoft_365.shareDocument` | m365.cloud.microsoft.com | Shares a document in Microsoft 365 OneDrive with another user by email address. | 🟢 |
 | `microsoft_onedrive.createFolder` | onedrive.live.com | Creates a new folder in OneDrive at the specified path. | 🟢 |
 | `microsoft_onedrive.deleteFile` | onedrive.live.com | Deletes a file from OneDrive by ID. | 🟢 |
@@ -3288,7 +3289,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |
 | `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟢 |
 | `youtube.createChannel` | youtube.com | Creates the signed-in Google account's YouTube CHANNEL, using the account's own name… | 🟡 |
-| `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟡 |
+| `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟢 |
 | `youtube.deletePlaylist` | youtube.com | Permanently delete one of the signed-in account's own playlists. | 🟢 |
 | `youtube.deleteVideo` | youtube.com | Permanently delete one of the signed-in account's own videos. | 🟢 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
@@ -3308,8 +3309,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listCommentReplies` | youtube.com | The replies under one comment thread, which YouTube hides behind a "N replies" button… | 🟢 |
 | `youtube.listComments` | youtube.com | What people said under a video — each comment's author, the text, its like count… | 🟢 |
 | `youtube.listHashtagVideos` | youtube.com | The videos under a hashtag — YouTube's own /hashtag/<tag> page. | 🟢 |
-| `youtube.listHomeFeed` | youtube.com | The videos on the signed-in account's own YouTube home page — the personalized… | 🟡 |
-| `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | 🟡 |
+| `youtube.listHomeFeed` | youtube.com | The videos on the signed-in account's own YouTube home page — the personalized… | 🟢 |
+| `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | 🟢 |
 | `youtube.listMyVideos` | youtube.com | The videos on the signed-in account's own channel, private and unlisted ones included… | 🟢 |
 | `youtube.listPlaylistVideos` | youtube.com | The videos inside a playlist, in the playlist's own order and paged — each video's id… | 🟢 |
 | `youtube.listRelatedVideos` | youtube.com | The videos YouTube itself puts next to this one — the "up next" rail — each with its… | 🟢 |
@@ -3317,7 +3318,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listSubscriptions` | youtube.com | The channels the signed-in account subscribes to — each channel's id, url, handle… | 🟢 |
 | `youtube.listTrending` | youtube.com | YouTube's Trending feed — what is being watched across the site right now, and the… | ⚪ |
 | `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | 🟢 |
-| `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟡 |
+| `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟢 |
 | `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | 🟢 |
 | `youtube.removeFromPlaylist` | youtube.com | Remove one or more videos from one of the signed-in account's own playlists. | 🟢 |
 | `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
