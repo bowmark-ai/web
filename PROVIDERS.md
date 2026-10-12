@@ -1991,13 +1991,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
-| `microsoft_365.createDocument` | TODO example.com | Creates a new document in the user's Microsoft 365 OneDrive with the specified name… | 🟢 |
-| `microsoft_365.deleteDocument` | TODO example.com | Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. | 🟢 |
-| `microsoft_365.getDocument` | TODO example.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
-| `microsoft_365.listDocuments` | TODO example.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
-| `microsoft_365.listDocumentVersions` | TODO example.com | Lists the version history of a specific document in the user's Microsoft 365 OneDrive. | 🟢 |
-| `microsoft_365.restoreDocumentVersion` | TODO example.com | Restores a document in Microsoft 365 OneDrive to a specified previous version. | 🟢 |
-| `microsoft_365.shareDocument` | TODO example.com | Shares a document in Microsoft 365 OneDrive with another user by email address. | 🟢 |
+| `microsoft_365.createDocument` | m365.cloud.microsoft.com | Creates a new document in the user's Microsoft 365 OneDrive with the specified name… | 🟢 |
+| `microsoft_365.deleteDocument` | m365.cloud.microsoft.com | Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. | 🟢 |
+| `microsoft_365.getDocument` | m365.cloud.microsoft.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
+| `microsoft_365.listDocuments` | m365.cloud.microsoft.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
+| `microsoft_365.listDocumentVersions` | m365.cloud.microsoft.com | Lists the version history of a specific document in the user's Microsoft 365 OneDrive. | 🟢 |
+| `microsoft_365.restoreDocumentVersion` | m365.cloud.microsoft.com | Restores a document in Microsoft 365 OneDrive to a specified previous version. | 🟢 |
+| `microsoft_365.shareDocument` | m365.cloud.microsoft.com | Shares a document in Microsoft 365 OneDrive with another user by email address. | 🟢 |
 | `microsoft_onedrive.createFolder` | onedrive.live.com | Creates a new folder in OneDrive at the specified path. | 🟢 |
 | `microsoft_onedrive.deleteFile` | onedrive.live.com | Deletes a file from OneDrive by ID. | 🟢 |
 | `microsoft_onedrive.getFile` | onedrive.live.com | Gets metadata for a specific file by ID. | 🟢 |
