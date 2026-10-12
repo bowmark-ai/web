@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a105c8f7e599e9831f2ad2833dda38e224286ed00498181d4d54b0cbd72086ff
-// 2052 checked, 20 unchecked.
+// Manifest version: cc211ed6bc611cce87d62776fbbc279457ade0c1d2e8eda9fd34ef2aa76be54f
+// 2050 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a105c8f7e599e9831f2ad2833dda38e224286ed00498181d4d54b0cbd72086ff",
+  "version": "cc211ed6bc611cce87d62776fbbc279457ade0c1d2e8eda9fd34ef2aa76be54f",
   "units": {
     "address_validation": {
       "defs": {
@@ -8217,92 +8217,6 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
-          }
-        ],
-        "listQuestions": [
-          {
-            "name": "asinOrUrl",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
-          }
-        ],
-        "listOrders": [
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
-          }
-        ],
-        "trackShipment": [
-          {
-            "name": "orderId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
-          }
-        ],
-        "listWishLists": [
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getCart": [],
@@ -21348,6 +21262,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "StandingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -21377,6 +21310,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetGameArgs"
+            },
+            "optional": false
+          }
+        ],
+        "standings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StandingsArgs"
             },
             "optional": false
           }
@@ -21974,6 +21917,10 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.facebook": {
       "defs": {
+        "ListFriendsArgs": {
+          "k": "object",
+          "props": []
+        },
         "SearchPeopleArgs": {
           "k": "object",
           "props": [
@@ -21994,6 +21941,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchPeopleArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFriends": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFriendsArgs"
             },
             "optional": false
           },

@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a105c8f7e599e9831f2ad2833dda38e224286ed00498181d4d54b0cbd72086ff
-// 87 capabilities, 568 providers, 2070 typed functions, 20 refused.
-// 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: cc211ed6bc611cce87d62776fbbc279457ade0c1d2e8eda9fd34ef2aa76be54f
+// 87 capabilities, 568 providers, 2068 typed functions, 20 refused.
+// 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -7068,35 +7068,6 @@ interface AmazonCart {
      * `offers` on a listing with no other sellers is a real answer, not a parse failure.
      */
     listSellerOffers(asinOrUrl: string): Promise<AmazonSellerOffersResult>;
-
-    /**
-     * The customer questions and answers under a product — the place where the answer to "does it
-     * fit a 12-inch pan" usually is, written by people who own it. Requires the caller to be
-     * signed in to their own Amazon account; the relay at amazon.com/ap/signin handles
-     * authentication.
-     */
-    listQuestions(asinOrUrl: string, opts?: ConnectionOption): Promise<unknown[]>;
-
-    /**
-     * The signed-in person's own order history — what they bought, when, for how much, and where
-     * each order stands. Requires the caller to be signed in to their own Amazon account; the
-     * relay at amazon.com/ap/signin handles authentication.
-     */
-    listOrders(opts?: ConnectionOption): Promise<unknown[]>;
-
-    /**
-     * Where a specific order's package is and when it is due — the follow-up read after
-     * listOrders. Requires the caller to be signed in to their own Amazon account; the relay at
-     * amazon.com/ap/signin handles authentication.
-     */
-    trackShipment(orderId: string, opts?: ConnectionOption): Promise<unknown[]>;
-
-    /**
-     * A signed-in person's own wish lists and registries and what is on them — the saved-for-later
-     * half of the site. Requires the caller to be signed in to their own Amazon account; the relay
-     * at amazon.com/ap/signin handles authentication.
-     */
-    listWishLists(opts?: ConnectionOption): Promise<unknown[]>;
 
     /**
      * Read what is in the cart — no account needed, since Amazon's guest cart is a real anonymous
@@ -20883,6 +20854,45 @@ interface GameDetail {
   weather: string | null;
 }
 
+interface StandingsArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. */
+  league: string;
+  /** Optional: season year (e.g. 2025). Defaults to current season. */
+  season?: number;
+}
+
+interface TeamStanding {
+  name: string;
+  abbreviation: string;
+  id: string;
+  wins: number;
+  losses: number;
+  ties: number;
+  winPercentage: number;
+  gamesBack: number | null;
+  streak: string | null;
+  homeRecord: string | null;
+  awayRecord: string | null;
+  pointsFor: number | null;
+  pointsAgainst: number | null;
+  playoffSeed: number | null;
+}
+
+interface Division {
+  name: string;
+  teams: TeamStanding[];
+}
+
+interface Conference {
+  name: string;
+  divisions: Division[];
+}
+
+interface StandingsResult {
+  league: string;
+  conferences: Conference[];
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -20909,6 +20919,13 @@ interface GameDetail {
      * id from scoreboard or teamSchedule.
      */
     getGame(args: GetGameArgs): Promise<GameDetail>;
+
+    /**
+     * A league's current standings by conference and division — wins, losses, ties, win
+     * percentage, games back, streak, home and away records, points for and against, and playoff
+     * seed per team.
+     */
+    standings(args: StandingsArgs): Promise<StandingsResult>;
 
     /**
      * The ESPN injury report for a league — NFL by default — every injured player with team,
@@ -21629,6 +21646,14 @@ interface SearchPeopleArgs {
   query: string;
 }
 
+interface FacebookFriend {
+  id: string;
+  name: string;
+  url?: string;
+}
+
+interface ListFriendsArgs {}
+
   /**
    * Facebook — profiles, pages, groups, marketplace, messages and posts. Every function needs
    * the caller signed in; the caller signs in through the relay.
@@ -21636,6 +21661,9 @@ interface SearchPeopleArgs {
   interface Unit {
     /** Search for Facebook users by name. */
     searchPeople(args: SearchPeopleArgs, opts?: ConnectionOption): Promise<FacebookPerson[]>;
+
+    /** List the caller's Facebook friends. */
+    listFriends(args: ListFriendsArgs, opts?: ConnectionOption): Promise<FacebookFriend[]>;
   }
 }
 
@@ -107233,7 +107261,6 @@ interface BowmarkProviders {
   caketastischdev: BowmarkFamily_shopify_storeReadOnly.Unit;
   calidadstaging: BowmarkFamily_shopify_storeReadOnly.Unit;
   californilacargo: BowmarkFamily_shopify_storeReadOnly.Unit;
-  caligent: BowmarkFamily_shopify_storeReadOnly.Unit;
   calleetest: BowmarkFamily_shopify_storeReadOnly.Unit;
   canceldirectprod: BowmarkFamily_shopify_storeReadOnly.Unit;
   capritheme: BowmarkFamily_shopify_storeReadOnly.Unit;
@@ -108304,7 +108331,6 @@ interface BowmarkProviders {
   rspnutritionstaging: BowmarkFamily_shopify_storeReadOnly.Unit;
   rtmldev5: BowmarkFamily_shopify_storeReadOnly.Unit;
   rtoxstore: BowmarkFamily_shopify_storeReadOnly.Unit;
-  ruchifirststore: BowmarkFamily_shopify_storeReadOnly.Unit;
   ryanhenryward: BowmarkFamily_shopify_storeReadOnly.Unit;
   s3holding: BowmarkFamily_shopify_storeReadOnly.Unit;
   sa007urthankseditor: BowmarkFamily_shopify_storeReadOnly.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a105c8f7e599e9831f2ad2833dda38e224286ed00498181d4d54b0cbd72086ff
-# 87 capabilities, 568 providers, 2052 typed functions, 20 refused.
+# Manifest version: cc211ed6bc611cce87d62776fbbc279457ade0c1d2e8eda9fd34ef2aa76be54f
+# 87 capabilities, 568 providers, 2050 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11780,6 +11780,38 @@ class Prv_espn_GameDetail_Out_awayTeam_Out(TypedDict):
     id: str
     score: float | None
 
+class Prv_espn_StandingsArgs_In(TypedDict):
+    league: str
+    season: NotRequired[float]
+
+class Prv_espn_StandingsResult_Out(TypedDict):
+    league: str
+    conferences: list[Prv_espn_Conference_Out]
+
+class Prv_espn_Conference_Out(TypedDict):
+    name: str
+    divisions: list[Prv_espn_Division_Out]
+
+class Prv_espn_Division_Out(TypedDict):
+    name: str
+    teams: list[Prv_espn_TeamStanding_Out]
+
+class Prv_espn_TeamStanding_Out(TypedDict):
+    name: str
+    abbreviation: str
+    id: str
+    wins: float
+    losses: float
+    ties: float
+    winPercentage: float
+    gamesBack: float | None
+    streak: str | None
+    homeRecord: str | None
+    awayRecord: str | None
+    pointsFor: float | None
+    pointsAgainst: float | None
+    playoffSeed: float | None
+
 class Prv_espn_InjuriesArgs_In(TypedDict):
     league: NotRequired[Literal["nfl"] | Literal["nba"] | Literal["wnba"] | Literal["mlb"] | Literal["nhl"]]
     team: NotRequired[str]
@@ -12253,6 +12285,14 @@ class Prv_facebook_SearchPeopleArgs_In(TypedDict):
     query: str
 
 class Prv_facebook_FacebookPerson_Out(TypedDict):
+    id: str
+    name: str
+    url: NotRequired[str]
+
+class Prv_facebook_ListFriendsArgs_In(TypedDict):
+    pass
+
+class Prv_facebook_FacebookFriend_Out(TypedDict):
     id: str
     name: str
     url: NotRequired[str]
@@ -35131,31 +35171,6 @@ class Prv_amazon(Protocol):
         not a parse failure.
         """
 
-    async def listQuestions(self, asinOrUrl: str, opts: ConnectionOption | None = None, /) -> list[Any]:
-        """The customer questions and answers under a product — the place where the answer to "does
-        it fit a 12-inch pan" usually is, written by people who own it. Requires the caller to
-        be signed in to their own Amazon account; the relay at amazon.com/ap/signin handles
-        authentication.
-        """
-
-    async def listOrders(self, opts: ConnectionOption | None = None, /) -> list[Any]:
-        """The signed-in person's own order history — what they bought, when, for how much, and
-        where each order stands. Requires the caller to be signed in to their own Amazon
-        account; the relay at amazon.com/ap/signin handles authentication.
-        """
-
-    async def trackShipment(self, orderId: str, opts: ConnectionOption | None = None, /) -> list[Any]:
-        """Where a specific order's package is and when it is due — the follow-up read after
-        listOrders. Requires the caller to be signed in to their own Amazon account; the relay
-        at amazon.com/ap/signin handles authentication.
-        """
-
-    async def listWishLists(self, opts: ConnectionOption | None = None, /) -> list[Any]:
-        """A signed-in person's own wish lists and registries and what is on them — the
-        saved-for-later half of the site. Requires the caller to be signed in to their own
-        Amazon account; the relay at amazon.com/ap/signin handles authentication.
-        """
-
     async def getCart(self, /) -> Prv_amazon_AmazonCart_Out:
         """Read what is in the cart — no account needed, since Amazon's guest cart is a real
         anonymous session. Reads the site's own per-row markup (`data-asin`,
@@ -40102,6 +40117,12 @@ class Prv_espn(Protocol):
         Takes an event id from scoreboard or teamSchedule.
         """
 
+    async def standings(self, args: Prv_espn_StandingsArgs_In, /) -> Prv_espn_StandingsResult_Out:
+        """A league's current standings by conference and division — wins, losses, ties, win
+        percentage, games back, streak, home and away records, points for and against, and
+        playoff seed per team.
+        """
+
     async def injuries(self, args: Prv_espn_InjuriesArgs_In | None = None, /) -> Prv_espn_EspnInjuryReport_Out:
         """The ESPN injury report for a league — NFL by default — every injured player with team,
         position, status, body part, expected return date and the latest news note. Pass `team`
@@ -40337,6 +40358,9 @@ class Prv_facebook(Protocol):
 
     async def searchPeople(self, args: Prv_facebook_SearchPeopleArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookPerson_Out]:
         """Search for Facebook users by name."""
+
+    async def listFriends(self, args: Prv_facebook_ListFriendsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookFriend_Out]:
+        """List the caller's Facebook friends."""
 
 class Prv_faceforwardaesthetics(Protocol):
     """Face Forward Aesthetics' live Zenoti locations, service catalog, and bookable
