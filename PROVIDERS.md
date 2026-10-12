@@ -1918,7 +1918,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.findStores` | shop.lululemon.com | Finds physical lululemon stores near a place the way the site's own store locator… | ⚪ |
 | `lululemon.getCart` | shop.lululemon.com | Reads back what is in the guest cart across several calls — line items, quantities… | ⚪ |
 | `lululemon.getProduct` | shop.lululemon.com | Reads one product's full configurator the way its product page presents it — every… | 🟢 |
-| `lululemon.getProductAttributes` | shop.lululemon.com | Reads what lululemon publishes ABOUT a garment rather than what it costs: the category… | 🟡 |
+| `lululemon.getProductAttributes` | shop.lululemon.com | Reads what lululemon publishes ABOUT a garment rather than what it costs: the category… | 🟢 |
 | `lululemon.getProducts` | shop.lululemon.com | Reads the full configurator for MANY products in one call — the shape for ranking a… | 🟢 |
 | `lululemon.getReviews` | shop.lululemon.com | Reads the customer reviews on one product — rating, title, body, number of helpful… | 🟢 |
 | `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟡 |
@@ -2061,7 +2061,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `my_auroramedicalspa_com.getServices` | my.auroramedicalspa.com | Reads the live bookable services in one category at one location — name, starting… | 🟢 |
 | `my_auroramedicalspa_com.listLocations` | my.auroramedicalspa.com | Lists every Aurora Medical Spa location (9 today, across Colorado, Missouri and Texas)… | 🟢 |
 | `myollie.getMealPlan` | myollie.com | Computes Ollie's personalized fresh-food meal plan and REAL weekly price for a dog… | 🟢 |
-| `naic.getCompanyProfile` | naic.org | Reads one insurer's CIS financial report — the holding group that owns it, the state… | 🟡 |
+| `naic.getCompanyProfile` | naic.org | Reads one insurer's CIS financial report — the holding group that owns it, the state… | 🟢 |
 | `naic.getComplaintIndex` | naic.org | Reads one insurer's closed-confirmed complaint index against the national baseline of… | 🟢 |
 | `naic.getComplaintTrends` | naic.org | Reads NAIC's aggregate closed-complaint reports — by disposition, by reason, and by… | ⚪ |
 | `naic.getLicensing` | naic.org | Lists the states one insurer is licensed in and its status in each, which is the… | 🟢 |
@@ -2144,7 +2144,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nurturelife.getMealPlans` | nurturelife.com | Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's… | 🟢 |
 | `nutrafol.assessHairWellness` | nutrafol.com | Runs Nutrafol's own Hair Wellness Quiz along its default answer path (the site's own… | 🟢 |
 | `nutrafol.computeHairWellness` | nutrafol.com | Would run the quiz with the caller's own answers (age range, shedding pattern, stress… | ⚪ |
-| `nutrafol.getQuizOverview` | nutrafol.com | Reads the Hair Wellness Quiz's own static intro page — its real description text and… | 🟢 |
+| `nutrafol.getQuizOverview` | nutrafol.com | Reads the Hair Wellness Quiz's own static intro page — its real description text and… | 🟡 |
 | `nvisioncenters.calculateLasikSavings` | nvisioncenters.com | Runs NVISION's own LASIK Savings Calculator — age plus glasses/contacts usage and cost… | 🟢 |
 | `nvisioncenters.checkLasikCandidacy` | nvisioncenters.com | Runs NVISION's own LASIK Candidate Quiz disqualification rule — age bracket in, the… | 🟢 |
 | `nvisioncenters.estimateLasikSavings` | nvisioncenters.com | Alias of calculateLasikSavings taking the snake_case argument spelling (glasses_cost… | 🟢 |
@@ -2516,8 +2516,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rei.getProductStock` | rei.com | Reads one product's per-size, per-colour IN-STORE stock at a chosen REI store. | ⚪ |
 | `rei.getSku` | rei.com | Reads one REI SKU: its size, colour, price, compare-at price and sale flag, plus every… | 🟢 |
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
-| `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟡 |
-| `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟡 |
+| `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟢 |
+| `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
 | `resy.search` | resy.com | Finds Resy venues matching a restaurant name, ranked by Resy's own relevance and… | 🟢 |
 | `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟡 |
@@ -3247,7 +3247,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getNews` | finance.yahoo.com | Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —… | 🟢 |
 | `yahoo_finance.getOptionsChain` | finance.yahoo.com | Reads a ticker's options chain — calls and puts by strike and expiration, with… | 🟢 |
 | `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟡 |
-| `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | 🟡 |
+| `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | 🟢 |
 | `yahoo_finance.listCryptoPrices` | finance.yahoo.com | Reads the live crypto leaderboard the way the site's own Crypto markets page does —… | 🟢 |
 | `yahoo_finance.listCurrencyRates` | finance.yahoo.com | Reads live currency-pair rates the way the site's own Currencies markets page does —… | ⚪ |
 | `yahoo_finance.listWatchlists` | finance.yahoo.com | Reads the signed-in viewer's saved watchlists with their tickers and current quotes —… | 🟢 |
@@ -3271,7 +3271,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | 🟢 |
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟡 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads games for one league — NFL, NBA, MLB, NHL, college football, college basketball… | 🟢 |
-| `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟡 |
+| `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟢 |
 | `yahoo_sports.getStatLeaders` | sports.yahoo.com | Reads the season-to-date individual leaderboard for one category off the site's own… | 🟢 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟢 |
