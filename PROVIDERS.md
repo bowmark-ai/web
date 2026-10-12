@@ -300,7 +300,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listHeadlines` | bbc.com | The stories a BBC section page shows right now, in the page's own order and grouping… | 🟢 |
 | `bbc.listMostRead` | bbc.com | The "Most read" list the BBC shows on its news front page: rank, headline, summary… | 🟢 |
 | `bbc.listNewsletters` | bbc.com | The BBC newsletters a reader can sign up to: name, description, frequency and… | ⚪ |
-| `bbc.listPodcasts` | bbc.com | The podcasts and audio series the BBC's audio hub (/audio) lists: title, description… | ⚪ |
+| `bbc.listPodcasts` | bbc.com | The podcasts and audio series featured on BBC Audio (/audio): title, description… | 🟢 |
 | `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
 | `bbc.listSections` | bbc.com | The BBC's own section list, read off the bbc.com top navigation — Home, News (US &… | 🟢 |
 | `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | 🟡 |
@@ -441,7 +441,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.listOffers` | bmwusa.com | Lists BMW's current US lease and finance offers for a ZIP code (resolved server-side… | 🟢 |
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
-| `bodacc.search` | bodacc.fr | Searches BODACC insolvency notices (procédures collectives: sauvegarde, redressement… | 🟡 |
+| `bodacc.search` | bodacc.fr | Searches BODACC insolvency notices (procédures collectives: sauvegarde, redressement… | 🟢 |
 | `bodensee_schiffsbetriebe_berths.getBerthStatus` | bsb.de | Would return live boat-berth (Liegeplatz) availability, waiting-list status and… | ⚪ |
 | `bodensee_schiffsbetriebe_berths.searchHarbors` | bsb.de | Searches the Lake Constance harbor towns BSB serves, by name. | 🟢 |
 | `boglewinery.checkAvailability` | boglewinery.com | Checks which upcoming dates and times Tock currently shows as open for one Bogle… | 🟢 |
