@@ -1314,7 +1314,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.deleteComment` | foxnews.com | Deletes one of the signed-in caller's own comments on a Fox News article. | ⚪ |
 | `foxnews.findAuthor` | foxnews.com | Finds a Fox News reporter, columnist, host or contributor by name ("Charles Creitz"… | ⚪ |
 | `foxnews.getAccount` | foxnews.com | Reads the signed-in caller's Fox profile — display name, email, and account details. | ⚪ |
-| `foxnews.getArticle` | foxnews.com | Reads one Fox News article in full — headline, description, the whole body text… | 🟢 |
+| `foxnews.getArticle` | foxnews.com | Reads one Fox News article in full — headline, description, the whole body text… | 🟡 |
 | `foxnews.getAuthor` | foxnews.com | Reads one Fox News person's profile — name, job title, bio, social links and their… | ⚪ |
 | `foxnews.getComments` | foxnews.com | Reads the reader comments under a Fox News article — each comment's text, author… | ⚪ |
 | `foxnews.getElectionResults` | foxnews.com | Reads Fox News's results for one race — each candidate's votes and share, percent of… | ⚪ |
@@ -2441,7 +2441,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `proxy_cheap.listPlans` | proxy-cheap.com | Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting… | 🟢 |
 | `pullandbear.getProduct` | pullandbear.com | Reads one Pull&Bear product's colours and sizes with each colour's price, compare-at… | 🟢 |
 | `pullandbear.listCategories` | pullandbear.com | Lists Pull&Bear's US catalog categories (jackets, jeans, t-shirts…), read live off the… | 🟢 |
-| `pullandbear.searchProducts` | pullandbear.com | Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer… | 🟢 |
+| `pullandbear.searchProducts` | pullandbear.com | Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer… | 🟡 |
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `purevpn.getDedicatedIp` | purevpn.com | Reads PureVPN's own dedicated / static IP page and returns every country and city it… | 🟢 |
