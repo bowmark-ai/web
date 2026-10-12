@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594
-// 2061 checked, 20 unchecked.
+// Manifest version: 036235f474ec7d4d136e595db784951ee24f0148dd58fe1dc582bb8fc80cf12b
+// 2062 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594",
+  "version": "036235f474ec7d4d136e595db784951ee24f0148dd58fe1dc582bb8fc80cf12b",
   "units": {
     "address_validation": {
       "defs": {
@@ -18339,6 +18339,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListChannelPlaylistsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListChannelVideosArgs": {
           "k": "object",
           "props": [
@@ -18444,6 +18470,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListChannelVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listChannelPlaylists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListChannelPlaylistsArgs"
             },
             "optional": false
           }

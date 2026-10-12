@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594
-# 87 capabilities, 575 providers, 2061 typed functions, 20 refused.
+# Manifest version: 036235f474ec7d4d136e595db784951ee24f0148dd58fe1dc582bb8fc80cf12b
+# 87 capabilities, 575 providers, 2062 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10167,6 +10167,31 @@ class Prv_dailymotion_DailymotionChannelVideosResult_Out(TypedDict):
     page: float
     hasMore: bool
     videos: list[Prv_dailymotion_DailymotionVideo_Out]
+
+class Prv_dailymotion_ListChannelPlaylistsArgs_In(TypedDict):
+    channel: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionChannelPlaylistsResult_Out(TypedDict):
+    channel: str
+    page: float
+    total: float
+    hasMore: bool
+    playlists: list[Prv_dailymotion_DailymotionPlaylist_Out]
+
+class Prv_dailymotion_DailymotionPlaylist_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    thumbnailUrl: str | None
+    videoCount: float | None
+    owner: Prv_dailymotion_DailymotionPlaylist_Out_owner_Out
+
+class Prv_dailymotion_DailymotionPlaylist_Out_owner_Out(TypedDict):
+    id: str | None
+    name: str | None
+    username: str | None
 
 class Prv_dangotecement_FindDistributorsFilters_In(TypedDict):
     query: NotRequired[str]
@@ -39384,6 +39409,11 @@ class Prv_dailymotion(Protocol):
     async def listChannelVideos(self, args: Prv_dailymotion_ListChannelVideosArgs_In, /) -> Prv_dailymotion_DailymotionChannelVideosResult_Out:
         """List the videos one Dailymotion uploader has published, newest first, paged — same
         fields as getVideo.
+        """
+
+    async def listChannelPlaylists(self, args: Prv_dailymotion_ListChannelPlaylistsArgs_In, /) -> Prv_dailymotion_DailymotionChannelPlaylistsResult_Out:
+        """List the playlists one Dailymotion channel has published — id, name, description,
+        thumbnail and video count, paged. The finder for getPlaylist and listPlaylistVideos.
         """
 
 class Prv_dangotecement(Protocol):

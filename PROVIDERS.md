@@ -2139,7 +2139,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.listNewsletters` | npr.org | List NPR's email newsletters with what each one covers. | ⚪ |
 | `npr.listPodcastCategories` | npr.org | List the podcast directory's categories with the id each one takes. | ⚪ |
 | `npr.listPodcastEpisodes` | npr.org | List a podcast's episodes, newest first, with title, date, duration and audio URL… | ⚪ |
-| `npr.listPodcasts` | npr.org | List NPR's podcasts and shows, optionally filtered to one category (news, technology… | ⚪ |
+| `npr.listPodcasts` | npr.org | List NPR's podcasts and shows, optionally filtered to one category (news, technology… | 🟢 |
 | `npr.listSections` | npr.org | List NPR's news sections and topics (news, politics, business, science, health… | 🟢 |
 | `npr.listSectionStories` | npr.org | List the latest stories in one section or topic, given its slug from listSections. | 🟢 |
 | `npr.listSeries` | npr.org | List NPR's series (Tiny Desk Concerts, New Music Friday, Life Kit…) with the slug or… | ⚪ |
@@ -2727,7 +2727,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |
 | `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the computed… | 🟡 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
-| `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟢 |
+| `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟡 |
 | `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟢 |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
@@ -2892,7 +2892,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.deleteComment` | tiktok.com | Delete the caller's own comment — the reverse of postComment, and how a test write is… | 🟢 |
 | `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | ⚪ |
 | `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | 🟢 |
-| `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller. | ⚪ |
+| `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller — takes the userId and secUid off… | 🟢 |
 | `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟡 |
 | `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | 🟢 |
 | `tiktok.getProfile` | tiktok.com | A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId… | 🟢 |

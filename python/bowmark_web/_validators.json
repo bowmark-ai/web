@@ -1,5 +1,5 @@
 {
-  "version": "14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594",
+  "version": "036235f474ec7d4d136e595db784951ee24f0148dd58fe1dc582bb8fc80cf12b",
   "units": {
     "address_validation": {
       "defs": {
@@ -18327,6 +18327,32 @@
             }
           ]
         },
+        "ListChannelPlaylistsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListChannelVideosArgs": {
           "k": "object",
           "props": [
@@ -18432,6 +18458,16 @@
             "schema": {
               "k": "ref",
               "name": "ListChannelVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listChannelPlaylists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListChannelPlaylistsArgs"
             },
             "optional": false
           }

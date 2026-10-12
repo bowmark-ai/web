@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 14a7fca64d20bbf9392d548ab4f47c8ad516efe2f550a590e9d25518f48f4594
-// 87 capabilities, 575 providers, 2079 typed functions, 20 refused.
+// Manifest version: 036235f474ec7d4d136e595db784951ee24f0148dd58fe1dc582bb8fc80cf12b
+// 87 capabilities, 575 providers, 2080 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18015,6 +18015,26 @@ interface DailymotionChannelVideosResult {
   hasMore: boolean;
   videos: DailymotionVideo[];
 }
+interface ListChannelPlaylistsArgs {
+  channel: string;
+  limit?: number;
+  page?: number;
+}
+interface DailymotionPlaylist {
+  id: string;
+  name: string;
+  description: string | null;
+  thumbnailUrl: string | null;
+  videoCount: number | null;
+  owner: { id: string | null; name: string | null; username: string | null };
+}
+interface DailymotionChannelPlaylistsResult {
+  channel: string;
+  page: number;
+  total: number;
+  hasMore: boolean;
+  playlists: DailymotionPlaylist[];
+}
 
   /**
    * Search Dailymotion videos by keyword and read one video's title, channel, duration, views
@@ -18053,6 +18073,12 @@ interface DailymotionChannelVideosResult {
      * getVideo.
      */
     listChannelVideos(args: ListChannelVideosArgs): Promise<DailymotionChannelVideosResult>;
+
+    /**
+     * List the playlists one Dailymotion channel has published — id, name, description, thumbnail
+     * and video count, paged. The finder for getPlaylist and listPlaylistVideos.
+     */
+    listChannelPlaylists(args: ListChannelPlaylistsArgs): Promise<DailymotionChannelPlaylistsResult>;
   }
 }
 
