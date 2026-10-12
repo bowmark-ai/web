@@ -147,7 +147,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter display name, text, time… | ⚪ |
 | `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | ⚪ |
 | `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | 🟢 |
-| `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | ⚪ |
+| `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | 🟢 |
 | `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | ⚪ |
 | `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | ⚪ |
 | `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | 🟢 |
@@ -1687,7 +1687,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.likePost` | instagram.com | Likes a post by its media id. | 🟢 |
 | `instagram.muteUser` | instagram.com | Mutes a user's posts and stories from the signed-in account's feed, without… | 🟢 |
 | `instagram.savePost` | instagram.com | Saves a post to the signed-in user's default collection. | 🟢 |
-| `instagram.searchAccounts` | instagram.com | Searches Instagram for public accounts matching a query. | ⚪ |
+| `instagram.searchAccounts` | instagram.com | Searches Instagram for public accounts matching a query (username, full name, or… | 🟢 |
 | `instagram.sendDirectMessage` | instagram.com | Sends a direct message to one user. | 🟢 |
 | `instagram.unblockUser` | instagram.com | Unblocks a previously blocked user. | 🟢 |
 | `instagram.unfollowUser` | instagram.com | Unfollows a user the signed-in account is currently following. | 🟢 |
