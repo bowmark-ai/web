@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3346 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3347 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -355,7 +355,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🔴 |
 | `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |
 | `bing.translateText` | bing.com | Translates text the way bing.com/translator does and returns the translated string… | 🟡 |
-| `bionicpo.getInquiryServiceDetails` | bionicpo.com | Looks one inquiry service up by name or id among the inquiry-services page's service… | 🟡 |
+| `bionicpo.getInquiryServiceDetails` | bionicpo.com | Looks one inquiry service up by name or id among the inquiry-services page's service… | 🟢 |
 | `bionicpo.listInquiryServices` | bionicpo.com | Lists the inquiry and service categories available on BionicPO's inquiry-services page. | 🟢 |
 | `bishops.checkAvailability` | bishops.co | Checks real, live open time slots for one service at one location on one date — the… | 🟢 |
 | `bishops.findLocation` | bishops.co | Resolves a slug/neighborhood query to the matching real Bishops location(s) — name… | 🟢 |
@@ -2007,6 +2007,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_365.createDocument` | m365.cloud.microsoft.com | Creates a new document in the user's Microsoft 365 OneDrive with the specified name… | 🟢 |
 | `microsoft_365.deleteDocument` | m365.cloud.microsoft.com | Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. | 🟢 |
 | `microsoft_365.getDocument` | m365.cloud.microsoft.com | Retrieves metadata for a specific document or folder in the user's Microsoft 365… | 🟢 |
+| `microsoft_365.getDocumentContent` | m365.cloud.microsoft.com | Retrieves the binary content of a document from the user's Microsoft 365 OneDrive. | 🟢 |
 | `microsoft_365.listDocuments` | m365.cloud.microsoft.com | Lists documents from the user's Microsoft 365 OneDrive, including files and folders… | 🟢 |
 | `microsoft_365.listDocumentVersions` | m365.cloud.microsoft.com | Lists the version history of a specific document in the user's Microsoft 365 OneDrive. | 🟢 |
 | `microsoft_365.listRecentDocuments` | m365.cloud.microsoft.com | Lists the user's recently accessed documents in Microsoft 365 OneDrive, ordered by… | 🟢 |
@@ -2310,7 +2311,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `paypal.getPolicyDocument` | paypal.com | Reads one of PayPal's binding policy documents — the User Agreement, the Seller… | ⚪ |
 | `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — title, canonical URL… | ⚪ |
 | `paypal.searchShoppingOffers` | paypal.com | Finds the cashback and discount offers PayPal is currently running at a given merchant… | ⚪ |
-| `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟢 |
+| `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟡 |
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟡 |
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
 | `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |

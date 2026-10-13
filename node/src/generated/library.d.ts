@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9d8eb7eb7b61d78026d47f5a9b334771dcb8d8e0a0376cca2057a0610667d093
-// 87 capabilities, 576 providers, 2097 typed functions, 20 refused.
+// Manifest version: 15b9097af95e65d3b8ea18be2242d778bbca14c24647a4d94d46fb6affe74166
+// 87 capabilities, 576 providers, 2098 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -28572,42 +28572,42 @@ declare namespace BowmarkProvider_heatherwood {
 // Heatherwood's OWN shapes — not a capability contract.
 
 interface HeatherwoodFloorplanSummary {
-  id: string;             // the key getFloorplan takes
-  name: string;            // e.g. "3 Bed 2 Bath"
-  isActive: boolean;
-  tourUrl: string | null;  // a 3D walkthrough, when the site publishes one
+  id: string;                  // the key getFloorplan takes
+  name: string;                 // e.g. "3 Bed, 2 Bath - C3"
+  availableUnits: number;       // how many units of this type are available right now
+  minRent: number | null;       // null when availableUnits is 0 — nothing to quote
+  maxRent: number | null;
+  tourUrl: string | null;       // a 3D walkthrough, when the site publishes one
 }
 
 interface HeatherwoodUnit {
-  unitName: string;                  // e.g. "2145"
+  unitName: string;                  // e.g. "2109"
   price: number;                     // monthly rent, USD
-  available: boolean;
-  availabilityStarts: string | null; // e.g. "01/15/2027"
+  availabilityStarts: string | null; // e.g. "03/01/2027"
   applyUrl: string;                  // real Yardi SecureCafe Apply Now URL, this unit
 }
 
 interface HeatherwoodFloorplanDetail {
   id: string;
   name: string;
-  description: string | null;
   beds: number;
   baths: number;
   sqft: number | null;
   image: string | null;
-  units: HeatherwoodUnit[];
+  units: HeatherwoodUnit[]; // every unit of this type available right now (may be empty)
 }
 
   /**
    * Reads Heritage Westminster's (a Heatherwood property) own floor-plan search: every
-   * floor-plan type it currently publishes, and — for one type — its real available units right
-   * now, each with real rent, real move-in date and a direct Apply Now handoff into Yardi's
-   * SecureCafe leasing portal.
+   * floor-plan type it currently publishes with its available-unit count and rent range, and —
+   * for one type — its real available units right now, each with real rent, real move-in date
+   * and a direct Apply Now handoff into Yardi's SecureCafe leasing portal.
    */
   interface Unit {
     /**
      * Lists every floor-plan type Heritage Westminster currently publishes (studio through
-     * 3-bedroom, plus the townhome), each with its own id and active flag. Every entry's `id` is
-     * what `getFloorplan` takes.
+     * 3-bedroom, plus the townhome), each with its own id, available-unit count and rent range.
+     * Every entry's `id` is what `getFloorplan` takes.
      */
     listFloorplans(): Promise<HeatherwoodFloorplanSummary[]>;
 
@@ -28615,8 +28615,9 @@ interface HeatherwoodFloorplanDetail {
      * Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently
      * available UNIT under it — real rent, real move-in date, real unit number and a direct Apply
      * Now handoff URL into Yardi's SecureCafe leasing portal. `id` comes from `listFloorplans()`,
-     * e.g. "6117790". THROWS on an unknown id, naming `listFloorplans()` as the way to find
-     * current ones.
+     * e.g. "5771378". THROWS on an unknown id, naming `listFloorplans()` as the way to find
+     * current ones; an empty `units` array means the floor plan exists but has nothing available
+     * right now.
      */
     getFloorplan(id: string): Promise<HeatherwoodFloorplanDetail>;
   }
@@ -37224,6 +37225,15 @@ interface ListRecentDocumentsArgs {
   // No required arguments; lists the user's recent documents
 }
 
+interface GetDocumentContentArgs {
+  itemId: string;
+}
+
+interface DocumentContent {
+  content: string; // base64-encoded binary content of the file
+  contentType?: string; // MIME type if available
+}
+
   /**
    * Microsoft 365 cloud document management — lists, retrieves, creates, versions, restores and
    * deletes Word, Excel, PowerPoint and OneNote documents in OneDrive.
@@ -37286,6 +37296,12 @@ interface ListRecentDocumentsArgs {
      * recently used. Returns an array of documents with their metadata.
      */
     listRecentDocuments(args?: ListRecentDocumentsArgs, opts?: ConnectionOption): Promise<microsoft_365Document[]>;
+
+    /**
+     * Retrieves the binary content of a document from the user's Microsoft 365 OneDrive. Takes a
+     * document item ID and returns the file's content encoded as base64.
+     */
+    getDocumentContent(args: GetDocumentContentArgs): Promise<DocumentContent>;
   }
 }
 

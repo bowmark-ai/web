@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9d8eb7eb7b61d78026d47f5a9b334771dcb8d8e0a0376cca2057a0610667d093
-# 87 capabilities, 576 providers, 2079 typed functions, 20 refused.
+# Manifest version: 15b9097af95e65d3b8ea18be2242d778bbca14c24647a4d94d46fb6affe74166
+# 87 capabilities, 576 providers, 2080 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15644,13 +15644,14 @@ class Prv_healthie_Practice_Out(TypedDict):
 class Prv_heatherwood_HeatherwoodFloorplanSummary_Out(TypedDict):
     id: str
     name: str
-    isActive: bool
+    availableUnits: float
+    minRent: float | None
+    maxRent: float | None
     tourUrl: str | None
 
 class Prv_heatherwood_HeatherwoodFloorplanDetail_Out(TypedDict):
     id: str
     name: str
-    description: str | None
     beds: float
     baths: float
     sqft: float | None
@@ -15660,7 +15661,6 @@ class Prv_heatherwood_HeatherwoodFloorplanDetail_Out(TypedDict):
 class Prv_heatherwood_HeatherwoodUnit_Out(TypedDict):
     unitName: str
     price: float
-    available: bool
     availabilityStarts: str | None
     applyUrl: str
 
@@ -20408,6 +20408,13 @@ class Prv_microsoft_365_SearchDocumentsArgs_In(TypedDict):
 
 class Prv_microsoft_365_ListRecentDocumentsArgs_In(TypedDict):
     pass
+
+class Prv_microsoft_365_GetDocumentContentArgs_In(TypedDict):
+    itemId: str
+
+class Prv_microsoft_365_DocumentContent_Out(TypedDict):
+    content: str
+    contentType: NotRequired[str]
 
 class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
     path: NotRequired[str]
@@ -43447,23 +43454,24 @@ class Prv_healthie(Protocol):
 
 class Prv_heatherwood(Protocol):
     """Reads Heritage Westminster's (a Heatherwood property) own floor-plan search: every
-    floor-plan type it currently publishes, and — for one type — its real available units
-    right now, each with real rent, real move-in date and a direct Apply Now handoff into
-    Yardi's SecureCafe leasing portal.
+    floor-plan type it currently publishes with its available-unit count and rent range, and
+    — for one type — its real available units right now, each with real rent, real move-in
+    date and a direct Apply Now handoff into Yardi's SecureCafe leasing portal.
     """
 
     async def listFloorplans(self, /) -> list[Prv_heatherwood_HeatherwoodFloorplanSummary_Out]:
         """Lists every floor-plan type Heritage Westminster currently publishes (studio through
-        3-bedroom, plus the townhome), each with its own id and active flag. Every entry's `id`
-        is what `getFloorplan` takes.
+        3-bedroom, plus the townhome), each with its own id, available-unit count and rent
+        range. Every entry's `id` is what `getFloorplan` takes.
         """
 
     async def getFloorplan(self, id: str, /) -> Prv_heatherwood_HeatherwoodFloorplanDetail_Out:
         """Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently
         available UNIT under it — real rent, real move-in date, real unit number and a direct
         Apply Now handoff URL into Yardi's SecureCafe leasing portal. `id` comes from
-        `listFloorplans()`, e.g. "6117790". THROWS on an unknown id, naming `listFloorplans()`
-        as the way to find current ones.
+        `listFloorplans()`, e.g. "5771378". THROWS on an unknown id, naming `listFloorplans()`
+        as the way to find current ones; an empty `units` array means the floor plan exists but
+        has nothing available right now.
         """
 
 class Prv_hellofresh(Protocol):
@@ -46527,6 +46535,11 @@ class Prv_microsoft_365(Protocol):
     async def listRecentDocuments(self, args: Prv_microsoft_365_ListRecentDocumentsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_365_microsoft_365Document_Out]:
         """Lists the user's recently accessed documents in Microsoft 365 OneDrive, ordered by most
         recently used. Returns an array of documents with their metadata.
+        """
+
+    async def getDocumentContent(self, args: Prv_microsoft_365_GetDocumentContentArgs_In, /) -> Prv_microsoft_365_DocumentContent_Out:
+        """Retrieves the binary content of a document from the user's Microsoft 365 OneDrive. Takes
+        a document item ID and returns the file's content encoded as base64.
         """
 
 class Prv_microsoft_onedrive(Protocol):

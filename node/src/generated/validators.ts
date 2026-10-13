@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9d8eb7eb7b61d78026d47f5a9b334771dcb8d8e0a0376cca2057a0610667d093
-// 2079 checked, 20 unchecked.
+// Manifest version: 15b9097af95e65d3b8ea18be2242d778bbca14c24647a4d94d46fb6affe74166
+// 2080 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9d8eb7eb7b61d78026d47f5a9b334771dcb8d8e0a0376cca2057a0610667d093",
+  "version": "15b9097af95e65d3b8ea18be2242d778bbca14c24647a4d94d46fb6affe74166",
   "units": {
     "address_validation": {
       "defs": {
@@ -38005,6 +38005,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetDocumentContentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListDocumentVersionsArgs": {
           "k": "object",
           "props": [
@@ -38334,6 +38346,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "getDocumentContent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDocumentContentArgs"
+            },
+            "optional": false
           }
         ]
       }
