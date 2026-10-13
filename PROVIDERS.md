@@ -2853,7 +2853,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | 🟢 |
 | `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | 🟢 |
 | `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | 🟢 |
-| `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | 🟡 |
+| `theguardian_com.listContributors` | theguardian.com | Lists journalists and contributors whose surname starts with one letter, with each… | 🟡 |
 | `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | 🟢 |
 | `theguardian_com.listNewsletters` | theguardian.com | Every email newsletter The Guardian publishes — name, description, frequency, theme… | 🟢 |
 | `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | 🟢 |
@@ -2924,7 +2924,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.searchUsers` | tiktok.com | Search TikTok for creators matching a query and get back handle, nickname and follower… | 🟡 |
 | `tiktok.searchVideos` | tiktok.com | Search TikTok the way the search box does and get back matching videos — id, caption… | 🟡 |
 | `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller. | ⚪ |
-| `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | ⚪ |
+| `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | 🟢 |
 | `tiktok.unlikeVideo` | tiktok.com | Remove a like the caller placed — the reverse of likeVideo. | 🟢 |
 | `tiktok.uploadVideo` | tiktok.com | Upload a video to the signed-in caller's own account, with caption, hashtags and… | ⚪ |
 | `tilsonhomes.getElevationDetails` | tilsonhomes.com | Reads one plan's elevation — the exterior style's customization range (how far… | 🟢 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 84b580dcae1f424a3d97cc1557f3476628073901ff05811cdbf2e5b5866020ea
-// 85 capabilities, 577 providers, 2101 typed functions, 20 refused.
+// Manifest version: 4eacc98f0504258225019142a3bbb174eabd24883bdbf6e58365f4aee3a59377
+// 85 capabilities, 577 providers, 2105 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6654,6 +6654,11 @@ interface GetStoreArgs {
   store_id: string;
 }
 
+interface AddToCartArgs {
+  product_id: string;
+  quantity?: number;
+}
+
 interface aliexpressCartItem {
   id: string;
   product_id: string;
@@ -6735,6 +6740,9 @@ interface aliexpressStore {
 
     /** Lists items currently in the user's shopping cart with quantity, price, and product details. */
     listCart(): Promise<aliexpressCartItem[]>;
+
+    /** Adds a product to the user's shopping cart with specified quantity. */
+    addToCart(args: AddToCartArgs): Promise<{ success: boolean; message?: string }>;
   }
 }
 
@@ -22035,6 +22043,19 @@ interface GetSummaryArgs {
   wiki?: string;
 }
 
+interface GetSectionsArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface Section {
+  index: string;
+  line: string;
+  level: number;
+  number: string;
+  anchor: string;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -22076,6 +22097,12 @@ interface GetSummaryArgs {
      * /api.php?action=parse&prop=text&section=0`.
      */
     getSummary(args: GetSummaryArgs): Promise<Article>;
+
+    /**
+     * An article's table of contents — every section with its index, heading, nesting level and
+     * number, in page order. The door to `getSection`. `GET /api.php?action=parse&prop=sections`.
+     */
+    getSections(args: GetSectionsArgs): Promise<Section[]>;
   }
 }
 
@@ -49518,6 +49545,23 @@ interface TargetDealsResult {
   warnings: string[];
 }
 
+interface TargetReview {
+  id: string;
+  rating: number | null;
+  title: string | null;
+  text: string | null;
+  verifiedPurchase: boolean;  // the site's own "is_verified" flag
+  submittedAt: string | null;  // ISO timestamp
+  authorNickname: string | null;
+}
+
+interface TargetReviews {
+  tcin: string;
+  reviews: TargetReview[];  // newest (or most-helpful) first, per sortBy
+  totalReviews: number | null;  // the site's total review count for this product
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -49582,6 +49626,14 @@ interface TargetDealsResult {
      * title and text. Takes a TCIN from `search`. `limit` defaults to 20, max 200.
      */
     reviewPhotos(args: { tcin: string; limit?: number }): Promise<TargetReviewPhotos>;
+
+    /**
+     * Reads a product's customer reviews — rating, title, text and verified-purchase flag — the
+     * detail `search` and `getProduct` only summarize as a count and an average. Takes a TCIN from
+     * `search`. `limit` defaults to 20, max 200; `sortBy` defaults to the site's own
+     * "most_recent".
+     */
+    listReviews(args: { tcin: string; limit?: number; sortBy?: "most_recent" | "most_helpful" }): Promise<TargetReviews>;
   }
 }
 
@@ -56778,6 +56830,11 @@ interface GetMessageArgs {
   id: unknown;
 }
 
+interface SearchMessagesArgs {
+  query: unknown;
+  folderId?: unknown;
+}
+
   /**
    * Reads and sends mail in the CALLER's own Yahoo Mail account — inbox, folders, search,
    * compose — through the auth relay. Every function needs the caller signed in; none of it
@@ -56808,6 +56865,15 @@ interface GetMessageArgs {
      * signed-in capture measures the success shape.
      */
     getMessage(args: GetMessageArgs, opts?: ConnectionOption): Promise<YahooMailMessage>;
+
+    /**
+     * Searches messages in the CALLER's own mailbox by sender, subject or body text — the way
+     * Yahoo Mail's own search bar does. Searches across all folders or one folder if specified.
+     * Returns sender, subject, snippet, received time and read/unread state, the same shape as
+     * `listMessages`. Field values are read defensively and may come back as empty strings until a
+     * real signed-in capture measures the success shape.
+     */
+    searchMessages(args: SearchMessagesArgs, opts?: ConnectionOption): Promise<YahooMailMessageRow[]>;
   }
 }
 

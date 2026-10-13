@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 84b580dcae1f424a3d97cc1557f3476628073901ff05811cdbf2e5b5866020ea
-// 2083 checked, 20 unchecked.
+// Manifest version: 4eacc98f0504258225019142a3bbb174eabd24883bdbf6e58365f4aee3a59377
+// 2087 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "84b580dcae1f424a3d97cc1557f3476628073901ff05811cdbf2e5b5866020ea",
+  "version": "4eacc98f0504258225019142a3bbb174eabd24883bdbf6e58365f4aee3a59377",
   "units": {
     "address_validation": {
       "defs": {
@@ -7715,6 +7715,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.aliexpress": {
       "defs": {
+        "AddToCartArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetProductArgs": {
           "k": "object",
           "props": [
@@ -7784,7 +7803,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listCart": []
+        "listCart": [],
+        "addToCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AddToCartArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.allied": {
@@ -22261,6 +22290,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetSectionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "wiki",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetSummaryArgs": {
           "k": "object",
           "props": [
@@ -22365,6 +22413,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSummaryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSections": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSectionsArgs"
             },
             "optional": false
           }
@@ -55695,6 +55753,48 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tcin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortBy",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "most_recent"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "most_helpful"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -63370,6 +63470,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SearchMessagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "any"
+              },
+              "optional": false
+            },
+            {
+              "name": "folderId",
+              "schema": {
+                "k": "any"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -63431,6 +63550,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetMessageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchMessages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchMessagesArgs"
             },
             "optional": false
           },

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 84b580dcae1f424a3d97cc1557f3476628073901ff05811cdbf2e5b5866020ea
-# 85 capabilities, 577 providers, 2083 typed functions, 20 refused.
+# Manifest version: 4eacc98f0504258225019142a3bbb174eabd24883bdbf6e58365f4aee3a59377
+# 85 capabilities, 577 providers, 2087 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3818,6 +3818,14 @@ class Prv_aliexpress_aliexpressCartItem_Out(TypedDict):
     price: float
     title: str
     shop_name: str
+
+class Prv_aliexpress_AddToCartArgs_In(TypedDict):
+    product_id: str
+    quantity: NotRequired[float]
+
+class Prv_aliexpress_addToCart_return_Out(TypedDict):
+    success: bool
+    message: NotRequired[str]
 
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
@@ -12555,6 +12563,17 @@ class Prv_fandom_Article_Out(TypedDict):
 class Prv_fandom_GetSummaryArgs_In(TypedDict):
     title: str
     wiki: NotRequired[str]
+
+class Prv_fandom_GetSectionsArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+
+class Prv_fandom_Section_Out(TypedDict):
+    index: str
+    line: str
+    level: float
+    number: str
+    anchor: str
 
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
@@ -27853,6 +27872,26 @@ class Prv_target_TargetReviewPhoto_Out(TypedDict):
     reviewTitle: str | None
     reviewText: str | None
 
+class Prv_target_listReviews_args_In(TypedDict):
+    tcin: str
+    limit: NotRequired[float]
+    sortBy: NotRequired[Literal["most_recent"] | Literal["most_helpful"]]
+
+class Prv_target_TargetReviews_Out(TypedDict):
+    tcin: str
+    reviews: list[Prv_target_TargetReview_Out]
+    totalReviews: float | None
+    warnings: list[str]
+
+class Prv_target_TargetReview_Out(TypedDict):
+    id: str
+    rating: float | None
+    title: str | None
+    text: str | None
+    verifiedPurchase: bool
+    submittedAt: str | None
+    authorNickname: str | None
+
 class Prv_tatcha_TatchaRitualQuizOptions_Out(TypedDict):
     skinTypes: list[Prv_tatcha_TatchaQuizOption_Out]
     benefits: list[Prv_tatcha_TatchaQuizOption_Out]
@@ -32183,6 +32222,10 @@ Prv_yahoo_mail_YahooMailMessage_Out = TypedDict(
     },
 )
 
+class Prv_yahoo_mail_SearchMessagesArgs_In(TypedDict):
+    query: Any
+    folderId: NotRequired[Any]
+
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
     week: NotRequired[float]
@@ -35530,6 +35573,9 @@ class Prv_aliexpress(Protocol):
         """Lists items currently in the user's shopping cart with quantity, price, and product
         details.
         """
+
+    async def addToCart(self, args: Prv_aliexpress_AddToCartArgs_In, /) -> Prv_aliexpress_addToCart_return_Out:
+        """Adds a product to the user's shopping cart with specified quantity."""
 
 class Prv_allied(Protocol):
     """Runs Allied Van Lines' own Packing Calculator — takes which rooms are moving (no name,
@@ -41009,6 +41055,12 @@ class Prv_fandom(Protocol):
         section 0. Fandom has no RESTBase `page/summary` surface (that is Wikimedia-only), so
         this is `getArticle`'s own call with `section=0` added. `GET
         /api.php?action=parse&prop=text&section=0`.
+        """
+
+    async def getSections(self, args: Prv_fandom_GetSectionsArgs_In, /) -> list[Prv_fandom_Section_Out]:
+        """An article's table of contents — every section with its index, heading, nesting level
+        and number, in page order. The door to `getSection`. `GET
+        /api.php?action=parse&prop=sections`.
         """
 
 class Prv_fbsappliance(Protocol):
@@ -51034,6 +51086,13 @@ class Prv_target(Protocol):
         200.
         """
 
+    async def listReviews(self, args: Prv_target_listReviews_args_In, /) -> Prv_target_TargetReviews_Out:
+        """Reads a product's customer reviews — rating, title, text and verified-purchase flag —
+        the detail `search` and `getProduct` only summarize as a count and an average. Takes a
+        TCIN from `search`. `limit` defaults to 20, max 200; `sortBy` defaults to the site's own
+        "most_recent".
+        """
+
 class Prv_tatcha(Protocol):
     """Runs Tatcha's real "Ritual Finder" skincare quiz — the site's own product-matching
     backend, not a generic routine.
@@ -53645,6 +53704,14 @@ class Prv_yahoo_mail(Protocol):
         `listMessages` returns. The caller signs in through the auth relay; Bowmark never signs
         up on this site. Field values besides `raw` are read defensively and may come back
         undefined until a real signed-in capture measures the success shape.
+        """
+
+    async def searchMessages(self, args: Prv_yahoo_mail_SearchMessagesArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_yahoo_mail_YahooMailMessageRow_Out]:
+        """Searches messages in the CALLER's own mailbox by sender, subject or body text — the way
+        Yahoo Mail's own search bar does. Searches across all folders or one folder if
+        specified. Returns sender, subject, snippet, received time and read/unread state, the
+        same shape as `listMessages`. Field values are read defensively and may come back as
+        empty strings until a real signed-in capture measures the success shape.
         """
 
 class Prv_yahoo_sports(Protocol):
