@@ -24,7 +24,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `business_electricity_quote.getQuote` | Business electricity quote for an Australian 4-digit postcode — every business… | 1 | 🟢 |
 | `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
 | `candy_prices.search` | Search for candy and sweets across Target and Walmart, returning priced, in-stock rows… | 2 | 🟡 |
-| `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 3 | 🟡 |
+| `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 3 | 🟢 |
 | `concert_setlist.search` | Search for concert setlists by artist name, venue, or date. | 0 | 🟢 |
 | `condition_monitoring.check` | Diffs `current` against `options.previous` (the snapshot an earlier check returned)… | 0 | 🟢 |
 | `corporate_facts.findCompany` | Find SEC-registered public companies by ticker or name ("apple") — name, ticker and CIK. | 1 | 🟢 |
