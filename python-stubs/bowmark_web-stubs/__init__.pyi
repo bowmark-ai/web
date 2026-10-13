@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 07c9c3d624eccfa225ce6dc3448d06819094f66d48e1d2cd749f86c30b6a40ec
-# 87 capabilities, 576 providers, 2078 typed functions, 20 refused.
+# Manifest version: 9d8eb7eb7b61d78026d47f5a9b334771dcb8d8e0a0376cca2057a0610667d093
+# 87 capabilities, 576 providers, 2079 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12566,6 +12566,10 @@ class Prv_fandom_Article_Out(TypedDict):
     url: str
     id: str
     revision: str
+
+class Prv_fandom_GetSummaryArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
 
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
@@ -39874,18 +39878,20 @@ class Prv_deltadentalma(Protocol):
         """
 
 class Prv_dentalplans(Protocol):
-    """DentalPlans.com's own live, location-filtered plan search (/plan-search-results/?zip=)
-    off the site's server-rendered results — real matched dental savings plans and dental
-    insurance plans with real pricing and in-network dentist counts, not a stale mirror —
-    plus one plan's own full detail and sample procedure-savings table.
+    """DentalPlans.com's own live, location-filtered plan search — off the site's own
+    documented plan-search JSON API, the same one its own React results page calls — real
+    matched dental savings plans and dental insurance plans with real pricing and in-network
+    dentist counts, not a stale mirror — plus one plan's own full detail and sample
+    procedure-savings table.
     """
 
     async def search(self, zip: str, /) -> Prv_dentalplans_DentalplansSearchResult_Out:
-        """Runs DentalPlans.com's own live plan search for a 5-digit US zip and returns the real
-        matched dental savings plans and dental insurance plans it currently lists, in the
-        site's own order, with real pricing and in-network dentist counts. The query ChatGPT's
-        fit-check (agents/prospector-2/packets/dentalplans.com/angle.md) could not actually run:
-        it cannot submit the site's own ZIP-entry form.
+        """Runs DentalPlans.com's own live plan search for a 5-digit US zip, off the site's own
+        documented plan-search JSON API, and returns the real matched dental savings plans and
+        dental insurance plans it currently lists, in the site's own order, with real pricing
+        and in-network dentist counts. The query ChatGPT's fit-check
+        (agents/prospector-2/packets/dentalplans.com/angle.md) could not actually run: it cannot
+        submit the site's own ZIP-entry form.
         """
 
     async def getPlan(self, url: str, /) -> Prv_dentalplans_DentalplansPlanDetail_Out:
@@ -40925,6 +40931,13 @@ class Prv_fandom(Protocol):
         url, page id, and revision. Takes a title within a wiki you specify, or a full
         `*.fandom.com/wiki/*` url where the wiki is auto-detected. `GET
         /api.php?action=parse&prop=text`.
+        """
+
+    async def getSummary(self, args: Prv_fandom_GetSummaryArgs_In, /) -> Prv_fandom_Article_Out:
+        """Just the lead section of a wiki article — the same shape `getArticle` returns, pinned to
+        section 0. Fandom has no RESTBase `page/summary` surface (that is Wikimedia-only), so
+        this is `getArticle`'s own call with `section=0` added. `GET
+        /api.php?action=parse&prop=text&section=0`.
         """
 
 class Prv_fbsappliance(Protocol):

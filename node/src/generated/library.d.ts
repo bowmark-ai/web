@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 07c9c3d624eccfa225ce6dc3448d06819094f66d48e1d2cd749f86c30b6a40ec
-// 87 capabilities, 576 providers, 2096 typed functions, 20 refused.
+// Manifest version: 9d8eb7eb7b61d78026d47f5a9b334771dcb8d8e0a0376cca2057a0610667d093
+// 87 capabilities, 576 providers, 2097 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18983,16 +18983,17 @@ interface DentalplansPlanDetail {
 }
 
   /**
-   * DentalPlans.com's own live, location-filtered plan search (/plan-search-results/?zip=) off
-   * the site's server-rendered results — real matched dental savings plans and dental insurance
-   * plans with real pricing and in-network dentist counts, not a stale mirror — plus one plan's
-   * own full detail and sample procedure-savings table.
+   * DentalPlans.com's own live, location-filtered plan search — off the site's own documented
+   * plan-search JSON API, the same one its own React results page calls — real matched dental
+   * savings plans and dental insurance plans with real pricing and in-network dentist counts,
+   * not a stale mirror — plus one plan's own full detail and sample procedure-savings table.
    */
   interface Unit {
     /**
-     * Runs DentalPlans.com's own live plan search for a 5-digit US zip and returns the real
-     * matched dental savings plans and dental insurance plans it currently lists, in the site's
-     * own order, with real pricing and in-network dentist counts. The query ChatGPT's fit-check
+     * Runs DentalPlans.com's own live plan search for a 5-digit US zip, off the site's own
+     * documented plan-search JSON API, and returns the real matched dental savings plans and
+     * dental insurance plans it currently lists, in the site's own order, with real pricing and
+     * in-network dentist counts. The query ChatGPT's fit-check
      * (agents/prospector-2/packets/dentalplans.com/angle.md) could not actually run: it cannot
      * submit the site's own ZIP-entry form.
      */
@@ -22067,6 +22068,11 @@ interface Article {
   revision: string;
 }
 
+interface GetSummaryArgs {
+  title: string;
+  wiki?: string;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -22100,6 +22106,14 @@ interface Article {
      * /api.php?action=parse&prop=text`.
      */
     getArticle(args: GetArticleArgs): Promise<Article>;
+
+    /**
+     * Just the lead section of a wiki article — the same shape `getArticle` returns, pinned to
+     * section 0. Fandom has no RESTBase `page/summary` surface (that is Wikimedia-only), so this
+     * is `getArticle`'s own call with `section=0` added. `GET
+     * /api.php?action=parse&prop=text&section=0`.
+     */
+    getSummary(args: GetSummaryArgs): Promise<Article>;
   }
 }
 

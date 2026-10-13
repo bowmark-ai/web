@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 07c9c3d624eccfa225ce6dc3448d06819094f66d48e1d2cd749f86c30b6a40ec
-// 2078 checked, 20 unchecked.
+// Manifest version: 9d8eb7eb7b61d78026d47f5a9b334771dcb8d8e0a0376cca2057a0610667d093
+// 2079 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "07c9c3d624eccfa225ce6dc3448d06819094f66d48e1d2cd749f86c30b6a40ec",
+  "version": "9d8eb7eb7b61d78026d47f5a9b334771dcb8d8e0a0376cca2057a0610667d093",
   "units": {
     "address_validation": {
       "defs": {
@@ -22360,6 +22360,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetSummaryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "wiki",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -22435,6 +22454,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSummary": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSummaryArgs"
             },
             "optional": false
           }
