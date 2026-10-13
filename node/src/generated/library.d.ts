@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 42c828e748aa1d746366d277ffbec1c1fa37c52e1b12dde54718b6639e3a1772
-// 87 capabilities, 576 providers, 2102 typed functions, 20 refused.
+// Manifest version: 84b580dcae1f424a3d97cc1557f3476628073901ff05811cdbf2e5b5866020ea
+// 85 capabilities, 577 providers, 2101 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -759,67 +759,6 @@ type CallOptions = {
      * Cheapflights are searched together and the same offer is returned once, at its cheapest.
      */
     search(query: CarQuery, limit?: number, options?: CallOptions): Promise<CarSearchResult>;
-  }
-}
-
-declare namespace BowmarkCapability_census_tract_demographics {
-  // ── US Census demographics by location — the unit's own declarations, verbatim ──
-interface HouseholdIncomeResult {
-  medianHouseholdIncome: number;
-  censusYear: number;
-  warnings: string[];
-}
-
-type CallOptions = {
-  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
-                       // A provider slower than this is DROPPED from the results and
-                       // NAMED in warnings — never silently absent
-}
-
-  /** Query US Census Bureau data on median household income by location */
-  interface Unit {
-    /**
-     * Returns median household income for a US Census tract by ZIP code, resolved via the Census
-     * Geocoder then the ACS 5-Year Estimates API. `options.timeoutMs` sets the budget (default
-     * 30000).
-     */
-    householdIncome(zipCode: string, options?: CallOptions): Promise<HouseholdIncomeResult>;
-  }
-}
-
-declare namespace BowmarkCapability_census_tract_household_income {
-  // ── Look up household income by location — the unit's own declarations, verbatim ──
-interface HouseholdIncomeData {
-  zip?: string;
-  tract?: string;
-  medianHouseholdIncome?: number;
-  medianHouseholdIncomeMarginOfError?: number;
-  name?: string;
-  warnings: string[];
-}
-
-interface census_tract_household_incomeResult {
-  incomes: HouseholdIncomeData[];
-  warnings: string[];
-}
-
-type CallOptions = {
-  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
-                       // A provider slower than this is DROPPED from the results and
-                       // NAMED in warnings — never silently absent
-}
-
-  /**
-   * Get median household income from US Census Bureau data by ZIP code, address, or census
-   * tract.
-   */
-  interface Unit {
-    /**
-     * Retrieves median household income from US Census Bureau data for a given location. Only ZIP
-     * code lookups resolve today; address and tract are accepted but return a warning until a
-     * provider covers them. `options.timeoutMs` sets the budget (default 30000).
-     */
-    householdIncome(params: { zip?: string; address?: string; tract?: string }, options?: CallOptions): Promise<census_tract_household_incomeResult>;
   }
 }
 
@@ -15499,20 +15438,6 @@ interface AssembledInquiry {
 
 declare namespace BowmarkProvider_census_api {
   // ── US Census Bureau — the unit's own declarations, verbatim ──
-interface HouseholdIncomeResult {
-  medianHouseholdIncome: number;
-  censusYear: number;
-  tract: string;
-  state: string;
-  county: string;
-  warnings?: string[];
-}
-
-interface HouseholdIncomeArgs {
-  zipCode?: string;
-  address?: string;
-}
-
 interface AddressMatch {
   matchedAddress: string;
   street: string;
@@ -15536,9 +15461,6 @@ interface ValidateAddressArgs {
 
   /** Query US Census Bureau data on demographics by location */
   interface Unit {
-    /** Returns median household income for a US Census tract by ZIP code */
-    householdIncome(args: HouseholdIncomeArgs): Promise<HouseholdIncomeResult>;
-
     /**
      * Validates and standardizes a US street address against the Census Geocoder: whether it
      * exists, its standardized form, ZIP and coordinates, and every candidate when it is ambiguous
@@ -41061,6 +40983,102 @@ interface Pallet2ShipQuoteResult {
   }
 }
 
+declare namespace BowmarkProvider_partiful {
+  // ── Partiful — the unit's own declarations, verbatim ──
+interface PartifulEvent {
+  id: string;
+  url: string;
+  shortUrl: string | null;
+  title: string;
+  /** Partiful's own status word, e.g. "PUBLISHED" — read it off a result, never guess one. */
+  status: string | null;
+  /** ISO instant, UTC. */
+  startAt: string | null;
+  endAt: string | null;
+  timezone: string | null;
+  /** The event's own wall clock, "2026-10-06 08:00". */
+  localStart: string | null;
+  /** "structured" (a picked place) or "freeform" (typed text). */
+  locationType: string | null;
+  /** The place's name ("Ferry Building"); null for a bare street address. */
+  venue: string | null;
+  /** One line with the postcode: "590 Howard St, San Francisco, CA 94105". */
+  address: string | null;
+  addressLines: string[];
+  /** The host's own location text, as typed. */
+  locationText: string | null;
+  neighborhood: string | null;
+  approximateLocation: string | null;
+  googleMapsUrl: string | null;
+  /** null when the page lists none, and on every discoverEvents row: call getEvent. */
+  hosts: PartifulHost[] | null;
+  /** Guests apply and the host approves; null when the record does not say. */
+  requiresApproval: boolean | null;
+  /** Going plus approved; null when the host hides the count. */
+  guestCount: number | null;
+  guestCounts: PartifulGuestCounts;
+  atCapacity: boolean;
+  description: string | null;
+  imageUrl: string | null;
+  /** The event's .ics file. */
+  calendarUrl: string | null;
+  /** The RSVP or application form, in order. null on a discoverEvents row: call getEvent. */
+  questions: PartifulQuestion[] | null;
+}
+interface PartifulHost {
+  id: string;
+  name: string;
+}
+interface PartifulGuestCounts {
+  going: number | null;
+  approved: number | null;
+  maybe: number | null;
+  interested: number | null;
+  waitlist: number | null;
+}
+interface PartifulQuestion {
+  id: string;
+  label: string;
+  required: boolean;
+  /** short_answer, email, linkedin, select… */
+  type: string;
+  /** A select's choices; [] otherwise. */
+  options: string[];
+}
+interface GetEventArgs {
+  /** https://partiful.com/e/<id>, or the bare id. */
+  url: string;
+}
+interface DiscoverEventsArgs {
+  /** A Partiful explore region: sf, nyc, la, bos, dc, chi, lon, mia, atx… */
+  region: string;
+}
+
+  /**
+   * Partiful events — read one public event's date, time and timezone, venue name and full
+   * street address (which the page shows only inside its map), hosts, guest counts, whether
+   * guests must apply, the description and the RSVP form's questions; or discover the public
+   * events Partiful lists for a city (sf, nyc, la…).
+   */
+  interface Unit {
+    /**
+     * Read one public Partiful event page (partiful.com/e/<id>): title, date and time with
+     * timezone, venue name and full street address with postcode (the page itself shows the
+     * address only inside its map), neighbourhood, hosts, guest counts, whether guests must apply
+     * for approval, the description, and the RSVP or application form's questions.
+     */
+    getEvent(args: GetEventArgs): Promise<PartifulEvent>;
+
+    /**
+     * Discover the public events Partiful lists for a city or region (sf, nyc, la, bos, dc, chi,
+     * lon, mia, atx) on its explore page — trending, curated sections and the feed, each with
+     * title, date and time, venue and full address and guest counts. Pass a row's url to getEvent
+     * for its hosts and RSVP form.
+     */
+    discoverEvents(args: DiscoverEventsArgs): Promise<PartifulEvent[]>;
+  }
+}
+
 declare namespace BowmarkProvider_pawsup {
   // ── Paws Up — the unit's own declarations, verbatim ──
 interface AvailabilityResult {
@@ -59669,6 +59687,7 @@ interface BowmarkProviders {
   pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
   packlane: BowmarkProvider_packlane.Unit;
   pallet2ship: BowmarkProvider_pallet2ship.Unit;
+  partiful: BowmarkProvider_partiful.Unit;
   pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   peerspace: BowmarkProvider_peerspace.Unit;
@@ -109721,8 +109740,6 @@ interface BowmarkLibrary {
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   candy_prices: BowmarkCapability_candy_prices.Unit;
   cars: BowmarkCapability_cars.Unit;
-  census_tract_demographics: BowmarkCapability_census_tract_demographics.Unit;
-  census_tract_household_income: BowmarkCapability_census_tract_household_income.Unit;
   concert_setlist: BowmarkCapability_concert_setlist.Unit;
   condition_monitoring: BowmarkCapability_condition_monitoring.Unit;
   corporate_facts: BowmarkCapability_corporate_facts.Unit;

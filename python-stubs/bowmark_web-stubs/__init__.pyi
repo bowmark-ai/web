@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 42c828e748aa1d746366d277ffbec1c1fa37c52e1b12dde54718b6639e3a1772
-# 87 capabilities, 576 providers, 2084 typed functions, 20 refused.
+# Manifest version: 84b580dcae1f424a3d97cc1557f3476628073901ff05811cdbf2e5b5866020ea
+# 85 capabilities, 577 providers, 2083 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -647,34 +647,6 @@ class Cap_cars_Car_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
-
-class Cap_census_tract_demographics_CallOptions_In(TypedDict):
-    timeoutMs: NotRequired[float]
-
-class Cap_census_tract_demographics_HouseholdIncomeResult_Out(TypedDict):
-    medianHouseholdIncome: float
-    censusYear: float
-    warnings: list[str]
-
-class Cap_census_tract_household_income_householdIncome_params_In(TypedDict):
-    zip: NotRequired[str]
-    address: NotRequired[str]
-    tract: NotRequired[str]
-
-class Cap_census_tract_household_income_CallOptions_In(TypedDict):
-    timeoutMs: NotRequired[float]
-
-class Cap_census_tract_household_income_census_tract_household_incomeResult_Out(TypedDict):
-    incomes: list[Cap_census_tract_household_income_HouseholdIncomeData_Out]
-    warnings: list[str]
-
-class Cap_census_tract_household_income_HouseholdIncomeData_Out(TypedDict):
-    zip: NotRequired[str]
-    tract: NotRequired[str]
-    medianHouseholdIncome: NotRequired[float]
-    medianHouseholdIncomeMarginOfError: NotRequired[float]
-    name: NotRequired[str]
-    warnings: list[str]
 
 class Cap_concert_setlist_concert_setlistResult_Out(TypedDict):
     concerts: list[Cap_concert_setlist_Concert_Out]
@@ -8838,18 +8810,6 @@ class Prv_cbhhomes_AssembledInquiry_Out(TypedDict):
     entryUrl: str
     formFields: Mapping[str, str]
     summary: str
-
-class Prv_census_api_HouseholdIncomeArgs_In(TypedDict):
-    zipCode: NotRequired[str]
-    address: NotRequired[str]
-
-class Prv_census_api_HouseholdIncomeResult_Out(TypedDict):
-    medianHouseholdIncome: float
-    censusYear: float
-    tract: str
-    state: str
-    county: str
-    warnings: NotRequired[list[str]]
 
 class Prv_census_api_ValidateAddressArgs_In(TypedDict):
     address: str
@@ -22590,6 +22550,58 @@ class Prv_pallet2ship_Pallet2ShipQuote_Out(TypedDict):
     transit: str | None
     estimatedDelivery: str | None
 
+class Prv_partiful_GetEventArgs_In(TypedDict):
+    url: str
+
+class Prv_partiful_PartifulEvent_Out(TypedDict):
+    id: str
+    url: str
+    shortUrl: str | None
+    title: str
+    status: str | None
+    startAt: str | None
+    endAt: str | None
+    timezone: str | None
+    localStart: str | None
+    locationType: str | None
+    venue: str | None
+    address: str | None
+    addressLines: list[str]
+    locationText: str | None
+    neighborhood: str | None
+    approximateLocation: str | None
+    googleMapsUrl: str | None
+    hosts: list[Prv_partiful_PartifulHost_Out] | None
+    requiresApproval: bool | None
+    guestCount: float | None
+    guestCounts: Prv_partiful_PartifulGuestCounts_Out
+    atCapacity: bool
+    description: str | None
+    imageUrl: str | None
+    calendarUrl: str | None
+    questions: list[Prv_partiful_PartifulQuestion_Out] | None
+
+class Prv_partiful_PartifulHost_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_partiful_PartifulGuestCounts_Out(TypedDict):
+    going: float | None
+    approved: float | None
+    maybe: float | None
+    interested: float | None
+    waitlist: float | None
+
+class Prv_partiful_PartifulQuestion_Out(TypedDict):
+    id: str
+    label: str
+    required: bool
+    type: str
+    options: list[str]
+
+class Prv_partiful_DiscoverEventsArgs_In(TypedDict):
+    region: str
+
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
     checkOutDate: str
@@ -33376,26 +33388,6 @@ class Cap_cars(Protocol):
         returned once, at its cheapest.
         """
 
-class Cap_census_tract_demographics(Protocol):
-    """Query US Census Bureau data on median household income by location"""
-
-    async def householdIncome(self, zipCode: str, options: Cap_census_tract_demographics_CallOptions_In | None = None, /) -> Cap_census_tract_demographics_HouseholdIncomeResult_Out:
-        """Returns median household income for a US Census tract by ZIP code, resolved via the
-        Census Geocoder then the ACS 5-Year Estimates API. `options.timeoutMs` sets the budget
-        (default 30000).
-        """
-
-class Cap_census_tract_household_income(Protocol):
-    """Get median household income from US Census Bureau data by ZIP code, address, or census
-    tract.
-    """
-
-    async def householdIncome(self, params: Cap_census_tract_household_income_householdIncome_params_In, options: Cap_census_tract_household_income_CallOptions_In | None = None, /) -> Cap_census_tract_household_income_census_tract_household_incomeResult_Out:
-        """Retrieves median household income from US Census Bureau data for a given location. Only
-        ZIP code lookups resolve today; address and tract are accepted but return a warning
-        until a provider covers them. `options.timeoutMs` sets the budget (default 30000).
-        """
-
 class Cap_concert_setlist(Protocol):
     """Find the setlist of songs played at a concert from setlist.fm."""
 
@@ -38687,9 +38679,6 @@ class Prv_cbhhomes(Protocol):
 
 class Prv_census_api(Protocol):
     """Query US Census Bureau data on demographics by location"""
-
-    async def householdIncome(self, args: Prv_census_api_HouseholdIncomeArgs_In, /) -> Prv_census_api_HouseholdIncomeResult_Out:
-        """Returns median household income for a US Census tract by ZIP code"""
 
     async def validateAddress(self, args: Prv_census_api_ValidateAddressArgs_In, /) -> Prv_census_api_ValidateAddressResult_Out:
         """Validates and standardizes a US street address against the Census Geocoder: whether it
@@ -48005,6 +47994,27 @@ class Prv_pallet2ship(Protocol):
         postcode the site does not recognise.
         """
 
+class Prv_partiful(Protocol):
+    """Partiful events — read one public event's date, time and timezone, venue name and full
+    street address (which the page shows only inside its map), hosts, guest counts, whether
+    guests must apply, the description and the RSVP form's questions; or discover the public
+    events Partiful lists for a city (sf, nyc, la…).
+    """
+
+    async def getEvent(self, args: Prv_partiful_GetEventArgs_In, /) -> Prv_partiful_PartifulEvent_Out:
+        """Read one public Partiful event page (partiful.com/e/<id>): title, date and time with
+        timezone, venue name and full street address with postcode (the page itself shows the
+        address only inside its map), neighbourhood, hosts, guest counts, whether guests must
+        apply for approval, the description, and the RSVP or application form's questions.
+        """
+
+    async def discoverEvents(self, args: Prv_partiful_DiscoverEventsArgs_In, /) -> list[Prv_partiful_PartifulEvent_Out]:
+        """Discover the public events Partiful lists for a city or region (sf, nyc, la, bos, dc,
+        chi, lon, mia, atx) on its explore page — trending, curated sections and the feed, each
+        with title, date and time, venue and full address and guest counts. Pass a row's url to
+        getEvent for its hosts and RSVP form.
+        """
+
 class Prv_pawsup(Protocol):
     """Luxury glamping resort availability and accommodations on Paws Up's booking portal."""
 
@@ -54684,6 +54694,7 @@ class BowmarkProviders(Protocol):
     pacificlifestylehomes: Prv_pacificlifestylehomes
     packlane: Prv_packlane
     pallet2ship: Prv_pallet2ship
+    partiful: Prv_partiful
     pawsup: Prv_pawsup
     paypal: Prv_paypal
     peerspace: Prv_peerspace
@@ -54867,8 +54878,6 @@ class Bowmark(Protocol):
     cable_railing_quote: Cap_cable_railing_quote
     candy_prices: Cap_candy_prices
     cars: Cap_cars
-    census_tract_demographics: Cap_census_tract_demographics
-    census_tract_household_income: Cap_census_tract_household_income
     concert_setlist: Cap_concert_setlist
     condition_monitoring: Cap_condition_monitoring
     corporate_facts: Cap_corporate_facts

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 42c828e748aa1d746366d277ffbec1c1fa37c52e1b12dde54718b6639e3a1772
-// 2084 checked, 20 unchecked.
+// Manifest version: 84b580dcae1f424a3d97cc1557f3476628073901ff05811cdbf2e5b5866020ea
+// 2083 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "42c828e748aa1d746366d277ffbec1c1fa37c52e1b12dde54718b6639e3a1772",
+  "version": "84b580dcae1f424a3d97cc1557f3476628073901ff05811cdbf2e5b5866020ea",
   "units": {
     "address_validation": {
       "defs": {
@@ -828,99 +828,6 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
-          },
-          {
-            "name": "options",
-            "schema": {
-              "k": "ref",
-              "name": "CallOptions"
-            },
-            "optional": true
-          }
-        ]
-      }
-    },
-    "census_tract_demographics": {
-      "defs": {
-        "CallOptions": {
-          "k": "object",
-          "props": [
-            {
-              "name": "timeoutMs",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        }
-      },
-      "functions": {
-        "householdIncome": [
-          {
-            "name": "zipCode",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          },
-          {
-            "name": "options",
-            "schema": {
-              "k": "ref",
-              "name": "CallOptions"
-            },
-            "optional": true
-          }
-        ]
-      }
-    },
-    "census_tract_household_income": {
-      "defs": {
-        "CallOptions": {
-          "k": "object",
-          "props": [
-            {
-              "name": "timeoutMs",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        }
-      },
-      "functions": {
-        "householdIncome": [
-          {
-            "name": "params",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "zip",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "address",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "tract",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            "optional": false
           },
           {
             "name": "options",
@@ -16171,25 +16078,6 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.census_api": {
       "defs": {
-        "HouseholdIncomeArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "zipCode",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "address",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
         "ValidateAddressArgs": {
           "k": "object",
           "props": [
@@ -16204,16 +16092,6 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
-        "householdIncome": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "HouseholdIncomeArgs"
-            },
-            "optional": false
-          }
-        ],
         "validateAddress": [
           {
             "name": "args",
@@ -43202,6 +43080,56 @@ export const VALIDATORS: ValidatorTable = {
                   }
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.partiful": {
+      "defs": {
+        "DiscoverEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "region",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetEventArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetEventArgs"
+            },
+            "optional": false
+          }
+        ],
+        "discoverEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscoverEventsArgs"
             },
             "optional": false
           }

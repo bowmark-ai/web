@@ -87,7 +87,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.trackOrder` | alibaba.com | Get shipment tracking information and current delivery status. | ⚪ |
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
-| `aliexpress.addToCart` | aliexpress.us | Adds a product variant to the user's shopping cart. | ⚪ |
+| `aliexpress.addToCart` | aliexpress.us | Adds a product to the user's shopping cart. | 🟢 |
 | `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | 🟢 |
 | `aliexpress.getStore` | aliexpress.us | Retrieves seller/store information including store name, ratings, product count, and… | 🟢 |
 | `aliexpress.listCart` | aliexpress.us | Lists items currently in the user's shopping cart. | 🟢 |
