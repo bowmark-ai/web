@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e44380f01134a3e57018b199b07e876a981449e2391b41688357daed8b8ce6fd
+// Manifest version: a65191d3efb3143c69ed702cd59363cbef8c64bd7b9ec7dd157f72cf0a1d69a0
 // 85 capabilities, 577 providers, 2106 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -11241,11 +11241,14 @@ type BellwethercoffeeRoasterType = "ShopRoaster" | "ContinuousRoasting";
 
 interface BellwethercoffeeSliderBounds { min: number; max: number; step: number }
 
+interface BellwethercoffeeSliderBoundsSet { poundsWeekly: BellwethercoffeeSliderBounds; coffeeCost: BellwethercoffeeSliderBounds; retailBags: BellwethercoffeeSliderBounds }
+
 interface BellwethercoffeeCalculatorDefaults {
   currencies: BellwethercoffeeCurrency[];
   roasterTypes: BellwethercoffeeRoasterType[];
   defaultInputsByCurrency: Record<BellwethercoffeeCurrency, { poundsWeekly: number; coffeeCost: number; retailBags: number }>;
-  sliderBounds: { poundsWeekly: BellwethercoffeeSliderBounds; coffeeCost: BellwethercoffeeSliderBounds; retailBags: BellwethercoffeeSliderBounds };
+  sliderBounds: BellwethercoffeeSliderBoundsSet;   // USD only — prefer sliderBoundsByCurrency
+  sliderBoundsByCurrency: Record<BellwethercoffeeCurrency, BellwethercoffeeSliderBoundsSet>;   // price max differs: USD 50/lb, others 100/kg
   roasterPricesByCurrency: Record<BellwethercoffeeCurrency, Record<BellwethercoffeeRoasterType, number>>;
   disclaimer: string;
   roiCalculatorUrl: string;
@@ -11286,18 +11289,21 @@ interface BellwethercoffeeRoiEstimate {
    */
   interface Unit {
     /**
-     * Returns the ROI calculator's own currencies, roaster types, per-currency default input
-     * values, slider bounds (min/max/step), per-currency roaster list prices, and the site's own
-     * cost-basis disclaimer text — call this before computeRoiEstimate to know the valid ranges
-     * and defaults.
+     * Inputs for the coffee roasting savings calculator: returns the ROI calculator's own
+     * currencies, roaster types, per-currency default input values, per-currency slider bounds
+     * (min/max/step — the price max differs by currency), per-currency roaster list prices, and
+     * the site's own cost-basis disclaimer text — call this before computeRoiEstimate to know the
+     * valid ranges and defaults.
      */
     getCalculatorDefaults(): Promise<BellwethercoffeeCalculatorDefaults>;
 
     /**
-     * Runs Bellwether's own ROI calculator formula — currency, roaster type, weekly roasted-coffee
-     * usage, price paid per lb, and weekly retail-bag sales in; real monthly/annual savings,
-     * retail-bag revenue and profit, payback period (months), and first-year total ROI out,
-     * computed exactly as bellwethercoffee.com/roi-calculator's own client-side computeROI()
+     * Calculate how much a cafe or coffee shop would save by roasting its own coffee in-house on a
+     * Bellwether roaster instead of buying it roasted (coffee roasting savings / ROI / payback
+     * calculator). Runs Bellwether's own ROI calculator formula — currency, roaster type, weekly
+     * roasted-coffee usage, price paid per lb, and weekly retail-bag sales in; real monthly/annual
+     * savings, retail-bag revenue and profit, payback period (months), and first-year total ROI
+     * out, computed exactly as bellwethercoffee.com/roi-calculator's own client-side computeROI()
      * computes it, no estimate. `requestDemoUrl` is the site's own next step, not a checkout.
      */
     computeRoiEstimate(input: BellwethercoffeeRoiInput): Promise<BellwethercoffeeRoiEstimate>;

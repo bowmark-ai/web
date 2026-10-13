@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e44380f01134a3e57018b199b07e876a981449e2391b41688357daed8b8ce6fd
+# Manifest version: a65191d3efb3143c69ed702cd59363cbef8c64bd7b9ec7dd157f72cf0a1d69a0
 # 85 capabilities, 577 providers, 2088 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -6453,7 +6453,8 @@ class Prv_bellwethercoffee_BellwethercoffeeCalculatorDefaults_Out(TypedDict):
     currencies: list[Literal["USD"] | Literal["CAD"] | Literal["GBP"] | Literal["EUR"]]
     roasterTypes: list[Literal["ShopRoaster"] | Literal["ContinuousRoasting"]]
     defaultInputsByCurrency: Mapping[str, Prv_bellwethercoffee_BellwethercoffeeCalculatorDefaults_Out_defaultInputsByCurrency_value_Out]
-    sliderBounds: Prv_bellwethercoffee_BellwethercoffeeCalculatorDefaults_Out_sliderBounds_Out
+    sliderBounds: Prv_bellwethercoffee_BellwethercoffeeSliderBoundsSet_Out
+    sliderBoundsByCurrency: Mapping[str, Prv_bellwethercoffee_BellwethercoffeeSliderBoundsSet_Out]
     roasterPricesByCurrency: Mapping[str, Mapping[str, float]]
     disclaimer: str
     roiCalculatorUrl: str
@@ -6464,7 +6465,7 @@ class Prv_bellwethercoffee_BellwethercoffeeCalculatorDefaults_Out_defaultInputsB
     coffeeCost: float
     retailBags: float
 
-class Prv_bellwethercoffee_BellwethercoffeeCalculatorDefaults_Out_sliderBounds_Out(TypedDict):
+class Prv_bellwethercoffee_BellwethercoffeeSliderBoundsSet_Out(TypedDict):
     poundsWeekly: Prv_bellwethercoffee_BellwethercoffeeSliderBounds_Out
     coffeeCost: Prv_bellwethercoffee_BellwethercoffeeSliderBounds_Out
     retailBags: Prv_bellwethercoffee_BellwethercoffeeSliderBounds_Out
@@ -37187,16 +37188,19 @@ class Prv_bellwethercoffee(Protocol):
     """
 
     async def getCalculatorDefaults(self, /) -> Prv_bellwethercoffee_BellwethercoffeeCalculatorDefaults_Out:
-        """Returns the ROI calculator's own currencies, roaster types, per-currency default input
-        values, slider bounds (min/max/step), per-currency roaster list prices, and the site's
-        own cost-basis disclaimer text — call this before computeRoiEstimate to know the valid
-        ranges and defaults.
+        """Inputs for the coffee roasting savings calculator: returns the ROI calculator's own
+        currencies, roaster types, per-currency default input values, per-currency slider bounds
+        (min/max/step — the price max differs by currency), per-currency roaster list prices,
+        and the site's own cost-basis disclaimer text — call this before computeRoiEstimate to
+        know the valid ranges and defaults.
         """
 
     async def computeRoiEstimate(self, input: Prv_bellwethercoffee_BellwethercoffeeRoiInput_In, /) -> Prv_bellwethercoffee_BellwethercoffeeRoiEstimate_Out:
-        """Runs Bellwether's own ROI calculator formula — currency, roaster type, weekly
-        roasted-coffee usage, price paid per lb, and weekly retail-bag sales in; real
-        monthly/annual savings, retail-bag revenue and profit, payback period (months), and
+        """Calculate how much a cafe or coffee shop would save by roasting its own coffee in-house
+        on a Bellwether roaster instead of buying it roasted (coffee roasting savings / ROI /
+        payback calculator). Runs Bellwether's own ROI calculator formula — currency, roaster
+        type, weekly roasted-coffee usage, price paid per lb, and weekly retail-bag sales in;
+        real monthly/annual savings, retail-bag revenue and profit, payback period (months), and
         first-year total ROI out, computed exactly as bellwethercoffee.com/roi-calculator's own
         client-side computeROI() computes it, no estimate. `requestDemoUrl` is the site's own
         next step, not a checkout.
