@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 858e5ea60d09479536a57c908632630dea8b4fa37665702a88e271e55b55c50e
-// 87 capabilities, 575 providers, 2085 typed functions, 20 refused.
+// Manifest version: 414b9e78baed8737697b57f80bbcc38f050b672f5db4bd8fbc27103c6c71bfee
+// 87 capabilities, 576 providers, 2089 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29383,6 +29383,67 @@ interface HubspotNote {
   }
 }
 
+declare namespace BowmarkProvider_huggingface {
+  // ── Hugging Face — the unit's own declarations, verbatim ──
+interface HuggingFaceModel {
+  id: string;
+  author: string;
+  name: string;
+  task: string | null;
+  library: string | null;
+  likes: number | null;
+  downloads: number | null;
+  trendingScore: number | null;
+  license: string | null;
+  tags: string[];
+  createdAt: string | null;
+  lastModified: string | null;
+  gated: boolean | string | null;
+  url: string;
+}
+interface HuggingFaceTrendingArgs {
+  task?: string;
+  limit?: number;
+}
+interface HuggingFaceSearchArgs {
+  query?: string;
+  author?: string;
+  task?: string;
+  sort?: "trending" | "downloads" | "likes" | "created" | "updated";
+  limit?: number;
+}
+
+  /**
+   * Hugging Face (huggingface.co) — the trending models on the Hub right now, keyword search
+   * over every public model (by name, author or task, sorted by trending, downloads or likes),
+   * and one model's details — task, library, license, likes, downloads, last updated — through
+   * the Hub's own public API.
+   */
+  interface Unit {
+    /**
+     * The trending models on Hugging Face right now, in the Hub's own trending order — id, author,
+     * task, library, license, likes, downloads, trending score and url. `task` narrows to one
+     * pipeline tag (e.g. "text-generation"); `limit` 1-100, default 20. Example:
+     * listTrendingModels({ limit: 10 }).
+     */
+    listTrendingModels(args?: HuggingFaceTrendingArgs): Promise<HuggingFaceModel[]>;
+
+    /**
+     * Search every public Hugging Face model by name, `author` (org) or `task`, sorted by
+     * "trending" (default), "downloads", "likes", "created" or "updated"; `limit` 1-100, default
+     * 20. Returns [] on no match. Example: searchModels({ query: "llama", sort: "downloads" }).
+     */
+    searchModels(args: string | HuggingFaceSearchArgs): Promise<HuggingFaceModel[]>;
+
+    /**
+     * One Hugging Face model by its id ("google/embeddinggemma-2") or huggingface.co url — task,
+     * library, license, likes, downloads, gated, last modified. THROWS on a model the Hub has no
+     * public repo for. Example: getModel("meta-llama/Llama-3.1-8B-Instruct").
+     */
+    getModel(id: string): Promise<HuggingFaceModel>;
+  }
+}
+
 declare namespace BowmarkProvider_hunter {
   // ── Hunter — the unit's own declarations, verbatim ──
 interface hunterDomainCandidate {
@@ -37044,6 +37105,10 @@ interface SearchDocumentsArgs {
   query: string;
 }
 
+interface ListRecentDocumentsArgs {
+  // No required arguments; lists the user's recent documents
+}
+
   /**
    * Microsoft 365 cloud document management — lists, retrieves, creates, versions, restores and
    * deletes Word, Excel, PowerPoint and OneNote documents in OneDrive.
@@ -37100,6 +37165,12 @@ interface SearchDocumentsArgs {
      * search query string and returns an array of matching documents with their metadata.
      */
     searchDocuments(args: SearchDocumentsArgs, opts?: ConnectionOption): Promise<microsoft_365Document[]>;
+
+    /**
+     * Lists the user's recently accessed documents in Microsoft 365 OneDrive, ordered by most
+     * recently used. Returns an array of documents with their metadata.
+     */
+    listRecentDocuments(args?: ListRecentDocumentsArgs, opts?: ConnectionOption): Promise<microsoft_365Document[]>;
   }
 }
 
@@ -59223,6 +59294,7 @@ interface BowmarkProviders {
   holidaybuilders: BowmarkProvider_holidaybuilders.Unit;
   hottopic: BowmarkProvider_hottopic.Unit;
   hubspot: BowmarkProvider_hubspot.Unit;
+  huggingface: BowmarkProvider_huggingface.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
   idealista: BowmarkProvider_idealista.Unit;

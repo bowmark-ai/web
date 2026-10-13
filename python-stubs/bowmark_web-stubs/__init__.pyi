@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 858e5ea60d09479536a57c908632630dea8b4fa37665702a88e271e55b55c50e
-# 87 capabilities, 575 providers, 2067 typed functions, 20 refused.
+# Manifest version: 414b9e78baed8737697b57f80bbcc38f050b672f5db4bd8fbc27103c6c71bfee
+# 87 capabilities, 576 providers, 2071 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16086,6 +16086,33 @@ class Prv_hubspot_HubspotNote_Out(TypedDict):
     body: str
     createdAt: str | None
 
+class Prv_huggingface_HuggingFaceTrendingArgs_In(TypedDict):
+    task: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_huggingface_HuggingFaceModel_Out(TypedDict):
+    id: str
+    author: str
+    name: str
+    task: str | None
+    library: str | None
+    likes: float | None
+    downloads: float | None
+    trendingScore: float | None
+    license: str | None
+    tags: list[str]
+    createdAt: str | None
+    lastModified: str | None
+    gated: bool | str | None
+    url: str
+
+class Prv_huggingface_HuggingFaceSearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    author: NotRequired[str]
+    task: NotRequired[str]
+    sort: NotRequired[Literal["trending"] | Literal["downloads"] | Literal["likes"] | Literal["created"] | Literal["updated"]]
+    limit: NotRequired[float]
+
 class Prv_hunter_hunterDomainMatch_Out(TypedDict):
     query: str
     bestMatch: Prv_hunter_hunterDomainCandidate_Out | None
@@ -20319,6 +20346,9 @@ class Prv_microsoft_365_deleteDocument_return_Out(TypedDict):
 
 class Prv_microsoft_365_SearchDocumentsArgs_In(TypedDict):
     query: str
+
+class Prv_microsoft_365_ListRecentDocumentsArgs_In(TypedDict):
+    pass
 
 class Prv_microsoft_onedrive_listFiles_args_In(TypedDict):
     path: NotRequired[str]
@@ -43655,6 +43685,33 @@ class Prv_hubspot(Protocol):
         Returns the new note's id.
         """
 
+class Prv_huggingface(Protocol):
+    """Hugging Face (huggingface.co) — the trending models on the Hub right now, keyword search
+    over every public model (by name, author or task, sorted by trending, downloads or
+    likes), and one model's details — task, library, license, likes, downloads, last updated
+    — through the Hub's own public API.
+    """
+
+    async def listTrendingModels(self, args: Prv_huggingface_HuggingFaceTrendingArgs_In | None = None, /) -> list[Prv_huggingface_HuggingFaceModel_Out]:
+        """The trending models on Hugging Face right now, in the Hub's own trending order — id,
+        author, task, library, license, likes, downloads, trending score and url. `task` narrows
+        to one pipeline tag (e.g. "text-generation"); `limit` 1-100, default 20. Example:
+        listTrendingModels({ limit: 10 }).
+        """
+
+    async def searchModels(self, args: str | Prv_huggingface_HuggingFaceSearchArgs_In, /) -> list[Prv_huggingface_HuggingFaceModel_Out]:
+        """Search every public Hugging Face model by name, `author` (org) or `task`, sorted by
+        "trending" (default), "downloads", "likes", "created" or "updated"; `limit` 1-100,
+        default 20. Returns [] on no match. Example: searchModels({ query: "llama", sort:
+        "downloads" }).
+        """
+
+    async def getModel(self, id: str, /) -> Prv_huggingface_HuggingFaceModel_Out:
+        """One Hugging Face model by its id ("google/embeddinggemma-2") or huggingface.co url —
+        task, library, license, likes, downloads, gated, last modified. THROWS on a model the
+        Hub has no public repo for. Example: getModel("meta-llama/Llama-3.1-8B-Instruct").
+        """
+
 class Prv_hunter(Protocol):
     """Work email addresses: the people at a given company and how to reach them, the address
     of one named person at one employer, whether an address will actually accept mail, the
@@ -46351,6 +46408,11 @@ class Prv_microsoft_365(Protocol):
     async def searchDocuments(self, args: Prv_microsoft_365_SearchDocumentsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_365_microsoft_365Document_Out]:
         """Searches for documents in the user's Microsoft 365 OneDrive by name or content. Takes a
         search query string and returns an array of matching documents with their metadata.
+        """
+
+    async def listRecentDocuments(self, args: Prv_microsoft_365_ListRecentDocumentsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_microsoft_365_microsoft_365Document_Out]:
+        """Lists the user's recently accessed documents in Microsoft 365 OneDrive, ordered by most
+        recently used. Returns an array of documents with their metadata.
         """
 
 class Prv_microsoft_onedrive(Protocol):
@@ -54278,6 +54340,7 @@ class BowmarkProviders(Protocol):
     holidaybuilders: Prv_holidaybuilders
     hottopic: Prv_hottopic
     hubspot: Prv_hubspot
+    huggingface: Prv_huggingface
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
     idealista: Prv_idealista

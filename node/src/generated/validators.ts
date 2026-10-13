@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 858e5ea60d09479536a57c908632630dea8b4fa37665702a88e271e55b55c50e
-// 2067 checked, 20 unchecked.
+// Manifest version: 414b9e78baed8737697b57f80bbcc38f050b672f5db4bd8fbc27103c6c71bfee
+// 2071 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "858e5ea60d09479536a57c908632630dea8b4fa37665702a88e271e55b55c50e",
+  "version": "414b9e78baed8737697b57f80bbcc38f050b672f5db4bd8fbc27103c6c71bfee",
   "units": {
     "address_validation": {
       "defs": {
@@ -29901,6 +29901,130 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.huggingface": {
+      "defs": {
+        "HuggingFaceSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "author",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "task",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "trending"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "downloads"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "likes"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "created"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "updated"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "HuggingFaceTrendingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "task",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listTrendingModels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HuggingFaceTrendingArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchModels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "HuggingFaceSearchArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getModel": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.hunter": {
       "defs": {},
       "functions": {
@@ -37771,6 +37895,10 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListRecentDocumentsArgs": {
+          "k": "object",
+          "props": []
+        },
         "RestoreDocumentVersionArgs": {
           "k": "object",
           "props": [
@@ -38030,6 +38158,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchDocumentsArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listRecentDocuments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListRecentDocumentsArgs"
+            },
+            "optional": true
           },
           {
             "name": "opts",
