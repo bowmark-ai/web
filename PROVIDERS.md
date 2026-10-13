@@ -2669,7 +2669,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.getProduct` | shein.com | Returns product details: title, description, sizes, colors, price, reviews and… | ⚪ |
 | `shein.getProductReviews` | shein.com | Returns customer reviews for a product: rating, text, verified-purchase flag. | ⚪ |
 | `shein.listCategories` | shein.com | Lists the top-level product categories on Shein. | 🟢 |
-| `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | ⚪ |
+| `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | 🟢 |
 | `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | 🟢 |
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | ⚪ |
 | `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart, or changes its quantity (0 removes… | ⚪ |
