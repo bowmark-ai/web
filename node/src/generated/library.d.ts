@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 414b9e78baed8737697b57f80bbcc38f050b672f5db4bd8fbc27103c6c71bfee
-// 87 capabilities, 576 providers, 2089 typed functions, 20 refused.
+// Manifest version: 55c204d4b3210708433feac866ff70e62a4aadedd3bed0c7aff7c85235c2baff
+// 87 capabilities, 576 providers, 2093 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6692,6 +6692,14 @@ interface SearchArgs {
   query: string;
 }
 
+interface GetProductArgs {
+  product_id: string;
+}
+
+interface GetStoreArgs {
+  store_id: string;
+}
+
 interface aliexpressProduct {
   id: string;
   title: string;
@@ -6701,6 +6709,44 @@ interface aliexpressProduct {
   shipping_free?: boolean;
 }
 
+interface aliexpressProductDetail {
+  id: string;
+  title: string;
+  price: number;
+  original_price?: number;
+  shop_name: string;
+  shop_rating?: number;
+  rating?: number;
+  review_count?: number;
+  variants?: Array<{
+    name: string;
+    options: string[];
+  }>;
+  shipping_methods?: Array<{
+    name: string;
+    cost?: number;
+  }>;
+  description?: string;
+}
+
+interface aliexpressCategory {
+  id: string;
+  name: string;
+  parent_id?: string;
+  product_count?: number;
+  level?: number;
+}
+
+interface aliexpressStore {
+  id: string;
+  name: string;
+  rating?: number;
+  follower_count?: number;
+  product_count?: number;
+  positive_feedback_rate?: number;
+  response_time?: string;
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /**
@@ -6708,6 +6754,21 @@ interface aliexpressProduct {
      * shop name, rating, and shipping information.
      */
     search(args: SearchArgs): Promise<aliexpressProduct[]>;
+
+    /**
+     * Fetches detailed product information including variants, pricing, shipping options, reviews,
+     * and seller information.
+     */
+    getProduct(args: GetProductArgs): Promise<aliexpressProductDetail>;
+
+    /** Lists the top-level product categories available on AliExpress. */
+    listCategories(): Promise<aliexpressCategory[]>;
+
+    /**
+     * Retrieves seller/store information including store name, ratings, product count, and
+     * response time.
+     */
+    getStore(args: GetStoreArgs): Promise<aliexpressStore>;
   }
 }
 
@@ -47099,6 +47160,9 @@ interface sheinProduct {
 interface SheinSearchArgs {
   query: string;
 }
+interface SheinListCategoryArgs {
+  categoryId: string;
+}
 
   /** Shein's category tree, read past its risk wall with a home-warmed browser. */
   interface Unit {
@@ -47107,6 +47171,9 @@ interface SheinSearchArgs {
 
     /** Searches products by keyword and returns title, price, image and product page URL. */
     search(args: SheinSearchArgs): Promise<sheinProduct[]>;
+
+    /** Lists products in a category, returning title, price, image and product page URL. */
+    listProductsByCategory(args: SheinListCategoryArgs): Promise<sheinProduct[]>;
   }
 }
 

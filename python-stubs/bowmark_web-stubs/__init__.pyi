@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 414b9e78baed8737697b57f80bbcc38f050b672f5db4bd8fbc27103c6c71bfee
-# 87 capabilities, 576 providers, 2071 typed functions, 20 refused.
+# Manifest version: 55c204d4b3210708433feac866ff70e62a4aadedd3bed0c7aff7c85235c2baff
+# 87 capabilities, 576 providers, 2075 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3795,6 +3795,49 @@ class Prv_aliexpress_aliexpressProduct_Out(TypedDict):
     shop_name: str
     rating: NotRequired[float]
     shipping_free: NotRequired[bool]
+
+class Prv_aliexpress_GetProductArgs_In(TypedDict):
+    product_id: str
+
+class Prv_aliexpress_aliexpressProductDetail_Out(TypedDict):
+    id: str
+    title: str
+    price: float
+    original_price: NotRequired[float]
+    shop_name: str
+    shop_rating: NotRequired[float]
+    rating: NotRequired[float]
+    review_count: NotRequired[float]
+    variants: NotRequired[list[Prv_aliexpress_aliexpressProductDetail_Out_variants_item_Out]]
+    shipping_methods: NotRequired[list[Prv_aliexpress_aliexpressProductDetail_Out_shipping_methods_item_Out]]
+    description: NotRequired[str]
+
+class Prv_aliexpress_aliexpressProductDetail_Out_variants_item_Out(TypedDict):
+    name: str
+    options: list[str]
+
+class Prv_aliexpress_aliexpressProductDetail_Out_shipping_methods_item_Out(TypedDict):
+    name: str
+    cost: NotRequired[float]
+
+class Prv_aliexpress_aliexpressCategory_Out(TypedDict):
+    id: str
+    name: str
+    parent_id: NotRequired[str]
+    product_count: NotRequired[float]
+    level: NotRequired[float]
+
+class Prv_aliexpress_GetStoreArgs_In(TypedDict):
+    store_id: str
+
+class Prv_aliexpress_aliexpressStore_Out(TypedDict):
+    id: str
+    name: str
+    rating: NotRequired[float]
+    follower_count: NotRequired[float]
+    product_count: NotRequired[float]
+    positive_feedback_rate: NotRequired[float]
+    response_time: NotRequired[str]
 
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
@@ -26352,6 +26395,9 @@ class Prv_shein_sheinProduct_Out(TypedDict):
     imageUrl: str
     productUrl: str
 
+class Prv_shein_SheinListCategoryArgs_In(TypedDict):
+    categoryId: str
+
 class Prv_shop_app_ShopAppProduct_Out(TypedDict):
     id: str
     title: str
@@ -35367,6 +35413,19 @@ class Prv_aliexpress(Protocol):
     async def search(self, args: Prv_aliexpress_SearchArgs_In, /) -> list[Prv_aliexpress_aliexpressProduct_Out]:
         """Searches AliExpress's product catalog by keyword, returning matching products with
         price, shop name, rating, and shipping information.
+        """
+
+    async def getProduct(self, args: Prv_aliexpress_GetProductArgs_In, /) -> Prv_aliexpress_aliexpressProductDetail_Out:
+        """Fetches detailed product information including variants, pricing, shipping options,
+        reviews, and seller information.
+        """
+
+    async def listCategories(self, /) -> list[Prv_aliexpress_aliexpressCategory_Out]:
+        """Lists the top-level product categories available on AliExpress."""
+
+    async def getStore(self, args: Prv_aliexpress_GetStoreArgs_In, /) -> Prv_aliexpress_aliexpressStore_Out:
+        """Retrieves seller/store information including store name, ratings, product count, and
+        response time.
         """
 
 class Prv_allied(Protocol):
@@ -50099,6 +50158,9 @@ class Prv_shein(Protocol):
 
     async def search(self, args: Prv_shein_SheinSearchArgs_In, /) -> list[Prv_shein_sheinProduct_Out]:
         """Searches products by keyword and returns title, price, image and product page URL."""
+
+    async def listProductsByCategory(self, args: Prv_shein_SheinListCategoryArgs_In, /) -> list[Prv_shein_sheinProduct_Out]:
+        """Lists products in a category, returning title, price, image and product page URL."""
 
 class Prv_shop_app(Protocol):
     """Shop (Shopify's shopping app) — search products across every Shopify store, read a

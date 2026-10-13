@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 414b9e78baed8737697b57f80bbcc38f050b672f5db4bd8fbc27103c6c71bfee
-// 2071 checked, 20 unchecked.
+// Manifest version: 55c204d4b3210708433feac866ff70e62a4aadedd3bed0c7aff7c85235c2baff
+// 2075 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "414b9e78baed8737697b57f80bbcc38f050b672f5db4bd8fbc27103c6c71bfee",
+  "version": "55c204d4b3210708433feac866ff70e62a4aadedd3bed0c7aff7c85235c2baff",
   "units": {
     "address_validation": {
       "defs": {
@@ -7808,6 +7808,30 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.aliexpress": {
       "defs": {
+        "GetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetStoreArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -7828,6 +7852,27 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [],
+        "getStore": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStoreArgs"
             },
             "optional": false
           }
@@ -52861,6 +52906,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.shein": {
       "defs": {
+        "SheinListCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SheinSearchArgs": {
           "k": "object",
           "props": [
@@ -52882,6 +52939,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SheinSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listProductsByCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SheinListCategoryArgs"
             },
             "optional": false
           }
