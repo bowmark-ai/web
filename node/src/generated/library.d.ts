@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a884dcb4f11b09167c573a73964db0c699aeac0615a2b6303c83fb8a366d66e5
-// 87 capabilities, 576 providers, 2095 typed functions, 20 refused.
+// Manifest version: f434b63ea7a45ad05f108ab36957d6bfbd453867000a50b756b33a35eccaff4a
+// 87 capabilities, 576 providers, 2096 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39027,6 +39027,13 @@ interface nhcAdvisory {
   hazards: string;
 }
 
+interface nhcForecastAdvisory {
+  number: number;
+  headline: string;
+  maxWinds: string;
+  forecastPoints: Array<{ day: number; lat: number; lon: number; category?: string }>;
+}
+
   /**
    * Current and recent tropical storms and hurricanes from NOAA's Hurricane Center, keyless and
    * public.
@@ -39050,6 +39057,12 @@ interface nhcAdvisory {
      * warnings, and hazards information.
      */
     getStormAdvisory(args: { advisoryUrl: string }): Promise<nhcAdvisory>;
+
+    /**
+     * Get a storm's forecast advisory — forecast positions out to 5 days, maximum sustained winds,
+     * and wind radii projections.
+     */
+    getStormForecast(args: { forecastUrl: string }): Promise<nhcForecastAdvisory>;
   }
 }
 

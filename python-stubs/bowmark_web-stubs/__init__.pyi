@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a884dcb4f11b09167c573a73964db0c699aeac0615a2b6303c83fb8a366d66e5
-# 87 capabilities, 576 providers, 2077 typed functions, 20 refused.
+# Manifest version: f434b63ea7a45ad05f108ab36957d6bfbd453867000a50b756b33a35eccaff4a
+# 87 capabilities, 576 providers, 2078 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21319,6 +21319,21 @@ class Prv_nhc_nhcAdvisory_Out(TypedDict):
     movement: str
     watchesWarnings: str
     hazards: str
+
+class Prv_nhc_getStormForecast_args_In(TypedDict):
+    forecastUrl: str
+
+class Prv_nhc_nhcForecastAdvisory_Out(TypedDict):
+    number: float
+    headline: str
+    maxWinds: str
+    forecastPoints: list[Prv_nhc_nhcForecastAdvisory_Out_forecastPoints_item_Out]
+
+class Prv_nhc_nhcForecastAdvisory_Out_forecastPoints_item_Out(TypedDict):
+    day: float
+    lat: float
+    lon: float
+    category: NotRequired[str]
 
 class Prv_nintendo_NintendoProduct_Out(TypedDict):
     sku: str
@@ -47169,6 +47184,11 @@ class Prv_nhc(Protocol):
     async def getStormAdvisory(self, args: Prv_nhc_getStormAdvisory_args_In, /) -> Prv_nhc_nhcAdvisory_Out:
         """Get a storm's public advisory text — headline, location, wind/pressure data, watches and
         warnings, and hazards information.
+        """
+
+    async def getStormForecast(self, args: Prv_nhc_getStormForecast_args_In, /) -> Prv_nhc_nhcForecastAdvisory_Out:
+        """Get a storm's forecast advisory — forecast positions out to 5 days, maximum sustained
+        winds, and wind radii projections.
         """
 
 class Prv_nintendo(Protocol):
