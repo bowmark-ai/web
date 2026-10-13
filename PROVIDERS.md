@@ -320,8 +320,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `beatthebomb.checkAvailability` | beatthebomb.com | Checks real, live per-date availability for one product type in one city over a list… | 🟢 |
 | `beatthebomb.listMissions` | beatthebomb.com | Reads one city's live mission catalog — the same product list the site's own /products… | 🟢 |
 | `beatthebomb.priceMission` | beatthebomb.com | Runs the site's own real pricing calculation for a given party size, city, date and… | 🟢 |
-| `bellwethercoffee.computeRoiEstimate` | bellwethercoffee.com | Runs Bellwether's own ROI calculator formula — currency, roaster type, weekly… | 🟢 |
-| `bellwethercoffee.getCalculatorDefaults` | bellwethercoffee.com | Returns the ROI calculator's own currencies, roaster types, per-currency default input… | 🟢 |
+| `bellwethercoffee.computeRoiEstimate` | bellwethercoffee.com | Calculate how much a cafe or coffee shop would save by roasting its own coffee… | 🟢 |
+| `bellwethercoffee.getCalculatorDefaults` | bellwethercoffee.com | Inputs for the coffee roasting savings calculator: returns the ROI calculator's own… | 🟢 |
 | `beltservice.browseCatalog` | beltservice.com | Browses Beltservice's own belt catalog: filter by product group, category or industry… | 🟢 |
 | `beltservice.getBelt` | beltservice.com | Looks up one belt directly by catalog number (its own detail page) and returns its… | 🟢 |
 | `benelliusa.findDealers` | benelliusa.com | Runs the site's own "Find A Benelli Dealer" postal-code locator and returns the real… | 🟢 |
