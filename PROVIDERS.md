@@ -88,10 +88,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
 | `aliexpress.addToCart` | aliexpress.us | Adds a product variant to the user's shopping cart. | ⚪ |
-| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | ⚪ |
-| `aliexpress.getStore` | aliexpress.us | Retrieves seller/store information including store name, ratings, product count, and… | ⚪ |
+| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | 🟢 |
+| `aliexpress.getStore` | aliexpress.us | Retrieves seller/store information including store name, ratings, product count, and… | 🟢 |
 | `aliexpress.listCart` | aliexpress.us | Lists items currently in the user's shopping cart. | ⚪ |
-| `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | ⚪ |
+| `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | 🟢 |
 | `aliexpress.listOrders` | aliexpress.us | Lists the user's purchase history and order status. | ⚪ |
 | `aliexpress.listWishlist` | aliexpress.us | Lists products in the user's wishlist. | ⚪ |
 | `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟢 |
