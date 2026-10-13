@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3806b2da37f960c28d621fc09a0a87fb1c8046fda7d9885e064597199d157b59
+# Manifest version: bddbafc448f6d76023e3961b96c81acd6f40f26a1a157152317edd513ed4db27
 # 85 capabilities, 577 providers, 2090 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -45668,9 +45668,11 @@ class Prv_linkedin(Protocol):
         """Returns the signed-in caller's own LinkedIn member record — name, headline, profile URL
         and photo, and whether the account is Premium. Signed in: acts as the caller's own
         LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
-        sign in. Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of
-        1,000 that refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a
-        call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+        sign in. Paced per LinkedIn account across runs so it never looks automated — 6 requests
+        a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
         """
 
     async def listConnections(self, input: Prv_linkedin_listConnections_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listConnections_return_Out:
@@ -45680,9 +45682,11 @@ class Prv_linkedin(Protocol):
         "where do my connections work" 100 people per request, where getProfileDetails answers
         one. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run
         pauses and hands back a link where they sign in. Paced per LinkedIn account across runs
-        — 20 requests a minute, and a reserve of 1,000 that refills about 42 an hour — and held
-        30 minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
-        saying when to retry: wait that long.
+        so it never looks automated — 6 requests a minute, and a reserve of 400 that refills
+        about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
+        throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
+        opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+        first.
         """
 
     async def getProfileDetails(self, profile: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinMemberProfile_Out:
@@ -45691,13 +45695,15 @@ class Prv_linkedin(Protocol):
         — from a profile URL or slug. Richer than getProfile, which reads only the public
         preview and needs no sign-in. Skills and contact details are not returned: LinkedIn's
         API no longer serves contact info (HTTP 410). Full profiles draw on a per-account
-        reserve of 250 that refills about 10 an hour, and about 20 fit in one run. To learn
-        where many connections work, read the headline listConnections returns (up to 100 people
-        per call) and call this only for the rest. Signed in: acts as the caller's own LinkedIn
+        reserve of 80 that refills about 3 an hour, and about 7 fit in one run. To learn where
+        many connections work, read the headline listConnections returns (up to 100 people per
+        call) and call this only for the rest. Signed in: acts as the caller's own LinkedIn
         account; with no saved sign-in the run pauses and hands back a link where they sign in.
-        Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000
-        that refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call
-        over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+        Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
         """
 
     async def searchMembers(self, input: str | Prv_linkedin_searchMembers_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
@@ -45708,9 +45714,11 @@ class Prv_linkedin(Protocol):
         searchPeople, which needs no sign-in and relies on a web index, this is LinkedIn's
         ranking and filters. Signed in: acts as the caller's own LinkedIn account; with no saved
         sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
-        account across runs — 20 requests a minute, and a reserve of 1,000 that refills about 42
-        an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
-        LinkedinRateLimited saying when to retry: wait that long.
+        account across runs so it never looks automated — 6 requests a minute, and a reserve of
+        400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a
+        call over the pace throws LinkedinRateLimited saying when to retry: wait that long. The
+        account owner may opt into faster pacing with { pacing: "fast" } as an extra last
+        argument; ask them first.
         """
 
     async def searchCompanies(self, input: str | Prv_linkedin_searchCompanies_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
@@ -45718,10 +45726,11 @@ class Prv_linkedin(Protocol):
         page with each one's handle, numeric id, industry, location and follower count. The
         handle feeds getCompany; the id feeds listCompanyEmployees and searchMembers. Signed in:
         acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
-        hands back a link where they sign in. Paced per LinkedIn account across runs — 20
-        requests a minute, and a reserve of 1,000 that refills about 42 an hour — and held 30
-        minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
-        saying when to retry: wait that long.
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
     async def listCompanyEmployees(self, input: str | Prv_linkedin_listCompanyEmployees_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
@@ -45730,39 +45739,44 @@ class Prv_linkedin(Protocol):
         URL, optionally narrowed by keywords or job title. It is LinkedIn's people search with
         the current-company filter applied. Signed in: acts as the caller's own LinkedIn
         account; with no saved sign-in the run pauses and hands back a link where they sign in.
-        Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000
-        that refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call
-        over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+        Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
         """
 
     async def searchPosts(self, input: str | Prv_linkedin_searchPosts_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
         """Searches LinkedIn posts by keyword and returns them with author, text, how long ago each
         was posted, its reaction, comment and repost counts, and its URL. Signed in: acts as the
         caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-        link where they sign in. Paced per LinkedIn account across runs — 20 requests a minute,
-        and a reserve of 1,000 that refills about 42 an hour — and held 30 minutes after
-        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-        retry: wait that long.
+        link where they sign in. Paced per LinkedIn account across runs so it never looks
+        automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+        and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
     async def getHomeFeed(self, input: Prv_linkedin_getHomeFeed_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getHomeFeed_return_Out:
         """Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL
         for each post. Promoted posts are left out. `count` up to 100 (default 10). Signed in:
         acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
-        hands back a link where they sign in. Paced per LinkedIn account across runs — 20
-        requests a minute, and a reserve of 1,000 that refills about 42 an hour — and held 30
-        minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
-        saying when to retry: wait that long.
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
     async def listConversations(self, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listConversations_return_Out:
         """Lists the caller's LinkedIn message threads, most recent first, with the other
         participants, unread count and the latest message in each. Signed in: acts as the
         caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
-        link where they sign in. Paced per LinkedIn account across runs — 20 requests a minute,
-        and a reserve of 1,000 that refills about 42 an hour — and held 30 minutes after
-        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
-        retry: wait that long.
+        link where they sign in. Paced per LinkedIn account across runs so it never looks
+        automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+        and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
     async def getConversation(self, conversation: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getConversation_return_Out:
@@ -45770,27 +45784,33 @@ class Prv_linkedin(Protocol):
         text and when — from a conversation id or urn out of listConversations, or a
         /messaging/thread/ URL. Signed in: acts as the caller's own LinkedIn account; with no
         saved sign-in the run pauses and hands back a link where they sign in. Paced per
-        LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that refills
-        about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
-        throws LinkedinRateLimited saying when to retry: wait that long.
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
         """
 
     async def listInvitations(self, input: Prv_linkedin_listInvitations_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listInvitations_return_Out:
         """Lists the connection invitations the caller has received and not yet answered — who sent
         each, their note if any, and when. Signed in: acts as the caller's own LinkedIn account;
         with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
-        LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that refills
-        about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
-        throws LinkedinRateLimited saying when to retry: wait that long.
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
         """
 
     async def listSentInvitations(self, input: Prv_linkedin_listSentInvitations_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listSentInvitations_return_Out:
         """Lists the connection invitations the caller has sent that are still pending — who each
         went to, the note, and when it was sent. Signed in: acts as the caller's own LinkedIn
         account; with no saved sign-in the run pauses and hands back a link where they sign in.
-        Paced per LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000
-        that refills about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call
-        over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+        Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
         """
 
     async def getProfileViews(self, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getProfileViews_return_Out:
@@ -45798,9 +45818,11 @@ class Prv_linkedin(Protocol):
         the viewers it names. Without Premium LinkedIn names only a few of them, so `viewers`
         can be shorter than `views`. Signed in: acts as the caller's own LinkedIn account; with
         no saved sign-in the run pauses and hands back a link where they sign in. Paced per
-        LinkedIn account across runs — 20 requests a minute, and a reserve of 1,000 that refills
-        about 42 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
-        throws LinkedinRateLimited saying when to retry: wait that long.
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
         """
 
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
@@ -46697,7 +46719,7 @@ class Prv_microsoft_365(Protocol):
         recently used. Returns an array of documents with their metadata.
         """
 
-    async def getDocumentContent(self, args: Prv_microsoft_365_GetDocumentContentArgs_In, /) -> Prv_microsoft_365_DocumentContent_Out:
+    async def getDocumentContent(self, args: Prv_microsoft_365_GetDocumentContentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_365_DocumentContent_Out:
         """Retrieves the binary content of a document from the user's Microsoft 365 OneDrive. Takes
         a document item ID and returns the file's content encoded as base64.
         """

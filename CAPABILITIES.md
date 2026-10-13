@@ -132,7 +132,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `video_library.homeFeed` | The videos on the caller's OWN YouTube home page — the personalized recommendation… | 1 | 🟢 |
 | `video_library.liked` | The videos the caller has liked, newest first. | 1 | 🟢 |
 | `video_library.myVideos` | The videos on the caller's OWN channel, newest first, including private and unlisted… | 1 | 🟢 |
-| `video_library.removeFromPlaylist` | Removes one or many videos from one of the caller's own playlists. | 1 | 🟢 |
+| `video_library.removeFromPlaylist` | Removes one or many videos from one of the caller's own playlists, Watch Later… | 1 | 🟢 |
 | `video_library.setThumbnail` | Sets a custom thumbnail (JPG or PNG, up to 2 MB, 1280x720 recommended) on one of the… | 1 | 🟢 |
 | `video_library.updateVideo` | Changes the details of one of the caller's own videos — title, description, tags… | 1 | 🟢 |
 | `video_library.uploadVideo` | Uploads a video file to the caller's own YouTube channel and returns its id and link. | 1 | 🟢 |
