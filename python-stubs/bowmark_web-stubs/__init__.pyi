@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f9e08c4c9af4863ef497877c3865afd27eae25515bd625f5cccdea872386c356
-# 87 capabilities, 576 providers, 2083 typed functions, 20 refused.
+# Manifest version: 42c828e748aa1d746366d277ffbec1c1fa37c52e1b12dde54718b6639e3a1772
+# 87 capabilities, 576 providers, 2084 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11998,6 +11998,23 @@ class Prv_espn_EspnInjury_Out(TypedDict):
     detail: str | None
     updated: str
     playerUrl: str | None
+
+class Prv_espn_ListTeamsArgs_In(TypedDict):
+    league: str
+
+class Prv_espn_ListTeamsResult_Out(TypedDict):
+    league: str
+    teams: list[Prv_espn_EspnTeam_Out]
+
+class Prv_espn_EspnTeam_Out(TypedDict):
+    id: str
+    abbreviation: str
+    name: str
+    location: str
+    nickname: str
+    color: str | None
+    alternateColor: str | None
+    logo: str | None
 
 class Prv_estes_express_ShipmentRequest_In(TypedDict):
     origin: str
@@ -40689,6 +40706,12 @@ class Prv_espn(Protocol):
         """The ESPN injury report for a league — NFL by default — every injured player with team,
         position, status, body part, expected return date and the latest news note. Pass `team`
         to narrow to one team. Call with no arguments for the full NFL injury report.
+        """
+
+    async def listTeams(self, args: Prv_espn_ListTeamsArgs_In, /) -> Prv_espn_ListTeamsResult_Out:
+        """Every team in a league with its ESPN id, abbreviation, name, location, colours and logo
+        — the door a caller holding a team's name ("Chiefs", "KC", "Kansas City") needs before
+        asking for that team's schedule, roster or stats.
         """
 
 class Prv_estes_express(Protocol):

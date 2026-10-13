@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f9e08c4c9af4863ef497877c3865afd27eae25515bd625f5cccdea872386c356
-// 2083 checked, 20 unchecked.
+// Manifest version: 42c828e748aa1d746366d277ffbec1c1fa37c52e1b12dde54718b6639e3a1772
+// 2084 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f9e08c4c9af4863ef497877c3865afd27eae25515bd625f5cccdea872386c356",
+  "version": "42c828e748aa1d746366d277ffbec1c1fa37c52e1b12dde54718b6639e3a1772",
   "units": {
     "address_validation": {
       "defs": {
@@ -21395,6 +21395,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListTeamsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ScoreboardArgs": {
           "k": "object",
           "props": [
@@ -21518,6 +21530,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "InjuriesArgs"
             },
             "optional": true
+          }
+        ],
+        "listTeams": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTeamsArgs"
+            },
+            "optional": false
           }
         ]
       }

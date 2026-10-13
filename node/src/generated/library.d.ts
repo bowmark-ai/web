@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f9e08c4c9af4863ef497877c3865afd27eae25515bd625f5cccdea872386c356
-// 87 capabilities, 576 providers, 2101 typed functions, 20 refused.
+// Manifest version: 42c828e748aa1d746366d277ffbec1c1fa37c52e1b12dde54718b6639e3a1772
+// 87 capabilities, 576 providers, 2102 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21142,6 +21142,27 @@ interface StandingsResult {
   conferences: Conference[];
 }
 
+interface ListTeamsArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. */
+  league: string;
+}
+
+interface EspnTeam {
+  id: string;
+  abbreviation: string;
+  name: string; // full display name, e.g. "Arizona Cardinals"
+  location: string; // city or region, e.g. "Arizona"
+  nickname: string; // e.g. "Cardinals"
+  color: string | null; // hex, no leading "#"
+  alternateColor: string | null;
+  logo: string | null;
+}
+
+interface ListTeamsResult {
+  league: string;
+  teams: EspnTeam[];
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -21182,6 +21203,13 @@ interface StandingsResult {
      * narrow to one team. Call with no arguments for the full NFL injury report.
      */
     injuries(args?: InjuriesArgs): Promise<EspnInjuryReport>;
+
+    /**
+     * Every team in a league with its ESPN id, abbreviation, name, location, colours and logo —
+     * the door a caller holding a team's name ("Chiefs", "KC", "Kansas City") needs before asking
+     * for that team's schedule, roster or stats.
+     */
+    listTeams(args: ListTeamsArgs): Promise<ListTeamsResult>;
   }
 }
 

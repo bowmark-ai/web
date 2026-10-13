@@ -1,5 +1,5 @@
 {
-  "version": "f9e08c4c9af4863ef497877c3865afd27eae25515bd625f5cccdea872386c356",
+  "version": "42c828e748aa1d746366d277ffbec1c1fa37c52e1b12dde54718b6639e3a1772",
   "units": {
     "address_validation": {
       "defs": {
@@ -21383,6 +21383,18 @@
             }
           ]
         },
+        "ListTeamsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ScoreboardArgs": {
           "k": "object",
           "props": [
@@ -21506,6 +21518,16 @@
               "name": "InjuriesArgs"
             },
             "optional": true
+          }
+        ],
+        "listTeams": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTeamsArgs"
+            },
+            "optional": false
           }
         ]
       }
