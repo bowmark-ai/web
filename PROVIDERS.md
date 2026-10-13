@@ -631,7 +631,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbhhomes.assembleInquiry` | cbhhomes.com | Validates a caller's inquiry against the form's live schema and maps it onto the… | 🟢 |
 | `cbhhomes.getInquiryFormSchema` | cbhhomes.com | Reads the site's own live 'get in touch about a home' Gravity Forms inquiry form… | 🟢 |
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
-| `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | 🟡 |
+| `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | ⚪ |
 | `census_api.validateAddress` | api.census.gov | Validates and standardizes a US street address against the Census Geocoder… | 🟢 |
 | `cerebralvalley.getEvent` | cerebralvalley.ai | Reads one cerebralvalley.ai event page (/e/<slug>) and returns its name, date and time… | 🟢 |
 | `cerebralvalley.listEvents` | cerebralvalley.ai | Lists the upcoming events on cerebralvalley.ai/events with each one's slug, url and… | 🟢 |
@@ -1151,7 +1151,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.getInfobox` | fandom.com | The fact box at the top of an article, as key/value pairs — a character's species and… | ⚪ |
 | `fandom.getRevision` | fandom.com | One specific revision of an article by id, rendered as of that edit. | ⚪ |
 | `fandom.getSection` | fandom.com | One named or numbered section of an article, without downloading the rest of the page. | ⚪ |
-| `fandom.getSections` | fandom.com | An article's table of contents — every section with its index, heading and nesting… | ⚪ |
+| `fandom.getSections` | fandom.com | An article's table of contents — every section with its index, heading and nesting… | 🟢 |
 | `fandom.getSummary` | fandom.com | The lead section of an article and nothing else — the first paragraph, for "what is X"… | 🟢 |
 | `fandom.getUser` | fandom.com | A wiki editor's public record on this wiki — registration date, edit count and user… | ⚪ |
 | `fandom.getWikiInfo` | fandom.com | A wiki's own vital stats — its real display name (`Wookieepedia`, not the `starwars`… | 🟢 |
@@ -3279,7 +3279,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_mail.listMessages` | mail.yahoo.com | Lists messages in the CALLER's own mailbox from a chosen folder (Inbox by default)… | 🟢 |
 | `yahoo_mail.markAsRead` | mail.yahoo.com | Marks one or more of the CALLER's own messages read or unread. | ⚪ |
 | `yahoo_mail.moveMessage` | mail.yahoo.com | Moves one of the CALLER's own messages to another folder (archive, trash, a custom… | ⚪ |
-| `yahoo_mail.searchMessages` | mail.yahoo.com | Searches the CALLER's own mailbox the way Yahoo Mail's own search bar does — by… | ⚪ |
+| `yahoo_mail.searchMessages` | mail.yahoo.com | Searches messages in the CALLER's own mailbox by sender, subject or body text — the… | 🟢 |
 | `yahoo_mail.sendMessage` | mail.yahoo.com | Sends an email from the CALLER's own Yahoo Mail account. | ⚪ |
 | `yahoo_sports.findPlayers` | sports.yahoo.com | Finds players on one team's roster by name — the door for `getPlayer`, so a caller… | 🟢 |
 | `yahoo_sports.getFantasyLeague` | sports.yahoo.com | Reads the CALLER's own fantasy football league — standings and the current week's… | 🟢 |
