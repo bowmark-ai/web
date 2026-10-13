@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3349 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3360 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -935,7 +935,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.searchImages` | duckduckgo.com | Searches DuckDuckGo's Images vertical and returns each result's title, page URL… | 🟢 |
 | `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | 🟡 |
 | `duckduckgo.searchPlaces` | duckduckgo.com | Find places on DuckDuckGo Maps by what and where ("coffee in Seattle") — name… | 🟢 |
-| `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | 🟢 |
+| `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | 🟡 |
 | `duckduckgo.searchWeb` | duckduckgo.com | Search the web the way duckduckgo.com's own search box does and return the ranked… | 🟢 |
 | `duckduckgo.setPrivateDuckAddressActive` | duckduckgo.com | Turn one of the signed-in caller's private @duck.com addresses off (stop forwarding)… | ⚪ |
 | `duckduckgo.suggestQueries` | duckduckgo.com | Return DuckDuckGo's search-box autocomplete suggestions for a partial query. | ⚪ |
@@ -1393,7 +1393,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.getOverseasQuote` | geico.com | Returns an overseas auto rate for a US service member or government employee stationed… | ⚪ |
 | `geico.getPetQuote` | geico.com | Returns pet insurance rates for a pet — species, breed, age and ZIP — with each plan's… | ⚪ |
 | `geico.getProfessionalLiabilityQuote` | geico.com | Returns a professional liability / errors-and-omissions rate for a business — its… | ⚪ |
-| `geico.getRentersQuote` | geico.com | Returns what GEICO charges to insure the contents of one rented home — the amount due… | 🟢 |
+| `geico.getRentersQuote` | geico.com | Returns what GEICO charges to insure the contents of one rented home — the amount due… | 🟡 |
 | `geico.getRvQuote` | geico.com | Returns a GEICO RV rate — for a motorhome or a travel trailer, its class, value and… | ⚪ |
 | `geico.getScooterQuote` | geico.com | Returns a GEICO scooter or moped rate — the machine, the rider and the ZIP — with the… | ⚪ |
 | `geico.getTravelQuote` | geico.com | Returns a travel insurance rate for a trip — destination, dates, traveller ages and… | ⚪ |
@@ -1754,8 +1754,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `iproyal_reseller.setAutoExtend` | apid.iproyal.com | Sets the vendor's own auto-renew flag on one order (POST /orders/toggle-auto-extend) —… | ⚪ |
 | `iproyal.getPlans` | iproyal.com | Reads IPRoyal's own published proxy pricing — residential, datacenter, ISP and mobile… | 🟢 |
 | `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
-| `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
-| `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟢 |
+| `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟡 |
+| `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟡 |
 | `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' home-design floor-plan search against the site's own live inventory… | 🟢 |
 | `iyc.checkCharterAvailability` | iyc.com | Reads one yacht's real charter calendar (the site's own booked/unavailable date list)… | 🟢 |
 | `iyc.searchCharterYachts` | iyc.com | Searches IYC's live superyacht charter fleet by destination, guest count, length and… | 🟢 |
@@ -2001,7 +2001,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mergify.queueStatus` | mergify.com | The live state of a repo's Mergify merge queue — every active batch (its status code… | 🟢 |
 | `meteofrance.getMarineWindForecast` | meteofrance.com | Marine wind forecast for French coastal regions, including wind speed, gusts, and… | ⚪ |
 | `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟡 |
-| `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
+| `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟢 |
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `microsoft_365.createDocument` | m365.cloud.microsoft.com | Creates a new document in the user's Microsoft 365 OneDrive with the specified name… | 🟢 |
@@ -2148,7 +2148,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.listPodcastEpisodes` | npr.org | List a podcast's episodes, newest first, with title, date, duration and audio URL… | ⚪ |
 | `npr.listPodcasts` | npr.org | List NPR's podcasts and shows, optionally filtered to one category (news, technology… | 🟢 |
 | `npr.listSections` | npr.org | List NPR's news sections and topics (news, politics, business, science, health… | 🟢 |
-| `npr.listSectionStories` | npr.org | List the latest stories in one section or topic, given its slug from listSections. | 🟢 |
+| `npr.listSectionStories` | npr.org | List the latest stories in one section or topic, given its slug from listSections. | 🟡 |
 | `npr.listSeries` | npr.org | List NPR's series (Tiny Desk Concerts, New Music Friday, Life Kit…) with the slug or… | ⚪ |
 | `npr.listSeriesStories` | npr.org | List the latest entries of one series, e.g. Tiny Desk Concerts, given its slug from… | ⚪ |
 | `npr.searchStories` | npr.org | Search NPR stories, episodes and segments by keyword, newest or most relevant first. | 🟢 |
@@ -2552,7 +2552,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getQuote` | www.reuters.com | The current Reuters quote for one instrument by RIC — a stock, index, currency pair or… | 🟢 |
 | `reuters.getVideo` | www.reuters.com | One Reuters video: title, description, duration, published time, thumbnail and its… | ⚪ |
 | `reuters.listArticlesByDate` | www.reuters.com | Every Reuters story published on one calendar day — headline, url and time — from the… | 🟢 |
-| `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | 🟢 |
+| `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | 🟡 |
 | `reuters.listFollowedTopics` | www.reuters.com | The topics the signed-in reader follows in My News. | ⚪ |
 | `reuters.listGraphics` | www.reuters.com | Reuters Graphics — the interactive data stories and explainers — with title, url and… | 🟢 |
 | `reuters.listHeadlines` | www.reuters.com | The stories a Reuters section front shows right now, in the page's own order… | 🟡 |
@@ -2801,6 +2801,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.viewMarketHistory` | steampowered.com | Shows the caller's Steam Community Market transaction history including listings… | ⚪ |
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
+| `stubhub.createListing` | stubhub.com | Publishes a ticket listing for sale on one of the caller's own events, at a given… | ⚪ |
+| `stubhub.findEventsToSell` | stubhub.com | The seller-side entry point: given an event name or performer, finds the matching… | ⚪ |
+| `stubhub.findPerformers` | stubhub.com | Finds a performer, artist or sports team by name and returns its id, display name and… | ⚪ |
+| `stubhub.findVenues` | stubhub.com | Finds a venue by name or location and returns its id, name and address, for a caller… | ⚪ |
+| `stubhub.getCheckoutHandoff` | stubhub.com | Given a listing id from `getEventListings`, resolves the price and returns StubHub's… | ⚪ |
+| `stubhub.getEvent` | stubhub.com | Returns one event in full: venue (name, address), date/time, category, and the ticket… | ⚪ |
+| `stubhub.getEventListings` | stubhub.com | Returns the ticket inventory for one event: each listing's section/row (where… | ⚪ |
+| `stubhub.listCategories` | stubhub.com | Returns the genre/category taxonomy StubHub organizes events under (concerts by genre… | ⚪ |
+| `stubhub.listFavorites` | stubhub.com | The signed-in caller's followed performers, teams and venues — the StubHub app… | ⚪ |
+| `stubhub.listMyOrders` | stubhub.com | The signed-in caller's own order history — tickets bought and sold, each with its… | ⚪ |
+| `stubhub.search` | stubhub.com | Searches live events — concerts, sports, theater and other categories — by keyword and… | ⚪ |
 | `suitsupply.getProduct` | suitsupply.com | Reads one product page's stock check: every size variant with in-stock flag, max… | 🟢 |
 | `suitsupply.listCategory` | suitsupply.com | Lists one men's category grid (suits, jackets, coats, knitwear, shirts, trousers… | 🟢 |
 | `suitsupply.search` | suitsupply.com | Keyword search of Suitsupply's US men's clothing store — suits, sweaters/knitwear… | 🟢 |

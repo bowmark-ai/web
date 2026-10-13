@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a65191d3efb3143c69ed702cd59363cbef8c64bd7b9ec7dd157f72cf0a1d69a0
-// 85 capabilities, 577 providers, 2106 typed functions, 20 refused.
+// Manifest version: 3806b2da37f960c28d621fc09a0a87fb1c8046fda7d9885e064597199d157b59
+// 85 capabilities, 577 providers, 2108 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13658,6 +13658,22 @@ interface BusinessInsiderArticleRecord {
   isAccessibleForFree?: boolean;
   imageUrl?: string;
 }
+interface GetGuideArgs {
+  url: string;
+}
+interface BusinessInsiderGuideProduct {
+  name: string;
+  description?: string;
+  brand?: string;
+  imageUrl?: string;
+  price?: number;
+  priceCurrency?: string;
+  retailer?: string;
+  url?: string;
+}
+interface BusinessInsiderGuideRecord extends BusinessInsiderArticleRecord {
+  products: BusinessInsiderGuideProduct[];
+}
 
   /**
    * Reads Business Insider's news, markets and guides verticals — section listings and full
@@ -13701,6 +13717,13 @@ interface BusinessInsiderArticleRecord {
      * article's URL.
      */
     getArticle(args: GetArticleArgs): Promise<BusinessInsiderArticleRecord>;
+
+    /**
+     * Reads one businessinsider.com buying guide or review article's metadata (headline, author,
+     * dates, body) plus its curated product list (name, brand, price, retailer, affiliate URL) off
+     * the page's own Article + ItemList JSON-LD, given the guide's URL.
+     */
+    getGuide(args: GetGuideArgs): Promise<BusinessInsiderGuideRecord>;
   }
 }
 
@@ -53602,6 +53625,12 @@ interface SearchNewsArgs {
      * headline, summary, URL, date and image. Paginated results sorted by relevance.
      */
     searchNews(args: SearchNewsArgs): Promise<usatodayArticle[]>;
+
+    /**
+     * Reads the USA Today homepage and returns the top headlines currently displayed — the lead
+     * stories, top news items, and featured sections.
+     */
+    listHomepageHeadlines(): Promise<usatodayArticle[]>;
   }
 }
 

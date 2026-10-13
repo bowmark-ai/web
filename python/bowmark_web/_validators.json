@@ -1,5 +1,5 @@
 {
-  "version": "a65191d3efb3143c69ed702cd59363cbef8c64bd7b9ec7dd157f72cf0a1d69a0",
+  "version": "3806b2da37f960c28d621fc09a0a87fb1c8046fda7d9885e064597199d157b59",
   "units": {
     "address_validation": {
       "defs": {
@@ -14397,6 +14397,18 @@
             }
           ]
         },
+        "GetGuideArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesBySectionArgs": {
           "k": "object",
           "props": [
@@ -14502,6 +14514,16 @@
             "schema": {
               "k": "ref",
               "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getGuide": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGuideArgs"
             },
             "optional": false
           }
@@ -60501,7 +60523,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listHomepageHeadlines": []
       }
     },
     "providers.usps": {

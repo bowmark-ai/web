@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a65191d3efb3143c69ed702cd59363cbef8c64bd7b9ec7dd157f72cf0a1d69a0
-# 85 capabilities, 577 providers, 2088 typed functions, 20 refused.
+# Manifest version: 3806b2da37f960c28d621fc09a0a87fb1c8046fda7d9885e064597199d157b59
+# 85 capabilities, 577 providers, 2090 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7827,6 +7827,33 @@ class Prv_businessinsider_com_BusinessInsiderArticleAuthor_Out(TypedDict):
     name: str
     url: NotRequired[str]
     jobTitle: NotRequired[str]
+
+class Prv_businessinsider_com_GetGuideArgs_In(TypedDict):
+    url: str
+
+class Prv_businessinsider_com_BusinessInsiderGuideRecord_Out(TypedDict):
+    url: str
+    headline: str
+    alternativeHeadline: NotRequired[str]
+    description: NotRequired[str]
+    articleBody: NotRequired[str]
+    articleSection: NotRequired[str]
+    datePublished: NotRequired[str]
+    dateModified: NotRequired[str]
+    author: list[Prv_businessinsider_com_BusinessInsiderArticleAuthor_Out]
+    isAccessibleForFree: NotRequired[bool]
+    imageUrl: NotRequired[str]
+    products: list[Prv_businessinsider_com_BusinessInsiderGuideProduct_Out]
+
+class Prv_businessinsider_com_BusinessInsiderGuideProduct_Out(TypedDict):
+    name: str
+    description: NotRequired[str]
+    brand: NotRequired[str]
+    imageUrl: NotRequired[str]
+    price: NotRequired[float]
+    priceCurrency: NotRequired[str]
+    retailer: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_bykoket_KoketProductSummary_Out(TypedDict):
     id: str
@@ -38122,6 +38149,12 @@ class Prv_businessinsider_com(Protocol):
         given the article's URL.
         """
 
+    async def getGuide(self, args: Prv_businessinsider_com_GetGuideArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderGuideRecord_Out:
+        """Reads one businessinsider.com buying guide or review article's metadata (headline,
+        author, dates, body) plus its curated product list (name, brand, price, retailer,
+        affiliate URL) off the page's own Article + ItemList JSON-LD, given the guide's URL.
+        """
+
 class Prv_bykoket(Protocol):
     """Reads KOKET's public furniture, lighting and textiles storefront (bykoket.com/shop) —
     search the catalog, read a product's live price, stock and description, and get the
@@ -52550,6 +52583,11 @@ class Prv_usatoday(Protocol):
     async def searchNews(self, args: Prv_usatoday_SearchNewsArgs_In, /) -> list[Prv_usatoday_usatodayArticle_Out]:
         """Searches USA Today's news archive for articles matching a free-text query, returning
         headline, summary, URL, date and image. Paginated results sorted by relevance.
+        """
+
+    async def listHomepageHeadlines(self, /) -> list[Prv_usatoday_usatodayArticle_Out]:
+        """Reads the USA Today homepage and returns the top headlines currently displayed — the
+        lead stories, top news items, and featured sections.
         """
 
 class Prv_usps(Protocol):

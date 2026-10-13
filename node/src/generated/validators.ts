@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a65191d3efb3143c69ed702cd59363cbef8c64bd7b9ec7dd157f72cf0a1d69a0
-// 2088 checked, 20 unchecked.
+// Manifest version: 3806b2da37f960c28d621fc09a0a87fb1c8046fda7d9885e064597199d157b59
+// 2090 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a65191d3efb3143c69ed702cd59363cbef8c64bd7b9ec7dd157f72cf0a1d69a0",
+  "version": "3806b2da37f960c28d621fc09a0a87fb1c8046fda7d9885e064597199d157b59",
   "units": {
     "address_validation": {
       "defs": {
@@ -14409,6 +14409,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetGuideArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesBySectionArgs": {
           "k": "object",
           "props": [
@@ -14514,6 +14526,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getGuide": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGuideArgs"
             },
             "optional": false
           }
@@ -60513,7 +60535,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listHomepageHeadlines": []
       }
     },
     "providers.usps": {
