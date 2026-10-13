@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3d38c20680ce1ec9026c4491f85373d515196fab4653772d9e1ce8615ae8199e
-// 2076 checked, 20 unchecked.
+// Manifest version: a884dcb4f11b09167c573a73964db0c699aeac0615a2b6303c83fb8a366d66e5
+// 2077 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3d38c20680ce1ec9026c4491f85373d515196fab4653772d9e1ce8615ae8199e",
+  "version": "a884dcb4f11b09167c573a73964db0c699aeac0615a2b6303c83fb8a366d66e5",
   "units": {
     "address_validation": {
       "defs": {
@@ -14491,6 +14491,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListGuidesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListOpinionPiecesArgs": {
           "k": "object",
           "props": [
@@ -14545,6 +14557,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListOpinionPiecesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listGuides": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListGuidesArgs"
             },
             "optional": false
           }

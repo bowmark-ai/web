@@ -2107,7 +2107,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getReconObservations` | nhc.noaa.gov | Get the latest Hurricane Hunter aircraft reconnaissance reports for a basin: vortex… | ⚪ |
 | `nhc.getSatelliteImagery` | nhc.noaa.gov | Get the latest satellite image links for a basin or an active storm. | ⚪ |
 | `nhc.getStormAdvisory` | nhc.noaa.gov | Get a storm's public advisory text — the latest, or a given advisory number — with… | 🟢 |
-| `nhc.getStormForecast` | nhc.noaa.gov | Get a storm's forecast positions and intensities out to five days, with wind radii… | ⚪ |
+| `nhc.getStormForecast` | nhc.noaa.gov | Get a storm's forecast positions and intensities out to five days, with wind radii… | 🟢 |
 | `nhc.getStormGraphics` | nhc.noaa.gov | List a storm's current forecast graphics — cone, current wind field, wind history… | ⚪ |
 | `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | 🟡 |
 | `nhc.getStormNames` | nhc.noaa.gov | Get the rotating list of tropical cyclone names for a basin and year, including which… | ⚪ |

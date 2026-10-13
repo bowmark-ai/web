@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3d38c20680ce1ec9026c4491f85373d515196fab4653772d9e1ce8615ae8199e
-// 87 capabilities, 576 providers, 2094 typed functions, 20 refused.
+// Manifest version: a884dcb4f11b09167c573a73964db0c699aeac0615a2b6303c83fb8a366d66e5
+// 87 capabilities, 576 providers, 2095 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13644,6 +13644,9 @@ interface GetAuthorArticlesArgs {
 interface ListOpinionPiecesArgs {
   limit?: number;
 }
+interface ListGuidesArgs {
+  limit?: number;
+}
 interface BusinessInsiderListedArticle {
   title: string;
   url: string;
@@ -13705,6 +13708,12 @@ interface BusinessInsiderArticleRecord {
      * newest-first as the site orders its grid.
      */
     listOpinionPieces(args: ListOpinionPiecesArgs): Promise<BusinessInsiderListedArticle[]>;
+
+    /**
+     * Lists buying guides and product reviews from the Guides vertical, title and URL per article,
+     * newest-first as the site orders its grid.
+     */
+    listGuides(args: ListGuidesArgs): Promise<BusinessInsiderListedArticle[]>;
 
     /**
      * Reads one businessinsider.com article's full text and metadata (headline, author, section,
@@ -58205,7 +58214,9 @@ interface ShopifyVariant {
   price: string;
   compareAtPrice: string | null;
   sku: string | null;
-  /** The store's own per-variant stock flag. */
+  /** The store's own per-variant stock flag: true means its cart takes at least
+   * one unit. A theme's size picker may still draw a last single unit as sold out.
+   * The count is not published — addToCart with a large quantity reports it. */
   available: boolean;
   options: string[];
   /** The same values keyed by the option's own NAME — { Color: "Black", Size: "S" }.
@@ -58530,6 +58541,9 @@ interface ShopifyCart {
   country?: string;
   cartUrl: string;
   checkoutUrl: string;
+  /** Only on addToCart, only when the store took FEWER units than asked: it names
+   * how many went in, which is the store's real stock count for that variant. */
+  warnings?: string[];
 }
 
   /**
@@ -58655,7 +58669,9 @@ interface ShopifyVariant {
   price: string;
   compareAtPrice: string | null;
   sku: string | null;
-  /** The store's own per-variant stock flag. */
+  /** The store's own per-variant stock flag: true means its cart takes at least
+   * one unit. A theme's size picker may still draw a last single unit as sold out.
+   * The count is not published — addToCart with a large quantity reports it. */
   available: boolean;
   options: string[];
   /** The same values keyed by the option's own NAME — { Color: "Black", Size: "S" }.
@@ -58980,6 +58996,9 @@ interface ShopifyCart {
   country?: string;
   cartUrl: string;
   checkoutUrl: string;
+  /** Only on addToCart, only when the store took FEWER units than asked: it names
+   * how many went in, which is the store's real stock count for that variant. */
+  warnings?: string[];
 }
 
   /**

@@ -1,5 +1,5 @@
 {
-  "version": "3d38c20680ce1ec9026c4491f85373d515196fab4653772d9e1ce8615ae8199e",
+  "version": "a884dcb4f11b09167c573a73964db0c699aeac0615a2b6303c83fb8a366d66e5",
   "units": {
     "address_validation": {
       "defs": {
@@ -14479,6 +14479,18 @@
             }
           ]
         },
+        "ListGuidesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListOpinionPiecesArgs": {
           "k": "object",
           "props": [
@@ -14533,6 +14545,16 @@
             "schema": {
               "k": "ref",
               "name": "ListOpinionPiecesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listGuides": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListGuidesArgs"
             },
             "optional": false
           }

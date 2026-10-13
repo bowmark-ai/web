@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3d38c20680ce1ec9026c4491f85373d515196fab4653772d9e1ce8615ae8199e
-# 87 capabilities, 576 providers, 2076 typed functions, 20 refused.
+# Manifest version: a884dcb4f11b09167c573a73964db0c699aeac0615a2b6303c83fb8a366d66e5
+# 87 capabilities, 576 providers, 2077 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7813,6 +7813,9 @@ class Prv_businessinsider_com_GetAuthorArticlesArgs_In(TypedDict):
     limit: NotRequired[float]
 
 class Prv_businessinsider_com_ListOpinionPiecesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_businessinsider_com_ListGuidesArgs_In(TypedDict):
     limit: NotRequired[float]
 
 class Prv_businessinsider_com_GetArticleArgs_In(TypedDict):
@@ -37958,6 +37961,11 @@ class Prv_businessinsider_com(Protocol):
     async def listOpinionPieces(self, args: Prv_businessinsider_com_ListOpinionPiecesArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderListedArticle_Out]:
         """Lists opinion and analysis pieces from the Opinion section, title and URL per article,
         newest-first as the site orders its grid.
+        """
+
+    async def listGuides(self, args: Prv_businessinsider_com_ListGuidesArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderListedArticle_Out]:
+        """Lists buying guides and product reviews from the Guides vertical, title and URL per
+        article, newest-first as the site orders its grid.
         """
 
     async def getArticle(self, args: Prv_businessinsider_com_GetArticleArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderArticleRecord_Out:
