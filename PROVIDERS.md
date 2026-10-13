@@ -850,7 +850,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deltadentalma.lastUpdated` | deltadentalma.com | Returns the timestamp the directory data was last refreshed, so a caller can say how… | 🟢 |
 | `deltadentalma.search` | deltadentalma.com | Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network… | 🟢 |
 | `dentalplans.getPlan` | dentalplans.com | Reads one plan's own detail page — its marketing description and the site's own… | 🟢 |
-| `dentalplans.search` | dentalplans.com | Runs DentalPlans.com's own live plan search (/plan-search-results/?zip=) for a 5-digit… | 🟡 |
+| `dentalplans.search` | dentalplans.com | Runs DentalPlans.com's own live plan search for a 5-digit US zip, off the site's own… | 🟡 |
 | `detailxperts.bookAppointment` | detailxperts.com | Submits the booking form (name, phone, email, service address, vehicle, chosen… | ⚪ |
 | `detailxperts.checkServiceArea` | detailxperts.com | Checks whether a service address is inside a DetailXPerts franchise's mobile service… | 🟡 |
 | `detailxperts.getQuote` | detailxperts.com | Prices a mobile detail for one vehicle type and dirt/pet-hair/interior-dirt condition… | 🟡 |
@@ -1152,7 +1152,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.getRevision` | fandom.com | One specific revision of an article by id, rendered as of that edit. | ⚪ |
 | `fandom.getSection` | fandom.com | One named or numbered section of an article, without downloading the rest of the page. | ⚪ |
 | `fandom.getSections` | fandom.com | An article's table of contents — every section with its index, heading and nesting… | ⚪ |
-| `fandom.getSummary` | fandom.com | The lead section of an article and nothing else — the first paragraph, for "what is X"… | ⚪ |
+| `fandom.getSummary` | fandom.com | The lead section of an article and nothing else — the first paragraph, for "what is X"… | 🟢 |
 | `fandom.getUser` | fandom.com | A wiki editor's public record on this wiki — registration date, edit count and user… | ⚪ |
 | `fandom.getWikiInfo` | fandom.com | A wiki's own vital stats — its real display name (`Wookieepedia`, not the `starwars`… | 🟢 |
 | `fandom.getWikitext` | fandom.com | An article's raw wikitext source — what an editor sees in the edit box, templates and… | ⚪ |
