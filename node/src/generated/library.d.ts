@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8b347db2c2ef1e9ff4b8e76110238f56fc7fe0d68e40217275fcc0ace6d1a88a
-// 87 capabilities, 576 providers, 2100 typed functions, 20 refused.
+// Manifest version: f9e08c4c9af4863ef497877c3865afd27eae25515bd625f5cccdea872386c356
+// 87 capabilities, 576 providers, 2101 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -49439,6 +49439,39 @@ interface TargetCategoriesResult {
   warnings: string[];
 }
 
+interface TargetPromotion {
+  id: string;  // e.g. "1375-20261011" — pass as listDeals' promotionId
+  title: string | null;  // e.g. "Weekly ad"
+  type: string | null;  // "weeklyad", or the site's own label for another promotion
+  saleStartDate: string | null;  // as the site writes it: "10/11/2026 12:00:00 AM", store-local
+  saleEndDate: string | null;
+  coverImage: string | null;
+}
+
+interface TargetDeal {
+  title: string;
+  price: string;  // as the ad prints it — "4.49" or "BOGO 25% off"
+  priceQualifier: string | null;  // e.g. "Sale"
+  regularPrice: string | null;
+  promotionMessage: string | null;
+  finePrint: string | null;
+  tcin: string | null;  // a representative product; the offer often covers more (productCount)
+  offerId: string | null;
+  productCount: number | null;  // how many products the offer covers, per the site
+  category: string | null;  // the ad page's own category, e.g. "Grocery"
+  imageUrl: string | null;
+  url: string | null;
+}
+
+interface TargetDealsResult {
+  storeId: string;
+  promotion: TargetPromotion | null;  // the promotion deals were read from; null when the store runs none
+  promotions: TargetPromotion[];  // every promotion the store is running
+  deals: TargetDeal[];  // priced offers only; editorial banners are dropped
+  categories: string[];  // distinct deal categories, in ad order
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -49486,6 +49519,15 @@ interface TargetCategoriesResult {
      * `TargetCategory.id` to walk one level deeper.
      */
     listCategories(args?: { categoryId?: string }): Promise<TargetCategoriesResult>;
+
+    /**
+     * Reads one store's current Target weekly ad — every priced offer in it ("4.49", "BOGO 25%
+     * off") with the ad's own category, fine print, a representative TCIN and how many products
+     * the offer covers. Takes a store id from `findStore` (the ad differs by store, so there is no
+     * default). Returns the store's live promotions too; pass one's `id` as `promotionId` to read
+     * a promotion other than the weekly ad.
+     */
+    listDeals(args: { storeId: string; promotionId?: string }): Promise<TargetDealsResult>;
 
     /**
      * Returns customer review photos for one product — the real-world pictures shoppers attached

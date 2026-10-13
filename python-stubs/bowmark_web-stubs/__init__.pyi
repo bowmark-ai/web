@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8b347db2c2ef1e9ff4b8e76110238f56fc7fe0d68e40217275fcc0ace6d1a88a
-# 87 capabilities, 576 providers, 2082 typed functions, 20 refused.
+# Manifest version: f9e08c4c9af4863ef497877c3865afd27eae25515bd625f5cccdea872386c356
+# 87 capabilities, 576 providers, 2083 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27772,6 +27772,40 @@ class Prv_target_TargetCategory_Out(TypedDict):
     slug: str
     children: list[Prv_target_TargetCategory_Out]
 
+class Prv_target_listDeals_args_In(TypedDict):
+    storeId: str
+    promotionId: NotRequired[str]
+
+class Prv_target_TargetDealsResult_Out(TypedDict):
+    storeId: str
+    promotion: Prv_target_TargetPromotion_Out | None
+    promotions: list[Prv_target_TargetPromotion_Out]
+    deals: list[Prv_target_TargetDeal_Out]
+    categories: list[str]
+    warnings: list[str]
+
+class Prv_target_TargetPromotion_Out(TypedDict):
+    id: str
+    title: str | None
+    type: str | None
+    saleStartDate: str | None
+    saleEndDate: str | None
+    coverImage: str | None
+
+class Prv_target_TargetDeal_Out(TypedDict):
+    title: str
+    price: str
+    priceQualifier: str | None
+    regularPrice: str | None
+    promotionMessage: str | None
+    finePrint: str | None
+    tcin: str | None
+    offerId: str | None
+    productCount: float | None
+    category: str | None
+    imageUrl: str | None
+    url: str | None
+
 class Prv_target_reviewPhotos_args_In(TypedDict):
     tcin: str
     limit: NotRequired[float]
@@ -50949,6 +50983,14 @@ class Prv_target(Protocol):
         page renders. Called without arguments, returns the 47 top-level departments.
         `categoryId` is the site's own id (the `N-<id>` URL segment, e.g. "5xt1a" for Grocery)
         taken from a prior call's `TargetCategory.id` to walk one level deeper.
+        """
+
+    async def listDeals(self, args: Prv_target_listDeals_args_In, /) -> Prv_target_TargetDealsResult_Out:
+        """Reads one store's current Target weekly ad — every priced offer in it ("4.49", "BOGO 25%
+        off") with the ad's own category, fine print, a representative TCIN and how many
+        products the offer covers. Takes a store id from `findStore` (the ad differs by store,
+        so there is no default). Returns the store's live promotions too; pass one's `id` as
+        `promotionId` to read a promotion other than the weekly ad.
         """
 
     async def reviewPhotos(self, args: Prv_target_reviewPhotos_args_In, /) -> Prv_target_TargetReviewPhotos_Out:
