@@ -1105,7 +1105,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `extraspace.search` | extraspace.com | Searches Extra Space Storage's live facility inventory the way its own homepage… | 🟢 |
 | `facebook.commentOnPost` | facebook.com | Leave a comment on a post — someone else's or the caller's own. | ⚪ |
 | `facebook.followPage` | facebook.com | Follow a Page to receive its posts in the caller's feed. | ⚪ |
-| `facebook.getConversation` | facebook.com | Read messages in a private conversation thread with another user or group. | ⚪ |
+| `facebook.getConversation` | facebook.com | Read messages in a private conversation thread with another user or group. | 🟢 |
 | `facebook.getEventDetails` | facebook.com | Read details on a Facebook Event — name, date, location, description, attendance count. | ⚪ |
 | `facebook.getGroupInfo` | facebook.com | Read a Group's details — name, description, member count, profile photo. | ⚪ |
 | `facebook.getGroupPosts` | facebook.com | List posts in a Group, newest first and paged. | ⚪ |
