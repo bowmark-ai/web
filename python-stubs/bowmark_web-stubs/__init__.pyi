@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 15b9097af95e65d3b8ea18be2242d778bbca14c24647a4d94d46fb6affe74166
-# 87 capabilities, 576 providers, 2080 typed functions, 20 refused.
+# Manifest version: 8b347db2c2ef1e9ff4b8e76110238f56fc7fe0d68e40217275fcc0ace6d1a88a
+# 87 capabilities, 576 providers, 2082 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3838,6 +3838,14 @@ class Prv_aliexpress_aliexpressStore_Out(TypedDict):
     product_count: NotRequired[float]
     positive_feedback_rate: NotRequired[float]
     response_time: NotRequired[str]
+
+class Prv_aliexpress_aliexpressCartItem_Out(TypedDict):
+    id: str
+    product_id: str
+    quantity: float
+    price: float
+    title: str
+    shop_name: str
 
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
@@ -29981,6 +29989,11 @@ class Prv_usatoday_usatodayArticle_Out(TypedDict):
     publicationDate: str
     image: NotRequired[str]
 
+class Prv_usatoday_SearchNewsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
     toZip: str
@@ -35468,6 +35481,11 @@ class Prv_aliexpress(Protocol):
     async def getStore(self, args: Prv_aliexpress_GetStoreArgs_In, /) -> Prv_aliexpress_aliexpressStore_Out:
         """Retrieves seller/store information including store name, ratings, product count, and
         response time.
+        """
+
+    async def listCart(self, /) -> list[Prv_aliexpress_aliexpressCartItem_Out]:
+        """Lists items currently in the user's shopping cart with quantity, price, and product
+        details.
         """
 
 class Prv_allied(Protocol):
@@ -52374,6 +52392,11 @@ class Prv_usatoday(Protocol):
     async def browseSection(self, args: Prv_usatoday_BrowseSectionArgs_In, /) -> list[Prv_usatoday_usatodayArticle_Out]:
         """Lists articles in one USA Today section, paginated, showing headline, summary, URL, date
         and image. Uses the section IDs from listSections.
+        """
+
+    async def searchNews(self, args: Prv_usatoday_SearchNewsArgs_In, /) -> list[Prv_usatoday_usatodayArticle_Out]:
+        """Searches USA Today's news archive for articles matching a free-text query, returning
+        headline, summary, URL, date and image. Paginated results sorted by relevance.
         """
 
 class Prv_usps(Protocol):

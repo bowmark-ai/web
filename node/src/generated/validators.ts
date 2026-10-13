@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 15b9097af95e65d3b8ea18be2242d778bbca14c24647a4d94d46fb6affe74166
-// 2080 checked, 20 unchecked.
+// Manifest version: 8b347db2c2ef1e9ff4b8e76110238f56fc7fe0d68e40217275fcc0ace6d1a88a
+// 2082 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "15b9097af95e65d3b8ea18be2242d778bbca14c24647a4d94d46fb6affe74166",
+  "version": "8b347db2c2ef1e9ff4b8e76110238f56fc7fe0d68e40217275fcc0ace6d1a88a",
   "units": {
     "address_validation": {
       "defs": {
@@ -7876,7 +7876,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listCart": []
       }
     },
     "providers.allied": {
@@ -60343,6 +60344,32 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SearchNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -60353,6 +60380,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BrowseSectionArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchNewsArgs"
             },
             "optional": false
           }

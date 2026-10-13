@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 15b9097af95e65d3b8ea18be2242d778bbca14c24647a4d94d46fb6affe74166
-// 87 capabilities, 576 providers, 2098 typed functions, 20 refused.
+// Manifest version: 8b347db2c2ef1e9ff4b8e76110238f56fc7fe0d68e40217275fcc0ace6d1a88a
+// 87 capabilities, 576 providers, 2100 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6715,6 +6715,15 @@ interface GetStoreArgs {
   store_id: string;
 }
 
+interface aliexpressCartItem {
+  id: string;
+  product_id: string;
+  quantity: number;
+  price: number;
+  title: string;
+  shop_name: string;
+}
+
 interface aliexpressProduct {
   id: string;
   title: string;
@@ -6784,6 +6793,9 @@ interface aliexpressStore {
      * response time.
      */
     getStore(args: GetStoreArgs): Promise<aliexpressStore>;
+
+    /** Lists items currently in the user's shopping cart with quantity, price, and product details. */
+    listCart(): Promise<aliexpressCartItem[]>;
   }
 }
 
@@ -53406,6 +53418,12 @@ interface BrowseSectionArgs {
   page?: number;
 }
 
+interface SearchNewsArgs {
+  query: string;
+  limit?: number;
+  page?: number;
+}
+
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
   interface Unit {
     /**
@@ -53419,6 +53437,12 @@ interface BrowseSectionArgs {
      * image. Uses the section IDs from listSections.
      */
     browseSection(args: BrowseSectionArgs): Promise<usatodayArticle[]>;
+
+    /**
+     * Searches USA Today's news archive for articles matching a free-text query, returning
+     * headline, summary, URL, date and image. Paginated results sorted by relevance.
+     */
+    searchNews(args: SearchNewsArgs): Promise<usatodayArticle[]>;
   }
 }
 

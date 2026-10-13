@@ -90,7 +90,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aliexpress.addToCart` | aliexpress.us | Adds a product variant to the user's shopping cart. | ⚪ |
 | `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | 🟢 |
 | `aliexpress.getStore` | aliexpress.us | Retrieves seller/store information including store name, ratings, product count, and… | 🟢 |
-| `aliexpress.listCart` | aliexpress.us | Lists items currently in the user's shopping cart. | ⚪ |
+| `aliexpress.listCart` | aliexpress.us | Lists items currently in the user's shopping cart. | 🟢 |
 | `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | 🟢 |
 | `aliexpress.listOrders` | aliexpress.us | Lists the user's purchase history and order status. | ⚪ |
 | `aliexpress.listWishlist` | aliexpress.us | Lists products in the user's wishlist. | ⚪ |
@@ -371,7 +371,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `blueribbonhomewarranty_com.getPage` | blueribbonhomewarranty.com | Reads one Blue Ribbon Home Warranty page (found via search) and returns its title… | 🟢 |
 | `blueribbonhomewarranty_com.search` | blueribbonhomewarranty.com | Finds Blue Ribbon Home Warranty's own public pages — the apply/quote flows, the claim… | 🟢 |
 | `bluesignal.applyToJob` | bluesignal.com | Would submit a job application (name/email/phone/resume) to the site's own per-job… | ⚪ |
-| `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟡 |
+| `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟢 |
 | `bluesignal.searchJobs` | bluesignal.com | Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by a… | 🟢 |
 | `bluesky.addToList` | bsky.app | Add a person to one of the caller's lists, or remove them. | ⚪ |
 | `bluesky.blockUser` | bsky.app | Block a person as the caller, or unblock them. | ⚪ |
@@ -2823,7 +2823,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.getProduct` | target.com | Reads one product page in full — title, brand, price, long-form description, images… | 🟢 |
 | `target.getRegistry` | target.com | Reads one Target Gift Registry's items, quantities already purchased, and ship-to info… | ⚪ |
 | `target.listCategories` | target.com | Reads Target's own category taxonomy (department → aisle, e.g. Grocery → Snacks) with… | 🟢 |
-| `target.listDeals` | target.com | Reads Target's published weekly ad / deals page — the site's own current promotions… | ⚪ |
+| `target.listDeals` | target.com | Reads one store's current Target weekly ad — every priced offer in it with the ad's… | 🟢 |
 | `target.listOrders` | target.com | The CALLER's own signed-in order history on target.com — what they bought, when, for… | ⚪ |
 | `target.listReviews` | target.com | Reads a product's customer reviews (by TCIN) — rating, text, title, verified-purchase… | ⚪ |
 | `target.listWishlists` | target.com | The CALLER's own saved lists on target.com (their “Lists” — Target's wishlist feature)… | ⚪ |
@@ -3083,7 +3083,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.listSections` | usatoday.com | Lists USA Today's main news sections — news, sports, money, life, tech, opinion — each… | 🟢 |
 | `usatoday.listVideos` | usatoday.com | Lists USA Today videos, paginated, showing title, description, thumbnail URL, duration… | ⚪ |
 | `usatoday.saveArticle` | usatoday.com | Saves an article to the signed-in user's reading list. | ⚪ |
-| `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | ⚪ |
+| `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | 🟢 |
 | `usps.getRate` | usps.com | Prices a domestic package across USPS's own Mail Services (Priority Mail Express… | 🟢 |
 | `vbt.getTourDepartures` | vbt.com | Reads one VBT tour's own public page and returns its Tour-Only and Tour+Travel-Package… | 🟢 |
 | `vbt.listTours` | vbt.com | Lists every self-guided/guided bike and walking tour VBT publishes, straight off its… | 🟢 |
