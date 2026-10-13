@@ -1052,7 +1052,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.listFavorites` | espn.com | The CALLER's My ESPN favourites — the teams, leagues and players they follow, which… | ⚪ |
 | `espn.listLeagues` | espn.com | Every sport ESPN's core API tracks (call with no arguments), or every league slug… | 🟢 |
 | `espn.listMyFantasyTeams` | espn.com | The CALLER's own ESPN fantasy teams across every game (football, baseball, basketball… | ⚪ |
-| `espn.listTeams` | espn.com | Every team in a league with its ESPN id, abbreviation, name, location, colours and… | ⚪ |
+| `espn.listTeams` | espn.com | Every team in a league with its ESPN id, abbreviation, name, location, colours and… | 🟢 |
 | `espn.listVideos` | espn.com | ESPN's highlight and analysis video clips for a league, a team or a game — title… | ⚪ |
 | `espn.news` | espn.com | The latest ESPN headlines for a league, a team or a player — headline, description… | ⚪ |
 | `espn.odds` | espn.com | The betting lines ESPN shows for one game — spread, total and moneyline from each… | ⚪ |
