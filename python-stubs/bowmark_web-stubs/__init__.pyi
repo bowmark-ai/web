@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f434b63ea7a45ad05f108ab36957d6bfbd453867000a50b756b33a35eccaff4a
+# Manifest version: 07c9c3d624eccfa225ce6dc3448d06819094f66d48e1d2cd749f86c30b6a40ec
 # 87 capabilities, 576 providers, 2078 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -33182,9 +33182,13 @@ class Cap_browser_agent(Protocol):
         what it was last doing. A site that blocks the browser outright (a bot wall, not a login
         or captcha) also reads `failed`, quickly, with `error` starting `blocked: ` — nobody can
         take over and clear that, so treat it as a hard failure for that site rather than
-        retrying. Pass the previous `cursor` for only new steps, and `waitMs` (≤ 45000 — kept
-        under the ~60s at which most chat clients kill a tool call) to wait for a change instead
-        of polling tightly.
+        retrying. `error` starting `merchant_verification_failed: ` is a DIFFERENT failure, from
+        BOWMARK's own side rather than the site: a safety check could not confirm the page the
+        agent reached matches the merchant the task named, which can fire on an ordinary
+        non-merchant page (a government portal, a reference site) as well as on a real mismatch
+        — it is not a bot wall and not evidence the site refused anything. Pass the previous
+        `cursor` for only new steps, and `waitMs` (≤ 45000 — kept under the ~60s at which most
+        chat clients kill a tool call) to wait for a change instead of polling tightly.
         """
 
     async def send(self, id: str, message: str, options: Cap_browser_agent_SendBrowserAgentOptions_In | None = None, /) -> Cap_browser_agent_SendBrowserAgentResult_Out:
@@ -38497,9 +38501,12 @@ class Prv_cartebtp(Protocol):
 
     async def verifyCard(self, hash: str, /) -> Prv_cartebtp_CartebtpVerification_Out:
         """Verifies a French construction worker card (Carte BTP) from the hash its QR code encodes
-        — the same lookup cartebtp.fr's own public verification page performs. Returns whether
-        the card is currently valid, its printed card number when the lookup resolves, and the
-        site's own status message.
+        — the same lookup cartebtp.fr's own public verification page performs. Takes ONLY that
+        hash; a printed card number or a worker's name is not accepted and reads back as an
+        unrecognized card, identically to a genuine miss. Returns whether the card is currently
+        valid, its printed card number when the lookup resolves, and the site's own status
+        message — there is no expiry date, because the site's own verification page does not
+        publish one.
         """
 
 class Prv_carusohomes(Protocol):

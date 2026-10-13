@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f434b63ea7a45ad05f108ab36957d6bfbd453867000a50b756b33a35eccaff4a
+// Manifest version: 07c9c3d624eccfa225ce6dc3448d06819094f66d48e1d2cd749f86c30b6a40ec
 // 87 capabilities, 576 providers, 2096 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -374,7 +374,10 @@ interface BrowserAgentStatusResult {
   question: BrowserAgentQuestion | null;   // set when status is "needs_input"
   result: string | null;                   // the agent's answer for its last finished turn
   error: string | null;                    // set when status is "failed"; starts "blocked: " when
-                                            // the SITE itself refused (a bot wall), e.g. "blocked: akamai access denied"
+                                            // the SITE itself refused (a bot wall), e.g. "blocked: akamai access denied",
+                                            // or "merchant_verification_failed: " when BOWMARK'S OWN safety check
+                                            // could not confirm the page it reached is the merchant the task named —
+                                            // not a bot wall and not the site refusing anything
   steps: BrowserAgentStep[];
   cursor: string;
   task: string;
@@ -466,9 +469,14 @@ type CallOptions = {
      * long with no result is cancelled automatically and reads `failed` — see `error` for what it
      * was last doing. A site that blocks the browser outright (a bot wall, not a login or captcha)
      * also reads `failed`, quickly, with `error` starting `blocked: ` — nobody can take over and
-     * clear that, so treat it as a hard failure for that site rather than retrying. Pass the
-     * previous `cursor` for only new steps, and `waitMs` (≤ 45000 — kept under the ~60s at which
-     * most chat clients kill a tool call) to wait for a change instead of polling tightly.
+     * clear that, so treat it as a hard failure for that site rather than retrying. `error`
+     * starting `merchant_verification_failed: ` is a DIFFERENT failure, from BOWMARK's own side
+     * rather than the site: a safety check could not confirm the page the agent reached matches
+     * the merchant the task named, which can fire on an ordinary non-merchant page (a government
+     * portal, a reference site) as well as on a real mismatch — it is not a bot wall and not
+     * evidence the site refused anything. Pass the previous `cursor` for only new steps, and
+     * `waitMs` (≤ 45000 — kept under the ~60s at which most chat clients kill a tool call) to wait
+     * for a change instead of polling tightly.
      */
     status(id: string, options?: BrowserAgentStatusOptions): Promise<BrowserAgentStatusResult>;
 
@@ -3698,6 +3706,13 @@ type ReadOptions = {
                              // exit IP for a domain that refuses our default route.
                              // "direct" is accepted and read as "static-residential":
                              // a read never leaves from our own server's IP
+                             // If "Bowmark's own network route failed" comes back THE SAME WAY
+                             // under every egress you try (status 0, never reached), the site
+                             // likely only answers traffic from a country or network none of
+                             // these exits is in — trying another egress value will not help.
+                             // That differs from a failure that clears on "static-residential"
+                             // alone, which is usually the rotating vendor's own blocklist
+                             // rather than the site (measured on several .gov domains).
   headers?: boolean          // default false; true adds ReadResult.headers — the
                              // document's response headers (server, x-powered-by,
                              // set-cookie, cf-ray …), lowercased names. For
@@ -15115,9 +15130,11 @@ interface CartebtpVerification {
   interface Unit {
     /**
      * Verifies a French construction worker card (Carte BTP) from the hash its QR code encodes —
-     * the same lookup cartebtp.fr's own public verification page performs. Returns whether the
-     * card is currently valid, its printed card number when the lookup resolves, and the site's
-     * own status message.
+     * the same lookup cartebtp.fr's own public verification page performs. Takes ONLY that hash; a
+     * printed card number or a worker's name is not accepted and reads back as an unrecognized
+     * card, identically to a genuine miss. Returns whether the card is currently valid, its
+     * printed card number when the lookup resolves, and the site's own status message — there is
+     * no expiry date, because the site's own verification page does not publish one.
      */
     verifyCard(hash: string): Promise<CartebtpVerification>;
   }
