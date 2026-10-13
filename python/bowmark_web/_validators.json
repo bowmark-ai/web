@@ -1,5 +1,5 @@
 {
-  "version": "4eacc98f0504258225019142a3bbb174eabd24883bdbf6e58365f4aee3a59377",
+  "version": "e44380f01134a3e57018b199b07e876a981449e2391b41688357daed8b8ce6fd",
   "units": {
     "address_validation": {
       "defs": {
@@ -56078,7 +56078,7 @@
               "schema": {
                 "k": "string"
               },
-              "optional": true
+              "optional": false
             },
             {
               "name": "limit",
@@ -56204,7 +56204,7 @@
               "k": "ref",
               "name": "GuardianListContributorsArgs"
             },
-            "optional": true
+            "optional": false
           }
         ],
         "getContributorArticles": [
@@ -57290,6 +57290,25 @@
             }
           ]
         },
+        "UnfollowUserArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "userId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "secUid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "UnlikeVideoArgs": {
           "k": "object",
           "props": [
@@ -57648,6 +57667,32 @@
             "schema": {
               "k": "ref",
               "name": "FollowUserArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UnfollowUserArgs"
             },
             "optional": false
           },

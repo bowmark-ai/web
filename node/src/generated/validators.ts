@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4eacc98f0504258225019142a3bbb174eabd24883bdbf6e58365f4aee3a59377
-// 2087 checked, 20 unchecked.
+// Manifest version: e44380f01134a3e57018b199b07e876a981449e2391b41688357daed8b8ce6fd
+// 2088 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4eacc98f0504258225019142a3bbb174eabd24883bdbf6e58365f4aee3a59377",
+  "version": "e44380f01134a3e57018b199b07e876a981449e2391b41688357daed8b8ce6fd",
   "units": {
     "address_validation": {
       "defs": {
@@ -56090,7 +56090,7 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "string"
               },
-              "optional": true
+              "optional": false
             },
             {
               "name": "limit",
@@ -56216,7 +56216,7 @@ export const VALIDATORS: ValidatorTable = {
               "k": "ref",
               "name": "GuardianListContributorsArgs"
             },
-            "optional": true
+            "optional": false
           }
         ],
         "getContributorArticles": [
@@ -57302,6 +57302,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "UnfollowUserArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "userId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "secUid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "UnlikeVideoArgs": {
           "k": "object",
           "props": [
@@ -57660,6 +57679,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FollowUserArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowUser": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UnfollowUserArgs"
             },
             "optional": false
           },

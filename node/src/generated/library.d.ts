@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4eacc98f0504258225019142a3bbb174eabd24883bdbf6e58365f4aee3a59377
-// 85 capabilities, 577 providers, 2105 typed functions, 20 refused.
+// Manifest version: e44380f01134a3e57018b199b07e876a981449e2391b41688357daed8b8ce6fd
+// 85 capabilities, 577 providers, 2106 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -49925,12 +49925,12 @@ interface GuardianContributor {
   url: string;
 }
 interface GuardianListContributorsArgs {
-  /** A single letter (a-z) to list contributors whose surname starts with that letter. Omit to list all (default). */
-  letter?: string;
+  /** A single letter (a-z): contributors whose surname starts with it. Required — the site has no all-contributors page. */
+  letter: string;
   limit?: number;
 }
 interface GuardianListContributorsResult {
-  letter: string | null;
+  letter: string;
   contributors: GuardianContributor[];
 }
 interface GuardianGetContributorArticlesArgs {
@@ -50123,11 +50123,11 @@ interface GuardianListNewslettersResult {
     listBreakingNews(): Promise<GuardianListArticlesResult>;
 
     /**
-     * Guardian journalists and contributors, alphabetically by surname — each with their name and
-     * profile slug. Pass a single letter (a-z) to list contributors whose surname starts with that
-     * letter; omit to list all (default).
+     * Guardian journalists and contributors whose surname starts with one letter (a-z) — each with
+     * their name and profile slug. The letter is required: the site lists contributors one letter
+     * at a time and publishes no all-contributors page.
      */
-    listContributors(args?: GuardianListContributorsArgs): Promise<GuardianListContributorsResult>;
+    listContributors(args: GuardianListContributorsArgs): Promise<GuardianListContributorsResult>;
 
     /**
      * The latest articles by one Guardian journalist or contributor — newest first, with headline,
@@ -51209,6 +51209,10 @@ type FollowUserArgs = {
   userId: string;
   secUid: string;
 };
+type UnfollowUserArgs = {
+  userId: string;
+  secUid: string;
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -51391,6 +51395,15 @@ type FollowUserArgs = {
      * the auth relay; Bowmark never signs up on this site. Returns a confirmation of the follow.
      */
     followUser(args: FollowUserArgs, opts?: ConnectionOption): Promise<{ followed: boolean }>;
+
+    /**
+     * Unfollow a creator as the signed-in caller, the reverse of followUser. Takes the userId and
+     * secUid off getProfile's result, not a username. Writes via POST to /api/follow/user/ with
+     * type=0 (following uses type=1) and the caller's session cookies, no browser. The caller
+     * signs in through the auth relay; Bowmark never signs up on this site. Returns a confirmation
+     * of the unfollow.
+     */
+    unfollowUser(args: UnfollowUserArgs, opts?: ConnectionOption): Promise<{ unfollowed: boolean }>;
   }
 }
 

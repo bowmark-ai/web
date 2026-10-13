@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4eacc98f0504258225019142a3bbb174eabd24883bdbf6e58365f4aee3a59377
-# 85 capabilities, 577 providers, 2087 typed functions, 20 refused.
+# Manifest version: e44380f01134a3e57018b199b07e876a981449e2391b41688357daed8b8ce6fd
+# 85 capabilities, 577 providers, 2088 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -28088,11 +28088,11 @@ class Prv_theguardian_com_GuardianTopic_Out(TypedDict):
     url: str
 
 class Prv_theguardian_com_GuardianListContributorsArgs_In(TypedDict):
-    letter: NotRequired[str]
+    letter: str
     limit: NotRequired[float]
 
 class Prv_theguardian_com_GuardianListContributorsResult_Out(TypedDict):
-    letter: str | None
+    letter: str
     contributors: list[Prv_theguardian_com_GuardianContributor_Out]
 
 class Prv_theguardian_com_GuardianContributor_Out(TypedDict):
@@ -28846,6 +28846,13 @@ class Prv_tiktok_FollowUserArgs_In(TypedDict):
 
 class Prv_tiktok_followUser_return_Out(TypedDict):
     followed: bool
+
+class Prv_tiktok_UnfollowUserArgs_In(TypedDict):
+    userId: str
+    secUid: str
+
+class Prv_tiktok_unfollowUser_return_Out(TypedDict):
+    unfollowed: bool
 
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
@@ -51214,10 +51221,10 @@ class Prv_theguardian_com(Protocol):
         summary, byline and publish time.
         """
 
-    async def listContributors(self, args: Prv_theguardian_com_GuardianListContributorsArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListContributorsResult_Out:
-        """Guardian journalists and contributors, alphabetically by surname — each with their name
-        and profile slug. Pass a single letter (a-z) to list contributors whose surname starts
-        with that letter; omit to list all (default).
+    async def listContributors(self, args: Prv_theguardian_com_GuardianListContributorsArgs_In, /) -> Prv_theguardian_com_GuardianListContributorsResult_Out:
+        """Guardian journalists and contributors whose surname starts with one letter (a-z) — each
+        with their name and profile slug. The letter is required: the site lists contributors
+        one letter at a time and publishes no all-contributors page.
         """
 
     async def getContributorArticles(self, args: Prv_theguardian_com_GuardianGetContributorArticlesArgs_In, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:
@@ -51775,6 +51782,14 @@ class Prv_tiktok(Protocol):
         /api/follow/user/ with the caller's session cookies, no browser. The caller signs in
         through the auth relay; Bowmark never signs up on this site. Returns a confirmation of
         the follow.
+        """
+
+    async def unfollowUser(self, args: Prv_tiktok_UnfollowUserArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_unfollowUser_return_Out:
+        """Unfollow a creator as the signed-in caller, the reverse of followUser. Takes the userId
+        and secUid off getProfile's result, not a username. Writes via POST to /api/follow/user/
+        with type=0 (following uses type=1) and the caller's session cookies, no browser. The
+        caller signs in through the auth relay; Bowmark never signs up on this site. Returns a
+        confirmation of the unfollow.
         """
 
 class Prv_tilsonhomes(Protocol):

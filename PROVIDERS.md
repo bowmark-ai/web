@@ -214,7 +214,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.suggestSearches` | apple.com | Type the first two letters of what you want — "airpo", "macbo" — and get back what… | 🟢 |
 | `aquaphoenixsci.browseCategory` | catalog.aquaphoenixsci.com | Lists real products in one of AquaPhoenix's catalog categories (test kits, meters, lab… | 🟢 |
 | `aquaphoenixsci.getProduct` | catalog.aquaphoenixsci.com | Reads one product's real detail page: SKU, name, price (when anonymously priced)… | 🟢 |
-| `arajet.search` | arajet.com | Runs Arajet's own flight-schedule search (origin, destination, date, passengers) and… | 🟡 |
+| `arajet.search` | arajet.com | Runs Arajet's own flight-schedule search (origin, destination, date, passengers) and… | 🟢 |
 | `archipelago.getClientRelease` | archipelago.gg | Returns the latest published Archipelago client release — the version tag, the GitHub… | 🟢 |
 | `archipelago.getGameOptions` | archipelago.gg | Returns one game's per-player randomizer options — the commented YAML template… | 🟢 |
 | `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🟡 |
