@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 55c204d4b3210708433feac866ff70e62a4aadedd3bed0c7aff7c85235c2baff
-// 2075 checked, 20 unchecked.
+// Manifest version: 3d38c20680ce1ec9026c4491f85373d515196fab4653772d9e1ce8615ae8199e
+// 2076 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "55c204d4b3210708433feac866ff70e62a4aadedd3bed0c7aff7c85235c2baff",
+  "version": "3d38c20680ce1ec9026c4491f85373d515196fab4653772d9e1ce8615ae8199e",
   "units": {
     "address_validation": {
       "defs": {
@@ -22080,6 +22080,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.facebook": {
       "defs": {
+        "GetConversationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPersonProfileArgs": {
           "k": "object",
           "props": [
@@ -22198,6 +22210,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListConversationsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getConversation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetConversationArgs"
             },
             "optional": false
           },

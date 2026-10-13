@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 55c204d4b3210708433feac866ff70e62a4aadedd3bed0c7aff7c85235c2baff
-// 87 capabilities, 576 providers, 2093 typed functions, 20 refused.
+// Manifest version: 3d38c20680ce1ec9026c4491f85373d515196fab4653772d9e1ce8615ae8199e
+// 87 capabilities, 576 providers, 2094 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21886,6 +21886,17 @@ interface FacebookConversation {
   unread: boolean;
 }
 
+interface GetConversationArgs {
+  conversationId: string;
+}
+
+interface FacebookMessage {
+  id: string;
+  senderName: string;
+  text: string;
+  timestamp?: string;
+}
+
   /**
    * Facebook — profiles, pages, groups, marketplace, messages and posts. Every function needs
    * the caller signed in; the caller signs in through the relay.
@@ -21902,6 +21913,9 @@ interface FacebookConversation {
 
     /** List the caller's private message threads and people they can message. */
     listConversations(args: ListConversationsArgs, opts?: ConnectionOption): Promise<FacebookConversation[]>;
+
+    /** Read messages in a specific conversation thread. */
+    getConversation(args: GetConversationArgs, opts?: ConnectionOption): Promise<FacebookMessage[]>;
   }
 }
 

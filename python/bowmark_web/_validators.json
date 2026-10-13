@@ -1,5 +1,5 @@
 {
-  "version": "55c204d4b3210708433feac866ff70e62a4aadedd3bed0c7aff7c85235c2baff",
+  "version": "3d38c20680ce1ec9026c4491f85373d515196fab4653772d9e1ce8615ae8199e",
   "units": {
     "address_validation": {
       "defs": {
@@ -22068,6 +22068,18 @@
     },
     "providers.facebook": {
       "defs": {
+        "GetConversationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPersonProfileArgs": {
           "k": "object",
           "props": [
@@ -22186,6 +22198,32 @@
             "schema": {
               "k": "ref",
               "name": "ListConversationsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getConversation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetConversationArgs"
             },
             "optional": false
           },
