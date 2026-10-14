@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0dbd77736bdf178001edb01a83d086240774993c7918f6ab09e7c49cd5454ced
-# 85 capabilities, 579 providers, 2103 typed functions, 20 refused.
+# Manifest version: 6a59504865d593e5ec4afbecbb507406ef7a4bd75056f9600a798e5f7c632e9a
+# 85 capabilities, 579 providers, 2104 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16749,13 +16749,13 @@ class Prv_instagram_InstagramProfile_Out(TypedDict):
     id: str
     username: str
     fullName: str
-    biography: str
+    biography: str | None
     externalUrl: str | None
     isPrivate: bool
     isVerified: bool
     profilePicUrl: str
     followerCount: float
-    followingCount: float
+    followingCount: float | None
     postCount: float
 
 class Prv_instagram_InstagramPost_Out(TypedDict):
@@ -26324,6 +26324,17 @@ class Prv_seatgeek_seatgeekEvent_Out_stats_Out(TypedDict):
     median_price: NotRequired[float]
     listing_count: NotRequired[float]
     ticket_count: NotRequired[float]
+
+class Prv_seatgeek_FindPerformersArgs_In(TypedDict):
+    q: str
+    limit: NotRequired[float]
+
+class Prv_seatgeek_seatgeekPerformer_Out(TypedDict):
+    id: float
+    name: str
+    type: str
+    slug: NotRequired[str]
+    image: NotRequired[str]
 
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
     query: str
@@ -44457,24 +44468,22 @@ class Prv_inspirecommunities(Protocol):
         """
 
 class Prv_instagram(Protocol):
-    """Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
-    follower/following counts, verified/private flags, and the latest posts' captions, like
-    and comment counts, by loading the profile page in a headless browser and parsing the
-    rendered DOM.
+    """Reads a public Instagram profile's own metadata and newest posts (instagram.com) — name,
+    follower and post counts, verified/private flags, and the latest posts' captions, like
+    and comment counts, from the site's own profile-embed widget with a plain fetch.
     """
 
     async def getProfile(self, username: str, /) -> Prv_instagram_InstagramProfile_Out:
-        """Reads one public Instagram profile's own metadata — full name, biography, external link,
-        verified/private flags, follower and following counts, and total post count. Throws if
-        the username does not exist; a private account still returns its metadata (isPrivate:
-        true).
+        """Reads one public Instagram profile's own metadata — full name, verified/private flags,
+        profile picture, follower count and total post count. biography, externalUrl and
+        followingCount come back null: the logged-out door does not carry them. Throws if the
+        username does not exist or the account is private.
         """
 
     async def getPosts(self, username: str, /) -> list[Prv_instagram_InstagramPost_Out]:
-        """Reads the most recent posts (up to 12, newest first) on one public Instagram profile —
-        shortcode, permalink, image/video flag, caption, like count, comment count and
-        timestamp. A private account returns an empty array rather than throwing, since the site
-        itself serves none to a logged-out reader.
+        """Reads the most recent posts (the newest six, newest first) on one public Instagram
+        profile — shortcode, permalink, image/video flag, caption, like count, comment count and
+        timestamp. Throws if the username does not exist or the account is private.
         """
 
     async def searchAccounts(self, query: str, opts: ConnectionOption | None = None, /) -> list[Prv_instagram_InstagramAccountSearchResult_Out]:
@@ -50470,6 +50479,12 @@ class Prv_seatgeek(Protocol):
         """Searches live events — concerts, sports, comedy, theater and family — by keyword,
         location, date range and category. Returns event id, title, performers, venue, datetime
         and price stats.
+        """
+
+    async def findPerformers(self, args: Prv_seatgeek_FindPerformersArgs_In, /) -> list[Prv_seatgeek_seatgeekPerformer_Out]:
+        """Finds performers — artists, sports teams, comedians — by name. Returns performer id,
+        name, type and slug. Use when a caller names a performer rather than typing a free-text
+        event query.
         """
 
 class Prv_sec_edgar(Protocol):

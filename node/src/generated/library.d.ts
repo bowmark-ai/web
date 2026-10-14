@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0dbd77736bdf178001edb01a83d086240774993c7918f6ab09e7c49cd5454ced
-// 85 capabilities, 579 providers, 2121 typed functions, 20 refused.
+// Manifest version: 6a59504865d593e5ec4afbecbb507406ef7a4bd75056f9600a798e5f7c632e9a
+// 85 capabilities, 579 providers, 2122 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30508,13 +30508,13 @@ interface InstagramProfile {
   id: string;
   username: string;
   fullName: string;
-  biography: string;
+  biography: string | null; // null: not carried by the logged-out door
   externalUrl: string | null;
   isPrivate: boolean;
   isVerified: boolean;
   profilePicUrl: string;
   followerCount: number;
-  followingCount: number;
+  followingCount: number | null; // null: not carried by the logged-out door
   postCount: number;
 }
 interface InstagramPost {
@@ -30650,24 +30650,23 @@ interface InstagramSavedPosts {
 }
 
   /**
-   * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
-   * follower/following counts, verified/private flags, and the latest posts' captions, like and
-   * comment counts, by loading the profile page in a headless browser and parsing the rendered
-   * DOM.
+   * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — name,
+   * follower and post counts, verified/private flags, and the latest posts' captions, like and
+   * comment counts, from the site's own profile-embed widget with a plain fetch.
    */
   interface Unit {
     /**
-     * Reads one public Instagram profile's own metadata — full name, biography, external link,
-     * verified/private flags, follower and following counts, and total post count. Throws if the
-     * username does not exist; a private account still returns its metadata (isPrivate: true).
+     * Reads one public Instagram profile's own metadata — full name, verified/private flags,
+     * profile picture, follower count and total post count. biography, externalUrl and
+     * followingCount come back null: the logged-out door does not carry them. Throws if the
+     * username does not exist or the account is private.
      */
     getProfile(username: string): Promise<InstagramProfile>;
 
     /**
-     * Reads the most recent posts (up to 12, newest first) on one public Instagram profile —
-     * shortcode, permalink, image/video flag, caption, like count, comment count and timestamp. A
-     * private account returns an empty array rather than throwing, since the site itself serves
-     * none to a logged-out reader.
+     * Reads the most recent posts (the newest six, newest first) on one public Instagram profile —
+     * shortcode, permalink, image/video flag, caption, like count, comment count and timestamp.
+     * Throws if the username does not exist or the account is private.
      */
     getPosts(username: string): Promise<InstagramPost[]>;
 
@@ -46983,6 +46982,11 @@ interface SearchEventsArgs {
   limit?: number;
 }
 
+interface FindPerformersArgs {
+  q: string;
+  limit?: number;
+}
+
 interface seatgeekEvent {
   id: number;
   title: string;
@@ -46991,6 +46995,14 @@ interface seatgeekEvent {
   venue: { id: number; name: string; city?: string; state?: string };
   datetime_local?: string;
   stats?: { lowest_price?: number; median_price?: number; listing_count?: number; ticket_count?: number };
+}
+
+interface seatgeekPerformer {
+  id: number;
+  name: string;
+  type: string;
+  slug?: string;
+  image?: string;
 }
 
 interface seatgeekRow {
@@ -47008,6 +47020,13 @@ interface seatgeekRow {
      * stats.
      */
     searchEvents(args: SearchEventsArgs): Promise<seatgeekEvent[]>;
+
+    /**
+     * Finds performers — artists, sports teams, comedians — by name. Returns performer id, name,
+     * type and slug. Use when a caller names a performer rather than typing a free-text event
+     * query.
+     */
+    findPerformers(args: FindPerformersArgs): Promise<seatgeekPerformer[]>;
   }
 }
 

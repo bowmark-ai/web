@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0dbd77736bdf178001edb01a83d086240774993c7918f6ab09e7c49cd5454ced
-// 2103 checked, 20 unchecked.
+// Manifest version: 6a59504865d593e5ec4afbecbb507406ef7a4bd75056f9600a798e5f7c632e9a
+// 2104 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0dbd77736bdf178001edb01a83d086240774993c7918f6ab09e7c49cd5454ced",
+  "version": "6a59504865d593e5ec4afbecbb507406ef7a4bd75056f9600a798e5f7c632e9a",
   "units": {
     "address_validation": {
       "defs": {
@@ -52767,6 +52767,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.seatgeek": {
       "defs": {
+        "FindPerformersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "q",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchEventsArgs": {
           "k": "object",
           "props": [
@@ -52843,6 +52862,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findPerformers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindPerformersArgs"
             },
             "optional": false
           }

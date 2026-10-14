@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3456 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3461 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -169,7 +169,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | 🟢 |
 | `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | 🟢 |
 | `aol.listFavorites` | aol.com | Reads the signed-in caller's AOL Favorites — their saved links and the folders holding… | ⚪ |
-| `aol.listGames` | aol.com | Lists AOL Games' free web games by category (board, card, casino, puzzle, other) with… | ⚪ |
+| `aol.listGames` | aol.com | Lists AOL Games' free web games — id, title, publisher, category (board, card, casino… | 🟢 |
 | `aol.listNewsletters` | aol.com | Lists the email newsletters aol.com offers — id, title and what each one sends. | ⚪ |
 | `aol.listSectionArticles` | aol.com | Lists the articles in one AOL section or sub-section, newest first, page by page —… | 🟢 |
 | `aol.listSections` | aol.com | Lists AOL's sections and sub-sections (News > Politics, Business, Sports > NFL… | 🟢 |
@@ -1706,7 +1706,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.getHomeFeed` | instagram.com | Reads the signed-in user's home feed — the newest posts from accounts they follow… | 🟢 |
 | `instagram.getNotifications` | instagram.com | Reads the signed-in user's activity feed — likes, comments, follows, and direct… | 🟢 |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
-| `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
+| `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, verified/private flags… | 🟡 |
 | `instagram.getSavedPosts` | instagram.com | Lists the signed-in user's saved posts with post metadata including media, captions… | 🟢 |
 | `instagram.getStories` | instagram.com | Lists stories from accounts the signed-in user follows, with expiration times. | 🟢 |
 | `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | 🟢 |
@@ -2596,6 +2596,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟡 |
 | `ritani.priceConfiguration` | ritani.com | Prices one exact custom-ring build against Ritani's own live Ring Studio pricing… | 🟡 |
 | `rivian.estimateLeasePayment` | rivian.com | Prices a 36- or 24-month Rivian lease for a 2027-model-year R1T Premium — monthly… | 🟢 |
+| `roblox.getGame` | roblox.com | Get details of a specific game including description, creator, stats, and play… | ⚪ |
+| `roblox.getRecommendations` | roblox.com | Get personalized game recommendations based on the user's play history and preferences. | ⚪ |
+| `roblox.getUsersLibrary` | roblox.com | Get the user's library of played games, saved favorites, and game history. | ⚪ |
+| `roblox.listPopularGames` | roblox.com | List trending and popular games on the platform. | ⚪ |
+| `roblox.searchGames` | roblox.com | Search for games on Roblox by keyword, returning matching games with details. | ⚪ |
 | `roofmaxx.estimateRoofReplacementCost` | roofmaxx.com | Runs Roof Maxx's own Roof Replacement Cost Calculator — given a home's square footage… | 🟢 |
 | `roofmaxx.getCalculatorSettings` | roofmaxx.com | The Roof Replacement Cost Calculator's own admin-configured title and description… | 🟢 |
 | `rover.searchBoarding` | rover.com | Searches Rover's live overnight-boarding sitter results for a city and a specific date… | 🟢 |
@@ -2663,7 +2668,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sears.getProduct` | sears.com | Reads one product in full the way its own product detail page does — given a URL or… | 🟢 |
 | `sears.search` | sears.com | Searches Sears' live catalog by free-text keyword the way the site's own search bar… | 🟢 |
 | `seatgeek.buyTicket` | seatgeek.com | Purchases a listed ticket. | ⚪ |
-| `seatgeek.findPerformers` | seatgeek.com | Finds performers — artists, sports teams, comedians — by name and returns each one's… | ⚪ |
+| `seatgeek.findPerformers` | seatgeek.com | Finds performers — artists, sports teams, comedians — by name and returns each one's… | 🟢 |
 | `seatgeek.findVenues` | seatgeek.com | Finds venues by name or location (city/state or geo) and returns each one's id, name… | ⚪ |
 | `seatgeek.followPerformer` | seatgeek.com | Follows a performer on the signed-in caller's account. | ⚪ |
 | `seatgeek.getEvent` | seatgeek.com | Returns one event in full: venue, performers, date/time, and SeatGeek's own ticket… | ⚪ |

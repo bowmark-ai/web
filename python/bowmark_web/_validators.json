@@ -1,5 +1,5 @@
 {
-  "version": "0dbd77736bdf178001edb01a83d086240774993c7918f6ab09e7c49cd5454ced",
+  "version": "6a59504865d593e5ec4afbecbb507406ef7a4bd75056f9600a798e5f7c632e9a",
   "units": {
     "address_validation": {
       "defs": {
@@ -52755,6 +52755,25 @@
     },
     "providers.seatgeek": {
       "defs": {
+        "FindPerformersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "q",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchEventsArgs": {
           "k": "object",
           "props": [
@@ -52831,6 +52850,16 @@
             "schema": {
               "k": "ref",
               "name": "SearchEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findPerformers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindPerformersArgs"
             },
             "optional": false
           }
