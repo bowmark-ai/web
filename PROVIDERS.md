@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3442 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3456 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -36,6 +36,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |
 | `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟢 |
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
+| `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
+| `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
+| `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | ⚪ |
+| `adobe.getCreativeCloudPlans` | adobe.com | Returns Adobe's published Creative Cloud plans from… | ⚪ |
+| `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | ⚪ |
+| `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail page — title, full description, media type… | ⚪ |
+| `adobe.getTemplate` | adobe.com | Returns one Adobe Express template's detail — title, category, dimensions, whether it… | ⚪ |
+| `adobe.licenseStockAsset` | adobe.com | Buys a license for an Adobe Stock asset on the signed-in caller's own account — the… | ⚪ |
+| `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | ⚪ |
+| `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an Adobe Stock asset, an Express template, or an exported Acrobat document into… | ⚪ |
+| `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by name, classification (serif, sans serif… | ⚪ |
+| `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | ⚪ |
+| `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text and, where… | ⚪ |
+| `adobe.sendForSignature` | adobe.com | Sends a caller-supplied document out for e-signature through Adobe Acrobat Sign — the… | ⚪ |
 | `agakhanhospitals.getHospitalInfo` | agakhanhospitals.org | Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services… | 🟢 |
 | `agakhanhospitals.listSpecialties` | agakhanhospitals.org | Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics… | 🟢 |
 | `agentstatus.getServer` | agentstatus.dev | Reads one server's entry on the index by slug, including every tool the index probed… | 🟢 |
