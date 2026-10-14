@@ -819,7 +819,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listTrendingVideos` | dailymotion.com | List the videos trending on Dailymotion now, optionally for one country or language. | ⚪ |
 | `dailymotion.listWatchHistory` | dailymotion.com | List the videos the signed-in caller has watched, newest first. | ⚪ |
 | `dailymotion.listWatchLater` | dailymotion.com | List the signed-in caller's Watch Later videos. | ⚪ |
-| `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion channels (uploaders) by name — id, username, display name, follower… | 🟢 |
+| `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion channels (uploaders) by name — id, username, display name, follower… | 🟡 |
 | `dailymotion.searchPlaylists` | dailymotion.com | Search Dailymotion playlists by keyword, as the site's own search page does under its… | ⚪ |
 | `dailymotion.searchVideos` | dailymotion.com | Search Dailymotion videos by keyword — title, uploader, duration, views, publish date… | 🟢 |
 | `dailymotion.updateProfile` | dailymotion.com | Edit the signed-in caller's own profile — display name, description, avatar. | ⚪ |
