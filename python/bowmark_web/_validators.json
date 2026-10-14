@@ -1,5 +1,5 @@
 {
-  "version": "05a7d4fb72b7620782a5a2be6ae4742d2bd23554b9072c2d7765842a1da313e6",
+  "version": "33ca895bd99ab5a449ab46bc219d79854e0487112b1f63303611812ca184a884",
   "units": {
     "address_validation": {
       "defs": {
@@ -55274,6 +55274,12 @@
         ]
       }
     },
+    "providers.stubhub": {
+      "defs": {},
+      "functions": {
+        "listCategories": []
+      }
+    },
     "providers.suitsupply": {
       "defs": {
         "SuitsupplyListArgs": {
@@ -58833,6 +58839,25 @@
               "optional": true
             }
           ]
+        },
+        "SearchRestaurantsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "geoId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -58872,6 +58897,16 @@
             "schema": {
               "k": "ref",
               "name": "GetHotelPricesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchRestaurants": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchRestaurantsArgs"
             },
             "optional": false
           }

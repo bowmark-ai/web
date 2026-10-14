@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 05a7d4fb72b7620782a5a2be6ae4742d2bd23554b9072c2d7765842a1da313e6
-# 85 capabilities, 577 providers, 2096 typed functions, 20 refused.
+# Manifest version: 33ca895bd99ab5a449ab46bc219d79854e0487112b1f63303611812ca184a884
+# 85 capabilities, 578 providers, 2098 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27539,6 +27539,15 @@ class Prv_stickergiant_StickergiantQuantityPrice_Out(TypedDict):
     price: float
     pricePerUnit: float
 
+class Prv_stubhub_stubhubListCategoriesResult_Out(TypedDict):
+    categories: list[Prv_stubhub_stubhubCategory_Out]
+    warnings: list[str]
+
+class Prv_stubhub_stubhubCategory_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+
 class Prv_suitsupply_SuitsupplyListArgs_In(TypedDict):
     cursor: NotRequired[str]
     inStockOnly: NotRequired[bool]
@@ -29483,6 +29492,27 @@ class Prv_tripadvisor_TripadvisorHotelPriceOffer_Out(TypedDict):
     nightlyPrice: NotRequired[float]
     totalPrice: NotRequired[float]
     bookingUrl: NotRequired[str]
+
+class Prv_tripadvisor_SearchRestaurantsArgs_In(TypedDict):
+    geoId: str
+    offset: NotRequired[float]
+
+class Prv_tripadvisor_SearchRestaurantsResult_Out(TypedDict):
+    restaurants: list[Prv_tripadvisor_TripadvisorRestaurant_Out]
+    offset: float
+    hasMore: bool
+
+class Prv_tripadvisor_TripadvisorRestaurant_Out(TypedDict):
+    id: str
+    name: str
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+    address: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    cuisines: NotRequired[list[str]]
+    priceLevel: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_trojanstorage_TrojanstorageFacilitySearchFilters_In(TypedDict):
     state: NotRequired[str]
@@ -51027,6 +51057,19 @@ class Prv_stickergiant(Protocol):
         out-of-range width/height — both are caller-fixable.
         """
 
+class Prv_stubhub(Protocol):
+    """Secondary ticket marketplace for sports, concerts, theater and other live events —
+    browse and price-check listings logged out; buying, selling and account reads need a
+    signed-in caller.
+    """
+
+    async def listCategories(self, /) -> Prv_stubhub_stubhubListCategoriesResult_Out:
+        """Returns the genre/category taxonomy StubHub organizes events under (concerts by genre,
+        sports by league, theater, family, etc.), each with its own id, name and url — read from
+        the site's own sitemap, which is unaffected by the DataDome wall blocking every other
+        function on this provider.
+        """
+
 class Prv_suitsupply(Protocol):
     """Suitsupply (suitsupply.com, US store) men's clothing catalog, keyless: search or list a
     category (suits, knitwear/sweaters, shirts, jackets, coats, trousers, shoes) for priced,
@@ -52276,6 +52319,11 @@ class Prv_tripadvisor(Protocol):
     async def getHotelPrices(self, args: Prv_tripadvisor_GetHotelPricesArgs_In, /) -> Prv_tripadvisor_TripadvisorHotelPrices_Out:
         """Reads the booking partners' live prices for one hotel for given check-in/check-out
         dates, each offer's partner name, nightly price, total and booking url.
+        """
+
+    async def searchRestaurants(self, args: Prv_tripadvisor_SearchRestaurantsArgs_In, /) -> Prv_tripadvisor_SearchRestaurantsResult_Out:
+        """Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name,
+        rating, review count, cuisines, price level and url, paginated 30 at a time.
         """
 
 class Prv_trojanstorage(Protocol):
@@ -55006,6 +55054,7 @@ class BowmarkProviders(Protocol):
     statefarm: Prv_statefarm
     steam: Prv_steam
     stickergiant: Prv_stickergiant
+    stubhub: Prv_stubhub
     suitsupply: Prv_suitsupply
     summerfridaysquiz: Prv_summerfridaysquiz
     sunhomesaunas: Prv_sunhomesaunas

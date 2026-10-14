@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 05a7d4fb72b7620782a5a2be6ae4742d2bd23554b9072c2d7765842a1da313e6
-// 2096 checked, 20 unchecked.
+// Manifest version: 33ca895bd99ab5a449ab46bc219d79854e0487112b1f63303611812ca184a884
+// 2098 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "05a7d4fb72b7620782a5a2be6ae4742d2bd23554b9072c2d7765842a1da313e6",
+  "version": "33ca895bd99ab5a449ab46bc219d79854e0487112b1f63303611812ca184a884",
   "units": {
     "address_validation": {
       "defs": {
@@ -55286,6 +55286,12 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.stubhub": {
+      "defs": {},
+      "functions": {
+        "listCategories": []
+      }
+    },
     "providers.suitsupply": {
       "defs": {
         "SuitsupplyListArgs": {
@@ -58845,6 +58851,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SearchRestaurantsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "geoId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -58884,6 +58909,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetHotelPricesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchRestaurants": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchRestaurantsArgs"
             },
             "optional": false
           }

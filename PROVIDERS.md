@@ -2852,7 +2852,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getCart` | target.com | Reads what is in the CALLER's own Target cart — line items, quantities, per-item and… | ⚪ |
 | `target.getProduct` | target.com | Reads one product page in full — title, brand, price, long-form description, images… | 🟢 |
-| `target.getRegistry` | target.com | Reads one Target Gift Registry's items, quantities already purchased, and ship-to info… | ⚪ |
+| `target.getRegistry` | target.com | Reads one Target Gift Registry's items once you have the registry's id from… | 🟢 |
 | `target.listCategories` | target.com | Reads Target's own category taxonomy (department → aisle, e.g. Grocery → Snacks) with… | 🟢 |
 | `target.listDeals` | target.com | Reads one store's current Target weekly ad — every priced offer in it with the ad's… | 🟢 |
 | `target.listOrders` | target.com | The CALLER's own signed-in order history on target.com — what they bought, when, for… | ⚪ |

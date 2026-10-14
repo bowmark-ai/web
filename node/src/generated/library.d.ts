@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 05a7d4fb72b7620782a5a2be6ae4742d2bd23554b9072c2d7765842a1da313e6
-// 85 capabilities, 577 providers, 2114 typed functions, 20 refused.
+// Manifest version: 33ca895bd99ab5a449ab46bc219d79854e0487112b1f63303611812ca184a884
+// 85 capabilities, 578 providers, 2116 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -49136,6 +49136,35 @@ interface StickergiantPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_stubhub {
+  // ── StubHub — the unit's own declarations, verbatim ──
+interface stubhubCategory {
+  id: string;
+  name: string;
+  url: string;
+}
+
+interface stubhubListCategoriesResult {
+  categories: stubhubCategory[];
+  warnings: string[];
+}
+
+  /**
+   * Secondary ticket marketplace for sports, concerts, theater and other live events — browse
+   * and price-check listings logged out; buying, selling and account reads need a signed-in
+   * caller.
+   */
+  interface Unit {
+    /**
+     * Returns the genre/category taxonomy StubHub organizes events under (concerts by genre,
+     * sports by league, theater, family, etc.), each with its own id, name and url — read from the
+     * site's own sitemap, which is unaffected by the DataDome wall blocking every other function
+     * on this provider.
+     */
+    listCategories(): Promise<stubhubListCategoriesResult>;
+  }
+}
+
 declare namespace BowmarkProvider_suitsupply {
   // ── Suitsupply — the unit's own declarations, verbatim ──
 interface SuitsupplyProductCard {
@@ -52445,6 +52474,30 @@ interface SearchHotelsResult {
   hasMore: boolean;
 }
 
+interface TripadvisorRestaurant {
+  id: string;
+  name: string;
+  rating?: number;
+  reviewCount?: number;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+  cuisines?: string[];
+  priceLevel?: string;
+  url?: string;
+}
+
+interface SearchRestaurantsArgs {
+  geoId: string;
+  offset?: number;
+}
+
+interface SearchRestaurantsResult {
+  restaurants: TripadvisorRestaurant[];
+  offset: number;
+  hasMore: boolean;
+}
+
 interface GetHotelArgs {
   id?: string;
   url?: string;
@@ -52517,6 +52570,12 @@ interface TripadvisorHotelPrices {
      * each offer's partner name, nightly price, total and booking url.
      */
     getHotelPrices(args: GetHotelPricesArgs): Promise<TripadvisorHotelPrices>;
+
+    /**
+     * Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name, rating,
+     * review count, cuisines, price level and url, paginated 30 at a time.
+     */
+    searchRestaurants(args: SearchRestaurantsArgs): Promise<SearchRestaurantsResult>;
   }
 }
 
@@ -60014,6 +60073,7 @@ interface BowmarkProviders {
   statefarm: BowmarkProvider_statefarm.Unit;
   steam: BowmarkProvider_steam.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
+  stubhub: BowmarkProvider_stubhub.Unit;
   suitsupply: BowmarkProvider_suitsupply.Unit;
   summerfridaysquiz: BowmarkProvider_summerfridaysquiz.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
