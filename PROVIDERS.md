@@ -491,8 +491,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boydsleep.calibrateSupportNumber` | boydsleep.com | Runs Boyd's own '2-Zone Smart Support Number' calibration — sleep position, gender… | 🟢 |
 | `brius.findProviders` | bravabraces.com | Runs Brava's own find-a-provider locator search for a zip code (or free-text location)… | 🟢 |
 | `brixton.getBrixtonCheckoutLink` | brixton.com | Resolves a product handle + chosen variant (size and/or color) to a real, purchasable… | 🟢 |
-| `brixton.getBrixtonProduct` | brixton.com | Reads one product by its handle — every size/color variant, its exact price and… | 🟢 |
-| `brixton.listBrixtonProducts` | brixton.com | Reads the live Brixton catalogue as the storefront publishes it — every hat, tee… | 🟢 |
+| `brixton.getBrixtonProduct` | brixton.com | Reads one product by its handle — every size/color variant, its exact price and… | 🟡 |
+| `brixton.listBrixtonProducts` | brixton.com | Reads the live Brixton catalogue as the storefront publishes it — every hat, tee… | 🟡 |
 | `browser_use.cancelRun` | browser-use.com | Cancels an in-flight agent run via POST /api/v4/runs/{id}/cancel; idempotent on a… | 🟢 |
 | `browser_use.createRun` | browser-use.com | Starts a Browser Use Cloud agent run on a natural-language task (optionally continuing… | 🟢 |
 | `browser_use.findSessionBrowser` | browser-use.com | Finds the cloud browser attached to an agent session via GET… | 🟢 |
