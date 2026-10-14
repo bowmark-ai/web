@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 22192e1b2d1891f818974fa454c910aa230f5217c9481e7677b846df88a47ee9
-# 85 capabilities, 577 providers, 2093 typed functions, 20 refused.
+# Manifest version: eb201eaeaefebdd6e9aa708bf62bff20ad436e3e34f8c232f17f6e282271c930
+# 85 capabilities, 577 providers, 2094 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -39776,6 +39776,11 @@ class Prv_dailymotion(Protocol):
     async def listChannelPlaylists(self, args: Prv_dailymotion_ListChannelPlaylistsArgs_In, /) -> Prv_dailymotion_DailymotionChannelPlaylistsResult_Out:
         """List the playlists one Dailymotion channel has published — id, name, description,
         thumbnail and video count, paged. The finder for getPlaylist and listPlaylistVideos.
+        """
+
+    async def getPlaylist(self, playlist: str, /) -> Prv_dailymotion_DailymotionPlaylist_Out:
+        """Read one Dailymotion playlist from its id: name, description, owner, video count and
+        thumbnail. Playlist ids come from listChannelPlaylists or searchPlaylists.
         """
 
 class Prv_dangotecement(Protocol):

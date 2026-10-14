@@ -1,5 +1,5 @@
 {
-  "version": "22192e1b2d1891f818974fa454c910aa230f5217c9481e7677b846df88a47ee9",
+  "version": "eb201eaeaefebdd6e9aa708bf62bff20ad436e3e34f8c232f17f6e282271c930",
   "units": {
     "address_validation": {
       "defs": {
@@ -18514,6 +18514,15 @@
             "schema": {
               "k": "ref",
               "name": "ListChannelPlaylistsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlaylist": [
+          {
+            "name": "playlist",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

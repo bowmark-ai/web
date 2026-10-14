@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 22192e1b2d1891f818974fa454c910aa230f5217c9481e7677b846df88a47ee9
-// 85 capabilities, 577 providers, 2111 typed functions, 20 refused.
+// Manifest version: eb201eaeaefebdd6e9aa708bf62bff20ad436e3e34f8c232f17f6e282271c930
+// 85 capabilities, 577 providers, 2112 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18179,6 +18179,12 @@ interface DailymotionChannelPlaylistsResult {
      * and video count, paged. The finder for getPlaylist and listPlaylistVideos.
      */
     listChannelPlaylists(args: ListChannelPlaylistsArgs): Promise<DailymotionChannelPlaylistsResult>;
+
+    /**
+     * Read one Dailymotion playlist from its id: name, description, owner, video count and
+     * thumbnail. Playlist ids come from listChannelPlaylists or searchPlaylists.
+     */
+    getPlaylist(playlist: string): Promise<DailymotionPlaylist>;
   }
 }
 

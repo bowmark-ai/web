@@ -161,7 +161,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.listSections` | aol.com | Lists AOL's sections and sub-sections (News > Politics, Business, Sports > NFL… | 🟢 |
 | `aol.postComment` | aol.com | Posts a comment, or a reply to one, under an AOL article as the signed-in caller. | ⚪ |
 | `aol.removeFavorite` | aol.com | Deletes a saved link or folder from the signed-in caller's AOL Favorites. | ⚪ |
-| `aol.searchRecipes` | aol.com | Searches AOL Food's recipe collection by keyword — recipe id, title, slug and image… | ⚪ |
+| `aol.searchRecipes` | aol.com | Searches AOL Food's recipe collection by keyword — recipe id, title, slug and image. | 🟢 |
 | `aol.searchWeatherLocations` | aol.com | Finds weather locations by place name — city, state, country and the location id… | 🟢 |
 | `aol.subscribeNewsletter` | aol.com | Subscribes an email address to one aol.com newsletter, as the site's own sign-up box… | ⚪ |
 | `aosom.getProduct` | aosom.com | Reads one product's live price and the site's own buyability flag straight off its… | 🟢 |
@@ -1069,7 +1069,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.submitPicks` | espn.com | Enters the CALLER's picks in one of ESPN's free prediction games — Pigskin Pick'em… | ⚪ |
 | `espn.teamDepthChart` | espn.com | One team's depth chart — the starter and backups at every position, in order. | ⚪ |
 | `espn.teamRoster` | espn.com | One team's current roster — every player with jersey number, position, age, height… | ⚪ |
-| `espn.teamSchedule` | espn.com | One team's full season schedule — every game with date, opponent, home or away, TV… | ⚪ |
+| `espn.teamSchedule` | espn.com | One team's full season schedule — every game with date, opponent, home or away, TV… | 🟢 |
 | `espn.teamStats` | espn.com | One team's season statistics, team totals and per-game, with its league rank in each… | ⚪ |
 | `espn.transactions` | espn.com | A league's recent transactions — signings, releases, trades, injured-list moves and… | ⚪ |
 | `estes_express.estimateFreightQuote` | estes-express.com | Gets a freight shipping rate quote for an LTL (less than truckload) shipment with… | 🟢 |

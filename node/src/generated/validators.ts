@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 22192e1b2d1891f818974fa454c910aa230f5217c9481e7677b846df88a47ee9
-// 2093 checked, 20 unchecked.
+// Manifest version: eb201eaeaefebdd6e9aa708bf62bff20ad436e3e34f8c232f17f6e282271c930
+// 2094 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "22192e1b2d1891f818974fa454c910aa230f5217c9481e7677b846df88a47ee9",
+  "version": "eb201eaeaefebdd6e9aa708bf62bff20ad436e3e34f8c232f17f6e282271c930",
   "units": {
     "address_validation": {
       "defs": {
@@ -18526,6 +18526,15 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListChannelPlaylistsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlaylist": [
+          {
+            "name": "playlist",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
