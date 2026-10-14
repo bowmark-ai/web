@@ -1575,7 +1575,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `haydenhomes.searchQuickMoveIns` | hayden-homes.com | Runs Hayden Homes' quick move-in search against the site's own live inventory — real… | 🟢 |
 | `hccts.checkApplicationAvailability` | hccts.org | Checks appointment booking availability and whether the online application form is… | 🟢 |
 | `healthcare_gov.checkDrugCoverage` | healthcare.gov | Which of a household's available ACA Marketplace plans cover a specific prescription… | 🟢 |
-| `healthcare_gov.checkEnrollmentEligibility` | healthcare.gov | Returns whether somebody can enrol in Marketplace coverage right now and until when —… | 🟡 |
+| `healthcare_gov.checkEnrollmentEligibility` | healthcare.gov | Returns whether somebody can enrol in Marketplace coverage right now and until when —… | 🟢 |
 | `healthcare_gov.checkProviderCoverage` | healthcare.gov | Returns which of a household's available Marketplace plans have a specific doctor… | 🟢 |
 | `healthcare_gov.estimateEligibility` | healthcare.gov | Returns what a household actually qualifies for before it shops — the advance premium… | 🟢 |
 | `healthcare_gov.estimateOutOfPocketCosts` | healthcare.gov | Returns the estimated TOTAL yearly cost of a plan for a household — premiums plus… | 🟢 |
@@ -2140,7 +2140,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.getPodcast` | npr.org | Read one podcast or show's details — description, hosts, artwork and its RSS feed —… | ⚪ |
 | `npr.getProgramRundown` | npr.org | List the segments one broadcast program (Morning Edition, All Things Considered… | ⚪ |
 | `npr.getStation` | npr.org | Read one member station's details — brand, frequency, market, homepage, donation page… | ⚪ |
-| `npr.getStory` | npr.org | A complete NPR story — headline, publication date, author, body text and (when… | 🟢 |
+| `npr.getStory` | npr.org | A complete NPR story — headline, publication date, author, body text and (when… | 🟡 |
 | `npr.getTranscript` | npr.org | Read the broadcast transcript of a story or episode that aired, given its story id. | ⚪ |
 | `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | 🟢 |
 | `npr.listNewsletters` | npr.org | List NPR's email newsletters with what each one covers. | ⚪ |
@@ -2576,7 +2576,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.unsubscribeNewsletter` | www.reuters.com | Unsubscribe the signed-in reader from a Reuters newsletter. | ⚪ |
 | `revisionskincare.getSkincareQuizQuestions` | revisionskincare.com | Reads the live 'Product Finder Quiz' at revisionskincare.com/pages/skincare-quiz… | 🟢 |
 | `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟢 |
-| `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟡 |
+| `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
 | `rishitea.getTeaFinderQuiz` | rishi-tea.com | Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —… | 🟢 |
 | `rishitea.matchTeaFinderQuiz` | rishi-tea.com | Submits a full set of answers to Okendo's quiz engine and returns the same… | 🟢 |
 | `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟡 |
@@ -2616,7 +2616,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | 🟡 |
 | `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | 🟡 |
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | 🟢 |
-| `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟡 |
+| `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟢 |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
 | `scribd.addDocumentToList` | scribd.com | Adds a document to one of the signed-in caller's lists. | ⚪ |
 | `scribd.askDocument` | scribd.com | Asks Scribd's AI assistant a question about one document and returns its answer, as… | ⚪ |
@@ -2755,7 +2755,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the computed… | 🟡 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
 | `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟡 |
-| `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟢 |
+| `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟡 |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
