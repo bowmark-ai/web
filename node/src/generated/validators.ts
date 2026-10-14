@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d617dff856eb2e306375c22bd90a18b40137236d9c92acd988e3e57a2d1c4653
+// Manifest version: 1cdc73bde7c6b1b92434251bd37c174dfe824e9816d8ed94a62ebc289cb4386f
 // 2105 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d617dff856eb2e306375c22bd90a18b40137236d9c92acd988e3e57a2d1c4653",
+  "version": "1cdc73bde7c6b1b92434251bd37c174dfe824e9816d8ed94a62ebc289cb4386f",
   "units": {
     "address_validation": {
       "defs": {
@@ -43667,6 +43667,22 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getTearsheetUrl": [

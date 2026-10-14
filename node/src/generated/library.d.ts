@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d617dff856eb2e306375c22bd90a18b40137236d9c92acd988e3e57a2d1c4653
+// Manifest version: 1cdc73bde7c6b1b92434251bd37c174dfe824e9816d8ed94a62ebc289cb4386f
 // 85 capabilities, 579 providers, 2123 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -41548,7 +41548,7 @@ interface TearsheetUrl {
      * size, and every sibling colorway/size choice available on that same design — straight off
      * the page's own inline JSON, before any login or PII.
      */
-    getRugVariant(url: string): Promise<RugVariant>;
+    getRugVariant(url: string, opts?: ConnectionOption): Promise<RugVariant>;
 
     /**
      * Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant (spec

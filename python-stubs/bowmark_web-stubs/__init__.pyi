@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d617dff856eb2e306375c22bd90a18b40137236d9c92acd988e3e57a2d1c4653
+# Manifest version: 1cdc73bde7c6b1b92434251bd37c174dfe824e9816d8ed94a62ebc289cb4386f
 # 85 capabilities, 579 providers, 2105 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -48443,7 +48443,7 @@ class Prv_perennialsandsutherland(Protocol):
         product URL, sku, id and name.
         """
 
-    async def getRugVariant(self, url: str, /) -> Prv_perennialsandsutherland_RugVariant_Out:
+    async def getRugVariant(self, url: str, opts: ConnectionOption | None = None, /) -> Prv_perennialsandsutherland_RugVariant_Out:
         """Reads one rug product-page variant (design + colorway + size) — the real trade price,
         sku, size, and every sibling colorway/size choice available on that same design —
         straight off the page's own inline JSON, before any login or PII.
