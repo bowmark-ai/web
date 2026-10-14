@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3378 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3442 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3104,7 +3104,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `urbanoutfitters.search` | urbanoutfitters.com | Searches Urban Outfitters' live catalogue the way the site's own search bar does and… | ⚪ |
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
-| `usatoday.getArticle` | usatoday.com | Reads one USA Today article in full — given an article URL or ID — returning headline… | ⚪ |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | ⚪ |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | ⚪ |
 | `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | ⚪ |
@@ -3229,6 +3228,50 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellfound.listJobCollections` | wellfound.com | Lists Wellfound's own curated job collections — the editorial groupings the site… | ⚪ |
 | `wellfound.searchCompanies` | wellfound.com | Finds startups the way Wellfound's own search groups them — one row per COMPANY, off… | 🟢 |
 | `wellfound.searchJobs` | wellfound.com | Searches Wellfound's startup job board — by role (`/role/<slug>`) or by city… | 🟢 |
+| `whatsapp.addGroupParticipants` | whatsapp.com | Adds people to a group the caller administers, by contact or number, and reports per… | ⚪ |
+| `whatsapp.blockContact` | whatsapp.com | Blocks or unblocks a contact or number as the caller, and lists who the caller has… | ⚪ |
+| `whatsapp.checkNumber` | whatsapp.com | Says whether a phone number has a WhatsApp account, the way WhatsApp Web's… | ⚪ |
+| `whatsapp.createClickToChatLink` | whatsapp.com | Builds WhatsApp's documented click-to-chat link for a phone number in international… | ⚪ |
+| `whatsapp.createGroup` | whatsapp.com | Creates a WhatsApp group as the caller with a name and the starting participants, and… | ⚪ |
+| `whatsapp.deleteMessage` | whatsapp.com | Deletes a message — for the caller only, or for everyone when it is the caller's own… | ⚪ |
+| `whatsapp.downloadMedia` | whatsapp.com | Downloads the attachment on one message (image, video, voice note, document, sticker)… | ⚪ |
+| `whatsapp.editMessage` | whatsapp.com | Edits the text of a message the caller sent, inside the window WhatsApp allows edits. | ⚪ |
+| `whatsapp.findContact` | whatsapp.com | Finds a person in the caller's WhatsApp contacts by name, phone number or WhatsApp… | ⚪ |
+| `whatsapp.followChannel` | whatsapp.com | Follows a Channel as the caller. | ⚪ |
+| `whatsapp.forwardMessage` | whatsapp.com | Forwards one of the caller's messages to another chat. | ⚪ |
+| `whatsapp.getBlogPost` | whatsapp.com | Reads one WhatsApp Blog post by slug or url: title, publish date and the post's text. | ⚪ |
+| `whatsapp.getChannel` | whatsapp.com | Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the… | ⚪ |
+| `whatsapp.getChannelUpdates` | whatsapp.com | Reads a Channel's posts (updates) newest first — text, media, time and reaction counts… | ⚪ |
+| `whatsapp.getChatMessages` | whatsapp.com | Reads the messages in one chat (by chat id, or a contact or group name resolved… | ⚪ |
+| `whatsapp.getCommunity` | whatsapp.com | Reads a WhatsApp Community the caller belongs to: its name, description, announcement… | ⚪ |
+| `whatsapp.getGroupInfo` | whatsapp.com | Reads a group the caller belongs to: name, description, picture, creation date… | ⚪ |
+| `whatsapp.getGroupInviteLink` | whatsapp.com | Reads the current invite link of a group the caller administers, optionally revoking… | ⚪ |
+| `whatsapp.getHelpArticle` | whatsapp.com | Reads one WhatsApp Help Center article by its numeric id or faq.whatsapp.com url… | ⚪ |
+| `whatsapp.getMyProfile` | whatsapp.com | Reads the signed-in caller's own WhatsApp profile: display name, about text, profile… | ⚪ |
+| `whatsapp.joinGroupByInvite` | whatsapp.com | Joins a group from its chat.whatsapp.com invite link as the caller, and returns the… | ⚪ |
+| `whatsapp.leaveGroup` | whatsapp.com | Leaves a group as the caller. | ⚪ |
+| `whatsapp.listBlogPosts` | whatsapp.com | Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's title, slug… | ⚪ |
+| `whatsapp.listCatalogProducts` | whatsapp.com | Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the… | ⚪ |
+| `whatsapp.listChats` | whatsapp.com | Lists the caller's chats as the WhatsApp Web sidebar shows them — each chat's id… | ⚪ |
+| `whatsapp.listContacts` | whatsapp.com | Lists the caller's WhatsApp contacts — name, number, chat id and about text — as… | ⚪ |
+| `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows, with each channel's id, name and latest update. | ⚪ |
+| `whatsapp.listStatusUpdates` | whatsapp.com | Lists the Status updates the caller's contacts have posted in the last 24 hours — who… | ⚪ |
+| `whatsapp.postStatus` | whatsapp.com | Posts a text or image Status update as the caller, and deletes one. | ⚪ |
+| `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | ⚪ |
+| `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | ⚪ |
+| `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message with an emoji as the caller, or removes the caller's reaction. | ⚪ |
+| `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | ⚪ |
+| `whatsapp.searchChannels` | whatsapp.com | Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does —… | ⚪ |
+| `whatsapp.searchHelpCenter` | whatsapp.com | Searches WhatsApp's Help Center (faq.whatsapp.com) the way its search box does and… | ⚪ |
+| `whatsapp.searchMessages` | whatsapp.com | Searches the caller's chats, contacts and messages the way the WhatsApp Web search box… | ⚪ |
+| `whatsapp.sendMedia` | whatsapp.com | Sends a file to a chat as the caller — an image or video with an optional caption, a… | ⚪ |
+| `whatsapp.sendMessage` | whatsapp.com | Sends a text message to a chat or contact as the caller, optionally as a reply quoting… | ⚪ |
+| `whatsapp.sendPoll` | whatsapp.com | Creates a poll in a chat as the caller: a question, its options and whether several… | ⚪ |
+| `whatsapp.unfollowChannel` | whatsapp.com | Unfollows a Channel as the caller. | ⚪ |
+| `whatsapp.updateChat` | whatsapp.com | Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive… | ⚪ |
+| `whatsapp.updateGroup` | whatsapp.com | Changes a group the caller administers: its name, description, picture, and the… | ⚪ |
+| `whatsapp.updatePrivacySettings` | whatsapp.com | Reads and changes the caller's privacy settings: who sees last seen and online… | ⚪ |
+| `whatsapp.updateProfile` | whatsapp.com | Changes the caller's own profile: display name, about text or profile photo. | ⚪ |
 | `wholefoodsmarket.listStores` | wholefoodsmarket.com | Lists nearby Whole Foods stores by ZIP code or location. | ⚪ |
 | `wholefoodsmarket.search` | wholefoodsmarket.com | Searches Whole Foods product catalog with pricing and availability. | 🟢 |
 | `wikipedia_standings.search` | en.wikipedia.org | Searches Wikipedia for sports standings pages and extracts league standings with goal… | 🟢 |
@@ -3280,8 +3323,29 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `workday.getJob` | myworkdayjobs.com | Reads one posting's full description, exact posted date, time type and every location… | ⚪ |
 | `workday.listJobs` | myworkdayjobs.com | Lists open jobs on one company's Workday careers site… | 🟢 |
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
+| `x.bookmarkPost` | x.com | Bookmark or un-bookmark a post as the signed-in account. | ⚪ |
+| `x.createPost` | x.com | Post a new tweet as the signed-in account. | ⚪ |
+| `x.deletePost` | x.com | Delete one of the signed-in account's own posts. | ⚪ |
+| `x.followUser` | x.com | Follow or unfollow a user as the signed-in account — one `follow` boolean argument… | ⚪ |
+| `x.getConversation` | x.com | The messages inside one of the signed-in account's DM conversations. | ⚪ |
+| `x.getPostReplies` | x.com | Reads the reply thread under a single X post — the same status page `post` reads, but… | ⚪ |
+| `x.likePost` | x.com | Like or unlike a post as the signed-in account — one `like` boolean argument picks the… | ⚪ |
+| `x.listBookmarks` | x.com | The signed-in account's saved bookmarks. | ⚪ |
+| `x.listConversations` | x.com | The signed-in account's direct-message conversation list. | ⚪ |
+| `x.listFollowers` | x.com | A user's followers list. | ⚪ |
+| `x.listFollowing` | x.com | Who a user follows. | ⚪ |
+| `x.listHomeFeed` | x.com | The signed-in account's personalized home timeline, in X's own order. | ⚪ |
+| `x.listNotifications` | x.com | The signed-in account's notifications — likes, replies, reposts, follows and mentions. | ⚪ |
+| `x.listTrending` | x.com | The site's current trending topics, the /explore page. | ⚪ |
 | `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |
 | `x.profile` | x.com | Reads an X (Twitter) profile by handle or profile URL — display name, bio text… | 🟢 |
+| `x.quotePost` | x.com | Quote-repost a post with the signed-in account's own added comment. | ⚪ |
+| `x.replyToPost` | x.com | Reply to another post as the signed-in account. | ⚪ |
+| `x.repost` | x.com | Repost (retweet) or un-repost a post as the signed-in account — one `repost` boolean… | ⚪ |
+| `x.search` | x.com | Runs the site's own search across posts, people and hashtags, the way a person types… | ⚪ |
+| `x.sendMessage` | x.com | Send a direct message to a user as the signed-in account, starting a new conversation… | ⚪ |
+| `x.updateProfile` | x.com | Edit the signed-in account's own profile — name, bio, location, website. | ⚪ |
+| `x.uploadProfilePicture` | x.com | Change the signed-in account's own profile picture. | ⚪ |
 | `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts, scrolling until `limit`… | 🟢 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
