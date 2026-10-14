@@ -512,7 +512,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.listOpinionPieces` | businessinsider.com | List opinion and analysis pieces from the Opinion section. | 🟢 |
 | `businessinsider_com.listSections` | businessinsider.com | List the site's news sections and verticals. | 🟢 |
 | `businessinsider_com.listTrendingArticles` | businessinsider.com | List the homepage's current most-read/trending articles. | ⚪ |
-| `businessinsider_com.listVideos` | businessinsider.com | List videos from the Video vertical. | ⚪ |
+| `businessinsider_com.listVideos` | businessinsider.com | List videos from the Video vertical. | 🟢 |
 | `businessinsider_com.postComment` | businessinsider.com | Post a comment on an article as the signed-in caller. | ⚪ |
 | `businessinsider_com.searchArticles` | businessinsider.com | Search articles by keyword. | ⚪ |
 | `bykoket.addToCart` | bykoket.com | Hands back the shopper's own KOKET product page — the exact Add to cart button for… | 🟢 |
