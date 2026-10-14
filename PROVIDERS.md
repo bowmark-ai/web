@@ -1579,7 +1579,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `healthcare_gov.checkProviderCoverage` | healthcare.gov | Returns which of a household's available Marketplace plans have a specific doctor… | 🟢 |
 | `healthcare_gov.estimateEligibility` | healthcare.gov | Returns what a household actually qualifies for before it shops — the advance premium… | 🟢 |
 | `healthcare_gov.estimateOutOfPocketCosts` | healthcare.gov | Returns the estimated TOTAL yearly cost of a plan for a household — premiums plus… | 🟢 |
-| `healthcare_gov.findLocalHelp` | healthcare.gov | Returns the in-person help available near a ZIP — the navigators, certified… | 🟡 |
+| `healthcare_gov.findLocalHelp` | healthcare.gov | Returns the in-person help available near a ZIP — the navigators, certified… | 🟢 |
 | `healthcare_gov.getCountiesByZip` | healthcare.gov | Returns the counties and CMS rating areas a ZIP code falls in — the resolution step… | ⚪ |
 | `healthcare_gov.getPlan` | healthcare.gov | Returns the full detail for one Marketplace plan by its HIOS plan id — the… | 🟢 |
 | `healthcare_gov.getPlanCrosswalk` | healthcare.gov | Returns what this year's plan becomes next year — the plan CMS maps an existing… | ⚪ |
@@ -2591,7 +2591,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `safetywing.getQuote` | safetywing.com | Runs SafetyWing's own Nomad Insurance quote calculator — plan (Essential or Complete)… | 🟢 |
 | `saltandstone.getScentProducts` | saltandstone.com | Lists the real core products (body wash, body mist, body lotion, deodorant, hand… | 🟢 |
 | `saltandstone.listScentFamilies` | saltandstone.com | Lists Salt & Stone's real six named scent families (Santal & Vetiver, Bergamot &… | 🟢 |
-| `saltandstone.matchScent` | saltandstone.com | Salt & Stone's own Scent Quiz, reimplemented: given a free-text scent preference… | 🟢 |
+| `saltandstone.matchScent` | saltandstone.com | Salt & Stone's own Scent Quiz, reimplemented: given a free-text scent preference… | 🟡 |
 | `samsclub.browseCategory` | samsclub.com | Reads the current live grid (~50 rows) for one of samsclub.com's own… | 🟢 |
 | `samsclub.checkStock` | samsclub.com | Answers whether one item is in stock right now, and at what price, at a SPECIFIC club… | 🟢 |
 | `samsclub.findClubs` | samsclub.com | Finds nearby Sam's Club warehouse locations for a 5-digit US zip — address, phone… | 🟢 |
