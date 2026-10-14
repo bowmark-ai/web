@@ -3402,7 +3402,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getOdds` | sports.yahoo.com | Reads a league's current betting lines off the site's own Odds page — spread, total… | 🟢 |
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and current-season stat line off their own player page —… | 🟢 |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | 🟢 |
-| `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟡 |
+| `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟢 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads games for one league — NFL, NBA, MLB, NHL, college football, college basketball… | 🟢 |
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟢 |
 | `yahoo_sports.getStatLeaders` | sports.yahoo.com | Reads the season-to-date individual leaderboard for one category off the site's own… | 🟢 |

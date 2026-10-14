@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6a59504865d593e5ec4afbecbb507406ef7a4bd75056f9600a798e5f7c632e9a
-// 85 capabilities, 579 providers, 2122 typed functions, 20 refused.
+// Manifest version: d617dff856eb2e306375c22bd90a18b40137236d9c92acd988e3e57a2d1c4653
+// 85 capabilities, 579 providers, 2123 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3639,12 +3639,14 @@ type ReadOptions = {
                              // operation timed out." instead of ours. Too small for a
                              // full page load -> we skip it and say so in warnings
                              // rather than half-start one
-  egress?: string            // optional egress route: "default" | "us-datacenter" | "static-residential"
-                             // default uses the rotating proxy vendor, "static-residential"
-                             // a dedicated static exit. Set this when you need a specific
-                             // exit IP for a domain that refuses our default route.
-                             // "direct" is accepted and read as "static-residential":
-                             // a read never leaves from our own server's IP
+  egress?: string            // optional egress route: "default" | "static-residential"
+                             // (and "us-datacenter" if deployed). default uses the rotating
+                             // proxy vendor, "static-residential" a dedicated static exit.
+                             // Set this when you need a specific exit IP for a domain that
+                             // refuses our default route. "direct" is accepted and read as
+                             // "static-residential": a read never leaves from our own
+                             // server's IP. Routes not configured on this deployment are
+                             // rejected with a friendly explanation naming available routes.
                              // If "Bowmark's own network route failed" comes back THE SAME WAY
                              // under every egress you try (status 0, never reached), the site
                              // likely only answers traffic from a country or network none of
@@ -7753,6 +7755,15 @@ interface AolMarketSummary {
   indices: AolMarketIndex[];
 }
 
+interface AolGame {
+  id: number;
+  name: string;
+  provider: string;
+  category: string;
+  href: string;
+  image?: string;
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -7831,6 +7842,13 @@ interface AolMarketSummary {
      * Seng and Nikkei with price and change.
      */
     getMarketSummary(): Promise<AolMarketSummary>;
+
+    /**
+     * Lists AOL Games' free web games — id, title, publisher, category (board, card, casino,
+     * puzzle, family, sports) and play url. One page carries every category, so this is the full
+     * catalogue in one call.
+     */
+    listGames(): Promise<{ games: AolGame[] }>;
   }
 }
 

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6a59504865d593e5ec4afbecbb507406ef7a4bd75056f9600a798e5f7c632e9a
-// 2104 checked, 20 unchecked.
+// Manifest version: d617dff856eb2e306375c22bd90a18b40137236d9c92acd988e3e57a2d1c4653
+// 2105 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6a59504865d593e5ec4afbecbb507406ef7a4bd75056f9600a798e5f7c632e9a",
+  "version": "d617dff856eb2e306375c22bd90a18b40137236d9c92acd988e3e57a2d1c4653",
   "units": {
     "address_validation": {
       "defs": {
@@ -8765,7 +8765,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getMarketSummary": []
+        "getMarketSummary": [],
+        "listGames": []
       }
     },
     "providers.aosom": {

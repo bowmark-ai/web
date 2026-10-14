@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6a59504865d593e5ec4afbecbb507406ef7a4bd75056f9600a798e5f7c632e9a
-# 85 capabilities, 579 providers, 2104 typed functions, 20 refused.
+# Manifest version: d617dff856eb2e306375c22bd90a18b40137236d9c92acd988e3e57a2d1c4653
+# 85 capabilities, 579 providers, 2105 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4392,6 +4392,17 @@ class Prv_aol_AolMarketIndex_Out(TypedDict):
     price: str
     change: NotRequired[str]
     changePercent: NotRequired[str]
+
+class Prv_aol_listGames_return_Out(TypedDict):
+    games: list[Prv_aol_AolGame_Out]
+
+class Prv_aol_AolGame_Out(TypedDict):
+    id: float
+    name: str
+    provider: str
+    category: str
+    href: str
+    image: NotRequired[str]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -36205,6 +36216,12 @@ class Prv_aol(Protocol):
     async def getMarketSummary(self, /) -> Prv_aol_AolMarketSummary_Out:
         """Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX, Hang
         Seng and Nikkei with price and change.
+        """
+
+    async def listGames(self, /) -> Prv_aol_listGames_return_Out:
+        """Lists AOL Games' free web games — id, title, publisher, category (board, card, casino,
+        puzzle, family, sports) and play url. One page carries every category, so this is the
+        full catalogue in one call.
         """
 
 class Prv_aosom(Protocol):
