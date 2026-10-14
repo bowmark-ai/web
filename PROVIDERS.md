@@ -2826,7 +2826,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `stubhub.getCheckoutHandoff` | stubhub.com | Given a listing id from `getEventListings`, resolves the price and returns StubHub's… | ⚪ |
 | `stubhub.getEvent` | stubhub.com | Returns one event in full: venue (name, address), date/time, category, and the ticket… | ⚪ |
 | `stubhub.getEventListings` | stubhub.com | Returns the ticket inventory for one event: each listing's section/row (where… | ⚪ |
-| `stubhub.listCategories` | stubhub.com | Returns the genre/category taxonomy StubHub organizes events under (concerts by genre… | ⚪ |
+| `stubhub.listCategories` | stubhub.com | Returns the genre/category taxonomy StubHub organizes events under (concerts by genre… | 🟢 |
 | `stubhub.listFavorites` | stubhub.com | The signed-in caller's followed performers, teams and venues — the StubHub app… | ⚪ |
 | `stubhub.listMyOrders` | stubhub.com | The signed-in caller's own order history — tickets bought and sold, each with its… | ⚪ |
 | `stubhub.search` | stubhub.com | Searches live events — concerts, sports, theater and other categories — by keyword and… | ⚪ |
