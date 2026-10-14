@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4610fe5e2e4f60c21efb4472cf96194a6324e29fc82c92816fdcf9de214f02ce
-// 2101 checked, 20 unchecked.
+// Manifest version: 2717b23a24107991d615d0f1b1aa0b60f6249395eea5a80897b8d40a8b9cf2ee
+// 2103 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4610fe5e2e4f60c21efb4472cf96194a6324e29fc82c92816fdcf9de214f02ce",
+  "version": "2717b23a24107991d615d0f1b1aa0b60f6249395eea5a80897b8d40a8b9cf2ee",
   "units": {
     "address_validation": {
       "defs": {
@@ -8764,7 +8764,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getMarketSummary": []
       }
     },
     "providers.aosom": {
@@ -40381,6 +40382,24 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "forecastUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getWatchesWarnings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "advisoryUrl",
                   "schema": {
                     "k": "string"
                   },

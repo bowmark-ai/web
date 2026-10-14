@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4610fe5e2e4f60c21efb4472cf96194a6324e29fc82c92816fdcf9de214f02ce
-// 85 capabilities, 579 providers, 2119 typed functions, 20 refused.
+// Manifest version: 2717b23a24107991d615d0f1b1aa0b60f6249395eea5a80897b8d40a8b9cf2ee
+// 85 capabilities, 579 providers, 2121 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7741,6 +7741,18 @@ interface AolRecipe {
   steps: string[];
 }
 
+interface AolMarketIndex {
+  name: string;
+  ticker: string;
+  price: string;
+  change?: string;
+  changePercent?: string;
+}
+
+interface AolMarketSummary {
+  indices: AolMarketIndex[];
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -7813,6 +7825,12 @@ interface AolRecipe {
      * given its slug (from searchRecipes) or a full recipe URL.
      */
     getRecipe(slugOrUrl: string): Promise<AolRecipe>;
+
+    /**
+     * Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX, Hang
+     * Seng and Nikkei with price and change.
+     */
+    getMarketSummary(): Promise<AolMarketSummary>;
   }
 }
 
@@ -39248,6 +39266,12 @@ interface nhcForecastAdvisory {
   forecastPoints: Array<{ day: number; lat: number; lon: number; category?: string }>;
 }
 
+interface nhcWatchesWarnings {
+  watches: string[];
+  warnings: string[];
+  text: string;
+}
+
   /**
    * Current and recent tropical storms and hurricanes from NOAA's Hurricane Center, keyless and
    * public.
@@ -39277,6 +39301,12 @@ interface nhcForecastAdvisory {
      * and wind radii projections.
      */
     getStormForecast(args: { forecastUrl: string }): Promise<nhcForecastAdvisory>;
+
+    /**
+     * Get the watches and warnings in effect for a storm from its public advisory — separated into
+     * watch and warning categories with locations.
+     */
+    getWatchesWarnings(args: { advisoryUrl: string }): Promise<nhcWatchesWarnings>;
   }
 }
 

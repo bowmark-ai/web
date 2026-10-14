@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4610fe5e2e4f60c21efb4472cf96194a6324e29fc82c92816fdcf9de214f02ce
-# 85 capabilities, 579 providers, 2101 typed functions, 20 refused.
+# Manifest version: 2717b23a24107991d615d0f1b1aa0b60f6249395eea5a80897b8d40a8b9cf2ee
+# 85 capabilities, 579 providers, 2103 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4382,6 +4382,16 @@ class Prv_aol_AolRecipe_Out(TypedDict):
     cookTime: NotRequired[str]
     ingredients: list[str]
     steps: list[str]
+
+class Prv_aol_AolMarketSummary_Out(TypedDict):
+    indices: list[Prv_aol_AolMarketIndex_Out]
+
+class Prv_aol_AolMarketIndex_Out(TypedDict):
+    name: str
+    ticker: str
+    price: str
+    change: NotRequired[str]
+    changePercent: NotRequired[str]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -21440,6 +21450,14 @@ class Prv_nhc_nhcForecastAdvisory_Out_forecastPoints_item_Out(TypedDict):
     lon: float
     category: NotRequired[str]
 
+class Prv_nhc_getWatchesWarnings_args_In(TypedDict):
+    advisoryUrl: str
+
+class Prv_nhc_nhcWatchesWarnings_Out(TypedDict):
+    watches: list[str]
+    warnings: list[str]
+    text: str
+
 class Prv_nintendo_NintendoProduct_Out(TypedDict):
     sku: str
     nsuid: str | None
@@ -36173,6 +36191,11 @@ class Prv_aol(Protocol):
         given its slug (from searchRecipes) or a full recipe URL.
         """
 
+    async def getMarketSummary(self, /) -> Prv_aol_AolMarketSummary_Out:
+        """Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX, Hang
+        Seng and Nikkei with price and change.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -47592,6 +47615,11 @@ class Prv_nhc(Protocol):
     async def getStormForecast(self, args: Prv_nhc_getStormForecast_args_In, /) -> Prv_nhc_nhcForecastAdvisory_Out:
         """Get a storm's forecast advisory — forecast positions out to 5 days, maximum sustained
         winds, and wind radii projections.
+        """
+
+    async def getWatchesWarnings(self, args: Prv_nhc_getWatchesWarnings_args_In, /) -> Prv_nhc_nhcWatchesWarnings_Out:
+        """Get the watches and warnings in effect for a storm from its public advisory — separated
+        into watch and warning categories with locations.
         """
 
 class Prv_nintendo(Protocol):
