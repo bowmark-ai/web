@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bddbafc448f6d76023e3961b96c81acd6f40f26a1a157152317edd513ed4db27
-// 85 capabilities, 577 providers, 2108 typed functions, 20 refused.
+// Manifest version: 9009365ca1ae69cecd9faa9021b3137341fd591717fcce3e62b05ede278e916a
+// 85 capabilities, 577 providers, 2110 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5000,8 +5000,8 @@ type CallOptions = {
     addToPlaylist(options: AddToPlaylistOptions): Promise<PlaylistEdit>;
 
     /**
-     * Removes one or many videos from one of the caller's own playlists. Removing a video that is
-     * not in the playlist, or that is in it more than once, removes only one occurrence. Needs a
+     * Removes one or many videos from one of the caller's own playlists, Watch Later included (its
+     * playlist id is WL). Removing a video that is not in the playlist is a silent no-op. Needs a
      * YouTube sign-in.
      */
     removeFromPlaylist(options: RemoveFromPlaylistOptions): Promise<PlaylistRemoved>;
@@ -7717,6 +7717,13 @@ interface AolLocalNewsArticle {
   publishedAt?: string;
 }
 
+interface AolHoroscope {
+  sign: "aries" | "taurus" | "gemini" | "cancer" | "leo" | "virgo" | "libra" | "scorpio" | "sagittarius" | "capricorn" | "aquarius" | "pisces";
+  /** YYYY-MM-DD. */
+  date: string;
+  reading: string;
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -7770,6 +7777,12 @@ interface AolLocalNewsArticle {
      * limit (1-100, default unlimited) and page (1-based, default 1).
      */
     getLocalNews(args: { city: string; state: string; limit?: number; page?: number }): Promise<{ articles: AolLocalNewsArticle[] }>;
+
+    /**
+     * Reads today's daily horoscope reading for one zodiac sign, e.g. "libra". There is no weekly
+     * or monthly reading on this site — only daily.
+     */
+    getDailyHoroscope(sign: string): Promise<AolHoroscope>;
   }
 }
 
@@ -22085,6 +22098,12 @@ interface Section {
   anchor: string;
 }
 
+interface GetSectionArgs {
+  title: string;
+  wiki?: string;
+  section: string;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -22132,6 +22151,13 @@ interface Section {
      * number, in page order. The door to `getSection`. `GET /api.php?action=parse&prop=sections`.
      */
     getSections(args: GetSectionsArgs): Promise<Section[]>;
+
+    /**
+     * One named or numbered section of an article, without downloading the rest of the page. Takes
+     * the index `getSections` returns, or the heading text. `GET
+     * /api.php?action=parse&section=N&prop=text`.
+     */
+    getSection(args: GetSectionArgs): Promise<Article>;
   }
 }
 
@@ -31798,14 +31824,14 @@ interface IstanbulkartCardFee {
   visaIssuanceFeeTRY: number | null;
 }
 interface IstanbulkartTouristPass {
-  days: number; // 1, 3, 5, 7 or 15 on the table measured 2026-08-29
+  days: number; // 1, 3, 5, 7 or 15 on the table measured 2026-10-13
   priceTRY: number;
 }
 
   /**
    * Istanbul public transit: İstanbulkart card purchase/personalization fees and the İstanbul
    * City Card tourist unlimited-ride pass tariffs, read from istanbulkart.istanbul's own
-   * price-and-limits data.
+   * price-and-limits page.
    */
   interface Unit {
     /**
@@ -58278,9 +58304,9 @@ interface YoutubeStreamFormat {
 
     /**
      * Removes one or many videos from one of the signed-in account's own playlists, as a SINGLE
-     * edit rather than one request per video. A video not on the playlist is silently a no-op for
-     * that video — YouTube's own edit endpoint does not distinguish it from a successful removal.
-     * NEEDS A SIGN-IN.
+     * edit rather than one request per video. Works on Watch Later too: its playlist id is WL. A
+     * video not on the playlist is silently a no-op for that video — YouTube's own edit endpoint
+     * does not distinguish it from a successful removal. NEEDS A SIGN-IN.
      */
     removeFromPlaylist(input: { playlist: string; video?: string; videos?: string[] }, opts?: ConnectionOption): Promise<YoutubePlaylistEdit>;
 

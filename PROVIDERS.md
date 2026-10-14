@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3360 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3378 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -148,7 +148,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | ⚪ |
 | `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | 🟡 |
 | `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter display name, text, time… | ⚪ |
-| `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | ⚪ |
+| `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | 🟢 |
 | `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | 🟢 |
 | `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | 🟢 |
 | `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | ⚪ |
@@ -1150,7 +1150,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.getImage` | fandom.com | One image file's real details — full-size url, dimensions, MIME type and licensing… | ⚪ |
 | `fandom.getInfobox` | fandom.com | The fact box at the top of an article, as key/value pairs — a character's species and… | ⚪ |
 | `fandom.getRevision` | fandom.com | One specific revision of an article by id, rendered as of that edit. | ⚪ |
-| `fandom.getSection` | fandom.com | One named or numbered section of an article, without downloading the rest of the page. | ⚪ |
+| `fandom.getSection` | fandom.com | One named or numbered section of an article, without downloading the rest of the page. | 🟢 |
 | `fandom.getSections` | fandom.com | An article's table of contents — every section with its index, heading and nesting… | 🟢 |
 | `fandom.getSummary` | fandom.com | The lead section of an article and nothing else — the first paragraph, for "what is X"… | 🟢 |
 | `fandom.getUser` | fandom.com | A wiki editor's public record on this wiki — registration date, edit count and user… | ⚪ |
@@ -2648,6 +2648,24 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sears.findStores` | sears.com | Finds physical Sears/Sears Hometown stores near a zip code or city the way the site's… | ⚪ |
 | `sears.getProduct` | sears.com | Reads one product in full the way its own product detail page does — given a URL or… | 🟢 |
 | `sears.search` | sears.com | Searches Sears' live catalog by free-text keyword the way the site's own search bar… | 🟢 |
+| `seatgeek.buyTicket` | seatgeek.com | Purchases a listed ticket. | ⚪ |
+| `seatgeek.findPerformers` | seatgeek.com | Finds performers — artists, sports teams, comedians — by name and returns each one's… | ⚪ |
+| `seatgeek.findVenues` | seatgeek.com | Finds venues by name or location (city/state or geo) and returns each one's id, name… | ⚪ |
+| `seatgeek.followPerformer` | seatgeek.com | Follows a performer on the signed-in caller's account. | ⚪ |
+| `seatgeek.getEvent` | seatgeek.com | Returns one event in full: venue, performers, date/time, and SeatGeek's own ticket… | ⚪ |
+| `seatgeek.getOrder` | seatgeek.com | Returns one order/ticket in full: event, seats, price paid and delivery/transfer status. | ⚪ |
+| `seatgeek.getPerformer` | seatgeek.com | Returns one performer in full: name, type, upcoming event count, and genres/sport. | ⚪ |
+| `seatgeek.getVenue` | seatgeek.com | Returns one venue in full: address, city, timezone and upcoming event count. | ⚪ |
+| `seatgeek.listFollowedPerformers` | seatgeek.com | The signed-in caller's followed performers, so they get notified of new events. | ⚪ |
+| `seatgeek.listMyOrders` | seatgeek.com | The signed-in caller's "My Tickets" order history — what they bought, when, for which… | ⚪ |
+| `seatgeek.listTaxonomies` | seatgeek.com | Returns the category taxonomy SeatGeek uses to classify events (e.g. music > rock… | ⚪ |
+| `seatgeek.listTicketForSale` | seatgeek.com | Lists one of the signed-in caller's tickets for resale on SeatGeek. | ⚪ |
+| `seatgeek.listTrackedEvents` | seatgeek.com | The signed-in caller's tracked (saved/followed) events, newest first. | ⚪ |
+| `seatgeek.searchEvents` | seatgeek.com | Searches live events — concerts, sports, comedy, theater and family — by keyword… | ⚪ |
+| `seatgeek.trackEvent` | seatgeek.com | Tracks (saves) an event to the signed-in caller's account. | ⚪ |
+| `seatgeek.transferTicket` | seatgeek.com | Transfers a purchased ticket to another person's SeatGeek account. | ⚪ |
+| `seatgeek.unfollowPerformer` | seatgeek.com | Unfollows a performer on the signed-in caller's account. | ⚪ |
+| `seatgeek.untrackEvent` | seatgeek.com | Removes a tracked event from the signed-in caller's account. | ⚪ |
 | `sec_edgar.companyFacts` | sec.gov | A public company's own reported XBRL facts from its 10-K / 10-Q filings — revenue, net… | 🟢 |
 | `sec_edgar.findCompany` | sec.gov | Find SEC-registered public companies by ticker, CIK or name from EDGAR's own… | 🟢 |
 | `sec_edgar.fullTextSearch` | sec.gov | Search the text of every EDGAR filing since 2001 for a phrase, via… | ⚪ |

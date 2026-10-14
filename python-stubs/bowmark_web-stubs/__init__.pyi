@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bddbafc448f6d76023e3961b96c81acd6f40f26a1a157152317edd513ed4db27
-# 85 capabilities, 577 providers, 2090 typed functions, 20 refused.
+# Manifest version: 9009365ca1ae69cecd9faa9021b3137341fd591717fcce3e62b05ede278e916a
+# 85 capabilities, 577 providers, 2092 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4359,6 +4359,11 @@ class Prv_aol_AolLocalNewsArticle_Out(TypedDict):
     provider: NotRequired[str]
     providerLogo: NotRequired[str]
     publishedAt: NotRequired[str]
+
+class Prv_aol_AolHoroscope_Out(TypedDict):
+    sign: Literal["aries"] | Literal["taurus"] | Literal["gemini"] | Literal["cancer"] | Literal["leo"] | Literal["virgo"] | Literal["libra"] | Literal["scorpio"] | Literal["sagittarius"] | Literal["capricorn"] | Literal["aquarius"] | Literal["pisces"]
+    date: str
+    reading: str
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -12602,6 +12607,11 @@ class Prv_fandom_Section_Out(TypedDict):
     level: float
     number: str
     anchor: str
+
+class Prv_fandom_GetSectionArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+    section: str
 
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
@@ -35000,8 +35010,8 @@ class Cap_video_library(Protocol):
         """
 
     async def removeFromPlaylist(self, options: Cap_video_library_RemoveFromPlaylistOptions_In, /) -> Cap_video_library_PlaylistRemoved_Out:
-        """Removes one or many videos from one of the caller's own playlists. Removing a video that
-        is not in the playlist, or that is in it more than once, removes only one occurrence.
+        """Removes one or many videos from one of the caller's own playlists, Watch Later included
+        (its playlist id is WL). Removing a video that is not in the playlist is a silent no-op.
         Needs a YouTube sign-in.
         """
 
@@ -36005,6 +36015,11 @@ class Prv_aol(Protocol):
         """Lists local news for a US city and state — headline, url, summary, image and the local
         publisher, the way aol.com/local shows it. Pass city and state as arguments, optionally
         with limit (1-100, default unlimited) and page (1-based, default 1).
+        """
+
+    async def getDailyHoroscope(self, sign: str, /) -> Prv_aol_AolHoroscope_Out:
+        """Reads today's daily horoscope reading for one zodiac sign, e.g. "libra". There is no
+        weekly or monthly reading on this site — only daily.
         """
 
 class Prv_aosom(Protocol):
@@ -41107,6 +41122,12 @@ class Prv_fandom(Protocol):
         /api.php?action=parse&prop=sections`.
         """
 
+    async def getSection(self, args: Prv_fandom_GetSectionArgs_In, /) -> Prv_fandom_Article_Out:
+        """One named or numbered section of an article, without downloading the rest of the page.
+        Takes the index `getSections` returns, or the heading text. `GET
+        /api.php?action=parse&section=N&prop=text`.
+        """
+
 class Prv_fbsappliance(Protocol):
     """FBS Appliance's real catalog across 8 Texas showrooms — searchAppliances runs the site's
     own category grid and returns real, currently-listed appliances with live selling price,
@@ -44854,7 +44875,7 @@ class Prv_islllc(Protocol):
 class Prv_istanbulkart(Protocol):
     """Istanbul public transit: İstanbulkart card purchase/personalization fees and the
     İstanbul City Card tourist unlimited-ride pass tariffs, read from
-    istanbulkart.istanbul's own price-and-limits data.
+    istanbulkart.istanbul's own price-and-limits page.
     """
 
     async def getCardFees(self, /) -> list[Prv_istanbulkart_IstanbulkartCardFee_Out]:
@@ -54269,9 +54290,9 @@ class Prv_youtube(Protocol):
 
     async def removeFromPlaylist(self, input: Prv_youtube_removeFromPlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistEdit_Out:
         """Removes one or many videos from one of the signed-in account's own playlists, as a
-        SINGLE edit rather than one request per video. A video not on the playlist is silently a
-        no-op for that video — YouTube's own edit endpoint does not distinguish it from a
-        successful removal. NEEDS A SIGN-IN.
+        SINGLE edit rather than one request per video. Works on Watch Later too: its playlist id
+        is WL. A video not on the playlist is silently a no-op for that video — YouTube's own
+        edit endpoint does not distinguish it from a successful removal. NEEDS A SIGN-IN.
         """
 
     async def updatePlaylist(self, input: Prv_youtube_updatePlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistEdit_Out:

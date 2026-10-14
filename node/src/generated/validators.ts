@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bddbafc448f6d76023e3961b96c81acd6f40f26a1a157152317edd513ed4db27
-// 2090 checked, 20 unchecked.
+// Manifest version: 9009365ca1ae69cecd9faa9021b3137341fd591717fcce3e62b05ede278e916a
+// 2092 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bddbafc448f6d76023e3961b96c81acd6f40f26a1a157152317edd513ed4db27",
+  "version": "9009365ca1ae69cecd9faa9021b3137341fd591717fcce3e62b05ede278e916a",
   "units": {
     "address_validation": {
       "defs": {
@@ -8734,6 +8734,15 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getDailyHoroscope": [
+          {
+            "name": "sign",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -22312,6 +22321,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetSectionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "wiki",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetSectionsArgs": {
           "k": "object",
           "props": [
@@ -22445,6 +22480,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSectionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSection": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSectionArgs"
             },
             "optional": false
           }
