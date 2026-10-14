@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1cdc73bde7c6b1b92434251bd37c174dfe824e9816d8ed94a62ebc289cb4386f
-// 85 capabilities, 579 providers, 2123 typed functions, 20 refused.
+// Manifest version: 952a07b487ef607b235e27a177de268662f6bc721976313a576603fbae53447f
+// 85 capabilities, 579 providers, 2125 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -47694,6 +47694,18 @@ interface ShopAppStoreProductList {
   cursor: string | null;
   warnings: string[];
 }
+interface ShopAppSearchSuggestion {
+  text: string;
+  type: string;
+  storeHandle?: string;
+  storeName?: string;
+  storeRating?: number | null;
+  storeReviewCount?: number | null;
+}
+interface ShopAppSearchSuggestions {
+  suggestions: ShopAppSearchSuggestion[];
+  warnings: string[];
+}
 
   /**
    * Shop (Shopify's shopping app) — search products across every Shopify store, read a product
@@ -47723,6 +47735,13 @@ interface ShopAppStoreProductList {
      * by the store's own filters — with id, title, price, image and rating, a page at a time.
      */
     listStoreProducts(handle: string, options?: { first?: number; sortBy?: string; search?: string }): Promise<ShopAppStoreProductList>;
+
+    /**
+     * Autocompletes a partial search ("running sh") into Shop's own query suggestions plus the
+     * stores whose names match, each store with its handle, logo, rating and review count — the
+     * finder that turns a caller's words into a store handle or a better search phrase.
+     */
+    suggestSearches(query: string): Promise<ShopAppSearchSuggestions>;
   }
 }
 
@@ -49898,6 +49917,24 @@ interface TargetRegistry {
   warnings: string[];
 }
 
+interface TargetCartItem {
+  tcin: string;
+  title: string | null;
+  quantity: number;
+  unitPrice: number | null;
+  currentPrice: number | null;
+  imageUrl: string | null;
+}
+
+interface TargetCart {
+  cartId: string | null;
+  items: TargetCartItem[];
+  itemCount: number;
+  totalProductAmount: number | null;  // the cart's product subtotal, before shipping and tax
+  grandTotal: number | null;
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -49976,6 +50013,13 @@ interface TargetRegistry {
      * or a shareable registry link — items, quantities, and ship-to information.
      */
     getRegistry(args: { registryId: string }): Promise<TargetRegistry>;
+
+    /**
+     * Reads the CALLER's own Target cart — line items (TCIN, title, quantity, unit and current
+     * price, image) and the cart's own totals (product subtotal, grand total). Needs the caller
+     * signed in.
+     */
+    getCart(opts?: ConnectionOption): Promise<TargetCart>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1cdc73bde7c6b1b92434251bd37c174dfe824e9816d8ed94a62ebc289cb4386f
-# 85 capabilities, 579 providers, 2105 typed functions, 20 refused.
+# Manifest version: 952a07b487ef607b235e27a177de268662f6bc721976313a576603fbae53447f
+# 85 capabilities, 579 providers, 2107 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -26730,6 +26730,18 @@ class Prv_shop_app_ShopAppStoreProduct_Out(TypedDict):
     reviewCount: float | None
     url: str
 
+class Prv_shop_app_ShopAppSearchSuggestions_Out(TypedDict):
+    suggestions: list[Prv_shop_app_ShopAppSearchSuggestion_Out]
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppSearchSuggestion_Out(TypedDict):
+    text: str
+    type: str
+    storeHandle: NotRequired[str]
+    storeName: NotRequired[str]
+    storeRating: NotRequired[float | None]
+    storeReviewCount: NotRequired[float | None]
+
 class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
     zip: str
     locations: list[Prv_sitmeanssit_SitmeanssitLocation_Out]
@@ -28087,6 +28099,22 @@ class Prv_target_TargetRegistryItem_Out(TypedDict):
     quantityPurchased: float | None
     tcin: str | None
     price: str | None
+    imageUrl: str | None
+
+class Prv_target_TargetCart_Out(TypedDict):
+    cartId: str | None
+    items: list[Prv_target_TargetCartItem_Out]
+    itemCount: float
+    totalProductAmount: float | None
+    grandTotal: float | None
+    warnings: list[str]
+
+class Prv_target_TargetCartItem_Out(TypedDict):
+    tcin: str
+    title: str | None
+    quantity: float
+    unitPrice: float | None
+    currentPrice: float | None
     imageUrl: str | None
 
 class Prv_tatcha_TatchaRitualQuizOptions_Out(TypedDict):
@@ -50725,6 +50753,12 @@ class Prv_shop_app(Protocol):
         time.
         """
 
+    async def suggestSearches(self, query: str, /) -> Prv_shop_app_ShopAppSearchSuggestions_Out:
+        """Autocompletes a partial search ("running sh") into Shop's own query suggestions plus the
+        stores whose names match, each store with its handle, logo, rating and review count —
+        the finder that turns a caller's words into a store handle or a better search phrase.
+        """
+
 class Prv_sitmeanssit(Protocol):
     """Reads Sit Means Sit's own real-time Dog Training Locator directly (the same admin-ajax
     endpoint the site's /locations/ map runs) — the nearest real franchise locations to a US
@@ -51436,6 +51470,12 @@ class Prv_target(Protocol):
         """Reads one Target Gift Registry's items once you have the registry's id from
         `findRegistry` or a shareable registry link — items, quantities, and ship-to
         information.
+        """
+
+    async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_target_TargetCart_Out:
+        """Reads the CALLER's own Target cart — line items (TCIN, title, quantity, unit and current
+        price, image) and the cart's own totals (product subtotal, grand total). Needs the
+        caller signed in.
         """
 
 class Prv_tatcha(Protocol):

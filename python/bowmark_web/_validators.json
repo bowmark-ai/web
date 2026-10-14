@@ -1,5 +1,5 @@
 {
-  "version": "1cdc73bde7c6b1b92434251bd37c174dfe824e9816d8ed94a62ebc289cb4386f",
+  "version": "952a07b487ef607b235e27a177de268662f6bc721976313a576603fbae53447f",
   "units": {
     "address_validation": {
       "defs": {
@@ -53464,6 +53464,15 @@
             },
             "optional": true
           }
+        ],
+        "suggestSearches": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -56130,6 +56139,24 @@
               ]
             },
             "optional": false
+          }
+        ],
+        "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
