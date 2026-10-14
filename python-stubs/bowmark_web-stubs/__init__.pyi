@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 33ca895bd99ab5a449ab46bc219d79854e0487112b1f63303611812ca184a884
-# 85 capabilities, 578 providers, 2098 typed functions, 20 refused.
+# Manifest version: b580e0d67c7245fbe1db277595c323ae9df1e7db5cb9a01e3fda0f6aaa092a64
+# 85 capabilities, 578 providers, 2099 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -27982,6 +27982,27 @@ class Prv_target_TargetReview_Out(TypedDict):
     submittedAt: str | None
     authorNickname: str | None
 
+class Prv_target_getRegistry_args_In(TypedDict):
+    registryId: str
+
+class Prv_target_TargetRegistry_Out(TypedDict):
+    id: str
+    title: str | None
+    registrantName: str | None
+    eventDate: str | None
+    items: list[Prv_target_TargetRegistryItem_Out]
+    shipToInfo: Mapping[str, Any] | None
+    warnings: list[str]
+
+class Prv_target_TargetRegistryItem_Out(TypedDict):
+    id: str
+    title: str | None
+    quantity: float | None
+    quantityPurchased: float | None
+    tcin: str | None
+    price: str | None
+    imageUrl: str | None
+
 class Prv_tatcha_TatchaRitualQuizOptions_Out(TypedDict):
     skinTypes: list[Prv_tatcha_TatchaQuizOption_Out]
     benefits: list[Prv_tatcha_TatchaQuizOption_Out]
@@ -51286,6 +51307,12 @@ class Prv_target(Protocol):
         the detail `search` and `getProduct` only summarize as a count and an average. Takes a
         TCIN from `search`. `limit` defaults to 20, max 200; `sortBy` defaults to the site's own
         "most_recent".
+        """
+
+    async def getRegistry(self, args: Prv_target_getRegistry_args_In, /) -> Prv_target_TargetRegistry_Out:
+        """Reads one Target Gift Registry's items once you have the registry's id from
+        `findRegistry` or a shareable registry link — items, quantities, and ship-to
+        information.
         """
 
 class Prv_tatcha(Protocol):

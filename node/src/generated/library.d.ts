@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 33ca895bd99ab5a449ab46bc219d79854e0487112b1f63303611812ca184a884
-// 85 capabilities, 578 providers, 2116 typed functions, 20 refused.
+// Manifest version: b580e0d67c7245fbe1db277595c323ae9df1e7db5cb9a01e3fda0f6aaa092a64
+// 85 capabilities, 578 providers, 2117 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -49753,6 +49753,26 @@ interface TargetReviews {
   warnings: string[];
 }
 
+interface TargetRegistryItem {
+  id: string;
+  title: string | null;
+  quantity: number | null;
+  quantityPurchased: number | null;
+  tcin: string | null;
+  price: string | null;
+  imageUrl: string | null;
+}
+
+interface TargetRegistry {
+  id: string;
+  title: string | null;
+  registrantName: string | null;
+  eventDate: string | null;
+  items: TargetRegistryItem[];
+  shipToInfo: Record<string, unknown> | null;
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -49825,6 +49845,12 @@ interface TargetReviews {
      * "most_recent".
      */
     listReviews(args: { tcin: string; limit?: number; sortBy?: "most_recent" | "most_helpful" }): Promise<TargetReviews>;
+
+    /**
+     * Reads one Target Gift Registry's items once you have the registry's id from `findRegistry`
+     * or a shareable registry link — items, quantities, and ship-to information.
+     */
+    getRegistry(args: { registryId: string }): Promise<TargetRegistry>;
   }
 }
 
