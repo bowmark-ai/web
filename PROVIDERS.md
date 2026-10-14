@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3461 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3474 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2106,6 +2106,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nationalbusinessfurniture.getProduct` | nationalbusinessfurniture.com | Reads one product's full configurable-option set (e.g. Finish) with every choice's… | 🟢 |
 | `nationalbusinessfurniture.priceConfiguration` | nationalbusinessfurniture.com | Resolves a specific configuration (a choice per option group, e.g. { Finish: "Ash… | 🟢 |
 | `nationalbusinessfurniture.searchProducts` | nationalbusinessfurniture.com | Searches National Business Furniture's office-furniture catalog by free text and… | 🟢 |
+| `netflix.addToMyList` | www.netflix.com | Adds a title to the signed-in caller's My List (requires caller to be signed in). | ⚪ |
+| `netflix.browseGenre` | www.netflix.com | Browses titles in a Netflix genre, returns a list of titles. | ⚪ |
+| `netflix.getContinueWatching` | www.netflix.com | Gets titles the signed-in caller is currently watching (requires caller to be signed… | ⚪ |
+| `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's My List (requires caller to be signed in). | ⚪ |
+| `netflix.getTitle` | www.netflix.com | Reads a single Netflix title page with name, description, images, release year… | ⚪ |
+| `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week (TV and Films). | ⚪ |
+| `netflix.getTudumArticle` | www.netflix.com | Reads a Tudum article (Netflix's editorial blog). | ⚪ |
+| `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's viewing history (requires caller to be signed in). | ⚪ |
+| `netflix.listGenres` | www.netflix.com | Lists available Netflix genres. | ⚪ |
+| `netflix.rateTitle` | www.netflix.com | Rates a title on the signed-in caller's account (requires caller to be signed in). | ⚪ |
+| `netflix.removeFromMyList` | www.netflix.com | Removes a title from the signed-in caller's My List (requires caller to be signed in). | ⚪ |
+| `netflix.search` | www.netflix.com | Searches Netflix for titles by query (requires caller to be signed in). | ⚪ |
+| `netflix.searchTudum` | www.netflix.com | Searches Tudum articles by query. | ⚪ |
 | `newageproducts.getNewageproductsProduct` | newageproducts.com | Reads one NewAge Products garage-storage/outdoor-living product by its URL handle —… | 🟢 |
 | `newageproducts.searchNewageproductsCatalog` | newageproducts.com | Runs NewAge Products' own header-search box for a keyword and returns up to 5 ranked… | 🟢 |
 | `newegg.checkStock` | newegg.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟢 |
