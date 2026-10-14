@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3474 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3475 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2682,7 +2682,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sears.search` | sears.com | Searches Sears' live catalog by free-text keyword the way the site's own search bar… | 🟢 |
 | `seatgeek.buyTicket` | seatgeek.com | Purchases a listed ticket. | ⚪ |
 | `seatgeek.findPerformers` | seatgeek.com | Finds performers — artists, sports teams, comedians — by name and returns each one's… | 🟢 |
-| `seatgeek.findVenues` | seatgeek.com | Finds venues by name or location (city/state or geo) and returns each one's id, name… | ⚪ |
+| `seatgeek.findVenues` | seatgeek.com | Finds venues by name or location (city/state or geo) and returns each one's id, name… | 🟢 |
 | `seatgeek.followPerformer` | seatgeek.com | Follows a performer on the signed-in caller's account. | ⚪ |
 | `seatgeek.getEvent` | seatgeek.com | Returns one event in full: venue, performers, date/time, and SeatGeek's own ticket… | ⚪ |
 | `seatgeek.getOrder` | seatgeek.com | Returns one order/ticket in full: event, seats, price paid and delivery/transfer status. | ⚪ |
@@ -3136,6 +3136,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `urbanoutfitters.search` | urbanoutfitters.com | Searches Urban Outfitters' live catalogue the way the site's own search bar does and… | ⚪ |
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
+| `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | ⚪ |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | ⚪ |
 | `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | ⚪ |
