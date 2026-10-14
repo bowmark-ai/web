@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b580e0d67c7245fbe1db277595c323ae9df1e7db5cb9a01e3fda0f6aaa092a64
-// 85 capabilities, 578 providers, 2117 typed functions, 20 refused.
+// Manifest version: bddef0ed239fd9953ef48af162987b2ee3edf8b743907e3e3ba9e66231a3555c
+// 85 capabilities, 578 providers, 2118 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7731,6 +7731,16 @@ interface AolRecipeSummary {
   image?: string;
 }
 
+interface AolRecipe {
+  title: string;
+  image?: string;
+  servings?: string;
+  prepTime?: string;
+  cookTime?: string;
+  ingredients: string[];
+  steps: string[];
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -7797,6 +7807,12 @@ interface AolRecipeSummary {
      * answers a fixed top set for a keyword, so this takes no page argument.
      */
     searchRecipes(keyword: string): Promise<{ recipes: AolRecipeSummary[] }>;
+
+    /**
+     * Reads one AOL recipe — title, ingredients, steps, servings and cooking times and image —
+     * given its slug (from searchRecipes) or a full recipe URL.
+     */
+    getRecipe(slugOrUrl: string): Promise<AolRecipe>;
   }
 }
 

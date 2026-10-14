@@ -152,7 +152,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | 🟢 |
 | `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | 🟢 |
 | `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | ⚪ |
-| `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | ⚪ |
+| `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | 🟢 |
 | `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | 🟢 |
 | `aol.listFavorites` | aol.com | Reads the signed-in caller's AOL Favorites — their saved links and the folders holding… | ⚪ |
 | `aol.listGames` | aol.com | Lists AOL Games' free web games by category (board, card, casino, puzzle, other) with… | ⚪ |
@@ -757,7 +757,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `crecipr.searchCredenciados` | crecipr.gov.br | Searches CRECI-PR's accredited brokers registry by name or CRECI registration number. | 🟢 |
 | `crecipr.verifyBroker` | crecipr.gov.br | Verifies whether a broker or agency is currently licensed and in good standing at… | 🟢 |
 | `credibly_com.getApplicationForm` | credibly.com | Reads the visible questions and select choices on Credibly's public business-financing… | 🟢 |
-| `credibly_com.getEligibilityRequirements` | credibly.com | Reads Credibly's own published eligibility requirements (time in business, credit… | 🟡 |
+| `credibly_com.getEligibilityRequirements` | credibly.com | Reads Credibly's own published eligibility requirements (time in business, credit… | 🟢 |
 | `cruiselakegeneva.getTour` | cruiselakegeneva.com | Reads one tour's own detail page: full pricing (adult/child/group tiers), duration… | 🟢 |
 | `cruiselakegeneva.listTours` | cruiselakegeneva.com | Lists Cruise Lake Geneva's current tour lineup — every narrated/dining/seasonal boat… | 🟢 |
 | `crunchbase.getFundingRounds` | crunchbase.com | Lists one company's funding rounds — announced date, round type, money raised and lead… | ⚪ |
@@ -1006,7 +1006,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.removeFriend` | epicgames.com | Remove someone from the signed-in caller's Epic friends, by their Epic display name. | 🟢 |
 | `epicgames.removeFromCart` | epicgames.com | Remove a line from the signed-in caller's cart. | ⚪ |
 | `epicgames.removeFromWishlist` | epicgames.com | Remove a game from the signed-in caller's wishlist. | ⚪ |
-| `epicgames.searchGames` | epicgames.com | Keyword search of the Epic Games Store catalogue — title, namespace, current and… | 🟡 |
+| `epicgames.searchGames` | epicgames.com | Keyword search of the Epic Games Store catalogue — title, namespace, current and… | 🟢 |
 | `epicgames.sendFriendRequest` | epicgames.com | Send a friend request from the signed-in caller to an Epic display name. | 🟢 |
 | `epicgames.updateDisplayName` | epicgames.com | Change the signed-in caller's Epic display name. | 🟢 |
 | `epromos.getProductConfiguration` | epromos.com | Reads one ePromos product's own configurator off its product page — every color/style… | 🟢 |

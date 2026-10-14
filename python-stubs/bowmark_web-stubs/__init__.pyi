@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b580e0d67c7245fbe1db277595c323ae9df1e7db5cb9a01e3fda0f6aaa092a64
-# 85 capabilities, 578 providers, 2099 typed functions, 20 refused.
+# Manifest version: bddef0ed239fd9953ef48af162987b2ee3edf8b743907e3e3ba9e66231a3555c
+# 85 capabilities, 578 providers, 2100 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4373,6 +4373,15 @@ class Prv_aol_AolRecipeSummary_Out(TypedDict):
     title: str
     slug: str
     image: NotRequired[str]
+
+class Prv_aol_AolRecipe_Out(TypedDict):
+    title: str
+    image: NotRequired[str]
+    servings: NotRequired[str]
+    prepTime: NotRequired[str]
+    cookTime: NotRequired[str]
+    ingredients: list[str]
+    steps: list[str]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -36120,6 +36129,11 @@ class Prv_aol(Protocol):
         """Searches AOL Food's recipe collection by keyword — recipe id, title, slug and image. The
         door for getRecipe. The site's own search has no pagination (measured 2026-10-14): it
         always answers a fixed top set for a keyword, so this takes no page argument.
+        """
+
+    async def getRecipe(self, slugOrUrl: str, /) -> Prv_aol_AolRecipe_Out:
+        """Reads one AOL recipe — title, ingredients, steps, servings and cooking times and image —
+        given its slug (from searchRecipes) or a full recipe URL.
         """
 
 class Prv_aosom(Protocol):
