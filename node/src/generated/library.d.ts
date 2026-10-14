@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9009365ca1ae69cecd9faa9021b3137341fd591717fcce3e62b05ede278e916a
-// 85 capabilities, 577 providers, 2110 typed functions, 20 refused.
+// Manifest version: 22192e1b2d1891f818974fa454c910aa230f5217c9481e7677b846df88a47ee9
+// 85 capabilities, 577 providers, 2111 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13640,6 +13640,9 @@ interface ListOpinionPiecesArgs {
 interface ListGuidesArgs {
   limit?: number;
 }
+interface ListVideosArgs {
+  limit?: number;
+}
 interface BusinessInsiderListedArticle {
   title: string;
   url: string;
@@ -13723,6 +13726,12 @@ interface BusinessInsiderGuideRecord extends BusinessInsiderArticleRecord {
      * newest-first as the site orders its grid.
      */
     listGuides(args: ListGuidesArgs): Promise<BusinessInsiderListedArticle[]>;
+
+    /**
+     * Lists videos from the Video vertical, title and URL per video, newest-first as the site
+     * orders its grid.
+     */
+    listVideos(args: ListVideosArgs): Promise<BusinessInsiderListedArticle[]>;
 
     /**
      * Reads one businessinsider.com article's full text and metadata (headline, author, section,

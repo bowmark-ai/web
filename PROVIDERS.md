@@ -783,7 +783,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.followChannel` | dailymotion.com | Follow a Dailymotion channel as the signed-in caller, or unfollow it. | ⚪ |
 | `dailymotion.getChannel` | dailymotion.com | Read one Dailymotion channel from its id, username or dailymotion.com/<username> URL —… | 🟢 |
 | `dailymotion.getMyProfile` | dailymotion.com | Read the signed-in caller's own Dailymotion account — username, display name, avatar… | ⚪ |
-| `dailymotion.getPlaylist` | dailymotion.com | Read one Dailymotion playlist from its id or URL — name, description, owner, video… | ⚪ |
+| `dailymotion.getPlaylist` | dailymotion.com | Read one Dailymotion playlist from its id or URL — name, description, owner, video… | 🟢 |
 | `dailymotion.getTranscript` | dailymotion.com | Read a Dailymotion video's captions as timed text — the uploader's track or the… | ⚪ |
 | `dailymotion.getVideo` | dailymotion.com | Read one Dailymotion video from its id or a dailymotion.com / dai.ly URL: title… | 🟢 |
 | `dailymotion.likeVideo` | dailymotion.com | Like a Dailymotion video as the signed-in caller, or remove the like. | ⚪ |

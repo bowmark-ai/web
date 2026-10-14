@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9009365ca1ae69cecd9faa9021b3137341fd591717fcce3e62b05ede278e916a
-// 2092 checked, 20 unchecked.
+// Manifest version: 22192e1b2d1891f818974fa454c910aa230f5217c9481e7677b846df88a47ee9
+// 2093 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9009365ca1ae69cecd9faa9021b3137341fd591717fcce3e62b05ede278e916a",
+  "version": "22192e1b2d1891f818974fa454c910aa230f5217c9481e7677b846df88a47ee9",
   "units": {
     "address_validation": {
       "defs": {
@@ -14476,6 +14476,18 @@ export const VALIDATORS: ValidatorTable = {
         "ListSectionsArgs": {
           "k": "object",
           "props": []
+        },
+        "ListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -14525,6 +14537,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListGuidesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosArgs"
             },
             "optional": false
           }
