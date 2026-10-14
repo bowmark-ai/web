@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bddef0ed239fd9953ef48af162987b2ee3edf8b743907e3e3ba9e66231a3555c
-# 85 capabilities, 578 providers, 2100 typed functions, 20 refused.
+# Manifest version: 4610fe5e2e4f60c21efb4472cf96194a6324e29fc82c92816fdcf9de214f02ce
+# 85 capabilities, 579 providers, 2101 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -26270,6 +26270,43 @@ class Prv_sears_SearsStockStore_Out(TypedDict):
     promiseDate: str | None
     ffmType: str | None
 
+class Prv_seatgeek_SearchEventsArgs_In(TypedDict):
+    q: NotRequired[str]
+    geoip: NotRequired[bool]
+    lat: NotRequired[float]
+    lon: NotRequired[float]
+    range: NotRequired[str]
+    datetime_local_gte: NotRequired[str]
+    datetime_local_lte: NotRequired[str]
+    taxonomies_id: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_seatgeek_seatgeekEvent_Out(TypedDict):
+    id: float
+    title: str
+    url: NotRequired[str]
+    performers: list[Prv_seatgeek_seatgeekEvent_Out_performers_item_Out]
+    venue: Prv_seatgeek_seatgeekEvent_Out_venue_Out
+    datetime_local: NotRequired[str]
+    stats: NotRequired[Prv_seatgeek_seatgeekEvent_Out_stats_Out]
+
+class Prv_seatgeek_seatgeekEvent_Out_performers_item_Out(TypedDict):
+    id: float
+    name: str
+    image: NotRequired[str]
+
+class Prv_seatgeek_seatgeekEvent_Out_venue_Out(TypedDict):
+    id: float
+    name: str
+    city: NotRequired[str]
+    state: NotRequired[str]
+
+class Prv_seatgeek_seatgeekEvent_Out_stats_Out(TypedDict):
+    lowest_price: NotRequired[float]
+    median_price: NotRequired[float]
+    listing_count: NotRequired[float]
+    ticket_count: NotRequired[float]
+
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -50395,6 +50432,18 @@ class Prv_sears(Protocol):
         `search`/`getProduct` — same as `getProduct`.
         """
 
+class Prv_seatgeek(Protocol):
+    """A ticket marketplace for sports, concerts, comedy and theater — event search,
+    performer/venue lookup and price stats, logged out, via SeatGeek's own public internal
+    API.
+    """
+
+    async def searchEvents(self, args: Prv_seatgeek_SearchEventsArgs_In, /) -> list[Prv_seatgeek_seatgeekEvent_Out]:
+        """Searches live events — concerts, sports, comedy, theater and family — by keyword,
+        location, date range and category. Returns event id, title, performers, venue, datetime
+        and price stats.
+        """
+
 class Prv_sec_edgar(Protocol):
     """A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
     assets, shares outstanding), from SEC EDGAR
@@ -55069,6 +55118,7 @@ class BowmarkProviders(Protocol):
     scentbird: Prv_scentbird
     seakeeper: Prv_seakeeper
     sears: Prv_sears
+    seatgeek: Prv_seatgeek
     sec_edgar: Prv_sec_edgar
     secondswing: Prv_secondswing
     sede_valencia_es: Prv_sede_valencia_es

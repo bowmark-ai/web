@@ -151,7 +151,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | 🟢 |
 | `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | 🟢 |
 | `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | 🟢 |
-| `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | ⚪ |
+| `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | 🟢 |
 | `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | 🟢 |
 | `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | 🟢 |
 | `aol.listFavorites` | aol.com | Reads the signed-in caller's AOL Favorites — their saved links and the folders holding… | ⚪ |
@@ -1045,7 +1045,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.getArticle` | espn.com | The full text of one ESPN story — headline, byline, published and updated times, body… | ⚪ |
 | `espn.getFantasyLeague` | espn.com | One ESPN fantasy league — settings, scoring, standings, this week's matchups and… | ⚪ |
 | `espn.getFantasyTeam` | espn.com | One team in an ESPN fantasy league — its roster with each player's slot, projected and… | ⚪ |
-| `espn.getGame` | espn.com | One game in full, with score by period, every player's box-score line, team stats… | 🟢 |
+| `espn.getGame` | espn.com | One game in full, with score by period, every player's box-score line, team stats… | 🟡 |
 | `espn.getPlayer` | espn.com | One player's page — team, position, jersey, age, height, weight, birthplace, college… | ⚪ |
 | `espn.getTeam` | espn.com | One team's page header — record, standing in its division, next game, coach, venue and… | ⚪ |
 | `espn.injuries` | espn.com | Reads a league's injury report the way ESPN's own /nfl/injuries page does — every… | 🟢 |
@@ -2116,7 +2116,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getTropicalCycloneReport` | nhc.noaa.gov | Get NHC's post-season Tropical Cyclone Report for a storm: the final meteorological… | ⚪ |
 | `nhc.getTropicalOutlook` | nhc.noaa.gov | Get the Tropical Weather Outlook for a basin: each disturbance being watched, where it… | ⚪ |
 | `nhc.getTropicalWeatherDiscussion` | nhc.noaa.gov | Get the Tropical Weather Discussion for the Atlantic or East Pacific: the analysts'… | ⚪ |
-| `nhc.getWatchesWarnings` | nhc.noaa.gov | Get the coastal hurricane, tropical storm and storm surge watches and warnings in… | ⚪ |
+| `nhc.getWatchesWarnings` | nhc.noaa.gov | Get the watches and warnings in effect for a storm from its public advisory —… | 🟢 |
 | `nhc.getWindSpeedProbabilities` | nhc.noaa.gov | Get the probability of tropical-storm-force (34 kt), 50 kt and hurricane-force (64 kt)… | ⚪ |
 | `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | 🟢 |
 | `nhc.listMarineZones` | nhc.noaa.gov | List the offshore waters and high seas forecast areas NHC covers, with the zone code… | ⚪ |

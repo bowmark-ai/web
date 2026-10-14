@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bddef0ed239fd9953ef48af162987b2ee3edf8b743907e3e3ba9e66231a3555c
-// 2100 checked, 20 unchecked.
+// Manifest version: 4610fe5e2e4f60c21efb4472cf96194a6324e29fc82c92816fdcf9de214f02ce
+// 2101 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bddef0ed239fd9953ef48af162987b2ee3edf8b743907e3e3ba9e66231a3555c",
+  "version": "4610fe5e2e4f60c21efb4472cf96194a6324e29fc82c92816fdcf9de214f02ce",
   "units": {
     "address_validation": {
       "defs": {
@@ -52742,6 +52742,90 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.seatgeek": {
+      "defs": {
+        "SearchEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "q",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "geoip",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lon",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "range",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "datetime_local_gte",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "datetime_local_lte",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "taxonomies_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchEventsArgs"
+            },
+            "optional": false
           }
         ]
       }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bddef0ed239fd9953ef48af162987b2ee3edf8b743907e3e3ba9e66231a3555c
-// 85 capabilities, 578 providers, 2118 typed functions, 20 refused.
+// Manifest version: 4610fe5e2e4f60c21efb4472cf96194a6324e29fc82c92816fdcf9de214f02ce
+// 85 capabilities, 579 providers, 2119 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -46939,6 +46939,48 @@ interface SearsStock {
   }
 }
 
+declare namespace BowmarkProvider_seatgeek {
+  // ── SeatGeek — the unit's own declarations, verbatim ──
+interface SearchEventsArgs {
+  q?: string;
+  geoip?: boolean;
+  lat?: number;
+  lon?: number;
+  range?: string;
+  datetime_local_gte?: string;
+  datetime_local_lte?: string;
+  taxonomies_id?: string;
+  limit?: number;
+}
+
+interface seatgeekEvent {
+  id: number;
+  title: string;
+  url?: string;
+  performers: Array<{ id: number; name: string; image?: string }>;
+  venue: { id: number; name: string; city?: string; state?: string };
+  datetime_local?: string;
+  stats?: { lowest_price?: number; median_price?: number; listing_count?: number; ticket_count?: number };
+}
+
+interface seatgeekRow {
+  id: string;
+}
+
+  /**
+   * A ticket marketplace for sports, concerts, comedy and theater — event search,
+   * performer/venue lookup and price stats, logged out, via SeatGeek's own public internal API.
+   */
+  interface Unit {
+    /**
+     * Searches live events — concerts, sports, comedy, theater and family — by keyword, location,
+     * date range and category. Returns event id, title, performers, venue, datetime and price
+     * stats.
+     */
+    searchEvents(args: SearchEventsArgs): Promise<seatgeekEvent[]>;
+  }
+}
+
 declare namespace BowmarkProvider_sec_edgar {
   // ── SEC EDGAR — the unit's own declarations, verbatim ──
 interface sec_edgarCompany {
@@ -60089,6 +60131,7 @@ interface BowmarkProviders {
   scentbird: BowmarkProvider_scentbird.Unit;
   seakeeper: BowmarkProvider_seakeeper.Unit;
   sears: BowmarkProvider_sears.Unit;
+  seatgeek: BowmarkProvider_seatgeek.Unit;
   sec_edgar: BowmarkProvider_sec_edgar.Unit;
   secondswing: BowmarkProvider_secondswing.Unit;
   sede_valencia_es: BowmarkProvider_sede_valencia_es.Unit;
