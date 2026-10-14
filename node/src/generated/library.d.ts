@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: eb201eaeaefebdd6e9aa708bf62bff20ad436e3e34f8c232f17f6e282271c930
-// 85 capabilities, 577 providers, 2112 typed functions, 20 refused.
+// Manifest version: 05a7d4fb72b7620782a5a2be6ae4742d2bd23554b9072c2d7765842a1da313e6
+// 85 capabilities, 577 providers, 2114 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7724,6 +7724,13 @@ interface AolHoroscope {
   reading: string;
 }
 
+interface AolRecipeSummary {
+  id: number;
+  title: string;
+  slug: string;
+  image?: string;
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -7783,6 +7790,13 @@ interface AolHoroscope {
      * or monthly reading on this site — only daily.
      */
     getDailyHoroscope(sign: string): Promise<AolHoroscope>;
+
+    /**
+     * Searches AOL Food's recipe collection by keyword — recipe id, title, slug and image. The
+     * door for getRecipe. The site's own search has no pagination (measured 2026-10-14): it always
+     * answers a fixed top set for a keyword, so this takes no page argument.
+     */
+    searchRecipes(keyword: string): Promise<{ recipes: AolRecipeSummary[] }>;
   }
 }
 
@@ -21150,6 +21164,59 @@ interface ListTeamsResult {
   teams: EspnTeam[];
 }
 
+interface TeamScheduleArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. Common names resolved by resolveLeague. */
+  league: string;
+  /** Team abbreviation, name, or nickname (e.g., "ARI", "Cardinals", "Arizona Cardinals") */
+  team: string;
+  /** Season year (e.g., 2026) */
+  season: number;
+  /** Season type: "preseason", "regular", or "postseason" (optional, defaults to "regular") */
+  seasonType?: string;
+}
+
+interface ScheduleGame {
+  /** ESPN's internal event id — pass to getGame for full details */
+  eventId: string;
+  /** The league being queried (e.g., "nfl", "nba") */
+  league: string;
+  /** Opponent's full name (e.g., "New York Giants") */
+  opponent: string;
+  /** Opponent's abbreviation (e.g., "NYG") */
+  opponentAbr: string;
+  /** true if the queried team is home, false if away */
+  isHome: boolean;
+  /** Game date and time in ISO 8601 format */
+  dateTime: string;
+  /** Game status: "scheduled", "in progress", "final", etc. */
+  status: string;
+  /** Home team score, null if not yet played */
+  homeScore: number | null;
+  /** Away team score, null if not yet played */
+  awayScore: number | null;
+  /** Broadcasting network(s) */
+  broadcasts: string[];
+  /** Venue name */
+  venue: string | null;
+}
+
+interface TeamScheduleResult {
+  /** The league queried (e.g., "nfl", "nba") */
+  league: string;
+  /** The team queried */
+  team: {
+    id: string;
+    abbreviation: string;
+    name: string;
+  };
+  /** Season year */
+  season: number;
+  /** Season type (e.g., "regular", "postseason") */
+  seasonType: string;
+  /** Games in the schedule */
+  games: ScheduleGame[];
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -21197,6 +21264,13 @@ interface ListTeamsResult {
      * for that team's schedule, roster or stats.
      */
     listTeams(args: ListTeamsArgs): Promise<ListTeamsResult>;
+
+    /**
+     * One team's full season schedule — every game with date, opponent, home or away, TV, result
+     * and score once played, and the event id for getGame. Takes a season and season type
+     * (preseason, regular, postseason).
+     */
+    teamSchedule(args: TeamScheduleArgs): Promise<TeamScheduleResult>;
   }
 }
 

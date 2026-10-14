@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eb201eaeaefebdd6e9aa708bf62bff20ad436e3e34f8c232f17f6e282271c930
-# 85 capabilities, 577 providers, 2094 typed functions, 20 refused.
+# Manifest version: 05a7d4fb72b7620782a5a2be6ae4742d2bd23554b9072c2d7765842a1da313e6
+# 85 capabilities, 577 providers, 2096 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4364,6 +4364,15 @@ class Prv_aol_AolHoroscope_Out(TypedDict):
     sign: Literal["aries"] | Literal["taurus"] | Literal["gemini"] | Literal["cancer"] | Literal["leo"] | Literal["virgo"] | Literal["libra"] | Literal["scorpio"] | Literal["sagittarius"] | Literal["capricorn"] | Literal["aquarius"] | Literal["pisces"]
     date: str
     reading: str
+
+class Prv_aol_searchRecipes_return_Out(TypedDict):
+    recipes: list[Prv_aol_AolRecipeSummary_Out]
+
+class Prv_aol_AolRecipeSummary_Out(TypedDict):
+    id: float
+    title: str
+    slug: str
+    image: NotRequired[str]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -12019,6 +12028,37 @@ class Prv_espn_EspnTeam_Out(TypedDict):
     color: str | None
     alternateColor: str | None
     logo: str | None
+
+class Prv_espn_TeamScheduleArgs_In(TypedDict):
+    league: str
+    team: str
+    season: float
+    seasonType: NotRequired[str]
+
+class Prv_espn_TeamScheduleResult_Out(TypedDict):
+    league: str
+    team: Prv_espn_TeamScheduleResult_Out_team_Out
+    season: float
+    seasonType: str
+    games: list[Prv_espn_ScheduleGame_Out]
+
+class Prv_espn_TeamScheduleResult_Out_team_Out(TypedDict):
+    id: str
+    abbreviation: str
+    name: str
+
+class Prv_espn_ScheduleGame_Out(TypedDict):
+    eventId: str
+    league: str
+    opponent: str
+    opponentAbr: str
+    isHome: bool
+    dateTime: str
+    status: str
+    homeScore: float | None
+    awayScore: float | None
+    broadcasts: list[str]
+    venue: str | None
 
 class Prv_estes_express_ShipmentRequest_In(TypedDict):
     origin: str
@@ -36025,6 +36065,12 @@ class Prv_aol(Protocol):
         weekly or monthly reading on this site — only daily.
         """
 
+    async def searchRecipes(self, keyword: str, /) -> Prv_aol_searchRecipes_return_Out:
+        """Searches AOL Food's recipe collection by keyword — recipe id, title, slug and image. The
+        door for getRecipe. The site's own search has no pagination (measured 2026-10-14): it
+        always answers a fixed top set for a keyword, so this takes no page argument.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -40819,6 +40865,12 @@ class Prv_espn(Protocol):
         """Every team in a league with its ESPN id, abbreviation, name, location, colours and logo
         — the door a caller holding a team's name ("Chiefs", "KC", "Kansas City") needs before
         asking for that team's schedule, roster or stats.
+        """
+
+    async def teamSchedule(self, args: Prv_espn_TeamScheduleArgs_In, /) -> Prv_espn_TeamScheduleResult_Out:
+        """One team's full season schedule — every game with date, opponent, home or away, TV,
+        result and score once played, and the event id for getGame. Takes a season and season
+        type (preseason, regular, postseason).
         """
 
 class Prv_estes_express(Protocol):

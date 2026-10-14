@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: eb201eaeaefebdd6e9aa708bf62bff20ad436e3e34f8c232f17f6e282271c930
-// 2094 checked, 20 unchecked.
+// Manifest version: 05a7d4fb72b7620782a5a2be6ae4742d2bd23554b9072c2d7765842a1da313e6
+// 2096 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "eb201eaeaefebdd6e9aa708bf62bff20ad436e3e34f8c232f17f6e282271c930",
+  "version": "05a7d4fb72b7620782a5a2be6ae4742d2bd23554b9072c2d7765842a1da313e6",
   "units": {
     "address_validation": {
       "defs": {
@@ -8741,6 +8741,15 @@ export const VALIDATORS: ValidatorTable = {
         "getDailyHoroscope": [
           {
             "name": "sign",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchRecipes": [
+          {
+            "name": "keyword",
             "schema": {
               "k": "string"
             },
@@ -21448,6 +21457,39 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "TeamScheduleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "seasonType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -21507,6 +21549,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListTeamsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "teamSchedule": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TeamScheduleArgs"
             },
             "optional": false
           }

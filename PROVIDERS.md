@@ -3018,7 +3018,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟡 |
 | `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region — attractions, tours and activities — in… | ⚪ |
 | `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟡 |
-| `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | ⚪ |
+| `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | 🟢 |
 | `tripadvisor.writeReview` | tripadvisor.com | Posts a review of a listing from the signed-in caller's account — rating, title, text… | ⚪ |
 | `trojanstorage.getFacilityUnits` | trojanstorage.com | Reads one Trojan Storage facility's currently-listed units (from `listFacilities`'s… | 🟢 |
 | `trojanstorage.listFacilities` | trojanstorage.com | Lists every Trojan Storage facility (56 today) with its address, phone, lat/lng and… | 🟢 |
