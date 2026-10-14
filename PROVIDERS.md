@@ -1090,7 +1090,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword, the way etsy.com's own… | 🟢 |
 | `evag.listDepartures` | evag.de | Real-time transit departure information and schedules for Essen public transportation… | 🟢 |
-| `evag.listDisruptions` | evag.de | Network-wide Essen transit disruptions from Ruhrbahn/EVAG Verkehrsinfos — short-notice… | 🟢 |
+| `evag.listDisruptions` | evag.de | Network-wide Essen transit disruptions from Ruhrbahn/EVAG Verkehrsinfos — short-notice… | 🟡 |
 | `evag.searchStop` | evag.de | Search for Essen transit stops and stations by name or partial name; returns matching… | 🟢 |
 | `eventbrite.followOrganizer` | eventbrite.com | Follows an organizer from the signed-in caller's account, taking an organizer url or id. | ⚪ |
 | `eventbrite.getEvent` | eventbrite.com | Returns one event in full: title, description, start/end time, venue (name, address… | 🟢 |
@@ -1507,7 +1507,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | 🟡 |
 | `google_news.getFullCoverage` | news.google.com | Google News' Full Coverage for one story — every outlet reporting it, with each one's… | 🟢 |
 | `google_news.getTopicHeadlines` | news.google.com | The headlines under any Google News topic id — the opaque key `/rss/topics/<id>`… | 🟢 |
-| `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | 🟡 |
+| `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | 🟢 |
 | `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, exactly as Google… | 🟡 |
 | `google_news.listLocalHeadlines` | news.google.com | What is being reported in one place — the local-news edition for a city or region, by… | 🟢 |
 | `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — a domain like reuters.com, or… | 🟢 |
@@ -2141,7 +2141,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getStormNames` | nhc.noaa.gov | Get the rotating list of tropical cyclone names for a basin and year, including which… | ⚪ |
 | `nhc.getStormSurge` | nhc.noaa.gov | Get the storm surge watch/warning area and peak storm surge forecast for a storm… | ⚪ |
 | `nhc.getTropicalCycloneReport` | nhc.noaa.gov | Get NHC's post-season Tropical Cyclone Report for a storm: the final meteorological… | ⚪ |
-| `nhc.getTropicalOutlook` | nhc.noaa.gov | Get the Tropical Weather Outlook for a basin: each disturbance being watched, where it… | ⚪ |
+| `nhc.getTropicalOutlook` | nhc.noaa.gov | Get the Tropical Weather Outlook for a basin: each disturbance being watched, where it… | 🟢 |
 | `nhc.getTropicalWeatherDiscussion` | nhc.noaa.gov | Get the Tropical Weather Discussion for the Atlantic or East Pacific: the analysts'… | ⚪ |
 | `nhc.getWatchesWarnings` | nhc.noaa.gov | Get the watches and warnings in effect for a storm from its public advisory —… | 🟢 |
 | `nhc.getWindSpeedProbabilities` | nhc.noaa.gov | Get the probability of tropical-storm-force (34 kt), 50 kt and hurricane-force (64 kt)… | ⚪ |
