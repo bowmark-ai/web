@@ -6,7 +6,15 @@ The Python client for the [Bowmark](https://bowmark.ai) capability library — t
 **Zero runtime dependencies**, deliberately and permanently. `urllib` and `json` are the
 whole transport.
 
+## Requirements
+
+- **Python 3.11 or newer.** Python 3.10 and earlier are not supported.
+
 ```sh
+# Check your Python version first
+python3 --version   # must be 3.11 or higher
+
+# Then install
 pip install bowmark-web bowmark-web-stubs
 ```
 
