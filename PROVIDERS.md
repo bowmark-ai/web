@@ -2189,7 +2189,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.getContinueWatching` | www.netflix.com | Gets titles the signed-in caller is currently watching (requires caller to be signed… | ⚪ |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's My List (requires caller to be signed in). | ⚪ |
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
-| `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week (TV and Films). | ⚪ |
+| `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week (TV and Films), ranked by views. | 🟢 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads a Tudum article (Netflix's editorial blog). | ⚪ |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's viewing history (requires caller to be signed in). | ⚪ |
 | `netflix.listGenres` | www.netflix.com | Lists available Netflix genres. | ⚪ |
@@ -3315,7 +3315,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
-| `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | ⚪ |
+| `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
 | `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | ⚪ |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
