@@ -813,7 +813,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listMyLikedVideos` | dailymotion.com | List the videos the signed-in caller has liked. | ⚪ |
 | `dailymotion.listMyPlaylists` | dailymotion.com | List the signed-in caller's own playlists, private ones included. | ⚪ |
 | `dailymotion.listMyVideos` | dailymotion.com | List the videos the signed-in caller has uploaded, private and draft ones included. | ⚪ |
-| `dailymotion.listPlaylistVideos` | dailymotion.com | List the videos in one Dailymotion playlist. | ⚪ |
+| `dailymotion.listPlaylistVideos` | dailymotion.com | List the videos in one Dailymotion playlist, in playlist order, paged — same fields as… | 🟢 |
 | `dailymotion.listRelatedVideos` | dailymotion.com | List the videos Dailymotion recommends alongside one video. | ⚪ |
 | `dailymotion.listStreamFormats` | dailymotion.com | List the playable streams of one Dailymotion video — the HLS manifest URL and the… | ⚪ |
 | `dailymotion.listTrendingVideos` | dailymotion.com | List the videos trending on Dailymotion now, optionally for one country or language. | ⚪ |
@@ -3299,13 +3299,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.followChannel` | whatsapp.com | Follows a Channel as the caller. | ⚪ |
 | `whatsapp.forwardMessage` | whatsapp.com | Forwards one of the caller's messages to another chat. | ⚪ |
 | `whatsapp.getBlogPost` | whatsapp.com | Reads one WhatsApp Blog post by slug or url: title, publish date and the post's text. | ⚪ |
-| `whatsapp.getChannel` | whatsapp.com | Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the… | ⚪ |
+| `whatsapp.getChannel` | whatsapp.com | Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the… | 🟢 |
 | `whatsapp.getChannelUpdates` | whatsapp.com | Reads a Channel's posts (updates) newest first — text, media, time and reaction counts… | ⚪ |
 | `whatsapp.getChatMessages` | whatsapp.com | Reads the messages in one chat (by chat id, or a contact or group name resolved… | ⚪ |
 | `whatsapp.getCommunity` | whatsapp.com | Reads a WhatsApp Community the caller belongs to: its name, description, announcement… | ⚪ |
 | `whatsapp.getGroupInfo` | whatsapp.com | Reads a group the caller belongs to: name, description, picture, creation date… | ⚪ |
 | `whatsapp.getGroupInviteLink` | whatsapp.com | Reads the current invite link of a group the caller administers, optionally revoking… | ⚪ |
-| `whatsapp.getHelpArticle` | whatsapp.com | Reads one WhatsApp Help Center article by its numeric id or faq.whatsapp.com url… | ⚪ |
+| `whatsapp.getHelpArticle` | whatsapp.com | Reads one WhatsApp Help Center article by its numeric id or faq.whatsapp.com url… | 🟢 |
 | `whatsapp.getMyProfile` | whatsapp.com | Reads the signed-in caller's own WhatsApp profile: display name, about text, profile… | ⚪ |
 | `whatsapp.joinGroupByInvite` | whatsapp.com | Joins a group from its chat.whatsapp.com invite link as the caller, and returns the… | ⚪ |
 | `whatsapp.leaveGroup` | whatsapp.com | Leaves a group as the caller. | ⚪ |
@@ -3321,7 +3321,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message with an emoji as the caller, or removes the caller's reaction. | ⚪ |
 | `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | ⚪ |
 | `whatsapp.searchChannels` | whatsapp.com | Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does —… | ⚪ |
-| `whatsapp.searchHelpCenter` | whatsapp.com | Searches WhatsApp's Help Center (faq.whatsapp.com) the way its search box does and… | ⚪ |
+| `whatsapp.searchHelpCenter` | whatsapp.com | Searches WhatsApp's Help Center (faq.whatsapp.com) the way its search box does and… | 🟢 |
 | `whatsapp.searchMessages` | whatsapp.com | Searches the caller's chats, contacts and messages the way the WhatsApp Web search box… | ⚪ |
 | `whatsapp.sendMedia` | whatsapp.com | Sends a file to a chat as the caller — an image or video with an optional caption, a… | ⚪ |
 | `whatsapp.sendMessage` | whatsapp.com | Sends a text message to a chat or contact as the caller, optionally as a reply quoting… | ⚪ |
