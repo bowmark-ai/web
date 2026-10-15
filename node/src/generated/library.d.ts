@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d6c99ca7192bdbdf55ad798c2eec1abaa86856a10c95171b630e50058bf8402a
-// 85 capabilities, 579 providers, 2125 typed functions, 20 refused.
+// Manifest version: abddbbd0d61cf9782e71d487b5c1827f77cb4d45eab13d5608397f18cae4dac4
+// 85 capabilities, 579 providers, 2129 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39289,6 +39289,23 @@ interface nhcWatchesWarnings {
   text: string;
 }
 
+interface nhcOutlookDisturbance {
+  id: string;
+  location: string;
+  summary: string;
+  riskLevel: string;
+  formationChance2Day: string;
+  formationChance7Day: string;
+}
+
+interface nhcTropicalOutlook {
+  basin: string;
+  issued: string;
+  highestRisk2Day: string;
+  highestRisk7Day: string;
+  disturbances: nhcOutlookDisturbance[];
+}
+
   /**
    * Current and recent tropical storms and hurricanes from NOAA's Hurricane Center, keyless and
    * public.
@@ -39324,6 +39341,12 @@ interface nhcWatchesWarnings {
      * watch and warning categories with locations.
      */
     getWatchesWarnings(args: { advisoryUrl: string }): Promise<nhcWatchesWarnings>;
+
+    /**
+     * Get the Tropical Weather Outlook for a basin: each disturbance being watched, where it is,
+     * and its 2-day and 7-day formation chance.
+     */
+    getTropicalOutlook(args: { basin: 'AL' | 'EP' | 'CP' }): Promise<nhcTropicalOutlook>;
   }
 }
 
@@ -47005,6 +47028,11 @@ interface FindPerformersArgs {
   limit?: number;
 }
 
+interface FindVenuesArgs {
+  q: string;
+  limit?: number;
+}
+
 interface seatgeekEvent {
   id: number;
   title: string;
@@ -47021,6 +47049,16 @@ interface seatgeekPerformer {
   type: string;
   slug?: string;
   image?: string;
+}
+
+interface seatgeekVenue {
+  id: number;
+  name: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  slug?: string;
+  capacity?: number;
 }
 
 interface seatgeekRow {
@@ -47045,6 +47083,12 @@ interface seatgeekRow {
      * query.
      */
     findPerformers(args: FindPerformersArgs): Promise<seatgeekPerformer[]>;
+
+    /**
+     * Finds venues — concert halls, stadiums, theaters, clubs — by name. Returns venue id, name,
+     * city, state, slug and capacity. Use when a caller names a venue.
+     */
+    findVenues(args: FindVenuesArgs): Promise<seatgeekVenue[]>;
   }
 }
 
@@ -53993,6 +54037,22 @@ interface SearchNewsArgs {
   page?: number;
 }
 
+interface usatodayFullArticle {
+  id: string;
+  headline: string;
+  byline?: string;
+  body: string;
+  publicationDate: string;
+  updateDate?: string;
+  section?: string;
+  image?: string;
+  isAccessibleForFree: boolean;
+}
+
+interface GetArticleArgs {
+  url: string;
+}
+
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
   interface Unit {
     /**
@@ -54018,6 +54078,12 @@ interface SearchNewsArgs {
      * stories, top news items, and featured sections.
      */
     listHomepageHeadlines(): Promise<usatodayArticle[]>;
+
+    /**
+     * Reads the full text of one USA Today article, returning headline, byline, body text,
+     * publication and update dates, section, image, and whether it is free to read.
+     */
+    getArticle(args: GetArticleArgs): Promise<usatodayFullArticle>;
   }
 }
 
@@ -56704,6 +56770,12 @@ interface UserTimelineArgs {
   limit?: number;
 }
 
+interface GetPostRepliesArgs {
+  url?: string;
+  id?: string;
+  limit?: number;
+}
+
 interface XTweet {
   id: string;
   text: string;
@@ -56768,6 +56840,12 @@ interface XPost {
      * bookmarks and media (type, width, height, duration, video url) — browserless.
      */
     post(args: { url: string } | { id: string }): Promise<XPost>;
+
+    /**
+     * Reads the reply thread under a single X post, scrolling until `limit` is met or replies run
+     * out.
+     */
+    getPostReplies(args: GetPostRepliesArgs): Promise<XTweet[]>;
   }
 }
 

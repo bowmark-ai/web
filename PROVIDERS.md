@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3475 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3501 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2798,6 +2798,32 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `speedrun.submitRun` | www.speedrun.com | Submits a speedrun to a game category, with optional video URL and user variables. | ⚪ |
 | `spirithalloween.getProduct` | spirithalloween.com | Reads one product page's full live variant matrix — every real color/size combination… | 🟢 |
 | `spirithalloween.search` | spirithalloween.com | Browses Spirit Halloween's category listing for a query resolved against a small… | 🟢 |
+| `spotify.browseCategory` | open.spotify.com | Browse playlists in a Spotify category. | ⚪ |
+| `spotify.getAlbum` | open.spotify.com | Get details about a specific album. | ⚪ |
+| `spotify.getArtist` | open.spotify.com | Get details about a specific artist. | ⚪ |
+| `spotify.getAudioFeatures` | open.spotify.com | Get audio analysis features for a track. | ⚪ |
+| `spotify.getChart` | open.spotify.com | Get Spotify's featured charts by type and country. | ⚪ |
+| `spotify.getCurrentPlayback` | open.spotify.com | Get the signed-in user's current playback state. | ⚪ |
+| `spotify.getDevices` | open.spotify.com | Get the signed-in user's available devices. | ⚪ |
+| `spotify.getEpisode` | open.spotify.com | Get details about a specific podcast episode. | ⚪ |
+| `spotify.getFeaturedPlaylists` | open.spotify.com | Get Spotify's featured playlists. | ⚪ |
+| `spotify.getLibraryAlbums` | open.spotify.com | Get the signed-in user's saved albums. | ⚪ |
+| `spotify.getLibraryArtists` | open.spotify.com | Get the signed-in user's followed artists. | ⚪ |
+| `spotify.getLibraryPlaylists` | open.spotify.com | Get the signed-in user's playlists. | ⚪ |
+| `spotify.getLibraryTracks` | open.spotify.com | Get the signed-in user's saved tracks. | ⚪ |
+| `spotify.getPlaylist` | open.spotify.com | Get details about a specific playlist. | ⚪ |
+| `spotify.getPodcast` | open.spotify.com | Get details about a specific podcast show. | ⚪ |
+| `spotify.getRecentlyPlayed` | open.spotify.com | Get the signed-in user's recently played tracks. | ⚪ |
+| `spotify.getRecommendations` | open.spotify.com | Get track recommendations based on seeds. | ⚪ |
+| `spotify.getTopArtists` | open.spotify.com | Get the signed-in user's top artists. | ⚪ |
+| `spotify.getTopTracks` | open.spotify.com | Get the signed-in user's top tracks. | ⚪ |
+| `spotify.getTrack` | open.spotify.com | Get details about a specific track including audio features. | ⚪ |
+| `spotify.getUserProfile` | open.spotify.com | Get the signed-in user's profile information. | ⚪ |
+| `spotify.listAlbumTracks` | open.spotify.com | Get all tracks from an album. | ⚪ |
+| `spotify.listArtistTracks` | open.spotify.com | Get an artist's top or recently released tracks. | ⚪ |
+| `spotify.listNewReleases` | open.spotify.com | Get new release recommendations. | ⚪ |
+| `spotify.listPlaylistTracks` | open.spotify.com | Get all tracks from a playlist. | ⚪ |
+| `spotify.search` | open.spotify.com | Search Spotify's catalog for tracks, albums, artists, playlists or podcasts. | ⚪ |
 | `starlighthomes.getMetro` | starlighthomes.com | Reads one metro's own page: every named neighborhood in it, each with a real live… | 🟢 |
 | `starlighthomes.getNeighborhood` | starlighthomes.com | Reads one neighborhood's own page: its ACTUAL move-in-ready homes right now — real… | 🟢 |
 | `starlighthomes.listMetros` | starlighthomes.com | Lists every metro division Starlight Homes currently builds in (e.g. Dallas - Fort… | 🟢 |

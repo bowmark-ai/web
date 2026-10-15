@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d6c99ca7192bdbdf55ad798c2eec1abaa86856a10c95171b630e50058bf8402a
-// 2107 checked, 20 unchecked.
+// Manifest version: abddbbd0d61cf9782e71d487b5c1827f77cb4d45eab13d5608397f18cae4dac4
+// 2111 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d6c99ca7192bdbdf55ad798c2eec1abaa86856a10c95171b630e50058bf8402a",
+  "version": "abddbbd0d61cf9782e71d487b5c1827f77cb4d45eab13d5608397f18cae4dac4",
   "units": {
     "address_validation": {
       "defs": {
@@ -40410,6 +40410,38 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getTropicalOutlook": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "basin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "AL"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "EP"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "CP"
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -52803,6 +52835,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "FindVenuesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "q",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchEventsArgs": {
           "k": "object",
           "props": [
@@ -52889,6 +52940,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FindPerformersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findVenues": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindVenuesArgs"
             },
             "optional": false
           }
@@ -60869,6 +60930,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchNewsArgs": {
           "k": "object",
           "props": [
@@ -60918,7 +60991,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listHomepageHeadlines": []
+        "listHomepageHeadlines": [],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.usps": {
@@ -63617,6 +63700,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.x": {
       "defs": {
+        "GetPostRepliesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "UserTimelineArgs": {
           "k": "object",
           "props": [
@@ -63697,6 +63806,16 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getPostReplies": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPostRepliesArgs"
             },
             "optional": false
           }

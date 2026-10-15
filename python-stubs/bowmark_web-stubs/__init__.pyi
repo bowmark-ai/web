@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d6c99ca7192bdbdf55ad798c2eec1abaa86856a10c95171b630e50058bf8402a
-# 85 capabilities, 579 providers, 2107 typed functions, 20 refused.
+# Manifest version: abddbbd0d61cf9782e71d487b5c1827f77cb4d45eab13d5608397f18cae4dac4
+# 85 capabilities, 579 providers, 2111 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21469,6 +21469,24 @@ class Prv_nhc_nhcWatchesWarnings_Out(TypedDict):
     warnings: list[str]
     text: str
 
+class Prv_nhc_getTropicalOutlook_args_In(TypedDict):
+    basin: Literal["AL"] | Literal["EP"] | Literal["CP"]
+
+class Prv_nhc_nhcTropicalOutlook_Out(TypedDict):
+    basin: str
+    issued: str
+    highestRisk2Day: str
+    highestRisk7Day: str
+    disturbances: list[Prv_nhc_nhcOutlookDisturbance_Out]
+
+class Prv_nhc_nhcOutlookDisturbance_Out(TypedDict):
+    id: str
+    location: str
+    summary: str
+    riskLevel: str
+    formationChance2Day: str
+    formationChance7Day: str
+
 class Prv_nintendo_NintendoProduct_Out(TypedDict):
     sku: str
     nsuid: str | None
@@ -26347,6 +26365,19 @@ class Prv_seatgeek_seatgeekPerformer_Out(TypedDict):
     slug: NotRequired[str]
     image: NotRequired[str]
 
+class Prv_seatgeek_FindVenuesArgs_In(TypedDict):
+    q: str
+    limit: NotRequired[float]
+
+class Prv_seatgeek_seatgeekVenue_Out(TypedDict):
+    id: float
+    name: str
+    city: NotRequired[str]
+    state: NotRequired[str]
+    country: NotRequired[str]
+    slug: NotRequired[str]
+    capacity: NotRequired[float]
+
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -30349,6 +30380,20 @@ class Prv_usatoday_SearchNewsArgs_In(TypedDict):
     limit: NotRequired[float]
     page: NotRequired[float]
 
+class Prv_usatoday_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_usatoday_usatodayFullArticle_Out(TypedDict):
+    id: str
+    headline: str
+    byline: NotRequired[str]
+    body: str
+    publicationDate: str
+    updateDate: NotRequired[str]
+    section: NotRequired[str]
+    image: NotRequired[str]
+    isAccessibleForFree: bool
+
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
     toZip: str
@@ -32209,6 +32254,11 @@ class Prv_x_XPostMedia_Out(TypedDict):
     width: float | None
     height: float | None
     durationMs: float | None
+
+class Prv_x_GetPostRepliesArgs_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+    limit: NotRequired[float]
 
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
     facilityId: str
@@ -47676,6 +47726,11 @@ class Prv_nhc(Protocol):
         into watch and warning categories with locations.
         """
 
+    async def getTropicalOutlook(self, args: Prv_nhc_getTropicalOutlook_args_In, /) -> Prv_nhc_nhcTropicalOutlook_Out:
+        """Get the Tropical Weather Outlook for a basin: each disturbance being watched, where it
+        is, and its 2-day and 7-day formation chance.
+        """
+
 class Prv_nintendo(Protocol):
     """Nintendo's own store catalog, support knowledge base and news — games, hardware and
     accessories by name or category, no login needed.
@@ -50532,6 +50587,11 @@ class Prv_seatgeek(Protocol):
         event query.
         """
 
+    async def findVenues(self, args: Prv_seatgeek_FindVenuesArgs_In, /) -> list[Prv_seatgeek_seatgeekVenue_Out]:
+        """Finds venues — concert halls, stadiums, theaters, clubs — by name. Returns venue id,
+        name, city, state, slug and capacity. Use when a caller names a venue.
+        """
+
 class Prv_sec_edgar(Protocol):
     """A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
     assets, shares outstanding), from SEC EDGAR
@@ -52936,6 +52996,11 @@ class Prv_usatoday(Protocol):
         lead stories, top news items, and featured sections.
         """
 
+    async def getArticle(self, args: Prv_usatoday_GetArticleArgs_In, /) -> Prv_usatoday_usatodayFullArticle_Out:
+        """Reads the full text of one USA Today article, returning headline, byline, body text,
+        publication and update dates, section, image, and whether it is free to read.
+        """
+
 class Prv_usps(Protocol):
     """USPS's own Retail Postage Price Calculator (postcalc.usps.com) — prices a domestic
     package across every USPS Mail Service that quotes it for a ZIP-to-ZIP move, weight and
@@ -53907,6 +53972,11 @@ class Prv_x(Protocol):
     async def post(self, args: Prv_x_post_args_u0_In | Prv_x_post_args_u1_In, /) -> Prv_x_XPost_Out:
         """Reads one X (Twitter) post / tweet by URL or id: views, likes, reposts, replies, quotes,
         bookmarks and media (type, width, height, duration, video url) — browserless.
+        """
+
+    async def getPostReplies(self, args: Prv_x_GetPostRepliesArgs_In, /) -> list[Prv_x_XTweet_Out]:
+        """Reads the reply thread under a single X post, scrolling until `limit` is met or replies
+        run out.
         """
 
 class Prv_xpresswellnessurgentcare(Protocol):

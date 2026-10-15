@@ -1,5 +1,5 @@
 {
-  "version": "d6c99ca7192bdbdf55ad798c2eec1abaa86856a10c95171b630e50058bf8402a",
+  "version": "abddbbd0d61cf9782e71d487b5c1827f77cb4d45eab13d5608397f18cae4dac4",
   "units": {
     "address_validation": {
       "defs": {
@@ -40398,6 +40398,38 @@
             },
             "optional": false
           }
+        ],
+        "getTropicalOutlook": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "basin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "AL"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "EP"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "CP"
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -52791,6 +52823,25 @@
             }
           ]
         },
+        "FindVenuesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "q",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchEventsArgs": {
           "k": "object",
           "props": [
@@ -52877,6 +52928,16 @@
             "schema": {
               "k": "ref",
               "name": "FindPerformersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findVenues": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindVenuesArgs"
             },
             "optional": false
           }
@@ -60857,6 +60918,18 @@
             }
           ]
         },
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchNewsArgs": {
           "k": "object",
           "props": [
@@ -60906,7 +60979,17 @@
             "optional": false
           }
         ],
-        "listHomepageHeadlines": []
+        "listHomepageHeadlines": [],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.usps": {
@@ -63605,6 +63688,32 @@
     },
     "providers.x": {
       "defs": {
+        "GetPostRepliesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "UserTimelineArgs": {
           "k": "object",
           "props": [
@@ -63685,6 +63794,16 @@
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getPostReplies": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPostRepliesArgs"
             },
             "optional": false
           }
