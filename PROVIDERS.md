@@ -203,7 +203,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.getConfigurationOptions` | apple.com | Read every choice a buy page actually offers — chip, memory, storage, colour, size… | 🟢 |
 | `apple.getDeliveryEstimate` | apple.com | When would this actually arrive if I ordered it now, to my ZIP code — the delivery… | 🟢 |
 | `apple.getNewsroomPost` | apple.com | Read one Apple press release in full from its URL — the announcement text itself, not… | 🟢 |
-| `apple.getOrderStatus` | apple.com | Where is one Apple order, and when does it arrive — off the signed-in Order List page. | 🟡 |
+| `apple.getOrderStatus` | apple.com | Where is one Apple order, and when does it arrive — off the signed-in Order List page. | 🟢 |
 | `apple.getPickupAvailability` | apple.com | Answer the one question apple.com is uniquely able to answer and no other site can… | 🟢 |
 | `apple.getProduct` | apple.com | Reads one apple.com product/buy page (a URL or path search already returned, e.g.… | 🟢 |
 | `apple.getProductByPartNumber` | apple.com | Turn an Apple part number — the MYAP3LL/A-shaped code printed on every buy page, in… | 🟢 |
