@@ -3361,7 +3361,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.deletePost` | x.com | Delete one of the signed-in account's own posts. | ⚪ |
 | `x.followUser` | x.com | Follow or unfollow a user as the signed-in account — one `follow` boolean argument… | ⚪ |
 | `x.getConversation` | x.com | The messages inside one of the signed-in account's DM conversations. | ⚪ |
-| `x.getPostReplies` | x.com | Reads the reply thread under a single X post — the same status page `post` reads, but… | ⚪ |
+| `x.getPostReplies` | x.com | Reads the reply thread under a single X post — the same status page `post` reads, but… | 🟢 |
 | `x.likePost` | x.com | Like or unlike a post as the signed-in account — one `like` boolean argument picks the… | ⚪ |
 | `x.listBookmarks` | x.com | The signed-in account's saved bookmarks. | ⚪ |
 | `x.listConversations` | x.com | The signed-in account's direct-message conversation list. | ⚪ |
