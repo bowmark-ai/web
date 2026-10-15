@@ -38,7 +38,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
 | `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
-| `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | ⚪ |
+| `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟢 |
 | `adobe.getCreativeCloudPlans` | adobe.com | Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html… | 🟢 |
 | `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | ⚪ |
 | `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail page — title, full description, media type… | ⚪ |
@@ -2192,7 +2192,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week (TV and Films), ranked by views. | 🟢 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads a Tudum article (Netflix's editorial blog). | ⚪ |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's viewing history (requires caller to be signed in). | ⚪ |
-| `netflix.listGenres` | www.netflix.com | Lists available Netflix genres. | ⚪ |
+| `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
 | `netflix.rateTitle` | www.netflix.com | Rates a title on the signed-in caller's account (requires caller to be signed in). | ⚪ |
 | `netflix.removeFromMyList` | www.netflix.com | Removes a title from the signed-in caller's My List (requires caller to be signed in). | ⚪ |
 | `netflix.search` | www.netflix.com | Searches Netflix for titles by query (requires caller to be signed in). | ⚪ |
