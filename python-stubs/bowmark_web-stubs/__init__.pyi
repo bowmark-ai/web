@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3
-# 85 capabilities, 582 providers, 2125 typed functions, 20 refused.
+# Manifest version: 67dfcf49c20b468dd37c9f8a7ab6f328381d2d5f91cb0663f8ecde9baa5aa162
+# 85 capabilities, 583 providers, 2130 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21342,6 +21342,31 @@ class Prv_nationalbusinessfurniture_NbfCartHandoff_Out_applied_item_Out(TypedDic
     group: str
     choice: str
 
+class Prv_netflix_NetflixTitleSearch_Out(TypedDict):
+    query: str
+    matches: list[Prv_netflix_NetflixTitleMatch_Out]
+    searched: float
+
+class Prv_netflix_NetflixTitleMatch_Out(TypedDict):
+    id: str
+    title: str
+    type: Literal["series"] | Literal["movie"]
+    url: str
+
+class Prv_netflix_NetflixTitle_Out(TypedDict):
+    id: str
+    title: str
+    description: NotRequired[str]
+    imageUrl: NotRequired[str]
+    releaseYear: NotRequired[float]
+    runtime: NotRequired[float]
+    maturityRating: NotRequired[str]
+    genres: NotRequired[list[str]]
+    seasons: NotRequired[str]
+    starring: NotRequired[list[str]]
+    creators: NotRequired[list[str]]
+    url: str
+
 class Prv_newageproducts_NewageproductsProduct_Out(TypedDict):
     handle: str
     title: str
@@ -26488,6 +26513,11 @@ class Prv_seatgeek_GetPerformerArgs_In(TypedDict):
 class Prv_seatgeek_GetVenueArgs_In(TypedDict):
     id: float
 
+class Prv_seatgeek_seatgeekTaxonomy_Out(TypedDict):
+    id: float
+    name: str
+    parent_id: NotRequired[float]
+
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -28220,6 +28250,27 @@ class Prv_target_TargetReview_Out(TypedDict):
     verifiedPurchase: bool
     submittedAt: str | None
     authorNickname: str | None
+
+class Prv_target_TargetOrdersHistory_Out(TypedDict):
+    orders: list[Prv_target_TargetOrder_Out]
+    totalOrders: float
+    warnings: list[str]
+
+class Prv_target_TargetOrder_Out(TypedDict):
+    orderId: str
+    orderDate: str | None
+    status: str | None
+    itemCount: float
+    items: list[Prv_target_TargetOrderItem_Out]
+    orderTotal: float | None
+    warnings: list[str]
+
+class Prv_target_TargetOrderItem_Out(TypedDict):
+    tcin: str
+    title: str | None
+    quantity: float
+    price: float | None
+    imageUrl: str | None
 
 class Prv_target_getRegistry_args_In(TypedDict):
     registryId: str
@@ -30526,6 +30577,11 @@ class Prv_usatoday_usatodayScore_Out(TypedDict):
     awayScore: float
     date: str
     status: str
+
+class Prv_usatoday_usatodayPuzzle_Out(TypedDict):
+    id: str
+    name: str
+    url: str
 
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
@@ -47821,6 +47877,22 @@ class Prv_nationalbusinessfurniture(Protocol):
         site's own add-to-cart endpoint.
         """
 
+class Prv_netflix(Protocol):
+    """Netflix streaming service — browse titles, search, manage My List and view history."""
+
+    async def findTitles(self, query: str, /) -> Prv_netflix_NetflixTitleSearch_Out:
+        """Finds Netflix titles by name — e.g. findTitles("stranger things") — returning each
+        match's id, name, series/movie and URL, to pass to getTitle. Searches the ~1,100 titles
+        Netflix lists on its public TV Shows, Movies and Only on Netflix pages, so a miss does
+        not mean Netflix lacks the title. No sign-in.
+        """
+
+    async def getTitle(self, titleId: str, /) -> Prv_netflix_NetflixTitle_Out:
+        """Reads a public Netflix title page by its numeric id (the number in
+        netflix.com/title/<id>) — name, synopsis, release year, maturity rating, genres, season
+        count, cast, creators and hero image. No sign-in.
+        """
+
 class Prv_newageproducts(Protocol):
     """NewAge Products' own garage-cabinetry and outdoor-living catalogue — one product's real
     finish/color variants, exact live price, compare-at price and active status, plus a
@@ -50836,6 +50908,12 @@ class Prv_seatgeek(Protocol):
         read a caller reaches after findVenues narrows to a single venue id.
         """
 
+    async def listTaxonomies(self, /) -> list[Prv_seatgeek_seatgeekTaxonomy_Out]:
+        """Returns the category taxonomy SeatGeek uses to classify events (e.g., music > rock,
+        sports > basketball). Useful for a caller who wants to pass a valid category into
+        searchEvents rather than guessing one.
+        """
+
 class Prv_sec_edgar(Protocol):
     """A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
     assets, shares outstanding), from SEC EDGAR
@@ -51768,6 +51846,12 @@ class Prv_target(Protocol):
         the detail `search` and `getProduct` only summarize as a count and an average. Takes a
         TCIN from `search`. `limit` defaults to 20, max 200; `sortBy` defaults to the site's own
         "most_recent".
+        """
+
+    async def listOrders(self, opts: ConnectionOption | None = None, /) -> Prv_target_TargetOrdersHistory_Out:
+        """Reads the CALLER's own Target order history — each order's id, date, status, items and
+        totals. This is the signed-in person's complete order list, distinct from `trackOrder`
+        which is the guest lookup by order number plus email. Needs the caller signed in.
         """
 
     async def getRegistry(self, args: Prv_target_getRegistry_args_In, /) -> Prv_target_TargetRegistry_Out:
@@ -53255,6 +53339,11 @@ class Prv_usatoday(Protocol):
     async def getScores(self, args: Prv_usatoday_GetScoresArgs_In, /) -> list[Prv_usatoday_usatodayScore_Out]:
         """Reads sports scores from USA Today's scores section — given a sport like NFL, NBA, MLB,
         MLS — returning game results with home and away teams, scores, date and status.
+        """
+
+    async def listPuzzles(self, /) -> list[Prv_usatoday_usatodayPuzzle_Out]:
+        """Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games and
+        more), each with an id, display name and play URL.
         """
 
 class Prv_usps(Protocol):
@@ -55497,6 +55586,7 @@ class BowmarkProviders(Protocol):
     naic: Prv_naic
     namecheap: Prv_namecheap
     nationalbusinessfurniture: Prv_nationalbusinessfurniture
+    netflix: Prv_netflix
     newageproducts: Prv_newageproducts
     newegg: Prv_newegg
     nfa_futures_org: Prv_nfa_futures_org

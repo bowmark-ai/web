@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3
-// 2125 checked, 20 unchecked.
+// Manifest version: 67dfcf49c20b468dd37c9f8a7ab6f328381d2d5f91cb0663f8ecde9baa5aa162
+// 2130 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3",
+  "version": "67dfcf49c20b468dd37c9f8a7ab6f328381d2d5f91cb0663f8ecde9baa5aa162",
   "units": {
     "address_validation": {
       "defs": {
@@ -40266,6 +40266,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.netflix": {
+      "defs": {},
+      "functions": {
+        "findTitles": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTitle": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.newageproducts": {
       "defs": {},
       "functions": {
@@ -53182,7 +53205,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listTaxonomies": []
       }
     },
     "providers.sec_edgar": {
@@ -56423,6 +56447,24 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ],
+        "listOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getRegistry": [
@@ -61293,7 +61335,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listPuzzles": []
       }
     },
     "providers.usps": {

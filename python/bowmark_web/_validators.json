@@ -1,5 +1,5 @@
 {
-  "version": "e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3",
+  "version": "67dfcf49c20b468dd37c9f8a7ab6f328381d2d5f91cb0663f8ecde9baa5aa162",
   "units": {
     "address_validation": {
       "defs": {
@@ -40254,6 +40254,29 @@
         ]
       }
     },
+    "providers.netflix": {
+      "defs": {},
+      "functions": {
+        "findTitles": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTitle": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.newageproducts": {
       "defs": {},
       "functions": {
@@ -53170,7 +53193,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listTaxonomies": []
       }
     },
     "providers.sec_edgar": {
@@ -56411,6 +56435,24 @@
               ]
             },
             "optional": false
+          }
+        ],
+        "listOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getRegistry": [
@@ -61281,7 +61323,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listPuzzles": []
       }
     },
     "providers.usps": {

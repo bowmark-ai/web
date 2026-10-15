@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3
-// 85 capabilities, 582 providers, 2143 typed functions, 20 refused.
+// Manifest version: 67dfcf49c20b468dd37c9f8a7ab6f328381d2d5f91cb0663f8ecde9baa5aa162
+// 85 capabilities, 583 providers, 2148 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39124,6 +39124,96 @@ interface NbfCartHandoff {
   }
 }
 
+declare namespace BowmarkProvider_netflix {
+  // ── Netflix — the unit's own declarations, verbatim ──
+interface NetflixTitle {
+  id: string;
+  title: string;
+  description?: string;
+  imageUrl?: string;
+  releaseYear?: number;
+  runtime?: number;
+  maturityRating?: string;
+  genres?: string[];
+  /** e.g. "5 Seasons" — present on a series, absent on a film. */
+  seasons?: string;
+  starring?: string[];
+  creators?: string[];
+  url: string;
+}
+
+interface NetflixTitleMatch {
+  id: string;
+  title: string;
+  type: "series" | "movie";
+  url: string;
+}
+
+interface NetflixTitleSearch {
+  query: string;
+  matches: NetflixTitleMatch[];
+  /** How many distinct titles the public catalogue pages listed — the pool searched. */
+  searched: number;
+}
+
+interface NetflixGenre {
+  id: string;
+  name: string;
+}
+
+interface NetflixTop10Entry {
+  rank: number;
+  category: "TV" | "Films";
+  title: string;
+  weeklyViews?: number;
+  weeklyHours?: number;
+}
+
+interface NetflixSearchResult {
+  results: NetflixTitle[];
+  totalResults: number;
+}
+
+interface NetflixMyListItem {
+  id: string;
+  title: string;
+}
+
+interface NetflixRating {
+  titleId: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+}
+
+interface NetflixViewingHistoryEntry {
+  titleId: string;
+  title: string;
+  lastWatchedDate?: string;
+}
+
+interface NetflixProfile {
+  name: string;
+  email?: string;
+}
+
+  /** Netflix streaming service — browse titles, search, manage My List and view history. */
+  interface Unit {
+    /**
+     * Finds Netflix titles by name — e.g. findTitles("stranger things") — returning each match's
+     * id, name, series/movie and URL, to pass to getTitle. Searches the ~1,100 titles Netflix
+     * lists on its public TV Shows, Movies and Only on Netflix pages, so a miss does not mean
+     * Netflix lacks the title. No sign-in.
+     */
+    findTitles(query: string): Promise<NetflixTitleSearch>;
+
+    /**
+     * Reads a public Netflix title page by its numeric id (the number in netflix.com/title/<id>) —
+     * name, synopsis, release year, maturity rating, genres, season count, cast, creators and hero
+     * image. No sign-in.
+     */
+    getTitle(titleId: string): Promise<NetflixTitle>;
+  }
+}
+
 declare namespace BowmarkProvider_newageproducts {
   // ── NewAge Products — the unit's own declarations, verbatim ──
 interface NewageproductsSearchResult {
@@ -47230,6 +47320,12 @@ interface seatgeekVenue {
   capacity?: number;
 }
 
+interface seatgeekTaxonomy {
+  id: number;
+  name: string;
+  parent_id?: number;
+}
+
 interface seatgeekRow {
   id: string;
 }
@@ -47277,6 +47373,13 @@ interface seatgeekRow {
      * caller reaches after findVenues narrows to a single venue id.
      */
     getVenue(args: GetVenueArgs): Promise<seatgeekVenue>;
+
+    /**
+     * Returns the category taxonomy SeatGeek uses to classify events (e.g., music > rock, sports >
+     * basketball). Useful for a caller who wants to pass a valid category into searchEvents rather
+     * than guessing one.
+     */
+    listTaxonomies(): Promise<seatgeekTaxonomy[]>;
   }
 }
 
@@ -50175,6 +50278,30 @@ interface TargetAddToCartResult {
   warnings: string[];
 }
 
+interface TargetOrderItem {
+  tcin: string;
+  title: string | null;
+  quantity: number;
+  price: number | null;
+  imageUrl: string | null;
+}
+
+interface TargetOrder {
+  orderId: string;
+  orderDate: string | null;  // ISO timestamp
+  status: string | null;  // the site's own labels — "DELIVERED", "CANCELLED", etc.
+  itemCount: number;
+  items: TargetOrderItem[];
+  orderTotal: number | null;
+  warnings: string[];
+}
+
+interface TargetOrdersHistory {
+  orders: TargetOrder[];  // newest first, per the site's own order
+  totalOrders: number;
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -50247,6 +50374,13 @@ interface TargetAddToCartResult {
      * "most_recent".
      */
     listReviews(args: { tcin: string; limit?: number; sortBy?: "most_recent" | "most_helpful" }): Promise<TargetReviews>;
+
+    /**
+     * Reads the CALLER's own Target order history — each order's id, date, status, items and
+     * totals. This is the signed-in person's complete order list, distinct from `trackOrder` which
+     * is the guest lookup by order number plus email. Needs the caller signed in.
+     */
+    listOrders(opts?: ConnectionOption): Promise<TargetOrdersHistory>;
 
     /**
      * Reads one Target Gift Registry's items once you have the registry's id from `findRegistry`
@@ -54270,6 +54404,12 @@ interface GetScoresArgs {
   sport: string;
 }
 
+interface usatodayPuzzle {
+  id: string;
+  name: string;
+  url: string;
+}
+
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
   interface Unit {
     /**
@@ -54307,6 +54447,12 @@ interface GetScoresArgs {
      * — returning game results with home and away teams, scores, date and status.
      */
     getScores(args: GetScoresArgs): Promise<usatodayScore[]>;
+
+    /**
+     * Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games and
+     * more), each with an id, display name and play URL.
+     */
+    listPuzzles(): Promise<usatodayPuzzle[]>;
   }
 }
 
@@ -60537,6 +60683,7 @@ interface BowmarkProviders {
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;
   nationalbusinessfurniture: BowmarkProvider_nationalbusinessfurniture.Unit;
+  netflix: BowmarkProvider_netflix.Unit;
   newageproducts: BowmarkProvider_newageproducts.Unit;
   newegg: BowmarkProvider_newegg.Unit;
   nfa_futures_org: BowmarkProvider_nfa_futures_org.Unit;
