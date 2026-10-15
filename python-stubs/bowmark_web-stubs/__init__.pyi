@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: decbeed80d298673d99565c3f0bc7b0d20e46f1a01d5dc5409dd1e90ba195fa0
-# 85 capabilities, 579 providers, 2111 typed functions, 20 refused.
+# Manifest version: 4947a3608715ef47e4829dc59ca5a39551462f56ee840a6af1d7144c312499d7
+# 85 capabilities, 580 providers, 2115 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10302,6 +10302,18 @@ class Prv_dailymotion_DailymotionPlaylist_Out_owner_Out(TypedDict):
     id: str | None
     name: str | None
     username: str | None
+
+class Prv_dailymotion_ListPlaylistVideosArgs_In(TypedDict):
+    playlist: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionPlaylistVideosResult_Out(TypedDict):
+    playlist: str
+    page: float
+    total: float
+    hasMore: bool
+    videos: list[Prv_dailymotion_DailymotionVideo_Out]
 
 class Prv_dangotecement_FindDistributorsFilters_In(TypedDict):
     query: NotRequired[str]
@@ -31543,6 +31555,35 @@ class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
     website: str | None
     logoUrl: str | None
 
+class Prv_whatsapp_getChannel_args_In(TypedDict):
+    id: str
+
+class Prv_whatsapp_WhatsappChannel_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    followerCount: str
+    followerCountNumber: float
+    url: str
+
+class Prv_whatsapp_WhatsappHelpSearchResult_Out(TypedDict):
+    id: str
+    title: str
+    summary: str
+    url: str
+
+class Prv_whatsapp_WhatsappHelpArticle_Out(TypedDict):
+    id: str
+    title: str
+    platform: str
+    url: str
+    text: str
+    links: list[Prv_whatsapp_WhatsappHelpArticle_Out_links_item_Out]
+
+class Prv_whatsapp_WhatsappHelpArticle_Out_links_item_Out(TypedDict):
+    text: str
+    url: str
+
 class Prv_wholefoodsmarket_SearchResults_Out(TypedDict):
     products: list[Prv_wholefoodsmarket_Product_Out]
     warnings: list[str]
@@ -40058,6 +40099,11 @@ class Prv_dailymotion(Protocol):
     async def getPlaylist(self, playlist: str, /) -> Prv_dailymotion_DailymotionPlaylist_Out:
         """Read one Dailymotion playlist from its id: name, description, owner, video count and
         thumbnail. Playlist ids come from listChannelPlaylists or searchPlaylists.
+        """
+
+    async def listPlaylistVideos(self, args: Prv_dailymotion_ListPlaylistVideosArgs_In, /) -> Prv_dailymotion_DailymotionPlaylistVideosResult_Out:
+        """List the videos in one Dailymotion playlist, in playlist order, paged — same fields as
+        getVideo. Playlist ids come from listChannelPlaylists or getPlaylist.
         """
 
 class Prv_dangotecement(Protocol):
@@ -53621,6 +53667,29 @@ class Prv_wellfound(Protocol):
         site's own experience-requirement text and the hiring startup.
         """
 
+class Prv_whatsapp(Protocol):
+    """WhatsApp, Meta's messaging app: preview public Channels, group invite links and business
+    catalogs, search the Help Center; signed in through WhatsApp Web, read and search the
+    caller's chats, send messages and media, manage groups, follow Channels and post Status.
+    """
+
+    async def getChannel(self, args: Prv_whatsapp_getChannel_args_In, /) -> Prv_whatsapp_WhatsappChannel_Out:
+        """Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the bare
+        id): the channel's name, description, follower count as the page phrases it ("3.3M
+        followers") and as a number, and its canonical url. Logged-out, so no posts.
+        """
+
+    async def searchHelpCenter(self, query: str, /) -> list[Prv_whatsapp_WhatsappHelpSearchResult_Out]:
+        """Searches WhatsApp's Help Center (faq.whatsapp.com) the way its own search box does —
+        each hit's id, title, summary and url. The finder for getHelpArticle.
+        """
+
+    async def getHelpArticle(self, idOrUrl: str, /) -> Prv_whatsapp_WhatsappHelpArticle_Out:
+        """Reads one Help Center article by its numeric id or faq.whatsapp.com url: title, which
+        platform it is written for, and the article text with its links. Ids come from
+        searchHelpCenter.
+        """
+
 class Prv_wholefoodsmarket(Protocol):
     """Search Whole Foods product catalog by a SPECIFIC product or category name (e.g. 'organic
     apples'). The store name alone ('whole foods') is not a valid query — it requires a
@@ -55382,6 +55451,7 @@ class BowmarkProviders(Protocol):
     weather_channel: Prv_weather_channel
     webshare: Prv_webshare
     wellfound: Prv_wellfound
+    whatsapp: Prv_whatsapp
     wholefoodsmarket: Prv_wholefoodsmarket
     wikipedia: Prv_wikipedia
     wikipedia_standings: Prv_wikipedia_standings

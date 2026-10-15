@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: decbeed80d298673d99565c3f0bc7b0d20e46f1a01d5dc5409dd1e90ba195fa0
-// 85 capabilities, 579 providers, 2129 typed functions, 20 refused.
+// Manifest version: 4947a3608715ef47e4829dc59ca5a39551462f56ee840a6af1d7144c312499d7
+// 85 capabilities, 580 providers, 2133 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18201,6 +18201,18 @@ interface DailymotionChannelPlaylistsResult {
   hasMore: boolean;
   playlists: DailymotionPlaylist[];
 }
+interface ListPlaylistVideosArgs {
+  playlist: string;
+  limit?: number;
+  page?: number;
+}
+interface DailymotionPlaylistVideosResult {
+  playlist: string;
+  page: number;
+  total: number;
+  hasMore: boolean;
+  videos: DailymotionVideo[];
+}
 
   /**
    * Search Dailymotion videos by keyword and read one video's title, channel, duration, views
@@ -18251,6 +18263,12 @@ interface DailymotionChannelPlaylistsResult {
      * thumbnail. Playlist ids come from listChannelPlaylists or searchPlaylists.
      */
     getPlaylist(playlist: string): Promise<DailymotionPlaylist>;
+
+    /**
+     * List the videos in one Dailymotion playlist, in playlist order, paged — same fields as
+     * getVideo. Playlist ids come from listChannelPlaylists or getPlaylist.
+     */
+    listPlaylistVideos(args: ListPlaylistVideosArgs): Promise<DailymotionPlaylistVideosResult>;
   }
 }
 
@@ -55906,6 +55924,59 @@ interface wellfoundCompanyDetail {
   }
 }
 
+declare namespace BowmarkProvider_whatsapp {
+  // ── WhatsApp — the unit's own declarations, verbatim ──
+interface WhatsappChannel {
+  id: string;
+  name: string;
+  description: string;
+  followerCount: string;
+  followerCountNumber: number;
+  url: string;
+}
+interface WhatsappHelpSearchResult {
+  id: string;
+  title: string;
+  summary: string;
+  url: string;
+}
+interface WhatsappHelpArticle {
+  id: string;
+  title: string;
+  platform: string;
+  url: string;
+  text: string;
+  links: Array<{ text: string; url: string }>;
+}
+
+  /**
+   * WhatsApp, Meta's messaging app: preview public Channels, group invite links and business
+   * catalogs, search the Help Center; signed in through WhatsApp Web, read and search the
+   * caller's chats, send messages and media, manage groups, follow Channels and post Status.
+   */
+  interface Unit {
+    /**
+     * Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the bare
+     * id): the channel's name, description, follower count as the page phrases it ("3.3M
+     * followers") and as a number, and its canonical url. Logged-out, so no posts.
+     */
+    getChannel(args: { id: string }): Promise<WhatsappChannel>;
+
+    /**
+     * Searches WhatsApp's Help Center (faq.whatsapp.com) the way its own search box does — each
+     * hit's id, title, summary and url. The finder for getHelpArticle.
+     */
+    searchHelpCenter(query: string): Promise<WhatsappHelpSearchResult[]>;
+
+    /**
+     * Reads one Help Center article by its numeric id or faq.whatsapp.com url: title, which
+     * platform it is written for, and the article text with its links. Ids come from
+     * searchHelpCenter.
+     */
+    getHelpArticle(idOrUrl: string): Promise<WhatsappHelpArticle>;
+  }
+}
+
 declare namespace BowmarkProvider_wholefoodsmarket {
   // ── Whole Foods — the unit's own declarations, verbatim ──
 interface Product {
@@ -60414,6 +60485,7 @@ interface BowmarkProviders {
   weather_channel: BowmarkProvider_weather_channel.Unit;
   webshare: BowmarkProvider_webshare.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
+  whatsapp: BowmarkProvider_whatsapp.Unit;
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   wikipedia: BowmarkProvider_wikipedia.Unit;
   wikipedia_standings: BowmarkProvider_wikipedia_standings.Unit;

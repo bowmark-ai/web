@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: decbeed80d298673d99565c3f0bc7b0d20e46f1a01d5dc5409dd1e90ba195fa0
-// 2111 checked, 20 unchecked.
+// Manifest version: 4947a3608715ef47e4829dc59ca5a39551462f56ee840a6af1d7144c312499d7
+// 2115 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "decbeed80d298673d99565c3f0bc7b0d20e46f1a01d5dc5409dd1e90ba195fa0",
+  "version": "4947a3608715ef47e4829dc59ca5a39551462f56ee840a6af1d7144c312499d7",
   "units": {
     "address_validation": {
       "defs": {
@@ -18457,6 +18457,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListPlaylistVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playlist",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchVideosArgs": {
           "k": "object",
           "props": [
@@ -18555,6 +18581,16 @@ export const VALIDATORS: ValidatorTable = {
             "name": "playlist",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPlaylistVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPlaylistVideosArgs"
             },
             "optional": false
           }
@@ -62577,6 +62613,47 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.whatsapp": {
+      "defs": {},
+      "functions": {
+        "getChannel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchHelpCenter": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getHelpArticle": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
