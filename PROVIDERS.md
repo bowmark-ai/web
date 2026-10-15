@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3571 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3597 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3386,7 +3386,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows, with each channel's id, name and latest update. | ⚪ |
 | `whatsapp.listStatusUpdates` | whatsapp.com | Lists the Status updates the caller's contacts have posted in the last 24 hours — who… | ⚪ |
 | `whatsapp.postStatus` | whatsapp.com | Posts a text or image Status update as the caller, and deletes one. | ⚪ |
-| `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | ⚪ |
+| `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟢 |
 | `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | ⚪ |
 | `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message with an emoji as the caller, or removes the caller's reaction. | ⚪ |
 | `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | ⚪ |
@@ -3577,5 +3577,31 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
 | `zennioptical.priceLensConfig` | zennioptical.com | Runs a real prescription + usage type through the site's own order-configurator flow… | 🟢 |
 | `zennioptical.searchFrames` | zennioptical.com | Searches Zenni's own storefront catalog for what a shopper would type — "round… | 🟢 |
+| `zoom.deleteMeeting` | zoom.us | Cancels a scheduled meeting. | ⚪ |
+| `zoom.downloadRecording` | zoom.us | Returns the download URL for a recording video file. | ⚪ |
+| `zoom.getContactInfo` | zoom.us | Returns details of one contact. | ⚪ |
+| `zoom.getContacts` | zoom.us | The signed-in caller's contact list. | ⚪ |
+| `zoom.getMarketplaceApp` | zoom.us | Returns details of one Zoom Marketplace app. | ⚪ |
+| `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | ⚪ |
+| `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | ⚪ |
+| `zoom.getMeetingParticipants` | zoom.us | Lists participants of a meeting (if in progress). | ⚪ |
+| `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | ⚪ |
+| `zoom.getProfile` | zoom.us | The signed-in caller's user profile. | ⚪ |
+| `zoom.getRecording` | zoom.us | Returns metadata and access info for one recording. | ⚪ |
+| `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | ⚪ |
+| `zoom.getSystemStatus` | zoom.us | Returns Zoom's current system status. | ⚪ |
+| `zoom.getWebinar` | zoom.us | Returns details of one webinar. | ⚪ |
+| `zoom.joinMeeting` | zoom.us | Reads the public meeting join page and returns meeting details. | ⚪ |
+| `zoom.listMeetings` | zoom.us | The signed-in caller's upcoming meetings. | ⚪ |
+| `zoom.listRecordings` | zoom.us | The signed-in caller's recorded meetings and webinars. | ⚪ |
+| `zoom.listRecordingTranscripts` | zoom.us | Lists available transcripts for a recording. | ⚪ |
+| `zoom.listWebinars` | zoom.us | The signed-in caller's webinars. | ⚪ |
+| `zoom.scheduleMeeting` | zoom.us | Creates a new meeting on the caller's account. | ⚪ |
+| `zoom.searchContacts` | zoom.us | Searches the caller's contacts by name. | ⚪ |
+| `zoom.searchHelpArticles` | zoom.us | Searches the help center for articles. | ⚪ |
+| `zoom.searchMarketplaceApps` | zoom.us | Searches the Zoom Marketplace for apps by keyword. | ⚪ |
+| `zoom.updateMeeting` | zoom.us | Updates meeting title, time, or settings. | ⚪ |
+| `zoom.updateProfile` | zoom.us | Updates user profile bio, timezone, or other settings. | ⚪ |
+| `zoom.updateProfilePicture` | zoom.us | Uploads a new profile picture. | ⚪ |
 | `zoopla.listings` | zoopla.co.uk | Lists property listings from a search query — alternative to search(). | ⚪ |
 | `zoopla.search` | zoopla.co.uk | Searches property listings by location, price range, and bedrooms. | 🟡 |
