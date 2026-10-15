@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3639 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3674 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2185,9 +2185,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nationalbusinessfurniture.searchProducts` | nationalbusinessfurniture.com | Searches National Business Furniture's office-furniture catalog by free text and… | 🟢 |
 | `netflix.addToMyList` | www.netflix.com | Adds a title to the signed-in caller's My List (requires caller to be signed in). | ⚪ |
 | `netflix.browseGenre` | www.netflix.com | Browses titles in a Netflix genre, returns a list of titles. | ⚪ |
+| `netflix.findTitles` | www.netflix.com | Finds Netflix titles by name — e.g. findTitles("stranger things") — returning each… | 🟢 |
 | `netflix.getContinueWatching` | www.netflix.com | Gets titles the signed-in caller is currently watching (requires caller to be signed… | ⚪ |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's My List (requires caller to be signed in). | ⚪ |
-| `netflix.getTitle` | www.netflix.com | Reads a single Netflix title page with name, description, images, release year… | ⚪ |
+| `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
 | `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week (TV and Films). | ⚪ |
 | `netflix.getTudumArticle` | www.netflix.com | Reads a Tudum article (Netflix's editorial blog). | ⚪ |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's viewing history (requires caller to be signed in). | ⚪ |
@@ -2572,6 +2573,40 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `purevpn.getDedicatedIp` | purevpn.com | Reads PureVPN's own dedicated / static IP page and returns every country and city it… | 🟢 |
 | `purevpn.getPlans` | purevpn.com | PureVPN's standard VPN subscription plans and prices. | ⚪ |
+| `quickbooks.calculateEmployeeCost` | quickbooks.intuit.com | Estimates the full yearly cost of one employee (salary plus payroll taxes, benefits… | ⚪ |
+| `quickbooks.calculatePaycheck` | quickbooks.intuit.com | Computes a US employee's take-home pay for one paycheck from gross pay or an hourly… | ⚪ |
+| `quickbooks.calculateSalesTax` | quickbooks.intuit.com | Estimates the combined sales tax rate and amount for a purchase price at a US address… | ⚪ |
+| `quickbooks.contactAccountant` | quickbooks.intuit.com | Sends a ProAdvisor the directory's contact request (name, email, phone, what you need… | ⚪ |
+| `quickbooks.estimatePaymentFees` | quickbooks.intuit.com | Estimates what QuickBooks Payments would charge on a given monthly volume split across… | ⚪ |
+| `quickbooks.findAccountants` | quickbooks.intuit.com | Searches the QuickBooks ProAdvisor directory for certified accountants and bookkeepers… | ⚪ |
+| `quickbooks.generateInvoice` | quickbooks.intuit.com | Fills in QuickBooks' free invoice generator (/payments/invoicing/generator/) with a… | ⚪ |
+| `quickbooks.getAccountant` | quickbooks.intuit.com | Reads one ProAdvisor's public profile by the searchId findAccountants returns (or the… | ⚪ |
+| `quickbooks.getApp` | quickbooks.intuit.com | Reads one App Store listing by slug or URL: description, developer, pricing plans… | ⚪ |
+| `quickbooks.getDesktopPlans` | quickbooks.intuit.com | Lists the QuickBooks Desktop Enterprise editions with their annual subscription prices… | ⚪ |
+| `quickbooks.getEvent` | quickbooks.intuit.com | Reads one Community event: description, date and time with time zone, host, and how to… | ⚪ |
+| `quickbooks.getExpertPlans` | quickbooks.intuit.com | Lists the QuickBooks Live expert bookkeeping and setup-help offers with their monthly… | ⚪ |
+| `quickbooks.getHelpArticle` | quickbooks.intuit.com | Reads one QuickBooks help article as text: title, the steps, which QuickBooks products… | ⚪ |
+| `quickbooks.getPaymentRates` | quickbooks.intuit.com | Returns QuickBooks Payments' published processing rates per method (card swiped, card… | ⚪ |
+| `quickbooks.getPayrollPlans` | quickbooks.intuit.com | Lists the QuickBooks Payroll plans (Core, Premium, Elite) with monthly base price… | ⚪ |
+| `quickbooks.getPlans` | quickbooks.intuit.com | Lists the QuickBooks Online plans (Solopreneur, Simple Start, Essentials, Plus… | ⚪ |
+| `quickbooks.getResourceArticle` | quickbooks.intuit.com | Reads one Resource Center article (/r/<topic>/<slug>/) as text with its title, author… | ⚪ |
+| `quickbooks.getServiceStatus` | quickbooks.intuit.com | Returns QuickBooks' current service status per region and component (operational… | ⚪ |
+| `quickbooks.getStatePayrollTaxes` | quickbooks.intuit.com | Returns one US state's payroll tax facts as the /payroll/tools/tax-map/ page lists… | ⚪ |
+| `quickbooks.getThread` | quickbooks.intuit.com | Reads one Community thread: the question, every reply with author, date and kudos, and… | ⚪ |
+| `quickbooks.getTimeTrackingPlans` | quickbooks.intuit.com | Lists the QuickBooks Time plans with base and per-user monthly prices and their… | ⚪ |
+| `quickbooks.listAppCategories` | quickbooks.intuit.com | Lists the App Store's categories (e.g. payments, inventory, time tracking, CRM) with… | ⚪ |
+| `quickbooks.listAppReviews` | quickbooks.intuit.com | Lists the user reviews on one App Store listing, newest first, with rating, text, date… | ⚪ |
+| `quickbooks.listBoardThreads` | quickbooks.intuit.com | Lists the most recent threads on one Community board, with title, URL, author, date… | ⚪ |
+| `quickbooks.listCommunityBoards` | quickbooks.intuit.com | Lists the Community's boards and topic areas with their URLs, so a caller can browse a… | ⚪ |
+| `quickbooks.listEvents` | quickbooks.intuit.com | Lists upcoming QuickBooks Community events and webinars (Accounting 101, Get started… | ⚪ |
+| `quickbooks.listFeaturedAccountants` | quickbooks.intuit.com | Lists the ProAdvisors QuickBooks features on a state's /find-an-accountant/<state>/… | ⚪ |
+| `quickbooks.listIncidents` | quickbooks.intuit.com | Lists QuickBooks' recent service incidents with their status updates, affected… | ⚪ |
+| `quickbooks.listPaycheckCalculatorStates` | quickbooks.intuit.com | Lists the states that have their own paycheck calculator page… | ⚪ |
+| `quickbooks.listResourceArticles` | quickbooks.intuit.com | Lists articles in the QuickBooks Resource Center (/r/) for a topic (taxes, payroll… | ⚪ |
+| `quickbooks.listTemplates` | quickbooks.intuit.com | Lists QuickBooks' free downloadable business templates (invoice, timesheet, payroll… | ⚪ |
+| `quickbooks.searchApps` | quickbooks.intuit.com | Searches the QuickBooks App Store for apps that connect to QuickBooks, by keyword and… | ⚪ |
+| `quickbooks.searchCommunity` | quickbooks.intuit.com | Searches QuickBooks Community (the Intuit-run user forum) for questions matching a… | ⚪ |
+| `quickbooks.searchHelpArticles` | quickbooks.intuit.com | Searches the QuickBooks help center (/learn-support/en-us/) for articles matching a… | ⚪ |
 | `quince.getProduct` | quince.com | Reads one Quince product's variant-level sizes and colors, price, traditional-retail… | 🟢 |
 | `quince.searchProducts` | quince.com | Searches Quince's live apparel catalog (quince.com clothing store) for what a shopper… | 🟢 |
 | `quora.askQuestion` | quora.com | Posts a new question as the signed-in caller. | ⚪ |
@@ -2770,7 +2805,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seatgeek.getVenue` | seatgeek.com | Returns one venue in full — name, city, state, country, slug and capacity. | 🟢 |
 | `seatgeek.listFollowedPerformers` | seatgeek.com | The signed-in caller's followed performers, so they get notified of new events. | ⚪ |
 | `seatgeek.listMyOrders` | seatgeek.com | The signed-in caller's "My Tickets" order history — what they bought, when, for which… | ⚪ |
-| `seatgeek.listTaxonomies` | seatgeek.com | Returns the category taxonomy SeatGeek uses to classify events (e.g. music > rock… | ⚪ |
+| `seatgeek.listTaxonomies` | seatgeek.com | Returns the category taxonomy SeatGeek uses to classify events (e.g. music > rock… | 🟢 |
 | `seatgeek.listTicketForSale` | seatgeek.com | Lists one of the signed-in caller's tickets for resale on SeatGeek. | ⚪ |
 | `seatgeek.listTrackedEvents` | seatgeek.com | The signed-in caller's tracked (saved/followed) events, newest first. | ⚪ |
 | `seatgeek.searchEvents` | seatgeek.com | Searches live events — concerts, sports, comedy, theater and family — by keyword… | 🟢 |
