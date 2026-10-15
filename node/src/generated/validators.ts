@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3d3b53858103a7a2ea499d0d1b54aaf130e8f9d19965d9c023696e265efa3f03
-// 2116 checked, 20 unchecked.
+// Manifest version: edd273e26339d0f59c4089caccaf6753b7109736c194e1b0915a1bc82ef216df
+// 2122 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3d3b53858103a7a2ea499d0d1b54aaf130e8f9d19965d9c023696e265efa3f03",
+  "version": "edd273e26339d0f59c4089caccaf6753b7109736c194e1b0915a1bc82ef216df",
   "units": {
     "address_validation": {
       "defs": {
@@ -4402,6 +4402,13 @@ export const VALIDATORS: ValidatorTable = {
                     },
                     {
                       "name": "day",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "time",
                       "schema": {
                         "k": "string"
                       },
@@ -42792,6 +42799,120 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.opentable": {
+      "defs": {
+        "OpenTableAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "restaurantId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "OpenTableSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "OpenTableSearchArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "checkAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OpenTableAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.originenergy_com_au": {
       "defs": {
         "OriginBusinessElectricityQuoteArgs": {
@@ -52902,6 +53023,30 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPerformerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetVenueArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchEventsArgs": {
           "k": "object",
           "props": [
@@ -53008,6 +53153,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetEventArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPerformer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPerformerArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVenue": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVenueArgs"
             },
             "optional": false
           }
@@ -56273,6 +56438,47 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tcin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -61000,6 +61206,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetScoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sport",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchNewsArgs": {
           "k": "object",
           "props": [
@@ -61056,6 +61274,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getScores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetScoresArgs"
             },
             "optional": false
           }

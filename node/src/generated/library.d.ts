@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3d3b53858103a7a2ea499d0d1b54aaf130e8f9d19965d9c023696e265efa3f03
-// 85 capabilities, 580 providers, 2134 typed functions, 20 refused.
+// Manifest version: edd273e26339d0f59c4089caccaf6753b7109736c194e1b0915a1bc82ef216df
+// 85 capabilities, 581 providers, 2140 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -375,9 +375,12 @@ interface BrowserAgentStatusResult {
   result: string | null;                   // the agent's answer for its last finished turn
   error: string | null;                    // set when status is "failed"; starts "blocked: " when
                                             // the SITE itself refused (a bot wall), e.g. "blocked: akamai access denied",
-                                            // or "merchant_verification_failed: " when BOWMARK'S OWN safety check
+                                            // "merchant_verification_failed: " when BOWMARK'S OWN safety check
                                             // could not confirm the page it reached is the merchant the task named —
-                                            // not a bot wall and not the site refusing anything
+                                            // not a bot wall and not the site refusing anything — or
+                                            // "connection_failed: " when BOWMARK'S OWN browser never reached the site at
+                                            // all (a proxy/tunnel error, before any page loaded) — not the site answering
+                                            // "nothing found"; a retry (optionally with a different proxyCountry) may succeed
   steps: BrowserAgentStep[];
   cursor: string;
   task: string;
@@ -474,7 +477,10 @@ type CallOptions = {
      * rather than the site: a safety check could not confirm the page the agent reached matches
      * the merchant the task named, which can fire on an ordinary non-merchant page (a government
      * portal, a reference site) as well as on a real mismatch — it is not a bot wall and not
-     * evidence the site refused anything. Pass the previous `cursor` for only new steps, and
+     * evidence the site refused anything. `error` starting `connection_failed: ` is also BOWMARK's
+     * own side: the browser's network path never reached the site at all (a proxy/tunnel error),
+     * so it is not the site answering and a retry — optionally with a different `proxyCountry` on
+     * a fresh `start` — may simply succeed. Pass the previous `cursor` for only new steps, and
      * `waitMs` (≤ 45000 — kept under the ~60s at which most chat clients kill a tool call) to wait
      * for a change instead of polling tightly.
      */
@@ -3816,9 +3822,10 @@ declare namespace BowmarkCapability_restaurant_booking {
 type RestaurantSlot = {
   startsAt: string            // local start time, "YYYY-MM-DD HH:mm:ss"
   seatingType: string | null  // section/seating label the platform reports, e.g. "Dining Room"
+  bookingUrl: string | null   // the platform's page for booking THIS slot (OpenTable), else null
 }
 type RestaurantVenue = {
-  platform: string            // which booking platform this venue runs on, e.g. "resy"
+  platform: string            // which booking platform this venue runs on: "resy" | "opentable"
   name: string
   locality: string
   region: string
@@ -3841,23 +3848,26 @@ type CallOptions = {
 }
 
   /**
-   * Finds a restaurant by name and reads its real-time open reservation slots for a date and
-   * party size, plus a direct link to book one. Resy today; no login, no booking (that needs a
-   * signed-in platform account).
+   * Finds a restaurant by name on Resy and OpenTable and reads its real-time open reservation
+   * slots for a date and party size, plus a direct link to book one (per slot on OpenTable). No
+   * login, no booking itself (that needs the diner's details).
    */
   interface Unit {
     /**
      * Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco Meralgo")` —
-     * on whichever booking platform it runs on, and reads its real open reservation slots for
-     * `day` (default: tomorrow, UTC) and `partySize` (default 2). Returns `venue: null` when no
-     * platform has a matching restaurant, and `slots: []` when the venue exists but has nothing
-     * open for that date/party — both real, complete answers, not failures. `venue.bookingUrl` is
-     * the platform's own page, pre-filled with the requested date and party size, since booking
-     * the slot itself needs a signed-in platform account and is out of scope here. `location`
-     * narrows a common restaurant name when passed as `"lat,lon"` (e.g. from a prior venue's own
-     * coordinates); free-form text is ignored rather than guessed at.
+     * on whichever booking platform it runs on (Resy and OpenTable are searched together, and a
+     * venue counts only when its NAME matches), and reads its real open reservation slots for
+     * `day` (default: tomorrow, UTC) and `partySize` (default 2); on OpenTable the slots are the
+     * ones around `time` (`"HH:mm"`, default `"19:00"`), each with its own `bookingUrl`. A
+     * restaurant on OpenTable takes a real browser, so expect 30-60 s and pass `{ timeoutMs: 55000
+     * }`. Returns `venue: null` when no platform has a matching restaurant, and `slots: []` when
+     * the venue exists but has nothing open for that date/party — both real, complete answers, not
+     * failures. `venue.bookingUrl` is the platform's own page, pre-filled with the requested date
+     * and party size, since booking the slot itself needs a signed-in platform account and is out
+     * of scope here. `location` narrows a common restaurant name when passed as `"lat,lon"` (e.g.
+     * `"37.7749,-122.4194"` for San Francisco); free-form text is ignored rather than guessed at.
      */
-    findAvailability(name: string | { name: string; location?: string; day?: string; partySize?: number }, options?: CallOptions): Promise<RestaurantAvailabilityResult>;
+    findAvailability(name: string | { name: string; location?: string; day?: string; time?: string; partySize?: number }, options?: CallOptions): Promise<RestaurantAvailabilityResult>;
   }
 }
 
@@ -21416,11 +21426,11 @@ interface StopSearchResult {
 
 interface DisruptionNotice {
   title: string;
-  text: string;
+  text?: string;                        // no longer rendered by the listing page (measured 2026-10-15)
   category: "short-notice" | "planned"; // Kurzfristige / Geplante Änderungen
   validity?: string;                    // e.g. "gültig heute", "gültig vom 01.10. bis 12.10.2026"
-  lines: string[];                      // affected lines, e.g. ["107", "U11"]
-  stops: string[];                      // affected stops, e.g. ["Aalto-Theater, Essen"]
+  lines: string[];                      // affected lines SHOWN on the card — may be truncated, e.g. ["107", "U11"]
+  stops: string[];                      // affected stops SHOWN on the card — may be truncated, e.g. ["Aalto-Theater, Essen"]
   published?: string;                   // "25.09.2026 | 07:41"
   url?: string;
 }
@@ -26381,10 +26391,14 @@ interface GoogleNewsArticle {
   publishedAt: string | null;
   cluster: GoogleNewsClusterEntry[];
 }
+interface GoogleNewsSearchArticle extends GoogleNewsArticle {
+  headlineMatches: string[];
+}
 interface GoogleNewsSearchResult {
   query: string;
-  articles: GoogleNewsArticle[];
+  articles: GoogleNewsSearchArticle[];
   truncatedBefore?: string;
+  resumeBefore?: string;
 }
 interface GoogleNewsTopStories {
   title: string;
@@ -26398,8 +26412,9 @@ interface GoogleNewsTopicHeadlines {
 interface GoogleNewsPublisherHeadlines {
   publisher: string;
   query: string;
-  articles: GoogleNewsArticle[];
+  articles: GoogleNewsSearchArticle[];
   truncatedBefore?: string;
+  resumeBefore?: string;
 }
 interface GoogleNewsLocalHeadlines {
   place: string;
@@ -26486,7 +26501,13 @@ interface GoogleNewsSavedArticle {
      * `resumeBefore` instead — a date one day earlier, guaranteed to move — until a call comes
      * back with neither field. `locale` — `{ hl, gl, ceid }` — asks for another country/language
      * edition, e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }` for Mexico; omitted, every field
-     * defaults to the US English edition.
+     * defaults to the US English edition. **Google News matches the ARTICLE TEXT, not the
+     * headline**, so a row can mention the subject only in passing under a headline about
+     * something else — measured 2026-10-15, 41 of the 100 rows for "Patrick Collison" never name
+     * him in the headline, the newest a syndicated column titled "Trump". Every row carries
+     * `headlineMatches`, the query words its headline names (`[]` for none; operators and generic
+     * words like "pricing" never count): keep the rows where it is non-empty when you need stories
+     * ABOUT a person or company, and when no row qualifies the run's `notes` says so.
      */
     searchNews(query: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsSearchResult>;
 
@@ -26539,7 +26560,9 @@ interface GoogleNewsSavedArticle {
      * identically (measured 2026-09-20: `google.com`, `wikipedia.org` and `example.com` all get
      * the same empty shape while several small real newsroom domains each got at least one row),
      * so a resolving domain is still handed back honestly empty and only a domain with no DNS
-     * record is refused.
+     * record is refused. Each row carries `headlineMatches` — the words of YOUR `query` its
+     * headline names, `[]` for none — because the feed matches article text, not headlines; see
+     * `searchNews`.
      */
     listPublisherHeadlines(publisher: string, query?: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsPublisherHeadlines>;
 
@@ -40828,6 +40851,88 @@ interface openaiHelpArticleArgs {
   }
 }
 
+declare namespace BowmarkProvider_opentable {
+  // ── OpenTable — the unit's own declarations, verbatim ──
+interface OpenTableSlot {
+  dateTime: string;      // local start time, "YYYY-MM-DDTHH:mm", restaurant's own timezone
+  type: string | null;   // OpenTable's seating type, e.g. "Standard" | "Experience"
+  bookingUrl: string;    // OpenTable's own booking page for exactly this time
+}
+
+interface OpenTableRestaurant {
+  restaurantId: number;  // what checkAvailability takes
+  name: string;
+  profileUrl: string;
+  address: string | null;
+  city: string | null;
+  neighborhood: string | null;
+  cuisine: string | null;
+  priceBand: string | null;  // e.g. "$31 to $50"
+  rating: number | null;     // 0-5
+  reviewCount: number | null;
+  maxPartySize: number | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+interface OpenTableAvailability extends OpenTableRestaurant {
+  date: string;
+  time: string;
+  partySize: number;
+  slots: OpenTableSlot[];  // open times around `time`; [] = nothing open for that party
+}
+
+interface OpenTableSearchArgs {
+  query: string;        // a restaurant name, cuisine or dish, e.g. "Kokkari Estiatorio" | "italian"
+  date?: string;        // "YYYY-MM-DD", default tomorrow (UTC)
+  time?: string;        // "HH:mm" 24h, local to the restaurants, default "19:00"
+  partySize?: number;   // 1-20, default 2
+  latitude?: number;    // where to search around; without it OpenTable picks from the request's location
+  longitude?: number;
+}
+
+interface OpenTableSearchResult {
+  query: string;
+  date: string;
+  time: string;
+  partySize: number;
+  restaurants: OpenTableRestaurant[];
+}
+
+interface OpenTableAvailabilityArgs {
+  restaurantId: number; // from a search row
+  date?: string;        // "YYYY-MM-DD", default tomorrow (UTC)
+  time?: string;        // "HH:mm" 24h local, default "19:00"
+  partySize?: number;   // 1-20, default 2
+}
+
+  /**
+   * Restaurant search and real-time table availability on OpenTable: find restaurants by name,
+   * cuisine or place, read the open times for a date, time and party size, and get OpenTable's
+   * own booking link for each time. No booking (that needs the diner's details).
+   */
+  interface Unit {
+    /**
+     * Runs OpenTable's own search — `bowmark.providers.opentable.search({ query: "Kokkari
+     * Estiatorio", date: "2026-10-16", time: "19:00", partySize: 2 })` — and returns each
+     * restaurant OpenTable lists for it (a restaurant the query names is pinned first): its
+     * `restaurantId`, address, neighborhood, cuisine, price band, rating, review count and largest
+     * bookable party. It returns no times; pass a row's `restaurantId` to `checkAvailability` for
+     * those. Pass `latitude`/`longitude` to search a specific city; without them OpenTable picks
+     * the location itself. A real browser load, so expect 10-30 s.
+     */
+    search(args: string | OpenTableSearchArgs): Promise<OpenTableSearchResult>;
+
+    /**
+     * Reads one restaurant's open reservation times (`restaurantId` from a `search` row) around
+     * `time` on `date` for `partySize`, with OpenTable's own booking link per time, plus the
+     * restaurant's details. `slots: []` is a real "nothing open". A real browser load, so expect
+     * 15-40 s.
+     */
+    checkAvailability(args: OpenTableAvailabilityArgs): Promise<OpenTableAvailability>;
+  }
+}
+
 declare namespace BowmarkProvider_originenergy_com_au {
   // ── Origin Energy — the unit's own declarations, verbatim ──
 // Origin Energy's OWN shapes — not a capability contract.
@@ -47055,6 +47160,14 @@ interface GetEventArgs {
   id: number;
 }
 
+interface GetPerformerArgs {
+  id: number;
+}
+
+interface GetVenueArgs {
+  id: number;
+}
+
 interface seatgeekEvent {
   id: number;
   title: string;
@@ -47071,6 +47184,10 @@ interface seatgeekPerformer {
   type: string;
   slug?: string;
   image?: string;
+  url?: string;
+  num_upcoming_events?: number;
+  genres?: Array<{ name: string; slug: string }>;
+  sport?: string;
 }
 
 interface seatgeekVenue {
@@ -47118,6 +47235,18 @@ interface seatgeekRow {
      * after searchEvents narrows to a single event id.
      */
     getEvent(args: GetEventArgs): Promise<seatgeekEvent>;
+
+    /**
+     * Returns one performer in full — name, type, slug, upcoming event count and genres/sport. The
+     * detail read a caller reaches after findPerformers narrows to a single performer id.
+     */
+    getPerformer(args: GetPerformerArgs): Promise<seatgeekPerformer>;
+
+    /**
+     * Returns one venue in full — name, city, state, country, slug and capacity. The detail read a
+     * caller reaches after findVenues narrows to a single venue id.
+     */
+    getVenue(args: GetVenueArgs): Promise<seatgeekVenue>;
   }
 }
 
@@ -50008,6 +50137,14 @@ interface TargetCart {
   warnings: string[];
 }
 
+interface TargetAddToCartResult {
+  itemId: string;
+  tcin: string;
+  quantity: number;
+  added: boolean;
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -50093,6 +50230,13 @@ interface TargetCart {
      * signed in.
      */
     getCart(opts?: ConnectionOption): Promise<TargetCart>;
+
+    /**
+     * Adds one product (by TCIN and optional quantity, defaulting to 1) to the CALLER's own Target
+     * cart. The last step this provider may take on a buying flow — it stops there; this provider
+     * will never place an order or reach a payment step. Needs the caller signed in.
+     */
+    addToCart(args: { tcin: string; quantity?: number }, opts?: ConnectionOption): Promise<TargetAddToCartResult>;
   }
 }
 
@@ -54082,6 +54226,20 @@ interface GetArticleArgs {
   url: string;
 }
 
+interface usatodayScore {
+  id: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number;
+  awayScore: number;
+  date: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+}
+
+interface GetScoresArgs {
+  sport: string;
+}
+
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
   interface Unit {
     /**
@@ -54113,6 +54271,12 @@ interface GetArticleArgs {
      * publication and update dates, section, image, and whether it is free to read.
      */
     getArticle(args: GetArticleArgs): Promise<usatodayFullArticle>;
+
+    /**
+     * Reads sports scores from USA Today's scores section — given a sport like NFL, NBA, MLB, MLS
+     * — returning game results with home and away teams, scores, date and status.
+     */
+    getScores(args: GetScoresArgs): Promise<usatodayScore[]>;
   }
 }
 
@@ -60339,6 +60503,7 @@ interface BowmarkProviders {
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
   onthemarket: BowmarkProvider_onthemarket.Unit;
   openai: BowmarkProvider_openai.Unit;
+  opentable: BowmarkProvider_opentable.Unit;
   originenergy_com_au: BowmarkProvider_originenergy_com_au.Unit;
   othership: BowmarkProvider_othership.Unit;
   otto: BowmarkProvider_otto.Unit;

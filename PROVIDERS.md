@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3501 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3571 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -39,7 +39,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
 | `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | ⚪ |
-| `adobe.getCreativeCloudPlans` | adobe.com | Returns Adobe's published Creative Cloud plans from… | ⚪ |
+| `adobe.getCreativeCloudPlans` | adobe.com | Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html… | 🟢 |
 | `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | ⚪ |
 | `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail page — title, full description, media type… | ⚪ |
 | `adobe.getTemplate` | adobe.com | Returns one Adobe Express template's detail — title, category, dimensions, whether it… | ⚪ |
@@ -481,7 +481,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.listSavedPaymentMethods` | booking.com | List payment methods saved to the caller's account. | ⚪ |
 | `booking_com.listWishlist` | booking.com | List properties the caller has saved to their wishlist. | ⚪ |
 | `booking_com.removeFromWishlist` | booking.com | Remove a property from the caller's wishlist. | ⚪ |
-| `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | 🟢 |
+| `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | 🟡 |
 | `booking_com.writeReview` | booking.com | Write a review for a property the caller has booked. | ⚪ |
 | `borsheims.configureRing` | borsheims.com | Composes a setting product page and a diamond/center-stone product page into a priced… | 🟢 |
 | `borsheims.getProduct` | borsheims.com | Reads one product's real, live price straight off its product page's own embedded data… | 🟢 |
@@ -659,6 +659,41 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chappellet.listWines` | chappellet.com | Reads Chappellet's live public wine shop as the storefront publishes it — every… | 🟢 |
 | `charterhomes.getScheduleVisitOptions` | charterhomes.com | Reads Charter's live schedule-a-visit page and returns every bookable neighborhood… | 🟢 |
 | `charterhomes.searchHomes` | charterhomes.com | Searches Charter Homes & Neighborhoods' live for-sale home inventory by… | 🟡 |
+| `chatgpt.archiveConversation` | chatgpt.com | Archives (or un-archives) one of the CALLER's conversations. | ⚪ |
+| `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | ⚪ |
+| `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | ⚪ |
+| `chatgpt.createGPT` | chatgpt.com | Creates a custom GPT in the CALLER's account — name, description, instructions… | ⚪ |
+| `chatgpt.createProject` | chatgpt.com | Creates a new project in the CALLER's account with a name and optional instructions. | ⚪ |
+| `chatgpt.deleteConversation` | chatgpt.com | Deletes one of the CALLER's conversations. | ⚪ |
+| `chatgpt.deleteMemory` | chatgpt.com | Deletes one saved memory (or all of them) from the CALLER's ChatGPT memory. | ⚪ |
+| `chatgpt.deleteScheduledTask` | chatgpt.com | Deletes (or pauses) one of the CALLER's scheduled tasks. | ⚪ |
+| `chatgpt.deleteSharedLink` | chatgpt.com | Deletes one of the CALLER's public share links so the url stops working. | ⚪ |
+| `chatgpt.generateImage` | chatgpt.com | Asks ChatGPT to create an image from a prompt as the CALLER and returns the image… | ⚪ |
+| `chatgpt.getAccount` | chatgpt.com | Reads the CALLER's account — name, email, plan (Free, Plus, Pro, Business) and the… | ⚪ |
+| `chatgpt.getConversation` | chatgpt.com | Reads one of the CALLER's conversations in full — every message in order, which model… | ⚪ |
+| `chatgpt.getCustomInstructions` | chatgpt.com | Reads the CALLER's personalization — what ChatGPT should call them, their occupation… | ⚪ |
+| `chatgpt.getGPT` | chatgpt.com | Reads one custom GPT's public page in the GPT Store — name, description, author… | ⚪ |
+| `chatgpt.getMemories` | chatgpt.com | Reads what ChatGPT has saved to the CALLER's memory (Settings → Personalization →… | ⚪ |
+| `chatgpt.getProject` | chatgpt.com | Reads one of the CALLER's projects — its instructions, uploaded files and the… | ⚪ |
+| `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | ⚪ |
+| `chatgpt.listConversations` | chatgpt.com | Lists the CALLER's ChatGPT chat history, newest first — conversation id, title, last… | ⚪ |
+| `chatgpt.listLibraryImages` | chatgpt.com | Lists the images the CALLER has generated, from the Library page, newest first, with… | ⚪ |
+| `chatgpt.listModels` | chatgpt.com | Lists the models the CALLER's plan can pick in the model menu, with their limits. | ⚪ |
+| `chatgpt.listMyGPTs` | chatgpt.com | Lists the custom GPTs the CALLER has built, with visibility (only me, link, store) and… | ⚪ |
+| `chatgpt.listProjects` | chatgpt.com | Lists the CALLER's ChatGPT projects with their names and conversation counts — the… | ⚪ |
+| `chatgpt.listScheduledTasks` | chatgpt.com | Lists the CALLER's scheduled tasks (reminders and recurring prompts ChatGPT runs on a… | ⚪ |
+| `chatgpt.listSharedLinks` | chatgpt.com | Lists the public share links the CALLER has created, with the conversation each points… | ⚪ |
+| `chatgpt.moveConversationToProject` | chatgpt.com | Files one of the CALLER's conversations under one of their projects. | ⚪ |
+| `chatgpt.pinGPT` | chatgpt.com | Pins a GPT to (or unpins it from) the CALLER's sidebar. | ⚪ |
+| `chatgpt.rateResponse` | chatgpt.com | Gives a thumbs up or thumbs down on one of ChatGPT's replies in the CALLER's… | ⚪ |
+| `chatgpt.renameConversation` | chatgpt.com | Renames one of the CALLER's conversations. | ⚪ |
+| `chatgpt.requestDataExport` | chatgpt.com | Requests an export of the CALLER's ChatGPT data (Settings → Data controls → Export)… | ⚪ |
+| `chatgpt.searchConversations` | chatgpt.com | Searches the CALLER's chat history by keyword, the way the sidebar's search does, and… | ⚪ |
+| `chatgpt.searchGPTs` | chatgpt.com | Searches the GPT Store by keyword and returns matching custom GPTs with their id… | ⚪ |
+| `chatgpt.sendMessage` | chatgpt.com | Sends a message as the CALLER and returns ChatGPT's reply — starting a new… | ⚪ |
+| `chatgpt.shareConversation` | chatgpt.com | Creates a public share link for one of the CALLER's conversations and returns the… | ⚪ |
+| `chatgpt.updateCustomInstructions` | chatgpt.com | Updates the CALLER's personalization — what ChatGPT calls them, their occupation, the… | ⚪ |
+| `chatgpt.uploadFile` | chatgpt.com | Uploads a file to the CALLER's account — into a project's files, or as an attachment… | ⚪ |
 | `cheapflights.getBookingOptions` | cheapflights.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `cheapflights.search` | cheapflights.com | Runs the itinerary search on cheapflights.com and returns its result rows… | 🟢 |
 | `cheapflights.searchCars` | cheapflights.com | Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup… | 🟢 |
@@ -2307,6 +2342,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟡 |
 | `openai.helpArticle` | learn.chatgpt.com | Retrieves the full text of a help article by its ID from OpenAI's documentation. | 🟡 |
 | `openai.plans` | learn.chatgpt.com | Returns per-(plan, model) usage limits from learn.chatgpt.com/docs/pricing. | 🟡 |
+| `opentable.book` | opentable.com | Completes a reservation for one open time: the diner's name, phone and email on… | ⚪ |
+| `opentable.checkAvailability` | opentable.com | Reads one restaurant's open reservation times around a time on a date for a party… | 🟢 |
+| `opentable.search` | opentable.com | Runs OpenTable's own restaurant search for a name, cuisine or dish (optionally around… | 🟢 |
 | `originenergy_com_au.getBusinessElectricityQuote` | originenergy.com.au | Search originenergy.com.au for business electricity quote: returns every business… | 🟢 |
 | `othership.getClassSchedule` | othership.us | Searches one location's real, live class schedule between two dates — sauna, ice bath… | 🟢 |
 | `othership.getLocations` | othership.us | Returns every Othership studio location (Toronto's Adelaide and Yorkville, NYC's… | 🟢 |
@@ -2687,7 +2725,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seatgeek.getEvent` | seatgeek.com | Returns one event in full: venue, performers, date/time, and SeatGeek's own ticket… | 🟢 |
 | `seatgeek.getOrder` | seatgeek.com | Returns one order/ticket in full: event, seats, price paid and delivery/transfer status. | ⚪ |
 | `seatgeek.getPerformer` | seatgeek.com | Returns one performer in full: name, type, upcoming event count, and genres/sport. | 🟢 |
-| `seatgeek.getVenue` | seatgeek.com | Returns one venue in full: address, city, timezone and upcoming event count. | ⚪ |
+| `seatgeek.getVenue` | seatgeek.com | Returns one venue in full — name, city, state, country, slug and capacity. | 🟢 |
 | `seatgeek.listFollowedPerformers` | seatgeek.com | The signed-in caller's followed performers, so they get notified of new events. | ⚪ |
 | `seatgeek.listMyOrders` | seatgeek.com | The signed-in caller's "My Tickets" order history — what they bought, when, for which… | ⚪ |
 | `seatgeek.listTaxonomies` | seatgeek.com | Returns the category taxonomy SeatGeek uses to classify events (e.g. music > rock… | ⚪ |
@@ -2786,6 +2824,38 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |
 | `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the computed… | 🟡 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
+| `snapchat.addFriend` | snapchat.com | Adds an account as a friend by username from the signed-in caller's account — the Add… | ⚪ |
+| `snapchat.blockUser` | snapchat.com | Blocks an account from contacting the signed-in caller. | ⚪ |
+| `snapchat.getChatMessages` | snapchat.com | Reads the messages in one of the signed-in caller's conversations — sender, time… | ⚪ |
+| `snapchat.getEpisode` | snapchat.com | Reads one Discover show episode — title, publish date, and the snaps (media urls) that… | ⚪ |
+| `snapchat.getLens` | snapchat.com | Reads one Lens by id — name, creator, preview media, unlock link and snapcode, plus… | ⚪ |
+| `snapchat.getLocalGuide` | snapchat.com | Reads a city's local guide… | ⚪ |
+| `snapchat.getMyProfile` | snapchat.com | Reads the signed-in caller's own Snapchat account — username, display name, Bitmoji… | ⚪ |
+| `snapchat.getProfile` | snapchat.com | Reads one Snapchat account's public page by username — www.snapchat.com/@<username> —… | ⚪ |
+| `snapchat.getShow` | snapchat.com | Reads one Discover show or publisher page (story.snapchat.com/p/<publisherId>) — name… | ⚪ |
+| `snapchat.getSnapMap` | snapchat.com | Reads the signed-in caller's Snap Map — friends who share their location and the… | ⚪ |
+| `snapchat.getSpotlightVideo` | snapchat.com | Reads one Spotlight video by its share url or snap id — creator (username, display… | ⚪ |
+| `snapchat.listChats` | snapchat.com | Lists the signed-in caller's conversations in Snapchat for Web — who, the last… | ⚪ |
+| `snapchat.listDiscoverStories` | snapchat.com | Reads the Discover page — publisher and creator Stories (news outlets, shows… | ⚪ |
+| `snapchat.listFriends` | snapchat.com | Lists the signed-in caller's friends — username, display name, Bitmoji and friendship… | ⚪ |
+| `snapchat.listFriendStories` | snapchat.com | Lists the Stories the signed-in caller's friends have posted, unseen first, with each… | ⚪ |
+| `snapchat.listLenses` | snapchat.com | Browses the Lens Explorer (www.snapchat.com/lens) by category — For You, Trending… | ⚪ |
+| `snapchat.listLocalCities` | snapchat.com | Lists the cities Snapchat publishes local guides for (the city tiles map.snapchat.com… | ⚪ |
+| `snapchat.listProfileHighlights` | snapchat.com | Lists a public profile's saved Story highlights (curated Stories kept on the profile)… | ⚪ |
+| `snapchat.listProfileLenses` | snapchat.com | Lists the Lenses a public profile has published, with lens name, preview image and… | ⚪ |
+| `snapchat.listProfileSpotlights` | snapchat.com | Lists the Spotlight videos a public profile has posted, with title, upload date, view… | ⚪ |
+| `snapchat.listProfileStory` | snapchat.com | Lists the snaps in a public profile's current Story — media url, preview url, media… | ⚪ |
+| `snapchat.listSpotlightComments` | snapchat.com | Reads the public comments under one Spotlight video — comment text, commenter and time… | ⚪ |
+| `snapchat.listSpotlightFeed` | snapchat.com | Reads the Spotlight feed — Snapchat's public short-video feed at… | ⚪ |
+| `snapchat.listTopicSpotlights` | snapchat.com | Lists the Spotlight videos filed under one hashtag topic… | ⚪ |
+| `snapchat.postSpotlightComment` | snapchat.com | Posts a comment under a Spotlight video from the signed-in caller's account. | ⚪ |
+| `snapchat.postStory` | snapchat.com | Posts a photo to the signed-in caller's own Story. | ⚪ |
+| `snapchat.removeFriend` | snapchat.com | Removes an account from the signed-in caller's friends. | ⚪ |
+| `snapchat.searchSnapchat` | snapchat.com | Searches Snapchat the way the site's own search page does —… | ⚪ |
+| `snapchat.sendChatMessage` | snapchat.com | Sends a text chat message to a friend or group from the signed-in caller's account, as… | ⚪ |
+| `snapchat.sendSnap` | snapchat.com | Sends a photo snap from the signed-in caller's account to one or more friends. | ⚪ |
+| `snapchat.subscribeToProfile` | snapchat.com | Subscribes the signed-in caller to a public profile or Discover show — the Subscribe… | ⚪ |
+| `snapchat.updateDisplayName` | snapchat.com | Changes the signed-in caller's display name. | ⚪ |
 | `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟡 |
 | `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟡 |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
@@ -2904,7 +2974,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
 | `tapfiliate.listAffiliates` | tapfiliate.com | Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by… | 🟢 |
-| `target.addToCart` | target.com | Adds one product (by TCIN) to the CALLER's own Target cart. | ⚪ |
+| `target.addToCart` | target.com | Adds one product (by TCIN) to the CALLER's own Target cart. | 🟢 |
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | 🟢 |
 | `target.findRegistry` | target.com | Finds a Target Gift Registry by the registrant's name, event date or registry id — the… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
@@ -3164,7 +3234,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | ⚪ |
-| `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | ⚪ |
+| `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
 | `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | ⚪ |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists available USA Today puzzles — crossword, Sudoku, etc. — with puzzle IDs and types. | ⚪ |
@@ -3401,7 +3471,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.quotePost` | x.com | Quote-repost a post with the signed-in account's own added comment. | ⚪ |
 | `x.replyToPost` | x.com | Reply to another post as the signed-in account. | ⚪ |
 | `x.repost` | x.com | Repost (retweet) or un-repost a post as the signed-in account — one `repost` boolean… | ⚪ |
-| `x.search` | x.com | Runs the site's own search across posts, people and hashtags, the way a person types… | ⚪ |
+| `x.search` | x.com | Runs the site's own search across posts, scrolling until the limit is met or results… | 🟢 |
 | `x.sendMessage` | x.com | Send a direct message to a user as the signed-in account, starting a new conversation… | ⚪ |
 | `x.updateProfile` | x.com | Edit the signed-in account's own profile — name, bio, location, website. | ⚪ |
 | `x.uploadProfilePicture` | x.com | Change the signed-in account's own profile picture. | ⚪ |

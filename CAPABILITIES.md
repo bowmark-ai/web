@@ -100,7 +100,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `read.page` | Loads one page and returns its content. **On a booking calendar or a… | 0 | 🟢 |
 | `read.pages` | The same read over many urls: requests to the SAME origin are serialized (one at a… | 0 | 🟢 |
 | `read.urls` | Lists the pages a site has, so you can pick which to `read.page` instead of guessing… | 0 | 🟢 |
-| `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 1 | 🟡 |
+| `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 2 | 🟡 |
 | `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one… | 3 | 🟡 |
 | `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟡 |
 | `script_execution.guide` | Returns the loop for doing a task (get_library, then a script, then run), the… | 0 | 🟢 |

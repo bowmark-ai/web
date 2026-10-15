@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3d3b53858103a7a2ea499d0d1b54aaf130e8f9d19965d9c023696e265efa3f03
-# 85 capabilities, 580 providers, 2116 typed functions, 20 refused.
+# Manifest version: edd273e26339d0f59c4089caccaf6753b7109736c194e1b0915a1bc82ef216df
+# 85 capabilities, 581 providers, 2122 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2202,6 +2202,7 @@ class Cap_restaurant_booking_findAvailability_name_u1_In(TypedDict):
     name: str
     location: NotRequired[str]
     day: NotRequired[str]
+    time: NotRequired[str]
     partySize: NotRequired[float]
 
 class Cap_restaurant_booking_CallOptions_In(TypedDict):
@@ -2226,6 +2227,7 @@ class Cap_restaurant_booking_RestaurantVenue_Out(TypedDict):
 class Cap_restaurant_booking_RestaurantSlot_Out(TypedDict):
     startsAt: str
     seatingType: str | None
+    bookingUrl: str | None
 
 class Cap_retail_search_args_In(TypedDict):
     query: str
@@ -12140,7 +12142,7 @@ class Prv_evag_Disruptions_Out(TypedDict):
 
 class Prv_evag_DisruptionNotice_Out(TypedDict):
     title: str
-    text: str
+    text: NotRequired[str]
     category: Literal["short-notice"] | Literal["planned"]
     validity: NotRequired[str]
     lines: list[str]
@@ -14771,10 +14773,11 @@ class Prv_google_news_GoogleNewsLocaleArg_In(TypedDict):
 
 class Prv_google_news_GoogleNewsSearchResult_Out(TypedDict):
     query: str
-    articles: list[Prv_google_news_GoogleNewsArticle_Out]
+    articles: list[Prv_google_news_GoogleNewsSearchArticle_Out]
     truncatedBefore: NotRequired[str]
+    resumeBefore: NotRequired[str]
 
-class Prv_google_news_GoogleNewsArticle_Out(TypedDict):
+class Prv_google_news_GoogleNewsSearchArticle_Out(TypedDict):
     articleId: str
     title: str
     link: str
@@ -14782,6 +14785,7 @@ class Prv_google_news_GoogleNewsArticle_Out(TypedDict):
     publisherUrl: str | None
     publishedAt: str | None
     cluster: list[Prv_google_news_GoogleNewsClusterEntry_Out]
+    headlineMatches: list[str]
 
 class Prv_google_news_GoogleNewsClusterEntry_Out(TypedDict):
     title: str
@@ -14792,6 +14796,15 @@ class Prv_google_news_GoogleNewsTopStories_Out(TypedDict):
     title: str
     clusters: list[Prv_google_news_GoogleNewsArticle_Out]
 
+class Prv_google_news_GoogleNewsArticle_Out(TypedDict):
+    articleId: str
+    title: str
+    link: str
+    publisher: str
+    publisherUrl: str | None
+    publishedAt: str | None
+    cluster: list[Prv_google_news_GoogleNewsClusterEntry_Out]
+
 class Prv_google_news_GoogleNewsTopicHeadlines_Out(TypedDict):
     section: Literal["World"] | Literal["Nation"] | Literal["Business"] | Literal["Technology"] | Literal["Entertainment"] | Literal["Sports"] | Literal["Science"] | Literal["Health"]
     title: str
@@ -14800,8 +14813,9 @@ class Prv_google_news_GoogleNewsTopicHeadlines_Out(TypedDict):
 class Prv_google_news_GoogleNewsPublisherHeadlines_Out(TypedDict):
     publisher: str
     query: str
-    articles: list[Prv_google_news_GoogleNewsArticle_Out]
+    articles: list[Prv_google_news_GoogleNewsSearchArticle_Out]
     truncatedBefore: NotRequired[str]
+    resumeBefore: NotRequired[str]
 
 class Prv_google_news_GoogleNewsLocalHeadlines_Out(TypedDict):
     place: str
@@ -22426,6 +22440,66 @@ class Prv_openai_openaiPlanLimit_Out(TypedDict):
 class Prv_openai_openaiHelpArticleArgs_In(TypedDict):
     id: str
 
+class Prv_opentable_OpenTableSearchArgs_In(TypedDict):
+    query: str
+    date: NotRequired[str]
+    time: NotRequired[str]
+    partySize: NotRequired[float]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+
+class Prv_opentable_OpenTableSearchResult_Out(TypedDict):
+    query: str
+    date: str
+    time: str
+    partySize: float
+    restaurants: list[Prv_opentable_OpenTableRestaurant_Out]
+
+class Prv_opentable_OpenTableRestaurant_Out(TypedDict):
+    restaurantId: float
+    name: str
+    profileUrl: str
+    address: str | None
+    city: str | None
+    neighborhood: str | None
+    cuisine: str | None
+    priceBand: str | None
+    rating: float | None
+    reviewCount: float | None
+    maxPartySize: float | None
+    latitude: float | None
+    longitude: float | None
+
+class Prv_opentable_OpenTableAvailabilityArgs_In(TypedDict):
+    restaurantId: float
+    date: NotRequired[str]
+    time: NotRequired[str]
+    partySize: NotRequired[float]
+
+class Prv_opentable_OpenTableAvailability_Out(TypedDict):
+    restaurantId: float
+    name: str
+    profileUrl: str
+    address: str | None
+    city: str | None
+    neighborhood: str | None
+    cuisine: str | None
+    priceBand: str | None
+    rating: float | None
+    reviewCount: float | None
+    maxPartySize: float | None
+    latitude: float | None
+    longitude: float | None
+    date: str
+    time: str
+    partySize: float
+    slots: list[Prv_opentable_OpenTableSlot_Out]
+
+class Prv_opentable_OpenTableSlot_Out(TypedDict):
+    dateTime: str
+    type: str | None
+    bookingUrl: str
+
 class Prv_originenergy_com_au_OriginBusinessElectricityQuoteArgs_In(TypedDict):
     postcode: str
 
@@ -26376,6 +26450,14 @@ class Prv_seatgeek_seatgeekPerformer_Out(TypedDict):
     type: str
     slug: NotRequired[str]
     image: NotRequired[str]
+    url: NotRequired[str]
+    num_upcoming_events: NotRequired[float]
+    genres: NotRequired[list[Prv_seatgeek_seatgeekPerformer_Out_genres_item_Out]]
+    sport: NotRequired[str]
+
+class Prv_seatgeek_seatgeekPerformer_Out_genres_item_Out(TypedDict):
+    name: str
+    slug: str
 
 class Prv_seatgeek_FindVenuesArgs_In(TypedDict):
     q: str
@@ -26391,6 +26473,12 @@ class Prv_seatgeek_seatgeekVenue_Out(TypedDict):
     capacity: NotRequired[float]
 
 class Prv_seatgeek_GetEventArgs_In(TypedDict):
+    id: float
+
+class Prv_seatgeek_GetPerformerArgs_In(TypedDict):
+    id: float
+
+class Prv_seatgeek_GetVenueArgs_In(TypedDict):
     id: float
 
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
@@ -28162,6 +28250,17 @@ class Prv_target_TargetCartItem_Out(TypedDict):
     unitPrice: float | None
     currentPrice: float | None
     imageUrl: str | None
+
+class Prv_target_addToCart_args_In(TypedDict):
+    tcin: str
+    quantity: NotRequired[float]
+
+class Prv_target_TargetAddToCartResult_Out(TypedDict):
+    itemId: str
+    tcin: str
+    quantity: float
+    added: bool
+    warnings: list[str]
 
 class Prv_tatcha_TatchaRitualQuizOptions_Out(TypedDict):
     skinTypes: list[Prv_tatcha_TatchaQuizOption_Out]
@@ -30408,6 +30507,18 @@ class Prv_usatoday_usatodayFullArticle_Out(TypedDict):
     section: NotRequired[str]
     image: NotRequired[str]
     isAccessibleForFree: bool
+
+class Prv_usatoday_GetScoresArgs_In(TypedDict):
+    sport: str
+
+class Prv_usatoday_usatodayScore_Out(TypedDict):
+    id: str
+    homeTeam: str
+    awayTeam: str
+    homeScore: float
+    awayScore: float
+    date: str
+    status: str
 
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
@@ -33663,9 +33774,13 @@ class Cap_browser_agent(Protocol):
         BOWMARK's own side rather than the site: a safety check could not confirm the page the
         agent reached matches the merchant the task named, which can fire on an ordinary
         non-merchant page (a government portal, a reference site) as well as on a real mismatch
-        — it is not a bot wall and not evidence the site refused anything. Pass the previous
-        `cursor` for only new steps, and `waitMs` (≤ 45000 — kept under the ~60s at which most
-        chat clients kill a tool call) to wait for a change instead of polling tightly.
+        — it is not a bot wall and not evidence the site refused anything. `error` starting
+        `connection_failed: ` is also BOWMARK's own side: the browser's network path never
+        reached the site at all (a proxy/tunnel error), so it is not the site answering and a
+        retry — optionally with a different `proxyCountry` on a fresh `start` — may simply
+        succeed. Pass the previous `cursor` for only new steps, and `waitMs` (≤ 45000 — kept
+        under the ~60s at which most chat clients kill a tool call) to wait for a change instead
+        of polling tightly.
         """
 
     async def send(self, id: str, message: str, options: Cap_browser_agent_SendBrowserAgentOptions_In | None = None, /) -> Cap_browser_agent_SendBrowserAgentResult_Out:
@@ -34868,22 +34983,25 @@ class Cap_read(Protocol):
         """
 
 class Cap_restaurant_booking(Protocol):
-    """Finds a restaurant by name and reads its real-time open reservation slots for a date and
-    party size, plus a direct link to book one. Resy today; no login, no booking (that needs
-    a signed-in platform account).
+    """Finds a restaurant by name on Resy and OpenTable and reads its real-time open
+    reservation slots for a date and party size, plus a direct link to book one (per slot on
+    OpenTable). No login, no booking itself (that needs the diner's details).
     """
 
     async def findAvailability(self, name: str | Cap_restaurant_booking_findAvailability_name_u1_In, options: Cap_restaurant_booking_CallOptions_In | None = None, /) -> Cap_restaurant_booking_RestaurantAvailabilityResult_Out:
         """Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco
-        Meralgo")` — on whichever booking platform it runs on, and reads its real open
-        reservation slots for `day` (default: tomorrow, UTC) and `partySize` (default 2).
-        Returns `venue: null` when no platform has a matching restaurant, and `slots: []` when
-        the venue exists but has nothing open for that date/party — both real, complete answers,
-        not failures. `venue.bookingUrl` is the platform's own page, pre-filled with the
-        requested date and party size, since booking the slot itself needs a signed-in platform
-        account and is out of scope here. `location` narrows a common restaurant name when
-        passed as `"lat,lon"` (e.g. from a prior venue's own coordinates); free-form text is
-        ignored rather than guessed at.
+        Meralgo")` — on whichever booking platform it runs on (Resy and OpenTable are searched
+        together, and a venue counts only when its NAME matches), and reads its real open
+        reservation slots for `day` (default: tomorrow, UTC) and `partySize` (default 2); on
+        OpenTable the slots are the ones around `time` (`"HH:mm"`, default `"19:00"`), each with
+        its own `bookingUrl`. A restaurant on OpenTable takes a real browser, so expect 30-60 s
+        and pass `{ timeoutMs: 55000 }`. Returns `venue: null` when no platform has a matching
+        restaurant, and `slots: []` when the venue exists but has nothing open for that
+        date/party — both real, complete answers, not failures. `venue.bookingUrl` is the
+        platform's own page, pre-filled with the requested date and party size, since booking
+        the slot itself needs a signed-in platform account and is out of scope here. `location`
+        narrows a common restaurant name when passed as `"lat,lon"` (e.g. `"37.7749,-122.4194"`
+        for San Francisco); free-form text is ignored rather than guessed at.
         """
 
 class Cap_retail(Protocol):
@@ -43113,7 +43231,14 @@ class Prv_google_news(Protocol):
         `resumeBefore` instead — a date one day earlier, guaranteed to move — until a call comes
         back with neither field. `locale` — `{ hl, gl, ceid }` — asks for another
         country/language edition, e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }` for Mexico;
-        omitted, every field defaults to the US English edition.
+        omitted, every field defaults to the US English edition. **Google News matches the
+        ARTICLE TEXT, not the headline**, so a row can mention the subject only in passing under
+        a headline about something else — measured 2026-10-15, 41 of the 100 rows for "Patrick
+        Collison" never name him in the headline, the newest a syndicated column titled "Trump".
+        Every row carries `headlineMatches`, the query words its headline names (`[]` for none;
+        operators and generic words like "pricing" never count): keep the rows where it is
+        non-empty when you need stories ABOUT a person or company, and when no row qualifies the
+        run's `notes` says so.
         """
 
     async def topStories(self, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsTopStories_Out:
@@ -43165,7 +43290,9 @@ class Prv_google_news(Protocol):
         2026-09-20: `google.com`, `wikipedia.org` and `example.com` all get the same empty shape
         while several small real newsroom domains each got at least one row), so a resolving
         domain is still handed back honestly empty and only a domain with no DNS record is
-        refused.
+        refused. Each row carries `headlineMatches` — the words of YOUR `query` its headline
+        names, `[]` for none — because the feed matches article text, not headlines; see
+        `searchNews`.
         """
 
     async def listLocalHeadlines(self, place: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:
@@ -48322,6 +48449,30 @@ class Prv_openai(Protocol):
     async def helpArticle(self, args: Prv_openai_openaiHelpArticleArgs_In, /) -> str:
         """Retrieves the full text of a help article by its ID from OpenAI's documentation."""
 
+class Prv_opentable(Protocol):
+    """Restaurant search and real-time table availability on OpenTable: find restaurants by
+    name, cuisine or place, read the open times for a date, time and party size, and get
+    OpenTable's own booking link for each time. No booking (that needs the diner's details).
+    """
+
+    async def search(self, args: str | Prv_opentable_OpenTableSearchArgs_In, /) -> Prv_opentable_OpenTableSearchResult_Out:
+        """Runs OpenTable's own search — `bowmark.providers.opentable.search({ query: "Kokkari
+        Estiatorio", date: "2026-10-16", time: "19:00", partySize: 2 })` — and returns each
+        restaurant OpenTable lists for it (a restaurant the query names is pinned first): its
+        `restaurantId`, address, neighborhood, cuisine, price band, rating, review count and
+        largest bookable party. It returns no times; pass a row's `restaurantId` to
+        `checkAvailability` for those. Pass `latitude`/`longitude` to search a specific city;
+        without them OpenTable picks the location itself. A real browser load, so expect 10-30
+        s.
+        """
+
+    async def checkAvailability(self, args: Prv_opentable_OpenTableAvailabilityArgs_In, /) -> Prv_opentable_OpenTableAvailability_Out:
+        """Reads one restaurant's open reservation times (`restaurantId` from a `search` row)
+        around `time` on `date` for `partySize`, with OpenTable's own booking link per time,
+        plus the restaurant's details. `slots: []` is a real "nothing open". A real browser
+        load, so expect 15-40 s.
+        """
+
 class Prv_originenergy_com_au(Protocol):
     """originenergy.com.au business electricity quote — every plan Origin Energy offers in a
     postcode's distributor territory, priced at the regulator's standard reference
@@ -50647,6 +50798,16 @@ class Prv_seatgeek(Protocol):
         caller reaches after searchEvents narrows to a single event id.
         """
 
+    async def getPerformer(self, args: Prv_seatgeek_GetPerformerArgs_In, /) -> Prv_seatgeek_seatgeekPerformer_Out:
+        """Returns one performer in full — name, type, slug, upcoming event count and genres/sport.
+        The detail read a caller reaches after findPerformers narrows to a single performer id.
+        """
+
+    async def getVenue(self, args: Prv_seatgeek_GetVenueArgs_In, /) -> Prv_seatgeek_seatgeekVenue_Out:
+        """Returns one venue in full — name, city, state, country, slug and capacity. The detail
+        read a caller reaches after findVenues narrows to a single venue id.
+        """
+
 class Prv_sec_edgar(Protocol):
     """A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
     assets, shares outstanding), from SEC EDGAR
@@ -51591,6 +51752,13 @@ class Prv_target(Protocol):
         """Reads the CALLER's own Target cart — line items (TCIN, title, quantity, unit and current
         price, image) and the cart's own totals (product subtotal, grand total). Needs the
         caller signed in.
+        """
+
+    async def addToCart(self, args: Prv_target_addToCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_target_TargetAddToCartResult_Out:
+        """Adds one product (by TCIN and optional quantity, defaulting to 1) to the CALLER's own
+        Target cart. The last step this provider may take on a buying flow — it stops there;
+        this provider will never place an order or reach a payment step. Needs the caller signed
+        in.
         """
 
 class Prv_tatcha(Protocol):
@@ -53054,6 +53222,11 @@ class Prv_usatoday(Protocol):
     async def getArticle(self, args: Prv_usatoday_GetArticleArgs_In, /) -> Prv_usatoday_usatodayFullArticle_Out:
         """Reads the full text of one USA Today article, returning headline, byline, body text,
         publication and update dates, section, image, and whether it is free to read.
+        """
+
+    async def getScores(self, args: Prv_usatoday_GetScoresArgs_In, /) -> list[Prv_usatoday_usatodayScore_Out]:
+        """Reads sports scores from USA Today's scores section — given a sport like NFL, NBA, MLB,
+        MLS — returning game results with home and away teams, scores, date and status.
         """
 
 class Prv_usps(Protocol):
@@ -55303,6 +55476,7 @@ class BowmarkProviders(Protocol):
     oliverwinery: Prv_oliverwinery
     onthemarket: Prv_onthemarket
     openai: Prv_openai
+    opentable: Prv_opentable
     originenergy_com_au: Prv_originenergy_com_au
     othership: Prv_othership
     otto: Prv_otto
