@@ -6,6 +6,126 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.25.7 (2026-10-15)
+
+**Capabilities**
+
+- New capability **cve_lookup** (2 functions): `cve_lookup.lookup`, `cve_lookup.search`
+- New capability **used_car_search** (1 function): `used_car_search.search`
+- Added `job_search.atCompany`
+- Removed **census_tract_demographics**
+- Removed **census_tract_household_income**
+
+**Providers**
+
+- New provider **adobe.com** (1 function): `adobe.getCreativeCloudPlans`
+- New provider **agentstatus.dev** (2 functions): `agentstatus.getServer`, `agentstatus.searchServers`
+- New provider **aliexpress.us** (6 functions): `aliexpress.addToCart`, `aliexpress.getProduct`, `aliexpress.getStore`, `aliexpress.listCart`, `aliexpress.listCategories`, `aliexpress.search`
+- New provider **ashbyhq.com** (1 function): `ashby.listJobs`
+- New provider **cve.circl.lu** (2 functions): `circl.getCve`, `circl.search`
+- New provider **crunchbase.com** (2 functions): `crunchbase.recentFundingRounds`, `crunchbase.searchNews`
+- New provider **facebook.com** (5 functions): `facebook.getConversation`, `facebook.getPersonProfile`, `facebook.listConversations`, `facebook.listFriends`, `facebook.searchPeople`
+- New provider **fandom.com** (7 functions): `fandom.getArticle`, `fandom.getSection`, `fandom.getSections`, `fandom.getSummary`, `fandom.getWikiInfo`, `fandom.search`, `fandom.suggestTitles`
+- New provider **greenhouse.io** (1 function): `greenhouse.listJobs`
+- New provider **huggingface.co** (3 functions): `huggingface.getModel`, `huggingface.listTrendingModels`, `huggingface.searchModels`
+- New provider **lever.co** (1 function): `lever.listJobs`
+- New provider **www.netflix.com** (2 functions): `netflix.findTitles`, `netflix.getTitle`
+- New provider **opentable.com** (2 functions): `opentable.checkAvailability`, `opentable.search`
+- New provider **partiful.com** (2 functions): `partiful.discoverEvents`, `partiful.getEvent`
+- New provider **recruitee.com** (1 function): `recruitee.listJobs`
+- New provider **seatgeek.com** (7 functions): `seatgeek.findPerformers`, `seatgeek.findVenues`, `seatgeek.getEvent`, `seatgeek.getPerformer`, `seatgeek.getVenue`, `seatgeek.listTaxonomies`, `seatgeek.searchEvents`
+- New provider **smartrecruiters.com** (1 function): `smartrecruiters.listJobs`
+- New provider **stubhub.com** (1 function): `stubhub.listCategories`
+- New provider **usatoday.com** (7 functions): `usatoday.browseSection`, `usatoday.getArticle`, `usatoday.getScores`, `usatoday.listHomepageHeadlines`, `usatoday.listPuzzles`, `usatoday.listSections`, `usatoday.searchNews`
+- New provider **whatsapp.com** (4 functions): `whatsapp.getChannel`, `whatsapp.getHelpArticle`, `whatsapp.previewBusinessCatalog`, `whatsapp.searchHelpCenter`
+- New provider **workable.com** (1 function): `workable.listJobs`
+- New provider **myworkdayjobs.com** (1 function): `workday.listJobs`
+- Added `aol.getDailyHoroscope`
+- Added `aol.getLocalNews`
+- Added `aol.getMarketSummary`
+- Added `aol.getRecipe`
+- Added `aol.getWeather`
+- Added `aol.listGames`
+- Added `aol.searchRecipes`
+- Added `aol.searchWeatherLocations`
+- Added `bbc.listPodcasts`
+- Added `bluesky.getSuggestedFeeds`
+- Added `bluesky.getTrends`
+- Added `booking_com.getProperty`
+- Added `businessinsider_com.getGuide`
+- Added `businessinsider_com.listGuides`
+- Added `businessinsider_com.listOpinionPieces`
+- Added `businessinsider_com.listVideos`
+- Added `dailymotion.getChannel`
+- Added `dailymotion.getPlaylist`
+- Added `dailymotion.listChannelPlaylists`
+- Added `dailymotion.listChannelVideos`
+- Added `dailymotion.listPlaylistVideos`
+- Added `epicgames.removeFriend`
+- Added `epicgames.sendFriendRequest`
+- Added `epicgames.updateDisplayName`
+- Added `espn.listTeams`
+- Added `espn.standings`
+- Added `espn.teamSchedule`
+- Added `goodreads.getList`
+- Added `goodreads.listGenreBooks`
+- Added `goodreads.searchQuotes`
+- Added `hackernews.searchComments`
+- Added `instagram.blockUser`
+- Added `instagram.commentOnPost`
+- Added `instagram.getHomeFeed`
+- Added `instagram.getSavedPosts`
+- Added `instagram.muteUser`
+- Added `instagram.savePost`
+- Added `instagram.searchAccounts`
+- Added `instagram.unblockUser`
+- Added `instagram.unmuteUser`
+- Added `instagram.unsavePost`
+- Added `instagram.updateProfile`
+- Added `microsoft_365.getDocumentContent`
+- Added `microsoft_365.listRecentDocuments`
+- Added `microsoft_365.searchDocuments`
+- Added `microsoft_onedrive.shareFile`
+- Added `nhc.getStormAdvisory`
+- Added `nhc.getStormForecast`
+- Added `nhc.getTropicalOutlook`
+- Added `nhc.getWatchesWarnings`
+- Added `nintendo.listCategories`
+- Added `npr.listPodcasts`
+- Added `npr.searchStories`
+- Added `nyt_cooking.getCookedRecipes`
+- Added `nyt_cooking.getGroceryList`
+- Added `shein.listProductsByCategory`
+- Added `shein.search`
+- Added `shop_app.listStoreProducts`
+- Added `shop_app.suggestSearches`
+- Added `target.addToCart`
+- Added `target.getCart`
+- Added `target.getRegistry`
+- Added `target.listCategories`
+- Added `target.listDeals`
+- Added `target.listOrders`
+- Added `target.listReviews`
+- Added `tiktok.deleteComment`
+- Added `tiktok.editProfile`
+- Added `tiktok.followUser`
+- Added `tiktok.likeVideo`
+- Added `tiktok.postComment`
+- Added `tiktok.unfollowUser`
+- Added `tiktok.unlikeVideo`
+- Added `tripadvisor.getHotelPrices`
+- Added `tripadvisor.searchRestaurants`
+- Added `x.getPostReplies`
+- Added `x.search`
+- Added `yahoo_mail.searchMessages`
+- Removed `amazon.listOrders`
+- Removed `amazon.listQuestions`
+- Removed `amazon.listWishLists`
+- Removed `amazon.trackShipment`
+- Removed `census_api.householdIncome`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.25.6 (2026-10-10)
 
 **Capabilities**

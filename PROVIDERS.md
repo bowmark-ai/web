@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3674 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3679 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3256,6 +3256,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.unfollowBlog` | tumblr.com | Unfollow a blog from the signed-in account. | ⚪ |
 | `tumblr.unlikePost` | tumblr.com | Remove a like from a post on the signed-in account. | ⚪ |
 | `tumblr.unreblogPost` | tumblr.com | Remove a reblog from the signed-in account's blog. | ⚪ |
+| `turbotax.compareEditions` | turbotax.intuit.com | Compare TurboTax editions side by side, showing which features each includes. | ⚪ |
+| `turbotax.findLocalExperts` | turbotax.intuit.com | Find local TurboTax Live tax experts by searching the profile directory at… | ⚪ |
+| `turbotax.listEditions` | turbotax.intuit.com | List all TurboTax editions with their names, prices, and product pages. | ⚪ |
+| `turbotax.listTaxTools` | turbotax.intuit.com | List available tax calculation tools: TaxCaster, tax bracket, W-4, self-employed, and… | ⚪ |
+| `turbotax.searchArticles` | turbotax.intuit.com | Search the TurboTax help library on ttlc.intuit.com for tax articles and guides. | ⚪ |
 | `tweethunter.listFeatureCategories` | tweethunter.io | Lists Tweet Hunter's public feature categories: content creation, X analytics and… | 🟢 |
 | `tweethunter.listFeatures` | tweethunter.io | Lists Tweet Hunter's publicly advertised X-account features, including scheduling… | 🟢 |
 | `twiddy.getRentalDetail` | twiddy.com | Reads one rental's own detail page in full — description, address, pets-allowed flag… | 🟢 |
