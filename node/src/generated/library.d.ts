@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 67dfcf49c20b468dd37c9f8a7ab6f328381d2d5f91cb0663f8ecde9baa5aa162
-// 85 capabilities, 583 providers, 2148 typed functions, 20 refused.
+// Manifest version: 7f577c8b067ffcce3abd559ac0de66fd1decc7cd29b275abcbb00549546b6d56
+// 85 capabilities, 583 providers, 2149 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13212,10 +13212,11 @@ interface AutocompleteDestinationArgs {
   limit?: number;
 }
 interface SearchPropertyListing {
-  id: string;
+  id: string;        // the hotel page's slug — getProperty's url ends in it
   name: string;
-  url: string;
-  pricePerNight: number | null;
+  url: string;       // pass straight to getProperty({ url })
+  pricePerNight: number | null;  // the card's own "Per night" figure
+  totalPrice: number | null;     // the whole stay after any discount, as the card states it (USD from prod)
   rating: number | null;
   reviewCount: number | null;
 }
@@ -54410,6 +54411,19 @@ interface usatodayPuzzle {
   url: string;
 }
 
+interface GetPuzzleArgs {
+  id: string;
+}
+
+interface usatodayPuzzleDetail {
+  id: string;
+  name: string;
+  type: string;
+  difficulty?: string;
+  date: string;
+  url: string;
+}
+
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
   interface Unit {
     /**
@@ -54453,6 +54467,12 @@ interface usatodayPuzzle {
      * more), each with an id, display name and play URL.
      */
     listPuzzles(): Promise<usatodayPuzzle[]>;
+
+    /**
+     * Reads the details of one USA Today puzzle — given a puzzle ID — returning the puzzle type,
+     * difficulty, date created, and play URL.
+     */
+    getPuzzle(args: GetPuzzleArgs): Promise<usatodayPuzzleDetail>;
   }
 }
 

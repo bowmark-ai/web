@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 67dfcf49c20b468dd37c9f8a7ab6f328381d2d5f91cb0663f8ecde9baa5aa162
-# 85 capabilities, 583 providers, 2130 typed functions, 20 refused.
+# Manifest version: 7f577c8b067ffcce3abd559ac0de66fd1decc7cd29b275abcbb00549546b6d56
+# 85 capabilities, 583 providers, 2131 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7583,6 +7583,7 @@ class Prv_booking_com_SearchPropertyListing_Out(TypedDict):
     name: str
     url: str
     pricePerNight: float | None
+    totalPrice: float | None
     rating: float | None
     reviewCount: float | None
 
@@ -30583,6 +30584,17 @@ class Prv_usatoday_usatodayPuzzle_Out(TypedDict):
     name: str
     url: str
 
+class Prv_usatoday_GetPuzzleArgs_In(TypedDict):
+    id: str
+
+class Prv_usatoday_usatodayPuzzleDetail_Out(TypedDict):
+    id: str
+    name: str
+    type: str
+    difficulty: NotRequired[str]
+    date: str
+    url: str
+
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
     toZip: str
@@ -53344,6 +53356,11 @@ class Prv_usatoday(Protocol):
     async def listPuzzles(self, /) -> list[Prv_usatoday_usatodayPuzzle_Out]:
         """Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games and
         more), each with an id, display name and play URL.
+        """
+
+    async def getPuzzle(self, args: Prv_usatoday_GetPuzzleArgs_In, /) -> Prv_usatoday_usatodayPuzzleDetail_Out:
+        """Reads the details of one USA Today puzzle — given a puzzle ID — returning the puzzle
+        type, difficulty, date created, and play URL.
         """
 
 class Prv_usps(Protocol):

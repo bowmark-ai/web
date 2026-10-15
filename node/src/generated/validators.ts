@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 67dfcf49c20b468dd37c9f8a7ab6f328381d2d5f91cb0663f8ecde9baa5aa162
-// 2130 checked, 20 unchecked.
+// Manifest version: 7f577c8b067ffcce3abd559ac0de66fd1decc7cd29b275abcbb00549546b6d56
+// 2131 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "67dfcf49c20b468dd37c9f8a7ab6f328381d2d5f91cb0663f8ecde9baa5aa162",
+  "version": "7f577c8b067ffcce3abd559ac0de66fd1decc7cd29b275abcbb00549546b6d56",
   "units": {
     "address_validation": {
       "defs": {
@@ -61254,6 +61254,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPuzzleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetScoresArgs": {
           "k": "object",
           "props": [
@@ -61336,7 +61348,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listPuzzles": []
+        "listPuzzles": [],
+        "getPuzzle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPuzzleArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.usps": {
