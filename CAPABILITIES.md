@@ -112,8 +112,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `shipping.estimate` | Prices a domestic package — `{ fromZip: "20024", toZip: "10001", weightOz: 16 }` —… | 3 | 🟢 |
 | `spreadsheet.parse` | Parses spreadsheet text you already hold (a CSV/TSV export, a downloaded file's… | 0 | 🟢 |
 | `spreadsheet.stringify` | Writes rows (objects, or arrays of cells) out as CSV/TSV text, quoting any cell that… | 0 | 🟢 |
-| `stream_channel.get` | Reads the signed-in streamer's own channel settings: the title shown on the stream… | 1 | 🟡 |
-| `stream_channel.set` | Updates the signed-in streamer's own channel settings and returns them as they now… | 1 | 🟡 |
+| `stream_channel.get` | Reads the signed-in streamer's own channel settings: the title shown on the stream… | 1 | 🟢 |
+| `stream_channel.set` | Updates the signed-in streamer's own channel settings and returns them as they now… | 1 | 🟢 |
 | `stream_highlights.create` | Cuts a highlight from [startSeconds, endSeconds] of the signed-in streamer's broadcast… | 1 | 🟢 |
 | `tapfiliate.listAffiliates` | Lists the affiliates in your Tapfiliate account, 25 per page (`page`, default 1… | 1 | 🟢 |
 | `tariff.lookup` | Looks up an HS/HTS code (e.g. "6109.10.00") and returns its description, Column 1… | 0 | 🟢 |
