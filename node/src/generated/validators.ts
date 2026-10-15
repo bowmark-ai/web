@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: edd273e26339d0f59c4089caccaf6753b7109736c194e1b0915a1bc82ef216df
-// 2122 checked, 20 unchecked.
+// Manifest version: e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3
+// 2125 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "edd273e26339d0f59c4089caccaf6753b7109736c194e1b0915a1bc82ef216df",
+  "version": "e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3",
   "units": {
     "address_validation": {
       "defs": {
@@ -7059,6 +7059,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      }
+    },
+    "providers.adobe": {
+      "defs": {},
+      "functions": {
+        "getCreativeCloudPlans": []
       }
     },
     "providers.agakhanhospitals": {
@@ -62872,6 +62878,15 @@ export const VALIDATORS: ValidatorTable = {
     "providers.whatsapp": {
       "defs": {},
       "functions": {
+        "previewBusinessCatalog": [
+          {
+            "name": "numberOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getChannel": [
           {
             "name": "args",
@@ -64053,6 +64068,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "UserTimelineArgs": {
           "k": "object",
           "props": [
@@ -64145,6 +64179,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetPostRepliesArgs"
             },
             "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

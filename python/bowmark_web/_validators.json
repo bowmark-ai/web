@@ -1,5 +1,5 @@
 {
-  "version": "edd273e26339d0f59c4089caccaf6753b7109736c194e1b0915a1bc82ef216df",
+  "version": "e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3",
   "units": {
     "address_validation": {
       "defs": {
@@ -7047,6 +7047,12 @@
             "optional": true
           }
         ]
+      }
+    },
+    "providers.adobe": {
+      "defs": {},
+      "functions": {
+        "getCreativeCloudPlans": []
       }
     },
     "providers.agakhanhospitals": {
@@ -62860,6 +62866,15 @@
     "providers.whatsapp": {
       "defs": {},
       "functions": {
+        "previewBusinessCatalog": [
+          {
+            "name": "numberOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getChannel": [
           {
             "name": "args",
@@ -64041,6 +64056,25 @@
             }
           ]
         },
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "UserTimelineArgs": {
           "k": "object",
           "props": [
@@ -64133,6 +64167,32 @@
               "name": "GetPostRepliesArgs"
             },
             "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

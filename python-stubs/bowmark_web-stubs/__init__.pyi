@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: edd273e26339d0f59c4089caccaf6753b7109736c194e1b0915a1bc82ef216df
-# 85 capabilities, 581 providers, 2122 typed functions, 20 refused.
+# Manifest version: e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3
+# 85 capabilities, 582 providers, 2125 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3408,6 +3408,13 @@ class Prv_acqualinaresort_AcqualinaRate_Out(TypedDict):
     pricePerNight: float | None
     originalPricePerNight: float | None
     currency: Literal["USD"]
+
+class Prv_adobe_CreativeCloudPlan_Out(TypedDict):
+    name: str
+    description: str
+    monthlyPrice: float
+    annualPrice: float | None
+    apps: list[str]
 
 class Prv_agakhanhospitals_getHospitalInfo_location_u1_In(TypedDict):
     location: str
@@ -31669,6 +31676,10 @@ class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
     website: str | None
     logoUrl: str | None
 
+class Prv_whatsapp_WhatsappBusinessCatalog_Out(TypedDict):
+    name: str
+    number: str
+
 class Prv_whatsapp_getChannel_args_In(TypedDict):
     id: str
 
@@ -32413,6 +32424,10 @@ class Prv_x_XPostMedia_Out(TypedDict):
 class Prv_x_GetPostRepliesArgs_In(TypedDict):
     url: NotRequired[str]
     id: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_x_SearchArgs_In(TypedDict):
+    query: str
     limit: NotRequired[float]
 
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
@@ -35835,6 +35850,19 @@ class Prv_acqualinaresort(Protocol):
     async def searchAvailability(self, arrive: str, depart: str, adults: float, children: float | None = None, /) -> list[Prv_acqualinaresort_AcqualinaRoomAvailability_Out]:
         """Runs Acqualina's own reservation engine for one stay and returns real room-type
         availability with per-night pricing for every rate plan on offer.
+        """
+
+class Prv_adobe(Protocol):
+    """Adobe Stock, Fonts and Express search, Creative Cloud plans, Acrobat's free PDF tools,
+    and Adobe's help center — all reachable logged out.
+    """
+
+    async def getCreativeCloudPlans(self, /) -> list[Prv_adobe_CreativeCloudPlan_Out]:
+        """Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html —
+        each plan's name, monthly price and free-text description (which often names an
+        introductory offer), the way a visitor reads the default tab of that page. The site does
+        not expose a separate annual total or a structured included-apps list at this card
+        granularity, so both are currently always null/empty.
         """
 
 class Prv_agakhanhospitals(Protocol):
@@ -53855,6 +53883,12 @@ class Prv_whatsapp(Protocol):
     caller's chats, send messages and media, manage groups, follow Channels and post Status.
     """
 
+    async def previewBusinessCatalog(self, numberOrUrl: str, /) -> Prv_whatsapp_WhatsappBusinessCatalog_Out:
+        """Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the business's
+        display name and number as the catalog page shows them, and whether the number has a
+        catalog at all.
+        """
+
     async def getChannel(self, args: Prv_whatsapp_getChannel_args_In, /) -> Prv_whatsapp_WhatsappChannel_Out:
         """Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the bare
         id): the channel's name, description, follower count as the page phrases it ("3.3M
@@ -54228,6 +54262,11 @@ class Prv_x(Protocol):
     async def getPostReplies(self, args: Prv_x_GetPostRepliesArgs_In, /) -> list[Prv_x_XTweet_Out]:
         """Reads the reply thread under a single X post, scrolling until `limit` is met or replies
         run out.
+        """
+
+    async def search(self, args: Prv_x_SearchArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_x_XTweet_Out]:
+        """Runs the site's own search across posts, returning matching results as you scroll until
+        `limit` is met.
         """
 
 class Prv_xpresswellnessurgentcare(Protocol):
@@ -55083,6 +55122,7 @@ class BowmarkProviders(Protocol):
     acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
     acqualinaresort: Prv_acqualinaresort
+    adobe: Prv_adobe
     agakhanhospitals: Prv_agakhanhospitals
     agentstatus: Prv_agentstatus
     ai_engineer: Prv_ai_engineer

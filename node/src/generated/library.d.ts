@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: edd273e26339d0f59c4089caccaf6753b7109736c194e1b0915a1bc82ef216df
-// 85 capabilities, 581 providers, 2140 typed functions, 20 refused.
+// Manifest version: e5e164d29f270421f745bdd3ed636438e591e7928a751531ae3ee20392a448a3
+// 85 capabilities, 582 providers, 2143 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6129,6 +6129,36 @@ interface AcqualinaRoomAvailability {
      * with per-night pricing for every rate plan on offer.
      */
     searchAvailability(arrive: string, depart: string, adults: number, children?: number): Promise<AcqualinaRoomAvailability[]>;
+  }
+}
+
+declare namespace BowmarkProvider_adobe {
+  // ── Adobe — the unit's own declarations, verbatim ──
+interface CreativeCloudPlan {
+  name: string;
+  description: string;
+  monthlyPrice: number;
+  annualPrice: number | null;
+  apps: string[];
+}
+
+interface adobeRow {
+  id: string;
+}
+
+  /**
+   * Adobe Stock, Fonts and Express search, Creative Cloud plans, Acrobat's free PDF tools, and
+   * Adobe's help center — all reachable logged out.
+   */
+  interface Unit {
+    /**
+     * Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html —
+     * each plan's name, monthly price and free-text description (which often names an introductory
+     * offer), the way a visitor reads the default tab of that page. The site does not expose a
+     * separate annual total or a structured included-apps list at this card granularity, so both
+     * are currently always null/empty.
+     */
+    getCreativeCloudPlans(): Promise<CreativeCloudPlan[]>;
   }
 }
 
@@ -56109,6 +56139,10 @@ interface WhatsappChannel {
   followerCountNumber: number;
   url: string;
 }
+interface WhatsappBusinessCatalog {
+  name: string;
+  number: string;
+}
 interface WhatsappHelpSearchResult {
   id: string;
   title: string;
@@ -56130,6 +56164,13 @@ interface WhatsappHelpArticle {
    * caller's chats, send messages and media, manage groups, follow Channels and post Status.
    */
   interface Unit {
+    /**
+     * Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the business's
+     * display name and number as the catalog page shows them, and whether the number has a catalog
+     * at all.
+     */
+    previewBusinessCatalog(numberOrUrl: string): Promise<WhatsappBusinessCatalog>;
+
     /**
      * Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the bare
      * id): the channel's name, description, follower count as the page phrases it ("3.3M
@@ -57022,6 +57063,11 @@ interface GetPostRepliesArgs {
   limit?: number;
 }
 
+interface SearchArgs {
+  query: string;
+  limit?: number;
+}
+
 interface XTweet {
   id: string;
   text: string;
@@ -57092,6 +57138,12 @@ interface XPost {
      * out.
      */
     getPostReplies(args: GetPostRepliesArgs): Promise<XTweet[]>;
+
+    /**
+     * Runs the site's own search across posts, returning matching results as you scroll until
+     * `limit` is met.
+     */
+    search(args: SearchArgs, opts?: ConnectionOption): Promise<XTweet[]>;
   }
 }
 
@@ -60110,6 +60162,7 @@ interface BowmarkProviders {
   acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
+  adobe: BowmarkProvider_adobe.Unit;
   agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
   agentstatus: BowmarkProvider_agentstatus.Unit;
   ai_engineer: BowmarkProvider_ai_engineer.Unit;
