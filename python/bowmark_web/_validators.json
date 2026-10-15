@@ -1,5 +1,5 @@
 {
-  "version": "4947a3608715ef47e4829dc59ca5a39551462f56ee840a6af1d7144c312499d7",
+  "version": "3d3b53858103a7a2ea499d0d1b54aaf130e8f9d19965d9c023696e265efa3f03",
   "units": {
     "address_validation": {
       "defs": {
@@ -52878,6 +52878,18 @@
             }
           ]
         },
+        "GetEventArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchEventsArgs": {
           "k": "object",
           "props": [
@@ -52974,6 +52986,16 @@
             "schema": {
               "k": "ref",
               "name": "FindVenuesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetEventArgs"
             },
             "optional": false
           }

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4947a3608715ef47e4829dc59ca5a39551462f56ee840a6af1d7144c312499d7
-// 2115 checked, 20 unchecked.
+// Manifest version: 3d3b53858103a7a2ea499d0d1b54aaf130e8f9d19965d9c023696e265efa3f03
+// 2116 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4947a3608715ef47e4829dc59ca5a39551462f56ee840a6af1d7144c312499d7",
+  "version": "3d3b53858103a7a2ea499d0d1b54aaf130e8f9d19965d9c023696e265efa3f03",
   "units": {
     "address_validation": {
       "defs": {
@@ -52890,6 +52890,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetEventArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchEventsArgs": {
           "k": "object",
           "props": [
@@ -52986,6 +52998,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FindVenuesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetEventArgs"
             },
             "optional": false
           }

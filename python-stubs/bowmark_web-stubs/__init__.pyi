@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4947a3608715ef47e4829dc59ca5a39551462f56ee840a6af1d7144c312499d7
-# 85 capabilities, 580 providers, 2115 typed functions, 20 refused.
+# Manifest version: 3d3b53858103a7a2ea499d0d1b54aaf130e8f9d19965d9c023696e265efa3f03
+# 85 capabilities, 580 providers, 2116 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -26390,6 +26390,9 @@ class Prv_seatgeek_seatgeekVenue_Out(TypedDict):
     slug: NotRequired[str]
     capacity: NotRequired[float]
 
+class Prv_seatgeek_GetEventArgs_In(TypedDict):
+    id: float
+
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -50636,6 +50639,12 @@ class Prv_seatgeek(Protocol):
     async def findVenues(self, args: Prv_seatgeek_FindVenuesArgs_In, /) -> list[Prv_seatgeek_seatgeekVenue_Out]:
         """Finds venues — concert halls, stadiums, theaters, clubs — by name. Returns venue id,
         name, city, state, slug and capacity. Use when a caller names a venue.
+        """
+
+    async def getEvent(self, args: Prv_seatgeek_GetEventArgs_In, /) -> Prv_seatgeek_seatgeekEvent_Out:
+        """Returns one event in full — venue, performers, date/time, and SeatGeek's ticket price
+        stats (lowest_price, median_price, listing_count, ticket_count). The detail read a
+        caller reaches after searchEvents narrows to a single event id.
         """
 
 class Prv_sec_edgar(Protocol):

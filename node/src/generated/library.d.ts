@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4947a3608715ef47e4829dc59ca5a39551462f56ee840a6af1d7144c312499d7
-// 85 capabilities, 580 providers, 2133 typed functions, 20 refused.
+// Manifest version: 3d3b53858103a7a2ea499d0d1b54aaf130e8f9d19965d9c023696e265efa3f03
+// 85 capabilities, 580 providers, 2134 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -47051,6 +47051,10 @@ interface FindVenuesArgs {
   limit?: number;
 }
 
+interface GetEventArgs {
+  id: number;
+}
+
 interface seatgeekEvent {
   id: number;
   title: string;
@@ -47107,6 +47111,13 @@ interface seatgeekRow {
      * city, state, slug and capacity. Use when a caller names a venue.
      */
     findVenues(args: FindVenuesArgs): Promise<seatgeekVenue[]>;
+
+    /**
+     * Returns one event in full — venue, performers, date/time, and SeatGeek's ticket price stats
+     * (lowest_price, median_price, listing_count, ticket_count). The detail read a caller reaches
+     * after searchEvents narrows to a single event id.
+     */
+    getEvent(args: GetEventArgs): Promise<seatgeekEvent>;
   }
 }
 
