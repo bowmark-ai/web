@@ -2684,7 +2684,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seatgeek.findPerformers` | seatgeek.com | Finds performers — artists, sports teams, comedians — by name and returns each one's… | 🟢 |
 | `seatgeek.findVenues` | seatgeek.com | Finds venues by name or location (city/state or geo) and returns each one's id, name… | 🟢 |
 | `seatgeek.followPerformer` | seatgeek.com | Follows a performer on the signed-in caller's account. | ⚪ |
-| `seatgeek.getEvent` | seatgeek.com | Returns one event in full: venue, performers, date/time, and SeatGeek's own ticket… | ⚪ |
+| `seatgeek.getEvent` | seatgeek.com | Returns one event in full: venue, performers, date/time, and SeatGeek's own ticket… | 🟢 |
 | `seatgeek.getOrder` | seatgeek.com | Returns one order/ticket in full: event, seats, price paid and delivery/transfer status. | ⚪ |
 | `seatgeek.getPerformer` | seatgeek.com | Returns one performer in full: name, type, upcoming event count, and genres/sport. | ⚪ |
 | `seatgeek.getVenue` | seatgeek.com | Returns one venue in full: address, city, timezone and upcoming event count. | ⚪ |
