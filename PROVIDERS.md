@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3597 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3639 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -968,6 +968,48 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
 | `doordash.getCheckoutTotal` | doordash.com | Would open a specific store, add real menu items to the cart, set a delivery address… | ⚪ |
 | `doordash.search` | doordash.com | Runs DoorDash's own store search for a free-text query and returns the real… | 🟡 |
+| `dropbox.addFileComment` | dropbox.com | Adds a comment to a file in the caller's Dropbox. | ⚪ |
+| `dropbox.changeProfilePhoto` | dropbox.com | Changes the signed-in caller's profile photo. | ⚪ |
+| `dropbox.closeFileRequest` | dropbox.com | Closes one of the caller's file requests so it stops accepting uploads. | ⚪ |
+| `dropbox.copyFile` | dropbox.com | Copies a file or folder to another place in the caller's Dropbox. | ⚪ |
+| `dropbox.createFileRequest` | dropbox.com | Creates a file request — a link anyone can upload files to, landing in a folder of the… | ⚪ |
+| `dropbox.createFolder` | dropbox.com | Creates a new folder in the caller's Dropbox. | ⚪ |
+| `dropbox.createSharedLink` | dropbox.com | Creates (or returns the existing) shared link for a file or folder in the caller's… | ⚪ |
+| `dropbox.createTransfer` | dropbox.com | Creates a Dropbox Transfer from files in the caller's Dropbox or uploaded with it, and… | ⚪ |
+| `dropbox.deleteFile` | dropbox.com | Deletes a file or folder in the caller's Dropbox (it goes to Deleted files, where… | ⚪ |
+| `dropbox.downloadFile` | dropbox.com | Downloads a file from the caller's Dropbox and returns a Bowmark file URL for it. | ⚪ |
+| `dropbox.downloadSharedFile` | dropbox.com | Downloads the file behind a shared link and returns a Bowmark file URL for it, with… | ⚪ |
+| `dropbox.downloadSharedFolder` | dropbox.com | Downloads a whole shared folder as a zip and returns a Bowmark file URL for it. | ⚪ |
+| `dropbox.getFileMetadata` | dropbox.com | Reads one file or folder in the caller's Dropbox by path: size, modified time, who… | ⚪ |
+| `dropbox.getMyAccount` | dropbox.com | Reads the signed-in caller's account: name, email, profile photo, plan, and storage… | ⚪ |
+| `dropbox.getPlans` | dropbox.com | Lists Dropbox's plans as its own pricing page shows them — Basic, Plus, Essentials… | ⚪ |
+| `dropbox.getSharedLink` | dropbox.com | Opens a Dropbox shared link the caller was sent — any of the /s/, /sh/, /scl/fi/ or… | ⚪ |
+| `dropbox.getTransfer` | dropbox.com | Opens a Dropbox Transfer link (www.dropbox.com/t/<id>) the caller was sent: the files… | ⚪ |
+| `dropbox.listDeletedFiles` | dropbox.com | Lists the caller's recently deleted files and folders that can still be restored. | ⚪ |
+| `dropbox.listFileComments` | dropbox.com | Reads the comments on a file in the caller's Dropbox. | ⚪ |
+| `dropbox.listFileRequests` | dropbox.com | Lists the caller's file requests, open and closed, with how many files each has… | ⚪ |
+| `dropbox.listFileVersions` | dropbox.com | Lists the earlier versions of a file in the caller's Dropbox, with when and by whom… | ⚪ |
+| `dropbox.listFolder` | dropbox.com | Lists a folder in the caller's own Dropbox — the root by default — with each entry's… | ⚪ |
+| `dropbox.listRecentFiles` | dropbox.com | Lists the files the caller opened or edited recently (dropbox.com/recents). | ⚪ |
+| `dropbox.listSharedFolder` | dropbox.com | Lists the files and sub-folders inside a shared folder link — name, size, modified… | ⚪ |
+| `dropbox.listSharedLinks` | dropbox.com | Lists the shared links the caller has created, with what each points at and its… | ⚪ |
+| `dropbox.listSharedWithMe` | dropbox.com | Lists the files and folders other people have shared with the caller… | ⚪ |
+| `dropbox.listSharingMembers` | dropbox.com | Lists who has access to a shared file or folder in the caller's Dropbox, and whether… | ⚪ |
+| `dropbox.listStarredFiles` | dropbox.com | Lists the files and folders the caller starred. | ⚪ |
+| `dropbox.listTransfers` | dropbox.com | Lists the transfers the caller has sent, with their links, view and download counts… | ⚪ |
+| `dropbox.moveFile` | dropbox.com | Moves or renames a file or folder in the caller's Dropbox. | ⚪ |
+| `dropbox.readSharedFile` | dropbox.com | Returns the text of a shared document (PDF, Word, slides, text) the way Dropbox's own… | ⚪ |
+| `dropbox.removeSharingMember` | dropbox.com | Removes a person's access to a shared file or folder in the caller's Dropbox. | ⚪ |
+| `dropbox.restoreFile` | dropbox.com | Restores a deleted file or folder in the caller's Dropbox. | ⚪ |
+| `dropbox.restoreFileVersion` | dropbox.com | Restores a file in the caller's Dropbox to one of its earlier versions. | ⚪ |
+| `dropbox.revokeSharedLink` | dropbox.com | Turns off one of the caller's shared links so it stops working. | ⚪ |
+| `dropbox.saveSharedLinkToDropbox` | dropbox.com | Saves the file or folder behind a shared link into the caller's own Dropbox (the 'Save… | ⚪ |
+| `dropbox.searchFiles` | dropbox.com | Searches the caller's Dropbox by file name and content, as the search box at the top… | ⚪ |
+| `dropbox.shareWithPeople` | dropbox.com | Invites people by email to a file or folder in the caller's Dropbox, as viewers or… | ⚪ |
+| `dropbox.starFile` | dropbox.com | Stars or unstars a file or folder in the caller's Dropbox. | ⚪ |
+| `dropbox.updateProfileName` | dropbox.com | Changes the signed-in caller's display name (first and last name) in their Dropbox… | ⚪ |
+| `dropbox.uploadFile` | dropbox.com | Uploads a file into a folder in the caller's Dropbox. | ⚪ |
+| `dropbox.uploadToFileRequest` | dropbox.com | Uploads a file into a Dropbox file request link (www.dropbox.com/request/<id>) — the… | ⚪ |
 | `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | ⚪ |
 | `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | ⚪ |
 | `duckduckgo.convertCurrency` | duckduckgo.com | Convert an amount between two currencies at DuckDuckGo's current mid-market rate (from… | ⚪ |
@@ -2983,7 +3025,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.getRegistry` | target.com | Reads one Target Gift Registry's items once you have the registry's id from… | 🟢 |
 | `target.listCategories` | target.com | Reads Target's own category taxonomy (department → aisle, e.g. Grocery → Snacks) with… | 🟢 |
 | `target.listDeals` | target.com | Reads one store's current Target weekly ad — every priced offer in it with the ad's… | 🟢 |
-| `target.listOrders` | target.com | The CALLER's own signed-in order history on target.com — what they bought, when, for… | ⚪ |
+| `target.listOrders` | target.com | The CALLER's own signed-in order history on target.com — what they bought, when, for… | 🟢 |
 | `target.listReviews` | target.com | Reads a product's customer reviews (by TCIN) — rating, text, title, verified-purchase… | 🟢 |
 | `target.listWishlists` | target.com | The CALLER's own saved lists on target.com (their “Lists” — Target's wishlist feature)… | ⚪ |
 | `target.reviewPhotos` | target.com | Returns the photos shoppers attached to their reviews of one product (by TCIN) —… | 🟢 |
@@ -3237,7 +3279,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
 | `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | ⚪ |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
-| `usatoday.listPuzzles` | usatoday.com | Lists available USA Today puzzles — crossword, Sudoku, etc. — with puzzle IDs and types. | ⚪ |
+| `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
 | `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |
 | `usatoday.listSections` | usatoday.com | Lists USA Today's main news sections — news, sports, money, life, tech, opinion — each… | 🟢 |
 | `usatoday.listVideos` | usatoday.com | Lists USA Today videos, paginated, showing title, description, thumbnail URL, duration… | ⚪ |
