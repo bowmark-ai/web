@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7f577c8b067ffcce3abd559ac0de66fd1decc7cd29b275abcbb00549546b6d56
-# 85 capabilities, 583 providers, 2131 typed functions, 20 refused.
+# Manifest version: 749f0bbc0f58df0bd32abb51273c3242e0b7f3911da812cc505577075f109f5e
+# 85 capabilities, 583 providers, 2133 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3415,6 +3415,12 @@ class Prv_adobe_CreativeCloudPlan_Out(TypedDict):
     monthlyPrice: float
     annualPrice: float | None
     apps: list[str]
+
+class Prv_adobe_HelpArticle_Out(TypedDict):
+    title: str
+    product: str
+    url: str
+    snippet: str
 
 class Prv_agakhanhospitals_getHospitalInfo_location_u1_In(TypedDict):
     location: str
@@ -21368,6 +21374,13 @@ class Prv_netflix_NetflixTitle_Out(TypedDict):
     creators: NotRequired[list[str]]
     url: str
 
+class Prv_netflix_NetflixTop10Entry_Out(TypedDict):
+    rank: float
+    category: Literal["TV"] | Literal["Films"]
+    title: str
+    weeklyViews: NotRequired[float]
+    weeklyHours: NotRequired[float]
+
 class Prv_newageproducts_NewageproductsProduct_Out(TypedDict):
     handle: str
     title: str
@@ -35933,6 +35946,13 @@ class Prv_adobe(Protocol):
         granularity, so both are currently always null/empty.
         """
 
+    async def findHelpArticle(self, query: str, /) -> list[Prv_adobe_HelpArticle_Out]:
+        """Searches Adobe's help center (helpx.adobe.com) for an article matching free text — e.g.
+        "how do I cancel my Creative Cloud subscription" — returning each result's title,
+        product, URL and a summary snippet, the way an agent helping someone navigate Adobe's
+        own support would.
+        """
+
 class Prv_agakhanhospitals(Protocol):
     """Reads the Aga Khan Hospital, Kisumu (AKHK)'s public contact info, department leadership
     and full specialty-clinic catalog straight off agakhanhospitals.org's own Next.js page
@@ -47903,6 +47923,11 @@ class Prv_netflix(Protocol):
         """Reads a public Netflix title page by its numeric id (the number in
         netflix.com/title/<id>) — name, synopsis, release year, maturity rating, genres, season
         count, cast, creators and hero image. No sign-in.
+        """
+
+    async def getTop10(self, /) -> list[Prv_netflix_NetflixTop10Entry_Out]:
+        """Gets Netflix's current Top 10 list for the week (TV and Films), ranked by views. Ranks
+        1-10 for each category. No sign-in.
         """
 
 class Prv_newageproducts(Protocol):

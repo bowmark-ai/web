@@ -239,9 +239,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🟡 |
 | `archive_org.searchItems` | archive.org | Search the Internet Archive's library of books, films, audio, software and more using… | 🟢 |
 | `archive_org.searchScholar` | archive.org | Search scholar.archive.org for scholarly articles, papers, and academic texts —… | ⚪ |
-| `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟢 |
-| `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟢 |
-| `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟢 |
+| `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟡 |
+| `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟡 |
+| `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟡 |
 | `ashby.listJobs` | ashbyhq.com | Lists every listed job on one company's Ashby board (jobs.ashbyhq.com/{name}) — title… | 🟢 |
 | `ashleyfurniture.checkStock` | ashleyfurniture.com | Answers whether a product (by SKU) is available for delivery to a ZIP — the function… | 🟡 |
 | `ashleyfurniture.findStore` | ashleyfurniture.com | Finds nearby Ashley HomeStore locations for a ZIP or address — hours, phone, and… | 🟢 |
@@ -357,8 +357,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bigrentz.listCategories` | bigrentz.com | Lists BigRentz's equipment categories (optionally filtered to children of a parent… | 🟢 |
 | `bigrentz.search` | bigrentz.com | Searches BigRentz's equipment catalog by free-text query (e.g. "boom lift", "40 ft… | 🟢 |
 | `bigyellow.getQuote` | bigyellow.co.uk | Returns a storage unit quote with pricing based on location, unit size and move-in date. | ⚪ |
-| `bing.define` | bing.com | Looks up a word in Bing's own dictionary panel (bing.com/dict/search) and returns its… | 🟡 |
-| `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | 🟡 |
+| `bing.define` | bing.com | Looks up a word in Bing's own dictionary panel (bing.com/dict/search) and returns its… | 🟢 |
+| `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | 🟢 |
 | `bing.listSaves` | bing.com | Lists the pages, searches and images the signed-in caller has saved to Bing… | 🟢 |
 | `bing.saveResult` | bing.com | Adds a page, search or image to the signed-in caller's Bing Collections — the write… | 🟢 |
 | `bing.searchImages` | bing.com | Searches Bing's image index the way bing.com/images/search does and returns each hit's… | 🟢 |

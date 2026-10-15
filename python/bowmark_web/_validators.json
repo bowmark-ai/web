@@ -1,5 +1,5 @@
 {
-  "version": "7f577c8b067ffcce3abd559ac0de66fd1decc7cd29b275abcbb00549546b6d56",
+  "version": "749f0bbc0f58df0bd32abb51273c3242e0b7f3911da812cc505577075f109f5e",
   "units": {
     "address_validation": {
       "defs": {
@@ -7052,7 +7052,16 @@
     "providers.adobe": {
       "defs": {},
       "functions": {
-        "getCreativeCloudPlans": []
+        "getCreativeCloudPlans": [],
+        "findHelpArticle": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.agakhanhospitals": {
@@ -40274,7 +40283,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "getTop10": []
       }
     },
     "providers.newageproducts": {

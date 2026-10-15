@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7f577c8b067ffcce3abd559ac0de66fd1decc7cd29b275abcbb00549546b6d56
-// 85 capabilities, 583 providers, 2149 typed functions, 20 refused.
+// Manifest version: 749f0bbc0f58df0bd32abb51273c3242e0b7f3911da812cc505577075f109f5e
+// 85 capabilities, 583 providers, 2151 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6142,6 +6142,13 @@ interface CreativeCloudPlan {
   apps: string[];
 }
 
+interface HelpArticle {
+  title: string;
+  product: string;
+  url: string;
+  snippet: string;
+}
+
 interface adobeRow {
   id: string;
 }
@@ -6159,6 +6166,13 @@ interface adobeRow {
      * are currently always null/empty.
      */
     getCreativeCloudPlans(): Promise<CreativeCloudPlan[]>;
+
+    /**
+     * Searches Adobe's help center (helpx.adobe.com) for an article matching free text — e.g. "how
+     * do I cancel my Creative Cloud subscription" — returning each result's title, product, URL
+     * and a summary snippet, the way an agent helping someone navigate Adobe's own support would.
+     */
+    findHelpArticle(query: string): Promise<HelpArticle[]>;
   }
 }
 
@@ -39212,6 +39226,12 @@ interface NetflixProfile {
      * image. No sign-in.
      */
     getTitle(titleId: string): Promise<NetflixTitle>;
+
+    /**
+     * Gets Netflix's current Top 10 list for the week (TV and Films), ranked by views. Ranks 1-10
+     * for each category. No sign-in.
+     */
+    getTop10(): Promise<NetflixTop10Entry[]>;
   }
 }
 

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7f577c8b067ffcce3abd559ac0de66fd1decc7cd29b275abcbb00549546b6d56
-// 2131 checked, 20 unchecked.
+// Manifest version: 749f0bbc0f58df0bd32abb51273c3242e0b7f3911da812cc505577075f109f5e
+// 2133 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7f577c8b067ffcce3abd559ac0de66fd1decc7cd29b275abcbb00549546b6d56",
+  "version": "749f0bbc0f58df0bd32abb51273c3242e0b7f3911da812cc505577075f109f5e",
   "units": {
     "address_validation": {
       "defs": {
@@ -7064,7 +7064,16 @@ export const VALIDATORS: ValidatorTable = {
     "providers.adobe": {
       "defs": {},
       "functions": {
-        "getCreativeCloudPlans": []
+        "getCreativeCloudPlans": [],
+        "findHelpArticle": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.agakhanhospitals": {
@@ -40286,7 +40295,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getTop10": []
       }
     },
     "providers.newageproducts": {
