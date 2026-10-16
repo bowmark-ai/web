@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8900b0809b8a7565888fbf38bbfd53b8dcd41aaa3efd55fd06c168b905b42e32
-# 85 capabilities, 585 providers, 2147 typed functions, 20 refused.
+# Manifest version: aafe407b2eae7cb8ce7c495efede9f5bfbdc524fdaa41fdfd43058a376cb1a75
+# 85 capabilities, 585 providers, 2148 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11071,6 +11071,16 @@ class Prv_discord_discordDocPage_Out(TypedDict):
     title: str
     description: str | None
     body: str
+
+class Prv_discord_discordInvite_Out(TypedDict):
+    guildId: str
+    guildName: str
+    guildDescription: str | None
+    guildFeatures: list[str]
+    approximateMemberCount: float
+    approximatePresenceCount: float
+    expiresAt: str | None
+    channelId: NotRequired[str]
 
 class Prv_discounttire_DiscounttireProduct_Out(TypedDict):
     code: str
@@ -41093,6 +41103,12 @@ class Prv_discord(Protocol):
         discord.com/developers/docs url, or a path like "/developers/resources/channel" — and
         returns its title, description and body as markdown (endpoint routes, field tables).
         Throws discordInputError for a url outside the developer docs.
+        """
+
+    async def getInvite(self, code: str, /) -> Prv_discord_discordInvite_Out:
+        """Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare
+        code) to the server it opens — server id, name, description, feature flags, approximate
+        member and online counts, and when the invite expires.
         """
 
 class Prv_discounttire(Protocol):

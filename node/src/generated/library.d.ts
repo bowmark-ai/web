@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8900b0809b8a7565888fbf38bbfd53b8dcd41aaa3efd55fd06c168b905b42e32
-// 85 capabilities, 585 providers, 2165 typed functions, 20 refused.
+// Manifest version: aafe407b2eae7cb8ce7c495efede9f5bfbdc524fdaa41fdfd43058a376cb1a75
+// 85 capabilities, 585 providers, 2166 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19748,6 +19748,16 @@ interface discordDocPage {
   description: string | null;
   body: string;
 }
+interface discordInvite {
+  guildId: string;
+  guildName: string;
+  guildDescription: string | null;
+  guildFeatures: string[];
+  approximateMemberCount: number;
+  approximatePresenceCount: number;
+  expiresAt: string | null;
+  channelId?: string;
+}
 
   /**
    * Discord, chat for communities. Built so far: Discord's developer documentation
@@ -19768,6 +19778,13 @@ interface discordDocPage {
      * discordInputError for a url outside the developer docs.
      */
     getDocPage(url: string): Promise<discordDocPage>;
+
+    /**
+     * Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare code) to
+     * the server it opens — server id, name, description, feature flags, approximate member and
+     * online counts, and when the invite expires.
+     */
+    getInvite(code: string): Promise<discordInvite>;
   }
 }
 

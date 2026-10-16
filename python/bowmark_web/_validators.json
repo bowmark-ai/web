@@ -1,5 +1,5 @@
 {
-  "version": "8900b0809b8a7565888fbf38bbfd53b8dcd41aaa3efd55fd06c168b905b42e32",
+  "version": "aafe407b2eae7cb8ce7c495efede9f5bfbdc524fdaa41fdfd43058a376cb1a75",
   "units": {
     "address_validation": {
       "defs": {
@@ -19846,6 +19846,15 @@
         "getDocPage": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getInvite": [
+          {
+            "name": "code",
             "schema": {
               "k": "string"
             },
