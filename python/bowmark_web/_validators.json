@@ -1,5 +1,5 @@
 {
-  "version": "27fc54616d5f93867d3f5be6e92d21f76a04371e94115de1d600e6818f4ceeaf",
+  "version": "8900b0809b8a7565888fbf38bbfd53b8dcd41aaa3efd55fd06c168b905b42e32",
   "units": {
     "address_validation": {
       "defs": {
@@ -67831,7 +67831,24 @@
       "defs": {},
       "functions": {
         "getPricing": [],
-        "getSystemStatus": []
+        "getSystemStatus": [],
+        "joinMeeting": [
+          {
+            "name": "meetingId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.zoopla": {

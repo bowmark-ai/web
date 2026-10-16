@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 27fc54616d5f93867d3f5be6e92d21f76a04371e94115de1d600e6818f4ceeaf
-# 85 capabilities, 585 providers, 2146 typed functions, 20 refused.
+# Manifest version: 8900b0809b8a7565888fbf38bbfd53b8dcd41aaa3efd55fd06c168b905b42e32
+# 85 capabilities, 585 providers, 2147 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -33916,6 +33916,12 @@ class Prv_zoom_ZoomStatusComponent_Out(TypedDict):
     name: str
     status: str
 
+class Prv_zoom_ZoomJoinMeetingResult_Out(TypedDict):
+    meetingId: str
+    joinable: bool
+    statusMessage: str | None
+    errorCode: str | None
+
 class Prv_zoopla_search_args_In(TypedDict):
     location: str
     bedrooms: NotRequired[float]
@@ -55538,6 +55544,11 @@ class Prv_zoom(Protocol):
 
     async def getSystemStatus(self, /) -> Prv_zoom_ZoomSystemStatusResult_Out:
         """Read Zoom's current system status and per-component health"""
+
+    async def joinMeeting(self, meetingId: str | float, /) -> Prv_zoom_ZoomJoinMeetingResult_Out:
+        """Check whether a Zoom meeting link is valid and joinable, reading the site's own join
+        page
+        """
 
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""

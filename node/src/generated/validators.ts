@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 27fc54616d5f93867d3f5be6e92d21f76a04371e94115de1d600e6818f4ceeaf
-// 2146 checked, 20 unchecked.
+// Manifest version: 8900b0809b8a7565888fbf38bbfd53b8dcd41aaa3efd55fd06c168b905b42e32
+// 2147 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "27fc54616d5f93867d3f5be6e92d21f76a04371e94115de1d600e6818f4ceeaf",
+  "version": "8900b0809b8a7565888fbf38bbfd53b8dcd41aaa3efd55fd06c168b905b42e32",
   "units": {
     "address_validation": {
       "defs": {
@@ -67843,7 +67843,24 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "getPricing": [],
-        "getSystemStatus": []
+        "getSystemStatus": [],
+        "joinMeeting": [
+          {
+            "name": "meetingId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.zoopla": {

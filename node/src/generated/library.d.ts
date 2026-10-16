@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 27fc54616d5f93867d3f5be6e92d21f76a04371e94115de1d600e6818f4ceeaf
-// 85 capabilities, 585 providers, 2164 typed functions, 20 refused.
+// Manifest version: 8900b0809b8a7565888fbf38bbfd53b8dcd41aaa3efd55fd06c168b905b42e32
+// 85 capabilities, 585 providers, 2165 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -59740,6 +59740,13 @@ interface ZoomSystemStatusResult {
   components: ZoomStatusComponent[];
 }
 
+interface ZoomJoinMeetingResult {
+  meetingId: string;
+  joinable: boolean;
+  statusMessage: string | null; // the site's own wording, null when joinable
+  errorCode: string | null; // the site's own error code, e.g. "3,001", null when joinable
+}
+
   /** Video conferencing, meetings, and webinars. */
   interface Unit {
     /** Read Zoom Workplace pricing plans and features */
@@ -59747,6 +59754,9 @@ interface ZoomSystemStatusResult {
 
     /** Read Zoom's current system status and per-component health */
     getSystemStatus(): Promise<ZoomSystemStatusResult>;
+
+    /** Check whether a Zoom meeting link is valid and joinable, reading the site's own join page */
+    joinMeeting(meetingId: string | number): Promise<ZoomJoinMeetingResult>;
   }
 }
 
