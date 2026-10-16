@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f8165485e8d908dccaf125244b9bf388dbfede21cdda0f61fc2b592fd3d8cc68
-// 85 capabilities, 585 providers, 2163 typed functions, 20 refused.
+// Manifest version: 27fc54616d5f93867d3f5be6e92d21f76a04371e94115de1d600e6818f4ceeaf
+// 85 capabilities, 585 providers, 2164 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6155,6 +6155,25 @@ interface Font {
   foundry: string;
 }
 
+interface FontDetail {
+  slug: string;
+  name: string;
+  foundry: string;
+  description: string;
+  weights: Array<{
+    weight: number;
+    styles: string[];
+  }>;
+  licensing: {
+    creativeCloud: boolean;
+    foundryLicensed: boolean;
+  };
+  suggestedPairings: Array<{
+    slug: string;
+    name: string;
+  }>;
+}
+
 interface adobeRow {
   id: string;
 }
@@ -6186,6 +6205,13 @@ interface adobeRow {
      * with a slug from this search.
      */
     searchFonts(query: string): Promise<Font[]>;
+
+    /**
+     * Returns one Adobe Fonts family's detail page — name, foundry, description, every
+     * weight/style in the family, licensing info (Creative Cloud-included vs. foundry-licensed),
+     * and suggested pairings — from a font slug from searchFonts.
+     */
+    getFont(slug: string): Promise<FontDetail>;
   }
 }
 
@@ -39545,8 +39571,9 @@ interface NintendoProduct {
   description: string | null;
 }
 interface NintendoCategory {
-  id: string;
+  id: string;  // the department's slug, as in /us/store/<id>/
   name: string;
+  url: string;
 }
 
   /**
@@ -39563,9 +39590,9 @@ interface NintendoCategory {
     getProduct(ref: string): Promise<NintendoProduct>;
 
     /**
-     * Lists the store's main departments and platform families — Games, Nintendo Switch, Nintendo
-     * Switch 2, Nintendo 3DS Family, Hardware, Accessories — each with the slug the site addresses
-     * it by. The slug is what browseCategory and searchProducts use as their category filter.
+     * Lists the store's own departments as its Shop menu shows them — Games, Hardware,
+     * Merchandise, Sales and deals, Exclusives, Characters — each with the slug and url the site
+     * addresses it by (/us/store/<slug>/).
      */
     listCategories(): Promise<NintendoCategory[]>;
   }

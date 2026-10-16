@@ -1,5 +1,5 @@
 {
-  "version": "f8165485e8d908dccaf125244b9bf388dbfede21cdda0f61fc2b592fd3d8cc68",
+  "version": "27fc54616d5f93867d3f5be6e92d21f76a04371e94115de1d600e6818f4ceeaf",
   "units": {
     "address_validation": {
       "defs": {
@@ -7065,6 +7065,15 @@
         "searchFonts": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getFont": [
+          {
+            "name": "slug",
             "schema": {
               "k": "string"
             },

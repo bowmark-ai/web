@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f8165485e8d908dccaf125244b9bf388dbfede21cdda0f61fc2b592fd3d8cc68
-# 85 capabilities, 585 providers, 2145 typed functions, 20 refused.
+# Manifest version: 27fc54616d5f93867d3f5be6e92d21f76a04371e94115de1d600e6818f4ceeaf
+# 85 capabilities, 585 providers, 2146 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3426,6 +3426,27 @@ class Prv_adobe_Font_Out(TypedDict):
     slug: str
     name: str
     foundry: str
+
+class Prv_adobe_FontDetail_Out(TypedDict):
+    slug: str
+    name: str
+    foundry: str
+    description: str
+    weights: list[Prv_adobe_FontDetail_Out_weights_item_Out]
+    licensing: Prv_adobe_FontDetail_Out_licensing_Out
+    suggestedPairings: list[Prv_adobe_FontDetail_Out_suggestedPairings_item_Out]
+
+class Prv_adobe_FontDetail_Out_weights_item_Out(TypedDict):
+    weight: float
+    styles: list[str]
+
+class Prv_adobe_FontDetail_Out_licensing_Out(TypedDict):
+    creativeCloud: bool
+    foundryLicensed: bool
+
+class Prv_adobe_FontDetail_Out_suggestedPairings_item_Out(TypedDict):
+    slug: str
+    name: str
 
 class Prv_agakhanhospitals_getHospitalInfo_location_u1_In(TypedDict):
     location: str
@@ -21578,6 +21599,7 @@ class Prv_nintendo_NintendoProduct_Out(TypedDict):
 class Prv_nintendo_NintendoCategory_Out(TypedDict):
     id: str
     name: str
+    url: str
 
 class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     package: str
@@ -36148,6 +36170,12 @@ class Prv_adobe(Protocol):
         function starts with a slug from this search.
         """
 
+    async def getFont(self, slug: str, /) -> Prv_adobe_FontDetail_Out:
+        """Returns one Adobe Fonts family's detail page — name, foundry, description, every
+        weight/style in the family, licensing info (Creative Cloud-included vs.
+        foundry-licensed), and suggested pairings — from a font slug from searchFonts.
+        """
+
 class Prv_agakhanhospitals(Protocol):
     """Reads the Aga Khan Hospital, Kisumu (AKHK)'s public contact info, department leadership
     and full specialty-clinic catalog straight off agakhanhospitals.org's own Next.js page
@@ -48249,10 +48277,9 @@ class Prv_nintendo(Protocol):
         """
 
     async def listCategories(self, /) -> list[Prv_nintendo_NintendoCategory_Out]:
-        """Lists the store's main departments and platform families — Games, Nintendo Switch,
-        Nintendo Switch 2, Nintendo 3DS Family, Hardware, Accessories — each with the slug the
-        site addresses it by. The slug is what browseCategory and searchProducts use as their
-        category filter.
+        """Lists the store's own departments as its Shop menu shows them — Games, Hardware,
+        Merchandise, Sales and deals, Exclusives, Characters — each with the slug and url the
+        site addresses it by (/us/store/<slug>/).
         """
 
 class Prv_npmjs(Protocol):
