@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3681 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3788 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -46,7 +46,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.licenseStockAsset` | adobe.com | Buys a license for an Adobe Stock asset on the signed-in caller's own account — the… | ⚪ |
 | `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | ⚪ |
 | `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an Adobe Stock asset, an Express template, or an exported Acrobat document into… | ⚪ |
-| `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by name, classification (serif, sans serif… | ⚪ |
+| `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟢 |
 | `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | ⚪ |
 | `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text and, where… | ⚪ |
 | `adobe.sendForSignature` | adobe.com | Sends a caller-supplied document out for e-signature through Adobe Acrobat Sign — the… | ⚪ |
@@ -108,7 +108,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | 🟢 |
 | `aliexpress.listOrders` | aliexpress.us | Lists the user's purchase history and order status. | ⚪ |
 | `aliexpress.listWishlist` | aliexpress.us | Lists products in the user's wishlist. | ⚪ |
-| `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟢 |
+| `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟡 |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟡 |
 | `amazon.addToCart` | www.amazon.com | Put one unit of a product in the anonymous guest cart and report what the cart then… | 🟢 |
@@ -126,7 +126,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | ⚪ |
 | `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | ⚪ |
 | `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together" and… | 🟡 |
-| `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟡 |
+| `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟢 |
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | 🟢 |
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
@@ -221,7 +221,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | 🟢 |
 | `apple.listTodaySessions` | apple.com | The free Today at Apple sessions one store is running — every upcoming one, with what… | 🟢 |
 | `apple.listTradeInValues` | apple.com | The whole Apple Trade In price list in one call. "smartphone" is the rich catalogue… | 🟢 |
-| `apple.removeFromBag` | apple.com | Remove an item from the shopping bag by its UUID. | 🟢 |
+| `apple.removeFromBag` | apple.com | Remove an item from the shopping bag by its UUID. | 🟡 |
 | `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | 🟢 |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |
 | `apple.searchSupport` | apple.com | Search Apple's own support library the way a person describes a problem — "iphone… | 🟢 |
@@ -601,6 +601,59 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cancer.searchFundingOpportunities` | cancer.gov | Searches NCI's research funding opportunities — the grants, fellowships and training… | ⚪ |
 | `cancer.searchNews` | cancer.gov | Returns NCI's own news — press releases, research findings written up for a general… | ⚪ |
 | `cancer.searchPublications` | cancer.gov | Searches NCI's publications catalogue — the patient-education booklets, fact sheets… | ⚪ |
+| `canva.addComment` | canva.com | Adds a comment, or a reply to an existing comment, on one of the caller's designs. | ⚪ |
+| `canva.autofillBrandTemplate` | canva.com | Fills a Brand Template with the caller's data (text and images per field) and returns… | ⚪ |
+| `canva.browseTemplates` | canva.com | Lists the templates in one design type (and optional sub-theme, e.g.… | ⚪ |
+| `canva.copyDesign` | canva.com | Duplicates one of the caller's designs under a new title. | ⚪ |
+| `canva.createDesign` | canva.com | Creates a new, editable design in the caller's account from a design type (e.g.… | ⚪ |
+| `canva.createFolder` | canva.com | Creates a folder at the top level or inside one of the caller's folders. | ⚪ |
+| `canva.deleteDesign` | canva.com | Moves one of the caller's designs to the trash. | ⚪ |
+| `canva.exportDesign` | canva.com | Exports one of the caller's designs as PDF, PNG, JPG, GIF, MP4 or PPTX and saves the… | ⚪ |
+| `canva.generateDesign` | canva.com | Generates designs from a text prompt with Canva's Magic Design, as the caller, and… | ⚪ |
+| `canva.generatePaletteFromImage` | canva.com | Extracts a colour palette (hex colours) from an image url, as Canva's colour-palette… | ⚪ |
+| `canva.getApp` | canva.com | Reads one Canva app's marketplace page by id or url — name, developer, description… | ⚪ |
+| `canva.getBrandKit` | canva.com | Reads the caller's brand kit — logos, brand colours and brand fonts. | ⚪ |
+| `canva.getBrandTemplateDataset` | canva.com | Reads which fields (text, image) one Brand Template can autofill. | ⚪ |
+| `canva.getColorCombinations` | canva.com | Returns the colour-wheel combinations for one hex colour — complementary, analogous… | ⚪ |
+| `canva.getColorMeaning` | canva.com | Reads Canva's page on one colour by name — hex/RGB values, symbolism and meaning, and… | ⚪ |
+| `canva.getColorPalette` | canva.com | Reads one curated colour palette by slug — its name, hex colours and the colour names. | ⚪ |
+| `canva.getCreator` | canva.com | Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower… | ⚪ |
+| `canva.getDesign` | canva.com | Reads one of the caller's designs by id or edit url — title, owner, created and… | ⚪ |
+| `canva.getDesignContent` | canva.com | Reads the full text and the images on every page (or one page) of one of the caller's… | ⚪ |
+| `canva.getGraphic` | canva.com | Reads one graphic by id or url — title, creator, licence and image urls. | ⚪ |
+| `canva.getMyProfile` | canva.com | Reads the signed-in caller's Canva profile — display name, email, account id, plan… | ⚪ |
+| `canva.getPhoto` | canva.com | Reads one stock photo by id or url — title, creator and their profile, licence (free… | ⚪ |
+| `canva.getPresenterNotes` | canva.com | Reads the presenter notes on each slide of one of the caller's presentations. | ⚪ |
+| `canva.getPricing` | canva.com | Reads Canva's plans and prices — Free, Pro, Teams/Business and Enterprise — with each… | ⚪ |
+| `canva.getSharedDesign` | canva.com | Reads a Canva design someone shared by view link (canva.com/design/<id>/<token>/view)… | ⚪ |
+| `canva.getTemplate` | canva.com | Reads one template by id or url — title, description, design type and dimensions, page… | ⚪ |
+| `canva.importDesign` | canva.com | Imports a file at a url (PDF, PowerPoint, Word, Keynote) into the caller's account as… | ⚪ |
+| `canva.listColorPalettes` | canva.com | Lists Canva's curated colour palettes (name, hex colours, page url), paged. | ⚪ |
+| `canva.listComments` | canva.com | Lists the comments on one of the caller's designs — author, text, page, resolved or… | ⚪ |
+| `canva.listDesignPages` | canva.com | Lists the pages of one of the caller's designs with each page's thumbnail. | ⚪ |
+| `canva.listDesignSizes` | canva.com | Reads Canva's design-size wiki for one platform or format (Instagram, YouTube… | ⚪ |
+| `canva.listFolderItems` | canva.com | Lists what is in one of the caller's folders — designs, uploads and subfolders —… | ⚪ |
+| `canva.listFolders` | canva.com | Lists the caller's folders (and subfolders of one folder) — folder id, name and item… | ⚪ |
+| `canva.listPrintProducts` | canva.com | Lists what Canva Print sells — business cards, flyers, posters, mugs, t-shirts and the… | ⚪ |
+| `canva.listTemplateCategories` | canva.com | Lists the design types Canva groups templates under (flyers, posters, Instagram posts… | ⚪ |
+| `canva.listUploads` | canva.com | Lists the images and videos the caller has uploaded to Canva — asset id, name, type… | ⚪ |
+| `canva.mergeDesigns` | canva.com | Combines several of the caller's designs into one new design, in the order given. | ⚪ |
+| `canva.moveToFolder` | canva.com | Moves a design, upload or folder into another of the caller's folders. | ⚪ |
+| `canva.orderPrint` | canva.com | Orders a printed copy of one of the caller's designs through Canva Print — product… | ⚪ |
+| `canva.renameDesign` | canva.com | Renames one of the caller's designs. | ⚪ |
+| `canva.resizeDesign` | canva.com | Copies one of the caller's designs into new dimensions (a preset like Instagram Story… | ⚪ |
+| `canva.searchApps` | canva.com | Lists and searches the Canva Apps Marketplace — app id, name, developer, category and… | ⚪ |
+| `canva.searchAudio` | canva.com | Searches Canva's stock music and sound-effects library by keyword — track id, title… | ⚪ |
+| `canva.searchBrandTemplates` | canva.com | Searches the Brand Templates the caller's team has shared with them. | ⚪ |
+| `canva.searchGraphics` | canva.com | Searches Canva's graphics and illustrations library (stickers, icons, illustrations)… | ⚪ |
+| `canva.searchMyDesigns` | canva.com | Searches the signed-in caller's designs by title or content (or lists the most recent… | ⚪ |
+| `canva.searchPhotos` | canva.com | Searches Canva's stock photo library by keyword — photo id, title, creator, free or… | ⚪ |
+| `canva.searchTemplates` | canva.com | Searches Canva's template library by keyword — title, template id, design type… | ⚪ |
+| `canva.searchVideos` | canva.com | Searches Canva's stock video library by keyword — clip id, title, duration, licence… | ⚪ |
+| `canva.setProfilePicture` | canva.com | Replaces the signed-in caller's profile picture with an image from a url. | ⚪ |
+| `canva.shareDesign` | canva.com | Shares one of the caller's designs — turns on a view or edit link, or invites a… | ⚪ |
+| `canva.updateProfile` | canva.com | Changes the signed-in caller's display name. | ⚪ |
+| `canva.uploadAsset` | canva.com | Uploads an image or video from a url into the caller's Canva uploads and returns its… | ⚪ |
 | `capitalbrands.getBlenderRecommendation` | nutribullet.com | Runs the site's own quiz-scoring logic (its `get_result_quiz` admin-ajax handler) for… | 🟢 |
 | `capitalbrands.listQuizQuestions` | nutribullet.com | Reads NutriBullet's own "Which nutribullet is Best for Me?" product-recommendation… | 🟢 |
 | `caraway.getCarawayProduct` | carawayhome.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
@@ -730,7 +783,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claudemarketplaces_com.searchListings` | claudemarketplaces.com | Finds MCP server listings whose publisher or slug matches every word in a search… | 🟢 |
 | `clboyd.searchUsedEquipment` | clboyd.com | Runs CL Boyd's live used-equipment inventory filter. | 🟢 |
 | `cleanairlawncare.checkServiceArea` | cleanairlawncare.com | Checks a 5-digit US zip against the caw-estimate-widget backend — the same live area… | 🟢 |
-| `cleanairlawncare.getAvailableSlots` | cleanairlawncare.com | For an in-area zip whose local org has online scheduling enabled, computes the real… | 🟡 |
+| `cleanairlawncare.getAvailableSlots` | cleanairlawncare.com | For an in-area zip whose local org has online scheduling enabled, computes the real… | 🟢 |
 | `cleanairlawncare.submitEstimateRequest` | cleanairlawncare.com | Would submit the final lead (name, contact, property, requested services, chosen slot)… | ⚪ |
 | `cloudflare.comparePlans` | cloudflare.com | Compares Cloudflare's website/application plan tiers — Free, Pro, Business and… | 🟢 |
 | `cloudflare.compareTeamsPlans` | cloudflare.com | Compares Cloudflare's Zero Trust / Cloudflare One team plans — Free (up to 50 users)… | 🟢 |
@@ -946,8 +999,56 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟢 |
 | `dillards.search` | dillards.com | Searches dillards.com's catalog for a keyword and returns the matching products the… | 🟢 |
 | `dillards.searchRegistry` | dillards.com | Searches Dillard's wedding/gift registry (dillards.com/registry) — a distinctive… | 🟢 |
-| `discord.getDocPage` | docs.discord.com | Reads one Discord developer docs page by url or path (e.g.… | 🟢 |
-| `discord.listDocPages` | docs.discord.com | Lists every page of Discord's developer documentation (REST resources, Gateway… | 🟢 |
+| `discord.acceptFriendRequest` | discord.com | Accepts a pending incoming friend request. | ⚪ |
+| `discord.addReaction` | discord.com | Adds an emoji reaction to a message as the caller. | ⚪ |
+| `discord.blockUser` | discord.com | Blocks a user. | ⚪ |
+| `discord.createInvite` | discord.com | Creates an invite link to a channel the caller may invite to, with an optional expiry… | ⚪ |
+| `discord.createServer` | discord.com | Creates a new server owned by the caller, with a name and optional icon. | ⚪ |
+| `discord.createThread` | discord.com | Starts a thread from a message, or a new post in a forum channel, as the caller. | ⚪ |
+| `discord.deleteMessage` | discord.com | Deletes a message the caller sent (or, with the permission, anyone's in a server they… | ⚪ |
+| `discord.editMessage` | discord.com | Edits the text of a message the caller sent. | ⚪ |
+| `discord.getAnnouncement` | discord.com | Reads one public announcement post (discord.com/announcements/<serverId>/<postId>) —… | ⚪ |
+| `discord.getApp` | discord.com | Reads one App Directory listing (discord.com/discovery/applications/<id>) — name… | ⚪ |
+| `discord.getDocPage` | discord.com | Reads one Discord developer docs page by url or path (e.g.… | 🟢 |
+| `discord.getGame` | discord.com | Reads one game's page on Discord (discord.com/game/<slug>-<id>) — name, description… | ⚪ |
+| `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | ⚪ |
+| `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | ⚪ |
+| `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | ⚪ |
+| `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | ⚪ |
+| `discord.joinServer` | discord.com | Joins a server from an invite code or link as the caller. | ⚪ |
+| `discord.leaveServer` | discord.com | Leaves a server the caller has joined. | ⚪ |
+| `discord.listAppCategories` | discord.com | Lists the App Directory's categories (Games, Entertainment, Moderation and Tools… | ⚪ |
+| `discord.listBlogPosts` | discord.com | Lists Discord's own blog posts (discord.com/blog) — title, link, date and summary… | ⚪ |
+| `discord.listChannels` | discord.com | Lists one joined server's channels the caller can see — id, name, type (text, voice… | ⚪ |
+| `discord.listDirectMessages` | discord.com | Lists the caller's DM and group-DM conversations — channel id, the other people in it… | ⚪ |
+| `discord.listDocPages` | discord.com | Lists every page of Discord's developer documentation (REST resources, Gateway… | 🟢 |
+| `discord.listFeaturedApps` | discord.com | Lists the App Directory's featured collections ('Action Games' and the rest) and the… | ⚪ |
+| `discord.listFriendRequests` | discord.com | Lists the caller's pending incoming and outgoing friend requests. | ⚪ |
+| `discord.listFriends` | discord.com | Lists the caller's friends — user id, username, display name and avatar. | ⚪ |
+| `discord.listMentions` | discord.com | Lists the recent messages that mentioned the caller across their servers — the Inbox's… | ⚪ |
+| `discord.listMessages` | discord.com | Reads a channel's or DM's recent messages, newest first, paging backwards — author… | ⚪ |
+| `discord.listMyServers` | discord.com | Lists the servers the signed-in caller has joined — id, name, icon, whether they own… | ⚪ |
+| `discord.listPinnedMessages` | discord.com | Lists the messages pinned in a channel. | ⚪ |
+| `discord.listQuests` | discord.com | Lists the Quests currently offered to the caller — game, task, reward and expiry — and… | ⚪ |
+| `discord.listServerAnnouncements` | discord.com | Lists the posts a server publishes to its public announcements page… | ⚪ |
+| `discord.listServerCategories` | discord.com | Lists the public server directory's categories (Gaming, Music, Entertainment… | ⚪ |
+| `discord.listServerEvents` | discord.com | Lists a joined server's scheduled events — name, description, start and end time… | ⚪ |
+| `discord.listServers` | discord.com | Lists the servers the public directory features, newest first by the directory's own… | ⚪ |
+| `discord.listSimilarApps` | discord.com | Lists the apps the App Directory shows as similar to one app. | ⚪ |
+| `discord.listThreads` | discord.com | Lists the active threads in a channel, or the posts in a forum channel — title… | ⚪ |
+| `discord.listTrendingGames` | discord.com | Lists the games trending on Discord this week (discord.com/trending-games), overall or… | ⚪ |
+| `discord.removeFriend` | discord.com | Removes a friend, or cancels or declines a pending request. | ⚪ |
+| `discord.removeReaction` | discord.com | Removes the caller's own emoji reaction from a message. | ⚪ |
+| `discord.searchApps` | discord.com | Searches Discord's App Directory (discord.com/discovery/applications) for bots, games… | ⚪ |
+| `discord.searchMessages` | discord.com | Searches the messages in one joined server (or the caller's DMs) by text, author… | ⚪ |
+| `discord.searchServerMembers` | discord.com | Finds members of a joined server by name — user id, username, nickname, roles and join… | ⚪ |
+| `discord.searchServers` | discord.com | Searches Discord's public server directory (discord.com/servers) by keyword… | ⚪ |
+| `discord.sendDirectMessage` | discord.com | Sends a direct message to one user by username or user id, opening the DM if none… | ⚪ |
+| `discord.sendFriendRequest` | discord.com | Sends a friend request to a user by username. | ⚪ |
+| `discord.sendMessage` | discord.com | Posts a message as the signed-in caller to a channel or DM, optionally as a reply to… | ⚪ |
+| `discord.setAvatar` | discord.com | Changes the caller's profile picture. | ⚪ |
+| `discord.setStatus` | discord.com | Sets the caller's presence (online, idle, do not disturb, invisible) and custom status… | ⚪ |
+| `discord.updateProfile` | discord.com | Changes the caller's display name, bio (About Me) or pronouns. | ⚪ |
 | `discounttire.checkStock` | discounttire.com | Checks whether a specific tire or wheel is actually gettable near a given place — the… | 🟢 |
 | `discounttire.findStores` | discounttire.com | Finds Discount Tire and America's Tire locations near a ZIP, city or coordinate —… | ⚪ |
 | `discounttire.getAppointmentAvailability` | discounttire.com | Reads the installation appointment slots a given store has open — which days and times… | ⚪ |
@@ -1550,7 +1651,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | ⚪ |
 | `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | ⚪ |
 | `goodreads.getOwnProfile` | goodreads.com | Reads the signed-in caller's own profile — their shelves with counts, friend list, and… | ⚪ |
-| `goodreads.listGenreBooks` | goodreads.com | Browses one genre shelf — the books Goodreads itself files under that genre tag… | 🟢 |
+| `goodreads.listGenreBooks` | goodreads.com | Browses one genre shelf — the books Goodreads itself files under that genre tag… | 🟡 |
 | `goodreads.rateBook` | goodreads.com | Sets the signed-in caller's own star rating (1-5) on a book. | ⚪ |
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | ⚪ |
 | `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | 🟢 |
@@ -2232,7 +2333,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nintendo.getMyNintendoRewardsBalance` | www.nintendo.com | Read the signed-in caller's My Nintendo Points balance and reward history — the… | ⚪ |
 | `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | 🟢 |
 | `nintendo.getSupportArticle` | www.nintendo.com | Read one support article in full — title, body steps, and any linked follow-ups — the… | ⚪ |
-| `nintendo.listCategories` | www.nintendo.com | List the store's own departments and platform families — Games, Nintendo Switch… | 🟢 |
+| `nintendo.listCategories` | www.nintendo.com | List the store's own departments as its Shop menu shows them — Games, Hardware… | 🟡 |
 | `nintendo.listDeals` | www.nintendo.com | Today's discounted games and hardware on the Nintendo store — the read behind "what's… | ⚪ |
 | `nintendo.listNews` | www.nintendo.com | Nintendo's own announcements and news articles — game reveals, updates, events — from… | ⚪ |
 | `nintendo.listOrders` | www.nintendo.com | Read the signed-in caller's Nintendo eShop / store order history. | ⚪ |
@@ -2310,7 +2411,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getGroceryList` | cooking.nytimes.com | Reads the signed-in reader's own grocery list. | 🟢 |
 | `nyt_cooking.getMyNotes` | cooking.nytimes.com | Reads the signed-in reader's own private cook notes on a recipe. | ⚪ |
 | `nyt_cooking.getMyRating` | cooking.nytimes.com | Reads the signed-in reader's own rating for a recipe. | 🟢 |
-| `nyt_cooking.getRecipe` | cooking.nytimes.com | Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors… | 🟡 |
+| `nyt_cooking.getRecipe` | cooking.nytimes.com | Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors… | 🟢 |
 | `nyt_cooking.getRecipeNotes` | cooking.nytimes.com | Reads a recipe's reader notes — the site's "Top Comments" (sort: "helpful", the… | 🟢 |
 | `nyt_cooking.getRelatedRecipes` | cooking.nytimes.com | Reads a recipe's own "More like this" carousels (e.g. "Trending On Cooking") off its… | 🟢 |
 | `nyt_cooking.getSavedRecipes` | cooking.nytimes.com | Lists the signed-in reader's saved recipes (their Recipe Box). Needs the CALLER's own… | ⚪ |
@@ -2680,7 +2781,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
 | `resy.search` | resy.com | Finds Resy venues matching a restaurant name, ranked by Resy's own relevance and… | 🟢 |
-| `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟡 |
+| `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟢 |
 | `reuters.followTopic` | www.reuters.com | Follow a Reuters topic or section so it appears in the reader's My News feed. | ⚪ |
 | `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | 🟢 |
 | `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, beat, bio and their latest stories. | ⚪ |
@@ -2733,6 +2834,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `roblox.searchGames` | roblox.com | Search for games on Roblox by keyword, returning matching games with details. | ⚪ |
 | `roofmaxx.estimateRoofReplacementCost` | roofmaxx.com | Runs Roof Maxx's own Roof Replacement Cost Calculator — given a home's square footage… | 🟢 |
 | `roofmaxx.getCalculatorSettings` | roofmaxx.com | The Roof Replacement Cost Calculator's own admin-configured title and description… | 🟢 |
+| `rottentomatoes.browseTitles` | rottentomatoes.com | Lists titles from the site's browse pages (in theaters, at home, top-rated, by genre)… | ⚪ |
+| `rottentomatoes.getAudienceReviews` | rottentomatoes.com | Lists individual audience reviews behind a title's Popcornmeter — star rating, text… | ⚪ |
+| `rottentomatoes.getCelebrity` | rottentomatoes.com | Reads an actor's or director's page: bio and filmography with each title's scores. | ⚪ |
+| `rottentomatoes.getCriticReviews` | rottentomatoes.com | Lists the individual critic reviews behind a title's Tomatometer — critic… | ⚪ |
+| `rottentomatoes.getTitle` | rottentomatoes.com | Reads one movie or TV series page: Tomatometer and Popcornmeter with their review and… | 🟢 |
+| `rottentomatoes.search` | rottentomatoes.com | Runs the site's own title search and returns movies and TV series with their… | 🟢 |
 | `rover.searchBoarding` | rover.com | Searches Rover's live overnight-boarding sitter results for a city and a specific date… | 🟢 |
 | `rvshare.searchListings` | rvshare.com | Runs RVshare's own results grid for a US city/state… | 🟢 |
 | `saatva.listMattresses` | saatva.com | Lists every mattress product line Saatva currently sells with every buyable variant —… | 🟢 |
@@ -2930,7 +3037,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.postSpotlightComment` | snapchat.com | Posts a comment under a Spotlight video from the signed-in caller's account. | ⚪ |
 | `snapchat.postStory` | snapchat.com | Posts a photo to the signed-in caller's own Story. | ⚪ |
 | `snapchat.removeFriend` | snapchat.com | Removes an account from the signed-in caller's friends. | ⚪ |
-| `snapchat.searchSnapchat` | snapchat.com | Searches Snapchat the way the site's own search page does —… | ⚪ |
+| `snapchat.searchSnapchat` | snapchat.com | Searches Snapchat the way the site's own search page does —… | 🟢 |
 | `snapchat.sendChatMessage` | snapchat.com | Sends a text chat message to a friend or group from the signed-in caller's account, as… | ⚪ |
 | `snapchat.sendSnap` | snapchat.com | Sends a photo snap from the signed-in caller's account to one or more friends. | ⚪ |
 | `snapchat.subscribeToProfile` | snapchat.com | Subscribes the signed-in caller to a public profile or Discover show — the Subscribe… | ⚪ |
@@ -3068,7 +3175,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.reviewPhotos` | target.com | Returns the photos shoppers attached to their reviews of one product (by TCIN) —… | 🟢 |
 | `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟡 |
 | `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |
-| `target.writeReview` | target.com | Submits a customer review (rating plus text) for one product, as the CALLER's own… | ⚪ |
+| `target.writeReview` | target.com | Submits a customer review for one product, as the CALLER's own signed-in identity — a… | 🟢 |
 | `tatcha.getPersonalizedRitual` | tatcha.com | Runs a shopper's real answers (skin type, up to three benefits, optional eye concerns… | 🟢 |
 | `tatcha.getRitualQuizOptions` | tatcha.com | Reads the live "Ritual Finder" quiz's real input menus — every skin-type, skin-benefit… | 🟢 |
 | `teladoc.getArticle` | teladochealth.com | Returns one Health Library article in full — title, body content and category — given… | ⚪ |
@@ -3281,7 +3388,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listCategories` | twitch.tv | Lists Twitch games/categories, ranked by current live viewership: name, box art URL… | 🟢 |
 | `twitch.listChannelClips` | twitch.tv | Lists clips cut from a channel, ranked by Twitch's own default ordering: title… | 🟢 |
 | `twitch.listChannelVods` | twitch.tv | Lists a channel's past broadcasts/VODs, newest first: title, creation date, length in… | 🟢 |
-| `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟡 |
+| `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟢 |
 | `twitch.listLiveStreams` | twitch.tv | Browses channels live right now, ranked by Twitch's own live viewer count (highest… | 🟢 |
 | `twitch.listSubscriptions` | twitch.tv | Lists the signed-in user's own active paid subscriptions: tier, platform, whether… | 🟢 |
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | 🟢 |
@@ -3505,7 +3612,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getSections` | wikipedia.org | The article's table of contents — every section with its number, heading, nesting… | 🟢 |
 | `wikipedia.getSummary` | wikipedia.org | The lead of an article and nothing else — the first paragraph as plain text and as… | 🟢 |
 | `wikipedia.getUser` | wikipedia.org | A Wikipedia editor's public record — registration date, total edit count, and the user… | 🟢 |
-| `wikipedia.getWikitext` | wikipedia.org | The article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟡 |
+| `wikipedia.getWikitext` | wikipedia.org | The article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟢 |
 | `wikipedia.listBacklinks` | wikipedia.org | What links HERE — every Wikipedia article pointing at this one, by title and url. | 🟢 |
 | `wikipedia.listCategories` | wikipedia.org | The categories an article belongs to — Wikipedia's own subject taxonomy, which is how… | 🟢 |
 | `wikipedia.listCategoryMembers` | wikipedia.org | Every article in a category — hand it "Coffee" and get the pages Wikipedia files under… | 🟢 |
@@ -3669,11 +3776,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | ⚪ |
 | `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | ⚪ |
 | `zoom.getMeetingParticipants` | zoom.us | Lists participants of a meeting (if in progress). | ⚪ |
-| `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | ⚪ |
+| `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | 🟢 |
 | `zoom.getProfile` | zoom.us | The signed-in caller's user profile. | ⚪ |
 | `zoom.getRecording` | zoom.us | Returns metadata and access info for one recording. | ⚪ |
 | `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | ⚪ |
-| `zoom.getSystemStatus` | zoom.us | Returns Zoom's current system status. | ⚪ |
+| `zoom.getSystemStatus` | zoom.us | Returns Zoom's current system status. | 🟢 |
 | `zoom.getWebinar` | zoom.us | Returns details of one webinar. | ⚪ |
 | `zoom.joinMeeting` | zoom.us | Reads the public meeting join page and returns meeting details. | ⚪ |
 | `zoom.listMeetings` | zoom.us | The signed-in caller's upcoming meetings. | ⚪ |

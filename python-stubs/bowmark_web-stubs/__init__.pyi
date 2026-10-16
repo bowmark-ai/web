@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 749f0bbc0f58df0bd32abb51273c3242e0b7f3911da812cc505577075f109f5e
-# 85 capabilities, 583 providers, 2133 typed functions, 20 refused.
+# Manifest version: f8165485e8d908dccaf125244b9bf388dbfede21cdda0f61fc2b592fd3d8cc68
+# 85 capabilities, 585 providers, 2145 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3421,6 +3421,11 @@ class Prv_adobe_HelpArticle_Out(TypedDict):
     product: str
     url: str
     snippet: str
+
+class Prv_adobe_Font_Out(TypedDict):
+    slug: str
+    name: str
+    foundry: str
 
 class Prv_agakhanhospitals_getHospitalInfo_location_u1_In(TypedDict):
     location: str
@@ -15784,18 +15789,6 @@ class Prv_healthcare_gov_healthcare_govSepAssessment_Out_matches_item_Out(TypedD
     windowEndsOn: str
     daysLeft: float
 
-class Prv_healthie_SearchPracticesArgs_In(TypedDict):
-    query: str
-    limit: NotRequired[float]
-
-class Prv_healthie_Practice_Out(TypedDict):
-    id: str
-    name: str
-    description: NotRequired[str]
-    specialties: list[str]
-    providersCount: NotRequired[float]
-    website: NotRequired[str]
-
 class Prv_heatherwood_HeatherwoodFloorplanSummary_Out(TypedDict):
     id: str
     name: str
@@ -21381,6 +21374,10 @@ class Prv_netflix_NetflixTop10Entry_Out(TypedDict):
     weeklyViews: NotRequired[float]
     weeklyHours: NotRequired[float]
 
+class Prv_netflix_NetflixGenre_Out(TypedDict):
+    id: str
+    name: str
+
 class Prv_newageproducts_NewageproductsProduct_Out(TypedDict):
     handle: str
     title: str
@@ -22545,6 +22542,46 @@ class Prv_opentable_OpenTableSlot_Out(TypedDict):
     dateTime: str
     type: str | None
     bookingUrl: str
+
+class Prv_opentable_OpenTableStartBookingArgs_In(TypedDict):
+    restaurantId: float
+    dateTime: str
+    partySize: float
+    diner: Prv_opentable_OpenTableDiner_In
+    specialRequest: NotRequired[str]
+
+class Prv_opentable_OpenTableDiner_In(TypedDict):
+    phone: str
+    firstName: str
+    lastName: str
+    email: str
+
+class Prv_opentable_OpenTableBookingStarted_Out(TypedDict):
+    status: Literal["code_sent"]
+    restaurantId: float
+    dateTime: str
+    partySize: float
+    codeSentTo: str
+    holdExpiresAt: str
+
+class Prv_opentable_confirmBooking_args_In(TypedDict):
+    code: str
+
+class Prv_opentable_OpenTableBooking_Out(TypedDict):
+    restaurantId: float
+    restaurantName: str | None
+    dateTime: str
+    partySize: float
+    confirmationNumber: str | None
+    reservationUrl: str
+    confirmationText: str
+
+class Prv_opentable_cancelBooking_args_In(TypedDict):
+    reservationUrl: str
+
+class Prv_opentable_OpenTableCancellation_Out(TypedDict):
+    canceled: bool
+    pageText: str
 
 class Prv_originenergy_com_au_OriginBusinessElectricityQuoteArgs_In(TypedDict):
     postcode: str
@@ -25872,6 +25909,59 @@ class Prv_roofmaxx_RoofmaxxCostEstimate_Out(TypedDict):
     mid: float
     high: float
 
+class Prv_rottentomatoes_RtSearchArgs_In(TypedDict):
+    query: str
+    type: NotRequired[Literal["movie"] | Literal["tv"] | Literal["all"]]
+    limit: NotRequired[float]
+
+class Prv_rottentomatoes_RtSearchResponse_Out(TypedDict):
+    query: str
+    results: list[Prv_rottentomatoes_RtSearchResult_Out]
+
+class Prv_rottentomatoes_RtSearchResult_Out(TypedDict):
+    kind: Literal["movie"] | Literal["tv"]
+    title: str
+    path: str
+    url: str
+    year: float | None
+    endYear: float | None
+    tomatometer: float | None
+    certifiedFresh: bool
+    cast: list[str]
+
+class Prv_rottentomatoes_RtTitle_Out(TypedDict):
+    kind: Literal["movie"] | Literal["tv"]
+    path: str
+    url: str
+    title: str
+    year: float | None
+    releaseDate: str | None
+    contentRating: str | None
+    genres: list[str]
+    description: str | None
+    posterUrl: str | None
+    numberOfSeasons: float | None
+    tomatometer: Prv_rottentomatoes_RtTomatometer_Out | None
+    popcornmeter: Prv_rottentomatoes_RtPopcornmeter_Out | None
+
+class Prv_rottentomatoes_RtTomatometer_Out(TypedDict):
+    score: float | None
+    averageRating: float | None
+    reviewCount: float | None
+    likedCount: float | None
+    notLikedCount: float | None
+    certifiedFresh: bool
+    sentiment: str | None
+
+class Prv_rottentomatoes_RtPopcornmeter_Out(TypedDict):
+    score: float | None
+    averageRating: float | None
+    ratingCount: float | None
+    bandedRatingCount: str | None
+    reviewCount: float | None
+    verifiedHot: bool
+    sentiment: str | None
+
 class Prv_rover_searchBoarding_args_In(TypedDict):
     location: str
     startDate: str
@@ -26532,6 +26622,32 @@ class Prv_seatgeek_seatgeekTaxonomy_Out(TypedDict):
     name: str
     parent_id: NotRequired[float]
 
+class Prv_seatgeek_seatgeekTrackedEvent_Out(TypedDict):
+    id: float
+    title: str
+    url: NotRequired[str]
+    performers: list[Prv_seatgeek_seatgeekTrackedEvent_Out_performers_item_Out]
+    venue: Prv_seatgeek_seatgeekTrackedEvent_Out_venue_Out
+    datetime_local: NotRequired[str]
+    stats: NotRequired[Prv_seatgeek_seatgeekTrackedEvent_Out_stats_Out]
+
+class Prv_seatgeek_seatgeekTrackedEvent_Out_performers_item_Out(TypedDict):
+    id: float
+    name: str
+    image: NotRequired[str]
+
+class Prv_seatgeek_seatgeekTrackedEvent_Out_venue_Out(TypedDict):
+    id: float
+    name: str
+    city: NotRequired[str]
+    state: NotRequired[str]
+
+class Prv_seatgeek_seatgeekTrackedEvent_Out_stats_Out(TypedDict):
+    lowest_price: NotRequired[float]
+    median_price: NotRequired[float]
+    listing_count: NotRequired[float]
+    ticket_count: NotRequired[float]
+
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -27057,6 +27173,23 @@ class Prv_smithery_SmitherySearchResult_Out_pagination_Out(TypedDict):
     pageSize: float
     totalPages: float
     totalCount: float
+
+class Prv_snapchat_SnapchatSearchResult_Out(TypedDict):
+    query: str
+    sections: list[Prv_snapchat_SnapchatSearchResult_Out_sections_item_Out]
+
+class Prv_snapchat_SnapchatSearchResult_Out_sections_item_Out(TypedDict):
+    section: str
+    sectionType: float
+    endOfResults: bool
+    items: list[Prv_snapchat_SnapchatSearchItem_Out]
+
+class Prv_snapchat_SnapchatSearchItem_Out(TypedDict):
+    kind: str
+    id: str
+    title: NotRequired[str]
+    username: NotRequired[str]
+    result: Mapping[str, Any]
 
 class Prv_solostove_SolostoveBundleSearch_Out(TypedDict):
     query: str
@@ -28286,6 +28419,29 @@ class Prv_target_TargetOrderItem_Out(TypedDict):
     price: float | None
     imageUrl: str | None
 
+class Prv_target_TargetWishlistsHistory_Out(TypedDict):
+    lists: list[Prv_target_TargetWishlist_Out]
+    totalLists: float
+    warnings: list[str]
+
+class Prv_target_TargetWishlist_Out(TypedDict):
+    listId: str
+    listName: str
+    listType: str | None
+    visibility: str | None
+    itemCount: float
+    items: list[Prv_target_TargetListItem_Out]
+    createdDate: str | None
+    warnings: list[str]
+
+class Prv_target_TargetListItem_Out(TypedDict):
+    tcin: str
+    title: str | None
+    quantity: float
+    addedDate: str | None
+    price: float | None
+    imageUrl: str | None
+
 class Prv_target_getRegistry_args_In(TypedDict):
     registryId: str
 
@@ -28332,6 +28488,21 @@ class Prv_target_TargetAddToCartResult_Out(TypedDict):
     tcin: str
     quantity: float
     added: bool
+    warnings: list[str]
+
+class Prv_target_writeReview_args_In(TypedDict):
+    tcin: str
+    rating: float
+    title: str
+    text: str
+
+class Prv_target_TargetWriteReviewResult_Out(TypedDict):
+    tcin: str
+    reviewId: str
+    rating: float
+    title: str
+    text: str
+    submitted: bool
     warnings: list[str]
 
 class Prv_tatcha_TatchaRitualQuizOptions_Out(TypedDict):
@@ -33705,6 +33876,24 @@ class Prv_zennioptical_ZenniLensPriceRow_Out_subTypes_item_Out(TypedDict):
     maxPrice: float
     tints: bool
 
+class Prv_zoom_ZoomPricingResult_Out(TypedDict):
+    plans: list[Prv_zoom_ZoomPricingPlan_Out]
+
+class Prv_zoom_ZoomPricingPlan_Out(TypedDict):
+    name: str
+    price: float
+    currency: str
+    features: list[str]
+
+class Prv_zoom_ZoomSystemStatusResult_Out(TypedDict):
+    indicator: str
+    description: str
+    components: list[Prv_zoom_ZoomStatusComponent_Out]
+
+class Prv_zoom_ZoomStatusComponent_Out(TypedDict):
+    name: str
+    status: str
+
 class Prv_zoopla_search_args_In(TypedDict):
     location: str
     bedrooms: NotRequired[float]
@@ -35951,6 +36140,12 @@ class Prv_adobe(Protocol):
         "how do I cancel my Creative Cloud subscription" — returning each result's title,
         product, URL and a summary snippet, the way an agent helping someone navigate Adobe's
         own support would.
+        """
+
+    async def searchFonts(self, query: str, /) -> list[Prv_adobe_Font_Out]:
+        """Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font
+        family's slug, name, and foundry. The entry point to Adobe Fonts: every other font
+        function starts with a slug from this search.
         """
 
 class Prv_agakhanhospitals(Protocol):
@@ -40848,9 +41043,10 @@ class Prv_dillards(Protocol):
         """
 
 class Prv_discord(Protocol):
-    """Discord's developer documentation (docs.discord.com, formerly
-    discord.com/developers/docs) — list every page, then read one as clean markdown: REST
-    endpoints, object tables, Gateway events, interactions, rate limits.
+    """Discord, chat for communities. Built so far: Discord's developer documentation
+    (docs.discord.com, formerly discord.com/developers/docs) — list every page, then read
+    one as clean markdown: REST endpoints, object tables, Gateway events, interactions, rate
+    limits.
     """
 
     async def listDocPages(self, /) -> list[Prv_discord_discordDocLink_Out]:
@@ -44211,16 +44407,6 @@ class Prv_healthcare_gov(Protocol):
     # It is CALLABLE at runtime; `bowmark.providers.healthcare_gov.findLocalHelp` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
-class Prv_healthie(Protocol):
-    """Search for therapists, coaches, dietitians, and other health practitioners on Healthie's
-    platform.
-    """
-
-    async def searchPractices(self, args: Prv_healthie_SearchPracticesArgs_In, /) -> list[Prv_healthie_Practice_Out]:
-        """Searches for therapists, coaches, dietitians, and other health practitioners by
-        specialty or practice name.
-        """
-
 class Prv_heatherwood(Protocol):
     """Reads Heritage Westminster's (a Heatherwood property) own floor-plan search: every
     floor-plan type it currently publishes with its available-unit count and rent range, and
@@ -44894,94 +45080,94 @@ class Prv_instagram(Protocol):
         more posts are available. Requires the caller to be signed in through the relay.
         """
 
-    async def getDirectMessages(self, /) -> list[Prv_instagram_InstagramDirectMessageThread_Out]:
+    async def getDirectMessages(self, opts: ConnectionOption | None = None, /) -> list[Prv_instagram_InstagramDirectMessageThread_Out]:
         """Lists the signed-in user's direct message threads with the most recent message preview
         in each thread. Requires the caller to be signed in through the relay.
         """
 
-    async def getThreadMessages(self, threadId: str, /) -> list[Prv_instagram_InstagramDirectMessage_Out]:
+    async def getThreadMessages(self, threadId: str, opts: ConnectionOption | None = None, /) -> list[Prv_instagram_InstagramDirectMessage_Out]:
         """Reads the message history for one direct message thread, ordered from oldest to newest.
         Includes message sender, text, timestamp, and unsent flag. Requires the caller to be
         signed in through the relay.
         """
 
-    async def getStories(self, /) -> list[Prv_instagram_InstagramStory_Out]:
+    async def getStories(self, opts: ConnectionOption | None = None, /) -> list[Prv_instagram_InstagramStory_Out]:
         """Lists stories from accounts the signed-in user follows, with media, expiration time, and
         seen status. Requires the caller to be signed in through the relay.
         """
 
-    async def getNotifications(self, /) -> list[Prv_instagram_InstagramNotification_Out]:
+    async def getNotifications(self, opts: ConnectionOption | None = None, /) -> list[Prv_instagram_InstagramNotification_Out]:
         """Reads the signed-in user's activity feed — likes, comments, follows, mentions, and other
         interactions. Includes sender information, timestamp, and notification type. Requires
         the caller to be signed in through the relay.
         """
 
-    async def sendDirectMessage(self, recipientId: str, messageText: str, /) -> Prv_instagram_InstagramSentDirectMessage_Out:
+    async def sendDirectMessage(self, recipientId: str, messageText: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramSentDirectMessage_Out:
         """Sends a direct message to a specified user. Returns the sent message's ID, text, and
         timestamp. Requires the caller to be signed in through the relay.
         """
 
-    async def followUser(self, userId: str, /) -> Prv_instagram_InstagramFollowResult_Out:
+    async def followUser(self, userId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramFollowResult_Out:
         """Follows a user. For public accounts, follows immediately; for private accounts, sends a
         follow request. Returns the follow result including whether the follow was successful
         and if a follow request was sent. Requires the caller to be signed in through the relay.
         """
 
-    async def unfollowUser(self, userId: str, /) -> Prv_instagram_InstagramUnfollowResult_Out:
+    async def unfollowUser(self, userId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramUnfollowResult_Out:
         """Unfollows a user the signed-in account is currently following. Returns the resulting
         follow state. Requires the caller to be signed in through the relay.
         """
 
-    async def likePost(self, mediaId: str, /) -> Prv_instagram_InstagramLikeResult_Out:
+    async def likePost(self, mediaId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramLikeResult_Out:
         """Likes a post by its media id. Returns the resulting like count and like state. Requires
         the caller to be signed in through the relay.
         """
 
-    async def unlikePost(self, mediaId: str, /) -> Prv_instagram_InstagramUnlikeResult_Out:
+    async def unlikePost(self, mediaId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramUnlikeResult_Out:
         """Removes a like from a previously liked post. Returns the resulting like count and like
         state. Requires the caller to be signed in through the relay.
         """
 
-    async def commentOnPost(self, mediaId: str, commentText: str, /) -> Prv_instagram_InstagramCommentResult_Out:
+    async def commentOnPost(self, mediaId: str, commentText: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramCommentResult_Out:
         """Posts a comment on a photo or video by its media id. Returns the created comment's id,
         text and timestamp. Requires the caller to be signed in through the relay.
         """
 
-    async def savePost(self, mediaId: str, /) -> Prv_instagram_InstagramSaveResult_Out:
+    async def savePost(self, mediaId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramSaveResult_Out:
         """Saves a post to the signed-in user's default saved collection. Returns the media id and
         the save state. Requires the caller to be signed in through the relay.
         """
 
-    async def unsavePost(self, mediaId: str, /) -> Prv_instagram_InstagramUnsaveResult_Out:
+    async def unsavePost(self, mediaId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramUnsaveResult_Out:
         """Removes a post from the signed-in user's saved collection. Returns the media id and the
         resulting save state. Requires the caller to be signed in through the relay.
         """
 
-    async def blockUser(self, userId: str, /) -> Prv_instagram_InstagramBlockResult_Out:
+    async def blockUser(self, userId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramBlockResult_Out:
         """Blocks a user, preventing them from seeing the signed-in account's posts and sending it
         messages. Returns the resulting block state. Requires the caller to be signed in through
         the relay.
         """
 
-    async def unblockUser(self, userId: str, /) -> Prv_instagram_InstagramUnblockResult_Out:
+    async def unblockUser(self, userId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramUnblockResult_Out:
         """Unblocks a previously blocked user, allowing them to see the signed-in account's posts
         and send messages again. Returns the resulting block state. Requires the caller to be
         signed in through the relay.
         """
 
-    async def muteUser(self, userId: str, /) -> Prv_instagram_InstagramMuteResult_Out:
+    async def muteUser(self, userId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramMuteResult_Out:
         """Mutes a user's posts and stories from the signed-in account's feed, without unfollowing
         them. Returns the resulting mute state. Requires the caller to be signed in through the
         relay.
         """
 
-    async def unmuteUser(self, userId: str, /) -> Prv_instagram_InstagramUnmuteResult_Out:
+    async def unmuteUser(self, userId: str, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramUnmuteResult_Out:
         """Unmutes a previously muted user, restoring their posts and stories to the signed-in
         account's feed. Returns the resulting mute state. Requires the caller to be signed in
         through the relay.
         """
 
-    async def updateProfile(self, updates: Prv_instagram_updateProfile_updates_In, /) -> Prv_instagram_InstagramUpdateProfileResult_Out:
+    async def updateProfile(self, updates: Prv_instagram_updateProfile_updates_In, opts: ConnectionOption | None = None, /) -> Prv_instagram_InstagramUpdateProfileResult_Out:
         """Updates the signed-in user's profile information. Accepts an object with optional
         fields: biography (profile description), fullName (display name), and website (external
         link). Returns the updated profile information. Requires the caller to be signed in
@@ -47930,6 +48116,12 @@ class Prv_netflix(Protocol):
         1-10 for each category. No sign-in.
         """
 
+    async def listGenres(self, /) -> list[Prv_netflix_NetflixGenre_Out]:
+        """Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only on
+        Netflix hub pages (e.g. "TV Dramas", "Suspenseful TV Shows") with the genre id
+        browseGenre takes. No sign-in.
+        """
+
 class Prv_newageproducts(Protocol):
     """NewAge Products' own garage-cabinetry and outdoor-living catalogue — one product's real
     finish/color variants, exact live price, compare-at price and active status, plus a
@@ -48587,9 +48779,10 @@ class Prv_openai(Protocol):
         """Retrieves the full text of a help article by its ID from OpenAI's documentation."""
 
 class Prv_opentable(Protocol):
-    """Restaurant search and real-time table availability on OpenTable: find restaurants by
-    name, cuisine or place, read the open times for a date, time and party size, and get
-    OpenTable's own booking link for each time. No booking (that needs the diner's details).
+    """Restaurant search, real-time table availability and booking on OpenTable: find
+    restaurants by name, cuisine or place, read the open times for a date, time and party
+    size, book one as a guest with the diner's name, phone and email (OpenTable texts a code
+    to confirm), and cancel it.
     """
 
     async def search(self, args: str | Prv_opentable_OpenTableSearchArgs_In, /) -> Prv_opentable_OpenTableSearchResult_Out:
@@ -48608,6 +48801,32 @@ class Prv_opentable(Protocol):
         around `time` on `date` for `partySize`, with OpenTable's own booking link per time,
         plus the restaurant's details. `slots: []` is a real "nothing open". A real browser
         load, so expect 15-40 s.
+        """
+
+    async def startBooking(self, args: Prv_opentable_OpenTableStartBookingArgs_In, /) -> Prv_opentable_OpenTableBookingStarted_Out:
+        """Starts a guest reservation for one open time: opens the restaurant's page at `dateTime`,
+        clicks that time, accepts the restaurant's terms, presses "Complete reservation" and
+        enters `diner.phone`, so OpenTable TEXTS A CODE to that phone and holds the table for 5
+        minutes. Then call `confirmBooking({ code })` IN THE SAME BOWMARK SESSION: the held
+        table lives in that session's browser, so a separate `run` cannot finish it. Over HTTP:
+        `POST /v1/session` on the Bowmark API (Bearer API key) returns `{ sessionId }`; then
+        `POST /v1/session/<sessionId>/call` with `{"path": ["providers", "opentable",
+        "startBooking"], "args": [{ …startBooking args }]}`, ask the person for the texted code,
+        and send `{"path": ["providers", "opentable", "confirmBooking"], "args": [{ "code": "…"
+        }]}` to the same session within 5 minutes. Throws when `dateTime` is no longer open.
+        """
+
+    async def confirmBooking(self, args: Prv_opentable_confirmBooking_args_In, /) -> Prv_opentable_OpenTableBooking_Out:
+        """Finishes the booking `startBooking` began in this session: enters the texted code, fills
+        the diner's name, phone and email, presses "Complete reservation" and returns the
+        confirmation number and the reservation's page. Throws when no booking is waiting (wrong
+        session, or the 5-minute hold ran out) or OpenTable refuses the code.
+        """
+
+    async def cancelBooking(self, args: Prv_opentable_cancelBooking_args_In, /) -> Prv_opentable_OpenTableCancellation_Out:
+        """Cancels a reservation from its OpenTable page (the `reservationUrl` confirmBooking
+        returned): "Cancel", then "Confirm cancellation". Returns `canceled: true` once the page
+        reads "Reservation canceled".
         """
 
 class Prv_originenergy_com_au(Protocol):
@@ -50572,6 +50791,24 @@ class Prv_roofmaxx(Protocol):
         full-replacement-cost tiers.
         """
 
+class Prv_rottentomatoes(Protocol):
+    """Rotten Tomatoes — critic and audience scores for movies and TV. Search titles; read a
+    title's Tomatometer (critic score, average rating, review count) and Popcornmeter
+    (audience score, rating count). Logged out, no browser.
+    """
+
+    async def search(self, args: Prv_rottentomatoes_RtSearchArgs_In, /) -> Prv_rottentomatoes_RtSearchResponse_Out:
+        """Search Rotten Tomatoes for movies and TV series by title — the site's own search. Each
+        result carries its Tomatometer, year, top cast and the path getTitle takes.
+        """
+
+    async def getTitle(self, path: str, /) -> Prv_rottentomatoes_RtTitle_Out:
+        """Read one movie or TV series on Rotten Tomatoes: Tomatometer (critic %, average rating,
+        review count, liked/not-liked, Certified Fresh) and Popcornmeter (audience %, average
+        rating, exact rating count, Verified Hot), plus year, release date, rating, genres and
+        synopsis. Takes a /m/… or /tv/… path or its URL.
+        """
+
 class Prv_rover(Protocol):
     """Rover's live overnight-boarding sitter search for a city and specific dates."""
 
@@ -50909,7 +51146,7 @@ class Prv_sears(Protocol):
 class Prv_seatgeek(Protocol):
     """A ticket marketplace for sports, concerts, comedy and theater — event search,
     performer/venue lookup and price stats, logged out, via SeatGeek's own public internal
-    API.
+    API; one signed-in read (listTrackedEvents) via the caller's own relay session.
     """
 
     async def searchEvents(self, args: Prv_seatgeek_SearchEventsArgs_In, /) -> list[Prv_seatgeek_seatgeekEvent_Out]:
@@ -50949,6 +51186,14 @@ class Prv_seatgeek(Protocol):
         """Returns the category taxonomy SeatGeek uses to classify events (e.g., music > rock,
         sports > basketball). Useful for a caller who wants to pass a valid category into
         searchEvents rather than guessing one.
+        """
+
+    async def listTrackedEvents(self, opts: ConnectionOption | None = None, /) -> list[Prv_seatgeek_seatgeekTrackedEvent_Out]:
+        """The signed-in caller's tracked (saved/followed) events, newest first. NEEDS THE CALLER'S
+        SEATGEEK SIGN-IN: with none saved the run pauses for one before any request. With one,
+        seatgeek.com's own login-state door (/data/users/me) confirms the session, but the
+        tracked-events listing itself has never been measured signed-in, so the call still
+        throws rather than guess.
         """
 
 class Prv_sec_edgar(Protocol):
@@ -51268,6 +51513,19 @@ class Prv_smithery(Protocol):
         search; `options.page`/`options.pageSize` page through results (Smithery's own default
         10, max 100 per page). THROWS on a non-2xx response (e.g. rate limiting); an empty
         `servers` array is a legitimate answer for a query that matches nothing, not a throw.
+        """
+
+class Prv_snapchat(Protocol):
+    """Snapchat, the photo and video messaging app: search accounts, lenses, topics, shows and
+    places; read public profiles, their Stories, Spotlight videos and lenses; browse
+    Spotlight, Discover, the Lens Explorer and city guides; signed in, read and send chats
+    and snaps, list friends and their Stories, and add or remove friends.
+    """
+
+    async def searchSnapchat(self, query: str, /) -> Prv_snapchat_SnapchatSearchResult_Out:
+        """Search Snapchat the way www.snapchat.com/explore/<query> does: every section it renders
+        (Lenses, Spotlight, Add Friends, Subscribe, Places, Topics, Episodes), each item with
+        its kind, id, title and username plus the site's own object.
         """
 
 class Prv_solostove(Protocol):
@@ -51891,6 +52149,12 @@ class Prv_target(Protocol):
         which is the guest lookup by order number plus email. Needs the caller signed in.
         """
 
+    async def listWishlists(self, opts: ConnectionOption | None = None, /) -> Prv_target_TargetWishlistsHistory_Out:
+        """Reads the CALLER's own Target lists (wishlists) — the lists they have created, each
+        list's items (with TCIN, title, quantity, added date and price), visibility and creation
+        date. Needs the caller signed in.
+        """
+
     async def getRegistry(self, args: Prv_target_getRegistry_args_In, /) -> Prv_target_TargetRegistry_Out:
         """Reads one Target Gift Registry's items once you have the registry's id from
         `findRegistry` or a shareable registry link — items, quantities, and ship-to
@@ -51908,6 +52172,14 @@ class Prv_target(Protocol):
         Target cart. The last step this provider may take on a buying flow — it stops there;
         this provider will never place an order or reach a payment step. Needs the caller signed
         in.
+        """
+
+    async def writeReview(self, args: Prv_target_writeReview_args_In, opts: ConnectionOption | None = None, /) -> Prv_target_TargetWriteReviewResult_Out:
+        """Submits a customer review for one product, as the CALLER's own signed-in identity — a
+        public write the site attributes to whichever account is signed in, never to Bowmark.
+        Takes the product TCIN from `search`, a 1-5 star rating, a review title and text. The
+        submitted review is published immediately and publicly attributed to the caller's Target
+        account. Needs the caller signed in.
         """
 
 class Prv_tatcha(Protocol):
@@ -55231,6 +55503,15 @@ class Prv_zennioptical(Protocol):
         for that exact Rx — a completed, priced configuration rather than a base frame price.
         """
 
+class Prv_zoom(Protocol):
+    """Video conferencing, meetings, and webinars."""
+
+    async def getPricing(self, /) -> Prv_zoom_ZoomPricingResult_Out:
+        """Read Zoom Workplace pricing plans and features"""
+
+    async def getSystemStatus(self, /) -> Prv_zoom_ZoomSystemStatusResult_Out:
+        """Read Zoom's current system status and per-component health"""
+
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""
 
@@ -55521,7 +55802,6 @@ class BowmarkProviders(Protocol):
     haydenhomes: Prv_haydenhomes
     hccts: Prv_hccts
     healthcare_gov: Prv_healthcare_gov
-    healthie: Prv_healthie
     heatherwood: Prv_heatherwood
     hellofresh: Prv_hellofresh
     hellotend: Prv_hellotend
@@ -55702,6 +55982,7 @@ class BowmarkProviders(Protocol):
     ritani: Prv_ritani
     rivian: Prv_rivian
     roofmaxx: Prv_roofmaxx
+    rottentomatoes: Prv_rottentomatoes
     rover: Prv_rover
     rvshare: Prv_rvshare
     saatva: Prv_saatva
@@ -55730,6 +56011,7 @@ class BowmarkProviders(Protocol):
     smartsign: Prv_smartsign
     smartwool: Prv_smartwool
     smithery: Prv_smithery
+    snapchat: Prv_snapchat
     solostove: Prv_solostove
     soundcloud: Prv_soundcloud
     speedrun: Prv_speedrun
@@ -55826,6 +56108,7 @@ class BowmarkProviders(Protocol):
     yourarborhome: Prv_yourarborhome
     youtube: Prv_youtube
     zennioptical: Prv_zennioptical
+    zoom: Prv_zoom
     zoopla: Prv_zoopla
 
 

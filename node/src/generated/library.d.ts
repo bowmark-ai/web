@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 749f0bbc0f58df0bd32abb51273c3242e0b7f3911da812cc505577075f109f5e
-// 85 capabilities, 583 providers, 2151 typed functions, 20 refused.
+// Manifest version: f8165485e8d908dccaf125244b9bf388dbfede21cdda0f61fc2b592fd3d8cc68
+// 85 capabilities, 585 providers, 2163 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6149,6 +6149,12 @@ interface HelpArticle {
   snippet: string;
 }
 
+interface Font {
+  slug: string;
+  name: string;
+  foundry: string;
+}
+
 interface adobeRow {
   id: string;
 }
@@ -6173,6 +6179,13 @@ interface adobeRow {
      * and a summary snippet, the way an agent helping someone navigate Adobe's own support would.
      */
     findHelpArticle(query: string): Promise<HelpArticle[]>;
+
+    /**
+     * Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font family's
+     * slug, name, and foundry. The entry point to Adobe Fonts: every other font function starts
+     * with a slug from this search.
+     */
+    searchFonts(query: string): Promise<Font[]>;
   }
 }
 
@@ -19697,7 +19710,7 @@ interface dillardsFindStoresQuery {
 }
 
 declare namespace BowmarkProvider_discord {
-  // ── Discord Developer Docs — the unit's own declarations, verbatim ──
+  // ── Discord — the unit's own declarations, verbatim ──
 interface discordDocLink {
   title: string;
   url: string;
@@ -19711,9 +19724,9 @@ interface discordDocPage {
 }
 
   /**
-   * Discord's developer documentation (docs.discord.com, formerly discord.com/developers/docs) —
-   * list every page, then read one as clean markdown: REST endpoints, object tables, Gateway
-   * events, interactions, rate limits.
+   * Discord, chat for communities. Built so far: Discord's developer documentation
+   * (docs.discord.com, formerly discord.com/developers/docs) — list every page, then read one as
+   * clean markdown: REST endpoints, object tables, Gateway events, interactions, rate limits.
    */
   interface Unit {
     /**
@@ -28809,35 +28822,6 @@ interface healthcare_govLocalHelpResult {
   }
 }
 
-declare namespace BowmarkProvider_healthie {
-  // ── Healthie — the unit's own declarations, verbatim ──
-interface SearchPracticesArgs {
-  query: string;
-  limit?: number;
-}
-
-interface Practice {
-  id: string;
-  name: string;
-  description?: string;
-  specialties: string[];
-  providersCount?: number;
-  website?: string;
-}
-
-  /**
-   * Search for therapists, coaches, dietitians, and other health practitioners on Healthie's
-   * platform.
-   */
-  interface Unit {
-    /**
-     * Searches for therapists, coaches, dietitians, and other health practitioners by specialty or
-     * practice name.
-     */
-    searchPractices(args: SearchPracticesArgs): Promise<Practice[]>;
-  }
-}
-
 declare namespace BowmarkProvider_heatherwood {
   // ── Heatherwood — Heritage Westminster — the unit's own declarations, verbatim ──
 // Heatherwood's OWN shapes — not a capability contract.
@@ -30802,104 +30786,104 @@ interface InstagramSavedPosts {
      * Lists the signed-in user's direct message threads with the most recent message preview in
      * each thread. Requires the caller to be signed in through the relay.
      */
-    getDirectMessages(): Promise<InstagramDirectMessageThread[]>;
+    getDirectMessages(opts?: ConnectionOption): Promise<InstagramDirectMessageThread[]>;
 
     /**
      * Reads the message history for one direct message thread, ordered from oldest to newest.
      * Includes message sender, text, timestamp, and unsent flag. Requires the caller to be signed
      * in through the relay.
      */
-    getThreadMessages(threadId: string): Promise<InstagramDirectMessage[]>;
+    getThreadMessages(threadId: string, opts?: ConnectionOption): Promise<InstagramDirectMessage[]>;
 
     /**
      * Lists stories from accounts the signed-in user follows, with media, expiration time, and
      * seen status. Requires the caller to be signed in through the relay.
      */
-    getStories(): Promise<InstagramStory[]>;
+    getStories(opts?: ConnectionOption): Promise<InstagramStory[]>;
 
     /**
      * Reads the signed-in user's activity feed — likes, comments, follows, mentions, and other
      * interactions. Includes sender information, timestamp, and notification type. Requires the
      * caller to be signed in through the relay.
      */
-    getNotifications(): Promise<InstagramNotification[]>;
+    getNotifications(opts?: ConnectionOption): Promise<InstagramNotification[]>;
 
     /**
      * Sends a direct message to a specified user. Returns the sent message's ID, text, and
      * timestamp. Requires the caller to be signed in through the relay.
      */
-    sendDirectMessage(recipientId: string, messageText: string): Promise<InstagramSentDirectMessage>;
+    sendDirectMessage(recipientId: string, messageText: string, opts?: ConnectionOption): Promise<InstagramSentDirectMessage>;
 
     /**
      * Follows a user. For public accounts, follows immediately; for private accounts, sends a
      * follow request. Returns the follow result including whether the follow was successful and if
      * a follow request was sent. Requires the caller to be signed in through the relay.
      */
-    followUser(userId: string): Promise<InstagramFollowResult>;
+    followUser(userId: string, opts?: ConnectionOption): Promise<InstagramFollowResult>;
 
     /**
      * Unfollows a user the signed-in account is currently following. Returns the resulting follow
      * state. Requires the caller to be signed in through the relay.
      */
-    unfollowUser(userId: string): Promise<InstagramUnfollowResult>;
+    unfollowUser(userId: string, opts?: ConnectionOption): Promise<InstagramUnfollowResult>;
 
     /**
      * Likes a post by its media id. Returns the resulting like count and like state. Requires the
      * caller to be signed in through the relay.
      */
-    likePost(mediaId: string): Promise<InstagramLikeResult>;
+    likePost(mediaId: string, opts?: ConnectionOption): Promise<InstagramLikeResult>;
 
     /**
      * Removes a like from a previously liked post. Returns the resulting like count and like
      * state. Requires the caller to be signed in through the relay.
      */
-    unlikePost(mediaId: string): Promise<InstagramUnlikeResult>;
+    unlikePost(mediaId: string, opts?: ConnectionOption): Promise<InstagramUnlikeResult>;
 
     /**
      * Posts a comment on a photo or video by its media id. Returns the created comment's id, text
      * and timestamp. Requires the caller to be signed in through the relay.
      */
-    commentOnPost(mediaId: string, commentText: string): Promise<InstagramCommentResult>;
+    commentOnPost(mediaId: string, commentText: string, opts?: ConnectionOption): Promise<InstagramCommentResult>;
 
     /**
      * Saves a post to the signed-in user's default saved collection. Returns the media id and the
      * save state. Requires the caller to be signed in through the relay.
      */
-    savePost(mediaId: string): Promise<InstagramSaveResult>;
+    savePost(mediaId: string, opts?: ConnectionOption): Promise<InstagramSaveResult>;
 
     /**
      * Removes a post from the signed-in user's saved collection. Returns the media id and the
      * resulting save state. Requires the caller to be signed in through the relay.
      */
-    unsavePost(mediaId: string): Promise<InstagramUnsaveResult>;
+    unsavePost(mediaId: string, opts?: ConnectionOption): Promise<InstagramUnsaveResult>;
 
     /**
      * Blocks a user, preventing them from seeing the signed-in account's posts and sending it
      * messages. Returns the resulting block state. Requires the caller to be signed in through the
      * relay.
      */
-    blockUser(userId: string): Promise<InstagramBlockResult>;
+    blockUser(userId: string, opts?: ConnectionOption): Promise<InstagramBlockResult>;
 
     /**
      * Unblocks a previously blocked user, allowing them to see the signed-in account's posts and
      * send messages again. Returns the resulting block state. Requires the caller to be signed in
      * through the relay.
      */
-    unblockUser(userId: string): Promise<InstagramUnblockResult>;
+    unblockUser(userId: string, opts?: ConnectionOption): Promise<InstagramUnblockResult>;
 
     /**
      * Mutes a user's posts and stories from the signed-in account's feed, without unfollowing
      * them. Returns the resulting mute state. Requires the caller to be signed in through the
      * relay.
      */
-    muteUser(userId: string): Promise<InstagramMuteResult>;
+    muteUser(userId: string, opts?: ConnectionOption): Promise<InstagramMuteResult>;
 
     /**
      * Unmutes a previously muted user, restoring their posts and stories to the signed-in
      * account's feed. Returns the resulting mute state. Requires the caller to be signed in
      * through the relay.
      */
-    unmuteUser(userId: string): Promise<InstagramUnmuteResult>;
+    unmuteUser(userId: string, opts?: ConnectionOption): Promise<InstagramUnmuteResult>;
 
     /**
      * Updates the signed-in user's profile information. Accepts an object with optional fields:
@@ -30907,7 +30891,7 @@ interface InstagramSavedPosts {
      * Returns the updated profile information. Requires the caller to be signed in through the
      * relay.
      */
-    updateProfile(updates: { biography?: string; fullName?: string; website?: string | null }): Promise<InstagramUpdateProfileResult>;
+    updateProfile(updates: { biography?: string; fullName?: string; website?: string | null }, opts?: ConnectionOption): Promise<InstagramUpdateProfileResult>;
   }
 }
 
@@ -39232,6 +39216,13 @@ interface NetflixProfile {
      * for each category. No sign-in.
      */
     getTop10(): Promise<NetflixTop10Entry[]>;
+
+    /**
+     * Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only on
+     * Netflix hub pages (e.g. "TV Dramas", "Suspenseful TV Shows") with the genre id browseGenre
+     * takes. No sign-in.
+     */
+    listGenres(): Promise<NetflixGenre[]>;
   }
 }
 
@@ -41047,10 +41038,50 @@ interface OpenTableAvailabilityArgs {
   partySize?: number;   // 1-20, default 2
 }
 
+interface OpenTableDiner {
+  phone: string;      // 10-digit US/Canada number; OpenTable texts the code here
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+interface OpenTableStartBookingArgs {
+  restaurantId: number;    // from a search row
+  dateTime: string;        // "YYYY-MM-DDTHH:mm", a slots[].dateTime from checkAvailability
+  partySize: number;       // 1-20
+  diner: OpenTableDiner;
+  specialRequest?: string;
+}
+
+interface OpenTableBookingStarted {
+  status: "code_sent";
+  restaurantId: number;
+  dateTime: string;
+  partySize: number;
+  codeSentTo: string;      // masked phone, e.g. "***-***-5219"
+  holdExpiresAt: string;   // ISO; OpenTable holds the table 5 minutes
+}
+
+interface OpenTableBooking {
+  restaurantId: number;
+  restaurantName: string | null;
+  dateTime: string;
+  partySize: number;
+  confirmationNumber: string | null;
+  reservationUrl: string;   // OpenTable's page for this reservation; cancelBooking takes it
+  confirmationText: string; // the confirmation page's own first lines
+}
+
+interface OpenTableCancellation {
+  canceled: boolean;
+  pageText: string;
+}
+
   /**
-   * Restaurant search and real-time table availability on OpenTable: find restaurants by name,
-   * cuisine or place, read the open times for a date, time and party size, and get OpenTable's
-   * own booking link for each time. No booking (that needs the diner's details).
+   * Restaurant search, real-time table availability and booking on OpenTable: find restaurants
+   * by name, cuisine or place, read the open times for a date, time and party size, book one as
+   * a guest with the diner's name, phone and email (OpenTable texts a code to confirm), and
+   * cancel it.
    */
   interface Unit {
     /**
@@ -41071,6 +41102,35 @@ interface OpenTableAvailabilityArgs {
      * 15-40 s.
      */
     checkAvailability(args: OpenTableAvailabilityArgs): Promise<OpenTableAvailability>;
+
+    /**
+     * Starts a guest reservation for one open time: opens the restaurant's page at `dateTime`,
+     * clicks that time, accepts the restaurant's terms, presses "Complete reservation" and enters
+     * `diner.phone`, so OpenTable TEXTS A CODE to that phone and holds the table for 5 minutes.
+     * Then call `confirmBooking({ code })` IN THE SAME BOWMARK SESSION: the held table lives in
+     * that session's browser, so a separate `run` cannot finish it. Over HTTP: `POST /v1/session`
+     * on the Bowmark API (Bearer API key) returns `{ sessionId }`; then `POST
+     * /v1/session/<sessionId>/call` with `{"path": ["providers", "opentable", "startBooking"],
+     * "args": [{ …startBooking args }]}`, ask the person for the texted code, and send `{"path":
+     * ["providers", "opentable", "confirmBooking"], "args": [{ "code": "…" }]}` to the same
+     * session within 5 minutes. Throws when `dateTime` is no longer open.
+     */
+    startBooking(args: OpenTableStartBookingArgs): Promise<OpenTableBookingStarted>;
+
+    /**
+     * Finishes the booking `startBooking` began in this session: enters the texted code, fills the
+     * diner's name, phone and email, presses "Complete reservation" and returns the confirmation
+     * number and the reservation's page. Throws when no booking is waiting (wrong session, or the
+     * 5-minute hold ran out) or OpenTable refuses the code.
+     */
+    confirmBooking(args: { code: string }): Promise<OpenTableBooking>;
+
+    /**
+     * Cancels a reservation from its OpenTable page (the `reservationUrl` confirmBooking
+     * returned): "Cancel", then "Confirm cancellation". Returns `canceled: true` once the page
+     * reads "Reservation canceled".
+     */
+    cancelBooking(args: { reservationUrl: string }): Promise<OpenTableCancellation>;
   }
 }
 
@@ -46312,6 +46372,104 @@ interface RoofmaxxCostEstimate {
   }
 }
 
+declare namespace BowmarkProvider_rottentomatoes {
+  // ── Rotten Tomatoes — the unit's own declarations, verbatim ──
+interface RtSearchArgs {
+  /** Free text, e.g. "inception". */
+  query: string;
+  /** "movie", "tv" or "all" (default). */
+  type?: "movie" | "tv" | "all";
+  /** 1-20 per kind, default 10. */
+  limit?: number;
+}
+interface RtSearchResult {
+  kind: "movie" | "tv";
+  title: string;
+  /** "/m/inception" or "/tv/breaking_bad" — pass to getTitle. */
+  path: string;
+  url: string;
+  /** Movie: release year. TV: first-air year. */
+  year: number | null;
+  /** TV only: last year aired, null while running. */
+  endYear: number | null;
+  /** Tomatometer 0-100, null when the title has too few critic reviews. */
+  tomatometer: number | null;
+  certifiedFresh: boolean;
+  cast: string[];
+}
+interface RtSearchResponse {
+  query: string;
+  results: RtSearchResult[];
+}
+interface RtTomatometer {
+  /** % of critic reviews that are positive, 0-100. */
+  score: number | null;
+  /** Mean critic rating out of 10. */
+  averageRating: number | null;
+  /** Number of counted critic reviews. */
+  reviewCount: number | null;
+  likedCount: number | null;
+  notLikedCount: number | null;
+  certifiedFresh: boolean;
+  sentiment: string | null;
+}
+interface RtPopcornmeter {
+  /** % of audience ratings that are positive, 0-100. */
+  score: number | null;
+  /** Mean audience rating out of 5. */
+  averageRating: number | null;
+  /** Exact audience rating count (liked + not liked) when the page publishes it. */
+  ratingCount: number | null;
+  /** The page's own banded label, e.g. "250,000+ Ratings". */
+  bandedRatingCount: string | null;
+  /** Written audience reviews. */
+  reviewCount: number | null;
+  /** The "Verified Hot" badge. */
+  verifiedHot: boolean;
+  sentiment: string | null;
+}
+interface RtTitle {
+  kind: "movie" | "tv";
+  path: string;
+  url: string;
+  title: string;
+  year: number | null;
+  /** ISO date the page gives as the title's creation/premiere date. */
+  releaseDate: string | null;
+  contentRating: string | null;
+  genres: string[];
+  description: string | null;
+  posterUrl: string | null;
+  /** TV only. */
+  numberOfSeasons: number | null;
+  /** Null when the title has no critics score block at all. For a TV series it is the series average. */
+  tomatometer: RtTomatometer | null;
+  /** Null when the page hides or lacks the audience score. For a TV series it is the series average. */
+  popcornmeter: RtPopcornmeter | null;
+}
+
+  /**
+   * Rotten Tomatoes — critic and audience scores for movies and TV. Search titles; read a
+   * title's Tomatometer (critic score, average rating, review count) and Popcornmeter (audience
+   * score, rating count). Logged out, no browser.
+   */
+  interface Unit {
+    /**
+     * Search Rotten Tomatoes for movies and TV series by title — the site's own search. Each
+     * result carries its Tomatometer, year, top cast and the path getTitle takes.
+     */
+    search(args: RtSearchArgs): Promise<RtSearchResponse>;
+
+    /**
+     * Read one movie or TV series on Rotten Tomatoes: Tomatometer (critic %, average rating,
+     * review count, liked/not-liked, Certified Fresh) and Popcornmeter (audience %, average
+     * rating, exact rating count, Verified Hot), plus year, release date, rating, genres and
+     * synopsis. Takes a /m/… or /tv/… path or its URL.
+     */
+    getTitle(path: string): Promise<RtTitle>;
+  }
+}
+
 declare namespace BowmarkProvider_rover {
   // ── Rover.com — the unit's own declarations, verbatim ──
 interface RoverBoardingRow { name: string; profileUrl: string; ratingValue: number | null; reviewCount: number | null; repeatClientCount: number | null; startingNightlyRate: { amount: number; currency: string }; location: string | null; distanceMi: number | null; }
@@ -47347,13 +47505,24 @@ interface seatgeekTaxonomy {
   parent_id?: number;
 }
 
+interface seatgeekTrackedEvent {
+  id: number;
+  title: string;
+  url?: string;
+  performers: Array<{ id: number; name: string; image?: string }>;
+  venue: { id: number; name: string; city?: string; state?: string };
+  datetime_local?: string;
+  stats?: { lowest_price?: number; median_price?: number; listing_count?: number; ticket_count?: number };
+}
+
 interface seatgeekRow {
   id: string;
 }
 
   /**
    * A ticket marketplace for sports, concerts, comedy and theater — event search,
-   * performer/venue lookup and price stats, logged out, via SeatGeek's own public internal API.
+   * performer/venue lookup and price stats, logged out, via SeatGeek's own public internal API;
+   * one signed-in read (listTrackedEvents) via the caller's own relay session.
    */
   interface Unit {
     /**
@@ -47401,6 +47570,15 @@ interface seatgeekRow {
      * than guessing one.
      */
     listTaxonomies(): Promise<seatgeekTaxonomy[]>;
+
+    /**
+     * The signed-in caller's tracked (saved/followed) events, newest first. NEEDS THE CALLER'S
+     * SEATGEEK SIGN-IN: with none saved the run pauses for one before any request. With one,
+     * seatgeek.com's own login-state door (/data/users/me) confirms the session, but the
+     * tracked-events listing itself has never been measured signed-in, so the call still throws
+     * rather than guess.
+     */
+    listTrackedEvents(opts?: ConnectionOption): Promise<seatgeekTrackedEvent[]>;
   }
 }
 
@@ -48344,6 +48522,48 @@ interface SmitherySearchResult {
      * array is a legitimate answer for a query that matches nothing, not a throw.
      */
     search(query: string, options?: SmitherySearchOptions): Promise<SmitherySearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_snapchat {
+  // ── Snapchat — the unit's own declarations, verbatim ──
+interface SnapchatProfileRow {
+  username: string;
+  displayName: string;
+  snapcodeImageUrl: string;
+}
+
+interface SnapchatSearchItem {
+  kind: string; // the site's $case: "lens" | "storyCard" | "user" | "snapProEntity" | "place" | "topic" | "publisherEdition" | …
+  id: string; // lens id, story id, user id, profile id, place id, topic text or edition id
+  title?: string;
+  username?: string;
+  result: Record<string, unknown>; // the site's own object for that kind, untouched
+}
+
+interface SnapchatSearchResult {
+  query: string;
+  sections: Array<{
+    section: string; // "Lenses" | "Spotlight" | "Add Friends" | "Subscribe" | "Places" | "Topics" | "Episodes" | …
+    sectionType: number;
+    endOfResults: boolean;
+    items: SnapchatSearchItem[];
+  }>;
+}
+
+  /**
+   * Snapchat, the photo and video messaging app: search accounts, lenses, topics, shows and
+   * places; read public profiles, their Stories, Spotlight videos and lenses; browse Spotlight,
+   * Discover, the Lens Explorer and city guides; signed in, read and send chats and snaps, list
+   * friends and their Stories, and add or remove friends.
+   */
+  interface Unit {
+    /**
+     * Search Snapchat the way www.snapchat.com/explore/<query> does: every section it renders
+     * (Lenses, Spotlight, Add Friends, Subscribe, Places, Topics, Episodes), each item with its
+     * kind, id, title and username plus the site's own object.
+     */
+    searchSnapchat(query: string): Promise<SnapchatSearchResult>;
   }
 }
 
@@ -50299,6 +50519,16 @@ interface TargetAddToCartResult {
   warnings: string[];
 }
 
+interface TargetWriteReviewResult {
+  tcin: string;
+  reviewId: string;
+  rating: number;
+  title: string;
+  text: string;
+  submitted: boolean;
+  warnings: string[];
+}
+
 interface TargetOrderItem {
   tcin: string;
   title: string | null;
@@ -50320,6 +50550,32 @@ interface TargetOrder {
 interface TargetOrdersHistory {
   orders: TargetOrder[];  // newest first, per the site's own order
   totalOrders: number;
+  warnings: string[];
+}
+
+interface TargetListItem {
+  tcin: string;
+  title: string | null;
+  quantity: number;
+  addedDate: string | null;  // ISO timestamp
+  price: number | null;
+  imageUrl: string | null;
+}
+
+interface TargetWishlist {
+  listId: string;
+  listName: string;
+  listType: string | null;  // "WISHLIST", "REGISTRY", etc.
+  visibility: string | null;  // "PUBLIC", "PRIVATE", "SHARED", etc.
+  itemCount: number;
+  items: TargetListItem[];
+  createdDate: string | null;  // ISO timestamp
+  warnings: string[];
+}
+
+interface TargetWishlistsHistory {
+  lists: TargetWishlist[];
+  totalLists: number;
   warnings: string[];
 }
 
@@ -50404,6 +50660,13 @@ interface TargetOrdersHistory {
     listOrders(opts?: ConnectionOption): Promise<TargetOrdersHistory>;
 
     /**
+     * Reads the CALLER's own Target lists (wishlists) — the lists they have created, each list's
+     * items (with TCIN, title, quantity, added date and price), visibility and creation date.
+     * Needs the caller signed in.
+     */
+    listWishlists(opts?: ConnectionOption): Promise<TargetWishlistsHistory>;
+
+    /**
      * Reads one Target Gift Registry's items once you have the registry's id from `findRegistry`
      * or a shareable registry link — items, quantities, and ship-to information.
      */
@@ -50422,6 +50685,15 @@ interface TargetOrdersHistory {
      * will never place an order or reach a payment step. Needs the caller signed in.
      */
     addToCart(args: { tcin: string; quantity?: number }, opts?: ConnectionOption): Promise<TargetAddToCartResult>;
+
+    /**
+     * Submits a customer review for one product, as the CALLER's own signed-in identity — a public
+     * write the site attributes to whichever account is signed in, never to Bowmark. Takes the
+     * product TCIN from `search`, a 1-5 star rating, a review title and text. The submitted review
+     * is published immediately and publicly attributed to the caller's Target account. Needs the
+     * caller signed in.
+     */
+    writeReview(args: { tcin: string; rating: number; title: string; text: string }, opts?: ConnectionOption): Promise<TargetWriteReviewResult>;
   }
 }
 
@@ -59416,6 +59688,41 @@ interface ZenniLensPriceRow {
   }
 }
 
+declare namespace BowmarkProvider_zoom {
+  // ── Zoom — the unit's own declarations, verbatim ──
+
+interface ZoomPricingPlan {
+  name: string;
+  price: number;
+  currency: string;
+  features: string[]; // the site's own labels — read the values off a result, never guess one from prose
+}
+
+interface ZoomPricingResult {
+  plans: ZoomPricingPlan[];
+}
+
+interface ZoomStatusComponent {
+  name: string;
+  status: string; // the site's own label, e.g. "operational"
+}
+
+interface ZoomSystemStatusResult {
+  indicator: string; // "none" | "minor" | "major" | "critical" — the site's own rollup
+  description: string;
+  components: ZoomStatusComponent[];
+}
+
+  /** Video conferencing, meetings, and webinars. */
+  interface Unit {
+    /** Read Zoom Workplace pricing plans and features */
+    getPricing(): Promise<ZoomPricingResult>;
+
+    /** Read Zoom's current system status and per-component health */
+    getSystemStatus(): Promise<ZoomSystemStatusResult>;
+  }
+}
+
 declare namespace BowmarkProvider_zoopla {
   // ── Zoopla — the unit's own declarations, verbatim ──
 interface ZooplaProperty {
@@ -60616,7 +60923,6 @@ interface BowmarkProviders {
   haydenhomes: BowmarkProvider_haydenhomes.Unit;
   hccts: BowmarkProvider_hccts.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
-  healthie: BowmarkProvider_healthie.Unit;
   heatherwood: BowmarkProvider_heatherwood.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;
   hellotend: BowmarkProvider_hellotend.Unit;
@@ -60797,6 +61103,7 @@ interface BowmarkProviders {
   ritani: BowmarkProvider_ritani.Unit;
   rivian: BowmarkProvider_rivian.Unit;
   roofmaxx: BowmarkProvider_roofmaxx.Unit;
+  rottentomatoes: BowmarkProvider_rottentomatoes.Unit;
   rover: BowmarkProvider_rover.Unit;
   rvshare: BowmarkProvider_rvshare.Unit;
   saatva: BowmarkProvider_saatva.Unit;
@@ -60825,6 +61132,7 @@ interface BowmarkProviders {
   smartsign: BowmarkProvider_smartsign.Unit;
   smartwool: BowmarkProvider_smartwool.Unit;
   smithery: BowmarkProvider_smithery.Unit;
+  snapchat: BowmarkProvider_snapchat.Unit;
   solostove: BowmarkProvider_solostove.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;
@@ -60921,6 +61229,7 @@ interface BowmarkProviders {
   yourarborhome: BowmarkProvider_yourarborhome.Unit;
   youtube: BowmarkProvider_youtube.Unit;
   zennioptical: BowmarkProvider_zennioptical.Unit;
+  zoom: BowmarkProvider_zoom.Unit;
   zoopla: BowmarkProvider_zoopla.Unit;
   "000de82": BowmarkFamily_shopify_store.Unit;
   "001r3iv0": BowmarkFamily_shopify_store.Unit;
