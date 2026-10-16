@@ -2809,7 +2809,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seatgeek.listMyOrders` | seatgeek.com | The signed-in caller's "My Tickets" order history — what they bought, when, for which… | ⚪ |
 | `seatgeek.listTaxonomies` | seatgeek.com | Returns the category taxonomy SeatGeek uses to classify events (e.g. music > rock… | 🟢 |
 | `seatgeek.listTicketForSale` | seatgeek.com | Lists one of the signed-in caller's tickets for resale on SeatGeek. | ⚪ |
-| `seatgeek.listTrackedEvents` | seatgeek.com | The signed-in caller's tracked (saved/followed) events, newest first. | ⚪ |
+| `seatgeek.listTrackedEvents` | seatgeek.com | The signed-in caller's tracked (saved/followed) events, newest first. | 🟢 |
 | `seatgeek.searchEvents` | seatgeek.com | Searches live events — concerts, sports, comedy, theater and family — by keyword… | 🟢 |
 | `seatgeek.trackEvent` | seatgeek.com | Tracks (saves) an event to the signed-in caller's account. | ⚪ |
 | `seatgeek.transferTicket` | seatgeek.com | Transfers a purchased ticket to another person's SeatGeek account. | ⚪ |
