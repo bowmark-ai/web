@@ -1011,7 +1011,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.getApp` | discord.com | Reads one App Directory listing (discord.com/discovery/applications/<id>) — name… | ⚪ |
 | `discord.getDocPage` | discord.com | Reads one Discord developer docs page by url or path (e.g.… | 🟢 |
 | `discord.getGame` | discord.com | Reads one game's page on Discord (discord.com/game/<slug>-<id>) — name, description… | ⚪ |
-| `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | ⚪ |
+| `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | 🟢 |
 | `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | ⚪ |
 | `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | ⚪ |
 | `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | ⚪ |
@@ -3782,7 +3782,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | ⚪ |
 | `zoom.getSystemStatus` | zoom.us | Returns Zoom's current system status. | 🟢 |
 | `zoom.getWebinar` | zoom.us | Returns details of one webinar. | ⚪ |
-| `zoom.joinMeeting` | zoom.us | Reads the public meeting join page and returns meeting details. | ⚪ |
+| `zoom.joinMeeting` | zoom.us | Checks whether a Zoom meeting link is valid and joinable, reading the site's own join… | 🟢 |
 | `zoom.listMeetings` | zoom.us | The signed-in caller's upcoming meetings. | ⚪ |
 | `zoom.listRecordings` | zoom.us | The signed-in caller's recorded meetings and webinars. | ⚪ |
 | `zoom.listRecordingTranscripts` | zoom.us | Lists available transcripts for a recording. | ⚪ |
