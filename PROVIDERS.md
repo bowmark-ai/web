@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3788 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3798 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1730,6 +1730,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟡 |
 | `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟢 |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
+| `grammarly.checkGrammar` | TODO example.com | Analyzes text for grammar, spelling, clarity, engagement, and delivery errors; returns… | ⚪ |
+| `grammarly.countWords` | TODO example.com | Analyzes text metrics including word count, character count, readability score, and… | ⚪ |
+| `grammarly.detectAI` | TODO example.com | Checks if text was written by AI or humans using Grammarly's AI detection model. | ⚪ |
+| `grammarly.detectPlagiarism` | TODO example.com | Checks text against web sources for potential plagiarism and provides similarity score. | ⚪ |
+| `grammarly.detectTone` | TODO example.com | Identifies the tone and sentiment of written text. | ⚪ |
+| `grammarly.getPersonalDictionary` | TODO example.com | Retrieves custom words and phrases saved in the account's personal dictionary. | ⚪ |
+| `grammarly.humanize` | TODO example.com | Converts AI-written text to sound more human and natural. | ⚪ |
+| `grammarly.listDocuments` | TODO example.com | Lists saved documents in a signed-in account. | ⚪ |
+| `grammarly.listGoals` | TODO example.com | Lists writing goals (audience, tone, formality, domain) for the account. | ⚪ |
+| `grammarly.paraphrase` | TODO example.com | Rewrites text in different styles and tones while maintaining meaning. | ⚪ |
 | `grandwelcome.getRentalDetail` | grandwelcome.com | Reads one rental's own detail page in full — name, description, photos and the site's… | 🟢 |
 | `grandwelcome.getRentalQuote` | grandwelcome.com | Runs the site's own real-time date-specific pricing engine for one property — rent… | 🟢 |
 | `grandwelcome.listGrandwelcomeDestinations` | grandwelcome.com | The entry door: reads the site's own /sitemap.xml for every published destination page… | 🟢 |
@@ -3174,7 +3184,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.listWishlists` | target.com | The CALLER's own saved lists on target.com (their "Lists" — Target's wishlist feature)… | 🟢 |
 | `target.reviewPhotos` | target.com | Returns the photos shoppers attached to their reviews of one product (by TCIN) —… | 🟢 |
 | `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟡 |
-| `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |
+| `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | 🟢 |
 | `target.writeReview` | target.com | Submits a customer review for one product, as the CALLER's own signed-in identity — a… | 🟢 |
 | `tatcha.getPersonalizedRitual` | tatcha.com | Runs a shopper's real answers (skin type, up to three benefits, optional eye concerns… | 🟢 |
 | `tatcha.getRitualQuizOptions` | tatcha.com | Reads the live "Ritual Finder" quiz's real input menus — every skin-type, skin-benefit… | 🟢 |

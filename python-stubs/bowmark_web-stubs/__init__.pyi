@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f1860168bd5cc6ffae96163fefdc601d5d132b94e5606423d5f3c13de7f82d5f
-# 85 capabilities, 585 providers, 2150 typed functions, 20 refused.
+# Manifest version: eb74c5db32be3d40785a490d8a6a3cc1b845a186c8f65b9afb0b1bc8543baf22
+# 85 capabilities, 585 providers, 2146 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3815,65 +3815,6 @@ class Prv_aliexpress_aliexpressProduct_Out(TypedDict):
     shop_name: str
     rating: NotRequired[float]
     shipping_free: NotRequired[bool]
-
-class Prv_aliexpress_GetProductArgs_In(TypedDict):
-    product_id: str
-
-class Prv_aliexpress_aliexpressProductDetail_Out(TypedDict):
-    id: str
-    title: str
-    price: float
-    original_price: NotRequired[float]
-    shop_name: str
-    shop_rating: NotRequired[float]
-    rating: NotRequired[float]
-    review_count: NotRequired[float]
-    variants: NotRequired[list[Prv_aliexpress_aliexpressProductDetail_Out_variants_item_Out]]
-    shipping_methods: NotRequired[list[Prv_aliexpress_aliexpressProductDetail_Out_shipping_methods_item_Out]]
-    description: NotRequired[str]
-
-class Prv_aliexpress_aliexpressProductDetail_Out_variants_item_Out(TypedDict):
-    name: str
-    options: list[str]
-
-class Prv_aliexpress_aliexpressProductDetail_Out_shipping_methods_item_Out(TypedDict):
-    name: str
-    cost: NotRequired[float]
-
-class Prv_aliexpress_aliexpressCategory_Out(TypedDict):
-    id: str
-    name: str
-    parent_id: NotRequired[str]
-    product_count: NotRequired[float]
-    level: NotRequired[float]
-
-class Prv_aliexpress_GetStoreArgs_In(TypedDict):
-    store_id: str
-
-class Prv_aliexpress_aliexpressStore_Out(TypedDict):
-    id: str
-    name: str
-    rating: NotRequired[float]
-    follower_count: NotRequired[float]
-    product_count: NotRequired[float]
-    positive_feedback_rate: NotRequired[float]
-    response_time: NotRequired[str]
-
-class Prv_aliexpress_aliexpressCartItem_Out(TypedDict):
-    id: str
-    product_id: str
-    quantity: float
-    price: float
-    title: str
-    shop_name: str
-
-class Prv_aliexpress_AddToCartArgs_In(TypedDict):
-    product_id: str
-    quantity: NotRequired[float]
-
-class Prv_aliexpress_addToCart_return_Out(TypedDict):
-    success: bool
-    message: NotRequired[str]
 
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
@@ -33957,6 +33898,11 @@ class Prv_zoom_ZoomJoinMeetingResult_Out(TypedDict):
     statusMessage: str | None
     errorCode: str | None
 
+class Prv_zoom_ZoomMeetingInfo_Out(TypedDict):
+    meetingId: str
+    topic: NotRequired[str]
+    status: Literal["joinable"] | Literal["invalid"] | Literal["unknown"]
+
 class Prv_zoopla_search_args_In(TypedDict):
     location: str
     bedrooms: NotRequired[float]
@@ -36400,33 +36346,12 @@ class Prv_alibaba(Protocol):
         """
 
 class Prv_aliexpress(Protocol):
-    """TODO — one line an agent reads to decide whether to call this."""
+    """AliExpress product search — a keyword in, priced product rows out."""
 
     async def search(self, args: Prv_aliexpress_SearchArgs_In, /) -> list[Prv_aliexpress_aliexpressProduct_Out]:
-        """Searches AliExpress's product catalog by keyword, returning matching products with
-        price, shop name, rating, and shipping information.
+        """Searches AliExpress's product catalog by keyword, returning matching products with price
+        and rating.
         """
-
-    async def getProduct(self, args: Prv_aliexpress_GetProductArgs_In, /) -> Prv_aliexpress_aliexpressProductDetail_Out:
-        """Fetches detailed product information including variants, pricing, shipping options,
-        reviews, and seller information.
-        """
-
-    async def listCategories(self, /) -> list[Prv_aliexpress_aliexpressCategory_Out]:
-        """Lists the top-level product categories available on AliExpress."""
-
-    async def getStore(self, args: Prv_aliexpress_GetStoreArgs_In, /) -> Prv_aliexpress_aliexpressStore_Out:
-        """Retrieves seller/store information including store name, ratings, product count, and
-        response time.
-        """
-
-    async def listCart(self, /) -> list[Prv_aliexpress_aliexpressCartItem_Out]:
-        """Lists items currently in the user's shopping cart with quantity, price, and product
-        details.
-        """
-
-    async def addToCart(self, args: Prv_aliexpress_AddToCartArgs_In, /) -> Prv_aliexpress_addToCart_return_Out:
-        """Adds a product to the user's shopping cart with specified quantity."""
 
 class Prv_allied(Protocol):
     """Runs Allied Van Lines' own Packing Calculator — takes which rooms are moving (no name,
@@ -55609,6 +55534,9 @@ class Prv_zoom(Protocol):
         """Check whether a Zoom meeting link is valid and joinable, reading the site's own join
         page
         """
+
+    async def getMeetingInfo(self, meetingId: str | float, /) -> Prv_zoom_ZoomMeetingInfo_Out:
+        """Extract meeting information from the public join page"""
 
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""

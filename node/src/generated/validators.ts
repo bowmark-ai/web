@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f1860168bd5cc6ffae96163fefdc601d5d132b94e5606423d5f3c13de7f82d5f
-// 2150 checked, 20 unchecked.
+// Manifest version: eb74c5db32be3d40785a490d8a6a3cc1b845a186c8f65b9afb0b1bc8543baf22
+// 2146 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f1860168bd5cc6ffae96163fefdc601d5d132b94e5606423d5f3c13de7f82d5f",
+  "version": "eb74c5db32be3d40785a490d8a6a3cc1b845a186c8f65b9afb0b1bc8543baf22",
   "units": {
     "address_validation": {
       "defs": {
@@ -7764,49 +7764,6 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.aliexpress": {
       "defs": {
-        "AddToCartArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "product_id",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "quantity",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "GetProductArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "product_id",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        },
-        "GetStoreArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "store_id",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -7827,38 +7784,6 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchArgs"
-            },
-            "optional": false
-          }
-        ],
-        "getProduct": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetProductArgs"
-            },
-            "optional": false
-          }
-        ],
-        "listCategories": [],
-        "getStore": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetStoreArgs"
-            },
-            "optional": false
-          }
-        ],
-        "listCart": [],
-        "addToCart": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "AddToCartArgs"
             },
             "optional": false
           }
@@ -67907,6 +67832,23 @@ export const VALIDATORS: ValidatorTable = {
         "getPricing": [],
         "getSystemStatus": [],
         "joinMeeting": [
+          {
+            "name": "meetingId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getMeetingInfo": [
           {
             "name": "meetingId",
             "schema": {

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f1860168bd5cc6ffae96163fefdc601d5d132b94e5606423d5f3c13de7f82d5f
-// 85 capabilities, 585 providers, 2168 typed functions, 20 refused.
+// Manifest version: eb74c5db32be3d40785a490d8a6a3cc1b845a186c8f65b9afb0b1bc8543baf22
+// 85 capabilities, 585 providers, 2164 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6756,103 +6756,23 @@ interface SearchArgs {
   query: string;
 }
 
-interface GetProductArgs {
-  product_id: string;
-}
-
-interface GetStoreArgs {
-  store_id: string;
-}
-
-interface AddToCartArgs {
-  product_id: string;
-  quantity?: number;
-}
-
-interface aliexpressCartItem {
-  id: string;
-  product_id: string;
-  quantity: number;
-  price: number;
-  title: string;
-  shop_name: string;
-}
-
 interface aliexpressProduct {
   id: string;
   title: string;
   price: number;
+  /** Always "" — AliExpress's search card does not carry the seller's name. */
   shop_name: string;
   rating?: number;
   shipping_free?: boolean;
 }
 
-interface aliexpressProductDetail {
-  id: string;
-  title: string;
-  price: number;
-  original_price?: number;
-  shop_name: string;
-  shop_rating?: number;
-  rating?: number;
-  review_count?: number;
-  variants?: Array<{
-    name: string;
-    options: string[];
-  }>;
-  shipping_methods?: Array<{
-    name: string;
-    cost?: number;
-  }>;
-  description?: string;
-}
-
-interface aliexpressCategory {
-  id: string;
-  name: string;
-  parent_id?: string;
-  product_count?: number;
-  level?: number;
-}
-
-interface aliexpressStore {
-  id: string;
-  name: string;
-  rating?: number;
-  follower_count?: number;
-  product_count?: number;
-  positive_feedback_rate?: number;
-  response_time?: string;
-}
-
-  /** TODO — one line an agent reads to decide whether to call this. */
+  /** AliExpress product search — a keyword in, priced product rows out. */
   interface Unit {
     /**
-     * Searches AliExpress's product catalog by keyword, returning matching products with price,
-     * shop name, rating, and shipping information.
+     * Searches AliExpress's product catalog by keyword, returning matching products with price and
+     * rating.
      */
     search(args: SearchArgs): Promise<aliexpressProduct[]>;
-
-    /**
-     * Fetches detailed product information including variants, pricing, shipping options, reviews,
-     * and seller information.
-     */
-    getProduct(args: GetProductArgs): Promise<aliexpressProductDetail>;
-
-    /** Lists the top-level product categories available on AliExpress. */
-    listCategories(): Promise<aliexpressCategory[]>;
-
-    /**
-     * Retrieves seller/store information including store name, ratings, product count, and
-     * response time.
-     */
-    getStore(args: GetStoreArgs): Promise<aliexpressStore>;
-
-    /** Lists items currently in the user's shopping cart with quantity, price, and product details. */
-    listCart(): Promise<aliexpressCartItem[]>;
-
-    /** Adds a product to the user's shopping cart with specified quantity. */
-    addToCart(args: AddToCartArgs): Promise<{ success: boolean; message?: string }>;
   }
 }
 
@@ -59809,6 +59729,12 @@ interface ZoomJoinMeetingResult {
   errorCode: string | null; // the site's own error code, e.g. "3,001", null when joinable
 }
 
+interface ZoomMeetingInfo {
+  meetingId: string;
+  topic?: string;
+  status: "joinable" | "invalid" | "unknown";
+}
+
   /** Video conferencing, meetings, and webinars. */
   interface Unit {
     /** Read Zoom Workplace pricing plans and features */
@@ -59819,6 +59745,9 @@ interface ZoomJoinMeetingResult {
 
     /** Check whether a Zoom meeting link is valid and joinable, reading the site's own join page */
     joinMeeting(meetingId: string | number): Promise<ZoomJoinMeetingResult>;
+
+    /** Extract meeting information from the public join page */
+    getMeetingInfo(meetingId: string | number): Promise<ZoomMeetingInfo>;
   }
 }
 
