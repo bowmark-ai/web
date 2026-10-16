@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2429634845478e0ab12f94512199cc5e5f725e2884654866c5afa449a3272426
-// 85 capabilities, 585 providers, 2165 typed functions, 20 refused.
+// Manifest version: 3c4d37ff3de962a723ee07569214db1731643573ab63fe9becc752ff529c7338
+// 85 capabilities, 585 providers, 2166 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6182,6 +6182,16 @@ interface ExpressTemplate {
   isPremium: boolean;
 }
 
+interface ExpressTemplateDetail {
+  id: string;
+  title: string;
+  category: string;
+  isPremium: boolean;
+  width?: number;
+  height?: number;
+  editableElements?: string[];
+}
+
 interface adobeRow {
   id: string;
 }
@@ -6227,6 +6237,13 @@ interface adobeRow {
      * Premium.
      */
     searchTemplates(query: string): Promise<ExpressTemplate[]>;
+
+    /**
+     * Returns one Adobe Express template's detail — title, category, dimensions, whether it is
+     * free or Premium, and the editable elements the editor lists — from a template id returned by
+     * searchTemplates.
+     */
+    getTemplate(id: string): Promise<ExpressTemplateDetail>;
   }
 }
 

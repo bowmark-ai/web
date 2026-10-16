@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3798 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3808 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -535,6 +535,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `byltbasics.buildPackHandoff` | byltbasics.com | Configures one bundle kit — validates the chosen size and each color against… | 🟢 |
 | `byltbasics.getPackOptions` | byltbasics.com | Reads the real size and color choices for one bundle kit (a handle from… | 🟢 |
 | `byltbasics.listBundlePacks` | byltbasics.com | Lists BYLT Basics' 'Custom N Pack' bundle kits — each its own product with a single… | 🟢 |
+| `ca_gov.getDepartment` | www.ca.gov | Returns information about a specific California state agency or department —… | ⚪ |
+| `ca_gov.getDepartmentContact` | www.ca.gov | Returns contact information (phone, email, address) for a specific California state… | ⚪ |
+| `ca_gov.getService` | www.ca.gov | Returns detailed information about a specific California state service — description… | ⚪ |
+| `ca_gov.listDepartments` | www.ca.gov | Lists all California state agencies and departments available through CA.gov with… | ⚪ |
+| `ca_gov.listNews` | www.ca.gov | Lists recent California state news and announcements from CA.gov. | ⚪ |
+| `ca_gov.listPublicData` | www.ca.gov | Lists public datasets available through data.ca.gov (California's open data portal)… | ⚪ |
+| `ca_gov.listServices` | www.ca.gov | Lists all state services available through the CA.gov portal — organized by category… | ⚪ |
+| `ca_gov.searchNews` | www.ca.gov | Searches California state news, announcements, and updates by keyword — returns recent… | ⚪ |
+| `ca_gov.searchPublicData` | www.ca.gov | Searches California's open data portal (data.ca.gov) for public datasets by keyword —… | ⚪ |
+| `ca_gov.searchServices` | www.ca.gov | Searches the State of California's service directory for public services by keyword or… | ⚪ |
 | `cabinsforyou.getCabinDetail` | cabinsforyou.com | Reads one cabin's own listing page — bedrooms/bathrooms/sleeps/parking, pet policy… | 🟢 |
 | `cabinsforyou.search` | cabinsforyou.com | Runs Cabins For You's own homepage cabin-availability search (Check In / Check Out /… | 🟢 |
 | `cal_com.findProfiles` | cal.com | Finds a person's own Cal.com page from their full name and, optionally, their company… | 🟢 |

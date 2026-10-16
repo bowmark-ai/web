@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2429634845478e0ab12f94512199cc5e5f725e2884654866c5afa449a3272426
-# 85 capabilities, 585 providers, 2147 typed functions, 20 refused.
+# Manifest version: 3c4d37ff3de962a723ee07569214db1731643573ab63fe9becc752ff529c7338
+# 85 capabilities, 585 providers, 2148 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3454,6 +3454,15 @@ class Prv_adobe_ExpressTemplate_Out(TypedDict):
     thumbnail: str
     category: str
     isPremium: bool
+
+class Prv_adobe_ExpressTemplateDetail_Out(TypedDict):
+    id: str
+    title: str
+    category: str
+    isPremium: bool
+    width: NotRequired[float]
+    height: NotRequired[float]
+    editableElements: NotRequired[list[str]]
 
 class Prv_agakhanhospitals_getHospitalInfo_location_u1_In(TypedDict):
     location: str
@@ -36183,6 +36192,12 @@ class Prv_adobe(Protocol):
         """Searches Adobe Express (new.express.adobe.com) templates by free text and
         format/category, returning each template's id, title, thumbnail URL, category and
         whether it is free or Premium.
+        """
+
+    async def getTemplate(self, id: str, /) -> Prv_adobe_ExpressTemplateDetail_Out:
+        """Returns one Adobe Express template's detail — title, category, dimensions, whether it is
+        free or Premium, and the editable elements the editor lists — from a template id
+        returned by searchTemplates.
         """
 
 class Prv_agakhanhospitals(Protocol):
