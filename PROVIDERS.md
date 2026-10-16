@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3808 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3841 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -283,6 +283,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `azure.listServices` | azure.microsoft.com | Returns the Azure service catalogue derived live from `prices.azure.com`'s own rows —… | 🟢 |
 | `azure.listVmSizes` | azure.microsoft.com | Returns Azure's virtual-machine SKUs with the specifications a sizing decision is… | ⚪ |
 | `bahn.listDisruptions` | bahn.de | Lists current long-distance (ICE/IC/EC) train disruptions that have started — cause… | 🟢 |
+| `bamboohr.listJobs` | bamboohr.com | Lists every open job on one company's BambooHR careers page — title, city and state… | 🟢 |
 | `banana_republic.getProduct` | bananarepublic.gap.com | Reads one Banana Republic product's variant-level sizes, colors and fits with each… | 🟢 |
 | `banana_republic.searchProducts` | bananarepublic.gap.com | Searches Banana Republic's live apparel catalog (bananarepublic.gap.com clothing… | 🟢 |
 | `bankmycell.getTradeInQuote` | bankmycell.com | Reads live trade-in offers for a device's bankmycell.com sell page from every merchant… | 🟢 |
@@ -489,6 +490,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boxlunch.search` | boxlunch.com | Searches boxlunch.com's own storefront for a keyword and returns the real, priced… | 🟢 |
 | `boydsleep.calibrateSixZoneSupportNumber` | boydsleep.com | Runs Boyd's own '6-Zone Smart Support Number' calibration for the 6-zone Nautica Home… | 🟢 |
 | `boydsleep.calibrateSupportNumber` | boydsleep.com | Runs Boyd's own '2-Zone Smart Support Number' calibration — sleep position, gender… | 🟢 |
+| `breezyhq.listJobs` | breezy.hr | Lists every published position on one company's Breezy HR careers portal — title… | 🟢 |
 | `brius.findProviders` | bravabraces.com | Runs Brava's own find-a-provider locator search for a zip code (or free-text location)… | 🟢 |
 | `brixton.getBrixtonCheckoutLink` | brixton.com | Resolves a product handle + chosen variant (size and/or color) to a real, purchasable… | 🟢 |
 | `brixton.getBrixtonProduct` | brixton.com | Reads one product by its handle — every size/color variant, its exact price and… | 🟡 |
@@ -721,7 +723,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chappellet.getWine` | chappellet.com | Reads one wine by its slug — vintage, varietal blend, tasting notes, live price and… | 🟢 |
 | `chappellet.listWines` | chappellet.com | Reads Chappellet's live public wine shop as the storefront publishes it — every… | 🟢 |
 | `charterhomes.getScheduleVisitOptions` | charterhomes.com | Reads Charter's live schedule-a-visit page and returns every bookable neighborhood… | 🟢 |
-| `charterhomes.searchHomes` | charterhomes.com | Searches Charter Homes & Neighborhoods' live for-sale home inventory by… | 🟡 |
+| `charterhomes.searchHomes` | charterhomes.com | Searches Charter Homes & Neighborhoods' live for-sale home inventory by… | 🟢 |
 | `chatgpt.archiveConversation` | chatgpt.com | Archives (or un-archives) one of the CALLER's conversations. | ⚪ |
 | `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | ⚪ |
 | `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | ⚪ |
@@ -1885,6 +1887,34 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟡 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
+| `ikea.addToCart` | ikea.com | Adds an item (by item number and quantity) to an IKEA shopping cart and returns the… | ⚪ |
+| `ikea.addToFavorites` | ikea.com | Saves a product to an IKEA favorites list (IKEA's shopping list), creating the list… | ⚪ |
+| `ikea.bookPlanningAppointment` | ikea.com | Books a planning appointment (kitchen, bedroom, office…) at a store or online for the… | ⚪ |
+| `ikea.findStores` | ikea.com | Lists IKEA's US stores, optionally near a ZIP code or in a state, with address… | ⚪ |
+| `ikea.getCart` | ikea.com | Reads a cart's items, quantities, line prices and total. | ⚪ |
+| `ikea.getDeliveryOptions` | ikea.com | Quotes the home-delivery and pick-up options for a set of items to a US ZIP code —… | ⚪ |
+| `ikea.getFamilyMembership` | ikea.com | Reads the signed-in caller's IKEA Family membership — card number, member since, and… | ⚪ |
+| `ikea.getProduct` | ikea.com | Reads one product page by item number or URL: name, price, description, dimensions… | ⚪ |
+| `ikea.getProductAvailability` | ikea.com | Checks whether an item is in stock at each US IKEA store and for home delivery… | ⚪ |
+| `ikea.getProductDocuments` | ikea.com | Lists a product's documents — assembly instructions, manuals and product information… | ⚪ |
+| `ikea.getProductRatings` | ikea.com | Reads a product's customer rating summary — average stars, review count and the… | ⚪ |
+| `ikea.getProfile` | ikea.com | Reads the signed-in caller's IKEA profile — name, email, phone, saved addresses… | ⚪ |
+| `ikea.getPurchase` | ikea.com | Reads one of the signed-in caller's purchases by order number — items, prices… | ⚪ |
+| `ikea.listCategories` | ikea.com | Lists IKEA's product category tree (e.g. Furniture → Bookcases & shelving units) with… | ⚪ |
+| `ikea.listCategoryProducts` | ikea.com | Lists the products in one category with IKEA's own filters (price, colour, material… | ⚪ |
+| `ikea.listFamilyOffers` | ikea.com | Lists the member-only IKEA Family offers and rewards available to the signed-in caller. | ⚪ |
+| `ikea.listFavorites` | ikea.com | Reads the products on a favorites list. | ⚪ |
+| `ikea.listInspiration` | ikea.com | Lists IKEA's room and idea articles (living room, bedroom, small spaces…) with the… | ⚪ |
+| `ikea.listNewProducts` | ikea.com | Lists products newly added to the IKEA US range. | ⚪ |
+| `ikea.listOffers` | ikea.com | Lists the products currently on sale or at a lower price on IKEA US, with the regular… | ⚪ |
+| `ikea.listPurchases` | ikea.com | Lists the signed-in caller's IKEA purchases, online and in store, newest first, with… | ⚪ |
+| `ikea.lookupOrder` | ikea.com | Looks up an order's status, items and delivery progress from an order number and the… | ⚪ |
+| `ikea.removeFromCart` | ikea.com | Removes an item from a cart. | ⚪ |
+| `ikea.removeFromFavorites` | ikea.com | Removes a product from a favorites list. | ⚪ |
+| `ikea.searchProducts` | ikea.com | Searches IKEA's US catalogue by keyword and returns each product's item number, name… | ⚪ |
+| `ikea.suggestSearchTerms` | ikea.com | Returns IKEA's own search-as-you-type suggestions for a partial query (e.g. 'bil' →… | ⚪ |
+| `ikea.updateCartItem` | ikea.com | Changes the quantity of an item already in a cart. | ⚪ |
+| `ikea.updateProfile` | ikea.com | Edits the signed-in caller's IKEA profile details — name, phone, address or preferred… | ⚪ |
 | `imdb.getPerson` | imdb.com | Reads a person's biography, birth year, filmography, awards, and known roles. | 🟢 |
 | `imdb.getTitle` | imdb.com | Reads a title's full details: year, runtime, genres, plot, ratings, cast, crew… | 🟢 |
 | `imdb.getTitleReviews` | imdb.com | Reads user reviews for a title, with user rating, text, and helpfulness count. | 🟢 |
@@ -2548,6 +2578,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟡 |
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
 | `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |
+| `personio.listJobs` | personio.de | Lists every open position on one company's Personio job page — title, main and… | 🟢 |
 | `pilotprotocol.getApp` | pilotprotocol.network | Reads one app's detail page (/apps/<id>) — vendor, tagline, description, category… | 🟢 |
 | `pilotprotocol.listApps` | pilotprotocol.network | Lists every app in Pilot Protocol's app store (id, name, vendor, category, tagline… | 🟢 |
 | `pinterest.commentOnPin` | pinterest.com | Leave a comment on a pin as the caller. | ⚪ |
@@ -2842,6 +2873,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `revisionskincare.getSkincareQuizQuestions` | revisionskincare.com | Reads the live 'Product Finder Quiz' at revisionskincare.com/pages/skincare-quiz… | 🟢 |
 | `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟢 |
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
+| `rippling.listJobs` | rippling.com | Lists every open job on one company's Rippling job board — title, work location… | 🟢 |
 | `rishitea.getTeaFinderQuiz` | rishi-tea.com | Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —… | 🟢 |
 | `rishitea.matchTeaFinderQuiz` | rishi-tea.com | Submits a full set of answers to Okendo's quiz engine and returns the same… | 🟢 |
 | `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟡 |
@@ -3198,6 +3230,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.writeReview` | target.com | Submits a customer review for one product, as the CALLER's own signed-in identity — a… | 🟢 |
 | `tatcha.getPersonalizedRitual` | tatcha.com | Runs a shopper's real answers (skin type, up to three benefits, optional eye concerns… | 🟢 |
 | `tatcha.getRitualQuizOptions` | tatcha.com | Reads the live "Ritual Finder" quiz's real input menus — every skin-type, skin-benefit… | 🟢 |
+| `teamtailor.listJobs` | teamtailor.com | Lists every open job on one company's Teamtailor career site — title, locations… | 🟢 |
 | `teladoc.getArticle` | teladochealth.com | Returns one Health Library article in full — title, body content and category — given… | ⚪ |
 | `teladoc.getInsurancePricing` | teladochealth.com | Returns the with-insurance side of /start/no-insurance — what Teladoc publishes about… | 🟢 |
 | `teladoc.getPricing` | teladochealth.com | Returns Teladoc's published self-pay (no-insurance) visit pricing by service line —… | 🟢 |
@@ -3810,7 +3843,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.scheduleMeeting` | zoom.us | Creates a new meeting on the caller's account. | ⚪ |
 | `zoom.searchContacts` | zoom.us | Searches the caller's contacts by name. | ⚪ |
 | `zoom.searchHelpArticles` | zoom.us | Searches the help center for articles. | ⚪ |
-| `zoom.searchMarketplaceApps` | zoom.us | Searches the Zoom Marketplace for apps by keyword. | ⚪ |
+| `zoom.searchMarketplaceApps` | zoom.us | Searches the Zoom Marketplace for apps by keyword. | 🟢 |
 | `zoom.updateMeeting` | zoom.us | Updates meeting title, time, or settings. | ⚪ |
 | `zoom.updateProfile` | zoom.us | Updates user profile bio, timezone, or other settings. | ⚪ |
 | `zoom.updateProfilePicture` | zoom.us | Uploads a new profile picture. | ⚪ |

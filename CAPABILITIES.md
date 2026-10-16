@@ -74,8 +74,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `insurance.searchCarriers` | Searches the US insurance regulators' register — `{ name: "GEICO" }`, `{ licensedIn… | 4 | 🟢 |
 | `ip_asn_lookup.lookup` | Look up the ASN and ISP of an IP address ("8.8.8.8" or an IPv6 address), with its… | 1 | 🟢 |
 | `istanbul_schedules.attractionHours` | Matches `query` against muze.gov.tr's own museum/site listing (a substring match on… | 1 | 🟢 |
-| `job_search.atCompany` | Every open job at ONE company, read live off its own applicant-tracking system. | 8 | 🟢 |
-| `job_search.search` | Open job listings for a role, optionally in a city — picks Indeed's regional board… | 8 | 🟢 |
+| `job_search.atCompany` | Every open job at ONE company, read live off its own applicant-tracking system. | 13 | 🟢 |
+| `job_search.search` | Open job listings for a role, optionally in a city — picks Indeed's regional board… | 13 | 🟢 |
 | `kenya_fuel_prices.search` | Returns current Kenya pump prices for diesel, petrol, or kerosene. | 0 | 🟢 |
 | `local_database_gui.browse` | Parses the HTML of a local database GUI page (e.g. the caller's own agent read it off… | 0 | 🟢 |
 | `local_html_preview.render` | Parses supplied HTML (a local file's contents, or a fragment) and returns a structured… | 0 | 🟢 |
