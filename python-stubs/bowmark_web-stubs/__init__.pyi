@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eb74c5db32be3d40785a490d8a6a3cc1b845a186c8f65b9afb0b1bc8543baf22
-# 85 capabilities, 585 providers, 2146 typed functions, 20 refused.
+# Manifest version: 2429634845478e0ab12f94512199cc5e5f725e2884654866c5afa449a3272426
+# 85 capabilities, 585 providers, 2147 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -28417,6 +28417,22 @@ class Prv_target_TargetOrderItem_Out(TypedDict):
     price: float | None
     imageUrl: str | None
 
+class Prv_target_trackOrder_args_In(TypedDict):
+    orderNumber: str
+    email: str
+
+class Prv_target_TargetTrackedOrder_Out(TypedDict):
+    orderId: str
+    status: str | None
+    estimatedDelivery: str | None
+    items: list[Prv_target_TargetTrackedOrder_Out_items_item_Out]
+    warnings: list[str]
+
+class Prv_target_TargetTrackedOrder_Out_items_item_Out(TypedDict):
+    title: str | None
+    quantity: float
+    price: float | None
+
 class Prv_target_TargetWishlistsHistory_Out(TypedDict):
     lists: list[Prv_target_TargetWishlist_Out]
     totalLists: float
@@ -52165,6 +52181,12 @@ class Prv_target(Protocol):
         """Reads the CALLER's own Target order history — each order's id, date, status, items and
         totals. This is the signed-in person's complete order list, distinct from `trackOrder`
         which is the guest lookup by order number plus email. Needs the caller signed in.
+        """
+
+    async def trackOrder(self, args: Prv_target_trackOrder_args_In, /) -> Prv_target_TargetTrackedOrder_Out:
+        """Looks up the status of a placed order (guest order tracking by order number plus email,
+        no sign-in required) — processing, shipped, delivered. Takes the order number from the
+        receipt and the email address on the order.
         """
 
     async def listWishlists(self, opts: ConnectionOption | None = None, /) -> Prv_target_TargetWishlistsHistory_Out:

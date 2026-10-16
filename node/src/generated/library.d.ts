@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: eb74c5db32be3d40785a490d8a6a3cc1b845a186c8f65b9afb0b1bc8543baf22
-// 85 capabilities, 585 providers, 2164 typed functions, 20 refused.
+// Manifest version: 2429634845478e0ab12f94512199cc5e5f725e2884654866c5afa449a3272426
+// 85 capabilities, 585 providers, 2165 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -50538,6 +50538,18 @@ interface TargetWriteReviewResult {
   warnings: string[];
 }
 
+interface TargetTrackedOrder {
+  orderId: string;
+  status: string | null; // the site's own labels — read the values off a result, never guess one from prose
+  estimatedDelivery: string | null;
+  items: Array<{
+    title: string | null;
+    quantity: number;
+    price: number | null;
+  }>;
+  warnings: string[];
+}
+
 interface TargetOrderItem {
   tcin: string;
   title: string | null;
@@ -50667,6 +50679,13 @@ interface TargetWishlistsHistory {
      * is the guest lookup by order number plus email. Needs the caller signed in.
      */
     listOrders(opts?: ConnectionOption): Promise<TargetOrdersHistory>;
+
+    /**
+     * Looks up the status of a placed order (guest order tracking by order number plus email, no
+     * sign-in required) — processing, shipped, delivered. Takes the order number from the receipt
+     * and the email address on the order.
+     */
+    trackOrder(args: { orderNumber: string; email: string }): Promise<TargetTrackedOrder>;
 
     /**
      * Reads the CALLER's own Target lists (wishlists) — the lists they have created, each list's
