@@ -1,5 +1,5 @@
 {
-  "version": "d05d87f33e2977a2a0adfd9e62bfded5d8dc87b68774d3786951164fc2d924be",
+  "version": "6a3f5d4b43e614bf2049b0ff49ca19d8b2e53220840e95f78ab4e42c23ac5fb5",
   "units": {
     "address_validation": {
       "defs": {
@@ -11003,6 +11003,20 @@
         ]
       }
     },
+    "providers.bamboohr": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.banana_republic": {
       "defs": {
         "BananaRepublicSearchArgs": {
@@ -14130,6 +14144,20 @@
             "schema": {
               "k": "ref",
               "name": "BoydsleepCalibrationInput"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.breezyhq": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -44287,6 +44315,20 @@
         ]
       }
     },
+    "providers.personio": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.pilotprotocol": {
       "defs": {},
       "functions": {
@@ -52023,6 +52065,20 @@
         ]
       }
     },
+    "providers.rippling": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.rishitea": {
       "defs": {
         "TeaFinderAnswerInput": {
@@ -57162,6 +57218,20 @@
               }
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.teamtailor": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -67866,6 +67936,15 @@
                   "k": "number"
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "searchMarketplaceApps": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

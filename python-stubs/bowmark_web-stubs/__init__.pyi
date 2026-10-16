@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d05d87f33e2977a2a0adfd9e62bfded5d8dc87b68774d3786951164fc2d924be
-# 85 capabilities, 585 providers, 2148 typed functions, 20 refused.
+# Manifest version: 6a3f5d4b43e614bf2049b0ff49ca19d8b2e53220840e95f78ab4e42c23ac5fb5
+# 85 capabilities, 590 providers, 2154 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5784,6 +5784,26 @@ class Prv_bahn_DisruptionRow_Out(TypedDict):
     states: list[str]
     affectedRoutes: list[str]
 
+class Prv_bamboohr_BamboohrBoard_Out(TypedDict):
+    company: str
+    companyName: str | None
+    boardUrl: str
+    total: float
+    jobs: list[Prv_bamboohr_BamboohrJob_Out]
+    warnings: list[str]
+
+class Prv_bamboohr_BamboohrJob_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    city: str | None
+    state: str | None
+    country: str | None
+    department: str | None
+    employmentStatus: str | None
+    workplace: Literal["onsite"] | Literal["remote"] | Literal["hybrid"] | None
+    url: str
+
 class Prv_banana_republic_BananaRepublicSearchArgs_In(TypedDict):
     query: str
     department: NotRequired[Literal["men"] | Literal["women"]]
@@ -7661,6 +7681,27 @@ class Prv_boydsleep_Boydsleep6ZoneResult_Out(TypedDict):
     weightBandLbs: float
     setupGuideUrl: str
     calibratorUrl: str
+
+class Prv_breezyhq_BreezyhqBoard_Out(TypedDict):
+    company: str
+    companyName: str | None
+    boardUrl: str
+    total: float
+    jobs: list[Prv_breezyhq_BreezyhqJob_Out]
+    warnings: list[str]
+
+class Prv_breezyhq_BreezyhqJob_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    locations: list[str]
+    remote: bool | None
+    remoteDetails: str | None
+    department: str | None
+    employmentType: str | None
+    salary: str | None
+    url: str
+    publishedAt: str | None
 
 class Prv_brius_BriusProviderSearch_Out(TypedDict):
     query: str
@@ -23070,6 +23111,27 @@ class Prv_perennialsandsutherland_TearsheetUrl_Out(TypedDict):
     productId: str
     url: str
 
+class Prv_personio_PersonioBoard_Out(TypedDict):
+    company: str
+    boardUrl: str
+    total: float
+    jobs: list[Prv_personio_PersonioJob_Out]
+    warnings: list[str]
+
+class Prv_personio_PersonioJob_Out(TypedDict):
+    id: str
+    title: str
+    office: str | None
+    additionalOffices: list[str]
+    department: str | None
+    category: str | None
+    employmentType: str | None
+    schedule: str | None
+    seniority: str | None
+    subcompany: str | None
+    url: str
+    createdAt: str | None
+
 class Prv_pilotprotocol_PilotprotocolAppSummary_Out(TypedDict):
     id: str
     name: str
@@ -25790,6 +25852,20 @@ class Prv_rightmove_RightmoveListing_Out(TypedDict):
     summary: str | None
     agent: str | None
     firstListed: str | None
+
+class Prv_rippling_RipplingBoard_Out(TypedDict):
+    board: str
+    boardUrl: str
+    total: float
+    jobs: list[Prv_rippling_RipplingJob_Out]
+    warnings: list[str]
+
+class Prv_rippling_RipplingJob_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    department: str | None
+    url: str
 
 class Prv_rishitea_TeaFinderQuiz_Out(TypedDict):
     quizId: str
@@ -28554,6 +28630,25 @@ class Prv_tatcha_TatchaRitualProduct_Out(TypedDict):
     usageTime: Literal["AM"] | Literal["PM"] | Literal["both"]
     description: str
     inStock: bool
+
+class Prv_teamtailor_TeamtailorBoard_Out(TypedDict):
+    company: str
+    companyName: str | None
+    boardUrl: str
+    total: float
+    jobs: list[Prv_teamtailor_TeamtailorJob_Out]
+    warnings: list[str]
+
+class Prv_teamtailor_TeamtailorJob_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    cities: list[str]
+    countries: list[str]
+    department: str | None
+    remoteStatus: str | None
+    url: str
+    publishedAt: str | None
 
 class Prv_teladoc_teladocPricing_Out(TypedDict):
     source: str
@@ -33923,6 +34018,17 @@ class Prv_zoom_ZoomJoinMeetingResult_Out(TypedDict):
     statusMessage: str | None
     errorCode: str | None
 
+class Prv_zoom_ZoomSearchMarketplaceAppsResult_Out(TypedDict):
+    apps: list[Prv_zoom_ZoomMarketplaceApp_Out]
+
+class Prv_zoom_ZoomMarketplaceApp_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    developer: str
+    categories: list[str]
+    url: str
+
 class Prv_zoom_ZoomMeetingInfo_Out(TypedDict):
     meetingId: str
     topic: NotRequired[str]
@@ -34922,7 +35028,8 @@ class Cap_job_search(Protocol):
     """Open jobs two ways: for a role in a city off Indeed's own regional results page (US,
     Canada, Netherlands), or EVERY open job at one company, live off its own
     applicant-tracking system — Greenhouse, Lever, Ashby, Workable, SmartRecruiters,
-    Recruitee or Workday, detected from the company's site or name.
+    Recruitee, Workday, Teamtailor, BambooHR, Rippling, Personio or Breezy HR, detected from
+    the company's site or name.
     """
 
     async def search(self, args: Cap_job_search_JobSearchArgs_In, /) -> Cap_job_search_job_searchResult_Out:
@@ -34933,12 +35040,13 @@ class Cap_job_search(Protocol):
     async def atCompany(self, args: Cap_job_search_AtCompanyArgs_In, /) -> Cap_job_search_CompanyJobsResult_Out:
         """Every open job at ONE company, read live off its own applicant-tracking system. Give
         `url` (its site "stripe.com", its careers page, or any
-        Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday link) and/or `company`
-        (its name). It follows the company's careers link to find which ATS it uses, and falls
-        back to asking each ATS for a board under the company's name (`detectedBy: "name"` —
-        check `company`). `query` / `location` filter by title/department words and location
-        text. Throws when no supported ATS is found, naming what it checked — an ATS it does not
-        support, or a careers page that loads jobs only in the browser, is the usual reason.
+        Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday/Teamtailor/BambooHR/Rippling/Personio/Breezy
+        link) and/or `company` (its name). It follows the company's careers link to find which
+        ATS it uses, and falls back to asking each ATS for a board under the company's name
+        (`detectedBy: "name"` — check `company`). `query` / `location` filter by
+        title/department words and location text. Throws when no supported ATS is found, naming
+        what it checked — an ATS it does not support, or a careers page that loads jobs only in
+        the browser, is the usual reason.
         """
 
 class Cap_kenya_fuel_prices(Protocol):
@@ -37681,6 +37789,19 @@ class Prv_bahn(Protocol):
         category.
         """
 
+class Prv_bamboohr(Protocol):
+    """Every open job on a company's BambooHR careers page — title, location, department,
+    employment status, on-site/remote/hybrid and link — live off the careers page's own job
+    list.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_bamboohr_BamboohrBoard_Out:
+        """Every open job on one company's BambooHR careers page, live. `company` is the BambooHR
+        subdomain ("kiln"), a {company}.bamboohr.com URL, or the company name. Throws,
+        caller-fixable, when BambooHR has no careers page there — the company may use a
+        different ATS (`bowmark.job_search.atCompany` finds which).
+        """
+
 class Prv_banana_republic(Protocol):
     """Banana Republic (bananarepublic.gap.com, and the Canadian store
     bananarepublic.gapcanada.ca) apparel store. Searches the live catalog (men's/women's,
@@ -38809,6 +38930,18 @@ class Prv_boydsleep(Protocol):
         """Runs Boyd's own 6-zone Smart Support Number calculation — same inputs as the 2-zone
         tool, returns a separate Head/Foot number and a Center (lumbar) number for the 6-zone
         Nautica Home Smart Zone bed.
+        """
+
+class Prv_breezyhq(Protocol):
+    """Every published job on a company's Breezy HR careers portal — title, locations, remote
+    flag, department, type, posted salary and link — live off the portal's own JSON.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_breezyhq_BreezyhqBoard_Out:
+        """Every published position on one company's Breezy HR portal, live. `company` is the
+        Breezy subdomain ("census"), a {company}.breezy.hr URL, or the company name. Throws,
+        caller-fixable, when Breezy has no such portal — the company may use a different ATS
+        (`bowmark.job_search.atCompany` finds which).
         """
 
 class Prv_brius(Protocol):
@@ -49143,6 +49276,18 @@ class Prv_perennialsandsutherland(Protocol):
         no login and no query-string secret.
         """
 
+class Prv_personio(Protocol):
+    """Every open position on a company's Personio job page — title, offices, department,
+    employment type, schedule and link — live off Personio's own documented XML job feed.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_personio_PersonioBoard_Out:
+        """Every open position on one company's Personio job page, live. `company` is the Personio
+        subdomain ("ottonova"), a {company}.jobs.personio.de URL, or the company name. Throws,
+        caller-fixable, when Personio has no such job page — the company may use a different ATS
+        (`bowmark.job_search.atCompany` finds which).
+        """
+
 class Prv_pilotprotocol(Protocol):
     """Pilot Protocol's own app store — a directory of installable agent capabilities (30+
     apps: databases, comms, browser automation, payments, …). listApps returns the whole
@@ -50771,6 +50916,18 @@ class Prv_rightmove(Protocol):
         `hasMore` say how many more exist.
         """
 
+class Prv_rippling(Protocol):
+    """Every open job on a company's Rippling job board — title, location, department and link
+    — live off the JSON the board page itself renders from.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_rippling_RipplingBoard_Out:
+        """Every open job on one company's Rippling job board, live. `company` is the board slug
+        ("swag"), any ats.rippling.com board or job URL, or the company name (folded to a
+        hyphenated slug). Throws, caller-fixable, when Rippling has no board by that name — the
+        company may use a different ATS (`bowmark.job_search.atCompany` finds which).
+        """
+
 class Prv_rishitea(Protocol):
     """Rishi Tea's own "Tea Finder" quiz (Okendo Quizzes) — reads the real question set and
     submits real answers to get back the site's own personalized tea recommendation.
@@ -52248,6 +52405,18 @@ class Prv_tatcha(Protocol):
     async def getPersonalizedRitual(self, skinType: str, benefits: Sequence[str], eyeConcerns: Sequence[str] | None = None, sensitive: bool | None = None, owned: Sequence[str] | None = None, /) -> Prv_tatcha_TatchaRitual_Out:
         """Runs real quiz answers through Tatcha's own personalization backend and returns the real
         AM/PM product ritual it recommends.
+        """
+
+class Prv_teamtailor(Protocol):
+    """Every open job on a company's Teamtailor career site — title, locations, department,
+    remote status, publish date and link — live off the career site's own job feed.
+    """
+
+    async def listJobs(self, company: str, /) -> Prv_teamtailor_TeamtailorBoard_Out:
+        """Every open job on one company's Teamtailor career site, live. `company` is the
+        Teamtailor subdomain ("polestar"), a {company}.teamtailor.com URL, or the company name.
+        Throws, caller-fixable, when Teamtailor has no such career site — the company may use a
+        different ATS (`bowmark.job_search.atCompany` finds which).
         """
 
 class Prv_teladoc(Protocol):
@@ -55572,6 +55741,9 @@ class Prv_zoom(Protocol):
         page
         """
 
+    async def searchMarketplaceApps(self, query: str, /) -> Prv_zoom_ZoomSearchMarketplaceAppsResult_Out:
+        """Search the Zoom Marketplace for apps by keyword"""
+
     async def getMeetingInfo(self, meetingId: str | float, /) -> Prv_zoom_ZoomMeetingInfo_Out:
         """Extract meeting information from the public join page"""
 
@@ -55646,6 +55818,7 @@ class BowmarkProviders(Protocol):
     azazie: Prv_azazie
     azure: Prv_azure
     bahn: Prv_bahn
+    bamboohr: Prv_bamboohr
     banana_republic: Prv_banana_republic
     bankmycell: Prv_bankmycell
     barletta: Prv_barletta
@@ -55682,6 +55855,7 @@ class BowmarkProviders(Protocol):
     borsheims: Prv_borsheims
     boxlunch: Prv_boxlunch
     boydsleep: Prv_boydsleep
+    breezyhq: Prv_breezyhq
     brius: Prv_brius
     brixton: Prv_brixton
     builder_strucsure_com: Prv_builder_strucsure_com
@@ -56006,6 +56180,7 @@ class BowmarkProviders(Protocol):
     paypal: Prv_paypal
     peerspace: Prv_peerspace
     perennialsandsutherland: Prv_perennialsandsutherland
+    personio: Prv_personio
     pilotprotocol: Prv_pilotprotocol
     pinterest: Prv_pinterest
     pirateship: Prv_pirateship
@@ -56041,6 +56216,7 @@ class BowmarkProviders(Protocol):
     reuters: Prv_reuters
     revisionskincare: Prv_revisionskincare
     rightmove: Prv_rightmove
+    rippling: Prv_rippling
     rishitea: Prv_rishitea
     ritani: Prv_ritani
     rivian: Prv_rivian
@@ -56095,6 +56271,7 @@ class BowmarkProviders(Protocol):
     tapfiliate: Prv_tapfiliate
     target: Prv_target
     tatcha: Prv_tatcha
+    teamtailor: Prv_teamtailor
     teladoc: Prv_teladoc
     tenders_go_ke: Prv_tenders_go_ke
     teneohg: Prv_teneohg

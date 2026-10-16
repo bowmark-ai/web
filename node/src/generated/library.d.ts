@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d05d87f33e2977a2a0adfd9e62bfded5d8dc87b68774d3786951164fc2d924be
-// 85 capabilities, 585 providers, 2166 typed functions, 20 refused.
+// Manifest version: 6a3f5d4b43e614bf2049b0ff49ca19d8b2e53220840e95f78ab4e42c23ac5fb5
+// 85 capabilities, 590 providers, 2172 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2781,7 +2781,7 @@ interface CompanyJob {
   salaryCurrency: string | null;
   salaryPeriod: string | null;
   id: string | null;
-  source: string;              // "greenhouse" | "lever" | "ashby" | "workable" | "smartrecruiters" | "recruitee" | "workday"
+  source: string;              // which ATS: "greenhouse" | "lever" | "ashby" | "workable" | "smartrecruiters" | "recruitee" | "workday" | "teamtailor" | "bamboohr" | "rippling" | "personio" | "breezyhq"
 }
 
 interface CompanyJobsResult {
@@ -2807,8 +2807,8 @@ type CallOptions = {
   /**
    * Open jobs two ways: for a role in a city off Indeed's own regional results page (US, Canada,
    * Netherlands), or EVERY open job at one company, live off its own applicant-tracking system —
-   * Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee or Workday, detected from the
-   * company's site or name.
+   * Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Workday, Teamtailor,
+   * BambooHR, Rippling, Personio or Breezy HR, detected from the company's site or name.
    */
   interface Unit {
     /**
@@ -2820,12 +2820,13 @@ type CallOptions = {
     /**
      * Every open job at ONE company, read live off its own applicant-tracking system. Give `url`
      * (its site "stripe.com", its careers page, or any
-     * Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday link) and/or `company`
-     * (its name). It follows the company's careers link to find which ATS it uses, and falls back
-     * to asking each ATS for a board under the company's name (`detectedBy: "name"` — check
-     * `company`). `query` / `location` filter by title/department words and location text. Throws
-     * when no supported ATS is found, naming what it checked — an ATS it does not support, or a
-     * careers page that loads jobs only in the browser, is the usual reason.
+     * Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday/Teamtailor/BambooHR/Rippling/Personio/Breezy
+     * link) and/or `company` (its name). It follows the company's careers link to find which ATS
+     * it uses, and falls back to asking each ATS for a board under the company's name
+     * (`detectedBy: "name"` — check `company`). `query` / `location` filter by title/department
+     * words and location text. Throws when no supported ATS is found, naming what it checked — an
+     * ATS it does not support, or a careers page that loads jobs only in the browser, is the usual
+     * reason.
      */
     atCompany(args: AtCompanyArgs): Promise<CompanyJobsResult>;
   }
@@ -10277,6 +10278,46 @@ interface DisruptionRow {
   }
 }
 
+declare namespace BowmarkProvider_bamboohr {
+  // ── BambooHR — the unit's own declarations, verbatim ──
+interface BamboohrJob {
+  id: string;
+  title: string;
+  location: string | null;   // "Costa Mesa, California"
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  department: string | null;
+  employmentStatus: string | null; // "Full-Time", "Contractor", …
+  workplace: "onsite" | "remote" | "hybrid" | null;
+  url: string;
+}
+
+interface BamboohrBoard {
+  company: string;           // the subdomain, e.g. "kiln"
+  companyName: string | null;
+  boardUrl: string;
+  total: number;
+  jobs: BamboohrJob[];
+  warnings: string[];
+}
+
+  /**
+   * Every open job on a company's BambooHR careers page — title, location, department,
+   * employment status, on-site/remote/hybrid and link — live off the careers page's own job
+   * list.
+   */
+  interface Unit {
+    /**
+     * Every open job on one company's BambooHR careers page, live. `company` is the BambooHR
+     * subdomain ("kiln"), a {company}.bamboohr.com URL, or the company name. Throws,
+     * caller-fixable, when BambooHR has no careers page there — the company may use a different
+     * ATS (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<BamboohrBoard>;
+  }
+}
+
 declare namespace BowmarkProvider_banana_republic {
   // ── Banana Republic — the unit's own declarations, verbatim ──
 interface BananaRepublicSearchArgs {
@@ -13421,6 +13462,46 @@ interface Boydsleep6ZoneResult {
      * Smart Zone bed.
      */
     calibrateSixZoneSupportNumber(input: BoydsleepCalibrationInput): Promise<Boydsleep6ZoneResult>;
+  }
+}
+
+declare namespace BowmarkProvider_breezyhq {
+  // ── Breezy HR — the unit's own declarations, verbatim ──
+interface BreezyhqJob {
+  id: string;
+  title: string;
+  location: string | null;   // the primary location, e.g. "Worldwide"
+  locations: string[];
+  remote: boolean | null;
+  remoteDetails: string | null; // "Fully remote, no location restrictions"
+  department: string | null;
+  employmentType: string | null; // "Full-Time", "Contract", …
+  salary: string | null;     // the employer's own salary text
+  url: string;
+  publishedAt: string | null; // ISO
+}
+
+interface BreezyhqBoard {
+  company: string;           // the subdomain, e.g. "census"
+  companyName: string | null;
+  boardUrl: string;
+  total: number;
+  jobs: BreezyhqJob[];
+  warnings: string[];
+}
+
+  /**
+   * Every published job on a company's Breezy HR careers portal — title, locations, remote flag,
+   * department, type, posted salary and link — live off the portal's own JSON.
+   */
+  interface Unit {
+    /**
+     * Every published position on one company's Breezy HR portal, live. `company` is the Breezy
+     * subdomain ("census"), a {company}.breezy.hr URL, or the company name. Throws,
+     * caller-fixable, when Breezy has no such portal — the company may use a different ATS
+     * (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<BreezyhqBoard>;
   }
 }
 
@@ -41932,6 +42013,46 @@ interface TearsheetUrl {
   }
 }
 
+declare namespace BowmarkProvider_personio {
+  // ── Personio — the unit's own declarations, verbatim ──
+interface PersonioJob {
+  id: string;
+  title: string;
+  office: string | null;     // the main office, e.g. "München"
+  additionalOffices: string[];
+  department: string | null;
+  category: string | null;   // Personio's recruiting category
+  employmentType: string | null; // "permanent", "intern", "freelance", …
+  schedule: string | null;   // "full-time" | "part-time" | "full-or-part-time"
+  seniority: string | null;
+  subcompany: string | null; // the legal entity advertising it
+  url: string;
+  createdAt: string | null;  // ISO
+}
+
+interface PersonioBoard {
+  company: string;           // the subdomain, e.g. "ottonova"
+  boardUrl: string;
+  total: number;
+  jobs: PersonioJob[];
+  warnings: string[];
+}
+
+  /**
+   * Every open position on a company's Personio job page — title, offices, department,
+   * employment type, schedule and link — live off Personio's own documented XML job feed.
+   */
+  interface Unit {
+    /**
+     * Every open position on one company's Personio job page, live. `company` is the Personio
+     * subdomain ("ottonova"), a {company}.jobs.personio.de URL, or the company name. Throws,
+     * caller-fixable, when Personio has no such job page — the company may use a different ATS
+     * (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<PersonioBoard>;
+  }
+}
+
 declare namespace BowmarkProvider_pilotprotocol {
   // ── Pilot Protocol App Store — the unit's own declarations, verbatim ──
 interface PilotprotocolAppSummary {
@@ -46178,6 +46299,39 @@ interface RightmoveSearchResult {
      * many more exist.
      */
     search(args: { location: string, type: 'sale' | 'rent', minPrice?: number, maxPrice?: number, minBedrooms?: number, maxBedrooms?: number, page?: number }): Promise<RightmoveSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_rippling {
+  // ── Rippling — the unit's own declarations, verbatim ──
+interface RipplingJob {
+  id: string;                // the job's uuid
+  title: string;
+  location: string | null;   // the board's own label, e.g. "Houston, TX"
+  department: string | null;
+  url: string;
+}
+
+interface RipplingBoard {
+  board: string;             // the slug, e.g. "swag"
+  boardUrl: string;
+  total: number;
+  jobs: RipplingJob[];
+  warnings: string[];
+}
+
+  /**
+   * Every open job on a company's Rippling job board — title, location, department and link —
+   * live off the JSON the board page itself renders from.
+   */
+  interface Unit {
+    /**
+     * Every open job on one company's Rippling job board, live. `company` is the board slug
+     * ("swag"), any ats.rippling.com board or job URL, or the company name (folded to a hyphenated
+     * slug). Throws, caller-fixable, when Rippling has no board by that name — the company may use
+     * a different ATS (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<RipplingBoard>;
   }
 }
 
@@ -50788,6 +50942,44 @@ interface TatchaRitual {
      * AM/PM product ritual it recommends.
      */
     getPersonalizedRitual(skinType: string, benefits: string[], eyeConcerns?: string[], sensitive?: boolean, owned?: string[]): Promise<TatchaRitual>;
+  }
+}
+
+declare namespace BowmarkProvider_teamtailor {
+  // ── Teamtailor — the unit's own declarations, verbatim ──
+interface TeamtailorJob {
+  id: string;
+  title: string;
+  location: string | null;   // every listed location, "; "-joined
+  cities: string[];
+  countries: string[];
+  department: string | null;
+  remoteStatus: string | null; // "none" | "onsite" | "hybrid" | "fully"
+  url: string;
+  publishedAt: string | null;  // ISO
+}
+
+interface TeamtailorBoard {
+  company: string;           // the subdomain, e.g. "polestar"
+  companyName: string | null;
+  boardUrl: string;
+  total: number;
+  jobs: TeamtailorJob[];
+  warnings: string[];
+}
+
+  /**
+   * Every open job on a company's Teamtailor career site — title, locations, department, remote
+   * status, publish date and link — live off the career site's own job feed.
+   */
+  interface Unit {
+    /**
+     * Every open job on one company's Teamtailor career site, live. `company` is the Teamtailor
+     * subdomain ("polestar"), a {company}.teamtailor.com URL, or the company name. Throws,
+     * caller-fixable, when Teamtailor has no such career site — the company may use a different
+     * ATS (`bowmark.job_search.atCompany` finds which).
+     */
+    listJobs(company: string): Promise<TeamtailorBoard>;
   }
 }
 
@@ -59765,6 +59957,19 @@ interface ZoomJoinMeetingResult {
   errorCode: string | null; // the site's own error code, e.g. "3,001", null when joinable
 }
 
+interface ZoomMarketplaceApp {
+  id: string;
+  name: string;
+  description: string;
+  developer: string;
+  categories: string[]; // the site's own category labels, e.g. ["Other", "Recordings"]
+  url: string; // derived from the app's id, following the site's own app-detail URL convention
+}
+
+interface ZoomSearchMarketplaceAppsResult {
+  apps: ZoomMarketplaceApp[];
+}
+
 interface ZoomMeetingInfo {
   meetingId: string;
   topic?: string;
@@ -59781,6 +59986,9 @@ interface ZoomMeetingInfo {
 
     /** Check whether a Zoom meeting link is valid and joinable, reading the site's own join page */
     joinMeeting(meetingId: string | number): Promise<ZoomJoinMeetingResult>;
+
+    /** Search the Zoom Marketplace for apps by keyword */
+    searchMarketplaceApps(query: string): Promise<ZoomSearchMarketplaceAppsResult>;
 
     /** Extract meeting information from the public join page */
     getMeetingInfo(meetingId: string | number): Promise<ZoomMeetingInfo>;
@@ -60768,6 +60976,7 @@ interface BowmarkProviders {
   azazie: BowmarkProvider_azazie.Unit;
   azure: BowmarkProvider_azure.Unit;
   bahn: BowmarkProvider_bahn.Unit;
+  bamboohr: BowmarkProvider_bamboohr.Unit;
   banana_republic: BowmarkProvider_banana_republic.Unit;
   bankmycell: BowmarkProvider_bankmycell.Unit;
   barletta: BowmarkProvider_barletta.Unit;
@@ -60804,6 +61013,7 @@ interface BowmarkProviders {
   borsheims: BowmarkProvider_borsheims.Unit;
   boxlunch: BowmarkProvider_boxlunch.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;
+  breezyhq: BowmarkProvider_breezyhq.Unit;
   brius: BowmarkProvider_brius.Unit;
   brixton: BowmarkProvider_brixton.Unit;
   builder_strucsure_com: BowmarkProvider_builder_strucsure_com.Unit;
@@ -61128,6 +61338,7 @@ interface BowmarkProviders {
   paypal: BowmarkProvider_paypal.Unit;
   peerspace: BowmarkProvider_peerspace.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
+  personio: BowmarkProvider_personio.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
   pinterest: BowmarkProvider_pinterest.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
@@ -61163,6 +61374,7 @@ interface BowmarkProviders {
   reuters: BowmarkProvider_reuters.Unit;
   revisionskincare: BowmarkProvider_revisionskincare.Unit;
   rightmove: BowmarkProvider_rightmove.Unit;
+  rippling: BowmarkProvider_rippling.Unit;
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
   rivian: BowmarkProvider_rivian.Unit;
@@ -61217,6 +61429,7 @@ interface BowmarkProviders {
   tapfiliate: BowmarkProvider_tapfiliate.Unit;
   target: BowmarkProvider_target.Unit;
   tatcha: BowmarkProvider_tatcha.Unit;
+  teamtailor: BowmarkProvider_teamtailor.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
   tenders_go_ke: BowmarkProvider_tenders_go_ke.Unit;
   teneohg: BowmarkProvider_teneohg.Unit;

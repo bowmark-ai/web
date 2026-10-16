@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d05d87f33e2977a2a0adfd9e62bfded5d8dc87b68774d3786951164fc2d924be
-// 2148 checked, 20 unchecked.
+// Manifest version: 6a3f5d4b43e614bf2049b0ff49ca19d8b2e53220840e95f78ab4e42c23ac5fb5
+// 2154 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d05d87f33e2977a2a0adfd9e62bfded5d8dc87b68774d3786951164fc2d924be",
+  "version": "6a3f5d4b43e614bf2049b0ff49ca19d8b2e53220840e95f78ab4e42c23ac5fb5",
   "units": {
     "address_validation": {
       "defs": {
@@ -11015,6 +11015,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.bamboohr": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.banana_republic": {
       "defs": {
         "BananaRepublicSearchArgs": {
@@ -14142,6 +14156,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BoydsleepCalibrationInput"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.breezyhq": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -44299,6 +44327,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.personio": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.pilotprotocol": {
       "defs": {},
       "functions": {
@@ -52035,6 +52077,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.rippling": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.rishitea": {
       "defs": {
         "TeaFinderAnswerInput": {
@@ -57174,6 +57230,20 @@ export const VALIDATORS: ValidatorTable = {
               }
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.teamtailor": {
+      "defs": {},
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -67878,6 +67948,15 @@ export const VALIDATORS: ValidatorTable = {
                   "k": "number"
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "searchMarketplaceApps": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -3825,7 +3825,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.downloadRecording` | zoom.us | Returns the download URL for a recording video file. | ⚪ |
 | `zoom.getContactInfo` | zoom.us | Returns details of one contact. | ⚪ |
 | `zoom.getContacts` | zoom.us | The signed-in caller's contact list. | ⚪ |
-| `zoom.getMarketplaceApp` | zoom.us | Returns details of one Zoom Marketplace app. | ⚪ |
+| `zoom.getMarketplaceApp` | zoom.us | Returns details of one Zoom Marketplace app. | 🟢 |
 | `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | ⚪ |
 | `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | 🟢 |
 | `zoom.getMeetingParticipants` | zoom.us | Lists participants of a meeting (if in progress). | ⚪ |
