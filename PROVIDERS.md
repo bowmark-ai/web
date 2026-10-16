@@ -101,11 +101,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.trackOrder` | alibaba.com | Get shipment tracking information and current delivery status. | ⚪ |
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
-| `aliexpress.addToCart` | aliexpress.us | Adds a product to the user's shopping cart. | 🟢 |
-| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | 🟢 |
-| `aliexpress.getStore` | aliexpress.us | Retrieves seller/store information including store name, ratings, product count, and… | 🟢 |
-| `aliexpress.listCart` | aliexpress.us | Lists items currently in the user's shopping cart. | 🟢 |
-| `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | 🟢 |
+| `aliexpress.addToCart` | aliexpress.us | Adds a product to the user's shopping cart. | ⚪ |
+| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | ⚪ |
+| `aliexpress.getStore` | aliexpress.us | Retrieves seller/store information including store name, ratings, product count, and… | ⚪ |
+| `aliexpress.listCart` | aliexpress.us | Lists items currently in the user's shopping cart. | ⚪ |
+| `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | ⚪ |
 | `aliexpress.listOrders` | aliexpress.us | Lists the user's purchase history and order status. | ⚪ |
 | `aliexpress.listWishlist` | aliexpress.us | Lists products in the user's wishlist. | ⚪ |
 | `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟡 |
@@ -2730,16 +2730,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `raadvanstate_nl.searchRulings` | raadvanstate.nl | Searches the Council of State's case register (raadvanstate.nl/uitspraken) by keyword… | 🟢 |
 | `recruitee.listJobs` | recruitee.com | Lists every published offer on one company's Recruitee careers site — title, location… | 🟢 |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
-| `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | 🟡 |
+| `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | 🟢 |
 | `reddit.browseSubreddits` | reddit.com | Lists communities without a query — Reddit's own most-popular and newest communities… | 🟢 |
-| `reddit.createSubreddit` | reddit.com | Creates a new community owned by the signed-in caller — name, description, and public… | 🟡 |
-| `reddit.deletePostOrComment` | reddit.com | Deletes the signed-in caller's own post or comment. | 🟡 |
-| `reddit.editPostOrComment` | reddit.com | Edits the text of the signed-in caller's own post or comment. | 🟡 |
+| `reddit.createSubreddit` | reddit.com | Creates a new community owned by the signed-in caller — name, description, and public… | 🟢 |
+| `reddit.deletePostOrComment` | reddit.com | Deletes the signed-in caller's own post or comment. | 🟢 |
+| `reddit.editPostOrComment` | reddit.com | Edits the text of the signed-in caller's own post or comment. | 🟢 |
 | `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | 🟢 |
-| `reddit.followUser` | reddit.com | Follows or unfollows a redditor as the signed-in caller, so their posts reach the… | 🟡 |
+| `reddit.followUser` | reddit.com | Follows or unfollows a redditor as the signed-in caller, so their posts reach the… | 🟢 |
 | `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | 🟢 |
-| `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | 🟡 |
-| `reddit.getMyAccount` | reddit.com | Returns the signed-in caller's own account — username, karma, account age, whether… | 🟡 |
+| `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | 🟢 |
+| `reddit.getMyAccount` | reddit.com | Returns the signed-in caller's own account — username, karma, account age, whether… | 🟢 |
 | `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟢 |
 | `reddit.getSubreddit` | reddit.com | Returns the facts about one community rather than its content — the subreddit's title… | 🟢 |
 | `reddit.getSubredditPosts` | reddit.com | Returns a community's own front page — the submissions in one subreddit under a chosen… | 🟢 |
@@ -2749,28 +2749,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reddit.getUserPosts` | reddit.com | Returns the submissions one redditor has made, newest or top first, with the same… | 🟢 |
 | `reddit.getWikiPage` | reddit.com | Returns a subreddit's wiki page — the community-maintained reference behind most large… | 🟢 |
 | `reddit.giveAward` | reddit.com | Gives an award to a post or comment as the signed-in caller. | ⚪ |
-| `reddit.hidePost` | reddit.com | Hides or un-hides a post from the signed-in caller's feeds. | 🟡 |
-| `reddit.joinSubreddit` | reddit.com | Joins a community as the signed-in caller, so its posts reach their home feed. | 🟡 |
-| `reddit.leaveSubreddit` | reddit.com | Leaves a community the signed-in caller has joined. | 🟡 |
-| `reddit.listInbox` | reddit.com | Reads the signed-in caller's inbox — replies to their posts and comments, username… | 🟡 |
-| `reddit.listMySubscriptions` | reddit.com | Lists the communities the signed-in caller has joined. | 🟡 |
-| `reddit.listPostFlairs` | reddit.com | Lists the post flairs a community offers, with their ids — the door `submitPost` needs… | 🟡 |
-| `reddit.listSaved` | reddit.com | Lists the posts and comments the signed-in caller has saved. | 🟡 |
+| `reddit.hidePost` | reddit.com | Hides or un-hides a post from the signed-in caller's feeds. | 🟢 |
+| `reddit.joinSubreddit` | reddit.com | Joins a community as the signed-in caller, so its posts reach their home feed. | 🟢 |
+| `reddit.leaveSubreddit` | reddit.com | Leaves a community the signed-in caller has joined. | 🟢 |
+| `reddit.listInbox` | reddit.com | Reads the signed-in caller's inbox — replies to their posts and comments, username… | 🟢 |
+| `reddit.listMySubscriptions` | reddit.com | Lists the communities the signed-in caller has joined. | 🟢 |
+| `reddit.listPostFlairs` | reddit.com | Lists the post flairs a community offers, with their ids — the door `submitPost` needs… | 🟢 |
+| `reddit.listSaved` | reddit.com | Lists the posts and comments the signed-in caller has saved. | 🟢 |
 | `reddit.listWikiPages` | reddit.com | Lists the pages of one subreddit's wiki — the index a caller needs before… | 🟢 |
-| `reddit.postComment` | reddit.com | Comments on a post as the signed-in caller and returns the new comment's permalink. | 🟡 |
-| `reddit.replyToComment` | reddit.com | Replies to a comment as the signed-in caller and returns the new reply's permalink. | 🟡 |
-| `reddit.reportPostOrComment` | reddit.com | Reports a post or comment to a community's moderators, as the signed-in caller, under… | 🟡 |
-| `reddit.savePostOrComment` | reddit.com | Saves a post or comment to the signed-in caller's Saved list. | 🟡 |
+| `reddit.postComment` | reddit.com | Comments on a post as the signed-in caller and returns the new comment's permalink. | 🟢 |
+| `reddit.replyToComment` | reddit.com | Replies to a comment as the signed-in caller and returns the new reply's permalink. | 🟢 |
+| `reddit.reportPostOrComment` | reddit.com | Reports a post or comment to a community's moderators, as the signed-in caller, under… | 🟢 |
+| `reddit.savePostOrComment` | reddit.com | Saves a post or comment to the signed-in caller's Saved list. | 🟢 |
 | `reddit.search` | reddit.com | Searches Reddit's posts for a query — across the whole site or scoped to one subreddit… | 🟢 |
 | `reddit.searchComments` | reddit.com | Searches the text of comments rather than posts, returning each match with its body… | ⚪ |
 | `reddit.searchSubreddits` | reddit.com | Finds communities by topic — a query goes in, matching subreddits come out with their… | 🟢 |
 | `reddit.searchUsers` | reddit.com | Finds redditors by name — a partial or remembered username goes in, matching accounts… | 🟢 |
-| `reddit.sendDirectMessage` | reddit.com | Sends a direct message (Reddit chat) from the signed-in caller to another redditor. | 🟡 |
-| `reddit.setProfilePicture` | reddit.com | Uploads an image as the signed-in caller's profile picture. | 🟡 |
-| `reddit.submitPost` | reddit.com | Posts to a community as the signed-in caller — a text post, a link, an image, or a… | 🟡 |
-| `reddit.unsavePostOrComment` | reddit.com | Removes a post or comment from the signed-in caller's Saved list. | 🟡 |
-| `reddit.updateProfile` | reddit.com | Changes the signed-in caller's public profile — display name and the 'about' bio. | 🟡 |
-| `reddit.vote` | reddit.com | Upvotes, downvotes or clears the caller's vote on a post or a comment, as the… | 🟡 |
+| `reddit.sendDirectMessage` | reddit.com | Sends a direct message (Reddit chat) from the signed-in caller to another redditor. | 🟢 |
+| `reddit.setProfilePicture` | reddit.com | Uploads an image as the signed-in caller's profile picture. | 🟢 |
+| `reddit.submitPost` | reddit.com | Posts to a community as the signed-in caller — a text post, a link, an image, or a… | 🟢 |
+| `reddit.unsavePostOrComment` | reddit.com | Removes a post or comment from the signed-in caller's Saved list. | 🟢 |
+| `reddit.updateProfile` | reddit.com | Changes the signed-in caller's public profile — display name and the 'about' bio. | 🟢 |
+| `reddit.vote` | reddit.com | Upvotes, downvotes or clears the caller's vote on a post or a comment, as the… | 🟢 |
 | `rei.addToCart` | rei.com | Adds a SKU to the visitor's cart. | ⚪ |
 | `rei.findStores` | rei.com | Finds REI stores near a location, with hours. | ⚪ |
 | `rei.getProduct` | rei.com | Reads one REI product by name or keyword: its price, product-level availability and… | 🟢 |
