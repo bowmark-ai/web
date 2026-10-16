@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: aafe407b2eae7cb8ce7c495efede9f5bfbdc524fdaa41fdfd43058a376cb1a75
-// 2148 checked, 20 unchecked.
+// Manifest version: f1860168bd5cc6ffae96163fefdc601d5d132b94e5606423d5f3c13de7f82d5f
+// 2150 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "aafe407b2eae7cb8ce7c495efede9f5bfbdc524fdaa41fdfd43058a376cb1a75",
+  "version": "f1860168bd5cc6ffae96163fefdc601d5d132b94e5606423d5f3c13de7f82d5f",
   "units": {
     "address_validation": {
       "defs": {
@@ -7086,6 +7086,15 @@ export const VALIDATORS: ValidatorTable = {
         "getFont": [
           {
             "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchTemplates": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },
@@ -44163,6 +44172,31 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "PaypalPolicyDocumentKey": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "user-agreement"
+            },
+            {
+              "k": "literal",
+              "v": "seller-protection"
+            },
+            {
+              "k": "literal",
+              "v": "privacy"
+            },
+            {
+              "k": "literal",
+              "v": "balance-terms"
+            },
+            {
+              "k": "literal",
+              "v": "cryptocurrency-terms"
+            }
+          ]
         }
       },
       "functions": {
@@ -44192,6 +44226,25 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "PaypalGetCurrencyConversionQuoteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPolicyDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "documentKey",
+                  "schema": {
+                    "k": "ref",
+                    "name": "PaypalPolicyDocumentKey"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

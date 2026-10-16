@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: aafe407b2eae7cb8ce7c495efede9f5bfbdc524fdaa41fdfd43058a376cb1a75
-// 85 capabilities, 585 providers, 2166 typed functions, 20 refused.
+// Manifest version: f1860168bd5cc6ffae96163fefdc601d5d132b94e5606423d5f3c13de7f82d5f
+// 85 capabilities, 585 providers, 2168 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6174,6 +6174,14 @@ interface FontDetail {
   }>;
 }
 
+interface ExpressTemplate {
+  id: string;
+  title: string;
+  thumbnail: string;
+  category: string;
+  isPremium: boolean;
+}
+
 interface adobeRow {
   id: string;
 }
@@ -6212,6 +6220,13 @@ interface adobeRow {
      * and suggested pairings — from a font slug from searchFonts.
      */
     getFont(slug: string): Promise<FontDetail>;
+
+    /**
+     * Searches Adobe Express (new.express.adobe.com) templates by free text and format/category,
+     * returning each template's id, title, thumbnail URL, category and whether it is free or
+     * Premium.
+     */
+    searchTemplates(query: string): Promise<ExpressTemplate[]>;
   }
 }
 
@@ -15266,10 +15281,11 @@ interface carsVehicleValue {
     getListing(listingId: string): Promise<carsListing>;
 
     /**
-     * Reads Cars.com's research overview for one year/make/model: starting MSRP, body style,
-     * drivetrain, seating and combined mpg, the trim levels offered, the site's own aggregate
-     * consumer rating, its expert review's headline/pros/cons, and what changed for that model
-     * year — null/absent exactly where cars.com's own page shows nothing for it.
+     * Reads Cars.com's research overview for one year/make/model: starting price (or, for a model
+     * year no longer on sale, the average listing price), body style, drivetrain, seating and mpg,
+     * the trim levels offered, the site's own aggregate consumer rating, its expert review's
+     * headline/pros/cons, and what changed for that model year — null/absent exactly where
+     * cars.com's own page shows nothing for it.
      */
     getModelResearch(args: { make: string; model: string; year: number }): Promise<carsModelResearch>;
 
@@ -17704,20 +17720,20 @@ interface ConsultnetJobSearchQuery {
 
 declare namespace BowmarkProvider_costco {
   // ── Costco — the unit's own declarations, verbatim ──
-interface CostcoProduct {
-  itemNumber: string;
-  title: string;
-  brand: string | null;
-  imageUrl: string | null;
+interface CostcoSearchSuggestion {
+  term: string;
 }
 
-  /** Search Costco's product catalog by keyword. */
+  /** Costco's own search-bar autocomplete suggestions for a typed term. */
   interface Unit {
     /**
-     * Runs a search on Costco's product catalog and returns matching items (title, brand, item
-     * number, image). Does not return price — see the module header.
+     * Costco's own search-bar autocomplete suggestions for a typed term — real phrases Costco's
+     * search would suggest, not a product listing. The site's product-search and pricing door is
+     * Apigee-gated and 403s even with every header the homepage publishes for it (re-measured
+     * 2026-10-16); no item number, brand, image or price rides with a suggestion. See the module
+     * header for what changed and why.
      */
-    search(query: string): Promise<CostcoProduct[]>;
+    search(query: string): Promise<CostcoSearchSuggestion[]>;
   }
 }
 
@@ -41808,6 +41824,25 @@ interface PaypalCurrencyConversionQuote {
   paypalSpread: number;         // 0.04 for goodsOrServices/personal/payouts; 0.03 for "other"
   citations: { paypal: PaypalCurrencyConversionCitation };
 }
+type PaypalPolicyDocumentKey = "user-agreement" | "seller-protection" | "privacy" | "balance-terms" | "cryptocurrency-terms";
+interface PaypalPolicySection {
+  id: string;
+  title: string;
+  subsections?: PaypalPolicySubsection[];
+  content?: string;
+}
+interface PaypalPolicySubsection {
+  id: string;
+  title: string;
+  content?: string;
+}
+interface PaypalPolicyDocument {
+  documentKey: PaypalPolicyDocumentKey;
+  title: string;
+  lastModified: string;
+  sections: PaypalPolicySection[];
+  sourceUrl: string;
+}
 
   /**
    * PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules, the
@@ -41847,6 +41882,16 @@ interface PaypalCurrencyConversionQuote {
      * single provider's. consumer / us only today.
      */
     getCurrencyConversionQuote(args: PaypalGetCurrencyConversionQuoteArgs): Promise<PaypalCurrencyConversionQuote>;
+
+    /**
+     * Reads one of PayPal's binding policy documents from the legal hub — the User Agreement,
+     * Seller Protection terms, privacy statement, balance terms, or cryptocurrency terms — as
+     * structured sections rather than a wall of prose, e.g. getPolicyDocument({ documentKey:
+     * "user-agreement" }) -> { documentKey: "user-agreement", title: "User Agreement",
+     * lastModified: "2026-...", sections: [...] }. Returns the document key (enumerated), title,
+     * last-modified date, and a sections tree with subsections and content.
+     */
+    getPolicyDocument(args: { documentKey: PaypalPolicyDocumentKey }): Promise<PaypalPolicyDocument>;
   }
 }
 

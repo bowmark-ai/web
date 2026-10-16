@@ -3603,7 +3603,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getCurrentUser` | wikipedia.org | Who the caller is signed in as on Wikipedia — username, user id, edit count, the… | 🟢 |
 | `wikipedia.getFeaturedContent` | wikipedia.org | Wikipedia's own front page for a given date, as data — the featured article, the… | 🟢 |
 | `wikipedia.getImage` | wikipedia.org | One media file's real details — the full-size url, dimensions, MIME type, and the… | 🟢 |
-| `wikipedia.getInfobox` | wikipedia.org | The grey fact box at the top right of an article, as key/value pairs a caller can… | 🟡 |
+| `wikipedia.getInfobox` | wikipedia.org | The grey fact box at the top right of an article, as key/value pairs a caller can… | 🟢 |
 | `wikipedia.getOnThisDay` | wikipedia.org | What happened on this calendar day in history, according to Wikipedia — events… | 🟢 |
 | `wikipedia.getPageviews` | wikipedia.org | How many people actually read an article, per day, over a date range — the closest… | 🟢 |
 | `wikipedia.getRandomArticle` | wikipedia.org | A genuinely random Wikipedia article — title, url, description, extract and thumbnail. | 🟢 |

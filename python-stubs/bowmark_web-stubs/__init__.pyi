@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: aafe407b2eae7cb8ce7c495efede9f5bfbdc524fdaa41fdfd43058a376cb1a75
-# 85 capabilities, 585 providers, 2148 typed functions, 20 refused.
+# Manifest version: f1860168bd5cc6ffae96163fefdc601d5d132b94e5606423d5f3c13de7f82d5f
+# 85 capabilities, 585 providers, 2150 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3447,6 +3447,13 @@ class Prv_adobe_FontDetail_Out_licensing_Out(TypedDict):
 class Prv_adobe_FontDetail_Out_suggestedPairings_item_Out(TypedDict):
     slug: str
     name: str
+
+class Prv_adobe_ExpressTemplate_Out(TypedDict):
+    id: str
+    title: str
+    thumbnail: str
+    category: str
+    isPremium: bool
 
 class Prv_agakhanhospitals_getHospitalInfo_location_u1_In(TypedDict):
     location: str
@@ -9979,11 +9986,8 @@ class Prv_consultnet_ConsultnetJob_Out(TypedDict):
     url: str
     description: str
 
-class Prv_costco_CostcoProduct_Out(TypedDict):
-    itemNumber: str
-    title: str
-    brand: str | None
-    imageUrl: str | None
+class Prv_costco_CostcoSearchSuggestion_Out(TypedDict):
+    term: str
 
 class Prv_countycourt_vic_gov_au_CountycourtHearing_Out(TypedDict):
     list: Literal["crime-and-appeals"] | Literal["civil"] | Literal["circuit"]
@@ -23043,6 +23047,27 @@ class Prv_paypal_PaypalCurrencyConversionCitation_Out(TypedDict):
     documentId: str
     feeDataKey: str
     internalName: str
+
+class Prv_paypal_getPolicyDocument_args_In(TypedDict):
+    documentKey: Literal["user-agreement"] | Literal["seller-protection"] | Literal["privacy"] | Literal["balance-terms"] | Literal["cryptocurrency-terms"]
+
+class Prv_paypal_PaypalPolicyDocument_Out(TypedDict):
+    documentKey: Literal["user-agreement"] | Literal["seller-protection"] | Literal["privacy"] | Literal["balance-terms"] | Literal["cryptocurrency-terms"]
+    title: str
+    lastModified: str
+    sections: list[Prv_paypal_PaypalPolicySection_Out]
+    sourceUrl: str
+
+class Prv_paypal_PaypalPolicySection_Out(TypedDict):
+    id: str
+    title: str
+    subsections: NotRequired[list[Prv_paypal_PaypalPolicySubsection_Out]]
+    content: NotRequired[str]
+
+class Prv_paypal_PaypalPolicySubsection_Out(TypedDict):
+    id: str
+    title: str
+    content: NotRequired[str]
 
 class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
     city: str
@@ -36192,6 +36217,12 @@ class Prv_adobe(Protocol):
         foundry-licensed), and suggested pairings — from a font slug from searchFonts.
         """
 
+    async def searchTemplates(self, query: str, /) -> list[Prv_adobe_ExpressTemplate_Out]:
+        """Searches Adobe Express (new.express.adobe.com) templates by free text and
+        format/category, returning each template's id, title, thumbnail URL, category and
+        whether it is free or Premium.
+        """
+
 class Prv_agakhanhospitals(Protocol):
     """Reads the Aga Khan Hospital, Kisumu (AKHK)'s public contact info, department leadership
     and full specialty-clinic catalog straight off agakhanhospitals.org's own Next.js page
@@ -39459,10 +39490,11 @@ class Prv_cars(Protocol):
         """
 
     async def getModelResearch(self, args: Prv_cars_getModelResearch_args_In, /) -> Prv_cars_carsModelResearch_Out:
-        """Reads Cars.com's research overview for one year/make/model: starting MSRP, body style,
-        drivetrain, seating and combined mpg, the trim levels offered, the site's own aggregate
-        consumer rating, its expert review's headline/pros/cons, and what changed for that model
-        year — null/absent exactly where cars.com's own page shows nothing for it.
+        """Reads Cars.com's research overview for one year/make/model: starting price (or, for a
+        model year no longer on sale, the average listing price), body style, drivetrain,
+        seating and mpg, the trim levels offered, the site's own aggregate consumer rating, its
+        expert review's headline/pros/cons, and what changed for that model year — null/absent
+        exactly where cars.com's own page shows nothing for it.
         """
 
     async def getVehicleValue(self, args: Prv_cars_getVehicleValue_args_In, /) -> Prv_cars_carsVehicleValue_Out:
@@ -40329,11 +40361,14 @@ class Prv_consultnet(Protocol):
         """
 
 class Prv_costco(Protocol):
-    """Search Costco's product catalog by keyword."""
+    """Costco's own search-bar autocomplete suggestions for a typed term."""
 
-    async def search(self, query: str, /) -> list[Prv_costco_CostcoProduct_Out]:
-        """Runs a search on Costco's product catalog and returns matching items (title, brand, item
-        number, image). Does not return price — see the module header.
+    async def search(self, query: str, /) -> list[Prv_costco_CostcoSearchSuggestion_Out]:
+        """Costco's own search-bar autocomplete suggestions for a typed term — real phrases
+        Costco's search would suggest, not a product listing. The site's product-search and
+        pricing door is Apigee-gated and 403s even with every header the homepage publishes for
+        it (re-measured 2026-10-16); no item number, brand, image or price rides with a
+        suggestion. See the module header for what changed and why.
         """
 
 class Prv_countycourt_vic_gov_au(Protocol):
@@ -49103,6 +49138,15 @@ class Prv_paypal(Protocol):
         wholesale base rate, so this function returns only the spread; combining it with a base
         rate from another provider (e.g. bowmark.providers.oanda.convertCurrency) is the
         capability tier's job, not a single provider's. consumer / us only today.
+        """
+
+    async def getPolicyDocument(self, args: Prv_paypal_getPolicyDocument_args_In, /) -> Prv_paypal_PaypalPolicyDocument_Out:
+        """Reads one of PayPal's binding policy documents from the legal hub — the User Agreement,
+        Seller Protection terms, privacy statement, balance terms, or cryptocurrency terms — as
+        structured sections rather than a wall of prose, e.g. getPolicyDocument({ documentKey:
+        "user-agreement" }) -> { documentKey: "user-agreement", title: "User Agreement",
+        lastModified: "2026-...", sections: [...] }. Returns the document key (enumerated),
+        title, last-modified date, and a sections tree with subsections and content.
         """
 
 class Prv_peerspace(Protocol):
