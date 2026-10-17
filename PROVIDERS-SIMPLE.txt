@@ -380,6 +380,7 @@ mail.aol.com — aol_mail: deleteMessage, getAccountProfile, getMessage, listFol
 mail.yahoo.com — yahoo_mail: deleteMessage, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage
 mailchimp.com — mailchimp: getPlanPricing
 mango.com — mango: addToCart, getProduct, listCategories, searchProducts
+marianatek.com — marianatek: bookAppointment, bookClass, buyPricingOption, cancelMembership, cancelReservation, changeSpot, findStudio, getClass, getLocation, getMyAccount, getMyReservation, joinWaitlist, listAppointmentCategories, listAppointmentServices, listAppointmentSlots, listClasses, listClassPaymentOptions, listClassSpots, listLocations, listMyAppointments, listMyCredits, listMyMemberships, listMyOrders, listMyReservations, listMyWaivers, listPricing, listRegions, listScheduleFilters, setProfileImage, updateCommunicationPreferences, updateMyAccount
 marketplace.visualstudio.com — marketplace_visualstudio: getExtensionStats, searchExtensions
 marketplace.vts.com — vts_marketplace: getListing, listMarkets, searchListings
 marriott.com — marriott: findHotels, getAwardAvailability, getDeals, getHotelDetails, getReservation, search

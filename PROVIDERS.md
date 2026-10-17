@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4002 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4033 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -924,11 +924,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `credibly_com.getEligibilityRequirements` | credibly.com | Reads Credibly's own published eligibility requirements (time in business, credit… | 🟢 |
 | `cruiselakegeneva.getTour` | cruiselakegeneva.com | Reads one tour's own detail page: full pricing (adult/child/group tiers), duration… | 🟢 |
 | `cruiselakegeneva.listTours` | cruiselakegeneva.com | Lists Cruise Lake Geneva's current tour lineup — every narrated/dining/seasonal boat… | 🟢 |
-| `crunchbase.getFundingRounds` | crunchbase.com | Lists one company's funding rounds — announced date, round type, money raised and lead… | ⚪ |
-| `crunchbase.getOrganization` | crunchbase.com | Reads one company's Crunchbase profile at `/organization/<slug>` — name, website… | ⚪ |
+| `crunchbase.getFundingRounds` | crunchbase.com | Lists one company's funding rounds — announced date, round type, money raised, lead… | 🟢 |
+| `crunchbase.getOrganization` | crunchbase.com | Reads one company's Crunchbase profile at `/organization/<slug>` — name, website… | 🟢 |
 | `crunchbase.recentFundingRounds` | crunchbase.com | The week's 10 biggest announced funding rounds raised by U.S.-based startups, read off… | 🟢 |
 | `crunchbase.searchNews` | crunchbase.com | Searches Crunchbase News for a company or topic, newest first, through the newsroom's… | 🟢 |
-| `crunchbase.searchOrganizations` | crunchbase.com | Finds companies by name the way the site's header search does — Crunchbase's own… | ⚪ |
+| `crunchbase.searchOrganizations` | crunchbase.com | Finds companies by name the way the site's header search does — Crunchbase's own… | 🟢 |
 | `culturefly.buildCultureFlyCheckoutLink` | culturefly.com | Resolves a chosen size + cadence against getCultureFlyBoxOptions and returns the exact… | 🟢 |
 | `culturefly.getCultureFlyBoxOptions` | culturefly.com | Reads one box's full configure surface off its own product page — every apparel size… | 🟢 |
 | `culturefly.listCultureFlyBoxes` | culturefly.com | Reads the live CultureFly catalogue for exactly the licensed subscription-box product… | 🟢 |
@@ -2322,6 +2322,37 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mango.getProduct` | mango.com | Reads one Mango product's colors and sizes with each color's price, compare-at price… | 🟢 |
 | `mango.listCategories` | mango.com | Lists the Mango catalog categories (men's sweaters and cardigans, shirts, jeans… | 🟢 |
 | `mango.searchProducts` | mango.com | Searches Mango's apparel catalog for what a shopper asks (men's sweater, long sleeve… | 🟢 |
+| `marianatek.bookAppointment` | marianatek.com | Books the signed-in customer into a private appointment slot from… | ⚪ |
+| `marianatek.bookClass` | marianatek.com | Books the signed-in customer (or a guest they bring) into a class, optionally on a… | ⚪ |
+| `marianatek.buyPricingOption` | marianatek.com | Would buy an intro offer, membership, class pack or add-on at a studio for the… | ⚪ |
+| `marianatek.cancelMembership` | marianatek.com | Cancels one of the signed-in customer's memberships with a reason from the studio's… | ⚪ |
+| `marianatek.cancelReservation` | marianatek.com | Cancels one of the signed-in customer's reservations or waitlist spots. | ⚪ |
+| `marianatek.changeSpot` | marianatek.com | Moves one of the signed-in customer's pick-a-spot reservations to another free spot in… | ⚪ |
+| `marianatek.findStudio` | marianatek.com | Finds a Mariana Tek studio from what a caller holds — its tenant slug… | ⚪ |
+| `marianatek.getClass` | marianatek.com | Returns one class by id: description, start time, instructors, classroom… | ⚪ |
+| `marianatek.getLocation` | marianatek.com | Returns one location by id: address, contact details, description and timezone. | ⚪ |
+| `marianatek.getMyAccount` | marianatek.com | Returns the signed-in customer's own profile at a studio: name, email, phone… | ⚪ |
+| `marianatek.getMyReservation` | marianatek.com | Returns one of the signed-in customer's reservations by id: class, status, spot, and… | ⚪ |
+| `marianatek.joinWaitlist` | marianatek.com | Puts the signed-in customer on the waitlist for a full class, using a membership or… | ⚪ |
+| `marianatek.listAppointmentCategories` | marianatek.com | Lists the kinds of private appointments a studio offers (e.g. Private Training). | ⚪ |
+| `marianatek.listAppointmentServices` | marianatek.com | Lists the appointment services a studio offers at a location, with the instructors and… | ⚪ |
+| `marianatek.listAppointmentSlots` | marianatek.com | Lists the open times for an appointment service in a date range, optionally narrowed… | ⚪ |
+| `marianatek.listClasses` | marianatek.com | Lists a studio's class schedule between two dates, optionally narrowed to locations or… | ⚪ |
+| `marianatek.listClassPaymentOptions` | marianatek.com | Lists which of the signed-in customer's own memberships and class credits can pay for… | ⚪ |
+| `marianatek.listClassSpots` | marianatek.com | Lists the spots in a pick-a-spot class (treadmill, floor, bike) with name, type… | ⚪ |
+| `marianatek.listLocations` | marianatek.com | Lists a studio's bookable locations: id, name, full address, timezone, currency, phone… | ⚪ |
+| `marianatek.listMyAppointments` | marianatek.com | Lists the signed-in customer's upcoming or past private appointments at a studio. | ⚪ |
+| `marianatek.listMyCredits` | marianatek.com | Lists the signed-in customer's class packs at a studio and how many credits are left. | ⚪ |
+| `marianatek.listMyMemberships` | marianatek.com | Lists the signed-in customer's memberships at a studio with status, billing cycle and… | ⚪ |
+| `marianatek.listMyOrders` | marianatek.com | Lists the signed-in customer's purchase history at a studio: what was bought, when… | ⚪ |
+| `marianatek.listMyReservations` | marianatek.com | Lists the signed-in customer's upcoming or past class reservations at a studio… | ⚪ |
+| `marianatek.listMyWaivers` | marianatek.com | Lists the waivers the signed-in customer has signed, or still has to sign, before they… | ⚪ |
+| `marianatek.listPricing` | marianatek.com | Lists what a location sells — intro offers, memberships, class packs and add-ons such… | ⚪ |
+| `marianatek.listRegions` | marianatek.com | Lists a studio's regions (city or area groupings) with the locations in each — the… | ⚪ |
+| `marianatek.listScheduleFilters` | marianatek.com | Lists what a region's schedule can be filtered by — class types (with descriptions)… | ⚪ |
+| `marianatek.setProfileImage` | marianatek.com | Changes the signed-in customer's profile picture at a studio. | ⚪ |
+| `marianatek.updateCommunicationPreferences` | marianatek.com | Turns the signed-in customer's email and SMS marketing opt-ins on or off at a studio. | ⚪ |
+| `marianatek.updateMyAccount` | marianatek.com | Edits the signed-in customer's own profile at a studio (name, phone, pronouns… | ⚪ |
 | `marketplace_visualstudio.getExtensionStats` | marketplace.visualstudio.com | Looks up one VS Code extension by its "publisher.extension" id (the id shown in the… | 🟢 |
 | `marketplace_visualstudio.searchExtensions` | marketplace.visualstudio.com | Full-text searches the VS Code Marketplace for extensions matching a query, ordered by… | 🟢 |
 | `marks.findStores` | www.marks.com | Lists the Mark's stores nearest a latitude/longitude with address, distance, opening… | 🟢 |
