@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1b22cb0538df2c9c8537ea383a7bc054cd466516961fdb7fa530ce0d3e5b6126
-// 2155 checked, 20 unchecked.
+// Manifest version: 48f3d38c00392e61d1355435d66c3b07d2fc337807216ee4d961853114ef9723
+// 2156 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1b22cb0538df2c9c8537ea383a7bc054cd466516961fdb7fa530ce0d3e5b6126",
+  "version": "48f3d38c00392e61d1355435d66c3b07d2fc337807216ee4d961853114ef9723",
   "units": {
     "address_validation": {
       "defs": {
@@ -44087,6 +44087,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "PaypalEstimatePayLaterPlanArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "amount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "PaypalGetCurrencyConversionQuoteArgs": {
           "k": "object",
           "props": [
@@ -44209,6 +44221,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ],
+        "estimatePayLaterPlan": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PaypalEstimatePayLaterPlanArgs"
+            },
+            "optional": true
           }
         ]
       }

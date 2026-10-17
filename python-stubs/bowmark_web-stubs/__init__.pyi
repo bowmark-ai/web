@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1b22cb0538df2c9c8537ea383a7bc054cd466516961fdb7fa530ce0d3e5b6126
-# 85 capabilities, 590 providers, 2155 typed functions, 20 refused.
+# Manifest version: 48f3d38c00392e61d1355435d66c3b07d2fc337807216ee4d961853114ef9723
+# 85 capabilities, 590 providers, 2156 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23059,6 +23059,27 @@ class Prv_paypal_PaypalPolicySubsection_Out(TypedDict):
     id: str
     title: str
     content: NotRequired[str]
+
+class Prv_paypal_PaypalEstimatePayLaterPlanArgs_In(TypedDict):
+    amount: NotRequired[float]
+
+class Prv_paypal_PaypalPayLaterPlan_Out(TypedDict):
+    payIn4: Prv_paypal_PaypalPayInFourPlan_Out
+    payMonthly: Prv_paypal_PaypalPayMonthlyTerms_Out
+    sourceUrl: str
+    lastChecked: str
+
+class Prv_paypal_PaypalPayInFourPlan_Out(TypedDict):
+    name: Literal["Pay in 4"]
+    instalments: float
+    frequency: Literal["every 2 weeks"]
+    apr: Literal[0]
+
+class Prv_paypal_PaypalPayMonthlyTerms_Out(TypedDict):
+    name: Literal["Pay Monthly"]
+    termLengths: list[str]
+    aprRange: str
+    note: str
 
 class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
     city: str
@@ -49251,6 +49272,13 @@ class Prv_paypal(Protocol):
         "user-agreement" }) -> { documentKey: "user-agreement", title: "User Agreement",
         lastModified: "2026-...", sections: [...] }. Returns the document key (enumerated),
         title, last-modified date, and a sections tree with subsections and content.
+        """
+
+    async def estimatePayLaterPlan(self, args: Prv_paypal_PaypalEstimatePayLaterPlanArgs_In | None = None, /) -> Prv_paypal_PaypalPayLaterPlan_Out:
+        """Reads PayPal's published Pay Later terms — Pay in 4 (four interest-free instalments due
+        every two weeks) and Pay Monthly (variable APR range and term lengths) — off the
+        marketing page at /us/digital-wallet/ways-to-pay/buy-now-pay-later. Returns the standard
+        published terms; caller supplies the amount separately to calculate actual instalments.
         """
 
 class Prv_peerspace(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1b22cb0538df2c9c8537ea383a7bc054cd466516961fdb7fa530ce0d3e5b6126
-// 85 capabilities, 590 providers, 2173 typed functions, 20 refused.
+// Manifest version: 48f3d38c00392e61d1355435d66c3b07d2fc337807216ee4d961853114ef9723
+// 85 capabilities, 590 providers, 2174 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -41861,6 +41861,27 @@ interface PaypalPolicyDocument {
   sections: PaypalPolicySection[];
   sourceUrl: string;
 }
+interface PaypalPayInFourPlan {
+  name: "Pay in 4";
+  instalments: number;
+  frequency: "every 2 weeks";
+  apr: 0;
+}
+interface PaypalPayMonthlyTerms {
+  name: "Pay Monthly";
+  termLengths: string[];
+  aprRange: string;
+  note: string;
+}
+interface PaypalPayLaterPlan {
+  payIn4: PaypalPayInFourPlan;
+  payMonthly: PaypalPayMonthlyTerms;
+  sourceUrl: string;
+  lastChecked: string;
+}
+interface PaypalEstimatePayLaterPlanArgs {
+  amount?: number; // accepted but ignored — Pay Later terms are published, not amount-specific
+}
 
   /**
    * PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules, the
@@ -41910,6 +41931,14 @@ interface PaypalPolicyDocument {
      * last-modified date, and a sections tree with subsections and content.
      */
     getPolicyDocument(args: { documentKey: PaypalPolicyDocumentKey }): Promise<PaypalPolicyDocument>;
+
+    /**
+     * Reads PayPal's published Pay Later terms — Pay in 4 (four interest-free instalments due
+     * every two weeks) and Pay Monthly (variable APR range and term lengths) — off the marketing
+     * page at /us/digital-wallet/ways-to-pay/buy-now-pay-later. Returns the standard published
+     * terms; caller supplies the amount separately to calculate actual instalments.
+     */
+    estimatePayLaterPlan(args?: PaypalEstimatePayLaterPlanArgs): Promise<PaypalPayLaterPlan>;
   }
 }
 
