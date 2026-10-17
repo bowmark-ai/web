@@ -2573,7 +2573,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | ⚪ |
 | `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | 🟢 |
 | `paypal.estimateFee` | paypal.com | Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — an… | 🟢 |
-| `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | ⚪ |
+| `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | 🟢 |
 | `paypal.getCryptoPrices` | paypal.com | Reads the buy and sell prices PayPal itself quotes for the cryptocurrencies it… | ⚪ |
 | `paypal.getCurrencyConversionQuote` | paypal.com | Reads PayPal's published currency-conversion spread (FEETB26 — 4.00% for… | 🟢 |
 | `paypal.getFees` | paypal.com | Reads PayPal's own published fee schedule for a country and audience (consumer or… | 🟢 |
