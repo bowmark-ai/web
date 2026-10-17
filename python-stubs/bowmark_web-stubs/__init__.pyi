@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7d33e7769d9b655a9a61fae910bbda9b34a79f7b2d971e8976104f76a71b15bc
+# Manifest version: 482a84e7a339aa549571df62fe2b344e0a92c12a837fc40647f7ba6cae4b129f
 # 85 capabilities, 591 providers, 2158 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -43532,9 +43532,10 @@ class Prv_google_maps(Protocol):
         """
 
     async def searchPlaces(self, args: Prv_google_maps_SearchPlacesArgs_In, /) -> list[Prv_google_maps_SearchPlacesResult_Out]:
-        """The door every other Maps function chains off. Takes what a person would say — "coffee
-        shops in Seattle WA", "pizza near Austin TX" — and returns the ranked places Google
-        shows for it: feature id, name, address, coordinates and categories, plus rating, review
+        """Search for places and their business hours, open status and current availability. Takes
+        what a person would say — "coffee shops in Seattle WA", "pizza near Austin TX" — and
+        returns the ranked places Google shows for it with weekly hours, open/closed status and
+        availability: feature id, name, address, coordinates and categories, plus rating, review
         count, weekly hours and the site's own live open/closed line (openStatus) when the
         site's response carries them — so "which of these is open right now" costs no further
         call. The location lives in the query text; Google resolves it from there rather than
@@ -43575,42 +43576,43 @@ class Prv_google_maps(Protocol):
         """
 
     async def getPlace(self, args: Prv_google_maps_GetPlaceArgs_In, /) -> Prv_google_maps_GetPlaceResult_Out:
-        """Everything Google Maps shows on one business's panel — name, full address, coordinates,
-        category, neighborhood, phone, website, rating, review count, weekly hours, the site's
-        own live open/closed line (e.g. "Closed · Opens 7 AM"), its accessibility labels (e.g.
-        "Wheelchair accessible entrance") and businessStatus, present and always "closed" ONLY
-        when the site has flagged the listing permanently closed — each present only when the
-        site's own response carried it. openStatus is the site's rendered string, not a boolean
-        this provider computed — hours' display strings carry no timezone, so a caller cannot
-        derive open-right-now from them without it. accessibility is absent when the site
-        publishes nothing for that place, never a guess — the field mask carries no other
-        amenity category (Wi-Fi, outdoor seating, …) at all — service options come from separate
-        signals, see serviceOptions. businessStatus reports a CONFIRMED closure honestly
-        (measured live against Mamnoon, Plum Bistro, Harbor City Restaurant and Copine, all
-        recently closed) but its absence never means the business is open — Google does not flag
-        every real-world closure, confirmed live against two long-defunct Toys "R" Us locations
-        that carry no marker at all. This retries a few times to see past a reduced/rich flap in
-        the site's own response and merges the richest draw; `warnings` is non-empty when every
-        attempt drew the reduced record, meaning reviewCount/hours/openStatus could not be
-        confirmed either way rather than being genuinely absent. `serviceOptions` (the result
-        field) lists how the place serves food — "Dine-in", "Takeout", "Delivery",
-        "Drive-through" — read browserless from three signals in the same record: a per-service
-        hours block Google publishes ("Delivery 6 AM–9:30 PM"), the order types the place's
-        "Order online" action takes, and reviewers' own answers to "Did you dine in, take out,
-        or get delivery?"; measured 2026-10-03 on McDonald's, Chipotle, Canlis, Thai Tom and
-        Dick's Drive-In. It is POSITIVE evidence only: an option missing from it is unknown,
-        never "does not offer", and the field is absent when no signal exists (Pagliacci Pizza).
-        `orderOnlineUrl` is the site's own Google ordering link when the place takes orders
-        through Google. `serviceOptions: true` (the argument) additionally opts into a SEPARATE
-        ~15s browser read of the About tab — an anonymous read of that tab serves Google's own
-        "limited view" banner and no Service options section (measured 2026-09-30 against
-        Pagliacci Pizza, Thai Tom and Dick's Drive-In), so it only adds anything with the
-        caller's own Google session granted, and pushes a `warnings` entry rather than staying
-        silent when the panel came back limited. A THIRD reading of searchPlaces' door: takes
-        the same resolving query geocodeAddress does (typically a name plus address, since this
-        does not take a feature id — measured live, neither the raw id nor a cid string resolves
-        through this door), and throws when the query names a category or list rather than one
-        business.
+        """Get detailed business information including hours of operation, current open/closed
+        status and availability. Returns everything Google Maps shows on one business's panel —
+        name, full address, coordinates, category, neighborhood, phone, website, rating, review
+        count, weekly hours, the site's own live open/closed line (e.g. "Closed · Opens 7 AM"),
+        its accessibility labels (e.g. "Wheelchair accessible entrance") and businessStatus,
+        present and always "closed" ONLY when the site has flagged the listing permanently
+        closed — each present only when the site's own response carried it. openStatus is the
+        site's rendered string, not a boolean this provider computed — hours' display strings
+        carry no timezone, so a caller cannot derive open-right-now from them without it.
+        accessibility is absent when the site publishes nothing for that place, never a guess —
+        the field mask carries no other amenity category (Wi-Fi, outdoor seating, …) at all —
+        service options come from separate signals, see serviceOptions. businessStatus reports a
+        CONFIRMED closure honestly (measured live against Mamnoon, Plum Bistro, Harbor City
+        Restaurant and Copine, all recently closed) but its absence never means the business is
+        open — Google does not flag every real-world closure, confirmed live against two
+        long-defunct Toys "R" Us locations that carry no marker at all. This retries a few times
+        to see past a reduced/rich flap in the site's own response and merges the richest draw;
+        `warnings` is non-empty when every attempt drew the reduced record, meaning
+        reviewCount/hours/openStatus could not be confirmed either way rather than being
+        genuinely absent. `serviceOptions` (the result field) lists how the place serves food —
+        "Dine-in", "Takeout", "Delivery", "Drive-through" — read browserless from three signals
+        in the same record: a per-service hours block Google publishes ("Delivery 6 AM–9:30
+        PM"), the order types the place's "Order online" action takes, and reviewers' own
+        answers to "Did you dine in, take out, or get delivery?"; measured 2026-10-03 on
+        McDonald's, Chipotle, Canlis, Thai Tom and Dick's Drive-In. It is POSITIVE evidence
+        only: an option missing from it is unknown, never "does not offer", and the field is
+        absent when no signal exists (Pagliacci Pizza). `orderOnlineUrl` is the site's own
+        Google ordering link when the place takes orders through Google. `serviceOptions: true`
+        (the argument) additionally opts into a SEPARATE ~15s browser read of the About tab — an
+        anonymous read of that tab serves Google's own "limited view" banner and no Service
+        options section (measured 2026-09-30 against Pagliacci Pizza, Thai Tom and Dick's
+        Drive-In), so it only adds anything with the caller's own Google session granted, and
+        pushes a `warnings` entry rather than staying silent when the panel came back limited. A
+        THIRD reading of searchPlaces' door: takes the same resolving query geocodeAddress does
+        (typically a name plus address, since this does not take a feature id — measured live,
+        neither the raw id nor a cid string resolves through this door), and throws when the
+        query names a category or list rather than one business.
         """
 
     async def listReviews(self, args: Prv_google_maps_ListReviewsArgs_In, /) -> Prv_google_maps_ListReviewsResult_Out:

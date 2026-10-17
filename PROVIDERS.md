@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3901 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3924 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1727,7 +1727,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.addMissingPlace` | google.com/maps | Add a business Google Maps does not list yet — name, address, category and hours —… | ⚪ |
 | `google_maps.geocodeAddress` | google.com/maps | A street address or place name in, coordinates and the matching Google Maps place out. | 🟢 |
 | `google_maps.getDirections` | google.com/maps | Route between two places — the site's own trip total (distance, duration… | 🟢 |
-| `google_maps.getPlace` | google.com/maps | Everything Google Maps shows on one business's panel: name, a shareable url back to… | 🟢 |
+| `google_maps.getPlace` | google.com/maps | Get detailed business information including hours of operation and current open/closed… | 🟢 |
 | `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | 🟢 |
 | `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in caller has contributed, with… | 🟢 |
 | `google_maps.listPhotos` | google.com/maps | The photos Google Maps shows in a place's gallery panel — up to 20, each with a url… | 🟢 |
@@ -1738,7 +1738,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.reverseGeocode` | google.com/maps | A point in — the Plus Code and locality Google Maps shows for it out, the same string… | 🟢 |
 | `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | 🟢 |
 | `google_maps.searchNearby` | google.com/maps | searchPlaces anchored to a POINT instead of resolved from the query text — for a… | 🟢 |
-| `google_maps.searchPlaces` | google.com/maps | The door every other Maps function chains off. | 🟢 |
+| `google_maps.searchPlaces` | google.com/maps | Search for places by name or category, returning hours and open status. | 🟢 |
 | `google_maps.suggestPlaceEdit` | google.com/maps | Send Google a correction about a place — wrong hours, wrong address, permanently… | ⚪ |
 | `google_maps.suggestPlaces` | google.com/maps | Google Maps' own autocomplete for a half-typed query — what the search box offers… | 🟢 |
 | `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | ⚪ |
@@ -3587,6 +3587,29 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walkerhughes.listOffices` | walkerhughes.com | Lists all of WalkerHughes' real offices (25, not the 24 ANGLE counted off the form's… | 🟢 |
 | `walkerhughes.listQuoteProducts` | walkerhughes.com | Lists WalkerHughes' real 16-product Personal/Business insurance catalog straight off… | 🟢 |
 | `walkerhughes.submitQuoteApplication` | walkerhughes.com | Would submit the /start-quote application itself (POST to the site's own… | ⚪ |
+| `walla.bookClass` | hellowalla.com | Books the signed-in client into a scheduled class (in studio or livestream) using a… | ⚪ |
+| `walla.bookPrivateSession` | hellowalla.com | Books the signed-in client into a private session at a time… | ⚪ |
+| `walla.buyPricingOption` | hellowalla.com | Would buy a class pack, intro offer or membership at a studio for the signed-in client. | ⚪ |
+| `walla.cancelBooking` | hellowalla.com | Cancels one of the signed-in client's class bookings, waitlist spots or private… | ⚪ |
+| `walla.enrollWorkshop` | hellowalla.com | Enrolls the signed-in client in a workshop or series from listWorkshops using a pass… | ⚪ |
+| `walla.findStudio` | hellowalla.com | Finds a Walla studio from its own website (the page that embeds the Walla schedule) or… | ⚪ |
+| `walla.getClass` | hellowalla.com | Returns one scheduled class by id: description, start and end time, instructor and… | ⚪ |
+| `walla.getMyProfile` | hellowalla.com | Returns the signed-in client's own profile at a studio: name, email, phone, address… | ⚪ |
+| `walla.getPrivateSessionAvailability` | hellowalla.com | Returns the days, and the start times on a day, that a private session can be booked… | ⚪ |
+| `walla.joinWaitlist` | hellowalla.com | Puts the signed-in client on the waitlist for a full class. | ⚪ |
+| `walla.listClassCategories` | hellowalla.com | Lists the class categories a studio's schedule can be filtered by (yoga style, sound… | ⚪ |
+| `walla.listClasses` | hellowalla.com | Lists a studio's class schedule for a date range, optionally narrowed to locations… | ⚪ |
+| `walla.listInstructors` | hellowalla.com | Lists the instructors at a studio with id, name, photo and bio — the ids listClasses… | ⚪ |
+| `walla.listLocations` | hellowalla.com | Lists a studio's locations: id, name, street address, coordinates, phone, email… | ⚪ |
+| `walla.listMyBookings` | hellowalla.com | Lists the signed-in client's upcoming and past bookings at a studio — classes… | ⚪ |
+| `walla.listMyPasses` | hellowalla.com | Lists the signed-in client's packs and memberships at a studio, the credits left to… | ⚪ |
+| `walla.listMyPurchases` | hellowalla.com | Lists the signed-in client's purchase history at a studio (what was bought, when, how… | ⚪ |
+| `walla.listOnDemandVideos` | hellowalla.com | Lists a studio's on-demand video offerings and courses, with title, length and whether… | ⚪ |
+| `walla.listPricing` | hellowalla.com | Lists what a studio sells — drop-ins, class packs, intro offers and memberships — with… | ⚪ |
+| `walla.listPrivateSessions` | hellowalla.com | Lists the private sessions (appointments) a studio offers — name, length, price… | ⚪ |
+| `walla.listWorkshops` | hellowalla.com | Lists a studio's workshops, series and trainings (multi-session enrollments): name… | ⚪ |
+| `walla.requestMembershipCancellation` | hellowalla.com | Sends the studio the signed-in client's request to cancel one of their memberships… | ⚪ |
+| `walla.updateMyProfile` | hellowalla.com | Edits the signed-in client's own profile at a studio (name, phone, address, emergency… | ⚪ |
 | `walmart.addAddress` | walmart.com | Saves a new delivery address on the signed-in account. | ⚪ |
 | `walmart.addToCart` | walmart.com | Puts an item in the cart in the quantity asked for and reports what the cart then holds. | ⚪ |
 | `walmart.addToList` | walmart.com | Adds an item to one of the shopper's saved lists. | ⚪ |
