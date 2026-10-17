@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3860 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3901 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -239,6 +239,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🟡 |
 | `archive_org.searchItems` | archive.org | Search the Internet Archive's library of books, films, audio, software and more using… | 🟢 |
 | `archive_org.searchScholar` | archive.org | Search scholar.archive.org for scholarly articles, papers, and academic texts —… | ⚪ |
+| `arketa.bookClass` | arketa.co | Books the signed-in client into a scheduled class using a pack or membership they… | ⚪ |
+| `arketa.bookPrivateSession` | arketa.co | Books the signed-in client into a private session at a time… | ⚪ |
+| `arketa.buyPricingOption` | arketa.co | Would buy a class pack, membership or on-demand subscription at a studio for the… | ⚪ |
+| `arketa.cancelBooking` | arketa.co | Cancels one of the signed-in client's class bookings or waitlist spots. | ⚪ |
+| `arketa.findStudio` | arketa.co | Finds an Arketa studio by its booking-page name ("thesilhouettemethod"), its… | ⚪ |
+| `arketa.getClass` | arketa.co | Returns one scheduled class by id: description, start and end time, instructor… | ⚪ |
+| `arketa.getMyProfile` | arketa.co | Returns the signed-in client's own profile at a studio: name, email, phone, waiver… | ⚪ |
+| `arketa.getPrivateSession` | arketa.co | Returns one private-session service by id, with the instructors who teach it, the… | ⚪ |
+| `arketa.getPrivateSessionAvailability` | arketa.co | Returns the days, and the times on a day, that a private session can be booked with a… | ⚪ |
+| `arketa.joinWaitlist` | arketa.co | Puts the signed-in client on the waitlist for a full class. | ⚪ |
+| `arketa.listClasses` | arketa.co | Lists a studio's class schedule for a date range, optionally narrowed to a location… | ⚪ |
+| `arketa.listInstructors` | arketa.co | Lists the instructors who teach at a studio, with id, name, photo and bio — the ids… | ⚪ |
+| `arketa.listLocations` | arketa.co | Lists a studio's physical locations: id, name, full address, coordinates and Google… | ⚪ |
+| `arketa.listMyBookings` | arketa.co | Lists the signed-in client's upcoming and past class and private-session bookings at a… | ⚪ |
+| `arketa.listMyPasses` | arketa.co | Lists the signed-in client's class packs and memberships at a studio — what they own… | ⚪ |
+| `arketa.listOnDemandVideos` | arketa.co | Lists a studio's on-demand video library by category: each video's title, length… | ⚪ |
+| `arketa.listPricing` | arketa.co | Lists what a studio sells — drop-in classes, class packs, memberships and on-demand… | ⚪ |
+| `arketa.listPrivateSessions` | arketa.co | Lists the private sessions (one-to-one appointments) a studio offers, with name… | ⚪ |
+| `arketa.listProducts` | arketa.co | Lists the retail products a studio sells through Arketa (apparel, equipment), with… | ⚪ |
+| `arketa.listReviews` | arketa.co | Lists a studio's public client reviews — first name, star rating, text and date. | ⚪ |
+| `arketa.listScheduleFilters` | arketa.co | Lists what a studio's schedule can be filtered by — its locations, class types and… | ⚪ |
+| `arketa.updateMyProfile` | arketa.co | Edits the signed-in client's own profile at a studio (name, phone, emergency contact)… | ⚪ |
 | `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟡 |
 | `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟡 |
 | `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟡 |
@@ -815,6 +837,24 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.getFittings` | clubchampion.com | Reads one studio's real fitting-type menu with live per-store pricing (Driver, Full… | 🟢 |
 | `clubchampion.listFitters` | clubchampion.com | Reads the live list of every Club Champion fitter — id, name, studio, timezone… | 🟢 |
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
+| `clubpilates.bookClass` | clubpilates.com | Books the signed-in member into a scheduled class using their existing membership or… | ⚪ |
+| `clubpilates.buyPackage` | clubpilates.com | Would buy a class pack or membership at a studio for the signed-in member. | ⚪ |
+| `clubpilates.cancelBooking` | clubpilates.com | Cancels one of the signed-in member's bookings or removes them from a waitlist. | ⚪ |
+| `clubpilates.favoriteInstructor` | clubpilates.com | Adds or removes an instructor from the signed-in member's favourites, as the members… | ⚪ |
+| `clubpilates.findStudios` | clubpilates.com | Finds Club Pilates studios near a place — by latitude/longitude, or by a city or… | ⚪ |
+| `clubpilates.getClass` | clubpilates.com | Returns one scheduled class by id ("cr_89942194") at a studio: description, times… | ⚪ |
+| `clubpilates.getClassPoints` | clubpilates.com | Returns the signed-in member's ClassPoints rewards balance, tier and available rewards. | ⚪ |
+| `clubpilates.getMyMembership` | clubpilates.com | Returns the signed-in member's membership and class credits at their home studio —… | ⚪ |
+| `clubpilates.getMyProfile` | clubpilates.com | Returns the signed-in member's own profile: name, email, phone, home studio. | ⚪ |
+| `clubpilates.getStudio` | clubpilates.com | Returns one studio's details by id or by its clubpilates.com page slug… | ⚪ |
+| `clubpilates.joinWaitlist` | clubpilates.com | Puts the signed-in member on the waitlist for a full class (the class must have… | ⚪ |
+| `clubpilates.listClassCategories` | clubpilates.com | Lists the class categories used to filter a schedule (Reformer Flow, Center + Balance… | ⚪ |
+| `clubpilates.listClasses` | clubpilates.com | Lists a studio's class schedule for a date or date range — each class's id, title… | ⚪ |
+| `clubpilates.listClassTypes` | clubpilates.com | Lists every Club Pilates class type the brand runs (Intro Class, Reformer Flow 1… | ⚪ |
+| `clubpilates.listInstructors` | clubpilates.com | Lists the instructors teaching at a studio, by name, drawn from the classes on its… | ⚪ |
+| `clubpilates.listMyBookings` | clubpilates.com | Lists the signed-in member's upcoming and past class bookings and waitlist spots… | ⚪ |
+| `clubpilates.listPricing` | clubpilates.com | Lists what a studio sells — single class, class packs and memberships — with each… | ⚪ |
+| `clubpilates.updateProfile` | clubpilates.com | Edits the signed-in member's own profile fields (name, phone, address, emergency… | ⚪ |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | ⚪ |
 | `cnbc_com.followTopic` | cnbc.com | Follows a CNBC news topic to receive articles about it. | ⚪ |
@@ -1930,6 +1970,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imdb.getTitleReviews` | imdb.com | Reads user reviews for a title, with user rating, text, and helpfulness count. | 🟢 |
 | `imdb.search` | imdb.com | Full-text search across titles and people, returning matching results ranked by… | 🟢 |
 | `imdb.searchSuggestions` | imdb.com | Typeahead search for quick title and person completion as the user types. | 🟢 |
+| `imdb.searchTitles` | imdb.com | Advanced title search: filter by type, genre, release year, rating and vote count… | 🟢 |
 | `indeed.getCompanyDetails` | indeed.com | Fetches a company's full profile off its own /cmp/… snapshot page: overall rating… | 🟢 |
 | `indeed.getJobDetails` | indeed.com | Fetches one job listing's full details — title, company, location, salary… | 🟢 |
 | `indeed.getSalaryDetails` | indeed.com | Fetches the full salary breakdown for one job title off its own… | 🟢 |

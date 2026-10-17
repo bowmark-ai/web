@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fa9267668d7e9cd643fb75cc62c4da0af8d174ce16ed0cb7ba9f2318b8a2f96d
-// 2157 checked, 20 unchecked.
+// Manifest version: d567c65561903f730166167242aaa28465dbe1bf85abd328a48115be5e2bbeca
+// 2158 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fa9267668d7e9cd643fb75cc62c4da0af8d174ce16ed0cb7ba9f2318b8a2f96d",
+  "version": "d567c65561903f730166167242aaa28465dbe1bf85abd328a48115be5e2bbeca",
   "units": {
     "address_validation": {
       "defs": {
@@ -30637,6 +30637,97 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ImdbSearchTitlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "titleType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "genres",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "releaseYear",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "min",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "max",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "minVotes",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minRating",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "after",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -30646,6 +30737,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ImdbSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchTitles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ImdbSearchTitlesArgs"
             },
             "optional": false
           }

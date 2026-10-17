@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fa9267668d7e9cd643fb75cc62c4da0af8d174ce16ed0cb7ba9f2318b8a2f96d
-# 85 capabilities, 591 providers, 2157 typed functions, 20 refused.
+# Manifest version: d567c65561903f730166167242aaa28465dbe1bf85abd328a48115be5e2bbeca
+# 85 capabilities, 591 providers, 2158 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16579,6 +16579,32 @@ class Prv_imdb_ImdbSearchResult_Out(TypedDict):
     professions: list[str]
     knownFor: str | None
     imageUrl: str | None
+
+class Prv_imdb_ImdbSearchTitlesArgs_In(TypedDict):
+    titleType: NotRequired[str | Sequence[str]]
+    genres: NotRequired[Sequence[str]]
+    releaseYear: NotRequired[Prv_imdb_ImdbSearchTitlesArgs_In_releaseYear_In]
+    minVotes: NotRequired[float]
+    minRating: NotRequired[float]
+    sort: NotRequired[str]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_imdb_ImdbSearchTitlesArgs_In_releaseYear_In(TypedDict):
+    min: NotRequired[float]
+    max: NotRequired[float]
+
+class Prv_imdb_ImdbSearchTitlesResponse_Out(TypedDict):
+    results: list[Prv_imdb_ImdbSearchTitlesResult_Out]
+    next: NotRequired[str]
+
+class Prv_imdb_ImdbSearchTitlesResult_Out(TypedDict):
+    id: str
+    title: str
+    titleType: str | None
+    year: float | None
+    rating: float | None
+    voteCount: float | None
 
 class Prv_imdb_ImdbSuggestionsResponse_Out(TypedDict):
     query: str
@@ -45179,6 +45205,12 @@ class Prv_imdb(Protocol):
         """Search IMDb for movies, TV shows and people by name — the site's own ranked search. Each
         result carries the tt…/nm… id getTitle and getPerson take, plus year and IMDb rating for
         a title.
+        """
+
+    async def searchTitles(self, args: Prv_imdb_ImdbSearchTitlesArgs_In, /) -> Prv_imdb_ImdbSearchTitlesResponse_Out:
+        """Advanced title search on IMDb: filter by type (movie, tvSeries, etc.), genres, release
+        year, rating and vote count; sort by votes, rating or release date; paginate through
+        results to reach 10,000+ titles.
         """
 
     async def searchSuggestions(self, query: str, /) -> Prv_imdb_ImdbSuggestionsResponse_Out:

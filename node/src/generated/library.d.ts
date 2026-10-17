@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fa9267668d7e9cd643fb75cc62c4da0af8d174ce16ed0cb7ba9f2318b8a2f96d
-// 85 capabilities, 591 providers, 2175 typed functions, 20 refused.
+// Manifest version: d567c65561903f730166167242aaa28465dbe1bf85abd328a48115be5e2bbeca
+// 85 capabilities, 591 providers, 2176 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30411,6 +30411,38 @@ interface ImdbReviewsResponse {
   totalReviews: number;
   reviews: ImdbReview[];
 }
+interface ImdbSearchTitlesArgs {
+  /** 'movie', 'tvSeries', 'tvEpisode', 'short', 'tvMiniSeries', etc. — filter by title type(s). */
+  titleType?: string | string[];
+  /** Genre names like 'action', 'drama', 'sci-fi'. */
+  genres?: string[];
+  /** Release year range: { min?: number, max?: number }. */
+  releaseYear?: { min?: number; max?: number };
+  /** Minimum vote count (e.g., 50000 for popular titles). */
+  minVotes?: number;
+  /** Minimum IMDb rating (e.g., 7.5 for highly-rated titles). */
+  minRating?: number;
+  /** Sort order: 'num_votes,desc', 'user_rating,desc', 'release_date,desc', etc. */
+  sort?: string;
+  /** Number of results per page: 1-50, default 10. */
+  limit?: number;
+  /** Cursor for pagination. */
+  after?: string;
+}
+
+interface ImdbSearchTitlesResult {
+  id: string;
+  title: string;
+  titleType: string | null;
+  year: number | null;
+  rating: number | null;
+  voteCount: number | null;
+}
+
+interface ImdbSearchTitlesResponse {
+  results: ImdbSearchTitlesResult[];
+  next?: string;
+}
 
   /**
    * IMDb — the movie and TV database. Search films, shows and people; read a title's rating,
@@ -30424,6 +30456,13 @@ interface ImdbReviewsResponse {
      * title.
      */
     search(args: ImdbSearchArgs): Promise<ImdbSearchResponse>;
+
+    /**
+     * Advanced title search on IMDb: filter by type (movie, tvSeries, etc.), genres, release year,
+     * rating and vote count; sort by votes, rating or release date; paginate through results to
+     * reach 10,000+ titles.
+     */
+    searchTitles(args: ImdbSearchTitlesArgs): Promise<ImdbSearchTitlesResponse>;
 
     /**
      * IMDb's typeahead — the same quick completions its search box shows as you type, with

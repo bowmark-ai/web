@@ -1,5 +1,5 @@
 {
-  "version": "fa9267668d7e9cd643fb75cc62c4da0af8d174ce16ed0cb7ba9f2318b8a2f96d",
+  "version": "d567c65561903f730166167242aaa28465dbe1bf85abd328a48115be5e2bbeca",
   "units": {
     "address_validation": {
       "defs": {
@@ -30625,6 +30625,97 @@
               "optional": true
             }
           ]
+        },
+        "ImdbSearchTitlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "titleType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "genres",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "releaseYear",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "min",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "max",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "minVotes",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minRating",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "after",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -30634,6 +30725,16 @@
             "schema": {
               "k": "ref",
               "name": "ImdbSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchTitles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ImdbSearchTitlesArgs"
             },
             "optional": false
           }
