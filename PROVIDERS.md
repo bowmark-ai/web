@@ -1831,7 +1831,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hilton.getHotelDetails` | hilton.com | Reads one Hilton-family property in full — full address, phone number, brand tier… | ⚪ |
 | `hilton.getReservation` | hilton.com | Reads an existing Hilton reservation the way the site's own "Find Your Reservation"… | ⚪ |
 | `hilton.search` | hilton.com | Searches Hilton's live cash room availability for one property (a hilton.com URL… | 🟡 |
-| `hipcamp.search` | hipcamp.com | Given a destination name (a national park, region, or city), returns campground… | 🟢 |
+| `hipcamp.search` | hipcamp.com | Given a destination name (a national park, region, or city, or a bare US state)… | 🟢 |
 | `historymaker.getHome` | historymaker.com | Reads one quick-move-in home's full detail: address, current and original price… | 🟢 |
 | `historymaker.listCommunities` | historymaker.com | Lists HistoryMaker's active DFW communities with city, price range, beds/baths range… | 🟢 |
 | `historymaker.searchQuickMoveIns` | historymaker.com | Searches HistoryMaker's current Dallas/Fort Worth quick-move-in inventory by min/max… | 🟢 |
