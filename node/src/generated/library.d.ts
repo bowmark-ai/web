@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ad2fac85e82138da74c828a920d9efd9ddda58aacec418c1ef6828189a677f32
-// 85 capabilities, 591 providers, 2176 typed functions, 20 refused.
+// Manifest version: 65ba956e190dc21321b66748dcc9dada6701ac21ce22d163cb27351c3284b7d3
+// 85 capabilities, 591 providers, 2179 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18006,11 +18006,51 @@ interface SearchNewsArgs {
   limit?: number;               // 1-20, default 10. Newest first.
 }
 
+interface CrunchbaseOrganizationProfile {
+  slug: string;
+  name: string | null;
+  website: string | null;
+  shortDescription: string | null;
+  hq: string | null;                   // as the page states it, e.g. "San Francisco, California, United States"
+  foundedOn: string | null;
+  employeeBand: string | null;         // e.g. "11-50"
+  operatingStatus: string | null;      // e.g. "Active", "Closed"
+  ipoStatus: string | null;
+  totalFundingText: string | null;     // as printed, e.g. "$116M"
+  totalFundingUsd: number | null;
+  lastFundingType: string | null;
+  lastFundingDate: string | null;
+  numFundingRounds: number | null;
+  categories: string[];
+  linkedinUrl: string | null;
+  crunchbaseUrl: string;
+  source: "callerBrowser";             // always this — the function has no other door
+}
+
+interface CrunchbaseFundingRoundItem {
+  announcedOn: string | null;
+  roundType: string | null;            // "Series C", "Seed", "Pre-Seed", "Debt", "Growth", …
+  moneyRaisedText: string | null;      // as printed, e.g. "$30M"
+  moneyRaisedUsd: number | null;
+  leadInvestors: string[];
+  investors: string[];
+  crunchbaseUrl: string | null;
+}
+
+interface CrunchbaseOrganizationSearchHit {
+  name: string;
+  slug: string;
+  shortDescription: string | null;
+  url: string;
+}
+
   /**
    * Crunchbase — which startups raised money this week (the week's biggest U.S. rounds with
-   * amount, round type, lead investors and the company's Crunchbase slug) and Crunchbase News
-   * coverage of any company. Company profiles and full funding histories are walled off by
-   * Cloudflare on every exit Bowmark runs and are not yet reachable.
+   * amount, round type, lead investors and the company's Crunchbase slug), Crunchbase News
+   * coverage of any company, and a company's own Crunchbase profile, funding rounds and the
+   * company search — the last three read through the caller's own browser (the Bowmark Link
+   * extension), since www.crunchbase.com's Cloudflare firewall blocks every address and browser
+   * Bowmark runs on its own.
    */
   interface Unit {
     /**
@@ -18030,6 +18070,30 @@ interface SearchNewsArgs {
      * company's recent raises, layoffs, acquisitions or IPO coverage.
      */
     searchNews(args: SearchNewsArgs | string): Promise<CrunchbaseNewsArticle[]>;
+
+    /**
+     * Reads one company's Crunchbase profile at `/organization/<slug>` — name, website, short
+     * description, HQ, founded date, employee band, operating/IPO status, total funding and last
+     * funding type/date, number of rounds, categories and LinkedIn URL. Reaches the page through
+     * the CALLER's own browser (the Bowmark Link extension) — www.crunchbase.com blocks every
+     * address and browser Bowmark runs on its own — and throws naming the extension when none is
+     * connected. Not every field is always present; a field Crunchbase's own profile leaves blank
+     * comes back null.
+     */
+    getOrganization(slug: string): Promise<CrunchbaseOrganizationProfile>;
+
+    /**
+     * Lists one company's funding rounds — announced date, round type, money raised, lead and
+     * other investors — off its Crunchbase financials page. Same caller-browser door as
+     * `getOrganization`.
+     */
+    getFundingRounds(slug: string): Promise<CrunchbaseFundingRoundItem[]>;
+
+    /**
+     * Finds companies by name the way Crunchbase's own header search does — name, slug and short
+     * description for each candidate. Same caller-browser door as `getOrganization`.
+     */
+    searchOrganizations(query: string): Promise<CrunchbaseOrganizationSearchHit[]>;
   }
 }
 

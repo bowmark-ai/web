@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ad2fac85e82138da74c828a920d9efd9ddda58aacec418c1ef6828189a677f32
-# 85 capabilities, 591 providers, 2158 typed functions, 20 refused.
+# Manifest version: 65ba956e190dc21321b66748dcc9dada6701ac21ce22d163cb27351c3284b7d3
+# 85 capabilities, 591 providers, 2161 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10130,6 +10130,41 @@ class Prv_crunchbase_CrunchbaseNewsArticle_Out(TypedDict):
     excerpt: str
     organizations: list[Prv_crunchbase_CrunchbaseOrgRef_Out]
     matchingRounds: list[Prv_crunchbase_CrunchbaseFundingRound_Out]
+
+class Prv_crunchbase_CrunchbaseOrganizationProfile_Out(TypedDict):
+    slug: str
+    name: str | None
+    website: str | None
+    shortDescription: str | None
+    hq: str | None
+    foundedOn: str | None
+    employeeBand: str | None
+    operatingStatus: str | None
+    ipoStatus: str | None
+    totalFundingText: str | None
+    totalFundingUsd: float | None
+    lastFundingType: str | None
+    lastFundingDate: str | None
+    numFundingRounds: float | None
+    categories: list[str]
+    linkedinUrl: str | None
+    crunchbaseUrl: str
+    source: Literal["callerBrowser"]
+
+class Prv_crunchbase_CrunchbaseFundingRoundItem_Out(TypedDict):
+    announcedOn: str | None
+    roundType: str | None
+    moneyRaisedText: str | None
+    moneyRaisedUsd: float | None
+    leadInvestors: list[str]
+    investors: list[str]
+    crunchbaseUrl: str | None
+
+class Prv_crunchbase_CrunchbaseOrganizationSearchHit_Out(TypedDict):
+    name: str
+    slug: str
+    shortDescription: str | None
+    url: str
 
 class Prv_culturefly_CultureFlyBoxSummary_Out(TypedDict):
     handle: str
@@ -40630,9 +40665,11 @@ class Prv_cruiselakegeneva(Protocol):
 
 class Prv_crunchbase(Protocol):
     """Crunchbase — which startups raised money this week (the week's biggest U.S. rounds with
-    amount, round type, lead investors and the company's Crunchbase slug) and Crunchbase
-    News coverage of any company. Company profiles and full funding histories are walled off
-    by Cloudflare on every exit Bowmark runs and are not yet reachable.
+    amount, round type, lead investors and the company's Crunchbase slug), Crunchbase News
+    coverage of any company, and a company's own Crunchbase profile, funding rounds and the
+    company search — the last three read through the caller's own browser (the Bowmark Link
+    extension), since www.crunchbase.com's Cloudflare firewall blocks every address and
+    browser Bowmark runs on its own.
     """
 
     async def recentFundingRounds(self, options: Prv_crunchbase_RecentFundingRoundsArgs_In | None = None, /) -> list[Prv_crunchbase_CrunchbaseFundingRound_Out]:
@@ -40649,6 +40686,27 @@ class Prv_crunchbase(Protocol):
         date, excerpt and the Crunchbase organizations it links (with their slugs). When a hit
         is a weekly biggest-rounds column, `matchingRounds` carries that company's parsed round.
         Use it to see a company's recent raises, layoffs, acquisitions or IPO coverage.
+        """
+
+    async def getOrganization(self, slug: str, /) -> Prv_crunchbase_CrunchbaseOrganizationProfile_Out:
+        """Reads one company's Crunchbase profile at `/organization/<slug>` — name, website, short
+        description, HQ, founded date, employee band, operating/IPO status, total funding and
+        last funding type/date, number of rounds, categories and LinkedIn URL. Reaches the page
+        through the CALLER's own browser (the Bowmark Link extension) — www.crunchbase.com
+        blocks every address and browser Bowmark runs on its own — and throws naming the
+        extension when none is connected. Not every field is always present; a field
+        Crunchbase's own profile leaves blank comes back null.
+        """
+
+    async def getFundingRounds(self, slug: str, /) -> list[Prv_crunchbase_CrunchbaseFundingRoundItem_Out]:
+        """Lists one company's funding rounds — announced date, round type, money raised, lead and
+        other investors — off its Crunchbase financials page. Same caller-browser door as
+        `getOrganization`.
+        """
+
+    async def searchOrganizations(self, query: str, /) -> list[Prv_crunchbase_CrunchbaseOrganizationSearchHit_Out]:
+        """Finds companies by name the way Crunchbase's own header search does — name, slug and
+        short description for each candidate. Same caller-browser door as `getOrganization`.
         """
 
 class Prv_culturefly(Protocol):
