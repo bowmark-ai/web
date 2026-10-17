@@ -596,7 +596,7 @@ uhaul.com — uhaul: getRates
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration
 uniqlo.com — uniqlo: getProduct, searchProducts
 upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
-ups.com — ups: getRate
+ups.com — ups: calculateShippingCost, estimateDeliveryDate, findNearbyLocation, getRate, schedulePickup, trackShipment, validateAddress
 urbanoutfitters.com — urbanoutfitters: browseCategory, checkGiftCardBalance, checkStock, checkStorePickup, findStores, getDeals, getProduct, getReviews, search, trackOrder
 usatoday.com — usatoday: browseSection, getArticle, getPuzzle, getScores, getVideo, listHomepageHeadlines, listPuzzles, listSavedArticles, listSections, listVideos, saveArticle, searchNews
 usps.com — usps: getRate
