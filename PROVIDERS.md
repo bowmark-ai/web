@@ -711,8 +711,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `carlsgolfland.getProduct` | carlsgolfland.com | Reads one product's full configurable-option set (e.g. Hand, Driver Loft, Shaft) with… | 🟢 |
 | `carlsgolfland.priceConfiguration` | carlsgolfland.com | Resolves a specific configuration (a choice per option group, e.g. { Hand: "Right"… | 🟢 |
 | `carlsgolfland.searchProducts` | carlsgolfland.com | Searches Carl's Golfland's golf-equipment catalog by free text and returns each… | 🟢 |
-| `carmelrealtycompany.getListing` | carmelrealtycompany.com | Fetches one listing detail page by slug and returns address, sold/active status… | 🟡 |
-| `carmelrealtycompany.searchListings` | carmelrealtycompany.com | Runs one of Carmel Realty Company's own regional listing-search pages and returns… | 🟡 |
+| `carmelrealtycompany.getListing` | carmelrealtycompany.com | Fetches one listing detail page by slug and returns address, sold/active status… | 🟢 |
+| `carmelrealtycompany.searchListings` | carmelrealtycompany.com | Runs one of Carmel Realty Company's own regional listing-search pages and returns… | 🟢 |
 | `carolefabrics.search` | carolenet.com (Carole Fabrics' own CaroleNet trade catalog) | Runs a keyword search against CaroleNet's live fabric or trim catalog and returns the… | 🟢 |
 | `carpetlandusa.getProduct` | carpetlandusa.net | One product's own catalog page: style, color, material, coverage per carton, and —… | 🟢 |
 | `carpetlandusa.listCategories` | carpetlandusa.net | The site's own product-catalog taxonomy (Carpet, Waterproof/LVP, Hardwood, Tile, …)… | 🟢 |
@@ -1126,7 +1126,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.searchTiresByVehicle` | discounttire.com | Searches the tires Discount Tire will actually sell for a specific vehicle — year… | ⚪ |
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
-| `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟡 |
+| `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟢 |
 | `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🟡 |
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
 | `doordash.getCheckoutTotal` | doordash.com | Would open a specific store, add real menu items to the cart, set a delivery address… | ⚪ |
