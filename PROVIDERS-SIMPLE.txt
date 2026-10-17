@@ -499,6 +499,7 @@ rover.com — rover: searchBoarding
 rvshare.com — rvshare: searchListings
 saatva.com — saatva: listMattresses, recommendMattress
 safetywing.com — safetywing: getQuote
+safeway.com — safeway: addToCart, addToShoppingList, checkout, clipCoupon, findStores, getCart, getMyAccount, getMyOrder, getProduct, getProductsByUpc, getRecipe, getRewardsBalance, getSearchSuggestions, getShoppingList, getStore, getWeeklyAd, listAisleProducts, listAisles, listDeals, listDeliveryWindows, listMyCoupons, listMyOrders, listMyReceipts, listPastPurchases, listPickupWindows, listRewardsHistory, listSimilarProducts, redeemRewards, removeFromCart, removeFromShoppingList, reserveTimeWindow, searchProducts, searchRecipes, setMyStore, updateCartItem, updateMyProfile
 saltandstone.com — saltandstone: getScentProducts, listScentFamilies, matchScent
 samsclub.com — samsclub: browseCategory, checkStock, findClubs, getFuelPrices, getInstantSavings, getMembershipPlans, getPickupSlots, getProduct, search, trackOrder
 samsung.com — samsung: checkWarrantyStatus, compareProducts, findStore, getOrderStatus, getProduct, getRewardsBalance, getTradeInQuote, listCarrierOffers, listCategories, listCategoryProducts, listDeals, listMyProducts, listOrders, listSupportArticles, search

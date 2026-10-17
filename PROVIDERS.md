@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4033 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4069 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3066,6 +3066,42 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `saatva.listMattresses` | saatva.com | Lists every mattress product line Saatva currently sells with every buyable variant —… | 🟢 |
 | `saatva.recommendMattress` | saatva.com | Runs Saatva's mattress-quiz goal-flow for a stated sleep position, firmness preference… | 🟢 |
 | `safetywing.getQuote` | safetywing.com | Runs SafetyWing's own Nomad Insurance quote calculator — plan (Essential or Complete)… | 🟢 |
+| `safeway.addToCart` | safeway.com | Adds a product to the signed-in customer's cart. | ⚪ |
+| `safeway.addToShoppingList` | safeway.com | Adds a product or a free-text item to the signed-in customer's shopping list. | ⚪ |
+| `safeway.checkout` | safeway.com | Would place the signed-in customer's order and pay for it. | ⚪ |
+| `safeway.clipCoupon` | safeway.com | Clips a digital coupon to the signed-in customer's card. | ⚪ |
+| `safeway.findStores` | safeway.com | Finds Safeway stores near a ZIP code: store id, address, distance, hours, phone and… | ⚪ |
+| `safeway.getCart` | safeway.com | Returns the signed-in customer's cart at their store: items, quantities, prices… | ⚪ |
+| `safeway.getMyAccount` | safeway.com | Returns the signed-in customer's profile: name, email, phone, preferred store and… | ⚪ |
+| `safeway.getMyOrder` | safeway.com | Returns one of the signed-in customer's orders: items, substitutions, window, driver… | ⚪ |
+| `safeway.getProduct` | safeway.com | Returns one Safeway product at a store: title, brand, size, price, member price, unit… | ⚪ |
+| `safeway.getProductsByUpc` | safeway.com | Looks up Safeway products by UPC barcode at a store. | ⚪ |
+| `safeway.getRecipe` | safeway.com | Returns one recipe: ingredients (with the Safeway products for them), steps, time and… | ⚪ |
+| `safeway.getRewardsBalance` | safeway.com | Returns the signed-in customer's Safeway for U points balance, tier and the rewards… | ⚪ |
+| `safeway.getSearchSuggestions` | safeway.com | Returns Safeway's type-ahead suggestions for a partial query, each with the department… | ⚪ |
+| `safeway.getShoppingList` | safeway.com | Returns the signed-in customer's shopping list. | ⚪ |
+| `safeway.getStore` | safeway.com | Returns one Safeway store by id: address, phone, hours, departments and the services… | ⚪ |
+| `safeway.getWeeklyAd` | safeway.com | Returns a store's current weekly ad: the flyer pages and the items on sale with their… | ⚪ |
+| `safeway.listAisleProducts` | safeway.com | Lists the products in one aisle at one store: name, UPC, price, unit price, member… | ⚪ |
+| `safeway.listAisles` | safeway.com | Lists Safeway's departments and the aisles inside each (Dairy, Eggs & Cheese → Milk &… | ⚪ |
+| `safeway.listDeals` | safeway.com | Lists the deals on offer at a store — member prices, BOGO and sale items — with the… | ⚪ |
+| `safeway.listDeliveryWindows` | safeway.com | Lists the delivery time windows open to the signed-in customer's address, with each… | ⚪ |
+| `safeway.listMyCoupons` | safeway.com | Lists the digital coupons (Safeway for U) available to and clipped by the signed-in… | ⚪ |
+| `safeway.listMyOrders` | safeway.com | Lists the signed-in customer's online orders, current and past, with status, window… | ⚪ |
+| `safeway.listMyReceipts` | safeway.com | Lists the signed-in customer's in-store receipts and returns one receipt's lines. | ⚪ |
+| `safeway.listPastPurchases` | safeway.com | Lists the products the signed-in customer has bought before, online and in store, for… | ⚪ |
+| `safeway.listPickupWindows` | safeway.com | Lists the Drive Up & Go pickup windows open at a store for the signed-in customer. | ⚪ |
+| `safeway.listRewardsHistory` | safeway.com | Lists how the signed-in customer earned and spent points. | ⚪ |
+| `safeway.listSimilarProducts` | safeway.com | Lists products Safeway suggests as alternatives to one product ("similar items"). | ⚪ |
+| `safeway.redeemRewards` | safeway.com | Would spend the signed-in customer's points on a reward (grocery or gas savings). | ⚪ |
+| `safeway.removeFromCart` | safeway.com | Removes an item from the signed-in customer's cart. | ⚪ |
+| `safeway.removeFromShoppingList` | safeway.com | Removes an item from the signed-in customer's shopping list. | ⚪ |
+| `safeway.reserveTimeWindow` | safeway.com | Holds a delivery or pickup window for the signed-in customer's cart. | ⚪ |
+| `safeway.searchProducts` | safeway.com | Searches Safeway's catalogue at one store by keyword: name, UPC, price, member price… | ⚪ |
+| `safeway.searchRecipes` | safeway.com | Searches Safeway's recipes by keyword or cookbook. | ⚪ |
+| `safeway.setMyStore` | safeway.com | Sets the signed-in customer's preferred store, which every price, stock and slot on… | ⚪ |
+| `safeway.updateCartItem` | safeway.com | Changes an item's quantity, substitution preference or note in the signed-in… | ⚪ |
+| `safeway.updateMyProfile` | safeway.com | Changes the signed-in customer's name, phone or communication preferences. | ⚪ |
 | `saltandstone.getScentProducts` | saltandstone.com | Lists the real core products (body wash, body mist, body lotion, deodorant, hand… | 🟢 |
 | `saltandstone.listScentFamilies` | saltandstone.com | Lists Salt & Stone's real six named scent families (Santal & Vetiver, Bergamot &… | 🟢 |
 | `saltandstone.matchScent` | saltandstone.com | Salt & Stone's own Scent Quiz, reimplemented: given a free-text scent preference… | 🟡 |
