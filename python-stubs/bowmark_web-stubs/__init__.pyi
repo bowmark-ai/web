@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 48f3d38c00392e61d1355435d66c3b07d2fc337807216ee4d961853114ef9723
-# 85 capabilities, 590 providers, 2156 typed functions, 20 refused.
+# Manifest version: fa9267668d7e9cd643fb75cc62c4da0af8d174ce16ed0cb7ba9f2318b8a2f96d
+# 85 capabilities, 591 providers, 2157 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8007,6 +8007,11 @@ class Prv_byltbasics_byltbasicsPackHandoff_Out(TypedDict):
     compareAtPrice: float | None
     savingsPercent: float | None
     checkoutUrl: str
+
+class Prv_ca_gov_ca_govRow_Out(TypedDict):
+    id: str
+    name: str
+    url: NotRequired[str]
 
 class Prv_cabinsforyou_CabinsforyouSearchArgs_In(TypedDict):
     checkIn: str
@@ -39185,6 +39190,16 @@ class Prv_byltbasics(Protocol):
         shopper's own browser.
         """
 
+class Prv_ca_gov(Protocol):
+    """California's state government portal — services, departments and public data. Surveyed,
+    not yet built.
+    """
+
+    async def listDepartments(self, filter: str | None = None, /) -> list[Prv_ca_gov_ca_govRow_Out]:
+        """Lists all California state agencies and departments from CA.gov. An optional filter
+        narrows to departments whose name contains it (case-insensitive).
+        """
+
 class Prv_cabinsforyou(Protocol):
     """Cabins For You's live Smoky Mountain cabin-availability search (Check In / Check Out /
     Guests / Bedrooms) off the site's own search page — real priced results, not a stale
@@ -55911,6 +55926,7 @@ class BowmarkProviders(Protocol):
     businessinsider_com: Prv_businessinsider_com
     bykoket: Prv_bykoket
     byltbasics: Prv_byltbasics
+    ca_gov: Prv_ca_gov
     cabinsforyou: Prv_cabinsforyou
     cal_com: Prv_cal_com
     calendly: Prv_calendly

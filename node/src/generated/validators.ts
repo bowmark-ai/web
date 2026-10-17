@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 48f3d38c00392e61d1355435d66c3b07d2fc337807216ee4d961853114ef9723
-// 2156 checked, 20 unchecked.
+// Manifest version: fa9267668d7e9cd643fb75cc62c4da0af8d174ce16ed0cb7ba9f2318b8a2f96d
+// 2157 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "48f3d38c00392e61d1355435d66c3b07d2fc337807216ee4d961853114ef9723",
+  "version": "fa9267668d7e9cd643fb75cc62c4da0af8d174ce16ed0cb7ba9f2318b8a2f96d",
   "units": {
     "address_validation": {
       "defs": {
@@ -14699,6 +14699,20 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ca_gov": {
+      "defs": {},
+      "functions": {
+        "listDepartments": [
+          {
+            "name": "filter",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 48f3d38c00392e61d1355435d66c3b07d2fc337807216ee4d961853114ef9723
-// 85 capabilities, 590 providers, 2174 typed functions, 20 refused.
+// Manifest version: fa9267668d7e9cd643fb75cc62c4da0af8d174ce16ed0cb7ba9f2318b8a2f96d
+// 85 capabilities, 591 providers, 2175 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14071,6 +14071,27 @@ interface byltbasicsPackHandoff {
      * browser.
      */
     buildPackHandoff(args: { handle: string; size: string; colors: string[] }): Promise<byltbasicsPackHandoff>;
+  }
+}
+
+declare namespace BowmarkProvider_ca_gov {
+  // ── California State Portal — the unit's own declarations, verbatim ──
+interface ca_govRow {
+  id: string;
+  name: string;
+  url?: string;
+}
+
+  /**
+   * California's state government portal — services, departments and public data. Surveyed, not
+   * yet built.
+   */
+  interface Unit {
+    /**
+     * Lists all California state agencies and departments from CA.gov. An optional filter narrows
+     * to departments whose name contains it (case-insensitive).
+     */
+    listDepartments(filter?: string): Promise<ca_govRow[]>;
   }
 }
 
@@ -61071,6 +61092,7 @@ interface BowmarkProviders {
   businessinsider_com: BowmarkProvider_businessinsider_com.Unit;
   bykoket: BowmarkProvider_bykoket.Unit;
   byltbasics: BowmarkProvider_byltbasics.Unit;
+  ca_gov: BowmarkProvider_ca_gov.Unit;
   cabinsforyou: BowmarkProvider_cabinsforyou.Unit;
   cal_com: BowmarkProvider_cal_com.Unit;
   calendly: BowmarkProvider_calendly.Unit;

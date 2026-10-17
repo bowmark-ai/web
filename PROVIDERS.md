@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3850 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3860 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -255,9 +255,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `atlasoceanvoyages.getVoyage` | atlasoceanvoyages.com | Reads one voyage's own detail page: the full port-by-port day itinerary with… | 🟢 |
 | `atlasoceanvoyages.searchVoyages` | atlasoceanvoyages.com | Runs the /search voyage finder — destination, ship, duration and departure-date… | 🟢 |
 | `atlasseniorliving.searchCommunities` | atlasseniorliving.com | Runs the site's own 'Find a Community' search at… | 🟢 |
+| `att.addLine` | att.com | Add a new line to the caller's existing AT&T family plan. | ⚪ |
+| `att.changePlan` | att.com | Switch a line to a different AT&T wireless plan. | ⚪ |
 | `att.findDevices` | att.com | Every phone on AT&T's own phones listing (att.com/buy/phones/) - name, brand, product… | 🟢 |
+| `att.getAccountBalance` | att.com | The caller's current AT&T account balance: amount due, past due balance if any… | ⚪ |
 | `att.getDevicePricing` | att.com | AT&T's current device price and financing for a phone (e.g. iPhone 16 Pro): full… | 🟢 |
+| `att.getMonthlyBill` | att.com | A specific month's bill: itemized charges by service (device payments, plan, add-ons)… | ⚪ |
 | `att.getPlanTotal` | att.com | Walks AT&T's new-line plan-builder / order flow (att.com/plans/unlimited-data-plans/ →… | ⚪ |
+| `att.getUsage` | att.com | Data and voice usage on a line: current month's data used (MB/GB), talk minutes used… | ⚪ |
+| `att.listLines` | att.com | Every line on the caller's AT&T account: phone number, device, plan name, upgrade… | ⚪ |
+| `att.listPlans` | att.com | Every wireless plan AT&T offers: name, description, data limits, price per line… | ⚪ |
+| `att.payBill` | att.com | Pay a portion or all of the caller's AT&T bill using a saved payment method or… | ⚪ |
+| `att.viewBillHistory` | att.com | The caller's past 12 months of bills: month, amount due, amount paid, payment date. | ⚪ |
+| `att.viewOrderHistory` | att.com | The caller's past device and accessory orders from AT&T: order date, items, tracking… | ⚪ |
 | `audibel.findClinics` | audibel.com | Runs Audibel's find-a-clinic locator for a ZIP code, city or address and returns the… | 🟢 |
 | `autocamp.listProperties` | autocamp.com | Lists AutoCamp's active properties (name, location, the reservations-engine hotel id)… | 🟢 |
 | `autocamp.searchAvailability` | autocamp.com | Runs AutoCamp's own SynXis-backed reservation engine for one property (location +… | 🟢 |
@@ -540,7 +550,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ca_gov.getDepartment` | www.ca.gov | Returns information about a specific California state agency or department —… | ⚪ |
 | `ca_gov.getDepartmentContact` | www.ca.gov | Returns contact information (phone, email, address) for a specific California state… | ⚪ |
 | `ca_gov.getService` | www.ca.gov | Returns detailed information about a specific California state service — description… | ⚪ |
-| `ca_gov.listDepartments` | www.ca.gov | Lists all California state agencies and departments available through CA.gov with… | ⚪ |
+| `ca_gov.listDepartments` | www.ca.gov | Lists all California state agencies and departments available through CA.gov with… | 🟢 |
 | `ca_gov.listNews` | www.ca.gov | Lists recent California state news and announcements from CA.gov. | ⚪ |
 | `ca_gov.listPublicData` | www.ca.gov | Lists public datasets available through data.ca.gov (California's open data portal)… | ⚪ |
 | `ca_gov.listServices` | www.ca.gov | Lists all state services available through the CA.gov portal — organized by category… | ⚪ |
