@@ -1268,8 +1268,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epromos.quoteBulkPrice` | epromos.com | Computes the real per-unit and total price for one product at a caller-given quantity… | 🟢 |
 | `epromos.searchProducts` | epromos.com | Free-text search over ePromos' full catalog. | ⚪ |
 | `eq3.configureSofa` | eq3.com | Would price an ARBITRARY caller-chosen combination of options by looking up the real… | ⚪ |
-| `eq3.getSofaConfiguration` | eq3.com | Reads one sofa's full configurator: the site's own price (regular + sale) for its… | 🟡 |
-| `eq3.listSofas` | eq3.com | Lists every sofa in EQ3's sofas collection with real regular and sale prices, straight… | 🟡 |
+| `eq3.getSofaConfiguration` | eq3.com | Reads one sofa's full configurator: the site's own price (regular + sale) for its… | 🟢 |
+| `eq3.listSofas` | eq3.com | Lists every sofa in EQ3's sofas collection with real regular and sale prices, straight… | 🟢 |
 | `equinox_hotels.listRooms` | equinox-hotels.com | Lists Equinox Hotel New York's live room inventory with booking-engine room codes… | 🟢 |
 | `equinox_hotels.searchRates` | equinox-hotels.com | Searches Equinox Hotel New York's live booking engine for dates and guests, returning… | 🟢 |
 | `erieinsurance.findAgent` | erieinsurance.com | Finds ERIE independent agents near a ZIP or city+state — agency name, the named agent… | 🟢 |
