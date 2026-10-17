@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4114 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4144 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -498,6 +498,36 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bollandbranch.getCategoryOptions` | bollandbranch.com | Lists the real, currently-sellable products for one Virtual Bed Designer category… | 🟢 |
 | `bollandbranch.getSwatchDetails` | bollandbranch.com | Resolves color/fabric swatch names (as offered by getCategoryOptions) to their hex… | 🟢 |
 | `bollandbranch.renderBedPreview` | bollandbranch.com | Would render the Designer's own live combination preview (the stacked-bed visual for a… | ⚪ |
+| `booker.book` | booker.com | Books an appointment for the signed-in customer: one service (or an itinerary from… | ⚪ |
+| `booker.buyGiftCertificate` | booker.com | Buys a gift certificate from a location's online store. | ⚪ |
+| `booker.buyMembership` | booker.com | Buys a membership from a location's online store. | ⚪ |
+| `booker.buySeries` | booker.com | Buys a prepaid series of visits from a location's online store. | ⚪ |
+| `booker.cancelAppointment` | booker.com | Cancels one of the signed-in customer's upcoming appointments, after reading whether… | ⚪ |
+| `booker.cancelMembership` | booker.com | Cancels one of the signed-in customer's memberships. | ⚪ |
+| `booker.confirmAppointment` | booker.com | Confirms one of the signed-in customer's upcoming appointments when the location asks… | ⚪ |
+| `booker.findLocation` | booker.com | Resolves a Booker storefront to its location record: pass a slug (`kabuki`) or a… | ⚪ |
+| `booker.getAvailability` | booker.com | Returns the open appointment times for a service on a date at a location, each with… | ⚪ |
+| `booker.getAvailableDates` | booker.com | Returns the dates a service has open appointments at a location over a date range… | ⚪ |
+| `booker.getBookingPolicies` | booker.com | Returns a location's booking rules: its cancellation policy text and fee window, how… | ⚪ |
+| `booker.getGroupAvailability` | booker.com | Finds open times for the same visit for several guests at once (a couples' booking)… | ⚪ |
+| `booker.getLocationHours` | booker.com | Returns a location's opening hours by day over a date range. | ⚪ |
+| `booker.getMultiServiceAvailability` | booker.com | Finds back-to-back open times for several services booked as one visit (for example a… | ⚪ |
+| `booker.getMyProfile` | booker.com | Returns the signed-in customer's profile at a location: name, email, phone, address… | ⚪ |
+| `booker.getService` | booker.com | Returns one service's full detail: description, duration, price, add-ons, whether it… | ⚪ |
+| `booker.getServiceMenu` | booker.com | Returns a location's online service menu: each section and category with its services… | ⚪ |
+| `booker.getSpecial` | booker.com | Looks up a promo or special by code at a location and returns what it discounts and… | ⚪ |
+| `booker.listBrandLocations` | booker.com | Lists every location of a multi-location Booker brand (the go.booker.com/brand/<slug>… | ⚪ |
+| `booker.listGiftCertificates` | booker.com | Lists the gift certificate designs and amounts a location sells online. | ⚪ |
+| `booker.listMemberships` | booker.com | Lists the membership programs a location sells online, with price, billing period and… | ⚪ |
+| `booker.listMyAppointments` | booker.com | Lists the signed-in customer's upcoming and past appointments at a location: service… | ⚪ |
+| `booker.listMyMemberships` | booker.com | Lists the signed-in customer's memberships at a location with status, renewal date and… | ⚪ |
+| `booker.listMySeries` | booker.com | Lists the signed-in customer's prepaid series and how many visits each has left. | ⚪ |
+| `booker.listPackages` | booker.com | Lists the service packages a location sells, with what each includes and its price. | ⚪ |
+| `booker.listSeries` | booker.com | Lists the prepaid service series (bundles of visits, for example ten baths) a location… | ⚪ |
+| `booker.listStaff` | booker.com | Lists the staff who perform a service at a location (id, display name, gender, photo)… | ⚪ |
+| `booker.requestAppointment` | booker.com | Sends the location a request for an appointment time that is not open online (the… | ⚪ |
+| `booker.searchLocations` | booker.com | Searches Booker's directory of spas and salons by business name and returns matching… | ⚪ |
+| `booker.updateMyProfile` | booker.com | Updates the signed-in customer's profile fields (name, phone, address, communication… | ⚪ |
 | `booking_com.addToWishlist` | booking.com | Add a property to the caller's wishlist. | ⚪ |
 | `booking_com.autocompleteDestination` | booking.com | Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text… | 🟢 |
 | `booking_com.checkPrice` | booking.com | Check price and availability for a property on specific dates. | ⚪ |
@@ -2660,7 +2690,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | 🟢 |
 | `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
-| `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟡 |
+| `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
 | `nytimes.getConnections` | nytimes.com | Gets a day's Connections puzzle — the four categories and their cards. | 🟢 |
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟡 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
@@ -3500,7 +3530,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | 🟢 |
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | 🟢 |
 | `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
-| `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟡 |
+| `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟢 |
 | `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | 🟡 |
 | `theguardian_com.searchArticles` | theguardian.com | Search articles across the site by keyword. | ⚪ |
 | `therabody.getTheragunProduct` | therabody.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟡 |
@@ -3691,7 +3721,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | 🟢 |
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | 🟢 |
 | `twitch.searchChannels` | twitch.tv | Searches Twitch channels by keyword — a name, game or description term — and returns… | 🟢 |
-| `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | 🟡 |
+| `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | 🟢 |
 | `twitch.sendChatMessage` | twitch.tv | Sends a message to a channel's live chat. | 🟢 |
 | `twitch.setChannel` | twitch.tv | Updates the signed-in streamer's channel settings: title, language and game/category… | 🟢 |
 | `twitch.signUp` | twitch.tv | Registers a new developer application on the Twitch console. | ⚪ |
