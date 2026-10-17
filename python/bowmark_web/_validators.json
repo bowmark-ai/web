@@ -1,5 +1,5 @@
 {
-  "version": "0161d579d06223dd391c1207dc26e1744bc0215686f1702234cfb134bb2c53bc",
+  "version": "b6e0fdf1972d4b17000ec585ea84b532c6ed164b73a9572627e11515d42da686",
   "units": {
     "address_validation": {
       "defs": {
@@ -21687,22 +21687,6 @@
               "name": "ShipmentRequest"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ]
       }

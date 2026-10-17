@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0161d579d06223dd391c1207dc26e1744bc0215686f1702234cfb134bb2c53bc
+# Manifest version: b6e0fdf1972d4b17000ec585ea84b532c6ed164b73a9572627e11515d42da686
 # 85 capabilities, 591 providers, 2158 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -12160,14 +12160,17 @@ class Prv_estes_express_ShipmentRequest_In(TypedDict):
     weightPounds: float
     freightClass: str | float
 
-Prv_estes_express_FreightQuote_Out = TypedDict(
-    "Prv_estes_express_FreightQuote_Out",
-    {
-    "carrierCode": NotRequired[str],
-    "class": NotRequired[str | float],
-    "totalPrice": NotRequired[str | float],
-    },
-)
+class Prv_estes_express_FreightQuote_Out(TypedDict):
+    rates: list[Prv_estes_express_FreightRateOption_Out]
+    siteNotes: list[str]
+
+class Prv_estes_express_FreightRateOption_Out(TypedDict):
+    serviceLevel: str
+    totalCharges: float
+    guaranteed: bool
+    transitDays: str | None
+    deliveryDate: str | None
+    deliveryTime: str | None
 
 class Prv_etsy_search_args_u1_In(TypedDict):
     query: str
@@ -34945,12 +34948,14 @@ class Cap_industrial_supply(Protocol):
         """
 
 class Cap_insurance(Protocol):
-    """Look up insurance carriers in the regulators' own national register — the NAIC company
-    code, the legal entity behind a consumer brand, head-office contact details, and the
-    states each carrier is LICENSED to write in, which is not the same as where it is
-    headquartered — and get REAL home insurance quotes and rates for a specific property
-    address from two independent carrier panels (Insurify's marketplace, Progressive's
-    HomeQuote Explorer). Direct API, no browser.
+    """UNITED STATES ONLY — every source here is the US NAIC register and two US carrier
+    panels; nothing here covers a non-US insurer or address. Look up insurance carriers in
+    the regulators' own national register — the NAIC company code, the legal entity behind a
+    consumer brand, head-office contact details, and the states each carrier is LICENSED to
+    write in, which is not the same as where it is headquartered — and get REAL home
+    insurance quotes and rates for a specific property address from two independent carrier
+    panels (Insurify's marketplace, Progressive's HomeQuote Explorer). Direct API, no
+    browser.
     """
 
     async def searchCarriers(self, query: Cap_insurance_CarrierQuery_In, limit: float | None = None, options: Cap_insurance_CallOptions_In | None = None, /) -> Cap_insurance_CarrierSearchResult_Out:
@@ -40626,8 +40631,8 @@ class Prv_cruiselakegeneva(Protocol):
 class Prv_crunchbase(Protocol):
     """Crunchbase — which startups raised money this week (the week's biggest U.S. rounds with
     amount, round type, lead investors and the company's Crunchbase slug) and Crunchbase
-    News coverage of any company. Company profiles and full funding histories are NOT
-    reachable yet.
+    News coverage of any company. Company profiles and full funding histories are walled off
+    by Cloudflare on every exit Bowmark runs and are not yet reachable.
     """
 
     async def recentFundingRounds(self, options: Prv_crunchbase_RecentFundingRoundsArgs_In | None = None, /) -> list[Prv_crunchbase_CrunchbaseFundingRound_Out]:
@@ -41840,11 +41845,15 @@ class Prv_espn(Protocol):
         """
 
 class Prv_estes_express(Protocol):
-    """LTL freight quotes from Estes Express Lines."""
+    """LTL freight quotes from Estes Express Lines' own public Quick Quote tool — no account or
+    login needed.
+    """
 
-    async def estimateFreightQuote(self, request: Prv_estes_express_ShipmentRequest_In, opts: ConnectionOption | None = None, /) -> Prv_estes_express_FreightQuote_Out:
-        """Gets a freight shipping rate quote for an LTL (less than truckload) shipment with
-        origin, destination, weight, and freight class.
+    async def estimateFreightQuote(self, request: Prv_estes_express_ShipmentRequest_In, /) -> Prv_estes_express_FreightQuote_Out:
+        """Gets LTL (less than truckload) freight shipping rate quotes for an origin/destination
+        ZIP pair, weight, and freight class, across every service level Estes prices it for.
+        Public list rates from Estes's own Quick Quote tool — no sign-in needed. A signed-in
+        customer's negotiated account rates are a separate surface this does not reach.
         """
 
 class Prv_etsy(Protocol):

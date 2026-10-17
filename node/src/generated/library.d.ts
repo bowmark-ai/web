@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0161d579d06223dd391c1207dc26e1744bc0215686f1702234cfb134bb2c53bc
+// Manifest version: b6e0fdf1972d4b17000ec585ea84b532c6ed164b73a9572627e11515d42da686
 // 85 capabilities, 591 providers, 2176 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -1910,7 +1910,7 @@ type FlightStatusResult = {
 }
 
 declare namespace BowmarkCapability_fuel_card_fees {
-  // ── Fleet Fuel Card Fees — the unit's own declarations, verbatim ──
+  // ── Commercial Fleet Fuel Card Monthly Fees — the unit's own declarations, verbatim ──
 interface EstimateMonthlyArgs {
   cards?: number; // cards (drivers) on the account; defaults to 1
 }
@@ -2528,12 +2528,13 @@ type CallOptions = {
 }
 
   /**
-   * Look up insurance carriers in the regulators' own national register — the NAIC company code,
-   * the legal entity behind a consumer brand, head-office contact details, and the states each
-   * carrier is LICENSED to write in, which is not the same as where it is headquartered — and
-   * get REAL home insurance quotes and rates for a specific property address from two
-   * independent carrier panels (Insurify's marketplace, Progressive's HomeQuote Explorer).
-   * Direct API, no browser.
+   * UNITED STATES ONLY — every source here is the US NAIC register and two US carrier panels;
+   * nothing here covers a non-US insurer or address. Look up insurance carriers in the
+   * regulators' own national register — the NAIC company code, the legal entity behind a
+   * consumer brand, head-office contact details, and the states each carrier is LICENSED to
+   * write in, which is not the same as where it is headquartered — and get REAL home insurance
+   * quotes and rates for a specific property address from two independent carrier panels
+   * (Insurify's marketplace, Progressive's HomeQuote Explorer). Direct API, no browser.
    */
   interface Unit {
     /**
@@ -18008,7 +18009,8 @@ interface SearchNewsArgs {
   /**
    * Crunchbase — which startups raised money this week (the week's biggest U.S. rounds with
    * amount, round type, lead investors and the company's Crunchbase slug) and Crunchbase News
-   * coverage of any company. Company profiles and full funding histories are NOT reachable yet.
+   * coverage of any company. Company profiles and full funding histories are walled off by
+   * Cloudflare on every exit Bowmark runs and are not yet reachable.
    */
   interface Unit {
     /**
@@ -21516,10 +21518,18 @@ interface TeamScheduleResult {
 
 declare namespace BowmarkProvider_estes_express {
   // ── Estes Express Lines — the unit's own declarations, verbatim ──
+interface FreightRateOption {
+  serviceLevel: string;
+  totalCharges: number;
+  guaranteed: boolean;
+  transitDays: string | null;
+  deliveryDate: string | null;
+  deliveryTime: string | null;
+}
+
 interface FreightQuote {
-  carrierCode?: string;
-  class?: string | number;
-  totalPrice?: string | number;
+  rates: FreightRateOption[];
+  siteNotes: string[];
 }
 
 interface ShipmentRequest {
@@ -21529,13 +21539,18 @@ interface ShipmentRequest {
   freightClass: string | number;
 }
 
-  /** LTL freight quotes from Estes Express Lines. */
+  /**
+   * LTL freight quotes from Estes Express Lines' own public Quick Quote tool — no account or
+   * login needed.
+   */
   interface Unit {
     /**
-     * Gets a freight shipping rate quote for an LTL (less than truckload) shipment with origin,
-     * destination, weight, and freight class.
+     * Gets LTL (less than truckload) freight shipping rate quotes for an origin/destination ZIP
+     * pair, weight, and freight class, across every service level Estes prices it for. Public list
+     * rates from Estes's own Quick Quote tool — no sign-in needed. A signed-in customer's
+     * negotiated account rates are a separate surface this does not reach.
      */
-    estimateFreightQuote(request: ShipmentRequest, opts?: ConnectionOption): Promise<FreightQuote>;
+    estimateFreightQuote(request: ShipmentRequest): Promise<FreightQuote>;
   }
 }
 
