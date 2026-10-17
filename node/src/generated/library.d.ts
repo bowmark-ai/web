@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 482a84e7a339aa549571df62fe2b344e0a92c12a837fc40647f7ba6cae4b129f
+// Manifest version: 0161d579d06223dd391c1207dc26e1744bc0215686f1702234cfb134bb2c53bc
 // 85 capabilities, 591 providers, 2176 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -5245,7 +5245,11 @@ type FormFillResult = {
      * only when that finds no fields — then it clicks the control that reveals the form (a `Book
      * Online` button, say) and reads the widget's own cross-origin iframe. It clicks exactly that
      * one control: it never types, never picks an option and never submits, so a multi-step flow
-     * comes back as the visible step plus `multiStep: true`.
+     * comes back as the visible step plus `multiStep: true`. A calendar date picker is read as one
+     * `type: "date"` field per visible month, carrying the month and year — each option's `value`
+     * is a real ISO date (`"2026-10-06"`), never the bare day-of-month a day button displays —
+     * plus a `type: "dateNav"` field naming its prev/next-month controls when the calendar has
+     * more than one visible month.
      */
     getFields(url: string, options?: FormOptions): Promise<FormInspectionResult>;
 
@@ -30416,7 +30420,7 @@ interface ImdbReviewsResponse {
 interface ImdbSearchTitlesArgs {
   /** 'movie', 'tvSeries', 'tvEpisode', 'short', 'tvMiniSeries', etc. — filter by title type(s). */
   titleType?: string | string[];
-  /** Genre names like 'action', 'drama', 'sci-fi'. */
+  /** Genre names like 'action', 'drama', 'sci-fi' — a title must carry every one. */
   genres?: string[];
   /** Release year range: { min?: number, max?: number }. */
   releaseYear?: { min?: number; max?: number };
@@ -30424,7 +30428,7 @@ interface ImdbSearchTitlesArgs {
   minVotes?: number;
   /** Minimum IMDb rating (e.g., 7.5 for highly-rated titles). */
   minRating?: number;
-  /** Sort order: 'num_votes,desc', 'user_rating,desc', 'release_date,desc', etc. */
+  /** imdb.com/search's own sort param — 'num_votes,desc', 'user_rating,desc', 'release_date,desc', 'moviemeter,asc', 'alpha,asc', 'boxoffice_gross_us,desc', 'runtime,desc', 'year,desc'. */
   sort?: string;
   /** Number of results per page: 1-50, default 10. */
   limit?: number;
@@ -30443,6 +30447,8 @@ interface ImdbSearchTitlesResult {
 
 interface ImdbSearchTitlesResponse {
   results: ImdbSearchTitlesResult[];
+  /** How many titles match the filters, across every page. */
+  total: number | null;
   next?: string;
 }
 

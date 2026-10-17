@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 482a84e7a339aa549571df62fe2b344e0a92c12a837fc40647f7ba6cae4b129f
+# Manifest version: 0161d579d06223dd391c1207dc26e1744bc0215686f1702234cfb134bb2c53bc
 # 85 capabilities, 591 providers, 2158 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -16596,6 +16596,7 @@ class Prv_imdb_ImdbSearchTitlesArgs_In_releaseYear_In(TypedDict):
 
 class Prv_imdb_ImdbSearchTitlesResponse_Out(TypedDict):
     results: list[Prv_imdb_ImdbSearchTitlesResult_Out]
+    total: float | None
     next: NotRequired[str]
 
 class Prv_imdb_ImdbSearchTitlesResult_Out(TypedDict):
@@ -36022,7 +36023,11 @@ class Cap_web_form_fields(Protocol):
         only when that finds no fields — then it clicks the control that reveals the form (a
         `Book Online` button, say) and reads the widget's own cross-origin iframe. It clicks
         exactly that one control: it never types, never picks an option and never submits, so a
-        multi-step flow comes back as the visible step plus `multiStep: true`.
+        multi-step flow comes back as the visible step plus `multiStep: true`. A calendar date
+        picker is read as one `type: "date"` field per visible month, carrying the month and
+        year — each option's `value` is a real ISO date (`"2026-10-06"`), never the bare
+        day-of-month a day button displays — plus a `type: "dateNav"` field naming its
+        prev/next-month controls when the calendar has more than one visible month.
         """
 
     async def fillForm(self, url: str, values: Mapping[str, str], options: Cap_web_form_fields_FormFillOptions_In | None = None, /) -> Cap_web_form_fields_FormFillResult_Out:

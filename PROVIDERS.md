@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3924 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3960 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1440,6 +1440,42 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `firstamericahomes.searchCommunities` | firstamericahomes.com | Searches First America Homes' current live community list (Houston and San Antonio… | 🟢 |
 | `firstdibs.getListing` | 1stdibs.com | Reads one listing's real price and its concrete completing action (Make an Offer… | 🟢 |
 | `firstdibs.search` | 1stdibs.com | Runs 1stDibs' search and returns real listings — name, real price, currency… | 🟢 |
+| `fitdegree.bookClass` | fitdegree.com | Books the signed-in member into a scheduled class (optionally on a chosen spot) using… | ⚪ |
+| `fitdegree.bookPrivateSession` | fitdegree.com | Books the signed-in member into a private session at a time… | ⚪ |
+| `fitdegree.buyPricingOption` | fitdegree.com | Would buy a membership, class pack, drop-in or intro offer at a studio for the… | ⚪ |
+| `fitdegree.cancelBooking` | fitdegree.com | Cancels one of the signed-in member's class or event bookings. | ⚪ |
+| `fitdegree.cancelPrivateSession` | fitdegree.com | Cancels one of the signed-in member's private sessions, refusing a late cancel with a… | ⚪ |
+| `fitdegree.findStudio` | fitdegree.com | Finds a FitDegree studio by name, city or website, or from the URL of a page that… | ⚪ |
+| `fitdegree.getCancellationPolicy` | fitdegree.com | Returns a studio's cancellation policy for a class — the early and late cancellation… | ⚪ |
+| `fitdegree.getClass` | fitdegree.com | Returns one scheduled class by id: description, start and end time, instructor, room… | ⚪ |
+| `fitdegree.getClassPricing` | fitdegree.com | Returns what booking one class would cost the signed-in member: the drop-in price, and… | ⚪ |
+| `fitdegree.getInstructor` | fitdegree.com | Returns one instructor's profile by id: name, photo, bio and certifications. | ⚪ |
+| `fitdegree.getMembershipPricing` | fitdegree.com | Returns the prices and billing terms of a studio's memberships and packs as the… | ⚪ |
+| `fitdegree.getMyProfile` | fitdegree.com | Returns the signed-in member's own profile at FitDegree: name, username, email, phone… | ⚪ |
+| `fitdegree.getPrivateSessionAvailability` | fitdegree.com | Returns the open times for a private session type, optionally with one instructor… | ⚪ |
+| `fitdegree.getSpotMap` | fitdegree.com | Returns the spot or equipment map for a class at a studio that lets members choose… | ⚪ |
+| `fitdegree.getStudio` | fitdegree.com | Returns one studio by fitspot id: name, address, time zone, contact details, logo, its… | ⚪ |
+| `fitdegree.joinWaitlist` | fitdegree.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
+| `fitdegree.leaveWaitlist` | fitdegree.com | Takes the signed-in member off a class waitlist. | ⚪ |
+| `fitdegree.listAnnouncements` | fitdegree.com | Lists a studio's announcements to members (new schedule, closures, promotions) with… | ⚪ |
+| `fitdegree.listClasses` | fitdegree.com | Lists a studio's class schedule for a date range, optionally narrowed to an instructor… | ⚪ |
+| `fitdegree.listEvents` | fitdegree.com | Lists a studio's one-off events and challenges with dates, room, instructor, capacity… | ⚪ |
+| `fitdegree.listInstructors` | fitdegree.com | Lists the instructors at a studio with id, name, photo and bio — the ids listClasses… | ⚪ |
+| `fitdegree.listIntroOffers` | fitdegree.com | Lists a studio's intro and promotional offers ("Second Group Class On Us") with title… | ⚪ |
+| `fitdegree.listLocations` | fitdegree.com | Lists the rooms or locations inside a studio ("Reformer Room", "Private Room") with… | ⚪ |
+| `fitdegree.listMemberships` | fitdegree.com | Lists the memberships and class packs a studio sells with name, description, terms and… | ⚪ |
+| `fitdegree.listMyBookings` | fitdegree.com | Lists the signed-in member's upcoming and past bookings at a studio — classes, events… | ⚪ |
+| `fitdegree.listMyNotifications` | fitdegree.com | Lists the signed-in member's FitDegree notifications (booking confirmations, waitlist… | ⚪ |
+| `fitdegree.listMyPasses` | fitdegree.com | Lists the signed-in member's memberships, class packs and credits at a studio — what… | ⚪ |
+| `fitdegree.listMyPurchases` | fitdegree.com | Lists the signed-in member's bills and purchase history at a studio (what was bought… | ⚪ |
+| `fitdegree.listPrivateSessionTypes` | fitdegree.com | Lists the private sessions (one-on-ones) a studio offers — name, lengths, room, price… | ⚪ |
+| `fitdegree.listScheduleDates` | fitdegree.com | Returns which days in a range have classes at a studio, and how many — the calendar… | ⚪ |
+| `fitdegree.listSeries` | fitdegree.com | Lists a studio's multi-week series and courses with their sessions, dates and price. | ⚪ |
+| `fitdegree.listWaiversToSign` | fitdegree.com | Lists the waivers the signed-in member still has to sign before booking at a studio… | ⚪ |
+| `fitdegree.markNotificationsRead` | fitdegree.com | Marks one or all of the signed-in member's notifications as read. | ⚪ |
+| `fitdegree.registerForEvent` | fitdegree.com | Registers the signed-in member for a studio event or series from listEvents /… | ⚪ |
+| `fitdegree.signWaiver` | fitdegree.com | Signs a studio waiver for the signed-in member, the way the booking flow asks before a… | ⚪ |
+| `fitdegree.updateMyProfile` | fitdegree.com | Edits the signed-in member's own profile (name, phone, address, emergency contact)… | ⚪ |
 | `fitness1440.getDayPassRequestInfo` | fitness1440.com | Validates one state/city pair against the same live cascade and returns the day-pass… | 🟢 |
 | `fitness1440.listLocations` | fitness1440.com | Reads FITNESS:1440's own day-pass request form (/request-day-pass/) and returns the… | 🟢 |
 | `fivebelow.search` | fivebelow.com | Searches fivebelow.com's catalog for a keyword and returns matching products — name… | 🟡 |
