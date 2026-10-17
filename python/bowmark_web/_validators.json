@@ -1,5 +1,5 @@
 {
-  "version": "6a3f5d4b43e614bf2049b0ff49ca19d8b2e53220840e95f78ab4e42c23ac5fb5",
+  "version": "185827b9b8de69a4b174cef63a26eb2abcf5b4ec2d27b198f09e659676590e72",
   "units": {
     "address_validation": {
       "defs": {
@@ -67962,6 +67962,15 @@
                   "k": "number"
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getMarketplaceApp": [
+          {
+            "name": "appId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6a3f5d4b43e614bf2049b0ff49ca19d8b2e53220840e95f78ab4e42c23ac5fb5
-// 85 capabilities, 590 providers, 2172 typed functions, 20 refused.
+// Manifest version: 185827b9b8de69a4b174cef63a26eb2abcf5b4ec2d27b198f09e659676590e72
+// 85 capabilities, 590 providers, 2173 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -59976,6 +59976,22 @@ interface ZoomMeetingInfo {
   status: "joinable" | "invalid" | "unknown";
 }
 
+interface ZoomMarketplaceAppDetail {
+  id: string;
+  name: string;
+  developer: string;
+  description: string;
+  longDescription: string; // the full listing body, as the site's own HTML
+  categories: string[];
+  scopes: string[]; // the OAuth scopes the app requests
+  screenshots: string[];
+  supportUrl: string | null;
+  privacyUrl: string | null;
+  tosUrl: string | null;
+  docUrl: string | null;
+  url: string;
+}
+
   /** Video conferencing, meetings, and webinars. */
   interface Unit {
     /** Read Zoom Workplace pricing plans and features */
@@ -59992,6 +60008,9 @@ interface ZoomMeetingInfo {
 
     /** Extract meeting information from the public join page */
     getMeetingInfo(meetingId: string | number): Promise<ZoomMeetingInfo>;
+
+    /** Read one Zoom Marketplace app's full listing — description, scopes, developer and links */
+    getMarketplaceApp(appId: string): Promise<ZoomMarketplaceAppDetail>;
   }
 }
 

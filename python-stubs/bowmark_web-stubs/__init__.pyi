@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6a3f5d4b43e614bf2049b0ff49ca19d8b2e53220840e95f78ab4e42c23ac5fb5
-# 85 capabilities, 590 providers, 2154 typed functions, 20 refused.
+# Manifest version: 185827b9b8de69a4b174cef63a26eb2abcf5b4ec2d27b198f09e659676590e72
+# 85 capabilities, 590 providers, 2155 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -34034,6 +34034,21 @@ class Prv_zoom_ZoomMeetingInfo_Out(TypedDict):
     topic: NotRequired[str]
     status: Literal["joinable"] | Literal["invalid"] | Literal["unknown"]
 
+class Prv_zoom_ZoomMarketplaceAppDetail_Out(TypedDict):
+    id: str
+    name: str
+    developer: str
+    description: str
+    longDescription: str
+    categories: list[str]
+    scopes: list[str]
+    screenshots: list[str]
+    supportUrl: str | None
+    privacyUrl: str | None
+    tosUrl: str | None
+    docUrl: str | None
+    url: str
+
 class Prv_zoopla_search_args_In(TypedDict):
     location: str
     bedrooms: NotRequired[float]
@@ -55746,6 +55761,9 @@ class Prv_zoom(Protocol):
 
     async def getMeetingInfo(self, meetingId: str | float, /) -> Prv_zoom_ZoomMeetingInfo_Out:
         """Extract meeting information from the public join page"""
+
+    async def getMarketplaceApp(self, appId: str, /) -> Prv_zoom_ZoomMarketplaceAppDetail_Out:
+        """Read one Zoom Marketplace app's full listing — description, scopes, developer and links"""
 
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""

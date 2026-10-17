@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3841 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 3850 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2562,6 +2562,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pallet2ship.getQuote` | pallet2ship.co.uk | Live pallet freight quotes between two UK-mainland postcodes for one or more pallets… | 🟡 |
 | `partiful.discoverEvents` | partiful.com | Lists the public events Partiful's explore page shows for one region (sf, nyc, la… | 🟢 |
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
+| `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | ⚪ |
+| `patreon.getCurrentUserFeed` | patreon.com | Get the signed-in caller's home feed. | ⚪ |
+| `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | ⚪ |
+| `patreon.listCreatorPosts` | patreon.com | List all public posts from a creator, newest first. | ⚪ |
+| `patreon.listCreatorTiers` | patreon.com | List all membership tiers offered by a creator with pricing. | ⚪ |
+| `patreon.listMemberOnlyPosts` | patreon.com | List posts only visible to the signed-in caller (requires membership). | ⚪ |
+| `patreon.listPledges` | patreon.com | List the signed-in caller's memberships and pledges. | ⚪ |
+| `patreon.listPostComments` | patreon.com | List all comments on a post. | ⚪ |
+| `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | ⚪ |
 | `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | 🟢 |
 | `paypal.estimateFee` | paypal.com | Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — an… | 🟢 |
 | `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | ⚪ |
