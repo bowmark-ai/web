@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4069 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4108 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2731,6 +2731,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.listPledges` | patreon.com | List the signed-in caller's memberships and pledges. | ⚪ |
 | `patreon.listPostComments` | patreon.com | List all comments on a post. | ⚪ |
 | `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | ⚪ |
+| `pausestudio.bookAppointment` | pausestudio.com | Books an appointment; signed-in caller only | ⚪ |
+| `pausestudio.cancelBooking` | pausestudio.com | Cancels a confirmed booking | ⚪ |
+| `pausestudio.getLocationInfo` | pausestudio.com | Gets address, hours, phone and services offered at a location | ⚪ |
+| `pausestudio.joinWaitlist` | pausestudio.com | Adds caller to waitlist for a time slot | ⚪ |
+| `pausestudio.listAvailableSlots` | pausestudio.com | Lists available appointment times by service, date and location | ⚪ |
+| `pausestudio.listLocations` | pausestudio.com | Lists all Pause Studio recovery/wellness locations | ⚪ |
+| `pausestudio.listMyBookings` | pausestudio.com | Lists caller's upcoming and past bookings | ⚪ |
+| `pausestudio.listServices` | pausestudio.com | Lists available recovery services (float, cryo, sauna, IV drips, etc.) at a location | ⚪ |
+| `pausestudio.listWaitlistedSlots` | pausestudio.com | Lists times caller is waitlisted for | ⚪ |
+| `pausestudio.modifyBooking` | pausestudio.com | Reschedules a booking to a different date/time | ⚪ |
 | `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | 🟢 |
 | `paypal.estimateFee` | paypal.com | Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — an… | 🟢 |
 | `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | 🟢 |
@@ -3301,6 +3311,35 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.updateDisplayName` | snapchat.com | Changes the signed-in caller's display name. | ⚪ |
 | `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟡 |
 | `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟡 |
+| `soulcycle.bookBike` | soul-cycle.com | Books a bike in a class for the signed-in rider, spending one class credit. | ⚪ |
+| `soulcycle.bookmarkClass` | soul-cycle.com | Bookmarks or un-bookmarks a class for the signed-in rider — how a rider marks a class… | ⚪ |
+| `soulcycle.buySeries` | soul-cycle.com | Buys a class pack or Soul Renew membership for the signed-in rider. | ⚪ |
+| `soulcycle.cancelBooking` | soul-cycle.com | Cancels one of the signed-in rider's bookings. | ⚪ |
+| `soulcycle.findStudio` | soul-cycle.com | Finds a studio from what a caller holds — a name ("Union Street"), a studio page URL… | ⚪ |
+| `soulcycle.getBikeMap` | soul-cycle.com | Returns a class's room map: every bike (seat) id with its position and whether it is… | ⚪ |
+| `soulcycle.getClassAvailability` | soul-cycle.com | Returns how many bikes are booked in a class and which bike (seat) ids are taken — a… | ⚪ |
+| `soulcycle.getInstructor` | soul-cycle.com | Returns one instructor's profile: full bio, Q&A (music, energy, workout style)… | ⚪ |
+| `soulcycle.getMyCredits` | soul-cycle.com | Returns the signed-in rider's usable class credits and active series (with expiry) —… | ⚪ |
+| `soulcycle.getMyProfile` | soul-cycle.com | Returns the signed-in rider's profile: name, email, phone, birthday, home region and… | ⚪ |
+| `soulcycle.getSoulJourney` | soul-cycle.com | Returns the signed-in rider's ride milestones and totals. | ⚪ |
+| `soulcycle.getStudio` | soul-cycle.com | Returns one studio's page: address, phone, description, amenities and its next classes… | ⚪ |
+| `soulcycle.getStudioSchedule` | soul-cycle.com | Lists a studio's classes for the week containing a date: class id, start time, class… | ⚪ |
+| `soulcycle.joinWaitlist` | soul-cycle.com | Joins the waitlist for a full class. | ⚪ |
+| `soulcycle.listClassHistory` | soul-cycle.com | Lists the signed-in rider's past classes. | ⚪ |
+| `soulcycle.listInstructors` | soul-cycle.com | Lists the instructors teaching in a region: id, name, short bio, photo, Spotify… | ⚪ |
+| `soulcycle.listMyBookings` | soul-cycle.com | Lists the signed-in rider's upcoming booked classes with studio, time, instructor… | ⚪ |
+| `soulcycle.listMyBookmarks` | soul-cycle.com | Lists the classes the signed-in rider has bookmarked (to book once they open). | ⚪ |
+| `soulcycle.listPurchaseHistory` | soul-cycle.com | Lists the signed-in rider's past series and merch purchases. | ⚪ |
+| `soulcycle.listRegions` | soul-cycle.com | Lists SoulCycle's regions (NYC, San Francisco, Bay Area, London …) with the studios in… | ⚪ |
+| `soulcycle.listSeries` | soul-cycle.com | Lists what a region sells and at what price: class packs (new-rider, starter… | ⚪ |
+| `soulcycle.listShopProducts` | soul-cycle.com | Lists the SoulCycle merch store's products (apparel, accessories) with price, variants… | ⚪ |
+| `soulcycle.listStudios` | soul-cycle.com | Lists the studios in a region (or all regions) with address, phone, coordinates and… | ⚪ |
+| `soulcycle.redeemReferralCredits` | soul-cycle.com | Redeems the free classes the signed-in rider earned by referring friends (Spread the… | ⚪ |
+| `soulcycle.setFavoriteInstructor` | soul-cycle.com | Adds or removes an instructor from the signed-in rider's favorites. | ⚪ |
+| `soulcycle.setFavoriteStudio` | soul-cycle.com | Adds or removes a studio from the signed-in rider's favorites. | ⚪ |
+| `soulcycle.setSeriesTransfer` | soul-cycle.com | Turns on or off letting the signed-in rider's series be used in another region. | ⚪ |
+| `soulcycle.updateMyProfile` | soul-cycle.com | Edits the signed-in rider's profile details (name, phone, birthday, bike settings such… | ⚪ |
+| `soulcycle.updatePreferences` | soul-cycle.com | Changes the signed-in rider's preferences tab (communication and class preferences). | ⚪ |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |

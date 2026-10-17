@@ -445,6 +445,7 @@ packlane.com — packlane: getQuote
 pallet2ship.co.uk — pallet2ship: getQuote
 partiful.com — partiful: discoverEvents, getEvent
 patreon.com — patreon: getCreator, getCurrentUserFeed, getPost, listCreatorPosts, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreators
+pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCryptoPrices, getCurrencyConversionQuote, getFees, getHelpArticle, getInvoice, getPayPalMeProfile, getPolicyDocument, searchHelp, searchShoppingOffers
 peerspace.com — peerspace: searchVenues
@@ -531,6 +532,7 @@ smartwool.com — smartwool: getSockRecommendation
 smithery.ai — smithery: search
 snapchat.com — snapchat: addFriend, blockUser, getChatMessages, getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSnapMap, getSpotlightVideo, listChats, listDiscoverStories, listFriends, listFriendStories, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, listTopicSpotlights, postSpotlightComment, postStory, removeFriend, searchSnapchat, sendChatMessage, sendSnap, subscribeToProfile, updateDisplayName
 solostove.com — solostove: checkBundle, listBundles
+soul-cycle.com — soulcycle: bookBike, bookmarkClass, buySeries, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getMyProfile, getSoulJourney, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listPurchaseHistory, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updateMyProfile, updatePreferences
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 spacest.com — spacest: search
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
