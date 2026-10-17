@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 3960 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4002 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1326,7 +1326,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.teamSchedule` | espn.com | One team's full season schedule — every game with date, opponent, home or away, TV… | 🟢 |
 | `espn.teamStats` | espn.com | One team's season statistics, team totals and per-game, with its league rank in each… | ⚪ |
 | `espn.transactions` | espn.com | A league's recent transactions — signings, releases, trades, injured-list moves and… | ⚪ |
-| `estes_express.estimateFreightQuote` | estes-express.com | Gets a freight shipping rate quote for an LTL (less than truckload) shipment with… | 🟢 |
+| `estes_express.estimateFreightQuote` | estes-express.com | Gets LTL (less than truckload) freight shipping rate quotes for an origin/destination… | 🟢 |
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword, the way etsy.com's own… | 🟢 |
 | `evag.listDepartures` | evag.de | Real-time transit departure information and schedules for Essen public transportation… | 🟢 |
@@ -2014,6 +2014,48 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |
 | `indeed.searchSalaries` | indeed.com | Searches Indeed's own salary data by job title and location, returning salary ranges… | 🟢 |
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
+| `instacart.addAddress` | instacart.com | Saves a new delivery address to the signed-in customer's account. | ⚪ |
+| `instacart.addToCart` | instacart.com | Adds a product to the signed-in customer's cart at a store, or sets its quantity if it… | ⚪ |
+| `instacart.addToList` | instacart.com | Adds products to, or removes them from, one of the signed-in customer's shopping lists. | ⚪ |
+| `instacart.clipCoupon` | instacart.com | Clips a coupon to the signed-in customer's account so it applies at checkout. | ⚪ |
+| `instacart.compareStores` | instacart.com | Searches every store that serves a location at once ("milk" across Costco, Safeway… | ⚪ |
+| `instacart.createList` | instacart.com | Creates a new shopping list on the signed-in customer's account. | ⚪ |
+| `instacart.deleteAddress` | instacart.com | Deletes one of the signed-in customer's saved addresses. | ⚪ |
+| `instacart.favoriteProduct` | instacart.com | Saves a product to, or removes it from, the signed-in customer's favorites. | ⚪ |
+| `instacart.findLocation` | instacart.com | Turns a ZIP code or address text into the location every other Instacart function… | ⚪ |
+| `instacart.findRecipesForProduct` | instacart.com | Lists recipes that use a given product at a store — the finder getRecipe's id comes… | ⚪ |
+| `instacart.getCart` | instacart.com | Returns one cart's contents: each item with quantity, price, any sale, and the cart's… | ⚪ |
+| `instacart.getDeliveryEstimate` | instacart.com | Says how soon a store can deliver to, or have pickup ready at, a location, and what… | ⚪ |
+| `instacart.getList` | instacart.com | Returns one shopping list's products, priced at a chosen store. | ⚪ |
+| `instacart.getMyAccount` | instacart.com | Returns the signed-in customer's own account: name, email, phone status, Instacart+… | ⚪ |
+| `instacart.getOrder` | instacart.com | Returns one order: its items (with any replacements or refunds), delivery address and… | ⚪ |
+| `instacart.getProduct` | instacart.com | Returns one product at one store by item id: name, brand, size, price, sale and… | ⚪ |
+| `instacart.getProductReviews` | instacart.com | Returns the star rating and customer reviews of a product, newest or most relevant… | ⚪ |
+| `instacart.getRecipe` | instacart.com | Returns one Instacart recipe: ingredients, steps, servings and time, with each… | ⚪ |
+| `instacart.getStore` | instacart.com | Returns one store by its Instacart slug or name ("costco", "safeway") at a location… | ⚪ |
+| `instacart.getStoreHours` | instacart.com | Returns a store's opening hours for each day of a date range, for delivery or pickup. | ⚪ |
+| `instacart.getWeeklyAd` | instacart.com | Returns a store's current weekly ad (circular): its pages as images, the dates it… | ⚪ |
+| `instacart.linkLoyaltyCard` | instacart.com | Links the signed-in customer's store loyalty card (a Safeway or Kroger card number) to… | ⚪ |
+| `instacart.listBuyItAgain` | instacart.com | Lists the products the signed-in customer has bought before at a store, most frequent… | ⚪ |
+| `instacart.listCarts` | instacart.com | Lists the signed-in customer's open carts, one per store, with item count and subtotal. | ⚪ |
+| `instacart.listCoupons` | instacart.com | Lists the coupons the signed-in customer can clip or has clipped at a store, with what… | ⚪ |
+| `instacart.listDeals` | instacart.com | Lists what is on sale at a store right now — the store's sales collection and its… | ⚪ |
+| `instacart.listDeliveryWindows` | instacart.com | Lists the delivery or pickup time slots the signed-in customer can choose for a cart… | ⚪ |
+| `instacart.listDepartmentProducts` | instacart.com | Lists the products in one store department or aisle by its slug, with prices and… | ⚪ |
+| `instacart.listDepartments` | instacart.com | Lists a store's departments and aisles (Produce, Dairy & Eggs, seasonal collections)… | ⚪ |
+| `instacart.listFavorites` | instacart.com | Lists the products the signed-in customer has saved as favorites. | ⚪ |
+| `instacart.listMyAddresses` | instacart.com | Lists the signed-in customer's saved delivery addresses with their ids, which cart… | ⚪ |
+| `instacart.listMyLists` | instacart.com | Lists the signed-in customer's shopping lists with name and item count. | ⚪ |
+| `instacart.listOrders` | instacart.com | Lists the signed-in customer's past and current orders with store, date, status and… | ⚪ |
+| `instacart.listStores` | instacart.com | Lists the stores Instacart serves at a location — Safeway, Costco, Kroger, local… | ⚪ |
+| `instacart.messageShopper` | instacart.com | Sends a chat message to the shopper on one of the signed-in customer's live orders… | ⚪ |
+| `instacart.placeOrder` | instacart.com | Checks out a cart. | ⚪ |
+| `instacart.removeFromCart` | instacart.com | Removes a product from the signed-in customer's cart. | ⚪ |
+| `instacart.reorder` | instacart.com | Puts every item of a past order back into the signed-in customer's cart at that store… | ⚪ |
+| `instacart.searchProducts` | instacart.com | Searches one store's catalogue at a location ("eggs" at Costco) and returns the… | ⚪ |
+| `instacart.suggestSearches` | instacart.com | Returns Instacart's search-as-you-type suggestions for a partial query at a store… | ⚪ |
+| `instacart.updateAddress` | instacart.com | Edits one of the signed-in customer's saved addresses (street, apartment, delivery… | ⚪ |
+| `instacart.updateMyAccount` | instacart.com | Changes the signed-in customer's name or dietary preferences. | ⚪ |
 | `instagram.blockUser` | instagram.com | Blocks a user, preventing them from seeing the signed-in account's posts and sending… | 🟢 |
 | `instagram.commentOnPost` | instagram.com | Posts a comment on a photo or video by its media id. | 🟢 |
 | `instagram.followUser` | instagram.com | Follows a user. | 🟢 |

@@ -1,0 +1,644 @@
+# Providers by Site
+
+One line per covered site: `<site> — <provider>: <function>, <function>`.
+Use this with a fetch tool when you don't have a Bowmark API key.
+Call each as bowmark.providers.<provider>.<function>(...) inside a run script.
+
+For full details on each function, see PROVIDERS.md or query the live API:
+GET https://api.bowmark.ai/v1/library?query=<site-or-function>
+  (requires Authorization: Bearer $BOWMARK_API_KEY)
+1aauto.com — aauto: getProduct, search
+1stdibs.com — firstdibs: getListing, search
+2ndswing.com — secondswing: getQuoteAttributes, getTradeInValue, searchClubs
+a1storage.com — a1storage: getFacilityUnits, getMoveInCost, listFacilities
+aa.com — aa: getAirportInfo, getBaggageAllowance, getFlightStatus, getSeatMap, getServiceFees, listLounges, retrieveBooking, search, searchAwardFlights
+abercrombie.com — abercrombie: checkGiftCardBalance, checkStock, findStores, getDeals, getProduct, search
+abqplumb.com — abqplumb: getAvailability, listServices
+acerentacar.com — acerentacar: searchAvailability, searchLocations
+achosahw.com — achosahw: getQuote, listStates
+acqualinaresort.com — acqualinaresort: searchAvailability
+adobe.com — adobe: compressPdf, convertPdfToWord, findHelpArticle, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, licenseStockAsset, mergePdfs, saveAssetToCreativeCloud, searchFonts, searchStockAssets, searchTemplates, sendForSignature
+agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
+agentstatus.dev — agentstatus: getServer, searchServers, submitServer
+ai.engineer — ai_engineer: getSpeaker, listSpeakers
+aiper.store — aiper: listPoolChooserQuestions, recommendPoolCleaner
+airbnb.com — airbnb: getListing, search
+airchina.com — airchina: getDealFares, searchFlights
+airtable.com — airtable: createRecord, getRecord, listBases, listRecords, listTables, updateRecord
+ajmadison.com — ajmadison: checkStock, search
+alibaba.com — alibaba: addToCart, cancelOrder, contactSupplier, createRfq, editProfile, getAccountRating, getCart, getInvoice, getOrder, getProduct, getProfile, getRfq, getSearchHistory, getSuggestions, getSupplier, listCategories, listInvoices, listMessages, listOrders, listRfqProfessions, listRfqs, listSavedItems, listSuppliers, placeOrder, removeFromCart, saveProduct, searchProducts, trackOrder, unsaveProduct, updateCartQuantity
+aliexpress.us — aliexpress: addToCart, getProduct, getStore, listCart, listCategories, listOrders, listWishlist, search
+allied.com — allied: estimatePackingSupplies
+alphavantage.co — alphavantage: signUp
+americandreamvacations.net — americandreamvacations: listLocations, searchInventory
+americanstandardair.com — americanstandard: getSystemCostEstimate
+americanvisionwindows.com — americanvisionwindows: bookAppointment, checkAvailability
+amramp.com — amramp: findNearestLocation
+ancientnutrition.com — ancientnutrition: computeGutType, getGutTypeQuizQuestions
+andersenwindows.com — andersenwindows: findDealers
+angus-systems.com — angussystems: listAccessRequests
+anthropic.com — anthropic_com: getDoc, listDocs
+antunes.com — antunes: findServiceAgencies
+aol.com — aol: addFavorite, getArticle, getArticleComments, getDailyHoroscope, getFrontPage, getLocalNews, getMarketSummary, getRecipe, getWeather, listFavorites, listGames, listNewsletters, listSectionArticles, listSections, postComment, removeFavorite, searchRecipes, searchWeatherLocations, subscribeNewsletter
+aosom.com — aosom: getProduct, searchProducts
+api.census.gov — census_api: householdIncome, validateAddress
+api.weather.gov — nws: findRadarStations, findStations, findZones, getActiveAlerts, getAlert, getAlertCounts, getClimateHistory, getCurrentConditions, getForecast, getForecastDiscussion, getGridpointData, getHourlyForecast, getMarineForecast, getObservationHistory, getOffice, getOfficeHeadlines, getPoint, getRadarImage, getTaf, getTextProduct, getWeatherRadio, getWeatherStories, getZoneForecast, listAlertTypes, listSigmets, listTextProducts, lookupGlossary, searchAlerts, searchLocation
+apid.iproyal.com — iproyal_reseller: extendPeriod, getAccountBalance, getCatalogue, getOrder, listOrders, placeOrder, quotePrice, setAutoExtend
+app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchContacts, searchDeals, updateDeal
+apple.com — apple: addToBag, bookGeniusBarAppointment, checkCoverage, compareModels, findStoresNear, getBag, getConfigurationOptions, getDeliveryEstimate, getNewsroomPost, getOrderStatus, getPickupAvailability, getProduct, getProductByPartNumber, getPurchaseOptions, getRepairPricing, getStore, getSupportArticle, getSystemStatus, getTradeInEstimate, listAccessories, listFamilyModels, listNewsroomPosts, listOrders, listRefurbished, listStores, listTodaySessions, listTradeInValues, removeFromBag, resolveLocation, search, searchSupport, suggestSearches
+apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCategories, listDeveloperApps, listPurchasedApps, listReviews, listSimilarApps, listSubscriptions, listTodayStories, listTopCharts, searchApps, writeReview
+arajet.com — arajet: search
+archipelago.gg — archipelago: getClientRelease, getGameOptions
+archive.org — archive_org: checkAvailability, checkLendingAvailability, downloadFile, getItem, getSnapshot, listSnapshots, searchItems, searchScholar
+arketa.co — arketa: bookClass, bookPrivateSession, buyPricingOption, cancelBooking, findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listOnDemandVideos, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters, updateMyProfile
+artpix3d.com — artpix3d: getSizePricing, listPhotoCrystalShapes, listShapes
+ashbyhq.com — ashby: listJobs
+ashleyfurniture.com — ashleyfurniture: checkStock, findStore, getProduct, search, trackOrder
+asppoolco.com — asppoolco: findLocationByZip, listLocations
+astoundgroup.com — astoundgroup: getContactForm, listPages
+atlasoceanvoyages.com — atlasoceanvoyages: getVoyage, searchVoyages
+atlasseniorliving.com — atlasseniorliving: searchCommunities
+att.com — att: addLine, changePlan, findDevices, getAccountBalance, getDevicePricing, getMonthlyBill, getPlanTotal, getUsage, listLines, listPlans, payBill, viewBillHistory, viewOrderHistory
+audibel.com — audibel: findClinics
+autocamp.com — autocamp: listProperties, searchAvailability
+avalonmalibu.com — avalonmalibu_com: getInsuranceForm
+avantstay.com — avantstay: getPricing, searchProperties
+avenuehealthcare.com — avenuehealthcare: search
+avis.com — avis: getDeals, getLocation, getReservation, search, searchLocations
+ayreshotels.com — ayreshotels: checkRates
+azazie.com — azazie: getBuildYourOwnConfig, getColorFamily, search
+azure.microsoft.com — azure: checkRegionAvailability, estimateCost, getServiceHealth, getServicePricing, getServiceSla, listRegions, listServices, listVmSizes
+bahn.de — bahn: listDisruptions
+bamboohr.com — bamboohr: listJobs
+bananarepublic.gap.com — banana_republic: getProduct, searchProducts
+bankmycell.com — bankmycell: getTradeInQuote, searchDevices
+barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
+baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
+bbc.com — bbc: followPodcast, getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listFollowedPodcasts, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations, subscribeNewsletter, unfollowPodcast, unsubscribeNewsletter
+beaconfunding.com — beaconfunding: getApplicationFields
+beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
+bellwethercoffee.com — bellwethercoffee: computeRoiEstimate, getCalculatorDefaults
+beltservice.com — beltservice: browseCatalog, getBelt
+benelliusa.com — benelliusa: findDealers
+benningtonmarine.com — bennington: search
+bestbuy.com — bestbuy: getProduct, getStoreAvailability, search
+bhphotovideo.com — bhphoto: checkStock, getProduct, search
+bigairusa.com — bigairusa: listLocations, listPasses
+bigjoeforklifts.com — bigjoeforklifts: estimateRuntimeAndRoi, getRuntimeEstimatorInputs, listForkliftModels, prepareQuoteRequest
+bigrentz.com — bigrentz: getEquipment, getRentalPricing, listCategories, search
+bigyellow.co.uk — bigyellow: getQuote
+bing.com — bing: define, findPlace, listSaves, saveResult, searchImages, searchNews, searchPlaces, searchShopping, searchVideos, searchWeb, searchWebBrowser, translateText
+bionicpo.com — bionicpo: getInquiryServiceDetails, listInquiryServices
+bishops.co — bishops: checkAvailability, findLocation, listLocations, listServices
+blackstoneproducts.com — blackstoneproducts: findNearbyDealers
+blenderseyewear.com — blenderseyewear: getRxConfigurator, listRxFrameStyles, priceRxConfiguration
+bluehaven.com — bluehaven: checkPoolSiteFeasibility, getPoolPriceEstimate, listPoolDesigns
+blueribbonhomewarranty.com — blueribbonhomewarranty_com: getPage, search
+bluesignal.com — bluesignal: applyToJob, getJob, searchJobs
+bmwusa.com — bmwusa: buildVehicle, checkRecalls, estimatePayment, findDealers, getModel, getOwnersManual, getVehicle, listAccessories, listModels, listOffers, searchCertifiedPreOwned, searchInventory
+bodacc.fr — bodacc: search
+boglewinery.com — boglewinery: checkAvailability, listExperiences
+bollandbranch.com — bollandbranch: getBedDesignerFlow, getCategoryOptions, getSwatchDetails, renderBedPreview
+booking.andstr.com — andstr: getListing, getQuote, search
+booking.com — booking_com: addToWishlist, autocompleteDestination, checkPrice, getAccountProfile, getBooking, getProperty, getReviewBreakdown, listAvailability, listBookings, listFilterOptions, listMyReviews, listPropertyPhotos, listPropertyReviews, listSavedPaymentMethods, listWishlist, removeFromWishlist, search, writeReview
+borsheims.com — borsheims: configureRing, getProduct, searchProducts
+boxlunch.com — boxlunch: search
+boydsleep.com — boydsleep: calibrateSixZoneSupportNumber, calibrateSupportNumber
+bravabraces.com — brius: findProviders
+breezy.hr — breezyhq: listJobs
+brixton.com — brixton: getBrixtonCheckoutLink, getBrixtonProduct, listBrixtonProducts
+browser-use.com — browser_use: cancelRun, createRun, findSessionBrowser, getBrowser, getRun, getRunStatus, getSession, listRunEvents, listSessionRuns, queueMessage, stopBrowser
+bsb.de — bodensee_schiffsbetriebe_berths: getBerthStatus, searchHarbors
+bsky.app — bluesky: addToList, blockUser, bookmarkPost, createList, createPost, deletePost, followUser, getConversation, getFeed, getFeedInfo, getFollowers, getFollows, getKnownFollowers, getLabelers, getList, getListFeed, getMe, getMyLikes, getPost, getPostLikes, getPostQuotes, getPostReposts, getProfile, getRelationships, getStarterPack, getSuggestedFeeds, getSuggestedFollows, getSuggestedUsers, getThread, getTimeline, getTrendingTopics, getTrends, getUserFeeds, getUserLists, getUserPosts, getUserStarterPacks, likePost, listBlockedUsers, listBookmarks, listConversations, listMutedUsers, listNotifications, markNotificationsRead, muteUser, quotePost, replyToPost, repost, resolveHandle, saveFeed, searchFeeds, searchPosts, searchStarterPacks, searchUsers, sendMessage, setAvatar, suggestUsers, updateProfile
+buacement.com — buacement: getPriceList
+builder.strucsure.com — builder_strucsure_com: getNewConstructionRegistrationFields, listRegistrationStates
+buildingengines.com — buildingengines: getAccessRequestStatus
+bulletproof.com — bulletproof: findStores
+bungalow.com — bungalow: getListing, listMarkets, searchListings
+businessinsider.com — businessinsider_com: findTicker, getArticle, getArticleComments, getAuthorArticles, getGuide, getMarketQuote, getVideo, listArticlesBySection, listCryptoCurrencies, listGuides, listMarketIndices, listOpinionPieces, listSections, listTrendingArticles, listVideos, postComment, searchArticles
+bykoket.com — bykoket: addToCart, getProduct, searchProducts
+byltbasics.com — byltbasics: buildPackHandoff, getPackOptions, listBundlePacks
+cabinsforyou.com — cabinsforyou: getCabinDetail, search
+cal.com — cal_com: findProfiles, getAvailability, getBookingForm, getEventTypes
+calendly.com — calendly: addDateOverride, bookMeeting, cancelBooking, cancelScheduledEvent, createEventType, createMeetingPoll, createOneOffMeeting, createSingleUseLink, deleteEventType, findProfiles, getAvailability, getBooking, getBookingForm, getEventTypes, getLandingPage, getMyAccount, getRoutingForm, getScheduledEvent, inviteOrganizationMember, listAvailabilitySchedules, listConnectedCalendars, listContacts, listMyEventTypes, listOrganizationMembers, listPackages, listRoutingForms, listRoutingFormSubmissions, listScheduledEvents, listWorkflows, markNoShow, rescheduleBooking, setEventTypeActive, setProfilePicture, submitRoutingForm, updateAvailabilitySchedule, updateEventType, updateProfile, voteOnMeetingPoll
+caliberhealth.com — caliberhealth: getJob, search
+califloors.com — califloors: getProduct, listCategories, searchProducts
+camelcamelcamel.com — camelcamelcamel: getPriceHistory, search
+camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
+campspot.com — campspot: findCampgrounds, getCampground
+cancer.gov — cancer: findCancerCenters, getCancerInfoSummary, getCancerStatistics, getClinicalTrial, getDrugInfo, listCancerDrugs, listCancerTypes, lookupCancerTerm, lookupGeneticsTerm, searchClinicalTrials, searchFundingOpportunities, searchNews, searchPublications
+canva.com — canva: addComment, autofillBrandTemplate, browseTemplates, copyDesign, createDesign, createFolder, deleteDesign, exportDesign, generateDesign, generatePaletteFromImage, getApp, getBrandKit, getBrandTemplateDataset, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getDesign, getDesignContent, getGraphic, getMyProfile, getPhoto, getPresenterNotes, getPricing, getSharedDesign, getTemplate, importDesign, listColorPalettes, listComments, listDesignPages, listDesignSizes, listFolderItems, listFolders, listPrintProducts, listTemplateCategories, listUploads, mergeDesigns, moveToFolder, orderPrint, renameDesign, resizeDesign, searchApps, searchAudio, searchBrandTemplates, searchGraphics, searchMyDesigns, searchPhotos, searchTemplates, searchVideos, setProfilePicture, shareDesign, updateProfile, uploadAsset
+carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
+careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs
+carepatrol.com — carepatrol: findLocalAdvisor
+carlsgolfland.com — carlsgolfland: addToCart, checkout, getProduct, priceConfiguration, searchProducts
+carmelrealtycompany.com — carmelrealtycompany: getListing, searchListings
+carolenet.com (Carole Fabrics' own CaroleNet trade catalog) — carolefabrics: search
+carpetlandusa.net — carpetlandusa: getProduct, listCategories, searchProducts
+cars.com — cars: compareVehicles, getConsumerReviews, getDealer, getExpertReview, getListing, getModelResearch, getRecalls, getTrimSpecs, getVehicleValue, search, searchDealers
+cartebtp.fr — cartebtp: verifyCard
+carusohomes.com — carusohomes: assembleTourRequest, getTourAppointmentSchema, searchCommunities, searchFloorPlans
+casadragones.com — casadragones: addToCart, findNearbyRetailers, getProduct, listProducts
+cascadiaseniorliving.com — cascadiaseniorliving_com: getSitePage, listSitePages
+catalog.aquaphoenixsci.com — aquaphoenixsci: browseCategory, getProduct
+cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
+cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
+cerebralvalley.ai — cerebralvalley: getEvent, listEvents
+cftc.gov — cftc: searchRules
+champxpress.com — champxpress: getPlanQuote, listLocations
+chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
+chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
+charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
+chatgpt.com — chatgpt: archiveConversation, ask, browseGPTStore, createGPT, createProject, deleteConversation, deleteMemory, deleteScheduledTask, deleteSharedLink, generateImage, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getProject, getSharedConversation, listConversations, listLibraryImages, listModels, listMyGPTs, listProjects, listScheduledTasks, listSharedLinks, moveConversationToProject, pinGPT, rateResponse, renameConversation, requestDataExport, searchConversations, searchGPTs, sendMessage, shareConversation, updateCustomInstructions, uploadFile
+cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
+chesmar.com — chesmar: searchQuickMoveInHomes
+chipotle.com — chipotle: getBowlBuilder
+chriscraft.com — chriscraft: getConfigurator, priceConfiguration, searchModels
+christydawn.com — christydawn: search
+chromium.googlesource.com — chromium_googlesource_com: getFile, listDirectory, listRepos, searchCode
+classichome.com — classichome: addToCart, getProduct, searchProducts
+classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) — classicrockfab: checkAvailability, listAppointmentTypes
+classpass.com — classpass: checkAvailability, getPricing, getSchedule, getStudio, search
+claude.com — claude_com: getDoc, listDocPages
+claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
+clboyd.com — clboyd: searchUsedEquipment
+cleanairlawncare.com — cleanairlawncare: checkServiceArea, getAvailableSlots, submitEstimateRequest
+cloudflare.com — cloudflare: comparePlans, compareTeamsPlans, getDomainPricing, searchDomainAvailability
+clubchampion.com — clubchampion: checkAvailability, getFittings, listFitters, listStudios
+clubpilates.com — clubpilates: bookClass, buyPackage, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, joinWaitlist, listClassCategories, listClasses, listClassTypes, listInstructors, listMyBookings, listPricing, updateProfile
+cnb.avocat.fr — cnb_avocat_fr: search
+cnbc.com — cnbc_com: addToWatchlist, followTopic, getArticle, getAuthor, getInvestingClubContent, getMarketData, getPremiumContent, getQuote, getVideo, getWatchlist, listArticlesByAuthor, listCategories, listCommodities, listCurrencies, listMarkets, listNews, listQuotes, listSectors, listVideosByCategory, removeFromWatchlist, search, subscribeToNewsletter, unfollowTopic, unsubscribeFromNewsletter
+coastpay.com — coast: getFleetCardPricing, getFuelRebate
+code.claude.com — code_claude_com: getDoc, listDocPages
+code.visualstudio.com — vscode: getDoc, listDocPages
+coingecko.com — coingecko: getPrice, searchCoins
+compass-living.com — compass_living: listCommunities
+completehomewarranty.com — completehomewarranty_com: getPlan, listPlans
+consultnet.com — consultnet: searchJobs
+cooking.nytimes.com — nyt_cooking: addRecipeToFolder, addToGroceryList, clearGroceryList, createRecipeBoxFolder, createRecipeNote, deleteRecipeBoxFolder, deleteRecipeNote, getAccountProfile, getArticle, getAuthorRecipes, getCollection, getCookedRecipes, getGroceryList, getMyNotes, getMyRating, getRecipe, getRecipeNotes, getRelatedRecipes, getSavedRecipes, getSeasonalGuide, getTopic, getTrendingArticles, listFeaturedCollections, listRecipeBoxFolders, listTopics, markRecipeCooked, rateRecipe, removeFromGroceryList, removeRecipeFromFolder, renameRecipeBoxFolder, saveRecipe, searchMyRecipeBox, searchRecipes, unsaveRecipe, updateRecipeNote
+costco.com — costco: search
+countycourt.vic.gov.au — countycourt_vic_gov_au: dailyList
+couponfollow.com — couponfollow: getCodes
+crecipr.gov.br — crecipr: searchCredenciados, verifyBroker
+credibly.com — credibly_com: getApplicationForm, getEligibilityRequirements
+cruiselakegeneva.com — cruiselakegeneva: getTour, listTours
+crunchbase.com — crunchbase: getFundingRounds, getOrganization, recentFundingRounds, searchNews, searchOrganizations
+culturefly.com — culturefly: buildCultureFlyCheckoutLink, getCultureFlyBoxOptions, listCultureFlyBoxes
+curiocity.com — curiocity: listEvents
+cve.circl.lu — circl: getCve, search
+cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuild
+dailymotion.com — dailymotion: addToPlaylist, addToWatchLater, createPlaylist, deletePlaylist, deleteVideo, followChannel, getChannel, getMyProfile, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listFollowedChannels, listFollowingFeed, listHashtagVideos, listLiveStreams, listMyLikedVideos, listMyPlaylists, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listTrendingVideos, listWatchHistory, listWatchLater, searchChannels, searchPlaylists, searchVideos, updateProfile, updateVideo, uploadVideo
+dangotecement.com — dangotecement: findDistributors, getPriceList, searchNews
+davidsonhomes.com — davidsonhomes: getCommunity, getHome, getRegion, listRegions
+deangroup.com — deangroup: getRateCalendar, listProperties, searchAvailability
+decked.com — decked: getVehicleClass, priceCabSideOption, resolveFitment, searchFits
+decksdirect.com — decksdirect: addToCart, checkout, getProduct, priceConfiguration, searchProducts
+dell.com — dell: getOrderDetails, getProduct, getProductDrivers, getRegisteredProductDetails, getSavedCartDetails, getWarrantyInfo, listDealProducts, listMyOrders, listMyRegisteredProducts, listMySavedCarts, listProductCategories, listSupportCategories, searchForumThreads, searchProducts, searchSupport
+deltadentalma.com — deltadentalma: lastUpdated, search
+dentalplans.com — dentalplans: getPlan, search
+detailxperts.com — detailxperts: bookAppointment, checkServiceArea, getQuote, listVehicleTypes
+deutschepost.de — deutschepost: getDialogpostRates
+developers.openai.com — developersopenai: getDocPage
+deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getNotifications, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getWatchFeed, listGalleryFolders, listNotes, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateProfile, watchUser
+dice.com — dice: getCompany, getJob, listCompanyJobs, searchCompanies, searchJobs
+dickssportinggoods.com — dickssportinggoods: checkStock, findStores, getProduct, getWeeklyAd, search
+dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
+discord.com — discord: acceptFriendRequest, addReaction, blockUser, createInvite, createServer, createThread, deleteMessage, editMessage, getAnnouncement, getApp, getDocPage, getGame, getInvite, getMyProfile, getServer, getUserProfile, joinServer, leaveServer, listAppCategories, listBlogPosts, listChannels, listDirectMessages, listDocPages, listFeaturedApps, listFriendRequests, listFriends, listMentions, listMessages, listMyServers, listPinnedMessages, listQuests, listServerAnnouncements, listServerCategories, listServerEvents, listServers, listSimilarApps, listThreads, listTrendingGames, removeFriend, removeReaction, searchApps, searchMessages, searchServerMembers, searchServers, sendDirectMessage, sendFriendRequest, sendMessage, setAvatar, setStatus, updateProfile
+discounttire.com — discounttire: checkStock, findStores, getAppointmentAvailability, getOrderStatus, getProduct, getProductReviews, getPromotions, getStore, getTreadwellRecommendation, getVehicleFitment, searchPackages, searchTiresBySize, searchTiresByVehicle, searchWheelsBySize, searchWheelsByVehicle
+disneyworld.disney.go.com — disney: getTicketPrice
+docs.google.com — google_sheets: findSpreadsheets, listMySpreadsheets, listSheets, readSheet, writeRange
+donsappliances.com — donsappliances: getProduct, search
+doordash.com — doordash: getCheckoutTotal, search
+drivers.uber.com — uber: getDriverEarnings
+dropbox.com — dropbox: addFileComment, changeProfilePhoto, closeFileRequest, copyFile, createFileRequest, createFolder, createSharedLink, createTransfer, deleteFile, downloadFile, downloadSharedFile, downloadSharedFolder, getFileMetadata, getMyAccount, getPlans, getSharedLink, getTransfer, listDeletedFiles, listFileComments, listFileRequests, listFileVersions, listFolder, listRecentFiles, listSharedFolder, listSharedLinks, listSharedWithMe, listSharingMembers, listStarredFiles, listTransfers, moveFile, readSharedFile, removeSharingMember, restoreFile, restoreFileVersion, revokeSharedLink, saveSharedLinkToDropbox, searchFiles, shareWithPeople, starFile, updateProfileName, uploadFile, uploadToFileRequest
+duckduckgo.com — duckduckgo: changeForwardingAddress, chatWithDuckAi, convertCurrency, createPrivateDuckAddress, defineWord, getEmailProtectionAccount, getInstantAnswer, getLocalTime, getWeather, listBangs, listDuckAiModels, listRegions, resolveBang, searchImages, searchNews, searchPlaces, searchVideos, searchWeb, setPrivateDuckAddressActive, suggestQueries, translateText
+dumpsters.com — dumpsters: getQuote
+e2b.dev — e2b: createSandbox, getSandbox, killSandbox, listSandboxes, readFile, runCommand, setSandboxTimeout, writeFile
+easyclosets.com — thestowcompany: getSampleClosetEstimate
+ebay.com — ebay: addToCart, addToWatchlist, getCart, getDeals, getItem, getMyAccount, getMyListings, getMyMessages, getProfile, getSellerListings, getSellerProfile, getWatchlist, removeFromCart, removeFromWatchlist, search, searchAutocomplete, searchByCategory, searchSold
+elase.com — elase: checkAvailability, findLocation, listLocations, listServices
+elevenlabs.io — elevenlabs: cloneVoice, listVoices, synthesize
+embroker.com — embroker: getBusinessInsuranceQuote, getQuoteEntryPoint, listCoverageLines
+en.wikipedia.org — wikipedia_standings: search
+energyaustralia.com.au — energyaustralia_com_au: getBusinessElectricityQuote
+epicgames.com — epicgames: addToCart, addToWishlist, claimFreeGame, getAccount, getAchievementProgress, getAchievements, getCart, getGame, getGameRatings, getLibrary, getNewsArticle, getPrice, getRewardsBalance, getServiceStatus, getStorefront, getWishlist, listCollection, listDeals, listFreeGames, listFriends, listGameOffers, listNews, listOrders, listTags, redeemCode, removeFriend, removeFromCart, removeFromWishlist, searchGames, sendFriendRequest, updateDisplayName
+epromos.com — epromos: getProductConfiguration, listCategoryProducts, quoteBulkPrice, searchProducts
+eq3.com — eq3: configureSofa, getSofaConfiguration, listSofas
+equinox-hotels.com — equinox_hotels: listRooms, searchRates
+erieinsurance.com — erieinsurance: findAgent, findRepairShop, getAutoQuote, getBoatQuote, getBusinessQuote, getClaimStatus, getClassicCarQuote, getCommercialAutoQuote, getCondoQuote, getCyberLiabilityQuote, getHomeQuote, getLifeQuote, getMobileHomeQuote, getMotorcycleQuote, getOffRoadVehicleQuote, getRentersQuote, getRvQuote, getUmbrellaQuote, getWorkersCompensationQuote
+espn.com — espn: addDropFantasyPlayer, addFavorite, createFantasyLeague, draftPicks, fantasyPlayers, getArticle, getFantasyLeague, getFantasyTeam, getGame, getPlayer, getTeam, injuries, listFavorites, listLeagues, listMyFantasyTeams, listTeams, listVideos, news, odds, playerGameLog, playerStats, proposeFantasyTrade, rankings, removeFavorite, scoreboard, search, setFantasyLineup, standings, statLeaders, submitPicks, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions
+estes-express.com — estes_express: estimateFreightQuote
+ethos.com — ethos: getLifeQuote
+etsy.com — etsy: search
+evag.de — evag: listDepartures, listDisruptions, searchStop
+eventbrite.com — eventbrite: followOrganizer, getEvent, getOrderHistory, getOrganizer, getOwnProfile, getSavedEvents, getVenue, saveEvent, searchEvents, unsaveEvent
+eventim.com — eventim: getEvent, search
+eventsource.com — eventsource: getShowroom, getShowroomInquiryContact, getShowroomVenue
+evolutionofsmooth.com — evolutionofsmooth: answerShadeQuizQuestion, startShadeQuiz
+evolvemedspa.com — evolvemedspa: checkAvailability, listLocations, listServices
+exchangerate-api.com — currency_exchange: getRate
+executivehomecare.com — executivehomecare: findLocalOffice
+extraspace.com — extraspace: checkAvailability, getDeals, getFacility, search
+facebook.com — facebook: commentOnPost, followPage, getConversation, getEventDetails, getGroupInfo, getGroupPosts, getMarketplaceListingDetails, getMarketplaceListings, getPageInfo, getPagePosts, getPersonProfile, getPhotoAlbum, getPrivacySettings, getVideo, joinGroup, likePhoto, listConversations, listEvents, listFriends, listNotifications, listPhotos, postToGroup, postToPage, postToTimeline, reactToPost, replyToComment, savePost, searchGroups, searchPages, searchPeople, sendMessage, sharePost, updatePrivacySettings, updateProfile
+faceforwardaesthetics.com — faceforwardaesthetics: checkAvailability, listLocations, listServices
+facerealityskincare.com — facerealityskincare: searchAcneExperts
+fandom.com — fandom: createPage, editPage, findWiki, getArticle, getCurrentUser, getDiscussionPost, getImage, getInfobox, getRevision, getSection, getSections, getSummary, getUser, getWikiInfo, getWikitext, listBacklinks, listCategories, listCategoryMembers, listDiscussionPosts, listExternalLinks, listImages, listLinks, listRecentChanges, listRevisions, listUserContributions, listWatchlist, postDiscussionPost, search, suggestTitles, undoRevision, unwatchPage, watchPage
+fbsappliance.com — fbsappliance: getProductDetails, searchAppliances
+fedex.com — fedex: getRate
+ferguson.com — ferguson: findBranches, findProducts, getProduct
+fieldstonehomes.com — fieldstonehomes: getAppointmentFormSchema, prepareAppointment, searchQuickMoveIns
+finance.yahoo.com — yahoo_finance: addToWatchlist, getAnalystEstimates, getCompanyProfile, getEarningsDates, getFinancials, getHistoricalPrices, getHolders, getKeyStatistics, getMarketSummary, getNews, getOptionsChain, getQuote, getTrendingTickers, listCryptoPrices, listCurrencyRates, listWatchlists, searchSymbols
+firstamericahomes.com — firstamericahomes: getCommunity, searchCommunities
+fitdegree.com — fitdegree: bookClass, bookPrivateSession, buyPricingOption, cancelBooking, cancelPrivateSession, findStudio, getCancellationPolicy, getClass, getClassPricing, getInstructor, getMembershipPricing, getMyProfile, getPrivateSessionAvailability, getSpotMap, getStudio, joinWaitlist, leaveWaitlist, listAnnouncements, listClasses, listEvents, listInstructors, listIntroOffers, listLocations, listMemberships, listMyBookings, listMyNotifications, listMyPasses, listMyPurchases, listPrivateSessionTypes, listScheduleDates, listSeries, listWaiversToSign, markNotificationsRead, registerForEvent, signWaiver, updateMyProfile
+fitness1440.com — fitness1440: getDayPassRequestInfo, listLocations
+fivebelow.com — fivebelow: search
+fivestarbathsolutions.com — fivestarbathsolutions: bookAppointment, getAvailableSlots, listLocations
+flightradar24.com — flightradar24: getAircraft, getAirline, getAirlineFleet, getAirport, getAirportArrivals, getAirportDepartures, getAirportStatistics, getFlightHistory, getFlightTrack, listFlightsInArea, search, trackFlight
+flights.google.com — google_flights: getBookingOptions, getPriceGraph, search
+fluencecorp.com — fluencecorp: calculateEnergyConsumption
+fomo.family — fomo: addToWatchlist, claimCreatorFees, commentOnTrade, deleteAccount, editProfile, executeSwap, exportPrivateKeys, filterTokens, follow, getAlertPreferences, getBalances, getCandles, getClan, getClanFeed, getClanHoldings, getClanHoldingsBreakdown, getClanThesis, getCreatorFees, getCurrentUser, getDevHolders, getFeed, getFollowers, getFollowing, getFollowingIds, getFollowingLeaderboard, getFriendHolders, getGraduatedTokens, getLeaderboard, getMajorTokens, getMostHeldTokens, getMutuals, getPerpetuals, getPortfolioHistory, getPortfolioSnapshot, getRecommendedUsers, getReferrals, getReferrerDetails, getRewards, getSupportedTransferTokens, getSwapStatus, getToken, getTokenAllowlist, getTokenAllowlistDetailed, getTokenFeed, getTokenThesis, getTokenWarnings, getTopHolders, getTrade, getTradeComments, getTrades, getTradingActivityFeed, getTransfers, getTransfersWith, getTrendingTokens, getUser, getUserByHandle, getUserLeaderboardStanding, getUserSpotlight, getUserSwaps, getUserTransfers, getUserWithdrawals, getVerifiedTokens, getWatchlist, postTokenThesis, quoteSwap, quoteUsdcSwap, reactToComment, reactToPost, removeFromWatchlist, searchClans, searchTokens, searchUsers, sendTransfer, setAlertPreferences, subscribeTokenStream, unfollow, unreactToComment, unreactToPost, useReferralCode
+forbes.com — forbes: getArticle, getContributor, getList, getPerson, getVideo, listArticlesByTopic, listBillionaires, listContributors, listLists, listNews, listTopics, listVideos, searchArticles
+ford.com — ford: buildAndPrice, findDealers, getModelDetails, getOffers, getRecalls, getVehicle, listColors, listNameplates, searchInventory
+forms.hubspot.com — forms_hubspot_com: findForms, getFormDefinition
+fortressbp.com — fortressbp: listProductTypes, recommendProduct
+fourseasonsyachts.com — fourseasonsyachts: getVoyage, getVoyageSailing, searchVoyages
+foxnews.com — foxnews: deleteComment, findAuthor, getAccount, getArticle, getAuthor, getComments, getElectionResults, getLiveBlog, getShow, getTopStories, getVideo, listAuthorArticles, listElectionRaces, listLatest, listLiveBlogs, listNewsletters, listPodcastEpisodes, listPodcasts, listSectionArticles, listSections, listShows, listVideoPlaylists, listVideos, postComment, searchArticles, submitNewsTip, subscribeNewsletter, unsubscribeNewsletter, updateProfile, watchLive
+framebridge.com — framebridge: getConfigurator, listFrameStyles, priceConfiguration
+fred.stlouisfed.org — fred: browseCategory, getRegionalData, getSeriesInfo, getSeriesObservations, listReleases, listSources, searchSeries
+fredericton.ca, dieppe.ca — municipal_recreation_fees_fetcher: getFeeSchedule
+freightliner.com — freightliner: getConfiguratorPrice
+furniture.com — furniture: listCategories, listFilterOptions, searchProducts
+g2.com — g2: getProduct, search
+games.nytimes.com — nyt_games: getConnections, getCrosswordArchive, getCrosswordDaily, getCrosswordLeaderboard, getCrosswordMidi, getCrosswordMini, getLetterBoxed, getMyStats, getPips, getSpellingBee, getSportsConnections, getStrands, getSudoku, getTiles, getWordle, listBonusPuzzles, listCrosswordPuzzles
+gasbuddy.com — gasbuddy: findCheapestNearby
+gazelle.com — gazelle: findDevices, getTradeInQuote
+geico.com — geico: findAgent, getAtvQuote, getAutoQuote, getBicycleQuote, getBoatQuote, getBusinessOwnersQuote, getClaimStatus, getCollectorAutoQuote, getCommercialAutoQuote, getCondoQuote, getCyberLiabilityQuote, getEarthquakeQuote, getEventQuote, getFloodQuote, getGeneralLiabilityQuote, getHomeownersQuote, getIdentityProtectionQuote, getJewelryQuote, getLandlordQuote, getMedicalMalpracticeQuote, getMexicoAutoQuote, getMobileDeviceQuote, getMobileHomeQuote, getMotorcycleQuote, getOverseasQuote, getPetQuote, getProfessionalLiabilityQuote, getRentersQuote, getRvQuote, getScooterQuote, getTravelQuote, getUmbrellaQuote, getWorkersCompensationQuote, listDiscounts, listPartnerCompanies, recommendAutoCoverage, recommendPropertyCoverage
+gethealthie.com — healthie: getPracticeDetails, searchPractices, searchProviders
+github.com — github: createComment, createIssue, createPullRequest, createReview, createReviewComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listIssues, listMarketplaceActions, listNotifications, listOrganizationRepositories, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, mergePullRequest, searchCode, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository
+glama.ai — glama: search
+glassesusa.com — glassesusa: getProduct, search
+gobrightwing.com — gobrightwing: getJobDetails, listLocations, listWorkTypes, searchJobs
+golf.com — golf_com: findCourses, getCourse
+goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
+goodreads.com — goodreads: addToShelf, followUser, getAuthor, getBook, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, listGenreBooks, rateBook, removeFromShelf, searchBooks, searchQuotes, writeReview
+goodway.com — goodway: getProduct, searchProducts
+google.com — google: search
+google.com/maps — google_maps: addMissingPlace, geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaceEdit, suggestPlaces, writeReview
+goremutual.ca — goremutual: getProductOverview
+gostoreit.com — gostoreit: findFacilities, getFacilityUnits
+gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
+grainger.com — grainger: checkStock, findBranch, getProduct, search, trackOrder
+grandwelcome.com — grandwelcome: getRentalDetail, getRentalQuote, listGrandwelcomeDestinations, searchRentals
+greatlakesdentaltech.com — greatlakesdentaltech: getProduct, search
+greenhouse.io — greenhouse: getJob, listJobs
+hamptonwaterwine.com — hamptonwaterwine: findNearbyRetailers
+handypro.com — handypro: checkServiceArea, checkTechnicianAvailability, createBooking, searchServiceCategories
+hansons.com — hansons: bookEstimate, checkAvailability
+harmar.com — harmar: findCompatibleLifts, getCompatibleLifts, searchChairModels, searchVehicleModels
+hauslabs.com — hauslabs: getHauslabsProduct, listHauslabsProducts, runFoundationShadeFinder
+havenenergy.com — havenenergy: getPricingPrograms, getPropertyDetails, listPricingPrograms
+hayden-homes.com — haydenhomes: calculateAffordability, listFloorPlans, searchQuickMoveIns
+hccts.org — hccts: checkApplicationAvailability
+healthcare.gov — healthcare_gov: checkDrugCoverage, checkEnrollmentEligibility, checkProviderCoverage, estimateEligibility, estimateOutOfPocketCosts, findLocalHelp, getCountiesByZip, getPlan, getPlanCrosswalk, getSmallBusinessPlans, getStateMarketplace, listIssuers, searchDentalPlans, searchDrugs, searchPlans, searchProviders
+heatherwood.com — heatherwood: getFloorplan, listFloorplans
+hellofresh.com — hellofresh: checkDeliveryAvailability, getPlanPricing, getRecipe, getWeeklyMenu, searchRecipes
+hellotend.com — hellotend: bookAppointment, listAvailableTimes, listMarkets, listServices, listStudios
+hellowalla.com — walla: bookClass, bookPrivateSession, buyPricingOption, cancelBooking, enrollWorkshop, findStudio, getClass, getMyProfile, getPrivateSessionAvailability, joinWaitlist, listClassCategories, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listMyPurchases, listOnDemandVideos, listPricing, listPrivateSessions, listWorkshops, requestMembershipCancellation, updateMyProfile
+higgsfield.ai — higgsfield: estimateCost, generateImage, generateVideo, getRequestStatus, listModels
+highlandhomes.org — highlandhomes: search
+hilton.com — hilton: findHotels, getAwardAvailability, getDeals, getHotelDetails, getReservation, search
+hipcamp.com — hipcamp: search
+historymaker.com — historymaker: getHome, listCommunities, searchQuickMoveIns
+hobie.com — hobie: checkLocalAvailability, listKayakModels, listModelColors, listModels
+hodjapasha.com — hodjapasha: getAvailability, getShow, listShows
+holidaybuilders.com — holidaybuilders: getHomeDetail, searchAvailableHomes
+hottopic.com — hottopic: search
+huggingface.co — huggingface: getModel, listTrendingDatasets, listTrendingModels, listTrendingSpaces, searchModels
+hunter.io — hunter: countEmails, discoverCompanies, discoverPeople, enrichCompany, enrichPerson, findDomain, findEmail, getEmailBreakdown, searchDomain, searchMultiDomain, verifyEmail
+hyatt.com — hyatt: findHotels, getAwardAvailability, getDeals, getHotelDetails, getReservation, search
+ibuypower.com — ibuypower: getBenchmark, getSystem, listLaptops, listPrebuilts, listSystems, recommendGamingPc, searchGear
+idealista.com — idealista: contactAdvertiser, getListing, search, searchRooms
+identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
+ihg.com — ihg: search
+ikea.com — ikea: addToCart, addToFavorites, bookPlanningAppointment, findStores, getCart, getDeliveryOptions, getFamilyMembership, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getProfile, getPurchase, listCategories, listCategoryProducts, listFamilyOffers, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem, updateProfile
+imdb.com — imdb: getPerson, getTitle, getTitleReviews, search, searchSuggestions, searchTitles
+indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
+inspirecommunities.com — inspirecommunities: searchHomes
+instacart.com — instacart: addAddress, addToCart, addToList, clipCoupon, compareStores, createList, deleteAddress, favoriteProduct, findLocation, findRecipesForProduct, getCart, getDeliveryEstimate, getList, getMyAccount, getOrder, getProduct, getProductReviews, getRecipe, getStore, getStoreHours, getWeeklyAd, linkLoyaltyCard, listBuyItAgain, listCarts, listCoupons, listDeals, listDeliveryWindows, listDepartmentProducts, listDepartments, listFavorites, listMyAddresses, listMyLists, listOrders, listStores, messageShopper, placeOrder, removeFromCart, reorder, searchProducts, suggestSearches, updateAddress, updateMyAccount
+instagram.com — instagram: blockUser, commentOnPost, followUser, getDirectMessages, getHomeFeed, getNotifications, getPosts, getProfile, getSavedPosts, getStories, getThreadMessages, likePost, muteUser, savePost, searchAccounts, sendDirectMessage, unblockUser, unfollowUser, unlikePost, unmuteUser, unsavePost, updateProfile
+insurify.com — insurify: estimateAutoCost, getAutoQuotes, getAutoWarrantyQuotes, getBusinessQuotes, getCarrierReview, getCarrierUserReviews, getCityRates, getCommercialAutoQuotes, getDeviceInsuranceQuotes, getHealthQuotes, getHomeQuotes, getHomeStateRates, getHomeWarrantyQuotes, getInsightsReport, getLifeQuotes, getLifeRates, getMotorcycleQuotes, getPetQuotes, getRentersQuotes, getRentersStateRates, getStateRates, getTravelQuotes, getVehicleRates, listCarriers, listCities, listDiscounts, listInsightsReports, listVehicles, rankCarriers
+intactinsurance.com — intactinsurance: getCommercialPropertyQuote, getSolution, listSolutions
+interiordefine.com — interiordefine: addToCart, getConfigurator, priceConfiguration, searchProducts
+ipinfo.io — ipinfo: lookup
+iproyal.com — iproyal: getPlans
+islllc.com — islllc: searchCommunities
+istanbulkart.istanbul — istanbulkart: getCardFees, getTouristPassFares
+ivoryhomes.com — ivoryhomes: searchFloorPlans
+iyc.com — iyc: checkCharterAvailability, searchCharterYachts
+jasminedilucci.com — jasmine_dilucci: getApplicationFormSchema
+jcrew.com — jcrew: addToCart, browseCategory, checkVariantStock, findStores, getCategory, getProduct, getProducts, listCategories, listProductReviews, listSearchRefinements, listSortOptions, searchProducts, startCheckout, suggestSearchTerms
+jennikayne.com — jennikayne: buildGiftCardLink, getGiftCardOptions
+joybird.com — joybird: getConfigurator, listConfigurators, priceConfigurator
+joycefactorydirect.com — joycefactorydirect: estimateWindowCost, getBathCalculatorOptions, getWindowCalculatorOptions
+junkluggers.com — junkluggers: createBooking, findFranchise, getAvailability, getServiceTypes
+justinwine.com — justinwine: checkTastingAvailability, listClubTiers
+kaleidescape.com — kaleidescape: findDealersNear
+kalshi.com — kalshi: getMarket, getMarkets
+kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
+kbb.com — kbb: getTrimPricing
+keepa.com — keepa: getProduct, searchProducts
+kingsdown.com — kingsdown: getBedMatchResult
+kitchentuneup.com — kitchentuneup: listCabinetStyles, visualizeKitchen
+kompan.com — kompan: getSparePartsDocuments, searchPlaygroundSpareParts, searchProduct
+kuiu.com — kuiu: findKuiuSize, getKuiuCheckoutLink, getKuiuProduct, listKuiuProducts
+kwworldwide.com — kwworldwide: findContactForm
+labcorp.com — labcorp: checkAppointmentAvailability, findLocation, getTest, search, trackOrder
+landmarkhw.com — landmarkhw_com: getOrderFormOptions, listOrderStates
+landsend.com — landsend: addToCart, getActivePromo, getProduct, searchProducts
+lasikplus.com — lasikplus: findCenters, getAvailability
+learn.chatgpt.com — openai: helpArticle, plans
+legacyhomesal.com — legacyhomesal: getAvailability, listCommunities
+letterboxd.com — letterboxd: film, memberDiary, memberFilms
+lever.co — lever: getJob, listJobs
+li.me — lime: cityPricing, listCities
+linkedin.com — linkedin: acceptInvitation, applyToJob, commentOnPost, createPost, deleteComment, deletePost, followCompany, followMember, getArticle, getCompany, getConversation, getEvent, getGroup, getHomeFeed, getJob, getLearningCourse, getMyProfile, getPost, getProfile, getProfileDetails, getProfileViews, getSchool, ignoreInvitation, joinGroup, leaveGroup, listAppliedJobs, listCompanyEmployees, listCompanyJobs, listCompanyPosts, listConnections, listConversations, listFollowing, listInvitations, listMemberPosts, listMyGroups, listNotifications, listPostComments, listSavedJobs, listSavedPosts, listSentInvitations, listSuggestedConnections, reactToPost, removeConnection, repostPost, saveJob, savePost, searchCompanies, searchEvents, searchGroups, searchJobs, searchLearningCourses, searchMembers, searchPeople, searchPosts, searchSchools, searchServiceProviders, sendConnectionRequest, sendMessage, setProfilePhoto, updateProfile, withdrawInvitation
+liquiddeath.com — liquiddeath: addToCart, getCart, getProduct, listProducts, searchPolicies, searchProducts
+liquidspace.com — liquidspace: getListingDetails, search
+littlewordsproject.com — littlewordsproject: getLittleWordsProjectCheckoutLink, getLittleWordsProjectProduct, listLittleWordsProjectCollections, listLittleWordsProjectProducts
+lmstudio.ai — lmstudio: getDoc, listDocPages
+lonelyplanet.com — lonelyplanet: getBestInTravel, getDestinationGuide, search, searchGuidebooks, searchTrips
+louvershop.com — louvershop: findLocalDealer, requestConsultation
+lovelybride.com — lovelybride: getAvailableSlots, getStoreAppointmentTypes, listStores
+lufthansa.com — lufthansa: getBaggageAllowance, getFlightStatus, getSeatMap, retrieveBooking, search
+luggageforward.com — luggageforward: getQuoteOptions, listLuggageTypes
+luma.com — luma: discoverEvents, getEvent, listCalendarEvents, listCategories, listPlaces
+lyreco.se — lyreco: getProduct, search
+m365.cloud.microsoft.com — microsoft_365: createDocument, deleteDocument, getDocument, getDocumentContent, listDocuments, listDocumentVersions, listRecentDocuments, restoreDocumentVersion, searchDocuments, shareDocument
+maersk.com — maersk: track
+maidenhome.com — maidenhome: getProduct, resolveVariant, searchConfigurations
+mail.aol.com — aol_mail: deleteMessage, getAccountProfile, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage, updateAccountProfile
+mail.yahoo.com — yahoo_mail: deleteMessage, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage
+mailchimp.com — mailchimp: getPlanPricing
+mango.com — mango: addToCart, getProduct, listCategories, searchProducts
+marketplace.visualstudio.com — marketplace_visualstudio: getExtensionStats, searchExtensions
+marketplace.vts.com — vts_marketplace: getListing, listMarkets, searchListings
+marriott.com — marriott: findHotels, getAwardAvailability, getDeals, getHotelDetails, getReservation, search
+mcdonalds.com — mcdonalds: checkDeliveryAvailability, findStores, getDeals, getMenu, getMenuItem
+mcp.so — mcp_so: search
+medicalguardian.com — medicalguardian: assessFallRisk, getRiskAssessmentQuestions
+medicare.gov — medicare: checkCoverage, estimateDrugCosts, findDialysisFacilities, findDoctors, findEquipmentSuppliers, findHomeHealthAgencies, findHospices, findHospitals, findLocalHelp, findNursingHomes, findRehabAndLongTermCareFacilities, getCosts, getEnrollmentPeriods, getPlan, searchDrugPlans, searchDrugs, searchHealthPlans, searchMedigapPlans, searchPharmacies
+mercadolibre.com — mercadolibre: getBestSellers, getProduct, getSellerReputation, getShippingEstimate, listCategories, search
+mercari.com — mercari: search
+mergify.com — mergify: pullStatus, queueStatus
+meteofrance.com — meteofrance: getMarineWindForecast
+microcenter.com — microcenter: checkStock, checkStoreStock, getProduct, search
+millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisitingHours
+minted.com — minted: getCardOptions, priceCard, searchCards
+mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
+mobygames.com — mobygames: searchByTitle
+modernize.com — modernize_com: getQuoteFlow, listProjectTypes
+modularclosets.com — modularclosets: getKitConfigurator, priceKitConfiguration, searchClosetKits
+momondo.com — momondo: getBookingOptions, search, searchCars, searchHotels
+mossyoak.com — mossyoak: getMossyoakCheckoutLink, getMossyoakProduct, listMossyoakProducts, searchProducts
+msc.com — msc: trackShipment
+msc.fema.gov — msc_fema: getFloodZone
+msn.com — msn: getArticle, getMarketSummary, getSectionFeed, getStockQuote, getTopStories, getWeatherForecast, listSavedArticles, saveArticle, searchNews
+muze.gov.tr — muze_gov_tr: getVisitingHours
+my.auroramedicalspa.com — my_auroramedicalspa_com: getProviders, getServiceCategories, getServices, listLocations
+myollie.com — myollie: getMealPlan
+myworkdayjobs.com — workday: getJob, listJobs
+naic.org — naic: getCompanyProfile, getComplaintIndex, getComplaintTrends, getLicensing, getStateInsuranceChart, listStateDepartments, lookupProducer, searchCompanies, searchStateInsuranceCharts
+namecheap.com — namecheap: checkTransferEligibility, getHostingPlans, getSslPlans, getWhois, search
+national-infrastructure-consenting.planninginspectorate.gov.uk — planning_inspectorate_ni: search
+nationalbusinessfurniture.com — nationalbusinessfurniture: addToCart, getProduct, priceConfiguration, searchProducts
+newageproducts.com — newageproducts: getNewageproductsProduct, searchNewageproductsCatalog
+newegg.com — newegg: checkStock, getProduct, search
+news.google.com — google_news: findTopic, followTopic, getForYou, getFullCoverage, getTopicHeadlines, listEditions, listFollowedTopics, listLocalHeadlines, listPublisherHeadlines, listSavedArticles, listStories, listTopicHeadlines, listTopics, resolveArticleUrl, saveArticle, searchNews, topStories
+news.ycombinator.com — hackernews: getItem, search, searchComments, topStories
+nfa.futures.org — nfa_futures_org: lookupByNfaId, searchFirms, searchIndividuals
+nhc.noaa.gov — nhc: getBestTrack, getForecastCone, getForecastDiscussion, getLocalStatements, getMarineForecast, getReconObservations, getSatelliteImagery, getStormAdvisory, getStormForecast, getStormGraphics, getStormInfo, getStormNames, getStormSurge, getTropicalCycloneReport, getTropicalOutlook, getTropicalWeatherDiscussion, getWatchesWarnings, getWindSpeedProbabilities, listCurrentStorms, listMarineZones, listSeasonStorms, listStormAdvisories, searchStorms
+npmjs.com — npmjs: getDownloads
+npr.org — npr: findStations, getAuthorStories, getLiveStream, getPodcast, getProgramRundown, getStation, getStory, getTranscript, listHeadlines, listNewsletters, listPodcastCategories, listPodcastEpisodes, listPodcasts, listSections, listSectionStories, listSeries, listSeriesStories, searchStories, subscribeNewsletter
+nurturelife.com — nurturelife: getMealBundle, getMealPlans
+nutrafol.com — nutrafol: assessHairWellness, computeHairWellness, getQuizOverview
+nutribullet.com — capitalbrands: getBlenderRecommendation, listQuizQuestions
+nvisioncenters.com — nvisioncenters: calculateLasikSavings, checkLasikCandidacy, estimateLasikSavings
+nytimes.com — nytimes: followWriter, getArticle, getArticleComments, getConnections, getLiveBlog, getNewsletter, getPodcast, getSection, getSpellingBee, getTopicArticles, getTrending, getWordle, getWriter, listArticles, listEpisodes, listNewsletters, listPodcasts, listRSSFeeds, listSavedArticles, listSections, listTopics, listTrending, listWriterArticles, saveArticle, searchArticles, searchWriters, unfollowWriter, unsaveArticle
+oanda.com — oanda: convertCurrency
+odfl.com — odfl: estimateFreightQuote
+oldnavy.gap.com — old_navy: getProduct, searchProducts
+oliverwinery.com — oliverwinery: checkShippingAvailability, getWine, listWines
+onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
+onthemarket.com — onthemarket: search
+open.spotify.com — spotify: browseCategory, getAlbum, getArtist, getAudioFeatures, getChart, getCurrentPlayback, getDevices, getEpisode, getFeaturedPlaylists, getLibraryAlbums, getLibraryArtists, getLibraryPlaylists, getLibraryTracks, getPlaylist, getPodcast, getRecentlyPlayed, getRecommendations, getTopArtists, getTopTracks, getTrack, getUserProfile, listAlbumTracks, listArtistTracks, listNewReleases, listPlaylistTracks, search
+opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, search, startBooking
+originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote
+othership.us — othership: getClassSchedule, getLocations
+otto.de — otto: browseCategory, getProduct, getReviews, search, trackOrder
+outdoorresearch.com — outdoorresearch: checkClaimEligibility, getWarrantyPolicy
+outlook.live.com — microsoft_outlook: createCalendarEvent, createContact, getCalendarEvents, getContact, getMail, listContacts, listMailFolders, readMailFolder, sendMail
+pacificabeauty.com — pacificabeauty: getHairRecommendation
+pacificcompanies.com — pacificcompanies: assembleApplication, getApplicationSchema, getJob, getJobCategories, searchJobs
+pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
+packlane.com — packlane: getQuote
+pallet2ship.co.uk — pallet2ship: getQuote
+partiful.com — partiful: discoverEvents, getEvent
+patreon.com — patreon: getCreator, getCurrentUserFeed, getPost, listCreatorPosts, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreators
+pawsup.com — pawsup: checkAvailability
+paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCryptoPrices, getCurrencyConversionQuote, getFees, getHelpArticle, getInvoice, getPayPalMeProfile, getPolicyDocument, searchHelp, searchShoppingOffers
+peerspace.com — peerspace: searchVenues
+perennialsandsutherland.com — perennialsandsutherland: getRugVariant, getTearsheetUrl, searchRugs
+personio.de — personio: listJobs
+pilotprotocol.network — pilotprotocol: getApp, listApps
+pinterest.com — pinterest: commentOnPin, createBoard, createPin, deleteBoard, deletePin, findVisuallySimilar, followBoard, followTopic, followUser, getBoard, getCurrentUser, getHomeFeed, getPin, getProduct, getTopic, getUser, hidePin, listBoardPins, listBoardSectionPins, listBoardSections, listConversations, listNotifications, listPinComments, listRelatedPins, listRelatedProducts, listTopicPins, listTopics, listUserBoards, listUserCreatedPins, listUserFollowers, listUserFollowing, listUserSavedPins, listVisualObjects, reactToPin, savePin, searchBoards, searchMyPins, searchPins, searchUsers, searchVideos, sendPin, suggestSearches, unfollowBoard, unfollowTopic, unfollowUser, updateBoard, updateProfile
+pirateship.com — pirateship: getRates, trackShipment, validateAddress
+pitboss-grills.com — dansons: identifyProduct, listRegisterableProducts
+pizzahut.com — pizzahut: checkDeliveryAvailability, findStores, getDeals, getMenu, getMenuItem, priceOrder
+planning.powys.gov.uk — powys: search
+platform.claude.com — platform_claude_com: getDocPage, getPage, listDocPages
+platform.minimax.io — minimax: getDocs
+poly-tex.com — polytex: getProduct, searchProducts
+polymarket.com — polymarket: getMarket, search
+poshmark.com — poshmark: getBulkUploadTemplateGuide, getZipFileGuide
+positivegrid.com — positivegrid: findRetailers
+postiz.com — postiz: createPost, listIntegrations, listPosts
+premierbuildings.us — premierbuildings: findDealers, listBuildingStyles, priceBuilding
+printful.com — printful: getOrder, searchOrders
+progressive.com — progressive: findAgent, getAtvQuote, getAutoQuote, getBoatQuote, getBusinessQuote, getClassicCarQuote, getCommercialAutoQuote, getCondoQuote, getDeviceQuote, getEventQuote, getGolfCartQuote, getHomeownersQuote, getJewelryQuote, getLifeQuote, getMobileHomeQuote, getMotorcycleQuote, getPetQuote, getPwcQuote, getRentersQuote, getRvQuote, getSnowmobileQuote, getTravelQuote, getUmbrellaQuote, listHomeownersCompanies
+prolook.com — prolook: getStyleCustomizationOptions, getTeamQuote, listUniformStyles
+prose.com — prose: getHaircareProductPrice, getHairPrescription, listHaircareProducts
+proton.me — proton_mail: getMessage, listFolders, listMessages, searchMessages, sendMessage
+provenwinners.com — provenwinners: getRecipeDetails, searchContainerRecipes
+proxmox.com — proxmox: getIsoDownloads
+proxy-cheap.com — proxy_cheap: listCoverage, listPlans
+pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
+puls.com — puls_com: getRepairQuote, listApplianceCategories
+purevpn.com — purevpn: getDedicatedIp, getPlans
+quickbooks.intuit.com — quickbooks: calculateEmployeeCost, calculatePaycheck, calculateSalesTax, contactAccountant, estimatePaymentFees, findAccountants, generateInvoice, getAccountant, getApp, getDesktopPlans, getEvent, getExpertPlans, getHelpArticle, getPaymentRates, getPayrollPlans, getPlans, getResourceArticle, getServiceStatus, getStatePayrollTaxes, getThread, getTimeTrackingPlans, listAppCategories, listAppReviews, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listResourceArticles, listTemplates, searchApps, searchCommunity, searchHelpArticles
+quince.com — quince: getProduct, searchProducts
+quora.com — quora: askQuestion, followEntity, getAnswers, getHomeFeed, getOwnProfile, getProfile, getQuestion, getSpace, getTopic, getTopicFeed, postComment, searchQuestions, upvoteAnswer, writeAnswer
+raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
+recruitee.com — recruitee: listJobs
+reddit.com — reddit: askRedditAnswers, blockUser, browseSubreddits, createSubreddit, deletePostOrComment, editPostOrComment, findPostsByUrl, followUser, getCommentReplies, getHomeFeed, getMyAccount, getPost, getSubreddit, getSubredditPosts, getSubredditRules, getUser, getUserComments, getUserPosts, getWikiPage, giveAward, hidePost, joinSubreddit, leaveSubreddit, listInbox, listMySubscriptions, listPostFlairs, listSaved, listWikiPages, postComment, replyToComment, reportPostOrComment, savePostOrComment, search, searchComments, searchSubreddits, searchUsers, sendDirectMessage, setProfilePicture, submitPost, unsavePostOrComment, updateProfile, vote
+registry.modelcontextprotocol.io — mcp_registry: search
+rei.com — rei: addToCart, findStores, getProduct, getProductStock, getSku, search
+reliancepartners.com — reliancepartners: assembleApplication, getApplicationSchema
+resy.com — resy: checkAvailability, search
+revisionskincare.com — revisionskincare: getSkincareQuizQuestions, takeSkincareQuiz
+rightmove.co.uk — rightmove: search
+rippling.com — rippling: listJobs
+rishi-tea.com — rishitea: getTeaFinderQuiz, matchTeaFinderQuiz
+ritani.com — ritani: getConfigurator, priceConfiguration
+rivian.com — rivian: estimateLeasePayment
+roblox.com — roblox: getGame, getRecommendations, getUsersLibrary, listPopularGames, searchGames
+roofmaxx.com — roofmaxx: estimateRoofReplacementCost, getCalculatorSettings
+rotogrinders.com — dfs_rotogrinderssearch: search
+rottentomatoes.com — rottentomatoes: browseTitles, getAudienceReviews, getCelebrity, getCriticReviews, getTitle, search
+rover.com — rover: searchBoarding
+rvshare.com — rvshare: searchListings
+saatva.com — saatva: listMattresses, recommendMattress
+safetywing.com — safetywing: getQuote
+saltandstone.com — saltandstone: getScentProducts, listScentFamilies, matchScent
+samsclub.com — samsclub: browseCategory, checkStock, findClubs, getFuelPrices, getInstantSavings, getMembershipPlans, getPickupSlots, getProduct, search, trackOrder
+samsung.com — samsung: checkWarrantyStatus, compareProducts, findStore, getOrderStatus, getProduct, getRewardsBalance, getTradeInQuote, listCarrierOffers, listCategories, listCategoryProducts, listDeals, listMyProducts, listOrders, listSupportArticles, search
+scentbird.com — scentbird: browseCatalogue
+scribd.com — scribd: addDocumentToList, askDocument, createList, deleteDocument, downloadDocument, getDocument, getDocumentText, getEmbedCode, getList, getRelatedDocuments, getTrendingDocuments, getUserProfile, listCategories, listMyLists, listSavedDocuments, listUserUploads, markDocumentFinished, rateDocument, removeDocumentFromList, saveDocument, searchDocuments, unsaveDocument, updateProfile, uploadDocument
+seakeeper.com — seakeeper: findNearestDealers, listAllDealers
+sears.com — sears: checkStock, findStores, getProduct, search
+seatgeek.com — seatgeek: buyTicket, findPerformers, findVenues, followPerformer, getEvent, getOrder, getPerformer, getVenue, listFollowedPerformers, listMyOrders, listTaxonomies, listTicketForSale, listTrackedEvents, searchEvents, trackEvent, transferTicket, unfollowPerformer, untrackEvent
+sec.gov — sec_edgar: companyFacts, findCompany, fullTextSearch, listFilings
+sede.valencia.es — sede_valencia_es: getParkingTariff
+seegarsfence.com — seegarsfence: checkServiceArea, estimateFencePrice
+selectblinds.com — selectblinds: getConfigurator, listBlindStyles, priceConfiguration
+sellcell.com — sellcell: getTradeInOffers
+semihandmade.com — semihandmade: getPartOptions, priceConfiguration, searchParts
+seoulfood.kotra.or.kr — seoulfood: getBoothQuote, getExhibitorPricing, listExhibitors
+serper.dev — serper: searchGoogle
+services.gst.gov.in — gst_india: lookup
+shein.com — shein: getProduct, getProductReviews, listCategories, listProductsByCategory, search
+shop.app — shop_app: addAddress, addToCart, addToProductList, browseCategory, claimOffer, createProductList, followStore, getAccount, getCart, getDeliveryEstimate, getDiscoveryFeed, getOrder, getProduct, getProductReviews, getSharedList, getShopCash, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listAddresses, listCategories, listFollowedStores, listOffers, listOrders, listProductLists, listSavedProducts, listStoreProducts, markOrderDelivered, saveProduct, searchProducts, searchStore, startCheckout, suggestSearches, trackPackage, updatePrivacySettings, writeReview
+shop.formax.com — formax: getCartLink, search
+shop.lululemon.com — lululemon: addToCart, checkStoreStock, findStores, getCart, getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, listCategory, search
+shopify.com (49870 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getShippingRates, getStyleDetails, listCollections, listProducts, removeFromCart, resolveProductUrl, search, searchPolicies, searchProducts
+sitmeanssit.com — sitmeanssit: findNearestLocations
+sixflags.com — sixflags: getTickets
+smallbusiness.uhc.com — uhc_smallbusiness: getGroupHealthQuote
+smartrecruiters.com — smartrecruiters: getJob, listJobs
+smartsign.com — smartsign: getTemplate, search
+smartwool.com — smartwool: getSockRecommendation
+smithery.ai — smithery: search
+snapchat.com — snapchat: addFriend, blockUser, getChatMessages, getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSnapMap, getSpotlightVideo, listChats, listDiscoverStories, listFriends, listFriendStories, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, listTopicSpotlights, postSpotlightComment, postStory, removeFriend, searchSnapchat, sendChatMessage, sendSnap, subscribeToProfile, updateDisplayName
+solostove.com — solostove: checkBundle, listBundles
+soundcloud.com — soundcloud: getPlaylist, getTrack, search
+spacest.com — spacest: search
+speedrun.a16z.com — a16z_speedrun: getApplicationForm
+spirithalloween.com — spirithalloween: getProduct, search
+sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, listTeams, setFantasyLineup
+starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
+start.gg — start_gg: findVideogames, searchTournaments
+statefarm.com — statefarm: findAgent, getAgent, getAutoQuote, getBoatQuote, getBusinessQuote, getCondoQuote, getDisabilityQuote, getHealthQuote, getHomeQuote, getLifeQuote, getManufacturedHomeQuote, getMotorcycleQuote, getPersonalArticlesQuote, getPetQuote, getRecreationalVehicleQuote, getRentalPropertyQuote, getRentersQuote, getUmbrellaQuote
+steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getCommunityHub, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getMarketPrice, getNewsItem, getPlayTime, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, postComment, removeFriend, removeFromWishlist, searchGames, searchNews, viewFriends, viewInventory, viewMarketHistory
+stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
+store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
+stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
+suitsupply.com — suitsupply: getProduct, listCategory, search
+summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
+sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches, getSaunaFinderQuestions
+sunlighten.com — sunlighten: getModelPricing, matchSauna
+support.claude.com — claude_support: getArticle, listArticles
+surfshark.com — surfshark: getDedicatedIp, getPlans
+t-mobile.com — tmobile: getUpgradeOffer
+tagtrans.net — tagtrans_net: createShipmentRateEmail, getShipmentRateForm
+tamarackidaho.com — tamarackidaho: searchLodging
+tapfiliate.com — tapfiliate: listAffiliates
+target.com — target: addToCart, checkStock, findRegistry, findStore, getCart, getProduct, getRegistry, listCategories, listDeals, listOrders, listReviews, listWishlists, reviewPhotos, search, trackOrder, writeReview
+tatcha.com — tatcha: getPersonalizedRitual, getRitualQuizOptions
+teamtailor.com — teamtailor: listJobs
+teladochealth.com — teladoc: getArticle, getInsurancePricing, getPricing, search
+tenders.go.ke — tenders_go_ke: getTender, listTenders
+teneohg.com — teneohg: getMemberHotel, searchMemberHotels
+theguardian.com — theguardian_com: getArticle, getContributorArticles, getLiveBlog, getPhotoGallery, getReview, getSavedArticles, getTopicArticles, getVideo, listArticlesBySection, listBreakingNews, listContributors, listLiveBlogs, listNewsletters, listOpinionPieces, listPhotos, listReviews, listSections, listTopics, listVideos, searchArticles
+therabody.com — therabody: getTheragunProduct, listTheragunProducts, recommendTheragun
+therowhouse.com — therowhouse: getSchedule, listLocations
+thezebra.com — thezebra: estimateCoverageCost, getAutoQuotes, getCarrierRates, getCityRates, getCommercialAutoQuotes, getDiscounts, getHomeQuotes, getInsuranceStatistics, getLifeQuotes, getPetQuotes, getRatesByDriverProfile, getRentersQuotes, getRentersRates, getStateRates, getStateRequirements, getVehicleRates, listCarriers, listVehicles
+thibautdesign.com — thibautdesign: calculateRollsNeeded
+ticketmaster.com — ticketmaster: getEvent, listClassifications, search, searchAttractions, searchVenues
+ticketmaster.com.mx — ticketmaster_mx: getEvent, search
+ticketmaster.nl — ticketmaster_nl: event, search
+tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getMeteorologicalObservations, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
+tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listBookmarkedVideos, listCaptionTracks, listCommentReplies, listComments, listConversations, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listSoundVideos, listUserVideos, postComment, searchUsers, searchVideos, sendDirectMessage, unfollowUser, unlikeVideo, uploadVideo
+tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
+titlenine.com — titlenine: calculateBraSize
+TODO example.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, detectTone, getPersonalDictionary, humanize, listDocuments, listGoals, paraphrase
+topviewtix.com — topviewtix: getPackageDetails, listPackages, reserve
+totalplastics.com — totalplastics: getQuoteFormFieldOptions, getQuoteFormFields
+translate.google.com — google_translate: checkSpelling, detectLanguage, getAlternativeTranslations, getDefinitions, getSynonyms, listHistory, listLanguages, listSavedPhrases, lookupWord, romanize, savePhrase, speak, translate, translateDocument, translateImage, translateWebPage, unsavePhrase
+travelinsured.com — travelinsured: getPlanQuote, getZipInfo, searchDestinations
+travelocity.com — travelocity: getReservation, search, searchActivities, searchCars, searchCruises, searchHotels, searchPackages
+trawickinternational.com — trawickinternational: getPlanPremium, getQuote
+trektravel.com — trektravel: getDeparturePricing, searchTours
+tripadvisor.com — tripadvisor: askQuestion, createTrip, getAttraction, getDestination, getForumThread, getForumTopics, getHotel, getHotelPrices, getMemberProfile, getNearby, getOwnProfile, getPhotos, getQuestions, getRestaurant, getRestaurantAvailability, getReview, getReviews, getTour, getTrips, removeFromTrip, replyToForumTopic, saveToTrip, search, searchAttractions, searchHotels, searchRestaurants, writeReview
+trojanstorage.com — trojanstorage: getFacilityUnits, listFacilities
+trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, listPlans, searchHomes
+trustpilot.com — trustpilot: getCompany
+tryalma.com — tryalma_com: listPages, search
+tumblr.com — tumblr: createPost, deletePost, editPost, findBlog, findTag, followBlog, getBlogInfo, getBlogPosts, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listBlogFollowers, reblogPost, searchBlogPosts, searchPosts, sendMessage, unfollowBlog, unlikePost, unreblogPost
+turbotax.intuit.com — turbotax: compareEditions, findLocalExperts, listEditions, listTaxTools, searchArticles
+tweethunter.io — tweethunter: listFeatureCategories, listFeatures
+twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
+twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getFollowStatus, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, signUp, unfollowChannel
+ubereats.com — ubereats: getCheckoutTotal, search
+uhaul.com — uhaul: getRates
+ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration
+uniqlo.com — uniqlo: getProduct, searchProducts
+upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
+ups.com — ups: getRate
+urbanoutfitters.com — urbanoutfitters: browseCategory, checkGiftCardBalance, checkStock, checkStorePickup, findStores, getDeals, getProduct, getReviews, search, trackOrder
+usatoday.com — usatoday: browseSection, getArticle, getPuzzle, getScores, getVideo, listHomepageHeadlines, listPuzzles, listSavedArticles, listSections, listVideos, saveArticle, searchNews
+usps.com — usps: getRate
+vbt.com — vbt: getTourDepartures, listTours
+verizon.com — verizon: getPlanTotal, searchPhones
+vervecoffee.com — vervecoffee: listRoastersChoiceSubscriptions, matchCoffeeSubscription
+vessi.com — vessi: getFitGuide, getProduct, listProducts, searchProducts
+viewrail.com — viewrail: getDesignEstimate, listInfillOptions, listMaterials, listMountingStyles
+villagerealtyobx.com — villagerealtyobx: getQuote, searchRentals
+visible.com — visible: checkCoverage, checkDeviceCompatibility, getInternationalRates, getPhone, getPlans, getTradeInValue, listDeals, listWearables, searchHelp, searchPhones
+visit.barnesfoundation.org — barnesfoundation: getAdmissionCalendar, priceAdmission
+vistaprint.com — vistaprint: checkOrderDeadline, getShippingBoxPrice
+voluspa.com — voluspa: getFragranceQuizIntro, matchFragranceQuiz
+walkerhughes.com — walkerhughes: findNearestOffice, listOffices, listQuoteProducts, submitQuoteApplication
+walmart.com — walmart: addAddress, addToCart, addToList, browseBrand, browseCategory, checkStock, createList, findStores, getAccountProfile, getCart, getList, getOrder, getPickupDeliverySlots, getProduct, getRegistry, getSeller, getStore, getWeeklyAd, listAddresses, listDeals, listDepartments, listLists, listOrders, listPurchasedItems, listQuestions, listReviews, listSellerOffers, removeFromCart, removeFromList, search, searchRegistries, setPreferredStore, startReturn, suggestSearches, trackOrder, updateCartItem, updateProfile
+waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
+wearehirschfeld.com — wearehirschfeld: getContactForm, listPages
+weather.com — weather_channel: getAirQuality, getAlertDetails, getAlmanac, getCMSContent, getCurrentConditions, getCurrentTropicalPosition, getDailyForecast, getFifteenMinuteForecast, getHistoricalDaily, getHistoricalDailySummary, getHistoricalHourly, getHourlyAirQuality, getHourlyForecast, getLocation, getMinutelyPrecipitation, getObservations, getPollenForecast, getPollenHealth, getRadarTiles, getTropicalCone, getWeeklyAd, listAlerts, searchLocations, searchNews
+webshare.io — webshare: getPlans
+wellfound.com — wellfound: getCompany, getJob, getJobCollection, getSalaryBenchmarks, listCompanyJobs, listJobCollections, searchCompanies, searchJobs
+whatsapp.com — whatsapp: addGroupParticipants, blockContact, checkNumber, createClickToChatLink, createGroup, deleteMessage, downloadMedia, editMessage, findContact, followChannel, forwardMessage, getBlogPost, getChannel, getChannelUpdates, getChatMessages, getCommunity, getGroupInfo, getGroupInviteLink, getHelpArticle, getMyProfile, joinGroupByInvite, leaveGroup, listBlogPosts, listCatalogProducts, listChats, listContacts, listFollowedChannels, listStatusUpdates, postStatus, previewBusinessCatalog, previewGroupInvite, reactToMessage, removeGroupParticipants, searchChannels, searchHelpCenter, searchMessages, sendMedia, sendMessage, sendPoll, unfollowChannel, updateChat, updateGroup, updatePrivacySettings, updateProfile
+wholefoodsmarket.com — wholefoodsmarket: listStores, search
+wikipedia.org — wikipedia: compareRevisions, createPage, editPage, getArticle, getArticleHtml, getCurrentUser, getFeaturedContent, getImage, getInfobox, getOnThisDay, getPageviews, getRandomArticle, getRevision, getSection, getSections, getSummary, getUser, getWikitext, listBacklinks, listCategories, listCategoryMembers, listExternalLinks, listImages, listLanguages, listLinks, listMostViewed, listNotifications, listRecentChanges, listRelated, listRevisions, listUserContributions, listWatchlist, postTalkMessage, search, searchNearby, suggestTitles, thankUser, undoRevision, unwatchPage, watchPage
+windscribe.com — windscribe: getDedicatedIp, getServerLocations
+winestyles.com — winestyles: listStores, searchStoreInventory
+workable.com — workable: listJobs
+wunderflats.com — wunderflats: search
+www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listMostWishedFor, listMoversAndShakers, listNewReleases, listOrders, listQuestions, listRelatedProducts, listReviews, listSellerOffers, listVariations, listWishLists, searchProducts, suggestKeywords, trackShipment
+www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepartments, listNews, listPublicData, listServices, searchNews, searchPublicData, searchServices
+www.cardiff.gov.uk — cardiff: getApplication, search
+www.cnn.com — cnn: followTopic, getArticle, getMarketsData, getVideo, listCategories, listHeadlines, listMyNews, listNewsletters, listOpinion, listSectionHeadlines, listTrendingTopics, listVideos, searchArticles, subscribeToNewsletter, unfollowTopic
+www.gap.com — gap: getProduct, searchProducts
+www.marks.com — marks: findStores, getProduct, searchProducts
+www.netflix.com — netflix: addToMyList, browseGenre, findTitles, getContinueWatching, getMyList, getTitle, getTop10, getTudumArticle, getViewingHistory, listGenres, rateTitle, removeFromMyList, search, searchTudum
+www.nintendo.com — nintendo: browseCategory, getMyNintendoRewardsBalance, getProduct, getSupportArticle, listCategories, listDeals, listNews, listOrders, searchProducts, searchSupport
+www.primevideo.com — prime_video: getChannel, getLiveSchedule, getPerson, getTitle, getWatchlist, getWatchOptions, listCategories, listCategoryTitles, listChannels, listContinueWatching, listDeals, listEpisodes, listFreeToWatch, listLiveChannels, listLiveSports, listNewReleases, listPurchases, listRelatedTitles, listSeasons, listTop10, searchTitles, suggestTitles, toggleWatchlist
+www.reuters.com — reuters: findAuthor, followTopic, getArticle, getAuthor, getCompanyEvents, getCompanyFinancials, getCompanyKeyMetrics, getCompanyProfile, getLiveCoverage, getMarketOverview, getMyNewsFeed, getPictureGallery, getPressRelease, getQuote, getVideo, listArticlesByDate, listCompanyNews, listFollowedTopics, listGraphics, listHeadlines, listLatestNews, listMostRead, listNewsletters, listNewsletterSubscriptions, listPictureGalleries, listPodcastEpisodes, listPodcasts, listPressReleases, listSavedArticles, listSections, listVideos, removeSavedArticle, saveArticle, searchArticles, searchCompanies, subscribeNewsletter, unfollowTopic, unsubscribeNewsletter
+www.speedrun.com — speedrun: categories, findGame, platforms, submitRun
+www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends, getEarnings, getEconomicCalendar, getFinancials, getMarketOverview, getNews, getOptionChain, getQuote, getScreenerResults, getTechnicalAnalysis, listIdeas, searchSymbols
+x.com — x: bookmarkPost, createPost, deletePost, followUser, getConversation, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listNotifications, listTrending, post, profile, quotePost, replyToPost, repost, search, sendMessage, updateProfile, uploadProfilePicture, userTimeline
+xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
+ycombinator.com — ycombinator: getArticle, getBlogPost, search
+yelp.com — yelp: search
+yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct, search
+yourarborhome.com — yourarborhome: bookSelfTour, getHome, searchHomes
+youtube.com — youtube: addToPlaylist, createChannel, createPlaylist, deletePlaylist, deleteVideo, findChannel, getChannel, getLiveChat, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listChannelLiveStreams, listChannelPlaylists, listChannelPosts, listChannelShorts, listChannelVideos, listChapters, listCommentReplies, listComments, listHashtagVideos, listHomeFeed, listLikedVideos, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listSubscriptions, listTrending, listWatchHistory, listWatchLater, postComment, removeFromPlaylist, replyToComment, search, searchWithinChannel, setCaptions, setThumbnail, subscribeToChannel, suggestSearches, updatePlaylist, updateVideo, uploadVideo
+zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
+zoom.us — zoom: deleteMeeting, downloadRecording, getContactInfo, getContacts, getMarketplaceApp, getMeeting, getMeetingInfo, getMeetingParticipants, getPricing, getProfile, getRecording, getRecordingTranscript, getSystemStatus, getWebinar, joinMeeting, listMeetings, listRecordings, listRecordingTranscripts, listWebinars, scheduleMeeting, searchContacts, searchHelpArticles, searchMarketplaceApps, updateMeeting, updateProfile, updateProfilePicture
+zoopla.co.uk — zoopla: listings, search
