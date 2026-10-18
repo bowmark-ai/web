@@ -182,7 +182,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | 🟢 |
 | `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | 🟢 |
 | `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | 🟢 |
-| `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | 🟢 |
+| `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | 🟡 |
 | `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | 🟢 |
 | `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | 🟢 |
 | `aol.listFavorites` | aol.com | Reads the signed-in caller's AOL Favorites — their saved links and the folders holding… | ⚪ |
@@ -3298,7 +3298,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seatgeek.listTaxonomies` | seatgeek.com | Returns the category taxonomy SeatGeek uses to classify events (e.g. music > rock… | 🟢 |
 | `seatgeek.listTicketForSale` | seatgeek.com | Lists one of the signed-in caller's tickets for resale on SeatGeek. | ⚪ |
 | `seatgeek.listTrackedEvents` | seatgeek.com | The signed-in caller's tracked (saved/followed) events, newest first. | 🟢 |
-| `seatgeek.searchEvents` | seatgeek.com | Searches live events — concerts, sports, comedy, theater and family — by keyword… | 🟢 |
+| `seatgeek.searchEvents` | seatgeek.com | Searches live events — concerts, sports, comedy, theater and family — by keyword… | 🟡 |
 | `seatgeek.trackEvent` | seatgeek.com | Tracks (saves) an event to the signed-in caller's account. | ⚪ |
 | `seatgeek.transferTicket` | seatgeek.com | Transfers a purchased ticket to another person's SeatGeek account. | ⚪ |
 | `seatgeek.unfollowPerformer` | seatgeek.com | Unfollows a performer on the signed-in caller's account. | ⚪ |
