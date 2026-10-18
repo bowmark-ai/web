@@ -17,7 +17,7 @@ abqplumb.com — abqplumb: getAvailability, listServices
 acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
 acqualinaresort.com — acqualinaresort: searchAvailability
-acuityscheduling.com — acuityscheduling: bookAppointment, cancelAppointment, getAppointmentTypeDetails, getPrice, joinWaitlist, listAppointmentTypes, listMyBookings, listScheduleSlots, searchSchedule
+acuityscheduling.com — acuityscheduling: bookAppointment, cancelAppointment, findScheduler, getAppointmentTypeDetails, getBookingForm, getPrice, getSchedulerInfo, getWaitlistStatus, joinWaitlist, leaveWaitlist, listAppointmentTypes, listLocations, listMyBookings, listPacks, listScheduleSlots, rescheduleAppointment, searchSchedule
 adobe.com — adobe: compressPdf, convertPdfToWord, findHelpArticle, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, licenseStockAsset, mergePdfs, saveAssetToCreativeCloud, searchFonts, searchStockAssets, searchTemplates, sendForSignature
 agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
 agentstatus.dev — agentstatus: getServer, searchServers, submitServer

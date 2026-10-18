@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4177 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4185 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -36,14 +36,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |
 | `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟢 |
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
-| `acuityscheduling.bookAppointment` | acuityscheduling.com | Books an appointment; requires caller sign-in and confirmation of email/phone. | ⚪ |
+| `acuityscheduling.bookAppointment` | acuityscheduling.com | Books an appointment; accepts guest checkout with email and phone. | ⚪ |
 | `acuityscheduling.cancelAppointment` | acuityscheduling.com | Cancels a booking; caller must own the appointment. | ⚪ |
+| `acuityscheduling.findScheduler` | acuityscheduling.com | Finds a scheduler/business by name or URL to get its unique owner ID. | ⚪ |
 | `acuityscheduling.getAppointmentTypeDetails` | acuityscheduling.com | Returns details of a specific appointment type including duration, provider, and… | ⚪ |
+| `acuityscheduling.getBookingForm` | acuityscheduling.com | Returns the form fields and requirements needed to complete a booking. | ⚪ |
 | `acuityscheduling.getPrice` | acuityscheduling.com | Returns pricing for an appointment type, including discounts for multi-class packages. | ⚪ |
+| `acuityscheduling.getSchedulerInfo` | acuityscheduling.com | Returns business information including hours, policies, and contact details. | ⚪ |
+| `acuityscheduling.getWaitlistStatus` | acuityscheduling.com | Gets the caller's position and estimated wait time on a waitlist. | ⚪ |
 | `acuityscheduling.joinWaitlist` | acuityscheduling.com | Joins the waitlist for a full appointment slot. | ⚪ |
+| `acuityscheduling.leaveWaitlist` | acuityscheduling.com | Removes the caller from a waitlist. | ⚪ |
 | `acuityscheduling.listAppointmentTypes` | acuityscheduling.com | Lists all appointment types (classes, services) offered by the business. | ⚪ |
+| `acuityscheduling.listLocations` | acuityscheduling.com | Lists all service locations available for this business. | ⚪ |
 | `acuityscheduling.listMyBookings` | acuityscheduling.com | Lists the signed-in caller's upcoming and past appointments. | ⚪ |
+| `acuityscheduling.listPacks` | acuityscheduling.com | Lists multi-class packages with discounted per-class pricing. | ⚪ |
 | `acuityscheduling.listScheduleSlots` | acuityscheduling.com | Lists available appointment slots for a given type, date range, and location. | ⚪ |
+| `acuityscheduling.rescheduleAppointment` | acuityscheduling.com | Reschedules a booking to a different date/time; caller must own the appointment. | ⚪ |
 | `acuityscheduling.searchSchedule` | acuityscheduling.com | Searches available slots by location and date range. | ⚪ |
 | `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
