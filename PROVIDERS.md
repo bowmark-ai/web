@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4301 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4341 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -986,6 +986,46 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `coops.getTidePredictions` | tidesandcurrents.noaa.gov | Get tide predictions for a station for specified dates. | ⚪ |
 | `coops.getWaterLevel` | tidesandcurrents.noaa.gov | Get water level observations for a station. | ⚪ |
 | `coops.listStations` | tidesandcurrents.noaa.gov | Find tide/current stations, optionally filtered by product type or state — the finder… | ⚪ |
+| `corepoweryoga.addFavoriteTeacher` | corepoweryoga.com | Adds an instructor to the caller's favorites. | ⚪ |
+| `corepoweryoga.book` | corepoweryoga.com | Books a class for the signed-in caller. | ⚪ |
+| `corepoweryoga.buyClassPack` | corepoweryoga.com | Purchases a class pack. | ⚪ |
+| `corepoweryoga.buyMembership` | corepoweryoga.com | Purchases a membership plan. | ⚪ |
+| `corepoweryoga.cancelMembership` | corepoweryoga.com | Cancels an active membership. | ⚪ |
+| `corepoweryoga.cancelReservation` | corepoweryoga.com | Cancels a class booking. | ⚪ |
+| `corepoweryoga.freezeMembership` | corepoweryoga.com | Freezes an active membership temporarily. | ⚪ |
+| `corepoweryoga.getBuddyPassEligibility` | corepoweryoga.com | Checks if the caller is eligible for buddy pass benefits. | ⚪ |
+| `corepoweryoga.getChallenge` | corepoweryoga.com | Gets details about a specific challenge including goals and progress tracking. | ⚪ |
+| `corepoweryoga.getClass` | corepoweryoga.com | Gets details about a specific class including description, duration, and intensity. | ⚪ |
+| `corepoweryoga.getClassPack` | corepoweryoga.com | Gets details about a specific class pack including classes remaining and expiration. | ⚪ |
+| `corepoweryoga.getMembership` | corepoweryoga.com | Gets details about a specific membership including usage and renewal date. | ⚪ |
+| `corepoweryoga.getOnDemandVideo` | corepoweryoga.com | Gets details about a specific on-demand video including duration and instructor. | ⚪ |
+| `corepoweryoga.getProfile` | corepoweryoga.com | Gets the caller's profile information. | ⚪ |
+| `corepoweryoga.getRecommendations` | corepoweryoga.com | Gets personalized class recommendations based on preferences. | ⚪ |
+| `corepoweryoga.getSchedule` | corepoweryoga.com | Gets the full schedule for a specific studio on a given date. | ⚪ |
+| `corepoweryoga.getStudio` | corepoweryoga.com | Gets details for a specific studio including amenities, contact info, and class… | ⚪ |
+| `corepoweryoga.getTeacher` | corepoweryoga.com | Gets details about a specific instructor including bio and full teaching schedule. | ⚪ |
+| `corepoweryoga.getWorkshop` | corepoweryoga.com | Gets details about a specific workshop including schedule, capacity, and teacher. | ⚪ |
+| `corepoweryoga.joinWaitlist` | corepoweryoga.com | Joins the waitlist for a full class. | ⚪ |
+| `corepoweryoga.listChallenges` | corepoweryoga.com | Lists current and upcoming yoga challenges. | ⚪ |
+| `corepoweryoga.listClasses` | corepoweryoga.com | Lists all class types offered (e.g., power flow, yin, sculpt, hot yoga). | ⚪ |
+| `corepoweryoga.listClassPackPrices` | corepoweryoga.com | Lists class pack options with pricing and expiration periods. | ⚪ |
+| `corepoweryoga.listFavoriteTeachers` | corepoweryoga.com | Lists the caller's favorite instructors. | ⚪ |
+| `corepoweryoga.listMembershipPrices` | corepoweryoga.com | Lists current membership plan pricing and benefits. | ⚪ |
+| `corepoweryoga.listMilestones` | corepoweryoga.com | Lists achievements and milestones for the caller. | ⚪ |
+| `corepoweryoga.listMyBookings` | corepoweryoga.com | Lists the caller's upcoming class bookings. | ⚪ |
+| `corepoweryoga.listMyClassPacks` | corepoweryoga.com | Lists the caller's active class packs and remaining classes. | ⚪ |
+| `corepoweryoga.listMyMemberships` | corepoweryoga.com | Lists the caller's active memberships. | ⚪ |
+| `corepoweryoga.listMyRatings` | corepoweryoga.com | Lists the caller's class ratings and reviews. | ⚪ |
+| `corepoweryoga.listMyVisits` | corepoweryoga.com | Lists the caller's past class visits. | ⚪ |
+| `corepoweryoga.listOnDemandVideos` | corepoweryoga.com | Lists available on-demand yoga classes. | ⚪ |
+| `corepoweryoga.listSavedPayments` | corepoweryoga.com | Lists the caller's saved payment methods. | ⚪ |
+| `corepoweryoga.listSchedules` | corepoweryoga.com | Lists class schedules for all studios across a date range. | ⚪ |
+| `corepoweryoga.listStudios` | corepoweryoga.com | Lists all CorePower Yoga studio locations with address, hours, and center ID. | ⚪ |
+| `corepoweryoga.listTeachers` | corepoweryoga.com | Lists all CorePower instructors with bio, specialties, and teaching schedule. | ⚪ |
+| `corepoweryoga.listWorkshops` | corepoweryoga.com | Lists upcoming special workshops and events. | ⚪ |
+| `corepoweryoga.rateClass` | corepoweryoga.com | Rates and reviews a class attended. | ⚪ |
+| `corepoweryoga.removeFavoriteTeacher` | corepoweryoga.com | Removes an instructor from the caller's favorites. | ⚪ |
+| `corepoweryoga.updateProfile` | corepoweryoga.com | Updates the caller's profile information like name, email, phone. | ⚪ |
 | `costco.search` | costco.com | Costco's own search-bar autocomplete suggestions for a typed term — real phrases… | 🟡 |
 | `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟡 |
