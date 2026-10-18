@@ -6,6 +6,52 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.25.8 (2026-10-18)
+
+**Providers**
+
+- New provider **bamboohr.com** (1 function): `bamboohr.listJobs`
+- New provider **breezy.hr** (1 function): `breezyhq.listJobs`
+- New provider **www.ca.gov** (3 functions): `ca_gov.getDepartment`, `ca_gov.listDepartments`, `ca_gov.listServices`
+- New provider **personio.de** (1 function): `personio.listJobs`
+- New provider **rippling.com** (1 function): `rippling.listJobs`
+- New provider **rottentomatoes.com** (2 functions): `rottentomatoes.getTitle`, `rottentomatoes.search`
+- New provider **snapchat.com** (1 function): `snapchat.searchSnapchat`
+- New provider **teamtailor.com** (1 function): `teamtailor.listJobs`
+- New provider **zoom.us** (7 functions): `zoom.getMarketplaceApp`, `zoom.getMeetingInfo`, `zoom.getPricing`, `zoom.getSystemStatus`, `zoom.joinMeeting`, `zoom.searchHelpArticles`, `zoom.searchMarketplaceApps`
+- Added `adobe.findHelpArticle`
+- Added `adobe.getFont`
+- Added `adobe.getTemplate`
+- Added `adobe.searchFonts`
+- Added `adobe.searchStockAssets`
+- Added `adobe.searchTemplates`
+- Added `crunchbase.getFundingRounds`
+- Added `crunchbase.getOrganization`
+- Added `crunchbase.searchOrganizations`
+- Added `discord.getInvite`
+- Added `imdb.searchTitles`
+- Added `netflix.getTop10`
+- Added `netflix.listGenres`
+- Added `opentable.cancelBooking`
+- Added `opentable.confirmBooking`
+- Added `opentable.startBooking`
+- Added `paypal.estimatePayLaterPlan`
+- Added `paypal.getPolicyDocument`
+- Added `seatgeek.listTrackedEvents`
+- Added `target.listWishlists`
+- Added `target.trackOrder`
+- Added `target.writeReview`
+- Added `usatoday.getPuzzle`
+- Added `usatoday.listVideos`
+- Removed **healthie**
+- Removed `aliexpress.addToCart`
+- Removed `aliexpress.getProduct`
+- Removed `aliexpress.getStore`
+- Removed `aliexpress.listCart`
+- Removed `aliexpress.listCategories`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.25.7 (2026-10-15)
 
 **Capabilities**

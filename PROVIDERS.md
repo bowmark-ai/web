@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4341 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4397 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1605,6 +1605,24 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `flightradar24.listFlightsInArea` | flightradar24.com | Lists every aircraft currently airborne inside a geographic bounding box — the map's… | ⚪ |
 | `flightradar24.search` | flightradar24.com | Resolves a free-text query — an airport name, a city, an airline, a flight number, a… | ⚪ |
 | `flightradar24.trackFlight` | flightradar24.com | Answers "where is this flight right now" for a flight number (BA286), callsign… | ⚪ |
+| `floathelm.bookAppointment` | reboot.floathelm.com | Book an appointment for a service at a location and time. | ⚪ |
+| `floathelm.buyGiftCard` | reboot.floathelm.com | Purchase a gift card. | ⚪ |
+| `floathelm.buyStoreItem` | reboot.floathelm.com | Purchase a product or merchandise. | ⚪ |
+| `floathelm.cancelBooking` | reboot.floathelm.com | Cancel an existing booking. | ⚪ |
+| `floathelm.createAccount` | reboot.floathelm.com | Create a new account on the booking platform. | ⚪ |
+| `floathelm.findStudio` | reboot.floathelm.com | Find a studio/location by name from the available locations. | ⚪ |
+| `floathelm.getMyProfile` | reboot.floathelm.com | Get the signed-in user's profile information. | ⚪ |
+| `floathelm.getRoom` | reboot.floathelm.com | Get details for a specific room/service type. | ⚪ |
+| `floathelm.joinWaitlist` | reboot.floathelm.com | Join the waitlist for a fully booked time slot. | ⚪ |
+| `floathelm.listAvailableSlots` | reboot.floathelm.com | List available time slots for a service at a location by date. | ⚪ |
+| `floathelm.listGiftCards` | reboot.floathelm.com | List available gift card denominations. | ⚪ |
+| `floathelm.listLocations` | reboot.floathelm.com | List all available studio locations. | ⚪ |
+| `floathelm.listMyBookings` | reboot.floathelm.com | List all bookings for the signed-in user. | ⚪ |
+| `floathelm.listMyCredits` | reboot.floathelm.com | List account credits available to the signed-in user. | ⚪ |
+| `floathelm.listRooms` | reboot.floathelm.com | List all rooms/service types (float, cryo, sauna) at a location. | ⚪ |
+| `floathelm.listStoreItems` | reboot.floathelm.com | List products and merchandise available for purchase. | ⚪ |
+| `floathelm.rescheduleBooking` | reboot.floathelm.com | Reschedule an existing booking to a different date/time. | ⚪ |
+| `floathelm.updateMyProfile` | reboot.floathelm.com | Update the signed-in user's profile information. | ⚪ |
 | `fluencecorp.calculateEnergyConsumption` | fluencecorp.com | Computes Normalized Energy Consumption (`NEC`, kWh/kg) for a wastewater treatment… | 🟢 |
 | `fomo.addToWatchlist` | fomo.family | Adds a token to the signed-in trader's watchlist. `POST /watchlist`. | ⚪ |
 | `fomo.claimCreatorFees` | fomo.family | Claims the creator fees a token's deployer has accrued, moving them into the signed-in… | ⚪ |
@@ -4192,6 +4210,44 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `windscribe.getServerLocations` | windscribe.com | Windscribe's full shared VPN server-location list (windscribe.com/status). | ⚪ |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
+| `wodify.bookClass` | wodify.com | Book a member into an available class. | ⚪ |
+| `wodify.bookDropIn` | wodify.com | Book a single drop-in class without membership. | ⚪ |
+| `wodify.buyMembership` | wodify.com | Purchase a new membership or membership plan. | ⚪ |
+| `wodify.cancelBooking` | wodify.com | Cancel a member's existing class booking. | ⚪ |
+| `wodify.changePassword` | wodify.com | Change the member's account password. | ⚪ |
+| `wodify.checkFreeTrial` | wodify.com | Check free trial availability and terms at the gym. | ⚪ |
+| `wodify.disableNotifications` | wodify.com | Disable class and reminder notifications. | ⚪ |
+| `wodify.editBio` | wodify.com | Edit the member's profile bio and display name. | ⚪ |
+| `wodify.enableNotifications` | wodify.com | Enable class and reminder notifications. | ⚪ |
+| `wodify.findGym` | wodify.com | Find a Wodify-powered gym by name or location. | ⚪ |
+| `wodify.getAccountSettings` | wodify.com | View the member's account settings and preferences. | ⚪ |
+| `wodify.getClassDetails` | wodify.com | Get detailed information about a specific class, including capacity, duration, and… | ⚪ |
+| `wodify.getClassHistory` | wodify.com | Get the member's past class attendance history. | ⚪ |
+| `wodify.getClassRating` | wodify.com | Rate a completed class. | ⚪ |
+| `wodify.getGymInfo` | wodify.com | Get detailed information about a gym including address, hours, and contact. | ⚪ |
+| `wodify.getInvoices` | wodify.com | Get the member's billing invoices and payment history. | ⚪ |
+| `wodify.getLeaderboard` | wodify.com | Get the gym's leaderboard with member rankings and scores. | ⚪ |
+| `wodify.getMemberStats` | wodify.com | Get the member's performance statistics and progress. | ⚪ |
+| `wodify.getMyBookings` | wodify.com | Get the signed-in member's current and upcoming class bookings. | ⚪ |
+| `wodify.getMyMembership` | wodify.com | Get details of the member's current membership. | ⚪ |
+| `wodify.getMyResults` | wodify.com | Get the member's workout results and performance history. | ⚪ |
+| `wodify.getNotificationSettings` | wodify.com | View the member's notification preferences. | ⚪ |
+| `wodify.getPaymentMethods` | wodify.com | Get the member's saved payment methods. | ⚪ |
+| `wodify.getWaitlistPosition` | wodify.com | Get a member's position on a class waitlist. | ⚪ |
+| `wodify.getWorkoutOfDay` | wodify.com | Get the workout of the day (WOD) for the member's gym. | ⚪ |
+| `wodify.joinWaitlist` | wodify.com | Add the member to a waitlist for a full class. | ⚪ |
+| `wodify.leaveWaitlist` | wodify.com | Remove the member from a class waitlist. | ⚪ |
+| `wodify.listGymSchedule` | wodify.com | Get the class schedule for a specific gym, with available times and capacity. | ⚪ |
+| `wodify.listInstructors` | wodify.com | List instructors and coaches available at the gym. | ⚪ |
+| `wodify.listMemberships` | wodify.com | List available membership tiers and their features. | ⚪ |
+| `wodify.listPrices` | wodify.com | Get pricing information for memberships and drop-in classes. | ⚪ |
+| `wodify.listPrograms` | wodify.com | List all available fitness programs and training paths offered at the gym. | ⚪ |
+| `wodify.readTerms` | wodify.com | Read terms of service and policies. | ⚪ |
+| `wodify.renewMembership` | wodify.com | Renew or upgrade the member's membership. | ⚪ |
+| `wodify.searchGymsByLocation` | wodify.com | Search for Wodify gyms by geographic location or city. | ⚪ |
+| `wodify.signWaiver` | wodify.com | Sign health and liability waiver for membership. | ⚪ |
+| `wodify.updateProfile` | wodify.com | Update the member's profile information. | ⚪ |
+| `wodify.updateProfilePicture` | wodify.com | Upload or change the member's profile picture. | ⚪ |
 | `workable.listJobs` | workable.com | Lists every published job on one company's Workable careers page… | 🟢 |
 | `workday.getJob` | myworkdayjobs.com | Reads one posting's full description, exact posted date, time type and every location… | ⚪ |
 | `workday.listJobs` | myworkdayjobs.com | Lists open jobs on one company's Workday careers site… | 🟢 |
