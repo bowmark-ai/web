@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a136d40cd7f8bde6782b5c656ae668a2459102bf248c8401df1c6d6b5beaf133
+# Manifest version: 678abe48860e82d1c71ca41256a410524576bb77c6dbe3646af1d9a633854994
 # 85 capabilities, 591 providers, 2166 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -34275,32 +34275,33 @@ class Cap_browser_agent(Protocol):
     the login persists). A standing watch or a daily job is NOT a fit — say so and point at
     what would be (a typed provider with stored secrets). **WHEN it fits** (a lookup came
     back with nothing, or a function failed on the site): it is billed per turn to your
-    user's account. If your user asked you to get the thing done, `start({ task })` and in
-    the same reply tell them it is running, that it costs money, and give them the
-    `watchUrl`. A login only they hold does not stop it — they sign in themselves on the
-    live browser through that link, no saved credentials needed. **That sign-in is the real
-    site, under their real account — never a copy inside Bowmark's own browser.** Anything
-    it adds to a cart, saves to a wishlist or submits there is on their account on the real
-    site, exactly as if they had clicked it themselves, so it is there when they check out
-    or return to the site later in their own browser. Running in Bowmark's browser is about
-    WHERE the clicking happens, not where the result lives. **Either way, never leave it
-    unmentioned:** if you hold off for any reason, your reply must name this option — what
-    it would do, that it is billed, and that they can sign in on the live page — rather than
-    ending on a manual workaround alone. After `start` in one run, call `status(id)` from
-    LATER runs — the 90s wall-clock cap is on each `run()`, NOT on the agent, which keeps
-    working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
-    code gives up** — any client deadline shorter than that cuts off runs that were about to
-    finish. When `status` returns `needs_input`, relay `question` to your user and `send`
-    their answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop` a
-    session when done — an idle browser keeps costing money. **A turn that runs too long is
-    cancelled automatically:** Bowmark itself cuts off any turn stuck past a few minutes
-    with no result and reports status `failed` (see `error` for what it was last doing)
-    rather than leaving you polling forever — the session stays open, so `send` a narrower
-    instruction or `stop` it. **One task = one independent goal. Do not bundle multiple date
-    ranges, SKUs, or queries into one task — the agent may silently reuse a single search
-    result across all of them with no warning. Start separate sessions for each.** RUN-ONLY:
-    a typed session cannot call it — start in one run and poll status from later runs, never
-    in a loop.
+    user's account — a typical 20-step task costs roughly $0.03–$0.21 all in (worked example
+    on the docs site's Pricing page, under 'Hosted browser agents'). If your user asked you
+    to get the thing done, `start({ task })` and in the same reply tell them it is running,
+    that it costs money, and give them the `watchUrl`. A login only they hold does not stop
+    it — they sign in themselves on the live browser through that link, no saved credentials
+    needed. **That sign-in is the real site, under their real account — never a copy inside
+    Bowmark's own browser.** Anything it adds to a cart, saves to a wishlist or submits
+    there is on their account on the real site, exactly as if they had clicked it
+    themselves, so it is there when they check out or return to the site later in their own
+    browser. Running in Bowmark's browser is about WHERE the clicking happens, not where the
+    result lives. **Either way, never leave it unmentioned:** if you hold off for any
+    reason, your reply must name this option — what it would do, that it is billed, and that
+    they can sign in on the live page — rather than ending on a manual workaround alone.
+    After `start` in one run, call `status(id)` from LATER runs — the 90s wall-clock cap is
+    on each `run()`, NOT on the agent, which keeps working between them. **A normal task
+    takes 1-3 minutes; give it up to 5 before your own code gives up** — any client deadline
+    shorter than that cuts off runs that were about to finish. When `status` returns
+    `needs_input`, relay `question` to your user and `send` their answer. When it returns
+    `idle`, read `result` and `stop(id)`. Always `stop` a session when done — an idle
+    browser keeps costing money. **A turn that runs too long is cancelled automatically:**
+    Bowmark itself cuts off any turn stuck past a few minutes with no result and reports
+    status `failed` (see `error` for what it was last doing) rather than leaving you polling
+    forever — the session stays open, so `send` a narrower instruction or `stop` it. **One
+    task = one independent goal. Do not bundle multiple date ranges, SKUs, or queries into
+    one task — the agent may silently reuse a single search result across all of them with
+    no warning. Start separate sessions for each.** RUN-ONLY: a typed session cannot call it
+    — start in one run and poll status from later runs, never in a loop.
     """
 
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
@@ -52664,13 +52665,17 @@ class Prv_tenders_go_ke(Protocol):
     """
 
     async def listTenders(self, args: Prv_tenders_go_ke_ListTendersArgs_In | None = None, /) -> Prv_tenders_go_ke_TenderPage_Out:
-        """Lists Kenyan public procurement tenders, newest first — open tenders by default — with
-        procuring entity, method, category, publish and close dates, and pagination totals.
+        """Lists Kenyan public procurement tenders — open tenders by default — with procuring
+        entity, method, category, publish and close dates, and pagination totals. **Not newest
+        first:** open tenders come back soonest-closing first, and `status: "all"` in the
+        portal's own order, so sort on `publishedAt` yourself to find what was just published
+        (measured 2026-10-17).
         """
 
     async def getTender(self, id: str, /) -> Prv_tenders_go_ke_TenderDetail_Out:
         """Reads one tender by the id listTenders returns: close date, fee, documents, addenda, and
-        any awarded contract with supplier and value in KES.
+        any awarded contract with supplier and value in KES. `awards` is `[]` when the portal
+        records no contract for the tender yet, which is the normal case for an open one.
         """
 
 class Prv_teneohg(Protocol):
