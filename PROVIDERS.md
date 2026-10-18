@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4185 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4192 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2373,7 +2373,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.getProductAttributes` | shop.lululemon.com | Reads what lululemon publishes ABOUT a garment rather than what it costs: the category… | 🟢 |
 | `lululemon.getProducts` | shop.lululemon.com | Reads the full configurator for MANY products in one call — the shape for ranking a… | 🟢 |
 | `lululemon.getReviews` | shop.lululemon.com | Reads the customer reviews on one product — rating, title, body, number of helpful… | 🟢 |
-| `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟡 |
+| `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟢 |
 | `lululemon.getSizeGuide` | shop.lululemon.com | Returns lululemon's size chart for one garment — the body measurements each numeric… | 🟢 |
 | `lululemon.listCategory` | shop.lululemon.com | Browses one category the way the site's own navigation does — Women's Leggings, Men's… | ⚪ |
 | `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
@@ -2506,6 +2506,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |
+| `mindbodyonline.bookClass` | TODO example.com | Books a caller-signed-in customer into an available class or session. | ⚪ |
+| `mindbodyonline.cancelBooking` | TODO example.com | Cancels a customer's existing booking or waitlist entry. | ⚪ |
+| `mindbodyonline.getMyBookings` | TODO example.com | Lists the signed-in customer's upcoming and past bookings and waitlist entries. | ⚪ |
+| `mindbodyonline.getProfile` | TODO example.com | Reads the signed-in customer's profile information including name, email, and… | ⚪ |
+| `mindbodyonline.joinWaitlist` | TODO example.com | Adds a caller-signed-in customer to the waitlist for a full class. | ⚪ |
+| `mindbodyonline.listLocations` | TODO example.com | Lists all studio locations for a Mindbody customer account. | ⚪ |
+| `mindbodyonline.searchSchedules` | TODO example.com | Lists available classes and sessions by location and date range, including class name… | ⚪ |
 | `minimax.getDocs` | platform.minimax.io | Resolves a topic (e.g. "text generation", "mcp guide", "voice clone") against… | 🟢 |
 | `minted.getCardOptions` | minted.com | Would return one product's actual named paper/format/foil choices (not just the price… | ⚪ |
 | `minted.priceCard` | minted.com | Prices one exact personalized-card configuration (design + paper + print method + foil… | 🟢 |

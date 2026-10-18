@@ -576,7 +576,7 @@ tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHigh
 tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listBookmarkedVideos, listCaptionTracks, listCommentReplies, listComments, listConversations, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listSoundVideos, listUserVideos, postComment, searchUsers, searchVideos, sendDirectMessage, unfollowUser, unlikeVideo, uploadVideo
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
-TODO example.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, detectTone, getPersonalDictionary, humanize, listDocuments, listGoals, paraphrase
+TODO example.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, detectTone, getPersonalDictionary, humanize, listDocuments, listGoals, paraphrase; mindbodyonline: bookClass, cancelBooking, getMyBookings, getProfile, joinWaitlist, listLocations, searchSchedules
 topviewtix.com — topviewtix: getPackageDetails, listPackages, reserve
 totalplastics.com — totalplastics: getQuoteFormFieldOptions, getQuoteFormFields
 translate.google.com — google_translate: checkSpelling, detectLanguage, getAlternativeTranslations, getDefinitions, getSynonyms, listHistory, listLanguages, listSavedPhrases, lookupWord, romanize, savePhrase, speak, translate, translateDocument, translateImage, translateWebPage, unsavePhrase
