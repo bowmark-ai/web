@@ -4193,7 +4193,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.listWebinars` | zoom.us | The signed-in caller's webinars. | ⚪ |
 | `zoom.scheduleMeeting` | zoom.us | Creates a new meeting on the caller's account. | ⚪ |
 | `zoom.searchContacts` | zoom.us | Searches the caller's contacts by name. | ⚪ |
-| `zoom.searchHelpArticles` | zoom.us | Searches the help center for articles. | ⚪ |
+| `zoom.searchHelpArticles` | zoom.us | Searches the help center for articles. | 🟢 |
 | `zoom.searchMarketplaceApps` | zoom.us | Searches the Zoom Marketplace for apps by keyword. | 🟢 |
 | `zoom.updateMeeting` | zoom.us | Updates meeting title, time, or settings. | ⚪ |
 | `zoom.updateProfile` | zoom.us | Updates user profile bio, timezone, or other settings. | ⚪ |
