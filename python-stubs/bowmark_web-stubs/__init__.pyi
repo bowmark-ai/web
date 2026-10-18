@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c948de0f6da2bd60e76ca8fc5941d75ec406bd60be4cd9b94eeb71f7f92c7edd
+# Manifest version: a136d40cd7f8bde6782b5c656ae668a2459102bf248c8401df1c6d6b5beaf133
 # 85 capabilities, 591 providers, 2166 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -54101,8 +54101,8 @@ class Prv_usatoday(Protocol):
         """
 
     async def listVideos(self, /) -> list[Prv_usatoday_usatodayVideo_Out]:
-        """Lists USA Today videos from the videos hub page, showing title, description, thumbnail
-        URL, duration and publication date.
+        """Lists the videos on USA Today's videos hub, each with a title, description, thumbnail
+        URL and publish date. Duration is not shown on the hub page.
         """
 
 class Prv_usps(Protocol):
