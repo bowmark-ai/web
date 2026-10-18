@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4192 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4219 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2240,6 +2240,33 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kbb.getTrimPricing` | kbb.com | Reads kbb.com's own per-trim MSRP and Fair Purchase Price for a make and model, e.g.… | 🟢 |
 | `keepa.getProduct` | keepa.com | Amazon price history for one ASIN. | 🟢 |
 | `keepa.searchProducts` | keepa.com | Searches Keepa's Amazon product index by keyword through its documented Product Search… | ⚪ |
+| `kenko.bookAppointment` | gokenko.com | Book a consultation or private appointment as the signed-in member. | ⚪ |
+| `kenko.bookClass` | gokenko.com | Book a class for the signed-in member. | ⚪ |
+| `kenko.buyPricingOption` | gokenko.com | Purchase a class package or membership option. | ⚪ |
+| `kenko.cancelBooking` | gokenko.com | Cancel a booking for the signed-in member. | ⚪ |
+| `kenko.cancelMembership` | gokenko.com | Cancel an active membership for the signed-in member. | ⚪ |
+| `kenko.findStudio` | gokenko.com | Find a studio by name, slug or region ID. | ⚪ |
+| `kenko.getAppointmentAvailability` | gokenko.com | Check availability for appointments on a given date range. | ⚪ |
+| `kenko.getClass` | gokenko.com | Read one class's details (instructors, pricing, capacity). | ⚪ |
+| `kenko.getClassSpots` | gokenko.com | Check live availability for a class on a given date. | ⚪ |
+| `kenko.getMyProfile` | gokenko.com | Read the signed-in member's profile (name, contact, preferences). | ⚪ |
+| `kenko.joinWaitlist` | gokenko.com | Join the waitlist for a full class as the signed-in member. | ⚪ |
+| `kenko.listAppointmentTypes` | gokenko.com | List appointment types available (consultations, private sessions). | ⚪ |
+| `kenko.listClasses` | gokenko.com | List all classes offered by a studio. | ⚪ |
+| `kenko.listCourses` | gokenko.com | List course/series offerings. | ⚪ |
+| `kenko.listGiftCards` | gokenko.com | List gift card denominations and options. | ⚪ |
+| `kenko.listInstructors` | gokenko.com | List all instructors at a studio. | ⚪ |
+| `kenko.listMyBookings` | gokenko.com | List the signed-in member's past and upcoming class bookings. | ⚪ |
+| `kenko.listMyMemberships` | gokenko.com | List active memberships and subscription status for the signed-in member. | ⚪ |
+| `kenko.listMyPurchases` | gokenko.com | List the signed-in member's purchase history (classes, products, passes). | ⚪ |
+| `kenko.listPricing` | gokenko.com | List all pricing plans and class packages offered. | ⚪ |
+| `kenko.listProducts` | gokenko.com | List products (apparel, merchandise) for sale. | ⚪ |
+| `kenko.listScheduleFilters` | gokenko.com | List available filters for class schedule (service types, date ranges). | ⚪ |
+| `kenko.listVideos` | gokenko.com | List on-demand videos and recorded classes. | ⚪ |
+| `kenko.pauseMembership` | gokenko.com | Pause an active membership for the signed-in member. | ⚪ |
+| `kenko.setMarketingPreferences` | gokenko.com | Update marketing and communication preferences for the signed-in member. | ⚪ |
+| `kenko.setProfilePicture` | gokenko.com | Upload or change the signed-in member's profile picture. | ⚪ |
+| `kenko.updateMyProfile` | gokenko.com | Update the signed-in member's profile information. | ⚪ |
 | `kingsdown.getBedMatchResult` | kingsdown.com | Runs Kingsdown's own bedMATCH diagnostic — the same multi-step questionnaire embedded… | 🟢 |
 | `kitchentuneup.listCabinetStyles` | kitchentuneup.com | Reads Kitchen Tune-Up's own AI Design Tool catalog off its visualizer vendor's API —… | 🟢 |
 | `kitchentuneup.visualizeKitchen` | kitchentuneup.com | Runs a photo through Kitchen Tune-Up's own AI Design Tool the way… | 🟢 |

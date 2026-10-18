@@ -281,6 +281,7 @@ github.com — github: createComment, createIssue, createPullRequest, createRevi
 glama.ai — glama: search
 glassesusa.com — glassesusa: getProduct, search
 gobrightwing.com — gobrightwing: getJobDetails, listLocations, listWorkTypes, searchJobs
+gokenko.com — kenko: bookAppointment, bookClass, buyPricingOption, cancelBooking, cancelMembership, findStudio, getAppointmentAvailability, getClass, getClassSpots, getMyProfile, joinWaitlist, listAppointmentTypes, listClasses, listCourses, listGiftCards, listInstructors, listMyBookings, listMyMemberships, listMyPurchases, listPricing, listProducts, listScheduleFilters, listVideos, pauseMembership, setMarketingPreferences, setProfilePicture, updateMyProfile
 golf.com — golf_com: findCourses, getCourse
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
 goodreads.com — goodreads: addToShelf, followUser, getAuthor, getBook, getBookReviews, getList, getMemberProfile, getMemberShelf, getNewsFeed, getOwnProfile, listGenreBooks, rateBook, removeFromShelf, searchBooks, searchQuotes, writeReview

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 67758bd4be1341cfbc31c870e0165b2b3975240238ae65cdd9cf5bb2620f64d2
-// 85 capabilities, 591 providers, 2181 typed functions, 20 refused.
+// Manifest version: 1997121e99e4d31f9bbf7b5e95fbcd83d1f41784497c3afc7d7ca3a238a0ada4
+// 85 capabilities, 591 providers, 2182 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -60194,6 +60194,19 @@ interface ZoomMarketplaceAppDetail {
   url: string;
 }
 
+interface ZoomHelpArticle {
+  id: string;
+  title: string;
+  summary: string; // the article's body text summary
+  path: string; // the relative path to the article on the help center
+  url: string; // the full URL to the help article
+  categories: string[]; // categories the article is tagged with
+}
+
+interface ZoomSearchHelpArticlesResult {
+  articles: ZoomHelpArticle[];
+}
+
   /** Video conferencing, meetings, and webinars. */
   interface Unit {
     /** Read Zoom Workplace pricing plans and features */
@@ -60213,6 +60226,9 @@ interface ZoomMarketplaceAppDetail {
 
     /** Read one Zoom Marketplace app's full listing — description, scopes, developer and links */
     getMarketplaceApp(appId: string): Promise<ZoomMarketplaceAppDetail>;
+
+    /** Search the Zoom Help Center for articles by keyword */
+    searchHelpArticles(query: string): Promise<ZoomSearchHelpArticlesResult>;
   }
 }
 

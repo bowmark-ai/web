@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 67758bd4be1341cfbc31c870e0165b2b3975240238ae65cdd9cf5bb2620f64d2
-# 85 capabilities, 591 providers, 2163 typed functions, 20 refused.
+# Manifest version: 1997121e99e4d31f9bbf7b5e95fbcd83d1f41784497c3afc7d7ca3a238a0ada4
+# 85 capabilities, 591 providers, 2164 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -34156,6 +34156,17 @@ class Prv_zoom_ZoomMarketplaceAppDetail_Out(TypedDict):
     docUrl: str | None
     url: str
 
+class Prv_zoom_ZoomSearchHelpArticlesResult_Out(TypedDict):
+    articles: list[Prv_zoom_ZoomHelpArticle_Out]
+
+class Prv_zoom_ZoomHelpArticle_Out(TypedDict):
+    id: str
+    title: str
+    summary: str
+    path: str
+    url: str
+    categories: list[str]
+
 class Prv_zoopla_search_args_In(TypedDict):
     location: str
     bedrooms: NotRequired[float]
@@ -55941,6 +55952,9 @@ class Prv_zoom(Protocol):
 
     async def getMarketplaceApp(self, appId: str, /) -> Prv_zoom_ZoomMarketplaceAppDetail_Out:
         """Read one Zoom Marketplace app's full listing — description, scopes, developer and links"""
+
+    async def searchHelpArticles(self, query: str, /) -> Prv_zoom_ZoomSearchHelpArticlesResult_Out:
+        """Search the Zoom Help Center for articles by keyword"""
 
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""
