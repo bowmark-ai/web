@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3efa04d3cf2ea5cd556a9a1a2f3fc7b8a1fc0797aebacd8aa9882dfcd98f3209
-# 85 capabilities, 591 providers, 2166 typed functions, 20 refused.
+# Manifest version: 0e0f9454973b0274b652caaac8d71300ac65d77323c75ec6e4a397c60e17616e
+# 85 capabilities, 591 providers, 2167 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -30939,6 +30939,15 @@ class Prv_ups_upsRatedShipment_Out(TypedDict):
     currency: str
     transitDays: float | None
 
+class Prv_ups_trackShipment_args_In(TypedDict):
+    trackingNumber: str
+
+class Prv_ups_upsTrackingResult_Out(TypedDict):
+    trackingNumber: str
+    status: str
+    currentLocation: str | None
+    deliveryDate: str | None
+
 class Prv_usatoday_usatodaySection_Out(TypedDict):
     id: str
     name: str
@@ -54060,6 +54069,12 @@ class Prv_ups(Protocol):
         UPS developer account — published rates vary by whether one is sent, and UPS's own
         response passes straight through either way. Requires a UPS OAuth2 client-credentials
         token — see this provider's `auth`.
+        """
+
+    async def trackShipment(self, args: Prv_ups_trackShipment_args_In, /) -> Prv_ups_upsTrackingResult_Out:
+        """Tracks a shipment by its UPS tracking number and returns the current status, location,
+        and estimated delivery date. Queries the public tracking page (www.ups.com/track)
+        without authentication.
         """
 
 class Prv_usatoday(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3efa04d3cf2ea5cd556a9a1a2f3fc7b8a1fc0797aebacd8aa9882dfcd98f3209
-// 85 capabilities, 591 providers, 2184 typed functions, 20 refused.
+// Manifest version: 0e0f9454973b0274b652caaac8d71300ac65d77323c75ec6e4a397c60e17616e
+// 85 capabilities, 591 providers, 2185 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -55065,6 +55065,13 @@ interface upsRatedShipment {
   transitDays: number | null;
 }
 
+interface upsTrackingResult {
+  trackingNumber: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  currentLocation: string | null;
+  deliveryDate: string | null;
+}
+
   /**
    * UPS's own documented Rating API (onlinetools.ups.com) — prices a domestic shipment across
    * UPS's service levels for a ZIP-to-ZIP move, weight and optional dimensions, the same rate
@@ -55080,6 +55087,13 @@ interface upsRatedShipment {
      * this provider's `auth`.
      */
     getRate(args: { fromZip: string; toZip: string; weightOz: number; length?: number; width?: number; height?: number; accountNumber?: string }): Promise<upsRatedShipment[]>;
+
+    /**
+     * Tracks a shipment by its UPS tracking number and returns the current status, location, and
+     * estimated delivery date. Queries the public tracking page (www.ups.com/track) without
+     * authentication.
+     */
+    trackShipment(args: { trackingNumber: string }): Promise<upsTrackingResult>;
   }
 }
 

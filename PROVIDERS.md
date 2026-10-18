@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4397 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4430 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1838,7 +1838,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getUserRepositories` | github.com | Lists every public repository a user owns — description, fork/archived flags, default… | 🟢 |
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
 | `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟢 |
-| `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟢 |
+| `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟡 |
 | `github.listNotifications` | github.com | Lists the signed-in caller's GitHub notifications inbox, 25 per page — repository… | 🟢 |
 | `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
@@ -3137,9 +3137,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reddit.createSubreddit` | reddit.com | Creates a new community owned by the signed-in caller — name, description, and public… | 🟢 |
 | `reddit.deletePostOrComment` | reddit.com | Deletes the signed-in caller's own post or comment. | 🟢 |
 | `reddit.editPostOrComment` | reddit.com | Edits the text of the signed-in caller's own post or comment. | 🟢 |
-| `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | 🟢 |
+| `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | 🟡 |
 | `reddit.followUser` | reddit.com | Follows or unfollows a redditor as the signed-in caller, so their posts reach the… | 🟢 |
-| `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | 🟢 |
+| `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | 🟡 |
 | `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | 🟢 |
 | `reddit.getMyAccount` | reddit.com | Returns the signed-in caller's own account — username, karma, account age, whether… | 🟢 |
 | `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟢 |
@@ -3344,7 +3344,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sears.getProduct` | sears.com | Reads one product in full the way its own product detail page does — given a URL or… | 🟢 |
 | `sears.search` | sears.com | Searches Sears' live catalog by free-text keyword the way the site's own search bar… | 🟢 |
 | `seatgeek.buyTicket` | seatgeek.com | Purchases a listed ticket. | ⚪ |
-| `seatgeek.findPerformers` | seatgeek.com | Finds performers — artists, sports teams, comedians — by name and returns each one's… | 🟢 |
+| `seatgeek.findPerformers` | seatgeek.com | Finds performers — artists, sports teams, comedians — by name and returns each one's… | 🟡 |
 | `seatgeek.findVenues` | seatgeek.com | Finds venues by name or location (city/state or geo) and returns each one's id, name… | 🟢 |
 | `seatgeek.followPerformer` | seatgeek.com | Follows a performer on the signed-in caller's account. | ⚪ |
 | `seatgeek.getEvent` | seatgeek.com | Returns one event in full: venue, performers, date/time, and SeatGeek's own ticket… | 🟢 |
@@ -3787,6 +3787,39 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tilsonhomes.listPlans` | tilsonhomes.com | Lists Tilson Homes' Build-On-Your-Land floor plans — model name, bed/bath/size and the… | 🟢 |
 | `titlenine.calculateBraSize` | titlenine.com | Runs Title Nine's own bra-size calculator — chest, bust and under-bust measurements… | 🟢 |
 | `tmobile.getUpgradeOffer` | t-mobile.com | Reads one t-mobile.com device page's own pricing call — real list price, real monthly… | 🟢 |
+| `tock.bookExperience` | exploretock.com | Book an experience at a venue — guest checkout, stops before payment. | ⚪ |
+| `tock.buyGiftCard` | exploretock.com | Purchase a gift card — requires payment, never completed. | ⚪ |
+| `tock.cancelReservation` | exploretock.com | Cancel one of the signed-in user's reservations. | ⚪ |
+| `tock.createToGoOrder` | exploretock.com | Create and submit a to-go order — stops before payment. | ⚪ |
+| `tock.findBusiness` | exploretock.com | Search for a Tock venue by name, city or other criteria. | ⚪ |
+| `tock.getAccolades` | exploretock.com | Get awards and accolades a venue has received. | ⚪ |
+| `tock.getAvailableDates` | exploretock.com | Get all available dates for a specific experience and party size. | ⚪ |
+| `tock.getAvailableTimes` | exploretock.com | Get all available times on a specific date for an experience and party size. | ⚪ |
+| `tock.getBusiness` | exploretock.com | Retrieve full details of one Tock venue including name, location, hours and description. | ⚪ |
+| `tock.getBusinessFaqs` | exploretock.com | Get frequently asked questions for a specific venue. | ⚪ |
+| `tock.getCollection` | exploretock.com | Retrieve a curated collection of experiences by theme or category. | ⚪ |
+| `tock.getExperience` | exploretock.com | Get details of one experience including description, price and party size limits. | ⚪ |
+| `tock.getLoyaltyStatus` | exploretock.com | Get the signed-in user's loyalty program status and points. | ⚪ |
+| `tock.getProfile` | exploretock.com | Get the signed-in user's profile information. | ⚪ |
+| `tock.getReservation` | exploretock.com | Get full details of one signed-in user's reservation. | ⚪ |
+| `tock.getToGoMenu` | exploretock.com | Get the to-go menu (takeout) items available at a venue. | ⚪ |
+| `tock.joinNotifyList` | exploretock.com | Join the notify (waitlist) for a full experience at a venue. | ⚪ |
+| `tock.leaveNotifyList` | exploretock.com | Leave (cancel) a waitlist request. | ⚪ |
+| `tock.listCities` | exploretock.com | List all cities where Tock venues operate. | ⚪ |
+| `tock.listExperiences` | exploretock.com | List all experiences (timed slots) available at a specific venue. | ⚪ |
+| `tock.listGiftCards` | exploretock.com | List available gift cards at a venue. | ⚪ |
+| `tock.listMyGiftCards` | exploretock.com | List gift cards owned by the signed-in user. | ⚪ |
+| `tock.listMyNotifyRequests` | exploretock.com | List signed-in user's active waitlist requests. | ⚪ |
+| `tock.listMyReservations` | exploretock.com | List signed-in user's past and upcoming reservations. | ⚪ |
+| `tock.listSavedVenues` | exploretock.com | List the signed-in user's saved favorite venues. | ⚪ |
+| `tock.redeemGiftCard` | exploretock.com | Redeem a gift card on the signed-in user's account. | ⚪ |
+| `tock.rescheduleReservation` | exploretock.com | Reschedule one of the signed-in user's reservations to a different date and time. | ⚪ |
+| `tock.searchBusinesses` | exploretock.com | Search all Tock venues across all cities by name, cuisine or location. | ⚪ |
+| `tock.searchEvents` | exploretock.com | Search for special events or experiences across Tock venues. | ⚪ |
+| `tock.searchVenueTimes` | exploretock.com | Search for available times across multiple Tock venues for a given date and party size. | ⚪ |
+| `tock.startToGoOrder` | exploretock.com | Start a to-go order — guest checkout, stops before payment. | ⚪ |
+| `tock.transferReservation` | exploretock.com | Transfer one of the signed-in user's reservations to another person. | ⚪ |
+| `tock.updateProfile` | exploretock.com | Update the signed-in user's profile information. | ⚪ |
 | `topviewtix.getPackageDetails` | topviewtix.com | Reads one TopView tour package in full — name, description, adult/kid price, and the… | 🟢 |
 | `topviewtix.listPackages` | topviewtix.com | Lists every TopView tour package currently sold in New York (name, slug, starting… | 🟡 |
 | `topviewtix.reserve` | topviewtix.com | Would pick a date, ticket quantity and seating tier for a package and hand back a… | ⚪ |
@@ -3929,7 +3962,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ups.findNearbyLocation` | ups.com | Finds nearby UPS drop-off and pickup locations by ZIP code or address. | ⚪ |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
 | `ups.schedulePickup` | ups.com | Schedules a package pickup at an address for a specified date and time. | ⚪ |
-| `ups.trackShipment` | ups.com | Tracks a shipment by tracking number and returns status, delivery date, and current… | ⚪ |
+| `ups.trackShipment` | ups.com | Tracks a shipment by tracking number and returns status, delivery date, and current… | 🟢 |
 | `ups.validateAddress` | ups.com | Validates and standardizes a shipping address according to UPS's address database. | ⚪ |
 | `urbanoutfitters.browseCategory` | urbanoutfitters.com | Lists the products under one of Urban Outfitters' own department pages — the site's… | ⚪ |
 | `urbanoutfitters.checkGiftCardBalance` | urbanoutfitters.com | Checks the remaining balance on a Urban Outfitters gift card from the card number and… | ⚪ |
