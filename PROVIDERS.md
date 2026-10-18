@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4277 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4301 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3423,6 +3423,30 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.sendSnap` | snapchat.com | Sends a photo snap from the signed-in caller's account to one or more friends. | ⚪ |
 | `snapchat.subscribeToProfile` | snapchat.com | Subscribes the signed-in caller to a public profile or Discover show — the Subscribe… | ⚪ |
 | `snapchat.updateDisplayName` | snapchat.com | Changes the signed-in caller's display name. | ⚪ |
+| `solidcore.bookClass` | solidcore.co | Books a class for the signed-in member. | ⚪ |
+| `solidcore.cancelBooking` | solidcore.co | Cancels a signed-in member's class booking. | ⚪ |
+| `solidcore.cancelWaitlist` | solidcore.co | Removes a signed-in member from a waitlist. | ⚪ |
+| `solidcore.checkAvailability` | solidcore.co | Checks real-time availability for a class (bookable, waitlist, or full). | ⚪ |
+| `solidcore.getClass` | solidcore.co | Returns one class's full details: name, time, duration, coach, studio, capacity… | ⚪ |
+| `solidcore.getCoach` | solidcore.co | Returns one coach's details: name, bio, photo, classes taught. | ⚪ |
+| `solidcore.getMyProfile` | solidcore.co | Returns the signed-in member's profile: name, email, membership status. | ⚪ |
+| `solidcore.getMyStats` | solidcore.co | Returns the signed-in member's stats: classes booked, streak, favorite coaches. | ⚪ |
+| `solidcore.getPack` | solidcore.co | Returns details of a class pack: price, expiration, class count. | ⚪ |
+| `solidcore.getPricing` | solidcore.co | Returns class pricing, drop-in rates, and package options. | ⚪ |
+| `solidcore.getSchedule` | solidcore.co | Returns class schedule for a studio and date range, including class name, time, coach… | ⚪ |
+| `solidcore.getStudio` | solidcore.co | Returns one studio's details: name, address, phone, amenities. | ⚪ |
+| `solidcore.getStudioHours` | solidcore.co | Returns a studio's operating hours. | ⚪ |
+| `solidcore.joinWaitlist` | solidcore.co | Joins the waitlist for a full class. | ⚪ |
+| `solidcore.listClassCategories` | solidcore.co | Lists class types offered (strength, cardio, endurance, etc.). | ⚪ |
+| `solidcore.listCoaches` | solidcore.co | Lists coaches at a studio. | ⚪ |
+| `solidcore.listMuscleGroups` | solidcore.co | Lists daily muscle focus categories (chest, back, arms, etc.). | ⚪ |
+| `solidcore.listMyBookings` | solidcore.co | Lists the signed-in member's upcoming class bookings. | ⚪ |
+| `solidcore.listMyMemberships` | solidcore.co | Lists the signed-in member's active memberships and renewal dates. | ⚪ |
+| `solidcore.listMyPacks` | solidcore.co | Lists the signed-in member's class packs and remaining classes. | ⚪ |
+| `solidcore.listMyWaitlistBookings` | solidcore.co | Lists the signed-in member's waitlist entries. | ⚪ |
+| `solidcore.listStudios` | solidcore.co | Lists all Solidcore studios with locations, slug, and siteId+locationId pairs. | ⚪ |
+| `solidcore.purchasePack` | solidcore.co | Purchases a class pack (needs payment). | ⚪ |
+| `solidcore.searchClasses` | solidcore.co | Searches classes by muscle group, coach, time, or date. | ⚪ |
 | `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟡 |
 | `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟡 |
 | `soulcycle.bookBike` | soul-cycle.com | Books a bike in a class for the signed-in rider, spending one class credit. | ⚪ |
