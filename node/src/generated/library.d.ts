@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 410a072467e14f153a18db0c6c45668fdcf54d12ad6e6e8a6ab0cac13d2c67b2
+// Manifest version: 0cac1a99fc15b730820b54e8dc1a5fe5bfa2eafe3e21752382e62a18352b236a
 // 85 capabilities, 591 providers, 2179 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -380,7 +380,9 @@ interface BrowserAgentStatusResult {
                                             // not a bot wall and not the site refusing anything — or
                                             // "connection_failed: " when BOWMARK'S OWN browser never reached the site at
                                             // all (a proxy/tunnel error, before any page loaded) — not the site answering
-                                            // "nothing found"; a retry (optionally with a different proxyCountry) may succeed
+                                            // "nothing found"; a retry (optionally with a different proxyCountry) may succeed —
+                                            // or "site_unreachable: " when the address the browser was loading does not
+                                            // exist in DNS at all, so no retry or proxyCountry will ever reach it
   steps: BrowserAgentStep[];
   cursor: string;
   task: string;
@@ -480,9 +482,11 @@ type CallOptions = {
      * evidence the site refused anything. `error` starting `connection_failed: ` is also BOWMARK's
      * own side: the browser's network path never reached the site at all (a proxy/tunnel error),
      * so it is not the site answering and a retry — optionally with a different `proxyCountry` on
-     * a fresh `start` — may simply succeed. Pass the previous `cursor` for only new steps, and
-     * `waitMs` (≤ 45000 — kept under the ~60s at which most chat clients kill a tool call) to wait
-     * for a change instead of polling tightly.
+     * a fresh `start` — may simply succeed. `error` starting `site_unreachable: ` is the opposite
+     * case: the address the browser was loading does not exist in DNS, so the site is gone from
+     * that address and no retry or `proxyCountry` will help. Pass the previous `cursor` for only
+     * new steps, and `waitMs` (≤ 45000 — kept under the ~60s at which most chat clients kill a
+     * tool call) to wait for a change instead of polling tightly.
      */
     status(id: string, options?: BrowserAgentStatusOptions): Promise<BrowserAgentStatusResult>;
 

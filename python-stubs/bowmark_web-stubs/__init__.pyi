@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 410a072467e14f153a18db0c6c45668fdcf54d12ad6e6e8a6ab0cac13d2c67b2
+# Manifest version: 0cac1a99fc15b730820b54e8dc1a5fe5bfa2eafe3e21752382e62a18352b236a
 # 85 capabilities, 591 providers, 2161 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -34309,9 +34309,11 @@ class Cap_browser_agent(Protocol):
         `connection_failed: ` is also BOWMARK's own side: the browser's network path never
         reached the site at all (a proxy/tunnel error), so it is not the site answering and a
         retry — optionally with a different `proxyCountry` on a fresh `start` — may simply
-        succeed. Pass the previous `cursor` for only new steps, and `waitMs` (≤ 45000 — kept
-        under the ~60s at which most chat clients kill a tool call) to wait for a change instead
-        of polling tightly.
+        succeed. `error` starting `site_unreachable: ` is the opposite case: the address the
+        browser was loading does not exist in DNS, so the site is gone from that address and no
+        retry or `proxyCountry` will help. Pass the previous `cursor` for only new steps, and
+        `waitMs` (≤ 45000 — kept under the ~60s at which most chat clients kill a tool call) to
+        wait for a change instead of polling tightly.
         """
 
     async def send(self, id: str, message: str, options: Cap_browser_agent_SendBrowserAgentOptions_In | None = None, /) -> Cap_browser_agent_SendBrowserAgentResult_Out:
