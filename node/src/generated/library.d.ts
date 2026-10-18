@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1185f10eaeb99a6125b508d31ffeb93c5a793b203800aaa60f0eda418bc96bdb
-// 85 capabilities, 591 providers, 2182 typed functions, 20 refused.
+// Manifest version: d466c54e15acc4035540f6c65484f779824578636312c04daa2aee4e046fab9a
+// 85 capabilities, 591 providers, 2183 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14088,7 +14088,7 @@ declare namespace BowmarkProvider_ca_gov {
 interface ca_govRow {
   id: string;
   name: string;
-  url?: string;
+  url: string;
 }
 
   /**
@@ -14101,6 +14101,9 @@ interface ca_govRow {
      * to departments whose name contains it (case-insensitive).
      */
     listDepartments(filter?: string): Promise<ca_govRow[]>;
+
+    /** Lists all state services available through the CA.gov portal. */
+    listServices(): Promise<ca_govRow[]>;
 
     /**
      * Returns detailed information about a specific California state department — name,

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4257 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4277 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -622,7 +622,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ca_gov.listDepartments` | www.ca.gov | Lists all California state agencies and departments available through CA.gov with… | 🟢 |
 | `ca_gov.listNews` | www.ca.gov | Lists recent California state news and announcements from CA.gov. | ⚪ |
 | `ca_gov.listPublicData` | www.ca.gov | Lists public datasets available through data.ca.gov (California's open data portal)… | ⚪ |
-| `ca_gov.listServices` | www.ca.gov | Lists all state services available through the CA.gov portal — organized by category… | ⚪ |
+| `ca_gov.listServices` | www.ca.gov | Lists all state services available through the CA.gov portal — organized by category… | 🟢 |
 | `ca_gov.searchNews` | www.ca.gov | Searches California state news, announcements, and updates by keyword — returns recent… | ⚪ |
 | `ca_gov.searchPublicData` | www.ca.gov | Searches California's open data portal (data.ca.gov) for public datasets by keyword —… | ⚪ |
 | `ca_gov.searchServices` | www.ca.gov | Searches the State of California's service directory for public services by keyword or… | ⚪ |
@@ -3566,6 +3566,26 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sunlighten.matchSauna` | sunlighten.com | Runs Sunlighten's own 'Find My Sauna' quiz match — the same wellness-goal +… | 🟢 |
 | `surfshark.getDedicatedIp` | surfshark.com | Reads Surfshark's own dedicated / static IP page and returns every country and city it… | 🟢 |
 | `surfshark.getPlans` | surfshark.com | Surfshark's VPN subscription plans and prices (surfshark.com/pricing). | ⚪ |
+| `sweathouz.addToCart` | sweathouz.com | Adds a package or membership to the customer's cart. | ⚪ |
+| `sweathouz.book` | sweathouz.com | Books an appointment for the signed-in customer at a specific studio, date and time. | ⚪ |
+| `sweathouz.bookFirstVisit` | sweathouz.com | Books a first-time visitor appointment; stops before payment completion. | ⚪ |
+| `sweathouz.buyMembership` | sweathouz.com | Purchases a membership for the signed-in customer. | ⚪ |
+| `sweathouz.buyPack` | sweathouz.com | Purchases a session pack for the signed-in customer. | ⚪ |
+| `sweathouz.cancel` | sweathouz.com | Cancels an existing appointment for the signed-in customer. | ⚪ |
+| `sweathouz.findStudio` | sweathouz.com | Searches for a studio by name, location, or keyword. | ⚪ |
+| `sweathouz.getAvailability` | sweathouz.com | Lists available appointment times for a studio on a given date, returning time slots… | ⚪ |
+| `sweathouz.getPricing` | sweathouz.com | Gets pricing for intro packages, drop-in sessions, double dose sessions, plus-one… | ⚪ |
+| `sweathouz.getPromoCode` | sweathouz.com | Validates and retrieves details for a promotional code. | ⚪ |
+| `sweathouz.getStudioDetails` | sweathouz.com | Gets full details for a studio including amenities, class descriptions, and instructor… | ⚪ |
+| `sweathouz.getStudioHours` | sweathouz.com | Gets the operating hours for a specific studio. | ⚪ |
+| `sweathouz.getSuiteTypes` | sweathouz.com | Lists available suite types and session durations offered. | ⚪ |
+| `sweathouz.getWaitlist` | sweathouz.com | Gets waitlist information for a specific studio and date. | ⚪ |
+| `sweathouz.listCredits` | sweathouz.com | Gets the signed-in customer's available credits and expiration dates. | ⚪ |
+| `sweathouz.listMemberships` | sweathouz.com | Lists available membership and pack options for a studio: name, duration, price, and… | ⚪ |
+| `sweathouz.listPacks` | sweathouz.com | Lists the customer's active or inactive pack memberships with remaining sessions. | ⚪ |
+| `sweathouz.listStudios` | sweathouz.com | Lists all SWTHZ studios: their booking id, display name, location, and coordinates. | ⚪ |
+| `sweathouz.myBookings` | sweathouz.com | Lists the signed-in customer's upcoming and past appointments. | ⚪ |
+| `sweathouz.reserveMembership` | sweathouz.com | Pre-reserves a membership for an upcoming opening. | ⚪ |
 | `tagtrans_net.createShipmentRateEmail` | tagtrans.net | Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request… | 🟢 |
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |

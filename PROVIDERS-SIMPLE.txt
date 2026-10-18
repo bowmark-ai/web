@@ -556,6 +556,7 @@ sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches
 sunlighten.com — sunlighten: getModelPricing, matchSauna
 support.claude.com — claude_support: getArticle, listArticles
 surfshark.com — surfshark: getDedicatedIp, getPlans
+sweathouz.com — sweathouz: addToCart, book, bookFirstVisit, buyMembership, buyPack, cancel, findStudio, getAvailability, getPricing, getPromoCode, getStudioDetails, getStudioHours, getSuiteTypes, getWaitlist, listCredits, listMemberships, listPacks, listStudios, myBookings, reserveMembership
 t-mobile.com — tmobile: getUpgradeOffer
 tagtrans.net — tagtrans_net: createShipmentRateEmail, getShipmentRateForm
 tamarackidaho.com — tamarackidaho: searchLodging

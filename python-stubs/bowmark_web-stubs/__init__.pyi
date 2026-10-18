@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1185f10eaeb99a6125b508d31ffeb93c5a793b203800aaa60f0eda418bc96bdb
-# 85 capabilities, 591 providers, 2164 typed functions, 20 refused.
+# Manifest version: d466c54e15acc4035540f6c65484f779824578636312c04daa2aee4e046fab9a
+# 85 capabilities, 591 providers, 2165 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8011,7 +8011,7 @@ class Prv_byltbasics_byltbasicsPackHandoff_Out(TypedDict):
 class Prv_ca_gov_ca_govRow_Out(TypedDict):
     id: str
     name: str
-    url: NotRequired[str]
+    url: str
 
 class Prv_ca_gov_getDepartment_return_Out(TypedDict):
     id: str
@@ -39299,6 +39299,9 @@ class Prv_ca_gov(Protocol):
         """Lists all California state agencies and departments from CA.gov. An optional filter
         narrows to departments whose name contains it (case-insensitive).
         """
+
+    async def listServices(self, /) -> list[Prv_ca_gov_ca_govRow_Out]:
+        """Lists all state services available through the CA.gov portal."""
 
     async def getDepartment(self, departmentId: str, /) -> Prv_ca_gov_getDepartment_return_Out:
         """Returns detailed information about a specific California state department — name,
