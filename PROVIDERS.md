@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4144 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4177 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -36,6 +36,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |
 | `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟢 |
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
+| `acuityscheduling.bookAppointment` | acuityscheduling.com | Books an appointment; requires caller sign-in and confirmation of email/phone. | ⚪ |
+| `acuityscheduling.cancelAppointment` | acuityscheduling.com | Cancels a booking; caller must own the appointment. | ⚪ |
+| `acuityscheduling.getAppointmentTypeDetails` | acuityscheduling.com | Returns details of a specific appointment type including duration, provider, and… | ⚪ |
+| `acuityscheduling.getPrice` | acuityscheduling.com | Returns pricing for an appointment type, including discounts for multi-class packages. | ⚪ |
+| `acuityscheduling.joinWaitlist` | acuityscheduling.com | Joins the waitlist for a full appointment slot. | ⚪ |
+| `acuityscheduling.listAppointmentTypes` | acuityscheduling.com | Lists all appointment types (classes, services) offered by the business. | ⚪ |
+| `acuityscheduling.listMyBookings` | acuityscheduling.com | Lists the signed-in caller's upcoming and past appointments. | ⚪ |
+| `acuityscheduling.listScheduleSlots` | acuityscheduling.com | Lists available appointment slots for a given type, date range, and location. | ⚪ |
+| `acuityscheduling.searchSchedule` | acuityscheduling.com | Searches available slots by location and date range. | ⚪ |
 | `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
 | `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟢 |
@@ -885,6 +894,30 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubpilates.listMyBookings` | clubpilates.com | Lists the signed-in member's upcoming and past class bookings and waitlist spots… | ⚪ |
 | `clubpilates.listPricing` | clubpilates.com | Lists what a studio sells — single class, class packs and memberships — with each… | ⚪ |
 | `clubpilates.updateProfile` | clubpilates.com | Edits the signed-in member's own profile fields (name, phone, address, emergency… | ⚪ |
+| `clubready.bookClass` | clubready.com | Books the signed-in member into a scheduled class using their existing membership or… | ⚪ |
+| `clubready.bookService` | clubready.com | Books the signed-in member a one-on-one session (a StretchLab stretch) with a chosen… | ⚪ |
+| `clubready.buyPackage` | clubready.com | Would buy a class pack or membership at a studio for the signed-in member. | ⚪ |
+| `clubready.cancelBooking` | clubready.com | Cancels one of the signed-in member's bookings or waitlist spots. | ⚪ |
+| `clubready.favoriteInstructor` | clubready.com | Adds or removes an instructor from the signed-in member's favourites. | ⚪ |
+| `clubready.findStudios` | clubready.com | Finds a brand's studios near a place — by latitude/longitude, or by a city or… | ⚪ |
+| `clubready.getClass` | clubready.com | Returns one scheduled class by id ("piq_20369037") at a studio: description, times… | ⚪ |
+| `clubready.getClassPoints` | clubready.com | Returns the signed-in member's ClassPoints rewards balance, recent earning activity… | ⚪ |
+| `clubready.getMyMembership` | clubready.com | Returns the signed-in member's membership and class credits at their home studio —… | ⚪ |
+| `clubready.getMyProfile` | clubready.com | Returns the signed-in member's own profile: name, email, phone, home studio. | ⚪ |
+| `clubready.getStudio` | clubready.com | Returns one studio by its API id ("cyclebar-berkeley") or by its brand-site page URL… | ⚪ |
+| `clubready.getWorkoutStats` | clubready.com | Returns the signed-in member's own workout history and performance numbers — CycleBar… | ⚪ |
+| `clubready.joinWaitlist` | clubready.com | Puts the signed-in member on a full class's waitlist. | ⚪ |
+| `clubready.listBrands` | clubready.com | Lists every studio brand on the Xponential/ClubReady member platform — CycleBar, Club… | ⚪ |
+| `clubready.listClassCategories` | clubready.com | Lists a brand's class categories used to filter a schedule (Xpress, Classic… | ⚪ |
+| `clubready.listClasses` | clubready.com | Lists a studio's class schedule for a date or date range — each class's id, title… | ⚪ |
+| `clubready.listClassTypes` | clubready.com | Lists every class type a brand runs (CycleBar Classic, Xpress, Pure Barre Classic… | ⚪ |
+| `clubready.listInstructors` | clubready.com | Lists the instructors teaching at a studio, by name, drawn from the classes on its… | ⚪ |
+| `clubready.listInvoices` | clubready.com | Lists the signed-in member's past purchases and invoices — what they paid for which… | ⚪ |
+| `clubready.listMyBookings` | clubready.com | Lists the signed-in member's upcoming and past class bookings and waitlist spots… | ⚪ |
+| `clubready.listPricing` | clubready.com | Lists what a studio sells — drop-in class, class packs and memberships — with each… | ⚪ |
+| `clubready.listServiceAvailability` | clubready.com | Lists who can take a one-on-one session at a studio on a date — the flexologists or… | ⚪ |
+| `clubready.listServiceTypes` | clubready.com | Lists the one-on-one session types a studio sells — StretchLab's assisted stretches… | ⚪ |
+| `clubready.updateProfile` | clubready.com | Edits the signed-in member's own profile fields (name, phone, address, emergency… | ⚪ |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | ⚪ |
 | `cnbc_com.followTopic` | cnbc.com | Follows a CNBC news topic to receive articles about it. | ⚪ |

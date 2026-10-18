@@ -17,6 +17,7 @@ abqplumb.com — abqplumb: getAvailability, listServices
 acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
 acqualinaresort.com — acqualinaresort: searchAvailability
+acuityscheduling.com — acuityscheduling: bookAppointment, cancelAppointment, getAppointmentTypeDetails, getPrice, joinWaitlist, listAppointmentTypes, listMyBookings, listScheduleSlots, searchSchedule
 adobe.com — adobe: compressPdf, convertPdfToWord, findHelpArticle, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, licenseStockAsset, mergePdfs, saveAssetToCreativeCloud, searchFonts, searchStockAssets, searchTemplates, sendForSignature
 agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
 agentstatus.dev — agentstatus: getServer, searchServers, submitServer
@@ -167,6 +168,7 @@ cleanairlawncare.com — cleanairlawncare: checkServiceArea, getAvailableSlots, 
 cloudflare.com — cloudflare: comparePlans, compareTeamsPlans, getDomainPricing, searchDomainAvailability
 clubchampion.com — clubchampion: checkAvailability, getFittings, listFitters, listStudios
 clubpilates.com — clubpilates: bookClass, buyPackage, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, joinWaitlist, listClassCategories, listClasses, listClassTypes, listInstructors, listMyBookings, listPricing, updateProfile
+clubready.com — clubready: bookClass, bookService, buyPackage, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, getWorkoutStats, joinWaitlist, listBrands, listClassCategories, listClasses, listClassTypes, listInstructors, listInvoices, listMyBookings, listPricing, listServiceAvailability, listServiceTypes, updateProfile
 cnb.avocat.fr — cnb_avocat_fr: search
 cnbc.com — cnbc_com: addToWatchlist, followTopic, getArticle, getAuthor, getInvestingClubContent, getMarketData, getPremiumContent, getQuote, getVideo, getWatchlist, listArticlesByAuthor, listCategories, listCommodities, listCurrencies, listMarkets, listNews, listQuotes, listSectors, listVideosByCategory, removeFromWatchlist, search, subscribeToNewsletter, unfollowTopic, unsubscribeFromNewsletter
 coastpay.com — coast: getFleetCardPricing, getFuelRebate
