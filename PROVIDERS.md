@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4228 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4257 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3550,7 +3550,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `stubhub.getCheckoutHandoff` | stubhub.com | Given a listing id from `getEventListings`, resolves the price and returns StubHub's… | ⚪ |
 | `stubhub.getEvent` | stubhub.com | Returns one event in full: venue (name, address), date/time, category, and the ticket… | ⚪ |
 | `stubhub.getEventListings` | stubhub.com | Returns the ticket inventory for one event: each listing's section/row (where… | ⚪ |
-| `stubhub.listCategories` | stubhub.com | Returns the genre/category taxonomy StubHub organizes events under (concerts by genre… | 🟢 |
+| `stubhub.listCategories` | stubhub.com | Returns the genre/category taxonomy StubHub organizes events under (concerts by genre… | 🟡 |
 | `stubhub.listFavorites` | stubhub.com | The signed-in caller's followed performers, teams and venues — the StubHub app… | ⚪ |
 | `stubhub.listMyOrders` | stubhub.com | The signed-in caller's own order history — tickets bought and sold, each with its… | ⚪ |
 | `stubhub.search` | stubhub.com | Searches live events — concerts, sports, theater and other categories — by keyword and… | ⚪ |
@@ -3717,7 +3717,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trawickinternational.getPlanPremium` | trawickinternational.com | Reads the exact dollar premium and purchase handoff link for one plan off Trawick's… | 🟢 |
 | `trawickinternational.getQuote` | trawickinternational.com | Submits Trawick's own homepage 'Get a Quote' travel-insurance form (destination… | 🟢 |
 | `trektravel.getDeparturePricing` | trektravel.com | Reads one trip's real scheduled departure dates straight off its own page: each date's… | 🟢 |
-| `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟡 |
+| `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟢 |
 | `tripadvisor.askQuestion` | tripadvisor.com | Posts a question to a listing's Q&A from the signed-in caller's account. | ⚪ |
 | `tripadvisor.createTrip` | tripadvisor.com | Creates a new Trip on the signed-in caller's account with a name and optional dates. | ⚪ |
 | `tripadvisor.getAttraction` | tripadvisor.com | Reads one attraction in full: name, description, address, opening hours, suggested… | ⚪ |
@@ -3988,6 +3988,35 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellfound.listJobCollections` | wellfound.com | Lists Wellfound's own curated job collections — the editorial groupings the site… | ⚪ |
 | `wellfound.searchCompanies` | wellfound.com | Finds startups the way Wellfound's own search groups them — one row per COMPANY, off… | 🟢 |
 | `wellfound.searchJobs` | wellfound.com | Searches Wellfound's startup job board — by role (`/role/<slug>`) or by city… | 🟢 |
+| `wellnessliving.bookClass` | wellnessliving.com | Books a customer into an available class slot | ⚪ |
+| `wellnessliving.cancelBooking` | wellnessliving.com | Cancels an existing class booking for the customer | ⚪ |
+| `wellnessliving.getClassCapacity` | wellnessliving.com | Checks capacity, booked spots, and waitlist status for one class | ⚪ |
+| `wellnessliving.getClassDetails` | wellnessliving.com | Reads full details for one class including instructor, duration, capacity, pricing | ⚪ |
+| `wellnessliving.getClassPackages` | wellnessliving.com | Lists available class packages for purchase | ⚪ |
+| `wellnessliving.getClassTypes` | wellnessliving.com | Lists all available class types (yoga, pilates, etc) | ⚪ |
+| `wellnessliving.getDiscounts` | wellnessliving.com | Lists available discounts for the customer | ⚪ |
+| `wellnessliving.getInstructors` | wellnessliving.com | Lists all instructors across studios | ⚪ |
+| `wellnessliving.getLocationDetails` | wellnessliving.com | Reads detailed information for one studio location including hours, address, amenities | ⚪ |
+| `wellnessliving.getLocationInfo` | wellnessliving.com | Gets hours of operation, contact info, and general information for a location | ⚪ |
+| `wellnessliving.getLocationSchedule` | wellnessliving.com | Gets the full weekly schedule for a specific studio location | ⚪ |
+| `wellnessliving.getMyBookings` | wellnessliving.com | Lists the signed-in customer's upcoming and past bookings | ⚪ |
+| `wellnessliving.getMyPackages` | wellnessliving.com | Lists the customer's purchased class packages and remaining credits | ⚪ |
+| `wellnessliving.getMyProfile` | wellnessliving.com | Reads the signed-in customer's profile information | ⚪ |
+| `wellnessliving.getMyWaitlists` | wellnessliving.com | Lists all classes the customer is waitlisted for | ⚪ |
+| `wellnessliving.getPaymentMethods` | wellnessliving.com | Gets the customer's saved payment methods | ⚪ |
+| `wellnessliving.getPromotions` | wellnessliving.com | Lists current promotions and special offers | ⚪ |
+| `wellnessliving.getRewardsBalance` | wellnessliving.com | Gets the signed-in customer's rewards points balance | ⚪ |
+| `wellnessliving.getRewardsTiers` | wellnessliving.com | Lists available rewards tiers and benefits | ⚪ |
+| `wellnessliving.getServiceInfo` | wellnessliving.com | Gets general service information, terms, and FAQs | ⚪ |
+| `wellnessliving.getStudioNews` | wellnessliving.com | Gets news, announcements, and updates from studios | ⚪ |
+| `wellnessliving.getWaitlistPosition` | wellnessliving.com | Gets the customer's position on a specific class waitlist | ⚪ |
+| `wellnessliving.joinWaitlist` | wellnessliving.com | Adds the customer to a class waitlist | ⚪ |
+| `wellnessliving.leaveWaitlist` | wellnessliving.com | Removes the customer from a class waitlist | ⚪ |
+| `wellnessliving.listLocations` | wellnessliving.com | Lists all studio locations available on the platform | ⚪ |
+| `wellnessliving.listScheduleClasses` | wellnessliving.com | Lists available classes across studios by date and location | ⚪ |
+| `wellnessliving.purchasePackage` | wellnessliving.com | Purchases a class package; requires payment | ⚪ |
+| `wellnessliving.searchClasses` | wellnessliving.com | Searches classes by class type, instructor, or location filters | ⚪ |
+| `wellnessliving.updateProfile` | wellnessliving.com | Updates the customer's profile information | ⚪ |
 | `whatsapp.addGroupParticipants` | whatsapp.com | Adds people to a group the caller administers, by contact or number, and reports per… | ⚪ |
 | `whatsapp.blockContact` | whatsapp.com | Blocks or unblocks a contact or number as the caller, and lists who the caller has… | ⚪ |
 | `whatsapp.checkNumber` | whatsapp.com | Says whether a phone number has a WhatsApp account, the way WhatsApp Web's… | ⚪ |
