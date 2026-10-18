@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4219 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4228 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2580,6 +2580,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `my_auroramedicalspa_com.getServiceCategories` | my.auroramedicalspa.com | Lists the treatment categories one location offers online (Botox, Injectable… | 🟢 |
 | `my_auroramedicalspa_com.getServices` | my.auroramedicalspa.com | Reads the live bookable services in one category at one location — name, starting… | 🟢 |
 | `my_auroramedicalspa_com.listLocations` | my.auroramedicalspa.com | Lists every Aurora Medical Spa location (9 today, across Colorado, Missouri and Texas)… | 🟢 |
+| `my_best_studio._client` | mybeststudio.us | Shared studio client: subdomain to account bootstrap, public and signed-in session… | ⚪ |
+| `my_best_studio.bookClass` | mybeststudio.us | Books a signed-in member into one class. | ⚪ |
+| `my_best_studio.cancelBooking` | mybeststudio.us | Cancels a signed-in member's booking or waitlist spot. | ⚪ |
+| `my_best_studio.getClass` | mybeststudio.us | Returns details of one class: time, instructor, capacity, booked/waitlist status. | ⚪ |
+| `my_best_studio.joinWaitlist` | mybeststudio.us | Adds a signed-in member to the waitlist for one class. | ⚪ |
+| `my_best_studio.listClasses` | mybeststudio.us | Returns classes for a studio by date, with capacity, instructor, booked status and… | ⚪ |
+| `my_best_studio.listInstructors` | mybeststudio.us | Lists all instructors for a studio. | ⚪ |
+| `my_best_studio.listLocations` | mybeststudio.us | Lists all studio locations and their details (name, address, timezone). | ⚪ |
+| `my_best_studio.listMyBookings` | mybeststudio.us | Lists a signed-in member's future class bookings and waitlist spots. | ⚪ |
 | `myollie.getMealPlan` | myollie.com | Computes Ollie's personalized fresh-food meal plan and REAL weekly price for a dog… | 🟢 |
 | `naic.getCompanyProfile` | naic.org | Reads one insurer's CIS financial report — the holding group that owns it, the state… | 🟢 |
 | `naic.getComplaintIndex` | naic.org | Reads one insurer's closed-confirmed complaint index against the national baseline of… | 🟢 |

@@ -410,6 +410,7 @@ msc.fema.gov — msc_fema: getFloodZone
 msn.com — msn: getArticle, getMarketSummary, getSectionFeed, getStockQuote, getTopStories, getWeatherForecast, listSavedArticles, saveArticle, searchNews
 muze.gov.tr — muze_gov_tr: getVisitingHours
 my.auroramedicalspa.com — my_auroramedicalspa_com: getProviders, getServiceCategories, getServices, listLocations
+mybeststudio.us — my_best_studio: _client, bookClass, cancelBooking, getClass, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings
 myollie.com — myollie: getMealPlan
 myworkdayjobs.com — workday: getJob, listJobs
 naic.org — naic: getCompanyProfile, getComplaintIndex, getComplaintTrends, getLicensing, getStateInsuranceChart, listStateDepartments, lookupProducer, searchCompanies, searchStateInsuranceCharts
