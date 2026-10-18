@@ -616,7 +616,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `byltbasics.buildPackHandoff` | byltbasics.com | Configures one bundle kit — validates the chosen size and each color against… | 🟢 |
 | `byltbasics.getPackOptions` | byltbasics.com | Reads the real size and color choices for one bundle kit (a handle from… | 🟢 |
 | `byltbasics.listBundlePacks` | byltbasics.com | Lists BYLT Basics' 'Custom N Pack' bundle kits — each its own product with a single… | 🟢 |
-| `ca_gov.getDepartment` | www.ca.gov | Returns information about a specific California state agency or department —… | ⚪ |
+| `ca_gov.getDepartment` | www.ca.gov | Returns information about a specific California state agency or department —… | 🟢 |
 | `ca_gov.getDepartmentContact` | www.ca.gov | Returns contact information (phone, email, address) for a specific California state… | ⚪ |
 | `ca_gov.getService` | www.ca.gov | Returns detailed information about a specific California state service — description… | ⚪ |
 | `ca_gov.listDepartments` | www.ca.gov | Lists all California state agencies and departments available through CA.gov with… | 🟢 |
