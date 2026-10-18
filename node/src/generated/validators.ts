@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0e0f9454973b0274b652caaac8d71300ac65d77323c75ec6e4a397c60e17616e
+// Manifest version: cbd8c1d9dba83218c1394d22bc118f25404ab658afcba1b05628063c66d3a321
 // 2167 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0e0f9454973b0274b652caaac8d71300ac65d77323c75ec6e4a397c60e17616e",
+  "version": "cbd8c1d9dba83218c1394d22bc118f25404ab658afcba1b05628063c66d3a321",
   "units": {
     "address_validation": {
       "defs": {

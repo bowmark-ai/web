@@ -400,11 +400,13 @@ mergify.com — mergify: pullStatus, queueStatus
 meteofrance.com — meteofrance: getMarineWindForecast
 microcenter.com — microcenter: checkStock, checkStoreStock, getProduct, search
 millisaraylar.gov.tr — millisaraylar: getPalaces, getTicketPrices, getVisitingHours
+mindbodyonline.com — mindbodyonline: bookSession, cancelSession, getSchedule, listSchedules, myBookings, waitlistSession
 minted.com — minted: getCardOptions, priceCard, searchCards
 mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductPrice, priceCustomBook, searchPhotoBookThemes
 mobygames.com — mobygames: searchByTitle
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
 modularclosets.com — modularclosets: getKitConfigurator, priceKitConfiguration, searchClosetKits
+momence.com — momence: bookSession, cancelBooking, findStudio, getBookingOptions, getCheckoutFields, getLocations, getMyAppointments, getMyBookings, getMyPasses, getMyWaitlist, getSessionDetails, getSessionPlans, getSessions, getSessionsByDate, getSessionsByLocation, getSessionsByTeacher, getSessionTiers, getStudio, getTeachers, getUserInfo, joinWaitlist, leaveWaitlist
 momondo.com — momondo: getBookingOptions, search, searchCars, searchHotels
 mossyoak.com — mossyoak: getMossyoakCheckoutLink, getMossyoakProduct, listMossyoakProducts, searchProducts
 msc.com — msc: trackShipment
@@ -583,7 +585,7 @@ tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHigh
 tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listBookmarkedVideos, listCaptionTracks, listCommentReplies, listComments, listConversations, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listSoundVideos, listUserVideos, postComment, searchUsers, searchVideos, sendDirectMessage, unfollowUser, unlikeVideo, uploadVideo
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
-TODO example.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, detectTone, getPersonalDictionary, humanize, listDocuments, listGoals, paraphrase; mindbodyonline: bookClass, cancelBooking, getMyBookings, getProfile, joinWaitlist, listLocations, searchSchedules
+TODO example.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, detectTone, getPersonalDictionary, humanize, listDocuments, listGoals, paraphrase
 topviewtix.com — topviewtix: getPackageDetails, listPackages, reserve
 totalplastics.com — totalplastics: getQuoteFormFieldOptions, getQuoteFormFields
 translate.google.com — google_translate: checkSpelling, detectLanguage, getAlternativeTranslations, getDefinitions, getSynonyms, listHistory, listLanguages, listSavedPhrases, lookupWord, romanize, savePhrase, speak, translate, translateDocument, translateImage, translateWebPage, unsavePhrase

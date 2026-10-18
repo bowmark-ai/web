@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4430 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4451 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2591,13 +2591,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |
-| `mindbodyonline.bookClass` | TODO example.com | Books a caller-signed-in customer into an available class or session. | ⚪ |
-| `mindbodyonline.cancelBooking` | TODO example.com | Cancels a customer's existing booking or waitlist entry. | ⚪ |
-| `mindbodyonline.getMyBookings` | TODO example.com | Lists the signed-in customer's upcoming and past bookings and waitlist entries. | ⚪ |
-| `mindbodyonline.getProfile` | TODO example.com | Reads the signed-in customer's profile information including name, email, and… | ⚪ |
-| `mindbodyonline.joinWaitlist` | TODO example.com | Adds a caller-signed-in customer to the waitlist for a full class. | ⚪ |
-| `mindbodyonline.listLocations` | TODO example.com | Lists all studio locations for a Mindbody customer account. | ⚪ |
-| `mindbodyonline.searchSchedules` | TODO example.com | Lists available classes and sessions by location and date range, including class name… | ⚪ |
+| `mindbodyonline.bookSession` | mindbodyonline.com | Books a member into a specific class session. | ⚪ |
+| `mindbodyonline.cancelSession` | mindbodyonline.com | Cancels a member's booking for a class. | ⚪ |
+| `mindbodyonline.getSchedule` | mindbodyonline.com | Gets details for a specific class session including availability, waitlist status, and… | ⚪ |
+| `mindbodyonline.listSchedules` | mindbodyonline.com | Retrieves the list of upcoming classes for a studio location on a given date… | ⚪ |
+| `mindbodyonline.myBookings` | mindbodyonline.com | Lists the authenticated member's current and past bookings. | ⚪ |
+| `mindbodyonline.waitlistSession` | mindbodyonline.com | Adds a member to the waitlist for a full class. | ⚪ |
 | `minimax.getDocs` | platform.minimax.io | Resolves a topic (e.g. "text generation", "mcp guide", "voice clone") against… | 🟢 |
 | `minted.getCardOptions` | minted.com | Would return one product's actual named paper/format/foil choices (not just the price… | ⚪ |
 | `minted.priceCard` | minted.com | Prices one exact personalized-card configuration (design + paper + print method + foil… | 🟢 |
@@ -2613,6 +2612,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `modularclosets.getKitConfigurator` | modularclosets.com | Reads one kit's real option tree (Color, Width, and — on some kits — a third option… | 🟢 |
 | `modularclosets.priceKitConfiguration` | modularclosets.com | Resolves one exact kit build (a handle + a chosen value for every real option on that… | 🟢 |
 | `modularclosets.searchClosetKits` | modularclosets.com | Searches Modular Closets' real pre-configured kit catalog (closets, wardrobes… | 🟢 |
+| `momence.bookSession` | momence.com | Book a session as the signed-in user, with optional tier/plan selection. | ⚪ |
+| `momence.cancelBooking` | momence.com | Cancel an existing booking as the signed-in user. | ⚪ |
+| `momence.findStudio` | momence.com | Search for a studio by name or query string, returning matching studios with their… | ⚪ |
+| `momence.getBookingOptions` | momence.com | Get available booking options and pricing for a specific session as the signed-in user. | ⚪ |
+| `momence.getCheckoutFields` | momence.com | Get custom checkout field requirements for a studio's guest checkout. | ⚪ |
+| `momence.getLocations` | momence.com | List all locations within a studio. | ⚪ |
+| `momence.getMyAppointments` | momence.com | List the signed-in user's appointment reservations and related details. | ⚪ |
+| `momence.getMyBookings` | momence.com | List the signed-in user's upcoming and past bookings. | ⚪ |
+| `momence.getMyPasses` | momence.com | List the signed-in user's active membership plans and pass packages. | ⚪ |
+| `momence.getMyWaitlist` | momence.com | List sessions the signed-in user is waitlisted for. | ⚪ |
+| `momence.getSessionDetails` | momence.com | Get detailed information about a specific session, including capacity, spots… | ⚪ |
+| `momence.getSessionPlans` | momence.com | List membership plans and passes available at a studio. | ⚪ |
+| `momence.getSessions` | momence.com | List all sessions available at a studio. | ⚪ |
+| `momence.getSessionsByDate` | momence.com | List sessions at a studio on a specific date. | ⚪ |
+| `momence.getSessionsByLocation` | momence.com | List sessions at a specific location within a studio. | ⚪ |
+| `momence.getSessionsByTeacher` | momence.com | List sessions taught by a specific teacher. | ⚪ |
+| `momence.getSessionTiers` | momence.com | Get pricing tiers and packages available for a session. | ⚪ |
+| `momence.getStudio` | momence.com | Get detailed profile information for a studio, including locations, teachers, session… | ⚪ |
+| `momence.getTeachers` | momence.com | List all teachers at a studio. | ⚪ |
+| `momence.getUserInfo` | momence.com | Get the signed-in user's account information. | ⚪ |
+| `momence.joinWaitlist` | momence.com | Join the waitlist for a full session as the signed-in user. | ⚪ |
+| `momence.leaveWaitlist` | momence.com | Leave the waitlist for a session. | ⚪ |
 | `momondo.getBookingOptions` | momondo.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `momondo.search` | momondo.com | Runs the itinerary search on momondo.com and returns its result rows price-ascending. | 🟢 |
 | `momondo.searchCars` | momondo.com | Runs the car-hire search on momondo.com and returns priced vehicles for a pickup… | 🟢 |
