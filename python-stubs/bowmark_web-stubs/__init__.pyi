@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 35e22aa98dbb22f3ddb29a2af199cf3fef40a51c8027544d865a82341b766417
-# 85 capabilities, 591 providers, 2165 typed functions, 20 refused.
+# Manifest version: c948de0f6da2bd60e76ca8fc5941d75ec406bd60be4cd9b94eeb71f7f92c7edd
+# 85 capabilities, 591 providers, 2166 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3463,6 +3463,14 @@ class Prv_adobe_ExpressTemplateDetail_Out(TypedDict):
     width: NotRequired[float]
     height: NotRequired[float]
     editableElements: NotRequired[list[str]]
+
+class Prv_adobe_StockAsset_Out(TypedDict):
+    id: str
+    title: str
+    thumbnail: str
+    mediaType: Literal["photo"] | Literal["vector"] | Literal["illustration"] | Literal["template"] | Literal["video"]
+    orientation: NotRequired[Literal["landscape"] | Literal["portrait"] | Literal["square"]]
+    licensingPriceTier: NotRequired[str]
 
 class Prv_agakhanhospitals_getHospitalInfo_location_u1_In(TypedDict):
     location: str
@@ -36447,6 +36455,13 @@ class Prv_adobe(Protocol):
         """Returns one Adobe Express template's detail — title, category, dimensions, whether it is
         free or Premium, and the editable elements the editor lists — from a template id
         returned by searchTemplates.
+        """
+
+    async def searchStockAssets(self, query: str, /) -> list[Prv_adobe_StockAsset_Out]:
+        """Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates and
+        video the way the site's own search box does, returning each asset's id, thumbnail,
+        title, media type, orientation and licensing price tier. The entry point to every other
+        Stock function: nothing on Stock can be read without an asset id.
         """
 
 class Prv_agakhanhospitals(Protocol):

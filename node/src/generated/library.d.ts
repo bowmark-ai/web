@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 35e22aa98dbb22f3ddb29a2af199cf3fef40a51c8027544d865a82341b766417
-// 85 capabilities, 591 providers, 2183 typed functions, 20 refused.
+// Manifest version: c948de0f6da2bd60e76ca8fc5941d75ec406bd60be4cd9b94eeb71f7f92c7edd
+// 85 capabilities, 591 providers, 2184 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6202,6 +6202,15 @@ interface ExpressTemplateDetail {
   editableElements?: string[];
 }
 
+interface StockAsset {
+  id: string;
+  title: string;
+  thumbnail: string;
+  mediaType: "photo" | "vector" | "illustration" | "template" | "video";
+  orientation?: "landscape" | "portrait" | "square";
+  licensingPriceTier?: string;
+}
+
 interface adobeRow {
   id: string;
 }
@@ -6254,6 +6263,14 @@ interface adobeRow {
      * searchTemplates.
      */
     getTemplate(id: string): Promise<ExpressTemplateDetail>;
+
+    /**
+     * Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates and
+     * video the way the site's own search box does, returning each asset's id, thumbnail, title,
+     * media type, orientation and licensing price tier. The entry point to every other Stock
+     * function: nothing on Stock can be read without an asset id.
+     */
+    searchStockAssets(query: string): Promise<StockAsset[]>;
   }
 }
 
