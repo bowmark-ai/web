@@ -279,8 +279,8 @@ async function sendRequest<T>(
       parsed = false;
     }
 
-    // A 429 from the EDGE (Cloudflare's per-IP rate limit on `/v1/*`: 10 requests per
-    // 10 seconds) never reached the api, so retrying it is safe and is the only thing
+    // A 429 from the EDGE (Cloudflare's per-IP rate limit on `/v1/*`: 50 requests per
+    // 10 seconds since 2026-10-05) never reached the api, so retrying it is safe and is the only thing
     // that helps. A bare `client()` call is THREE requests (open, call, close), so a
     // page that makes two or three calls trips it on its first click. The api's own
     // 429s carry a `code` (`rate_limited`, a metering refusal) and are NOT retried.
@@ -311,12 +311,19 @@ async function sendRequest<T>(
   }
 }
 
-/** The edge allows 10 requests per 10 seconds per IP on the hosted api. Stay under it
- * proactively (8 per 10s) instead of finding out by being blocked: a retry costs a
- * 10-second stall and a paginated read is dozens of requests. Hosted api only, so a
- * local or self-hosted api is never slowed. Per process, which is per IP for a server. */
+/** The edge allows 50 requests per 10 seconds per IP on the hosted api (raised from 10 on
+ * 2026-10-05; the rule is dashboard state, recorded in the monorepo's `infra/README.md` §
+ * Cloudflare rate-limit rules). Stay under it proactively (40 per 10s) instead of finding
+ * out by being blocked: a retry costs a 10-second stall and a paginated read is dozens of
+ * requests. Hosted api only, so a local or self-hosted api is never slowed. Per process,
+ * which is per IP for a server.
+ *
+ * It read 8 until 2026-10-18, five per cent of what the edge allows, two weeks after the
+ * edge was raised. That held any fan-out to ~0.8 runs a second: a 10,000-lookup bulk run
+ * could never keep more than ~14 runs in flight whatever the server allowed. If the edge
+ * rule changes again, change this number with it. */
 const EDGE_WINDOW_MS = 10_000;
-const EDGE_BUDGET = 8;
+const EDGE_BUDGET = 40;
 const recentSends: number[] = [];
 
 async function paceForEdge(baseUrl: string): Promise<void> {

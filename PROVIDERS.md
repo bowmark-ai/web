@@ -64,7 +64,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | ⚪ |
 | `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an Adobe Stock asset, an Express template, or an exported Acrobat document into… | ⚪ |
 | `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟢 |
-| `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | ⚪ |
+| `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟢 |
 | `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text and, where… | 🟢 |
 | `adobe.sendForSignature` | adobe.com | Sends a caller-supplied document out for e-signature through Adobe Acrobat Sign — the… | ⚪ |
 | `agakhanhospitals.getHospitalInfo` | agakhanhospitals.org | Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services… | 🟢 |
