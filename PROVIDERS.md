@@ -3868,7 +3868,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
 | `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |
 | `usatoday.listSections` | usatoday.com | Lists USA Today's main news sections — news, sports, money, life, tech, opinion — each… | 🟢 |
-| `usatoday.listVideos` | usatoday.com | Lists USA Today videos, paginated, showing title, description, thumbnail URL, duration… | 🟢 |
+| `usatoday.listVideos` | usatoday.com | Lists the videos on USA Today's videos hub, each with a title, description, thumbnail… | 🟢 |
 | `usatoday.saveArticle` | usatoday.com | Saves an article to the signed-in user's reading list. | ⚪ |
 | `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | 🟢 |
 | `usps.getRate` | usps.com | Prices a domestic package across USPS's own Mail Services (Priority Mail Express… | 🟢 |
