@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 79994e044ad567042263ce361ebfebc4fd83eaf6a68d35dd9b1bccf27c064452
-// 85 capabilities, 591 providers, 2180 typed functions, 20 refused.
+// Manifest version: 67758bd4be1341cfbc31c870e0165b2b3975240238ae65cdd9cf5bb2620f64d2
+// 85 capabilities, 591 providers, 2181 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -55139,6 +55139,16 @@ interface usatodayPuzzleDetail {
   url: string;
 }
 
+interface usatodayVideo {
+  id: string;
+  title: string;
+  description?: string;
+  url: string;
+  thumbnailUrl?: string;
+  duration?: string;
+  publishDate?: string;
+}
+
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
   interface Unit {
     /**
@@ -55188,6 +55198,12 @@ interface usatodayPuzzleDetail {
      * difficulty, date created, and play URL.
      */
     getPuzzle(args: GetPuzzleArgs): Promise<usatodayPuzzleDetail>;
+
+    /**
+     * Lists USA Today videos from the videos hub page, showing title, description, thumbnail URL,
+     * duration and publication date.
+     */
+    listVideos(): Promise<usatodayVideo[]>;
   }
 }
 

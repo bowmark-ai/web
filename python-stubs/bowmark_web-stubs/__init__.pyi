@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 79994e044ad567042263ce361ebfebc4fd83eaf6a68d35dd9b1bccf27c064452
-# 85 capabilities, 591 providers, 2162 typed functions, 20 refused.
+# Manifest version: 67758bd4be1341cfbc31c870e0165b2b3975240238ae65cdd9cf5bb2620f64d2
+# 85 capabilities, 591 providers, 2163 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -30995,6 +30995,15 @@ class Prv_usatoday_usatodayPuzzleDetail_Out(TypedDict):
     date: str
     url: str
 
+class Prv_usatoday_usatodayVideo_Out(TypedDict):
+    id: str
+    title: str
+    description: NotRequired[str]
+    url: str
+    thumbnailUrl: NotRequired[str]
+    duration: NotRequired[str]
+    publishDate: NotRequired[str]
+
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
     toZip: str
@@ -54060,6 +54069,11 @@ class Prv_usatoday(Protocol):
     async def getPuzzle(self, args: Prv_usatoday_GetPuzzleArgs_In, /) -> Prv_usatoday_usatodayPuzzleDetail_Out:
         """Reads the details of one USA Today puzzle — given a puzzle ID — returning the puzzle
         type, difficulty, date created, and play URL.
+        """
+
+    async def listVideos(self, /) -> list[Prv_usatoday_usatodayVideo_Out]:
+        """Lists USA Today videos from the videos hub page, showing title, description, thumbnail
+        URL, duration and publication date.
         """
 
 class Prv_usps(Protocol):
