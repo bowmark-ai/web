@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b4816b9b312f0d65fb71b60d72f1c1aa9c670073f4de1735dce1ef704bafd403
-# 85 capabilities, 591 providers, 2161 typed functions, 20 refused.
+# Manifest version: 79994e044ad567042263ce361ebfebc4fd83eaf6a68d35dd9b1bccf27c064452
+# 85 capabilities, 591 providers, 2162 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8012,6 +8012,13 @@ class Prv_ca_gov_ca_govRow_Out(TypedDict):
     id: str
     name: str
     url: NotRequired[str]
+
+class Prv_ca_gov_getDepartment_return_Out(TypedDict):
+    id: str
+    name: str
+    url: NotRequired[str]
+    description: NotRequired[str]
+    phone: NotRequired[str]
 
 class Prv_cabinsforyou_CabinsforyouSearchArgs_In(TypedDict):
     checkIn: str
@@ -39271,6 +39278,11 @@ class Prv_ca_gov(Protocol):
     async def listDepartments(self, filter: str | None = None, /) -> list[Prv_ca_gov_ca_govRow_Out]:
         """Lists all California state agencies and departments from CA.gov. An optional filter
         narrows to departments whose name contains it (case-insensitive).
+        """
+
+    async def getDepartment(self, departmentId: str, /) -> Prv_ca_gov_getDepartment_return_Out:
+        """Returns detailed information about a specific California state department — name,
+        description, contact phone, and main website URL.
         """
 
 class Prv_cabinsforyou(Protocol):

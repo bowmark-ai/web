@@ -1,5 +1,5 @@
 {
-  "version": "b4816b9b312f0d65fb71b60d72f1c1aa9c670073f4de1735dce1ef704bafd403",
+  "version": "79994e044ad567042263ce361ebfebc4fd83eaf6a68d35dd9b1bccf27c064452",
   "units": {
     "address_validation": {
       "defs": {
@@ -14701,6 +14701,15 @@
               "k": "string"
             },
             "optional": true
+          }
+        ],
+        "getDepartment": [
+          {
+            "name": "departmentId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

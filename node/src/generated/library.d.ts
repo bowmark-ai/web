@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b4816b9b312f0d65fb71b60d72f1c1aa9c670073f4de1735dce1ef704bafd403
-// 85 capabilities, 591 providers, 2179 typed functions, 20 refused.
+// Manifest version: 79994e044ad567042263ce361ebfebc4fd83eaf6a68d35dd9b1bccf27c064452
+// 85 capabilities, 591 providers, 2180 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14101,6 +14101,12 @@ interface ca_govRow {
      * to departments whose name contains it (case-insensitive).
      */
     listDepartments(filter?: string): Promise<ca_govRow[]>;
+
+    /**
+     * Returns detailed information about a specific California state department — name,
+     * description, contact phone, and main website URL.
+     */
+    getDepartment(departmentId: string): Promise<{id: string; name: string; url?: string; description?: string; phone?: string}>;
   }
 }
 
