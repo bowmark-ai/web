@@ -97,13 +97,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getCart` | alibaba.com | Get current shopping cart contents and totals. | ⚪ |
 | `alibaba.getInvoice` | alibaba.com | Get details of a specific invoice. | ⚪ |
 | `alibaba.getOrder` | alibaba.com | Get details for a specific order including tracking, payment status and items. | ⚪ |
-| `alibaba.getProduct` | alibaba.com | Get detailed information for a single product by ID, including specs, images, pricing… | 🟡 |
+| `alibaba.getProduct` | alibaba.com | Get detailed information for a single product by ID, including specs, images, pricing… | 🟢 |
 | `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | ⚪ |
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
 | `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | 🟡 |
 | `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | 🟡 |
-| `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟡 |
+| `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟢 |
 | `alibaba.listInvoices` | alibaba.com | Get list of invoices for past orders. | ⚪ |
 | `alibaba.listMessages` | alibaba.com | Get inbox of messages from suppliers and other contacts. | ⚪ |
 | `alibaba.listOrders` | alibaba.com | Get list of past orders with status, date and items. | ⚪ |
@@ -368,7 +368,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listPodcasts` | bbc.com | The podcasts and audio series featured on BBC Audio (/audio): title, description… | 🟢 |
 | `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
 | `bbc.listSections` | bbc.com | The BBC's own section list, read off the bbc.com top navigation — Home, News (US &… | 🟢 |
-| `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | 🟡 |
+| `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | 🟢 |
 | `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | 🟡 |
 | `bbc.listVideos` | bbc.com | The videos the BBC's video hub shows: title, summary, duration, url, video id, section… | 🟢 |
 | `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
