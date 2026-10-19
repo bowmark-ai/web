@@ -102,7 +102,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
 | `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | 🟢 |
-| `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | 🟡 |
+| `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | 🟢 |
 | `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟢 |
 | `alibaba.listInvoices` | alibaba.com | Get list of invoices for past orders. | ⚪ |
 | `alibaba.listMessages` | alibaba.com | Get inbox of messages from suppliers and other contacts. | ⚪ |
@@ -2257,7 +2257,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟡 |
 | `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟡 |
 | `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' home-design floor-plan search against the site's own live inventory… | 🟢 |
-| `iyc.checkCharterAvailability` | iyc.com | Reads one yacht's real charter calendar (the site's own booked/unavailable date list)… | 🟢 |
+| `iyc.checkCharterAvailability` | iyc.com | Reads one yacht's real charter calendar (the site's own booked/unavailable date list)… | 🟡 |
 | `iyc.searchCharterYachts` | iyc.com | Searches IYC's live superyacht charter fleet by destination, guest count, length and… | 🟢 |
 | `jasmine_dilucci.getApplicationFormSchema` | jasminedilucci.com | Returns the structure of the application funnel's DQ (disqualification) step: field… | 🟢 |
 | `jcrew.addToCart` | jcrew.com | Adds a chosen J.Crew variant to a shopping bag. | ⚪ |
