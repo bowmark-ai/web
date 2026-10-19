@@ -550,6 +550,7 @@ solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: bookBike, bookmarkClass, buySeries, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getMyProfile, getSoulJourney, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listPurchaseHistory, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updateMyProfile, updatePreferences
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 spacest.com — spacest: search
+spectrum.com — spectrum: checkMobileCoverage, checkServiceAvailability, getAccountBalance, getBillingHistory, getChannelLineup, getEquipmentStatus, getInternetPlanDetails, getUsageSummary, listInternetPlans, listMobileDeals, listMobilePlans, listTvAddOns, listTvPlans, payBill, scheduleServiceAppointment, updateWifiNetwork
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, listTeams, setFantasyLineup

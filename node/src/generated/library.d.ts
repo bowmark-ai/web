@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8f2db0e1bb426dd5cbcf9f7262978a67b745118a6c7340ee5960094d1b2fd113
-// 85 capabilities, 601 providers, 2203 typed functions, 20 refused.
+// Manifest version: 24a70b99d4a11930c5dea3d86e9eb254a40c574abc28f243ba020b442d5c8354
+// 85 capabilities, 603 providers, 2205 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17882,6 +17882,45 @@ interface ConsultnetJobSearchQuery {
      * instead.
      */
     searchJobs(query?: ConsultnetJobSearchQuery): Promise<ConsultnetJob[]>;
+  }
+}
+
+declare namespace BowmarkProvider_corepoweryoga {
+  // ── CorePower Yoga — the unit's own declarations, verbatim ──
+interface corepoweryogaRow {
+  id: string;
+}
+
+interface CorePowerYogaStudio {
+  id: string;
+  name: string;
+  slug: string;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  phone: string | null;
+  coordinates: { lat: number; lng: number } | null;
+  closed: boolean;
+  openDate: string | null;
+}
+
+interface ListStudiosArgs {
+  /** Include studios the site currently lists as closed. Defaults to false — most
+   * callers want only the studios they can actually visit or book. */
+  includeClosed?: boolean;
+}
+
+  /** Lists studio schedules, books classes, and reads booking details for CorePower Yoga. */
+  interface Unit {
+    /**
+     * Lists every CorePower Yoga studio: id (the Zenoti center GUID every schedule/booking
+     * function takes), name, slug, address, phone, coordinates, open/closed status and open date.
+     * Excludes studios the site lists as closed unless { includeClosed: true } is passed. Reads
+     * the site's own public Contentful studio directory, so this is also the door every other
+     * function's studio argument comes from.
+     */
+    listStudios(args?: ListStudiosArgs): Promise<CorePowerYogaStudio[]>;
   }
 }
 
@@ -49388,6 +49427,44 @@ interface SnapchatSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_solidcore {
+  // ── Solidcore — the unit's own declarations, verbatim ──
+interface solidcoreRow {
+  id: string;
+}
+
+interface SolidcoreStudio {
+  siteId: string;       // shared chain-wide; what getSchedule and the booking functions key on, with locationId
+  locationId: string;   // disambiguates THIS studio under siteId
+  slug: string;          // the site's own studioIdentifier, e.g. "castro"
+  name: string;
+  address: string;       // full street address, as the site publishes it (no separate city field exists)
+  state: string;         // two-letter code, e.g. "CA"
+  stateName: string;     // e.g. "California"
+  phone: string;
+  email: string;
+  comingSoon: boolean;   // true when the site's own infoFlag marks it not yet open
+}
+
+interface ListStudiosArgs {
+  state?: string;   // two-letter state code, e.g. "CA" — omit for every studio
+}
+
+  /**
+   * solidcore.co — the [solidcore] boutique fitness studio chain (Pilates-based strength
+   * classes). listStudios is built; everything else is queued — see BUILD_QUEUE.md.
+   */
+  interface Unit {
+    /**
+     * Lists [solidcore] studios from the chain's own booking backend (~197 rows total): name, full
+     * address, state, siteId/locationId pair (what getSchedule and the booking functions key on),
+     * phone, email, and whether the site marks it coming soon. Pass { state: "CA" } to narrow to
+     * one state; omit for every studio.
+     */
+    listStudios(args?: ListStudiosArgs): Promise<SolidcoreStudio[]>;
+  }
+}
+
 declare namespace BowmarkProvider_solostove {
   // ── Solo Stove — the unit's own declarations, verbatim ──
 interface SolostoveBundleSummary {
@@ -61822,6 +61899,7 @@ interface BowmarkProviders {
   compass_living: BowmarkProvider_compass_living.Unit;
   completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
+  corepoweryoga: BowmarkProvider_corepoweryoga.Unit;
   costco: BowmarkProvider_costco.Unit;
   countycourt_vic_gov_au: BowmarkProvider_countycourt_vic_gov_au.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
@@ -62161,6 +62239,7 @@ interface BowmarkProviders {
   smartwool: BowmarkProvider_smartwool.Unit;
   smithery: BowmarkProvider_smithery.Unit;
   snapchat: BowmarkProvider_snapchat.Unit;
+  solidcore: BowmarkProvider_solidcore.Unit;
   solostove: BowmarkProvider_solostove.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;

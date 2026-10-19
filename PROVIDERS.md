@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4537 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4553 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -77,7 +77,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acuityscheduling.searchSchedule` | acuityscheduling.com | Searches available slots by location and date range. | ⚪ |
 | `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
-| `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟢 |
+| `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟡 |
 | `adobe.getCreativeCloudPlans` | adobe.com | Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html… | 🟢 |
 | `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | 🟢 |
 | `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail page — title, full description, media type… | ⚪ |
@@ -142,7 +142,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
 | `alibaba.removeFromCart` | alibaba.com | Remove a product from the shopping cart. | ⚪ |
 | `alibaba.saveProduct` | alibaba.com | Add a product to saved items/favorites. | ⚪ |
-| `alibaba.searchProducts` | alibaba.com | Search for products by keyword, returning results with title, price, supplier and… | 🟡 |
+| `alibaba.searchProducts` | alibaba.com | Search for products by keyword, returning results with title, price, supplier and… | 🟢 |
 | `alibaba.trackOrder` | alibaba.com | Get shipment tracking information and current delivery status. | ⚪ |
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
@@ -1048,7 +1048,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.listOnDemandVideos` | corepoweryoga.com | Lists available on-demand yoga classes. | ⚪ |
 | `corepoweryoga.listSavedPayments` | corepoweryoga.com | Lists the caller's saved payment methods. | ⚪ |
 | `corepoweryoga.listSchedules` | corepoweryoga.com | Lists class schedules for all studios across a date range. | ⚪ |
-| `corepoweryoga.listStudios` | corepoweryoga.com | Lists all CorePower Yoga studio locations with address, hours, and center ID. | ⚪ |
+| `corepoweryoga.listStudios` | corepoweryoga.com | Lists every CorePower Yoga studio: id (the Zenoti center GUID), name, slug, address… | 🟢 |
 | `corepoweryoga.listTeachers` | corepoweryoga.com | Lists all CorePower instructors with bio, specialties, and teaching schedule. | ⚪ |
 | `corepoweryoga.listWorkshops` | corepoweryoga.com | Lists upcoming special workshops and events. | ⚪ |
 | `corepoweryoga.rateClass` | corepoweryoga.com | Rates and reviews a class attended. | ⚪ |
@@ -2722,7 +2722,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.getContinueWatching` | www.netflix.com | Gets titles the signed-in caller is currently watching (requires caller to be signed… | ⚪ |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's My List (requires caller to be signed in). | ⚪ |
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
-| `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week (TV and Films), ranked by views. | 🟢 |
+| `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week (TV and Films), ranked by views. | 🟡 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads a Tudum article (Netflix's editorial blog). | ⚪ |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's viewing history (requires caller to be signed in). | ⚪ |
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
@@ -3554,7 +3554,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `solidcore.listMyMemberships` | solidcore.co | Lists the signed-in member's active memberships and renewal dates. | ⚪ |
 | `solidcore.listMyPacks` | solidcore.co | Lists the signed-in member's class packs and remaining classes. | ⚪ |
 | `solidcore.listMyWaitlistBookings` | solidcore.co | Lists the signed-in member's waitlist entries. | ⚪ |
-| `solidcore.listStudios` | solidcore.co | Lists all Solidcore studios with locations, slug, and siteId+locationId pairs. | ⚪ |
+| `solidcore.listStudios` | solidcore.co | Lists all Solidcore studios with locations, slug, and siteId+locationId pairs… | 🟢 |
 | `solidcore.purchasePack` | solidcore.co | Purchases a class pack (needs payment). | ⚪ |
 | `solidcore.searchClasses` | solidcore.co | Searches classes by muscle group, coach, time, or date. | ⚪ |
 | `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟡 |
@@ -3592,6 +3592,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
 | `spacest.search` | spacest.com | Searches furnished apartments and corporate rentals by city and optional dates… | ⚪ |
+| `spectrum.checkMobileCoverage` | spectrum.com | Spectrum Mobile's network coverage at an address or area, off… | ⚪ |
+| `spectrum.checkServiceAvailability` | spectrum.com | What Spectrum offers at a residential street address — which internet/TV/mobile plans… | ⚪ |
+| `spectrum.getAccountBalance` | spectrum.com | The signed-in caller's current Spectrum account balance: amount due, due date and… | ⚪ |
+| `spectrum.getBillingHistory` | spectrum.com | The signed-in caller's past Spectrum bills: period, amount and payment status. | ⚪ |
+| `spectrum.getChannelLineup` | spectrum.com | The channel lineup on spectrum.com/cable-tv/channel-lineup — which channels ship in… | ⚪ |
+| `spectrum.getEquipmentStatus` | spectrum.com | The signed-in caller's modem/router and any DVR/receiver status (online, offline, in… | ⚪ |
+| `spectrum.getInternetPlanDetails` | spectrum.com | One internet plan's own page (e.g. spectrum.com/internet/plans/internet-gig/1-gig)… | ⚪ |
+| `spectrum.getUsageSummary` | spectrum.com | The signed-in caller's internet and mobile data usage for the current billing period… | ⚪ |
+| `spectrum.listInternetPlans` | spectrum.com | Every residential internet plan Spectrum advertises on spectrum.com/internet/plans —… | ⚪ |
+| `spectrum.listMobileDeals` | spectrum.com | Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals… | ⚪ |
+| `spectrum.listMobilePlans` | spectrum.com | Every Spectrum Mobile plan on spectrum.com/mobile/plans — plan name, data allowance… | ⚪ |
+| `spectrum.listTvAddOns` | spectrum.com | Premium channel and add-on packages (e.g. HBO, Starz, international/Latino tiers… | ⚪ |
+| `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, channel count… | ⚪ |
+| `spectrum.payBill` | spectrum.com | Pay the signed-in caller's Spectrum bill using a payment method already on the account. | ⚪ |
+| `spectrum.scheduleServiceAppointment` | spectrum.com | Book a technician visit for the signed-in caller's account, from spectrum.net's… | ⚪ |
+| `spectrum.updateWifiNetwork` | spectrum.com | Change the signed-in caller's home WiFi network name (SSID) or password, from… | ⚪ |
 | `speedrun.categories` | www.speedrun.com | List all categories for a game, including variables and values. | 🟢 |
 | `speedrun.findGame` | www.speedrun.com | Search for a game by name, returning metadata including ID, platforms, and rules. | 🟢 |
 | `speedrun.platforms` | www.speedrun.com | List all platforms, optionally filtered to a specific game. | 🟢 |
@@ -4175,7 +4191,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `waterfurnace.lookupHomeDetails` | waterfurnace.com | Runs the Savings Calculator's own home-details lookup for an address/zip — the same… | 🟢 |
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
-| `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
+| `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟡 |
 | `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟡 |
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟡 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |

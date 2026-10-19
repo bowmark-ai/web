@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8f2db0e1bb426dd5cbcf9f7262978a67b745118a6c7340ee5960094d1b2fd113
-// 2185 checked, 20 unchecked.
+// Manifest version: 24a70b99d4a11930c5dea3d86e9eb254a40c574abc28f243ba020b442d5c8354
+// 2187 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8f2db0e1bb426dd5cbcf9f7262978a67b745118a6c7340ee5960094d1b2fd113",
+  "version": "24a70b99d4a11930c5dea3d86e9eb254a40c574abc28f243ba020b442d5c8354",
   "units": {
     "address_validation": {
       "defs": {
@@ -18142,6 +18142,34 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ConsultnetJobSearchQuery"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.corepoweryoga": {
+      "defs": {
+        "ListStudiosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "includeClosed",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listStudios": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListStudiosArgs"
             },
             "optional": true
           }
@@ -55245,6 +55273,34 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.solidcore": {
+      "defs": {
+        "ListStudiosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listStudios": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListStudiosArgs"
+            },
+            "optional": true
           }
         ]
       }

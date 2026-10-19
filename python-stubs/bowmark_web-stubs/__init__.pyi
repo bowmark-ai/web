@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8f2db0e1bb426dd5cbcf9f7262978a67b745118a6c7340ee5960094d1b2fd113
-# 85 capabilities, 601 providers, 2185 typed functions, 20 refused.
+# Manifest version: 24a70b99d4a11930c5dea3d86e9eb254a40c574abc28f243ba020b442d5c8354
+# 85 capabilities, 603 providers, 2187 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10054,6 +10054,26 @@ class Prv_consultnet_ConsultnetJob_Out(TypedDict):
     location: str | None
     url: str
     description: str
+
+class Prv_corepoweryoga_ListStudiosArgs_In(TypedDict):
+    includeClosed: NotRequired[bool]
+
+class Prv_corepoweryoga_CorePowerYogaStudio_Out(TypedDict):
+    id: str
+    name: str
+    slug: str
+    address: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    phone: str | None
+    coordinates: Prv_corepoweryoga_CorePowerYogaStudio_Out_coordinates_u0_Out | None
+    closed: bool
+    openDate: str | None
+
+class Prv_corepoweryoga_CorePowerYogaStudio_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
 
 class Prv_costco_CostcoSearchSuggestion_Out(TypedDict):
     term: str
@@ -27623,6 +27643,21 @@ class Prv_snapchat_SnapchatSearchItem_Out(TypedDict):
     username: NotRequired[str]
     result: Mapping[str, Any]
 
+class Prv_solidcore_ListStudiosArgs_In(TypedDict):
+    state: NotRequired[str]
+
+class Prv_solidcore_SolidcoreStudio_Out(TypedDict):
+    siteId: str
+    locationId: str
+    slug: str
+    name: str
+    address: str
+    state: str
+    stateName: str
+    phone: str
+    email: str
+    comingSoon: bool
+
 class Prv_solostove_SolostoveBundleSearch_Out(TypedDict):
     query: str
     bundles: list[Prv_solostove_SolostoveBundleSummary_Out]
@@ -40919,6 +40954,17 @@ class Prv_consultnet(Protocol):
         endpoint THROWS instead.
         """
 
+class Prv_corepoweryoga(Protocol):
+    """Lists studio schedules, books classes, and reads booking details for CorePower Yoga."""
+
+    async def listStudios(self, args: Prv_corepoweryoga_ListStudiosArgs_In | None = None, /) -> list[Prv_corepoweryoga_CorePowerYogaStudio_Out]:
+        """Lists every CorePower Yoga studio: id (the Zenoti center GUID every schedule/booking
+        function takes), name, slug, address, phone, coordinates, open/closed status and open
+        date. Excludes studios the site lists as closed unless { includeClosed: true } is
+        passed. Reads the site's own public Contentful studio directory, so this is also the
+        door every other function's studio argument comes from.
+        """
+
 class Prv_costco(Protocol):
     """Costco's own search-bar autocomplete suggestions for a typed term."""
 
@@ -52371,6 +52417,18 @@ class Prv_snapchat(Protocol):
         its kind, id, title and username plus the site's own object.
         """
 
+class Prv_solidcore(Protocol):
+    """solidcore.co — the [solidcore] boutique fitness studio chain (Pilates-based strength
+    classes). listStudios is built; everything else is queued — see BUILD_QUEUE.md.
+    """
+
+    async def listStudios(self, args: Prv_solidcore_ListStudiosArgs_In | None = None, /) -> list[Prv_solidcore_SolidcoreStudio_Out]:
+        """Lists [solidcore] studios from the chain's own booking backend (~197 rows total): name,
+        full address, state, siteId/locationId pair (what getSchedule and the booking functions
+        key on), phone, email, and whether the site marks it coming soon. Pass { state: "CA" }
+        to narrow to one state; omit for every studio.
+        """
+
 class Prv_solostove(Protocol):
     """Solo Stove's bundle-builder check flow — search bundles by what a shopper would type
     (e.g. "pizza bundle"), then check one bundle's own product id (fire pit + accessories,
@@ -56591,6 +56649,7 @@ class BowmarkProviders(Protocol):
     compass_living: Prv_compass_living
     completehomewarranty_com: Prv_completehomewarranty_com
     consultnet: Prv_consultnet
+    corepoweryoga: Prv_corepoweryoga
     costco: Prv_costco
     countycourt_vic_gov_au: Prv_countycourt_vic_gov_au
     couponfollow: Prv_couponfollow
@@ -56930,6 +56989,7 @@ class BowmarkProviders(Protocol):
     smartwool: Prv_smartwool
     smithery: Prv_smithery
     snapchat: Prv_snapchat
+    solidcore: Prv_solidcore
     solostove: Prv_solostove
     soundcloud: Prv_soundcloud
     speedrun: Prv_speedrun
