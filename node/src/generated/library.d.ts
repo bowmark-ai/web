@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 32521f95e78677218a7c8c7c6c6c5a98f56fda9de65abfcb99e311f07dcb9ca8
+// Manifest version: a38baf369e731cb56ac94006af2586e6876604717abe594aa4bcb59653d100b7
 // 85 capabilities, 600 providers, 2201 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -29519,15 +29519,15 @@ interface higgsfieldSavedFile {
      * image URLs together with what Higgsfield quoted. `model` defaults to `soul` ($0.094
      * measured); `listModels()` has the rest. Any other key — `aspect_ratio`, `num_images`,
      * `input_images`, `output_format` — is passed to Higgsfield untouched, since each model takes
-     * its own. Waits up to `waitMs` (default 90000, and never longer than the run's own ceiling)
-     * for a terminal state. A wait always happens — a submit that never watches its own result is
-     * a generation Higgsfield bills us for and nobody is charged for — so the floor is 20000.
-     * **The finished images are copied into your Bowmark account automatically and come back on
-     * `files` — use those URLs, not `imageUrls`.** Higgsfield deletes its own copy after about
-     * seven days; a file in your account is yours until you delete it, and costs storage while you
-     * keep it. Pass `save: false` to skip the copy and take the expiring links. Uses Bowmark's
-     * Higgsfield key and charges the generation to your account; send your own key as the
-     * `x-bowmark-vendor-key-higgsfield` header instead.
+     * its own. Waits up to `waitMs` for a terminal state, counted from the start of the call
+     * (default and maximum 60000, so the whole call returns inside a run). A wait always happens —
+     * a submit that never watches its own result is a generation Higgsfield bills us for and
+     * nobody is charged for — so the floor is 20000. **The finished images are copied into your
+     * Bowmark account automatically and come back on `files` — use those URLs, not `imageUrls`.**
+     * Higgsfield deletes its own copy after about seven days; a file in your account is yours
+     * until you delete it, and costs storage while you keep it. Pass `save: false` to skip the
+     * copy and take the expiring links. Uses Bowmark's Higgsfield key and charges the generation
+     * to your account; send your own key as the `x-bowmark-vendor-key-higgsfield` header instead.
      */
     generateImage(args: string | { prompt: string; model?: string; waitMs?: number; save?: boolean; [param: string]: unknown }): Promise<higgsfieldGeneration>;
 
@@ -29537,13 +29537,14 @@ interface higgsfieldSavedFile {
      * what Higgsfield quoted. `model` defaults to `hailuo-02-standard` ($0.090 measured, the
      * cheapest live video model); Kling 2.1 Master is $1.400, so check `listModels()` or
      * `estimateCost` before reaching for a big one. Any other key (`duration`, `resolution`,
-     * `input_images`) is passed to Higgsfield untouched. Waits up to `waitMs` (default 90000,
-     * clamped to the run's own ceiling). Video usually renders past that, which is normal: you get
-     * `settled: false` and the handle, and collect it with `getRequestStatus`. **A call that waits
-     * copies the finished video into your Bowmark account and returns it on `files` — use that
-     * URL, not `videoUrl`**, because Higgsfield deletes its own copy after about seven days. Pass
-     * `save: false` to skip the copy. A call whose wait runs out saves nothing, since nothing has
-     * rendered yet — collect and download it yourself.
+     * `input_images`) is passed to Higgsfield untouched. Waits up to `waitMs`, counted from the
+     * start of the call (default and maximum 60000, so the whole call returns inside a run). Video
+     * usually renders past that, which is normal: you get `settled: false` and the handle, and
+     * collect it with `getRequestStatus`. **A call that waits copies the finished video into your
+     * Bowmark account and returns it on `files` — use that URL, not `videoUrl`**, because
+     * Higgsfield deletes its own copy after about seven days. Pass `save: false` to skip the copy.
+     * A call whose wait runs out saves nothing, since nothing has rendered yet — collect and
+     * download it yourself.
      */
     generateVideo(args: string | { prompt: string; model?: string; waitMs?: number; save?: boolean; [param: string]: unknown }): Promise<higgsfieldGeneration>;
 

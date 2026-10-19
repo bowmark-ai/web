@@ -205,6 +205,7 @@ detailxperts.com — detailxperts: bookAppointment, checkServiceArea, getQuote, 
 deutschepost.de — deutschepost: getDialogpostRates
 developers.openai.com — developersopenai: getDocPage
 deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getNotifications, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getWatchFeed, listGalleryFolders, listNotes, postComment, searchDeviations, searchShop, sendNote, submitDeviation, suggestTags, unfavouriteDeviation, unwatchUser, updateProfile, watchUser
+dhl.com — dhl: getQuote
 dice.com — dice: getCompany, getJob, listCompanyJobs, searchCompanies, searchJobs
 dickssportinggoods.com — dickssportinggoods: checkStock, findStores, getProduct, getWeeklyAd, search
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
@@ -639,6 +640,7 @@ windscribe.com — windscribe: getDedicatedIp, getServerLocations
 winestyles.com — winestyles: listStores, searchStoreInventory
 wodify.com — wodify: bookClass, bookDropIn, buyMembership, cancelBooking, changePassword, checkFreeTrial, disableNotifications, editBio, enableNotifications, findGym, getAccountSettings, getClassDetails, getClassHistory, getClassRating, getGymInfo, getInvoices, getLeaderboard, getMemberStats, getMyBookings, getMyMembership, getMyResults, getNotificationSettings, getPaymentMethods, getWaitlistPosition, getWorkoutOfDay, joinWaitlist, leaveWaitlist, listGymSchedule, listInstructors, listMemberships, listPrices, listPrograms, readTerms, renewMembership, searchGymsByLocation, signWaiver, updateProfile, updateProfilePicture
 workable.com — workable: listJobs
+wsj.com — wsj: addToWatchlist, getArticle, getArticleFullText, getAuthor, getNewsletter, getPodcast, getQuote, getWatchlist, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSavedArticles, listSections, listTrending, removeFromWatchlist, saveArticle, searchArticles, unsaveArticle
 wunderflats.com — wunderflats: search
 www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listMostWishedFor, listMoversAndShakers, listNewReleases, listOrders, listQuestions, listRelatedProducts, listReviews, listSellerOffers, listVariations, listWishLists, searchProducts, suggestKeywords, trackShipment
 www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepartments, listNews, listPublicData, listServices, searchNews, searchPublicData, searchServices

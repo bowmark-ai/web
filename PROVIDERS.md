@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4459 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4482 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1163,6 +1163,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.updateProfile` | deviantart.com | Edits the signed-in caller's own profile — tagline, bio, location, avatar. | ⚪ |
 | `deviantart.watchUser` | deviantart.com | Watches (follows) an artist from the signed-in caller's account, taking their username. | ⚪ |
 | `dfs_rotogrinderssearch.search` | rotogrinders.com | Searches RotoGrinders for DFS projections, ownership percentages, and salary caps… | ⚪ |
+| `dhl.getQuote` | dhl.com | Gets an instant shipping quote from DHL's own Get a Quote calculator without logging… | 🟢 |
 | `dice.getCompany` | dice.com | Returns one technology employer's Dice profile from its `/company-profile/<uuid>` URL… | ⚪ |
 | `dice.getJob` | dice.com | Returns one Dice posting in full from its posting id — the complete HTML description… | 🟢 |
 | `dice.listCompanyJobs` | dice.com | Returns the open technology roles a single named employer is currently advertising on… | ⚪ |
@@ -2939,7 +2940,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pausestudio.listAvailableSlots` | pausestudio.com | Lists available appointment times by service, date and location | ⚪ |
 | `pausestudio.listLocations` | pausestudio.com | Lists all Pause Studio recovery/wellness locations | 🟢 |
 | `pausestudio.listMyBookings` | pausestudio.com | Lists caller's upcoming and past bookings | ⚪ |
-| `pausestudio.listServices` | pausestudio.com | Lists available recovery services (float, cryo, sauna, IV drips, etc.) at a location | ⚪ |
+| `pausestudio.listServices` | pausestudio.com | Lists available recovery services (float, cryo, sauna, IV drips, etc.) at a location | 🟢 |
 | `pausestudio.listWaitlistedSlots` | pausestudio.com | Lists times caller is waitlisted for | ⚪ |
 | `pausestudio.modifyBooking` | pausestudio.com | Reschedules a booking to a different date/time | ⚪ |
 | `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | 🟢 |
@@ -4313,6 +4314,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `workable.listJobs` | workable.com | Lists every published job on one company's Workable careers page… | 🟢 |
 | `workday.getJob` | myworkdayjobs.com | Reads one posting's full description, exact posted date, time type and every location… | ⚪ |
 | `workday.listJobs` | myworkdayjobs.com | Lists open jobs on one company's Workday careers site… | 🟢 |
+| `wsj.addToWatchlist` | wsj.com | Adds a symbol to the signed-in reader's own watchlist. | ⚪ |
+| `wsj.getArticle` | wsj.com | Gets one article's own headline, byline, publish date and body. | ⚪ |
+| `wsj.getArticleFullText` | wsj.com | Gets the full text of a subscriber-only article using the CALLER's own WSJ… | ⚪ |
+| `wsj.getAuthor` | wsj.com | Gets a WSJ journalist's own byline page — name, title/beat and bio. | ⚪ |
+| `wsj.getNewsletter` | wsj.com | Gets one newsletter's own catalog entry (title, description, frequency). | ⚪ |
+| `wsj.getPodcast` | wsj.com | Gets one podcast's own details — name, description and feed url. | ⚪ |
+| `wsj.getQuote` | wsj.com | Gets one symbol's current quote off WSJ's own Markets data pages — price, change… | ⚪ |
+| `wsj.getWatchlist` | wsj.com | Gets the signed-in reader's own saved stock watchlist off WSJ's Markets section (My… | ⚪ |
+| `wsj.listArticles` | wsj.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | ⚪ |
+| `wsj.listArticlesByAuthor` | wsj.com | Lists a journalist's own most recent articles off their byline page. | ⚪ |
+| `wsj.listEpisodes` | wsj.com | Lists a podcast's own episodes, newest first, off its page on the site. | ⚪ |
+| `wsj.listMarketIndices` | wsj.com | Lists the major market indices WSJ's own Markets page tracks (Dow Jones, S&P 500… | ⚪ |
+| `wsj.listNewsletters` | wsj.com | Lists WSJ's own email newsletters off the site's newsletter catalog page. | ⚪ |
+| `wsj.listPodcasts` | wsj.com | Lists WSJ's own podcasts (The Journal, Minute Briefing, Tech News Briefing, etc.) off… | ⚪ |
+| `wsj.listQuotes` | wsj.com | Gets quotes for several symbols in one call, the same fields as getQuote for each. | ⚪ |
+| `wsj.listSavedArticles` | wsj.com | Lists the signed-in reader's own saved/bookmarked articles off their WSJ account (My… | ⚪ |
+| `wsj.listSections` | wsj.com | Lists WSJ's own news sections and verticals (World, Business, Markets, Tech, Opinion… | ⚪ |
+| `wsj.listTrending` | wsj.com | Lists WSJ's own 'most popular' articles off the site's trending module. | ⚪ |
+| `wsj.removeFromWatchlist` | wsj.com | Removes a symbol from the signed-in reader's own watchlist. | ⚪ |
+| `wsj.saveArticle` | wsj.com | Saves an article to the signed-in reader's own WSJ account (My WSJ). | ⚪ |
+| `wsj.searchArticles` | wsj.com | Searches WSJ's own site search for a keyword and returns matching articles with… | ⚪ |
+| `wsj.unsaveArticle` | wsj.com | Removes an article from the signed-in reader's own saved list. | ⚪ |
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
 | `x.bookmarkPost` | x.com | Bookmark or un-bookmark a post as the signed-in account. | ⚪ |
 | `x.createPost` | x.com | Post a new tweet as the signed-in account. | ⚪ |
