@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c4e289c730971008adfc80e8b5d434ce8166773a787c675de27d23812e419472
-# 85 capabilities, 598 providers, 2181 typed functions, 20 refused.
+# Manifest version: 114c5a60c95bcb8fce46b289469b509964420cb65240708c34cc41e2fc6059ea
+# 85 capabilities, 599 providers, 2182 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20880,6 +20880,23 @@ class Prv_millisaraylar_MillisaraylarTicketPrices_Out(TypedDict):
     domesticStudent: float | None
     foreign: float | None
     url: str
+
+class Prv_mindbodyonline_ListSchedulesArgs_In(TypedDict):
+    widgetId: str
+    locationId: str
+    date: NotRequired[str]
+
+class Prv_mindbodyonline_listSchedules_return_Out(TypedDict):
+    sessions: list[Prv_mindbodyonline_MindbodySession_Out]
+
+class Prv_mindbodyonline_MindbodySession_Out(TypedDict):
+    id: str
+    startDateTime: str
+    staffName: str
+    sessionType: str
+    bookable: bool
+    waitlistable: bool
+    cancelled: bool
 
 class Prv_minimax_MinimaxDocPage_Out(TypedDict):
     title: str
@@ -48222,6 +48239,24 @@ class Prv_millisaraylar(Protocol):
         domestic, domestic-student and foreign prices (TRY) the site itself quotes.
         """
 
+class Prv_mindbodyonline(Protocol):
+    """Studio schedules and bookings for fitness studios, yoga studios, and wellness centers
+    using Mindbody.
+    """
+
+    async def listSchedules(self, args: Prv_mindbodyonline_ListSchedulesArgs_In, /) -> Prv_mindbodyonline_listSchedules_return_Out:
+        """Retrieves the list of upcoming classes for a studio location, including session details
+        like time, instructor, session type, and availability status. `widgetId` is the schedule
+        widget's own id and `locationId` the studio's Mindbody location id within it, both read
+        off the widget's URL
+        (`go.mindbodyonline.com/book/widgets/schedules/view/<widgetId>/schedule`). `date`
+        (YYYY-MM-DD) narrows to one day; omitted, every day the widget currently publishes is
+        returned — about a week ahead from today, since the site always server-renders that
+        whole window regardless of any date you pass. Example:
+        `bowmark.providers.mindbodyonline.listSchedules({ widgetId: "12345", locationId: "1"
+        })`.
+        """
+
 class Prv_minimax(Protocol):
     """MiniMax's own developer docs (platform.minimax.io) — resolves a topic against the site's
     own machine-readable docs index and returns that page's title, url and full Markdown
@@ -56668,6 +56703,7 @@ class BowmarkProviders(Protocol):
     microsoft_onedrive: Prv_microsoft_onedrive
     microsoft_outlook: Prv_microsoft_outlook
     millisaraylar: Prv_millisaraylar
+    mindbodyonline: Prv_mindbodyonline
     minimax: Prv_minimax
     minted: Prv_minted
     mixbook: Prv_mixbook

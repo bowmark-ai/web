@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c4e289c730971008adfc80e8b5d434ce8166773a787c675de27d23812e419472
-// 2181 checked, 20 unchecked.
+// Manifest version: 114c5a60c95bcb8fce46b289469b509964420cb65240708c34cc41e2fc6059ea
+// 2182 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c4e289c730971008adfc80e8b5d434ce8166773a787c675de27d23812e419472",
+  "version": "114c5a60c95bcb8fce46b289469b509964420cb65240708c34cc41e2fc6059ea",
   "units": {
     "address_validation": {
       "defs": {
@@ -39685,6 +39685,48 @@ export const VALIDATORS: ValidatorTable = {
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.mindbodyonline": {
+      "defs": {
+        "ListSchedulesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "widgetId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listSchedules": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSchedulesArgs"
             },
             "optional": false
           }

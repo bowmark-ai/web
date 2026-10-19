@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c4e289c730971008adfc80e8b5d434ce8166773a787c675de27d23812e419472
-// 85 capabilities, 598 providers, 2199 typed functions, 20 refused.
+// Manifest version: 114c5a60c95bcb8fce46b289469b509964420cb65240708c34cc41e2fc6059ea
+// 85 capabilities, 599 providers, 2200 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -38176,6 +38176,47 @@ interface MillisaraylarTicketPrices {
   }
 }
 
+declare namespace BowmarkProvider_mindbodyonline {
+  // ── Mindbody — the unit's own declarations, verbatim ──
+interface mindbodyonlineRow {
+  id: string;
+}
+
+interface MindbodySession {
+  id: string;
+  startDateTime: string;
+  staffName: string;
+  sessionType: string;
+  bookable: boolean;
+  waitlistable: boolean;
+  cancelled: boolean;
+}
+
+interface ListSchedulesArgs {
+  widgetId: string;
+  locationId: string;
+  date?: string;
+}
+
+  /**
+   * Studio schedules and bookings for fitness studios, yoga studios, and wellness centers using
+   * Mindbody.
+   */
+  interface Unit {
+    /**
+     * Retrieves the list of upcoming classes for a studio location, including session details like
+     * time, instructor, session type, and availability status. `widgetId` is the schedule widget's
+     * own id and `locationId` the studio's Mindbody location id within it, both read off the
+     * widget's URL (`go.mindbodyonline.com/book/widgets/schedules/view/<widgetId>/schedule`).
+     * `date` (YYYY-MM-DD) narrows to one day; omitted, every day the widget currently publishes is
+     * returned — about a week ahead from today, since the site always server-renders that whole
+     * window regardless of any date you pass. Example:
+     * `bowmark.providers.mindbodyonline.listSchedules({ widgetId: "12345", locationId: "1" })`.
+     */
+    listSchedules(args: ListSchedulesArgs): Promise<{ sessions: MindbodySession[] }>;
+  }
+}
+
 declare namespace BowmarkProvider_minimax {
   // ── MiniMax — the unit's own declarations, verbatim ──
 interface MinimaxDocIndexEntry {
@@ -61886,6 +61927,7 @@ interface BowmarkProviders {
   microsoft_onedrive: BowmarkProvider_microsoft_onedrive.Unit;
   microsoft_outlook: BowmarkProvider_microsoft_outlook.Unit;
   millisaraylar: BowmarkProvider_millisaraylar.Unit;
+  mindbodyonline: BowmarkProvider_mindbodyonline.Unit;
   minimax: BowmarkProvider_minimax.Unit;
   minted: BowmarkProvider_minted.Unit;
   mixbook: BowmarkProvider_mixbook.Unit;
