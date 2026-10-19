@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 24a70b99d4a11930c5dea3d86e9eb254a40c574abc28f243ba020b442d5c8354
+// Manifest version: 59587e813f407aaa766267bccfea9a1dee09b0c0fae10975346b0bc0c165e083
 // 85 capabilities, 603 providers, 2205 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17266,32 +17266,23 @@ interface CloudflareComparePlansResult {
 interface CloudflareDomainSuggestion {
   name: string;
   availability: string;  // the site's own labels — read the values off a result, never guess one from prose
-  premium: boolean;
+  premium: boolean | null;  // null until the site has confirmed the row
   price: number | null;
   renewal: number | null;
-  promotional: boolean;
 }
 
 interface CloudflareDomainFees {
   registrationFee: number;
   renewalFee: number;
-  transferFee: number;
-  redemptionFee: number;
   currency: string;
 }
 
 interface CloudflareDomainCheckResult {
   name: string;
   supportedTld: boolean;
+  status?: string;  // the site's own word: "available", "taken", …
   premium?: boolean;
   available?: boolean;
-  canRegister?: boolean;
-  registrationFrozen?: boolean;
-  registrationFrozenUntil?: string | null;
-  renewalFrozen?: boolean;
-  renewalFrozenUntil?: string | null;
-  transferFrozen?: boolean;
-  transferFrozenUntil?: string | null;
   fees?: CloudflareDomainFees;
 }
 
@@ -17324,10 +17315,9 @@ interface CloudflareSearchDomainAvailabilityResult {
 
     /**
      * Checks whether a given domain name (e.g. "example.com") is available to register through
-     * Cloudflare Registrar and what it would cost — the site's own domains.cloudflare.com search,
-     * driven live. Returns the exact-match answer (available,
-     * registration/renewal/transfer/redemption fees) plus the same search's related suggestions
-     * across other TLDs.
+     * Cloudflare Registrar and what it would cost — the site's own www.cloudflare.com/domains
+     * search, read live. Returns the exact-match answer (available, registration/renewal fees)
+     * plus the same search's related suggestions across other TLDs.
      */
     searchDomainAvailability(domain: string): Promise<CloudflareSearchDomainAvailabilityResult>;
   }

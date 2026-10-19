@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 24a70b99d4a11930c5dea3d86e9eb254a40c574abc28f243ba020b442d5c8354
+# Manifest version: 59587e813f407aaa766267bccfea9a1dee09b0c0fae10975346b0bc0c165e083
 # 85 capabilities, 603 providers, 2187 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -9784,31 +9784,22 @@ class Prv_cloudflare_CloudflareSearchDomainAvailabilityResult_Out(TypedDict):
 class Prv_cloudflare_CloudflareDomainCheckResult_Out(TypedDict):
     name: str
     supportedTld: bool
+    status: NotRequired[str]
     premium: NotRequired[bool]
     available: NotRequired[bool]
-    canRegister: NotRequired[bool]
-    registrationFrozen: NotRequired[bool]
-    registrationFrozenUntil: NotRequired[str | None]
-    renewalFrozen: NotRequired[bool]
-    renewalFrozenUntil: NotRequired[str | None]
-    transferFrozen: NotRequired[bool]
-    transferFrozenUntil: NotRequired[str | None]
     fees: NotRequired[Prv_cloudflare_CloudflareDomainFees_Out]
 
 class Prv_cloudflare_CloudflareDomainFees_Out(TypedDict):
     registrationFee: float
     renewalFee: float
-    transferFee: float
-    redemptionFee: float
     currency: str
 
 class Prv_cloudflare_CloudflareDomainSuggestion_Out(TypedDict):
     name: str
     availability: str
-    premium: bool
+    premium: bool | None
     price: float | None
     renewal: float | None
-    promotional: bool
 
 class Prv_clubchampion_ClubchampionStudio_Out(TypedDict):
     id: str
@@ -40732,10 +40723,9 @@ class Prv_cloudflare(Protocol):
 
     async def searchDomainAvailability(self, domain: str, /) -> Prv_cloudflare_CloudflareSearchDomainAvailabilityResult_Out:
         """Checks whether a given domain name (e.g. "example.com") is available to register through
-        Cloudflare Registrar and what it would cost — the site's own domains.cloudflare.com
-        search, driven live. Returns the exact-match answer (available,
-        registration/renewal/transfer/redemption fees) plus the same search's related
-        suggestions across other TLDs.
+        Cloudflare Registrar and what it would cost — the site's own www.cloudflare.com/domains
+        search, read live. Returns the exact-match answer (available, registration/renewal fees)
+        plus the same search's related suggestions across other TLDs.
         """
 
 class Prv_clubchampion(Protocol):
