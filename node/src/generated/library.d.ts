@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a38baf369e731cb56ac94006af2586e6876604717abe594aa4bcb59653d100b7
-// 85 capabilities, 600 providers, 2201 typed functions, 20 refused.
+// Manifest version: be1e0019aa2b8ca0e1346f11036c3907003e503b9a0882b28f29dc3651cf872e
+// 85 capabilities, 601 providers, 2203 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19621,6 +19621,57 @@ interface DeviantartUserProfile {
      * name in deviantart.com/<username>).
      */
     getUserProfile(args: { username: string }): Promise<DeviantartUserProfile>;
+  }
+}
+
+declare namespace BowmarkProvider_dhl {
+  // ── DHL — the unit's own declarations, verbatim ──
+interface dhlQuoteArgs {
+  originCountry: string;          // ISO-2, e.g. "US"
+  originPostalCode: string;
+  destinationCountry: string;     // ISO-2
+  destinationPostalCode: string;
+  weight: number;                 // per piece; lb when imperial, kg when metric
+  length: number;                 // in when imperial, cm when metric
+  width: number;
+  height: number;
+  quantity?: number;              // pieces, default 1
+  units?: "imperial" | "metric";  // default "imperial"
+  stackable?: boolean;            // default true; false for a non-stackable pallet
+  documents?: boolean;            // true for a documents-only envelope
+  toBusiness?: boolean;           // default false (residential delivery)
+}
+interface dhlOffer {
+  service: string;                // DHL's offer key, e.g. "EXP_DOMESTIC_ENDOFDAY_CLICK"
+  businessUnit: string;           // EXP, ECOM, FRG, …
+  price: number | null;
+  currency: string | null;
+  estimatedDelivery: string | null;   // "2026-10-20T23:59"
+  estimatedDeliveryDisplay: string | null;
+  deliveryType: string | null;
+  cutOff: string | null;
+  purchaseMethod: string | null;  // CLICK = book online, WALK = drop off
+  features: string[];
+  addOns: string[];
+  bookUrl: string | null;
+}
+interface dhlQuote {
+  shippingDate: string | null;
+  offers: dhlOffer[];
+}
+
+  /**
+   * DHL's own Get a Quote tool, no login: shipping price, service and transit time for a parcel
+   * or pallet between two postal codes.
+   */
+  interface Unit {
+    /**
+     * Gets an instant DHL shipping quote without logging in — the same answer dhl.com's Get a
+     * Quote calculator gives: every service offered between two postal codes for a parcel or
+     * pallet of the given weight and dimensions, each with its price, currency, estimated delivery
+     * date/time and a booking link.
+     */
+    getQuote(args: dhlQuoteArgs): Promise<dhlQuote>;
   }
 }
 
@@ -42238,6 +42289,10 @@ interface LocationInfo {
   services: string[]; // the location's own catalog labels, e.g. "Float", "Infrared Sauna", "Compression Therapy"
   url: string;
 }
+interface ServiceCredit {
+  name: string; // e.g. "Float", "Sauna 60", "Signature IV Drip" — varies by location, read values off a result
+  credits: number; // credits required to book one session at this location
+}
 
   /** Recovery and wellness studio with float, cryo, sauna, and IV therapy bookings. */
   interface Unit {
@@ -42249,6 +42304,12 @@ interface LocationInfo {
      * returns
      */
     getLocationInfo(id: string): Promise<LocationInfo>;
+
+    /**
+     * Lists the services bookable at one location with the membership credits each one costs, by
+     * the id listLocations() returns
+     */
+    listServices(id: string): Promise<ServiceCredit[]>;
   }
 }
 
@@ -61787,6 +61848,7 @@ interface BowmarkProviders {
   deutschepost: BowmarkProvider_deutschepost.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
   deviantart: BowmarkProvider_deviantart.Unit;
+  dhl: BowmarkProvider_dhl.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;

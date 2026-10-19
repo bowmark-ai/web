@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a38baf369e731cb56ac94006af2586e6876604717abe594aa4bcb59653d100b7
-// 2183 checked, 20 unchecked.
+// Manifest version: be1e0019aa2b8ca0e1346f11036c3907003e503b9a0882b28f29dc3651cf872e
+// 2185 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a38baf369e731cb56ac94006af2586e6876604717abe594aa4bcb59653d100b7",
+  "version": "be1e0019aa2b8ca0e1346f11036c3907003e503b9a0882b28f29dc3651cf872e",
   "units": {
     "address_validation": {
       "defs": {
@@ -19782,6 +19782,128 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dhl": {
+      "defs": {
+        "dhlQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "originCountry",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "originPostalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "destinationCountry",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "destinationPostalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "weight",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "length",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "width",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "height",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "units",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "imperial"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "metric"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "stackable",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "documents",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "toBusiness",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "dhlQuoteArgs"
             },
             "optional": false
           }
@@ -44457,6 +44579,15 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listLocations": [],
         "getLocationInfo": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listServices": [
           {
             "name": "id",
             "schema": {

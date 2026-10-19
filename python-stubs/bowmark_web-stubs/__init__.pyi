@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a38baf369e731cb56ac94006af2586e6876604717abe594aa4bcb59653d100b7
-# 85 capabilities, 600 providers, 2183 typed functions, 20 refused.
+# Manifest version: be1e0019aa2b8ca0e1346f11036c3907003e503b9a0882b28f29dc3651cf872e
+# 85 capabilities, 601 providers, 2185 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11031,6 +11031,39 @@ class Prv_deviantart_DeviantartUserProfile_Out_stats_Out(TypedDict):
     pageviews: NotRequired[float]
     favourites: NotRequired[float]
     commentsReceivedProfile: NotRequired[float]
+
+class Prv_dhl_dhlQuoteArgs_In(TypedDict):
+    originCountry: str
+    originPostalCode: str
+    destinationCountry: str
+    destinationPostalCode: str
+    weight: float
+    length: float
+    width: float
+    height: float
+    quantity: NotRequired[float]
+    units: NotRequired[Literal["imperial"] | Literal["metric"]]
+    stackable: NotRequired[bool]
+    documents: NotRequired[bool]
+    toBusiness: NotRequired[bool]
+
+class Prv_dhl_dhlQuote_Out(TypedDict):
+    shippingDate: str | None
+    offers: list[Prv_dhl_dhlOffer_Out]
+
+class Prv_dhl_dhlOffer_Out(TypedDict):
+    service: str
+    businessUnit: str
+    price: float | None
+    currency: str | None
+    estimatedDelivery: str | None
+    estimatedDeliveryDisplay: str | None
+    deliveryType: str | None
+    cutOff: str | None
+    purchaseMethod: str | None
+    features: list[str]
+    addOns: list[str]
+    bookUrl: str | None
 
 class Prv_dice_DiceSearchResponse_Out(TypedDict):
     jobs: list[Prv_dice_DiceSearchResult_Out]
@@ -23209,6 +23242,10 @@ class Prv_pausestudio_LocationInfo_Out(TypedDict):
     phone: str
     services: list[str]
     url: str
+
+class Prv_pausestudio_ServiceCredit_Out(TypedDict):
+    name: str
+    credits: float
 
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
@@ -41537,6 +41574,18 @@ class Prv_deviantart(Protocol):
         (the name in deviantart.com/<username>).
         """
 
+class Prv_dhl(Protocol):
+    """DHL's own Get a Quote tool, no login: shipping price, service and transit time for a
+    parcel or pallet between two postal codes.
+    """
+
+    async def getQuote(self, args: Prv_dhl_dhlQuoteArgs_In, /) -> Prv_dhl_dhlQuote_Out:
+        """Gets an instant DHL shipping quote without logging in — the same answer dhl.com's Get a
+        Quote calculator gives: every service offered between two postal codes for a parcel or
+        pallet of the given weight and dimensions, each with its price, currency, estimated
+        delivery date/time and a booking link.
+        """
+
 class Prv_dice(Protocol):
     """Dice — the US technology-only job board. Reaches each posting's full description and
     skill list through Dice's own keyless MCP server at mcp.dice.com/mcp; declares tech-job
@@ -49737,6 +49786,11 @@ class Prv_pausestudio(Protocol):
         returns
         """
 
+    async def listServices(self, id: str, /) -> list[Prv_pausestudio_ServiceCredit_Out]:
+        """Lists the services bookable at one location with the membership credits each one costs,
+        by the id listLocations() returns
+        """
+
 class Prv_pawsup(Protocol):
     """Luxury glamping resort availability and accommodations on Paws Up's booking portal."""
 
@@ -56563,6 +56617,7 @@ class BowmarkProviders(Protocol):
     deutschepost: Prv_deutschepost
     developersopenai: Prv_developersopenai
     deviantart: Prv_deviantart
+    dhl: Prv_dhl
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4504 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4517 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3747,6 +3747,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teladoc.getInsurancePricing` | teladochealth.com | Returns the with-insurance side of /start/no-insurance — what Teladoc publishes about… | 🟢 |
 | `teladoc.getPricing` | teladochealth.com | Returns Teladoc's published self-pay (no-insurance) visit pricing by service line —… | 🟢 |
 | `teladoc.search` | teladochealth.com | Searches Teladoc Health's public Health Library — recipes, meal plans… | ⚪ |
+| `temu.addToCart` | www.temu.com | Add one product (with its chosen variant and quantity) to the caller's cart. | ⚪ |
+| `temu.addToWishlist` | www.temu.com | Save a product to the caller's wishlist by its product url. | ⚪ |
+| `temu.checkout` | www.temu.com | Read the live order total (items, shipping, tax, any coupon) for the caller's cart and… | ⚪ |
+| `temu.getProduct` | www.temu.com | Read one product's detail page — title, price, images, variants, shipping estimate… | ⚪ |
+| `temu.getProductReviews` | www.temu.com | Read a product's customer reviews and rating breakdown by its product url. | ⚪ |
+| `temu.listCategories` | www.temu.com | List Temu's top-level shopping categories (Women, Men, Home & Kitchen, Beauty… | ⚪ |
+| `temu.listOrders` | www.temu.com | The caller's own order history — what they bought, when, for how much, and where each… | ⚪ |
+| `temu.removeFromCart` | www.temu.com | Remove one line from the cart. | ⚪ |
+| `temu.searchProducts` | www.temu.com | Search Temu's catalog by keyword and return matching products (title, price, image… | ⚪ |
+| `temu.trackOrder` | www.temu.com | Where a specific order's package is and when it is due — the follow-up to listOrders. | ⚪ |
+| `temu.updateCart` | www.temu.com | Change a cart line's quantity or chosen variant. | ⚪ |
+| `temu.viewCart` | www.temu.com | Read the caller's current cart — line items, quantities, per-item and total price. | ⚪ |
+| `temu.writeReview` | www.temu.com | Post a review and star rating on a product the caller has an order for. | ⚪ |
 | `tenders_go_ke.getTender` | tenders.go.ke | Read a single Kenya public procurement tender: close date, tender fee, venue, notice… | 🟢 |
 | `tenders_go_ke.listTenders` | tenders.go.ke | List Kenya government procurement tenders from the Public Procurement Information… | 🟢 |
 | `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
