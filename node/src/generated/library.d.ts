@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 62e09ad0fc79547f17cf253adf9955e59092b3bda14e6fb6770ce8596d3fa015
-// 85 capabilities, 593 providers, 2189 typed functions, 20 refused.
+// Manifest version: 9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376
+// 85 capabilities, 594 providers, 2191 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6406,6 +6406,67 @@ interface GetServerResult extends AgentStatusServer {
      * breakdown plus every tool the index probed, with invocation and functional success rates.
      */
     getServer(args: AgentStatusGetServerArgs): Promise<GetServerResult>;
+  }
+}
+
+declare namespace BowmarkProvider_agoda {
+  // ── Agoda — the unit's own declarations, verbatim ──
+interface FindDestinationsArgs {
+  query: string;
+  limit?: number;
+}
+interface AgodaDestination {
+  id: number;
+  kind: string;
+  name: string;
+  region: string;
+  cityId: number | null;
+  countryCode: string | null;
+  hotelCount: number | null;
+}
+interface SearchHotelsArgs {
+  city: string | number;
+  checkIn: string;
+  checkOut: string;
+  adults?: number;
+  rooms?: number;
+  currency?: string;
+  limit?: number;
+}
+interface AgodaHotel {
+  id: number;
+  name: string;
+  url: string | null;
+  starRating: number | null;
+  reviewScore: number | null;
+  reviewCount: number | null;
+  area: string | null;
+  city: string | null;
+  country: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  available: boolean;
+  currency: string | null;
+  pricePerNight: number | null;
+  pricePerNightInclusive: number | null;
+}
+
+  /**
+   * Agoda hotel search — live hotel rates (cheapest room per night), star rating and review
+   * score for a city and dates; strong Asia-Pacific inventory.
+   */
+  interface Unit {
+    /**
+     * Find Agoda destinations (cities, areas, landmarks, hotels) for a free-text place name, with
+     * the cityId searchHotels takes and a hotel count.
+     */
+    findDestinations(args: FindDestinationsArgs): Promise<{ destinations: AgodaDestination[] }>;
+
+    /**
+     * Search Agoda hotels in a city for check-in/check-out dates; returns live cheapest-room rates
+     * per night, star rating, review score and location.
+     */
+    searchHotels(args: SearchHotelsArgs): Promise<{ cityId: number; totalHotels: number | null; hotels: AgodaHotel[] }>;
   }
 }
 
@@ -61293,6 +61354,7 @@ interface BowmarkProviders {
   adobe: BowmarkProvider_adobe.Unit;
   agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
   agentstatus: BowmarkProvider_agentstatus.Unit;
+  agoda: BowmarkProvider_agoda.Unit;
   ai_engineer: BowmarkProvider_ai_engineer.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   airbnb: BowmarkProvider_airbnb.Unit;

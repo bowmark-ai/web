@@ -1,5 +1,5 @@
 {
-  "version": "62e09ad0fc79547f17cf253adf9955e59092b3bda14e6fb6770ce8596d3fa015",
+  "version": "9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376",
   "units": {
     "address_validation": {
       "defs": {
@@ -7192,6 +7192,113 @@
             "schema": {
               "k": "ref",
               "name": "AgentStatusGetServerArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.agoda": {
+      "defs": {
+        "FindDestinationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchHotelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findDestinations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindDestinationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchHotels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchHotelsArgs"
             },
             "optional": false
           }

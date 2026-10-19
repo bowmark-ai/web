@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 62e09ad0fc79547f17cf253adf9955e59092b3bda14e6fb6770ce8596d3fa015
-// 2171 checked, 20 unchecked.
+// Manifest version: 9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376
+// 2173 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "62e09ad0fc79547f17cf253adf9955e59092b3bda14e6fb6770ce8596d3fa015",
+  "version": "9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376",
   "units": {
     "address_validation": {
       "defs": {
@@ -7204,6 +7204,113 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AgentStatusGetServerArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.agoda": {
+      "defs": {
+        "FindDestinationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchHotelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findDestinations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindDestinationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchHotels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchHotelsArgs"
             },
             "optional": false
           }

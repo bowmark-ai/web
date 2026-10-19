@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 62e09ad0fc79547f17cf253adf9955e59092b3bda14e6fb6770ce8596d3fa015
-# 85 capabilities, 593 providers, 2171 typed functions, 20 refused.
+# Manifest version: 9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376
+# 85 capabilities, 594 providers, 2173 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3573,6 +3573,53 @@ class Prv_agentstatus_AgentStatusTool_Out(TypedDict):
     description: str | None
     invocationRate: float | None
     functionalRate: float | None
+
+class Prv_agoda_FindDestinationsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_agoda_findDestinations_return_Out(TypedDict):
+    destinations: list[Prv_agoda_AgodaDestination_Out]
+
+class Prv_agoda_AgodaDestination_Out(TypedDict):
+    id: float
+    kind: str
+    name: str
+    region: str
+    cityId: float | None
+    countryCode: str | None
+    hotelCount: float | None
+
+class Prv_agoda_SearchHotelsArgs_In(TypedDict):
+    city: str | float
+    checkIn: str
+    checkOut: str
+    adults: NotRequired[float]
+    rooms: NotRequired[float]
+    currency: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_agoda_searchHotels_return_Out(TypedDict):
+    cityId: float
+    totalHotels: float | None
+    hotels: list[Prv_agoda_AgodaHotel_Out]
+
+class Prv_agoda_AgodaHotel_Out(TypedDict):
+    id: float
+    name: str
+    url: str | None
+    starRating: float | None
+    reviewScore: float | None
+    reviewCount: float | None
+    area: str | None
+    city: str | None
+    country: str | None
+    latitude: float | None
+    longitude: float | None
+    available: bool
+    currency: str | None
+    pricePerNight: float | None
+    pricePerNightInclusive: float | None
 
 class Prv_ai_engineer_listSpeakers_return_Out(TypedDict):
     speakers: list[Prv_ai_engineer_AiEngineerSpeaker_Out]
@@ -36562,6 +36609,21 @@ class Prv_agentstatus(Protocol):
         rates.
         """
 
+class Prv_agoda(Protocol):
+    """Agoda hotel search — live hotel rates (cheapest room per night), star rating and review
+    score for a city and dates; strong Asia-Pacific inventory.
+    """
+
+    async def findDestinations(self, args: Prv_agoda_FindDestinationsArgs_In, /) -> Prv_agoda_findDestinations_return_Out:
+        """Find Agoda destinations (cities, areas, landmarks, hotels) for a free-text place name,
+        with the cityId searchHotels takes and a hotel count.
+        """
+
+    async def searchHotels(self, args: Prv_agoda_SearchHotelsArgs_In, /) -> Prv_agoda_searchHotels_return_Out:
+        """Search Agoda hotels in a city for check-in/check-out dates; returns live cheapest-room
+        rates per night, star rating, review score and location.
+        """
+
 class Prv_ai_engineer(Protocol):
     """Conference speakers and speaker information from the AI Engineer conference."""
 
@@ -56091,6 +56153,7 @@ class BowmarkProviders(Protocol):
     adobe: Prv_adobe
     agakhanhospitals: Prv_agakhanhospitals
     agentstatus: Prv_agentstatus
+    agoda: Prv_agoda
     ai_engineer: Prv_ai_engineer
     aiper: Prv_aiper
     airbnb: Prv_airbnb
