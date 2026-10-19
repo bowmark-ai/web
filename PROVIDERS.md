@@ -3281,7 +3281,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `safeway.addToShoppingList` | safeway.com | Adds a product or a free-text item to the signed-in customer's shopping list. | ⚪ |
 | `safeway.checkout` | safeway.com | Would place the signed-in customer's order and pay for it. | ⚪ |
 | `safeway.clipCoupon` | safeway.com | Clips a digital coupon to the signed-in customer's card. | ⚪ |
-| `safeway.findStores` | safeway.com | Finds Safeway stores near a ZIP code: store id, address, distance, hours, phone and… | ⚪ |
+| `safeway.findStores` | safeway.com | Finds Safeway stores near a ZIP code: store id, address, distance, timezone and… | 🟢 |
 | `safeway.getCart` | safeway.com | Returns the signed-in customer's cart at their store: items, quantities, prices… | ⚪ |
 | `safeway.getMyAccount` | safeway.com | Returns the signed-in customer's profile: name, email, phone, preferred store and… | ⚪ |
 | `safeway.getMyOrder` | safeway.com | Returns one of the signed-in customer's orders: items, substitutions, window, driver… | ⚪ |
