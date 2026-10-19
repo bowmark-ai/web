@@ -2474,7 +2474,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `luma.listCategories` | luma.com | Lists Luma's discover topic categories with the category slug discoverEvents takes. | 🟢 |
 | `luma.listPlaces` | luma.com | Lists every city Luma's discover page covers, with the place slug discoverEvents takes. | 🟢 |
 | `lyreco.getProduct` | lyreco.se | Reads one product's detail page and returns its live guest pricing — every priced… | 🟢 |
-| `lyreco.search` | lyreco.se | Runs Lyreco's Swedish webshop search for office supplies and returns matching product… | 🟡 |
+| `lyreco.search` | lyreco.se | Runs Lyreco's Swedish webshop search for office supplies and returns matching product… | 🟢 |
 | `maersk.track` | maersk.com | Tracks a container or bill-of-lading number on Maersk's documented Track & Trace API… | 🟢 |
 | `maidenhome.getProduct` | maidenhome.com | Reads one configurable product's complete Size x Wood Finish variant grid — every… | 🟢 |
 | `maidenhome.resolveVariant` | maidenhome.com | Resolves a free-text product + size + wood finish to the exact priced variant and its… | 🟢 |
@@ -2713,8 +2713,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `newegg.getProduct` | newegg.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `newegg.search` | newegg.com | Searches newegg.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `nfa_futures_org.lookupByNfaId` | nfa.futures.org | One firm or individual's current NFA membership status and registration types, by NFA… | 🟡 |
-| `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟡 |
-| `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟡 |
+| `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟢 |
+| `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟢 |
 | `nhc.getBestTrack` | nhc.noaa.gov | Get a storm's best track: its position, max winds, pressure and status every six hours… | ⚪ |
 | `nhc.getForecastCone` | nhc.noaa.gov | Get a storm's forecast track points and cone of uncertainty as coordinates, for mapping. | ⚪ |
 | `nhc.getForecastDiscussion` | nhc.noaa.gov | Get the forecaster's discussion for a storm — the reasoning behind the track and… | ⚪ |

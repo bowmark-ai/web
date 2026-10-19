@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 114c5a60c95bcb8fce46b289469b509964420cb65240708c34cc41e2fc6059ea
-// 2182 checked, 20 unchecked.
+// Manifest version: 32521f95e78677218a7c8c7c6c6c5a98f56fda9de65abfcb99e311f07dcb9ca8
+// 2183 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "114c5a60c95bcb8fce46b289469b509964420cb65240708c34cc41e2fc6059ea",
+  "version": "32521f95e78677218a7c8c7c6c6c5a98f56fda9de65abfcb99e311f07dcb9ca8",
   "units": {
     "address_validation": {
       "defs": {
@@ -53401,6 +53401,43 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSafetywingQuoteArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.safeway": {
+      "defs": {},
+      "functions": {
+        "findStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zipcode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "radiusMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }

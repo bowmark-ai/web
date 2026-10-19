@@ -1,5 +1,5 @@
 {
-  "version": "114c5a60c95bcb8fce46b289469b509964420cb65240708c34cc41e2fc6059ea",
+  "version": "32521f95e78677218a7c8c7c6c6c5a98f56fda9de65abfcb99e311f07dcb9ca8",
   "units": {
     "address_validation": {
       "defs": {
@@ -53389,6 +53389,43 @@
             "schema": {
               "k": "ref",
               "name": "GetSafetywingQuoteArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.safeway": {
+      "defs": {},
+      "functions": {
+        "findStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zipcode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "radiusMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }

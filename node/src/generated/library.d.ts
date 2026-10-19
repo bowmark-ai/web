@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 114c5a60c95bcb8fce46b289469b509964420cb65240708c34cc41e2fc6059ea
-// 85 capabilities, 599 providers, 2200 typed functions, 20 refused.
+// Manifest version: 32521f95e78677218a7c8c7c6c6c5a98f56fda9de65abfcb99e311f07dcb9ca8
+// 85 capabilities, 600 providers, 2201 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -47341,6 +47341,48 @@ interface safetywingQuote {
   }
 }
 
+declare namespace BowmarkProvider_safeway {
+  // ── Safeway — the unit's own declarations, verbatim ──
+interface SafewayStoreAddress {
+  line1: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  country: string;
+}
+interface SafewayStore {
+  storeId: string;          // what every other store-scoped function takes as storeId
+  address: SafewayStoreAddress;
+  distanceMiles: number;
+  timezone: string;         // IANA zone, e.g. "America/Los_Angeles"
+  offersInStoreShopping: boolean;  // always true for a row from this door
+  offersPickup: boolean;    // Drive Up & Go
+  isNearestDeliveryStore: boolean; // true for at most one row per ZIP
+}
+interface FindStoresResult {
+  zipcode: string;
+  stores: SafewayStore[];
+  warnings: string[];
+}
+
+  /**
+   * Safeway grocery (US): find a store, browse its aisles, search products with store prices and
+   * aisle locations, read the weekly ad, deals and recipes, and (signed in) manage the cart,
+   * delivery and pickup windows, orders, past purchases, shopping list, coupons and rewards.
+   * Never checks out.
+   */
+  interface Unit {
+    /**
+     * Finds Safeway stores near a ZIP code: store id, address, distance, timezone and whether each
+     * offers Drive Up & Go pickup or is the single store the gateway names as nearest for
+     * delivery. The door every other store-scoped function's `storeId` comes from. THROWS rather
+     * than returning [] when the gateway answers without its store list — see findStores.ts's
+     * header on why an absent list must not read as an honest empty one.
+     */
+    findStores(args: { zipcode: string; radiusMiles?: number; limit?: number }): Promise<FindStoresResult>;
+  }
+}
+
 declare namespace BowmarkProvider_saltandstone {
   // ── Salt & Stone — the unit's own declarations, verbatim ──
 // Salt & Stone's OWN shapes — not a capability contract.
@@ -51860,7 +51902,7 @@ interface GuardianPhotoGallery {
   images: GuardianGalleryImage[];
 }
 interface GuardianListVideosArgs {
-  /** A category path for videos, e.g. "video", "world/video", "sport/video". Default: the main video section. */
+  /** A section to scope the videos to, e.g. "sport" or "football" — not a "/video" path. Default: every section's videos. */
   category?: string;
   limit?: number;
 }
@@ -52020,9 +52062,9 @@ interface GuardianListNewslettersResult {
     getPhotoGallery(args: GuardianGetPhotoGalleryArgs): Promise<GuardianPhotoGallery>;
 
     /**
-     * The Guardian's current videos by category — news, world, sport, culture — newest first, with
-     * title, url, summary, byline, publish time and duration in seconds. Default category is the
-     * main video section.
+     * The Guardian's current videos, optionally scoped to one section — sport, football, culture —
+     * newest first, with title, url, summary, byline, publish time and duration in seconds.
+     * Default is every section's videos.
      */
     listVideos(args?: GuardianListVideosArgs): Promise<GuardianListVideosResult>;
 
@@ -62030,6 +62072,7 @@ interface BowmarkProviders {
   rvshare: BowmarkProvider_rvshare.Unit;
   saatva: BowmarkProvider_saatva.Unit;
   safetywing: BowmarkProvider_safetywing.Unit;
+  safeway: BowmarkProvider_safeway.Unit;
   saltandstone: BowmarkProvider_saltandstone.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
   samsung: BowmarkProvider_samsung.Unit;

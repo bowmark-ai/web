@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 114c5a60c95bcb8fce46b289469b509964420cb65240708c34cc41e2fc6059ea
-# 85 capabilities, 599 providers, 2182 typed functions, 20 refused.
+# Manifest version: 32521f95e78677218a7c8c7c6c6c5a98f56fda9de65abfcb99e311f07dcb9ca8
+# 85 capabilities, 600 providers, 2183 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -26440,6 +26440,32 @@ class Prv_safetywing_safetywingQuote_Out_addonPrices_item_Out_priceTotal_Out(Typ
     amount: float
     currency: str
 
+class Prv_safeway_findStores_args_In(TypedDict):
+    zipcode: str
+    radiusMiles: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_safeway_FindStoresResult_Out(TypedDict):
+    zipcode: str
+    stores: list[Prv_safeway_SafewayStore_Out]
+    warnings: list[str]
+
+class Prv_safeway_SafewayStore_Out(TypedDict):
+    storeId: str
+    address: Prv_safeway_SafewayStoreAddress_Out
+    distanceMiles: float
+    timezone: str
+    offersInStoreShopping: bool
+    offersPickup: bool
+    isNearestDeliveryStore: bool
+
+class Prv_safeway_SafewayStoreAddress_Out(TypedDict):
+    line1: str
+    city: str
+    state: str
+    zipcode: str
+    country: str
+
 class Prv_saltandstone_ScentFamily_Out(TypedDict):
     handle: str
     name: str
@@ -51618,6 +51644,21 @@ class Prv_safetywing(Protocol):
         signup/purchase handoff URL for the priced product.
         """
 
+class Prv_safeway(Protocol):
+    """Safeway grocery (US): find a store, browse its aisles, search products with store prices
+    and aisle locations, read the weekly ad, deals and recipes, and (signed in) manage the
+    cart, delivery and pickup windows, orders, past purchases, shopping list, coupons and
+    rewards. Never checks out.
+    """
+
+    async def findStores(self, args: Prv_safeway_findStores_args_In, /) -> Prv_safeway_FindStoresResult_Out:
+        """Finds Safeway stores near a ZIP code: store id, address, distance, timezone and whether
+        each offers Drive Up & Go pickup or is the single store the gateway names as nearest for
+        delivery. The door every other store-scoped function's `storeId` comes from. THROWS
+        rather than returning [] when the gateway answers without its store list — see
+        findStores.ts's header on why an absent list must not read as an honest empty one.
+        """
+
 class Prv_saltandstone(Protocol):
     """Salt & Stone's own Scent Quiz, reimplemented over its real six named scent families:
     list every family's real fragrance notes, compute a real ranked match against a
@@ -53124,9 +53165,9 @@ class Prv_theguardian_com(Protocol):
         """
 
     async def listVideos(self, args: Prv_theguardian_com_GuardianListVideosArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListVideosResult_Out:
-        """The Guardian's current videos by category — news, world, sport, culture — newest first,
-        with title, url, summary, byline, publish time and duration in seconds. Default category
-        is the main video section.
+        """The Guardian's current videos, optionally scoped to one section — sport, football,
+        culture — newest first, with title, url, summary, byline, publish time and duration in
+        seconds. Default is every section's videos.
         """
 
     async def getVideo(self, videoUrlOrId: str, /) -> Prv_theguardian_com_GuardianVideo_Out:
@@ -56806,6 +56847,7 @@ class BowmarkProviders(Protocol):
     rvshare: Prv_rvshare
     saatva: Prv_saatva
     safetywing: Prv_safetywing
+    safeway: Prv_safeway
     saltandstone: Prv_saltandstone
     samsclub: Prv_samsclub
     samsung: Prv_samsung
