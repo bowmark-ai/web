@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b6c41bbc87a54c1133c415ef9333fd823beddf5700fb6aa29e2639917f8091e6
-// 2168 checked, 20 unchecked.
+// Manifest version: 753e24047de497cb11dcac9e9f13c0a4248a3b52de13f8abdb2f63cb117c9908
+// 2169 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b6c41bbc87a54c1133c415ef9333fd823beddf5700fb6aa29e2639917f8091e6",
+  "version": "753e24047de497cb11dcac9e9f13c0a4248a3b52de13f8abdb2f63cb117c9908",
   "units": {
     "address_validation": {
       "defs": {
@@ -62141,6 +62141,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchNewsArgs": {
           "k": "object",
           "props": [
@@ -62222,7 +62234,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listVideos": []
+        "listVideos": [],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.usps": {

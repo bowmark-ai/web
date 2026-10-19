@@ -3999,7 +3999,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
-| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | ⚪ |
+| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | 🟢 |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
 | `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |

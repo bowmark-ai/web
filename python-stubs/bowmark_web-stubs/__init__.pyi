@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b6c41bbc87a54c1133c415ef9333fd823beddf5700fb6aa29e2639917f8091e6
-# 85 capabilities, 592 providers, 2168 typed functions, 20 refused.
+# Manifest version: 753e24047de497cb11dcac9e9f13c0a4248a3b52de13f8abdb2f63cb117c9908
+# 85 capabilities, 592 providers, 2169 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -31031,6 +31031,19 @@ class Prv_usatoday_usatodayVideo_Out(TypedDict):
     duration: NotRequired[str]
     publishDate: NotRequired[str]
 
+class Prv_usatoday_GetVideoArgs_In(TypedDict):
+    id: str
+
+class Prv_usatoday_usatodayVideoDetail_Out(TypedDict):
+    id: str
+    title: str
+    description: NotRequired[str]
+    url: str
+    thumbnailUrl: NotRequired[str]
+    duration: NotRequired[str]
+    publishDate: NotRequired[str]
+    transcript: NotRequired[str]
+
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
     toZip: str
@@ -54140,6 +54153,11 @@ class Prv_usatoday(Protocol):
     async def listVideos(self, /) -> list[Prv_usatoday_usatodayVideo_Out]:
         """Lists the videos on USA Today's videos hub, each with a title, description, thumbnail
         URL and publish date. Duration is not shown on the hub page.
+        """
+
+    async def getVideo(self, args: Prv_usatoday_GetVideoArgs_In, /) -> Prv_usatoday_usatodayVideoDetail_Out:
+        """Reads the details of one USA Today video — given a video ID from listVideos — returning
+        the title, description, thumbnail, duration, publish date and transcript if available.
         """
 
 class Prv_usps(Protocol):

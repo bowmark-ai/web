@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b6c41bbc87a54c1133c415ef9333fd823beddf5700fb6aa29e2639917f8091e6
-// 85 capabilities, 592 providers, 2186 typed functions, 20 refused.
+// Manifest version: 753e24047de497cb11dcac9e9f13c0a4248a3b52de13f8abdb2f63cb117c9908
+// 85 capabilities, 592 providers, 2187 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -55210,6 +55210,21 @@ interface usatodayVideo {
   publishDate?: string;
 }
 
+interface GetVideoArgs {
+  id: string;
+}
+
+interface usatodayVideoDetail {
+  id: string;
+  title: string;
+  description?: string;
+  url: string;
+  thumbnailUrl?: string;
+  duration?: string;
+  publishDate?: string;
+  transcript?: string;
+}
+
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
   interface Unit {
     /**
@@ -55265,6 +55280,12 @@ interface usatodayVideo {
      * and publish date. Duration is not shown on the hub page.
      */
     listVideos(): Promise<usatodayVideo[]>;
+
+    /**
+     * Reads the details of one USA Today video — given a video ID from listVideos — returning the
+     * title, description, thumbnail, duration, publish date and transcript if available.
+     */
+    getVideo(args: GetVideoArgs): Promise<usatodayVideoDetail>;
   }
 }
 
