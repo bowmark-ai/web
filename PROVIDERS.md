@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4517 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4537 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -907,7 +907,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cloudflare.comparePlans` | cloudflare.com | Compares Cloudflare's website/application plan tiers — Free, Pro, Business and… | 🟢 |
 | `cloudflare.compareTeamsPlans` | cloudflare.com | Compares Cloudflare's Zero Trust / Cloudflare One team plans — Free (up to 50 users)… | 🟢 |
 | `cloudflare.getDomainPricing` | cloudflare.com | Reads Cloudflare Registrar's at-cost, no-markup registration and renewal pricing… | ⚪ |
-| `cloudflare.searchDomainAvailability` | cloudflare.com | Checks whether a given domain name is available to register through Cloudflare… | 🟡 |
+| `cloudflare.searchDomainAvailability` | cloudflare.com | Checks whether a given domain name is available to register through Cloudflare… | 🔴 |
 | `clubchampion.checkAvailability` | clubchampion.com | Checks real, live open-slot availability on one FITTER's calendar (an id from… | 🟢 |
 | `clubchampion.getFittings` | clubchampion.com | Reads one studio's real fitting-type menu with live per-store pricing (Driver, Full… | 🟢 |
 | `clubchampion.listFitters` | clubchampion.com | Reads the live list of every Club Champion fitter — id, name, studio, timezone… | 🟢 |
@@ -4151,6 +4151,26 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.trackOrder` | walmart.com | Looks up shipment/delivery status for a guest order by order number plus the email… | ⚪ |
 | `walmart.updateCartItem` | walmart.com | Changes the quantity of an item already in the cart. | ⚪ |
 | `walmart.updateProfile` | walmart.com | Edits the signed-in shopper's profile name. | ⚪ |
+| `washingtonpost.getArticle` | washingtonpost.com | Gets one article's own headline, byline, publish date, section and lede. | ⚪ |
+| `washingtonpost.getArticleFullText` | washingtonpost.com | Gets the full text of a subscriber-only article using the CALLER's own Washington Post… | ⚪ |
+| `washingtonpost.getLiveBlog` | washingtonpost.com | Gets a live-coverage page's own running updates (used for elections, breaking news). | ⚪ |
+| `washingtonpost.getNewsletter` | washingtonpost.com | Gets one newsletter's own catalog entry (title, description, frequency). | ⚪ |
+| `washingtonpost.getPodcast` | washingtonpost.com | Gets one podcast's own details — name, description and feed url. | ⚪ |
+| `washingtonpost.getTopicArticles` | washingtonpost.com | Gets a topic page's own name and article grid. | ⚪ |
+| `washingtonpost.getWriter` | washingtonpost.com | Gets a Washington Post writer's own byline page — name, job title/desk, bio and… | ⚪ |
+| `washingtonpost.listArticles` | washingtonpost.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | ⚪ |
+| `washingtonpost.listArticlesByWriter` | washingtonpost.com | Lists a writer's own most recent articles off their byline page, newest first. | ⚪ |
+| `washingtonpost.listEpisodes` | washingtonpost.com | Lists a podcast's own episodes, newest first. | ⚪ |
+| `washingtonpost.listNewsletters` | washingtonpost.com | Lists the site's own email newsletters off its newsletter catalog page. | ⚪ |
+| `washingtonpost.listPodcasts` | washingtonpost.com | Lists the site's own podcasts off its podcast catalog page. | ⚪ |
+| `washingtonpost.listSavedArticles` | washingtonpost.com | Lists the signed-in reader's own saved articles off their Washington Post account. | ⚪ |
+| `washingtonpost.listSections` | washingtonpost.com | Lists the site's own news sections (Politics, World, Business, Sports, Opinions, etc.)… | ⚪ |
+| `washingtonpost.listTopics` | washingtonpost.com | Lists the site's own topic/tag pages, most recently active first. | ⚪ |
+| `washingtonpost.listTrending` | washingtonpost.com | Lists the site's own trending/most-read articles. | ⚪ |
+| `washingtonpost.saveArticle` | washingtonpost.com | Saves an article to the signed-in reader's own account. | ⚪ |
+| `washingtonpost.searchArticles` | washingtonpost.com | Searches the site's own article index for a keyword and returns matching articles with… | ⚪ |
+| `washingtonpost.searchWriters` | washingtonpost.com | Searches Washington Post writers by name off the site's own author sitemap (the site… | ⚪ |
+| `washingtonpost.unsaveArticle` | washingtonpost.com | Removes an article from the signed-in reader's own saved list. | ⚪ |
 | `waterfurnace.estimateGeothermalSavings` | waterfurnace.com | Runs the Savings Calculator's real backend computation (the same one the site's 3-step… | 🟢 |
 | `waterfurnace.lookupHomeDetails` | waterfurnace.com | Runs the Savings Calculator's own home-details lookup for an address/zip — the same… | 🟢 |
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
