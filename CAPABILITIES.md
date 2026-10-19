@@ -23,13 +23,13 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `bundles.checkAvailability` | Reads every item's product page and returns whether the WHOLE bundle can be built and… | 0 | 🟢 |
 | `business_electricity_quote.getQuote` | Business electricity quote for an Australian 4-digit postcode — every business… | 1 | 🟢 |
 | `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
-| `candy_prices.search` | Search for candy and sweets across Target and Walmart, returning priced, in-stock rows… | 2 | 🟡 |
+| `candy_prices.search` | Search for candy and sweets across Target and Walmart, returning priced, in-stock rows… | 2 | 🟢 |
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 3 | 🟢 |
 | `concert_setlist.search` | Search for concert setlists by artist name, venue, or date. | 0 | 🟢 |
 | `condition_monitoring.check` | Diffs `current` against `options.previous` (the snapshot an earlier check returned)… | 0 | 🟢 |
 | `corporate_facts.findCompany` | Find SEC-registered public companies by ticker or name ("apple") — name, ticker and CIK. | 1 | 🟢 |
 | `corporate_facts.lookup` | A company's reported financial facts by ticker, CIK or name ("AAPL", "Microsoft") —… | 1 | 🟢 |
-| `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟡 |
+| `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟢 |
 | `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
 | `crypto_exchange.getRate` | Current price of a cryptocurrency (symbol or name: "BTC", "bitcoin") in a quote… | 1 | 🟢 |
 | `currency_exchange.getRate` | Returns the current exchange rate between two currencies | 1 | 🟢 |
@@ -94,15 +94,15 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `phone_trade_in.estimate` | Looks up the current buyback value of an iPhone — `bowmark.phone_trade_in.estimate({… | 2 | 🟢 |
 | `pricing.checkPersonalization` | Reads one product page's price once per persona (default: desktop + mobile, each a… | 0 | 🟢 |
 | `products.getAvailability` | Reads one product page and returns its price and stock status — from the page's own… | 4 | 🟢 |
-| `products.search` | Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and… | 4 | 🟡 |
+| `products.search` | Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and… | 4 | 🟢 |
 | `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟡 |
 | `prospect_screening.screenCompany` | Fetches the homepage, reads any schema.org employee-count signal and any… | 0 | 🟢 |
 | `read.page` | Loads one page and returns its content. **On a booking calendar or a… | 0 | 🟢 |
 | `read.pages` | The same read over many urls: requests to the SAME origin are serialized (one at a… | 0 | 🟢 |
 | `read.urls` | Lists the pages a site has, so you can pick which to `read.page` instead of guessing… | 0 | 🟢 |
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 2 | 🟡 |
-| `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one… | 3 | 🟡 |
-| `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟡 |
+| `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one… | 3 | 🟢 |
+| `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟢 |
 | `script_execution.guide` | Returns the loop for doing a task (get_library, then a script, then run), the… | 0 | 🟢 |
 | `search.news` | Searches news coverage and returns stories with the headline, the outlet's own article… | 2 | 🟢 |
 | `search.web` | Searches the web and returns ranked results — title, destination URL, snippet — from… | 2 | 🔴 |

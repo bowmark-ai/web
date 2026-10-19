@@ -3706,7 +3706,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.listReviews` | target.com | Reads a product's customer reviews (by TCIN) — rating, text, title, verified-purchase… | 🟢 |
 | `target.listWishlists` | target.com | The CALLER's own saved lists on target.com (their "Lists" — Target's wishlist feature)… | 🟢 |
 | `target.reviewPhotos` | target.com | Returns the photos shoppers attached to their reviews of one product (by TCIN) —… | 🟢 |
-| `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟡 |
+| `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟢 |
 | `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | 🟢 |
 | `target.writeReview` | target.com | Submits a customer review for one product, as the CALLER's own signed-in identity — a… | 🟢 |
 | `tatcha.getPersonalizedRitual` | tatcha.com | Runs a shopper's real answers (skin type, up to three benefits, optional eye concerns… | 🟢 |

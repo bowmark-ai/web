@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 321df7d93b437fc58164ac18afe3d9ef918498c5301b06d08897248289642155
+// Manifest version: b6c41bbc87a54c1133c415ef9333fd823beddf5700fb6aa29e2639917f8091e6
 // 85 capabilities, 592 providers, 2186 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -29461,9 +29461,10 @@ interface higgsfieldSavedFile {
      * finished media. Use it after a generate call that returned `settled: false`, which means the
      * wait ran out while the generation was still running. `status` is Higgsfield's own: `queued`,
      * `in_progress`, `completed`, `failed`, `nsfw` (refused by moderation — reword the prompt) or
-     * `canceled`. This is a free read and it never charges you, even for a generation it finds
-     * completed — and for the same reason it never copies the media into your account either, so
-     * the URLs it returns are Higgsfield's own and expire after about seven days.
+     * `canceled`. The read itself is free. A generation it finds completed that your generate call
+     * did not see finish is charged here, once, at the quote that call was given (never twice,
+     * whichever call saw it finish). It never copies the media into your account, so the URLs it
+     * returns are Higgsfield's own and expire after about seven days.
      */
     getRequestStatus(args: string | { requestId: string }): Promise<higgsfieldRequest>;
   }

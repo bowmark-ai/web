@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 321df7d93b437fc58164ac18afe3d9ef918498c5301b06d08897248289642155
+# Manifest version: b6c41bbc87a54c1133c415ef9333fd823beddf5700fb6aa29e2639917f8091e6
 # 85 capabilities, 592 providers, 2168 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -44988,10 +44988,11 @@ class Prv_higgsfield(Protocol):
         any finished media. Use it after a generate call that returned `settled: false`, which
         means the wait ran out while the generation was still running. `status` is Higgsfield's
         own: `queued`, `in_progress`, `completed`, `failed`, `nsfw` (refused by moderation —
-        reword the prompt) or `canceled`. This is a free read and it never charges you, even for
-        a generation it finds completed — and for the same reason it never copies the media into
-        your account either, so the URLs it returns are Higgsfield's own and expire after about
-        seven days.
+        reword the prompt) or `canceled`. The read itself is free. A generation it finds
+        completed that your generate call did not see finish is charged here, once, at the quote
+        that call was given (never twice, whichever call saw it finish). It never copies the
+        media into your account, so the URLs it returns are Higgsfield's own and expire after
+        about seven days.
         """
 
 class Prv_highlandhomes(Protocol):
