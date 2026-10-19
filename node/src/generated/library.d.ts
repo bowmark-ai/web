@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376
-// 85 capabilities, 594 providers, 2191 typed functions, 20 refused.
+// Manifest version: 4ef9af9d0ef95a220ea51d024133e7589b818d168122b7d63c094e5f020d942e
+// 85 capabilities, 595 providers, 2192 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30465,6 +30465,38 @@ interface ihgRow { id: string; brandCode: string; availabilityStatus: string; lo
      * display names.
      */
     search(args: { destination: string; checkIn: string; checkOut: string; adults?: number; rooms?: number; radius?: number }): Promise<ihgRow[]>;
+  }
+}
+
+declare namespace BowmarkProvider_ikea {
+  // ── IKEA — the unit's own declarations, verbatim ──
+interface IkeaSearchProduct {
+  itemNo: string;
+  name: string;
+  typeName: string | null;
+  price: number | null;
+  currency: string | null;
+  rating: { average: number; count: number } | null;
+  colors: string[];
+  url: string;
+  imageUrl: string | null;
+}
+interface SearchProductsArgs {
+  query: string;
+  limit?: number;
+}
+
+  /**
+   * IKEA's US store: search the catalogue, read a product's price, dimensions and assembly PDFs,
+   * check stock at each store, find stores, and manage a cart; with the caller signed in, read
+   * their purchases and IKEA Family offers.
+   */
+  interface Unit {
+    /**
+     * Searches IKEA's US catalogue by keyword and returns each product's item number, name, type,
+     * price, rating, colour variants and product-page URL.
+     */
+    searchProducts(args: SearchProductsArgs): Promise<IkeaSearchProduct[]>;
   }
 }
 
@@ -61642,6 +61674,7 @@ interface BowmarkProviders {
   idealista: BowmarkProvider_idealista.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
   ihg: BowmarkProvider_ihg.Unit;
+  ikea: BowmarkProvider_ikea.Unit;
   imdb: BowmarkProvider_imdb.Unit;
   indeed: BowmarkProvider_indeed.Unit;
   inspirecommunities: BowmarkProvider_inspirecommunities.Unit;

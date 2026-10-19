@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376
-# 85 capabilities, 594 providers, 2173 typed functions, 20 refused.
+# Manifest version: 4ef9af9d0ef95a220ea51d024133e7589b818d168122b7d63c094e5f020d942e
+# 85 capabilities, 595 providers, 2174 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16656,6 +16656,25 @@ class Prv_ihg_ihgRow_Out_lowestCashOnlyCost_u0_Out(TypedDict):
 class Prv_ihg_ihgRow_Out_highestCashOnlyCost_u0_Out(TypedDict):
     baseAmount: str
     ratePlanType: str | None
+
+class Prv_ikea_SearchProductsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_ikea_IkeaSearchProduct_Out(TypedDict):
+    itemNo: str
+    name: str
+    typeName: str | None
+    price: float | None
+    currency: str | None
+    rating: Prv_ikea_IkeaSearchProduct_Out_rating_u0_Out | None
+    colors: list[str]
+    url: str
+    imageUrl: str | None
+
+class Prv_ikea_IkeaSearchProduct_Out_rating_u0_Out(TypedDict):
+    average: float
+    count: float
 
 class Prv_imdb_ImdbSearchArgs_In(TypedDict):
     query: str
@@ -45438,6 +45457,17 @@ class Prv_ihg(Protocol):
         display names.
         """
 
+class Prv_ikea(Protocol):
+    """IKEA's US store: search the catalogue, read a product's price, dimensions and assembly
+    PDFs, check stock at each store, find stores, and manage a cart; with the caller signed
+    in, read their purchases and IKEA Family offers.
+    """
+
+    async def searchProducts(self, args: Prv_ikea_SearchProductsArgs_In, /) -> list[Prv_ikea_IkeaSearchProduct_Out]:
+        """Searches IKEA's US catalogue by keyword and returns each product's item number, name,
+        type, price, rating, colour variants and product-page URL.
+        """
+
 class Prv_imdb(Protocol):
     """IMDb — the movie and TV database. Search films, shows and people; read a title's rating,
     cast, crew, plot and runtime; read a person's bio and filmography; read user reviews.
@@ -56441,6 +56471,7 @@ class BowmarkProviders(Protocol):
     idealista: Prv_idealista
     identitygroup: Prv_identitygroup
     ihg: Prv_ihg
+    ikea: Prv_ikea
     imdb: Prv_imdb
     indeed: Prv_indeed
     inspirecommunities: Prv_inspirecommunities

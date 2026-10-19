@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376
-// 2173 checked, 20 unchecked.
+// Manifest version: 4ef9af9d0ef95a220ea51d024133e7589b818d168122b7d63c094e5f020d942e
+// 2174 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376",
+  "version": "4ef9af9d0ef95a220ea51d024133e7589b818d168122b7d63c094e5f020d942e",
   "units": {
     "address_validation": {
       "defs": {
@@ -30708,6 +30708,41 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ikea": {
+      "defs": {
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
             },
             "optional": false
           }

@@ -1,5 +1,5 @@
 {
-  "version": "9188e870c74eec943e0de599f0c0c242d0f427e39657c1f0eaf0035a252d2376",
+  "version": "4ef9af9d0ef95a220ea51d024133e7589b818d168122b7d63c094e5f020d942e",
   "units": {
     "address_validation": {
       "defs": {
@@ -30696,6 +30696,41 @@
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ikea": {
+      "defs": {
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
             },
             "optional": false
           }

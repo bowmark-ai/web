@@ -38,7 +38,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
 | `acuityscheduling.bookAppointment` | acuityscheduling.com | Books an appointment; accepts guest checkout with email and phone. | ⚪ |
 | `acuityscheduling.cancelAppointment` | acuityscheduling.com | Cancels a booking; caller must own the appointment. | ⚪ |
-| `acuityscheduling.findScheduler` | acuityscheduling.com | Finds a scheduler/business by name or URL to get its unique owner ID. | ⚪ |
+| `acuityscheduling.findScheduler` | acuityscheduling.com | Finds one business's Acuity scheduler and its owner id from the business name (tried… | 🟢 |
 | `acuityscheduling.getAppointmentTypeDetails` | acuityscheduling.com | Returns details of a specific appointment type including duration, provider, and… | ⚪ |
 | `acuityscheduling.getBookingForm` | acuityscheduling.com | Returns the form fields and requirements needed to complete a booking. | ⚪ |
 | `acuityscheduling.getPrice` | acuityscheduling.com | Returns pricing for an appointment type, including discounts for multi-class packages. | ⚪ |
@@ -217,7 +217,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | 🟢 |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
-| `apple.addToBag` | apple.com | Add a product to the shopping bag (cart) by part number. | 🟡 |
+| `apple.addToBag` | apple.com | Add a product to the shopping bag (cart) by part number. | 🟢 |
 | `apple.bookGeniusBarAppointment` | apple.com | Submit a Genius Bar / repair reservation's confirmation step — NEEDS THE CALLER SIGNED… | 🟢 |
 | `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number — no… | 🟡 |
 | `apple.compareModels` | apple.com | Put two or more models of the SAME family — Mac, iPhone, iPad or Apple Watch — side by… | 🟢 |
@@ -2132,7 +2132,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.lookupOrder` | ikea.com | Looks up an order's status, items and delivery progress from an order number and the… | ⚪ |
 | `ikea.removeFromCart` | ikea.com | Removes an item from a cart. | ⚪ |
 | `ikea.removeFromFavorites` | ikea.com | Removes a product from a favorites list. | ⚪ |
-| `ikea.searchProducts` | ikea.com | Searches IKEA's US catalogue by keyword and returns each product's item number, name… | ⚪ |
+| `ikea.searchProducts` | ikea.com | Searches IKEA's US catalogue by keyword and returns each product's item number, name… | 🟢 |
 | `ikea.suggestSearchTerms` | ikea.com | Returns IKEA's own search-as-you-type suggestions for a partial query (e.g. 'bil' →… | ⚪ |
 | `ikea.updateCartItem` | ikea.com | Changes the quantity of an item already in a cart. | ⚪ |
 | `ikea.updateProfile` | ikea.com | Edits the signed-in caller's IKEA profile details — name, phone, address or preferred… | ⚪ |
@@ -4444,7 +4444,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getContactInfo` | zoom.us | Returns details of one contact. | ⚪ |
 | `zoom.getContacts` | zoom.us | The signed-in caller's contact list. | ⚪ |
 | `zoom.getMarketplaceApp` | zoom.us | Returns details of one Zoom Marketplace app. | 🟢 |
-| `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | ⚪ |
+| `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | 🟢 |
 | `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | 🟢 |
 | `zoom.getMeetingParticipants` | zoom.us | Lists participants of a meeting (if in progress). | ⚪ |
 | `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | 🟢 |
