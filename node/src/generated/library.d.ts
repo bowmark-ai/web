@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4ef9af9d0ef95a220ea51d024133e7589b818d168122b7d63c094e5f020d942e
-// 85 capabilities, 595 providers, 2192 typed functions, 20 refused.
+// Manifest version: e46431ae48c309eafe9dad23c5ee197e89aaa704e878f3c7964fd89195385201
+// 85 capabilities, 596 providers, 2194 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6141,6 +6141,36 @@ interface AcqualinaRoomAvailability {
      * with per-night pricing for every rate plan on offer.
      */
     searchAvailability(arrive: string, depart: string, adults: number, children?: number): Promise<AcqualinaRoomAvailability[]>;
+  }
+}
+
+declare namespace BowmarkProvider_acuityscheduling {
+  // ── Acuity Scheduling — the unit's own declarations, verbatim ──
+interface AcuityScheduler {
+  /** The numeric owner id every Acuity scheduling page is keyed on. */
+  ownerId: string;
+  ownerKey: string | null;
+  /** The business name as the business set it in Acuity. */
+  name: string;
+  /** https://app.acuityscheduling.com/schedule.php?owner=<ownerId> */
+  schedulingUrl: string;
+  /** The business's own https://<slug>.as.me/ address, when it has one. */
+  prettyUrl: string | null;
+  timezone: string | null;
+  country: string | null;
+  isExpired: boolean;
+  matchedBy: "name" | "as.me" | "acuity-link" | "business-site" | "owner-id";
+}
+
+  /** Schedule and book fitness studio classes and appointments. */
+  interface Unit {
+    /**
+     * Finds one business's Acuity scheduler and its owner id. Pass the business NAME ("304
+     * Collective") — it is tried as the business's own <name>.as.me address — or, when the name
+     * does not resolve, its as.me address, its Acuity booking link, its own website (whose Book
+     * button links Acuity), or a bare owner id. Refuses rather than guesses when nothing resolves.
+     */
+    findScheduler(query: string): Promise<AcuityScheduler>;
   }
 }
 
@@ -60426,6 +60456,11 @@ interface ZoomSearchHelpArticlesResult {
   articles: ZoomHelpArticle[];
 }
 
+interface ZoomMeetingDetail {
+  meetingId: string;
+  raw: string; // signed-in response shape is UNMEASURED — see manifest.json
+}
+
   /** Video conferencing, meetings, and webinars. */
   interface Unit {
     /** Read Zoom Workplace pricing plans and features */
@@ -60448,6 +60483,12 @@ interface ZoomSearchHelpArticlesResult {
 
     /** Search the Zoom Help Center for articles by keyword */
     searchHelpArticles(query: string): Promise<ZoomSearchHelpArticlesResult>;
+
+    /**
+     * Read full details of one scheduled meeting from the signed-in caller's meeting detail page —
+     * needs the caller signed in
+     */
+    getMeeting(meetingId: string | number, opts?: ConnectionOption): Promise<ZoomMeetingDetail>;
   }
 }
 
@@ -61383,6 +61424,7 @@ interface BowmarkProviders {
   acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
+  acuityscheduling: BowmarkProvider_acuityscheduling.Unit;
   adobe: BowmarkProvider_adobe.Unit;
   agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
   agentstatus: BowmarkProvider_agentstatus.Unit;

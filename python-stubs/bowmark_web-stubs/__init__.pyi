@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4ef9af9d0ef95a220ea51d024133e7589b818d168122b7d63c094e5f020d942e
-# 85 capabilities, 595 providers, 2174 typed functions, 20 refused.
+# Manifest version: e46431ae48c309eafe9dad23c5ee197e89aaa704e878f3c7964fd89195385201
+# 85 capabilities, 596 providers, 2176 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3408,6 +3408,17 @@ class Prv_acqualinaresort_AcqualinaRate_Out(TypedDict):
     pricePerNight: float | None
     originalPricePerNight: float | None
     currency: Literal["USD"]
+
+class Prv_acuityscheduling_AcuityScheduler_Out(TypedDict):
+    ownerId: str
+    ownerKey: str | None
+    name: str
+    schedulingUrl: str
+    prettyUrl: str | None
+    timezone: str | None
+    country: str | None
+    isExpired: bool
+    matchedBy: Literal["name"] | Literal["as.me"] | Literal["acuity-link"] | Literal["business-site"] | Literal["owner-id"]
 
 class Prv_adobe_CreativeCloudPlan_Out(TypedDict):
     name: str
@@ -34294,6 +34305,10 @@ class Prv_zoom_ZoomHelpArticle_Out(TypedDict):
     url: str
     categories: list[str]
 
+class Prv_zoom_ZoomMeetingDetail_Out(TypedDict):
+    meetingId: str
+    raw: str
+
 class Prv_zoopla_search_args_In(TypedDict):
     location: str
     bedrooms: NotRequired[float]
@@ -36531,6 +36546,17 @@ class Prv_acqualinaresort(Protocol):
     async def searchAvailability(self, arrive: str, depart: str, adults: float, children: float | None = None, /) -> list[Prv_acqualinaresort_AcqualinaRoomAvailability_Out]:
         """Runs Acqualina's own reservation engine for one stay and returns real room-type
         availability with per-night pricing for every rate plan on offer.
+        """
+
+class Prv_acuityscheduling(Protocol):
+    """Schedule and book fitness studio classes and appointments."""
+
+    async def findScheduler(self, query: str, /) -> Prv_acuityscheduling_AcuityScheduler_Out:
+        """Finds one business's Acuity scheduler and its owner id. Pass the business NAME ("304
+        Collective") — it is tried as the business's own <name>.as.me address — or, when the
+        name does not resolve, its as.me address, its Acuity booking link, its own website
+        (whose Book button links Acuity), or a bare owner id. Refuses rather than guesses when
+        nothing resolves.
         """
 
 class Prv_adobe(Protocol):
@@ -56158,6 +56184,11 @@ class Prv_zoom(Protocol):
     async def searchHelpArticles(self, query: str, /) -> Prv_zoom_ZoomSearchHelpArticlesResult_Out:
         """Search the Zoom Help Center for articles by keyword"""
 
+    async def getMeeting(self, meetingId: str | float, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomMeetingDetail_Out:
+        """Read full details of one scheduled meeting from the signed-in caller's meeting detail
+        page — needs the caller signed in
+        """
+
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""
 
@@ -56180,6 +56211,7 @@ class BowmarkProviders(Protocol):
     acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
     acqualinaresort: Prv_acqualinaresort
+    acuityscheduling: Prv_acuityscheduling
     adobe: Prv_adobe
     agakhanhospitals: Prv_agakhanhospitals
     agentstatus: Prv_agentstatus

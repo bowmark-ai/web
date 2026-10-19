@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4ef9af9d0ef95a220ea51d024133e7589b818d168122b7d63c094e5f020d942e
-// 2174 checked, 20 unchecked.
+// Manifest version: e46431ae48c309eafe9dad23c5ee197e89aaa704e878f3c7964fd89195385201
+// 2176 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4ef9af9d0ef95a220ea51d024133e7589b818d168122b7d63c094e5f020d942e",
+  "version": "e46431ae48c309eafe9dad23c5ee197e89aaa704e878f3c7964fd89195385201",
   "units": {
     "address_validation": {
       "defs": {
@@ -7057,6 +7057,20 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.acuityscheduling": {
+      "defs": {},
+      "functions": {
+        "findScheduler": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -68395,6 +68409,39 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getMeeting": [
+          {
+            "name": "meetingId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
