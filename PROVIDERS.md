@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4451 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4459 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -72,6 +72,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `agentstatus.getServer` | agentstatus.dev | Reads one server's entry on the index by slug, including every tool the index probed… | 🟢 |
 | `agentstatus.searchServers` | agentstatus.dev | Searches the Public MCP Score index (agentstatus.dev/mcp-index) by server name, slug… | 🟢 |
 | `agentstatus.submitServer` | agentstatus.dev | Would submit a public MCP server URL plus an email to the index's "Submit Your MCP… | ⚪ |
+| `agoda.findDestinations` | agoda.com | Find Agoda destinations (cities, areas, landmarks, hotels) for a free-text place name… | 🟢 |
+| `agoda.getHotel` | agoda.com | Fetch one hotel's details — description, amenities, room types and rates for given… | ⚪ |
+| `agoda.listHotelReviews` | agoda.com | List guest reviews for one hotel. | ⚪ |
+| `agoda.searchArea` | agoda.com | Search hotels within an Agoda area or around a landmark rather than a whole city. | ⚪ |
+| `agoda.searchFlights` | agoda.com | Search flights on Agoda's flights vertical. | ⚪ |
+| `agoda.searchHotels` | agoda.com | Search Agoda hotels in a city for check-in/check-out dates; returns live cheapest-room… | 🟢 |
 | `ai_engineer.getSpeaker` | ai.engineer | Returns detailed information about one speaker from the AI Engineer conference… | 🟡 |
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟡 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
@@ -1318,7 +1324,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.addToWatchlist` | ebay.com | Add an item to the caller's watch list. | ⚪ |
 | `ebay.getCart` | ebay.com | Get the caller's shopping cart — items they have added but not yet purchased. | ⚪ |
 | `ebay.getDeals` | ebay.com | Reads eBay's own `/deals` page — the spotlight, trending and featured deals a shopper… | 🟢 |
-| `ebay.getItem` | ebay.com | Reads one eBay listing by the id `search` returns — title, current price, condition… | 🟢 |
+| `ebay.getItem` | ebay.com | Reads one eBay listing by the id `search` returns — title, current price, condition… | 🟡 |
 | `ebay.getMyAccount` | ebay.com | Get the caller's account settings and preferences. | ⚪ |
 | `ebay.getMyListings` | ebay.com | Get the caller's own active selling listings. | 🟢 |
 | `ebay.getMyMessages` | ebay.com | Get the caller's eBay messages — inbox, sent, and resolved messages. | ⚪ |
@@ -2732,6 +2738,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name, class and dates. | ⚪ |
 | `nhc.listStormAdvisories` | nhc.noaa.gov | List every advisory, forecast advisory, discussion and wind probability product issued… | ⚪ |
 | `nhc.searchStorms` | nhc.noaa.gov | Find a storm, current or historical, by name and optional year and basin, returning… | ⚪ |
+| `nike.getLaunch` | nike.com | Reads one SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in… | 🟢 |
+| `nike.upcomingLaunches` | nike.com | Lists every upcoming SNKRS launch (sneaker release) on nike.com/launch in the US… | 🟢 |
 | `nintendo.browseCategory` | www.nintendo.com | Browse a whole department or platform family with no keyword — "what's in Nintendo… | ⚪ |
 | `nintendo.getMyNintendoRewardsBalance` | www.nintendo.com | Read the signed-in caller's My Nintendo Points balance and reward history — the… | ⚪ |
 | `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | 🟢 |
@@ -3163,7 +3171,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | 🟡 |
 | `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | 🟢 |
 | `reddit.getMyAccount` | reddit.com | Returns the signed-in caller's own account — username, karma, account age, whether… | 🟢 |
-| `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟢 |
+| `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟡 |
 | `reddit.getSubreddit` | reddit.com | Returns the facts about one community rather than its content — the subreddit's title… | 🟢 |
 | `reddit.getSubredditPosts` | reddit.com | Returns a community's own front page — the submissions in one subreddit under a chosen… | 🟢 |
 | `reddit.getSubredditRules` | reddit.com | Returns one community's posting rules — each rule's short name, full description and… | 🟢 |

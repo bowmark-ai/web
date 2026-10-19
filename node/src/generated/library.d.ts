@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 753e24047de497cb11dcac9e9f13c0a4248a3b52de13f8abdb2f63cb117c9908
-// 85 capabilities, 592 providers, 2187 typed functions, 20 refused.
+// Manifest version: 62e09ad0fc79547f17cf253adf9955e59092b3bda14e6fb6770ce8596d3fa015
+// 85 capabilities, 593 providers, 2189 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39780,6 +39780,50 @@ interface nhcTropicalOutlook {
   }
 }
 
+declare namespace BowmarkProvider_nike {
+  // ── Nike SNKRS — the unit's own declarations, verbatim ──
+interface NikeLaunchProduct {
+  styleColor: string;
+  title: string;
+  colorway: string;
+  price: number | null;
+  currency: string;
+  releaseDate: string | null;
+  method: string | null;
+  entryClosesAt: string | null;
+  exclusiveAccess: boolean;
+  available: boolean | null;
+  imageUrl: string | null;
+}
+interface NikeLaunch {
+  slug: string;
+  title: string;
+  url: string;
+  imageUrl: string | null;
+  releaseDate: string | null;
+  products: NikeLaunchProduct[];
+}
+
+  /**
+   * Nike SNKRS launch calendar — the sneaker drops coming up on nike.com/launch, each with
+   * release date and time, draw or first-come, price and colourway, read straight off Nike's own
+   * feed.
+   */
+  interface Unit {
+    /**
+     * Every upcoming SNKRS launch (sneaker release) in the US, soonest first — release date, draw
+     * or first-come, price, colourway. Optional text filter, e.g. "jordan".
+     */
+    upcomingLaunches(query?: string): Promise<NikeLaunch[]>;
+
+    /**
+     * One SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in the drop with
+     * release time, entry method, price and availability.
+     */
+    getLaunch(slug: string): Promise<NikeLaunch>;
+  }
+}
+
 declare namespace BowmarkProvider_nintendo {
   // ── Nintendo — the unit's own declarations, verbatim ──
 interface NintendoProduct {
@@ -61628,6 +61672,7 @@ interface BowmarkProviders {
   newegg: BowmarkProvider_newegg.Unit;
   nfa_futures_org: BowmarkProvider_nfa_futures_org.Unit;
   nhc: BowmarkProvider_nhc.Unit;
+  nike: BowmarkProvider_nike.Unit;
   nintendo: BowmarkProvider_nintendo.Unit;
   npmjs: BowmarkProvider_npmjs.Unit;
   npr: BowmarkProvider_npr.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 753e24047de497cb11dcac9e9f13c0a4248a3b52de13f8abdb2f63cb117c9908
-# 85 capabilities, 592 providers, 2169 typed functions, 20 refused.
+# Manifest version: 62e09ad0fc79547f17cf253adf9955e59092b3bda14e6fb6770ce8596d3fa015
+# 85 capabilities, 593 providers, 2171 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21666,6 +21666,27 @@ class Prv_nhc_nhcOutlookDisturbance_Out(TypedDict):
     riskLevel: str
     formationChance2Day: str
     formationChance7Day: str
+
+class Prv_nike_NikeLaunch_Out(TypedDict):
+    slug: str
+    title: str
+    url: str
+    imageUrl: str | None
+    releaseDate: str | None
+    products: list[Prv_nike_NikeLaunchProduct_Out]
+
+class Prv_nike_NikeLaunchProduct_Out(TypedDict):
+    styleColor: str
+    title: str
+    colorway: str
+    price: float | None
+    currency: str
+    releaseDate: str | None
+    method: str | None
+    entryClosesAt: str | None
+    exclusiveAccess: bool
+    available: bool | None
+    imageUrl: str | None
 
 class Prv_nintendo_NintendoProduct_Out(TypedDict):
     sku: str
@@ -48653,6 +48674,22 @@ class Prv_nhc(Protocol):
         is, and its 2-day and 7-day formation chance.
         """
 
+class Prv_nike(Protocol):
+    """Nike SNKRS launch calendar — the sneaker drops coming up on nike.com/launch, each with
+    release date and time, draw or first-come, price and colourway, read straight off Nike's
+    own feed.
+    """
+
+    async def upcomingLaunches(self, query: str | None = None, /) -> list[Prv_nike_NikeLaunch_Out]:
+        """Every upcoming SNKRS launch (sneaker release) in the US, soonest first — release date,
+        draw or first-come, price, colourway. Optional text filter, e.g. "jordan".
+        """
+
+    async def getLaunch(self, slug: str, /) -> Prv_nike_NikeLaunch_Out:
+        """One SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in the drop
+        with release time, entry method, price and availability.
+        """
+
 class Prv_nintendo(Protocol):
     """Nintendo's own store catalog, support knowledge base and news — games, hardware and
     accessories by name or category, no login needed.
@@ -56433,6 +56470,7 @@ class BowmarkProviders(Protocol):
     newegg: Prv_newegg
     nfa_futures_org: Prv_nfa_futures_org
     nhc: Prv_nhc
+    nike: Prv_nike
     nintendo: Prv_nintendo
     npmjs: Prv_npmjs
     npr: Prv_npr

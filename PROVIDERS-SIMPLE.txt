@@ -21,6 +21,7 @@ acuityscheduling.com — acuityscheduling: bookAppointment, cancelAppointment, f
 adobe.com — adobe: compressPdf, convertPdfToWord, findHelpArticle, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, licenseStockAsset, mergePdfs, saveAssetToCreativeCloud, searchFonts, searchStockAssets, searchTemplates, sendForSignature
 agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
 agentstatus.dev — agentstatus: getServer, searchServers, submitServer
+agoda.com — agoda: findDestinations, getHotel, listHotelReviews, searchArea, searchFlights, searchHotels
 ai.engineer — ai_engineer: getSpeaker, listSpeakers
 aiper.store — aiper: listPoolChooserQuestions, recommendPoolCleaner
 airbnb.com — airbnb: getListing, search
@@ -427,6 +428,7 @@ news.google.com — google_news: findTopic, followTopic, getForYou, getFullCover
 news.ycombinator.com — hackernews: getItem, search, searchComments, topStories
 nfa.futures.org — nfa_futures_org: lookupByNfaId, searchFirms, searchIndividuals
 nhc.noaa.gov — nhc: getBestTrack, getForecastCone, getForecastDiscussion, getLocalStatements, getMarineForecast, getReconObservations, getSatelliteImagery, getStormAdvisory, getStormForecast, getStormGraphics, getStormInfo, getStormNames, getStormSurge, getTropicalCycloneReport, getTropicalOutlook, getTropicalWeatherDiscussion, getWatchesWarnings, getWindSpeedProbabilities, listCurrentStorms, listMarineZones, listSeasonStorms, listStormAdvisories, searchStorms
+nike.com — nike: getLaunch, upcomingLaunches
 npmjs.com — npmjs: getDownloads
 npr.org — npr: findStations, getAuthorStories, getLiveStream, getPodcast, getProgramRundown, getStation, getStory, getTranscript, listHeadlines, listNewsletters, listPodcastCategories, listPodcastEpisodes, listPodcasts, listSections, listSectionStories, listSeries, listSeriesStories, searchStories, subscribeNewsletter
 nurturelife.com — nurturelife: getMealBundle, getMealPlans
