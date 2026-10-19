@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e46431ae48c309eafe9dad23c5ee197e89aaa704e878f3c7964fd89195385201
-# 85 capabilities, 596 providers, 2176 typed functions, 20 refused.
+# Manifest version: c00261d71948c942570627da524d33020a6845a7cc469cd907f4ff464ba04062
+# 85 capabilities, 597 providers, 2177 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21334,6 +21334,23 @@ class Prv_my_auroramedicalspa_com_AuroraProvider_Out(TypedDict):
     providerId: float
     name: str
     title: str | None
+
+class Prv_my_best_studio_ListClassesArgs_In(TypedDict):
+    subdomain: str
+    date: NotRequired[str]
+    scheduleType: NotRequired[Literal["Today"] | Literal["Day"] | Literal["Week"] | Literal["Month"]]
+
+class Prv_my_best_studio_MyBestStudioClass_Out(TypedDict):
+    dayId: str
+    date: str
+    startTime: str
+    endTime: str
+    className: str
+    instructor: str
+    booked: float
+    capacity: float
+    bookingLabel: str | None
+    reviewScore: str | None
 
 class Prv_myollie_MyollieGetMealPlanArgs_In(TypedDict):
     weightLbs: float
@@ -48486,6 +48503,18 @@ class Prv_my_auroramedicalspa_com(Protocol):
         own -1 'First Available' option.
         """
 
+class Prv_my_best_studio(Protocol):
+    """Studio class booking platform: listClasses is built; the rest (bookClass, cancelBooking,
+    listMyBookings, …) is queued — see BUILD_QUEUE.md.
+    """
+
+    async def listClasses(self, args: Prv_my_best_studio_ListClassesArgs_In, /) -> list[Prv_my_best_studio_MyBestStudioClass_Out]:
+        """Reads one studio's class schedule (public, no login): time, class name, instructor,
+        capacity, review score, and the site's own booking-button label
+        ("Book"/"Waitlist"/neither). Pass { subdomain: "ad1mnpsp" }; optionally { date,
+        scheduleType }.
+        """
+
 class Prv_myollie(Protocol):
     """Fresh dog food subscription. getMealPlan is live — the same
     weight/activity/neuter-status-driven meal plan and REAL per-plan weekly price the site's
@@ -56587,6 +56616,7 @@ class BowmarkProviders(Protocol):
     municipal_recreation_fees_fetcher: Prv_municipal_recreation_fees_fetcher
     muze_gov_tr: Prv_muze_gov_tr
     my_auroramedicalspa_com: Prv_my_auroramedicalspa_com
+    my_best_studio: Prv_my_best_studio
     myollie: Prv_myollie
     naic: Prv_naic
     namecheap: Prv_namecheap

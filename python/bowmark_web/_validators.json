@@ -1,5 +1,5 @@
 {
-  "version": "e46431ae48c309eafe9dad23c5ee197e89aaa704e878f3c7964fd89195385201",
+  "version": "c00261d71948c942570627da524d33020a6845a7cc469cd907f4ff464ba04062",
   "units": {
     "address_validation": {
       "defs": {
@@ -40541,6 +40541,66 @@
             "name": "serviceId",
             "schema": {
               "k": "number"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.my_best_studio": {
+      "defs": {
+        "ListClassesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "subdomain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "scheduleType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Today"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Day"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Week"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Month"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listClasses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListClassesArgs"
             },
             "optional": false
           }

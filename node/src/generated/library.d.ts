@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e46431ae48c309eafe9dad23c5ee197e89aaa704e878f3c7964fd89195385201
-// 85 capabilities, 596 providers, 2194 typed functions, 20 refused.
+// Manifest version: c00261d71948c942570627da524d33020a6845a7cc469cd907f4ff464ba04062
+// 85 capabilities, 597 providers, 2195 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39082,6 +39082,45 @@ interface AuroraProvider {
   }
 }
 
+declare namespace BowmarkProvider_my_best_studio {
+  // ── My Best Studio — studio class booking platform — the unit's own declarations, verbatim ──
+interface my_best_studioRow {
+  id: string;
+}
+
+interface ListClassesArgs {
+  subdomain: string;         // the studio's My Best Studio subdomain, e.g. "ad1mnpsp"
+  date?: string;             // YYYY-MM-DD — omit to let the site pick its own "today"
+  scheduleType?: "Today" | "Day" | "Week" | "Month";  // defaults to "Week"
+}
+
+interface MyBestStudioClass {
+  dayId: string;             // the id GoToClassSignIn(...) and booking/cancel take
+  date: string;              // YYYY-MM-DD
+  startTime: string;
+  endTime: string;
+  className: string;
+  instructor: string;
+  booked: number;
+  capacity: number;
+  bookingLabel: string | null;   // the site's own button text ("Book"/"Waitlist"), or null when neither shows
+  reviewScore: string | null;    // e.g. "5.0 | 10 Reviews", or null when the site shows no score
+}
+
+  /**
+   * Studio class booking platform: listClasses is built; the rest (bookClass, cancelBooking,
+   * listMyBookings, …) is queued — see BUILD_QUEUE.md.
+   */
+  interface Unit {
+    /**
+     * Reads one studio's class schedule (public, no login): time, class name, instructor,
+     * capacity, review score, and the site's own booking-button label ("Book"/"Waitlist"/neither).
+     * Pass { subdomain: "ad1mnpsp" }; optionally { date, scheduleType }.
+     */
+    listClasses(args: ListClassesArgs): Promise<MyBestStudioClass[]>;
+  }
+}
+
 declare namespace BowmarkProvider_myollie {
   // ── Ollie — the unit's own declarations, verbatim ──
 interface MyollieGetMealPlanArgs {
@@ -61800,6 +61839,7 @@ interface BowmarkProviders {
   municipal_recreation_fees_fetcher: BowmarkProvider_municipal_recreation_fees_fetcher.Unit;
   muze_gov_tr: BowmarkProvider_muze_gov_tr.Unit;
   my_auroramedicalspa_com: BowmarkProvider_my_auroramedicalspa_com.Unit;
+  my_best_studio: BowmarkProvider_my_best_studio.Unit;
   myollie: BowmarkProvider_myollie.Unit;
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;

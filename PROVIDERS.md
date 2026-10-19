@@ -2670,7 +2670,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `my_best_studio.cancelBooking` | mybeststudio.us | Cancels a signed-in member's booking or waitlist spot. | ⚪ |
 | `my_best_studio.getClass` | mybeststudio.us | Returns details of one class: time, instructor, capacity, booked/waitlist status. | ⚪ |
 | `my_best_studio.joinWaitlist` | mybeststudio.us | Adds a signed-in member to the waitlist for one class. | ⚪ |
-| `my_best_studio.listClasses` | mybeststudio.us | Returns classes for a studio by date, with capacity, instructor, booked status and… | ⚪ |
+| `my_best_studio.listClasses` | mybeststudio.us | Reads one studio's class schedule (public, no login): time, class name, instructor… | 🟢 |
 | `my_best_studio.listInstructors` | mybeststudio.us | Lists all instructors for a studio. | ⚪ |
 | `my_best_studio.listLocations` | mybeststudio.us | Lists all studio locations and their details (name, address, timezone). | ⚪ |
 | `my_best_studio.listMyBookings` | mybeststudio.us | Lists a signed-in member's future class bookings and waitlist spots. | ⚪ |
@@ -2923,7 +2923,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pallet2ship.getQuote` | pallet2ship.co.uk | Live pallet freight quotes between two UK-mainland postcodes for one or more pallets… | 🟡 |
 | `partiful.discoverEvents` | partiful.com | Lists the public events Partiful's explore page shows for one region (sf, nyc, la… | 🟢 |
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
-| `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | ⚪ |
+| `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | 🟢 |
 | `patreon.getCurrentUserFeed` | patreon.com | Get the signed-in caller's home feed. | ⚪ |
 | `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | ⚪ |
 | `patreon.listCreatorPosts` | patreon.com | List all public posts from a creator, newest first. | ⚪ |
@@ -2934,10 +2934,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | 🟢 |
 | `pausestudio.bookAppointment` | pausestudio.com | Books an appointment; signed-in caller only | ⚪ |
 | `pausestudio.cancelBooking` | pausestudio.com | Cancels a confirmed booking | ⚪ |
-| `pausestudio.getLocationInfo` | pausestudio.com | Gets address, hours, phone and services offered at a location | ⚪ |
+| `pausestudio.getLocationInfo` | pausestudio.com | Gets address, phone and the services offered at one location, by the id… | 🟢 |
 | `pausestudio.joinWaitlist` | pausestudio.com | Adds caller to waitlist for a time slot | ⚪ |
 | `pausestudio.listAvailableSlots` | pausestudio.com | Lists available appointment times by service, date and location | ⚪ |
-| `pausestudio.listLocations` | pausestudio.com | Lists all Pause Studio recovery/wellness locations | ⚪ |
+| `pausestudio.listLocations` | pausestudio.com | Lists all Pause Studio recovery/wellness locations | 🟢 |
 | `pausestudio.listMyBookings` | pausestudio.com | Lists caller's upcoming and past bookings | ⚪ |
 | `pausestudio.listServices` | pausestudio.com | Lists available recovery services (float, cryo, sauna, IV drips, etc.) at a location | ⚪ |
 | `pausestudio.listWaitlistedSlots` | pausestudio.com | Lists times caller is waitlisted for | ⚪ |
@@ -4006,7 +4006,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
-| `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
+| `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟡 |
 | `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | 🟢 |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
