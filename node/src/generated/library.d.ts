@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0a61b5495a5556759e5bd62edb1697b7bc4d8de3aced2fe2f35594ef73da3c56
-// 85 capabilities, 591 providers, 2185 typed functions, 20 refused.
+// Manifest version: 321df7d93b437fc58164ac18afe3d9ef918498c5301b06d08897248289642155
+// 85 capabilities, 592 providers, 2186 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -41935,6 +41935,27 @@ interface DiscoverEventsArgs {
   }
 }
 
+declare namespace BowmarkProvider_patreon {
+  // ── Patreon — the unit's own declarations, verbatim ──
+interface patreonCreator {
+  id: string;
+  name?: string;
+  vanity?: string;
+  avatar?: string;
+  nsfw?: boolean;
+}
+
+interface SearchCreatorsArgs {
+  query: string;
+}
+
+  /** Reads a Patreon creator's page, tiers, and public posts and comments — logged out. */
+  interface Unit {
+    /** Search for creators across Patreon by name or query. */
+    searchCreators(args: SearchCreatorsArgs): Promise<patreonCreator[]>;
+  }
+}
+
 declare namespace BowmarkProvider_pawsup {
   // ── Paws Up — the unit's own declarations, verbatim ──
 interface AvailabilityResult {
@@ -61611,6 +61632,7 @@ interface BowmarkProviders {
   packlane: BowmarkProvider_packlane.Unit;
   pallet2ship: BowmarkProvider_pallet2ship.Unit;
   partiful: BowmarkProvider_partiful.Unit;
+  patreon: BowmarkProvider_patreon.Unit;
   pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   peerspace: BowmarkProvider_peerspace.Unit;

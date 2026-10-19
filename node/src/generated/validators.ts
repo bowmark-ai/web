@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0a61b5495a5556759e5bd62edb1697b7bc4d8de3aced2fe2f35594ef73da3c56
-// 2167 checked, 20 unchecked.
+// Manifest version: 321df7d93b437fc58164ac18afe3d9ef918498c5301b06d08897248289642155
+// 2168 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0a61b5495a5556759e5bd62edb1697b7bc4d8de3aced2fe2f35594ef73da3c56",
+  "version": "321df7d93b437fc58164ac18afe3d9ef918498c5301b06d08897248289642155",
   "units": {
     "address_validation": {
       "defs": {
@@ -44115,6 +44115,34 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "DiscoverEventsArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.patreon": {
+      "defs": {
+        "SearchCreatorsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchCreators": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchCreatorsArgs"
             },
             "optional": false
           }

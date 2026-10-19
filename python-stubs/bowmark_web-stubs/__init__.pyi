@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0a61b5495a5556759e5bd62edb1697b7bc4d8de3aced2fe2f35594ef73da3c56
-# 85 capabilities, 591 providers, 2167 typed functions, 20 refused.
+# Manifest version: 321df7d93b437fc58164ac18afe3d9ef918498c5301b06d08897248289642155
+# 85 capabilities, 592 providers, 2168 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23038,6 +23038,16 @@ class Prv_partiful_PartifulQuestion_Out(TypedDict):
 
 class Prv_partiful_DiscoverEventsArgs_In(TypedDict):
     region: str
+
+class Prv_patreon_SearchCreatorsArgs_In(TypedDict):
+    query: str
+
+class Prv_patreon_patreonCreator_Out(TypedDict):
+    id: str
+    name: NotRequired[str]
+    vanity: NotRequired[str]
+    avatar: NotRequired[str]
+    nsfw: NotRequired[bool]
 
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
@@ -49406,6 +49416,12 @@ class Prv_partiful(Protocol):
         getEvent for its hosts and RSVP form.
         """
 
+class Prv_patreon(Protocol):
+    """Reads a Patreon creator's page, tiers, and public posts and comments — logged out."""
+
+    async def searchCreators(self, args: Prv_patreon_SearchCreatorsArgs_In, /) -> list[Prv_patreon_patreonCreator_Out]:
+        """Search for creators across Patreon by name or query."""
+
 class Prv_pawsup(Protocol):
     """Luxury glamping resort availability and accommodations on Paws Up's booking portal."""
 
@@ -56424,6 +56440,7 @@ class BowmarkProviders(Protocol):
     packlane: Prv_packlane
     pallet2ship: Prv_pallet2ship
     partiful: Prv_partiful
+    patreon: Prv_patreon
     pawsup: Prv_pawsup
     paypal: Prv_paypal
     peerspace: Prv_peerspace
