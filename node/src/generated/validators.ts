@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c00261d71948c942570627da524d33020a6845a7cc469cd907f4ff464ba04062
-// 2177 checked, 20 unchecked.
+// Manifest version: b07d42b8b38d8b14192322edc2160c235ea795a7e5fb97161982d48bd234e59b
+// 2180 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c00261d71948c942570627da524d33020a6845a7cc469cd907f4ff464ba04062",
+  "version": "b07d42b8b38d8b14192322edc2160c235ea795a7e5fb97161982d48bd234e59b",
   "units": {
     "address_validation": {
       "defs": {
@@ -44362,6 +44362,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.patreon": {
       "defs": {
+        "GetCreatorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "vanity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchCreatorsArgs": {
           "k": "object",
           "props": [
@@ -44382,6 +44394,31 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchCreatorsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCreator": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCreatorArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.pausestudio": {
+      "defs": {},
+      "functions": {
+        "listLocations": [],
+        "getLocationInfo": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

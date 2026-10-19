@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c00261d71948c942570627da524d33020a6845a7cc469cd907f4ff464ba04062
-# 85 capabilities, 597 providers, 2177 typed functions, 20 refused.
+# Manifest version: b07d42b8b38d8b14192322edc2160c235ea795a7e5fb97161982d48bd234e59b
+# 85 capabilities, 598 providers, 2180 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23163,6 +23163,35 @@ class Prv_patreon_patreonCreator_Out(TypedDict):
     vanity: NotRequired[str]
     avatar: NotRequired[str]
     nsfw: NotRequired[bool]
+
+class Prv_patreon_GetCreatorArgs_In(TypedDict):
+    vanity: str
+
+class Prv_patreon_patreonCreatorDetail_Out(TypedDict):
+    id: str
+    name: NotRequired[str]
+    vanity: NotRequired[str]
+    avatar: NotRequired[str]
+    nsfw: NotRequired[bool]
+    summary: NotRequired[str]
+    createdAt: NotRequired[str]
+    patronCount: NotRequired[float]
+
+class Prv_pausestudio_Location_Out(TypedDict):
+    id: str
+    name: str
+    address: NotRequired[str]
+    city: NotRequired[str]
+    phone: NotRequired[str]
+    url: str
+
+class Prv_pausestudio_LocationInfo_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    phone: str
+    services: list[str]
+    url: str
 
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
@@ -49620,6 +49649,20 @@ class Prv_patreon(Protocol):
     async def searchCreators(self, args: Prv_patreon_SearchCreatorsArgs_In, /) -> list[Prv_patreon_patreonCreator_Out]:
         """Search for creators across Patreon by name or query."""
 
+    async def getCreator(self, args: Prv_patreon_GetCreatorArgs_In, /) -> Prv_patreon_patreonCreatorDetail_Out:
+        """Get details for a specific creator including name, avatar, and account creation date."""
+
+class Prv_pausestudio(Protocol):
+    """Recovery and wellness studio with float, cryo, sauna, and IV therapy bookings."""
+
+    async def listLocations(self, /) -> list[Prv_pausestudio_Location_Out]:
+        """Lists all Pause Studio recovery/wellness locations"""
+
+    async def getLocationInfo(self, id: str, /) -> Prv_pausestudio_LocationInfo_Out:
+        """Gets address, phone and the services offered at one location, by the id listLocations()
+        returns
+        """
+
 class Prv_pawsup(Protocol):
     """Luxury glamping resort availability and accommodations on Paws Up's booking portal."""
 
@@ -56654,6 +56697,7 @@ class BowmarkProviders(Protocol):
     pallet2ship: Prv_pallet2ship
     partiful: Prv_partiful
     patreon: Prv_patreon
+    pausestudio: Prv_pausestudio
     pawsup: Prv_pawsup
     paypal: Prv_paypal
     peerspace: Prv_peerspace

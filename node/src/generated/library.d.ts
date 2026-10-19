@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c00261d71948c942570627da524d33020a6845a7cc469cd907f4ff464ba04062
-// 85 capabilities, 597 providers, 2195 typed functions, 20 refused.
+// Manifest version: b07d42b8b38d8b14192322edc2160c235ea795a7e5fb97161982d48bd234e59b
+// 85 capabilities, 598 providers, 2198 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -42156,10 +42156,55 @@ interface SearchCreatorsArgs {
   query: string;
 }
 
+interface GetCreatorArgs {
+  vanity: string;
+}
+
+interface patreonCreatorDetail extends patreonCreator {
+  summary?: string;
+  createdAt?: string;
+  patronCount?: number;
+}
+
   /** Reads a Patreon creator's page, tiers, and public posts and comments — logged out. */
   interface Unit {
     /** Search for creators across Patreon by name or query. */
     searchCreators(args: SearchCreatorsArgs): Promise<patreonCreator[]>;
+
+    /** Get details for a specific creator including name, avatar, and account creation date. */
+    getCreator(args: GetCreatorArgs): Promise<patreonCreatorDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_pausestudio {
+  // ── Pause Studio — the unit's own declarations, verbatim ──
+interface Location {
+  id: string;
+  name: string;
+  address?: string;
+  city?: string;
+  phone?: string;
+  url: string;
+}
+interface LocationInfo {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  services: string[]; // the location's own catalog labels, e.g. "Float", "Infrared Sauna", "Compression Therapy"
+  url: string;
+}
+
+  /** Recovery and wellness studio with float, cryo, sauna, and IV therapy bookings. */
+  interface Unit {
+    /** Lists all Pause Studio recovery/wellness locations */
+    listLocations(): Promise<Location[]>;
+
+    /**
+     * Gets address, phone and the services offered at one location, by the id listLocations()
+     * returns
+     */
+    getLocationInfo(id: string): Promise<LocationInfo>;
   }
 }
 
@@ -61877,6 +61922,7 @@ interface BowmarkProviders {
   pallet2ship: BowmarkProvider_pallet2ship.Unit;
   partiful: BowmarkProvider_partiful.Unit;
   patreon: BowmarkProvider_patreon.Unit;
+  pausestudio: BowmarkProvider_pausestudio.Unit;
   pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   peerspace: BowmarkProvider_peerspace.Unit;
