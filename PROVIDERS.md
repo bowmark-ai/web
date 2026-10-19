@@ -2923,7 +2923,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.listMemberOnlyPosts` | patreon.com | List posts only visible to the signed-in caller (requires membership). | ⚪ |
 | `patreon.listPledges` | patreon.com | List the signed-in caller's memberships and pledges. | ⚪ |
 | `patreon.listPostComments` | patreon.com | List all comments on a post. | ⚪ |
-| `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | ⚪ |
+| `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | 🟢 |
 | `pausestudio.bookAppointment` | pausestudio.com | Books an appointment; signed-in caller only | ⚪ |
 | `pausestudio.cancelBooking` | pausestudio.com | Cancels a confirmed booking | ⚪ |
 | `pausestudio.getLocationInfo` | pausestudio.com | Gets address, hours, phone and services offered at a location | ⚪ |
