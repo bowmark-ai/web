@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4482 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4504 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -31,6 +31,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `abercrombie.search` | abercrombie.com | Searches or browses Abercrombie's live catalog the way the site's own search bar and… | 🟢 |
 | `abqplumb.getAvailability` | abqplumb.com | Returns currently-open ABQ Plumb appointment slots for a service and issue type… | 🟢 |
 | `abqplumb.listServices` | abqplumb.com | Lists ABQ Plumb's public booking-widget services and their issue types — the entry… | 🟢 |
+| `accuweather.browseLocations` | accuweather.com | Walks AccuWeather's location directory - regions, countries, states or provinces, and… | ⚪ |
+| `accuweather.getActivityForecast` | accuweather.com | Outdoor activity outlook for a location by activity - running, hiking, biking, golf… | ⚪ |
+| `accuweather.getAirQuality` | accuweather.com | Current air quality for a location - the AQI value and category, health message, and… | ⚪ |
+| `accuweather.getAllergyForecast` | accuweather.com | Pollen and allergen outlook for a location over the coming days - tree, grass and… | ⚪ |
+| `accuweather.getArticle` | accuweather.com | Reads one AccuWeather news article by url - headline, author, published time and body… | ⚪ |
+| `accuweather.getCurrentConditions` | accuweather.com | Current conditions for a location - temperature, RealFeel, conditions phrase, wind and… | ⚪ |
+| `accuweather.getDailyForecast` | accuweather.com | The 10-day daily forecast for a location - day and night conditions, high/low… | ⚪ |
+| `accuweather.getDayDetails` | accuweather.com | Full day and night detail for one forecast day (1-15) - RealFeel, RealFeel Shade… | ⚪ |
+| `accuweather.getExtendedForecast` | accuweather.com | The long-range daily forecast beyond day 15 (to day 45) that AccuWeather sells with… | ⚪ |
+| `accuweather.getHealthForecast` | accuweather.com | Weather-driven health risk outlook for a location by condition - arthritis, sinus… | ⚪ |
+| `accuweather.getHourlyForecast` | accuweather.com | Hour-by-hour forecast for a location for today or a later day - temperature, RealFeel… | ⚪ |
+| `accuweather.getLocation` | accuweather.com | Resolves a place name, autocomplete key or lat/lon to AccuWeather's numeric location… | ⚪ |
+| `accuweather.getMinuteCast` | accuweather.com | Minute-by-minute precipitation for the next two hours at a location - start and end of… | ⚪ |
+| `accuweather.getMonthlyForecast` | accuweather.com | A month's calendar for a location - forecast high/low for upcoming days, actual… | ⚪ |
+| `accuweather.getRadarMap` | accuweather.com | The weather radar view for a location - the radar image or tile URLs for current and… | ⚪ |
+| `accuweather.getStorm` | accuweather.com | One tropical storm's tracker - position, category, winds, movement and forecast path… | ⚪ |
+| `accuweather.getWinterForecast` | accuweather.com | The winter outlook for a location - expected snowfall and ice accumulation by period… | ⚪ |
+| `accuweather.listActiveStorms` | accuweather.com | Active hurricanes, typhoons and tropical cyclones worldwide - each storm's name… | ⚪ |
+| `accuweather.listAlerts` | accuweather.com | Active weather warnings, watches and advisories for a location, with each alert's… | ⚪ |
+| `accuweather.listLifestyleIndices` | accuweather.com | Today's level for every allergy, health and outdoor-activity index AccuWeather… | ⚪ |
+| `accuweather.listNews` | accuweather.com | Latest AccuWeather weather news headlines, optionally by section (weather forecasts… | ⚪ |
+| `accuweather.searchLocations` | accuweather.com | Finds places by name, ZIP or postal code via the site's own search box autocomplete -… | ⚪ |
 | `acerentacar.searchAvailability` | acerentacar.com | Returns ACE's live vehicle availability and rate totals for a public pickup location… | 🟢 |
 | `acerentacar.searchLocations` | acerentacar.com | Matches a free-text city, airport or state against ACE's public location catalog and… | 🟢 |
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |

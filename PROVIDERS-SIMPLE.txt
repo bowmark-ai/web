@@ -14,6 +14,7 @@ a1storage.com — a1storage: getFacilityUnits, getMoveInCost, listFacilities
 aa.com — aa: getAirportInfo, getBaggageAllowance, getFlightStatus, getSeatMap, getServiceFees, listLounges, retrieveBooking, search, searchAwardFlights
 abercrombie.com — abercrombie: checkGiftCardBalance, checkStock, findStores, getDeals, getProduct, search
 abqplumb.com — abqplumb: getAvailability, listServices
+accuweather.com — accuweather: browseLocations, getActivityForecast, getAirQuality, getAllergyForecast, getArticle, getCurrentConditions, getDailyForecast, getDayDetails, getExtendedForecast, getHealthForecast, getHourlyForecast, getLocation, getMinuteCast, getMonthlyForecast, getRadarMap, getStorm, getWinterForecast, listActiveStorms, listAlerts, listLifestyleIndices, listNews, searchLocations
 acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
 acqualinaresort.com — acqualinaresort: searchAvailability
