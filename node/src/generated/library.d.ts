@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b07d42b8b38d8b14192322edc2160c235ea795a7e5fb97161982d48bd234e59b
-// 85 capabilities, 598 providers, 2198 typed functions, 20 refused.
+// Manifest version: c4e289c730971008adfc80e8b5d434ce8166773a787c675de27d23812e419472
+// 85 capabilities, 598 providers, 2199 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -31979,7 +31979,9 @@ interface insurifyCarrierUserReviews {
      * `null` rather than `0`, because "not covered" and "no deductible" are opposite facts. An
      * empty `quotes` array with `completed: true` is a real answer — no carrier in that market
      * would write that property — and is distinct from `InsurifyHomeQuoteRefused`, which means the
-     * site rejected the request itself.
+     * site rejected the request itself. `completed: false` means the call stopped at its deadline
+     * (~75 s) before every carrier answered: the rows are real but SHORT, and
+     * `cheapestFullTermAmount` is the cheapest of those rows, not of the market.
      */
     getHomeQuotes(query: insurifyHomeQuotesQuery): Promise<insurifyHomeQuotes>;
 
@@ -42624,9 +42626,10 @@ interface PinterestUser {
   image_large_url?: string;
 }
 interface PinterestSuggestion {
+  type: "query" | "user";
   text: string;
-  display_text?: string;
-  search_id?: string;
+  url?: string;
+  username?: string;
 }
 interface PinterestPinDetail {
   id: string;
@@ -42780,6 +42783,18 @@ interface PinterestComment {
      * `PinterestInputError` on an empty or non-string id.
      */
     listPinComments(aggregatedPinDataId: string): Promise<{ comments: PinterestComment[] }>;
+
+    /**
+     * Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre" and
+     * get back the searches it would offer, so a vague ask becomes a query `searchPins` can take.
+     * The result mixes two kinds: a `"query"` suggestion is a phrase to search next, a `"user"`
+     * suggestion is a person or brand to follow instead. `POST/GET
+     * /resource/AdvancedTypeaheadResource/get/` with `{ term, pin_scope: "pins",
+     * autocomplete_request_surface: 0 }` — NOT `TypeaheadResource`, which answers `{"items":[]}`
+     * on every shape (see `BUILD_QUEUE.md`). THROWS `PinterestInputError` on an empty or
+     * non-string term.
+     */
+    suggestSearches(term: string): Promise<{ suggestions: PinterestSuggestion[] }>;
   }
 }
 

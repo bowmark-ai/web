@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b07d42b8b38d8b14192322edc2160c235ea795a7e5fb97161982d48bd234e59b
-# 85 capabilities, 598 providers, 2180 typed functions, 20 refused.
+# Manifest version: c4e289c730971008adfc80e8b5d434ce8166773a787c675de27d23812e419472
+# 85 capabilities, 598 providers, 2181 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23586,6 +23586,15 @@ class Prv_pinterest_PinterestComment_Out_user_Out(TypedDict):
     username: str
     full_name: NotRequired[str]
 
+class Prv_pinterest_suggestSearches_return_Out(TypedDict):
+    suggestions: list[Prv_pinterest_PinterestSuggestion_Out]
+
+class Prv_pinterest_PinterestSuggestion_Out(TypedDict):
+    type: Literal["query"] | Literal["user"]
+    text: str
+    url: NotRequired[str]
+    username: NotRequired[str]
+
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
     width: float
@@ -45962,7 +45971,9 @@ class Prv_insurify(Protocol):
         `null` rather than `0`, because "not covered" and "no deductible" are opposite facts. An
         empty `quotes` array with `completed: true` is a real answer — no carrier in that market
         would write that property — and is distinct from `InsurifyHomeQuoteRefused`, which means
-        the site rejected the request itself.
+        the site rejected the request itself. `completed: false` means the call stopped at its
+        deadline (~75 s) before every carrier answered: the rows are real but SHORT, and
+        `cheapestFullTermAmount` is the cheapest of those rows, not of the market.
         """
 
     async def getRentersQuotes(self, query: Prv_insurify_insurifyRentersQuotesQuery_In, /) -> Prv_insurify_insurifyRentersQuotes_Out:
@@ -49876,6 +49887,17 @@ class Prv_pinterest(Protocol):
         Takes the `aggregated_pin_data.id` from `getPin` (not the pin id itself) and returns an
         array of comments in reverse chronological order. Uses `UnifiedCommentsResource`. THROWS
         `PinterestInputError` on an empty or non-string id.
+        """
+
+    async def suggestSearches(self, term: str, /) -> Prv_pinterest_suggestSearches_return_Out:
+        """Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre"
+        and get back the searches it would offer, so a vague ask becomes a query `searchPins`
+        can take. The result mixes two kinds: a `"query"` suggestion is a phrase to search next,
+        a `"user"` suggestion is a person or brand to follow instead. `POST/GET
+        /resource/AdvancedTypeaheadResource/get/` with `{ term, pin_scope: "pins",
+        autocomplete_request_surface: 0 }` — NOT `TypeaheadResource`, which answers
+        `{"items":[]}` on every shape (see `BUILD_QUEUE.md`). THROWS `PinterestInputError` on an
+        empty or non-string term.
         """
 
 class Prv_pirateship(Protocol):

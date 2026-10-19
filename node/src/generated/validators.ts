@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b07d42b8b38d8b14192322edc2160c235ea795a7e5fb97161982d48bd234e59b
-// 2180 checked, 20 unchecked.
+// Manifest version: c4e289c730971008adfc80e8b5d434ce8166773a787c675de27d23812e419472
+// 2181 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b07d42b8b38d8b14192322edc2160c235ea795a7e5fb97161982d48bd234e59b",
+  "version": "c4e289c730971008adfc80e8b5d434ce8166773a787c675de27d23812e419472",
   "units": {
     "address_validation": {
       "defs": {
@@ -44978,6 +44978,15 @@ export const VALIDATORS: ValidatorTable = {
         "listPinComments": [
           {
             "name": "aggregatedPinDataId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "suggestSearches": [
+          {
+            "name": "term",
             "schema": {
               "k": "string"
             },
