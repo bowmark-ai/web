@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4586 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4587 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -52,7 +52,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `accuweather.listAlerts` | accuweather.com | Active weather warnings, watches and advisories for a location, with each alert's… | ⚪ |
 | `accuweather.listLifestyleIndices` | accuweather.com | Today's level for every allergy, health and outdoor-activity index AccuWeather… | ⚪ |
 | `accuweather.listNews` | accuweather.com | Latest AccuWeather weather news headlines, optionally by section (weather forecasts… | ⚪ |
-| `accuweather.searchLocations` | accuweather.com | Finds places by name, ZIP or postal code via the site's own search box autocomplete -… | ⚪ |
+| `accuweather.searchLocations` | accuweather.com | Finds places by name, ZIP or postal code via the site's own search box autocomplete -… | 🟢 |
 | `acerentacar.searchAvailability` | acerentacar.com | Returns ACE's live vehicle availability and rate totals for a public pickup location… | 🟢 |
 | `acerentacar.searchLocations` | acerentacar.com | Matches a free-text city, airport or state against ACE's public location catalog and… | 🟢 |
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |
@@ -2628,8 +2628,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mindbodyonline.waitlistSession` | mindbodyonline.com | Joins the signed-in caller onto the waitlist for a full class session. | 🟢 |
 | `minimax.getDocs` | platform.minimax.io | Resolves a topic (e.g. "text generation", "mcp guide", "voice clone") against… | 🟢 |
 | `minted.getCardOptions` | minted.com | Would return one product's actual named paper/format/foil choices (not just the price… | ⚪ |
-| `minted.priceCard` | minted.com | Prices one exact personalized-card configuration (design + paper + print method + foil… | 🟢 |
-| `minted.searchCards` | minted.com | Browses one of Minted's real photo-card/stationery categories (e.g.… | 🟢 |
+| `minted.priceCard` | minted.com | Prices one exact personalized-card configuration (design + paper + print method + foil… | 🟡 |
+| `minted.searchCards` | minted.com | Browses one of Minted's real photo-card/stationery categories (e.g.… | 🟡 |
 | `mixbook.getActivePromotion` | mixbook.com | Reads the real, currently-active sitewide coupon banner (description, code, terms URL). | 🟢 |
 | `mixbook.getPhotoBookPriceTable` | mixbook.com | Returns Mixbook's full published rate card: every cover/paper x size combination, the… | 🟢 |
 | `mixbook.getProductPrice` | mixbook.com | Reads one theme's real product page and returns Mixbook's own server-computed price… | 🟢 |
@@ -3568,7 +3568,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `solidcore.getPack` | solidcore.co | Returns details of a class pack: price, expiration, class count. | ⚪ |
 | `solidcore.getPricing` | solidcore.co | Returns class pricing, drop-in rates, and package options. | ⚪ |
 | `solidcore.getSchedule` | solidcore.co | Returns class schedule for a studio and date range, including class name, time, coach… | ⚪ |
-| `solidcore.getStudio` | solidcore.co | Returns one studio's details: name, address, phone, amenities. | ⚪ |
+| `solidcore.getStudio` | solidcore.co | Returns one studio's own record off the same chain-wide registry listStudios reads… | 🟢 |
 | `solidcore.getStudioHours` | solidcore.co | Returns a studio's operating hours. | ⚪ |
 | `solidcore.joinWaitlist` | solidcore.co | Joins the waitlist for a full class. | ⚪ |
 | `solidcore.listClassCategories` | solidcore.co | Lists class types offered (strength, cardio, endurance, etc.). | ⚪ |
@@ -4064,7 +4064,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `upkeepstl_com.estimatePlanCost` | upkeepstl.com | Computes the total contract price and per-year price for one plan selection (home… | 🟢 |
 | `upkeepstl_com.getPlanBuilder` | upkeepstl.com | Reads UPKEEP's public 'Build Your Plan' quote-form schema: the home-warranty plan… | 🟢 |
 | `ups.calculateShippingCost` | ups.com | Calculates shipping cost and delivery timeframes from the public shipping calculator… | ⚪ |
-| `ups.estimateDeliveryDate` | ups.com | Estimates delivery date and timeframe for shipment between two locations with a… | ⚪ |
+| `ups.estimateDeliveryDate` | ups.com | Estimates delivery date and timeframe for shipment between two locations with a… | 🟢 |
 | `ups.findNearbyLocation` | ups.com | Finds nearby UPS drop-off and pickup locations by ZIP code or address. | ⚪ |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
 | `ups.schedulePickup` | ups.com | Schedules a package pickup at an address for a specified date and time. | ⚪ |
@@ -4273,7 +4273,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellnessliving.getWaitlistPosition` | wellnessliving.com | Gets the customer's position on a specific class waitlist | ⚪ |
 | `wellnessliving.joinWaitlist` | wellnessliving.com | Adds the customer to a class waitlist | ⚪ |
 | `wellnessliving.leaveWaitlist` | wellnessliving.com | Removes the customer from a class waitlist | ⚪ |
-| `wellnessliving.listLocations` | wellnessliving.com | Lists all studio locations available on the platform | ⚪ |
+| `wellnessliving.listKnownBusinesses` | wellnessliving.com | Lists the WellnessLiving businesses this provider already has a confirmed scheduleUrl… | 🟢 |
+| `wellnessliving.listLocations` | wellnessliving.com | Lists all studio locations available on the platform | 🟢 |
 | `wellnessliving.listScheduleClasses` | wellnessliving.com | Lists available classes across studios by date and location | ⚪ |
 | `wellnessliving.purchasePackage` | wellnessliving.com | Purchases a class package; requires payment | ⚪ |
 | `wellnessliving.searchClasses` | wellnessliving.com | Searches classes by class type, instructor, or location filters | ⚪ |

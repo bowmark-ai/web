@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 15602fa3390c7a91af2d3bd4cb0ada7efd172a4169dbe744c4cb7c6869d58cef
-// 2200 checked, 20 unchecked.
+// Manifest version: eec3c5ad87e7d9118bc834b7fd3209adaca43971606d54b4ee64c3737b72547e
+// 2206 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "15602fa3390c7a91af2d3bd4cb0ada7efd172a4169dbe744c4cb7c6869d58cef",
+  "version": "eec3c5ad87e7d9118bc834b7fd3209adaca43971606d54b4ee64c3737b72547e",
   "units": {
     "address_validation": {
       "defs": {
@@ -17803,6 +17803,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "GetStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -17812,6 +17824,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FindStudiosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStudioArgs"
             },
             "optional": false
           }
@@ -18214,6 +18236,15 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListStudiosArgs"
             },
             "optional": true
+          }
+        ],
+        "getStudio": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -44099,6 +44130,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            },
+            {
+              "name": "seating",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         }
@@ -44918,7 +44956,34 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.pausestudio": {
-      "defs": {},
+      "defs": {
+        "ListAvailableSlotsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "serviceName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "listLocations": [],
         "getLocationInfo": [
@@ -44937,6 +45002,32 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "listAvailableSlots": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListAvailableSlotsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -53933,6 +54024,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getStore": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "storeId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -58941,7 +59050,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listNewsletters": []
+        "listNewsletters": [],
+        "getMostRead": []
       }
     },
     "providers.therabody": {
@@ -65938,6 +66048,43 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.wodify": {
+      "defs": {},
+      "functions": {
+        "listGymSchedule": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "gymHost",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "locationId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "date",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

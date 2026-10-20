@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 15602fa3390c7a91af2d3bd4cb0ada7efd172a4169dbe744c4cb7c6869d58cef
-# 85 capabilities, 607 providers, 2200 typed functions, 20 refused.
+# Manifest version: eec3c5ad87e7d9118bc834b7fd3209adaca43971606d54b4ee64c3737b72547e
+# 85 capabilities, 608 providers, 2206 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9867,6 +9867,31 @@ class Prv_clubpilates_ClubPilatesStudio_Out(TypedDict):
     timezone: str
     openStatus: str
 
+class Prv_clubpilates_GetStudioArgs_In(TypedDict):
+    studio: str
+
+class Prv_clubpilates_ClubPilatesStudioDetail_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    address2: str | None
+    city: str
+    state: str
+    zip: str
+    countryCode: str
+    lat: float
+    lng: float
+    timezone: str
+    phone: str
+    email: str
+    openStatus: str
+    hideSchedule: bool
+    siteSlug: str
+    siteUrl: str
+    waiverUrl: str | None
+    laFitness: bool
+    laFitnessWarning: str | None
+
 class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
     symbol: str
 
@@ -10078,6 +10103,37 @@ class Prv_corepoweryoga_CorePowerYogaStudio_Out(TypedDict):
 class Prv_corepoweryoga_CorePowerYogaStudio_Out_coordinates_u0_Out(TypedDict):
     lat: float
     lng: float
+
+class Prv_corepoweryoga_CorePowerYogaStudioDetail_Out(TypedDict):
+    id: str
+    name: str
+    slug: str
+    address: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    phone: str | None
+    coordinates: Prv_corepoweryoga_CorePowerYogaStudioDetail_Out_coordinates_u0_Out | None
+    closed: bool
+    openDate: str | None
+    email: str | None
+    instagramUrl: str | None
+    twitterUrl: str | None
+    googleReviewUrl: str | None
+    amenities: list[str]
+    studioManager: Prv_corepoweryoga_CorePowerYogaStudioDetail_Out_studioManager_u0_Out | None
+    about: str | None
+    parkingInformation: str | None
+    howToFindUs: str | None
+
+class Prv_corepoweryoga_CorePowerYogaStudioDetail_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_corepoweryoga_CorePowerYogaStudioDetail_Out_studioManager_u0_Out(TypedDict):
+    firstName: str
+    lastName: str
+    email: str | None
 
 class Prv_costco_CostcoSearchSuggestion_Out(TypedDict):
     term: str
@@ -21719,6 +21775,7 @@ class Prv_netflix_NetflixTitle_Out(TypedDict):
 class Prv_netflix_NetflixTop10Entry_Out(TypedDict):
     rank: float
     category: Literal["TV"] | Literal["Films"]
+    language: Literal["English"] | Literal["Non-English"]
     title: str
     weeklyViews: NotRequired[float]
     weeklyHours: NotRequired[float]
@@ -22920,6 +22977,7 @@ class Prv_opentable_OpenTableStartBookingArgs_In(TypedDict):
     partySize: float
     diner: Prv_opentable_OpenTableDiner_In
     specialRequest: NotRequired[str]
+    seating: NotRequired[str]
 
 class Prv_opentable_OpenTableDiner_In(TypedDict):
     phone: str
@@ -22934,6 +22992,8 @@ class Prv_opentable_OpenTableBookingStarted_Out(TypedDict):
     partySize: float
     codeSentTo: str
     holdExpiresAt: str
+    seating: NotRequired[str]
+    seatingOptions: NotRequired[list[str]]
 
 class Prv_opentable_confirmBooking_args_In(TypedDict):
     code: str
@@ -23353,6 +23413,14 @@ class Prv_pausestudio_LocationInfo_Out(TypedDict):
 class Prv_pausestudio_ServiceCredit_Out(TypedDict):
     name: str
     credits: float
+
+class Prv_pausestudio_ListAvailableSlotsArgs_In(TypedDict):
+    locationId: str
+    serviceName: str
+    date: str
+
+class Prv_pausestudio_AvailableSlot_Out(TypedDict):
+    time: str
 
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
@@ -26623,6 +26691,39 @@ class Prv_safeway_SafewayStoreAddress_Out(TypedDict):
     zipcode: str
     country: str
 
+class Prv_safeway_getStore_args_In(TypedDict):
+    storeId: str
+
+class Prv_safeway_SafewayStoreDetail_Out(TypedDict):
+    storeId: str
+    storeName: str
+    address: Prv_safeway_SafewayStoreAddress_Out
+    localPageUrl: str
+    offersGroceryDelivery: bool
+    offersPickup: bool
+    offersRushDelivery: bool
+    offersGroceryRewards: bool
+    division: Prv_safeway_SafewayStoreDetail_Out_division_Out
+    departments: list[Prv_safeway_SafewayStoreDepartment_Out]
+    warnings: list[str]
+
+class Prv_safeway_SafewayStoreDetail_Out_division_Out(TypedDict):
+    name: str
+    number: str
+
+class Prv_safeway_SafewayStoreDepartment_Out(TypedDict):
+    departmentId: str
+    departmentName: str
+    serviceDepartmentType: str
+    serviceEnabled: bool
+    isCateringEnabled: bool
+    hours: list[Prv_safeway_SafewayStoreDepartmentHours_Out]
+
+class Prv_safeway_SafewayStoreDepartmentHours_Out(TypedDict):
+    day: str
+    startHour: str
+    endHour: str
+
 class Prv_saltandstone_ScentFamily_Out(TypedDict):
     handle: str
     name: str
@@ -29511,6 +29612,9 @@ class Prv_theguardian_com_GuardianNewsletter_Out(TypedDict):
     group: str
     regionFocus: str | None
     exampleUrl: str | None
+
+class Prv_theguardian_com_GuardianMostReadResult_Out(TypedDict):
+    mostRead: list[Prv_theguardian_com_GuardianArticleSummary_Out]
 
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -33251,6 +33355,28 @@ class Prv_winestyles_WinestylesProduct_Out(TypedDict):
 class Prv_winestyles_WinestylesProduct_Out_price_Out(TypedDict):
     value: float | None
     formatted: str | None
+
+class Prv_wodify_listGymSchedule_args_In(TypedDict):
+    gymHost: str
+    locationId: float
+    date: NotRequired[str]
+
+class Prv_wodify_WodifyScheduleClass_Out(TypedDict):
+    id: float
+    name: str
+    startTime: str
+    endTime: str
+    program: str | None
+    capacity: Prv_wodify_WodifyScheduleClass_Out_capacity_Out
+    isFull: bool
+    isCancelled: bool
+    coaches: list[str]
+
+class Prv_wodify_WodifyScheduleClass_Out_capacity_Out(TypedDict):
+    limit: float
+    reserved: float
+    available: float
+    waitlisted: float
 
 class Prv_workable_WorkableAccount_Out(TypedDict):
     account: str
@@ -40951,6 +41077,13 @@ class Prv_clubpilates(Protocol):
         function's `studio` argument comes from.
         """
 
+    async def getStudio(self, args: Prv_clubpilates_GetStudioArgs_In, /) -> Prv_clubpilates_ClubPilatesStudioDetail_Out:
+        """Returns one studio's full detail by id (from findStudios) or by its clubpilates.com page
+        slug ("unionstreet"): address, phone, email, timezone, whether its public schedule is
+        hidden, its waiver URL, and whether it sits inside an LA Fitness (which needs an LA
+        Fitness membership to book).
+        """
+
 class Prv_cnbc_com(Protocol):
     """Stock quotes, market data, news, videos and analysis from CNBC."""
 
@@ -41143,6 +41276,14 @@ class Prv_corepoweryoga(Protocol):
         date. Excludes studios the site lists as closed unless { includeClosed: true } is
         passed. Reads the site's own public Contentful studio directory, so this is also the
         door every other function's studio argument comes from.
+        """
+
+    async def getStudio(self, studio: str, /) -> Prv_corepoweryoga_CorePowerYogaStudioDetail_Out:
+        """Gets one studio's full detail page content — amenities (e.g. heated rooms, mat/towel
+        rentals), contact info (email, phone, Instagram/Twitter/Google review links), the studio
+        manager's name and email, and the site's own 'about this studio', parking and
+        how-to-find-us blurbs. Takes either the Zenoti center GUID or the slug that listStudios
+        returns. Throws if the site has no such studio.
         """
 
 class Prv_costco(Protocol):
@@ -49138,8 +49279,8 @@ class Prv_netflix(Protocol):
         """
 
     async def getTop10(self, /) -> list[Prv_netflix_NetflixTop10Entry_Out]:
-        """Gets Netflix's current Top 10 list for the week (TV and Films), ranked by views. Ranks
-        1-10 for each category. No sign-in.
+        """Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10
+        separately for English and non-English titles, by views. No sign-in.
         """
 
     async def listGenres(self, /) -> list[Prv_netflix_NetflixGenre_Out]:
@@ -49846,17 +49987,18 @@ class Prv_opentable(Protocol):
 
     async def startBooking(self, args: Prv_opentable_OpenTableStartBookingArgs_In, /) -> Prv_opentable_OpenTableBookingStarted_Out:
         """Starts a guest reservation for one open time: opens the restaurant's page at `dateTime`,
-        clicks that time, accepts the restaurant's terms, presses "Complete reservation" and
-        enters `diner.phone`, so OpenTable TEXTS A CODE to that phone and holds the table for 5
-        minutes. Then call `confirmBooking({ code })` IN THE SAME BOWMARK SESSION: the held
-        table lives in that session's browser, so a separate `run` cannot finish it. With the
-        MCP tools: `session_call({ path: ["providers", "opentable", "startBooking"], args: [{
-        …startBooking args }] })`, ask the person for the texted code, then `session_call({
-        sessionId, path: ["providers", "opentable", "confirmBooking"], args: [{ code: "…" }] })`
-        with the `sessionId` the first call returned, within 5 minutes. Over HTTP: `POST
-        /v1/session` (Bearer API key) returns `{ sessionId }`, and `POST
-        /v1/session/<sessionId>/call` takes the same `{"path": [...], "args": [...]}`. Throws
-        when `dateTime` is no longer open.
+        clicks that time, picks a seating option when the restaurant asks for one (`seating`,
+        else the first offered; the result names it and lists `seatingOptions`), accepts the
+        restaurant's terms, presses "Complete reservation" and enters `diner.phone`, so
+        OpenTable TEXTS A CODE to that phone and holds the table for 5 minutes. Then call
+        `confirmBooking({ code })` IN THE SAME BOWMARK SESSION: the held table lives in that
+        session's browser, so a separate `run` cannot finish it. With the MCP tools:
+        `session_call({ path: ["providers", "opentable", "startBooking"], args: [{ …startBooking
+        args }] })`, ask the person for the texted code, then `session_call({ sessionId, path:
+        ["providers", "opentable", "confirmBooking"], args: [{ code: "…" }] })` with the
+        `sessionId` the first call returned, within 5 minutes. Over HTTP: `POST /v1/session`
+        (Bearer API key) returns `{ sessionId }`, and `POST /v1/session/<sessionId>/call` takes
+        the same `{"path": [...], "args": [...]}`. Throws when `dateTime` is no longer open.
         """
 
     async def confirmBooking(self, args: Prv_opentable_confirmBooking_args_In, /) -> Prv_opentable_OpenTableBooking_Out:
@@ -50083,6 +50225,11 @@ class Prv_pausestudio(Protocol):
     async def listServices(self, id: str, /) -> list[Prv_pausestudio_ServiceCredit_Out]:
         """Lists the services bookable at one location with the membership credits each one costs,
         by the id listLocations() returns
+        """
+
+    async def listAvailableSlots(self, args: Prv_pausestudio_ListAvailableSlotsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_pausestudio_AvailableSlot_Out]:
+        """Lists available appointment times for one service at one location on one date — requires
+        the caller's own signed-in session
         """
 
 class Prv_pawsup(Protocol):
@@ -52021,6 +52168,13 @@ class Prv_safeway(Protocol):
         findStores.ts's header on why an absent list must not read as an honest empty one.
         """
 
+    async def getStore(self, args: Prv_safeway_getStore_args_In, /) -> Prv_safeway_SafewayStoreDetail_Out:
+        """Returns one Safeway store by id (from findStores): address, the rewards-program
+        delivery/pickup flags, and its own SERVICE departments (Floral, Deli, …) with their
+        weekly hours. Does NOT carry a phone number or a single storefront open/close pair — the
+        door answers neither; see getStore.ts's header.
+        """
+
 class Prv_saltandstone(Protocol):
     """Salt & Stone's own Scent Quiz, reimplemented over its real six named scent families:
     list every family's real fragrance notes, compute a real ranked match against a
@@ -53585,6 +53739,11 @@ class Prv_theguardian_com(Protocol):
     async def listNewsletters(self, /) -> Prv_theguardian_com_GuardianListNewslettersResult_Out:
         """Every email newsletter The Guardian publishes — name, description, frequency, theme and
         which edition it targets (when the site declares one).
+        """
+
+    async def getMostRead(self, /) -> Prv_theguardian_com_GuardianMostReadResult_Out:
+        """The Guardian's current site-wide most-read list — the ten articles its own readers are
+        viewing most, with title, url, summary, byline and publish time.
         """
 
 class Prv_therabody(Protocol):
@@ -55839,6 +55998,22 @@ class Prv_winestyles(Protocol):
         is not a real WineStyles store — call listStores() for real ids.
         """
 
+class Prv_wodify(Protocol):
+    """Wodify gym booking — class schedules, pricing and member functions for Wodify-powered
+    gyms.
+    """
+
+    async def listGymSchedule(self, args: Prv_wodify_listGymSchedule_args_In, /) -> list[Prv_wodify_WodifyScheduleClass_Out]:
+        """Reads one Wodify-powered gym's public class schedule for a single day — class name,
+        program, start/end time, coach names, and live capacity (limit, reserved, available,
+        waitlisted). No login: this is the same logged-out schedule every visitor to the gym's
+        booking page sees. `gymHost` is the gym's own `<gym>.wodify.com` subdomain (e.g.
+        "crossfitalineamembership.wodify.com" for CrossFit Alinea) and `locationId` is the
+        numeric id in its booking embed's `?LocationId=` query param — both read straight off
+        the gym's public `/OnlineSalesPage/WebIntegration` page. `date` (ISO yyyy-mm-dd)
+        defaults to today.
+        """
+
 class Prv_workable(Protocol):
     """Every published job on a company's Workable careers page (apply.workable.com) — title,
     department, location, remote flag and posting date — live off Workable's own job-widget
@@ -57372,6 +57547,7 @@ class BowmarkProviders(Protocol):
     wikipedia_standings: Prv_wikipedia_standings
     windscribe: Prv_windscribe
     winestyles: Prv_winestyles
+    wodify: Prv_wodify
     workable: Prv_workable
     workday: Prv_workday
     wunderflats: Prv_wunderflats

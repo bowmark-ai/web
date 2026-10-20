@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 15602fa3390c7a91af2d3bd4cb0ada7efd172a4169dbe744c4cb7c6869d58cef
-// 85 capabilities, 607 providers, 2218 typed functions, 20 refused.
+// Manifest version: eec3c5ad87e7d9118bc834b7fd3209adaca43971606d54b4ee64c3737b72547e
+// 85 capabilities, 608 providers, 2224 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17440,6 +17440,33 @@ interface ClubPilatesStudio {
   openStatus: string;
 }
 
+interface GetStudioArgs {
+  studio: string;
+}
+
+interface ClubPilatesStudioDetail {
+  id: string;
+  name: string;
+  address: string;
+  address2: string | null;
+  city: string;
+  state: string;
+  zip: string;
+  countryCode: string;
+  lat: number;
+  lng: number;
+  timezone: string;
+  phone: string;
+  email: string;
+  openStatus: string;
+  hideSchedule: boolean;
+  siteSlug: string;
+  siteUrl: string;
+  waiverUrl: string | null;
+  laFitness: boolean;
+  laFitnessWarning: string | null;
+}
+
   /**
    * Club Pilates studios: find a studio, read its class schedule and pricing, and (signed in)
    * book, waitlist and cancel classes.
@@ -17451,6 +17478,14 @@ interface ClubPilatesStudio {
      * `studio` argument comes from.
      */
     findStudios(args: FindStudiosArgs): Promise<ClubPilatesStudio[]>;
+
+    /**
+     * Returns one studio's full detail by id (from findStudios) or by its clubpilates.com page
+     * slug ("unionstreet"): address, phone, email, timezone, whether its public schedule is
+     * hidden, its waiver URL, and whether it sits inside an LA Fitness (which needs an LA Fitness
+     * membership to book).
+     */
+    getStudio(args: GetStudioArgs): Promise<ClubPilatesStudioDetail>;
   }
 }
 
@@ -17936,6 +17971,18 @@ interface ListStudiosArgs {
   includeClosed?: boolean;
 }
 
+interface CorePowerYogaStudioDetail extends CorePowerYogaStudio {
+  email: string | null;
+  instagramUrl: string | null;
+  twitterUrl: string | null;
+  googleReviewUrl: string | null;
+  amenities: string[];  // the site's own labels — read the values off a result, never guess one from prose
+  studioManager: { firstName: string; lastName: string; email: string | null } | null;
+  about: string | null;
+  parkingInformation: string | null;
+  howToFindUs: string | null;
+}
+
   /** Lists studio schedules, books classes, and reads booking details for CorePower Yoga. */
   interface Unit {
     /**
@@ -17946,6 +17993,15 @@ interface ListStudiosArgs {
      * function's studio argument comes from.
      */
     listStudios(args?: ListStudiosArgs): Promise<CorePowerYogaStudio[]>;
+
+    /**
+     * Gets one studio's full detail page content — amenities (e.g. heated rooms, mat/towel
+     * rentals), contact info (email, phone, Instagram/Twitter/Google review links), the studio
+     * manager's name and email, and the site's own 'about this studio', parking and how-to-find-us
+     * blurbs. Takes either the Zenoti center GUID or the slug that listStudios returns. Throws if
+     * the site has no such studio.
+     */
+    getStudio(studio: string): Promise<CorePowerYogaStudioDetail>;
   }
 }
 
@@ -39885,6 +39941,8 @@ interface NetflixGenre {
 interface NetflixTop10Entry {
   rank: number;
   category: "TV" | "Films";
+  /** Netflix ranks English and non-English titles separately within each category. */
+  language: "English" | "Non-English";
   title: string;
   weeklyViews?: number;
   weeklyHours?: number;
@@ -39934,8 +39992,8 @@ interface NetflixProfile {
     getTitle(titleId: string): Promise<NetflixTitle>;
 
     /**
-     * Gets Netflix's current Top 10 list for the week (TV and Films), ranked by views. Ranks 1-10
-     * for each category. No sign-in.
+     * Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10 separately
+     * for English and non-English titles, by views. No sign-in.
      */
     getTop10(): Promise<NetflixTop10Entry[]>;
 
@@ -41818,6 +41876,7 @@ interface OpenTableStartBookingArgs {
   partySize: number;       // 1-20
   diner: OpenTableDiner;
   specialRequest?: string;
+  seating?: string;        // e.g. "Outdoor"; only some restaurants ask. Default: the first option offered
 }
 
 interface OpenTableBookingStarted {
@@ -41827,6 +41886,8 @@ interface OpenTableBookingStarted {
   partySize: number;
   codeSentTo: string;      // masked phone, e.g. "***-***-5219"
   holdExpiresAt: string;   // ISO; OpenTable holds the table 5 minutes
+  seating?: string;        // the seating option booked, when the restaurant asked for one
+  seatingOptions?: string[]; // every seating option it offered at that time
 }
 
 interface OpenTableBooking {
@@ -41872,16 +41933,18 @@ interface OpenTableCancellation {
 
     /**
      * Starts a guest reservation for one open time: opens the restaurant's page at `dateTime`,
-     * clicks that time, accepts the restaurant's terms, presses "Complete reservation" and enters
-     * `diner.phone`, so OpenTable TEXTS A CODE to that phone and holds the table for 5 minutes.
-     * Then call `confirmBooking({ code })` IN THE SAME BOWMARK SESSION: the held table lives in
-     * that session's browser, so a separate `run` cannot finish it. With the MCP tools:
-     * `session_call({ path: ["providers", "opentable", "startBooking"], args: [{ …startBooking
-     * args }] })`, ask the person for the texted code, then `session_call({ sessionId, path:
-     * ["providers", "opentable", "confirmBooking"], args: [{ code: "…" }] })` with the `sessionId`
-     * the first call returned, within 5 minutes. Over HTTP: `POST /v1/session` (Bearer API key)
-     * returns `{ sessionId }`, and `POST /v1/session/<sessionId>/call` takes the same `{"path":
-     * [...], "args": [...]}`. Throws when `dateTime` is no longer open.
+     * clicks that time, picks a seating option when the restaurant asks for one (`seating`, else
+     * the first offered; the result names it and lists `seatingOptions`), accepts the restaurant's
+     * terms, presses "Complete reservation" and enters `diner.phone`, so OpenTable TEXTS A CODE to
+     * that phone and holds the table for 5 minutes. Then call `confirmBooking({ code })` IN THE
+     * SAME BOWMARK SESSION: the held table lives in that session's browser, so a separate `run`
+     * cannot finish it. With the MCP tools: `session_call({ path: ["providers", "opentable",
+     * "startBooking"], args: [{ …startBooking args }] })`, ask the person for the texted code,
+     * then `session_call({ sessionId, path: ["providers", "opentable", "confirmBooking"], args: [{
+     * code: "…" }] })` with the `sessionId` the first call returned, within 5 minutes. Over HTTP:
+     * `POST /v1/session` (Bearer API key) returns `{ sessionId }`, and `POST
+     * /v1/session/<sessionId>/call` takes the same `{"path": [...], "args": [...]}`. Throws when
+     * `dateTime` is no longer open.
      */
     startBooking(args: OpenTableStartBookingArgs): Promise<OpenTableBookingStarted>;
 
@@ -42520,6 +42583,14 @@ interface ServiceCredit {
   name: string; // e.g. "Float", "Sauna 60", "Signature IV Drip" — varies by location, read values off a result
   credits: number; // credits required to book one session at this location
 }
+interface ListAvailableSlotsArgs {
+  locationId: string; // the id listLocations() returns, e.g. "castro"
+  serviceName: string; // the name listServices() returns, e.g. "Float"
+  date: string; // YYYY-MM-DD
+}
+interface AvailableSlot {
+  time: string; // the slot's start time, exactly as Pause Studio's own booking API carries it
+}
 
   /** Recovery and wellness studio with float, cryo, sauna, and IV therapy bookings. */
   interface Unit {
@@ -42537,6 +42608,12 @@ interface ServiceCredit {
      * the id listLocations() returns
      */
     listServices(id: string): Promise<ServiceCredit[]>;
+
+    /**
+     * Lists available appointment times for one service at one location on one date — requires the
+     * caller's own signed-in session
+     */
+    listAvailableSlots(args: ListAvailableSlotsArgs, opts?: ConnectionOption): Promise<AvailableSlot[]>;
   }
 }
 
@@ -47675,6 +47752,32 @@ interface FindStoresResult {
   stores: SafewayStore[];
   warnings: string[];
 }
+interface SafewayStoreDepartmentHours {
+  day: string;
+  startHour: string;         // "HHmm", e.g. "0800"
+  endHour: string;
+}
+interface SafewayStoreDepartment {
+  departmentId: string;
+  departmentName: string;
+  serviceDepartmentType: string;
+  serviceEnabled: boolean;
+  isCateringEnabled: boolean;
+  hours: SafewayStoreDepartmentHours[];
+}
+interface SafewayStoreDetail {
+  storeId: string;
+  storeName: string;
+  address: SafewayStoreAddress;
+  localPageUrl: string;
+  offersGroceryDelivery: boolean;
+  offersPickup: boolean;    // Drive Up & Go
+  offersRushDelivery: boolean;
+  offersGroceryRewards: boolean;
+  division: { name: string; number: string };
+  departments: SafewayStoreDepartment[]; // SERVICE departments (Floral, Deli, …), not storefront hours
+  warnings: string[];
+}
 
   /**
    * Safeway grocery (US): find a store, browse its aisles, search products with store prices and
@@ -47691,6 +47794,14 @@ interface FindStoresResult {
      * header on why an absent list must not read as an honest empty one.
      */
     findStores(args: { zipcode: string; radiusMiles?: number; limit?: number }): Promise<FindStoresResult>;
+
+    /**
+     * Returns one Safeway store by id (from findStores): address, the rewards-program
+     * delivery/pickup flags, and its own SERVICE departments (Floral, Deli, …) with their weekly
+     * hours. Does NOT carry a phone number or a single storefront open/close pair — the door
+     * answers neither; see getStore.ts's header.
+     */
+    getStore(args: { storeId: string }): Promise<SafewayStoreDetail>;
   }
 }
 
@@ -52455,6 +52566,9 @@ interface GuardianNewsletter {
 interface GuardianListNewslettersResult {
   newsletters: GuardianNewsletter[];
 }
+interface GuardianMostReadResult {
+  mostRead: GuardianArticleSummary[];
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -52581,6 +52695,12 @@ interface GuardianListNewslettersResult {
      * which edition it targets (when the site declares one).
      */
     listNewsletters(): Promise<GuardianListNewslettersResult>;
+
+    /**
+     * The Guardian's current site-wide most-read list — the ten articles its own readers are
+     * viewing most, with title, url, summary, byline and publish time.
+     */
+    getMostRead(): Promise<GuardianMostReadResult>;
   }
 }
 
@@ -58761,6 +58881,39 @@ interface WinestylesInventorySearch {
   }
 }
 
+declare namespace BowmarkProvider_wodify {
+  // ── Wodify — the unit's own declarations, verbatim ──
+interface wodifyRow {
+  id: string;
+}
+
+interface WodifyScheduleClass {
+  id: number;
+  name: string;
+  startTime: string;
+  endTime: string;
+  program: string | null;
+  capacity: { limit: number; reserved: number; available: number; waitlisted: number };
+  isFull: boolean;
+  isCancelled: boolean;
+  coaches: string[];
+}
+
+  /** Wodify gym booking — class schedules, pricing and member functions for Wodify-powered gyms. */
+  interface Unit {
+    /**
+     * Reads one Wodify-powered gym's public class schedule for a single day — class name, program,
+     * start/end time, coach names, and live capacity (limit, reserved, available, waitlisted). No
+     * login: this is the same logged-out schedule every visitor to the gym's booking page sees.
+     * `gymHost` is the gym's own `<gym>.wodify.com` subdomain (e.g.
+     * "crossfitalineamembership.wodify.com" for CrossFit Alinea) and `locationId` is the numeric
+     * id in its booking embed's `?LocationId=` query param — both read straight off the gym's
+     * public `/OnlineSalesPage/WebIntegration` page. `date` (ISO yyyy-mm-dd) defaults to today.
+     */
+    listGymSchedule(args: { gymHost: string; locationId: number; date?: string }): Promise<WodifyScheduleClass[]>;
+  }
+}
+
 declare namespace BowmarkProvider_workable {
   // ── Workable — the unit's own declarations, verbatim ──
 interface WorkableJob {
@@ -62698,6 +62851,7 @@ interface BowmarkProviders {
   wikipedia_standings: BowmarkProvider_wikipedia_standings.Unit;
   windscribe: BowmarkProvider_windscribe.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
+  wodify: BowmarkProvider_wodify.Unit;
   workable: BowmarkProvider_workable.Unit;
   workday: BowmarkProvider_workday.Unit;
   wunderflats: BowmarkProvider_wunderflats.Unit;
