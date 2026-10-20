@@ -4395,7 +4395,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wodify.getWorkoutOfDay` | wodify.com | Get the workout of the day (WOD) for the member's gym. | ⚪ |
 | `wodify.joinWaitlist` | wodify.com | Add the member to a waitlist for a full class. | ⚪ |
 | `wodify.leaveWaitlist` | wodify.com | Remove the member from a class waitlist. | ⚪ |
-| `wodify.listGymSchedule` | wodify.com | Get the class schedule for a specific gym, with available times and capacity. | ⚪ |
+| `wodify.listGymSchedule` | wodify.com | Get the class schedule for a specific gym, with available times and capacity. | 🟢 |
 | `wodify.listInstructors` | wodify.com | List instructors and coaches available at the gym. | ⚪ |
 | `wodify.listMemberships` | wodify.com | List available membership tiers and their features. | ⚪ |
 | `wodify.listPrices` | wodify.com | Get pricing information for memberships and drop-in classes. | ⚪ |
