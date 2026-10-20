@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 687298a96f2fbbef61b08b1341052961d46e47f01184234441513acdfb2d0c0e
-// 2217 checked, 20 unchecked.
+// Manifest version: 25b2d30dcb95a74dc712351dbf2ff0f49ce1006bde8f2a813a23bd2347f0e867
+// 2219 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "687298a96f2fbbef61b08b1341052961d46e47f01184234441513acdfb2d0c0e",
+  "version": "25b2d30dcb95a74dc712351dbf2ff0f49ce1006bde8f2a813a23bd2347f0e867",
   "units": {
     "address_validation": {
       "defs": {
@@ -38171,6 +38171,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "marianatekListScheduleFiltersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "regionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -38210,6 +38229,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "marianatekGetLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listScheduleFilters": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "marianatekListScheduleFiltersArgs"
             },
             "optional": false
           }
@@ -69738,6 +69767,39 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "deleteMeeting": [
+          {
+            "name": "meetingId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMeetingParticipants": [
           {
             "name": "meetingId",
             "schema": {

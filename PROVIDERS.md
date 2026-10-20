@@ -79,7 +79,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
 | `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟡 |
 | `adobe.getCreativeCloudPlans` | adobe.com | Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html… | 🟢 |
-| `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | 🟢 |
+| `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | 🟡 |
 | `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail page — title, full description, media type… | ⚪ |
 | `adobe.getTemplate` | adobe.com | Returns one Adobe Express template's detail — title, category, dimensions, whether it… | 🟢 |
 | `adobe.licenseStockAsset` | adobe.com | Buys a license for an Adobe Stock asset on the signed-in caller's own account — the… | ⚪ |

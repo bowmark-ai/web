@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 687298a96f2fbbef61b08b1341052961d46e47f01184234441513acdfb2d0c0e
-// 85 capabilities, 610 providers, 2235 typed functions, 20 refused.
+// Manifest version: 25b2d30dcb95a74dc712351dbf2ff0f49ce1006bde8f2a813a23bd2347f0e867
+// 85 capabilities, 610 providers, 2237 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36781,6 +36781,42 @@ interface marianatekLocationDetail {
   description: string | null;
 }
 
+interface marianatekListScheduleFiltersArgs {
+  /** Tenant slug ("bodytempyoga"), or a <slug>.marianatek.com / <slug>.marianaiframes.com URL */
+  studio: string;
+  /** A region id from listRegions */
+  regionId: string;
+}
+
+interface marianatekClassType {
+  id: string;
+  name: string;
+  description: string | null;
+  durationMinutes: number | null;
+  isLiveStream: boolean | null;
+}
+
+interface marianatekInstructor {
+  id: string;
+  name: string;
+  bio: string | null;
+  instagramHandle: string | null;
+  instagramUrl: string | null;
+  photoUrl: string | null;
+  spotifyUrl: string | null;
+}
+
+interface marianatekClassroom {
+  id: string;
+  name: string;
+}
+
+interface marianatekScheduleFilters {
+  classTypes: marianatekClassType[];
+  instructors: marianatekInstructor[];
+  classrooms: marianatekClassroom[];
+}
+
   /**
    * Mariana Tek studio booking (Barry's, Body Temp Yoga and other boutique fitness brands, one
    * tenant per brand): find a studio, read its locations, class schedule, spot maps, pricing and
@@ -36820,6 +36856,12 @@ interface marianatekLocationDetail {
      * description (often empty). An unknown location id THROWS.
      */
     getLocation(args: marianatekGetLocationArgs): Promise<marianatekLocationDetail>;
+
+    /**
+     * Lists what a region's schedule can be filtered by — class types (with descriptions),
+     * instructors and classrooms, each with an id. An unknown region id THROWS.
+     */
+    listScheduleFilters(args: marianatekListScheduleFiltersArgs): Promise<marianatekScheduleFilters>;
   }
 }
 
@@ -61608,6 +61650,11 @@ interface ZoomDeleteMeetingResult {
   deleted: boolean; // the door accepted the request; no verified post-condition — see manifest.json
 }
 
+interface ZoomMeetingParticipants {
+  meetingId: string;
+  raw: string; // signed-in response shape is UNMEASURED — see manifest.json
+}
+
   /** Video conferencing, meetings, and webinars. */
   interface Unit {
     /** Read Zoom Workplace pricing plans and features */
@@ -61639,6 +61686,12 @@ interface ZoomDeleteMeetingResult {
 
     /** Cancel one scheduled meeting — needs the caller signed in */
     deleteMeeting(meetingId: string | number, opts?: ConnectionOption): Promise<ZoomDeleteMeetingResult>;
+
+    /**
+     * Read the participants of one in-progress meeting from the signed-in caller's meeting page —
+     * needs the caller signed in
+     */
+    getMeetingParticipants(meetingId: string | number, opts?: ConnectionOption): Promise<ZoomMeetingParticipants>;
   }
 }
 

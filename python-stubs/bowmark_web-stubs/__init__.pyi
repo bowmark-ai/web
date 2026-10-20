@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 687298a96f2fbbef61b08b1341052961d46e47f01184234441513acdfb2d0c0e
-# 85 capabilities, 610 providers, 2217 typed functions, 20 refused.
+# Manifest version: 25b2d30dcb95a74dc712351dbf2ff0f49ce1006bde8f2a813a23bd2347f0e867
+# 85 capabilities, 610 providers, 2219 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20244,6 +20244,35 @@ class Prv_marianatek_marianatekLocationDetail_Out(TypedDict):
     longitude: float | None
     description: str | None
 
+class Prv_marianatek_marianatekListScheduleFiltersArgs_In(TypedDict):
+    studio: str
+    regionId: str
+
+class Prv_marianatek_marianatekScheduleFilters_Out(TypedDict):
+    classTypes: list[Prv_marianatek_marianatekClassType_Out]
+    instructors: list[Prv_marianatek_marianatekInstructor_Out]
+    classrooms: list[Prv_marianatek_marianatekClassroom_Out]
+
+class Prv_marianatek_marianatekClassType_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    durationMinutes: float | None
+    isLiveStream: bool | None
+
+class Prv_marianatek_marianatekInstructor_Out(TypedDict):
+    id: str
+    name: str
+    bio: str | None
+    instagramHandle: str | None
+    instagramUrl: str | None
+    photoUrl: str | None
+    spotifyUrl: str | None
+
+class Prv_marianatek_marianatekClassroom_Out(TypedDict):
+    id: str
+    name: str
+
 class Prv_marketplace_visualstudio_marketplaceExtensionStats_Out(TypedDict):
     extensionId: str
     displayName: str
@@ -34902,6 +34931,10 @@ class Prv_zoom_ZoomDeleteMeetingResult_Out(TypedDict):
     meetingId: str
     deleted: bool
 
+class Prv_zoom_ZoomMeetingParticipants_Out(TypedDict):
+    meetingId: str
+    raw: str
+
 class Prv_zoopla_search_args_In(TypedDict):
     location: str
     bedrooms: NotRequired[float]
@@ -48397,6 +48430,11 @@ class Prv_marianatek(Protocol):
         description (often empty). An unknown location id THROWS.
         """
 
+    async def listScheduleFilters(self, args: Prv_marianatek_marianatekListScheduleFiltersArgs_In, /) -> Prv_marianatek_marianatekScheduleFilters_Out:
+        """Lists what a region's schedule can be filtered by — class types (with descriptions),
+        instructors and classrooms, each with an id. An unknown region id THROWS.
+        """
+
 class Prv_marketplace_visualstudio(Protocol):
     """The VS Code Marketplace — look up one extension by its publisher.name id and get its
     install count, rating and latest version, the numbers the extension's own Marketplace
@@ -57171,6 +57209,11 @@ class Prv_zoom(Protocol):
 
     async def deleteMeeting(self, meetingId: str | float, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomDeleteMeetingResult_Out:
         """Cancel one scheduled meeting — needs the caller signed in"""
+
+    async def getMeetingParticipants(self, meetingId: str | float, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomMeetingParticipants_Out:
+        """Read the participants of one in-progress meeting from the signed-in caller's meeting
+        page — needs the caller signed in
+        """
 
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""
