@@ -6,6 +6,65 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.26.0 (2026-10-20)
+
+**Providers**
+
+- New provider **accuweather.com** (1 function): `accuweather.searchLocations`
+- New provider **acuityscheduling.com** (1 function): `acuityscheduling.findScheduler`
+- New provider **agoda.com** (2 functions): `agoda.findDestinations`, `agoda.searchHotels`
+- New provider **clubpilates.com** (2 functions): `clubpilates.findStudios`, `clubpilates.getStudio`
+- New provider **clubready.com** (1 function): `clubready.listBrands`
+- New provider **tidesandcurrents.noaa.gov** (1 function): `coops.listStations`
+- New provider **corepoweryoga.com** (2 functions): `corepoweryoga.getStudio`, `corepoweryoga.listStudios`
+- New provider **dhl.com** (1 function): `dhl.getQuote`
+- New provider **ikea.com** (2 functions): `ikea.getProduct`, `ikea.searchProducts`
+- New provider **marianatek.com** (8 functions): `marianatek.findStudio`, `marianatek.getClass`, `marianatek.getLocation`, `marianatek.listClasses`, `marianatek.listClassSpots`, `marianatek.listLocations`, `marianatek.listRegions`, `marianatek.listScheduleFilters`
+- New provider **mindbodyonline.com** (6 functions): `mindbodyonline.bookSession`, `mindbodyonline.cancelSession`, `mindbodyonline.getSchedule`, `mindbodyonline.listSchedules`, `mindbodyonline.myBookings`, `mindbodyonline.waitlistSession`
+- New provider **momence.com** (3 functions): `momence.getLocations`, `momence.getStudio`, `momence.getTeachers`
+- New provider **mybeststudio.us** (2 functions): `my_best_studio.getClass`, `my_best_studio.listClasses`
+- New provider **nike.com** (2 functions): `nike.getLaunch`, `nike.upcomingLaunches`
+- New provider **patreon.com** (4 functions): `patreon.getCreator`, `patreon.listCreatorPosts`, `patreon.listCreatorTiers`, `patreon.searchCreators`
+- New provider **pausestudio.com** (4 functions): `pausestudio.getLocationInfo`, `pausestudio.listAvailableSlots`, `pausestudio.listLocations`, `pausestudio.listServices`
+- New provider **safeway.com** (2 functions): `safeway.findStores`, `safeway.getStore`
+- New provider **scribd.com** (1 function): `scribd.searchDocuments`
+- New provider **solidcore.co** (2 functions): `solidcore.getStudio`, `solidcore.listStudios`
+- New provider **open.spotify.com** (1 function): `spotify.search`
+- New provider **sweathouz.com** (3 functions): `sweathouz.getAvailability`, `sweathouz.getPricing`, `sweathouz.listStudios`
+- New provider **wellnessliving.com** (2 functions): `wellnessliving.listKnownBusinesses`, `wellnessliving.listLocations`
+- New provider **wodify.com** (1 function): `wodify.listGymSchedule`
+- Added `deviantart.getUserGallery`
+- Added `eventbrite.getVenue`
+- Added `facebook.getPageInfo`
+- Added `facebook.sendMessage`
+- Added `fomo.getTokenThesis`
+- Added `imdb.listWatchlist`
+- Added `linkedin.getPost`
+- Added `linkedin.listCompanyJobs`
+- Added `linkedin.listCompanyPosts`
+- Added `microsoft_outlook.createContact`
+- Added `microsoft_outlook.getContact`
+- Added `nyt_games.saveWordleGame`
+- Added `nytimes.listRSSFeeds`
+- Added `paypal.searchHelp`
+- Added `pinterest.suggestSearches`
+- Added `quora.getTopic`
+- Added `stubhub.getEvent`
+- Added `stubhub.getEventListings`
+- Added `stubhub.search`
+- Added `theguardian_com.getMostRead`
+- Added `ups.estimateDeliveryDate`
+- Added `ups.trackShipment`
+- Added `usatoday.getVideo`
+- Added `weather_channel.getCMSContent`
+- Added `youtube.replyToComment`
+- Added `zoom.deleteMeeting`
+- Added `zoom.getMeeting`
+- Added `zoom.getMeetingParticipants`
+- Removed **minted**
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.25.8 (2026-10-18)
 
 **Providers**

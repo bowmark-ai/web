@@ -3200,7 +3200,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟡 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟡 |
-| `quora.getTopic` | quora.com | Reads a topic's own page — its name and description — taking a topic URL or name. | ⚪ |
+| `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟢 |
 | `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | ⚪ |
 | `quora.postComment` | quora.com | Posts a comment on an answer as the signed-in caller. | ⚪ |
 | `quora.searchQuestions` | quora.com | Runs Quora's own search and returns matching questions with their urls — the finder a… | ⚪ |
