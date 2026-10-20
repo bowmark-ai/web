@@ -1764,10 +1764,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fourseasonsyachts.getVoyageSailing` | fourseasonsyachts.com | Reads the real, live departure for one voyageCode — exact embark/disembark ports and… | 🟢 |
 | `fourseasonsyachts.searchVoyages` | fourseasonsyachts.com | Reads the live Voyage Finder inventory — every published sailing, its region, vessel… | 🟡 |
 | `foxnews.deleteComment` | foxnews.com | Deletes one of the signed-in caller's own comments on a Fox News article. | ⚪ |
-| `foxnews.findAuthor` | foxnews.com | Finds a Fox News reporter, columnist, host or contributor by name ("Charles Creitz"… | ⚪ |
+| `foxnews.findAuthor` | foxnews.com | Finds a Fox News reporter, columnist, host or contributor by name ("Charles Creitz"… | 🟢 |
 | `foxnews.getAccount` | foxnews.com | Reads the signed-in caller's Fox profile — display name, email, and account details. | ⚪ |
 | `foxnews.getArticle` | foxnews.com | Reads one Fox News article in full — headline, description, the whole body text… | 🟡 |
-| `foxnews.getAuthor` | foxnews.com | Reads one Fox News person's profile — name, job title, bio, social links and their… | ⚪ |
+| `foxnews.getAuthor` | foxnews.com | Reads one Fox News person's profile — name, job title, bio, social links and their… | 🟢 |
 | `foxnews.getComments` | foxnews.com | Reads the reader comments under a Fox News article — each comment's text, author… | ⚪ |
 | `foxnews.getElectionResults` | foxnews.com | Reads Fox News's results for one race — each candidate's votes and share, percent of… | ⚪ |
 | `foxnews.getLiveBlog` | foxnews.com | Reads one Fox News live-coverage page — its headline and every update posted to it… | ⚪ |
@@ -1781,8 +1781,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.listNewsletters` | foxnews.com | Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics… | ⚪ |
 | `foxnews.listPodcastEpisodes` | foxnews.com | Lists one Fox News podcast's episodes, newest first — title, date, description… | ⚪ |
 | `foxnews.listPodcasts` | foxnews.com | Lists the Fox News podcasts (Fox News Talk, Perino on Politics, The Brian Kilmeade… | ⚪ |
-| `foxnews.listSectionArticles` | foxnews.com | Lists the latest stories in one Fox News section or topic ("politics"… | ⚪ |
-| `foxnews.listSections` | foxnews.com | Lists Fox News's sections and topics (Politics, U.S., World, Opinion, Media… | ⚪ |
+| `foxnews.listSectionArticles` | foxnews.com | Lists the latest stories in one Fox News section or topic ("politics"… | 🟢 |
+| `foxnews.listSections` | foxnews.com | Lists Fox News's sections and topics (Politics, U.S., World, Opinion, Media… | 🟢 |
 | `foxnews.listShows` | foxnews.com | Lists the Fox News Channel shows (Hannity, The Five, Fox & Friends, Special Report…)… | ⚪ |
 | `foxnews.listVideoPlaylists` | foxnews.com | Lists the video playlists Fox News groups its clips into (by show and by topic) with… | ⚪ |
 | `foxnews.listVideos` | foxnews.com | Lists the clips in one Fox News video playlist, newest first with paging — each clip's… | ⚪ |
@@ -3703,7 +3703,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getMarketPrice` | steampowered.com | Retrieves current Community Market price information for an item, including listing… | ⚪ |
 | `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by appid and id (both from listNews… | 🟢 |
 | `steam.getPlayTime` | steampowered.com | Returns total playtime in hours for a specific game owned by the caller. | ⚪ |
-| `steam.getProfile` | steampowered.com | Retrieves a Steam profile by username or ID, including profile name, avatar, status… | ⚪ |
+| `steam.getProfile` | steampowered.com | Reads a Steam profile by steamid64 or vanity name off the site's own public profile… | 🟢 |
 | `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | 🟢 |
 | `steam.listFeaturedGames` | steampowered.com | Fetches the current list of featured games displayed on the Steam store homepage… | 🟢 |
 | `steam.listGamesByCategory` | steampowered.com | Lists games filtered by one of Steam's own genre/category tags (Action, Adventure… | 🟢 |
