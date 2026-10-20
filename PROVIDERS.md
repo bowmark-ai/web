@@ -2414,7 +2414,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.leaveGroup` | linkedin.com | Leaves a LinkedIn group the signed-in caller belongs to. | ⚪ |
 | `linkedin.listAppliedJobs` | linkedin.com | Lists the jobs the signed-in caller has applied to on LinkedIn, with each posting's… | ⚪ |
 | `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟡 |
-| `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | ⚪ |
+| `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | 🟢 |
 | `linkedin.listCompanyPosts` | linkedin.com | Lists a company page's recent posts, newest first — each with its text, when it was… | ⚪ |
 | `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟡 |
 | `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟢 |
