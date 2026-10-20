@@ -4574,7 +4574,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getMarketplaceApp` | zoom.us | Returns details of one Zoom Marketplace app. | 🟢 |
 | `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | 🟢 |
 | `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | 🟢 |
-| `zoom.getMeetingParticipants` | zoom.us | Lists participants of a meeting (if in progress). | ⚪ |
+| `zoom.getMeetingParticipants` | zoom.us | Reads participants of one in-progress meeting from the signed-in caller's meeting page. | 🟢 |
 | `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | 🟡 |
 | `zoom.getProfile` | zoom.us | The signed-in caller's user profile. | ⚪ |
 | `zoom.getRecording` | zoom.us | Returns metadata and access info for one recording. | ⚪ |
