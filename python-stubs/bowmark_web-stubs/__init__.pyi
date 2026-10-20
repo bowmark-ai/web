@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2ed4fb2915cc5199e499d6514de251e1a47efdb084bbb76c9cc8e79f951e5751
-# 85 capabilities, 604 providers, 2192 typed functions, 20 refused.
+# Manifest version: 9851b610886bb124d673caa0b18e045ff152ed1a5489848378cd74114816b906
+# 85 capabilities, 606 providers, 2196 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20051,6 +20051,19 @@ class Prv_mango_getProduct_productId_u2_In(TypedDict):
     productId: str
     country: NotRequired[Literal["us"] | Literal["ca"]]
 
+class Prv_marianatek_marianatekFindStudioArgs_In(TypedDict):
+    studio: str
+
+class Prv_marianatek_marianatekStudio_Out(TypedDict):
+    slug: str
+    brandName: str | None
+    brandUrl: str | None
+    logoUrl: str | None
+    markUrl: str | None
+    bookingWindowsPublic: bool | None
+    schedulingWindowDays: float | None
+    onlineAppointmentBooking: bool | None
+
 class Prv_marketplace_visualstudio_marketplaceExtensionStats_Out(TypedDict):
     extensionId: str
     displayName: str
@@ -21417,6 +21430,12 @@ class Prv_my_best_studio_MyBestStudioClass_Out(TypedDict):
     capacity: float
     bookingLabel: str | None
     reviewScore: str | None
+
+class Prv_my_best_studio_GetClassArgs_In(TypedDict):
+    subdomain: str
+    dayId: str
+    date: NotRequired[str]
+    scheduleType: NotRequired[Literal["Today"] | Literal["Day"] | Literal["Week"] | Literal["Month"]]
 
 class Prv_myollie_MyollieGetMealPlanArgs_In(TypedDict):
     weightLbs: float
@@ -27887,6 +27906,31 @@ class Prv_spirithalloween_SpiritHalloweenSizeVariant_Out(TypedDict):
     inStock: bool
     shipStockQuantity: float
     variantId: str
+
+class Prv_spotify_SpotifySearchOptions_In(TypedDict):
+    types: NotRequired[Sequence[Literal["track"] | Literal["album"] | Literal["artist"] | Literal["playlist"] | Literal["show"] | Literal["episode"]]]
+    limit: NotRequired[float]
+    market: NotRequired[str]
+
+class Prv_spotify_SpotifySearchResult_Out(TypedDict):
+    query: str
+    results: list[Prv_spotify_SpotifySearchItem_Out]
+    totals: Mapping[str, float]
+    warnings: list[str]
+
+class Prv_spotify_SpotifySearchItem_Out(TypedDict):
+    type: Literal["track"] | Literal["album"] | Literal["artist"] | Literal["playlist"] | Literal["show"] | Literal["episode"]
+    id: str
+    name: str
+    uri: str
+    url: str | None
+    artists: list[str]
+    album: str | None
+    owner: str | None
+    releaseDate: str | None
+    durationMs: float | None
+    explicit: bool | None
+    image: str | None
 
 class Prv_starlighthomes_StarlighthomesMetroSummary_Out(TypedDict):
     name: str
@@ -34541,6 +34585,10 @@ class Prv_zoom_ZoomHelpArticle_Out(TypedDict):
 class Prv_zoom_ZoomMeetingDetail_Out(TypedDict):
     meetingId: str
     raw: str
+
+class Prv_zoom_ZoomDeleteMeetingResult_Out(TypedDict):
+    meetingId: str
+    deleted: bool
 
 class Prv_zoopla_search_args_In(TypedDict):
     location: str
@@ -47941,6 +47989,24 @@ class Prv_mango(Protocol):
         hit (which keeps its US or Canadian store).
         """
 
+class Prv_marianatek(Protocol):
+    """Mariana Tek studio booking (Barry's, Body Temp Yoga and other boutique fitness brands,
+    one tenant per brand): find a studio, read its locations, class schedule, spot maps,
+    pricing and private appointments, and (signed in) book, waitlist, pick a spot and cancel
+    classes.
+    """
+
+    async def findStudio(self, args: Prv_marianatek_marianatekFindStudioArgs_In, /) -> Prv_marianatek_marianatekStudio_Out:
+        """Finds a Mariana Tek studio brand from what a caller holds — its tenant slug
+        ("bodytempyoga"), a <slug>.marianatek.com or <slug>.marianaiframes.com URL, or the
+        studio's own page that embeds the schedule (bodytempyoga.com/schedule) — and returns the
+        tenant `slug` every other function takes, the brand name and website, logo and mark,
+        whether booking-window opening times are public, and how many days ahead it books. An
+        unknown slug THROWS rather than returning an empty studio. A custom front that never
+        names its tenant (app.barrys.com serves Barry's off `barrysbootcamp` with no slug in its
+        page) cannot be resolved from its URL — pass the slug.
+        """
+
 class Prv_marketplace_visualstudio(Protocol):
     """The VS Code Marketplace — look up one extension by its publisher.name id and get its
     install count, rating and latest version, the numbers the extension's own Marketplace
@@ -48783,6 +48849,12 @@ class Prv_my_best_studio(Protocol):
         capacity, review score, and the site's own booking-button label
         ("Book"/"Waitlist"/neither). Pass { subdomain: "ad1mnpsp" }; optionally { date,
         scheduleType }.
+        """
+
+    async def getClass(self, args: Prv_my_best_studio_GetClassArgs_In, /) -> Prv_my_best_studio_MyBestStudioClass_Out:
+        """Returns the detail of one class — time, instructor, capacity, booking-button label — by
+        the dayId listClasses returned for it. Pass { subdomain: "ad1mnpsp", dayId: "35135" };
+        optionally { date, scheduleType } to narrow the window searched.
         """
 
 class Prv_myollie(Protocol):
@@ -52624,6 +52696,18 @@ class Prv_spirithalloween(Protocol):
         """Reads one product page's full live size/color matrix — every real variant this product
         sells in, each with its own price and in-stock signal — for a product URL returned by
         search.
+        """
+
+class Prv_spotify(Protocol):
+    """Search Spotify's catalog — tracks, albums, artists, playlists, podcasts — through
+    Spotify's Web API with your own developer app key.
+    """
+
+    async def search(self, query: str, opts: Prv_spotify_SpotifySearchOptions_In | None = None, /) -> Prv_spotify_SpotifySearchResult_Out:
+        """Searches Spotify's catalog the way the app's search box does and returns tracks, albums,
+        artists, playlists, podcasts (`show`) or episodes — name, artists, album, release date,
+        duration, open.spotify.com url and Spotify uri. Needs your own Spotify developer app
+        key, sent as `<client id>:<client secret>` (or a bearer access token).
         """
 
 class Prv_starlighthomes(Protocol):
@@ -56580,6 +56664,9 @@ class Prv_zoom(Protocol):
         page — needs the caller signed in
         """
 
+    async def deleteMeeting(self, meetingId: str | float, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomDeleteMeetingResult_Out:
+        """Cancel one scheduled meeting — needs the caller signed in"""
+
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""
 
@@ -56952,6 +57039,7 @@ class BowmarkProviders(Protocol):
     maidenhome: Prv_maidenhome
     mailchimp: Prv_mailchimp
     mango: Prv_mango
+    marianatek: Prv_marianatek
     marketplace_visualstudio: Prv_marketplace_visualstudio
     marks: Prv_marks
     marriott: Prv_marriott
@@ -57101,6 +57189,7 @@ class BowmarkProviders(Protocol):
     soundcloud: Prv_soundcloud
     speedrun: Prv_speedrun
     spirithalloween: Prv_spirithalloween
+    spotify: Prv_spotify
     starlighthomes: Prv_starlighthomes
     start_gg: Prv_start_gg
     statefarm: Prv_statefarm

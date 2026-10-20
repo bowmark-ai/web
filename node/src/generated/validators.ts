@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2ed4fb2915cc5199e499d6514de251e1a47efdb084bbb76c9cc8e79f951e5751
-// 2192 checked, 20 unchecked.
+// Manifest version: 9851b610886bb124d673caa0b18e045ff152ed1a5489848378cd74114816b906
+// 2196 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2ed4fb2915cc5199e499d6514de251e1a47efdb084bbb76c9cc8e79f951e5751",
+  "version": "9851b610886bb124d673caa0b18e045ff152ed1a5489848378cd74114816b906",
   "units": {
     "address_validation": {
       "defs": {
@@ -37978,6 +37978,34 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.marianatek": {
+      "defs": {
+        "marianatekFindStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "marianatekFindStudioArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.marketplace_visualstudio": {
       "defs": {},
       "functions": {
@@ -40789,6 +40817,57 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.my_best_studio": {
       "defs": {
+        "GetClassArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "subdomain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "dayId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "scheduleType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Today"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Day"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Week"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Month"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListClassesArgs": {
           "k": "object",
           "props": [
@@ -40841,6 +40920,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListClassesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getClass": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetClassArgs"
             },
             "optional": false
           }
@@ -55808,6 +55897,88 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.spotify": {
+      "defs": {
+        "SpotifySearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "types",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "SpotifySearchType"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "market",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SpotifySearchType": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "track"
+            },
+            {
+              "k": "literal",
+              "v": "album"
+            },
+            {
+              "k": "literal",
+              "v": "artist"
+            },
+            {
+              "k": "literal",
+              "v": "playlist"
+            },
+            {
+              "k": "literal",
+              "v": "show"
+            },
+            {
+              "k": "literal",
+              "v": "episode"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "SpotifySearchOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.starlighthomes": {
       "defs": {},
       "functions": {
@@ -68924,6 +69095,39 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMeeting": [
+          {
+            "name": "meetingId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteMeeting": [
           {
             "name": "meetingId",
             "schema": {

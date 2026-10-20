@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2ed4fb2915cc5199e499d6514de251e1a47efdb084bbb76c9cc8e79f951e5751
-// 85 capabilities, 604 providers, 2210 typed functions, 20 refused.
+// Manifest version: 9851b610886bb124d673caa0b18e045ff152ed1a5489848378cd74114816b906
+// 85 capabilities, 606 providers, 2214 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36483,6 +36483,48 @@ interface MangoSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_marianatek {
+  // ── Mariana Tek — the unit's own declarations, verbatim ──
+interface marianatekRow {
+  id: string;
+}
+
+interface marianatekFindStudioArgs {
+  /** Tenant slug ("bodytempyoga"), a <slug>.marianatek.com / <slug>.marianaiframes.com URL, or the studio's own page that embeds the schedule */
+  studio: string;
+}
+
+interface marianatekStudio {
+  slug: string;
+  brandName: string | null;
+  brandUrl: string | null;
+  logoUrl: string | null;
+  markUrl: string | null;
+  bookingWindowsPublic: boolean | null;
+  schedulingWindowDays: number | null;
+  onlineAppointmentBooking: boolean | null;
+}
+
+  /**
+   * Mariana Tek studio booking (Barry's, Body Temp Yoga and other boutique fitness brands, one
+   * tenant per brand): find a studio, read its locations, class schedule, spot maps, pricing and
+   * private appointments, and (signed in) book, waitlist, pick a spot and cancel classes.
+   */
+  interface Unit {
+    /**
+     * Finds a Mariana Tek studio brand from what a caller holds — its tenant slug
+     * ("bodytempyoga"), a <slug>.marianatek.com or <slug>.marianaiframes.com URL, or the studio's
+     * own page that embeds the schedule (bodytempyoga.com/schedule) — and returns the tenant
+     * `slug` every other function takes, the brand name and website, logo and mark, whether
+     * booking-window opening times are public, and how many days ahead it books. An unknown slug
+     * THROWS rather than returning an empty studio. A custom front that never names its tenant
+     * (app.barrys.com serves Barry's off `barrysbootcamp` with no slug in its page) cannot be
+     * resolved from its URL — pass the slug.
+     */
+    findStudio(args: marianatekFindStudioArgs): Promise<marianatekStudio>;
+  }
+}
+
 declare namespace BowmarkProvider_marketplace_visualstudio {
   // ── Visual Studio Code Marketplace — the unit's own declarations, verbatim ──
 interface marketplaceExtensionStats {
@@ -39248,6 +39290,13 @@ interface MyBestStudioClass {
   reviewScore: string | null;    // e.g. "5.0 | 10 Reviews", or null when the site shows no score
 }
 
+interface GetClassArgs {
+  subdomain: string;         // the studio's My Best Studio subdomain, e.g. "ad1mnpsp"
+  dayId: string;             // the same id listClasses returns on each row
+  date?: string;             // YYYY-MM-DD — narrows the schedule window searched
+  scheduleType?: "Today" | "Day" | "Week" | "Month";  // defaults to "Week"
+}
+
   /**
    * Studio class booking platform: listClasses is built; the rest (bookClass, cancelBooking,
    * listMyBookings, …) is queued — see BUILD_QUEUE.md.
@@ -39259,6 +39308,13 @@ interface MyBestStudioClass {
      * Pass { subdomain: "ad1mnpsp" }; optionally { date, scheduleType }.
      */
     listClasses(args: ListClassesArgs): Promise<MyBestStudioClass[]>;
+
+    /**
+     * Returns the detail of one class — time, instructor, capacity, booking-button label — by the
+     * dayId listClasses returned for it. Pass { subdomain: "ad1mnpsp", dayId: "35135" };
+     * optionally { date, scheduleType } to narrow the window searched.
+     */
+    getClass(args: GetClassArgs): Promise<MyBestStudioClass>;
   }
 }
 
@@ -49791,6 +49847,93 @@ interface SpiritHalloweenProduct {
      * in, each with its own price and in-stock signal — for a product URL returned by search.
      */
     getProduct(args: { url: string }): Promise<SpiritHalloweenProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_spotify {
+  // ── Spotify — the unit's own declarations, verbatim ──
+interface SpotifyTrack {
+  id: string;
+  name: string;
+  artists: { id: string; name: string }[];
+  album?: { id: string; name: string };
+  duration_ms: number;
+  explicit: boolean;
+  popularity: number;
+  external_urls: { spotify: string };
+  uri: string;
+}
+interface SpotifyAlbum {
+  id: string;
+  name: string;
+  artists: { id: string; name: string }[];
+  release_date: string;
+  total_tracks: number;
+  images: { url: string; height?: number; width?: number }[];
+  external_urls: { spotify: string };
+  uri: string;
+}
+interface SpotifyArtist {
+  id: string;
+  name: string;
+  genres: string[];
+  popularity: number;
+  followers: { total: number };
+  images: { url: string; height?: number; width?: number }[];
+  external_urls: { spotify: string };
+  uri: string;
+}
+interface SpotifyPlaylist {
+  id: string;
+  name: string;
+  description: string;
+  owner: { id: string; display_name: string };
+  images: { url: string }[];
+  tracks: { total: number };
+  public: boolean;
+  collaborative: boolean;
+  external_urls: { spotify: string };
+  uri: string;
+}
+type SpotifySearchType = "track" | "album" | "artist" | "playlist" | "show" | "episode";
+interface SpotifySearchOptions {
+  types?: SpotifySearchType[];   // default track, album, artist, playlist
+  limit?: number;                // per type, 1-50, default 10
+  market?: string;               // two-letter country, e.g. "US"
+}
+interface SpotifySearchItem {
+  type: SpotifySearchType;
+  id: string;
+  name: string;
+  uri: string;                   // spotify:track:…
+  url: string | null;            // open.spotify.com link
+  artists: string[];
+  album: string | null;
+  owner: string | null;          // playlist owner or podcast publisher
+  releaseDate: string | null;
+  durationMs: number | null;
+  explicit: boolean | null;
+  image: string | null;
+}
+interface SpotifySearchResult {
+  query: string;
+  results: SpotifySearchItem[];
+  totals: Partial<Record<SpotifySearchType, number>>;
+  warnings: string[];
+}
+
+  /**
+   * Search Spotify's catalog — tracks, albums, artists, playlists, podcasts — through Spotify's
+   * Web API with your own developer app key.
+   */
+  interface Unit {
+    /**
+     * Searches Spotify's catalog the way the app's search box does and returns tracks, albums,
+     * artists, playlists, podcasts (`show`) or episodes — name, artists, album, release date,
+     * duration, open.spotify.com url and Spotify uri. Needs your own Spotify developer app key,
+     * sent as `<client id>:<client secret>` (or a bearer access token).
+     */
+    search(query: string, opts?: SpotifySearchOptions): Promise<SpotifySearchResult>;
   }
 }
 
@@ -60895,6 +61038,11 @@ interface ZoomMeetingDetail {
   raw: string; // signed-in response shape is UNMEASURED — see manifest.json
 }
 
+interface ZoomDeleteMeetingResult {
+  meetingId: string;
+  deleted: boolean; // the door accepted the request; no verified post-condition — see manifest.json
+}
+
   /** Video conferencing, meetings, and webinars. */
   interface Unit {
     /** Read Zoom Workplace pricing plans and features */
@@ -60923,6 +61071,9 @@ interface ZoomMeetingDetail {
      * needs the caller signed in
      */
     getMeeting(meetingId: string | number, opts?: ConnectionOption): Promise<ZoomMeetingDetail>;
+
+    /** Cancel one scheduled meeting — needs the caller signed in */
+    deleteMeeting(meetingId: string | number, opts?: ConnectionOption): Promise<ZoomDeleteMeetingResult>;
   }
 }
 
@@ -62208,6 +62359,7 @@ interface BowmarkProviders {
   maidenhome: BowmarkProvider_maidenhome.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;
   mango: BowmarkProvider_mango.Unit;
+  marianatek: BowmarkProvider_marianatek.Unit;
   marketplace_visualstudio: BowmarkProvider_marketplace_visualstudio.Unit;
   marks: BowmarkProvider_marks.Unit;
   marriott: BowmarkProvider_marriott.Unit;
@@ -62357,6 +62509,7 @@ interface BowmarkProviders {
   soundcloud: BowmarkProvider_soundcloud.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;
   spirithalloween: BowmarkProvider_spirithalloween.Unit;
+  spotify: BowmarkProvider_spotify.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   start_gg: BowmarkProvider_start_gg.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
