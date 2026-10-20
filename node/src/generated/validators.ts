@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 874cbba3641f859c39a4ab2ded2a41cfe3bb6dc9f75416f1d6a337eff4b7adb7
-// 2188 checked, 20 unchecked.
+// Manifest version: 2ed4fb2915cc5199e499d6514de251e1a47efdb084bbb76c9cc8e79f951e5751
+// 2192 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "874cbba3641f859c39a4ab2ded2a41cfe3bb6dc9f75416f1d6a337eff4b7adb7",
+  "version": "2ed4fb2915cc5199e499d6514de251e1a47efdb084bbb76c9cc8e79f951e5751",
   "units": {
     "address_validation": {
       "defs": {
@@ -44602,6 +44602,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListCreatorTiersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "vanity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchCreatorsArgs": {
           "k": "object",
           "props": [
@@ -44632,6 +44644,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCreatorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCreatorTiers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCreatorTiersArgs"
             },
             "optional": false
           }
@@ -44917,6 +44939,24 @@ export const VALIDATORS: ValidatorTable = {
               "name": "PaypalEstimatePayLaterPlanArgs"
             },
             "optional": true
+          }
+        ],
+        "searchHelp": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -57334,6 +57374,70 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.sweathouz": {
+      "defs": {
+        "SweathouzAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SweathouzListStudiosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "includeComingSoon",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listStudios": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SweathouzListStudiosArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SweathouzAvailabilityArgs"
+            },
+            "optional": false
           }
         ]
       }

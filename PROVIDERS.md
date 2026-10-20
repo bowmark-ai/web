@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4553 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4585 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2691,7 +2691,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `my_best_studio._client` | mybeststudio.us | Shared studio client: subdomain to account bootstrap, public and signed-in session… | ⚪ |
 | `my_best_studio.bookClass` | mybeststudio.us | Books a signed-in member into one class. | ⚪ |
 | `my_best_studio.cancelBooking` | mybeststudio.us | Cancels a signed-in member's booking or waitlist spot. | ⚪ |
-| `my_best_studio.getClass` | mybeststudio.us | Returns details of one class: time, instructor, capacity, booked/waitlist status. | ⚪ |
+| `my_best_studio.getClass` | mybeststudio.us | Returns the detail of one class — time, instructor, capacity, booking-button label —… | 🟢 |
 | `my_best_studio.joinWaitlist` | mybeststudio.us | Adds a signed-in member to the waitlist for one class. | ⚪ |
 | `my_best_studio.listClasses` | mybeststudio.us | Reads one studio's class schedule (public, no login): time, class name, instructor… | 🟢 |
 | `my_best_studio.listInstructors` | mybeststudio.us | Lists all instructors for a studio. | ⚪ |
@@ -2950,7 +2950,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.getCurrentUserFeed` | patreon.com | Get the signed-in caller's home feed. | ⚪ |
 | `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | ⚪ |
 | `patreon.listCreatorPosts` | patreon.com | List all public posts from a creator, newest first. | ⚪ |
-| `patreon.listCreatorTiers` | patreon.com | List all membership tiers offered by a creator with pricing. | ⚪ |
+| `patreon.listCreatorTiers` | patreon.com | List all membership tiers offered by a creator with pricing. | 🟢 |
 | `patreon.listMemberOnlyPosts` | patreon.com | List posts only visible to the signed-in caller (requires membership). | ⚪ |
 | `patreon.listPledges` | patreon.com | List the signed-in caller's memberships and pledges. | ⚪ |
 | `patreon.listPostComments` | patreon.com | List all comments on a post. | ⚪ |
@@ -3130,6 +3130,30 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `purevpn.getDedicatedIp` | purevpn.com | Reads PureVPN's own dedicated / static IP page and returns every country and city it… | 🟢 |
 | `purevpn.getPlans` | purevpn.com | PureVPN's standard VPN subscription plans and prices. | ⚪ |
+| `pushpress.bookAppointment` | pushpress.com | Books a one-on-one appointment slot for the signed-in member with appointment credits… | ⚪ |
+| `pushpress.bookClass` | pushpress.com | Reserves a class for the signed-in member using one of their plans; stops before any… | ⚪ |
+| `pushpress.buyAppointmentPackage` | pushpress.com | Buys a package of one-on-one appointment credits. | ⚪ |
+| `pushpress.buyEventTicket` | pushpress.com | Buys a ticket to a paid gym event. | ⚪ |
+| `pushpress.buyPlan` | pushpress.com | Buys a membership, class pack or drop-in pass. | ⚪ |
+| `pushpress.cancelBooking` | pushpress.com | Cancels the signed-in member's reservation or waitlist spot for a class. | ⚪ |
+| `pushpress.getAppointmentAvailability` | pushpress.com | Returns open slots for one appointment type on a date, by staff member. | ⚪ |
+| `pushpress.getClass` | pushpress.com | Returns one class or event by id: description, coach, location, capacity, spots… | ⚪ |
+| `pushpress.getGym` | pushpress.com | Resolves a PushPress gym from its subdomain (crossfit7x7) or its own website URL (a… | ⚪ |
+| `pushpress.getMyProfile` | pushpress.com | Returns the signed-in member's profile at this gym: name, email, member status and… | ⚪ |
+| `pushpress.getPlan` | pushpress.com | Returns one plan by id with its prices, setup fee, free-trial terms, restrictions, and… | ⚪ |
+| `pushpress.joinWaitlist` | pushpress.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
+| `pushpress.listAppointmentTypes` | pushpress.com | Lists a gym's bookable one-on-one appointment types (personal training, assessments) —… | ⚪ |
+| `pushpress.listClasses` | pushpress.com | Lists a gym's classes and events for a date range: time, title, class type, coach… | ⚪ |
+| `pushpress.listCoaches` | pushpress.com | Lists the coaches who teach at a gym, derived from the schedule (name, photo, user… | ⚪ |
+| `pushpress.listLocations` | pushpress.com | Lists a gym's locations (the filter listClasses accepts for multi-site gyms). | ⚪ |
+| `pushpress.listMyBookings` | pushpress.com | Lists the signed-in member's upcoming class reservations and waitlist spots. | ⚪ |
+| `pushpress.listMyDocuments` | pushpress.com | Lists the waivers and agreements the gym asks the signed-in member to sign, and which… | ⚪ |
+| `pushpress.listMyInvoices` | pushpress.com | Lists the signed-in member's invoices and payment status at this gym. | ⚪ |
+| `pushpress.listMyPlans` | pushpress.com | Lists the signed-in member's active plans and remaining sessions — the subscription id… | ⚪ |
+| `pushpress.listPlans` | pushpress.com | Lists a gym's public memberships, class packs, drop-ins and trials with price, billing… | ⚪ |
+| `pushpress.payInvoice` | pushpress.com | Retries payment on a failed invoice. | ⚪ |
+| `pushpress.signWaiver` | pushpress.com | Signs an outstanding gym waiver or agreement as the signed-in member, only when the… | ⚪ |
+| `pushpress.updateProfile` | pushpress.com | Updates the signed-in member's profile fields (name, phone, emergency contact, photo). | ⚪ |
 | `quickbooks.calculateEmployeeCost` | quickbooks.intuit.com | Estimates the full yearly cost of one employee (salary plus payroll taxes, benefits… | ⚪ |
 | `quickbooks.calculatePaycheck` | quickbooks.intuit.com | Computes a US employee's take-home pay for one paycheck from gross pay or an hourly… | ⚪ |
 | `quickbooks.calculateSalesTax` | quickbooks.intuit.com | Estimates the combined sales tax rate and amount for a purchase price at a US address… | ⚪ |
@@ -4196,11 +4220,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟡 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |
 | `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |
-| `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | 🟢 |
+| `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | 🟡 |
 | `weather_channel.getDailyForecast` | weather.com | Daily forecast — high/low, conditions, precipitation chance, wind. 10-day and 15-day… | 🟢 |
 | `weather_channel.getFifteenMinuteForecast` | weather.com | Sub-hourly precipitation forecast — arrival time and intensity of rain/snow in… | 🟢 |
 | `weather_channel.getHistoricalDaily` | weather.com | Historical daily summaries — past 30 days of high, low, and precipitation records. | 🟢 |
-| `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | 🟢 |
+| `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | 🟡 |
 | `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | 🟡 |
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | ⚪ |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
@@ -4479,6 +4503,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |
 | `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🟡 |
 | `yelp.search` | yelp.com | Runs Yelp's own business search for a term and location and returns real… | 🟢 |
+| `yogatreecollective.getEvent` | yogatreecollective.com | Gets one retreat or workshop by slug (from listEvents): description, dates, location… | ⚪ |
+| `yogatreecollective.getSchedule` | yogatreecollective.com | Reads the collective's weekly class timetable off /class-schedule: one row per class… | ⚪ |
+| `yogatreecollective.getSignUpTarget` | yogatreecollective.com | Resolves a class's SIGN UP link to where the class really books: follows it, reports… | ⚪ |
+| `yogatreecollective.getTeacher` | yogatreecollective.com | Gets one teacher's profile by slug (from listTeachers or a name match): bio, styles… | ⚪ |
+| `yogatreecollective.listEvents` | yogatreecollective.com | Lists the collective's retreats and workshops from /events?format=json, upcoming and… | ⚪ |
+| `yogatreecollective.listTeachers` | yogatreecollective.com | Lists the collective's teacher directory from /teacher-profile?format=json: name… | ⚪ |
+| `yogatreecollective.searchSite` | yogatreecollective.com | Searches the site's own Squarespace index (/api/search/GeneralSearch?q=) for teachers… | ⚪ |
+| `yogatreecollective.sendContactMessage` | yogatreecollective.com | Submits the /contact form (name, email, message) to the collective. | ⚪ |
 | `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page — the exact Add to cart button for this… | 🟡 |
 | `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product page in full — SKU, live price, in-stock/out-of-stock status… | 🟡 |
 | `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —… | 🟡 |
@@ -4533,7 +4565,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
 | `zennioptical.priceLensConfig` | zennioptical.com | Runs a real prescription + usage type through the site's own order-configurator flow… | 🟢 |
 | `zennioptical.searchFrames` | zennioptical.com | Searches Zenni's own storefront catalog for what a shopper would type — "round… | 🟢 |
-| `zoom.deleteMeeting` | zoom.us | Cancels a scheduled meeting. | ⚪ |
+| `zoom.deleteMeeting` | zoom.us | Cancels a scheduled meeting. | 🟢 |
 | `zoom.downloadRecording` | zoom.us | Returns the download URL for a recording video file. | ⚪ |
 | `zoom.getContactInfo` | zoom.us | Returns details of one contact. | ⚪ |
 | `zoom.getContacts` | zoom.us | The signed-in caller's contact list. | ⚪ |

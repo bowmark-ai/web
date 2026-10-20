@@ -489,6 +489,7 @@ proxy-cheap.com — proxy_cheap: listCoverage, listPlans
 pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
 puls.com — puls_com: getRepairQuote, listApplianceCategories
 purevpn.com — purevpn: getDedicatedIp, getPlans
+pushpress.com — pushpress: bookAppointment, bookClass, buyAppointmentPackage, buyEventTicket, buyPlan, cancelBooking, getAppointmentAvailability, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyDocuments, listMyInvoices, listMyPlans, listPlans, payInvoice, signWaiver, updateProfile
 quickbooks.intuit.com — quickbooks: calculateEmployeeCost, calculatePaycheck, calculateSalesTax, contactAccountant, estimatePaymentFees, findAccountants, generateInvoice, getAccountant, getApp, getDesktopPlans, getEvent, getExpertPlans, getHelpArticle, getPaymentRates, getPayrollPlans, getPlans, getResourceArticle, getServiceStatus, getStatePayrollTaxes, getThread, getTimeTrackingPlans, listAppCategories, listAppReviews, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listResourceArticles, listTemplates, searchApps, searchCommunity, searchHelpArticles
 quince.com — quince: getProduct, searchProducts
 quora.com — quora: askQuestion, followEntity, getAnswers, getHomeFeed, getOwnProfile, getProfile, getQuestion, getSpace, getTopic, getTopicFeed, postComment, searchQuestions, upvoteAnswer, writeAnswer
@@ -662,6 +663,7 @@ x.com — x: bookmarkPost, createPost, deletePost, followUser, getConversation, 
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
 yelp.com — yelp: search
+yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite, sendContactMessage
 yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct, search
 yourarborhome.com — yourarborhome: bookSelfTour, getHome, searchHomes
 youtube.com — youtube: addToPlaylist, createChannel, createPlaylist, deletePlaylist, deleteVideo, findChannel, getChannel, getLiveChat, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listChannelLiveStreams, listChannelPlaylists, listChannelPosts, listChannelShorts, listChannelVideos, listChapters, listCommentReplies, listComments, listHashtagVideos, listHomeFeed, listLikedVideos, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listSubscriptions, listTrending, listWatchHistory, listWatchLater, postComment, removeFromPlaylist, replyToComment, search, searchWithinChannel, setCaptions, setThumbnail, subscribeToChannel, suggestSearches, updatePlaylist, updateVideo, uploadVideo

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 874cbba3641f859c39a4ab2ded2a41cfe3bb6dc9f75416f1d6a337eff4b7adb7
-// 85 capabilities, 603 providers, 2206 typed functions, 20 refused.
+// Manifest version: 2ed4fb2915cc5199e499d6514de251e1a47efdb084bbb76c9cc8e79f951e5751
+// 85 capabilities, 604 providers, 2210 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -42307,6 +42307,21 @@ interface patreonCreatorDetail extends patreonCreator {
   patronCount?: number;
 }
 
+interface ListCreatorTiersArgs {
+  vanity: string;
+}
+
+interface patreonTier {
+  id: string;
+  title?: string;
+  amountCents?: number;
+  currency?: string;
+  description?: string;
+  isFreeTier?: boolean;
+  published?: boolean;
+  url?: string;
+}
+
   /** Reads a Patreon creator's page, tiers, and public posts and comments — logged out. */
   interface Unit {
     /** Search for creators across Patreon by name or query. */
@@ -42314,6 +42329,9 @@ interface patreonCreatorDetail extends patreonCreator {
 
     /** Get details for a specific creator including name, avatar, and account creation date. */
     getCreator(args: GetCreatorArgs): Promise<patreonCreatorDetail>;
+
+    /** List all membership tiers offered by a creator with pricing. */
+    listCreatorTiers(args: ListCreatorTiersArgs): Promise<patreonTier[]>;
   }
 }
 
@@ -42485,14 +42503,24 @@ interface PaypalPayLaterPlan {
 interface PaypalEstimatePayLaterPlanArgs {
   amount?: number; // accepted but ignored — Pay Later terms are published, not amount-specific
 }
+interface PaypalHelpSearchResult {
+  articleId: string;             // PayPal's own help-article id — pass to getHelpArticle
+  title: string;
+  excerpt: string;
+  rank: number;                  // PayPal's own result ordering, 1-indexed
+}
+interface PaypalHelpSearchResults {
+  query: string;
+  results: PaypalHelpSearchResult[];
+}
 
   /**
    * PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules, the
    * fee on one concrete personal (friends-and-family) transaction, the spread PayPal adds on a
    * currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help Center search
    * and articles, the binding policy documents, PayPal Shopping cashback offers, crypto prices,
-   * and invoice payer-view reads. Three functions callable today — estimateFee, getFees,
-   * getCurrencyConversionQuote.
+   * and invoice payer-view reads. Six functions callable today — estimateFee, getFees,
+   * getCurrencyConversionQuote, getPolicyDocument, estimatePayLaterPlan, searchHelp.
    */
   interface Unit {
     /**
@@ -42542,6 +42570,18 @@ interface PaypalEstimatePayLaterPlanArgs {
      * terms; caller supplies the amount separately to calculate actual instalments.
      */
     estimatePayLaterPlan(args?: PaypalEstimatePayLaterPlanArgs): Promise<PaypalPayLaterPlan>;
+
+    /**
+     * Searches PayPal's Help Center and returns the matching articles — id, title, excerpt and
+     * PayPal's own rank — for a real question like "why is my payment on hold", e.g. searchHelp({
+     * query: "payment on hold" }) -> { results: [{ articleId: "HELP129", title: "How can I release
+     * my payment(s) on hold?", excerpt: "...", rank: 1 }, ...] }. PayPal answers EVERY query with
+     * a non-empty, ranked list — an unmatched query falls back to a fixed set of popular articles
+     * rather than an empty array, so a caller should judge relevance from the titles/excerpts
+     * rather than from whether `results` is empty. Pass an article's `articleId` to getHelpArticle
+     * for the full text.
+     */
+    searchHelp(args: { query: string }): Promise<PaypalHelpSearchResults>;
   }
 }
 
@@ -51078,6 +51118,72 @@ interface SurfsharkDedicatedIp {
      * price, optionally filtered to one `country`, read off surfshark.com/dedicated-ip.
      */
     getDedicatedIp(args?: { country?: string }): Promise<SurfsharkDedicatedIp>;
+  }
+}
+
+declare namespace BowmarkProvider_sweathouz {
+  // ── SWTHZ (Sweathouz) — the unit's own declarations, verbatim ──
+interface SweathouzListStudiosArgs {
+  query?: string;              // studio name, city, state or ZIP, e.g. "San Francisco", "KS"
+  includeComingSoon?: boolean; // default false: only studios taking bookings
+}
+
+interface SweathouzStudio {
+  id: string;                  // pass to getAvailability, e.g. "the-marina"
+  name: string;
+  status: "open" | "coming_soon";
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  lat: number;
+  lng: number;
+  bookingUrl: string | null;   // the studio's own booking app
+  pageUrl: string;
+  hours: { day: string; open: string | null; close: string | null }[]; // "09:00"/"17:00", null = closed
+}
+
+interface SweathouzAvailabilityArgs {
+  studio: string;              // id or name from listStudios
+  date?: string;               // YYYY-MM-DD; default today
+}
+
+interface SweathouzSlot {
+  start: string;               // "2026-10-21 07:45:00", studio-local
+  display: string;             // "Wednesday, October 21 at 7:45 am"
+  sessionType: string;         // "Contrast Therapy Session (60 Minutes)"
+  sessionTypeId: string;
+  suiteId: string;             // the private suite this slot is in
+}
+
+interface SweathouzAvailability {
+  studioId: string;
+  studioName: string;
+  bookingId: string;
+  date: string;
+  slots: SweathouzSlot[];      // only open times; empty = fully booked or closed
+}
+
+  /**
+   * SWTHZ (sweathouz.com) private contrast-therapy suites (sauna, cold plunge, shower) booked as
+   * timed 60-minute appointments: read studios, open suite times and pricing, and (signed in
+   * with an emailed one-time code) book, cancel and list a customer's appointments.
+   */
+  interface Unit {
+    /**
+     * Lists SWTHZ (Sweathouz) infrared-sauna and cold-plunge studios from the site's own store
+     * locator — id, name, address, coordinates, opening hours and booking link — optionally
+     * filtered by name, city, state or ZIP. The entry point: its `id` is what getAvailability
+     * takes.
+     */
+    listStudios(args?: SweathouzListStudiosArgs): Promise<SweathouzStudio[]>;
+
+    /**
+     * Lists the open 60-minute contrast-therapy appointment times at one SWTHZ studio on one date,
+     * read from the studio's own booking app — start time, session type and suite. Anonymous; no
+     * sign-in needed to see times.
+     */
+    getAvailability(args: SweathouzAvailabilityArgs): Promise<SweathouzAvailability>;
   }
 }
 
@@ -62262,6 +62368,7 @@ interface BowmarkProviders {
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   sunlighten: BowmarkProvider_sunlighten.Unit;
   surfshark: BowmarkProvider_surfshark.Unit;
+  sweathouz: BowmarkProvider_sweathouz.Unit;
   tagtrans_net: BowmarkProvider_tagtrans_net.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
   tapfiliate: BowmarkProvider_tapfiliate.Unit;

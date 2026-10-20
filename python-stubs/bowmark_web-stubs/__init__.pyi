@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 874cbba3641f859c39a4ab2ded2a41cfe3bb6dc9f75416f1d6a337eff4b7adb7
-# 85 capabilities, 603 providers, 2188 typed functions, 20 refused.
+# Manifest version: 2ed4fb2915cc5199e499d6514de251e1a47efdb084bbb76c9cc8e79f951e5751
+# 85 capabilities, 604 providers, 2192 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23243,6 +23243,19 @@ class Prv_patreon_patreonCreatorDetail_Out(TypedDict):
     createdAt: NotRequired[str]
     patronCount: NotRequired[float]
 
+class Prv_patreon_ListCreatorTiersArgs_In(TypedDict):
+    vanity: str
+
+class Prv_patreon_patreonTier_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    amountCents: NotRequired[float]
+    currency: NotRequired[str]
+    description: NotRequired[str]
+    isFreeTier: NotRequired[bool]
+    published: NotRequired[bool]
+    url: NotRequired[str]
+
 class Prv_pausestudio_Location_Out(TypedDict):
     id: str
     name: str
@@ -23389,6 +23402,19 @@ class Prv_paypal_PaypalPayMonthlyTerms_Out(TypedDict):
     termLengths: list[str]
     aprRange: str
     note: str
+
+class Prv_paypal_searchHelp_args_In(TypedDict):
+    query: str
+
+class Prv_paypal_PaypalHelpSearchResults_Out(TypedDict):
+    query: str
+    results: list[Prv_paypal_PaypalHelpSearchResult_Out]
+
+class Prv_paypal_PaypalHelpSearchResult_Out(TypedDict):
+    articleId: str
+    title: str
+    excerpt: str
+    rank: float
 
 class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
     city: str
@@ -28594,6 +28620,47 @@ class Prv_surfshark_SurfsharkDedicatedIpPlan_Out(TypedDict):
     name: str
     priceUsd: float
     per: str
+
+class Prv_sweathouz_SweathouzListStudiosArgs_In(TypedDict):
+    query: NotRequired[str]
+    includeComingSoon: NotRequired[bool]
+
+class Prv_sweathouz_SweathouzStudio_Out(TypedDict):
+    id: str
+    name: str
+    status: Literal["open"] | Literal["coming_soon"]
+    address: str
+    city: str
+    state: str
+    zip: str
+    lat: float
+    lng: float
+    bookingUrl: str | None
+    pageUrl: str
+    hours: list[Prv_sweathouz_SweathouzStudio_Out_hours_item_Out]
+
+class Prv_sweathouz_SweathouzStudio_Out_hours_item_Out(TypedDict):
+    day: str
+    open: str | None
+    close: str | None
+
+class Prv_sweathouz_SweathouzAvailabilityArgs_In(TypedDict):
+    studio: str
+    date: NotRequired[str]
+
+class Prv_sweathouz_SweathouzAvailability_Out(TypedDict):
+    studioId: str
+    studioName: str
+    bookingId: str
+    date: str
+    slots: list[Prv_sweathouz_SweathouzSlot_Out]
+
+class Prv_sweathouz_SweathouzSlot_Out(TypedDict):
+    start: str
+    display: str
+    sessionType: str
+    sessionTypeId: str
+    suiteId: str
 
 class Prv_tagtrans_net_TagtransShipmentRateForm_Out(TypedDict):
     formUrl: str
@@ -49826,6 +49893,9 @@ class Prv_patreon(Protocol):
     async def getCreator(self, args: Prv_patreon_GetCreatorArgs_In, /) -> Prv_patreon_patreonCreatorDetail_Out:
         """Get details for a specific creator including name, avatar, and account creation date."""
 
+    async def listCreatorTiers(self, args: Prv_patreon_ListCreatorTiersArgs_In, /) -> list[Prv_patreon_patreonTier_Out]:
+        """List all membership tiers offered by a creator with pricing."""
+
 class Prv_pausestudio(Protocol):
     """Recovery and wellness studio with float, cryo, sauna, and IV therapy bookings."""
 
@@ -49853,8 +49923,9 @@ class Prv_paypal(Protocol):
     the fee on one concrete personal (friends-and-family) transaction, the spread PayPal
     adds on a currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help
     Center search and articles, the binding policy documents, PayPal Shopping cashback
-    offers, crypto prices, and invoice payer-view reads. Three functions callable today —
-    estimateFee, getFees, getCurrencyConversionQuote.
+    offers, crypto prices, and invoice payer-view reads. Six functions callable today —
+    estimateFee, getFees, getCurrencyConversionQuote, getPolicyDocument,
+    estimatePayLaterPlan, searchHelp.
     """
 
     async def estimateFee(self, args: Prv_paypal_PaypalEstimateFeeArgs_In, /) -> Prv_paypal_PaypalFeeEstimate_Out:
@@ -49898,6 +49969,17 @@ class Prv_paypal(Protocol):
         every two weeks) and Pay Monthly (variable APR range and term lengths) — off the
         marketing page at /us/digital-wallet/ways-to-pay/buy-now-pay-later. Returns the standard
         published terms; caller supplies the amount separately to calculate actual instalments.
+        """
+
+    async def searchHelp(self, args: Prv_paypal_searchHelp_args_In, /) -> Prv_paypal_PaypalHelpSearchResults_Out:
+        """Searches PayPal's Help Center and returns the matching articles — id, title, excerpt and
+        PayPal's own rank — for a real question like "why is my payment on hold", e.g.
+        searchHelp({ query: "payment on hold" }) -> { results: [{ articleId: "HELP129", title:
+        "How can I release my payment(s) on hold?", excerpt: "...", rank: 1 }, ...] }. PayPal
+        answers EVERY query with a non-empty, ranked list — an unmatched query falls back to a
+        fixed set of popular articles rather than an empty array, so a caller should judge
+        relevance from the titles/excerpts rather than from whether `results` is empty. Pass an
+        article's `articleId` to getHelpArticle for the full text.
         """
 
 class Prv_peerspace(Protocol):
@@ -52935,6 +53017,26 @@ class Prv_surfshark(Protocol):
         """Every country and city Surfshark sells a dedicated IP in, and its published 'from'
         monthly price, optionally filtered to one `country`, read off
         surfshark.com/dedicated-ip.
+        """
+
+class Prv_sweathouz(Protocol):
+    """SWTHZ (sweathouz.com) private contrast-therapy suites (sauna, cold plunge, shower)
+    booked as timed 60-minute appointments: read studios, open suite times and pricing, and
+    (signed in with an emailed one-time code) book, cancel and list a customer's
+    appointments.
+    """
+
+    async def listStudios(self, args: Prv_sweathouz_SweathouzListStudiosArgs_In | None = None, /) -> list[Prv_sweathouz_SweathouzStudio_Out]:
+        """Lists SWTHZ (Sweathouz) infrared-sauna and cold-plunge studios from the site's own store
+        locator — id, name, address, coordinates, opening hours and booking link — optionally
+        filtered by name, city, state or ZIP. The entry point: its `id` is what getAvailability
+        takes.
+        """
+
+    async def getAvailability(self, args: Prv_sweathouz_SweathouzAvailabilityArgs_In, /) -> Prv_sweathouz_SweathouzAvailability_Out:
+        """Lists the open 60-minute contrast-therapy appointment times at one SWTHZ studio on one
+        date, read from the studio's own booking app — start time, session type and suite.
+        Anonymous; no sign-in needed to see times.
         """
 
 class Prv_tagtrans_net(Protocol):
@@ -57010,6 +57112,7 @@ class BowmarkProviders(Protocol):
     sunhomesaunas: Prv_sunhomesaunas
     sunlighten: Prv_sunlighten
     surfshark: Prv_surfshark
+    sweathouz: Prv_sweathouz
     tagtrans_net: Prv_tagtrans_net
     tamarackidaho: Prv_tamarackidaho
     tapfiliate: Prv_tapfiliate
