@@ -2397,10 +2397,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.followMember` | linkedin.com | Follows or unfollows a member as the signed-in caller, so their posts appear in the… | ⚪ |
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | ⚪ |
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
-| `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟡 |
+| `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟢 |
 | `linkedin.getEvent` | linkedin.com | Returns one public LinkedIn event from its URL — name, organizer, start and end time… | ⚪ |
 | `linkedin.getGroup` | linkedin.com | Returns one LinkedIn group from its URL — name, description, rules, member count… | ⚪ |
-| `linkedin.getHomeFeed` | linkedin.com | Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL… | 🟡 |
+| `linkedin.getHomeFeed` | linkedin.com | Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL… | 🟢 |
 | `linkedin.getJob` | linkedin.com | Returns one job posting in full from its posting URL — title, employer and employer… | 🟢 |
 | `linkedin.getLearningCourse` | linkedin.com | Returns one LinkedIn Learning course from its URL — title, author, duration, level… | ⚪ |
 | `linkedin.getMyProfile` | linkedin.com | Returns the signed-in caller's own LinkedIn member record — name, headline, profile… | 🟡 |
@@ -2417,23 +2417,23 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | ⚪ |
 | `linkedin.listCompanyPosts` | linkedin.com | Lists a company page's recent posts, newest first — each with its text, when it was… | ⚪ |
 | `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟡 |
-| `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟡 |
+| `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟢 |
 | `linkedin.listFollowing` | linkedin.com | Lists the members, companies and pages the signed-in caller follows, with each one's… | ⚪ |
-| `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟡 |
+| `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟢 |
 | `linkedin.listMemberPosts` | linkedin.com | Lists one member's recent posts and reposts, newest first, from their profile URL —… | ⚪ |
 | `linkedin.listMyGroups` | linkedin.com | Lists the groups the signed-in caller belongs to, with each group's name, URL and… | ⚪ |
 | `linkedin.listNotifications` | linkedin.com | Lists the signed-in caller's notifications, newest first — who did what (viewed… | ⚪ |
 | `linkedin.listPostComments` | linkedin.com | Returns the comments on one post from its URL — each comment's author, text, time and… | ⚪ |
 | `linkedin.listSavedJobs` | linkedin.com | Lists the jobs the signed-in caller has saved, with each posting's id (for getJob)… | ⚪ |
 | `linkedin.listSavedPosts` | linkedin.com | Lists the posts and articles the signed-in caller has saved, with each one's author… | ⚪ |
-| `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟡 |
+| `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟢 |
 | `linkedin.listSuggestedConnections` | linkedin.com | Lists the people LinkedIn suggests the signed-in caller connect with ("People you may… | ⚪ |
 | `linkedin.reactToPost` | linkedin.com | Reacts to a post as the signed-in caller — like, celebrate, support, love, insightful… | ⚪ |
 | `linkedin.removeConnection` | linkedin.com | Removes a member from the signed-in caller's connections. | ⚪ |
 | `linkedin.repostPost` | linkedin.com | Reposts a post to the signed-in caller's feed, with or without their own text on top. | ⚪ |
 | `linkedin.saveJob` | linkedin.com | Saves a job posting to the signed-in caller's saved jobs, or unsaves it. | ⚪ |
 | `linkedin.savePost` | linkedin.com | Saves a post to the signed-in caller's saved items, or unsaves it. | ⚪ |
-| `linkedin.searchCompanies` | linkedin.com | Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per… | 🟡 |
+| `linkedin.searchCompanies` | linkedin.com | Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per… | 🟢 |
 | `linkedin.searchEvents` | linkedin.com | Searches LinkedIn events by keyword and returns each one's name, organizer, start… | ⚪ |
 | `linkedin.searchGroups` | linkedin.com | Searches LinkedIn groups by keyword and returns each group's name, member count… | ⚪ |
 | `linkedin.searchJobs` | linkedin.com | Returns the job postings matching a search — keywords, location and how recently the… | 🟢 |
@@ -2628,8 +2628,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mindbodyonline.waitlistSession` | mindbodyonline.com | Joins the signed-in caller onto the waitlist for a full class session. | 🟢 |
 | `minimax.getDocs` | platform.minimax.io | Resolves a topic (e.g. "text generation", "mcp guide", "voice clone") against… | 🟢 |
 | `minted.getCardOptions` | minted.com | Would return one product's actual named paper/format/foil choices (not just the price… | ⚪ |
-| `minted.priceCard` | minted.com | Prices one exact personalized-card configuration (design + paper + print method + foil… | 🟡 |
-| `minted.searchCards` | minted.com | Browses one of Minted's real photo-card/stationery categories (e.g.… | 🟡 |
+| `minted.priceCard` | minted.com | Prices one exact personalized-card configuration (design + paper + print method + foil… | ⚪ |
+| `minted.searchCards` | minted.com | Browses one of Minted's real photo-card/stationery categories (e.g.… | ⚪ |
 | `mixbook.getActivePromotion` | mixbook.com | Reads the real, currently-active sitewide coupon banner (description, code, terms URL). | 🟢 |
 | `mixbook.getPhotoBookPriceTable` | mixbook.com | Returns Mixbook's full published rate card: every cover/paper x size combination, the… | 🟢 |
 | `mixbook.getProductPrice` | mixbook.com | Reads one theme's real product page and returns Mixbook's own server-computed price… | 🟢 |
@@ -3748,7 +3748,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sweathouz.cancel` | sweathouz.com | Cancels an existing appointment for the signed-in customer. | ⚪ |
 | `sweathouz.findStudio` | sweathouz.com | Searches for a studio by name, location, or keyword. | ⚪ |
 | `sweathouz.getAvailability` | sweathouz.com | Lists open appointment times for one studio on a given date: start time, session type… | 🟢 |
-| `sweathouz.getPricing` | sweathouz.com | Gets pricing for intro packages, drop-in sessions, double dose sessions, plus-one… | ⚪ |
+| `sweathouz.getPricing` | sweathouz.com | Reads one studio's priced session options (the main contrast-therapy session and the… | 🟢 |
 | `sweathouz.getPromoCode` | sweathouz.com | Validates and retrieves details for a promotional code. | ⚪ |
 | `sweathouz.getStudioDetails` | sweathouz.com | Gets full details for a studio including amenities, class descriptions, and instructor… | ⚪ |
 | `sweathouz.getStudioHours` | sweathouz.com | Gets the operating hours for a specific studio. | ⚪ |
