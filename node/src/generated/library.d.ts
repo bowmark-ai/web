@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9851b610886bb124d673caa0b18e045ff152ed1a5489848378cd74114816b906
-// 85 capabilities, 606 providers, 2214 typed functions, 20 refused.
+// Manifest version: f7f4fc8bd29ec553208976d423c4dc625fb37ff126210e78617f5962e9ee1017
+// 85 capabilities, 607 providers, 2216 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17416,6 +17416,41 @@ interface ClubchampionAvailability {
      * error.
      */
     checkAvailability(fitterId: string, start: string, end: string, durationMinutes?: number, fittingType?: string): Promise<ClubchampionAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_clubpilates {
+  // ── Club Pilates — the unit's own declarations, verbatim ──
+interface clubpilatesRow {
+  id: string;
+}
+
+interface FindStudiosArgs {
+  lat: number;
+  lng: number;
+  limit?: number;
+}
+
+interface ClubPilatesStudio {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  timezone: string;
+  openStatus: string;
+}
+
+  /**
+   * Club Pilates studios: find a studio, read its class schedule and pricing, and (signed in)
+   * book, waitlist and cancel classes.
+   */
+  interface Unit {
+    /**
+     * Finds Club Pilates studios near a point by latitude/longitude, returning each studio's id,
+     * name, address, phone, timezone and open status. This is the door every other function's
+     * `studio` argument comes from.
+     */
+    findStudios(args: FindStudiosArgs): Promise<ClubPilatesStudio[]>;
   }
 }
 
@@ -38327,6 +38362,17 @@ interface GetScheduleArgs {
   sessionId: string;
 }
 
+interface BookSessionArgs {
+  widgetId: string;
+  locationId: string;
+  sessionId: string;
+}
+
+interface BookSessionResult {
+  booked: boolean;
+  message: string;
+}
+
   /**
    * Studio schedules and bookings for fitness studios, yoga studios, and wellness centers using
    * Mindbody.
@@ -38354,6 +38400,18 @@ interface GetScheduleArgs {
      * sessionId: "cinst_…" })`.
      */
     getSchedule(args: GetScheduleArgs): Promise<MindbodySession>;
+
+    /**
+     * Books the signed-in caller into one class session. NEEDS A SIGN-IN: the widget's booking
+     * action has no plain-HTTP door — it is a Next.js Server Action that, logged out, redirects to
+     * Mindbody's own OIDC sign-in — so this call pauses the run for a caller sign-in when none is
+     * held. `sessionId` is a session's own `id`, from a row `listSchedules` or `getSchedule`
+     * returned for the same `widgetId`/`locationId`. Never completes a paid booking on its own —
+     * `message` is the widget's own on-screen wording after the attempt, which may itself be a
+     * payment step. Example: `bowmark.providers.mindbodyonline.bookSession({ widgetId: "12345",
+     * locationId: "1", sessionId: "cinst_…" })`.
+     */
+    bookSession(args: BookSessionArgs, opts?: ConnectionOption): Promise<BookSessionResult>;
   }
 }
 
@@ -41769,12 +41827,13 @@ interface OpenTableCancellation {
      * clicks that time, accepts the restaurant's terms, presses "Complete reservation" and enters
      * `diner.phone`, so OpenTable TEXTS A CODE to that phone and holds the table for 5 minutes.
      * Then call `confirmBooking({ code })` IN THE SAME BOWMARK SESSION: the held table lives in
-     * that session's browser, so a separate `run` cannot finish it. Over HTTP: `POST /v1/session`
-     * on the Bowmark API (Bearer API key) returns `{ sessionId }`; then `POST
-     * /v1/session/<sessionId>/call` with `{"path": ["providers", "opentable", "startBooking"],
-     * "args": [{ …startBooking args }]}`, ask the person for the texted code, and send `{"path":
-     * ["providers", "opentable", "confirmBooking"], "args": [{ "code": "…" }]}` to the same
-     * session within 5 minutes. Throws when `dateTime` is no longer open.
+     * that session's browser, so a separate `run` cannot finish it. With the MCP tools:
+     * `session_call({ path: ["providers", "opentable", "startBooking"], args: [{ …startBooking
+     * args }] })`, ask the person for the texted code, then `session_call({ sessionId, path:
+     * ["providers", "opentable", "confirmBooking"], args: [{ code: "…" }] })` with the `sessionId`
+     * the first call returned, within 5 minutes. Over HTTP: `POST /v1/session` (Bearer API key)
+     * returns `{ sessionId }`, and `POST /v1/session/<sessionId>/call` takes the same `{"path":
+     * [...], "args": [...]}`. Throws when `dateTime` is no longer open.
      */
     startBooking(args: OpenTableStartBookingArgs): Promise<OpenTableBookingStarted>;
 
@@ -62155,6 +62214,7 @@ interface BowmarkProviders {
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
+  clubpilates: BowmarkProvider_clubpilates.Unit;
   cnbc_com: BowmarkProvider_cnbc_com.Unit;
   cnn: BowmarkProvider_cnn.Unit;
   coast: BowmarkProvider_coast.Unit;

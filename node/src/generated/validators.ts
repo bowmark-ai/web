@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9851b610886bb124d673caa0b18e045ff152ed1a5489848378cd74114816b906
-// 2196 checked, 20 unchecked.
+// Manifest version: f7f4fc8bd29ec553208976d423c4dc625fb37ff126210e78617f5962e9ee1017
+// 2198 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9851b610886bb124d673caa0b18e045ff152ed1a5489848378cd74114816b906",
+  "version": "f7f4fc8bd29ec553208976d423c4dc625fb37ff126210e78617f5962e9ee1017",
   "units": {
     "address_validation": {
       "defs": {
@@ -17772,6 +17772,48 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.clubpilates": {
+      "defs": {
+        "FindStudiosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findStudios": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindStudiosArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -39871,6 +39913,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.mindbodyonline": {
       "defs": {
+        "BookSessionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "widgetId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetScheduleArgs": {
           "k": "object",
           "props": [
@@ -39943,6 +40011,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetScheduleArgs"
             },
             "optional": false
+          }
+        ],
+        "bookSession": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookSessionArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

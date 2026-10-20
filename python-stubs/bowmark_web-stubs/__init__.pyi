@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9851b610886bb124d673caa0b18e045ff152ed1a5489848378cd74114816b906
-# 85 capabilities, 606 providers, 2196 typed functions, 20 refused.
+# Manifest version: f7f4fc8bd29ec553208976d423c4dc625fb37ff126210e78617f5962e9ee1017
+# 85 capabilities, 607 providers, 2198 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9853,6 +9853,19 @@ class Prv_clubchampion_ClubchampionSlot_Out(TypedDict):
     end: str
     status: str
     resourceId: str
+
+class Prv_clubpilates_FindStudiosArgs_In(TypedDict):
+    lat: float
+    lng: float
+    limit: NotRequired[float]
+
+class Prv_clubpilates_ClubPilatesStudio_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    phone: str
+    timezone: str
+    openStatus: str
 
 class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
     symbol: str
@@ -20959,6 +20972,15 @@ class Prv_mindbodyonline_GetScheduleArgs_In(TypedDict):
     widgetId: str
     locationId: str
     sessionId: str
+
+class Prv_mindbodyonline_BookSessionArgs_In(TypedDict):
+    widgetId: str
+    locationId: str
+    sessionId: str
+
+class Prv_mindbodyonline_BookSessionResult_Out(TypedDict):
+    booked: bool
+    message: str
 
 class Prv_minimax_MinimaxDocPage_Out(TypedDict):
     title: str
@@ -40881,6 +40903,17 @@ class Prv_clubchampion(Protocol):
         ~60-day booking horizon — not an error.
         """
 
+class Prv_clubpilates(Protocol):
+    """Club Pilates studios: find a studio, read its class schedule and pricing, and (signed
+    in) book, waitlist and cancel classes.
+    """
+
+    async def findStudios(self, args: Prv_clubpilates_FindStudiosArgs_In, /) -> list[Prv_clubpilates_ClubPilatesStudio_Out]:
+        """Finds Club Pilates studios near a point by latitude/longitude, returning each studio's
+        id, name, address, phone, timezone and open status. This is the door every other
+        function's `studio` argument comes from.
+        """
+
 class Prv_cnbc_com(Protocol):
     """Stock quotes, market data, news, videos and analysis from CNBC."""
 
@@ -48518,6 +48551,18 @@ class Prv_mindbodyonline(Protocol):
         widgetId: "12345", locationId: "1", sessionId: "cinst_…" })`.
         """
 
+    async def bookSession(self, args: Prv_mindbodyonline_BookSessionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_mindbodyonline_BookSessionResult_Out:
+        """Books the signed-in caller into one class session. NEEDS A SIGN-IN: the widget's booking
+        action has no plain-HTTP door — it is a Next.js Server Action that, logged out,
+        redirects to Mindbody's own OIDC sign-in — so this call pauses the run for a caller
+        sign-in when none is held. `sessionId` is a session's own `id`, from a row
+        `listSchedules` or `getSchedule` returned for the same `widgetId`/`locationId`. Never
+        completes a paid booking on its own — `message` is the widget's own on-screen wording
+        after the attempt, which may itself be a payment step. Example:
+        `bowmark.providers.mindbodyonline.bookSession({ widgetId: "12345", locationId: "1",
+        sessionId: "cinst_…" })`.
+        """
+
 class Prv_minimax(Protocol):
     """MiniMax's own developer docs (platform.minimax.io) — resolves a topic against the site's
     own machine-readable docs index and returns that page's title, url and full Markdown
@@ -49750,12 +49795,14 @@ class Prv_opentable(Protocol):
         clicks that time, accepts the restaurant's terms, presses "Complete reservation" and
         enters `diner.phone`, so OpenTable TEXTS A CODE to that phone and holds the table for 5
         minutes. Then call `confirmBooking({ code })` IN THE SAME BOWMARK SESSION: the held
-        table lives in that session's browser, so a separate `run` cannot finish it. Over HTTP:
-        `POST /v1/session` on the Bowmark API (Bearer API key) returns `{ sessionId }`; then
-        `POST /v1/session/<sessionId>/call` with `{"path": ["providers", "opentable",
-        "startBooking"], "args": [{ …startBooking args }]}`, ask the person for the texted code,
-        and send `{"path": ["providers", "opentable", "confirmBooking"], "args": [{ "code": "…"
-        }]}` to the same session within 5 minutes. Throws when `dateTime` is no longer open.
+        table lives in that session's browser, so a separate `run` cannot finish it. With the
+        MCP tools: `session_call({ path: ["providers", "opentable", "startBooking"], args: [{
+        …startBooking args }] })`, ask the person for the texted code, then `session_call({
+        sessionId, path: ["providers", "opentable", "confirmBooking"], args: [{ code: "…" }] })`
+        with the `sessionId` the first call returned, within 5 minutes. Over HTTP: `POST
+        /v1/session` (Bearer API key) returns `{ sessionId }`, and `POST
+        /v1/session/<sessionId>/call` takes the same `{"path": [...], "args": [...]}`. Throws
+        when `dateTime` is no longer open.
         """
 
     async def confirmBooking(self, args: Prv_opentable_confirmBooking_args_In, /) -> Prv_opentable_OpenTableBooking_Out:
@@ -56835,6 +56882,7 @@ class BowmarkProviders(Protocol):
     cleanairlawncare: Prv_cleanairlawncare
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
+    clubpilates: Prv_clubpilates
     cnbc_com: Prv_cnbc_com
     cnn: Prv_cnn
     coast: Prv_coast
