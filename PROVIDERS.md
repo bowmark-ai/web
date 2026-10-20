@@ -2513,7 +2513,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.cancelMembership` | marianatek.com | Cancels one of the signed-in customer's memberships with a reason from the studio's… | ⚪ |
 | `marianatek.cancelReservation` | marianatek.com | Cancels one of the signed-in customer's reservations or waitlist spots. | ⚪ |
 | `marianatek.changeSpot` | marianatek.com | Moves one of the signed-in customer's pick-a-spot reservations to another free spot in… | ⚪ |
-| `marianatek.findStudio` | marianatek.com | Finds a Mariana Tek studio from what a caller holds — its tenant slug… | ⚪ |
+| `marianatek.findStudio` | marianatek.com | Finds a Mariana Tek studio brand from what a caller holds — its tenant slug… | 🟢 |
 | `marianatek.getClass` | marianatek.com | Returns one class by id: description, start time, instructors, classroom… | ⚪ |
 | `marianatek.getLocation` | marianatek.com | Returns one location by id: address, contact details, description and timezone. | ⚪ |
 | `marianatek.getMyAccount` | marianatek.com | Returns the signed-in customer's own profile at a studio: name, email, phone… | ⚪ |
@@ -3663,7 +3663,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.listArtistTracks` | open.spotify.com | Get an artist's top or recently released tracks. | ⚪ |
 | `spotify.listNewReleases` | open.spotify.com | Get new release recommendations. | ⚪ |
 | `spotify.listPlaylistTracks` | open.spotify.com | Get all tracks from a playlist. | ⚪ |
-| `spotify.search` | open.spotify.com | Search Spotify's catalog for tracks, albums, artists, playlists or podcasts. | ⚪ |
+| `spotify.search` | open.spotify.com | Searches Spotify's catalog for tracks, albums, artists, playlists, podcasts or… | 🟢 |
 | `starlighthomes.getMetro` | starlighthomes.com | Reads one metro's own page: every named neighborhood in it, each with a real live… | 🟢 |
 | `starlighthomes.getNeighborhood` | starlighthomes.com | Reads one neighborhood's own page: its ACTUAL move-in-ready homes right now — real… | 🟢 |
 | `starlighthomes.listMetros` | starlighthomes.com | Lists every metro division Starlight Homes currently builds in (e.g. Dallas - Fort… | 🟢 |
