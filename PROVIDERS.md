@@ -2620,7 +2620,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |
-| `mindbodyonline.bookSession` | mindbodyonline.com | Books a member into a specific class session. | ⚪ |
+| `mindbodyonline.bookSession` | mindbodyonline.com | Books the signed-in caller into a specific class session. | 🟢 |
 | `mindbodyonline.cancelSession` | mindbodyonline.com | Cancels a member's booking for a class. | ⚪ |
 | `mindbodyonline.getSchedule` | mindbodyonline.com | Gets details for a specific class session including availability, waitlist status, and… | 🟢 |
 | `mindbodyonline.listSchedules` | mindbodyonline.com | Retrieves the list of upcoming classes for a studio location on a given date… | 🟢 |
