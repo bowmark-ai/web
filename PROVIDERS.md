@@ -2525,7 +2525,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.listClasses` | marianatek.com | Lists a studio's class schedule between two dates, optionally narrowed to locations or… | ⚪ |
 | `marianatek.listClassPaymentOptions` | marianatek.com | Lists which of the signed-in customer's own memberships and class credits can pay for… | ⚪ |
 | `marianatek.listClassSpots` | marianatek.com | Lists the spots in a pick-a-spot class (treadmill, floor, bike) with name, type… | ⚪ |
-| `marianatek.listLocations` | marianatek.com | Lists a studio's bookable locations: id, name, full address, timezone, currency, phone… | ⚪ |
+| `marianatek.listLocations` | marianatek.com | Lists a tenant's bookable locations, flat — id, name, address, phone, email, timezone… | 🟢 |
 | `marianatek.listMyAppointments` | marianatek.com | Lists the signed-in customer's upcoming or past private appointments at a studio. | ⚪ |
 | `marianatek.listMyCredits` | marianatek.com | Lists the signed-in customer's class packs at a studio and how many credits are left. | ⚪ |
 | `marianatek.listMyMemberships` | marianatek.com | Lists the signed-in customer's memberships at a studio with status, billing cycle and… | ⚪ |
