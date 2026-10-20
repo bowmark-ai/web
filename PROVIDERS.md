@@ -2643,7 +2643,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `modularclosets.searchClosetKits` | modularclosets.com | Searches Modular Closets' real pre-configured kit catalog (closets, wardrobes… | 🟢 |
 | `momence.bookSession` | momence.com | Book a session as the signed-in user, with optional tier/plan selection. | ⚪ |
 | `momence.cancelBooking` | momence.com | Cancel an existing booking as the signed-in user. | ⚪ |
-| `momence.findStudio` | momence.com | Search for a studio by name or query string, returning matching studios with their… | ⚪ |
+| `momence.findStudio` | momence.com | Resolve a studio's public momence.com/u/<slug> page (or bare slug) to its host id and… | ⚪ |
 | `momence.getBookingOptions` | momence.com | Get available booking options and pricing for a specific session as the signed-in user. | ⚪ |
 | `momence.getCheckoutFields` | momence.com | Get custom checkout field requirements for a studio's guest checkout. | ⚪ |
 | `momence.getLocations` | momence.com | List all locations within a studio. | ⚪ |
