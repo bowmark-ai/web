@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 59587e813f407aaa766267bccfea9a1dee09b0c0fae10975346b0bc0c165e083
-# 85 capabilities, 603 providers, 2187 typed functions, 20 refused.
+# Manifest version: 874cbba3641f859c39a4ab2ded2a41cfe3bb6dc9f75416f1d6a337eff4b7adb7
+# 85 capabilities, 603 providers, 2188 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20941,6 +20941,11 @@ class Prv_mindbodyonline_MindbodySession_Out(TypedDict):
     bookable: bool
     waitlistable: bool
     cancelled: bool
+
+class Prv_mindbodyonline_GetScheduleArgs_In(TypedDict):
+    widgetId: str
+    locationId: str
+    sessionId: str
 
 class Prv_minimax_MinimaxDocPage_Out(TypedDict):
     title: str
@@ -48368,6 +48373,16 @@ class Prv_mindbodyonline(Protocol):
         whole window regardless of any date you pass. Example:
         `bowmark.providers.mindbodyonline.listSchedules({ widgetId: "12345", locationId: "1"
         })`.
+        """
+
+    async def getSchedule(self, args: Prv_mindbodyonline_GetScheduleArgs_In, /) -> Prv_mindbodyonline_MindbodySession_Out:
+        """Gets one session by id — its time, instructor, session type, and
+        booking/waitlist/cancelled availability. `sessionId` is a session's own `id`, from a row
+        `listSchedules` returned for the same `widgetId`/`locationId`; there is no separate
+        per-session URL on the site, so this looks it up within the widget's currently published
+        window. Throws if the session is outside that window (already elapsed, or beyond the ~8
+        days the widget publishes). Example: `bowmark.providers.mindbodyonline.getSchedule({
+        widgetId: "12345", locationId: "1", sessionId: "cinst_…" })`.
         """
 
 class Prv_minimax(Protocol):

@@ -1,5 +1,5 @@
 {
-  "version": "59587e813f407aaa766267bccfea9a1dee09b0c0fae10975346b0bc0c165e083",
+  "version": "874cbba3641f859c39a4ab2ded2a41cfe3bb6dc9f75416f1d6a337eff4b7adb7",
   "units": {
     "address_validation": {
       "defs": {
@@ -39831,6 +39831,32 @@
     },
     "providers.mindbodyonline": {
       "defs": {
+        "GetScheduleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "widgetId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListSchedulesArgs": {
           "k": "object",
           "props": [
@@ -39865,6 +39891,16 @@
             "schema": {
               "k": "ref",
               "name": "ListSchedulesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSchedule": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetScheduleArgs"
             },
             "optional": false
           }

@@ -2622,7 +2622,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |
 | `mindbodyonline.bookSession` | mindbodyonline.com | Books a member into a specific class session. | ⚪ |
 | `mindbodyonline.cancelSession` | mindbodyonline.com | Cancels a member's booking for a class. | ⚪ |
-| `mindbodyonline.getSchedule` | mindbodyonline.com | Gets details for a specific class session including availability, waitlist status, and… | ⚪ |
+| `mindbodyonline.getSchedule` | mindbodyonline.com | Gets details for a specific class session including availability, waitlist status, and… | 🟢 |
 | `mindbodyonline.listSchedules` | mindbodyonline.com | Retrieves the list of upcoming classes for a studio location on a given date… | 🟢 |
 | `mindbodyonline.myBookings` | mindbodyonline.com | Lists the authenticated member's current and past bookings. | ⚪ |
 | `mindbodyonline.waitlistSession` | mindbodyonline.com | Adds a member to the waitlist for a full class. | ⚪ |
@@ -2975,7 +2975,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `paypal.getInvoice` | paypal.com | Reads a PayPal invoice from the payer-view link printed on the invoice itself — the… | ⚪ |
 | `paypal.getPayPalMeProfile` | paypal.com | Resolves a PayPal.Me link or handle to the public profile behind it — the display… | ⚪ |
 | `paypal.getPolicyDocument` | paypal.com | Reads one of PayPal's binding policy documents from the legal hub — the User… | 🟢 |
-| `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — title, canonical URL… | ⚪ |
+| `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — id, title, excerpt… | 🟢 |
 | `paypal.searchShoppingOffers` | paypal.com | Finds the cashback and discount offers PayPal is currently running at a given merchant… | ⚪ |
 | `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟡 |
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟡 |
@@ -3723,7 +3723,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sweathouz.buyPack` | sweathouz.com | Purchases a session pack for the signed-in customer. | ⚪ |
 | `sweathouz.cancel` | sweathouz.com | Cancels an existing appointment for the signed-in customer. | ⚪ |
 | `sweathouz.findStudio` | sweathouz.com | Searches for a studio by name, location, or keyword. | ⚪ |
-| `sweathouz.getAvailability` | sweathouz.com | Lists available appointment times for a studio on a given date, returning time slots… | ⚪ |
+| `sweathouz.getAvailability` | sweathouz.com | Lists open appointment times for one studio on a given date: start time, session type… | 🟢 |
 | `sweathouz.getPricing` | sweathouz.com | Gets pricing for intro packages, drop-in sessions, double dose sessions, plus-one… | ⚪ |
 | `sweathouz.getPromoCode` | sweathouz.com | Validates and retrieves details for a promotional code. | ⚪ |
 | `sweathouz.getStudioDetails` | sweathouz.com | Gets full details for a studio including amenities, class descriptions, and instructor… | ⚪ |
@@ -3733,7 +3733,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sweathouz.listCredits` | sweathouz.com | Gets the signed-in customer's available credits and expiration dates. | ⚪ |
 | `sweathouz.listMemberships` | sweathouz.com | Lists available membership and pack options for a studio: name, duration, price, and… | ⚪ |
 | `sweathouz.listPacks` | sweathouz.com | Lists the customer's active or inactive pack memberships with remaining sessions. | ⚪ |
-| `sweathouz.listStudios` | sweathouz.com | Lists all SWTHZ studios: their booking id, display name, location, and coordinates. | ⚪ |
+| `sweathouz.listStudios` | sweathouz.com | Lists SWTHZ studios: id, name, address, coordinates, opening hours and booking link… | 🟢 |
 | `sweathouz.myBookings` | sweathouz.com | Lists the signed-in customer's upcoming and past appointments. | ⚪ |
 | `sweathouz.reserveMembership` | sweathouz.com | Pre-reserves a membership for an upcoming opening. | ⚪ |
 | `tagtrans_net.createShipmentRateEmail` | tagtrans.net | Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request… | 🟢 |

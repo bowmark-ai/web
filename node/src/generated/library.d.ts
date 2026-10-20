@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 59587e813f407aaa766267bccfea9a1dee09b0c0fae10975346b0bc0c165e083
-// 85 capabilities, 603 providers, 2205 typed functions, 20 refused.
+// Manifest version: 874cbba3641f859c39a4ab2ded2a41cfe3bb6dc9f75416f1d6a337eff4b7adb7
+// 85 capabilities, 603 providers, 2206 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -38279,6 +38279,12 @@ interface ListSchedulesArgs {
   date?: string;
 }
 
+interface GetScheduleArgs {
+  widgetId: string;
+  locationId: string;
+  sessionId: string;
+}
+
   /**
    * Studio schedules and bookings for fitness studios, yoga studios, and wellness centers using
    * Mindbody.
@@ -38295,6 +38301,17 @@ interface ListSchedulesArgs {
      * `bowmark.providers.mindbodyonline.listSchedules({ widgetId: "12345", locationId: "1" })`.
      */
     listSchedules(args: ListSchedulesArgs): Promise<{ sessions: MindbodySession[] }>;
+
+    /**
+     * Gets one session by id — its time, instructor, session type, and booking/waitlist/cancelled
+     * availability. `sessionId` is a session's own `id`, from a row `listSchedules` returned for
+     * the same `widgetId`/`locationId`; there is no separate per-session URL on the site, so this
+     * looks it up within the widget's currently published window. Throws if the session is outside
+     * that window (already elapsed, or beyond the ~8 days the widget publishes). Example:
+     * `bowmark.providers.mindbodyonline.getSchedule({ widgetId: "12345", locationId: "1",
+     * sessionId: "cinst_…" })`.
+     */
+    getSchedule(args: GetScheduleArgs): Promise<MindbodySession>;
   }
 }
 
