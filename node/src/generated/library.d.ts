@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: eec3c5ad87e7d9118bc834b7fd3209adaca43971606d54b4ee64c3737b72547e
-// 85 capabilities, 608 providers, 2224 typed functions, 20 refused.
+// Manifest version: dd48c35273b7c70487dc0f2dc773c3f2285ce0c5b77fe8e4534b9f41c63d8aba
+// 85 capabilities, 610 providers, 2231 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6033,6 +6033,55 @@ interface AbqPlumbAppointmentSlot { startTime: string; endTime: string; }
      * listServices. This reads availability only; it never submits a booking.
      */
     getAvailability(input: AbqPlumbAppointmentRequest): Promise<AbqPlumbAppointmentSlot[]>;
+  }
+}
+
+declare namespace BowmarkProvider_accuweather {
+  // ── AccuWeather — the unit's own declarations, verbatim ──
+interface AccuweatherLocation {
+  key: string;
+  localizedName: string;
+  administrativeArea: {
+    id: string;
+    localizedName: string;
+  };
+  country: {
+    id: string;
+    localizedName: string;
+  };
+  timeZone: {
+    code: string;
+    abbreviation: string;
+  };
+  hasAlerts: boolean;
+  hasMinuteCast: boolean;
+  hasPollen: boolean;
+  isDST?: boolean;
+}
+
+interface SearchLocationsArgs {
+  query: string;
+}
+
+interface AccuweatherLocationMatch {
+  key: string;
+  name: string;
+  longName: string;
+  lat: number;
+  lon: number;
+  postalCode: string | null;
+}
+
+  /**
+   * AccuWeather forecasts for any place — current conditions, hourly, daily, MinuteCast, alerts,
+   * air quality, allergy and activity indices.
+   */
+  interface Unit {
+    /**
+     * Finds places by name, ZIP or postal code via the site's own search box autocomplete — each
+     * match carries the resolver key getLocation takes.
+     */
+    searchLocations(args: SearchLocationsArgs): Promise<AccuweatherLocationMatch[]>;
   }
 }
 
@@ -15166,6 +15215,7 @@ interface CglPriceResult {
   applied: { group: string; choice: string }[];
   missingGroups: string[];     // groups with >1 choice and no selection applied
   unmatched: string[];         // selections that didn't match a real group/choice
+  unavailable: string | null;  // every group picked, but the store does not offer that combination now (sold out)
   handoffUrl: string;          // the product's entry page
 }
 
@@ -15180,6 +15230,7 @@ interface CglCartHandoff {
   stockStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   missingGroups: string[];
   unmatched: string[];
+  unavailable: string | null;  // same as CglPriceResult.unavailable
 }
 
   /**
@@ -15211,7 +15262,9 @@ interface CglCartHandoff {
      * publishes no shareable URL for a configured state). `missingGroups` names any option group
      * with more than one choice left unpicked — price is null until every such group is chosen.
      * `unmatched` names any selection that did not match a real group or choice, rather than
-     * silently mispricing.
+     * silently mispricing. `unavailable` says so when every group was picked but the store does
+     * not offer that combination right now — it lists only in-stock combinations, so that is a
+     * sold-out variant, not an error.
      */
     priceConfiguration(urlKey: string, selections: Record<string, string>): Promise<CglPriceResult>;
 
@@ -36625,6 +36678,32 @@ interface marianatekStudio {
   onlineAppointmentBooking: boolean | null;
 }
 
+interface marianatekListRegionsArgs {
+  /** Tenant slug ("bodytempyoga"), or a <slug>.marianatek.com / <slug>.marianaiframes.com URL */
+  studio: string;
+}
+
+interface marianatekRegionLocation {
+  id: string;
+  name: string;
+  city: string | null;
+  stateProvince: string | null;
+  postalCode: string | null;
+  formattedAddress: string[];
+  phoneNumber: string | null;
+  email: string | null;
+  timezone: string | null;
+  currencyCode: string | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+interface marianatekRegion {
+  id: string;
+  name: string;
+  locations: marianatekRegionLocation[];
+}
+
   /**
    * Mariana Tek studio booking (Barry's, Body Temp Yoga and other boutique fitness brands, one
    * tenant per brand): find a studio, read its locations, class schedule, spot maps, pricing and
@@ -36642,6 +36721,13 @@ interface marianatekStudio {
      * resolved from its URL — pass the slug.
      */
     findStudio(args: marianatekFindStudioArgs): Promise<marianatekStudio>;
+
+    /**
+     * Lists a tenant's regions (city or area groupings) with the locations in each — the region id
+     * listScheduleFilters and listClasses take. Each location carries its id, name, address,
+     * phone, email, timezone and currency. An unknown tenant THROWS.
+     */
+    listRegions(args: marianatekListRegionsArgs): Promise<marianatekRegion[]>;
   }
 }
 
@@ -38459,8 +38545,19 @@ interface WaitlistSessionArgs {
   sessionId: string;
 }
 
+interface CancelSessionArgs {
+  widgetId: string;
+  locationId: string;
+  sessionId: string;
+}
+
 interface BookSessionResult {
   booked: boolean;
+  message: string;
+}
+
+interface CancelSessionResult {
+  cancelled: boolean;
   message: string;
 }
 
@@ -38516,6 +38613,20 @@ interface BookSessionResult {
      * sessionId: "cinst_…" })`.
      */
     waitlistSession(args: WaitlistSessionArgs, opts?: ConnectionOption): Promise<BookSessionResult>;
+
+    /**
+     * Cancels the signed-in caller's booking of one class session. NEEDS A SIGN-IN: opens
+     * Mindbody's "My Account" view, which — logged out — redirects to Mindbody's own account
+     * sign-in (a different door than bookSession's OIDC popup, on `cart.mindbodyonline.com`), so
+     * this call pauses the run for a caller sign-in when none is held. `sessionId` is a session's
+     * own `id`, from a row `listSchedules` or `getSchedule` returned for the same
+     * `widgetId`/`locationId`. Refuses rather than guessing when the signed-in account view shows
+     * no matching booking. `message` is the account view's own on-screen wording after the attempt
+     * — may include a late-cancellation fee notice. Example:
+     * `bowmark.providers.mindbodyonline.cancelSession({ widgetId: "12345", locationId: "1",
+     * sessionId: "cinst_…" })`.
+     */
+    cancelSession(args: CancelSessionArgs, opts?: ConnectionOption): Promise<CancelSessionResult>;
   }
 }
 
@@ -49771,9 +49882,15 @@ interface ListStudiosArgs {
   state?: string;   // two-letter state code, e.g. "CA" — omit for every studio
 }
 
+interface GetStudioArgs {
+  locationId?: string;   // e.g. "11" for Castro — what listStudios returns
+  slug?: string;         // the site's own studioIdentifier, e.g. "castro"
+}
+
   /**
    * solidcore.co — the [solidcore] boutique fitness studio chain (Pilates-based strength
-   * classes). listStudios is built; everything else is queued — see BUILD_QUEUE.md.
+   * classes). listStudios and getStudio are built; everything else is queued — see
+   * BUILD_QUEUE.md.
    */
   interface Unit {
     /**
@@ -49783,6 +49900,14 @@ interface ListStudiosArgs {
      * one state; omit for every studio.
      */
     listStudios(args?: ListStudiosArgs): Promise<SolidcoreStudio[]>;
+
+    /**
+     * Returns one [solidcore] studio's own record off the same chain-wide registry listStudios
+     * reads — name, full address, state, siteId/locationId pair, phone, email, and whether it's
+     * coming soon. Look it up by { locationId } (what listStudios returns) or { slug } (the site's
+     * own studioIdentifier, e.g. "castro"). Throws if neither matches.
+     */
+    getStudio(args: GetStudioArgs): Promise<SolidcoreStudio>;
   }
 }
 
@@ -56065,6 +56190,13 @@ interface upsTrackingResult {
   deliveryDate: string | null;
 }
 
+interface upsDeliveryEstimate {
+  serviceCode: string;
+  serviceName: string;
+  transitDays: number | null;
+  estimatedDeliveryDate: string | null;  // YYYY-MM-DD, or null when UPS gave no GuaranteedDelivery block
+}
+
   /**
    * UPS's own documented Rating API (onlinetools.ups.com) — prices a domestic shipment across
    * UPS's service levels for a ZIP-to-ZIP move, weight and optional dimensions, the same rate
@@ -56087,6 +56219,15 @@ interface upsTrackingResult {
      * authentication.
      */
     trackShipment(args: { trackingNumber: string }): Promise<upsTrackingResult>;
+
+    /**
+     * Turns getRate's own transit-day figure into a calendar delivery date — UPS's Rating API
+     * returns only a business-day COUNT from pickup, never a date, so this calls the same Rating
+     * API and adds that many business days onto `shipDate` (default today). `serviceCode` narrows
+     * to one UPS service level (the same code `getRate` returns); omitted, every quoted service is
+     * returned. Requires a UPS OAuth2 client-credentials token — see this provider's `auth`.
+     */
+    estimateDeliveryDate(args: { fromZip: string; toZip: string; weightOz: number; length?: number; width?: number; height?: number; accountNumber?: string; shipDate?: string; serviceCode?: string }): Promise<upsDeliveryEstimate[]>;
   }
 }
 
@@ -58076,6 +58217,62 @@ interface wellfoundCompanyDetail {
      * experience-requirement text and the hiring startup.
      */
     getJob(args: { url: string }): Promise<wellfoundJobDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_wellnessliving {
+  // ── WellnessLiving — the unit's own declarations, verbatim ──
+interface wellnesslivingRow {
+  id: string;
+}
+interface WellnesslivingLocation {
+  id: string;
+  businessId: string;
+  title: string;
+  address: string;
+  addressLine1: string;
+  city: string;
+  region: string;
+  regionCode: string;
+  postalCode: string;
+  country: string;
+  phone: string;
+  email: string;
+  latitude: number | null;
+  longitude: number | null;
+  timezone: string;
+}
+interface WellnesslivingListLocationsArgs {
+  scheduleUrl: string;
+}
+interface WellnesslivingKnownBusiness {
+  businessId: string;
+  name: string;
+  scheduleUrl: string;
+}
+
+  /**
+   * WellnessLiving fitness/wellness studio platform (schedules, classes, locations across many
+   * studio brands): read studio and class schedule info, and (signed in) book, waitlist, cancel
+   * and manage a customer's account.
+   */
+  interface Unit {
+    /**
+     * Lists the WellnessLiving businesses this provider already has a confirmed, working
+     * scheduleUrl for — the entry point for a caller who only knows a studio's NAME. Pass the
+     * returned `scheduleUrl` to `listLocations`. WellnessLiving publishes no searchable
+     * cross-business directory, so this is the intake's own list, not a site-wide search.
+     */
+    listKnownBusinesses(): Promise<WellnesslivingKnownBusiness[]>;
+
+    /**
+     * Lists every studio location under the business a WellnessLiving schedule URL belongs to —
+     * address, phone, email, lat/lng and timezone for each. Pass the business's own
+     * `wellnessliving.com/rs/schedule/<slug>?k_business=<id>` page (what a studio's custom domain
+     * redirects to, or embeds as an iframe) — `listKnownBusinesses` has it for a studio whose name
+     * you already know. An empty array is a real business with no locations on file.
+     */
+    listLocations(args: WellnesslivingListLocationsArgs): Promise<WellnesslivingLocation[]>;
   }
 }
 
@@ -62266,6 +62463,7 @@ interface BowmarkProviders {
   aauto: BowmarkProvider_aauto.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
   abqplumb: BowmarkProvider_abqplumb.Unit;
+  accuweather: BowmarkProvider_accuweather.Unit;
   acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
@@ -62845,6 +63043,7 @@ interface BowmarkProviders {
   weather_channel: BowmarkProvider_weather_channel.Unit;
   webshare: BowmarkProvider_webshare.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
+  wellnessliving: BowmarkProvider_wellnessliving.Unit;
   whatsapp: BowmarkProvider_whatsapp.Unit;
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   wikipedia: BowmarkProvider_wikipedia.Unit;

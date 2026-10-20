@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: eec3c5ad87e7d9118bc834b7fd3209adaca43971606d54b4ee64c3737b72547e
-// 2206 checked, 20 unchecked.
+// Manifest version: dd48c35273b7c70487dc0f2dc773c3f2285ce0c5b77fe8e4534b9f41c63d8aba
+// 2213 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "eec3c5ad87e7d9118bc834b7fd3209adaca43971606d54b4ee64c3737b72547e",
+  "version": "dd48c35273b7c70487dc0f2dc773c3f2285ce0c5b77fe8e4534b9f41c63d8aba",
   "units": {
     "address_validation": {
       "defs": {
@@ -6896,6 +6896,34 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AbqPlumbAppointmentRequest"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.accuweather": {
+      "defs": {
+        "SearchLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchLocationsArgs"
             },
             "optional": false
           }
@@ -38086,6 +38114,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "marianatekListRegionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -38095,6 +38135,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "marianatekFindStudioArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listRegions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "marianatekListRegionsArgs"
             },
             "optional": false
           }
@@ -39992,6 +40042,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "CancelSessionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "widgetId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetScheduleArgs": {
           "k": "object",
           "props": [
@@ -40124,6 +40200,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "WaitlistSessionArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelSession": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CancelSessionArgs"
             },
             "optional": false
           },
@@ -55721,6 +55823,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.solidcore": {
       "defs": {
+        "GetStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListStudiosArgs": {
           "k": "object",
           "props": [
@@ -55743,6 +55864,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListStudiosArgs"
             },
             "optional": true
+          }
+        ],
+        "getStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStudioArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -63214,6 +63345,80 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "estimateDeliveryDate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "fromZip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "toZip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "weightOz",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "length",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "width",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "height",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "accountNumber",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "shipDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "serviceCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -64960,6 +65165,35 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.wellnessliving": {
+      "defs": {
+        "WellnesslivingListLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "scheduleUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listKnownBusinesses": [],
+        "listLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WellnesslivingListLocationsArgs"
             },
             "optional": false
           }

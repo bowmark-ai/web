@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eec3c5ad87e7d9118bc834b7fd3209adaca43971606d54b4ee64c3737b72547e
-# 85 capabilities, 608 providers, 2206 typed functions, 20 refused.
+# Manifest version: dd48c35273b7c70487dc0f2dc773c3f2285ce0c5b77fe8e4534b9f41c63d8aba
+# 85 capabilities, 610 providers, 2213 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3336,6 +3336,17 @@ class Prv_abqplumb_AbqPlumbAppointmentRequest_In(TypedDict):
 class Prv_abqplumb_AbqPlumbAppointmentSlot_Out(TypedDict):
     startTime: str
     endTime: str
+
+class Prv_accuweather_SearchLocationsArgs_In(TypedDict):
+    query: str
+
+class Prv_accuweather_AccuweatherLocationMatch_Out(TypedDict):
+    key: str
+    name: str
+    longName: str
+    lat: float
+    lon: float
+    postalCode: str | None
 
 class Prv_acerentacar_AcerentacarSearchArgs_In(TypedDict):
     pickupLocationCode: str
@@ -8609,6 +8620,7 @@ class Prv_carlsgolfland_CglPriceResult_Out(TypedDict):
     applied: list[Prv_carlsgolfland_CglPriceResult_Out_applied_item_Out]
     missingGroups: list[str]
     unmatched: list[str]
+    unavailable: str | None
     handoffUrl: str
 
 class Prv_carlsgolfland_CglPriceResult_Out_applied_item_Out(TypedDict):
@@ -8626,6 +8638,7 @@ class Prv_carlsgolfland_CglCartHandoff_Out(TypedDict):
     stockStatus: str | None
     missingGroups: list[str]
     unmatched: list[str]
+    unavailable: str | None
 
 class Prv_carlsgolfland_CglCartHandoff_Out_applied_item_Out(TypedDict):
     group: str
@@ -20165,6 +20178,28 @@ class Prv_marianatek_marianatekStudio_Out(TypedDict):
     schedulingWindowDays: float | None
     onlineAppointmentBooking: bool | None
 
+class Prv_marianatek_marianatekListRegionsArgs_In(TypedDict):
+    studio: str
+
+class Prv_marianatek_marianatekRegion_Out(TypedDict):
+    id: str
+    name: str
+    locations: list[Prv_marianatek_marianatekRegionLocation_Out]
+
+class Prv_marianatek_marianatekRegionLocation_Out(TypedDict):
+    id: str
+    name: str
+    city: str | None
+    stateProvince: str | None
+    postalCode: str | None
+    formattedAddress: list[str]
+    phoneNumber: str | None
+    email: str | None
+    timezone: str | None
+    currencyCode: str | None
+    latitude: float | None
+    longitude: float | None
+
 class Prv_marketplace_visualstudio_marketplaceExtensionStats_Out(TypedDict):
     extensionId: str
     displayName: str
@@ -21074,6 +21109,15 @@ class Prv_mindbodyonline_WaitlistSessionArgs_In(TypedDict):
     widgetId: str
     locationId: str
     sessionId: str
+
+class Prv_mindbodyonline_CancelSessionArgs_In(TypedDict):
+    widgetId: str
+    locationId: str
+    sessionId: str
+
+class Prv_mindbodyonline_CancelSessionResult_Out(TypedDict):
+    cancelled: bool
+    message: str
 
 class Prv_minimax_MinimaxDocPage_Out(TypedDict):
     title: str
@@ -27859,6 +27903,10 @@ class Prv_solidcore_SolidcoreStudio_Out(TypedDict):
     email: str
     comingSoon: bool
 
+class Prv_solidcore_GetStudioArgs_In(TypedDict):
+    locationId: NotRequired[str]
+    slug: NotRequired[str]
+
 class Prv_solostove_SolostoveBundleSearch_Out(TypedDict):
     query: str
     bundles: list[Prv_solostove_SolostoveBundleSummary_Out]
@@ -31496,6 +31544,23 @@ class Prv_ups_upsTrackingResult_Out(TypedDict):
     currentLocation: str | None
     deliveryDate: str | None
 
+class Prv_ups_estimateDeliveryDate_args_In(TypedDict):
+    fromZip: str
+    toZip: str
+    weightOz: float
+    length: NotRequired[float]
+    width: NotRequired[float]
+    height: NotRequired[float]
+    accountNumber: NotRequired[str]
+    shipDate: NotRequired[str]
+    serviceCode: NotRequired[str]
+
+class Prv_ups_upsDeliveryEstimate_Out(TypedDict):
+    serviceCode: str
+    serviceName: str
+    transitDays: float | None
+    estimatedDeliveryDate: str | None
+
 class Prv_usatoday_usatodaySection_Out(TypedDict):
     id: str
     name: str
@@ -32730,6 +32795,31 @@ class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
     url: str | None
     website: str | None
     logoUrl: str | None
+
+class Prv_wellnessliving_WellnesslivingKnownBusiness_Out(TypedDict):
+    businessId: str
+    name: str
+    scheduleUrl: str
+
+class Prv_wellnessliving_WellnesslivingListLocationsArgs_In(TypedDict):
+    scheduleUrl: str
+
+class Prv_wellnessliving_WellnesslivingLocation_Out(TypedDict):
+    id: str
+    businessId: str
+    title: str
+    address: str
+    addressLine1: str
+    city: str
+    region: str
+    regionCode: str
+    postalCode: str
+    country: str
+    phone: str
+    email: str
+    latitude: float | None
+    longitude: float | None
+    timezone: str
 
 class Prv_whatsapp_WhatsappBusinessCatalog_Out(TypedDict):
     name: str
@@ -36965,6 +37055,16 @@ class Prv_abqplumb(Protocol):
         listServices. This reads availability only; it never submits a booking.
         """
 
+class Prv_accuweather(Protocol):
+    """AccuWeather forecasts for any place — current conditions, hourly, daily, MinuteCast,
+    alerts, air quality, allergy and activity indices.
+    """
+
+    async def searchLocations(self, args: Prv_accuweather_SearchLocationsArgs_In, /) -> list[Prv_accuweather_AccuweatherLocationMatch_Out]:
+        """Finds places by name, ZIP or postal code via the site's own search box autocomplete —
+        each match carries the resolver key getLocation takes.
+        """
+
 class Prv_acerentacar(Protocol):
     """ACE Rent A Car's live public vehicle availability and rates for a location and
     itinerary, with a reservation handoff.
@@ -40284,7 +40384,9 @@ class Prv_carlsgolfland(Protocol):
         the same choices (Carl's Golfland publishes no shareable URL for a configured state).
         `missingGroups` names any option group with more than one choice left unpicked — price
         is null until every such group is chosen. `unmatched` names any selection that did not
-        match a real group or choice, rather than silently mispricing.
+        match a real group or choice, rather than silently mispricing. `unavailable` says so
+        when every group was picked but the store does not offer that combination right now — it
+        lists only in-stock combinations, so that is a sold-out variant, not an error.
         """
 
     async def addToCart(self, urlKey: str, selections: Mapping[str, str], /) -> Prv_carlsgolfland_CglCartHandoff_Out:
@@ -48223,6 +48325,12 @@ class Prv_marianatek(Protocol):
         page) cannot be resolved from its URL — pass the slug.
         """
 
+    async def listRegions(self, args: Prv_marianatek_marianatekListRegionsArgs_In, /) -> list[Prv_marianatek_marianatekRegion_Out]:
+        """Lists a tenant's regions (city or area groupings) with the locations in each — the
+        region id listScheduleFilters and listClasses take. Each location carries its id, name,
+        address, phone, email, timezone and currency. An unknown tenant THROWS.
+        """
+
 class Prv_marketplace_visualstudio(Protocol):
     """The VS Code Marketplace — look up one extension by its publisher.name id and get its
     install count, rating and latest version, the numbers the extension's own Marketplace
@@ -48755,6 +48863,19 @@ class Prv_mindbodyonline(Protocol):
         `widgetId`/`locationId` — check its `waitlistable` field first. `message` is the
         widget's own on-screen wording after the attempt. Example:
         `bowmark.providers.mindbodyonline.waitlistSession({ widgetId: "12345", locationId: "1",
+        sessionId: "cinst_…" })`.
+        """
+
+    async def cancelSession(self, args: Prv_mindbodyonline_CancelSessionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_mindbodyonline_CancelSessionResult_Out:
+        """Cancels the signed-in caller's booking of one class session. NEEDS A SIGN-IN: opens
+        Mindbody's "My Account" view, which — logged out — redirects to Mindbody's own account
+        sign-in (a different door than bookSession's OIDC popup, on `cart.mindbodyonline.com`),
+        so this call pauses the run for a caller sign-in when none is held. `sessionId` is a
+        session's own `id`, from a row `listSchedules` or `getSchedule` returned for the same
+        `widgetId`/`locationId`. Refuses rather than guessing when the signed-in account view
+        shows no matching booking. `message` is the account view's own on-screen wording after
+        the attempt — may include a late-cancellation fee notice. Example:
+        `bowmark.providers.mindbodyonline.cancelSession({ widgetId: "12345", locationId: "1",
         sessionId: "cinst_…" })`.
         """
 
@@ -52833,7 +52954,8 @@ class Prv_snapchat(Protocol):
 
 class Prv_solidcore(Protocol):
     """solidcore.co — the [solidcore] boutique fitness studio chain (Pilates-based strength
-    classes). listStudios is built; everything else is queued — see BUILD_QUEUE.md.
+    classes). listStudios and getStudio are built; everything else is queued — see
+    BUILD_QUEUE.md.
     """
 
     async def listStudios(self, args: Prv_solidcore_ListStudiosArgs_In | None = None, /) -> list[Prv_solidcore_SolidcoreStudio_Out]:
@@ -52841,6 +52963,13 @@ class Prv_solidcore(Protocol):
         full address, state, siteId/locationId pair (what getSchedule and the booking functions
         key on), phone, email, and whether the site marks it coming soon. Pass { state: "CA" }
         to narrow to one state; omit for every studio.
+        """
+
+    async def getStudio(self, args: Prv_solidcore_GetStudioArgs_In, /) -> Prv_solidcore_SolidcoreStudio_Out:
+        """Returns one [solidcore] studio's own record off the same chain-wide registry listStudios
+        reads — name, full address, state, siteId/locationId pair, phone, email, and whether
+        it's coming soon. Look it up by { locationId } (what listStudios returns) or { slug }
+        (the site's own studioIdentifier, e.g. "castro"). Throws if neither matches.
         """
 
 class Prv_solostove(Protocol):
@@ -54997,6 +55126,15 @@ class Prv_ups(Protocol):
         without authentication.
         """
 
+    async def estimateDeliveryDate(self, args: Prv_ups_estimateDeliveryDate_args_In, /) -> list[Prv_ups_upsDeliveryEstimate_Out]:
+        """Turns getRate's own transit-day figure into a calendar delivery date — UPS's Rating API
+        returns only a business-day COUNT from pickup, never a date, so this calls the same
+        Rating API and adds that many business days onto `shipDate` (default today).
+        `serviceCode` narrows to one UPS service level (the same code `getRate` returns);
+        omitted, every quoted service is returned. Requires a UPS OAuth2 client-credentials
+        token — see this provider's `auth`.
+        """
+
 class Prv_usatoday(Protocol):
     """USA Today news site — articles, sections, search, sports scores and puzzles."""
 
@@ -55668,6 +55806,28 @@ class Prv_wellfound(Protocol):
         — returning the full description, salary band, equity range (both parsed off the header
         chip; equity has no structured-data field on this site), location, remote policy, the
         site's own experience-requirement text and the hiring startup.
+        """
+
+class Prv_wellnessliving(Protocol):
+    """WellnessLiving fitness/wellness studio platform (schedules, classes, locations across
+    many studio brands): read studio and class schedule info, and (signed in) book,
+    waitlist, cancel and manage a customer's account.
+    """
+
+    async def listKnownBusinesses(self, /) -> list[Prv_wellnessliving_WellnesslivingKnownBusiness_Out]:
+        """Lists the WellnessLiving businesses this provider already has a confirmed, working
+        scheduleUrl for — the entry point for a caller who only knows a studio's NAME. Pass the
+        returned `scheduleUrl` to `listLocations`. WellnessLiving publishes no searchable
+        cross-business directory, so this is the intake's own list, not a site-wide search.
+        """
+
+    async def listLocations(self, args: Prv_wellnessliving_WellnesslivingListLocationsArgs_In, /) -> list[Prv_wellnessliving_WellnesslivingLocation_Out]:
+        """Lists every studio location under the business a WellnessLiving schedule URL belongs to
+        — address, phone, email, lat/lng and timezone for each. Pass the business's own
+        `wellnessliving.com/rs/schedule/<slug>?k_business=<id>` page (what a studio's custom
+        domain redirects to, or embeds as an iframe) — `listKnownBusinesses` has it for a studio
+        whose name you already know. An empty array is a real business with no locations on
+        file.
         """
 
 class Prv_whatsapp(Protocol):
@@ -56962,6 +57122,7 @@ class BowmarkProviders(Protocol):
     aauto: Prv_aauto
     abercrombie: Prv_abercrombie
     abqplumb: Prv_abqplumb
+    accuweather: Prv_accuweather
     acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
     acqualinaresort: Prv_acqualinaresort
@@ -57541,6 +57702,7 @@ class BowmarkProviders(Protocol):
     weather_channel: Prv_weather_channel
     webshare: Prv_webshare
     wellfound: Prv_wellfound
+    wellnessliving: Prv_wellnessliving
     whatsapp: Prv_whatsapp
     wholefoodsmarket: Prv_wholefoodsmarket
     wikipedia: Prv_wikipedia
