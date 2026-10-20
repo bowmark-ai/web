@@ -916,7 +916,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubpilates.buyPackage` | clubpilates.com | Would buy a class pack or membership at a studio for the signed-in member. | ⚪ |
 | `clubpilates.cancelBooking` | clubpilates.com | Cancels one of the signed-in member's bookings or removes them from a waitlist. | ⚪ |
 | `clubpilates.favoriteInstructor` | clubpilates.com | Adds or removes an instructor from the signed-in member's favourites, as the members… | ⚪ |
-| `clubpilates.findStudios` | clubpilates.com | Finds Club Pilates studios near a place — by latitude/longitude, or by a city or… | ⚪ |
+| `clubpilates.findStudios` | clubpilates.com | Finds Club Pilates studios near a point — by latitude/longitude — returning each… | 🟢 |
 | `clubpilates.getClass` | clubpilates.com | Returns one scheduled class by id ("cr_89942194") at a studio: description, times… | ⚪ |
 | `clubpilates.getClassPoints` | clubpilates.com | Returns the signed-in member's ClassPoints rewards balance, tier and available rewards. | ⚪ |
 | `clubpilates.getMyMembership` | clubpilates.com | Returns the signed-in member's membership and class credits at their home studio —… | ⚪ |
