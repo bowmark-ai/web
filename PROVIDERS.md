@@ -2625,7 +2625,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mindbodyonline.getSchedule` | mindbodyonline.com | Gets details for a specific class session including availability, waitlist status, and… | 🟢 |
 | `mindbodyonline.listSchedules` | mindbodyonline.com | Retrieves the list of upcoming classes for a studio location on a given date… | 🟢 |
 | `mindbodyonline.myBookings` | mindbodyonline.com | Lists the authenticated member's current and past bookings. | ⚪ |
-| `mindbodyonline.waitlistSession` | mindbodyonline.com | Adds a member to the waitlist for a full class. | ⚪ |
+| `mindbodyonline.waitlistSession` | mindbodyonline.com | Joins the signed-in caller onto the waitlist for a full class session. | 🟢 |
 | `minimax.getDocs` | platform.minimax.io | Resolves a topic (e.g. "text generation", "mcp guide", "voice clone") against… | 🟢 |
 | `minted.getCardOptions` | minted.com | Would return one product's actual named paper/format/foil choices (not just the price… | ⚪ |
 | `minted.priceCard` | minted.com | Prices one exact personalized-card configuration (design + paper + print method + foil… | 🟢 |
