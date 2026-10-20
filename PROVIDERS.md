@@ -943,7 +943,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubready.getStudio` | clubready.com | Returns one studio by its API id ("cyclebar-berkeley") or by its brand-site page URL… | ⚪ |
 | `clubready.getWorkoutStats` | clubready.com | Returns the signed-in member's own workout history and performance numbers — CycleBar… | ⚪ |
 | `clubready.joinWaitlist` | clubready.com | Puts the signed-in member on a full class's waitlist. | ⚪ |
-| `clubready.listBrands` | clubready.com | Lists every studio brand on the Xponential/ClubReady member platform — CycleBar, Club… | ⚪ |
+| `clubready.listBrands` | clubready.com | Lists every studio brand on the Xponential/ClubReady member platform — CycleBar, Club… | 🟢 |
 | `clubready.listClassCategories` | clubready.com | Lists a brand's class categories used to filter a schedule (Xpress, Classic… | ⚪ |
 | `clubready.listClasses` | clubready.com | Lists a studio's class schedule for a date or date range — each class's id, title… | ⚪ |
 | `clubready.listClassTypes` | clubready.com | Lists every class type a brand runs (CycleBar Classic, Xpress, Pure Barre Classic… | ⚪ |
@@ -2949,7 +2949,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | 🟢 |
 | `patreon.getCurrentUserFeed` | patreon.com | Get the signed-in caller's home feed. | ⚪ |
 | `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | ⚪ |
-| `patreon.listCreatorPosts` | patreon.com | List all public posts from a creator, newest first. | ⚪ |
+| `patreon.listCreatorPosts` | patreon.com | List a creator's posts, newest first, one page at a time with the site's own cursor. | 🟢 |
 | `patreon.listCreatorTiers` | patreon.com | List all membership tiers offered by a creator with pricing. | 🟢 |
 | `patreon.listMemberOnlyPosts` | patreon.com | List posts only visible to the signed-in caller (requires membership). | ⚪ |
 | `patreon.listPledges` | patreon.com | List the signed-in caller's memberships and pledges. | ⚪ |
