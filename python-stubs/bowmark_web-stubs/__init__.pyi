@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f7f4fc8bd29ec553208976d423c4dc625fb37ff126210e78617f5962e9ee1017
-# 85 capabilities, 607 providers, 2198 typed functions, 20 refused.
+# Manifest version: 15602fa3390c7a91af2d3bd4cb0ada7efd172a4169dbe744c4cb7c6869d58cef
+# 85 capabilities, 607 providers, 2200 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16744,6 +16744,38 @@ class Prv_ikea_IkeaSearchProduct_Out_rating_u0_Out(TypedDict):
     average: float
     count: float
 
+class Prv_ikea_GetProductArgs_In(TypedDict):
+    itemNo: str
+
+class Prv_ikea_IkeaProduct_Out(TypedDict):
+    itemNo: str
+    name: str
+    price: float | None
+    currency: str | None
+    description: str | None
+    color: str | None
+    dimensions: Prv_ikea_IkeaProduct_Out_dimensions_Out
+    rating: Prv_ikea_IkeaProduct_Out_rating_u0_Out | None
+    images: list[str]
+    materials: list[Prv_ikea_IkeaProductMaterial_Out]
+    careInstructions: list[str]
+    packageCount: float | None
+    packageWeight: str | None
+    url: str
+
+class Prv_ikea_IkeaProduct_Out_dimensions_Out(TypedDict):
+    height: str | None
+    width: str | None
+    depth: str | None
+
+class Prv_ikea_IkeaProduct_Out_rating_u0_Out(TypedDict):
+    average: float
+    count: float
+
+class Prv_ikea_IkeaProductMaterial_Out(TypedDict):
+    part: str
+    material: str
+
 class Prv_imdb_ImdbSearchArgs_In(TypedDict):
     query: str
     type: NotRequired[Literal["title"] | Literal["person"] | Literal["all"]]
@@ -20981,6 +21013,11 @@ class Prv_mindbodyonline_BookSessionArgs_In(TypedDict):
 class Prv_mindbodyonline_BookSessionResult_Out(TypedDict):
     booked: bool
     message: str
+
+class Prv_mindbodyonline_WaitlistSessionArgs_In(TypedDict):
+    widgetId: str
+    locationId: str
+    sessionId: str
 
 class Prv_minimax_MinimaxDocPage_Out(TypedDict):
     title: str
@@ -45832,6 +45869,11 @@ class Prv_ikea(Protocol):
         type, price, rating, colour variants and product-page URL.
         """
 
+    async def getProduct(self, args: Prv_ikea_GetProductArgs_In, /) -> Prv_ikea_IkeaProduct_Out:
+        """Reads one product page by item number or URL: name, price, description, dimensions,
+        colour, materials, care instructions, package count and weight, rating and images.
+        """
+
 class Prv_imdb(Protocol):
     """IMDb — the movie and TV database. Search films, shows and people; read a title's rating,
     cast, crew, plot and runtime; read a person's bio and filmography; read user reviews.
@@ -48560,6 +48602,18 @@ class Prv_mindbodyonline(Protocol):
         completes a paid booking on its own — `message` is the widget's own on-screen wording
         after the attempt, which may itself be a payment step. Example:
         `bowmark.providers.mindbodyonline.bookSession({ widgetId: "12345", locationId: "1",
+        sessionId: "cinst_…" })`.
+        """
+
+    async def waitlistSession(self, args: Prv_mindbodyonline_WaitlistSessionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_mindbodyonline_BookSessionResult_Out:
+        """Joins the signed-in caller onto the waitlist for one FULL class session — refuses before
+        any request if the session is not `waitlistable`. NEEDS A SIGN-IN: reuses bookSession's
+        own door, since the widget drives every row action through one Next.js Server Action
+        that redirects logged-out callers to Mindbody's OIDC sign-in. `sessionId` is a session's
+        own `id`, from a row `listSchedules` or `getSchedule` returned for the same
+        `widgetId`/`locationId` — check its `waitlistable` field first. `message` is the
+        widget's own on-screen wording after the attempt. Example:
+        `bowmark.providers.mindbodyonline.waitlistSession({ widgetId: "12345", locationId: "1",
         sessionId: "cinst_…" })`.
         """
 

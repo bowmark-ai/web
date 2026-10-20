@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f7f4fc8bd29ec553208976d423c4dc625fb37ff126210e78617f5962e9ee1017
-// 85 capabilities, 607 providers, 2216 typed functions, 20 refused.
+// Manifest version: 15602fa3390c7a91af2d3bd4cb0ada7efd172a4169dbe744c4cb7c6869d58cef
+// 85 capabilities, 607 providers, 2218 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30631,6 +30631,29 @@ interface SearchProductsArgs {
   query: string;
   limit?: number;
 }
+interface IkeaProductMaterial {
+  part: string;
+  material: string;
+}
+interface IkeaProduct {
+  itemNo: string;
+  name: string;
+  price: number | null;
+  currency: string | null;
+  description: string | null;
+  color: string | null;
+  dimensions: { height: string | null; width: string | null; depth: string | null };
+  rating: { average: number; count: number } | null;
+  images: string[];
+  materials: IkeaProductMaterial[];
+  careInstructions: string[];
+  packageCount: number | null;
+  packageWeight: string | null;
+  url: string;
+}
+interface GetProductArgs {
+  itemNo: string;
+}
 
   /**
    * IKEA's US store: search the catalogue, read a product's price, dimensions and assembly PDFs,
@@ -30643,6 +30666,12 @@ interface SearchProductsArgs {
      * price, rating, colour variants and product-page URL.
      */
     searchProducts(args: SearchProductsArgs): Promise<IkeaSearchProduct[]>;
+
+    /**
+     * Reads one product page by item number or URL: name, price, description, dimensions, colour,
+     * materials, care instructions, package count and weight, rating and images.
+     */
+    getProduct(args: GetProductArgs): Promise<IkeaProduct>;
   }
 }
 
@@ -38368,6 +38397,12 @@ interface BookSessionArgs {
   sessionId: string;
 }
 
+interface WaitlistSessionArgs {
+  widgetId: string;
+  locationId: string;
+  sessionId: string;
+}
+
 interface BookSessionResult {
   booked: boolean;
   message: string;
@@ -38412,6 +38447,19 @@ interface BookSessionResult {
      * locationId: "1", sessionId: "cinst_…" })`.
      */
     bookSession(args: BookSessionArgs, opts?: ConnectionOption): Promise<BookSessionResult>;
+
+    /**
+     * Joins the signed-in caller onto the waitlist for one FULL class session — refuses before any
+     * request if the session is not `waitlistable`. NEEDS A SIGN-IN: reuses bookSession's own
+     * door, since the widget drives every row action through one Next.js Server Action that
+     * redirects logged-out callers to Mindbody's OIDC sign-in. `sessionId` is a session's own
+     * `id`, from a row `listSchedules` or `getSchedule` returned for the same
+     * `widgetId`/`locationId` — check its `waitlistable` field first. `message` is the widget's
+     * own on-screen wording after the attempt. Example:
+     * `bowmark.providers.mindbodyonline.waitlistSession({ widgetId: "12345", locationId: "1",
+     * sessionId: "cinst_…" })`.
+     */
+    waitlistSession(args: WaitlistSessionArgs, opts?: ConnectionOption): Promise<BookSessionResult>;
   }
 }
 

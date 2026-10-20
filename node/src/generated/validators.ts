@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f7f4fc8bd29ec553208976d423c4dc625fb37ff126210e78617f5962e9ee1017
-// 2198 checked, 20 unchecked.
+// Manifest version: 15602fa3390c7a91af2d3bd4cb0ada7efd172a4169dbe744c4cb7c6869d58cef
+// 2200 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f7f4fc8bd29ec553208976d423c4dc625fb37ff126210e78617f5962e9ee1017",
+  "version": "15602fa3390c7a91af2d3bd4cb0ada7efd172a4169dbe744c4cb7c6869d58cef",
   "units": {
     "address_validation": {
       "defs": {
@@ -30922,6 +30922,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.ikea": {
       "defs": {
+        "GetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemNo",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchProductsArgs": {
           "k": "object",
           "props": [
@@ -30949,6 +30961,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductArgs"
             },
             "optional": false
           }
@@ -39990,6 +40012,32 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "WaitlistSessionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "widgetId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -40019,6 +40067,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BookSessionArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "waitlistSession": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WaitlistSessionArgs"
             },
             "optional": false
           },
