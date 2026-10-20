@@ -277,7 +277,7 @@ fredericton.ca, dieppe.ca — municipal_recreation_fees_fetcher: getFeeSchedule
 freightliner.com — freightliner: getConfiguratorPrice
 furniture.com — furniture: listCategories, listFilterOptions, searchProducts
 g2.com — g2: getProduct, search
-games.nytimes.com — nyt_games: getConnections, getCrosswordArchive, getCrosswordDaily, getCrosswordLeaderboard, getCrosswordMidi, getCrosswordMini, getLetterBoxed, getMyStats, getPips, getSpellingBee, getSportsConnections, getStrands, getSudoku, getTiles, getWordle, listBonusPuzzles, listCrosswordPuzzles
+games.nytimes.com — nyt_games: getConnections, getCrosswordArchive, getCrosswordDaily, getCrosswordLeaderboard, getCrosswordMidi, getCrosswordMini, getLetterBoxed, getMyStats, getPips, getSpellingBee, getSportsConnections, getStrands, getSudoku, getTiles, getWordle, listBonusPuzzles, listCrosswordPuzzles, saveWordleGame
 gasbuddy.com — gasbuddy: findCheapestNearby
 gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getAtvQuote, getAutoQuote, getBicycleQuote, getBoatQuote, getBusinessOwnersQuote, getClaimStatus, getCollectorAutoQuote, getCommercialAutoQuote, getCondoQuote, getCyberLiabilityQuote, getEarthquakeQuote, getEventQuote, getFloodQuote, getGeneralLiabilityQuote, getHomeownersQuote, getIdentityProtectionQuote, getJewelryQuote, getLandlordQuote, getMedicalMalpracticeQuote, getMexicoAutoQuote, getMobileDeviceQuote, getMobileHomeQuote, getMotorcycleQuote, getOverseasQuote, getPetQuote, getProfessionalLiabilityQuote, getRentersQuote, getRvQuote, getScooterQuote, getTravelQuote, getUmbrellaQuote, getWorkersCompensationQuote, listDiscounts, listPartnerCompanies, recommendAutoCoverage, recommendPropertyCoverage
@@ -330,7 +330,7 @@ idealista.com — idealista: contactAdvertiser, getListing, search, searchRooms
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
 ikea.com — ikea: addToCart, addToFavorites, bookPlanningAppointment, findStores, getCart, getDeliveryOptions, getFamilyMembership, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getProfile, getPurchase, listCategories, listCategoryProducts, listFamilyOffers, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem, updateProfile
-imdb.com — imdb: getPerson, getTitle, getTitleReviews, search, searchSuggestions, searchTitles
+imdb.com — imdb: getPerson, getTitle, getTitleReviews, listWatchlist, search, searchSuggestions, searchTitles
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 inspirecommunities.com — inspirecommunities: searchHomes
 instacart.com — instacart: addAddress, addToCart, addToList, clipCoupon, compareStores, createList, deleteAddress, favoriteProduct, findLocation, findRecipesForProduct, getCart, getDeliveryEstimate, getList, getMyAccount, getOrder, getProduct, getProductReviews, getRecipe, getStore, getStoreHours, getWeeklyAd, linkLoyaltyCard, listBuyItAgain, listCarts, listCoupons, listDeals, listDeliveryWindows, listDepartmentProducts, listDepartments, listFavorites, listMyAddresses, listMyLists, listOrders, listStores, messageShopper, placeOrder, removeFromCart, reorder, searchProducts, suggestSearches, updateAddress, updateMyAccount
