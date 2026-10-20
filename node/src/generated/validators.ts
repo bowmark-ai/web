@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: dd48c35273b7c70487dc0f2dc773c3f2285ce0c5b77fe8e4534b9f41c63d8aba
-// 2213 checked, 20 unchecked.
+// Manifest version: 2922a3618863f334dd41a21a2dde02c8f1a0250feac14d391ca1ce1b9e80caba
+// 2212 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "dd48c35273b7c70487dc0f2dc773c3f2285ce0c5b77fe8e4534b9f41c63d8aba",
+  "version": "2922a3618863f334dd41a21a2dde02c8f1a0250feac14d391ca1ce1b9e80caba",
   "units": {
     "address_validation": {
       "defs": {
@@ -38115,6 +38115,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "marianatekListLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "marianatekListRegionsArgs": {
           "k": "object",
           "props": [
@@ -38145,6 +38157,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "marianatekListRegionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "marianatekListLocationsArgs"
             },
             "optional": false
           }
@@ -40258,106 +40280,6 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
-          }
-        ]
-      }
-    },
-    "providers.minted": {
-      "defs": {
-        "MintedCardSelections": {
-          "k": "object",
-          "props": [
-            {
-              "name": "color",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "paper",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "format",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "printMethod",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "quantity",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "customFoil",
-              "schema": {
-                "k": "boolean"
-              },
-              "optional": true
-            },
-            {
-              "name": "greeting",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        }
-      },
-      "functions": {
-        "searchCards": [
-          {
-            "name": "category",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "priceCard": [
-          {
-            "name": "groupSlug",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          },
-          {
-            "name": "sku",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          },
-          {
-            "name": "styleSlug",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          },
-          {
-            "name": "selections",
-            "schema": {
-              "k": "ref",
-              "name": "MintedCardSelections"
-            },
-            "optional": true
           }
         ]
       }

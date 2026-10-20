@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dd48c35273b7c70487dc0f2dc773c3f2285ce0c5b77fe8e4534b9f41c63d8aba
-# 85 capabilities, 610 providers, 2213 typed functions, 20 refused.
+# Manifest version: 2922a3618863f334dd41a21a2dde02c8f1a0250feac14d391ca1ce1b9e80caba
+# 85 capabilities, 609 providers, 2212 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20200,6 +20200,25 @@ class Prv_marianatek_marianatekRegionLocation_Out(TypedDict):
     latitude: float | None
     longitude: float | None
 
+class Prv_marianatek_marianatekListLocationsArgs_In(TypedDict):
+    studio: str
+
+class Prv_marianatek_marianatekLocation_Out(TypedDict):
+    id: str
+    name: str
+    city: str | None
+    stateProvince: str | None
+    postalCode: str | None
+    formattedAddress: list[str]
+    phoneNumber: str | None
+    email: str | None
+    timezone: str | None
+    currencyCode: str | None
+    latitude: float | None
+    longitude: float | None
+    regionId: str
+    regionName: str | None
+
 class Prv_marketplace_visualstudio_marketplaceExtensionStats_Out(TypedDict):
     extensionId: str
     displayName: str
@@ -21124,55 +21143,6 @@ class Prv_minimax_MinimaxDocPage_Out(TypedDict):
     url: str
     description: str | None
     content: str
-
-class Prv_minted_MintedCardDesign_Out(TypedDict):
-    sku: str
-    styleSlug: str
-    artistName: str
-    groupSlug: str
-    dimension: str
-    colorways: list[Prv_minted_MintedCardDesign_Out_colorways_item_Out]
-    url: str
-
-class Prv_minted_MintedCardDesign_Out_colorways_item_Out(TypedDict):
-    id: str
-    name: str
-
-class Prv_minted_MintedCardSelections_In(TypedDict):
-    color: NotRequired[str]
-    paper: NotRequired[str]
-    format: NotRequired[str]
-    printMethod: NotRequired[str]
-    quantity: NotRequired[float]
-    customFoil: NotRequired[bool]
-    greeting: NotRequired[str]
-
-class Prv_minted_MintedCardPrice_Out(TypedDict):
-    sku: str
-    groupSlug: str
-    styleSlug: str
-    selected: Prv_minted_MintedCardSelections_Out
-    totalPrice: float
-    quantityTable: list[Prv_minted_MintedQuantityPrice_Out]
-    optionRanges: Mapping[str, Prv_minted_MintedOptionRange_Out]
-    personalizeUrl: str
-
-class Prv_minted_MintedCardSelections_Out(TypedDict):
-    color: NotRequired[str]
-    paper: NotRequired[str]
-    format: NotRequired[str]
-    printMethod: NotRequired[str]
-    quantity: NotRequired[float]
-    customFoil: NotRequired[bool]
-    greeting: NotRequired[str]
-
-class Prv_minted_MintedQuantityPrice_Out(TypedDict):
-    quantity: float
-    price: float
-
-class Prv_minted_MintedOptionRange_Out(TypedDict):
-    low: float
-    high: float
 
 class Prv_mixbook_MixbookThemeResult_Out(TypedDict):
     name: str
@@ -37147,14 +37117,16 @@ class Prv_adobe(Protocol):
 
     async def searchFonts(self, query: str, /) -> list[Prv_adobe_Font_Out]:
         """Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font
-        family's slug, name, and foundry. The entry point to Adobe Fonts: every other font
-        function starts with a slug from this search.
+        family's slug and name (foundry comes from getFont). The entry point to Adobe Fonts:
+        every other font function starts with a slug from this search.
         """
 
     async def getFont(self, slug: str, /) -> Prv_adobe_FontDetail_Out:
         """Returns one Adobe Fonts family's detail page — name, foundry, description, every
-        weight/style in the family, licensing info (Creative Cloud-included vs.
-        foundry-licensed), and suggested pairings — from a font slug from searchFonts.
+        weight/style in the family, and licensing info (Creative Cloud-included vs.
+        foundry-licensed) — from a font slug from searchFonts. `suggestedPairings` is always
+        empty: the site's "similar fonts" module is fetched by client-side JS the family page
+        never embeds server-side.
         """
 
     async def searchTemplates(self, query: str, /) -> list[Prv_adobe_ExpressTemplate_Out]:
@@ -48331,6 +48303,13 @@ class Prv_marianatek(Protocol):
         address, phone, email, timezone and currency. An unknown tenant THROWS.
         """
 
+    async def listLocations(self, args: Prv_marianatek_marianatekListLocationsArgs_In, /) -> list[Prv_marianatek_marianatekLocation_Out]:
+        """Lists a tenant's bookable locations, flat — id, name, address, phone, email, timezone
+        and currency, plus the id and name of the region each belongs to (what listRegions nests
+        it under). Walks every page the site paginates over, so a large tenant (Barry's: 106
+        locations) returns them all in one call. An unknown tenant THROWS.
+        """
+
 class Prv_marketplace_visualstudio(Protocol):
     """The VS Code Marketplace — look up one extension by its publisher.name id and get its
     install count, rating and latest version, the numbers the extension's own Marketplace
@@ -48891,26 +48870,6 @@ class Prv_minimax(Protocol):
         "prompt caching" — it is matched against the site's own docs index (title and url), and
         the matched page's full Markdown body is returned. Throws naming real page titles when
         nothing matches closely enough.
-        """
-
-class Prv_minted(Protocol):
-    """Minted's real photo-card catalog and live pricing engine — browse real designs in a
-    category and price an exact personalized configuration (paper, print method, foil,
-    quantity) against Minted's own pricing engine rather than a researched estimate.
-    """
-
-    async def searchCards(self, category: str, /) -> list[Prv_minted_MintedCardDesign_Out]:
-        """Browses one of Minted's real photo-card/stationery categories (e.g.
-        "holiday-photo-cards", "birth-announcements") and returns the real designs on it — sku,
-        title, artist, dimension, and the real color/style swatches. THROWS if the category path
-        does not resolve to a listing.
-        """
-
-    async def priceCard(self, groupSlug: str, sku: str, styleSlug: str, selections: Prv_minted_MintedCardSelections_In | None = None, /) -> Prv_minted_MintedCardPrice_Out:
-        """Prices ONE exact card configuration against Minted's own live pricing engine and returns
-        the real computed total, the full quantity-tier table, and a personalizeUrl to finish
-        on-site. groupSlug/sku/styleSlug come from searchCards(); any field left out of
-        selections uses the design's own default (paper, format, quantity=100, etc.).
         """
 
 class Prv_mixbook(Protocol):
@@ -57495,7 +57454,6 @@ class BowmarkProviders(Protocol):
     millisaraylar: Prv_millisaraylar
     mindbodyonline: Prv_mindbodyonline
     minimax: Prv_minimax
-    minted: Prv_minted
     mixbook: Prv_mixbook
     modernize_com: Prv_modernize_com
     modularclosets: Prv_modularclosets

@@ -2515,7 +2515,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.changeSpot` | marianatek.com | Moves one of the signed-in customer's pick-a-spot reservations to another free spot in… | ⚪ |
 | `marianatek.findStudio` | marianatek.com | Finds a Mariana Tek studio brand from what a caller holds — its tenant slug… | 🟢 |
 | `marianatek.getClass` | marianatek.com | Returns one class by id: description, start time, instructors, classroom… | ⚪ |
-| `marianatek.getLocation` | marianatek.com | Returns one location by id: address, contact details, description and timezone. | ⚪ |
+| `marianatek.getLocation` | marianatek.com | Returns one of a tenant's locations by id — the same address, phone, email, timezone… | 🟢 |
 | `marianatek.getMyAccount` | marianatek.com | Returns the signed-in customer's own profile at a studio: name, email, phone… | ⚪ |
 | `marianatek.getMyReservation` | marianatek.com | Returns one of the signed-in customer's reservations by id: class, status, spot, and… | ⚪ |
 | `marianatek.joinWaitlist` | marianatek.com | Puts the signed-in customer on the waitlist for a full class, using a membership or… | ⚪ |
@@ -2624,7 +2624,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mindbodyonline.cancelSession` | mindbodyonline.com | Cancels the signed-in caller's booking of a class session. | 🟢 |
 | `mindbodyonline.getSchedule` | mindbodyonline.com | Gets details for a specific class session including availability, waitlist status, and… | 🟢 |
 | `mindbodyonline.listSchedules` | mindbodyonline.com | Retrieves the list of upcoming classes for a studio location on a given date… | 🟢 |
-| `mindbodyonline.myBookings` | mindbodyonline.com | Lists the authenticated member's current and past bookings. | ⚪ |
+| `mindbodyonline.myBookings` | mindbodyonline.com | Lists the signed-in caller's bookings. | 🟢 |
 | `mindbodyonline.waitlistSession` | mindbodyonline.com | Joins the signed-in caller onto the waitlist for a full class session. | 🟢 |
 | `minimax.getDocs` | platform.minimax.io | Resolves a topic (e.g. "text generation", "mcp guide", "voice clone") against… | 🟢 |
 | `minted.getCardOptions` | minted.com | Would return one product's actual named paper/format/foil choices (not just the price… | ⚪ |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dd48c35273b7c70487dc0f2dc773c3f2285ce0c5b77fe8e4534b9f41c63d8aba
-// 85 capabilities, 610 providers, 2231 typed functions, 20 refused.
+// Manifest version: 2922a3618863f334dd41a21a2dde02c8f1a0250feac14d391ca1ce1b9e80caba
+// 85 capabilities, 609 providers, 2230 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6319,15 +6319,17 @@ interface adobeRow {
 
     /**
      * Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font family's
-     * slug, name, and foundry. The entry point to Adobe Fonts: every other font function starts
-     * with a slug from this search.
+     * slug and name (foundry comes from getFont). The entry point to Adobe Fonts: every other font
+     * function starts with a slug from this search.
      */
     searchFonts(query: string): Promise<Font[]>;
 
     /**
      * Returns one Adobe Fonts family's detail page — name, foundry, description, every
-     * weight/style in the family, licensing info (Creative Cloud-included vs. foundry-licensed),
-     * and suggested pairings — from a font slug from searchFonts.
+     * weight/style in the family, and licensing info (Creative Cloud-included vs.
+     * foundry-licensed) — from a font slug from searchFonts. `suggestedPairings` is always empty:
+     * the site's "similar fonts" module is fetched by client-side JS the family page never embeds
+     * server-side.
      */
     getFont(slug: string): Promise<FontDetail>;
 
@@ -36704,6 +36706,28 @@ interface marianatekRegion {
   locations: marianatekRegionLocation[];
 }
 
+interface marianatekListLocationsArgs {
+  /** Tenant slug ("bodytempyoga"), or a <slug>.marianatek.com / <slug>.marianaiframes.com URL */
+  studio: string;
+}
+
+interface marianatekLocation {
+  id: string;
+  name: string;
+  city: string | null;
+  stateProvince: string | null;
+  postalCode: string | null;
+  formattedAddress: string[];
+  phoneNumber: string | null;
+  email: string | null;
+  timezone: string | null;
+  currencyCode: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  regionId: string;
+  regionName: string | null;
+}
+
   /**
    * Mariana Tek studio booking (Barry's, Body Temp Yoga and other boutique fitness brands, one
    * tenant per brand): find a studio, read its locations, class schedule, spot maps, pricing and
@@ -36728,6 +36752,14 @@ interface marianatekRegion {
      * phone, email, timezone and currency. An unknown tenant THROWS.
      */
     listRegions(args: marianatekListRegionsArgs): Promise<marianatekRegion[]>;
+
+    /**
+     * Lists a tenant's bookable locations, flat — id, name, address, phone, email, timezone and
+     * currency, plus the id and name of the region each belongs to (what listRegions nests it
+     * under). Walks every page the site paginates over, so a large tenant (Barry's: 106 locations)
+     * returns them all in one call. An unknown tenant THROWS.
+     */
+    listLocations(args: marianatekListLocationsArgs): Promise<marianatekLocation[]>;
   }
 }
 
@@ -38658,63 +38690,6 @@ interface MinimaxDocPage {
      * closely enough.
      */
     getDocs(topic: string): Promise<MinimaxDocPage>;
-  }
-}
-
-declare namespace BowmarkProvider_minted {
-  // ── Minted — the unit's own declarations, verbatim ──
-// Minted's OWN shapes — not a capability contract.
-
-interface MintedCardDesign {
-  sku: string;
-  styleSlug: string;    // the product URL's third path segment
-  artistName: string;
-  groupSlug: string;    // the product URL's second path segment
-  dimension: string;
-  colorways: { id: string; name: string }[];
-  url: string;
-}
-
-interface MintedQuantityPrice { quantity: number; price: number }  // price in dollars
-interface MintedOptionRange { low: number; high: number }          // dollars
-
-interface MintedCardSelections {
-  color?: string; paper?: string; format?: string; printMethod?: string;
-  quantity?: number; customFoil?: boolean; greeting?: string;
-}
-
-interface MintedCardPrice {
-  sku: string;
-  groupSlug: string;
-  styleSlug: string;
-  selected: Required<MintedCardSelections>;  // the exact config Minted priced
-  totalPrice: number;                        // real total for selected.quantity
-  quantityTable: MintedQuantityPrice[];       // real price at every quantity tier
-  optionRanges: Record<string, MintedOptionRange>;
-  personalizeUrl: string;                     // finish on-site from here
-}
-
-  /**
-   * Minted's real photo-card catalog and live pricing engine — browse real designs in a category
-   * and price an exact personalized configuration (paper, print method, foil, quantity) against
-   * Minted's own pricing engine rather than a researched estimate.
-   */
-  interface Unit {
-    /**
-     * Browses one of Minted's real photo-card/stationery categories (e.g. "holiday-photo-cards",
-     * "birth-announcements") and returns the real designs on it — sku, title, artist, dimension,
-     * and the real color/style swatches. THROWS if the category path does not resolve to a
-     * listing.
-     */
-    searchCards(category: string): Promise<MintedCardDesign[]>;
-
-    /**
-     * Prices ONE exact card configuration against Minted's own live pricing engine and returns the
-     * real computed total, the full quantity-tier table, and a personalizeUrl to finish on-site.
-     * groupSlug/sku/styleSlug come from searchCards(); any field left out of selections uses the
-     * design's own default (paper, format, quantity=100, etc.).
-     */
-    priceCard(groupSlug: string, sku: string, styleSlug: string, selections?: MintedCardSelections): Promise<MintedCardPrice>;
   }
 }
 
@@ -62836,7 +62811,6 @@ interface BowmarkProviders {
   millisaraylar: BowmarkProvider_millisaraylar.Unit;
   mindbodyonline: BowmarkProvider_mindbodyonline.Unit;
   minimax: BowmarkProvider_minimax.Unit;
-  minted: BowmarkProvider_minted.Unit;
   mixbook: BowmarkProvider_mixbook.Unit;
   modernize_com: BowmarkProvider_modernize_com.Unit;
   modularclosets: BowmarkProvider_modularclosets.Unit;
