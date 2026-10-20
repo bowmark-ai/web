@@ -2534,7 +2534,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.listMyWaivers` | marianatek.com | Lists the waivers the signed-in customer has signed, or still has to sign, before they… | ⚪ |
 | `marianatek.listPricing` | marianatek.com | Lists what a location sells — intro offers, memberships, class packs and add-ons such… | ⚪ |
 | `marianatek.listRegions` | marianatek.com | Lists a tenant's regions (city or area groupings) with the locations in each — the… | 🟢 |
-| `marianatek.listScheduleFilters` | marianatek.com | Lists what a region's schedule can be filtered by — class types (with descriptions)… | ⚪ |
+| `marianatek.listScheduleFilters` | marianatek.com | Lists what a region's schedule can be filtered by — class types (with descriptions)… | 🟢 |
 | `marianatek.setProfileImage` | marianatek.com | Changes the signed-in customer's profile picture at a studio. | ⚪ |
 | `marianatek.updateCommunicationPreferences` | marianatek.com | Turns the signed-in customer's email and SMS marketing opt-ins on or off at a studio. | ⚪ |
 | `marianatek.updateMyAccount` | marianatek.com | Edits the signed-in customer's own profile at a studio (name, phone, pronouns… | ⚪ |
