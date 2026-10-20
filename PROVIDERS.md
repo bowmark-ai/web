@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4585 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4586 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -85,7 +85,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.licenseStockAsset` | adobe.com | Buys a license for an Adobe Stock asset on the signed-in caller's own account — the… | ⚪ |
 | `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | ⚪ |
 | `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an Adobe Stock asset, an Express template, or an exported Acrobat document into… | ⚪ |
-| `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟢 |
+| `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟡 |
 | `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟢 |
 | `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text and, where… | 🟢 |
 | `adobe.sendForSignature` | adobe.com | Sends a caller-supplied document out for e-signature through Adobe Acrobat Sign — the… | ⚪ |
@@ -784,7 +784,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `carlsgolfland.addToCart` | carlsgolfland.com | Hands the shopper the entry-point link for a priced configuration plus the exact… | 🟢 |
 | `carlsgolfland.checkout` | carlsgolfland.com | Would place a priced configuration into Carl's Golfland's cart and return a checkout… | ⚪ |
 | `carlsgolfland.getProduct` | carlsgolfland.com | Reads one product's full configurable-option set (e.g. Hand, Driver Loft, Shaft) with… | 🟢 |
-| `carlsgolfland.priceConfiguration` | carlsgolfland.com | Resolves a specific configuration (a choice per option group, e.g. { Hand: "Right"… | 🟢 |
+| `carlsgolfland.priceConfiguration` | carlsgolfland.com | Resolves a specific configuration (a choice per option group, e.g. { Hand: "Right"… | 🟡 |
 | `carlsgolfland.searchProducts` | carlsgolfland.com | Searches Carl's Golfland's golf-equipment catalog by free text and returns each… | 🟢 |
 | `carmelrealtycompany.getListing` | carmelrealtycompany.com | Fetches one listing detail page by slug and returns address, sold/active status… | 🟢 |
 | `carmelrealtycompany.searchListings` | carmelrealtycompany.com | Runs one of Carmel Realty Company's own regional listing-search pages and returns… | 🟢 |
@@ -921,7 +921,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubpilates.getClassPoints` | clubpilates.com | Returns the signed-in member's ClassPoints rewards balance, tier and available rewards. | ⚪ |
 | `clubpilates.getMyMembership` | clubpilates.com | Returns the signed-in member's membership and class credits at their home studio —… | ⚪ |
 | `clubpilates.getMyProfile` | clubpilates.com | Returns the signed-in member's own profile: name, email, phone, home studio. | ⚪ |
-| `clubpilates.getStudio` | clubpilates.com | Returns one studio's details by id or by its clubpilates.com page slug… | ⚪ |
+| `clubpilates.getStudio` | clubpilates.com | Returns one studio's full detail by id (from findStudios) or by its clubpilates.com… | 🟢 |
 | `clubpilates.joinWaitlist` | clubpilates.com | Puts the signed-in member on the waitlist for a full class (the class must have… | ⚪ |
 | `clubpilates.listClassCategories` | clubpilates.com | Lists the class categories used to filter a schedule (Reformer Flow, Center + Balance… | ⚪ |
 | `clubpilates.listClasses` | clubpilates.com | Lists a studio's class schedule for a date or date range — each class's id, title… | ⚪ |
@@ -1030,7 +1030,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.getProfile` | corepoweryoga.com | Gets the caller's profile information. | ⚪ |
 | `corepoweryoga.getRecommendations` | corepoweryoga.com | Gets personalized class recommendations based on preferences. | ⚪ |
 | `corepoweryoga.getSchedule` | corepoweryoga.com | Gets the full schedule for a specific studio on a given date. | ⚪ |
-| `corepoweryoga.getStudio` | corepoweryoga.com | Gets details for a specific studio including amenities, contact info, and class… | ⚪ |
+| `corepoweryoga.getStudio` | corepoweryoga.com | Gets one studio's full detail page content — amenities, contact info (email, phone… | 🟢 |
 | `corepoweryoga.getTeacher` | corepoweryoga.com | Gets details about a specific instructor including bio and full teaching schedule. | ⚪ |
 | `corepoweryoga.getWorkshop` | corepoweryoga.com | Gets details about a specific workshop including schedule, capacity, and teacher. | ⚪ |
 | `corepoweryoga.joinWaitlist` | corepoweryoga.com | Joins the waitlist for a full class. | ⚪ |
@@ -2533,7 +2533,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.listMyReservations` | marianatek.com | Lists the signed-in customer's upcoming or past class reservations at a studio… | ⚪ |
 | `marianatek.listMyWaivers` | marianatek.com | Lists the waivers the signed-in customer has signed, or still has to sign, before they… | ⚪ |
 | `marianatek.listPricing` | marianatek.com | Lists what a location sells — intro offers, memberships, class packs and add-ons such… | ⚪ |
-| `marianatek.listRegions` | marianatek.com | Lists a studio's regions (city or area groupings) with the locations in each — the… | ⚪ |
+| `marianatek.listRegions` | marianatek.com | Lists a tenant's regions (city or area groupings) with the locations in each — the… | 🟢 |
 | `marianatek.listScheduleFilters` | marianatek.com | Lists what a region's schedule can be filtered by — class types (with descriptions)… | ⚪ |
 | `marianatek.setProfileImage` | marianatek.com | Changes the signed-in customer's profile picture at a studio. | ⚪ |
 | `marianatek.updateCommunicationPreferences` | marianatek.com | Turns the signed-in customer's email and SMS marketing opt-ins on or off at a studio. | ⚪ |
@@ -2621,7 +2621,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |
 | `mindbodyonline.bookSession` | mindbodyonline.com | Books the signed-in caller into a specific class session. | 🟢 |
-| `mindbodyonline.cancelSession` | mindbodyonline.com | Cancels a member's booking for a class. | ⚪ |
+| `mindbodyonline.cancelSession` | mindbodyonline.com | Cancels the signed-in caller's booking of a class session. | 🟢 |
 | `mindbodyonline.getSchedule` | mindbodyonline.com | Gets details for a specific class session including availability, waitlist status, and… | 🟢 |
 | `mindbodyonline.listSchedules` | mindbodyonline.com | Retrieves the list of upcoming classes for a studio location on a given date… | 🟢 |
 | `mindbodyonline.myBookings` | mindbodyonline.com | Lists the authenticated member's current and past bookings. | ⚪ |
@@ -2722,7 +2722,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.getContinueWatching` | www.netflix.com | Gets titles the signed-in caller is currently watching (requires caller to be signed… | ⚪ |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's My List (requires caller to be signed in). | ⚪ |
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
-| `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week (TV and Films), ranked by views. | 🟡 |
+| `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10… | 🟡 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads a Tudum article (Netflix's editorial blog). | ⚪ |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's viewing history (requires caller to be signed in). | ⚪ |
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
@@ -2959,7 +2959,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pausestudio.cancelBooking` | pausestudio.com | Cancels a confirmed booking | ⚪ |
 | `pausestudio.getLocationInfo` | pausestudio.com | Gets address, phone and the services offered at one location, by the id… | 🟢 |
 | `pausestudio.joinWaitlist` | pausestudio.com | Adds caller to waitlist for a time slot | ⚪ |
-| `pausestudio.listAvailableSlots` | pausestudio.com | Lists available appointment times by service, date and location | ⚪ |
+| `pausestudio.listAvailableSlots` | pausestudio.com | Lists available appointment times by service, date and location — requires the… | 🟢 |
 | `pausestudio.listLocations` | pausestudio.com | Lists all Pause Studio recovery/wellness locations | 🟢 |
 | `pausestudio.listMyBookings` | pausestudio.com | Lists caller's upcoming and past bookings | ⚪ |
 | `pausestudio.listServices` | pausestudio.com | Lists available recovery services (float, cryo, sauna, IV drips, etc.) at a location | 🟢 |
@@ -3338,7 +3338,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `safeway.getRewardsBalance` | safeway.com | Returns the signed-in customer's Safeway for U points balance, tier and the rewards… | ⚪ |
 | `safeway.getSearchSuggestions` | safeway.com | Returns Safeway's type-ahead suggestions for a partial query, each with the department… | ⚪ |
 | `safeway.getShoppingList` | safeway.com | Returns the signed-in customer's shopping list. | ⚪ |
-| `safeway.getStore` | safeway.com | Returns one Safeway store by id: address, phone, hours, departments and the services… | ⚪ |
+| `safeway.getStore` | safeway.com | Returns one Safeway store by id (from findStores): address, the rewards-program… | 🟢 |
 | `safeway.getWeeklyAd` | safeway.com | Returns a store's current weekly ad: the flyer pages and the items on sale with their… | ⚪ |
 | `safeway.listAisleProducts` | safeway.com | Lists the products in one aisle at one store: name, UPC, price, unit price, member… | ⚪ |
 | `safeway.listAisles` | safeway.com | Lists Safeway's departments and the aisles inside each (Dairy, Eggs & Cheese → Milk &… | ⚪ |
@@ -3807,6 +3807,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.getArticle` | theguardian.com | Read the full text of one article given its URL or ID. | 🟢 |
 | `theguardian_com.getContributorArticles` | theguardian.com | List articles written by a specific journalist or contributor. | 🟢 |
 | `theguardian_com.getLiveBlog` | theguardian.com | Read a live blog covering a news event. | 🟢 |
+| `theguardian_com.getMostRead` | theguardian.com | The Guardian's current site-wide most-read list — the ten articles its own readers are… | 🟢 |
 | `theguardian_com.getPhotoGallery` | theguardian.com | View images in a photo gallery with captions. | 🟢 |
 | `theguardian_com.getReview` | theguardian.com | Read a full review given its URL or ID. | 🟢 |
 | `theguardian_com.getSavedArticles` | theguardian.com | Get the user's saved articles (requires login). | ⚪ |
@@ -4573,7 +4574,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | 🟢 |
 | `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | 🟢 |
 | `zoom.getMeetingParticipants` | zoom.us | Lists participants of a meeting (if in progress). | ⚪ |
-| `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | 🟢 |
+| `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | 🟡 |
 | `zoom.getProfile` | zoom.us | The signed-in caller's user profile. | ⚪ |
 | `zoom.getRecording` | zoom.us | Returns metadata and access info for one recording. | ⚪ |
 | `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | ⚪ |
