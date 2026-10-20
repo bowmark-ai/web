@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2922a3618863f334dd41a21a2dde02c8f1a0250feac14d391ca1ce1b9e80caba
-// 2212 checked, 20 unchecked.
+// Manifest version: 687298a96f2fbbef61b08b1341052961d46e47f01184234441513acdfb2d0c0e
+// 2217 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2922a3618863f334dd41a21a2dde02c8f1a0250feac14d391ca1ce1b9e80caba",
+  "version": "687298a96f2fbbef61b08b1341052961d46e47f01184234441513acdfb2d0c0e",
   "units": {
     "address_validation": {
       "defs": {
@@ -17864,6 +17864,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetStudioArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.clubready": {
+      "defs": {},
+      "functions": {
+        "listBrands": [
+          {
+            "name": "host",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }
@@ -38115,6 +38129,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "marianatekGetLocationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "marianatekListLocationsArgs": {
           "k": "object",
           "props": [
@@ -38167,6 +38200,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "marianatekListLocationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLocation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "marianatekGetLocationArgs"
             },
             "optional": false
           }
@@ -40142,6 +40185,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "MyBookingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "widgetId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "WaitlistSessionArgs": {
           "k": "object",
           "props": [
@@ -40248,6 +40310,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CancelSessionArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "myBookings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MyBookingsArgs"
             },
             "optional": false
           },
@@ -44921,6 +45009,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListCreatorPostsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "vanity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListCreatorTiersArgs": {
           "k": "object",
           "props": [
@@ -44973,6 +45080,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListCreatorTiersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCreatorPosts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCreatorPostsArgs"
             },
             "optional": false
           }
@@ -57900,6 +58017,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SweathouzGetPricingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SweathouzListStudiosArgs": {
           "k": "object",
           "props": [
@@ -57937,6 +58066,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SweathouzAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPricing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SweathouzGetPricingArgs"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2922a3618863f334dd41a21a2dde02c8f1a0250feac14d391ca1ce1b9e80caba
-# 85 capabilities, 609 providers, 2212 typed functions, 20 refused.
+# Manifest version: 687298a96f2fbbef61b08b1341052961d46e47f01184234441513acdfb2d0c0e
+# 85 capabilities, 610 providers, 2217 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9904,6 +9904,12 @@ class Prv_clubpilates_ClubPilatesStudioDetail_Out(TypedDict):
     waiverUrl: str | None
     laFitness: bool
     laFitnessWarning: str | None
+
+class Prv_clubready_ClubreadyBrand_Out(TypedDict):
+    id: str
+    name: str
+    slug: str
+    host: str | None
 
 class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
     symbol: str
@@ -20219,6 +20225,25 @@ class Prv_marianatek_marianatekLocation_Out(TypedDict):
     regionId: str
     regionName: str | None
 
+class Prv_marianatek_marianatekGetLocationArgs_In(TypedDict):
+    studio: str
+    locationId: str
+
+class Prv_marianatek_marianatekLocationDetail_Out(TypedDict):
+    id: str
+    name: str
+    city: str | None
+    stateProvince: str | None
+    postalCode: str | None
+    formattedAddress: list[str]
+    phoneNumber: str | None
+    email: str | None
+    timezone: str | None
+    currencyCode: str | None
+    latitude: float | None
+    longitude: float | None
+    description: str | None
+
 class Prv_marketplace_visualstudio_marketplaceExtensionStats_Out(TypedDict):
     extensionId: str
     displayName: str
@@ -21137,6 +21162,16 @@ class Prv_mindbodyonline_CancelSessionArgs_In(TypedDict):
 class Prv_mindbodyonline_CancelSessionResult_Out(TypedDict):
     cancelled: bool
     message: str
+
+class Prv_mindbodyonline_MyBookingsArgs_In(TypedDict):
+    widgetId: str
+    locationId: str
+
+class Prv_mindbodyonline_myBookings_return_Out(TypedDict):
+    bookings: list[Prv_mindbodyonline_MindbodyBooking_Out]
+
+class Prv_mindbodyonline_MindbodyBooking_Out(TypedDict):
+    raw: str
 
 class Prv_minimax_MinimaxDocPage_Out(TypedDict):
     title: str
@@ -23407,6 +23442,24 @@ class Prv_patreon_patreonTier_Out(TypedDict):
     isFreeTier: NotRequired[bool]
     published: NotRequired[bool]
     url: NotRequired[str]
+
+class Prv_patreon_ListCreatorPostsArgs_In(TypedDict):
+    vanity: str
+    cursor: NotRequired[str]
+
+class Prv_patreon_ListCreatorPostsResult_Out(TypedDict):
+    posts: list[Prv_patreon_patreonPost_Out]
+    nextCursor: NotRequired[str]
+
+class Prv_patreon_patreonPost_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    publishedAt: NotRequired[str]
+    url: NotRequired[str]
+    isPublic: bool
+    postType: NotRequired[str]
+    commentCount: NotRequired[float]
+    likeCount: NotRequired[float]
 
 class Prv_pausestudio_Location_Out(TypedDict):
     id: str
@@ -28883,6 +28936,20 @@ class Prv_sweathouz_SweathouzSlot_Out(TypedDict):
     sessionType: str
     sessionTypeId: str
     suiteId: str
+
+class Prv_sweathouz_SweathouzGetPricingArgs_In(TypedDict):
+    studio: str
+
+class Prv_sweathouz_SweathouzPricing_Out(TypedDict):
+    studioId: str
+    studioName: str
+    bookingId: str
+    options: list[Prv_sweathouz_SweathouzPriceOption_Out]
+
+class Prv_sweathouz_SweathouzPriceOption_Out(TypedDict):
+    id: str
+    price: float
+    label: str
 
 class Prv_tagtrans_net_TagtransShipmentRateForm_Out(TypedDict):
     formUrl: str
@@ -41158,6 +41225,20 @@ class Prv_clubpilates(Protocol):
         Fitness membership to book).
         """
 
+class Prv_clubready(Protocol):
+    """Xponential studios on ClubReady — CycleBar, Club Pilates, Pure Barre, YogaSix,
+    StretchLab, Rumble, BFT and more: find a studio, read its class schedule and pricing,
+    and (signed in) book, waitlist and cancel classes and one-on-one sessions.
+    """
+
+    async def listBrands(self, host: str | None = None, /) -> list[Prv_clubready_ClubreadyBrand_Out]:
+        """Lists every studio brand on the Xponential/ClubReady member platform, with each brand's
+        id, slug and members-site host (null for a listed entry that is not a studio brand, e.g.
+        "xponential", "lindora"). The list is identical on every host (measured 2026-10-18);
+        `host` lets a caller confirm a specific brand's members site is live rather than
+        trusting the default.
+        """
+
 class Prv_cnbc_com(Protocol):
     """Stock quotes, market data, news, videos and analysis from CNBC."""
 
@@ -48310,6 +48391,12 @@ class Prv_marianatek(Protocol):
         locations) returns them all in one call. An unknown tenant THROWS.
         """
 
+    async def getLocation(self, args: Prv_marianatek_marianatekGetLocationArgs_In, /) -> Prv_marianatek_marianatekLocationDetail_Out:
+        """Returns one of a tenant's locations by id — the same address, phone, email, timezone and
+        currency fields listLocations and listRegions return, plus the studio's own free-text
+        description (often empty). An unknown location id THROWS.
+        """
+
 class Prv_marketplace_visualstudio(Protocol):
     """The VS Code Marketplace — look up one extension by its publisher.name id and get its
     install count, rating and latest version, the numbers the extension's own Marketplace
@@ -48856,6 +48943,17 @@ class Prv_mindbodyonline(Protocol):
         the attempt — may include a late-cancellation fee notice. Example:
         `bowmark.providers.mindbodyonline.cancelSession({ widgetId: "12345", locationId: "1",
         sessionId: "cinst_…" })`.
+        """
+
+    async def myBookings(self, args: Prv_mindbodyonline_MyBookingsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_mindbodyonline_myBookings_return_Out:
+        """Lists the signed-in caller's bookings. NEEDS A SIGN-IN: reuses cancelSession's own "My
+        Account" door, which — logged out — redirects to Mindbody's own account sign-in, so this
+        call pauses the run for a caller sign-in when none is held. The account view's own
+        post-login layout has never been captured, so each row's `raw` field is that row's own
+        visible text rather than a parsed shape — every row the view shows with a Cancel action,
+        which the site's own i18n bundle confirms every booking carries. An empty list means the
+        account view showed no such row (which includes a genuinely empty account). Example:
+        `bowmark.providers.mindbodyonline.myBookings({ widgetId: "12345", locationId: "1" })`.
         """
 
 class Prv_minimax(Protocol):
@@ -50290,6 +50388,11 @@ class Prv_patreon(Protocol):
 
     async def listCreatorTiers(self, args: Prv_patreon_ListCreatorTiersArgs_In, /) -> list[Prv_patreon_patreonTier_Out]:
         """List all membership tiers offered by a creator with pricing."""
+
+    async def listCreatorPosts(self, args: Prv_patreon_ListCreatorPostsArgs_In, /) -> Prv_patreon_ListCreatorPostsResult_Out:
+        """List a creator's posts, newest first, one page at a time with the site's own cursor.
+        Each row says whether the post is public.
+        """
 
 class Prv_pausestudio(Protocol):
     """Recovery and wellness studio with float, cryo, sauna, and IV therapy bookings."""
@@ -53464,6 +53567,13 @@ class Prv_sweathouz(Protocol):
         """Lists the open 60-minute contrast-therapy appointment times at one SWTHZ studio on one
         date, read from the studio's own booking app — start time, session type and suite.
         Anonymous; no sign-in needed to see times.
+        """
+
+    async def getPricing(self, args: Prv_sweathouz_SweathouzGetPricingArgs_In, /) -> Prv_sweathouz_SweathouzPricing_Out:
+        """Reads one SWTHZ studio's own priced session options (the main contrast-therapy session
+        and the plus-one-guest add-on) off its booking app's pricing door. Anonymous; no sign-in
+        needed. The site's own pricing string carries one undocumented trailing field on the
+        main option, kept as an opaque `label` rather than guessed at.
         """
 
 class Prv_tagtrans_net(Protocol):
@@ -57232,6 +57342,7 @@ class BowmarkProviders(Protocol):
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
     clubpilates: Prv_clubpilates
+    clubready: Prv_clubready
     cnbc_com: Prv_cnbc_com
     cnn: Prv_cnn
     coast: Prv_coast

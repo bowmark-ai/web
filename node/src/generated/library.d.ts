@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2922a3618863f334dd41a21a2dde02c8f1a0250feac14d391ca1ce1b9e80caba
-// 85 capabilities, 609 providers, 2230 typed functions, 20 refused.
+// Manifest version: 687298a96f2fbbef61b08b1341052961d46e47f01184234441513acdfb2d0c0e
+// 85 capabilities, 610 providers, 2235 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17541,6 +17541,36 @@ interface ClubPilatesStudioDetail {
      * membership to book).
      */
     getStudio(args: GetStudioArgs): Promise<ClubPilatesStudioDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_clubready {
+  // ── ClubReady — the unit's own declarations, verbatim ──
+interface clubreadyRow {
+  id: string;
+}
+
+interface ClubreadyBrand {
+  id: string;
+  name: string;
+  slug: string;
+  host: string | null;
+}
+
+  /**
+   * Xponential studios on ClubReady — CycleBar, Club Pilates, Pure Barre, YogaSix, StretchLab,
+   * Rumble, BFT and more: find a studio, read its class schedule and pricing, and (signed in)
+   * book, waitlist and cancel classes and one-on-one sessions.
+   */
+  interface Unit {
+    /**
+     * Lists every studio brand on the Xponential/ClubReady member platform, with each brand's id,
+     * slug and members-site host (null for a listed entry that is not a studio brand, e.g.
+     * "xponential", "lindora"). The list is identical on every host (measured 2026-10-18); `host`
+     * lets a caller confirm a specific brand's members site is live rather than trusting the
+     * default.
+     */
+    listBrands(host?: string): Promise<ClubreadyBrand[]>;
   }
 }
 
@@ -36728,6 +36758,29 @@ interface marianatekLocation {
   regionName: string | null;
 }
 
+interface marianatekGetLocationArgs {
+  /** Tenant slug ("bodytempyoga"), or a <slug>.marianatek.com / <slug>.marianaiframes.com URL */
+  studio: string;
+  /** A location id from listLocations or listRegions */
+  locationId: string;
+}
+
+interface marianatekLocationDetail {
+  id: string;
+  name: string;
+  city: string | null;
+  stateProvince: string | null;
+  postalCode: string | null;
+  formattedAddress: string[];
+  phoneNumber: string | null;
+  email: string | null;
+  timezone: string | null;
+  currencyCode: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  description: string | null;
+}
+
   /**
    * Mariana Tek studio booking (Barry's, Body Temp Yoga and other boutique fitness brands, one
    * tenant per brand): find a studio, read its locations, class schedule, spot maps, pricing and
@@ -36760,6 +36813,13 @@ interface marianatekLocation {
      * returns them all in one call. An unknown tenant THROWS.
      */
     listLocations(args: marianatekListLocationsArgs): Promise<marianatekLocation[]>;
+
+    /**
+     * Returns one of a tenant's locations by id — the same address, phone, email, timezone and
+     * currency fields listLocations and listRegions return, plus the studio's own free-text
+     * description (often empty). An unknown location id THROWS.
+     */
+    getLocation(args: marianatekGetLocationArgs): Promise<marianatekLocationDetail>;
   }
 }
 
@@ -38583,6 +38643,11 @@ interface CancelSessionArgs {
   sessionId: string;
 }
 
+interface MyBookingsArgs {
+  widgetId: string;
+  locationId: string;
+}
+
 interface BookSessionResult {
   booked: boolean;
   message: string;
@@ -38591,6 +38656,10 @@ interface BookSessionResult {
 interface CancelSessionResult {
   cancelled: boolean;
   message: string;
+}
+
+interface MindbodyBooking {
+  raw: string;
 }
 
   /**
@@ -38659,6 +38728,18 @@ interface CancelSessionResult {
      * sessionId: "cinst_…" })`.
      */
     cancelSession(args: CancelSessionArgs, opts?: ConnectionOption): Promise<CancelSessionResult>;
+
+    /**
+     * Lists the signed-in caller's bookings. NEEDS A SIGN-IN: reuses cancelSession's own "My
+     * Account" door, which — logged out — redirects to Mindbody's own account sign-in, so this
+     * call pauses the run for a caller sign-in when none is held. The account view's own
+     * post-login layout has never been captured, so each row's `raw` field is that row's own
+     * visible text rather than a parsed shape — every row the view shows with a Cancel action,
+     * which the site's own i18n bundle confirms every booking carries. An empty list means the
+     * account view showed no such row (which includes a genuinely empty account). Example:
+     * `bowmark.providers.mindbodyonline.myBookings({ widgetId: "12345", locationId: "1" })`.
+     */
+    myBookings(args: MyBookingsArgs, opts?: ConnectionOption): Promise<{ bookings: MindbodyBooking[] }>;
   }
 }
 
@@ -42623,6 +42704,27 @@ interface ListCreatorTiersArgs {
   vanity: string;
 }
 
+interface ListCreatorPostsArgs {
+  vanity: string;
+  cursor?: string;
+}
+
+interface patreonPost {
+  id: string;
+  title?: string;
+  publishedAt?: string;
+  url?: string;
+  isPublic: boolean;
+  postType?: string;
+  commentCount?: number;
+  likeCount?: number;
+}
+
+interface ListCreatorPostsResult {
+  posts: patreonPost[];
+  nextCursor?: string;
+}
+
 interface patreonTier {
   id: string;
   title?: string;
@@ -42644,6 +42746,12 @@ interface patreonTier {
 
     /** List all membership tiers offered by a creator with pricing. */
     listCreatorTiers(args: ListCreatorTiersArgs): Promise<patreonTier[]>;
+
+    /**
+     * List a creator's posts, newest first, one page at a time with the site's own cursor. Each
+     * row says whether the post is public.
+     */
+    listCreatorPosts(args: ListCreatorPostsArgs): Promise<ListCreatorPostsResult>;
   }
 }
 
@@ -51625,6 +51733,23 @@ interface SweathouzAvailability {
   slots: SweathouzSlot[];      // only open times; empty = fully booked or closed
 }
 
+interface SweathouzGetPricingArgs {
+  studio: string;              // id or name from listStudios
+}
+
+interface SweathouzPriceOption {
+  id: string;
+  price: number;
+  label: string;               // everything the site sends after the price — see parsePricing's comment
+}
+
+interface SweathouzPricing {
+  studioId: string;
+  studioName: string;
+  bookingId: string;
+  options: SweathouzPriceOption[];
+}
+
   /**
    * SWTHZ (sweathouz.com) private contrast-therapy suites (sauna, cold plunge, shower) booked as
    * timed 60-minute appointments: read studios, open suite times and pricing, and (signed in
@@ -51645,6 +51770,14 @@ interface SweathouzAvailability {
      * sign-in needed to see times.
      */
     getAvailability(args: SweathouzAvailabilityArgs): Promise<SweathouzAvailability>;
+
+    /**
+     * Reads one SWTHZ studio's own priced session options (the main contrast-therapy session and
+     * the plus-one-guest add-on) off its booking app's pricing door. Anonymous; no sign-in needed.
+     * The site's own pricing string carries one undocumented trailing field on the main option,
+     * kept as an opaque `label` rather than guessed at.
+     */
+    getPricing(args: SweathouzGetPricingArgs): Promise<SweathouzPricing>;
   }
 }
 
@@ -62589,6 +62722,7 @@ interface BowmarkProviders {
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
   clubpilates: BowmarkProvider_clubpilates.Unit;
+  clubready: BowmarkProvider_clubready.Unit;
   cnbc_com: BowmarkProvider_cnbc_com.Unit;
   cnn: BowmarkProvider_cnn.Unit;
   coast: BowmarkProvider_coast.Unit;
