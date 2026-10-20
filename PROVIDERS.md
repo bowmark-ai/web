@@ -2138,7 +2138,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.getCart` | ikea.com | Reads a cart's items, quantities, line prices and total. | ⚪ |
 | `ikea.getDeliveryOptions` | ikea.com | Quotes the home-delivery and pick-up options for a set of items to a US ZIP code —… | ⚪ |
 | `ikea.getFamilyMembership` | ikea.com | Reads the signed-in caller's IKEA Family membership — card number, member since, and… | ⚪ |
-| `ikea.getProduct` | ikea.com | Reads one product page by item number or URL: name, price, description, dimensions… | ⚪ |
+| `ikea.getProduct` | ikea.com | Reads one product page by item number or URL: name, price, description, dimensions… | 🟢 |
 | `ikea.getProductAvailability` | ikea.com | Checks whether an item is in stock at each US IKEA store and for home delivery… | ⚪ |
 | `ikea.getProductDocuments` | ikea.com | Lists a product's documents — assembly instructions, manuals and product information… | ⚪ |
 | `ikea.getProductRatings` | ikea.com | Reads a product's customer rating summary — average stars, review count and the… | ⚪ |
