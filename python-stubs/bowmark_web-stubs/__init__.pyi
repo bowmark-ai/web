@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 25b2d30dcb95a74dc712351dbf2ff0f49ce1006bde8f2a813a23bd2347f0e867
-# 85 capabilities, 610 providers, 2219 typed functions, 20 refused.
+# Manifest version: f99520232ed562dc631d8933031e469f322d85efd815f4f237dae72a33b0b30b
+# 85 capabilities, 610 providers, 2220 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -47631,6 +47631,21 @@ class Prv_linkedin(Protocol):
         Throws rather than returning an empty list when the surface fails, and re-asks an empty
         page before believing it, because this endpoint returns empty bodies for pages that do
         have results.
+        """
+
+    async def listCompanyJobs(self, companyUrlOrHandle: str, query: Prv_linkedin_LinkedinJobSearchQuery_In | None = None, /) -> list[Prv_linkedin_LinkedinJobSearchResult_Out]:
+        """Returns the open roles one named company is currently advertising — the hiring-signal
+        read: what a company is building right now. `searchJobs` filtered to that one employer,
+        not a distinct surface: it resolves the company's numeric LinkedIn id off its public
+        page (one `getCompany` call, no session) and adds LinkedIn's own `f_C=<id>` employer
+        filter to the same guest job-search surface `searchJobs` uses, so every row, the paging,
+        the empty-page retries and the 1000-row wall are identical. Takes the same
+        second-argument shape as `searchJobs` (`{keywords, location, geoId, postedWithin,
+        limit}`) for narrowing further — "this company's jobs in Iceland" — and defaults
+        `location` to "Worldwide" only when none of those three is given, because `f_C` alone
+        answers the surface's own spurious-empty body on every attempt (measured 2026-10-20)
+        rather than listing anything. Throws when the handle does not resolve to a public
+        company page, exactly as `getCompany` does.
         """
 
     async def getCompany(self, urlOrHandle: str, /) -> Prv_linkedin_LinkedinCompany_Out:

@@ -1213,7 +1213,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.getApp` | discord.com | Reads one App Directory listing (discord.com/discovery/applications/<id>) — name… | ⚪ |
 | `discord.getDocPage` | discord.com | Reads one Discord developer docs page by url or path (e.g.… | 🟢 |
 | `discord.getGame` | discord.com | Reads one game's page on Discord (discord.com/game/<slug>-<id>) — name, description… | ⚪ |
-| `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | 🟢 |
+| `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | 🟡 |
 | `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | ⚪ |
 | `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | ⚪ |
 | `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | ⚪ |
@@ -2522,7 +2522,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.listAppointmentCategories` | marianatek.com | Lists the kinds of private appointments a studio offers (e.g. Private Training). | ⚪ |
 | `marianatek.listAppointmentServices` | marianatek.com | Lists the appointment services a studio offers at a location, with the instructors and… | ⚪ |
 | `marianatek.listAppointmentSlots` | marianatek.com | Lists the open times for an appointment service in a date range, optionally narrowed… | ⚪ |
-| `marianatek.listClasses` | marianatek.com | Lists a studio's class schedule between two dates, optionally narrowed to locations or… | ⚪ |
+| `marianatek.listClasses` | marianatek.com | Lists a tenant's class schedule between startDate and endDate (both required and… | 🟢 |
 | `marianatek.listClassPaymentOptions` | marianatek.com | Lists which of the signed-in customer's own memberships and class credits can pay for… | ⚪ |
 | `marianatek.listClassSpots` | marianatek.com | Lists the spots in a pick-a-spot class (treadmill, floor, bike) with name, type… | ⚪ |
 | `marianatek.listLocations` | marianatek.com | Lists a tenant's bookable locations, flat — id, name, address, phone, email, timezone… | 🟢 |
@@ -2611,7 +2611,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_outlook.createCalendarEvent` | outlook.live.com | Creates a new calendar event with the specified title, start/end times, and optional… | 🟢 |
 | `microsoft_outlook.createContact` | outlook.live.com | TODO — what createContact does on the live site, and what interaction it performs. | ⚪ |
 | `microsoft_outlook.getCalendarEvents` | outlook.live.com | Returns calendar events within a specified date range, including title, start/end… | 🟢 |
-| `microsoft_outlook.getContact` | outlook.live.com | TODO — what getContact does on the live site, and what interaction it performs. | ⚪ |
+| `microsoft_outlook.getContact` | outlook.live.com | Opens one contact from listContacts' results and returns the full contact card — name… | 🟢 |
 | `microsoft_outlook.getMail` | outlook.live.com | Opens one mail item from readMailFolder's results and returns the full message —… | 🟢 |
 | `microsoft_outlook.listContacts` | outlook.live.com | Lists the signed-in user's contacts from the Outlook people page, with email and phone… | 🟢 |
 | `microsoft_outlook.listMailFolders` | outlook.live.com | Lists the mail folders (Inbox, Sent, Drafts, etc.) available to the signed-in user… | 🟢 |
@@ -2658,7 +2658,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `momence.getSessionsByLocation` | momence.com | List sessions at a specific location within a studio. | ⚪ |
 | `momence.getSessionsByTeacher` | momence.com | List sessions taught by a specific teacher. | ⚪ |
 | `momence.getSessionTiers` | momence.com | Get pricing tiers and packages available for a session. | ⚪ |
-| `momence.getStudio` | momence.com | Get detailed profile information for a studio, including locations, teachers, session… | ⚪ |
+| `momence.getStudio` | momence.com | Get a Momence studio's profile — currency, time zone, industry, locations, teachers… | 🟢 |
 | `momence.getTeachers` | momence.com | List all teachers at a studio. | ⚪ |
 | `momence.getUserInfo` | momence.com | Get the signed-in user's account information. | ⚪ |
 | `momence.joinWaitlist` | momence.com | Join the waitlist for a full session as the signed-in user. | ⚪ |
@@ -4553,7 +4553,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟢 |
 | `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | 🟢 |
 | `youtube.removeFromPlaylist` | youtube.com | Remove one or more videos from one of the signed-in account's own playlists. | 🟢 |
-| `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
+| `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | 🟢 |
 | `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back the videos the… | 🟢 |
 | `youtube.searchWithinChannel` | youtube.com | Search one channel's own videos rather than the whole site — the search box that… | 🟢 |
 | `youtube.setCaptions` | youtube.com | Upload a caption file (SRT or VTT) for one language on one of the signed-in account's… | ⚪ |

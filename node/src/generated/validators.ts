@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 25b2d30dcb95a74dc712351dbf2ff0f49ce1006bde8f2a813a23bd2347f0e867
-// 2219 checked, 20 unchecked.
+// Manifest version: f99520232ed562dc631d8933031e469f322d85efd815f4f237dae72a33b0b30b
+// 2220 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "25b2d30dcb95a74dc712351dbf2ff0f49ce1006bde8f2a813a23bd2347f0e867",
+  "version": "f99520232ed562dc631d8933031e469f322d85efd815f4f237dae72a33b0b30b",
   "units": {
     "address_validation": {
       "defs": {
@@ -35745,6 +35745,23 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ],
+        "listCompanyJobs": [
+          {
+            "name": "companyUrlOrHandle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "LinkedinJobSearchQuery"
+            },
+            "optional": true
           }
         ],
         "getCompany": [

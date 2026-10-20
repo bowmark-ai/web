@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 25b2d30dcb95a74dc712351dbf2ff0f49ce1006bde8f2a813a23bd2347f0e867
-// 85 capabilities, 610 providers, 2237 typed functions, 20 refused.
+// Manifest version: f99520232ed562dc631d8933031e469f322d85efd815f4f237dae72a33b0b30b
+// 85 capabilities, 610 providers, 2238 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -34956,6 +34956,21 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * have results.
      */
     searchJobs(query: LinkedinJobSearchQuery | string): Promise<LinkedinJobSearchResult[]>;
+
+    /**
+     * Returns the open roles one named company is currently advertising — the hiring-signal read:
+     * what a company is building right now. `searchJobs` filtered to that one employer, not a
+     * distinct surface: it resolves the company's numeric LinkedIn id off its public page (one
+     * `getCompany` call, no session) and adds LinkedIn's own `f_C=<id>` employer filter to the
+     * same guest job-search surface `searchJobs` uses, so every row, the paging, the empty-page
+     * retries and the 1000-row wall are identical. Takes the same second-argument shape as
+     * `searchJobs` (`{keywords, location, geoId, postedWithin, limit}`) for narrowing further —
+     * "this company's jobs in Iceland" — and defaults `location` to "Worldwide" only when none of
+     * those three is given, because `f_C` alone answers the surface's own spurious-empty body on
+     * every attempt (measured 2026-10-20) rather than listing anything. Throws when the handle
+     * does not resolve to a public company page, exactly as `getCompany` does.
+     */
+    listCompanyJobs(companyUrlOrHandle: string, query?: LinkedinJobSearchQuery): Promise<LinkedinJobSearchResult[]>;
 
     /**
      * Reads one company's public LinkedIn page — name, tagline, the self-written description,
