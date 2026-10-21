@@ -1920,12 +1920,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.listPartnerCompanies` | geico.com | Returns which insurance companies GEICO Insurance Agency actually places each line of… | 🟢 |
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
-| `github.createComment` | github.com | Adds a comment to an issue or pull request. | ⚪ |
+| `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🔴 |
 | `github.createIssue` | github.com | Creates a new issue on a repository. | ⚪ |
 | `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | ⚪ |
 | `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
 | `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
-| `github.deleteComment` | github.com | Deletes a comment on an issue or pull request. | ⚪ |
+| `github.deleteComment` | github.com | Deletes a comment on an issue or pull request, off github.com's own issue-viewer web… | 🔴 |
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
@@ -1950,7 +1950,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.starRepository` | github.com | Adds a repository to the signed-in caller's starred list. | ⚪ |
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list. | ⚪ |
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in caller's watched list. | ⚪ |
-| `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | ⚪ |
+| `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🔴 |
 | `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🔴 |
 | `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), or base branch. | ⚪ |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
