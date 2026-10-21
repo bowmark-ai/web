@@ -2520,8 +2520,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.getMyAccount` | marianatek.com | Returns the signed-in customer's own profile at a studio: name, email, phone… | ⚪ |
 | `marianatek.getMyReservation` | marianatek.com | Returns one of the signed-in customer's reservations by id: class, status, spot, and… | ⚪ |
 | `marianatek.joinWaitlist` | marianatek.com | Puts the signed-in customer on the waitlist for a full class, using a membership or… | ⚪ |
-| `marianatek.listAppointmentCategories` | marianatek.com | Lists the kinds of private appointments a studio offers (e.g. Private Training). | ⚪ |
-| `marianatek.listAppointmentServices` | marianatek.com | Lists the appointment services a studio offers at a location, with the instructors and… | ⚪ |
+| `marianatek.listAppointmentCategories` | marianatek.com | Lists the kinds of private appointments a studio offers (e.g. "Private Training"). | 🟢 |
+| `marianatek.listAppointmentServices` | marianatek.com | Lists the private-appointment services a studio offers at a location (e.g. a specific… | 🟢 |
 | `marianatek.listAppointmentSlots` | marianatek.com | Lists the open times for an appointment service in a date range, optionally narrowed… | ⚪ |
 | `marianatek.listClasses` | marianatek.com | Lists a tenant's class schedule between startDate and endDate (both required and… | 🟢 |
 | `marianatek.listClassPaymentOptions` | marianatek.com | Lists which of the signed-in customer's own memberships and class credits can pay for… | ⚪ |
@@ -2533,7 +2533,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.listMyOrders` | marianatek.com | Lists the signed-in customer's purchase history at a studio: what was bought, when… | ⚪ |
 | `marianatek.listMyReservations` | marianatek.com | Lists the signed-in customer's upcoming or past class reservations at a studio… | ⚪ |
 | `marianatek.listMyWaivers` | marianatek.com | Lists the waivers the signed-in customer has signed, or still has to sign, before they… | ⚪ |
-| `marianatek.listPricing` | marianatek.com | Lists what a location sells — intro offers, memberships, class packs and add-ons such… | ⚪ |
+| `marianatek.listPricing` | marianatek.com | Lists what a location sells — intro offers, memberships and class packs from its buy… | 🟢 |
 | `marianatek.listRegions` | marianatek.com | Lists a tenant's regions (city or area groupings) with the locations in each — the… | 🟢 |
 | `marianatek.listScheduleFilters` | marianatek.com | Lists what a region's schedule can be filtered by — class types (with descriptions)… | 🟢 |
 | `marianatek.setProfileImage` | marianatek.com | Changes the signed-in customer's profile picture at a studio. | ⚪ |
@@ -4366,8 +4366,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.suggestTitles` | wikipedia.org | Autocomplete a partial title the way Wikipedia's search box does as you type — hand it… | 🟢 |
 | `wikipedia.thankUser` | wikipedia.org | Send another editor Wikipedia's built-in "thanks" for a specific edit — a one-click… | ⚪ |
 | `wikipedia.undoRevision` | wikipedia.org | Undo one edit to an article — MediaWiki's own revert, which reverses a single revision… | ⚪ |
-| `wikipedia.unwatchPage` | wikipedia.org | Remove an article from the caller's watchlist. `POST /w/api.php?action=watch&unwatch=1`. | ⚪ |
-| `wikipedia.watchPage` | wikipedia.org | Add an article to the caller's watchlist so they are told when it changes. `POST… | ⚪ |
+| `wikipedia.unwatchPage` | wikipedia.org | Remove an article from the caller's watchlist. `POST /w/api.php?action=watch&unwatch=1`. | 🟢 |
+| `wikipedia.watchPage` | wikipedia.org | Add an article to the caller's watchlist so they are told when it changes. `POST… | 🟢 |
 | `windscribe.getDedicatedIp` | windscribe.com | Reads Windscribe's own dedicated / static IP page and returns every country and city… | 🟢 |
 | `windscribe.getServerLocations` | windscribe.com | Windscribe's full shared VPN server-location list (windscribe.com/status). | ⚪ |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
@@ -4505,7 +4505,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |
-| `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🟡 |
+| `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🔴 |
 | `yelp.search` | yelp.com | Runs Yelp's own business search for a term and location and returns real… | 🟢 |
 | `yogatreecollective.getEvent` | yogatreecollective.com | Gets one retreat or workshop by slug (from listEvents): description, dates, location… | ⚪ |
 | `yogatreecollective.getSchedule` | yogatreecollective.com | Reads the collective's weekly class timetable off /class-schedule: one row per class… | ⚪ |
