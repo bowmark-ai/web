@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3a3be1c131c8471a0ad12c396fd7c2f1c04e76d8c48b7be6a5d630ed7441be14
-// 85 capabilities, 617 providers, 2340 typed functions, 20 refused.
+// Manifest version: 311683de5ffdd1b3b36600ca03f5e908d4677fa708256d03a45fe73e06398263
+// 85 capabilities, 617 providers, 2344 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13457,14 +13457,14 @@ declare namespace BowmarkProvider_booking_com {
   // ── Booking.com — the unit's own declarations, verbatim ──
 interface BookingDestination {
   destId: string;
-  destType: string;
+  destType: string;   // the site's own enum, uppercase: "CITY" | "DISTRICT" | "AIRPORT" | …
   name: string;
   label: string;
   region: string;
   countryCode: string;
   latitude: number | null;
   longitude: number | null;
-  hotelCount: number | null;
+  hotelCount: number | null;  // always null — the site's autocomplete no longer publishes this
 }
 interface AutocompleteDestinationArgs {
   query: string;
@@ -22983,6 +22983,54 @@ interface FacebookReaction {
   reacted: true;
 }
 
+interface SearchPagesArgs {
+  query: string;
+}
+
+interface FacebookPageSearchResult {
+  id: string;
+  name: string;
+  url?: string;
+  category?: string;
+}
+
+interface SearchGroupsArgs {
+  query: string;
+}
+
+interface FacebookGroupSearchResult {
+  id: string;
+  name: string;
+  url?: string;
+  memberCount?: number;
+}
+
+interface GetEventDetailsArgs {
+  eventId: string;
+}
+
+interface FacebookEventDetails {
+  id: string;
+  name: string;
+  url: string;
+  startTime?: string;
+  location?: string;
+  description?: string;
+  responderCount?: number;
+}
+
+interface PostToPageArgs {
+  handle: string;
+  text: string;
+}
+
+interface FacebookPagePostResult {
+  id: string;
+  handle: string;
+  text: string;
+  posted: true;
+}
+
   /**
    * Facebook — profiles, pages, groups, marketplace, messages and posts. Every function needs
    * the caller signed in; the caller signs in through the relay.
@@ -23035,6 +23083,18 @@ interface FacebookReaction {
 
     /** Read a Facebook video's details — title, description, view count, comment count. */
     getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<FacebookVideo>;
+
+    /** Search for Facebook Pages by name or category. */
+    searchPages(args: SearchPagesArgs, opts?: ConnectionOption): Promise<FacebookPageSearchResult[]>;
+
+    /** Search for Facebook Groups by name or topic. */
+    searchGroups(args: SearchGroupsArgs, opts?: ConnectionOption): Promise<FacebookGroupSearchResult[]>;
+
+    /** Read a Facebook Event's details — name, date, location, description, attendance. */
+    getEventDetails(args: GetEventDetailsArgs, opts?: ConnectionOption): Promise<FacebookEventDetails>;
+
+    /** Write a text post to a Page the caller owns or administrates. */
+    postToPage(args: PostToPageArgs, opts?: ConnectionOption): Promise<FacebookPagePostResult>;
   }
 }
 

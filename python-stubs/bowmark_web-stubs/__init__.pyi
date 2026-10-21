@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3a3be1c131c8471a0ad12c396fd7c2f1c04e76d8c48b7be6a5d630ed7441be14
-# 85 capabilities, 617 providers, 2322 typed functions, 20 refused.
+# Manifest version: 311683de5ffdd1b3b36600ca03f5e908d4677fa708256d03a45fe73e06398263
+# 85 capabilities, 617 providers, 2326 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13083,6 +13083,46 @@ class Prv_facebook_FacebookVideo_Out(TypedDict):
     commentCount: NotRequired[float]
     timestamp: NotRequired[str]
     url: str
+
+class Prv_facebook_SearchPagesArgs_In(TypedDict):
+    query: str
+
+class Prv_facebook_FacebookPageSearchResult_Out(TypedDict):
+    id: str
+    name: str
+    url: NotRequired[str]
+    category: NotRequired[str]
+
+class Prv_facebook_SearchGroupsArgs_In(TypedDict):
+    query: str
+
+class Prv_facebook_FacebookGroupSearchResult_Out(TypedDict):
+    id: str
+    name: str
+    url: NotRequired[str]
+    memberCount: NotRequired[float]
+
+class Prv_facebook_GetEventDetailsArgs_In(TypedDict):
+    eventId: str
+
+class Prv_facebook_FacebookEventDetails_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    startTime: NotRequired[str]
+    location: NotRequired[str]
+    description: NotRequired[str]
+    responderCount: NotRequired[float]
+
+class Prv_facebook_PostToPageArgs_In(TypedDict):
+    handle: str
+    text: str
+
+class Prv_facebook_FacebookPagePostResult_Out(TypedDict):
+    id: str
+    handle: str
+    text: str
+    posted: Literal[True]
 
 class Prv_faceforwardaesthetics_FaceForwardAestheticsLocation_Out(TypedDict):
     id: str
@@ -44352,6 +44392,18 @@ class Prv_facebook(Protocol):
 
     async def getVideo(self, args: Prv_facebook_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookVideo_Out:
         """Read a Facebook video's details — title, description, view count, comment count."""
+
+    async def searchPages(self, args: Prv_facebook_SearchPagesArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookPageSearchResult_Out]:
+        """Search for Facebook Pages by name or category."""
+
+    async def searchGroups(self, args: Prv_facebook_SearchGroupsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookGroupSearchResult_Out]:
+        """Search for Facebook Groups by name or topic."""
+
+    async def getEventDetails(self, args: Prv_facebook_GetEventDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookEventDetails_Out:
+        """Read a Facebook Event's details — name, date, location, description, attendance."""
+
+    async def postToPage(self, args: Prv_facebook_PostToPageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPagePostResult_Out:
+        """Write a text post to a Page the caller owns or administrates."""
 
 class Prv_faceforwardaesthetics(Protocol):
     """Face Forward Aesthetics' live Zenoti locations, service catalog, and bookable

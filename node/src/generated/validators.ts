@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3a3be1c131c8471a0ad12c396fd7c2f1c04e76d8c48b7be6a5d630ed7441be14
-// 2322 checked, 20 unchecked.
+// Manifest version: 311683de5ffdd1b3b36600ca03f5e908d4677fa708256d03a45fe73e06398263
+// 2326 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3a3be1c131c8471a0ad12c396fd7c2f1c04e76d8c48b7be6a5d630ed7441be14",
+  "version": "311683de5ffdd1b3b36600ca03f5e908d4677fa708256d03a45fe73e06398263",
   "units": {
     "address_validation": {
       "defs": {
@@ -22939,6 +22939,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetEventDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "eventId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetGroupInfoArgs": {
           "k": "object",
           "props": [
@@ -23031,6 +23043,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "PostToPageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "PostToTimelineArgs": {
           "k": "object",
           "props": [
@@ -23058,6 +23089,30 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "ref",
                 "name": "FacebookReactionKind"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchGroupsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchPagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
               },
               "optional": false
             }
@@ -23466,6 +23521,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchPages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchPagesArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchGroups": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchGroupsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getEventDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetEventDetailsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postToPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostToPageArgs"
             },
             "optional": false
           },
