@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4589 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4757 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -898,6 +898,40 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude_com.listDocPages` | claude.com | Lists every /docs page claude.com publishes, parsed from the site's own /docs/llms.txt… | 🟢 |
 | `claude_support.getArticle` | support.claude.com | Returns one Claude help-center article's structured content by its URL — title… | 🟢 |
 | `claude_support.listArticles` | support.claude.com | Lists every English-language help-center article — url, numeric articleId and URL slug… | 🟢 |
+| `claude.addProjectDocument` | claude.ai | Adds a text document to one of the CALLER's project knowledge bases. | ⚪ |
+| `claude.continueSharedConversation` | claude.ai | Copies a shared Claude conversation into the CALLER's own account so they can keep… | ⚪ |
+| `claude.createProject` | claude.ai | Creates a Claude project in the CALLER's account, private to them, with a name and… | ⚪ |
+| `claude.deleteConversation` | claude.ai | Deletes one of the CALLER's Claude chats. | ⚪ |
+| `claude.deleteProjectDocument` | claude.ai | Removes a document from one of the CALLER's project knowledge bases. | ⚪ |
+| `claude.deleteSharedLink` | claude.ai | Turns off one of the CALLER's conversation share links so the URL stops working. | ⚪ |
+| `claude.getAccount` | claude.ai | Reads the CALLER's Claude account — name, email, the organizations they belong to and… | ⚪ |
+| `claude.getConversation` | claude.ai | Reads one of the CALLER's Claude conversations — title, model, and every message in… | ⚪ |
+| `claude.getMemory` | claude.ai | Reads what Claude remembers about the CALLER (Settings → Capabilities → Memory)… | ⚪ |
+| `claude.getPreferences` | claude.ai | Reads the CALLER's personal preferences — what Claude should call them, their work… | ⚪ |
+| `claude.getProject` | claude.ai | Reads one of the CALLER's Claude projects — name, description, custom instructions… | ⚪ |
+| `claude.getPublishedArtifact` | claude.ai | Reads a published Claude artifact from its public link… | ⚪ |
+| `claude.getSharedConversation` | claude.ai | Reads a public shared Claude conversation from its share link (claude.ai/share/<id>) —… | ⚪ |
+| `claude.getUsage` | claude.ai | Reads how much of the CALLER's Claude usage limit is spent and when it resets, the way… | ⚪ |
+| `claude.listArtifacts` | claude.ai | Lists the artifacts the CALLER has made across their chats, with whether each is… | ⚪ |
+| `claude.listConnectors` | claude.ai | Lists the connectors (MCP servers) the CALLER has added to Claude and whether each is… | ⚪ |
+| `claude.listConversations` | claude.ai | Lists the CALLER's Claude chats, newest first — id, title, last updated, starred, and… | ⚪ |
+| `claude.listModels` | claude.ai | Lists the Claude models the CALLER's plan can pick in the model selector. | ⚪ |
+| `claude.listProjects` | claude.ai | Lists the CALLER's Claude projects — id, name, description, starred, last updated. | ⚪ |
+| `claude.listSharedLinks` | claude.ai | Lists the conversation share links the CALLER has created (Settings → Privacy → Shared… | ⚪ |
+| `claude.listSkills` | claude.ai | Lists the skills enabled in the CALLER's Claude account, their own and Anthropic's. | ⚪ |
+| `claude.moveConversationToProject` | claude.ai | Moves one or more of the CALLER's chats into a project, or out of one. | ⚪ |
+| `claude.publishArtifact` | claude.ai | Publishes one of the CALLER's artifacts to a public claude.ai/public/artifacts link… | ⚪ |
+| `claude.rateResponse` | claude.ai | Gives a thumbs up or thumbs down, with an optional comment, on one of Claude's replies… | ⚪ |
+| `claude.renameConversation` | claude.ai | Renames one of the CALLER's Claude chats. | ⚪ |
+| `claude.searchConversations` | claude.ai | Searches the CALLER's Claude chat history by keyword, the way the sidebar search does… | ⚪ |
+| `claude.sendMessage` | claude.ai | Sends a message to Claude as the CALLER — into a new chat or an existing one… | ⚪ |
+| `claude.shareConversation` | claude.ai | Creates a public share link for one of the CALLER's chats and returns the… | ⚪ |
+| `claude.starConversation` | claude.ai | Stars or unstars one of the CALLER's Claude chats, which pins it at the top of the… | ⚪ |
+| `claude.updateMemory` | claude.ai | Turns Claude's memory on or off for the CALLER, or tells it to forget everything… | ⚪ |
+| `claude.updatePreferences` | claude.ai | Updates the CALLER's personal preferences — what Claude should call them, their work… | ⚪ |
+| `claude.updateProfile` | claude.ai | Updates the CALLER's Claude profile — full name, display name and profile picture. | ⚪ |
+| `claude.updateProjectInstructions` | claude.ai | Sets the custom instructions on one of the CALLER's projects. | ⚪ |
+| `claude.uploadFile` | claude.ai | Uploads a file (PDF, image, text) to the CALLER's account so `sendMessage` can attach… | ⚪ |
 | `claudemarketplaces_com.getListing` | claudemarketplaces.com | Fetches one MCP server listing page (`/mcp/<publisher>/<slug>`) from… | 🟢 |
 | `claudemarketplaces_com.searchListings` | claudemarketplaces.com | Finds MCP server listings whose publisher or slug matches every word in a search… | 🟢 |
 | `clboyd.searchUsedEquipment` | clboyd.com | Runs CL Boyd's live used-equipment inventory filter. | 🟢 |
@@ -1468,7 +1502,41 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.transactions` | espn.com | A league's recent transactions — signings, releases, trades, injured-list moves and… | ⚪ |
 | `estes_express.estimateFreightQuote` | estes-express.com | Gets LTL (less than truckload) freight shipping rate quotes for an origin/destination… | 🟢 |
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
+| `etsy.addToCart` | etsy.com | Adds a listing to the signed-in caller's cart with the chosen variation and quantity. | ⚪ |
+| `etsy.addToCollection` | etsy.com | Saves a listing into one of the caller's collections, creating the collection by name… | ⚪ |
+| `etsy.browseCategory` | etsy.com | The listings in one Etsy category (e.g. jewelry/necklaces), with the category's own… | ⚪ |
+| `etsy.estimateShipping` | etsy.com | When a listing would arrive and what shipping costs to a given ZIP or country — the… | ⚪ |
+| `etsy.favoriteListing` | etsy.com | Hearts a listing for the signed-in caller, or un-hearts it. | ⚪ |
+| `etsy.favoriteShop` | etsy.com | Favorites (follows) a shop for the signed-in caller, or unfollows it. | ⚪ |
+| `etsy.findRegistry` | etsy.com | Finds an Etsy gift registry (wedding, baby, other) by the registrant's name, returning… | ⚪ |
+| `etsy.getAccount` | etsy.com | The signed-in caller's own Etsy profile and settings — display name, about, location… | ⚪ |
+| `etsy.getCart` | etsy.com | The signed-in caller's Etsy cart — each item, its variation, quantity, price, the shop… | ⚪ |
+| `etsy.getConversation` | etsy.com | Every message in one of the caller's threads with a shop. | ⚪ |
+| `etsy.getListing` | etsy.com | One Etsy listing by its id or etsy.com/listing URL — title, price and sale price… | ⚪ |
+| `etsy.getPurchase` | etsy.com | One of the caller's orders — items, receipt total, shipping address and the carrier… | ⚪ |
+| `etsy.getRegistry` | etsy.com | One Etsy gift registry by id or URL — the registrants, the event date, and the items… | ⚪ |
+| `etsy.getShop` | etsy.com | One Etsy shop by its name or etsy.com/shop URL — location, star rating and review… | ⚪ |
+| `etsy.getUserProfile` | etsy.com | A member's public Etsy profile by username or etsy.com/people URL — display name… | ⚪ |
+| `etsy.leaveReview` | etsy.com | Leaves a star rating and written review on an item the caller bought and received. | ⚪ |
+| `etsy.listCategories` | etsy.com | Etsy's category tree — top-level departments and their subcategories with their /c/… | ⚪ |
+| `etsy.listCollections` | etsy.com | The signed-in caller's collections (the named lists they save favorites into) and what… | ⚪ |
+| `etsy.listConversations` | etsy.com | The signed-in caller's Etsy message threads with shops, newest first, with the last… | ⚪ |
+| `etsy.listEditorsPicks` | etsy.com | Etsy's Editors' Picks — the curated collections on /featured, each with its title… | ⚪ |
+| `etsy.listFavoriteItems` | etsy.com | The listings the signed-in caller has favorited (hearted), newest first. | ⚪ |
+| `etsy.listFavoriteShops` | etsy.com | The shops the signed-in caller has favorited. | ⚪ |
+| `etsy.listListingReviews` | etsy.com | The reviews on one listing, newest or by rating — reviewer name, date, stars, text… | ⚪ |
+| `etsy.listPurchases` | etsy.com | The signed-in caller's Etsy orders, newest first — shop, items, total, order date and… | ⚪ |
+| `etsy.listShopListings` | etsy.com | The items a shop is selling, with its own sections, sort (relevance, most recent… | ⚪ |
+| `etsy.listShopReviews` | etsy.com | Every review a shop has received across its listings, newest first — reviewer, date… | ⚪ |
+| `etsy.listShopSoldItems` | etsy.com | The items a shop has already sold, newest first — what actually sells there, with… | ⚪ |
+| `etsy.listTrendingSearches` | etsy.com | What people are searching for on Etsy this week — the 'Top searches this week' list… | ⚪ |
+| `etsy.removeFromCart` | etsy.com | Removes an item from the caller's cart. | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword, the way etsy.com's own… | 🟢 |
+| `etsy.searchShops` | etsy.com | Finds Etsy shops whose name contains a word — the door from a shop name a person… | ⚪ |
+| `etsy.sendMessage` | etsy.com | Sends a message from the signed-in caller to a shop — a new question about an item, or… | ⚪ |
+| `etsy.suggestSearches` | etsy.com | Etsy's search-box suggestions for what a person has typed so far, including 'find shop… | ⚪ |
+| `etsy.updateCartItem` | etsy.com | Changes the quantity or variation of an item already in the caller's cart. | ⚪ |
+| `etsy.updateProfile` | etsy.com | Edits the signed-in caller's public profile — display name, about/bio, location, and… | ⚪ |
 | `evag.listDepartures` | evag.de | Real-time transit departure information and schedules for Essen public transportation… | 🟢 |
 | `evag.listDisruptions` | evag.de | Network-wide Essen transit disruptions from Ruhrbahn/EVAG Verkehrsinfos — short-notice… | 🟡 |
 | `evag.searchStop` | evag.de | Search for Essen transit stops and stations by name or partial name; returns matching… | 🟢 |
@@ -1497,7 +1565,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
 | `extraspace.search` | extraspace.com | Searches Extra Space Storage's live facility inventory the way its own homepage… | 🟢 |
-| `facebook.commentOnPost` | facebook.com | Leave a comment on a post — someone else's or the caller's own. | ⚪ |
+| `facebook.commentOnPost` | facebook.com | Leave a comment on a post, by its permalink URL. | 🟢 |
 | `facebook.followPage` | facebook.com | Follow a Page to receive its posts in the caller's feed. | ⚪ |
 | `facebook.getConversation` | facebook.com | Read messages in a private conversation thread with another user or group. | 🟢 |
 | `facebook.getEventDetails` | facebook.com | Read details on a Facebook Event — name, date, location, description, attendance count. | ⚪ |
@@ -1506,22 +1574,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getMarketplaceListingDetails` | facebook.com | Read details on one Marketplace listing — title, photos, price, seller info… | ⚪ |
 | `facebook.getMarketplaceListings` | facebook.com | Search Marketplace listings by category, location, price range and keywords. | ⚪ |
 | `facebook.getPageInfo` | facebook.com | Read a Page's details — name, about section, follower count, category, profile and… | 🟢 |
-| `facebook.getPagePosts` | facebook.com | List posts published on a Page, newest first and paged. | ⚪ |
+| `facebook.getPagePosts` | facebook.com | List posts published on a Page, newest first. | 🟢 |
 | `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and friend count. | 🟢 |
 | `facebook.getPhotoAlbum` | facebook.com | Read an album's details — title, creation date, photo count. | ⚪ |
 | `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings — who can see posts, send messages, etc. | ⚪ |
-| `facebook.getVideo` | facebook.com | Read details on a Facebook video — title, description, view count, comments. | ⚪ |
+| `facebook.getVideo` | facebook.com | Read details on a Facebook video — title, description, view count, comments. | 🟢 |
 | `facebook.joinGroup` | facebook.com | Request to join or join a Group. | ⚪ |
 | `facebook.likePhoto` | facebook.com | Like or unlike a photo. | ⚪ |
 | `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | 🟢 |
 | `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | ⚪ |
 | `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | 🟢 |
 | `facebook.listNotifications` | facebook.com | List the caller's notifications — friend requests, reactions, comments, mentions. | ⚪ |
-| `facebook.listPhotos` | facebook.com | List photos in an album or from a person's timeline, with timestamps and descriptions. | ⚪ |
+| `facebook.listPhotos` | facebook.com | List photos posted by a Page or person, newest first. | 🟢 |
 | `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | ⚪ |
 | `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | ⚪ |
-| `facebook.postToTimeline` | facebook.com | Write a post to the caller's own timeline — text, photos, video. | ⚪ |
-| `facebook.reactToPost` | facebook.com | React to a post with a like, love, haha, wow, sad, or angry reaction. | ⚪ |
+| `facebook.postToTimeline` | facebook.com | Write a text post to the caller's own timeline. | 🟢 |
+| `facebook.reactToPost` | facebook.com | React to a post with like, love, haha, wow, sad or angry, by its permalink URL. | 🟢 |
 | `facebook.replyToComment` | facebook.com | Reply to a specific comment. | ⚪ |
 | `facebook.savePost` | facebook.com | Save (bookmark) a post for later or add to a saved collection. | ⚪ |
 | `facebook.searchGroups` | facebook.com | Search for Groups by name or topic. | ⚪ |
@@ -2396,7 +2464,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.deletePost` | linkedin.com | Deletes one of the signed-in caller's own posts or reposts. | ⚪ |
 | `linkedin.followCompany` | linkedin.com | Follows or unfollows a company page as the signed-in caller. | ⚪ |
 | `linkedin.followMember` | linkedin.com | Follows or unfollows a member as the signed-in caller, so their posts appear in the… | ⚪ |
-| `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | ⚪ |
+| `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | 🟢 |
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
 | `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟢 |
 | `linkedin.getEvent` | linkedin.com | Returns one public LinkedIn event from its URL — name, organizer, start and end time… | ⚪ |
@@ -2404,12 +2472,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getHomeFeed` | linkedin.com | Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL… | 🟢 |
 | `linkedin.getJob` | linkedin.com | Returns one job posting in full from its posting URL — title, employer and employer… | 🟢 |
 | `linkedin.getLearningCourse` | linkedin.com | Returns one LinkedIn Learning course from its URL — title, author, duration, level… | ⚪ |
-| `linkedin.getMyProfile` | linkedin.com | Returns the signed-in caller's own LinkedIn member record — name, headline, profile… | 🟡 |
+| `linkedin.getMyProfile` | linkedin.com | Returns the signed-in caller's own LinkedIn member record — name, headline, profile… | 🟢 |
 | `linkedin.getPost` | linkedin.com | Reads one public LinkedIn post — the author, the written text in full, any attached… | 🟢 |
 | `linkedin.getProfile` | linkedin.com | Returns the public professional record of one person from their profile URL — full… | 🟢 |
 | `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟡 |
 | `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟡 |
-| `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | ⚪ |
+| `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | 🟢 |
 | `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | ⚪ |
 | `linkedin.joinGroup` | linkedin.com | Joins a LinkedIn group as the signed-in caller, or asks to join one that needs approval. | ⚪ |
 | `linkedin.leaveGroup` | linkedin.com | Leaves a LinkedIn group the signed-in caller belongs to. | ⚪ |
@@ -2421,10 +2489,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟢 |
 | `linkedin.listFollowing` | linkedin.com | Lists the members, companies and pages the signed-in caller follows, with each one's… | ⚪ |
 | `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟢 |
-| `linkedin.listMemberPosts` | linkedin.com | Lists one member's recent posts and reposts, newest first, from their profile URL —… | ⚪ |
+| `linkedin.listMemberPosts` | linkedin.com | Lists a member's own recent posts and reposts, as LinkedIn itself samples them on… | 🟢 |
 | `linkedin.listMyGroups` | linkedin.com | Lists the groups the signed-in caller belongs to, with each group's name, URL and… | ⚪ |
 | `linkedin.listNotifications` | linkedin.com | Lists the signed-in caller's notifications, newest first — who did what (viewed… | ⚪ |
-| `linkedin.listPostComments` | linkedin.com | Returns the comments on one post from its URL — each comment's author, text, time and… | ⚪ |
+| `linkedin.listPostComments` | linkedin.com | Lists the comments LinkedIn server-renders on one public post's page — each with its… | 🟢 |
 | `linkedin.listSavedJobs` | linkedin.com | Lists the jobs the signed-in caller has saved, with each posting's id (for getJob)… | ⚪ |
 | `linkedin.listSavedPosts` | linkedin.com | Lists the posts and articles the signed-in caller has saved, with each one's author… | ⚪ |
 | `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟢 |
@@ -2441,7 +2509,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | ⚪ |
 | `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟡 |
 | `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name through LinkedIn's own public people directory and… | 🟡 |
-| `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟡 |
+| `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
 | `linkedin.searchSchools` | linkedin.com | Searches LinkedIn's schools and universities by name and returns each one's name… | ⚪ |
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | ⚪ |
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | ⚪ |
@@ -2508,37 +2576,38 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mango.getProduct` | mango.com | Reads one Mango product's colors and sizes with each color's price, compare-at price… | 🟢 |
 | `mango.listCategories` | mango.com | Lists the Mango catalog categories (men's sweaters and cardigans, shirts, jeans… | 🟢 |
 | `mango.searchProducts` | mango.com | Searches Mango's apparel catalog for what a shopper asks (men's sweater, long sleeve… | 🟢 |
-| `marianatek.bookAppointment` | marianatek.com | Books the signed-in customer into a private appointment slot from… | ⚪ |
-| `marianatek.bookClass` | marianatek.com | Books the signed-in customer (or a guest they bring) into a class, optionally on a… | ⚪ |
+| `marianatek.bookAppointment` | marianatek.com | Books the signed-in caller into a private appointment slot from listAppointmentSlots… | 🟢 |
+| `marianatek.bookClass` | marianatek.com | Books the signed-in caller (or a guest they bring, via guestEmail) into a class… | 🟢 |
 | `marianatek.buyPricingOption` | marianatek.com | Would buy an intro offer, membership, class pack or add-on at a studio for the… | ⚪ |
-| `marianatek.cancelMembership` | marianatek.com | Cancels one of the signed-in customer's memberships with a reason from the studio's… | ⚪ |
-| `marianatek.cancelReservation` | marianatek.com | Cancels one of the signed-in customer's reservations or waitlist spots. | ⚪ |
-| `marianatek.changeSpot` | marianatek.com | Moves one of the signed-in customer's pick-a-spot reservations to another free spot in… | ⚪ |
+| `marianatek.cancelMembership` | marianatek.com | Cancels one of the signed-in customer's memberships with an optional reason from the… | 🟢 |
+| `marianatek.cancelReservation` | marianatek.com | Cancels one of the signed-in customer's reservations or waitlist spots. | 🟢 |
+| `marianatek.changeSpot` | marianatek.com | Moves one of the signed-in customer's pick-a-spot reservations to another free spot in… | 🟢 |
 | `marianatek.findStudio` | marianatek.com | Finds a Mariana Tek studio brand from what a caller holds — its tenant slug… | 🟢 |
 | `marianatek.getClass` | marianatek.com | Returns one class by id — the same fields listClasses returns, plus when the booking… | 🟢 |
 | `marianatek.getLocation` | marianatek.com | Returns one of a tenant's locations by id — the same address, phone, email, timezone… | 🟢 |
-| `marianatek.getMyAccount` | marianatek.com | Returns the signed-in customer's own profile at a studio: name, email, phone… | ⚪ |
-| `marianatek.getMyReservation` | marianatek.com | Returns one of the signed-in customer's reservations by id: class, status, spot, and… | ⚪ |
-| `marianatek.joinWaitlist` | marianatek.com | Puts the signed-in customer on the waitlist for a full class, using a membership or… | ⚪ |
+| `marianatek.getMyAccount` | marianatek.com | The signed-in caller's own profile at a studio, returned raw — no fleet-held Mariana… | 🟢 |
+| `marianatek.getMyReservation` | marianatek.com | One of the signed-in caller's reservations by id (from listMyReservations), returned… | 🟢 |
+| `marianatek.joinWaitlist` | marianatek.com | Puts the signed-in caller (or a guest, via guestEmail) on the waitlist for a full… | 🟢 |
 | `marianatek.listAppointmentCategories` | marianatek.com | Lists the kinds of private appointments a studio offers (e.g. "Private Training"). | 🟢 |
+| `marianatek.listAppointmentPaymentOptions` | marianatek.com | Which of the signed-in caller's own payment methods can pay for one private… | 🟢 |
 | `marianatek.listAppointmentServices` | marianatek.com | Lists the private-appointment services a studio offers at a location (e.g. a specific… | 🟢 |
-| `marianatek.listAppointmentSlots` | marianatek.com | Lists the open times for an appointment service in a date range, optionally narrowed… | ⚪ |
+| `marianatek.listAppointmentSlots` | marianatek.com | Lists the open times for a location's appointment services in a date range, one day… | 🟢 |
 | `marianatek.listClasses` | marianatek.com | Lists a tenant's class schedule between startDate and endDate (both required and… | 🟢 |
-| `marianatek.listClassPaymentOptions` | marianatek.com | Lists which of the signed-in customer's own memberships and class credits can pay for… | ⚪ |
+| `marianatek.listClassPaymentOptions` | marianatek.com | Which of the signed-in caller's own memberships and class credits can pay for one… | 🟢 |
 | `marianatek.listClassSpots` | marianatek.com | Lists the spots in a pick-a-spot class's room map — each with its id (the spot… | 🟢 |
 | `marianatek.listLocations` | marianatek.com | Lists a tenant's bookable locations, flat — id, name, address, phone, email, timezone… | 🟢 |
-| `marianatek.listMyAppointments` | marianatek.com | Lists the signed-in customer's upcoming or past private appointments at a studio. | ⚪ |
-| `marianatek.listMyCredits` | marianatek.com | Lists the signed-in customer's class packs at a studio and how many credits are left. | ⚪ |
-| `marianatek.listMyMemberships` | marianatek.com | Lists the signed-in customer's memberships at a studio with status, billing cycle and… | ⚪ |
-| `marianatek.listMyOrders` | marianatek.com | Lists the signed-in customer's purchase history at a studio: what was bought, when… | ⚪ |
-| `marianatek.listMyReservations` | marianatek.com | Lists the signed-in customer's upcoming or past class reservations at a studio… | ⚪ |
-| `marianatek.listMyWaivers` | marianatek.com | Lists the waivers the signed-in customer has signed, or still has to sign, before they… | ⚪ |
+| `marianatek.listMyAppointments` | marianatek.com | Lists the signed-in customer's upcoming or past private appointments at a studio. | 🟢 |
+| `marianatek.listMyCredits` | marianatek.com | The signed-in caller's class-pack credits at a studio — active, expired/used or both… | 🟢 |
+| `marianatek.listMyMemberships` | marianatek.com | The signed-in caller's memberships at a studio — active, expired/cancelled or both… | 🟢 |
+| `marianatek.listMyOrders` | marianatek.com | Lists the signed-in customer's purchase history at a studio: what was bought, when… | 🟢 |
+| `marianatek.listMyReservations` | marianatek.com | The signed-in caller's class reservations at a studio — upcoming, past or both… | 🟢 |
+| `marianatek.listMyWaivers` | marianatek.com | The waivers the signed-in caller has signed, or still has to sign, before they can… | 🟢 |
 | `marianatek.listPricing` | marianatek.com | Lists what a location sells — intro offers, memberships and class packs from its buy… | 🟢 |
 | `marianatek.listRegions` | marianatek.com | Lists a tenant's regions (city or area groupings) with the locations in each — the… | 🟢 |
 | `marianatek.listScheduleFilters` | marianatek.com | Lists what a region's schedule can be filtered by — class types (with descriptions)… | 🟢 |
-| `marianatek.setProfileImage` | marianatek.com | Changes the signed-in customer's profile picture at a studio. | ⚪ |
-| `marianatek.updateCommunicationPreferences` | marianatek.com | Turns the signed-in customer's email and SMS marketing opt-ins on or off at a studio. | ⚪ |
-| `marianatek.updateMyAccount` | marianatek.com | Edits the signed-in customer's own profile at a studio (name, phone, pronouns… | ⚪ |
+| `marianatek.setProfileImage` | marianatek.com | Changes the signed-in caller's profile picture at a studio, from a URL serving the… | 🟢 |
+| `marianatek.updateCommunicationPreferences` | marianatek.com | Turns the signed-in customer's email or SMS marketing opt-in on or off at a studio. | 🟢 |
+| `marianatek.updateMyAccount` | marianatek.com | Edits the signed-in caller's own profile at a studio — name, contact info, address… | 🟢 |
 | `marketplace_visualstudio.getExtensionStats` | marketplace.visualstudio.com | Looks up one VS Code extension by its "publisher.extension" id (the id shown in the… | 🟢 |
 | `marketplace_visualstudio.searchExtensions` | marketplace.visualstudio.com | Full-text searches the VS Code Marketplace for extensions matching a query, ordered by… | 🟢 |
 | `marks.findStores` | www.marks.com | Lists the Mark's stores nearest a latitude/longitude with address, distance, opening… | 🟢 |
@@ -2642,27 +2711,27 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `modularclosets.getKitConfigurator` | modularclosets.com | Reads one kit's real option tree (Color, Width, and — on some kits — a third option… | 🟢 |
 | `modularclosets.priceKitConfiguration` | modularclosets.com | Resolves one exact kit build (a handle + a chosen value for every real option on that… | 🟢 |
 | `modularclosets.searchClosetKits` | modularclosets.com | Searches Modular Closets' real pre-configured kit catalog (closets, wardrobes… | 🟢 |
-| `momence.bookSession` | momence.com | Book a session as the signed-in user, with optional tier/plan selection. | ⚪ |
+| `momence.bookSession` | momence.com | Book a session for the signed-in caller, spending an existing membership or pass… | 🟢 |
 | `momence.cancelBooking` | momence.com | Cancel an existing booking as the signed-in user. | ⚪ |
 | `momence.findStudio` | momence.com | Resolve a studio's public momence.com/u/<slug> page (or bare slug) to its host id and… | ⚪ |
-| `momence.getBookingOptions` | momence.com | Get available booking options and pricing for a specific session as the signed-in user. | ⚪ |
-| `momence.getCheckoutFields` | momence.com | Get custom checkout field requirements for a studio's guest checkout. | ⚪ |
+| `momence.getBookingOptions` | momence.com | Get the signed-in caller's available booking options and pricing for one session (the… | 🟢 |
+| `momence.getCheckoutFields` | momence.com | List the custom questions a studio's checkout form asks every guest (e.g. date of… | 🟢 |
 | `momence.getLocations` | momence.com | List all locations within a studio. | 🟢 |
 | `momence.getMyAppointments` | momence.com | List the signed-in user's appointment reservations and related details. | ⚪ |
 | `momence.getMyBookings` | momence.com | List the signed-in user's upcoming and past bookings. | ⚪ |
 | `momence.getMyPasses` | momence.com | List the signed-in user's active membership plans and pass packages. | ⚪ |
 | `momence.getMyWaitlist` | momence.com | List sessions the signed-in user is waitlisted for. | ⚪ |
-| `momence.getSessionDetails` | momence.com | Get detailed information about a specific session, including capacity, spots… | ⚪ |
-| `momence.getSessionPlans` | momence.com | List membership plans and passes available at a studio. | ⚪ |
-| `momence.getSessions` | momence.com | List all sessions available at a studio. | ⚪ |
-| `momence.getSessionsByDate` | momence.com | List sessions at a studio on a specific date. | ⚪ |
-| `momence.getSessionsByLocation` | momence.com | List sessions at a specific location within a studio. | ⚪ |
-| `momence.getSessionsByTeacher` | momence.com | List sessions taught by a specific teacher. | ⚪ |
-| `momence.getSessionTiers` | momence.com | Get pricing tiers and packages available for a session. | ⚪ |
+| `momence.getSessionDetails` | momence.com | Get detailed information about one session — description, welcome message, capacity… | 🟢 |
+| `momence.getSessionPlans` | momence.com | List the membership plans or passes that can be used to book a session, if any. | 🟢 |
+| `momence.getSessions` | momence.com | List a studio's upcoming scheduled sessions — the site's own default window (roughly… | 🟢 |
+| `momence.getSessionsByDate` | momence.com | List a studio's sessions on one calendar day. | 🟢 |
+| `momence.getSessionsByLocation` | momence.com | List a studio's upcoming sessions at one location. | 🟢 |
+| `momence.getSessionsByTeacher` | momence.com | List a studio's upcoming sessions taught by one teacher. | 🟢 |
+| `momence.getSessionTiers` | momence.com | List the ticket-price tiers a session offers, if any. | 🟢 |
 | `momence.getStudio` | momence.com | Get a Momence studio's profile — currency, time zone, industry, locations, teachers… | 🟢 |
 | `momence.getTeachers` | momence.com | List all teachers at a studio. | 🟢 |
-| `momence.getUserInfo` | momence.com | Get the signed-in user's account information. | ⚪ |
-| `momence.joinWaitlist` | momence.com | Join the waitlist for a full session as the signed-in user. | ⚪ |
+| `momence.getUserInfo` | momence.com | Get the signed-in caller's own account information at a studio. | 🟢 |
+| `momence.joinWaitlist` | momence.com | Join the waitlist for a full session as the signed-in caller — the same book door… | 🟢 |
 | `momence.leaveWaitlist` | momence.com | Leave the waitlist for a session. | ⚪ |
 | `momondo.getBookingOptions` | momondo.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `momondo.search` | momondo.com | Runs the itinerary search on momondo.com and returns its result rows price-ascending. | 🟢 |
@@ -2736,7 +2805,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `newegg.checkStock` | newegg.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟢 |
 | `newegg.getProduct` | newegg.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `newegg.search` | newegg.com | Searches newegg.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
-| `nfa_futures_org.lookupByNfaId` | nfa.futures.org | One firm or individual's current NFA membership status and registration types, by NFA… | 🟡 |
+| `nfa_futures_org.lookupByNfaId` | nfa.futures.org | One firm or individual's current NFA membership status and registration types, by NFA… | 🟢 |
 | `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟢 |
 | `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟢 |
 | `nhc.getBestTrack` | nhc.noaa.gov | Get a storm's best track: its position, max winds, pressure and status every six hours… | ⚪ |
@@ -3387,7 +3456,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | 🟢 |
 | `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | 🟢 |
 | `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | 🟡 |
-| `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | 🟡 |
+| `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | 🟢 |
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | 🟢 |
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟢 |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
@@ -3460,11 +3529,40 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seoulfood.getExhibitorPricing` | seoulfood.kotra.or.kr | Reads the organizer's published exhibitor booth rate card (trade show booth quote)… | 🟢 |
 | `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |
 | `serper.searchGoogle` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
+| `shein.addAddress` | shein.com | Adds a shipping address to the signed-in caller's address book. | ⚪ |
+| `shein.addToCart` | shein.com | Adds a product in a chosen size and colour to the signed-in caller's bag. | ⚪ |
+| `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | ⚪ |
+| `shein.followStore` | shein.com | Follows or unfollows a marketplace store as the signed-in caller. | ⚪ |
+| `shein.getCart` | shein.com | Returns the signed-in caller's shopping bag: items, size and colour chosen, quantity… | ⚪ |
+| `shein.getCheckoutSummary` | shein.com | Opens checkout for the signed-in caller's bag and returns what it would cost —… | ⚪ |
+| `shein.getOrder` | shein.com | Returns one of the signed-in caller's orders: items, shipping address, totals and the… | ⚪ |
+| `shein.getPoints` | shein.com | Returns the signed-in caller's SHEIN points balance and how much it is worth at… | ⚪ |
 | `shein.getProduct` | shein.com | Returns product details: title, description, sizes, colors, price, reviews and… | ⚪ |
-| `shein.getProductReviews` | shein.com | Returns customer reviews for a product: rating, text, verified-purchase flag. | ⚪ |
+| `shein.getProductReviews` | shein.com | Returns customer reviews for a product: rating summary, fit feedback (runs small /… | ⚪ |
+| `shein.getProfile` | shein.com | Returns the signed-in caller's profile: nickname, email, birthday and the body… | ⚪ |
+| `shein.getSearchSuggestions` | shein.com | Returns the keyword suggestions Shein's search box offers while typing (the dropdown… | ⚪ |
+| `shein.getSimilarProducts` | shein.com | Returns the 'similar items' and 'customers also viewed' products shown under a product. | ⚪ |
+| `shein.getSizeGuide` | shein.com | Returns a product's size chart (bust, waist, hip, length per size, in inches and cm)… | ⚪ |
+| `shein.getStore` | shein.com | Returns a marketplace store's profile — name, rating, follower count, items sold —… | ⚪ |
+| `shein.listAddresses` | shein.com | Lists the shipping addresses saved on the signed-in caller's account. | ⚪ |
 | `shein.listCategories` | shein.com | Lists the top-level product categories on Shein. | 🟡 |
+| `shein.listFlashSale` | shein.com | Lists the products in Shein's current Flash Sale, with the deal price, list price and… | ⚪ |
+| `shein.listFollowedStores` | shein.com | Lists the marketplace stores the signed-in caller follows. | ⚪ |
+| `shein.listMyCoupons` | shein.com | Lists the coupons on the signed-in caller's account, with the discount, minimum spend… | ⚪ |
+| `shein.listNewArrivals` | shein.com | Lists Shein's New In products (the /recommend/New-In-sc-<id>.html selection)… | ⚪ |
+| `shein.listOrders` | shein.com | Lists the signed-in caller's orders with status (processing, shipped, delivered), date… | ⚪ |
 | `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | 🟡 |
+| `shein.listStoreProducts` | shein.com | Lists the products a marketplace store sells. | ⚪ |
+| `shein.listWishlist` | shein.com | Lists the products the signed-in caller saved to their wishlist. | ⚪ |
+| `shein.placeOrder` | shein.com | Places an order for the signed-in caller's bag. | ⚪ |
+| `shein.removeFromCart` | shein.com | Removes an item from the signed-in caller's bag. | ⚪ |
+| `shein.removeFromWishlist` | shein.com | Removes a product from the signed-in caller's wishlist. | ⚪ |
+| `shein.requestReturn` | shein.com | Starts a return or refund for an item in one of the signed-in caller's orders. | ⚪ |
 | `shein.search` | shein.com | Searches products by keyword and returns results with price, images and availability. | 🟡 |
+| `shein.searchByImage` | shein.com | Finds products that look like a given image — Shein's camera/photo search. | ⚪ |
+| `shein.updateCartItem` | shein.com | Changes the quantity, size or colour of an item in the signed-in caller's bag. | ⚪ |
+| `shein.updateProfile` | shein.com | Edits the signed-in caller's profile — nickname, birthday, or the body measurements… | ⚪ |
+| `shein.writeReview` | shein.com | Writes a review of a product the signed-in caller bought and received. | ⚪ |
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | ⚪ |
 | `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart, or changes its quantity (0 removes… | ⚪ |
 | `shop_app.addToProductList` | shop.app | Adds a product to one of the caller's lists, or removes it (remove: true). | ⚪ |
@@ -3692,7 +3790,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.addFriend` | steampowered.com | Sends a friend request to another Steam user by username or ID. | ⚪ |
 | `steam.addToWishlist` | steampowered.com | Adds a game to the signed-in caller's wishlist, off the store's own addtowishlist door. | 🟢 |
 | `steam.editProfile` | steampowered.com | Updates the caller's own profile information like profile name, bio/summary, and… | ⚪ |
-| `steam.getAchievements` | steampowered.com | Reads a game's achievement list from its public Steam Community page by appid: name… | 🟢 |
+| `steam.getAchievements` | steampowered.com | Reads a game's achievement list from its public Steam Community page by appid: name… | 🟡 |
 | `steam.getCommunityHub` | steampowered.com | Retrieves the community hub for a game, including recent discussions, artwork… | ⚪ |
 | `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | 🟢 |
 | `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | 🟢 |
@@ -3780,7 +3878,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.listWishlists` | target.com | The CALLER's own saved lists on target.com (their "Lists" — Target's wishlist feature)… | 🟢 |
 | `target.reviewPhotos` | target.com | Returns the photos shoppers attached to their reviews of one product (by TCIN) —… | 🟢 |
 | `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟢 |
-| `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | 🟡 |
+| `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |
 | `target.writeReview` | target.com | Submits a customer review for one product, as the CALLER's own signed-in identity — a… | 🟢 |
 | `tatcha.getPersonalizedRitual` | tatcha.com | Runs a shopper's real answers (skin type, up to three benefits, optional eye concerns… | 🟢 |
 | `tatcha.getRitualQuizOptions` | tatcha.com | Reads the live "Ritual Finder" quiz's real input menus — every skin-type, skin-benefit… | 🟢 |
@@ -3852,6 +3950,47 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `thezebra.listCarriers` | thezebra.com | Returns the insurance companies The Zebra compares — the roster behind the '100+… | ⚪ |
 | `thezebra.listVehicles` | thezebra.com | Returns the makes and models The Zebra publishes insurance rates for — the index that… | ⚪ |
 | `thibautdesign.calculateRollsNeeded` | thibautdesign.com | Runs Thibaut's own wallpaper-calculator (thibautdesign.com/wallpaper-calculator) —… | 🟢 |
+| `threads.blockUser` | threads.com | Blocks an account for the CALLER. | ⚪ |
+| `threads.createPost` | threads.com | Publishes a new thread as the CALLER — text, optional images or video, a topic tag and… | ⚪ |
+| `threads.deletePost` | threads.com | Deletes one of the CALLER's own posts or replies. | ⚪ |
+| `threads.followUser` | threads.com | Follows an account as the CALLER. | ⚪ |
+| `threads.getActivity` | threads.com | Reads the CALLER's activity — new followers, replies, mentions, quotes, reposts and… | ⚪ |
+| `threads.getConversation` | threads.com | Reads the messages in one of the CALLER's direct-message conversations. | ⚪ |
+| `threads.getCustomFeed` | threads.com | Reads the posts in one of the CALLER's custom feeds. | ⚪ |
+| `threads.getFollowers` | threads.com | Lists the accounts following a profile, as the CALLER sees it. | ⚪ |
+| `threads.getFollowing` | threads.com | Lists the accounts a profile follows, as the CALLER sees it. | ⚪ |
+| `threads.getHomeFeed` | threads.com | Reads the CALLER's home feed, either For You or Following. | ⚪ |
+| `threads.getMe` | threads.com | Reads the CALLER's own Threads account — username, name, follower count — the door for… | ⚪ |
+| `threads.getPost` | threads.com | Reads one Threads post from its URL or username and code — text, media, author, counts… | ⚪ |
+| `threads.getPostLikes` | threads.com | Lists the accounts that liked a post, as the CALLER sees it. | ⚪ |
+| `threads.getPostQuotes` | threads.com | Lists the posts that quote a post, and the accounts that reposted it. | ⚪ |
+| `threads.getProfile` | threads.com | Reads a public Threads profile by username — display name, bio, link, follower count… | ⚪ |
+| `threads.getProfileMedia` | threads.com | Lists a profile's posts that carry photos or video (its Media tab). | ⚪ |
+| `threads.getProfilePosts` | threads.com | Lists a profile's own threads, newest first, with text, media, like, reply, repost and… | ⚪ |
+| `threads.getProfileReplies` | threads.com | Lists the replies a profile has posted (its Replies tab), each with the post it… | ⚪ |
+| `threads.getProfileReposts` | threads.com | Lists the posts a profile has reposted (its Reposts tab). | ⚪ |
+| `threads.getRelatedPosts` | threads.com | Lists the posts Threads suggests beside one post to a logged-out reader ("related… | ⚪ |
+| `threads.getSavedPosts` | threads.com | Lists the posts the CALLER has saved. | ⚪ |
+| `threads.likePost` | threads.com | Likes a post as the CALLER. | ⚪ |
+| `threads.listConversations` | threads.com | Lists the CALLER's Threads direct-message conversations, newest first, with their ids… | ⚪ |
+| `threads.listCustomFeeds` | threads.com | Lists the custom feeds the CALLER has built or pinned, with their ids — the finder for… | ⚪ |
+| `threads.muteUser` | threads.com | Mutes an account so the CALLER stops seeing its posts, without unfollowing. | ⚪ |
+| `threads.quotePost` | threads.com | Quotes a post as the CALLER, with their own text above it. | ⚪ |
+| `threads.replyToPost` | threads.com | Replies to a post as the CALLER. | ⚪ |
+| `threads.repostPost` | threads.com | Reposts a post to the CALLER's profile. | ⚪ |
+| `threads.savePost` | threads.com | Saves a post to the CALLER's saved list. | ⚪ |
+| `threads.searchAccounts` | threads.com | Searches Threads accounts by name or username — the finder that turns a person or… | ⚪ |
+| `threads.searchPosts` | threads.com | Searches Threads posts by keyword and returns the top results with author, text and… | ⚪ |
+| `threads.searchTopics` | threads.com | Finds Threads topic tags by keyword and lists the posts filed under one. | ⚪ |
+| `threads.sendMessage` | threads.com | Sends a direct message from the CALLER to a Threads account. | ⚪ |
+| `threads.unblockUser` | threads.com | Unblocks an account the CALLER blocked. | ⚪ |
+| `threads.unfollowUser` | threads.com | Unfollows an account as the CALLER. | ⚪ |
+| `threads.unlikePost` | threads.com | Removes the CALLER's like from a post. | ⚪ |
+| `threads.unmuteUser` | threads.com | Unmutes an account the CALLER muted. | ⚪ |
+| `threads.unrepostPost` | threads.com | Removes the CALLER's repost of a post. | ⚪ |
+| `threads.unsavePost` | threads.com | Removes a post from the CALLER's saved list. | ⚪ |
+| `threads.updateProfile` | threads.com | Edits the CALLER's Threads profile — bio, links and whether the profile is private. | ⚪ |
+| `threads.updateProfilePicture` | threads.com | Changes the CALLER's Threads profile picture. | ⚪ |
 | `ticketmaster_mx.getEvent` | ticketmaster.com.mx | Retrieves complete details for a specific Ticketmaster México event: ticket… | 🟡 |
 | `ticketmaster_mx.search` | ticketmaster.com.mx | Finds upcoming events on Ticketmaster México matching a search term (e.g., artist… | 🟢 |
 | `ticketmaster_nl.event` | ticketmaster.nl | Returns the event title, venue, date, time, and availability from an event page URL. | 🟡 |
@@ -4330,7 +4469,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia_standings.search` | en.wikipedia.org | Searches Wikipedia for sports standings pages and extracts league standings with goal… | 🟢 |
 | `wikipedia.compareRevisions` | wikipedia.org | The diff between two revisions of an article — what text was added and removed, line… | 🟢 |
 | `wikipedia.createPage` | wikipedia.org | Create an article that does not exist yet, under the caller's account. `POST… | ⚪ |
-| `wikipedia.editPage` | wikipedia.org | Change an article — replace a page or one of its sections with new wikitext, under the… | ⚪ |
+| `wikipedia.editPage` | wikipedia.org | Change an article — replace a page or one of its sections with new wikitext, under the… | 🟢 |
 | `wikipedia.getArticle` | wikipedia.org | The whole article as an agent wants to read it: title, Wikipedia's own short… | 🟢 |
 | `wikipedia.getArticleHtml` | wikipedia.org | The article's rendered HTML — the real page body, with tables, references, footnotes… | 🟢 |
 | `wikipedia.getCurrentUser` | wikipedia.org | Who the caller is signed in as on Wikipedia — username, user id, edit count, the… | 🟢 |
@@ -4354,7 +4493,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listLanguages` | wikipedia.org | What this article is called in every other language Wikipedia has it in, with the url… | 🟢 |
 | `wikipedia.listLinks` | wikipedia.org | Every other Wikipedia article this one links to, by title and url. | 🟢 |
 | `wikipedia.listMostViewed` | wikipedia.org | What Wikipedia's readers looked at most — the day's or the edition's top articles with… | 🟡 |
-| `wikipedia.listNotifications` | wikipedia.org | The caller's Wikipedia notifications — replies to them, thanks they were sent… | ⚪ |
+| `wikipedia.listNotifications` | wikipedia.org | The caller's Wikipedia notifications — replies to them, thanks they were sent… | 🟢 |
 | `wikipedia.listRecentChanges` | wikipedia.org | What is being edited on Wikipedia right now — a live feed of recent edits with page… | 🟡 |
 | `wikipedia.listRelated` | wikipedia.org | Articles about things like this one — Wikipedia's own "more like this", for a caller… | 🟢 |
 | `wikipedia.listRevisions` | wikipedia.org | An article's edit history — each revision with its id, timestamp, editor, edit… | 🟢 |
@@ -4506,7 +4645,36 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |
 | `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🔴 |
+| `yelp.addToCollection` | yelp.com | Creates a collection for the signed-in caller, or adds a business to one of theirs, or… | ⚪ |
+| `yelp.askQuestion` | yelp.com | Posts a question, or answers one, in a business's 'Ask the Community' from the… | ⚪ |
+| `yelp.followUser` | yelp.com | Follows or unfollows a Yelp member from the signed-in caller's account. | ⚪ |
+| `yelp.getBookmarks` | yelp.com | Lists the businesses the signed-in caller has bookmarked. | ⚪ |
+| `yelp.getBusiness` | yelp.com | Reads one business in full from its /biz/<alias> page: name, address, coordinates… | ⚪ |
+| `yelp.getCollection` | yelp.com | Reads a public Yelp collection (a member's named list of businesses) from its share… | ⚪ |
+| `yelp.getCollections` | yelp.com | Lists the signed-in caller's own collections and the businesses in each. | ⚪ |
+| `yelp.getMenu` | yelp.com | Reads a restaurant's menu from /menu/<alias>: sections, items, descriptions and… | ⚪ |
+| `yelp.getMessages` | yelp.com | Lists the signed-in caller's Yelp inbox: quote and business threads and their messages. | ⚪ |
+| `yelp.getOwnProfile` | yelp.com | Reads the signed-in caller's own profile and their own reviews, photos and check-in… | ⚪ |
+| `yelp.getPhotos` | yelp.com | Lists a business's photos from /biz_photos/<alias>, by Yelp's own tabs (all, food… | ⚪ |
+| `yelp.getQuestions` | yelp.com | Reads a business's 'Ask the Community' questions and their answers. | ⚪ |
+| `yelp.getReservationAvailability` | yelp.com | Reads the open reservation slots a restaurant offers through Yelp Reservations for a… | ⚪ |
+| `yelp.getReviews` | yelp.com | Lists a business's reviews, paginated, with Yelp's own sort (Yelp sort, newest… | ⚪ |
+| `yelp.getUser` | yelp.com | Reads a public Yelp member profile from /user_details?userid=<id>: name, location… | ⚪ |
+| `yelp.getWaitlist` | yelp.com | Reads a restaurant's current Yelp Waitlist estimate — whether it is taking parties now… | ⚪ |
+| `yelp.joinWaitlist` | yelp.com | Joins a restaurant's Yelp Waitlist remotely for the signed-in caller, or leaves it. | ⚪ |
+| `yelp.listCategories` | yelp.com | Lists Yelp's business categories with their aliases and parents — the finder for… | ⚪ |
+| `yelp.makeReservation` | yelp.com | Books a table through Yelp Reservations for the signed-in caller at a slot from… | ⚪ |
+| `yelp.messageBusiness` | yelp.com | Sends a message to a business from the signed-in caller, or replies in an existing… | ⚪ |
+| `yelp.reactToReview` | yelp.com | Marks a review Helpful, Thanks, Love this or Oh no from the signed-in caller's account. | ⚪ |
+| `yelp.requestQuote` | yelp.com | Sends a home-services or local-business quote request (Request a Quote) from the… | ⚪ |
+| `yelp.saveBusiness` | yelp.com | Bookmarks a business for the signed-in caller, or removes the bookmark — a private… | ⚪ |
 | `yelp.search` | yelp.com | Runs Yelp's own business search for a term and location and returns real… | 🟢 |
+| `yelp.searchEvents` | yelp.com | Lists local events Yelp hosts or lists for a city, with date, venue and url. | ⚪ |
+| `yelp.setProfilePhoto` | yelp.com | Changes the signed-in caller's own profile picture. | ⚪ |
+| `yelp.suggest` | yelp.com | Yelp's own search-as-you-type suggestions for a partial term or place — business names… | ⚪ |
+| `yelp.updateProfile` | yelp.com | Edits the signed-in caller's own profile: display name, location, 'things I love'… | ⚪ |
+| `yelp.uploadPhoto` | yelp.com | Adds a photo to a business's gallery from the signed-in caller's account. | ⚪ |
+| `yelp.writeReview` | yelp.com | Posts, edits or deletes the signed-in caller's star rating and review of a business. | ⚪ |
 | `yogatreecollective.getEvent` | yogatreecollective.com | Gets one retreat or workshop by slug (from listEvents): description, dates, location… | ⚪ |
 | `yogatreecollective.getSchedule` | yogatreecollective.com | Reads the collective's weekly class timetable off /class-schedule: one row per class… | ⚪ |
 | `yogatreecollective.getSignUpTarget` | yogatreecollective.com | Resolves a class's SIGN UP link to where the class really books: follows it, reports… | ⚪ |

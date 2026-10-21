@@ -163,6 +163,7 @@ chromium.googlesource.com — chromium_googlesource_com: getFile, listDirectory,
 classichome.com — classichome: addToCart, getProduct, searchProducts
 classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) — classicrockfab: checkAvailability, listAppointmentTypes
 classpass.com — classpass: checkAvailability, getPricing, getSchedule, getStudio, search
+claude.ai — claude: addProjectDocument, continueSharedConversation, createProject, deleteConversation, deleteProjectDocument, deleteSharedLink, getAccount, getConversation, getMemory, getPreferences, getProject, getPublishedArtifact, getSharedConversation, getUsage, listArtifacts, listConnectors, listConversations, listModels, listProjects, listSharedLinks, listSkills, moveConversationToProject, publishArtifact, rateResponse, renameConversation, searchConversations, sendMessage, shareConversation, starConversation, updateMemory, updatePreferences, updateProfile, updateProjectInstructions, uploadFile
 claude.com — claude_com: getDoc, listDocPages
 claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
 clboyd.com — clboyd: searchUsedEquipment
@@ -236,7 +237,7 @@ erieinsurance.com — erieinsurance: findAgent, findRepairShop, getAutoQuote, ge
 espn.com — espn: addDropFantasyPlayer, addFavorite, createFantasyLeague, draftPicks, fantasyPlayers, getArticle, getFantasyLeague, getFantasyTeam, getGame, getPlayer, getTeam, injuries, listFavorites, listLeagues, listMyFantasyTeams, listTeams, listVideos, news, odds, playerGameLog, playerStats, proposeFantasyTrade, rankings, removeFavorite, scoreboard, search, setFantasyLineup, standings, statLeaders, submitPicks, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions
 estes-express.com — estes_express: estimateFreightQuote
 ethos.com — ethos: getLifeQuote
-etsy.com — etsy: search
+etsy.com — etsy: addToCart, addToCollection, browseCategory, estimateShipping, favoriteListing, favoriteShop, findRegistry, getAccount, getCart, getConversation, getListing, getPurchase, getRegistry, getShop, getUserProfile, leaveReview, listCategories, listCollections, listConversations, listEditorsPicks, listFavoriteItems, listFavoriteShops, listListingReviews, listPurchases, listShopListings, listShopReviews, listShopSoldItems, listTrendingSearches, removeFromCart, search, searchShops, sendMessage, suggestSearches, updateCartItem, updateProfile
 evag.de — evag: listDepartures, listDisruptions, searchStop
 eventbrite.com — eventbrite: followOrganizer, getEvent, getOrderHistory, getOrganizer, getOwnProfile, getSavedEvents, getVenue, saveEvent, searchEvents, unsaveEvent
 eventim.com — eventim: getEvent, search
@@ -389,7 +390,7 @@ mail.aol.com — aol_mail: deleteMessage, getAccountProfile, getMessage, listFol
 mail.yahoo.com — yahoo_mail: deleteMessage, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage
 mailchimp.com — mailchimp: getPlanPricing
 mango.com — mango: addToCart, getProduct, listCategories, searchProducts
-marianatek.com — marianatek: bookAppointment, bookClass, buyPricingOption, cancelMembership, cancelReservation, changeSpot, findStudio, getClass, getLocation, getMyAccount, getMyReservation, joinWaitlist, listAppointmentCategories, listAppointmentServices, listAppointmentSlots, listClasses, listClassPaymentOptions, listClassSpots, listLocations, listMyAppointments, listMyCredits, listMyMemberships, listMyOrders, listMyReservations, listMyWaivers, listPricing, listRegions, listScheduleFilters, setProfileImage, updateCommunicationPreferences, updateMyAccount
+marianatek.com — marianatek: bookAppointment, bookClass, buyPricingOption, cancelMembership, cancelReservation, changeSpot, findStudio, getClass, getLocation, getMyAccount, getMyReservation, joinWaitlist, listAppointmentCategories, listAppointmentPaymentOptions, listAppointmentServices, listAppointmentSlots, listClasses, listClassPaymentOptions, listClassSpots, listLocations, listMyAppointments, listMyCredits, listMyMemberships, listMyOrders, listMyReservations, listMyWaivers, listPricing, listRegions, listScheduleFilters, setProfileImage, updateCommunicationPreferences, updateMyAccount
 marketplace.visualstudio.com — marketplace_visualstudio: getExtensionStats, searchExtensions
 marketplace.vts.com — vts_marketplace: getListing, listMarkets, searchListings
 marriott.com — marriott: findHotels, getAwardAvailability, getDeals, getHotelDetails, getReservation, search
@@ -533,7 +534,7 @@ semihandmade.com — semihandmade: getPartOptions, priceConfiguration, searchPar
 seoulfood.kotra.or.kr — seoulfood: getBoothQuote, getExhibitorPricing, listExhibitors
 serper.dev — serper: searchGoogle
 services.gst.gov.in — gst_india: lookup
-shein.com — shein: getProduct, getProductReviews, listCategories, listProductsByCategory, search
+shein.com — shein: addAddress, addToCart, addToWishlist, followStore, getCart, getCheckoutSummary, getOrder, getPoints, getProduct, getProductReviews, getProfile, getSearchSuggestions, getSimilarProducts, getSizeGuide, getStore, listAddresses, listCategories, listFlashSale, listFollowedStores, listMyCoupons, listNewArrivals, listOrders, listProductsByCategory, listStoreProducts, listWishlist, placeOrder, removeFromCart, removeFromWishlist, requestReturn, search, searchByImage, updateCartItem, updateProfile, writeReview
 shop.app — shop_app: addAddress, addToCart, addToProductList, browseCategory, claimOffer, createProductList, followStore, getAccount, getCart, getDeliveryEstimate, getDiscoveryFeed, getOrder, getProduct, getProductReviews, getSharedList, getShopCash, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listAddresses, listCategories, listFollowedStores, listOffers, listOrders, listProductLists, listSavedProducts, listStoreProducts, markOrderDelivered, saveProduct, searchProducts, searchStore, startCheckout, suggestSearches, trackPackage, updatePrivacySettings, writeReview
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: addToCart, checkStoreStock, findStores, getCart, getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, listCategory, search
@@ -584,6 +585,7 @@ therabody.com — therabody: getTheragunProduct, listTheragunProducts, recommend
 therowhouse.com — therowhouse: getSchedule, listLocations
 thezebra.com — thezebra: estimateCoverageCost, getAutoQuotes, getCarrierRates, getCityRates, getCommercialAutoQuotes, getDiscounts, getHomeQuotes, getInsuranceStatistics, getLifeQuotes, getPetQuotes, getRatesByDriverProfile, getRentersQuotes, getRentersRates, getStateRates, getStateRequirements, getVehicleRates, listCarriers, listVehicles
 thibautdesign.com — thibautdesign: calculateRollsNeeded
+threads.com — threads: blockUser, createPost, deletePost, followUser, getActivity, getConversation, getCustomFeed, getFollowers, getFollowing, getHomeFeed, getMe, getPost, getPostLikes, getPostQuotes, getProfile, getProfileMedia, getProfilePosts, getProfileReplies, getProfileReposts, getRelatedPosts, getSavedPosts, likePost, listConversations, listCustomFeeds, muteUser, quotePost, replyToPost, repostPost, savePost, searchAccounts, searchPosts, searchTopics, sendMessage, unblockUser, unfollowUser, unlikePost, unmuteUser, unrepostPost, unsavePost, updateProfile, updateProfilePicture
 ticketmaster.com — ticketmaster: getEvent, listClassifications, search, searchAttractions, searchVenues
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
@@ -662,7 +664,7 @@ www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends,
 x.com — x: bookmarkPost, createPost, deletePost, followUser, getConversation, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listNotifications, listTrending, post, profile, quotePost, replyToPost, repost, search, sendMessage, updateProfile, uploadProfilePicture, userTimeline
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
-yelp.com — yelp: search
+yelp.com — yelp: addToCollection, askQuestion, followUser, getBookmarks, getBusiness, getCollection, getCollections, getMenu, getMessages, getOwnProfile, getPhotos, getQuestions, getReservationAvailability, getReviews, getUser, getWaitlist, joinWaitlist, listCategories, makeReservation, messageBusiness, reactToReview, requestQuote, saveBusiness, search, searchEvents, setProfilePhoto, suggest, updateProfile, uploadPhoto, writeReview
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite, sendContactMessage
 yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct, search
 yourarborhome.com — yourarborhome: bookSelfTour, getHome, searchHomes
