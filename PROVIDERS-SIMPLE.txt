@@ -419,6 +419,7 @@ msn.com — msn: getArticle, getMarketSummary, getSectionFeed, getStockQuote, ge
 muze.gov.tr — muze_gov_tr: getVisitingHours
 my.auroramedicalspa.com — my_auroramedicalspa_com: getProviders, getServiceCategories, getServices, listLocations
 mybeststudio.us — my_best_studio: _client, bookClass, cancelBooking, getClass, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings
+mybobs.com — bobs: searchProducts
 myollie.com — myollie: getMealPlan
 myworkdayjobs.com — workday: getJob, listJobs
 naic.org — naic: getCompanyProfile, getComplaintIndex, getComplaintTrends, getLicensing, getStateInsuranceChart, listStateDepartments, lookupProducer, searchCompanies, searchStateInsuranceCharts
@@ -451,7 +452,7 @@ originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote
 othership.us — othership: getClassSchedule, getLocations
 otto.de — otto: browseCategory, getProduct, getReviews, search, trackOrder
 outdoorresearch.com — outdoorresearch: checkClaimEligibility, getWarrantyPolicy
-outlook.live.com — microsoft_outlook: createCalendarEvent, createContact, getCalendarEvents, getContact, getMail, listContacts, listMailFolders, readMailFolder, sendMail
+outlook.live.com — microsoft_outlook: createCalendarEvent, createContact, deleteCalendarEvent, getCalendarEvents, getContact, getMail, listContacts, listMailFolders, moveMail, readMailFolder, replyToMail, respondToEventInvite, searchMail, sendMail, updateCalendarEvent
 pacificabeauty.com — pacificabeauty: getHairRecommendation
 pacificcompanies.com — pacificcompanies: assembleApplication, getApplicationSchema, getJob, getJobCategories, searchJobs
 pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
@@ -478,6 +479,7 @@ polymarket.com — polymarket: getMarket, search
 poshmark.com — poshmark: getBulkUploadTemplateGuide, getZipFileGuide
 positivegrid.com — positivegrid: findRetailers
 postiz.com — postiz: createPost, listIntegrations, listPosts
+potterybarn.com — potterybarn: getProduct, searchProducts
 premierbuildings.us — premierbuildings: findDealers, listBuildingStyles, priceBuilding
 printful.com — printful: getOrder, searchOrders
 progressive.com — progressive: findAgent, getAtvQuote, getAutoQuote, getBoatQuote, getBusinessQuote, getClassicCarQuote, getCommercialAutoQuote, getCondoQuote, getDeviceQuote, getEventQuote, getGolfCartQuote, getHomeownersQuote, getJewelryQuote, getLifeQuote, getMobileHomeQuote, getMotorcycleQuote, getPetQuote, getPwcQuote, getRentersQuote, getRvQuote, getSnowmobileQuote, getTravelQuote, getUmbrellaQuote, listHomeownersCompanies
@@ -639,9 +641,11 @@ weather.com — weather_channel: getAirQuality, getAlertDetails, getAlmanac, get
 webshare.io — webshare: getPlans
 wellfound.com — wellfound: getCompany, getJob, getJobCollection, getSalaryBenchmarks, listCompanyJobs, listJobCollections, searchCompanies, searchJobs
 wellnessliving.com — wellnessliving: bookClass, cancelBooking, getClassCapacity, getClassDetails, getClassPackages, getClassTypes, getDiscounts, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, getMyBookings, getMyPackages, getMyProfile, getMyWaitlists, getPaymentMethods, getPromotions, getRewardsBalance, getRewardsTiers, getServiceInfo, getStudioNews, getWaitlistPosition, joinWaitlist, leaveWaitlist, listKnownBusinesses, listLocations, listScheduleClasses, purchasePackage, searchClasses, updateProfile
+westelm.com — westelm: getProduct, searchProducts
 whatsapp.com — whatsapp: addGroupParticipants, blockContact, checkNumber, createClickToChatLink, createGroup, deleteMessage, downloadMedia, editMessage, findContact, followChannel, forwardMessage, getBlogPost, getChannel, getChannelUpdates, getChatMessages, getCommunity, getGroupInfo, getGroupInviteLink, getHelpArticle, getMyProfile, joinGroupByInvite, leaveGroup, listBlogPosts, listCatalogProducts, listChats, listContacts, listFollowedChannels, listStatusUpdates, postStatus, previewBusinessCatalog, previewGroupInvite, reactToMessage, removeGroupParticipants, searchChannels, searchHelpCenter, searchMessages, sendMedia, sendMessage, sendPoll, unfollowChannel, updateChat, updateGroup, updatePrivacySettings, updateProfile
 wholefoodsmarket.com — wholefoodsmarket: listStores, search
 wikipedia.org — wikipedia: compareRevisions, createPage, editPage, getArticle, getArticleHtml, getCurrentUser, getFeaturedContent, getImage, getInfobox, getOnThisDay, getPageviews, getRandomArticle, getRevision, getSection, getSections, getSummary, getUser, getWikitext, listBacklinks, listCategories, listCategoryMembers, listExternalLinks, listImages, listLanguages, listLinks, listMostViewed, listNotifications, listRecentChanges, listRelated, listRevisions, listUserContributions, listWatchlist, postTalkMessage, search, searchNearby, suggestTitles, thankUser, undoRevision, unwatchPage, watchPage
+williams-sonoma.com — williams_sonoma: getProduct, searchProducts
 windscribe.com — windscribe: getDedicatedIp, getServerLocations
 winestyles.com — winestyles: listStores, searchStoreInventory
 wodify.com — wodify: bookClass, bookDropIn, buyMembership, cancelBooking, changePassword, checkFreeTrial, disableNotifications, editBio, enableNotifications, findGym, getAccountSettings, getClassDetails, getClassHistory, getClassRating, getGymInfo, getInvoices, getLeaderboard, getMemberStats, getMyBookings, getMyMembership, getMyResults, getNotificationSettings, getPaymentMethods, getWaitlistPosition, getWorkoutOfDay, joinWaitlist, leaveWaitlist, listGymSchedule, listInstructors, listMemberships, listPrices, listPrograms, readTerms, renewMembership, searchGymsByLocation, signWaiver, updateProfile, updateProfilePicture
@@ -668,7 +672,7 @@ yelp.com — yelp: addToCollection, askQuestion, followUser, getBookmarks, getBu
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite, sendContactMessage
 yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct, search
 yourarborhome.com — yourarborhome: bookSelfTour, getHome, searchHomes
-youtube.com — youtube: addToPlaylist, createChannel, createPlaylist, deletePlaylist, deleteVideo, findChannel, getChannel, getLiveChat, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listChannelLiveStreams, listChannelPlaylists, listChannelPosts, listChannelShorts, listChannelVideos, listChapters, listCommentReplies, listComments, listHashtagVideos, listHomeFeed, listLikedVideos, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listSubscriptions, listTrending, listWatchHistory, listWatchLater, postComment, removeFromPlaylist, replyToComment, search, searchWithinChannel, setCaptions, setThumbnail, subscribeToChannel, suggestSearches, updatePlaylist, updateVideo, uploadVideo
+youtube.com — youtube: addToPlaylist, createChannel, createPlaylist, deleteComment, deletePlaylist, deleteVideo, findChannel, getChannel, getLiveChat, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listChannelLiveStreams, listChannelPlaylists, listChannelPosts, listChannelShorts, listChannelVideos, listChapters, listCommentReplies, listComments, listHashtagVideos, listHomeFeed, listLikedVideos, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listSubscriptions, listTrending, listWatchHistory, listWatchLater, postComment, removeFromPlaylist, replyToComment, search, searchWithinChannel, setCaptions, setThumbnail, subscribeToChannel, suggestSearches, updatePlaylist, updateVideo, uploadVideo
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
 zoom.us — zoom: deleteMeeting, downloadRecording, getContactInfo, getContacts, getMarketplaceApp, getMeeting, getMeetingInfo, getMeetingParticipants, getPricing, getProfile, getRecording, getRecordingTranscript, getSystemStatus, getWebinar, joinMeeting, listMeetings, listRecordings, listRecordingTranscripts, listWebinars, scheduleMeeting, searchContacts, searchHelpArticles, searchMarketplaceApps, updateMeeting, updateProfile, updateProfilePicture
 zoopla.co.uk — zoopla: listings, search

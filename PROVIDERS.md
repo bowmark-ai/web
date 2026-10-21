@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4760 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4774 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -534,6 +534,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.listOffers` | bmwusa.com | Lists BMW's current US lease and finance offers for a ZIP code (resolved server-side… | 🟢 |
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
+| `bobs.searchProducts` | mybobs.com | Searches the Bob's Discount Furniture catalog the way its own search box does ("sofa")… | 🟢 |
 | `bodacc.search` | bodacc.fr | Searches BODACC insolvency notices (procédures collectives: sauvegarde, redressement… | 🟢 |
 | `bodensee_schiffsbetriebe_berths.getBerthStatus` | bsb.de | Would return live boat-berth (Liegeplatz) availability, waiting-list status and… | ⚪ |
 | `bodensee_schiffsbetriebe_berths.searchHarbors` | bsb.de | Searches the Lake Constance harbor towns BSB serves, by name. | 🟢 |
@@ -574,7 +575,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booker.searchLocations` | booker.com | Searches Booker's directory of spas and salons by business name and returns matching… | ⚪ |
 | `booker.updateMyProfile` | booker.com | Updates the signed-in customer's profile fields (name, phone, address, communication… | ⚪ |
 | `booking_com.addToWishlist` | booking.com | Add a property to the caller's wishlist. | ⚪ |
-| `booking_com.autocompleteDestination` | booking.com | Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text… | 🟢 |
+| `booking_com.autocompleteDestination` | booking.com | Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text… | 🟡 |
 | `booking_com.checkPrice` | booking.com | Check price and availability for a property on specific dates. | ⚪ |
 | `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | ⚪ |
 | `booking_com.getBooking` | booking.com | Get details of one past or upcoming booking. | ⚪ |
@@ -1568,9 +1569,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.commentOnPost` | facebook.com | Leave a comment on a post, by its permalink URL. | 🟢 |
 | `facebook.followPage` | facebook.com | Follow a Page to receive its posts in the caller's feed. | ⚪ |
 | `facebook.getConversation` | facebook.com | Read messages in a private conversation thread with another user or group. | 🟢 |
-| `facebook.getEventDetails` | facebook.com | Read details on a Facebook Event — name, date, location, description, attendance count. | ⚪ |
-| `facebook.getGroupInfo` | facebook.com | Read a Group's details — name, description, member count, profile photo. | ⚪ |
-| `facebook.getGroupPosts` | facebook.com | List posts in a Group, newest first and paged. | ⚪ |
+| `facebook.getEventDetails` | facebook.com | Read details on a Facebook Event — name, date, location, description, attendance count. | 🟢 |
+| `facebook.getGroupInfo` | facebook.com | Read a Group's details — name, description, member count, profile photo. | 🟢 |
+| `facebook.getGroupPosts` | facebook.com | List posts in a Group, newest first. | 🟢 |
 | `facebook.getMarketplaceListingDetails` | facebook.com | Read details on one Marketplace listing — title, photos, price, seller info… | ⚪ |
 | `facebook.getMarketplaceListings` | facebook.com | Search Marketplace listings by category, location, price range and keywords. | ⚪ |
 | `facebook.getPageInfo` | facebook.com | Read a Page's details — name, about section, follower count, category, profile and… | 🟢 |
@@ -1587,13 +1588,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.listNotifications` | facebook.com | List the caller's notifications — friend requests, reactions, comments, mentions. | ⚪ |
 | `facebook.listPhotos` | facebook.com | List photos posted by a Page or person, newest first. | 🟢 |
 | `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | ⚪ |
-| `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | ⚪ |
+| `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | 🟢 |
 | `facebook.postToTimeline` | facebook.com | Write a text post to the caller's own timeline. | 🟢 |
 | `facebook.reactToPost` | facebook.com | React to a post with like, love, haha, wow, sad or angry, by its permalink URL. | 🟢 |
 | `facebook.replyToComment` | facebook.com | Reply to a specific comment. | ⚪ |
 | `facebook.savePost` | facebook.com | Save (bookmark) a post for later or add to a saved collection. | ⚪ |
-| `facebook.searchGroups` | facebook.com | Search for Groups by name or topic. | ⚪ |
-| `facebook.searchPages` | facebook.com | Search for Pages by name or category. | ⚪ |
+| `facebook.searchGroups` | facebook.com | Search for Groups by name or topic. | 🟢 |
+| `facebook.searchPages` | facebook.com | Search for Pages by name or category. | 🟢 |
 | `facebook.searchPeople` | facebook.com | Search for Facebook users by name. | 🟢 |
 | `facebook.sendMessage` | facebook.com | Send a direct message in an existing conversation thread. | 🟢 |
 | `facebook.sharePost` | facebook.com | Share someone else's post to the caller's own timeline or to a Group. | ⚪ |
@@ -2485,7 +2486,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟡 |
 | `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | 🟢 |
 | `linkedin.listCompanyPosts` | linkedin.com | Lists a company page's recent posts, as LinkedIn itself samples them on the company… | 🟢 |
-| `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟡 |
+| `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟢 |
 | `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟢 |
 | `linkedin.listFollowing` | linkedin.com | Lists the members, companies and pages the signed-in caller follows, with each one's… | ⚪ |
 | `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟢 |
@@ -2511,7 +2512,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name through LinkedIn's own public people directory and… | 🟡 |
 | `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
 | `linkedin.searchSchools` | linkedin.com | Searches LinkedIn's schools and universities by name and returns each one's name… | ⚪ |
-| `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | ⚪ |
+| `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | 🟢 |
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | ⚪ |
 | `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | ⚪ |
 | `linkedin.setProfilePhoto` | linkedin.com | Replaces the signed-in caller's profile photo with an image from a URL or uploaded file. | ⚪ |
@@ -2683,13 +2684,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_onedrive.uploadFile` | onedrive.live.com | Uploads a file to OneDrive at the specified path. | 🟢 |
 | `microsoft_outlook.createCalendarEvent` | outlook.live.com | Creates a new calendar event with the specified title, start/end times, and optional… | 🟢 |
 | `microsoft_outlook.createContact` | outlook.live.com | Creates a new contact in the signed-in user's address book with the given name and… | 🟢 |
+| `microsoft_outlook.deleteCalendarEvent` | outlook.live.com | Deletes one event from the signed-in user's calendar, by its getCalendarEvents index. | 🟢 |
 | `microsoft_outlook.getCalendarEvents` | outlook.live.com | Returns calendar events within a specified date range, including title, start/end… | 🟢 |
 | `microsoft_outlook.getContact` | outlook.live.com | Opens one contact from listContacts' results and returns the full contact card — name… | 🟢 |
 | `microsoft_outlook.getMail` | outlook.live.com | Opens one mail item from readMailFolder's results and returns the full message —… | 🟢 |
 | `microsoft_outlook.listContacts` | outlook.live.com | Lists the signed-in user's contacts from the Outlook people page, with email and phone… | 🟢 |
 | `microsoft_outlook.listMailFolders` | outlook.live.com | Lists the mail folders (Inbox, Sent, Drafts, etc.) available to the signed-in user… | 🟢 |
+| `microsoft_outlook.moveMail` | outlook.live.com | Moves one message into a different folder, through Outlook's own Move to action. | 🟢 |
 | `microsoft_outlook.readMailFolder` | outlook.live.com | Reads the mail items in a specific folder, returning subject, sender, date, and… | 🟢 |
+| `microsoft_outlook.replyToMail` | outlook.live.com | Replies to one message within its existing conversation thread, through Outlook's own… | 🟢 |
+| `microsoft_outlook.respondToEventInvite` | outlook.live.com | Accepts, tentatively accepts, or declines a calendar invite, by its getCalendarEvents… | 🟢 |
+| `microsoft_outlook.searchMail` | outlook.live.com | Searches one folder (defaults to Inbox) for messages matching a text query, returning… | 🟢 |
 | `microsoft_outlook.sendMail` | outlook.live.com | Composes and sends a new email message to the specified recipient with the given… | 🟢 |
+| `microsoft_outlook.updateCalendarEvent` | outlook.live.com | Updates one event on the signed-in user's calendar — title, start and/or end time — by… | 🟢 |
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |
@@ -3128,6 +3135,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `postiz.createPost` | postiz.com | Create and schedule a new post on one connected channel, by the channel id… | 🟡 |
 | `postiz.listIntegrations` | postiz.com | List the organization's connected social channels with the id createPost takes, the… | 🟡 |
 | `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟡 |
+| `potterybarn.getProduct` | potterybarn.com | Reads one product page: every size/colour SKU with its own price, stock and delivery… | ⚪ |
+| `potterybarn.searchProducts` | potterybarn.com | Searches the Pottery Barn catalog the way its own search box does ("sofa") and returns… | 🟢 |
 | `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟡 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
 | `premierbuildings.listBuildingStyles` | premierbuildings.us | Lists every real building style Premier's ShedView configurator offers (Lofted Barn… | 🟢 |
@@ -3868,7 +3877,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
 | `tapfiliate.listAffiliates` | tapfiliate.com | Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by… | 🟢 |
 | `target.addToCart` | target.com | Adds one product (by TCIN) to the CALLER's own Target cart. | 🟢 |
-| `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | 🟢 |
+| `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | 🟡 |
 | `target.findRegistry` | target.com | Finds a Target Gift Registry by the registrant's name, event date or registry id — the… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getCart` | target.com | Reads what is in the CALLER's own Target cart — line items (TCIN, title, quantity… | 🟢 |
@@ -4423,6 +4432,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellnessliving.purchasePackage` | wellnessliving.com | Purchases a class package; requires payment | ⚪ |
 | `wellnessliving.searchClasses` | wellnessliving.com | Searches classes by class type, instructor, or location filters | ⚪ |
 | `wellnessliving.updateProfile` | wellnessliving.com | Updates the customer's profile information | ⚪ |
+| `westelm.getProduct` | westelm.com | Reads one product page: every size/colour SKU with its own price, stock and delivery… | ⚪ |
+| `westelm.searchProducts` | westelm.com | Searches the West Elm catalog the way its own search box does ("dresser") and returns… | 🟢 |
 | `whatsapp.addGroupParticipants` | whatsapp.com | Adds people to a group the caller administers, by contact or number, and reports per… | ⚪ |
 | `whatsapp.blockContact` | whatsapp.com | Blocks or unblocks a contact or number as the caller, and lists who the caller has… | ⚪ |
 | `whatsapp.checkNumber` | whatsapp.com | Says whether a phone number has a WhatsApp account, the way WhatsApp Web's… | ⚪ |
@@ -4502,14 +4513,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listRevisions` | wikipedia.org | An article's edit history — each revision with its id, timestamp, editor, edit… | 🟢 |
 | `wikipedia.listUserContributions` | wikipedia.org | Every edit one named editor has made, newest first — page, timestamp, edit summary and… | 🟢 |
 | `wikipedia.listWatchlist` | wikipedia.org | The caller's own watchlist — the pages they follow and the recent changes to them… | 🟢 |
-| `wikipedia.postTalkMessage` | wikipedia.org | Post a message to an article's talk page or to a user's talk page, under the caller's… | ⚪ |
+| `wikipedia.postTalkMessage` | wikipedia.org | Post a message to an article's talk page or to a user's talk page, under the caller's… | 🟢 |
 | `wikipedia.search` | wikipedia.org | Search the encyclopedia the way a person types into Wikipedia's search box, and get… | 🟢 |
 | `wikipedia.searchNearby` | wikipedia.org | Wikipedia articles about places near a point — hand it a latitude and longitude and a… | 🟢 |
 | `wikipedia.suggestTitles` | wikipedia.org | Autocomplete a partial title the way Wikipedia's search box does as you type — hand it… | 🟢 |
-| `wikipedia.thankUser` | wikipedia.org | Send another editor Wikipedia's built-in "thanks" for a specific edit — a one-click… | ⚪ |
-| `wikipedia.undoRevision` | wikipedia.org | Undo one edit to an article — MediaWiki's own revert, which reverses a single revision… | ⚪ |
+| `wikipedia.thankUser` | wikipedia.org | Send another editor Wikipedia's built-in "thanks" for a specific edit — a one-click… | 🟢 |
+| `wikipedia.undoRevision` | wikipedia.org | Undo one edit to an article — MediaWiki's own revert, which reverses a single revision… | 🟢 |
 | `wikipedia.unwatchPage` | wikipedia.org | Remove an article from the caller's watchlist. `POST /w/api.php?action=watch&unwatch=1`. | 🟢 |
 | `wikipedia.watchPage` | wikipedia.org | Add an article to the caller's watchlist so they are told when it changes. `POST… | 🟢 |
+| `williams_sonoma.getProduct` | williams-sonoma.com | Reads one product page: every size/colour SKU with its own price, stock and delivery… | ⚪ |
+| `williams_sonoma.searchProducts` | williams-sonoma.com | Searches the Williams Sonoma catalog the way its own search box does ("stand mixer")… | 🟢 |
 | `windscribe.getDedicatedIp` | windscribe.com | Reads Windscribe's own dedicated / static IP page and returns every country and city… | 🟢 |
 | `windscribe.getServerLocations` | windscribe.com | Windscribe's full shared VPN server-location list (windscribe.com/status). | ⚪ |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
@@ -4695,6 +4708,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟢 |
 | `youtube.createChannel` | youtube.com | Creates the signed-in Google account's YouTube CHANNEL, using the account's own name… | 🟢 |
 | `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟢 |
+| `youtube.deleteComment` | youtube.com | Delete a top-level comment the signed-in account wrote — the undo for `postComment`… | 🟢 |
 | `youtube.deletePlaylist` | youtube.com | Permanently delete one of the signed-in account's own playlists. | 🟢 |
 | `youtube.deleteVideo` | youtube.com | Permanently delete one of the signed-in account's own videos. | 🟢 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
