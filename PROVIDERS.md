@@ -2476,14 +2476,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getMyProfile` | linkedin.com | Returns the signed-in caller's own LinkedIn member record — name, headline, profile… | 🟢 |
 | `linkedin.getPost` | linkedin.com | Reads one public LinkedIn post — the author, the written text in full, any attached… | 🟢 |
 | `linkedin.getProfile` | linkedin.com | Returns the public professional record of one person from their profile URL — full… | 🟢 |
-| `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟡 |
+| `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟢 |
 | `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟡 |
 | `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | 🟢 |
 | `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | ⚪ |
 | `linkedin.joinGroup` | linkedin.com | Joins a LinkedIn group as the signed-in caller, or asks to join one that needs approval. | ⚪ |
 | `linkedin.leaveGroup` | linkedin.com | Leaves a LinkedIn group the signed-in caller belongs to. | ⚪ |
 | `linkedin.listAppliedJobs` | linkedin.com | Lists the jobs the signed-in caller has applied to on LinkedIn, with each posting's… | ⚪ |
-| `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟡 |
+| `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟢 |
 | `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | 🟢 |
 | `linkedin.listCompanyPosts` | linkedin.com | Lists a company page's recent posts, as LinkedIn itself samples them on the company… | 🟢 |
 | `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟢 |
@@ -2508,7 +2508,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.searchGroups` | linkedin.com | Searches LinkedIn groups by keyword and returns each group's name, member count… | ⚪ |
 | `linkedin.searchJobs` | linkedin.com | Returns the job postings matching a search — keywords, location and how recently the… | 🟢 |
 | `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | ⚪ |
-| `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟡 |
+| `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟢 |
 | `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name through LinkedIn's own public people directory and… | 🟡 |
 | `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
 | `linkedin.searchSchools` | linkedin.com | Searches LinkedIn's schools and universities by name and returns each one's name… | ⚪ |
@@ -3635,7 +3635,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `smartrecruiters.listJobs` | smartrecruiters.com | Lists a company's public SmartRecruiters postings — title, full location… | 🟢 |
 | `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟢 |
 | `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |
-| `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the computed… | 🟡 |
+| `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the computed… | 🟢 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
 | `snapchat.addFriend` | snapchat.com | Adds an account as a friend by username from the signed-in caller's account — the Add… | ⚪ |
 | `snapchat.blockUser` | snapchat.com | Blocks an account from contacting the signed-in caller. | ⚪ |
@@ -3942,7 +3942,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `therabody.recommendTheragun` | therabody.com | Filters the live catalogue by what a shopper actually needs — Theragun device family… | 🟡 |
 | `therowhouse.getSchedule` | therowhouse.com | Reads one studio's live class schedule — real class names, instructor, start/end time… | 🟢 |
 | `therowhouse.listLocations` | therowhouse.com | Lists every Row House studio's slug and canonical page URL, enumerated from the site's… | 🟢 |
-| `thestowcompany.getSampleClosetEstimate` | easyclosets.com | Runs EasyClosets' own free 3D closet design tool for a given closet shape (reach-in or… | 🟡 |
+| `thestowcompany.getSampleClosetEstimate` | easyclosets.com | Runs EasyClosets' own free 3D closet design tool for a given closet shape (reach-in or… | 🟢 |
 | `thezebra.estimateCoverageCost` | thezebra.com | Returns The Zebra's own estimate of what a driver should expect to pay, and what… | ⚪ |
 | `thezebra.getAutoQuotes` | thezebra.com | Returns real side-by-side auto insurance rates from the carriers that will write a… | 🔴 |
 | `thezebra.getCarrierRates` | thezebra.com | Returns what a named insurance company charges relative to its competitors — its own… | 🟢 |
@@ -4321,7 +4321,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getList` | walmart.com | Reads one saved list's items and prices for a list id `listLists` returned. | ⚪ |
 | `walmart.getOrder` | walmart.com | Reads one of the signed-in shopper's orders in full — items, delivery or pickup… | ⚪ |
 | `walmart.getPickupDeliverySlots` | walmart.com | Reads the available pickup or delivery time windows for a store/zip — the scheduling… | ⚪ |
-| `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | 🟡 |
+| `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | 🟢 |
 | `walmart.getRegistry` | walmart.com | Reads one public registry — the items on it, how many are wanted and how many were… | ⚪ |
 | `walmart.getSeller` | walmart.com | Reads a Marketplace seller's page — name, rating, review count — for the… | 🟢 |
 | `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | 🟡 |

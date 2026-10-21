@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 311683de5ffdd1b3b36600ca03f5e908d4677fa708256d03a45fe73e06398263
+// Manifest version: a0bdbfede58831d2317044287b59378612f7f2813634235029e8fe2fc2d806f0
 // 85 capabilities, 617 providers, 2344 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -26316,6 +26316,9 @@ interface GithubListStarredRepositoriesResult {
 }
 interface GithubUpdateIssueTitleResult {
   issue: { title: string; [key: string]: unknown };
+}
+interface GithubCommentResult {
+  comment: { body: string; [key: string]: unknown };
 }
 
   /**
