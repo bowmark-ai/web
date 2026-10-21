@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4757 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4760 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1387,7 +1387,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.getMyMessages` | ebay.com | Get the caller's eBay messages — inbox, sent, and resolved messages. | ⚪ |
 | `ebay.getProfile` | ebay.com | Get the caller's profile information. | ⚪ |
 | `ebay.getSellerListings` | ebay.com | Searches one seller's own eBay listings for a keyword — the same rows `search` returns. | 🟢 |
-| `ebay.getSellerProfile` | ebay.com | Get seller information — feedback score, seller type (individual/business), member… | ⚪ |
+| `ebay.getSellerProfile` | ebay.com | Reads one seller's public feedback profile by username — lifetime feedback score… | 🟢 |
 | `ebay.getWatchlist` | ebay.com | Get the caller's watch list — items they are monitoring for price changes. | 🟢 |
 | `ebay.removeFromCart` | ebay.com | Remove an item from the caller's shopping cart. | ⚪ |
 | `ebay.removeFromWatchlist` | ebay.com | Remove an item from the caller's watch list. | ⚪ |
@@ -1950,7 +1950,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list. | ⚪ |
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in caller's watched list. | ⚪ |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | ⚪ |
-| `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | ⚪ |
+| `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🔴 |
 | `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), or base branch. | ⚪ |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
@@ -2582,11 +2582,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.cancelMembership` | marianatek.com | Cancels one of the signed-in customer's memberships with an optional reason from the… | 🟢 |
 | `marianatek.cancelReservation` | marianatek.com | Cancels one of the signed-in customer's reservations or waitlist spots. | 🟢 |
 | `marianatek.changeSpot` | marianatek.com | Moves one of the signed-in customer's pick-a-spot reservations to another free spot in… | 🟢 |
+| `marianatek.checkIn` | marianatek.com | Checks the signed-in customer in for a reservation they already hold. | 🟢 |
 | `marianatek.findStudio` | marianatek.com | Finds a Mariana Tek studio brand from what a caller holds — its tenant slug… | 🟢 |
 | `marianatek.getClass` | marianatek.com | Returns one class by id — the same fields listClasses returns, plus when the booking… | 🟢 |
 | `marianatek.getLocation` | marianatek.com | Returns one of a tenant's locations by id — the same address, phone, email, timezone… | 🟢 |
 | `marianatek.getMyAccount` | marianatek.com | The signed-in caller's own profile at a studio, returned raw — no fleet-held Mariana… | 🟢 |
 | `marianatek.getMyReservation` | marianatek.com | One of the signed-in caller's reservations by id (from listMyReservations), returned… | 🟢 |
+| `marianatek.getMyStats` | marianatek.com | How many classes the signed-in customer has taken between startDate and endDate, with… | 🟢 |
 | `marianatek.joinWaitlist` | marianatek.com | Puts the signed-in caller (or a guest, via guestEmail) on the waitlist for a full… | 🟢 |
 | `marianatek.listAppointmentCategories` | marianatek.com | Lists the kinds of private appointments a studio offers (e.g. "Private Training"). | 🟢 |
 | `marianatek.listAppointmentPaymentOptions` | marianatek.com | Which of the signed-in caller's own payment methods can pay for one private… | 🟢 |
@@ -2605,6 +2607,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `marianatek.listPricing` | marianatek.com | Lists what a location sells — intro offers, memberships and class packs from its buy… | 🟢 |
 | `marianatek.listRegions` | marianatek.com | Lists a tenant's regions (city or area groupings) with the locations in each — the… | 🟢 |
 | `marianatek.listScheduleFilters` | marianatek.com | Lists what a region's schedule can be filtered by — class types (with descriptions)… | 🟢 |
+| `marianatek.redeemGiftCard` | marianatek.com | Redeems a gift card by its own redemption code, adding its full value to the signed-in… | 🟢 |
 | `marianatek.setProfileImage` | marianatek.com | Changes the signed-in caller's profile picture at a studio, from a URL serving the… | 🟢 |
 | `marianatek.updateCommunicationPreferences` | marianatek.com | Turns the signed-in customer's email or SMS marketing opt-in on or off at a studio. | 🟢 |
 | `marianatek.updateMyAccount` | marianatek.com | Edits the signed-in caller's own profile at a studio — name, contact info, address… | 🟢 |
@@ -4468,7 +4471,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wholefoodsmarket.search` | wholefoodsmarket.com | Searches Whole Foods product catalog with pricing and availability. | 🟢 |
 | `wikipedia_standings.search` | en.wikipedia.org | Searches Wikipedia for sports standings pages and extracts league standings with goal… | 🟢 |
 | `wikipedia.compareRevisions` | wikipedia.org | The diff between two revisions of an article — what text was added and removed, line… | 🟢 |
-| `wikipedia.createPage` | wikipedia.org | Create an article that does not exist yet, under the caller's account. `POST… | ⚪ |
+| `wikipedia.createPage` | wikipedia.org | Create an article that does not exist yet, under the caller's account. `POST… | 🟢 |
 | `wikipedia.editPage` | wikipedia.org | Change an article — replace a page or one of its sections with new wikitext, under the… | 🟢 |
 | `wikipedia.getArticle` | wikipedia.org | The whole article as an agent wants to read it: title, Wikipedia's own short… | 🟢 |
 | `wikipedia.getArticleHtml` | wikipedia.org | The article's rendered HTML — the real page body, with tables, references, footnotes… | 🟢 |
