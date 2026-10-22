@@ -80,6 +80,7 @@ baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, list
 bbc.com — bbc: followPodcast, getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listFollowedPodcasts, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations, subscribeNewsletter, unfollowPodcast, unsubscribeNewsletter
 beaconfunding.com — beaconfunding: getApplicationFields
 beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
+bedbathandbeyond.com — bedbathandbeyond: addToCart, getProduct, search
 bellwethercoffee.com — bellwethercoffee: computeRoiEstimate, getCalculatorDefaults
 beltservice.com — beltservice: browseCatalog, getBelt
 benelliusa.com — benelliusa: findDealers

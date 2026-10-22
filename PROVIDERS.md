@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4781 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4784 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -414,6 +414,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `beatthebomb.checkAvailability` | beatthebomb.com | Checks real, live per-date availability for one product type in one city over a list… | 🟢 |
 | `beatthebomb.listMissions` | beatthebomb.com | Reads one city's live mission catalog — the same product list the site's own /products… | 🟢 |
 | `beatthebomb.priceMission` | beatthebomb.com | Runs the site's own real pricing calculation for a given party size, city, date and… | 🟢 |
+| `bedbathandbeyond.addToCart` | bedbathandbeyond.com | Adds an item to the visitor's cart. | ⚪ |
+| `bedbathandbeyond.getProduct` | bedbathandbeyond.com | Reads one product page: full description, every size/colour option with stock, and… | ⚪ |
+| `bedbathandbeyond.search` | bedbathandbeyond.com | Searches Bed Bath & Beyond's catalog the way the site's own search box does ("towel… | 🟢 |
 | `bellwethercoffee.computeRoiEstimate` | bellwethercoffee.com | Calculate how much a cafe or coffee shop would save by roasting its own coffee… | 🟢 |
 | `bellwethercoffee.getCalculatorDefaults` | bellwethercoffee.com | Inputs for the coffee roasting savings calculator: returns the ROI calculator's own… | 🟢 |
 | `beltservice.browseCatalog` | beltservice.com | Browses Beltservice's own belt catalog: filter by product group, category or industry… | 🟢 |
@@ -1146,7 +1149,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listWatchHistory` | dailymotion.com | List the videos the signed-in caller has watched, newest first. | ⚪ |
 | `dailymotion.listWatchLater` | dailymotion.com | List the signed-in caller's Watch Later videos. | ⚪ |
 | `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion channels (uploaders) by name — id, username, display name, follower… | 🟡 |
-| `dailymotion.searchPlaylists` | dailymotion.com | Search Dailymotion playlists by keyword, as the site's own search page does under its… | ⚪ |
+| `dailymotion.searchPlaylists` | dailymotion.com | Search Dailymotion playlists by keyword ("cats", "music"), as the site's own search… | 🟢 |
 | `dailymotion.searchVideos` | dailymotion.com | Search Dailymotion videos by keyword — title, uploader, duration, views, publish date… | 🟢 |
 | `dailymotion.updateProfile` | dailymotion.com | Edit the signed-in caller's own profile — display name, description, avatar. | ⚪ |
 | `dailymotion.updateVideo` | dailymotion.com | Edit one of the signed-in caller's videos — title, description, tags, category… | ⚪ |
@@ -1477,7 +1480,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.getFantasyLeague` | espn.com | One ESPN fantasy league — settings, scoring, standings, this week's matchups and… | ⚪ |
 | `espn.getFantasyTeam` | espn.com | One team in an ESPN fantasy league — its roster with each player's slot, projected and… | ⚪ |
 | `espn.getGame` | espn.com | One game in full, with score by period, every player's box-score line, team stats… | 🟡 |
-| `espn.getPlayer` | espn.com | One player's page — team, position, jersey, age, height, weight, birthplace, college… | ⚪ |
+| `espn.getPlayer` | espn.com | One player's page — team, position, jersey, age, height, weight, college, status and… | 🟢 |
 | `espn.getTeam` | espn.com | One team's page header — record, standing in its division, next game, coach, venue and… | ⚪ |
 | `espn.injuries` | espn.com | Reads a league's injury report the way ESPN's own /nfl/injuries page does — every… | 🟢 |
 | `espn.listFavorites` | espn.com | The CALLER's My ESPN favourites — the teams, leagues and players they follow, which… | ⚪ |
@@ -1485,7 +1488,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.listMyFantasyTeams` | espn.com | The CALLER's own ESPN fantasy teams across every game (football, baseball, basketball… | ⚪ |
 | `espn.listTeams` | espn.com | Every team in a league with its ESPN id, abbreviation, name, location, colours and… | 🟢 |
 | `espn.listVideos` | espn.com | ESPN's highlight and analysis video clips for a league, a team or a game — title… | ⚪ |
-| `espn.news` | espn.com | The latest ESPN headlines for a league, a team or a player — headline, description… | ⚪ |
+| `espn.news` | espn.com | The latest ESPN headlines for a league, optionally narrowed to one team — headline… | 🟢 |
 | `espn.odds` | espn.com | The betting lines ESPN shows for one game — spread, total and moneyline from each… | ⚪ |
 | `espn.playerGameLog` | espn.com | One player's game-by-game log for a season — opponent, result and the full stat line… | ⚪ |
 | `espn.playerStats` | espn.com | One player's full statistics — season by season and career totals in every category… | ⚪ |
@@ -1493,13 +1496,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.rankings` | espn.com | College polls — the AP Top 25, the Coaches Poll and the playoff rankings for college… | ⚪ |
 | `espn.removeFavorite` | espn.com | Removes a team, league or player from the CALLER's My ESPN favourites. | ⚪ |
 | `espn.scoreboard` | espn.com | A league's games for today, a date, a date range or a football week — teams, live or… | 🟢 |
-| `espn.search` | espn.com | ESPN's own site search — players, teams, leagues and articles matching free text, each… | ⚪ |
+| `espn.search` | espn.com | ESPN's own site search — players, teams, leagues and articles matching free text, each… | 🟢 |
 | `espn.setFantasyLineup` | espn.com | Moves players between the CALLER's starting lineup and bench in one of their own ESPN… | ⚪ |
 | `espn.standings` | espn.com | A league's current standings by conference and division — wins, losses, ties, win… | 🟢 |
 | `espn.statLeaders` | espn.com | A league's season leaderboard in one category — passing yards, points per game, home… | ⚪ |
 | `espn.submitPicks` | espn.com | Enters the CALLER's picks in one of ESPN's free prediction games — Pigskin Pick'em… | ⚪ |
 | `espn.teamDepthChart` | espn.com | One team's depth chart — the starter and backups at every position, in order. | ⚪ |
-| `espn.teamRoster` | espn.com | One team's current roster — every player with jersey number, position, age, height… | ⚪ |
+| `espn.teamRoster` | espn.com | One team's current roster — every player with jersey number, position, age, height… | 🟢 |
 | `espn.teamSchedule` | espn.com | One team's full season schedule — every game with date, opponent, home or away, TV… | 🟢 |
 | `espn.teamStats` | espn.com | One team's season statistics, team totals and per-game, with its league rank in each… | ⚪ |
 | `espn.transactions` | espn.com | A league's recent transactions — signings, releases, trades, injured-list moves and… | ⚪ |
@@ -1613,21 +1616,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.getCurrentUser` | fandom.com | Who the caller is signed in as on Fandom — username, global user id, and which wikis… | ⚪ |
 | `fandom.getDiscussionPost` | fandom.com | One Discussions post by id, with its full text and its replies. `GET… | ⚪ |
 | `fandom.getImage` | fandom.com | One image file's real details — full-size url, dimensions, MIME type and licensing… | ⚪ |
-| `fandom.getInfobox` | fandom.com | The fact box at the top of an article, as key/value pairs — a character's species and… | ⚪ |
+| `fandom.getInfobox` | fandom.com | The fact box at the top of an article, as key/value pairs — a character's species and… | 🟢 |
 | `fandom.getRevision` | fandom.com | One specific revision of an article by id, rendered as of that edit. | ⚪ |
 | `fandom.getSection` | fandom.com | One named or numbered section of an article, without downloading the rest of the page. | 🟢 |
 | `fandom.getSections` | fandom.com | An article's table of contents — every section with its index, heading and nesting… | 🟢 |
 | `fandom.getSummary` | fandom.com | The lead section of an article and nothing else — the first paragraph, for "what is X"… | 🟢 |
 | `fandom.getUser` | fandom.com | A wiki editor's public record on this wiki — registration date, edit count and user… | ⚪ |
 | `fandom.getWikiInfo` | fandom.com | A wiki's own vital stats — its real display name (`Wookieepedia`, not the `starwars`… | 🟢 |
-| `fandom.getWikitext` | fandom.com | An article's raw wikitext source — what an editor sees in the edit box, templates and… | ⚪ |
-| `fandom.listBacklinks` | fandom.com | What links HERE — every article on the wiki pointing at this one. `GET… | ⚪ |
+| `fandom.getWikitext` | fandom.com | An article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟢 |
+| `fandom.listBacklinks` | fandom.com | What links HERE — every article on the wiki pointing at this one. `GET… | 🟢 |
 | `fandom.listCategories` | fandom.com | The categories an article belongs to — how a Fandom wiki organizes its own subject… | ⚪ |
 | `fandom.listCategoryMembers` | fandom.com | Every article filed under one category — hand it "Category:Characters" and get every… | ⚪ |
 | `fandom.listDiscussionPosts` | fandom.com | A wiki's Discussions feed — Fandom's own community forum layer, separate from article… | ⚪ |
 | `fandom.listExternalLinks` | fandom.com | Every link off-wiki from one article — sources and official sites the page cites, as… | ⚪ |
 | `fandom.listImages` | fandom.com | Every image used in an article, by file title, in page order. `GET… | ⚪ |
-| `fandom.listLinks` | fandom.com | Every other article on the same wiki this one links to. `GET… | ⚪ |
+| `fandom.listLinks` | fandom.com | Every other article on the same wiki this one links to. `GET… | 🟢 |
 | `fandom.listRecentChanges` | fandom.com | What is being edited on a wiki right now — a live feed of recent edits with page… | ⚪ |
 | `fandom.listRevisions` | fandom.com | An article's edit history on this wiki — each revision with its id, timestamp, editor… | ⚪ |
 | `fandom.listUserContributions` | fandom.com | Every edit one named editor has made on this wiki, newest first. `GET… | ⚪ |
@@ -2824,7 +2827,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟢 |
 | `nhc.getBestTrack` | nhc.noaa.gov | Get a storm's best track: its position, max winds, pressure and status every six hours… | ⚪ |
 | `nhc.getForecastCone` | nhc.noaa.gov | Get a storm's forecast track points and cone of uncertainty as coordinates, for mapping. | ⚪ |
-| `nhc.getForecastDiscussion` | nhc.noaa.gov | Get the forecaster's discussion for a storm — the reasoning behind the track and… | ⚪ |
+| `nhc.getForecastDiscussion` | nhc.noaa.gov | Get the forecaster's discussion for a storm — the reasoning behind the track and… | 🟢 |
 | `nhc.getLocalStatements` | nhc.noaa.gov | Get the hurricane local statements that NWS forecast offices issued for a storm, with… | ⚪ |
 | `nhc.getMarineForecast` | nhc.noaa.gov | Get NHC's offshore waters or high seas marine forecast for a zone: winds, seas and… | ⚪ |
 | `nhc.getReconObservations` | nhc.noaa.gov | Get the latest Hurricane Hunter aircraft reconnaissance reports for a basin: vortex… | ⚪ |
@@ -2842,9 +2845,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getWindSpeedProbabilities` | nhc.noaa.gov | Get the probability of tropical-storm-force (34 kt), 50 kt and hurricane-force (64 kt)… | ⚪ |
 | `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | 🟢 |
 | `nhc.listMarineZones` | nhc.noaa.gov | List the offshore waters and high seas forecast areas NHC covers, with the zone code… | ⚪ |
-| `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name, class and dates. | ⚪ |
-| `nhc.listStormAdvisories` | nhc.noaa.gov | List every advisory, forecast advisory, discussion and wind probability product issued… | ⚪ |
-| `nhc.searchStorms` | nhc.noaa.gov | Find a storm, current or historical, by name and optional year and basin, returning… | ⚪ |
+| `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name and classification. | 🟢 |
+| `nhc.listStormAdvisories` | nhc.noaa.gov | List every forecast advisory, public advisory, discussion and wind probability product… | 🟢 |
+| `nhc.searchStorms` | nhc.noaa.gov | Find a storm by name. | 🟢 |
 | `nike.getLaunch` | nike.com | Reads one SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in… | 🟢 |
 | `nike.upcomingLaunches` | nike.com | Lists every upcoming SNKRS launch (sneaker release) on nike.com/launch in the US… | 🟢 |
 | `nintendo.browseCategory` | www.nintendo.com | Browse a whole department or platform family with no keyword — "what's in Nintendo… | 🟢 |
@@ -3602,7 +3605,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getStoreCollection` | shop.app | Lists the products in one of a store's collections ("Best Sellers", "Sugar-Free")… | ⚪ |
 | `shop_app.getStoreContacts` | shop.app | Reads how to reach a store — its support email, phone or contact page as Shop lists… | ⚪ |
 | `shop_app.getStorePolicies` | shop.app | Reads a store's refund and shipping policies as text — the policy sheet on its Shop… | ⚪ |
-| `shop_app.getStoreReviews` | shop.app | Lists the reviews left across a whole store — rating, text, product, author and date —… | ⚪ |
+| `shop_app.getStoreReviews` | shop.app | Lists the reviews left across a whole store — rating, text, product, author and date —… | 🟢 |
 | `shop_app.getVariant` | shop.app | Picks one variant of a product by its options (size "M", colour "Leopard") and returns… | ⚪ |
 | `shop_app.listAddresses` | shop.app | Lists the caller's saved shipping addresses on Shop. | ⚪ |
 | `shop_app.listCategories` | shop.app | Lists Shop's product categories (Women, Men, Beauty, Home, Fitness, Baby, Food …) and… | ⚪ |
@@ -3615,7 +3618,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's orders as delivered, or un-marks it. | ⚪ |
 | `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | ⚪ |
 | `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | ⚪ |
-| `shop_app.searchStore` | shop.app | Searches inside one store for products matching free text ("strawberry" in Liquid I.V.). | ⚪ |
+| `shop_app.searchStore` | shop.app | Searches inside one store for products matching free text ("strawberry" in Liquid… | 🟢 |
 | `shop_app.startCheckout` | shop.app | Opens a checkout for the caller's cart at one store and returns the checkout url for… | ⚪ |
 | `shop_app.suggestSearches` | shop.app | Autocompletes a partial search ("running sh") into Shop's own query suggestions plus… | 🟡 |
 | `shop_app.trackPackage` | shop.app | Adds a package to the caller's Shop by its tracking number and carrier, so Shop tracks… | ⚪ |
@@ -3651,10 +3654,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.getLens` | snapchat.com | Reads one Lens by id — name, creator, preview media, unlock link and snapcode, plus… | ⚪ |
 | `snapchat.getLocalGuide` | snapchat.com | Reads a city's local guide… | ⚪ |
 | `snapchat.getMyProfile` | snapchat.com | Reads the signed-in caller's own Snapchat account — username, display name, Bitmoji… | ⚪ |
-| `snapchat.getProfile` | snapchat.com | Reads one Snapchat account's public page by username — www.snapchat.com/@<username> —… | ⚪ |
+| `snapchat.getProfile` | snapchat.com | Reads one Snapchat account's public page by username — www.snapchat.com/@<username> —… | 🟢 |
 | `snapchat.getShow` | snapchat.com | Reads one Discover show or publisher page (story.snapchat.com/p/<publisherId>) — name… | ⚪ |
 | `snapchat.getSnapMap` | snapchat.com | Reads the signed-in caller's Snap Map — friends who share their location and the… | ⚪ |
-| `snapchat.getSpotlightVideo` | snapchat.com | Reads one Spotlight video by its share url or snap id — creator (username, display… | ⚪ |
+| `snapchat.getSpotlightVideo` | snapchat.com | Reads one Spotlight video by its share url or snap id — creator (username, display… | 🟢 |
 | `snapchat.listChats` | snapchat.com | Lists the signed-in caller's conversations in Snapchat for Web — who, the last… | ⚪ |
 | `snapchat.listDiscoverStories` | snapchat.com | Reads the Discover page — publisher and creator Stories (news outlets, shows… | ⚪ |
 | `snapchat.listFriends` | snapchat.com | Lists the signed-in caller's friends — username, display name, Bitmoji and friendship… | ⚪ |
@@ -3664,9 +3667,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.listProfileHighlights` | snapchat.com | Lists a public profile's saved Story highlights (curated Stories kept on the profile)… | ⚪ |
 | `snapchat.listProfileLenses` | snapchat.com | Lists the Lenses a public profile has published, with lens name, preview image and… | ⚪ |
 | `snapchat.listProfileSpotlights` | snapchat.com | Lists the Spotlight videos a public profile has posted, with title, upload date, view… | ⚪ |
-| `snapchat.listProfileStory` | snapchat.com | Lists the snaps in a public profile's current Story — media url, preview url, media… | ⚪ |
+| `snapchat.listProfileStory` | snapchat.com | Lists the snaps in a public profile's current Story — media url, preview url, media… | 🟢 |
 | `snapchat.listSpotlightComments` | snapchat.com | Reads the public comments under one Spotlight video — comment text, commenter and time… | ⚪ |
-| `snapchat.listSpotlightFeed` | snapchat.com | Reads the Spotlight feed — Snapchat's public short-video feed at… | ⚪ |
+| `snapchat.listSpotlightFeed` | snapchat.com | Reads the Spotlight feed — Snapchat's public short-video feed at… | 🟢 |
 | `snapchat.listTopicSpotlights` | snapchat.com | Lists the Spotlight videos filed under one hashtag topic… | ⚪ |
 | `snapchat.postSpotlightComment` | snapchat.com | Posts a comment under a Spotlight video from the signed-in caller's account. | ⚪ |
 | `snapchat.postStory` | snapchat.com | Posts a photo to the signed-in caller's own Story. | ⚪ |
@@ -3838,8 +3841,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
 | `stubhub.createListing` | stubhub.com | Publishes a ticket listing for sale on one of the caller's own events, at a given… | ⚪ |
 | `stubhub.findEventsToSell` | stubhub.com | The seller-side entry point: given an event name or performer, finds the matching… | ⚪ |
-| `stubhub.findPerformers` | stubhub.com | Finds a performer, artist or sports team by name and returns its id, display name and… | ⚪ |
-| `stubhub.findVenues` | stubhub.com | Finds a venue by name or location and returns its id, name and address, for a caller… | ⚪ |
+| `stubhub.findPerformers` | stubhub.com | Finds a performer, artist or sports team by name and returns its id, display name and… | 🟢 |
+| `stubhub.findVenues` | stubhub.com | Finds a venue by name and returns its id, display name and StubHub's own page url for… | 🟢 |
 | `stubhub.getCheckoutHandoff` | stubhub.com | Given a listing id from `getEventListings`, resolves the price and returns StubHub's… | ⚪ |
 | `stubhub.getEvent` | stubhub.com | Returns one event's details — name, venue with street address, local start time… | 🟢 |
 | `stubhub.getEventListings` | stubhub.com | Returns the resale ticket listings one event page shows first (about ten): section… | 🟢 |
@@ -4648,7 +4651,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_mail.markAsRead` | mail.yahoo.com | Marks one or more of the CALLER's own messages read or unread. | ⚪ |
 | `yahoo_mail.moveMessage` | mail.yahoo.com | Moves one of the CALLER's own messages to another folder (archive, trash, a custom… | ⚪ |
 | `yahoo_mail.searchMessages` | mail.yahoo.com | Searches messages in the CALLER's own mailbox by sender, subject or body text — the… | 🟢 |
-| `yahoo_mail.sendMessage` | mail.yahoo.com | Sends an email from the CALLER's own Yahoo Mail account. | ⚪ |
+| `yahoo_mail.sendMessage` | mail.yahoo.com | Sends an email from the CALLER's own Yahoo Mail account. | 🟢 |
 | `yahoo_sports.findPlayers` | sports.yahoo.com | Finds players on one team's roster by name — the door for `getPlayer`, so a caller… | 🟢 |
 | `yahoo_sports.getFantasyLeague` | sports.yahoo.com | Reads the CALLER's own fantasy football league — standings and the current week's… | 🟢 |
 | `yahoo_sports.getFantasyTeam` | sports.yahoo.com | Reads the CALLER's own fantasy team — which player (or empty slot) fills each roster… | 🟢 |
