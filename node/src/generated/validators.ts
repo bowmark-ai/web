@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 57fb9304a8df1b6c037f689dc54c4e3b68c4fab31254f8d9030b00e2d8287f5c
-// 2329 checked, 20 unchecked.
+// Manifest version: da64e4d8cd35a0ee97e8e272826ae9adc141caea399161762d19bac158d8b91b
+// 2335 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "57fb9304a8df1b6c037f689dc54c4e3b68c4fab31254f8d9030b00e2d8287f5c",
+  "version": "da64e4d8cd35a0ee97e8e272826ae9adc141caea399161762d19bac158d8b91b",
   "units": {
     "address_validation": {
       "defs": {
@@ -22975,6 +22975,30 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetMarketplaceListingDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "listingId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetMarketplaceListingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPageInfoArgs": {
           "k": "object",
           "props": [
@@ -23027,6 +23051,10 @@ export const VALIDATORS: ValidatorTable = {
           "k": "object",
           "props": []
         },
+        "ListEventsArgs": {
+          "k": "object",
+          "props": []
+        },
         "ListFriendsArgs": {
           "k": "object",
           "props": []
@@ -23036,6 +23064,25 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PostToGroupArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "groupId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
               "schema": {
                 "k": "string"
               },
@@ -23625,6 +23672,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "PostToPageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "postToGroup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostToGroupArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListEventsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMarketplaceListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMarketplaceListingsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMarketplaceListingDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMarketplaceListingDetailsArgs"
             },
             "optional": false
           },
@@ -37079,6 +37230,24 @@ export const VALIDATORS: ValidatorTable = {
         "searchServiceProviders": [
           {
             "name": "category",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchLearningCourses": [
+          {
+            "name": "keywords",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getLearningCourse": [
+          {
+            "name": "urlOrSlug",
             "schema": {
               "k": "string"
             },

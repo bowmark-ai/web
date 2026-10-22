@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 57fb9304a8df1b6c037f689dc54c4e3b68c4fab31254f8d9030b00e2d8287f5c
-// 85 capabilities, 617 providers, 2347 typed functions, 20 refused.
+// Manifest version: da64e4d8cd35a0ee97e8e272826ae9adc141caea399161762d19bac158d8b91b
+// 85 capabilities, 617 providers, 2353 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -23031,6 +23031,53 @@ interface FacebookPagePostResult {
   posted: true;
 }
 
+interface PostToGroupArgs {
+  groupId: string;
+  text: string;
+}
+
+interface FacebookGroupPostResult {
+  id: string;
+  groupId: string;
+  text: string;
+  posted: true;
+}
+
+interface ListEventsArgs {}
+
+interface FacebookEventSummary {
+  id: string;
+  name: string;
+  url: string;
+  startTime?: string;
+}
+
+interface GetMarketplaceListingsArgs {
+  query: string;
+}
+
+interface FacebookMarketplaceListing {
+  id: string;
+  title: string;
+  price?: string;
+  url?: string;
+  location?: string;
+}
+
+interface GetMarketplaceListingDetailsArgs {
+  listingId: string;
+}
+
+interface FacebookMarketplaceListingDetails {
+  id: string;
+  title: string;
+  price?: string;
+  description?: string;
+  location?: string;
+  sellerName?: string;
+  url: string;
+}
+
   /**
    * Facebook — profiles, pages, groups, marketplace, messages and posts. Every function needs
    * the caller signed in; the caller signs in through the relay.
@@ -23095,6 +23142,18 @@ interface FacebookPagePostResult {
 
     /** Write a text post to a Page the caller owns or administrates. */
     postToPage(args: PostToPageArgs, opts?: ConnectionOption): Promise<FacebookPagePostResult>;
+
+    /** Write a text post to a Group the caller is a member of. */
+    postToGroup(args: PostToGroupArgs, opts?: ConnectionOption): Promise<FacebookGroupPostResult>;
+
+    /** List the caller's upcoming Facebook Events. */
+    listEvents(args: ListEventsArgs, opts?: ConnectionOption): Promise<FacebookEventSummary[]>;
+
+    /** Search Facebook Marketplace listings by keyword. */
+    getMarketplaceListings(args: GetMarketplaceListingsArgs, opts?: ConnectionOption): Promise<FacebookMarketplaceListing[]>;
+
+    /** Read a Marketplace listing's details — title, price, description, location, seller. */
+    getMarketplaceListingDetails(args: GetMarketplaceListingDetailsArgs, opts?: ConnectionOption): Promise<FacebookMarketplaceListingDetails>;
   }
 }
 
@@ -35404,6 +35463,36 @@ interface LinkedinServiceProvider {
   photoUrl: string | null;      // null for LinkedIn's own placeholder avatar
 }
 
+interface LinkedinLearningCourse {
+  title: string;
+  url: string;                  // the course's own URL — pass it straight to getLearningCourse
+  authorName: string | null;
+  duration: string | null;      // LinkedIn's own rendered duration, e.g. "4h 23m"
+  viewerCount: number | null;
+  released: string | null;      // LinkedIn's own phrase, e.g. "Released Jan 25, 2023"
+  thumbnailUrl: string | null;
+}
+
+interface LinkedinLearningCourseOutlineItem {
+  title: string;
+  duration: string | null;      // e.g. "4m 10s"
+  description: string;
+}
+
+interface LinkedinLearningCourseDetail {
+  title: string;
+  url: string;
+  authorName: string | null;
+  authorUrl: string | null;
+  level: string | null;         // "Beginner" / "Intermediate" / "Advanced"
+  duration: string | null;      // the whole course, e.g. "4h 23m"
+  released: string | null;      // ISO date, e.g. "2023-01-25"
+  description: string;
+  thumbnailUrl: string | null;
+  viewerCount: number | null;
+  outline: LinkedinLearningCourseOutlineItem[]; // the full chapter/lesson breakdown
+}
+
 interface LinkedinMember {
   id: string | null;               // profile id
   publicIdentifier: string | null; // URL slug — feeds getProfile / getProfileDetails
@@ -35738,6 +35827,34 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * that service.
      */
     searchServiceProviders(category: string): Promise<LinkedinServiceProvider[]>;
+
+    /**
+     * Returns LinkedIn Learning courses matching a search — a topic, a skill, a software product —
+     * as a list with each course's title, author, LinkedIn's own rendered duration, viewer count,
+     * release date and course URL. Read off the public `/learning/search` page, answering the
+     * manifest's own open question: the keyword filter genuinely works (different queries return
+     * different, on-topic rows), but THIS IS A SINGLE FIXED FIRST PAGE, not the full catalogue —
+     * `page`/`start` params are both ignored and return the identical rows, measured 2026-10-21. A
+     * query with no exact match does not return empty: LinkedIn broadens to unrelated recommended
+     * courses instead, the same shape `searchJobs` documents. `level`
+     * (Beginner/Intermediate/Advanced) is NOT a returned field — it exists only as a sidebar
+     * search facet, with no per-course attribute anywhere in the result markup. The individual
+     * chapter/lesson rows the same page mixes in are filtered out; this returns courses only.
+     */
+    searchLearningCourses(keywords: string): Promise<LinkedinLearningCourse[]>;
+
+    /**
+     * Returns one LinkedIn Learning course in full — title, author, level
+     * (Beginner/Intermediate/Advanced), duration, release date, the full description, viewer count
+     * and the complete chapter/lesson outline (each with its own title, duration and description).
+     * Takes the course URL (`https://www.linkedin.com/learning/learning-python-25309312`), a URL
+     * with a chapter sub-path, or the bare slug. The pointer `searchLearningCourses` returns feeds
+     * this directly. Settles the manifest's own completeness worry: the outline is the real one,
+     * not a truncated promotional sample — each course's chapter durations SUM exactly to its own
+     * total duration, measured on two courses (15,789s and 13,282s, both exact). Throws rather
+     * than returning a course of nulls when the page does not render.
+     */
+    getLearningCourse(urlOrSlug: string): Promise<LinkedinLearningCourseDetail>;
 
     /**
      * Returns the signed-in caller's own LinkedIn member record — name, headline, profile URL and

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 57fb9304a8df1b6c037f689dc54c4e3b68c4fab31254f8d9030b00e2d8287f5c
-# 85 capabilities, 617 providers, 2329 typed functions, 20 refused.
+# Manifest version: da64e4d8cd35a0ee97e8e272826ae9adc141caea399161762d19bac158d8b91b
+# 85 capabilities, 617 providers, 2335 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13124,6 +13124,47 @@ class Prv_facebook_FacebookPagePostResult_Out(TypedDict):
     text: str
     posted: Literal[True]
 
+class Prv_facebook_PostToGroupArgs_In(TypedDict):
+    groupId: str
+    text: str
+
+class Prv_facebook_FacebookGroupPostResult_Out(TypedDict):
+    id: str
+    groupId: str
+    text: str
+    posted: Literal[True]
+
+class Prv_facebook_ListEventsArgs_In(TypedDict):
+    pass
+
+class Prv_facebook_FacebookEventSummary_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    startTime: NotRequired[str]
+
+class Prv_facebook_GetMarketplaceListingsArgs_In(TypedDict):
+    query: str
+
+class Prv_facebook_FacebookMarketplaceListing_Out(TypedDict):
+    id: str
+    title: str
+    price: NotRequired[str]
+    url: NotRequired[str]
+    location: NotRequired[str]
+
+class Prv_facebook_GetMarketplaceListingDetailsArgs_In(TypedDict):
+    listingId: str
+
+class Prv_facebook_FacebookMarketplaceListingDetails_Out(TypedDict):
+    id: str
+    title: str
+    price: NotRequired[str]
+    description: NotRequired[str]
+    location: NotRequired[str]
+    sellerName: NotRequired[str]
+    url: str
+
 class Prv_faceforwardaesthetics_FaceForwardAestheticsLocation_Out(TypedDict):
     id: str
     name: str
@@ -19496,6 +19537,33 @@ class Prv_linkedin_LinkedinServiceProvider_Out(TypedDict):
     location: str | None
     summary: str | None
     photoUrl: str | None
+
+class Prv_linkedin_LinkedinLearningCourse_Out(TypedDict):
+    title: str
+    url: str
+    authorName: str | None
+    duration: str | None
+    viewerCount: float | None
+    released: str | None
+    thumbnailUrl: str | None
+
+class Prv_linkedin_LinkedinLearningCourseDetail_Out(TypedDict):
+    title: str
+    url: str
+    authorName: str | None
+    authorUrl: str | None
+    level: str | None
+    duration: str | None
+    released: str | None
+    description: str
+    thumbnailUrl: str | None
+    viewerCount: float | None
+    outline: list[Prv_linkedin_LinkedinLearningCourseOutlineItem_Out]
+
+class Prv_linkedin_LinkedinLearningCourseOutlineItem_Out(TypedDict):
+    title: str
+    duration: str | None
+    description: str
 
 class Prv_linkedin_LinkedinMe_Out(TypedDict):
     id: str | None
@@ -44408,6 +44476,18 @@ class Prv_facebook(Protocol):
     async def postToPage(self, args: Prv_facebook_PostToPageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPagePostResult_Out:
         """Write a text post to a Page the caller owns or administrates."""
 
+    async def postToGroup(self, args: Prv_facebook_PostToGroupArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookGroupPostResult_Out:
+        """Write a text post to a Group the caller is a member of."""
+
+    async def listEvents(self, args: Prv_facebook_ListEventsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookEventSummary_Out]:
+        """List the caller's upcoming Facebook Events."""
+
+    async def getMarketplaceListings(self, args: Prv_facebook_GetMarketplaceListingsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookMarketplaceListing_Out]:
+        """Search Facebook Marketplace listings by keyword."""
+
+    async def getMarketplaceListingDetails(self, args: Prv_facebook_GetMarketplaceListingDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookMarketplaceListingDetails_Out:
+        """Read a Marketplace listing's details — title, price, description, location, seller."""
+
 class Prv_faceforwardaesthetics(Protocol):
     """Face Forward Aesthetics' live Zenoti locations, service catalog, and bookable
     appointment slots — no login, no PII, and no browser.
@@ -49261,6 +49341,34 @@ class Prv_linkedin(Protocol):
         10 members, re-confirmed to repeat rather than page past 10. Treat the rows as
         LinkedIn's own sample for the category, not a ranking and not the complete population of
         members offering that service.
+        """
+
+    async def searchLearningCourses(self, keywords: str, /) -> list[Prv_linkedin_LinkedinLearningCourse_Out]:
+        """Returns LinkedIn Learning courses matching a search — a topic, a skill, a software
+        product — as a list with each course's title, author, LinkedIn's own rendered duration,
+        viewer count, release date and course URL. Read off the public `/learning/search` page,
+        answering the manifest's own open question: the keyword filter genuinely works
+        (different queries return different, on-topic rows), but THIS IS A SINGLE FIXED FIRST
+        PAGE, not the full catalogue — `page`/`start` params are both ignored and return the
+        identical rows, measured 2026-10-21. A query with no exact match does not return empty:
+        LinkedIn broadens to unrelated recommended courses instead, the same shape `searchJobs`
+        documents. `level` (Beginner/Intermediate/Advanced) is NOT a returned field — it exists
+        only as a sidebar search facet, with no per-course attribute anywhere in the result
+        markup. The individual chapter/lesson rows the same page mixes in are filtered out; this
+        returns courses only.
+        """
+
+    async def getLearningCourse(self, urlOrSlug: str, /) -> Prv_linkedin_LinkedinLearningCourseDetail_Out:
+        """Returns one LinkedIn Learning course in full — title, author, level
+        (Beginner/Intermediate/Advanced), duration, release date, the full description, viewer
+        count and the complete chapter/lesson outline (each with its own title, duration and
+        description). Takes the course URL
+        (`https://www.linkedin.com/learning/learning-python-25309312`), a URL with a chapter
+        sub-path, or the bare slug. The pointer `searchLearningCourses` returns feeds this
+        directly. Settles the manifest's own completeness worry: the outline is the real one,
+        not a truncated promotional sample — each course's chapter durations SUM exactly to its
+        own total duration, measured on two courses (15,789s and 13,282s, both exact). Throws
+        rather than returning a course of nulls when the page does not render.
         """
 
     async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinMe_Out:

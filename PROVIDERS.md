@@ -1572,8 +1572,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getEventDetails` | facebook.com | Read details on a Facebook Event — name, date, location, description, attendance count. | 🟢 |
 | `facebook.getGroupInfo` | facebook.com | Read a Group's details — name, description, member count, profile photo. | 🟢 |
 | `facebook.getGroupPosts` | facebook.com | List posts in a Group, newest first. | 🟢 |
-| `facebook.getMarketplaceListingDetails` | facebook.com | Read details on one Marketplace listing — title, photos, price, seller info… | ⚪ |
-| `facebook.getMarketplaceListings` | facebook.com | Search Marketplace listings by category, location, price range and keywords. | ⚪ |
+| `facebook.getMarketplaceListingDetails` | facebook.com | Read details on one Marketplace listing — title, photos, price, seller info… | 🟢 |
+| `facebook.getMarketplaceListings` | facebook.com | Search Marketplace listings by category, location, price range and keywords. | 🟢 |
 | `facebook.getPageInfo` | facebook.com | Read a Page's details — name, about section, follower count, category, profile and… | 🟢 |
 | `facebook.getPagePosts` | facebook.com | List posts published on a Page, newest first. | 🟢 |
 | `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and friend count. | 🟢 |
@@ -1583,11 +1583,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.joinGroup` | facebook.com | Request to join or join a Group. | ⚪ |
 | `facebook.likePhoto` | facebook.com | Like or unlike a photo. | ⚪ |
 | `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | 🟢 |
-| `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | ⚪ |
+| `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | 🟢 |
 | `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | 🟢 |
 | `facebook.listNotifications` | facebook.com | List the caller's notifications — friend requests, reactions, comments, mentions. | ⚪ |
 | `facebook.listPhotos` | facebook.com | List photos posted by a Page or person, newest first. | 🟢 |
-| `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | ⚪ |
+| `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | 🟢 |
 | `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | 🟢 |
 | `facebook.postToTimeline` | facebook.com | Write a text post to the caller's own timeline. | 🟢 |
 | `facebook.reactToPost` | facebook.com | React to a post with like, love, haha, wow, sad or angry, by its permalink URL. | 🟢 |
@@ -2472,7 +2472,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getGroup` | linkedin.com | Returns one LinkedIn group from its URL — name, description, rules, member count… | ⚪ |
 | `linkedin.getHomeFeed` | linkedin.com | Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL… | 🟢 |
 | `linkedin.getJob` | linkedin.com | Returns one job posting in full from its posting URL — title, employer and employer… | 🟢 |
-| `linkedin.getLearningCourse` | linkedin.com | Returns one LinkedIn Learning course from its URL — title, author, duration, level… | ⚪ |
+| `linkedin.getLearningCourse` | linkedin.com | Returns one LinkedIn Learning course in full — title, author, level… | 🟢 |
 | `linkedin.getMyProfile` | linkedin.com | Returns the signed-in caller's own LinkedIn member record — name, headline, profile… | 🟢 |
 | `linkedin.getPost` | linkedin.com | Reads one public LinkedIn post — the author, the written text in full, any attached… | 🟢 |
 | `linkedin.getProfile` | linkedin.com | Returns the public professional record of one person from their profile URL — full… | 🟢 |
@@ -2507,7 +2507,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.searchEvents` | linkedin.com | Searches LinkedIn events by keyword and returns each one's name, organizer, start… | ⚪ |
 | `linkedin.searchGroups` | linkedin.com | Searches LinkedIn groups by keyword and returns each group's name, member count… | ⚪ |
 | `linkedin.searchJobs` | linkedin.com | Returns the job postings matching a search — keywords, location and how recently the… | 🟢 |
-| `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | ⚪ |
+| `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | 🟢 |
 | `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟢 |
 | `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name through LinkedIn's own public people directory and… | 🟡 |
 | `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
