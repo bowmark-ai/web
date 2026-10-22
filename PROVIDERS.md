@@ -2510,7 +2510,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.searchJobs` | linkedin.com | Returns the job postings matching a search — keywords, location and how recently the… | 🟢 |
 | `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | 🟢 |
 | `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟢 |
-| `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name through LinkedIn's own public people directory and… | 🟡 |
+| `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name through LinkedIn's own public people directory and… | 🟢 |
 | `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
 | `linkedin.searchSchools` | linkedin.com | Searches LinkedIn's schools and universities by name and returns each one's name… | ⚪ |
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | 🟢 |
