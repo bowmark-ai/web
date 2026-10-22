@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6fe9fba40663fddad6c5750ffcdcb0b43c0cbd1ab879b1d5b2ef36befc96b5c9
-// 2342 checked, 20 unchecked.
+// Manifest version: 1c2ebe2a7a89a8d5f75544c6bf01739e46678c16a4609249c9404961a631c9b2
+// 2368 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6fe9fba40663fddad6c5750ffcdcb0b43c0cbd1ab879b1d5b2ef36befc96b5c9",
+  "version": "1c2ebe2a7a89a8d5f75544c6bf01739e46678c16a4609249c9404961a631c9b2",
   "units": {
     "address_validation": {
       "defs": {
@@ -14142,6 +14142,46 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -14210,6 +14250,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetPropertyArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListAvailabilityArgs"
             },
             "optional": false
           }
@@ -20836,6 +20886,44 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.duckduckgo": {
       "defs": {
+        "ConvertCurrencyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "amount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "DefineWordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "word",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "DuckDuckGoSearchWebArgs": {
           "k": "object",
           "props": [
@@ -20905,6 +20993,18 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "GetInstantAnswerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -20990,6 +21090,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SuggestQueriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -21039,6 +21151,46 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchImagesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getInstantAnswer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetInstantAnswerArgs"
+            },
+            "optional": false
+          }
+        ],
+        "suggestQueries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SuggestQueriesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "defineWord": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DefineWordArgs"
+            },
+            "optional": false
+          }
+        ],
+        "convertCurrency": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ConvertCurrencyArgs"
             },
             "optional": false
           }
@@ -21851,6 +22003,31 @@ export const VALIDATORS: ValidatorTable = {
         "updateDisplayName": [
           {
             "name": "displayName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "redeemCode": [
+          {
+            "name": "code",
             "schema": {
               "k": "string"
             },
@@ -23035,6 +23212,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPhotoAlbumArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "albumId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -23044,6 +23233,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "LikePhotoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "photoUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "like",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
             }
           ]
         },
@@ -23136,6 +23344,18 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "ref",
                 "name": "FacebookReactionKind"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SavePostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "postUrl",
+              "schema": {
+                "k": "string"
               },
               "optional": false
             }
@@ -23542,6 +23762,84 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListPhotosArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getPhotoAlbum": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPhotoAlbumArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "likePhoto": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LikePhotoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "savePost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SavePostArgs"
             },
             "optional": false
           },
@@ -28552,6 +28850,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getList": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAuthor": [
           {
             "name": "idOrUrl",
             "schema": {
@@ -37960,6 +38267,157 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listSavedJobs": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "start",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listAppliedJobs": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "start",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listSavedPosts": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "start",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchGroups": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "keywords",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "start",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "login": [
           {
             "name": "creds",
@@ -45271,6 +45729,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getStockQuote": [
           {
             "name": "symbol",
@@ -46051,7 +46518,57 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listCategories": []
+        "listCategories": [],
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "browseCategory": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.npmjs": {
@@ -46401,6 +46918,26 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.nyt_cooking": {
       "defs": {
+        "NytCookingAddToGroceryListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingGetArticleArgs": {
           "k": "object",
           "props": [
@@ -46600,6 +47137,26 @@ export const VALIDATORS: ValidatorTable = {
               "name": "rating",
               "schema": {
                 "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "NytCookingRemoveFromGroceryListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
               },
               "optional": false
             }
@@ -46922,6 +47479,76 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getGroceryList": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToGroceryList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingAddToGroceryListArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromGroceryList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingRemoveFromGroceryListArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "clearGroceryList": [
           {
             "name": "opts",
             "schema": {
@@ -56848,7 +57475,55 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.resy": {
-      "defs": {},
+      "defs": {
+        "ResyStartBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "venueId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "day",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "seatingType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "search": [
           {
@@ -56921,6 +57596,59 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "startBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ResyStartBookingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "confirmBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "code",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "email",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "cancelBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "resyToken",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -56943,6 +57671,30 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetCompanyKeyMetricsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ric",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetCompanyProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ric",
               "schema": {
                 "k": "string"
               },
@@ -57353,6 +58105,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetMarketOverviewArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCompanyProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCompanyProfileArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCompanyKeyMetrics": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCompanyKeyMetricsArgs"
             },
             "optional": false
           }
@@ -64313,6 +65085,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.tiktok": {
       "defs": {
+        "BookmarkVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "DeleteCommentArgs": {
           "k": "object",
           "props": [
@@ -64992,6 +65776,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "UnfollowUserArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "bookmarkVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookmarkVideoArgs"
             },
             "optional": false
           },

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6fe9fba40663fddad6c5750ffcdcb0b43c0cbd1ab879b1d5b2ef36befc96b5c9
-// 85 capabilities, 618 providers, 2360 typed functions, 20 refused.
+// Manifest version: 1c2ebe2a7a89a8d5f75544c6bf01739e46678c16a4609249c9404961a631c9b2
+// 85 capabilities, 618 providers, 2386 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3859,8 +3859,9 @@ type CallOptions = {
 
   /**
    * Finds a restaurant by name on Resy and OpenTable and reads its real-time open reservation
-   * slots for a date and party size, plus a direct link to book one (per slot on OpenTable). No
-   * login, no booking itself (that needs the diner's details).
+   * slots for a date and party size, plus a direct link to book one (per slot on OpenTable). It
+   * does not book; to book a slot, call the platform's own `startBooking` then `confirmBooking`
+   * (`bowmark.providers.resy` or `bowmark.providers.opentable`) in one Bowmark session.
    */
   interface Unit {
     /**
@@ -3873,8 +3874,11 @@ type CallOptions = {
      * }`. Returns `venue: null` when no platform has a matching restaurant, and `slots: []` when
      * the venue exists but has nothing open for that date/party — both real, complete answers, not
      * failures. `venue.bookingUrl` is the platform's own page, pre-filled with the requested date
-     * and party size, since booking the slot itself needs a signed-in platform account and is out
-     * of scope here. `location` narrows a common restaurant name when passed as `"lat,lon"` (e.g.
+     * and party size, because this function only reads. To BOOK a slot, use the platform's own
+     * two-call flow in one Bowmark session: `bowmark.providers.resy.startBooking` /
+     * `confirmBooking` (the diner's Resy account; Resy texts a code) or
+     * `bowmark.providers.opentable.startBooking` / `confirmBooking` (as a guest; OpenTable texts a
+     * code). `location` narrows a common restaurant name when passed as `"lat,lon"` (e.g.
      * `"37.7749,-122.4194"` for San Francisco); free-form text is ignored rather than guessed at.
      */
     findAvailability(name: string | { name: string; location?: string; day?: string; time?: string; partySize?: number }, options?: CallOptions): Promise<RestaurantAvailabilityResult>;
@@ -13502,6 +13506,24 @@ interface PropertyDetails {
 interface GetPropertyArgs {
   url: string;
 }
+interface AvailableUnit {
+  id: string;
+  name: string;
+  url: string;                 // pass straight to getProperty({ url })
+  unitName: string | null;     // the room the price is for, as the site names it
+  roomsLeft: number | null;    // "We have 3 left at this price"; null when not stated
+  freeCancellation: boolean;
+  pricePerNight: number | null;
+  totalPrice: number | null;
+  originalTotalPrice: number | null;  // the struck-through figure when the card shows a deal
+}
+interface ListAvailabilityArgs {
+  destination: string;
+  checkIn: string;   // YYYY-MM-DD
+  checkOut: string;  // YYYY-MM-DD
+  adults?: number;   // default 2
+  rooms?: number;    // default 1
+}
 
   /**
    * Global online travel reservation service with property search, reviews and booking
@@ -13525,6 +13547,12 @@ interface GetPropertyArgs {
      * check-in/check-out times.
      */
     getProperty(args: GetPropertyArgs): Promise<{ property: PropertyDetails }>;
+
+    /**
+     * List only the properties with rooms free for a destination, dates and party size — the room
+     * offered, how many are left, free cancellation and the price.
+     */
+    listAvailability(args: ListAvailabilityArgs): Promise<{ totalAvailable: number | null; properties: AvailableUnit[] }>;
   }
 }
 
@@ -20813,6 +20841,60 @@ interface SearchImagesResult {
   next: string | null;
 }
 
+interface GetInstantAnswerArgs {
+  /** What you would type into the search box — a topic, not a question. */
+  query: string;
+}
+
+interface DuckDuckGoInstantAnswer {
+  heading: string | null;
+  abstract: string | null;
+  abstractSource: string | null;
+  abstractUrl: string | null;
+  /** DuckDuckGo's own zero-click answer text (a calculation, a conversion…), or null. */
+  answer: string | null;
+  answerType: string | null;
+  /** A dictionary-style definition DuckDuckGo chose to headline, or null. */
+  definition: string | null;
+  definitionSource: string | null;
+  definitionUrl: string | null;
+  image: string | null;
+  relatedTopics: string[];
+}
+
+interface SuggestQueriesArgs {
+  /** The partial query to complete, e.g. "open". */
+  query: string;
+}
+
+interface DefineWordArgs {
+  word: string;
+}
+
+interface DuckDuckGoDefinition {
+  partOfSpeech: string;
+  text: string;
+  /** The dictionary this definition came from, e.g. "ahd-5". */
+  source: string;
+}
+
+interface ConvertCurrencyArgs {
+  amount: number;
+  /** 3-letter currency code, e.g. "USD". */
+  from: string;
+  /** 3-letter currency code, e.g. "EUR". */
+  to: string;
+}
+
+interface DuckDuckGoCurrencyConversion {
+  from: string;
+  to: string;
+  amount: number;
+  converted: number;
+  /** ISO timestamp of the exchange rate DuckDuckGo used. */
+  timestamp: string;
+}
+
   /**
    * DuckDuckGo (duckduckgo.com) — private web, image, video, news and maps search, Instant
    * Answers, autocomplete, the dictionary, currency, weather, time and translation answers,
@@ -20853,6 +20935,32 @@ interface SearchImagesResult {
      * for the following page.
      */
     searchImages(args: SearchImagesArgs): Promise<SearchImagesResult>;
+
+    /**
+     * Gets DuckDuckGo's Instant Answer panel for a topic — the Wikipedia-style abstract and its
+     * source, DuckDuckGo's own zero-click answer when it has one, a headline definition, and
+     * related topics. Fields are `null` when DuckDuckGo has nothing for that slot.
+     */
+    getInstantAnswer(args: GetInstantAnswerArgs): Promise<DuckDuckGoInstantAnswer>;
+
+    /**
+     * Returns the search box's own autocomplete suggestions for a partial query, most-likely
+     * first.
+     */
+    suggestQueries(args: SuggestQueriesArgs): Promise<string[]>;
+
+    /**
+     * Looks a word up the way DuckDuckGo's dictionary answer does — one entry per sense, each with
+     * its part of speech, definition text and which dictionary it came from (American Heritage via
+     * Wordnik).
+     */
+    defineWord(args: DefineWordArgs): Promise<DuckDuckGoDefinition[]>;
+
+    /**
+     * Converts an amount between two currencies at DuckDuckGo's current mid-market rate (sourced
+     * from xe.com), with the rate's timestamp.
+     */
+    convertCurrency(args: ConvertCurrencyArgs): Promise<DuckDuckGoCurrencyConversion>;
   }
 }
 
@@ -21439,6 +21547,11 @@ interface UpdateDisplayNameResult {
   displayName: string;
 }
 
+interface RedeemCodeResult {
+  redeemed: boolean;
+  code: string;
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -21549,6 +21662,12 @@ interface UpdateDisplayNameResult {
      * Needs the caller signed in.
      */
     updateDisplayName(displayName: string, opts?: ConnectionOption): Promise<UpdateDisplayNameResult>;
+
+    /**
+     * Redeem a product code the signed-in caller holds into their Epic library. Needs the caller
+     * signed in.
+     */
+    redeemCode(code: string, opts?: ConnectionOption): Promise<RedeemCodeResult>;
   }
 }
 
@@ -22983,6 +23102,40 @@ interface FacebookReaction {
   reacted: true;
 }
 
+interface GetPhotoAlbumArgs {
+  albumId: string;
+}
+
+interface FacebookPhotoAlbum {
+  id: string;
+  title?: string;
+  photoCount?: number;
+  createdAt?: string;
+  url: string;
+  photos: FacebookPhoto[];
+}
+
+interface LikePhotoArgs {
+  photoUrl: string;
+  like?: boolean;
+}
+
+interface FacebookPhotoLike {
+  id: string;
+  photoUrl: string;
+  liked: boolean;
+}
+
+interface SavePostArgs {
+  postUrl: string;
+}
+
+interface FacebookSavedPost {
+  id: string;
+  postUrl: string;
+  saved: true;
+}
+
 interface SearchPagesArgs {
   query: string;
 }
@@ -23127,6 +23280,15 @@ interface FacebookMarketplaceListingDetails {
 
     /** List photos posted by a Page or person, newest first. */
     listPhotos(args: ListPhotosArgs, opts?: ConnectionOption): Promise<FacebookPhoto[]>;
+
+    /** Read a photo album's details — title, creation date, photo count and its photos. */
+    getPhotoAlbum(args: GetPhotoAlbumArgs, opts?: ConnectionOption): Promise<FacebookPhotoAlbum>;
+
+    /** Like or unlike a photo by its permalink URL. */
+    likePhoto(args: LikePhotoArgs, opts?: ConnectionOption): Promise<FacebookPhotoLike>;
+
+    /** Save (bookmark) a post to the caller's Saved items, by its permalink URL. */
+    savePost(args: SavePostArgs, opts?: ConnectionOption): Promise<FacebookSavedPost>;
 
     /** Read a Facebook video's details — title, description, view count, comment count. */
     getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<FacebookVideo>;
@@ -26936,6 +27098,32 @@ interface GoodreadsQuote {
   likes?: number;
   tags: string[];
 }
+interface GoodreadsAuthorBook {
+  legacyId: string;
+  title: string;
+  url: string;
+  averageRating?: number;
+  ratingsCount?: number;
+  publishedYear?: number;
+}
+interface GoodreadsAuthor {
+  legacyId: string;
+  name: string;
+  url: string;
+  image?: string;
+  born?: string;
+  website?: string;
+  genres: string[];
+  influences: string[];
+  bio?: string;
+  memberSince?: string;
+  averageRating?: number;
+  ratingsCount?: number;
+  reviewsCount?: number;
+  worksCount?: number;
+  followersCount?: number;
+  books: GoodreadsAuthorBook[];
+}
 
   /**
    * A social network for book readers: book details and ratings, member reviews, curated lists,
@@ -26973,6 +27161,13 @@ interface GoodreadsQuote {
      * per row. Takes the numeric id or the full URL.
      */
     getList(idOrUrl: string): Promise<GoodreadsListBook[]>;
+
+    /**
+     * Reads one author's page — bio, genre, influences, website, rating/review/follower stats, and
+     * a preview of their books. Takes the numeric id or the full URL searchBooks/getBook return in
+     * authorUrl.
+     */
+    getAuthor(idOrUrl: string): Promise<GoodreadsAuthor>;
 
     /**
      * Runs the public quotes search and returns quote text with its attributed author, the book
@@ -35603,6 +35798,31 @@ interface LinkedinFollowedEntity {
   kind: "member" | "company" | "newsletter" | "unknown";
 }
 
+interface LinkedinTrackedJob {
+  id: string | null;      // posting id — feeds getJob
+  url: string | null;
+  title: string;
+  company: string | null;
+  location: string | null;
+  status: string | null;  // LinkedIn's card line, verbatim: "Saved 2d ago", "Application viewed"
+}
+
+interface LinkedinSavedPost {
+  urn: string | null;
+  url: string | null;
+  author: string | null;
+  authorHeadline: string | null;
+  text: string | null;
+}
+
+interface LinkedinSearchGroup {
+  id: string | null;      // numeric group id — feeds getGroup / joinGroup
+  url: string | null;
+  name: string;
+  members: string | null; // LinkedIn's line, verbatim: "12K members"
+  description: string | null;
+}
+
 // Paged results carry { start, nextStart } — pass nextStart back as start; null means the last page.
 interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: number; nextStart: number | null; }
 
@@ -36091,6 +36311,55 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * extra last argument; ask them first.
      */
     listFollowing(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ following: LinkedinFollowedEntity[]; start: number; nextStart: number | null }>;
+
+    /**
+     * Lists the jobs the caller has saved, newest first — each posting's id (for getJob), title,
+     * company, location and LinkedIn's status line, such as when it was saved. Signed in: acts as
+     * the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+     * link where they sign in. Paced per LinkedIn account across runs so it never looks automated
+     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
+     * "fast" } as an extra last argument; ask them first.
+     */
+    listSavedJobs(input?: { start?: number }, opts?: ConnectionOption): Promise<{ jobs: LinkedinTrackedJob[]; total: number | null; start: number; nextStart: number | null }>;
+
+    /**
+     * Lists the jobs the caller has applied to on LinkedIn, newest first — each posting's id (for
+     * getJob), title, company, location and the status LinkedIn shows (applied, application
+     * viewed, no longer accepting). Signed in: acts as the caller's own LinkedIn account; with no
+     * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
+     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
+     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
+     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+     * first.
+     */
+    listAppliedJobs(input?: { start?: number }, opts?: ConnectionOption): Promise<{ jobs: LinkedinTrackedJob[]; total: number | null; start: number; nextStart: number | null }>;
+
+    /**
+     * Lists the posts and articles the caller has saved, newest first — each one's author, the
+     * author's headline, its text and URL. Signed in: acts as the caller's own LinkedIn account;
+     * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
+     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
+     * argument; ask them first.
+     */
+    listSavedPosts(input?: { start?: number }, opts?: ConnectionOption): Promise<{ posts: LinkedinSavedPost[]; total: number | null; start: number; nextStart: number | null }>;
+
+    /**
+     * Searches LinkedIn groups by keyword, 10 per page — each group's id (for getGroup and
+     * joinGroup), name, member count, description and URL. Signed in: acts as the caller's own
+     * LinkedIn account; with no saved sign-in the run pauses and hands back a link where they sign
+     * in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
+     */
+    searchGroups(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchGroup>>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -41407,6 +41676,15 @@ interface MsnMarketSummary {
     getSectionFeed(section: "sports" | "entertainment" | "health" | "lifestyle" | "travel" | "autos"): Promise<MsnTopStories>;
 
     /**
+     * Reads one MSN article's full text, byline, publish time and images off its own article URL —
+     * the door every other read hands a caller: getTopStories, searchNews and getSectionFeed each
+     * return a `url` that only this function can turn into the actual story. A caller holding a
+     * headline and nothing else cannot reach the body without it. `byline` and `publishedDateTime`
+     * are `null` when the page carries neither.
+     */
+    getArticle(url: string): Promise<MsnArticle>;
+
+    /**
      * Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E off
      * MSN Money the way msn.com/en-us/money/stockdetails does for a visitor with no account.
      * Resolves `symbol` (e.g. "AAPL") to MSN's own internal instrument first, then reads its quote
@@ -42505,6 +42783,24 @@ interface NintendoCategory {
   name: string;
   url: string;
 }
+interface NintendoProductSummary {
+  sku: string;
+  urlKey: string;
+  url: string;
+  title: string;
+  platform: string | null;
+  currency: string | null;
+  regularPrice: number | null;
+  finalPrice: number | null;
+  discounted: boolean | null;
+  stockStatus: string | null;  // the site's own label — read the value off a result, never guess one from prose
+  availability: string[];  // the site's own labels — read the values off a result, never guess one from prose
+  categoryIds: string[];  // matches listCategories' id, so a result's own category can feed browseCategory
+}
+interface NintendoSearchResult {
+  products: NintendoProductSummary[];
+  totalHits: number;
+}
 
   /**
    * Nintendo's own store catalog, support knowledge base and news — games, hardware and
@@ -42514,8 +42810,8 @@ interface NintendoCategory {
     /**
      * Reads one Nintendo store product page the way a shopper would: name, platform, current and
      * list price, in-stock flag, description, box art, genre/feature tags and compatibility note.
-     * Takes a urlKey or a nintendo.com product url (not yet a bare product name — that needs
-     * searchProducts).
+     * Takes a urlKey or a nintendo.com product url, or a urlKey off
+     * searchProducts/browseCategory/listCategories.
      */
     getProduct(ref: string): Promise<NintendoProduct>;
 
@@ -42525,6 +42821,20 @@ interface NintendoCategory {
      * addresses it by (/us/store/<slug>/).
      */
     listCategories(): Promise<NintendoCategory[]>;
+
+    /**
+     * Searches the store catalog by keyword the way the site's own search box does — games,
+     * hardware, accessories and apparel — returning matching products with price, platform and
+     * availability. `limit` defaults to 20.
+     */
+    searchProducts(query: string, options?: { limit?: number }): Promise<NintendoSearchResult>;
+
+    /**
+     * Browses one whole department with no keyword — "what's in Nintendo Switch games" — sorted
+     * the way the site shows it. Takes a category slug from listCategories (or a result's own
+     * categoryIds). `limit` defaults to 20.
+     */
+    browseCategory(category: string, options?: { limit?: number }): Promise<NintendoSearchResult>;
   }
 }
 
@@ -43104,6 +43414,29 @@ interface NytCookingGetGroceryListResult {
   warnings?: string[];
 }
 
+interface NytCookingAddToGroceryListArgs {
+  recipeId: number | string;
+}
+
+interface NytCookingAddToGroceryListResult {
+  recipeId: number;
+  added: true;
+}
+
+interface NytCookingRemoveFromGroceryListArgs {
+  recipeId: number | string;
+}
+
+interface NytCookingRemoveFromGroceryListResult {
+  recipeId: number;
+  removed: true;
+}
+
+interface NytCookingClearGroceryListResult {
+  cleared: true;
+  removedCount: number;
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -43211,6 +43544,25 @@ interface NytCookingGetGroceryListResult {
      * signed in to NYT — the run pauses for a login the first time this is called.
      */
     getGroceryList(opts?: ConnectionOption): Promise<NytCookingGetGroceryListResult>;
+
+    /**
+     * Adds a recipe's ingredients to the signed-in reader's grocery list. Requires the caller to
+     * be signed in to NYT — the run pauses for a login the first time this is called.
+     */
+    addToGroceryList(args: NytCookingAddToGroceryListArgs, opts?: ConnectionOption): Promise<NytCookingAddToGroceryListResult>;
+
+    /**
+     * Removes a recipe's ingredients from the signed-in reader's grocery list. Requires the caller
+     * to be signed in to NYT — the run pauses for a login the first time this is called.
+     */
+    removeFromGroceryList(args: NytCookingRemoveFromGroceryListArgs, opts?: ConnectionOption): Promise<NytCookingRemoveFromGroceryListResult>;
+
+    /**
+     * Removes every recipe currently in the signed-in reader's grocery list, one at a time.
+     * Requires the caller to be signed in to NYT — the run pauses for a login the first time this
+     * is called.
+     */
+    clearGroceryList(opts?: ConnectionOption): Promise<NytCookingClearGroceryListResult>;
   }
 }
 
@@ -49047,10 +49399,47 @@ interface ResyAvailability {
   slots: ResySlot[];
 }
 
+interface ResyStartBookingArgs {
+  venueId: number;     // from a search row
+  day: string;         // "YYYY-MM-DD", the venue's calendar
+  time: string;        // "HH:mm", 24-hour local — the time part of a slots[].startsAt
+  partySize: number;
+  phone: string;       // the diner's mobile, the one on their Resy account; Resy texts the code to it
+  seatingType?: string; // e.g. "Dining Room" when the time has several; default the first
+}
+
+interface ResyBookingStarted {
+  status: "code_sent";
+  venueId: number;
+  venueName: string;
+  startsAt: string;
+  partySize: number;
+  seatingType: string | null;
+  codeSentTo: string;           // masked, e.g. "***-***-5219"
+  cancellationPolicy: string[]; // Resy's own words
+}
+
+interface ResyBooking {
+  venueId: number;
+  venueName: string;
+  startsAt: string;
+  partySize: number;
+  seatingType: string | null;
+  reservationId: number | null;
+  resyToken: string;            // cancelBooking takes it
+  cancellationPolicy: string[];
+}
+
+interface ResyCancellation {
+  canceled: true;
+  resyToken: string;
+  refunded: boolean | null;
+}
+
   /**
-   * Restaurant search and real-time table availability on Resy — venue lookup by name and open
-   * slots for a date/party size, both keyless and browserless. No booking (needs a signed-in
-   * Resy account).
+   * Restaurant search, real-time table availability and booking on Resy — venue lookup by name,
+   * open slots for a date and party size, and booking one for a diner who has a Resy account
+   * (Resy texts them a code to confirm), then cancelling it. All browserless.
    */
   interface Unit {
     /**
@@ -49071,6 +49460,37 @@ interface ResyAvailability {
      * complete answer ("nothing open"), not an error.
      */
     checkAvailability(args: { venueId: number; day: string; partySize?: number }): Promise<ResyAvailability>;
+
+    /**
+     * Starts booking one open Resy time for a diner who has a Resy account: checks the time is
+     * open, reads the slot's terms (refusing any slot that charges or holds a card, before anyone
+     * is texted), and has Resy TEXT A CODE to `phone`. Then call `confirmBooking({ code })` IN THE
+     * SAME BOWMARK SESSION. With the MCP tools: `session_call({ path: ["providers", "resy",
+     * "startBooking"], args: [{ venueId: 10281, day: "2026-10-29", time: "20:00", partySize: 2,
+     * phone: "604-555-0123" }] })`, ask the diner for the texted code, then `session_call({
+     * sessionId, path: ["providers", "resy", "confirmBooking"], args: [{ code: "…" }] })` with the
+     * `sessionId` the first call returned. Over HTTP: `POST /v1/session` returns `{ sessionId }`,
+     * then `POST /v1/session/<sessionId>/call` with the same `{"path": [...], "args": [...]}`.
+     * Throws, listing the open times, when `time` is not open.
+     */
+    startBooking(args: ResyStartBookingArgs): Promise<ResyBookingStarted>;
+
+    /**
+     * Finishes the booking `startBooking` began in this session: signs the diner in with the
+     * texted code and books the slot, returning Resy's reservation id and the `resyToken`
+     * cancelBooking takes. Resy often asks for the email on the diner's Resy account the first
+     * time a number signs in from a new device: pass `email` up front, or call again with `{ code,
+     * email }` when the error asks. A number with no Resy account throws with the sign-up link
+     * (https://resy.com/login) to send the diner to; Bowmark does not create accounts.
+     */
+    confirmBooking(args: { code: string; email?: string }): Promise<ResyBooking>;
+
+    /**
+     * Cancels a reservation booked in THIS Bowmark session (the `resyToken` confirmBooking
+     * returned), using the diner's sign-in from that booking. In a new session it throws; the
+     * diner cancels from Resy's confirmation email instead.
+     */
+    cancelBooking(args: { resyToken: string }): Promise<ResyCancellation>;
   }
 }
 
@@ -49255,6 +49675,74 @@ interface GetMarketOverviewArgs {
   table: string;                    // "indices", "currencies", "commodities", or a sector like "energy"
   limit?: number;                   // 1-500, default 100
 }
+interface ReutersCompanyOfficer {
+  name: string;
+  title: string;
+  rank: number | null;
+  age: number | null;
+  since: number | null;             // year appointed
+}
+interface ReutersCompanyProfile {
+  ric: string;
+  name: string;
+  about: string | null;
+  website: string | null;
+  sector: string | null;
+  industry: string | null;
+  street: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
+  phone: string | null;             // e.g. "+1 408 9961010"
+  officers: ReutersCompanyOfficer[];
+}
+interface GetCompanyProfileArgs {
+  ric: string;                      // a RIC from searchCompanies, e.g. "AAPL.O"
+}
+interface ReutersCompanyKeyMetrics {
+  ric: string;
+  beta: number | null;
+  marketCap: number | null;
+  valuation: {
+    peTtm: number | null;
+    peAnnual: number | null;
+    priceToSalesTtm: number | null;
+    priceToBookQuarterly: number | null;
+    priceToCashFlowTtm: number | null;
+    priceToFreeCashFlowTtm: number | null;
+  };
+  profitability: {
+    grossMarginTtm: number | null;
+    operatingMarginTtm: number | null;
+    netMarginTtm: number | null;
+    returnOnEquityTtm: number | null;
+    returnOnAssets: number | null;
+    returnOnInvestmentTtm: number | null;
+  };
+  growth: {
+    revenueGrowthTtmYoy: number | null;
+    revenueGrowth5y: number | null;
+    epsGrowthTtmYoy: number | null;
+    epsGrowth5y: number | null;
+  };
+  dividends: {
+    dividendYieldIndicatedAnnual: number | null;
+    dividendPerShareTtm: number | null;
+    payoutRatioAnnual: number | null;
+    dividendGrowthRate5y: number | null;
+  };
+  perShare: {
+    epsTtm: number | null;
+    bookValuePerShareAnnual: number | null;
+    cashFlowPerShareTtm: number | null;
+    freeCashFlowPerShareTtm: number | null;
+    revenuePerShareTtm: number | null;
+  };
+}
+interface GetCompanyKeyMetricsArgs {
+  ric: string;                      // a RIC from searchCompanies, e.g. "AAPL.O"
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -49371,6 +49859,18 @@ interface GetMarketOverviewArgs {
      * table: "indices", "currencies", "commodities" or a sector name.
      */
     getMarketOverview(args: GetMarketOverviewArgs): Promise<ReutersMarketRow[]>;
+
+    /**
+     * A company's Reuters profile — description, website, sector, industry, head office address
+     * and its officers and directors. Takes a RIC from searchCompanies.
+     */
+    getCompanyProfile(args: GetCompanyProfileArgs): Promise<ReutersCompanyProfile>;
+
+    /**
+     * A company's key ratios on Reuters — valuation, profitability, growth, dividends and
+     * per-share figures. Takes a RIC from searchCompanies.
+     */
+    getCompanyKeyMetrics(args: GetCompanyKeyMetricsArgs): Promise<ReutersCompanyKeyMetrics>;
   }
 }
 
@@ -56163,6 +56663,9 @@ type UnfollowUserArgs = {
   userId: string;
   secUid: string;
 };
+type BookmarkVideoArgs = {
+  video: string;
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -56354,6 +56857,14 @@ type UnfollowUserArgs = {
      * of the unfollow.
      */
     unfollowUser(args: UnfollowUserArgs, opts?: ConnectionOption): Promise<{ unfollowed: boolean }>;
+
+    /**
+     * Save a video to the signed-in caller's own Favorites/bookmarks. Takes a video reference — a
+     * full video URL or a bare video id. Writes via POST to /api/collect/item/ with the caller's
+     * session cookies, no browser. The caller signs in through the auth relay; Bowmark never signs
+     * up on this site. Returns a confirmation of the save.
+     */
+    bookmarkVideo(args: BookmarkVideoArgs, opts?: ConnectionOption): Promise<{ bookmarked: boolean }>;
   }
 }
 

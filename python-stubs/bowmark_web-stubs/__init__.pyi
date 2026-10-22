@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6fe9fba40663fddad6c5750ffcdcb0b43c0cbd1ab879b1d5b2ef36befc96b5c9
-# 85 capabilities, 618 providers, 2342 typed functions, 20 refused.
+# Manifest version: 1c2ebe2a7a89a8d5f75544c6bf01739e46678c16a4609249c9404961a631c9b2
+# 85 capabilities, 618 providers, 2368 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7716,6 +7716,28 @@ class Prv_booking_com_PropertyDetails_Out(TypedDict):
     checkInTime: str | None
     checkOutTime: str | None
 
+class Prv_booking_com_ListAvailabilityArgs_In(TypedDict):
+    destination: str
+    checkIn: str
+    checkOut: str
+    adults: NotRequired[float]
+    rooms: NotRequired[float]
+
+class Prv_booking_com_listAvailability_return_Out(TypedDict):
+    totalAvailable: float | None
+    properties: list[Prv_booking_com_AvailableUnit_Out]
+
+class Prv_booking_com_AvailableUnit_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    unitName: str | None
+    roomsLeft: float | None
+    freeCancellation: bool
+    pricePerNight: float | None
+    totalPrice: float | None
+    originalTotalPrice: float | None
+
 class Prv_borsheims_BorsheimsSearchResult_Out(TypedDict):
     name: str
     url: str
@@ -11672,6 +11694,53 @@ class Prv_duckduckgo_DuckDuckGoImage_Out(TypedDict):
     width: float | None
     source: str | None
 
+class Prv_duckduckgo_GetInstantAnswerArgs_In(TypedDict):
+    query: str
+
+class Prv_duckduckgo_DuckDuckGoInstantAnswer_Out(TypedDict):
+    heading: str | None
+    abstract: str | None
+    abstractSource: str | None
+    abstractUrl: str | None
+    answer: str | None
+    answerType: str | None
+    definition: str | None
+    definitionSource: str | None
+    definitionUrl: str | None
+    image: str | None
+    relatedTopics: list[str]
+
+class Prv_duckduckgo_SuggestQueriesArgs_In(TypedDict):
+    query: str
+
+class Prv_duckduckgo_DefineWordArgs_In(TypedDict):
+    word: str
+
+class Prv_duckduckgo_DuckDuckGoDefinition_Out(TypedDict):
+    partOfSpeech: str
+    text: str
+    source: str
+
+Prv_duckduckgo_ConvertCurrencyArgs_In = TypedDict(
+    "Prv_duckduckgo_ConvertCurrencyArgs_In",
+    {
+    "amount": float,
+    "from": str,
+    "to": str,
+    },
+)
+
+Prv_duckduckgo_DuckDuckGoCurrencyConversion_Out = TypedDict(
+    "Prv_duckduckgo_DuckDuckGoCurrencyConversion_Out",
+    {
+    "from": str,
+    "to": str,
+    "amount": float,
+    "converted": float,
+    "timestamp": str,
+    },
+)
+
 class Prv_dumpsters_DumpstersGetQuoteArgs_In(TypedDict):
     address: str
     projectType: NotRequired[Literal["homeCleanout"] | Literal["homeRemodel"] | Literal["yardCleanupOrLandscaping"] | Literal["bathroomOrKitchenDemo"] | Literal["roofingOrSidingTearDown"] | Literal["other"]]
@@ -12167,6 +12236,10 @@ class Prv_epicgames_RemoveFriendResult_Out(TypedDict):
 class Prv_epicgames_UpdateDisplayNameResult_Out(TypedDict):
     updated: bool
     displayName: str
+
+class Prv_epicgames_RedeemCodeResult_Out(TypedDict):
+    redeemed: bool
+    code: str
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -13071,6 +13144,34 @@ class Prv_facebook_FacebookPhoto_Out(TypedDict):
     url: NotRequired[str]
     caption: NotRequired[str]
     timestamp: NotRequired[str]
+
+class Prv_facebook_GetPhotoAlbumArgs_In(TypedDict):
+    albumId: str
+
+class Prv_facebook_FacebookPhotoAlbum_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    photoCount: NotRequired[float]
+    createdAt: NotRequired[str]
+    url: str
+    photos: list[Prv_facebook_FacebookPhoto_Out]
+
+class Prv_facebook_LikePhotoArgs_In(TypedDict):
+    photoUrl: str
+    like: NotRequired[bool]
+
+class Prv_facebook_FacebookPhotoLike_Out(TypedDict):
+    id: str
+    photoUrl: str
+    liked: bool
+
+class Prv_facebook_SavePostArgs_In(TypedDict):
+    postUrl: str
+
+class Prv_facebook_FacebookSavedPost_Out(TypedDict):
+    id: str
+    postUrl: str
+    saved: Literal[True]
 
 class Prv_facebook_GetVideoArgs_In(TypedDict):
     videoId: str
@@ -15094,6 +15195,32 @@ class Prv_goodreads_GoodreadsListBook_Out(TypedDict):
     authorName: NotRequired[str]
     authorUrl: NotRequired[str]
     averageRating: NotRequired[float]
+
+class Prv_goodreads_GoodreadsAuthor_Out(TypedDict):
+    legacyId: str
+    name: str
+    url: str
+    image: NotRequired[str]
+    born: NotRequired[str]
+    website: NotRequired[str]
+    genres: list[str]
+    influences: list[str]
+    bio: NotRequired[str]
+    memberSince: NotRequired[str]
+    averageRating: NotRequired[float]
+    ratingsCount: NotRequired[float]
+    reviewsCount: NotRequired[float]
+    worksCount: NotRequired[float]
+    followersCount: NotRequired[float]
+    books: list[Prv_goodreads_GoodreadsAuthorBook_Out]
+
+class Prv_goodreads_GoodreadsAuthorBook_Out(TypedDict):
+    legacyId: str
+    title: str
+    url: str
+    averageRating: NotRequired[float]
+    ratingsCount: NotRequired[float]
+    publishedYear: NotRequired[float]
 
 class Prv_goodreads_GoodreadsQuote_Out(TypedDict):
     id: str
@@ -19794,6 +19921,52 @@ class Prv_linkedin_LinkedinFollowedEntity_Out(TypedDict):
     url: str | None
     kind: Literal["member"] | Literal["company"] | Literal["newsletter"] | Literal["unknown"]
 
+class Prv_linkedin_listSavedJobs_input_In(TypedDict):
+    start: NotRequired[float]
+
+class Prv_linkedin_listSavedJobs_return_Out(TypedDict):
+    jobs: list[Prv_linkedin_LinkedinTrackedJob_Out]
+    total: float | None
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_LinkedinTrackedJob_Out(TypedDict):
+    id: str | None
+    url: str | None
+    title: str
+    company: str | None
+    location: str | None
+    status: str | None
+
+class Prv_linkedin_listAppliedJobs_input_In(TypedDict):
+    start: NotRequired[float]
+
+class Prv_linkedin_listAppliedJobs_return_Out(TypedDict):
+    jobs: list[Prv_linkedin_LinkedinTrackedJob_Out]
+    total: float | None
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_listSavedPosts_input_In(TypedDict):
+    start: NotRequired[float]
+
+class Prv_linkedin_listSavedPosts_return_Out(TypedDict):
+    posts: list[Prv_linkedin_LinkedinSavedPost_Out]
+    total: float | None
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_LinkedinSavedPost_Out(TypedDict):
+    urn: str | None
+    url: str | None
+    author: str | None
+    authorHeadline: str | None
+    text: str | None
+
+class Prv_linkedin_searchGroups_input_u1_In(TypedDict):
+    keywords: str
+    start: NotRequired[float]
+
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -22556,6 +22729,13 @@ class Prv_msn_MsnStory_Out(TypedDict):
     providerName: str
     imageUrl: str | None
 
+class Prv_msn_MsnArticle_Out(TypedDict):
+    title: str
+    body: str
+    byline: str | None
+    publishedDateTime: str | None
+    images: list[str]
+
 class Prv_msn_MsnStockQuote_Out(TypedDict):
     symbol: str
     displayName: str
@@ -23123,6 +23303,30 @@ class Prv_nintendo_NintendoCategory_Out(TypedDict):
     name: str
     url: str
 
+class Prv_nintendo_searchProducts_options_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_nintendo_NintendoSearchResult_Out(TypedDict):
+    products: list[Prv_nintendo_NintendoProductSummary_Out]
+    totalHits: float
+
+class Prv_nintendo_NintendoProductSummary_Out(TypedDict):
+    sku: str
+    urlKey: str
+    url: str
+    title: str
+    platform: str | None
+    currency: str | None
+    regularPrice: float | None
+    finalPrice: float | None
+    discounted: bool | None
+    stockStatus: str | None
+    availability: list[str]
+    categoryIds: list[str]
+
+class Prv_nintendo_browseCategory_options_In(TypedDict):
+    limit: NotRequired[float]
+
 class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     package: str
     downloads: float
@@ -23465,6 +23669,24 @@ class Prv_nyt_cooking_NytCookingGetCookedRecipesResult_Out(TypedDict):
 class Prv_nyt_cooking_NytCookingGetGroceryListResult_Out(TypedDict):
     lists: list[Any]
     warnings: NotRequired[list[str]]
+
+class Prv_nyt_cooking_NytCookingAddToGroceryListArgs_In(TypedDict):
+    recipeId: float | str
+
+class Prv_nyt_cooking_NytCookingAddToGroceryListResult_Out(TypedDict):
+    recipeId: float
+    added: Literal[True]
+
+class Prv_nyt_cooking_NytCookingRemoveFromGroceryListArgs_In(TypedDict):
+    recipeId: float | str
+
+class Prv_nyt_cooking_NytCookingRemoveFromGroceryListResult_Out(TypedDict):
+    recipeId: float
+    removed: Literal[True]
+
+class Prv_nyt_cooking_NytCookingClearGroceryListResult_Out(TypedDict):
+    cleared: Literal[True]
+    removedCount: float
 
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
@@ -27309,6 +27531,46 @@ class Prv_resy_ResySlot_Out(TypedDict):
     seatingType: str | None
     token: str | None
 
+class Prv_resy_ResyStartBookingArgs_In(TypedDict):
+    venueId: float
+    day: str
+    time: str
+    partySize: float
+    phone: str
+    seatingType: NotRequired[str]
+
+class Prv_resy_ResyBookingStarted_Out(TypedDict):
+    status: Literal["code_sent"]
+    venueId: float
+    venueName: str
+    startsAt: str
+    partySize: float
+    seatingType: str | None
+    codeSentTo: str
+    cancellationPolicy: list[str]
+
+class Prv_resy_confirmBooking_args_In(TypedDict):
+    code: str
+    email: NotRequired[str]
+
+class Prv_resy_ResyBooking_Out(TypedDict):
+    venueId: float
+    venueName: str
+    startsAt: str
+    partySize: float
+    seatingType: str | None
+    reservationId: float | None
+    resyToken: str
+    cancellationPolicy: list[str]
+
+class Prv_resy_cancelBooking_args_In(TypedDict):
+    resyToken: str
+
+class Prv_resy_ResyCancellation_Out(TypedDict):
+    canceled: Literal[True]
+    resyToken: str
+    refunded: bool | None
+
 class Prv_reuters_ListSectionsArgs_In(TypedDict):
     query: NotRequired[str]
 
@@ -27487,6 +27749,79 @@ class Prv_reuters_ReutersMarketRow_Out(TypedDict):
     lastPrice: float
     change: float
     changePercent: float
+
+class Prv_reuters_GetCompanyProfileArgs_In(TypedDict):
+    ric: str
+
+class Prv_reuters_ReutersCompanyProfile_Out(TypedDict):
+    ric: str
+    name: str
+    about: str | None
+    website: str | None
+    sector: str | None
+    industry: str | None
+    street: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    country: str | None
+    phone: str | None
+    officers: list[Prv_reuters_ReutersCompanyOfficer_Out]
+
+class Prv_reuters_ReutersCompanyOfficer_Out(TypedDict):
+    name: str
+    title: str
+    rank: float | None
+    age: float | None
+    since: float | None
+
+class Prv_reuters_GetCompanyKeyMetricsArgs_In(TypedDict):
+    ric: str
+
+class Prv_reuters_ReutersCompanyKeyMetrics_Out(TypedDict):
+    ric: str
+    beta: float | None
+    marketCap: float | None
+    valuation: Prv_reuters_ReutersCompanyKeyMetrics_Out_valuation_Out
+    profitability: Prv_reuters_ReutersCompanyKeyMetrics_Out_profitability_Out
+    growth: Prv_reuters_ReutersCompanyKeyMetrics_Out_growth_Out
+    dividends: Prv_reuters_ReutersCompanyKeyMetrics_Out_dividends_Out
+    perShare: Prv_reuters_ReutersCompanyKeyMetrics_Out_perShare_Out
+
+class Prv_reuters_ReutersCompanyKeyMetrics_Out_valuation_Out(TypedDict):
+    peTtm: float | None
+    peAnnual: float | None
+    priceToSalesTtm: float | None
+    priceToBookQuarterly: float | None
+    priceToCashFlowTtm: float | None
+    priceToFreeCashFlowTtm: float | None
+
+class Prv_reuters_ReutersCompanyKeyMetrics_Out_profitability_Out(TypedDict):
+    grossMarginTtm: float | None
+    operatingMarginTtm: float | None
+    netMarginTtm: float | None
+    returnOnEquityTtm: float | None
+    returnOnAssets: float | None
+    returnOnInvestmentTtm: float | None
+
+class Prv_reuters_ReutersCompanyKeyMetrics_Out_growth_Out(TypedDict):
+    revenueGrowthTtmYoy: float | None
+    revenueGrowth5y: float | None
+    epsGrowthTtmYoy: float | None
+    epsGrowth5y: float | None
+
+class Prv_reuters_ReutersCompanyKeyMetrics_Out_dividends_Out(TypedDict):
+    dividendYieldIndicatedAnnual: float | None
+    dividendPerShareTtm: float | None
+    payoutRatioAnnual: float | None
+    dividendGrowthRate5y: float | None
+
+class Prv_reuters_ReutersCompanyKeyMetrics_Out_perShare_Out(TypedDict):
+    epsTtm: float | None
+    bookValuePerShareAnnual: float | None
+    cashFlowPerShareTtm: float | None
+    freeCashFlowPerShareTtm: float | None
+    revenuePerShareTtm: float | None
 
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
@@ -31559,6 +31894,12 @@ class Prv_tiktok_UnfollowUserArgs_In(TypedDict):
 
 class Prv_tiktok_unfollowUser_return_Out(TypedDict):
     unfollowed: bool
+
+class Prv_tiktok_BookmarkVideoArgs_In(TypedDict):
+    video: str
+
+class Prv_tiktok_bookmarkVideo_return_Out(TypedDict):
+    bookmarked: bool
 
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
@@ -37720,7 +38061,9 @@ class Cap_read(Protocol):
 class Cap_restaurant_booking(Protocol):
     """Finds a restaurant by name on Resy and OpenTable and reads its real-time open
     reservation slots for a date and party size, plus a direct link to book one (per slot on
-    OpenTable). No login, no booking itself (that needs the diner's details).
+    OpenTable). It does not book; to book a slot, call the platform's own `startBooking`
+    then `confirmBooking` (`bowmark.providers.resy` or `bowmark.providers.opentable`) in one
+    Bowmark session.
     """
 
     async def findAvailability(self, name: str | Cap_restaurant_booking_findAvailability_name_u1_In, options: Cap_restaurant_booking_CallOptions_In | None = None, /) -> Cap_restaurant_booking_RestaurantAvailabilityResult_Out:
@@ -37733,10 +38076,13 @@ class Cap_restaurant_booking(Protocol):
         and pass `{ timeoutMs: 55000 }`. Returns `venue: null` when no platform has a matching
         restaurant, and `slots: []` when the venue exists but has nothing open for that
         date/party — both real, complete answers, not failures. `venue.bookingUrl` is the
-        platform's own page, pre-filled with the requested date and party size, since booking
-        the slot itself needs a signed-in platform account and is out of scope here. `location`
-        narrows a common restaurant name when passed as `"lat,lon"` (e.g. `"37.7749,-122.4194"`
-        for San Francisco); free-form text is ignored rather than guessed at.
+        platform's own page, pre-filled with the requested date and party size, because this
+        function only reads. To BOOK a slot, use the platform's own two-call flow in one Bowmark
+        session: `bowmark.providers.resy.startBooking` / `confirmBooking` (the diner's Resy
+        account; Resy texts a code) or `bowmark.providers.opentable.startBooking` /
+        `confirmBooking` (as a guest; OpenTable texts a code). `location` narrows a common
+        restaurant name when passed as `"lat,lon"` (e.g. `"37.7749,-122.4194"` for San
+        Francisco); free-form text is ignored rather than guessed at.
         """
 
 class Cap_retail(Protocol):
@@ -41242,6 +41588,11 @@ class Prv_booking_com(Protocol):
         and check-in/check-out times.
         """
 
+    async def listAvailability(self, args: Prv_booking_com_ListAvailabilityArgs_In, /) -> Prv_booking_com_listAvailability_return_Out:
+        """List only the properties with rooms free for a destination, dates and party size — the
+        room offered, how many are left, free cancellation and the price.
+        """
+
 class Prv_borsheims(Protocol):
     """Reads Borsheims' live product catalog and composes a setting + diamond into a priced
     ring, straight off borsheims.com's own embedded product data — no key, no browser.
@@ -43858,6 +44209,28 @@ class Prv_duckduckgo(Protocol):
         `cursor` for the following page.
         """
 
+    async def getInstantAnswer(self, args: Prv_duckduckgo_GetInstantAnswerArgs_In, /) -> Prv_duckduckgo_DuckDuckGoInstantAnswer_Out:
+        """Gets DuckDuckGo's Instant Answer panel for a topic — the Wikipedia-style abstract and
+        its source, DuckDuckGo's own zero-click answer when it has one, a headline definition,
+        and related topics. Fields are `null` when DuckDuckGo has nothing for that slot.
+        """
+
+    async def suggestQueries(self, args: Prv_duckduckgo_SuggestQueriesArgs_In, /) -> list[str]:
+        """Returns the search box's own autocomplete suggestions for a partial query, most-likely
+        first.
+        """
+
+    async def defineWord(self, args: Prv_duckduckgo_DefineWordArgs_In, /) -> list[Prv_duckduckgo_DuckDuckGoDefinition_Out]:
+        """Looks a word up the way DuckDuckGo's dictionary answer does — one entry per sense, each
+        with its part of speech, definition text and which dictionary it came from (American
+        Heritage via Wordnik).
+        """
+
+    async def convertCurrency(self, args: Prv_duckduckgo_ConvertCurrencyArgs_In, /) -> Prv_duckduckgo_DuckDuckGoCurrencyConversion_Out:
+        """Converts an amount between two currencies at DuckDuckGo's current mid-market rate
+        (sourced from xe.com), with the rate's timestamp.
+        """
+
 class Prv_dumpsters(Protocol):
     """Real per-size roll-off dumpster pricing + next available delivery date for a US address,
     straight from Dumpsters.com's own /cart ordering tool — prefer this over general
@@ -44121,6 +44494,11 @@ class Prv_epicgames(Protocol):
     async def updateDisplayName(self, displayName: str, opts: ConnectionOption | None = None, /) -> Prv_epicgames_UpdateDisplayNameResult_Out:
         """Change the signed-in caller's Epic display name. Epic rate-limits how often this can
         change. Needs the caller signed in.
+        """
+
+    async def redeemCode(self, code: str, opts: ConnectionOption | None = None, /) -> Prv_epicgames_RedeemCodeResult_Out:
+        """Redeem a product code the signed-in caller holds into their Epic library. Needs the
+        caller signed in.
         """
 
 class Prv_epromos(Protocol):
@@ -44534,6 +44912,15 @@ class Prv_facebook(Protocol):
 
     async def listPhotos(self, args: Prv_facebook_ListPhotosArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookPhoto_Out]:
         """List photos posted by a Page or person, newest first."""
+
+    async def getPhotoAlbum(self, args: Prv_facebook_GetPhotoAlbumArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPhotoAlbum_Out:
+        """Read a photo album's details — title, creation date, photo count and its photos."""
+
+    async def likePhoto(self, args: Prv_facebook_LikePhotoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPhotoLike_Out:
+        """Like or unlike a photo by its permalink URL."""
+
+    async def savePost(self, args: Prv_facebook_SavePostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookSavedPost_Out:
+        """Save (bookmark) a post to the caller's Saved items, by its permalink URL."""
 
     async def getVideo(self, args: Prv_facebook_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookVideo_Out:
         """Read a Facebook video's details — title, description, view count, comment count."""
@@ -46035,6 +46422,12 @@ class Prv_goodreads(Protocol):
     async def getList(self, idOrUrl: str, /) -> list[Prv_goodreads_GoodreadsListBook_Out]:
         """Reads one curated list's books — rank, title, author, url and (when shown) average
         rating per row. Takes the numeric id or the full URL.
+        """
+
+    async def getAuthor(self, idOrUrl: str, /) -> Prv_goodreads_GoodreadsAuthor_Out:
+        """Reads one author's page — bio, genre, influences, website, rating/review/follower stats,
+        and a preview of their books. Takes the numeric id or the full URL searchBooks/getBook
+        return in authorUrl.
         """
 
     async def searchQuotes(self, query: str, /) -> list[Prv_goodreads_GoodreadsQuote_Out]:
@@ -49652,6 +50045,51 @@ class Prv_linkedin(Protocol):
         { pacing: "fast" } as an extra last argument; ask them first.
         """
 
+    async def listSavedJobs(self, input: Prv_linkedin_listSavedJobs_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listSavedJobs_return_Out:
+        """Lists the jobs the caller has saved, newest first — each posting's id (for getJob),
+        title, company, location and LinkedIn's status line, such as when it was saved. Signed
+        in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
+    async def listAppliedJobs(self, input: Prv_linkedin_listAppliedJobs_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listAppliedJobs_return_Out:
+        """Lists the jobs the caller has applied to on LinkedIn, newest first — each posting's id
+        (for getJob), title, company, location and the status LinkedIn shows (applied,
+        application viewed, no longer accepting). Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
+        """
+
+    async def listSavedPosts(self, input: Prv_linkedin_listSavedPosts_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listSavedPosts_return_Out:
+        """Lists the posts and articles the caller has saved, newest first — each one's author, the
+        author's headline, its text and URL. Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
+        """
+
+    async def searchGroups(self, input: str | Prv_linkedin_searchGroups_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Searches LinkedIn groups by keyword, 10 per page — each group's id (for getGroup and
+        joinGroup), name, member count, description and URL. Signed in: acts as the caller's own
+        LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
+        sign in. Paced per LinkedIn account across runs so it never looks automated — 6 requests
+        a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -51328,6 +51766,14 @@ class Prv_msn(Protocol):
         getWeatherForecast. "video" fires its own dedicated feed door and is not yet built.
         """
 
+    async def getArticle(self, url: str, /) -> Prv_msn_MsnArticle_Out:
+        """Reads one MSN article's full text, byline, publish time and images off its own article
+        URL — the door every other read hands a caller: getTopStories, searchNews and
+        getSectionFeed each return a `url` that only this function can turn into the actual
+        story. A caller holding a headline and nothing else cannot reach the body without it.
+        `byline` and `publishedDateTime` are `null` when the page carries neither.
+        """
+
     async def getStockQuote(self, symbol: str, /) -> Prv_msn_MsnStockQuote_Out:
         """Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E
         off MSN Money the way msn.com/en-us/money/stockdetails does for a visitor with no
@@ -51748,14 +52194,26 @@ class Prv_nintendo(Protocol):
     async def getProduct(self, ref: str, /) -> Prv_nintendo_NintendoProduct_Out:
         """Reads one Nintendo store product page the way a shopper would: name, platform, current
         and list price, in-stock flag, description, box art, genre/feature tags and
-        compatibility note. Takes a urlKey or a nintendo.com product url (not yet a bare product
-        name — that needs searchProducts).
+        compatibility note. Takes a urlKey or a nintendo.com product url, or a urlKey off
+        searchProducts/browseCategory/listCategories.
         """
 
     async def listCategories(self, /) -> list[Prv_nintendo_NintendoCategory_Out]:
         """Lists the store's own departments as its Shop menu shows them — Games, Hardware,
         Merchandise, Sales and deals, Exclusives, Characters — each with the slug and url the
         site addresses it by (/us/store/<slug>/).
+        """
+
+    async def searchProducts(self, query: str, options: Prv_nintendo_searchProducts_options_In | None = None, /) -> Prv_nintendo_NintendoSearchResult_Out:
+        """Searches the store catalog by keyword the way the site's own search box does — games,
+        hardware, accessories and apparel — returning matching products with price, platform and
+        availability. `limit` defaults to 20.
+        """
+
+    async def browseCategory(self, category: str, options: Prv_nintendo_browseCategory_options_In | None = None, /) -> Prv_nintendo_NintendoSearchResult_Out:
+        """Browses one whole department with no keyword — "what's in Nintendo Switch games" —
+        sorted the way the site shows it. Takes a category slug from listCategories (or a
+        result's own categoryIds). `limit` defaults to 20.
         """
 
 class Prv_npmjs(Protocol):
@@ -51980,6 +52438,23 @@ class Prv_nyt_cooking(Protocol):
     async def getGroceryList(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingGetGroceryListResult_Out:
         """Lists the grocery lists in the signed-in reader's Recipe Box. Requires the caller to be
         signed in to NYT — the run pauses for a login the first time this is called.
+        """
+
+    async def addToGroceryList(self, args: Prv_nyt_cooking_NytCookingAddToGroceryListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingAddToGroceryListResult_Out:
+        """Adds a recipe's ingredients to the signed-in reader's grocery list. Requires the caller
+        to be signed in to NYT — the run pauses for a login the first time this is called.
+        """
+
+    async def removeFromGroceryList(self, args: Prv_nyt_cooking_NytCookingRemoveFromGroceryListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingRemoveFromGroceryListResult_Out:
+        """Removes a recipe's ingredients from the signed-in reader's grocery list. Requires the
+        caller to be signed in to NYT — the run pauses for a login the first time this is
+        called.
+        """
+
+    async def clearGroceryList(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingClearGroceryListResult_Out:
+        """Removes every recipe currently in the signed-in reader's grocery list, one at a time.
+        Requires the caller to be signed in to NYT — the run pauses for a login the first time
+        this is called.
         """
 
 class Prv_nyt_games(Protocol):
@@ -54201,9 +54676,9 @@ class Prv_reliancepartners(Protocol):
         """
 
 class Prv_resy(Protocol):
-    """Restaurant search and real-time table availability on Resy — venue lookup by name and
-    open slots for a date/party size, both keyless and browserless. No booking (needs a
-    signed-in Resy account).
+    """Restaurant search, real-time table availability and booking on Resy — venue lookup by
+    name, open slots for a date and party size, and booking one for a diner who has a Resy
+    account (Resy texts them a code to confirm), then cancelling it. All browserless.
     """
 
     async def search(self, query: str | Prv_resy_search_query_u1_In, /) -> list[Prv_resy_ResyVenueRow_Out]:
@@ -54221,6 +54696,36 @@ class Prv_resy(Protocol):
         (default 2). Returns each open slot's local start time, seating/section label and Resy's
         own booking token, alongside the venue's timezone and booking-page slugs. `slots: []` is
         a genuine, complete answer ("nothing open"), not an error.
+        """
+
+    async def startBooking(self, args: Prv_resy_ResyStartBookingArgs_In, /) -> Prv_resy_ResyBookingStarted_Out:
+        """Starts booking one open Resy time for a diner who has a Resy account: checks the time is
+        open, reads the slot's terms (refusing any slot that charges or holds a card, before
+        anyone is texted), and has Resy TEXT A CODE to `phone`. Then call `confirmBooking({ code
+        })` IN THE SAME BOWMARK SESSION. With the MCP tools: `session_call({ path: ["providers",
+        "resy", "startBooking"], args: [{ venueId: 10281, day: "2026-10-29", time: "20:00",
+        partySize: 2, phone: "604-555-0123" }] })`, ask the diner for the texted code, then
+        `session_call({ sessionId, path: ["providers", "resy", "confirmBooking"], args: [{ code:
+        "…" }] })` with the `sessionId` the first call returned. Over HTTP: `POST /v1/session`
+        returns `{ sessionId }`, then `POST /v1/session/<sessionId>/call` with the same
+        `{"path": [...], "args": [...]}`. Throws, listing the open times, when `time` is not
+        open.
+        """
+
+    async def confirmBooking(self, args: Prv_resy_confirmBooking_args_In, /) -> Prv_resy_ResyBooking_Out:
+        """Finishes the booking `startBooking` began in this session: signs the diner in with the
+        texted code and books the slot, returning Resy's reservation id and the `resyToken`
+        cancelBooking takes. Resy often asks for the email on the diner's Resy account the first
+        time a number signs in from a new device: pass `email` up front, or call again with `{
+        code, email }` when the error asks. A number with no Resy account throws with the
+        sign-up link (https://resy.com/login) to send the diner to; Bowmark does not create
+        accounts.
+        """
+
+    async def cancelBooking(self, args: Prv_resy_cancelBooking_args_In, /) -> Prv_resy_ResyCancellation_Out:
+        """Cancels a reservation booked in THIS Bowmark session (the `resyToken` confirmBooking
+        returned), using the diner's sign-in from that booking. In a new session it throws; the
+        diner cancels from Resy's confirmation email instead.
         """
 
 class Prv_reuters(Protocol):
@@ -54321,6 +54826,16 @@ class Prv_reuters(Protocol):
         """The market tables Reuters shows on its Markets pages — major indices, currencies,
         commodities or a sector — with price, change and change percent for each row. Takes
         which table: "indices", "currencies", "commodities" or a sector name.
+        """
+
+    async def getCompanyProfile(self, args: Prv_reuters_GetCompanyProfileArgs_In, /) -> Prv_reuters_ReutersCompanyProfile_Out:
+        """A company's Reuters profile — description, website, sector, industry, head office
+        address and its officers and directors. Takes a RIC from searchCompanies.
+        """
+
+    async def getCompanyKeyMetrics(self, args: Prv_reuters_GetCompanyKeyMetricsArgs_In, /) -> Prv_reuters_ReutersCompanyKeyMetrics_Out:
+        """A company's key ratios on Reuters — valuation, profitability, growth, dividends and
+        per-share figures. Takes a RIC from searchCompanies.
         """
 
 class Prv_revisionskincare(Protocol):
@@ -56662,6 +57177,13 @@ class Prv_tiktok(Protocol):
         with type=0 (following uses type=1) and the caller's session cookies, no browser. The
         caller signs in through the auth relay; Bowmark never signs up on this site. Returns a
         confirmation of the unfollow.
+        """
+
+    async def bookmarkVideo(self, args: Prv_tiktok_BookmarkVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_bookmarkVideo_return_Out:
+        """Save a video to the signed-in caller's own Favorites/bookmarks. Takes a video reference
+        — a full video URL or a bare video id. Writes via POST to /api/collect/item/ with the
+        caller's session cookies, no browser. The caller signs in through the auth relay;
+        Bowmark never signs up on this site. Returns a confirmation of the save.
         """
 
 class Prv_tilsonhomes(Protocol):
