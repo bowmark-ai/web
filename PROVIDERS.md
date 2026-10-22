@@ -475,7 +475,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.followUser` | bsky.app | Follow a person as the caller, or unfollow them. | ⚪ |
 | `bluesky.getConversation` | bsky.app | The messages in one of the caller's DM conversations, page by page, with a finder from… | ⚪ |
 | `bluesky.getFeed` | bsky.app | Read a custom feed's posts (Discover, What's Hot, any creator's feed) by URL or at://… | 🟢 |
-| `bluesky.getFeedInfo` | bsky.app | One custom feed's details: name, creator, description, avatar, like count and whether… | ⚪ |
+| `bluesky.getFeedInfo` | bsky.app | One custom feed's details: name, creator, description, avatar, like count and whether… | 🟢 |
 | `bluesky.getFollowers` | bsky.app | Who follows a person, page by page. | 🟢 |
 | `bluesky.getFollows` | bsky.app | Who a person follows, page by page. | 🟢 |
 | `bluesky.getKnownFollowers` | bsky.app | Which of the caller's own follows also follow a given person — the 'Followed by' line… | ⚪ |
