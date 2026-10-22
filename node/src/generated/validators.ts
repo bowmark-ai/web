@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 11d2484af86e1b18cd233d432debe8e9d51bd6329c231f1a9b7463bd2e5f7261
-// 2339 checked, 20 unchecked.
+// Manifest version: 6fe9fba40663fddad6c5750ffcdcb0b43c0cbd1ab879b1d5b2ef36befc96b5c9
+// 2342 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "11d2484af86e1b18cd233d432debe8e9d51bd6329c231f1a9b7463bd2e5f7261",
+  "version": "6fe9fba40663fddad6c5750ffcdcb0b43c0cbd1ab879b1d5b2ef36befc96b5c9",
   "units": {
     "address_validation": {
       "defs": {
@@ -37878,6 +37878,88 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listSuggestedConnections": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "start",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "count",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowing": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "start",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "count",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "login": [
           {
             "name": "creds",
@@ -66146,6 +66228,29 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listPages": []
+      }
+    },
+    "providers.tumblr": {
+      "defs": {},
+      "functions": {
+        "findBlog": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.tweethunter": {

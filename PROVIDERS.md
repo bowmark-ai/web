@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4776 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4780 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -138,6 +138,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.listRfqProfessions` | alibaba.com | Get list of available industry/profession categories for RFQ. | ⚪ |
 | `alibaba.listRfqs` | alibaba.com | Get list of RFQs (Requests for Quote) created by the user. | ⚪ |
 | `alibaba.listSavedItems` | alibaba.com | Get list of saved/favorited products. | ⚪ |
+| `alibaba.listSupplierProducts` | alibaba.com | Lists the other products a supplier's storefront carries, so a buyer vetting a company… | ⚪ |
 | `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | 🟡 |
 | `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
 | `alibaba.removeFromCart` | alibaba.com | Remove a product from the shopping cart. | ⚪ |
@@ -1350,11 +1351,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.uploadToFileRequest` | dropbox.com | Uploads a file into a Dropbox file request link (www.dropbox.com/request/<id>) — the… | ⚪ |
 | `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | ⚪ |
 | `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | ⚪ |
-| `duckduckgo.convertCurrency` | duckduckgo.com | Convert an amount between two currencies at DuckDuckGo's current mid-market rate (from… | ⚪ |
+| `duckduckgo.convertCurrency` | duckduckgo.com | Convert an amount between two currencies at DuckDuckGo's current mid-market rate (from… | 🟢 |
 | `duckduckgo.createPrivateDuckAddress` | duckduckgo.com | Generate a new private @duck.com address on the signed-in caller's Email Protection… | ⚪ |
-| `duckduckgo.defineWord` | duckduckgo.com | Look a word up the way DuckDuckGo's dictionary answer does — part of speech… | ⚪ |
+| `duckduckgo.defineWord` | duckduckgo.com | Look a word up the way DuckDuckGo's dictionary answer does — part of speech… | 🟢 |
 | `duckduckgo.getEmailProtectionAccount` | duckduckgo.com | Read the signed-in caller's DuckDuckGo Email Protection account — their @duck.com… | ⚪ |
-| `duckduckgo.getInstantAnswer` | duckduckgo.com | Get DuckDuckGo's Instant Answer for a topic — the abstract and its source, a direct… | ⚪ |
+| `duckduckgo.getInstantAnswer` | duckduckgo.com | Get DuckDuckGo's Instant Answer for a topic — the abstract and its source, a direct… | 🟢 |
 | `duckduckgo.getLocalTime` | duckduckgo.com | Get the current local time and time zone in a city, the way DuckDuckGo's time answer… | ⚪ |
 | `duckduckgo.getWeather` | duckduckgo.com | Get the current conditions and forecast for a place, the way DuckDuckGo's weather… | ⚪ |
 | `duckduckgo.listBangs` | duckduckgo.com | List DuckDuckGo's !bangs — the shortcut, the site it searches and its category —… | ⚪ |
@@ -1367,7 +1368,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | 🟡 |
 | `duckduckgo.searchWeb` | duckduckgo.com | Search the web the way duckduckgo.com's own search box does and return the ranked… | 🟢 |
 | `duckduckgo.setPrivateDuckAddressActive` | duckduckgo.com | Turn one of the signed-in caller's private @duck.com addresses off (stop forwarding)… | ⚪ |
-| `duckduckgo.suggestQueries` | duckduckgo.com | Return DuckDuckGo's search-box autocomplete suggestions for a partial query. | ⚪ |
+| `duckduckgo.suggestQueries` | duckduckgo.com | Return DuckDuckGo's search-box autocomplete suggestions for a partial query. | 🟢 |
 | `duckduckgo.translateText` | duckduckgo.com | Translate text into a chosen language the way DuckDuckGo's translation answer does… | ⚪ |
 | `dumpsters.getQuote` | dumpsters.com | Prices a roll-off dumpster rental for a US address — real per-size prices, next… | 🟢 |
 | `e2b.createSandbox` | e2b.dev | Boots a fresh Linux sandbox from a template (the `claude` template ships Claude Code)… | 🟢 |
@@ -1431,7 +1432,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | 🟢 |
 | `epicgames.listOrders` | epicgames.com | The signed-in caller's Epic purchase history — each transaction's date, items, amount… | ⚪ |
 | `epicgames.listTags` | epicgames.com | The store's browse filters — genres, features, platforms and event tags with their ids… | ⚪ |
-| `epicgames.redeemCode` | epicgames.com | Redeem a product code the caller holds into their Epic library. | ⚪ |
+| `epicgames.redeemCode` | epicgames.com | Redeem a product code the caller holds into their Epic library. | 🟢 |
 | `epicgames.removeFriend` | epicgames.com | Remove someone from the signed-in caller's Epic friends, by their Epic display name. | 🟢 |
 | `epicgames.removeFromCart` | epicgames.com | Remove a line from the signed-in caller's cart. | ⚪ |
 | `epicgames.removeFromWishlist` | epicgames.com | Remove a game from the signed-in caller's wishlist. | ⚪ |
@@ -1577,11 +1578,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getPageInfo` | facebook.com | Read a Page's details — name, about section, follower count, category, profile and… | 🟢 |
 | `facebook.getPagePosts` | facebook.com | List posts published on a Page, newest first. | 🟢 |
 | `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and friend count. | 🟢 |
-| `facebook.getPhotoAlbum` | facebook.com | Read an album's details — title, creation date, photo count. | ⚪ |
+| `facebook.getPhotoAlbum` | facebook.com | Read a photo album's details — title, creation date, photo count and its photos. | 🟢 |
 | `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings — who can see posts, send messages, etc. | ⚪ |
 | `facebook.getVideo` | facebook.com | Read details on a Facebook video — title, description, view count, comments. | 🟢 |
 | `facebook.joinGroup` | facebook.com | Request to join or join a Group. | ⚪ |
-| `facebook.likePhoto` | facebook.com | Like or unlike a photo. | ⚪ |
+| `facebook.likePhoto` | facebook.com | Like or unlike a photo. | 🟢 |
 | `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | 🟢 |
 | `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | 🟢 |
 | `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | 🟢 |
@@ -1592,7 +1593,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.postToTimeline` | facebook.com | Write a text post to the caller's own timeline. | 🟢 |
 | `facebook.reactToPost` | facebook.com | React to a post with like, love, haha, wow, sad or angry, by its permalink URL. | 🟢 |
 | `facebook.replyToComment` | facebook.com | Reply to a specific comment. | ⚪ |
-| `facebook.savePost` | facebook.com | Save (bookmark) a post for later or add to a saved collection. | ⚪ |
+| `facebook.savePost` | facebook.com | Save (bookmark) a post for later or add to a saved collection. | 🟢 |
 | `facebook.searchGroups` | facebook.com | Search for Groups by name or topic. | 🟢 |
 | `facebook.searchPages` | facebook.com | Search for Pages by name or category. | 🟢 |
 | `facebook.searchPeople` | facebook.com | Search for Facebook users by name. | 🟢 |
@@ -1968,7 +1969,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
 | `goodreads.addToShelf` | goodreads.com | Adds a book to one of the signed-in caller's shelves (want-to-read, currently-reading… | ⚪ |
 | `goodreads.followUser` | goodreads.com | Follows another member as the signed-in caller. | ⚪ |
-| `goodreads.getAuthor` | goodreads.com | Reads one author's bio, stats and bibliography off their page, taking a name or a… | ⚪ |
+| `goodreads.getAuthor` | goodreads.com | Reads one author's bio, genre, influences, website, rating/review/follower stats and a… | 🟢 |
 | `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | 🟢 |
 | `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer name, review text, and creation… | 🟢 |
 | `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | 🟢 |
@@ -2482,7 +2483,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | ⚪ |
 | `linkedin.joinGroup` | linkedin.com | Joins a LinkedIn group as the signed-in caller, or asks to join one that needs approval. | ⚪ |
 | `linkedin.leaveGroup` | linkedin.com | Leaves a LinkedIn group the signed-in caller belongs to. | ⚪ |
-| `linkedin.listAppliedJobs` | linkedin.com | Lists the jobs the signed-in caller has applied to on LinkedIn, with each posting's… | ⚪ |
+| `linkedin.listAppliedJobs` | linkedin.com | Lists the jobs the caller has applied to on LinkedIn, newest first — each posting's id… | 🟢 |
 | `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟢 |
 | `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | 🟢 |
 | `linkedin.listCompanyPosts` | linkedin.com | Lists a company page's recent posts, as LinkedIn itself samples them on the company… | 🟢 |
@@ -2494,7 +2495,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listMyGroups` | linkedin.com | Lists the groups the signed-in caller belongs to, with each group's name, URL and… | ⚪ |
 | `linkedin.listNotifications` | linkedin.com | Lists the caller's LinkedIn notifications, newest first — who did what (a reaction, a… | 🟢 |
 | `linkedin.listPostComments` | linkedin.com | Lists the comments LinkedIn server-renders on one public post's page — each with its… | 🟢 |
-| `linkedin.listSavedJobs` | linkedin.com | Lists the jobs the signed-in caller has saved, with each posting's id (for getJob)… | ⚪ |
+| `linkedin.listSavedJobs` | linkedin.com | Lists the jobs the caller has saved, newest first — each posting's id (for getJob)… | 🟢 |
 | `linkedin.listSavedPosts` | linkedin.com | Lists the posts and articles the signed-in caller has saved, with each one's author… | ⚪ |
 | `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟢 |
 | `linkedin.listSuggestedConnections` | linkedin.com | Lists the people LinkedIn suggests the caller connect with ("People you may know") —… | 🟢 |
@@ -2755,7 +2756,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
 | `msc_fema.getFloodZone` | msc.fema.gov | Looks up the FEMA flood zone for a US street address (geocoded with the US Census… | 🟢 |
 | `msc.trackShipment` | msc.com | Track MSC container and shipment status — get real-time location, current status, and… | 🟡 |
-| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | ⚪ |
+| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🔴 |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
 | `msn.getSectionFeed` | msn.com | Returns the current top-stories feed the way msn.com/en-us/<section> does for a… | 🟢 |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E… | 🟢 |
@@ -3342,8 +3343,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟢 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
+| `resy.cancelBooking` | resy.com | Cancels a reservation booked in the same session, using the diner's sign-in from that… | 🟢 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
+| `resy.confirmBooking` | resy.com | Finishes the booking startBooking began in the same session: signs the diner in with… | 🟢 |
 | `resy.search` | resy.com | Finds Resy venues matching a restaurant name, ranked by Resy's own relevance and… | 🟢 |
+| `resy.startBooking` | resy.com | Starts booking one open time for a diner with a Resy account: checks the time is open… | 🟢 |
 | `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟢 |
 | `reuters.followTopic` | www.reuters.com | Follow a Reuters topic or section so it appears in the reader's My News feed. | ⚪ |
 | `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | 🟢 |

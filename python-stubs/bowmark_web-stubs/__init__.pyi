@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 11d2484af86e1b18cd233d432debe8e9d51bd6329c231f1a9b7463bd2e5f7261
-# 85 capabilities, 617 providers, 2339 typed functions, 20 refused.
+# Manifest version: 6fe9fba40663fddad6c5750ffcdcb0b43c0cbd1ab879b1d5b2ef36befc96b5c9
+# 85 capabilities, 618 providers, 2342 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19759,6 +19759,41 @@ class Prv_linkedin_LinkedinNotification_Out(TypedDict):
     occurredAt: str | None
     read: bool | None
 
+class Prv_linkedin_listSuggestedConnections_input_In(TypedDict):
+    start: NotRequired[float]
+    count: NotRequired[float]
+
+class Prv_linkedin_listSuggestedConnections_return_Out(TypedDict):
+    suggestions: list[Prv_linkedin_LinkedinSuggestedConnection_Out]
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_LinkedinSuggestedConnection_Out(TypedDict):
+    id: str | None
+    publicIdentifier: str | None
+    url: str | None
+    name: str
+    firstName: str | None
+    lastName: str | None
+    headline: str | None
+    photoUrl: str | None
+    reason: str | None
+
+class Prv_linkedin_listFollowing_input_In(TypedDict):
+    start: NotRequired[float]
+    count: NotRequired[float]
+
+class Prv_linkedin_listFollowing_return_Out(TypedDict):
+    following: list[Prv_linkedin_LinkedinFollowedEntity_Out]
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_LinkedinFollowedEntity_Out(TypedDict):
+    id: str | None
+    name: str | None
+    url: str | None
+    kind: Literal["member"] | Literal["company"] | Literal["newsletter"] | Literal["unknown"]
+
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -32228,6 +32263,16 @@ class Prv_tryalma_com_Page_Out(TypedDict):
     url: str
     title: str
     category: str
+
+class Prv_tumblr_findBlog_args_In(TypedDict):
+    name: str
+
+class Prv_tumblr_TumblrBlogSummary_Out(TypedDict):
+    name: str
+    title: str
+    url: str
+    totalPosts: float
+    description: str
 
 class Prv_tweethunter_TweetHunterFeature_Out(TypedDict):
     name: str
@@ -49584,6 +49629,29 @@ class Prv_linkedin(Protocol):
         { pacing: "fast" } as an extra last argument; ask them first.
         """
 
+    async def listSuggestedConnections(self, input: Prv_linkedin_listSuggestedConnections_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listSuggestedConnections_return_Out:
+        """Lists the people LinkedIn suggests the caller connect with ("People you may know") —
+        name, headline, profile URL and the reason given, such as a shared employer or school,
+        where LinkedIn names one. `count` up to 100 per page (default 20). Signed in: acts as
+        the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+        link where they sign in. Paced per LinkedIn account across runs so it never looks
+        automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+        and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
+    async def listFollowing(self, input: Prv_linkedin_listFollowing_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listFollowing_return_Out:
+        """Lists the members, companies and newsletters the caller follows, with each one's name,
+        URL and kind. `count` up to 100 per page (default 20). Signed in: acts as the caller's
+        own LinkedIn account; with no saved sign-in the run pauses and hands back a link where
+        they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
+        requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+        minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
+        saying when to retry: wait that long. The account owner may opt into faster pacing with
+        { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -57012,6 +57080,16 @@ class Prv_tryalma_com(Protocol):
     async def listPages(self, /) -> Prv_tryalma_com_ListPagesResponse_Out:
         """List all pages and sections available on the Alma website by category."""
 
+class Prv_tumblr(Protocol):
+    """Tumblr's public API — blog info, posts, tag timelines, trending, and site-wide or
+    blog-scoped search.
+    """
+
+    async def findBlog(self, args: Prv_tumblr_findBlog_args_In, /) -> Prv_tumblr_TumblrBlogSummary_Out:
+        """Resolves a blog name, bare handle or full tumblr.com url to the blog's identifier and
+        basic info.
+        """
+
 class Prv_tweethunter(Protocol):
     """Publicly advertised Tweet Hunter features for writing, scheduling, analyzing, and
     automating an X account.
@@ -60003,6 +60081,7 @@ class BowmarkProviders(Protocol):
     trophysignaturehomes: Prv_trophysignaturehomes
     trustpilot: Prv_trustpilot
     tryalma_com: Prv_tryalma_com
+    tumblr: Prv_tumblr
     tweethunter: Prv_tweethunter
     twiddy: Prv_twiddy
     twitch: Prv_twitch

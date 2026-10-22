@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 11d2484af86e1b18cd233d432debe8e9d51bd6329c231f1a9b7463bd2e5f7261
-// 85 capabilities, 617 providers, 2357 typed functions, 20 refused.
+// Manifest version: 6fe9fba40663fddad6c5750ffcdcb0b43c0cbd1ab879b1d5b2ef36befc96b5c9
+// 85 capabilities, 618 providers, 2360 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35594,6 +35594,15 @@ interface LinkedinNotification {
   read: boolean | null;
 }
 
+interface LinkedinSuggestedConnection extends LinkedinMember { reason: string | null; }
+
+interface LinkedinFollowedEntity {
+  id: string | null;
+  name: string | null;
+  url: string | null;
+  kind: "member" | "company" | "newsletter" | "unknown";
+}
+
 // Paged results carry { start, nextStart } — pass nextStart back as start; null means the last page.
 interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: number; nextStart: number | null; }
 
@@ -36057,6 +36066,31 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * last argument; ask them first.
      */
     listNotifications(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ notifications: LinkedinNotification[]; start: number; nextStart: number | null }>;
+
+    /**
+     * Lists the people LinkedIn suggests the caller connect with ("People you may know") — name,
+     * headline, profile URL and the reason given, such as a shared employer or school, where
+     * LinkedIn names one. `count` up to 100 per page (default 20). Signed in: acts as the caller's
+     * own LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
+     * sign in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
+     */
+    listSuggestedConnections(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ suggestions: LinkedinSuggestedConnection[]; start: number; nextStart: number | null }>;
+
+    /**
+     * Lists the members, companies and newsletters the caller follows, with each one's name, URL
+     * and kind. `count` up to 100 per page (default 20). Signed in: acts as the caller's own
+     * LinkedIn account; with no saved sign-in the run pauses and hands back a link where they sign
+     * in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
+     */
+    listFollowing(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ following: LinkedinFollowedEntity[]; start: number; nextStart: number | null }>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -57508,6 +57542,35 @@ interface SearchArgs {
   }
 }
 
+declare namespace BowmarkProvider_tumblr {
+  // ── Tumblr — the unit's own declarations, verbatim ──
+interface tumblrRow {
+  id: string;
+}
+
+interface TumblrBlogSummary {
+  /** The blog's own identifier — what every other tumblr.com function takes
+   * as a blog argument. */
+  name: string;
+  title: string;
+  url: string;
+  totalPosts: number;
+  description: string;
+}
+
+  /**
+   * Tumblr's public API — blog info, posts, tag timelines, trending, and site-wide or
+   * blog-scoped search.
+   */
+  interface Unit {
+    /**
+     * Resolves a blog name, bare handle or full tumblr.com url to the blog's identifier and basic
+     * info.
+     */
+    findBlog(args: { name: string }): Promise<TumblrBlogSummary>;
+  }
+}
+
 declare namespace BowmarkProvider_tweethunter {
   // ── Tweet Hunter — the unit's own declarations, verbatim ──
 interface TweetHunterFeature {
@@ -65528,6 +65591,7 @@ interface BowmarkProviders {
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
   trustpilot: BowmarkProvider_trustpilot.Unit;
   tryalma_com: BowmarkProvider_tryalma_com.Unit;
+  tumblr: BowmarkProvider_tumblr.Unit;
   tweethunter: BowmarkProvider_tweethunter.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
   twitch: BowmarkProvider_twitch.Unit;
