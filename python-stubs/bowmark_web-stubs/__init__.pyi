@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4a050ac569f81e629c1a77e1d6ad2ba8681436caa9d94bb84e608aa19acb14c7
-# 85 capabilities, 618 providers, 2380 typed functions, 20 refused.
+# Manifest version: fd319323454a7988d33674580763d871b05082846685c528fc15a125d8eec47f
+# 85 capabilities, 618 providers, 2381 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3890,6 +3890,29 @@ class Prv_alibaba_alibabaSupplierProfileRow_Out(TypedDict):
     address: str | None
     logoUrl: str | None
     identityType: str | None
+
+class Prv_alibaba_alibabaProductReviewsArgs_In(TypedDict):
+    product: str | float
+    supplierId: NotRequired[str | float]
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+
+class Prv_alibaba_alibabaProductReviews_Out(TypedDict):
+    productId: str
+    totalCount: float
+    page: float
+    reviews: list[Prv_alibaba_alibabaProductReview_Out]
+
+class Prv_alibaba_alibabaProductReview_Out(TypedDict):
+    id: str
+    rating: float | None
+    text: str
+    date: str | None
+    reviewer: str | None
+    country: str | None
+    verifiedPurchase: bool
+    helpfulCount: float
+    variant: Mapping[str, str] | None
 
 class Prv_aliexpress_SearchArgs_In(TypedDict):
     query: str
@@ -39309,6 +39332,12 @@ class Prv_alibaba(Protocol):
     async def getSupplier(self, profileUrl: str, /) -> Prv_alibaba_alibabaSupplierProfileRow_Out:
         """Get a supplier's storefront profile — company info, verification status, rating and
         contact address — from its listSuppliers() profileUrl.
+        """
+
+    async def getProductReviews(self, product: str | float | Prv_alibaba_alibabaProductReviewsArgs_In, /) -> Prv_alibaba_alibabaProductReviews_Out:
+        """One page of a product's buyer reviews — stars, text, date, masked reviewer and country,
+        verified-purchase flag — plus the total count. Pass supplierId from getProduct to skip a
+        page load.
         """
 
 class Prv_aliexpress(Protocol):

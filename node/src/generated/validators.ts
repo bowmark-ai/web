@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4a050ac569f81e629c1a77e1d6ad2ba8681436caa9d94bb84e608aa19acb14c7
-// 2380 checked, 20 unchecked.
+// Manifest version: fd319323454a7988d33674580763d871b05082846685c528fc15a125d8eec47f
+// 2381 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4a050ac569f81e629c1a77e1d6ad2ba8681436caa9d94bb84e608aa19acb14c7",
+  "version": "fd319323454a7988d33674580763d871b05082846685c528fc15a125d8eec47f",
   "units": {
     "address_validation": {
       "defs": {
@@ -7818,7 +7818,57 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.alibaba": {
-      "defs": {},
+      "defs": {
+        "alibabaProductReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "supplierId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "pageSize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "searchProducts": [
           {
@@ -7923,6 +7973,27 @@ export const VALIDATORS: ValidatorTable = {
             "name": "profileUrl",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProductReviews": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "ref",
+                  "name": "alibabaProductReviewsArgs"
+                }
+              ]
             },
             "optional": false
           }

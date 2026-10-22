@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4a050ac569f81e629c1a77e1d6ad2ba8681436caa9d94bb84e608aa19acb14c7
-// 85 capabilities, 618 providers, 2398 typed functions, 20 refused.
+// Manifest version: fd319323454a7988d33674580763d871b05082846685c528fc15a125d8eec47f
+// 85 capabilities, 618 providers, 2399 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6916,6 +6916,32 @@ interface alibabaSupplierProfileRow {
   identityType: string | null;
 }
 
+interface alibabaProductReview {
+  id: string;
+  rating: number | null;    // 1-5 stars for product quality
+  text: string;
+  date: string | null;      // YYYY-MM-DD
+  reviewer: string | null;  // masked by the site, e.g. "D***n"
+  country: string | null;   // two-letter code
+  verifiedPurchase: boolean;
+  helpfulCount: number;
+  variant: Record<string, string> | null; // what the reviewer bought, e.g. { color: "Black" }
+}
+
+interface alibabaProductReviews {
+  productId: string;
+  totalCount: number;       // the site's count across pages; can exceed the rows served
+  page: number;
+  reviews: alibabaProductReview[];
+}
+
+interface alibabaProductReviewsArgs {
+  product: string | number;          // id or product-detail URL
+  supplierId?: string | number;      // getProduct().supplierId — skips one page load
+  page?: number;                     // default 1
+  pageSize?: number;                 // 1-20, default 10
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /** Search for products by keyword, with an optional price range and page number. */
@@ -6941,6 +6967,13 @@ interface alibabaSupplierProfileRow {
      * address — from its listSuppliers() profileUrl.
      */
     getSupplier(profileUrl: string): Promise<alibabaSupplierProfileRow>;
+
+    /**
+     * One page of a product's buyer reviews — stars, text, date, masked reviewer and country,
+     * verified-purchase flag — plus the total count. Pass supplierId from getProduct to skip a
+     * page load.
+     */
+    getProductReviews(product: string | number | alibabaProductReviewsArgs): Promise<alibabaProductReviews>;
   }
 }
 
