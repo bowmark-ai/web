@@ -2477,7 +2477,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getPost` | linkedin.com | Reads one public LinkedIn post — the author, the written text in full, any attached… | 🟢 |
 | `linkedin.getProfile` | linkedin.com | Returns the public professional record of one person from their profile URL — full… | 🟢 |
 | `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟢 |
-| `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟡 |
+| `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟢 |
 | `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | 🟢 |
 | `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | ⚪ |
 | `linkedin.joinGroup` | linkedin.com | Joins a LinkedIn group as the signed-in caller, or asks to join one that needs approval. | ⚪ |
