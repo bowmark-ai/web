@@ -217,7 +217,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | 🟢 |
 | `aol.listFavorites` | aol.com | Reads the signed-in caller's AOL Favorites — their saved links and the folders holding… | ⚪ |
 | `aol.listGames` | aol.com | Lists AOL Games' free web games — id, title, publisher, category (board, card, casino… | 🟢 |
-| `aol.listNewsletters` | aol.com | Lists the email newsletters aol.com offers — id, title and what each one sends. | ⚪ |
+| `aol.listNewsletters` | aol.com | Lists AOL's newsletter signup(s) — today a single generic daily roundup ("AOL Today")… | 🟢 |
 | `aol.listSectionArticles` | aol.com | Lists the articles in one AOL section or sub-section, newest first, page by page —… | 🟢 |
 | `aol.listSections` | aol.com | Lists AOL's sections and sub-sections (News > Politics, Business, Sports > NFL… | 🟢 |
 | `aol.postComment` | aol.com | Posts a comment, or a reply to one, under an AOL article as the signed-in caller. | ⚪ |
@@ -630,7 +630,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | 🟢 |
 | `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟢 |
 | `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | ⚪ |
-| `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | ⚪ |
+| `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | 🟢 |
 | `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | 🟢 |
 | `businessinsider_com.listCryptoCurrencies` | businessinsider.com | List cryptocurrencies with their current prices from the Cryptocurrencies vertical. | ⚪ |
 | `businessinsider_com.listGuides` | businessinsider.com | List buying guides and product reviews from the Guides vertical. | 🟢 |
@@ -2801,7 +2801,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nationalbusinessfurniture.priceConfiguration` | nationalbusinessfurniture.com | Resolves a specific configuration (a choice per option group, e.g. { Finish: "Ash… | 🟢 |
 | `nationalbusinessfurniture.searchProducts` | nationalbusinessfurniture.com | Searches National Business Furniture's office-furniture catalog by free text and… | 🟢 |
 | `netflix.addToMyList` | www.netflix.com | Adds a title to the signed-in caller's My List (requires caller to be signed in). | ⚪ |
-| `netflix.browseGenre` | www.netflix.com | Browses titles in a Netflix genre, returns a list of titles. | ⚪ |
+| `netflix.browseGenre` | www.netflix.com | Lists the titles in one Netflix genre — the id from listGenres or the number in… | 🟢 |
 | `netflix.findTitles` | www.netflix.com | Finds Netflix titles by name — e.g. findTitles("stranger things") — returning each… | 🟢 |
 | `netflix.getContinueWatching` | www.netflix.com | Gets titles the signed-in caller is currently watching (requires caller to be signed… | ⚪ |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's My List (requires caller to be signed in). | ⚪ |
@@ -4444,7 +4444,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.addGroupParticipants` | whatsapp.com | Adds people to a group the caller administers, by contact or number, and reports per… | ⚪ |
 | `whatsapp.blockContact` | whatsapp.com | Blocks or unblocks a contact or number as the caller, and lists who the caller has… | ⚪ |
 | `whatsapp.checkNumber` | whatsapp.com | Says whether a phone number has a WhatsApp account, the way WhatsApp Web's… | ⚪ |
-| `whatsapp.createClickToChatLink` | whatsapp.com | Builds WhatsApp's documented click-to-chat link for a phone number in international… | ⚪ |
+| `whatsapp.createClickToChatLink` | whatsapp.com | Builds WhatsApp's documented click-to-chat link for a phone number in international… | 🟢 |
 | `whatsapp.createGroup` | whatsapp.com | Creates a WhatsApp group as the caller with a name and the starting participants, and… | ⚪ |
 | `whatsapp.deleteMessage` | whatsapp.com | Deletes a message — for the caller only, or for everyone when it is the caller's own… | ⚪ |
 | `whatsapp.downloadMedia` | whatsapp.com | Downloads the attachment on one message (image, video, voice note, document, sticker)… | ⚪ |
@@ -4452,7 +4452,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.findContact` | whatsapp.com | Finds a person in the caller's WhatsApp contacts by name, phone number or WhatsApp… | ⚪ |
 | `whatsapp.followChannel` | whatsapp.com | Follows a Channel as the caller. | ⚪ |
 | `whatsapp.forwardMessage` | whatsapp.com | Forwards one of the caller's messages to another chat. | ⚪ |
-| `whatsapp.getBlogPost` | whatsapp.com | Reads one WhatsApp Blog post by slug or url: title, publish date and the post's text. | ⚪ |
+| `whatsapp.getBlogPost` | whatsapp.com | Reads one WhatsApp Blog post by slug or url: its title, publish date and body text. | 🟢 |
 | `whatsapp.getChannel` | whatsapp.com | Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the… | 🟢 |
 | `whatsapp.getChannelUpdates` | whatsapp.com | Reads a Channel's posts (updates) newest first — text, media, time and reaction counts… | ⚪ |
 | `whatsapp.getChatMessages` | whatsapp.com | Reads the messages in one chat (by chat id, or a contact or group name resolved… | ⚪ |
@@ -4463,7 +4463,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.getMyProfile` | whatsapp.com | Reads the signed-in caller's own WhatsApp profile: display name, about text, profile… | ⚪ |
 | `whatsapp.joinGroupByInvite` | whatsapp.com | Joins a group from its chat.whatsapp.com invite link as the caller, and returns the… | ⚪ |
 | `whatsapp.leaveGroup` | whatsapp.com | Leaves a group as the caller. | ⚪ |
-| `whatsapp.listBlogPosts` | whatsapp.com | Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's title, slug… | ⚪ |
+| `whatsapp.listBlogPosts` | whatsapp.com | Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's slug, title… | 🟢 |
 | `whatsapp.listCatalogProducts` | whatsapp.com | Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the… | ⚪ |
 | `whatsapp.listChats` | whatsapp.com | Lists the caller's chats as the WhatsApp Web sidebar shows them — each chat's id… | ⚪ |
 | `whatsapp.listContacts` | whatsapp.com | Lists the caller's WhatsApp contacts — name, number, chat id and about text — as… | ⚪ |
@@ -4471,7 +4471,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.listStatusUpdates` | whatsapp.com | Lists the Status updates the caller's contacts have posted in the last 24 hours — who… | ⚪ |
 | `whatsapp.postStatus` | whatsapp.com | Posts a text or image Status update as the caller, and deletes one. | ⚪ |
 | `whatsapp.previewBusinessCatalog` | whatsapp.com | Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the… | 🟢 |
-| `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | ⚪ |
+| `whatsapp.previewGroupInvite` | whatsapp.com | Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) without joining: the… | 🟢 |
 | `whatsapp.reactToMessage` | whatsapp.com | Reacts to a message with an emoji as the caller, or removes the caller's reaction. | ⚪ |
 | `whatsapp.removeGroupParticipants` | whatsapp.com | Removes people from a group the caller administers, or promotes/demotes an admin. | ⚪ |
 | `whatsapp.searchChannels` | whatsapp.com | Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does —… | ⚪ |

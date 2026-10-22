@@ -21,8 +21,8 @@ import { type ClientOptions, postRun, type RunEnvelope, resolveClient } from "./
 
 export { type WireProblem, wireProblem } from "./guard.js";
 export {
-  client,
   type ConnectionsApi,
+  client,
   openManagedSession,
   type SessionHandle,
   session,
