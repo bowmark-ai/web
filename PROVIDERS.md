@@ -4153,7 +4153,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.createPost` | tumblr.com | Create a new post on the signed-in account's blog. | ⚪ |
 | `tumblr.deletePost` | tumblr.com | Delete a post from the signed-in account's blog. | ⚪ |
 | `tumblr.editPost` | tumblr.com | Edit an existing post on the signed-in account's blog. | ⚪ |
-| `tumblr.findBlog` | tumblr.com | Find a blog by name. | ⚪ |
+| `tumblr.findBlog` | tumblr.com | Find a blog by name. | 🟢 |
 | `tumblr.findTag` | tumblr.com | Find posts by searching a tag. | ⚪ |
 | `tumblr.followBlog` | tumblr.com | Follow a blog from the signed-in account. | ⚪ |
 | `tumblr.getBlogInfo` | tumblr.com | Get metadata for a blog including name, description, follower count, and post count. | ⚪ |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8be288a15e3f4ba8e6f31968c6ed4e5b81edcc3fbacc90f489255bc5eaea1407
-# 85 capabilities, 617 providers, 2336 typed functions, 20 refused.
+# Manifest version: 11d2484af86e1b18cd233d432debe8e9d51bd6329c231f1a9b7463bd2e5f7261
+# 85 capabilities, 617 providers, 2339 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19743,6 +19743,22 @@ class Prv_linkedin_getProfileViews_return_Out(TypedDict):
     views: float | None
     viewers: list[Prv_linkedin_LinkedinMember_Out]
 
+class Prv_linkedin_listNotifications_input_In(TypedDict):
+    start: NotRequired[float]
+    count: NotRequired[float]
+
+class Prv_linkedin_listNotifications_return_Out(TypedDict):
+    notifications: list[Prv_linkedin_LinkedinNotification_Out]
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_LinkedinNotification_Out(TypedDict):
+    id: str | None
+    text: str | None
+    url: str | None
+    occurredAt: str | None
+    read: bool | None
+
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -21913,6 +21929,15 @@ class Prv_microsoft_outlook_microsoft_outlookMoveMailResult_Out(TypedDict):
     id: str
     movedTo: str
     status: Literal["moved"]
+
+class Prv_microsoft_outlook_microsoft_outlookForwardMailArgs_In(TypedDict):
+    mailId: str | float
+    to: str
+    body: NotRequired[str]
+
+class Prv_microsoft_outlook_microsoft_outlookDeleteMailResult_Out(TypedDict):
+    id: str
+    status: Literal["deleted"]
 
 class Prv_microsoft_outlook_microsoft_outlookSendMailArgs_In(TypedDict):
     to: str
@@ -34523,6 +34548,7 @@ class Prv_wikipedia_listMostViewed_options_In(TypedDict):
     lang: NotRequired[str]
     limit: NotRequired[float]
     namespace: NotRequired[float]
+    date: NotRequired[str]
 
 class Prv_wikipedia_listMostViewed_return_Out(TypedDict):
     articles: list[Prv_wikipedia_WikipediaMostViewedArticle_Out]
@@ -49545,6 +49571,19 @@ class Prv_linkedin(Protocol):
         extra last argument; ask them first.
         """
 
+    async def listNotifications(self, input: Prv_linkedin_listNotifications_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listNotifications_return_Out:
+        """Lists the caller's LinkedIn notifications, newest first — who did what (a reaction, a
+        comment, a mention, a job alert), when, and the link each one opens. Reads only the
+        fields common to every card type LinkedIn renders (a headline/body, a click target and a
+        publish time); `count` up to 100 per page (default 20). Signed in: acts as the caller's
+        own LinkedIn account; with no saved sign-in the run pauses and hands back a link where
+        they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
+        requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+        minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
+        saying when to retry: wait that long. The account owner may opt into faster pacing with
+        { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -50753,6 +50792,16 @@ class Prv_microsoft_outlook(Protocol):
 
     async def moveMail(self, args: Prv_microsoft_outlook_microsoft_outlookMoveMailArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_outlook_microsoft_outlookMoveMailResult_Out:
         """Moves one message into a different folder, through Outlook's own Move to action."""
+
+    async def forwardMail(self, args: Prv_microsoft_outlook_microsoft_outlookForwardMailArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_outlook_microsoft_outlookSendMailResult_Out:
+        """Forwards one message to a new recipient with an optional note, through Outlook's own
+        Forward action.
+        """
+
+    async def deleteMail(self, mailId: str, opts: ConnectionOption | None = None, /) -> Prv_microsoft_outlook_microsoft_outlookDeleteMailResult_Out:
+        """Deletes one message (Outlook moves it to Deleted Items), through Outlook's own Delete
+        action.
+        """
 
     async def sendMail(self, args: Prv_microsoft_outlook_microsoft_outlookSendMailArgs_In, opts: ConnectionOption | None = None, /) -> Prv_microsoft_outlook_microsoft_outlookSendMailResult_Out:
         """Composes and sends a new email message to the specified recipient with the given subject
@@ -58272,10 +58321,12 @@ class Prv_wikipedia(Protocol):
         """
 
     async def listMostViewed(self, options: Prv_wikipedia_listMostViewed_options_In | None = None, /) -> Prv_wikipedia_listMostViewed_return_Out:
-        """What Wikipedia's readers looked at most — the day's or the edition's top articles with
-        their view counts, in rank order. A genuine read on public attention. Optional `limit`
-        caps the number of articles returned (defaults to 50), and `namespace` filters by
-        namespace (defaults to 0 for article space, filtering out special pages).
+        """What Wikipedia's readers looked at most — the day's top articles with their view counts,
+        in rank order. A genuine read on public attention. Optional `limit` caps the number of
+        articles returned (defaults to 50); `date` (ISO 8601) picks a specific day, defaulting
+        to yesterday (UTC). Always filters to article namespace (`Main_Page`, `Special:Search`
+        and every colon-prefixed namespace dropped) — `namespace` must be 0 or omitted, since
+        the underlying door has no per-row namespace to select on.
         """
 
     async def getFeaturedContent(self, options: Prv_wikipedia_getFeaturedContent_options_In | None = None, /) -> Prv_wikipedia_getFeaturedContent_return_Out:

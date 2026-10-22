@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8be288a15e3f4ba8e6f31968c6ed4e5b81edcc3fbacc90f489255bc5eaea1407
-// 85 capabilities, 617 providers, 2354 typed functions, 20 refused.
+// Manifest version: 11d2484af86e1b18cd233d432debe8e9d51bd6329c231f1a9b7463bd2e5f7261
+// 85 capabilities, 617 providers, 2357 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35586,6 +35586,14 @@ interface LinkedinInvitation {
   sentAt: string | null;
 }
 
+interface LinkedinNotification {
+  id: string | null;
+  text: string | null;
+  url: string | null;
+  occurredAt: string | null;
+  read: boolean | null;
+}
+
 // Paged results carry { start, nextStart } — pass nextStart back as start; null means the last page.
 interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: number; nextStart: number | null; }
 
@@ -36035,6 +36043,20 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     getProfileViews(opts?: ConnectionOption): Promise<{ views: number | null; viewers: LinkedinMember[] }>;
+
+    /**
+     * Lists the caller's LinkedIn notifications, newest first — who did what (a reaction, a
+     * comment, a mention, a job alert), when, and the link each one opens. Reads only the fields
+     * common to every card type LinkedIn renders (a headline/body, a click target and a publish
+     * time); `count` up to 100 per page (default 20). Signed in: acts as the caller's own LinkedIn
+     * account; with no saved sign-in the run pauses and hands back a link where they sign in.
+     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
+     */
+    listNotifications(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ notifications: LinkedinNotification[]; start: number; nextStart: number | null }>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -40063,6 +40085,17 @@ interface microsoft_outlookMoveMailArgs {
   targetFolderId: string | number;
 }
 
+interface microsoft_outlookForwardMailArgs {
+  mailId: string | number;
+  to: string;
+  body?: string;
+}
+
+interface microsoft_outlookDeleteMailResult {
+  id: string;
+  status: "deleted";
+}
+
 interface microsoft_outlookMoveMailResult {
   id: string;
   movedTo: string;
@@ -40206,6 +40239,18 @@ interface microsoft_outlookCreateContactResult {
 
     /** Moves one message into a different folder, through Outlook's own Move to action. */
     moveMail(args: microsoft_outlookMoveMailArgs, opts?: ConnectionOption): Promise<microsoft_outlookMoveMailResult>;
+
+    /**
+     * Forwards one message to a new recipient with an optional note, through Outlook's own Forward
+     * action.
+     */
+    forwardMail(args: microsoft_outlookForwardMailArgs, opts?: ConnectionOption): Promise<microsoft_outlookSendMailResult>;
+
+    /**
+     * Deletes one message (Outlook moves it to Deleted Items), through Outlook's own Delete
+     * action.
+     */
+    deleteMail(mailId: string, opts?: ConnectionOption): Promise<microsoft_outlookDeleteMailResult>;
 
     /**
      * Composes and sends a new email message to the specified recipient with the given subject and
@@ -61251,12 +61296,14 @@ interface WikipediaWatchlistItem {
     getPageviews(titleOrUrl: string, options?: { lang?: string; from?: string; to?: string }): Promise<{ pageviews: WikipediaPageviews[]; warnings: string[] }>;
 
     /**
-     * What Wikipedia's readers looked at most — the day's or the edition's top articles with their
-     * view counts, in rank order. A genuine read on public attention. Optional `limit` caps the
-     * number of articles returned (defaults to 50), and `namespace` filters by namespace (defaults
-     * to 0 for article space, filtering out special pages).
+     * What Wikipedia's readers looked at most — the day's top articles with their view counts, in
+     * rank order. A genuine read on public attention. Optional `limit` caps the number of articles
+     * returned (defaults to 50); `date` (ISO 8601) picks a specific day, defaulting to yesterday
+     * (UTC). Always filters to article namespace (`Main_Page`, `Special:Search` and every
+     * colon-prefixed namespace dropped) — `namespace` must be 0 or omitted, since the underlying
+     * door has no per-row namespace to select on.
      */
-    listMostViewed(options?: { lang?: string; limit?: number; namespace?: number }): Promise<{ articles: WikipediaMostViewedArticle[]; warnings: string[] }>;
+    listMostViewed(options?: { lang?: string; limit?: number; namespace?: number; date?: string }): Promise<{ articles: WikipediaMostViewedArticle[]; warnings: string[] }>;
 
     /**
      * Wikipedia's own front page for a given date, as data: today's featured article with its

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8be288a15e3f4ba8e6f31968c6ed4e5b81edcc3fbacc90f489255bc5eaea1407
-// 2336 checked, 20 unchecked.
+// Manifest version: 11d2484af86e1b18cd233d432debe8e9d51bd6329c231f1a9b7463bd2e5f7261
+// 2339 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8be288a15e3f4ba8e6f31968c6ed4e5b81edcc3fbacc90f489255bc5eaea1407",
+  "version": "11d2484af86e1b18cd233d432debe8e9d51bd6329c231f1a9b7463bd2e5f7261",
   "units": {
     "address_validation": {
       "defs": {
@@ -37837,6 +37837,47 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listNotifications": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "start",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "count",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "login": [
           {
             "name": "creds",
@@ -42989,6 +43030,40 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "microsoft_outlookForwardMailArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "mailId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "body",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "microsoft_outlookGetCalendarEventsArgs": {
           "k": "object",
           "props": [
@@ -43349,6 +43424,57 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "microsoft_outlookMoveMailArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "forwardMail": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "microsoft_outlookForwardMailArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteMail": [
+          {
+            "name": "mailId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },
@@ -70393,6 +70519,13 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "namespace",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "date",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": true
                 }
