@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1c2ebe2a7a89a8d5f75544c6bf01739e46678c16a4609249c9404961a631c9b2
-# 85 capabilities, 618 providers, 2368 typed functions, 20 refused.
+# Manifest version: 61f09b369e56ecaf175dc62a5bbb85a313fe42e5f6a2437856895e6e6962e62b
+# 85 capabilities, 618 providers, 2374 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7429,6 +7429,20 @@ class Prv_bluesky_BlueskySuggestedFeedResult_Out(TypedDict):
     description: str | None
     likeCount: float
 
+class Prv_bluesky_getFeedInfo_feed_u1_In(TypedDict):
+    feed: str
+
+class Prv_bluesky_BlueskyFeedInfo_Out(TypedDict):
+    uri: str
+    name: str
+    creator: Prv_bluesky_BlueskyPostAuthor_Out
+    description: str | None
+    avatar: str | None
+    likeCount: float
+    indexedAt: str | None
+    isOnline: bool
+    isValid: bool
+
 class Prv_bluesky_getSuggestedUsers_options_In(TypedDict):
     limit: NotRequired[float]
 
@@ -13172,6 +13186,42 @@ class Prv_facebook_FacebookSavedPost_Out(TypedDict):
     id: str
     postUrl: str
     saved: Literal[True]
+
+class Prv_facebook_ReplyToCommentArgs_In(TypedDict):
+    commentUrl: str
+    text: str
+
+class Prv_facebook_FacebookCommentReply_Out(TypedDict):
+    id: str
+    commentUrl: str
+    text: str
+    posted: Literal[True]
+
+class Prv_facebook_SharePostArgs_In(TypedDict):
+    postUrl: str
+
+class Prv_facebook_FacebookSharedPost_Out(TypedDict):
+    id: str
+    postUrl: str
+    shared: Literal[True]
+
+class Prv_facebook_FollowPageArgs_In(TypedDict):
+    handle: str
+    follow: NotRequired[bool]
+
+class Prv_facebook_FacebookPageFollow_Out(TypedDict):
+    id: str
+    handle: str
+    following: bool
+
+class Prv_facebook_JoinGroupArgs_In(TypedDict):
+    groupId: str
+
+class Prv_facebook_FacebookGroupJoin_Out(TypedDict):
+    id: str
+    groupId: str
+    joined: bool
+    pending: NotRequired[bool]
 
 class Prv_facebook_GetVideoArgs_In(TypedDict):
     videoId: str
@@ -23385,6 +23435,19 @@ class Prv_npr_NprPodcast_Out(TypedDict):
     id: str
     title: str
     url: str
+
+class Prv_npr_ListPodcastEpisodesArgs_In(TypedDict):
+    podcastId: str
+    limit: NotRequired[float]
+
+class Prv_npr_NprPodcastEpisode_Out(TypedDict):
+    id: str | None
+    title: str | None
+    url: str | None
+    publishedDate: str | None
+    summary: str | None
+    audioUrl: str | None
+    durationSeconds: float | None
 
 class Prv_nurturelife_GetMealPlansResult_Out(TypedDict):
     plans: list[Prv_nurturelife_NurtureLifeMealPlan_Out]
@@ -41433,6 +41496,12 @@ class Prv_bluesky(Protocol):
         no paging, the site answers a fixed-size list.
         """
 
+    async def getFeedInfo(self, feed: str | Prv_bluesky_getFeedInfo_feed_u1_In, /) -> Prv_bluesky_BlueskyFeedInfo_Out:
+        """One custom feed's details by at:// URI or bsky.app feed URL: name, creator profile,
+        description, avatar, like count, and whether its generator is online and valid. Throws
+        `blueskyInputError` on a feed that does not exist.
+        """
+
     async def getSuggestedUsers(self, options: Prv_bluesky_getSuggestedUsers_options_In | None = None, /) -> Prv_bluesky_BlueskySuggestedUsersResults_Out:
         """Bluesky's own suggested accounts to follow, as shown on the Discover and Explore pages.
         Optionally accepts a `limit` parameter (1–100) to control the number of results. Returns
@@ -44921,6 +44990,18 @@ class Prv_facebook(Protocol):
 
     async def savePost(self, args: Prv_facebook_SavePostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookSavedPost_Out:
         """Save (bookmark) a post to the caller's Saved items, by its permalink URL."""
+
+    async def replyToComment(self, args: Prv_facebook_ReplyToCommentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookCommentReply_Out:
+        """Reply to a comment on a post, by the comment's own permalink URL."""
+
+    async def sharePost(self, args: Prv_facebook_SharePostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookSharedPost_Out:
+        """Share a post to the caller's own timeline, by its permalink URL."""
+
+    async def followPage(self, args: Prv_facebook_FollowPageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPageFollow_Out:
+        """Follow or unfollow a Page by its handle."""
+
+    async def joinGroup(self, args: Prv_facebook_JoinGroupArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookGroupJoin_Out:
+        """Request to join a Group by its id or url slug."""
 
     async def getVideo(self, args: Prv_facebook_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookVideo_Out:
         """Read a Facebook video's details — title, description, view count, comment count."""
@@ -52266,6 +52347,12 @@ class Prv_npr(Protocol):
 
     async def listPodcasts(self, /) -> list[Prv_npr_NprPodcast_Out]:
         """NPR's complete podcast directory (51 podcasts) with id, title and URL for each."""
+
+    async def listPodcastEpisodes(self, args: Prv_npr_ListPodcastEpisodesArgs_In, /) -> list[Prv_npr_NprPodcastEpisode_Out]:
+        """A podcast's episodes, newest first, off its own RSS feed — title, story URL, publish
+        date, summary, audio URL and duration. Read the id off listPodcasts(). Optional limit
+        (default 50, max 500).
+        """
 
 class Prv_nurturelife(Protocol):
     """Kids-meal delivery subscription. getMealPlans is live — the site's own real, current

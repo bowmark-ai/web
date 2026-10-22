@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1c2ebe2a7a89a8d5f75544c6bf01739e46678c16a4609249c9404961a631c9b2
-// 2368 checked, 20 unchecked.
+// Manifest version: 61f09b369e56ecaf175dc62a5bbb85a313fe42e5f6a2437856895e6e6962e62b
+// 2374 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1c2ebe2a7a89a8d5f75544c6bf01739e46678c16a4609249c9404961a631c9b2",
+  "version": "61f09b369e56ecaf175dc62a5bbb85a313fe42e5f6a2437856895e6e6962e62b",
   "units": {
     "address_validation": {
       "defs": {
@@ -13792,6 +13792,32 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getFeedInfo": [
+          {
+            "name": "feed",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "feed",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getSuggestedUsers": [
           {
             "name": "options",
@@ -23104,6 +23130,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "FollowPageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "follow",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetConversationArgs": {
           "k": "object",
           "props": [
@@ -23236,6 +23281,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "JoinGroupArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "groupId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "LikePhotoArgs": {
           "k": "object",
           "props": [
@@ -23349,6 +23406,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ReplyToCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "commentUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SavePostArgs": {
           "k": "object",
           "props": [
@@ -23409,6 +23485,18 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SharePostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "postUrl",
               "schema": {
                 "k": "string"
               },
@@ -23840,6 +23928,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SavePostArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "replyToComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ReplyToCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sharePost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SharePostArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FollowPageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "joinGroup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "JoinGroupArgs"
             },
             "optional": false
           },
@@ -46618,6 +46810,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListPodcastEpisodesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "podcastId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSectionStoriesArgs": {
           "k": "object",
           "props": [
@@ -46699,7 +46910,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listPodcasts": []
+        "listPodcasts": [],
+        "listPodcastEpisodes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPodcastEpisodesArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.nurturelife": {

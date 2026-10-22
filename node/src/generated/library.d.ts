@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1c2ebe2a7a89a8d5f75544c6bf01739e46678c16a4609249c9404961a631c9b2
-// 85 capabilities, 618 providers, 2386 typed functions, 20 refused.
+// Manifest version: 61f09b369e56ecaf175dc62a5bbb85a313fe42e5f6a2437856895e6e6962e62b
+// 85 capabilities, 618 providers, 2392 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12900,6 +12900,18 @@ interface BlueskySuggestedUsersResults {
   users: BlueskyPostAuthor[];
 }
 
+interface BlueskyFeedInfo {
+  uri: string;
+  name: string;
+  creator: BlueskyPostAuthor;
+  description: string | null;
+  avatar: string | null;
+  likeCount: number;
+  indexedAt: string | null;
+  isOnline: boolean;
+  isValid: boolean;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -13056,6 +13068,13 @@ interface BlueskySuggestedUsersResults {
      * answers a fixed-size list.
      */
     getSuggestedFeeds(options?: { limit?: number }): Promise<BlueskySuggestedFeedsResults>;
+
+    /**
+     * One custom feed's details by at:// URI or bsky.app feed URL: name, creator profile,
+     * description, avatar, like count, and whether its generator is online and valid. Throws
+     * `blueskyInputError` on a feed that does not exist.
+     */
+    getFeedInfo(feed: string | { feed: string }): Promise<BlueskyFeedInfo>;
 
     /**
      * Bluesky's own suggested accounts to follow, as shown on the Discover and Explore pages.
@@ -23088,6 +23107,18 @@ interface FacebookComment {
   posted: true;
 }
 
+interface ReplyToCommentArgs {
+  commentUrl: string;
+  text: string;
+}
+
+interface FacebookCommentReply {
+  id: string;
+  commentUrl: string;
+  text: string;
+  posted: true;
+}
+
 type FacebookReactionKind = "like" | "love" | "haha" | "wow" | "sad" | "angry";
 
 interface ReactToPostArgs {
@@ -23134,6 +23165,38 @@ interface FacebookSavedPost {
   id: string;
   postUrl: string;
   saved: true;
+}
+
+interface SharePostArgs {
+  postUrl: string;
+}
+
+interface FacebookSharedPost {
+  id: string;
+  postUrl: string;
+  shared: true;
+}
+
+interface FollowPageArgs {
+  handle: string;
+  follow?: boolean;
+}
+
+interface FacebookPageFollow {
+  id: string;
+  handle: string;
+  following: boolean;
+}
+
+interface JoinGroupArgs {
+  groupId: string;
+}
+
+interface FacebookGroupJoin {
+  id: string;
+  groupId: string;
+  joined: boolean;
+  pending?: boolean;
 }
 
 interface SearchPagesArgs {
@@ -23289,6 +23352,18 @@ interface FacebookMarketplaceListingDetails {
 
     /** Save (bookmark) a post to the caller's Saved items, by its permalink URL. */
     savePost(args: SavePostArgs, opts?: ConnectionOption): Promise<FacebookSavedPost>;
+
+    /** Reply to a comment on a post, by the comment's own permalink URL. */
+    replyToComment(args: ReplyToCommentArgs, opts?: ConnectionOption): Promise<FacebookCommentReply>;
+
+    /** Share a post to the caller's own timeline, by its permalink URL. */
+    sharePost(args: SharePostArgs, opts?: ConnectionOption): Promise<FacebookSharedPost>;
+
+    /** Follow or unfollow a Page by its handle. */
+    followPage(args: FollowPageArgs, opts?: ConnectionOption): Promise<FacebookPageFollow>;
+
+    /** Request to join a Group by its id or url slug. */
+    joinGroup(args: JoinGroupArgs, opts?: ConnectionOption): Promise<FacebookGroupJoin>;
 
     /** Read a Facebook video's details — title, description, view count, comment count. */
     getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<FacebookVideo>;
@@ -42927,6 +43002,21 @@ interface NprPodcast {
   url: string;
 }
 
+interface ListPodcastEpisodesArgs {
+  podcastId: string;
+  limit?: number;
+}
+
+interface NprPodcastEpisode {
+  id: string | null;
+  title: string | null;
+  url: string | null;
+  publishedDate: string | null;
+  summary: string | null;
+  audioUrl: string | null;
+  durationSeconds: number | null;
+}
+
   /**
    * NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast program
    * rundowns, and the member-station finder with live streams.
@@ -42966,6 +43056,13 @@ interface NprPodcast {
 
     /** NPR's complete podcast directory (51 podcasts) with id, title and URL for each. */
     listPodcasts(): Promise<NprPodcast[]>;
+
+    /**
+     * A podcast's episodes, newest first, off its own RSS feed — title, story URL, publish date,
+     * summary, audio URL and duration. Read the id off listPodcasts(). Optional limit (default 50,
+     * max 500).
+     */
+    listPodcastEpisodes(args: ListPodcastEpisodesArgs): Promise<NprPodcastEpisode[]>;
   }
 }
 

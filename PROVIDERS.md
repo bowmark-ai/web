@@ -4011,8 +4011,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.updateProfilePicture` | threads.com | Changes the CALLER's Threads profile picture. | ⚪ |
 | `ticketmaster_mx.getEvent` | ticketmaster.com.mx | Retrieves complete details for a specific Ticketmaster México event: ticket… | 🟡 |
 | `ticketmaster_mx.search` | ticketmaster.com.mx | Finds upcoming events on Ticketmaster México matching a search term (e.g., artist… | 🟢 |
-| `ticketmaster_nl.event` | ticketmaster.nl | Returns the event title, venue, date, time, and availability from an event page URL. | 🟡 |
-| `ticketmaster_nl.search` | ticketmaster.nl | Searches for events by name on Ticketmaster Netherlands and returns a list of matching… | 🟡 |
+| `ticketmaster_nl.event` | ticketmaster.nl | Returns the event title, venue, local date and time, and sale status for a… | 🟡 |
+| `ticketmaster_nl.search` | ticketmaster.nl | Searches Ticketmaster Netherlands by artist, event or venue name and returns the… | 🟡 |
 | `ticketmaster.getEvent` | ticketmaster.com | Returns one event in full: venue (name, address), date/time, the classification… | ⚪ |
 | `ticketmaster.listClassifications` | ticketmaster.com | Returns the segment/genre/sub-genre taxonomy Ticketmaster uses to categorize events… | ⚪ |
 | `ticketmaster.search` | ticketmaster.com | Searches live events — concerts, sports, arts & theater, family — by keyword, location… | ⚪ |
