@@ -651,15 +651,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `byltbasics.getPackOptions` | byltbasics.com | Reads the real size and color choices for one bundle kit (a handle from… | 🟢 |
 | `byltbasics.listBundlePacks` | byltbasics.com | Lists BYLT Basics' 'Custom N Pack' bundle kits — each its own product with a single… | 🟢 |
 | `ca_gov.getDepartment` | www.ca.gov | Returns information about a specific California state agency or department —… | 🟢 |
-| `ca_gov.getDepartmentContact` | www.ca.gov | Returns contact information (phone, email, address) for a specific California state… | ⚪ |
-| `ca_gov.getService` | www.ca.gov | Returns detailed information about a specific California state service — description… | ⚪ |
+| `ca_gov.getDepartmentContact` | www.ca.gov | Returns a department's contact details — phone, email (often absent) and its own… | 🟢 |
+| `ca_gov.getService` | www.ca.gov | Returns detailed information about a specific California state service — description… | 🟢 |
 | `ca_gov.listDepartments` | www.ca.gov | Lists all California state agencies and departments available through CA.gov with… | 🟢 |
 | `ca_gov.listNews` | www.ca.gov | Lists recent California state news and announcements from CA.gov. | ⚪ |
 | `ca_gov.listPublicData` | www.ca.gov | Lists public datasets available through data.ca.gov (California's open data portal)… | ⚪ |
 | `ca_gov.listServices` | www.ca.gov | Lists all state services available through the CA.gov portal — organized by category… | 🟢 |
 | `ca_gov.searchNews` | www.ca.gov | Searches California state news, announcements, and updates by keyword — returns recent… | ⚪ |
 | `ca_gov.searchPublicData` | www.ca.gov | Searches California's open data portal (data.ca.gov) for public datasets by keyword —… | ⚪ |
-| `ca_gov.searchServices` | www.ca.gov | Searches the State of California's service directory for public services by keyword or… | ⚪ |
+| `ca_gov.searchServices` | www.ca.gov | Searches the State of California's service directory for public services by keyword or… | 🟢 |
 | `cabinsforyou.getCabinDetail` | cabinsforyou.com | Reads one cabin's own listing page — bedrooms/bathrooms/sleeps/parking, pet policy… | 🟢 |
 | `cabinsforyou.search` | cabinsforyou.com | Runs Cabins For You's own homepage cabin-availability search (Check In / Check Out /… | 🟢 |
 | `cal_com.findProfiles` | cal.com | Finds a person's own Cal.com page from their full name and, optionally, their company… | 🟢 |
@@ -3059,12 +3059,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `paypal.getCryptoPrices` | paypal.com | Reads the buy and sell prices PayPal itself quotes for the cryptocurrencies it… | ⚪ |
 | `paypal.getCurrencyConversionQuote` | paypal.com | Reads PayPal's published currency-conversion spread (FEETB26 — 4.00% for… | 🟢 |
 | `paypal.getFees` | paypal.com | Reads PayPal's own published fee schedule for a country and audience (consumer or… | 🟢 |
-| `paypal.getHelpArticle` | paypal.com | Reads one PayPal help article in full by its id or URL — the complete answer, its… | ⚪ |
+| `paypal.getHelpArticle` | paypal.com | Reads one PayPal help article in full by its id — the complete answer, its numbered… | 🟢 |
 | `paypal.getInvoice` | paypal.com | Reads a PayPal invoice from the payer-view link printed on the invoice itself — the… | ⚪ |
 | `paypal.getPayPalMeProfile` | paypal.com | Resolves a PayPal.Me link or handle to the public profile behind it — the display… | ⚪ |
 | `paypal.getPolicyDocument` | paypal.com | Reads one of PayPal's binding policy documents from the legal hub — the User… | 🟢 |
 | `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — id, title, excerpt… | 🟢 |
-| `paypal.searchShoppingOffers` | paypal.com | Finds the cashback and discount offers PayPal is currently running at a given merchant… | ⚪ |
+| `paypal.searchShoppingOffers` | paypal.com | Lists the cashback and discount offers PayPal's Shopping explore feed is currently… | 🟢 |
 | `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟡 |
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟡 |
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
