@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4780 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4781 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -126,6 +126,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getInvoice` | alibaba.com | Get details of a specific invoice. | ⚪ |
 | `alibaba.getOrder` | alibaba.com | Get details for a specific order including tracking, payment status and items. | ⚪ |
 | `alibaba.getProduct` | alibaba.com | Get detailed information for a single product by ID, including specs, images, pricing… | 🟢 |
+| `alibaba.getProductReviews` | alibaba.com | One page of a product's buyer reviews — star rating, text, date, masked reviewer… | 🟢 |
 | `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | ⚪ |
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |

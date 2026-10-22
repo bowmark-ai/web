@@ -29,7 +29,7 @@ airbnb.com — airbnb: getListing, search
 airchina.com — airchina: getDealFares, searchFlights
 airtable.com — airtable: createRecord, getRecord, listBases, listRecords, listTables, updateRecord
 ajmadison.com — ajmadison: checkStock, search
-alibaba.com — alibaba: addToCart, cancelOrder, contactSupplier, createRfq, editProfile, getAccountRating, getCart, getInvoice, getOrder, getProduct, getProfile, getRfq, getSearchHistory, getSuggestions, getSupplier, listCategories, listInvoices, listMessages, listOrders, listRfqProfessions, listRfqs, listSavedItems, listSupplierProducts, listSuppliers, placeOrder, removeFromCart, saveProduct, searchProducts, trackOrder, unsaveProduct, updateCartQuantity
+alibaba.com — alibaba: addToCart, cancelOrder, contactSupplier, createRfq, editProfile, getAccountRating, getCart, getInvoice, getOrder, getProduct, getProductReviews, getProfile, getRfq, getSearchHistory, getSuggestions, getSupplier, listCategories, listInvoices, listMessages, listOrders, listRfqProfessions, listRfqs, listSavedItems, listSupplierProducts, listSuppliers, placeOrder, removeFromCart, saveProduct, searchProducts, trackOrder, unsaveProduct, updateCartQuantity
 aliexpress.us — aliexpress: addToCart, getProduct, getStore, listCart, listCategories, listOrders, listWishlist, search
 allied.com — allied: estimatePackingSupplies
 alphavantage.co — alphavantage: signUp
