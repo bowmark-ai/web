@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4784 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4785 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -61,15 +61,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acuityscheduling.bookAppointment` | acuityscheduling.com | Books an appointment; accepts guest checkout with email and phone. | ⚪ |
 | `acuityscheduling.cancelAppointment` | acuityscheduling.com | Cancels a booking; caller must own the appointment. | ⚪ |
 | `acuityscheduling.findScheduler` | acuityscheduling.com | Finds one business's Acuity scheduler and its owner id from the business name (tried… | 🟢 |
-| `acuityscheduling.getAppointmentTypeDetails` | acuityscheduling.com | Returns details of a specific appointment type including duration, provider, and… | ⚪ |
+| `acuityscheduling.getAppointmentTypeDetails` | acuityscheduling.com | Returns details of a specific appointment type including duration, provider, and… | 🟢 |
 | `acuityscheduling.getBookingForm` | acuityscheduling.com | Returns the form fields and requirements needed to complete a booking. | ⚪ |
 | `acuityscheduling.getPrice` | acuityscheduling.com | Returns pricing for an appointment type, including discounts for multi-class packages. | ⚪ |
 | `acuityscheduling.getSchedulerInfo` | acuityscheduling.com | Returns business information including hours, policies, and contact details. | ⚪ |
 | `acuityscheduling.getWaitlistStatus` | acuityscheduling.com | Gets the caller's position and estimated wait time on a waitlist. | ⚪ |
 | `acuityscheduling.joinWaitlist` | acuityscheduling.com | Joins the waitlist for a full appointment slot. | ⚪ |
 | `acuityscheduling.leaveWaitlist` | acuityscheduling.com | Removes the caller from a waitlist. | ⚪ |
-| `acuityscheduling.listAppointmentTypes` | acuityscheduling.com | Lists all appointment types (classes, services) offered by the business. | ⚪ |
-| `acuityscheduling.listLocations` | acuityscheduling.com | Lists all service locations available for this business. | ⚪ |
+| `acuityscheduling.listAppointmentTypes` | acuityscheduling.com | Lists all appointment types (classes, services) offered by the business. | 🟢 |
+| `acuityscheduling.listLocations` | acuityscheduling.com | Lists all service locations available for this business. | 🟢 |
 | `acuityscheduling.listMyBookings` | acuityscheduling.com | Lists the signed-in caller's upcoming and past appointments. | ⚪ |
 | `acuityscheduling.listPacks` | acuityscheduling.com | Lists multi-class packages with discounted per-class pricing. | ⚪ |
 | `acuityscheduling.listScheduleSlots` | acuityscheduling.com | Lists available appointment slots for a given type, date range, and location. | ⚪ |
@@ -773,7 +773,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.searchGraphics` | canva.com | Searches Canva's graphics and illustrations library (stickers, icons, illustrations)… | ⚪ |
 | `canva.searchMyDesigns` | canva.com | Searches the signed-in caller's designs by title or content (or lists the most recent… | ⚪ |
 | `canva.searchPhotos` | canva.com | Searches Canva's stock photo library by keyword — photo id, title, creator, free or… | ⚪ |
-| `canva.searchTemplates` | canva.com | Searches Canva's template library by keyword — title, template id, design type… | ⚪ |
+| `canva.searchTemplates` | canva.com | Searches Canva's template library by keyword — title, template id, url and preview… | 🟢 |
 | `canva.searchVideos` | canva.com | Searches Canva's stock video library by keyword — clip id, title, duration, licence… | ⚪ |
 | `canva.setProfilePicture` | canva.com | Replaces the signed-in caller's profile picture with an image from a url. | ⚪ |
 | `canva.shareDesign` | canva.com | Shares one of the caller's designs — turns on a view or edit link, or invites a… | ⚪ |
@@ -2464,10 +2464,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lime.listCities` | li.me | Lists every city Lime operates e-scooters and e-bikes in, grouped by region, from… | 🟢 |
 | `linkedin.acceptInvitation` | linkedin.com | Accepts a connection invitation the signed-in caller received, by the id and shared… | ⚪ |
 | `linkedin.applyToJob` | linkedin.com | Submits an Easy Apply application to a job posting as the signed-in caller, using the… | ⚪ |
-| `linkedin.commentOnPost` | linkedin.com | Comments on a post as the signed-in caller. | ⚪ |
-| `linkedin.createPost` | linkedin.com | Publishes a text post to the signed-in caller's feed, visible to anyone or to… | ⚪ |
-| `linkedin.deleteComment` | linkedin.com | Deletes one of the signed-in caller's own comments. | ⚪ |
-| `linkedin.deletePost` | linkedin.com | Deletes one of the signed-in caller's own posts or reposts. | ⚪ |
+| `linkedin.commentOnPost` | linkedin.com | Comments on a post as the signed-in caller. | 🟢 |
+| `linkedin.createPost` | linkedin.com | Publishes a text post to the signed-in caller's feed, visible to anyone or to… | 🟢 |
+| `linkedin.deleteComment` | linkedin.com | Deletes one of the signed-in caller's own comments. | 🟢 |
+| `linkedin.deletePost` | linkedin.com | Deletes one of the signed-in caller's own posts or reposts. | 🟢 |
 | `linkedin.followCompany` | linkedin.com | Follows or unfollows a company page as the signed-in caller. | ⚪ |
 | `linkedin.followMember` | linkedin.com | Follows or unfollows a member as the signed-in caller, so their posts appear in the… | ⚪ |
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | 🟢 |
@@ -3261,7 +3261,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.getPayrollPlans` | quickbooks.intuit.com | Lists the QuickBooks Payroll plans (Core, Premium, Elite) with monthly base price… | ⚪ |
 | `quickbooks.getPlans` | quickbooks.intuit.com | Lists the QuickBooks Online plans (Solopreneur, Simple Start, Essentials, Plus… | ⚪ |
 | `quickbooks.getResourceArticle` | quickbooks.intuit.com | Reads one Resource Center article (/r/<topic>/<slug>/) as text with its title, author… | ⚪ |
-| `quickbooks.getServiceStatus` | quickbooks.intuit.com | Returns QuickBooks' current service status per region and component (operational… | ⚪ |
+| `quickbooks.getServiceStatus` | quickbooks.intuit.com | Returns QuickBooks' current service status per region and component (operational… | 🟢 |
 | `quickbooks.getStatePayrollTaxes` | quickbooks.intuit.com | Returns one US state's payroll tax facts as the /payroll/tools/tax-map/ page lists… | ⚪ |
 | `quickbooks.getThread` | quickbooks.intuit.com | Reads one Community thread: the question, every reply with author, date and kudos, and… | ⚪ |
 | `quickbooks.getTimeTrackingPlans` | quickbooks.intuit.com | Lists the QuickBooks Time plans with base and per-user monthly prices and their… | ⚪ |
@@ -3271,7 +3271,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.listCommunityBoards` | quickbooks.intuit.com | Lists the Community's boards and topic areas with their URLs, so a caller can browse a… | ⚪ |
 | `quickbooks.listEvents` | quickbooks.intuit.com | Lists upcoming QuickBooks Community events and webinars (Accounting 101, Get started… | ⚪ |
 | `quickbooks.listFeaturedAccountants` | quickbooks.intuit.com | Lists the ProAdvisors QuickBooks features on a state's /find-an-accountant/<state>/… | ⚪ |
-| `quickbooks.listIncidents` | quickbooks.intuit.com | Lists QuickBooks' recent service incidents with their status updates, affected… | ⚪ |
+| `quickbooks.listIncidents` | quickbooks.intuit.com | Lists QuickBooks' recent service incidents with their status updates, affected… | 🟢 |
 | `quickbooks.listPaycheckCalculatorStates` | quickbooks.intuit.com | Lists the states that have their own paycheck calculator page… | ⚪ |
 | `quickbooks.listResourceArticles` | quickbooks.intuit.com | Lists articles in the QuickBooks Resource Center (/r/) for a topic (taxes, payroll… | ⚪ |
 | `quickbooks.listTemplates` | quickbooks.intuit.com | Lists QuickBooks' free downloadable business templates (invoice, timesheet, payroll… | ⚪ |
@@ -3526,7 +3526,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seatgeek.listTicketForSale` | seatgeek.com | Lists one of the signed-in caller's tickets for resale on SeatGeek. | ⚪ |
 | `seatgeek.listTrackedEvents` | seatgeek.com | The signed-in caller's tracked (saved/followed) events, newest first. | 🟢 |
 | `seatgeek.searchEvents` | seatgeek.com | Searches live events — concerts, sports, comedy, theater and family — by keyword… | 🟡 |
-| `seatgeek.trackEvent` | seatgeek.com | Tracks (saves) an event to the signed-in caller's account. | ⚪ |
+| `seatgeek.trackEvent` | seatgeek.com | Tracks (saves) an event to the signed-in caller's account. | 🟢 |
 | `seatgeek.transferTicket` | seatgeek.com | Transfers a purchased ticket to another person's SeatGeek account. | ⚪ |
 | `seatgeek.unfollowPerformer` | seatgeek.com | Unfollows a performer on the signed-in caller's account. | ⚪ |
 | `seatgeek.untrackEvent` | seatgeek.com | Removes a tracked event from the signed-in caller's account. | ⚪ |
@@ -4224,6 +4224,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ulrichlifestyle.priceConfiguration` | ulrichlifestyle.com | Configures and prices one specific build (dimensions, wall height, siding, delivery… | 🟢 |
 | `uniqlo.getProduct` | uniqlo.com | Reads one Uniqlo product's every color × size with its price, live stock status and… | 🟢 |
 | `uniqlo.searchProducts` | uniqlo.com | Searches Uniqlo's live clothing catalog, the US store (uniqlo.com/us, USD) by default… | 🟢 |
+| `unsplash.search` | unsplash.com | Searches Unsplash's photo library by keyword and returns the first page of photos with… | 🟢 |
 | `upkeepstl_com.estimatePlanCost` | upkeepstl.com | Computes the total contract price and per-year price for one plan selection (home… | 🟢 |
 | `upkeepstl_com.getPlanBuilder` | upkeepstl.com | Reads UPKEEP's public 'Build Your Plan' quote-form schema: the home-warranty plan… | 🟢 |
 | `ups.calculateShippingCost` | ups.com | Calculates shipping cost and delivery timeframes from the public shipping calculator… | ⚪ |
@@ -4612,7 +4613,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.listConversations` | x.com | The signed-in account's direct-message conversation list. | ⚪ |
 | `x.listFollowers` | x.com | A user's followers list. | ⚪ |
 | `x.listFollowing` | x.com | Who a user follows. | ⚪ |
-| `x.listHomeFeed` | x.com | The signed-in account's personalized home timeline, in X's own order. | ⚪ |
+| `x.listHomeFeed` | x.com | The signed-in account's personalized home timeline, in X's own order. | 🟢 |
 | `x.listNotifications` | x.com | The signed-in account's notifications — likes, replies, reposts, follows and mentions. | ⚪ |
 | `x.listTrending` | x.com | The site's current trending topics, the /explore page. | ⚪ |
 | `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |

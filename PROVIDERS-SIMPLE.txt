@@ -618,6 +618,7 @@ ubereats.com — ubereats: getCheckoutTotal, search
 uhaul.com — uhaul: getRates
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration
 uniqlo.com — uniqlo: getProduct, searchProducts
+unsplash.com — unsplash: search
 upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
 ups.com — ups: calculateShippingCost, estimateDeliveryDate, findNearbyLocation, getRate, schedulePickup, trackShipment, validateAddress
 urbanoutfitters.com — urbanoutfitters: browseCategory, checkGiftCardBalance, checkStock, checkStorePickup, findStores, getDeals, getProduct, getReviews, search, trackOrder

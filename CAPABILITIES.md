@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 135 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 136 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -112,6 +112,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `shipping.estimate` | Prices a domestic package — `{ fromZip: "20024", toZip: "10001", weightOz: 16 }` —… | 3 | 🟢 |
 | `spreadsheet.parse` | Parses spreadsheet text you already hold (a CSV/TSV export, a downloaded file's… | 0 | 🟢 |
 | `spreadsheet.stringify` | Writes rows (objects, or arrays of cells) out as CSV/TSV text, quoting any cell that… | 0 | 🟢 |
+| `stock_photos.search` | Searches stock photo libraries by keyword and returns photos with image URLs, size… | 1 | 🟢 |
 | `stream_channel.get` | Reads the signed-in streamer's own channel settings: the title shown on the stream… | 1 | 🟢 |
 | `stream_channel.set` | Updates the signed-in streamer's own channel settings and returns them as they now… | 1 | 🟢 |
 | `stream_highlights.create` | Cuts a highlight from [startSeconds, endSeconds] of the signed-in streamer's broadcast… | 1 | 🟢 |
