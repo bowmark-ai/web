@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a0bdbfede58831d2317044287b59378612f7f2813634235029e8fe2fc2d806f0
-# 85 capabilities, 617 providers, 2326 typed functions, 20 refused.
+# Manifest version: 4cf196889b49707440ef867fc7710648e0e1178a79ee4aeea181447dd8b60354
+# 85 capabilities, 617 providers, 2329 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14868,6 +14868,9 @@ class Prv_github_updateIssue_updates_In(TypedDict):
 
 class Prv_github_GithubUpdateIssueTitleResult_Out(TypedDict):
     issue: Mapping[str, Any]
+
+class Prv_github_GithubCommentResult_Out(TypedDict):
+    comment: Mapping[str, Any]
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -45716,6 +45719,35 @@ class Prv_github(Protocol):
         (open/closed), assignees, labels and milestone are real mutations on this same issue
         viewer but not yet built (see packages/providers/github/BUILD_QUEUE.md). THROWS when
         signed out, the saved session is stale, or the issue does not exist.
+        """
+
+    async def createComment(self, owner: str, repo: str, issueNumber: float, body: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentResult_Out:
+        """Adds a comment to an issue or pull request, off github.com's own issue-viewer web
+        mutation (`POST /{owner}/{repo}/issues/{number}/comments.json?queryId=...`, the
+        persisted-GraphQL-query door the "Comment" button itself calls) — NEEDS THE CALLER
+        SIGNED IN, same door and same wall as `updateIssue`: the route answers 404 "Not Found"
+        to an unauthenticated request, and the signed-in success shape is unmeasured, since no
+        fleet-held GitHub session exists to capture one from. THROWS when signed out, the saved
+        session is stale, or the issue/PR does not exist.
+        """
+
+    async def updateComment(self, owner: str, repo: str, issueNumber: float, commentId: float, body: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentResult_Out:
+        """Edits an existing comment on an issue or pull request, off github.com's own issue-viewer
+        web mutation (`PATCH
+        /{owner}/{repo}/issues/{number}/comments/{commentId}.json?queryId=...`) — NEEDS THE
+        CALLER SIGNED IN, same door and same wall as `createComment`. `commentId` is the
+        comment's numeric database id (its page URL's `#issuecomment-<id>` fragment). THROWS
+        when signed out, the saved session is stale, the comment does not exist, or the
+        signed-in caller does not own it.
+        """
+
+    async def deleteComment(self, owner: str, repo: str, issueNumber: float, commentId: float, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentResult_Out:
+        """Deletes a comment on an issue or pull request, off github.com's own issue-viewer web
+        mutation (`DELETE
+        /{owner}/{repo}/issues/{number}/comments/{commentId}.json?queryId=...`) — NEEDS THE
+        CALLER SIGNED IN, same door and same wall as `createComment`. THROWS when signed out,
+        the saved session is stale, the comment does not exist, or the signed-in caller does not
+        own it.
         """
 
 class Prv_glama(Protocol):

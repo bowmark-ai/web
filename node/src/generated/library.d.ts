@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a0bdbfede58831d2317044287b59378612f7f2813634235029e8fe2fc2d806f0
-// 85 capabilities, 617 providers, 2344 typed functions, 20 refused.
+// Manifest version: 4cf196889b49707440ef867fc7710648e0e1178a79ee4aeea181447dd8b60354
+// 85 capabilities, 617 providers, 2347 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26566,6 +26566,36 @@ interface GithubCommentResult {
      * session is stale, or the issue does not exist.
      */
     updateIssue(owner: string, repo: string, issueNumber: number, updates: { title: string }, opts?: ConnectionOption): Promise<GithubUpdateIssueTitleResult>;
+
+    /**
+     * Adds a comment to an issue or pull request, off github.com's own issue-viewer web mutation
+     * (`POST /{owner}/{repo}/issues/{number}/comments.json?queryId=...`, the
+     * persisted-GraphQL-query door the "Comment" button itself calls) — NEEDS THE CALLER SIGNED
+     * IN, same door and same wall as `updateIssue`: the route answers 404 "Not Found" to an
+     * unauthenticated request, and the signed-in success shape is unmeasured, since no fleet-held
+     * GitHub session exists to capture one from. THROWS when signed out, the saved session is
+     * stale, or the issue/PR does not exist.
+     */
+    createComment(owner: string, repo: string, issueNumber: number, body: string, opts?: ConnectionOption): Promise<GithubCommentResult>;
+
+    /**
+     * Edits an existing comment on an issue or pull request, off github.com's own issue-viewer web
+     * mutation (`PATCH /{owner}/{repo}/issues/{number}/comments/{commentId}.json?queryId=...`) —
+     * NEEDS THE CALLER SIGNED IN, same door and same wall as `createComment`. `commentId` is the
+     * comment's numeric database id (its page URL's `#issuecomment-<id>` fragment). THROWS when
+     * signed out, the saved session is stale, the comment does not exist, or the signed-in caller
+     * does not own it.
+     */
+    updateComment(owner: string, repo: string, issueNumber: number, commentId: number, body: string, opts?: ConnectionOption): Promise<GithubCommentResult>;
+
+    /**
+     * Deletes a comment on an issue or pull request, off github.com's own issue-viewer web
+     * mutation (`DELETE /{owner}/{repo}/issues/{number}/comments/{commentId}.json?queryId=...`) —
+     * NEEDS THE CALLER SIGNED IN, same door and same wall as `createComment`. THROWS when signed
+     * out, the saved session is stale, the comment does not exist, or the signed-in caller does
+     * not own it.
+     */
+    deleteComment(owner: string, repo: string, issueNumber: number, commentId: number, opts?: ConnectionOption): Promise<GithubCommentResult>;
   }
 }
 
