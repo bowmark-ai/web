@@ -1,5 +1,5 @@
 {
-  "version": "527ed9be6aa3d0c325a20bab86ead9b44629462bb727a8f0e0c97c4922aaf129",
+  "version": "3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163",
   "units": {
     "address_validation": {
       "defs": {
@@ -4886,6 +4886,41 @@
         ]
       }
     },
+    "stock_photos": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "stream_channel": {
       "defs": {
         "SetChannelOptions": {
@@ -7081,6 +7116,40 @@
       "defs": {},
       "functions": {
         "findScheduler": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listAppointmentTypes": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAppointmentTypeDetails": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "appointmentTypeId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
           {
             "name": "query",
             "schema": {
@@ -15146,6 +15215,33 @@
             },
             "optional": false
           }
+        ],
+        "getService": [
+          {
+            "name": "serviceUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchServices": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getDepartmentContact": [
+          {
+            "name": "departmentId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -15588,6 +15684,20 @@
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.canva": {
+      "defs": {},
+      "functions": {
+        "searchTemplates": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -21052,6 +21162,29 @@
               "name": "DoordashSearchArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dropbox": {
+      "defs": {},
+      "functions": {
+        "getPlans": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "plan",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -51282,6 +51415,42 @@
             },
             "optional": false
           }
+        ],
+        "getHelpArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "articleId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchShoppingOffers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "merchant",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -69843,6 +70012,20 @@
                   "name": "UniqloSearchHit"
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.unsplash": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

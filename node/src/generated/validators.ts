@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 527ed9be6aa3d0c325a20bab86ead9b44629462bb727a8f0e0c97c4922aaf129
-// 2421 checked, 20 unchecked.
+// Manifest version: 3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163
+// 2433 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "527ed9be6aa3d0c325a20bab86ead9b44629462bb727a8f0e0c97c4922aaf129",
+  "version": "3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163",
   "units": {
     "address_validation": {
       "defs": {
@@ -4898,6 +4898,41 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "stock_photos": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "stream_channel": {
       "defs": {
         "SetChannelOptions": {
@@ -7093,6 +7128,40 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "findScheduler": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listAppointmentTypes": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAppointmentTypeDetails": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "appointmentTypeId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
           {
             "name": "query",
             "schema": {
@@ -15158,6 +15227,33 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getService": [
+          {
+            "name": "serviceUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchServices": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getDepartmentContact": [
+          {
+            "name": "departmentId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -15600,6 +15696,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.canva": {
+      "defs": {},
+      "functions": {
+        "searchTemplates": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -21064,6 +21174,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "DoordashSearchArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dropbox": {
+      "defs": {},
+      "functions": {
+        "getPlans": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "plan",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -51294,6 +51427,42 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getHelpArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "articleId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchShoppingOffers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "merchant",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -69855,6 +70024,20 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "UniqloSearchHit"
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.unsplash": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 527ed9be6aa3d0c325a20bab86ead9b44629462bb727a8f0e0c97c4922aaf129
-// 85 capabilities, 621 providers, 2439 typed functions, 20 refused.
+// Manifest version: 3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163
+// 86 capabilities, 624 providers, 2451 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4378,6 +4378,52 @@ interface StringifyResult {
   }
 }
 
+declare namespace BowmarkCapability_stock_photos {
+  // ── Stock photos — the unit's own declarations, verbatim ──
+interface StockPhoto {
+  /** The photo's id on the source site. */
+  id: string;
+  /** Which library it came from, e.g. "unsplash". */
+  source: string;
+  description: string | null;
+  /** Image URL sized to embed (~1080px wide). */
+  url: string;
+  /** The original, full-resolution file. */
+  fullUrl: string;
+  thumbnailUrl: string;
+  width: number;
+  height: number;
+  /** The photo's own page — link here for credit. */
+  pageUrl: string;
+  photographer: string;
+  photographerUrl: string | null;
+  /** false = a paid photo (Unsplash+) that needs its own licence before use. */
+  free: boolean;
+}
+
+interface stock_photosResult {
+  photos: StockPhoto[];
+  warnings: string[];
+}
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Find a stock photo by keyword — image URLs, size, photographer credit, and whether it is
+   * free to use
+   */
+  interface Unit {
+    /**
+     * Searches stock photo libraries by keyword and returns photos with image URLs, size,
+     * photographer credit and whether each is free to use.
+     */
+    search(query: string, options?: CallOptions): Promise<stock_photosResult>;
+  }
+}
+
 declare namespace BowmarkCapability_stream_channel {
   // ── Stream channel settings — read and change your own channel's title, category and language — the unit's own declarations, verbatim ──
 interface ChannelSettings {
@@ -6217,6 +6263,31 @@ interface AcuityScheduler {
   matchedBy: "name" | "as.me" | "acuity-link" | "business-site" | "owner-id";
 }
 
+interface AcuityAppointmentType {
+  id: number;
+  name: string;
+  category: string;
+  active: boolean;
+  description: string;
+  duration: number;
+  price: string;
+  private: boolean;
+  type: string;
+  classSize: number | null;
+  calendarIDs: number[];
+  addonIDs: number[];
+  formIDs: number[];
+  paymentRequired: boolean;
+}
+
+interface AcuityLocation {
+  id: number;
+  name: string;
+  description: string;
+  location: string;
+  timezone: string;
+}
+
   /** Schedule and book fitness studio classes and appointments. */
   interface Unit {
     /**
@@ -6226,6 +6297,25 @@ interface AcuityScheduler {
      * button links Acuity), or a bare owner id. Refuses rather than guesses when nothing resolves.
      */
     findScheduler(query: string): Promise<AcuityScheduler>;
+
+    /**
+     * Lists every class and service this business offers, with its own id, category, duration and
+     * price. `query` is anything findScheduler takes (a business name, its as.me address, an
+     * Acuity link, its website, or a bare owner id).
+     */
+    listAppointmentTypes(query: string): Promise<AcuityAppointmentType[]>;
+
+    /**
+     * Returns one appointment type's full detail (duration, price, category, add-ons, forms) by
+     * the id listAppointmentTypes returned. Refuses an id this business does not have.
+     */
+    getAppointmentTypeDetails(query: string, appointmentTypeId: string): Promise<AcuityAppointmentType>;
+
+    /**
+     * Lists the business's Acuity "calendars" — in practice its service locations, rooms, or staff
+     * — each with the id an appointment type's calendarIDs refers to.
+     */
+    listLocations(query: string): Promise<AcuityLocation[]>;
   }
 }
 
@@ -14445,6 +14535,28 @@ interface ca_govRow {
   name: string;
   url: string;
 }
+interface ca_govServiceDetail {
+  id: string;
+  name: string;
+  url: string;
+  description?: string;
+  phone?: string;
+  departmentUrl?: string;
+}
+interface ca_govDepartmentContact {
+  id: string;
+  name: string;
+  phone?: string;
+  email?: string;
+  contactUrl?: string;
+}
+interface ca_govServiceSearchRow {
+  id: string;
+  name: string;
+  url: string;
+  department?: string;
+  description?: string;
+}
 
   /**
    * California's state government portal — services, departments and public data. Surveyed, not
@@ -14465,6 +14577,26 @@ interface ca_govRow {
      * description, contact phone, and main website URL.
      */
     getDepartment(departmentId: string): Promise<{id: string; name: string; url?: string; description?: string; phone?: string}>;
+
+    /**
+     * Returns detailed information about one CA.gov service — description, contact phone, and the
+     * owning department's URL. Takes the `url` a row from listServices() or searchServices()
+     * returned, not a bare id.
+     */
+    getService(serviceUrl: string): Promise<ca_govServiceDetail>;
+
+    /**
+     * Searches CA.gov's full service directory for services whose name, department or description
+     * contains the query (case-insensitive). The site's own search box filters client-side, so
+     * this fetches the full listing and filters it the same way.
+     */
+    searchServices(query: string): Promise<ca_govServiceSearchRow[]>;
+
+    /**
+     * Returns a California state department's contact details — phone, email (often absent) and
+     * the department's own contact-us page — read off the department page's own structured data.
+     */
+    getDepartmentContact(departmentId: string): Promise<ca_govDepartmentContact>;
   }
 }
 
@@ -15158,6 +15290,34 @@ interface cancerInfoSummaryResult {
      * option's own URL rather than silently answering for the wrong one.
      */
     getCancerInfoSummary(args: { topic: string; audience?: "patient" | "healthProfessional" }): Promise<cancerInfoSummaryResult>;
+  }
+}
+
+declare namespace BowmarkProvider_canva {
+  // ── Canva — the unit's own declarations, verbatim ──
+interface CanvaTemplatePreviewImage {
+  url: string;
+  width: number;
+  height: number;
+}
+
+interface CanvaTemplate {
+  id: string;
+  title: string;
+  url: string;
+  previewImages: CanvaTemplatePreviewImage[];
+}
+
+  /**
+   * Canva, the online design tool: search its templates and stock photos, read plans and prices,
+   * and, with the caller signed in, create, export and organise their own designs.
+   */
+  interface Unit {
+    /**
+     * Searches Canva's template library by keyword — title, template id, url and preview images at
+     * every published size.
+     */
+    searchTemplates(query: string): Promise<{ templates: CanvaTemplate[]; warnings: string[] }>;
   }
 }
 
@@ -20860,6 +21020,40 @@ interface DoordashSearchResult {
      * stores with DoorDash's own advertised delivery fee, rating and ETA. Read-only.
      */
     search(args: DoordashSearchArgs): Promise<DoordashSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_dropbox {
+  // ── Dropbox — the unit's own declarations, verbatim ──
+interface DropboxSharedLinkRow {
+  url: string;
+  kind: "file" | "folder";
+  name: string;
+}
+interface DropboxPlan {
+  key: string; // "plus" | "standard" | "advanced" — the site's own column key
+  name: string;
+  price: string; // as shown, e.g. "$15 / user / month"
+  users?: string;
+  storage?: string;
+  features: Array<{ section: string; feature: string; value: string | boolean }>; // true/false = included or not
+}
+interface DropboxPlans { url: string; plans: DropboxPlan[] }
+
+  /**
+   * Dropbox, the cloud file storage service: open, list, read and download files and folders
+   * someone shared by link, upload to a file request, and see the plans and prices; signed in,
+   * browse, search, upload, move, delete and restore the caller's own files, create and manage
+   * shared links, share with people, and run file requests and transfers.
+   */
+  interface Unit {
+    /**
+     * Lists the plans on www.dropbox.com/plans as its comparison table shows them — name, price
+     * string, users, storage, and every compared feature with its value (text, or true/false for
+     * included). `plan` narrows to one column by key or name ("standard", "Plus"). THROWS if the
+     * page stops carrying the table.
+     */
+    getPlans(input?: { plan?: string }): Promise<DropboxPlans>;
   }
 }
 
@@ -45913,14 +46107,37 @@ interface PaypalHelpSearchResults {
   query: string;
   results: PaypalHelpSearchResult[];
 }
+interface PaypalHelpArticle {
+  articleId: string;             // PayPal's own help-article id, same spelling searchHelp returned
+  title: string;
+  topicId: string;
+  topicName: string;
+  content: string;               // the full article body, as PayPal publishes it (HTML)
+  excerpt: string;
+  sourceUrl: string;
+}
+interface PaypalShoppingOffer {
+  merchant: string;
+  reward: string;                // PayPal's own card-face reward text, e.g. "5% back"
+  description: string;
+  tags: string[];
+  storeIds: string[];
+  campaignId: string;            // PayPal's own campaign id, stable — not a display label
+  detailsUrl: string | null;
+}
+interface PaypalShoppingOffersResult {
+  merchant: string | null;       // echoes the caller's filter, or null when none was given
+  offers: PaypalShoppingOffer[];
+}
 
   /**
    * PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules, the
    * fee on one concrete personal (friends-and-family) transaction, the spread PayPal adds on a
    * currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help Center search
    * and articles, the binding policy documents, PayPal Shopping cashback offers, crypto prices,
-   * and invoice payer-view reads. Six functions callable today — estimateFee, getFees,
-   * getCurrencyConversionQuote, getPolicyDocument, estimatePayLaterPlan, searchHelp.
+   * and invoice payer-view reads. Eight functions callable today — estimateFee, getFees,
+   * getCurrencyConversionQuote, getPolicyDocument, estimatePayLaterPlan, searchHelp,
+   * getHelpArticle, searchShoppingOffers.
    */
   interface Unit {
     /**
@@ -45982,6 +46199,31 @@ interface PaypalHelpSearchResults {
      * for the full text.
      */
     searchHelp(args: { query: string }): Promise<PaypalHelpSearchResults>;
+
+    /**
+     * Reads one PayPal help article in full by the `articleId` a searchHelp result returned, e.g.
+     * getHelpArticle({ articleId: "HELP101" }) -> { articleId: "HELP101", title: "How do I issue a
+     * refund?", topicId: "help_refunds_personal", topicName: "Refunds", content:
+     * "<section>...</section>", excerpt: "...", sourceUrl:
+     * "https://www.paypal.com/us/cshelp/article/help101" }. `content` is the full article body as
+     * PayPal publishes it (HTML with its own headings, lists and links) rather than the snippet
+     * searchHelp carries. Throws if the id does not resolve to a real article — PayPal's own help
+     * centre answers that case with an empty-content page rather than a 404.
+     */
+    getHelpArticle(args: { articleId: string }): Promise<PaypalHelpArticle>;
+
+    /**
+     * Lists PayPal Shopping's current cashback offers — the merchant, the reward text (e.g. "5%
+     * back"), the description and tags — filtered to one merchant when given, e.g.
+     * searchShoppingOffers({ merchant: "Sony" }) -> { merchant: "Sony", offers: [{ merchant:
+     * "Sony", reward: "5% back", description: "...", tags: ["Online only"], storeIds: [...],
+     * campaignId: "297143", detailsUrl:
+     * "https://paypal.com/shopping/offer-details?campaignId=297143" }] }. PayPal's public explore
+     * feed is ONE browsable collection today, not a merchant-indexed search — this function walks
+     * it and filters client-side, so a merchant with no current offer answers an empty `offers`
+     * array rather than an error.
+     */
+    searchShoppingOffers(args?: { merchant?: string }): Promise<PaypalShoppingOffersResult>;
   }
 }
 
@@ -59907,6 +60149,46 @@ interface UniqloProduct {
   }
 }
 
+declare namespace BowmarkProvider_unsplash {
+  // ── Unsplash — the unit's own declarations, verbatim ──
+interface UnsplashPhoto {
+  id: string;
+  /** The photographer's caption, else Unsplash's generated alt text. */
+  description: string | null;
+  width: number;
+  height: number;
+  /** Dominant colour, "#rrggbb". */
+  color: string | null;
+  /** raw is the original; append imgix params ("&w=1600") to size it. regular is 1080px wide. */
+  urls: { raw: string; full: string; regular: string; small: string; thumb: string };
+  /** The photo's own page on unsplash.com. */
+  pageUrl: string;
+  likes: number;
+  /** true = Unsplash+ (paid, separate licence, NOT free to use). */
+  premium: boolean;
+  photographer: { name: string; username: string; profileUrl: string | null };
+}
+
+interface UnsplashSearchResult {
+  /** Matches across every page. */
+  total: number;
+  /** The first page (up to 20), in Unsplash's relevance order. */
+  photos: UnsplashPhoto[];
+}
+
+  /**
+   * Stock photos by keyword from Unsplash — image URLs at every size, photographer credit, and
+   * whether each photo is free or Unsplash+.
+   */
+  interface Unit {
+    /**
+     * Searches Unsplash's photo library by keyword and returns the first page of photos with image
+     * URLs, size, photographer and whether each is free or Unsplash+.
+     */
+    search(query: string): Promise<UnsplashSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_upkeepstl_com {
   // ── UPKEEP Home Maintenance Plans — the unit's own declarations, verbatim ──
 interface UpkeepstlPricedOption {
@@ -66656,6 +66938,7 @@ interface BowmarkProviders {
   camelcamelcamel: BowmarkProvider_camelcamelcamel.Unit;
   campspot: BowmarkProvider_campspot.Unit;
   cancer: BowmarkProvider_cancer.Unit;
+  canva: BowmarkProvider_canva.Unit;
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
   caraway: BowmarkProvider_caraway.Unit;
   cardiff: BowmarkProvider_cardiff.Unit;
@@ -66742,6 +67025,7 @@ interface BowmarkProviders {
   disney: BowmarkProvider_disney.Unit;
   donsappliances: BowmarkProvider_donsappliances.Unit;
   doordash: BowmarkProvider_doordash.Unit;
+  dropbox: BowmarkProvider_dropbox.Unit;
   duckduckgo: BowmarkProvider_duckduckgo.Unit;
   dumpsters: BowmarkProvider_dumpsters.Unit;
   ebay: BowmarkProvider_ebay.Unit;
@@ -67110,6 +67394,7 @@ interface BowmarkProviders {
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   uniqlo: BowmarkProvider_uniqlo.Unit;
+  unsplash: BowmarkProvider_unsplash.Unit;
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
   ups: BowmarkProvider_ups.Unit;
   usatoday: BowmarkProvider_usatoday.Unit;
@@ -117106,6 +117391,7 @@ interface BowmarkLibrary {
   sheds: BowmarkCapability_sheds.Unit;
   shipping: BowmarkCapability_shipping.Unit;
   spreadsheet: BowmarkCapability_spreadsheet.Unit;
+  stock_photos: BowmarkCapability_stock_photos.Unit;
   stream_channel: BowmarkCapability_stream_channel.Unit;
   stream_highlights: BowmarkCapability_stream_highlights.Unit;
   tapfiliate: BowmarkCapability_tapfiliate.Unit;

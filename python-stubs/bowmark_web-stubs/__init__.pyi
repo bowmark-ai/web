@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 527ed9be6aa3d0c325a20bab86ead9b44629462bb727a8f0e0c97c4922aaf129
-# 85 capabilities, 621 providers, 2421 typed functions, 20 refused.
+# Manifest version: 3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163
+# 86 capabilities, 624 providers, 2433 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2444,6 +2444,27 @@ class Cap_spreadsheet_StringifyResult_Out(TypedDict):
     columns: list[str]
     warnings: list[str]
 
+class Cap_stock_photos_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_stock_photos_stock_photosResult_Out(TypedDict):
+    photos: list[Cap_stock_photos_StockPhoto_Out]
+    warnings: list[str]
+
+class Cap_stock_photos_StockPhoto_Out(TypedDict):
+    id: str
+    source: str
+    description: str | None
+    url: str
+    fullUrl: str
+    thumbnailUrl: str
+    width: float
+    height: float
+    pageUrl: str
+    photographer: str
+    photographerUrl: str | None
+    free: bool
+
 class Cap_stream_channel_ChannelSettings_Out(TypedDict):
     platform: Literal["twitch"]
     id: str
@@ -3430,6 +3451,29 @@ class Prv_acuityscheduling_AcuityScheduler_Out(TypedDict):
     country: str | None
     isExpired: bool
     matchedBy: Literal["name"] | Literal["as.me"] | Literal["acuity-link"] | Literal["business-site"] | Literal["owner-id"]
+
+class Prv_acuityscheduling_AcuityAppointmentType_Out(TypedDict):
+    id: float
+    name: str
+    category: str
+    active: bool
+    description: str
+    duration: float
+    price: str
+    private: bool
+    type: str
+    classSize: float | None
+    calendarIDs: list[float]
+    addonIDs: list[float]
+    formIDs: list[float]
+    paymentRequired: bool
+
+class Prv_acuityscheduling_AcuityLocation_Out(TypedDict):
+    id: float
+    name: str
+    description: str
+    location: str
+    timezone: str
 
 class Prv_adobe_CreativeCloudPlan_Out(TypedDict):
     name: str
@@ -8217,6 +8261,28 @@ class Prv_ca_gov_getDepartment_return_Out(TypedDict):
     description: NotRequired[str]
     phone: NotRequired[str]
 
+class Prv_ca_gov_ca_govServiceDetail_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    description: NotRequired[str]
+    phone: NotRequired[str]
+    departmentUrl: NotRequired[str]
+
+class Prv_ca_gov_ca_govServiceSearchRow_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    department: NotRequired[str]
+    description: NotRequired[str]
+
+class Prv_ca_gov_ca_govDepartmentContact_Out(TypedDict):
+    id: str
+    name: str
+    phone: NotRequired[str]
+    email: NotRequired[str]
+    contactUrl: NotRequired[str]
+
 class Prv_cabinsforyou_CabinsforyouSearchArgs_In(TypedDict):
     checkIn: str
     checkOut: str
@@ -8591,6 +8657,21 @@ class Prv_cancer_cancerInfoSummaryResult_Out(TypedDict):
 class Prv_cancer_cancerInfoSection_Out(TypedDict):
     heading: str
     text: str
+
+class Prv_canva_searchTemplates_return_Out(TypedDict):
+    templates: list[Prv_canva_CanvaTemplate_Out]
+    warnings: list[str]
+
+class Prv_canva_CanvaTemplate_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    previewImages: list[Prv_canva_CanvaTemplatePreviewImage_Out]
+
+class Prv_canva_CanvaTemplatePreviewImage_Out(TypedDict):
+    url: str
+    width: float
+    height: float
 
 class Prv_capitalbrands_CapitalbrandsQuizQuestions_Out(TypedDict):
     questions: list[Prv_capitalbrands_CapitalbrandsQuizQuestion_Out]
@@ -11696,6 +11777,26 @@ class Prv_doordash_DoordashSearchResult_Out(TypedDict):
     deliveryFee: float | None
     rating: float | None
     etaMinutes: float | None
+
+class Prv_dropbox_getPlans_input_In(TypedDict):
+    plan: NotRequired[str]
+
+class Prv_dropbox_DropboxPlans_Out(TypedDict):
+    url: str
+    plans: list[Prv_dropbox_DropboxPlan_Out]
+
+class Prv_dropbox_DropboxPlan_Out(TypedDict):
+    key: str
+    name: str
+    price: str
+    users: NotRequired[str]
+    storage: NotRequired[str]
+    features: list[Prv_dropbox_DropboxPlan_Out_features_item_Out]
+
+class Prv_dropbox_DropboxPlan_Out_features_item_Out(TypedDict):
+    section: str
+    feature: str
+    value: str | bool
 
 class Prv_duckduckgo_SearchNewsArgs_In(TypedDict):
     query: str
@@ -25314,6 +25415,34 @@ class Prv_paypal_PaypalHelpSearchResult_Out(TypedDict):
     excerpt: str
     rank: float
 
+class Prv_paypal_getHelpArticle_args_In(TypedDict):
+    articleId: str
+
+class Prv_paypal_PaypalHelpArticle_Out(TypedDict):
+    articleId: str
+    title: str
+    topicId: str
+    topicName: str
+    content: str
+    excerpt: str
+    sourceUrl: str
+
+class Prv_paypal_searchShoppingOffers_args_In(TypedDict):
+    merchant: NotRequired[str]
+
+class Prv_paypal_PaypalShoppingOffersResult_Out(TypedDict):
+    merchant: str | None
+    offers: list[Prv_paypal_PaypalShoppingOffer_Out]
+
+class Prv_paypal_PaypalShoppingOffer_Out(TypedDict):
+    merchant: str
+    reward: str
+    description: str
+    tags: list[str]
+    storeIds: list[str]
+    campaignId: str
+    detailsUrl: str | None
+
 class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
     city: str
     state: str
@@ -33675,6 +33804,34 @@ class Prv_uniqlo_UniqloSku_Out(TypedDict):
     quantity: float | None
     status: str | None
 
+class Prv_unsplash_UnsplashSearchResult_Out(TypedDict):
+    total: float
+    photos: list[Prv_unsplash_UnsplashPhoto_Out]
+
+class Prv_unsplash_UnsplashPhoto_Out(TypedDict):
+    id: str
+    description: str | None
+    width: float
+    height: float
+    color: str | None
+    urls: Prv_unsplash_UnsplashPhoto_Out_urls_Out
+    pageUrl: str
+    likes: float
+    premium: bool
+    photographer: Prv_unsplash_UnsplashPhoto_Out_photographer_Out
+
+class Prv_unsplash_UnsplashPhoto_Out_urls_Out(TypedDict):
+    raw: str
+    full: str
+    regular: str
+    small: str
+    thumb: str
+
+class Prv_unsplash_UnsplashPhoto_Out_photographer_Out(TypedDict):
+    name: str
+    username: str
+    profileUrl: str | None
+
 class Prv_upkeepstl_com_UpkeepstlPlanBuilder_Out(TypedDict):
     homeTypes: list[Prv_upkeepstl_com_UpkeepstlPricedOption_Out]
     plans: list[Prv_upkeepstl_com_UpkeepstlPricedOption_Out]
@@ -38921,6 +39078,16 @@ class Cap_spreadsheet(Protocol):
         needs it — ready to save or hand to a person as a spreadsheet.
         """
 
+class Cap_stock_photos(Protocol):
+    """Find a stock photo by keyword — image URLs, size, photographer credit, and whether it is
+    free to use
+    """
+
+    async def search(self, query: str, options: Cap_stock_photos_CallOptions_In | None = None, /) -> Cap_stock_photos_stock_photosResult_Out:
+        """Searches stock photo libraries by keyword and returns photos with image URLs, size,
+        photographer credit and whether each is free to use.
+        """
+
 class Cap_stream_channel(Protocol):
     """Reads and updates a streamer's own Twitch channel settings — the title shown on the
     stream page, the category being played, and the language. Needs the streamer's Twitch
@@ -39557,6 +39724,22 @@ class Prv_acuityscheduling(Protocol):
         name does not resolve, its as.me address, its Acuity booking link, its own website
         (whose Book button links Acuity), or a bare owner id. Refuses rather than guesses when
         nothing resolves.
+        """
+
+    async def listAppointmentTypes(self, query: str, /) -> list[Prv_acuityscheduling_AcuityAppointmentType_Out]:
+        """Lists every class and service this business offers, with its own id, category, duration
+        and price. `query` is anything findScheduler takes (a business name, its as.me address,
+        an Acuity link, its website, or a bare owner id).
+        """
+
+    async def getAppointmentTypeDetails(self, query: str, appointmentTypeId: str, /) -> Prv_acuityscheduling_AcuityAppointmentType_Out:
+        """Returns one appointment type's full detail (duration, price, category, add-ons, forms)
+        by the id listAppointmentTypes returned. Refuses an id this business does not have.
+        """
+
+    async def listLocations(self, query: str, /) -> list[Prv_acuityscheduling_AcuityLocation_Out]:
+        """Lists the business's Acuity "calendars" — in practice its service locations, rooms, or
+        staff — each with the id an appointment type's calendarIDs refers to.
         """
 
 class Prv_adobe(Protocol):
@@ -42540,6 +42723,24 @@ class Prv_ca_gov(Protocol):
         description, contact phone, and main website URL.
         """
 
+    async def getService(self, serviceUrl: str, /) -> Prv_ca_gov_ca_govServiceDetail_Out:
+        """Returns detailed information about one CA.gov service — description, contact phone, and
+        the owning department's URL. Takes the `url` a row from listServices() or
+        searchServices() returned, not a bare id.
+        """
+
+    async def searchServices(self, query: str, /) -> list[Prv_ca_gov_ca_govServiceSearchRow_Out]:
+        """Searches CA.gov's full service directory for services whose name, department or
+        description contains the query (case-insensitive). The site's own search box filters
+        client-side, so this fetches the full listing and filters it the same way.
+        """
+
+    async def getDepartmentContact(self, departmentId: str, /) -> Prv_ca_gov_ca_govDepartmentContact_Out:
+        """Returns a California state department's contact details — phone, email (often absent)
+        and the department's own contact-us page — read off the department page's own structured
+        data.
+        """
+
 class Prv_cabinsforyou(Protocol):
     """Cabins For You's live Smoky Mountain cabin-availability search (Check In / Check Out /
     Guests / Bedrooms) off the site's own search page — real priced results, not a stale
@@ -42776,6 +42977,16 @@ class Prv_cancer(Protocol):
         one genuinely distinct disease, each with its own summary (lung: non-small-cell and
         small-cell are both filed under `/types/lung`) — the error names every option's own URL
         rather than silently answering for the wrong one.
+        """
+
+class Prv_canva(Protocol):
+    """Canva, the online design tool: search its templates and stock photos, read plans and
+    prices, and, with the caller signed in, create, export and organise their own designs.
+    """
+
+    async def searchTemplates(self, query: str, /) -> Prv_canva_searchTemplates_return_Out:
+        """Searches Canva's template library by keyword — title, template id, url and preview
+        images at every published size.
         """
 
 class Prv_capitalbrands(Protocol):
@@ -44830,6 +45041,20 @@ class Prv_doordash(Protocol):
         """Runs DoorDash's own store search for a free-text query and returns real,
         currently-listed stores with DoorDash's own advertised delivery fee, rating and ETA.
         Read-only.
+        """
+
+class Prv_dropbox(Protocol):
+    """Dropbox, the cloud file storage service: open, list, read and download files and folders
+    someone shared by link, upload to a file request, and see the plans and prices; signed
+    in, browse, search, upload, move, delete and restore the caller's own files, create and
+    manage shared links, share with people, and run file requests and transfers.
+    """
+
+    async def getPlans(self, input: Prv_dropbox_getPlans_input_In | None = None, /) -> Prv_dropbox_DropboxPlans_Out:
+        """Lists the plans on www.dropbox.com/plans as its comparison table shows them — name,
+        price string, users, storage, and every compared feature with its value (text, or
+        true/false for included). `plan` narrows to one column by key or name ("standard",
+        "Plus"). THROWS if the page stops carrying the table.
         """
 
 class Prv_duckduckgo(Protocol):
@@ -53889,9 +54114,9 @@ class Prv_paypal(Protocol):
     the fee on one concrete personal (friends-and-family) transaction, the spread PayPal
     adds on a currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help
     Center search and articles, the binding policy documents, PayPal Shopping cashback
-    offers, crypto prices, and invoice payer-view reads. Six functions callable today —
+    offers, crypto prices, and invoice payer-view reads. Eight functions callable today —
     estimateFee, getFees, getCurrencyConversionQuote, getPolicyDocument,
-    estimatePayLaterPlan, searchHelp.
+    estimatePayLaterPlan, searchHelp, getHelpArticle, searchShoppingOffers.
     """
 
     async def estimateFee(self, args: Prv_paypal_PaypalEstimateFeeArgs_In, /) -> Prv_paypal_PaypalFeeEstimate_Out:
@@ -53946,6 +54171,29 @@ class Prv_paypal(Protocol):
         fixed set of popular articles rather than an empty array, so a caller should judge
         relevance from the titles/excerpts rather than from whether `results` is empty. Pass an
         article's `articleId` to getHelpArticle for the full text.
+        """
+
+    async def getHelpArticle(self, args: Prv_paypal_getHelpArticle_args_In, /) -> Prv_paypal_PaypalHelpArticle_Out:
+        """Reads one PayPal help article in full by the `articleId` a searchHelp result returned,
+        e.g. getHelpArticle({ articleId: "HELP101" }) -> { articleId: "HELP101", title: "How do
+        I issue a refund?", topicId: "help_refunds_personal", topicName: "Refunds", content:
+        "<section>...</section>", excerpt: "...", sourceUrl:
+        "https://www.paypal.com/us/cshelp/article/help101" }. `content` is the full article body
+        as PayPal publishes it (HTML with its own headings, lists and links) rather than the
+        snippet searchHelp carries. Throws if the id does not resolve to a real article —
+        PayPal's own help centre answers that case with an empty-content page rather than a 404.
+        """
+
+    async def searchShoppingOffers(self, args: Prv_paypal_searchShoppingOffers_args_In | None = None, /) -> Prv_paypal_PaypalShoppingOffersResult_Out:
+        """Lists PayPal Shopping's current cashback offers — the merchant, the reward text (e.g.
+        "5% back"), the description and tags — filtered to one merchant when given, e.g.
+        searchShoppingOffers({ merchant: "Sony" }) -> { merchant: "Sony", offers: [{ merchant:
+        "Sony", reward: "5% back", description: "...", tags: ["Online only"], storeIds: [...],
+        campaignId: "297143", detailsUrl:
+        "https://paypal.com/shopping/offer-details?campaignId=297143" }] }. PayPal's public
+        explore feed is ONE browsable collection today, not a merchant-indexed search — this
+        function walks it and filters client-side, so a merchant with no current offer answers
+        an empty `offers` array rather than an error.
         """
 
 class Prv_peerspace(Protocol):
@@ -58826,6 +59074,16 @@ class Prv_uniqlo(Protocol):
         uniqlo.com/us or /ca product url.
         """
 
+class Prv_unsplash(Protocol):
+    """Stock photos by keyword from Unsplash — image URLs at every size, photographer credit,
+    and whether each photo is free or Unsplash+.
+    """
+
+    async def search(self, query: str, /) -> Prv_unsplash_UnsplashSearchResult_Out:
+        """Searches Unsplash's photo library by keyword and returns the first page of photos with
+        image URLs, size, photographer and whether each is free or Unsplash+.
+        """
+
 class Prv_upkeepstl_com(Protocol):
     """Reads UPKEEP STL's home-maintenance-plan builder — plan tiers, home types, add-ons,
     warranty terms and their prices — and estimates a plan's total cost, with no submission.
@@ -61114,6 +61372,7 @@ class BowmarkProviders(Protocol):
     camelcamelcamel: Prv_camelcamelcamel
     campspot: Prv_campspot
     cancer: Prv_cancer
+    canva: Prv_canva
     capitalbrands: Prv_capitalbrands
     caraway: Prv_caraway
     cardiff: Prv_cardiff
@@ -61200,6 +61459,7 @@ class BowmarkProviders(Protocol):
     disney: Prv_disney
     donsappliances: Prv_donsappliances
     doordash: Prv_doordash
+    dropbox: Prv_dropbox
     duckduckgo: Prv_duckduckgo
     dumpsters: Prv_dumpsters
     ebay: Prv_ebay
@@ -61568,6 +61828,7 @@ class BowmarkProviders(Protocol):
     uhc_smallbusiness: Prv_uhc_smallbusiness
     ulrichlifestyle: Prv_ulrichlifestyle
     uniqlo: Prv_uniqlo
+    unsplash: Prv_unsplash
     upkeepstl_com: Prv_upkeepstl_com
     ups: Prv_ups
     usatoday: Prv_usatoday
@@ -61695,6 +61956,7 @@ class Bowmark(Protocol):
     sheds: Cap_sheds
     shipping: Cap_shipping
     spreadsheet: Cap_spreadsheet
+    stock_photos: Cap_stock_photos
     stream_channel: Cap_stream_channel
     stream_highlights: Cap_stream_highlights
     tapfiliate: Cap_tapfiliate
