@@ -1579,14 +1579,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getPagePosts` | facebook.com | List posts published on a Page, newest first. | 🟢 |
 | `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and friend count. | 🟢 |
 | `facebook.getPhotoAlbum` | facebook.com | Read a photo album's details — title, creation date, photo count and its photos. | 🟢 |
-| `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings — who can see posts, send messages, etc. | ⚪ |
+| `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings as rendered on Facebook's own Privacy settings page. | 🟢 |
 | `facebook.getVideo` | facebook.com | Read details on a Facebook video — title, description, view count, comments. | 🟢 |
 | `facebook.joinGroup` | facebook.com | Request to join a Group by its id or url slug. | 🟢 |
 | `facebook.likePhoto` | facebook.com | Like or unlike a photo. | 🟢 |
 | `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | 🟢 |
 | `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | 🟢 |
 | `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | 🟢 |
-| `facebook.listNotifications` | facebook.com | List the caller's notifications — friend requests, reactions, comments, mentions. | ⚪ |
+| `facebook.listNotifications` | facebook.com | List the caller's recent notifications — friend requests, reactions, comments, mentions. | 🟢 |
 | `facebook.listPhotos` | facebook.com | List photos posted by a Page or person, newest first. | 🟢 |
 | `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | 🟢 |
 | `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | 🟢 |
@@ -1599,8 +1599,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.searchPeople` | facebook.com | Search for Facebook users by name. | 🟢 |
 | `facebook.sendMessage` | facebook.com | Send a direct message in an existing conversation thread. | 🟢 |
 | `facebook.sharePost` | facebook.com | Share a post to the caller's own timeline, by its permalink URL. | 🟢 |
-| `facebook.updatePrivacySettings` | facebook.com | Change the caller's privacy settings. | ⚪ |
-| `facebook.updateProfile` | facebook.com | Edit the caller's own profile — bio, profile photo, cover photo, contact info. | ⚪ |
+| `facebook.updatePrivacySettings` | facebook.com | Change the caller's "Who can see your future posts?" audience setting. | 🟢 |
+| `facebook.updateProfile` | facebook.com | Edit the caller's own profile bio — the short "Intro" line shown under their name. | 🟢 |
 | `faceforwardaesthetics.checkAvailability` | faceforwardaesthetics.com | Reads real open appointment slots for a service and date. | 🟢 |
 | `faceforwardaesthetics.listLocations` | faceforwardaesthetics.com | Lists Face Forward Aesthetics' real bookable Zenoti locations (9 centers, OH/IN/NV/PA). | 🟢 |
 | `faceforwardaesthetics.listServices` | faceforwardaesthetics.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
@@ -2470,7 +2470,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
 | `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟢 |
 | `linkedin.getEvent` | linkedin.com | Returns one public LinkedIn event from its URL — name, organizer, start and end time… | ⚪ |
-| `linkedin.getGroup` | linkedin.com | Returns one LinkedIn group from its URL — name, description, rules, member count… | ⚪ |
+| `linkedin.getGroup` | linkedin.com | Returns one LinkedIn group by its URL or numeric id (from searchGroups or… | 🟢 |
 | `linkedin.getHomeFeed` | linkedin.com | Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL… | 🟢 |
 | `linkedin.getJob` | linkedin.com | Returns one job posting in full from its posting URL — title, employer and employer… | 🟢 |
 | `linkedin.getLearningCourse` | linkedin.com | Returns one LinkedIn Learning course in full — title, author, level… | 🟢 |
@@ -2492,7 +2492,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listFollowing` | linkedin.com | Lists the members, companies and newsletters the caller follows, with each one's name… | 🟢 |
 | `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟢 |
 | `linkedin.listMemberPosts` | linkedin.com | Lists a member's own recent posts and reposts, as LinkedIn itself samples them on… | 🟢 |
-| `linkedin.listMyGroups` | linkedin.com | Lists the groups the signed-in caller belongs to, with each group's name, URL and… | ⚪ |
+| `linkedin.listMyGroups` | linkedin.com | Lists the groups the caller belongs to — each one's id (for getGroup), name… | 🟢 |
 | `linkedin.listNotifications` | linkedin.com | Lists the caller's LinkedIn notifications, newest first — who did what (a reaction, a… | 🟢 |
 | `linkedin.listPostComments` | linkedin.com | Lists the comments LinkedIn server-renders on one public post's page — each with its… | 🟢 |
 | `linkedin.listSavedJobs` | linkedin.com | Lists the jobs the caller has saved, newest first — each posting's id (for getJob)… | 🟢 |
