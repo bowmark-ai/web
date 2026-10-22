@@ -582,7 +582,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.getBooking` | booking.com | Get details of one past or upcoming booking. | ⚪ |
 | `booking_com.getProperty` | booking.com | Fetch detailed property information including amenities, photos and reviews. | 🟢 |
 | `booking_com.getReviewBreakdown` | booking.com | Get overall review score and category breakdown for a property. | ⚪ |
-| `booking_com.listAvailability` | booking.com | List available properties for a given search with availability status and pricing. | ⚪ |
+| `booking_com.listAvailability` | booking.com | List available properties for a given search with availability status and pricing. | 🟢 |
 | `booking_com.listBookings` | booking.com | List the caller's past and upcoming bookings. | ⚪ |
 | `booking_com.listFilterOptions` | booking.com | List available filter options (amenities, price range, ratings) for a search. | ⚪ |
 | `booking_com.listMyReviews` | booking.com | List reviews the caller has written. | ⚪ |
@@ -1092,7 +1092,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.updateProfile` | corepoweryoga.com | Updates the caller's profile information like name, email, phone. | ⚪ |
 | `costco.search` | costco.com | Costco's own search-bar autocomplete suggestions for a typed term — real phrases… | 🟡 |
 | `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
-| `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟡 |
+| `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
 | `crecipr.searchCredenciados` | crecipr.gov.br | Searches CRECI-PR's accredited brokers registry by name or CRECI registration number. | 🟢 |
 | `crecipr.verifyBroker` | crecipr.gov.br | Verifies whether a broker or agency is currently licensed and in good standing at… | 🟢 |
 | `credibly_com.getApplicationForm` | credibly.com | Reads the visible questions and select choices on Credibly's public business-financing… | 🟢 |
@@ -2496,7 +2496,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listNotifications` | linkedin.com | Lists the caller's LinkedIn notifications, newest first — who did what (a reaction, a… | 🟢 |
 | `linkedin.listPostComments` | linkedin.com | Lists the comments LinkedIn server-renders on one public post's page — each with its… | 🟢 |
 | `linkedin.listSavedJobs` | linkedin.com | Lists the jobs the caller has saved, newest first — each posting's id (for getJob)… | 🟢 |
-| `linkedin.listSavedPosts` | linkedin.com | Lists the posts and articles the signed-in caller has saved, with each one's author… | ⚪ |
+| `linkedin.listSavedPosts` | linkedin.com | Lists the posts and articles the caller has saved, newest first — each one's author… | 🟢 |
 | `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟢 |
 | `linkedin.listSuggestedConnections` | linkedin.com | Lists the people LinkedIn suggests the caller connect with ("People you may know") —… | 🟢 |
 | `linkedin.reactToPost` | linkedin.com | Reacts to a post as the signed-in caller — like, celebrate, support, love, insightful… | ⚪ |
@@ -2506,7 +2506,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.savePost` | linkedin.com | Saves a post to the signed-in caller's saved items, or unsaves it. | ⚪ |
 | `linkedin.searchCompanies` | linkedin.com | Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per… | 🟢 |
 | `linkedin.searchEvents` | linkedin.com | Searches LinkedIn events by keyword and returns each one's name, organizer, start… | ⚪ |
-| `linkedin.searchGroups` | linkedin.com | Searches LinkedIn groups by keyword and returns each group's name, member count… | ⚪ |
+| `linkedin.searchGroups` | linkedin.com | Searches LinkedIn groups by keyword, 10 per page — each group's id (for getGroup and… | 🟢 |
 | `linkedin.searchJobs` | linkedin.com | Returns the job postings matching a search — keywords, location and how recently the… | 🟢 |
 | `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | 🟢 |
 | `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟢 |
@@ -2846,7 +2846,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.searchStorms` | nhc.noaa.gov | Find a storm, current or historical, by name and optional year and basin, returning… | ⚪ |
 | `nike.getLaunch` | nike.com | Reads one SNKRS launch page by its slug or nike.com/launch/t/ URL — every product in… | 🟢 |
 | `nike.upcomingLaunches` | nike.com | Lists every upcoming SNKRS launch (sneaker release) on nike.com/launch in the US… | 🟢 |
-| `nintendo.browseCategory` | www.nintendo.com | Browse a whole department or platform family with no keyword — "what's in Nintendo… | ⚪ |
+| `nintendo.browseCategory` | www.nintendo.com | Browse a whole department or platform family with no keyword — "what's in Nintendo… | 🟢 |
 | `nintendo.getMyNintendoRewardsBalance` | www.nintendo.com | Read the signed-in caller's My Nintendo Points balance and reward history — the… | ⚪ |
 | `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | 🟢 |
 | `nintendo.getSupportArticle` | www.nintendo.com | Read one support article in full — title, body steps, and any linked follow-ups — the… | ⚪ |
@@ -2854,7 +2854,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nintendo.listDeals` | www.nintendo.com | Today's discounted games and hardware on the Nintendo store — the read behind "what's… | ⚪ |
 | `nintendo.listNews` | www.nintendo.com | Nintendo's own announcements and news articles — game reveals, updates, events — from… | ⚪ |
 | `nintendo.listOrders` | www.nintendo.com | Read the signed-in caller's Nintendo eShop / store order history. | ⚪ |
-| `nintendo.searchProducts` | www.nintendo.com | Search Nintendo's own store catalog by keyword — games, hardware, accessories and… | ⚪ |
+| `nintendo.searchProducts` | www.nintendo.com | Search Nintendo's own store catalog by keyword — games, hardware, accessories and… | 🟢 |
 | `nintendo.searchSupport` | www.nintendo.com | Search Nintendo's support knowledge base by keyword — "Switch won't charge", "error… | ⚪ |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
 | `npr.findStations` | npr.org | Find NPR member stations by city, zip code, call letters or coordinates — call sign… | ⚪ |
@@ -2914,8 +2914,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nws.searchAlerts` | api.weather.gov | Alerts that were issued in a past window — "every tornado warning in Oklahoma since… | ⚪ |
 | `nws.searchLocation` | api.weather.gov | Turn what a person types into weather.gov's own search box — "Boston, MA", a ZIP like… | 🟢 |
 | `nyt_cooking.addRecipeToFolder` | cooking.nytimes.com | Files a saved recipe into one of the signed-in reader's Recipe Box folders. | ⚪ |
-| `nyt_cooking.addToGroceryList` | cooking.nytimes.com | Adds a recipe's ingredients (or plain items) to the signed-in reader's grocery list. | ⚪ |
-| `nyt_cooking.clearGroceryList` | cooking.nytimes.com | Clears the signed-in reader's whole grocery list. | ⚪ |
+| `nyt_cooking.addToGroceryList` | cooking.nytimes.com | Adds a recipe's ingredients to the signed-in reader's grocery list. | 🟢 |
+| `nyt_cooking.clearGroceryList` | cooking.nytimes.com | Removes every recipe currently in the signed-in reader's grocery list, one at a time. | 🟢 |
 | `nyt_cooking.createRecipeBoxFolder` | cooking.nytimes.com | Creates a new Recipe Box folder for the signed-in reader. | ⚪ |
 | `nyt_cooking.createRecipeNote` | cooking.nytimes.com | Writes the signed-in reader's own private cook note on a recipe. | ⚪ |
 | `nyt_cooking.deleteRecipeBoxFolder` | cooking.nytimes.com | Deletes one of the signed-in reader's Recipe Box folders. | ⚪ |
@@ -2940,7 +2940,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.listTopics` | cooking.nytimes.com | Lists the site's topic pages off its own navigation — the finder for a topic a caller… | 🟢 |
 | `nyt_cooking.markRecipeCooked` | cooking.nytimes.com | Marks a recipe as cooked on the signed-in reader's account. | 🟢 |
 | `nyt_cooking.rateRecipe` | cooking.nytimes.com | Submits the signed-in reader's own rating for a recipe, on NYT Cooking's own 1-4 scale. | 🟢 |
-| `nyt_cooking.removeFromGroceryList` | cooking.nytimes.com | Removes one item from the signed-in reader's grocery list. | ⚪ |
+| `nyt_cooking.removeFromGroceryList` | cooking.nytimes.com | Removes a recipe's ingredients from the signed-in reader's grocery list. | 🟢 |
 | `nyt_cooking.removeRecipeFromFolder` | cooking.nytimes.com | Removes a saved recipe from one of the signed-in reader's Recipe Box folders. | ⚪ |
 | `nyt_cooking.renameRecipeBoxFolder` | cooking.nytimes.com | Renames one of the signed-in reader's Recipe Box folders. | ⚪ |
 | `nyt_cooking.saveRecipe` | cooking.nytimes.com | Saves a recipe to the signed-in reader's Recipe Box. | 🟢 |
@@ -3354,8 +3354,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, beat, bio and their latest stories. | ⚪ |
 | `reuters.getCompanyEvents` | www.reuters.com | A company's upcoming and past events — earnings dates, dividends, shareholder meetings… | ⚪ |
 | `reuters.getCompanyFinancials` | www.reuters.com | A company's income statement, balance sheet and cash-flow statement, annual and… | ⚪ |
-| `reuters.getCompanyKeyMetrics` | www.reuters.com | A company's key ratios on Reuters — valuation, profitability, growth, dividends and… | ⚪ |
-| `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile: description, sector, industry, address, website… | ⚪ |
+| `reuters.getCompanyKeyMetrics` | www.reuters.com | A company's key ratios on Reuters — valuation, profitability, growth, dividends and… | 🟢 |
+| `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile — description, website, sector, industry, head office… | 🟢 |
 | `reuters.getLiveCoverage` | www.reuters.com | Read one Reuters live-coverage page (/live/…) — the running updates, newest first… | ⚪ |
 | `reuters.getMarketOverview` | www.reuters.com | The market tables Reuters shows on its Markets pages — major indices, currencies… | 🟡 |
 | `reuters.getMyNewsFeed` | www.reuters.com | The signed-in reader's My News feed — the latest stories from everything they follow… | ⚪ |
@@ -4018,7 +4018,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ticketmaster.search` | ticketmaster.com | Searches live events — concerts, sports, arts & theater, family — by keyword, location… | ⚪ |
 | `ticketmaster.searchAttractions` | ticketmaster.com | Finds attractions — artists, sports teams and other performers — by name and returns… | ⚪ |
 | `ticketmaster.searchVenues` | ticketmaster.com | Finds venues by name or location (city/state/postal or geo radius) and returns each… | ⚪ |
-| `tiktok.bookmarkVideo` | tiktok.com | Save a video to the signed-in caller's own Favorites/bookmarks. | ⚪ |
+| `tiktok.bookmarkVideo` | tiktok.com | Save a video to the signed-in caller's own Favorites/bookmarks. | 🟢 |
 | `tiktok.deleteComment` | tiktok.com | Delete the caller's own comment — the reverse of postComment, and how a test write is… | 🟢 |
 | `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | ⚪ |
 | `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | 🟢 |
