@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 61f09b369e56ecaf175dc62a5bbb85a313fe42e5f6a2437856895e6e6962e62b
+// Manifest version: bff1750fc788067dc09c25a4e763885899dfab771cb7698c90479a29e157efc2
 // 85 capabilities, 618 providers, 2392 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -56537,19 +56537,39 @@ interface EventRow {
   url: string;
 }
 
+interface SearchEvent {
+  title: string;
+  /** Another country's Ticketmaster URL when local is false — event() reads ticketmaster.nl URLs only. */
+  url: string;
+  venue?: string;
+  city?: string;
+  /** ISO country code of the venue, e.g. "NL". */
+  country?: string;
+  /** ISO 8601, UTC. */
+  startDate?: string;
+  /** True when the event is sold on ticketmaster.nl itself. */
+  local: boolean;
+  soldOut: boolean;
+  cancelled: boolean;
+}
+
 interface SearchResult {
-  events: Array<{ title: string; url: string; venue?: string }>;
+  events: SearchEvent[];
 }
 
   /** Event details from Ticketmaster Netherlands. */
   interface Unit {
     /**
-     * Searches for events by name on Ticketmaster Netherlands and returns a list of matching
-     * events with URLs.
+     * Searches Ticketmaster Netherlands by artist, event or venue name and returns the matching
+     * events with URL, venue, city, country and start date — including other countries'
+     * Ticketmaster events the site lists (local: false).
      */
     search(args: { query: string }): Promise<SearchResult>;
 
-    /** Returns the event title, venue, date, time, and availability from an event page URL. */
+    /**
+     * Returns the event title, venue, local date and time, and sale status for a ticketmaster.nl
+     * event page URL.
+     */
     event(args: { url: string }): Promise<EventRow>;
   }
 }

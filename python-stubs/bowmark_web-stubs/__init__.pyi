@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 61f09b369e56ecaf175dc62a5bbb85a313fe42e5f6a2437856895e6e6962e62b
+# Manifest version: bff1750fc788067dc09c25a4e763885899dfab771cb7698c90479a29e157efc2
 # 85 capabilities, 618 providers, 2374 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -31714,12 +31714,18 @@ class Prv_ticketmaster_nl_search_args_In(TypedDict):
     query: str
 
 class Prv_ticketmaster_nl_SearchResult_Out(TypedDict):
-    events: list[Prv_ticketmaster_nl_SearchResult_Out_events_item_Out]
+    events: list[Prv_ticketmaster_nl_SearchEvent_Out]
 
-class Prv_ticketmaster_nl_SearchResult_Out_events_item_Out(TypedDict):
+class Prv_ticketmaster_nl_SearchEvent_Out(TypedDict):
     title: str
     url: str
     venue: NotRequired[str]
+    city: NotRequired[str]
+    country: NotRequired[str]
+    startDate: NotRequired[str]
+    local: bool
+    soldOut: bool
+    cancelled: bool
 
 class Prv_ticketmaster_nl_event_args_In(TypedDict):
     url: str
@@ -57085,12 +57091,15 @@ class Prv_ticketmaster_nl(Protocol):
     """Event details from Ticketmaster Netherlands."""
 
     async def search(self, args: Prv_ticketmaster_nl_search_args_In, /) -> Prv_ticketmaster_nl_SearchResult_Out:
-        """Searches for events by name on Ticketmaster Netherlands and returns a list of matching
-        events with URLs.
+        """Searches Ticketmaster Netherlands by artist, event or venue name and returns the
+        matching events with URL, venue, city, country and start date — including other
+        countries' Ticketmaster events the site lists (local: false).
         """
 
     async def event(self, args: Prv_ticketmaster_nl_event_args_In, /) -> Prv_ticketmaster_nl_EventRow_Out:
-        """Returns the event title, venue, date, time, and availability from an event page URL."""
+        """Returns the event title, venue, local date and time, and sale status for a
+        ticketmaster.nl event page URL.
+        """
 
 class Prv_tiktok(Protocol):
     """Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages —
