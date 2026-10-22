@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4cf196889b49707440ef867fc7710648e0e1178a79ee4aeea181447dd8b60354
+# Manifest version: 57fb9304a8df1b6c037f689dc54c4e3b68c4fab31254f8d9030b00e2d8287f5c
 # 85 capabilities, 617 providers, 2329 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -55628,8 +55628,10 @@ class Prv_target(Protocol):
 
     async def checkStock(self, args: Prv_target_checkStock_args_In, /) -> Prv_target_TargetCheckStockResult_Out | None:
         """Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a
-        given store or ZIP — the check a caller does before committing to a product. Returns
-        null if the product is not found.
+        given store or ZIP — the check a caller does before committing to a product. Pass
+        `storeId` or `zip` for pickup; an unscoped call answers ship availability only. Returns
+        null if the TCIN is not in the results for `keyword`; throws when Target's bot wall
+        refuses every try.
         """
 
     async def findStore(self, args: Prv_target_findStore_args_In, /) -> Prv_target_TargetStoreSearch_Out:

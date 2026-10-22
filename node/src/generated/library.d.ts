@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4cf196889b49707440ef867fc7710648e0e1178a79ee4aeea181447dd8b60354
+// Manifest version: 57fb9304a8df1b6c037f689dc54c4e3b68c4fab31254f8d9030b00e2d8287f5c
 // 85 capabilities, 617 providers, 2347 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -54235,8 +54235,9 @@ interface TargetWishlistsHistory {
 
     /**
      * Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a given
-     * store or ZIP — the check a caller does before committing to a product. Returns null if the
-     * product is not found.
+     * store or ZIP — the check a caller does before committing to a product. Pass `storeId` or
+     * `zip` for pickup; an unscoped call answers ship availability only. Returns null if the TCIN
+     * is not in the results for `keyword`; throws when Target's bot wall refuses every try.
      */
     checkStock(args: { tcin: string; keyword?: string; storeId?: number; zip?: string }): Promise<TargetCheckStockResult | null>;
 
