@@ -383,7 +383,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | 🟢 |
 | `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | 🟢 |
 | `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | 🟢 |
-| `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | 🟡 |
+| `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | 🟢 |
 | `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, and its episodes newest first — title… | ⚪ |
 | `bbc.getPodcastEpisode` | bbc.com | One podcast episode: title, synopsis, duration, broadcast date, and the playable media… | ⚪ |
 | `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | 🟢 |
@@ -3031,7 +3031,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pacificcompanies.searchJobs` | pacificcompanies.com | Runs Pacific Companies' own job-board search — filters real open physician/APP roles… | 🟢 |
 | `pacificlifestylehomes.searchAvailableHomes` | pacificlifestylehomes.com | Searches Pacific Lifestyle Homes' live available-home inventory in Camas, Ridgefield… | 🟢 |
 | `packlane.getQuote` | packlane.com | Prices Packlane's custom Mailer Boxes (product 35139) for a given box size, material… | 🟢 |
-| `pallet2ship.getQuote` | pallet2ship.co.uk | Live pallet freight quotes between two UK-mainland postcodes for one or more pallets… | 🟡 |
+| `pallet2ship.getQuote` | pallet2ship.co.uk | Live pallet freight quotes between two UK-mainland postcodes for one or more pallets… | 🟢 |
 | `partiful.discoverEvents` | partiful.com | Lists the public events Partiful's explore page shows for one region (sf, nyc, la… | 🟢 |
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
 | `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | 🟢 |
@@ -3403,7 +3403,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `roblox.getRecommendations` | roblox.com | Get personalized game recommendations based on the user's play history and preferences. | ⚪ |
 | `roblox.getUsersLibrary` | roblox.com | Get the user's library of played games, saved favorites, and game history. | ⚪ |
 | `roblox.listPopularGames` | roblox.com | List trending and popular games on the platform. | ⚪ |
-| `roblox.searchGames` | roblox.com | Search for games on Roblox by keyword, returning matching games with details. | ⚪ |
+| `roblox.searchGames` | roblox.com | Search for games on Roblox by keyword, returning matching games with details. | 🟢 |
 | `roofmaxx.estimateRoofReplacementCost` | roofmaxx.com | Runs Roof Maxx's own Roof Replacement Cost Calculator — given a home's square footage… | 🟢 |
 | `roofmaxx.getCalculatorSettings` | roofmaxx.com | The Roof Replacement Cost Calculator's own admin-configured title and description… | 🟢 |
 | `rottentomatoes.browseTitles` | rottentomatoes.com | Lists titles from the site's browse pages (in theaters, at home, top-rated, by genre)… | ⚪ |
@@ -4135,7 +4135,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.getOwnProfile` | tripadvisor.com | Reads the signed-in caller's own profile — handle, display name, home town… | ⚪ |
 | `tripadvisor.getPhotos` | tripadvisor.com | Lists a listing's or destination's photos — traveller and management photos with… | ⚪ |
 | `tripadvisor.getQuestions` | tripadvisor.com | Reads a listing's travellers' Q&A — each question's text, date, language and number of… | ⚪ |
-| `tripadvisor.getRestaurant` | tripadvisor.com | Reads one restaurant in full: name, address, phone, website, cuisines, price range… | ⚪ |
+| `tripadvisor.getRestaurant` | tripadvisor.com | Reads one restaurant in full: name, address, phone, cuisines, price range, opening… | 🟢 |
 | `tripadvisor.getRestaurantAvailability` | tripadvisor.com | Reads a restaurant's open reservation times for a date and party size, from the… | ⚪ |
 | `tripadvisor.getReview` | tripadvisor.com | Reads one review on its own page — the full text, rating, dates, author, photos and… | ⚪ |
 | `tripadvisor.getReviews` | tripadvisor.com | Reads the reviews of any listing — hotel, restaurant, attraction, tour or airline —… | ⚪ |
