@@ -2488,7 +2488,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listCompanyPosts` | linkedin.com | Lists a company page's recent posts, as LinkedIn itself samples them on the company… | 🟢 |
 | `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟢 |
 | `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟢 |
-| `linkedin.listFollowing` | linkedin.com | Lists the members, companies and pages the signed-in caller follows, with each one's… | ⚪ |
+| `linkedin.listFollowing` | linkedin.com | Lists the members, companies and newsletters the caller follows, with each one's name… | 🟢 |
 | `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟢 |
 | `linkedin.listMemberPosts` | linkedin.com | Lists a member's own recent posts and reposts, as LinkedIn itself samples them on… | 🟢 |
 | `linkedin.listMyGroups` | linkedin.com | Lists the groups the signed-in caller belongs to, with each group's name, URL and… | ⚪ |
@@ -2497,7 +2497,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listSavedJobs` | linkedin.com | Lists the jobs the signed-in caller has saved, with each posting's id (for getJob)… | ⚪ |
 | `linkedin.listSavedPosts` | linkedin.com | Lists the posts and articles the signed-in caller has saved, with each one's author… | ⚪ |
 | `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟢 |
-| `linkedin.listSuggestedConnections` | linkedin.com | Lists the people LinkedIn suggests the signed-in caller connect with ("People you may… | ⚪ |
+| `linkedin.listSuggestedConnections` | linkedin.com | Lists the people LinkedIn suggests the caller connect with ("People you may know") —… | 🟢 |
 | `linkedin.reactToPost` | linkedin.com | Reacts to a post as the signed-in caller — like, celebrate, support, love, insightful… | ⚪ |
 | `linkedin.removeConnection` | linkedin.com | Removes a member from the signed-in caller's connections. | ⚪ |
 | `linkedin.repostPost` | linkedin.com | Reposts a post to the signed-in caller's feed, with or without their own text on top. | ⚪ |
