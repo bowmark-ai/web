@@ -2492,7 +2492,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟢 |
 | `linkedin.listMemberPosts` | linkedin.com | Lists a member's own recent posts and reposts, as LinkedIn itself samples them on… | 🟢 |
 | `linkedin.listMyGroups` | linkedin.com | Lists the groups the signed-in caller belongs to, with each group's name, URL and… | ⚪ |
-| `linkedin.listNotifications` | linkedin.com | Lists the signed-in caller's notifications, newest first — who did what (viewed… | ⚪ |
+| `linkedin.listNotifications` | linkedin.com | Lists the caller's LinkedIn notifications, newest first — who did what (a reaction, a… | 🟢 |
 | `linkedin.listPostComments` | linkedin.com | Lists the comments LinkedIn server-renders on one public post's page — each with its… | 🟢 |
 | `linkedin.listSavedJobs` | linkedin.com | Lists the jobs the signed-in caller has saved, with each posting's id (for getJob)… | ⚪ |
 | `linkedin.listSavedPosts` | linkedin.com | Lists the posts and articles the signed-in caller has saved, with each one's author… | ⚪ |
