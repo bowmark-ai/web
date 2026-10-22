@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bff1750fc788067dc09c25a4e763885899dfab771cb7698c90479a29e157efc2
-// 85 capabilities, 618 providers, 2392 typed functions, 20 refused.
+// Manifest version: 4a050ac569f81e629c1a77e1d6ad2ba8681436caa9d94bb84e608aa19acb14c7
+// 85 capabilities, 618 providers, 2398 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -23294,6 +23294,48 @@ interface FacebookMarketplaceListingDetails {
   url: string;
 }
 
+interface ListNotificationsArgs {}
+
+interface FacebookNotification {
+  id: string;
+  text?: string;
+  timestamp?: string;
+  unread: boolean;
+  url?: string;
+}
+
+interface GetPrivacySettingsArgs {}
+
+interface FacebookPrivacySetting {
+  id: string;
+  label: string;
+  value: string;
+}
+
+type FacebookPrivacySettingAudience = "Public" | "Friends" | "Only me";
+
+interface UpdatePrivacySettingsArgs {
+  setting: "futurePostsAudience";
+  value: FacebookPrivacySettingAudience;
+}
+
+interface FacebookPrivacySettingUpdate {
+  id: string;
+  setting: string;
+  value: string;
+  updated: true;
+}
+
+interface UpdateProfileArgs {
+  bio: string;
+}
+
+interface FacebookProfileUpdate {
+  id: string;
+  bio: string;
+  updated: true;
+}
+
   /**
    * Facebook — profiles, pages, groups, marketplace, messages and posts. Every function needs
    * the caller signed in; the caller signs in through the relay.
@@ -23391,6 +23433,18 @@ interface FacebookMarketplaceListingDetails {
 
     /** Read a Marketplace listing's details — title, price, description, location, seller. */
     getMarketplaceListingDetails(args: GetMarketplaceListingDetailsArgs, opts?: ConnectionOption): Promise<FacebookMarketplaceListingDetails>;
+
+    /** List the caller's recent notifications — friend requests, reactions, comments, mentions. */
+    listNotifications(args: ListNotificationsArgs, opts?: ConnectionOption): Promise<FacebookNotification[]>;
+
+    /** Read the caller's privacy settings as rendered on Facebook's own Privacy settings page. */
+    getPrivacySettings(args: GetPrivacySettingsArgs, opts?: ConnectionOption): Promise<FacebookPrivacySetting[]>;
+
+    /** Change the caller's "Who can see your future posts?" audience setting. */
+    updatePrivacySettings(args: UpdatePrivacySettingsArgs, opts?: ConnectionOption): Promise<FacebookPrivacySettingUpdate>;
+
+    /** Edit the caller's own profile bio — the short "Intro" line shown under their name. */
+    updateProfile(args: UpdateProfileArgs, opts?: ConnectionOption): Promise<FacebookProfileUpdate>;
   }
 }
 
@@ -35898,6 +35952,14 @@ interface LinkedinSearchGroup {
   description: string | null;
 }
 
+interface LinkedinGroupDetail {
+  id: string | null;
+  url: string | null;
+  name: string;
+  description: string | null;
+  members: string | null; // LinkedIn's member line, verbatim — "12K members" — where the entity carries one
+}
+
 // Paged results carry { start, nextStart } — pass nextStart back as start; null means the last page.
 interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: number; nextStart: number | null; }
 
@@ -36435,6 +36497,30 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * extra last argument; ask them first.
      */
     searchGroups(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchGroup>>;
+
+    /**
+     * Returns one LinkedIn group by its URL or numeric id (from searchGroups or listMyGroups) —
+     * name, description and LinkedIn's member line. Signed in: acts as the caller's own LinkedIn
+     * account; with no saved sign-in the run pauses and hands back a link where they sign in.
+     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
+     */
+    getGroup(input: string | { group: string }, opts?: ConnectionOption): Promise<LinkedinGroupDetail>;
+
+    /**
+     * Lists the groups the caller belongs to — each one's id (for getGroup), name, description and
+     * LinkedIn's member line. `count` up to 100 per page (default 10). Signed in: acts as the
+     * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
+     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
+     */
+    listMyGroups(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ groups: LinkedinGroupDetail[]; start: number; nextStart: number | null }>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -61850,7 +61936,7 @@ interface WikipediaWatchlistItem {
      * inbound half of the link graph, and the closest thing the encyclopedia has to "how important
      * is this topic, and to whom". Takes an article title OR any wikipedia.org url and follows the
      * site's own redirects. Optional limit parameter caps the number of backlinks returned
-     * (defaults to all).
+     * (1-500); omitted, it returns up to the first 2000 and warns when the article has more.
      */
     listBacklinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ backlinks: WikipediaBacklink[]; warnings: string[] }>;
 

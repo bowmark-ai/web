@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bff1750fc788067dc09c25a4e763885899dfab771cb7698c90479a29e157efc2
-// 2374 checked, 20 unchecked.
+// Manifest version: 4a050ac569f81e629c1a77e1d6ad2ba8681436caa9d94bb84e608aa19acb14c7
+// 2380 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bff1750fc788067dc09c25a4e763885899dfab771cb7698c90479a29e157efc2",
+  "version": "4a050ac569f81e629c1a77e1d6ad2ba8681436caa9d94bb84e608aa19acb14c7",
   "units": {
     "address_validation": {
       "defs": {
@@ -23101,6 +23101,23 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "FacebookPrivacySettingAudience": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "Public"
+            },
+            {
+              "k": "literal",
+              "v": "Friends"
+            },
+            {
+              "k": "literal",
+              "v": "Only me"
+            }
+          ]
+        },
         "FacebookReactionKind": {
           "k": "union",
           "of": [
@@ -23269,6 +23286,10 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPrivacySettingsArgs": {
+          "k": "object",
+          "props": []
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -23321,6 +23342,10 @@ export const VALIDATORS: ValidatorTable = {
           "props": []
         },
         "ListFriendsArgs": {
+          "k": "object",
+          "props": []
+        },
+        "ListNotificationsArgs": {
           "k": "object",
           "props": []
         },
@@ -23497,6 +23522,39 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "postUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "UpdatePrivacySettingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "setting",
+              "schema": {
+                "k": "literal",
+                "v": "futurePostsAudience"
+              },
+              "optional": false
+            },
+            {
+              "name": "value",
+              "schema": {
+                "k": "ref",
+                "name": "FacebookPrivacySettingAudience"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "UpdateProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "bio",
               "schema": {
                 "k": "string"
               },
@@ -24266,6 +24324,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetMarketplaceListingDetailsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listNotifications": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListNotificationsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getPrivacySettings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPrivacySettingsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updatePrivacySettings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpdatePrivacySettingsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpdateProfileArgs"
             },
             "optional": false
           },
@@ -38592,6 +38754,89 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGroup": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "group",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyGroups": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "start",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "count",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           },
           {
             "name": "opts",

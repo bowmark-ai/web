@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bff1750fc788067dc09c25a4e763885899dfab771cb7698c90479a29e157efc2
-# 85 capabilities, 618 providers, 2374 typed functions, 20 refused.
+# Manifest version: 4a050ac569f81e629c1a77e1d6ad2ba8681436caa9d94bb84e608aa19acb14c7
+# 85 capabilities, 618 providers, 2380 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13316,6 +13316,42 @@ class Prv_facebook_FacebookMarketplaceListingDetails_Out(TypedDict):
     sellerName: NotRequired[str]
     url: str
 
+class Prv_facebook_ListNotificationsArgs_In(TypedDict):
+    pass
+
+class Prv_facebook_FacebookNotification_Out(TypedDict):
+    id: str
+    text: NotRequired[str]
+    timestamp: NotRequired[str]
+    unread: bool
+    url: NotRequired[str]
+
+class Prv_facebook_GetPrivacySettingsArgs_In(TypedDict):
+    pass
+
+class Prv_facebook_FacebookPrivacySetting_Out(TypedDict):
+    id: str
+    label: str
+    value: str
+
+class Prv_facebook_UpdatePrivacySettingsArgs_In(TypedDict):
+    setting: Literal["futurePostsAudience"]
+    value: Literal["Public"] | Literal["Friends"] | Literal["Only me"]
+
+class Prv_facebook_FacebookPrivacySettingUpdate_Out(TypedDict):
+    id: str
+    setting: str
+    value: str
+    updated: Literal[True]
+
+class Prv_facebook_UpdateProfileArgs_In(TypedDict):
+    bio: str
+
+class Prv_facebook_FacebookProfileUpdate_Out(TypedDict):
+    id: str
+    bio: str
+    updated: Literal[True]
+
 class Prv_faceforwardaesthetics_FaceForwardAestheticsLocation_Out(TypedDict):
     id: str
     name: str
@@ -20016,6 +20052,25 @@ class Prv_linkedin_LinkedinSavedPost_Out(TypedDict):
 class Prv_linkedin_searchGroups_input_u1_In(TypedDict):
     keywords: str
     start: NotRequired[float]
+
+class Prv_linkedin_getGroup_input_u1_In(TypedDict):
+    group: str
+
+class Prv_linkedin_LinkedinGroupDetail_Out(TypedDict):
+    id: str | None
+    url: str | None
+    name: str
+    description: str | None
+    members: str | None
+
+class Prv_linkedin_listMyGroups_input_In(TypedDict):
+    start: NotRequired[float]
+    count: NotRequired[float]
+
+class Prv_linkedin_listMyGroups_return_Out(TypedDict):
+    groups: list[Prv_linkedin_LinkedinGroupDetail_Out]
+    start: float
+    nextStart: float | None
 
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
@@ -45036,6 +45091,18 @@ class Prv_facebook(Protocol):
     async def getMarketplaceListingDetails(self, args: Prv_facebook_GetMarketplaceListingDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookMarketplaceListingDetails_Out:
         """Read a Marketplace listing's details — title, price, description, location, seller."""
 
+    async def listNotifications(self, args: Prv_facebook_ListNotificationsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookNotification_Out]:
+        """List the caller's recent notifications — friend requests, reactions, comments, mentions."""
+
+    async def getPrivacySettings(self, args: Prv_facebook_GetPrivacySettingsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookPrivacySetting_Out]:
+        """Read the caller's privacy settings as rendered on Facebook's own Privacy settings page."""
+
+    async def updatePrivacySettings(self, args: Prv_facebook_UpdatePrivacySettingsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPrivacySettingUpdate_Out:
+        """Change the caller's "Who can see your future posts?" audience setting."""
+
+    async def updateProfile(self, args: Prv_facebook_UpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookProfileUpdate_Out:
+        """Edit the caller's own profile bio — the short "Intro" line shown under their name."""
+
 class Prv_faceforwardaesthetics(Protocol):
     """Face Forward Aesthetics' live Zenoti locations, service catalog, and bookable
     appointment slots — no login, no PII, and no browser.
@@ -50175,6 +50242,28 @@ class Prv_linkedin(Protocol):
         LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
         retry: wait that long. The account owner may opt into faster pacing with { pacing:
         "fast" } as an extra last argument; ask them first.
+        """
+
+    async def getGroup(self, input: str | Prv_linkedin_getGroup_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinGroupDetail_Out:
+        """Returns one LinkedIn group by its URL or numeric id (from searchGroups or listMyGroups)
+        — name, description and LinkedIn's member line. Signed in: acts as the caller's own
+        LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
+        sign in. Paced per LinkedIn account across runs so it never looks automated — 6 requests
+        a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
+        """
+
+    async def listMyGroups(self, input: Prv_linkedin_listMyGroups_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listMyGroups_return_Out:
+        """Lists the groups the caller belongs to — each one's id (for getGroup), name, description
+        and LinkedIn's member line. `count` up to 100 per page (default 10). Signed in: acts as
+        the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+        link where they sign in. Paced per LinkedIn account across runs so it never looks
+        automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+        and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
@@ -58894,7 +58983,8 @@ class Prv_wikipedia(Protocol):
         inbound half of the link graph, and the closest thing the encyclopedia has to "how
         important is this topic, and to whom". Takes an article title OR any wikipedia.org url
         and follows the site's own redirects. Optional limit parameter caps the number of
-        backlinks returned (defaults to all).
+        backlinks returned (1-500); omitted, it returns up to the first 2000 and warns when the
+        article has more.
         """
 
     async def listExternalLinks(self, titleOrUrl: str, options: Prv_wikipedia_listExternalLinks_options_In | None = None, /) -> Prv_wikipedia_listExternalLinks_return_Out:
