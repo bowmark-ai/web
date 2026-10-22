@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: da64e4d8cd35a0ee97e8e272826ae9adc141caea399161762d19bac158d8b91b
+// Manifest version: d21e0e5c363c69d4a4d0ff37661555917b109d6d40a5e3c9aad2b1fa1d37bb18
 // 85 capabilities, 617 providers, 2353 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -54635,7 +54635,12 @@ interface TenderDetail extends TenderSummary {
      * Lists Kenyan public procurement tenders — open tenders by default — with procuring entity,
      * method, category, publish and close dates, and pagination totals. **Not newest first:** open
      * tenders come back soonest-closing first, and `status: "all"` in the portal's own order, so
-     * sort on `publishedAt` yourself to find what was just published (measured 2026-10-17).
+     * you have to find what is new yourself (measured 2026-10-17). **Do not sort on `publishedAt`
+     * for that:** it is the portal's own value and is sometimes wrong — a few open tenders carry a
+     * publish date a year in the future, typed that way at the source, so a newest-first sort puts
+     * months-old, already-awarded tenders at the top (e.g. tender 303648: published 2026-12-16,
+     * awarded 2026-01-14; measured 2026-10-22). Tender ids are sequential, so compare ids against
+     * the ones a previous run saw.
      */
     listTenders(args?: ListTendersArgs): Promise<TenderPage>;
 
