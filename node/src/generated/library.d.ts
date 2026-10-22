@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d21e0e5c363c69d4a4d0ff37661555917b109d6d40a5e3c9aad2b1fa1d37bb18
-// 85 capabilities, 617 providers, 2353 typed functions, 20 refused.
+// Manifest version: 8be288a15e3f4ba8e6f31968c6ed4e5b81edcc3fbacc90f489255bc5eaea1407
+// 85 capabilities, 617 providers, 2354 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26655,6 +26655,17 @@ interface GithubCommentResult {
      * not own it.
      */
     deleteComment(owner: string, repo: string, issueNumber: number, commentId: number, opts?: ConnectionOption): Promise<GithubCommentResult>;
+
+    /**
+     * Renames a pull request's TITLE off the same door `updateIssue` uses (`PUT
+     * /{owner}/{repo}/issues/{number}/title`) — a pull request is an Issue-type node in GitHub's
+     * own data model, and the door makes no distinction. NEEDS THE CALLER SIGNED IN, same door and
+     * same wall as `updateIssue`. `updates` supports `{ title }` only for now — body, state
+     * (open/closed) and base branch are separate doors on this same pull request, not yet surveyed
+     * (see packages/providers/github/BUILD_QUEUE.md). THROWS when signed out, the saved session is
+     * stale, or the pull request does not exist.
+     */
+    updatePullRequest(owner: string, repo: string, pullNumber: number, updates: { title: string }, opts?: ConnectionOption): Promise<GithubUpdateIssueTitleResult>;
   }
 }
 

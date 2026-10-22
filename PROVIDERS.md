@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4774 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4776 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1952,7 +1952,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in caller's watched list. | ⚪ |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🔴 |
 | `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🔴 |
-| `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), or base branch. | ⚪ |
+| `github.updatePullRequest` | github.com | Renames a pull request's TITLE, off the same issue-viewer web mutation (PUT… | 🔴 |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
@@ -2685,6 +2685,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microsoft_outlook.createCalendarEvent` | outlook.live.com | Creates a new calendar event with the specified title, start/end times, and optional… | 🟢 |
 | `microsoft_outlook.createContact` | outlook.live.com | Creates a new contact in the signed-in user's address book with the given name and… | 🟢 |
 | `microsoft_outlook.deleteCalendarEvent` | outlook.live.com | Deletes one event from the signed-in user's calendar, by its getCalendarEvents index. | 🟢 |
+| `microsoft_outlook.deleteMail` | outlook.live.com | Deletes one message (Outlook moves it to Deleted Items), through Outlook's own Delete… | 🟢 |
+| `microsoft_outlook.forwardMail` | outlook.live.com | Forwards one message to a new recipient with an optional note, through Outlook's own… | 🟢 |
 | `microsoft_outlook.getCalendarEvents` | outlook.live.com | Returns calendar events within a specified date range, including title, start/end… | 🟢 |
 | `microsoft_outlook.getContact` | outlook.live.com | Opens one contact from listContacts' results and returns the full contact card — name… | 🟢 |
 | `microsoft_outlook.getMail` | outlook.live.com | Opens one mail item from readMailFolder's results and returns the full message —… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d21e0e5c363c69d4a4d0ff37661555917b109d6d40a5e3c9aad2b1fa1d37bb18
-// 2335 checked, 20 unchecked.
+// Manifest version: 8be288a15e3f4ba8e6f31968c6ed4e5b81edcc3fbacc90f489255bc5eaea1407
+// 2336 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d21e0e5c363c69d4a4d0ff37661555917b109d6d40a5e3c9aad2b1fa1d37bb18",
+  "version": "8be288a15e3f4ba8e6f31968c6ed4e5b81edcc3fbacc90f489255bc5eaea1407",
   "units": {
     "address_validation": {
       "defs": {
@@ -28249,6 +28249,61 @@ export const VALIDATORS: ValidatorTable = {
             "name": "commentId",
             "schema": {
               "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updatePullRequest": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pullNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "updates",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           },

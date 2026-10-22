@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d21e0e5c363c69d4a4d0ff37661555917b109d6d40a5e3c9aad2b1fa1d37bb18
-# 85 capabilities, 617 providers, 2335 typed functions, 20 refused.
+# Manifest version: 8be288a15e3f4ba8e6f31968c6ed4e5b81edcc3fbacc90f489255bc5eaea1407
+# 85 capabilities, 617 providers, 2336 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14912,6 +14912,9 @@ class Prv_github_GithubUpdateIssueTitleResult_Out(TypedDict):
 
 class Prv_github_GithubCommentResult_Out(TypedDict):
     comment: Mapping[str, Any]
+
+class Prv_github_updatePullRequest_updates_In(TypedDict):
+    title: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -45828,6 +45831,16 @@ class Prv_github(Protocol):
         CALLER SIGNED IN, same door and same wall as `createComment`. THROWS when signed out,
         the saved session is stale, the comment does not exist, or the signed-in caller does not
         own it.
+        """
+
+    async def updatePullRequest(self, owner: str, repo: str, pullNumber: float, updates: Prv_github_updatePullRequest_updates_In, opts: ConnectionOption | None = None, /) -> Prv_github_GithubUpdateIssueTitleResult_Out:
+        """Renames a pull request's TITLE off the same door `updateIssue` uses (`PUT
+        /{owner}/{repo}/issues/{number}/title`) — a pull request is an Issue-type node in
+        GitHub's own data model, and the door makes no distinction. NEEDS THE CALLER SIGNED IN,
+        same door and same wall as `updateIssue`. `updates` supports `{ title }` only for now —
+        body, state (open/closed) and base branch are separate doors on this same pull request,
+        not yet surveyed (see packages/providers/github/BUILD_QUEUE.md). THROWS when signed out,
+        the saved session is stale, or the pull request does not exist.
         """
 
 class Prv_glama(Protocol):
