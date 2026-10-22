@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fd319323454a7988d33674580763d871b05082846685c528fc15a125d8eec47f
-// 85 capabilities, 618 providers, 2399 typed functions, 20 refused.
+// Manifest version: 527ed9be6aa3d0c325a20bab86ead9b44629462bb727a8f0e0c97c4922aaf129
+// 85 capabilities, 621 providers, 2439 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8019,6 +8019,12 @@ interface AolGame {
   image?: string;
 }
 
+interface AolNewsletter {
+  id: string;
+  title: string;
+  description?: string;
+}
+
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
    * USA Today and more), weather, local news, horoscopes and recipes, plus (once a caller signs
@@ -8104,6 +8110,12 @@ interface AolGame {
      * catalogue in one call.
      */
     listGames(): Promise<{ games: AolGame[] }>;
+
+    /**
+     * Lists AOL's newsletter signup(s). Today the site offers a single generic daily roundup ("AOL
+     * Today") rather than a catalog of topic newsletters — the door for subscribeNewsletter.
+     */
+    listNewsletters(): Promise<{ newsletters: AolNewsletter[] }>;
   }
 }
 
@@ -11606,6 +11618,44 @@ interface BeatthebombPriceQuote {
   }
 }
 
+declare namespace BowmarkProvider_bedbathandbeyond {
+  // ── Bed Bath & Beyond — the unit's own declarations, verbatim ──
+interface BedBathAndBeyondSearchArgs {
+  query: string;
+  /** 1-40, default 10. */
+  limit?: number;
+}
+interface BedBathAndBeyondProduct {
+  id: string;
+  name: string;
+  url: string;
+  price: number | null;
+  imageUrl: string | null;
+}
+interface BedBathAndBeyondSearch {
+  products: BedBathAndBeyondProduct[];
+  /** Matches across the whole shared Beyond Inc. index (Bed Bath & Beyond +
+   * Overstock), before this provider's bedbathandbeyond.com-only filter. */
+  totalAcrossBrand: number;
+}
+
+  /**
+   * Bed Bath & Beyond home goods retailer. Searches the catalog (towels, bedding, kitchen,
+   * furniture) and returns name, price and a product URL, filtered to items actually sold under
+   * this brand.
+   */
+  interface Unit {
+    /**
+     * Searches Bed Bath & Beyond's catalog the way the site's own search box does ("towel set",
+     * "bath towel") and returns matching products with name, price and a product URL. The site
+     * shares its Constructor.io search index with its sibling brand Overstock, so this only
+     * returns rows whose URL is actually on bedbathandbeyond.com — a result never names a price
+     * that belongs to a different storefront.
+     */
+    search(args: BedBathAndBeyondSearchArgs): Promise<BedBathAndBeyondSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_bellwethercoffee {
   // ── Bellwether Coffee — the unit's own declarations, verbatim ──
 // Bellwether Coffee's OWN shapes — not a capability contract.
@@ -14176,6 +14226,20 @@ interface BusinessInsiderGuideProduct {
 interface BusinessInsiderGuideRecord extends BusinessInsiderArticleRecord {
   products: BusinessInsiderGuideProduct[];
 }
+interface GetVideoArgs {
+  url: string;
+}
+interface BusinessInsiderVideoRecord {
+  url: string;
+  name: string;
+  description?: string;
+  uploadDate?: string;
+  thumbnailUrl?: string;
+  author: BusinessInsiderArticleAuthor[];
+  jwMediaId?: string;
+  playerScriptUrl?: string;
+  hlsUrl?: string;
+}
 
   /**
    * Reads Business Insider's news, markets and guides verticals — section listings and full
@@ -14218,6 +14282,13 @@ interface BusinessInsiderGuideRecord extends BusinessInsiderArticleRecord {
      * orders its grid.
      */
     listVideos(args: ListVideosArgs): Promise<BusinessInsiderListedArticle[]>;
+
+    /**
+     * Reads one businessinsider.com video's metadata (title, description, upload date, thumbnail,
+     * credited producers) and its JW Player media id and HLS playback URL off the page's own
+     * VideoObject JSON-LD, given the video page URL.
+     */
+    getVideo(args: GetVideoArgs): Promise<BusinessInsiderVideoRecord>;
 
     /**
      * Reads one businessinsider.com article's full text and metadata (headline, author, section,
@@ -18915,6 +18986,23 @@ interface DailymotionPlaylistVideosResult {
   hasMore: boolean;
   videos: DailymotionVideo[];
 }
+interface SearchPlaylistsArgs {
+  query: string;
+  limit?: number;
+}
+interface DailymotionPlaylistSearchHit {
+  id: string;
+  name: string | null;
+  thumbnailUrl: string | null;
+  videoCount: number | null;
+  owner: { id: string | null; name: string | null; displayName: string | null };
+}
+interface DailymotionPlaylistSearchResult {
+  query: string;
+  page: number;
+  hasMore: boolean;
+  playlists: DailymotionPlaylistSearchHit[];
+}
 
   /**
    * Search Dailymotion videos by keyword and read one video's title, channel, duration, views
@@ -18971,6 +19059,14 @@ interface DailymotionPlaylistVideosResult {
      * getVideo. Playlist ids come from listChannelPlaylists or getPlaylist.
      */
     listPlaylistVideos(args: ListPlaylistVideosArgs): Promise<DailymotionPlaylistVideosResult>;
+
+    /**
+     * Search Dailymotion playlists by keyword ("cats", "music"), as the site's own search page
+     * does under its Playlists tab — id, name, owner and video count for up to 20 results. `name`
+     * and `thumbnailUrl` are sometimes null (the search index has not populated them for that
+     * collection); pass the id to getPlaylist for the full record.
+     */
+    searchPlaylists(args: SearchPlaylistsArgs): Promise<DailymotionPlaylistSearchResult>;
   }
 }
 
@@ -22197,6 +22293,117 @@ interface TeamScheduleResult {
   games: ScheduleGame[];
 }
 
+interface TeamRosterArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. Common names resolved by resolveLeague. */
+  league: string;
+  /** Team abbreviation, name, or nickname (e.g. "ARI", "Cardinals", "Arizona Cardinals") */
+  team: string;
+}
+
+interface RosterPlayer {
+  id: string; // ESPN athlete id — pass to getPlayer
+  fullName: string;
+  jersey: string | null;
+  position: string | null; // abbreviation, e.g. "RB", "QB", "CB"
+  positionName: string | null;
+  age: number | null;
+  displayHeight: string | null;
+  displayWeight: string | null;
+  experienceYears: number | null;
+  college: string | null;
+  status: string | null; // the site's own label, e.g. "Active", "Injured Reserve"
+}
+
+interface RosterGroup {
+  group: string; // ESPN's own group key, e.g. "offense", "defense", "specialTeam"
+  players: RosterPlayer[];
+}
+
+interface TeamRosterResult {
+  league: string;
+  team: { id: string; abbreviation: string; name: string };
+  groups: RosterGroup[];
+}
+
+interface SearchArgs {
+  query: string;
+}
+
+interface SearchEntity {
+  /** The numeric id off this entry's uid — pass to getPlayer, or use directly
+   * against ESPN's team/league endpoints. Null when the uid carries none. */
+  espnId: string | null;
+  name: string;
+  subtitle: string | null;
+  sport: string | null;
+  leagueSlug: string | null; // the league slug listLeagues() would resolve
+  url: string | null;
+}
+
+interface SearchArticle {
+  id: string;
+  headline: string;
+  url: string | null;
+}
+
+interface SearchResult {
+  query: string;
+  players: SearchEntity[];
+  teams: SearchEntity[];
+  leagues: SearchEntity[];
+  articles: SearchArticle[];
+}
+
+interface GetPlayerArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. Common names resolved by resolveLeague. */
+  league: string;
+  /** ESPN athlete id — from search's or teamRoster's results */
+  athleteId: string;
+}
+
+interface PlayerTeam {
+  id: string;
+  abbreviation: string;
+  name: string;
+}
+
+interface Player {
+  id: string;
+  fullName: string;
+  jersey: string | null;
+  position: string | null;
+  positionName: string | null;
+  team: PlayerTeam | null;
+  age: number | null;
+  displayHeight: string | null;
+  displayWeight: string | null;
+  college: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  headshot: string | null;
+}
+
+interface NewsArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. Common names resolved by resolveLeague. */
+  league: string;
+  /** Narrow to articles tagged with this team, by name or abbreviation. */
+  team?: string;
+}
+
+interface NewsArticle {
+  id: string;
+  headline: string;
+  description: string | null;
+  byline: string | null;
+  published: string | null;
+  url: string | null;
+  teams: string[]; // team names this article is tagged with
+}
+
+interface NewsResult {
+  league: string;
+  articles: NewsArticle[];
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -22251,6 +22458,32 @@ interface TeamScheduleResult {
      * (preseason, regular, postseason).
      */
     teamSchedule(args: TeamScheduleArgs): Promise<TeamScheduleResult>;
+
+    /**
+     * One team's current roster, grouped as ESPN groups it (offense, defense, special teams;
+     * injured reserve; practice squad) — every player with jersey number, position, age, height,
+     * weight, experience, college, status and the ESPN athlete id getPlayer takes.
+     */
+    teamRoster(args: TeamRosterArgs): Promise<TeamRosterResult>;
+
+    /**
+     * ESPN's own site search — players, teams, leagues and articles matching free text, each with
+     * its ESPN id and sport. The door for getPlayer: a caller holding "Mahomes" gets the athlete
+     * id here.
+     */
+    search(args: SearchArgs): Promise<SearchResult>;
+
+    /**
+     * One player's page — team, position, jersey, age, height, weight, college, status and
+     * headshot. Takes an athlete id from search or teamRoster.
+     */
+    getPlayer(args: GetPlayerArgs): Promise<Player>;
+
+    /**
+     * The latest ESPN headlines for a league, optionally narrowed to one team — headline,
+     * description, byline, published time and article id for getArticle.
+     */
+    news(args: NewsArgs): Promise<NewsResult>;
   }
 }
 
@@ -23627,6 +23860,49 @@ interface GetSectionArgs {
   section: string;
 }
 
+interface GetWikitextArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface Wikitext {
+  title: string;
+  wikitext: string;
+  revision: string;
+}
+
+interface GetInfoboxArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface Infobox {
+  title: string;
+  template: string;
+  fields: Record<string, string>;
+}
+
+interface ListLinksArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface LinkedPage {
+  title: string;
+  url: string;
+}
+
+interface ListBacklinksArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface Backlink {
+  id: string;
+  title: string;
+  url: string;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -23681,6 +23957,33 @@ interface GetSectionArgs {
      * /api.php?action=parse&section=N&prop=text`.
      */
     getSection(args: GetSectionArgs): Promise<Article>;
+
+    /**
+     * An article's raw wikitext source — what an editor sees in the edit box, templates and all.
+     * The input `getInfobox` parses. `GET
+     * /api.php?action=query&prop=revisions&rvprop=content&rvslots=main`.
+     */
+    getWikitext(args: GetWikitextArgs): Promise<Wikitext>;
+
+    /**
+     * The fact box at the top of an article, as key/value pairs. Parses `getWikitext`'s output for
+     * the first top-level template carrying at least two named parameters — each Fandom wiki names
+     * its own data template (`Character`, `Item`, …), unlike Wikipedia's fixed `{{Infobox}}`
+     * convention.
+     */
+    getInfobox(args: GetInfoboxArgs): Promise<Infobox>;
+
+    /**
+     * Every other article on the same wiki this one links to, in page order. `GET
+     * /api.php?action=query&prop=links`.
+     */
+    listLinks(args: ListLinksArgs): Promise<LinkedPage[]>;
+
+    /**
+     * What links HERE — every article on the wiki pointing at this one. `GET
+     * /api.php?action=query&list=backlinks`.
+     */
+    listBacklinks(args: ListBacklinksArgs): Promise<Backlink[]>;
   }
 }
 
@@ -35993,6 +36296,11 @@ interface LinkedinGroupDetail {
   members: string | null; // LinkedIn's member line, verbatim — "12K members" — where the entity carries one
 }
 
+interface LinkedinPostResult {
+  id: string | null;  // feeds deletePost / deleteComment / commentOnPost / reactToPost — null when unread, not when the write failed
+  url: string | null;
+}
+
 // Paged results carry { start, nextStart } — pass nextStart back as start; null means the last page.
 interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: number; nextStart: number | null; }
 
@@ -36554,6 +36862,56 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * as an extra last argument; ask them first.
      */
     listMyGroups(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ groups: LinkedinGroupDetail[]; start: number; nextStart: number | null }>;
+
+    /**
+     * Publishes a text post to the caller's own feed, public by default (`visibility:
+     * "connections"` restricts it the way LinkedIn's own composer does). Returns the new post's id
+     * for `deletePost`, `commentOnPost` and `reactToPost` where LinkedIn's answer carries one —
+     * otherwise `id` is null and the write still happened. Signed in: acts as the caller's own
+     * LinkedIn account; with no saved sign-in the run pauses and hands back a link where they sign
+     * in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
+     */
+    createPost(input: { text: string; visibility?: "public" | "connections" }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
+
+    /**
+     * Deletes a post the caller owns, by the id createPost returned or the post's urn — the
+     * clean-up half of createPost. Signed in: acts as the caller's own LinkedIn account; with no
+     * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
+     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
+     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
+     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+     * first.
+     */
+    deletePost(post: string, opts?: ConnectionOption): Promise<{ deleted: true }>;
+
+    /**
+     * Comments on a post, by the id createPost/getPost returned or the post's urn. Returns the new
+     * comment's id for deleteComment where LinkedIn's answer carries one. Signed in: acts as the
+     * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
+     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
+     */
+    commentOnPost(input: { post: string; text: string }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
+
+    /**
+     * Deletes a comment the caller wrote, by the id commentOnPost returned or the comment's urn —
+     * the clean-up half of commentOnPost. Signed in: acts as the caller's own LinkedIn account;
+     * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
+     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
+     * argument; ask them first.
+     */
+    deleteComment(comment: string, opts?: ConnectionOption): Promise<{ deleted: true }>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -42602,6 +42960,12 @@ interface NetflixProfile {
     getTop10(): Promise<NetflixTop10Entry[]>;
 
     /**
+     * Lists the titles in one Netflix genre — the id from listGenres or the number in
+     * netflix.com/browse/genre/<id>, e.g. browseGenre("11714") for TV Dramas. No sign-in.
+     */
+    browseGenre(genreId: string): Promise<NetflixTitleMatch[]>;
+
+    /**
      * Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only on
      * Netflix hub pages (e.g. "TV Dramas", "Suspenseful TV Shows") with the genre id browseGenre
      * takes. No sign-in.
@@ -42863,6 +43227,26 @@ interface nhcTropicalOutlook {
   disturbances: nhcOutlookDisturbance[];
 }
 
+interface nhcSeasonStorm {
+  id: string;
+  name: string;
+  classification: string;
+  basin: 'AL' | 'EP' | 'CP';
+  year: number;
+}
+
+interface nhcAdvisoryProduct {
+  product: 'fstadv' | 'public' | 'public_a' | 'discus' | 'wndprb' | 'update';
+  number: number | null;
+  issuedAt: string;
+  url: string;
+}
+
+interface nhcForecastDiscussion {
+  number: number;
+  text: string;
+}
+
   /**
    * Current and recent tropical storms and hurricanes from NOAA's Hurricane Center, keyless and
    * public.
@@ -42904,6 +43288,33 @@ interface nhcTropicalOutlook {
      * and its 2-day and 7-day formation chance.
      */
     getTropicalOutlook(args: { basin: 'AL' | 'EP' | 'CP' }): Promise<nhcTropicalOutlook>;
+
+    /**
+     * List every storm of one hurricane season in a basin, with id, name and classification. The
+     * archive covers 1998 onward.
+     */
+    listSeasonStorms(args: { year: number, basin?: 'AL' | 'EP' | 'CP' }): Promise<nhcSeasonStorm[]>;
+
+    /**
+     * Find a storm by name. With no `year`, matches a currently active storm. With `year`,
+     * searches that season's archive (1998 onward) and returns every match — a name can recur
+     * across basins or seasons.
+     */
+    searchStorms(args: { name: string, year?: number, basin?: 'AL' | 'EP' | 'CP' }): Promise<nhcSeasonStorm[]>;
+
+    /**
+     * List every forecast advisory, public advisory, discussion and wind probability product a
+     * storm has issued, with product type, sequence number, issue time and url. Feeds the
+     * advisory/forecast/discussion urls other functions take.
+     */
+    listStormAdvisories(args: { stormId: string }): Promise<nhcAdvisoryProduct[]>;
+
+    /**
+     * Get the forecaster's discussion for a storm — the reasoning behind the track and intensity
+     * forecast — from a discussion url (from listStormAdvisories or listCurrentStorms'
+     * `links.forecastDiscussion`).
+     */
+    getForecastDiscussion(args: { discussionUrl: string }): Promise<nhcForecastDiscussion>;
   }
 }
 
@@ -48277,6 +48688,54 @@ interface PureVpnDedicatedIp {
   }
 }
 
+declare namespace BowmarkProvider_quickbooks {
+  // ── QuickBooks — the unit's own declarations, verbatim ──
+/** One component on status.quickbooks.intuit.com — a region under a product. */
+interface QuickbooksStatusComponent {
+  product: string | null;
+  region: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+}
+
+interface QuickbooksServiceStatus {
+  indicator: string;
+  description: string;
+  updatedAt: string | null;
+  components: QuickbooksStatusComponent[];
+  openIncidents: { id: string; name: string; status: string; impact: string; url: string | null }[];
+}
+
+interface QuickbooksIncident {
+  id: string;
+  name: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  impact: string;
+  startedAt: string | null;
+  resolvedAt: string | null;
+  url: string | null;
+  components: string[];
+  updates: { status: string; body: string; at: string | null }[];
+}
+
+interface QuickbooksListIncidentsArgs {
+  /** How many of the most recent incidents to return, 1-50 (default 20). */
+  limit?: number;
+}
+
+  /**
+   * QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators, the
+   * ProAdvisor accountant directory, the App Store, Community answers, help articles and service
+   * status.
+   */
+  interface Unit {
+    /** QuickBooks' current service status per product and region, and any open incident */
+    getServiceStatus(): Promise<QuickbooksServiceStatus>;
+
+    /** QuickBooks' recent service incidents, newest first, with their status updates */
+    listIncidents(args?: QuickbooksListIncidentsArgs): Promise<QuickbooksIncident[]>;
+  }
+}
+
 declare namespace BowmarkProvider_quince {
   // ── Quince — the unit's own declarations, verbatim ──
 type QuinceCountry = "us" | "ca";
@@ -50403,6 +50862,33 @@ interface RivianLeaseEstimate {
   }
 }
 
+declare namespace BowmarkProvider_roblox {
+  // ── Roblox — the unit's own declarations, verbatim ──
+interface robloxRow {
+  id: string;
+}
+
+interface robloxGame {
+  universeId: number;
+  name: string;
+  description: string | null;
+  playerCount: number | null;
+  upvotes: number | null;
+  downvotes: number | null;
+}
+
+  /** Search and discover games on Roblox. */
+  interface Unit {
+    /**
+     * Searches Roblox's own game index (apis.roblox.com/search-api/omni-search — the site's search
+     * bar) and returns matching games with name, description, live player count and up/downvotes.
+     * `universeId` on each row is what `getGame` (once built) takes. A query matching nothing
+     * returns an empty array.
+     */
+    searchGames(query: string, opts?: ConnectionOption): Promise<robloxGame[]>;
+  }
+}
+
 declare namespace BowmarkProvider_roofmaxx {
   // ── Roof Maxx — the unit's own declarations, verbatim ──
 interface RoofmaxxCalculatorSettings {
@@ -51651,6 +52137,10 @@ interface GetVenueArgs {
   id: number;
 }
 
+interface TrackEventArgs {
+  id: number;
+}
+
 interface seatgeekEvent {
   id: number;
   title: string;
@@ -51763,6 +52253,15 @@ interface seatgeekRow {
      * rather than guess.
      */
     listTrackedEvents(opts?: ConnectionOption): Promise<seatgeekTrackedEvent[]>;
+
+    /**
+     * Tracks (saves) an event to the signed-in caller's account. NEEDS THE CALLER'S SEATGEEK
+     * SIGN-IN, same door as listTrackedEvents. With one, the sign-in is confirmed, but the write
+     * itself has never been measured signed-in — no HTTP route or GraphQL mutation for it survives
+     * a static read of the site's own JS, only version-stamped client analytics with no network
+     * target — so the call still throws rather than guess.
+     */
+    trackEvent(args: TrackEventArgs, opts?: ConnectionOption): Promise<void>;
   }
 }
 
@@ -52427,6 +52926,28 @@ interface ShopAppSearchSuggestions {
   suggestions: ShopAppSearchSuggestion[];
   warnings: string[];
 }
+interface ShopAppStoreSearchResults {
+  products: ShopAppStoreProduct[];
+  suggestedTerms: string[];
+  warnings: string[];
+}
+interface ShopAppStoreReview {
+  id: string;
+  rating: number;
+  body: string | null;
+  reviewerName: string | null;
+  submittedAt: string | null;
+  productId: string | null;
+  productTitle: string | null;
+}
+interface ShopAppStoreReviews {
+  rating: number | null;
+  reviewCount: number | null;
+  reviews: ShopAppStoreReview[];
+  hasNextPage: boolean;
+  cursor: string | null;
+  warnings: string[];
+}
 
   /**
    * Shop (Shopify's shopping app) — search products across every Shopify store, read a product
@@ -52463,6 +52984,18 @@ interface ShopAppSearchSuggestions {
      * finder that turns a caller's words into a store handle or a better search phrase.
      */
     suggestSearches(query: string): Promise<ShopAppSearchSuggestions>;
+
+    /**
+     * Searches inside one store for products matching free text ("strawberry" in Liquid I.V.),
+     * with the store's own alternate query phrases for a miss or a broader match.
+     */
+    searchStore(handle: string, query: string): Promise<ShopAppStoreSearchResults>;
+
+    /**
+     * Lists the reviews left across a whole store — rating, text, product, author and date — with
+     * the store's overall rating, a page at a time.
+     */
+    getStoreReviews(handle: string, options?: { first?: number }): Promise<ShopAppStoreReviews>;
   }
 }
 
@@ -52718,6 +53251,14 @@ interface SnapchatProfileRow {
   username: string;
   displayName: string;
   snapcodeImageUrl: string;
+  kind: string; // the site's $case: "userInfo" for an ordinary account, "publicProfileInfo" for one with followers/bio/category
+  bio?: string;
+  websiteUrl?: string;
+  subscriberCount?: number;
+  categoryStringId?: string;
+  badge?: boolean;
+  relatedAccounts?: Array<{ username: string; displayName: string }>;
+  profile: Record<string, unknown>; // the site's own userProfile object, untouched
 }
 
 interface SnapchatSearchItem {
@@ -52738,6 +53279,55 @@ interface SnapchatSearchResult {
   }>;
 }
 
+interface SnapchatStorySnap {
+  snapId: string;
+  snapMediaType?: string;
+  mediaUrl?: string;
+  mediaPreviewUrl?: string;
+}
+
+interface SnapchatProfileStory {
+  username: string;
+  hasStory: boolean;
+  snaps: SnapchatStorySnap[];
+}
+
+interface SnapchatSpotlightVideo {
+  storyId: string;
+  snapId: string;
+  mediaUrl?: string;
+  mediaPreviewUrl?: string;
+  name?: string;
+  viewCount?: number;
+  uploadDateMs?: number;
+  durationMs?: number;
+  width?: number;
+  height?: number;
+  creatorUsername?: string;
+  creatorDisplayName?: string;
+  creatorUrl?: string;
+  canonicalUrl?: string; // www.snapchat.com/@<creator>/spotlight/<storyId> — what getSpotlightVideo takes
+}
+
+interface SnapchatSpotlightFeed {
+  videos: SnapchatSpotlightVideo[];
+}
+
+interface SnapchatSpotlightVideoDetail {
+  name?: string;
+  description?: string;
+  viewCount?: number;
+  uploadDateMs?: number;
+  durationMs?: number;
+  width?: number;
+  height?: number;
+  contentUrl?: string;
+  creatorUsername?: string;
+  creatorDisplayName?: string;
+  creatorUrl?: string;
+  relatedVideos: SnapchatSpotlightVideo[];
+}
+
   /**
    * Snapchat, the photo and video messaging app: search accounts, lenses, topics, shows and
    * places; read public profiles, their Stories, Spotlight videos and lenses; browse Spotlight,
@@ -52751,6 +53341,33 @@ interface SnapchatSearchResult {
      * kind, id, title and username plus the site's own object.
      */
     searchSnapchat(query: string): Promise<SnapchatSearchResult>;
+
+    /**
+     * Reads one Snapchat account's public page by username — www.snapchat.com/@<username> —
+     * returning display name, snapcode image url, Bitmoji, and for a public profile its category,
+     * subscriber count, bio, website, verification badge and related accounts.
+     */
+    getProfile(username: string): Promise<SnapchatProfileRow>;
+
+    /**
+     * Lists the snaps in a public profile's current Story — media url, preview url and media type
+     * — the thing a person taps a profile's ring to watch. hasStory is false and snaps is empty
+     * when the account has no live story.
+     */
+    listProfileStory(username: string): Promise<SnapchatProfileStory>;
+
+    /**
+     * Reads the Spotlight feed — Snapchat's public short-video feed at www.snapchat.com/spotlight
+     * — returning each video's creator, caption, view count, duration, upload date and video url.
+     */
+    listSpotlightFeed(): Promise<SnapchatSpotlightFeed>;
+
+    /**
+     * Reads one Spotlight video by its share url (or a bare snap id off
+     * listSpotlightFeed/searchSnapchat) — creator, caption, view count, upload date, duration,
+     * dimensions, the video url, and a handful of related videos the page ranks beside it.
+     */
+    getSpotlightVideo(url: string): Promise<SnapchatSpotlightVideoDetail>;
   }
 }
 
@@ -54303,6 +54920,33 @@ interface stubhubListCategoriesResult {
   warnings: string[];
 }
 
+interface stubhubPerformerMatch {
+  id: string;         // StubHub's own performer id, from its /performer/<id> url
+  name: string;
+  kind: string | null;   // "Concert", "Sports", "Theater", …
+  url: string;
+}
+
+interface stubhubFindPerformersResult {
+  site: stubhubSite;
+  query: string;
+  performers: stubhubPerformerMatch[];
+  warnings: string[];
+}
+
+interface stubhubVenueMatch {
+  id: string;
+  name: string;
+  url: string;
+}
+
+interface stubhubFindVenuesResult {
+  site: stubhubSite;
+  query: string;
+  venues: stubhubVenueMatch[];
+  warnings: string[];
+}
+
   /**
    * Secondary ticket marketplace for sports, concerts, theater and other live events — and
    * viagogo, its international brand, on the same inventory. search() finds events by name;
@@ -54342,6 +54986,21 @@ interface stubhubListCategoriesResult {
      * on this provider.
      */
     listCategories(): Promise<stubhubListCategoriesResult>;
+
+    /**
+     * Finds a performer, artist or sports team by name and returns its id, display name and
+     * category ("Concert", "Sports", "Theater", …), for a caller who knows WHO they want tickets
+     * for before they know what's on the schedule. Browserless and fast — the same search page as
+     * search(), filtered to the hits StubHub's own URLs mark as a performer.
+     */
+    findPerformers(args: { query: string; site?: "stubhub" | "viagogo" } | string): Promise<stubhubFindPerformersResult>;
+
+    /**
+     * Finds a venue by name and returns its id, display name and StubHub's own page url for it,
+     * for a caller who knows WHERE before they know WHAT. Browserless and fast — the same search
+     * page as search(), filtered to the hits StubHub itself tags as a venue.
+     */
+    findVenues(args: { query: string; site?: "stubhub" | "viagogo" } | string): Promise<stubhubFindVenuesResult>;
   }
 }
 
@@ -58009,6 +58668,11 @@ interface GetHotelArgs {
   url?: string;
 }
 
+interface GetRestaurantArgs {
+  id?: string;
+  url?: string;
+}
+
 interface GetHotelPricesArgs {
   hotelId: string;
   checkIn: string; // ISO date string YYYY-MM-DD
@@ -58040,6 +58704,24 @@ interface TripadvisorHotelPriceOffer {
   nightlyPrice?: number; // per-night price
   totalPrice?: number; // total for the stay
   bookingUrl?: string; // partner's booking link
+}
+
+interface TripadvisorRestaurantDetail {
+  id: string;
+  name: string;
+  rating?: number;
+  reviewCount?: number;
+  rank?: { position: number; outOf: number; category: string };
+  address?: string;
+  phone?: string;
+  latitude?: number;
+  longitude?: number;
+  url?: string;
+  cuisines?: string[];
+  priceRange?: string;
+  openingHours?: Array<{ dayOfWeek: string; opens: string; closes: string }>;
+  // menuUrl and food/service/value/atmosphere sub-ratings are not yet extracted —
+  // see index.ts's getRestaurant comment for why
 }
 
 interface TripadvisorHotelPrices {
@@ -58076,6 +58758,13 @@ interface TripadvisorHotelPrices {
      * each offer's partner name, nightly price, total and booking url.
      */
     getHotelPrices(args: GetHotelPricesArgs): Promise<TripadvisorHotelPrices>;
+
+    /**
+     * Reads one restaurant in full: name, address, phone, cuisines, price range, opening hours,
+     * rating, review count and Tripadvisor rank — taking a restaurant id or url. Menu link and
+     * food/service/value/atmosphere sub-ratings are not yet extracted.
+     */
+    getRestaurant(args: GetRestaurantArgs): Promise<TripadvisorRestaurantDetail>;
 
     /**
      * Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name, rating,
@@ -61460,6 +62149,12 @@ interface WhatsappChannel {
   followerCountNumber: number;
   url: string;
 }
+interface WhatsappGroupInvite {
+  code: string;
+  name: string;
+  image: string | null;
+  url: string;
+}
 interface WhatsappBusinessCatalog {
   name: string;
   number: string;
@@ -61478,6 +62173,19 @@ interface WhatsappHelpArticle {
   text: string;
   links: Array<{ text: string; url: string }>;
 }
+interface WhatsappBlogPostTeaser {
+  slug: string;
+  title: string;
+  publishedAt: string | null;
+  url: string;
+}
+interface WhatsappBlogPost {
+  slug: string;
+  title: string;
+  publishedAt: string | null;
+  text: string;
+  url: string;
+}
 
   /**
    * WhatsApp, Meta's messaging app: preview public Channels, group invite links and business
@@ -61485,6 +62193,20 @@ interface WhatsappHelpArticle {
    * caller's chats, send messages and media, manage groups, follow Channels and post Status.
    */
   interface Unit {
+    /**
+     * Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) logged out, without
+     * joining: the group's name and image as the invite page shows them. Throws if the invite does
+     * not parse — including a revoked link, whose page shape is unmeasured.
+     */
+    previewGroupInvite(codeOrUrl: string): Promise<WhatsappGroupInvite>;
+
+    /**
+     * Builds WhatsApp's documented click-to-chat link for a phone number in international format
+     * (digits only, no +), optionally with a pre-filled message. Computed locally — no request,
+     * and no claim about whether the number uses WhatsApp.
+     */
+    createClickToChatLink(phone: string, message?: string): string;
+
     /**
      * Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the business's
      * display name and number as the catalog page shows them, and whether the number has a catalog
@@ -61498,6 +62220,18 @@ interface WhatsappHelpArticle {
      * followers") and as a number, and its canonical url. Logged-out, so no posts.
      */
     getChannel(args: { id: string }): Promise<WhatsappChannel>;
+
+    /**
+     * Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's slug, title,
+     * publish date and url. The door to getBlogPost.
+     */
+    listBlogPosts(): Promise<WhatsappBlogPostTeaser[]>;
+
+    /**
+     * Reads one WhatsApp Blog post by slug or url: its title, publish date and body text. Slugs
+     * come from listBlogPosts.
+     */
+    getBlogPost(slugOrUrl: string): Promise<WhatsappBlogPost>;
 
     /**
      * Searches WhatsApp's Help Center (faq.whatsapp.com) the way its own search box does — each
@@ -62610,6 +63344,12 @@ interface XPost {
      * `limit` is met.
      */
     search(args: SearchArgs, opts?: ConnectionOption): Promise<XTweet[]>;
+
+    /**
+     * Reads the signed-in caller's personalized home timeline, in X's own order, scrolling until
+     * `limit` is met.
+     */
+    listHomeFeed(args?: { limit?: number }, opts?: ConnectionOption): Promise<XTweet[]>;
   }
 }
 
@@ -63096,6 +63836,11 @@ interface YahooMailMessage {
   raw: Record<string, unknown>;
 }
 
+interface YahooMailSendResult {
+  accepted: boolean;
+  raw: Record<string, unknown>;
+}
+
 type ListFoldersArgs = Record<string, never>;
 
 interface ListMessagesArgs {
@@ -63110,6 +63855,13 @@ interface GetMessageArgs {
 interface SearchMessagesArgs {
   query: unknown;
   folderId?: unknown;
+}
+
+interface SendMessageArgs {
+  to: unknown;
+  subject: unknown;
+  body: unknown;
+  from?: unknown;
 }
 
   /**
@@ -63151,6 +63903,14 @@ interface SearchMessagesArgs {
      * real signed-in capture measures the success shape.
      */
     searchMessages(args: SearchMessagesArgs, opts?: ConnectionOption): Promise<YahooMailMessageRow[]>;
+
+    /**
+     * Sends (or possibly only drafts — unconfirmed, see the function's own comment) a message from
+     * the CALLER's own Yahoo Mail account. The caller signs in through the auth relay; Bowmark
+     * never signs up on this site. `accepted` means only that Yahoo's gateway returned 2xx with no
+     * refusal, not that a recipient received anything.
+     */
+    sendMessage(args: SendMessageArgs, opts?: ConnectionOption): Promise<YahooMailSendResult>;
   }
 }
 
@@ -65848,6 +66608,7 @@ interface BowmarkProviders {
   bcparkscamping: BowmarkProvider_bcparkscamping.Unit;
   beaconfunding: BowmarkProvider_beaconfunding.Unit;
   beatthebomb: BowmarkProvider_beatthebomb.Unit;
+  bedbathandbeyond: BowmarkProvider_bedbathandbeyond.Unit;
   bellwethercoffee: BowmarkProvider_bellwethercoffee.Unit;
   beltservice: BowmarkProvider_beltservice.Unit;
   benelliusa: BowmarkProvider_benelliusa.Unit;
@@ -66240,6 +67001,7 @@ interface BowmarkProviders {
   pullandbear: BowmarkProvider_pullandbear.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
   purevpn: BowmarkProvider_purevpn.Unit;
+  quickbooks: BowmarkProvider_quickbooks.Unit;
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;
   raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
@@ -66255,6 +67017,7 @@ interface BowmarkProviders {
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
   rivian: BowmarkProvider_rivian.Unit;
+  roblox: BowmarkProvider_roblox.Unit;
   roofmaxx: BowmarkProvider_roofmaxx.Unit;
   rottentomatoes: BowmarkProvider_rottentomatoes.Unit;
   rover: BowmarkProvider_rover.Unit;

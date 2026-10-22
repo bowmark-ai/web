@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fd319323454a7988d33674580763d871b05082846685c528fc15a125d8eec47f
-# 85 capabilities, 618 providers, 2381 typed functions, 20 refused.
+# Manifest version: 527ed9be6aa3d0c325a20bab86ead9b44629462bb727a8f0e0c97c4922aaf129
+# 85 capabilities, 621 providers, 2421 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4502,6 +4502,14 @@ class Prv_aol_AolGame_Out(TypedDict):
     href: str
     image: NotRequired[str]
 
+class Prv_aol_listNewsletters_return_Out(TypedDict):
+    newsletters: list[Prv_aol_AolNewsletter_Out]
+
+class Prv_aol_AolNewsletter_Out(TypedDict):
+    id: str
+    title: str
+    description: NotRequired[str]
+
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
     sku: str
@@ -6611,6 +6619,21 @@ class Prv_beatthebomb_BeatthebombPriceQuote_Out(TypedDict):
     zeroPriceIsBundleSku: bool
     checkoutUrl: str
 
+class Prv_bedbathandbeyond_BedBathAndBeyondSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_bedbathandbeyond_BedBathAndBeyondSearch_Out(TypedDict):
+    products: list[Prv_bedbathandbeyond_BedBathAndBeyondProduct_Out]
+    totalAcrossBrand: float
+
+class Prv_bedbathandbeyond_BedBathAndBeyondProduct_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    price: float | None
+    imageUrl: str | None
+
 class Prv_bellwethercoffee_BellwethercoffeeCalculatorDefaults_Out(TypedDict):
     currencies: list[Literal["USD"] | Literal["CAD"] | Literal["GBP"] | Literal["EUR"]]
     roasterTypes: list[Literal["ShopRoaster"] | Literal["ContinuousRoasting"]]
@@ -8054,6 +8077,25 @@ class Prv_businessinsider_com_ListGuidesArgs_In(TypedDict):
 class Prv_businessinsider_com_ListVideosArgs_In(TypedDict):
     limit: NotRequired[float]
 
+class Prv_businessinsider_com_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_businessinsider_com_BusinessInsiderVideoRecord_Out(TypedDict):
+    url: str
+    name: str
+    description: NotRequired[str]
+    uploadDate: NotRequired[str]
+    thumbnailUrl: NotRequired[str]
+    author: list[Prv_businessinsider_com_BusinessInsiderArticleAuthor_Out]
+    jwMediaId: NotRequired[str]
+    playerScriptUrl: NotRequired[str]
+    hlsUrl: NotRequired[str]
+
+class Prv_businessinsider_com_BusinessInsiderArticleAuthor_Out(TypedDict):
+    name: str
+    url: NotRequired[str]
+    jobTitle: NotRequired[str]
+
 class Prv_businessinsider_com_GetArticleArgs_In(TypedDict):
     url: str
 
@@ -8069,11 +8111,6 @@ class Prv_businessinsider_com_BusinessInsiderArticleRecord_Out(TypedDict):
     author: list[Prv_businessinsider_com_BusinessInsiderArticleAuthor_Out]
     isAccessibleForFree: NotRequired[bool]
     imageUrl: NotRequired[str]
-
-class Prv_businessinsider_com_BusinessInsiderArticleAuthor_Out(TypedDict):
-    name: str
-    url: NotRequired[str]
-    jobTitle: NotRequired[str]
 
 class Prv_businessinsider_com_GetGuideArgs_In(TypedDict):
     url: str
@@ -10660,6 +10697,28 @@ class Prv_dailymotion_DailymotionPlaylistVideosResult_Out(TypedDict):
     hasMore: bool
     videos: list[Prv_dailymotion_DailymotionVideo_Out]
 
+class Prv_dailymotion_SearchPlaylistsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_dailymotion_DailymotionPlaylistSearchResult_Out(TypedDict):
+    query: str
+    page: float
+    hasMore: bool
+    playlists: list[Prv_dailymotion_DailymotionPlaylistSearchHit_Out]
+
+class Prv_dailymotion_DailymotionPlaylistSearchHit_Out(TypedDict):
+    id: str
+    name: str | None
+    thumbnailUrl: str | None
+    videoCount: float | None
+    owner: Prv_dailymotion_DailymotionPlaylistSearchHit_Out_owner_Out
+
+class Prv_dailymotion_DailymotionPlaylistSearchHit_Out_owner_Out(TypedDict):
+    id: str | None
+    name: str | None
+    displayName: str | None
+
 class Prv_dangotecement_FindDistributorsFilters_In(TypedDict):
     query: NotRequired[str]
     type: NotRequired[Literal["distributor"] | Literal["retailer"]]
@@ -12591,6 +12650,100 @@ class Prv_espn_ScheduleGame_Out(TypedDict):
     broadcasts: list[str]
     venue: str | None
 
+class Prv_espn_TeamRosterArgs_In(TypedDict):
+    league: str
+    team: str
+
+class Prv_espn_TeamRosterResult_Out(TypedDict):
+    league: str
+    team: Prv_espn_TeamRosterResult_Out_team_Out
+    groups: list[Prv_espn_RosterGroup_Out]
+
+class Prv_espn_TeamRosterResult_Out_team_Out(TypedDict):
+    id: str
+    abbreviation: str
+    name: str
+
+class Prv_espn_RosterGroup_Out(TypedDict):
+    group: str
+    players: list[Prv_espn_RosterPlayer_Out]
+
+class Prv_espn_RosterPlayer_Out(TypedDict):
+    id: str
+    fullName: str
+    jersey: str | None
+    position: str | None
+    positionName: str | None
+    age: float | None
+    displayHeight: str | None
+    displayWeight: str | None
+    experienceYears: float | None
+    college: str | None
+    status: str | None
+
+class Prv_espn_SearchArgs_In(TypedDict):
+    query: str
+
+class Prv_espn_SearchResult_Out(TypedDict):
+    query: str
+    players: list[Prv_espn_SearchEntity_Out]
+    teams: list[Prv_espn_SearchEntity_Out]
+    leagues: list[Prv_espn_SearchEntity_Out]
+    articles: list[Prv_espn_SearchArticle_Out]
+
+class Prv_espn_SearchEntity_Out(TypedDict):
+    espnId: str | None
+    name: str
+    subtitle: str | None
+    sport: str | None
+    leagueSlug: str | None
+    url: str | None
+
+class Prv_espn_SearchArticle_Out(TypedDict):
+    id: str
+    headline: str
+    url: str | None
+
+class Prv_espn_GetPlayerArgs_In(TypedDict):
+    league: str
+    athleteId: str
+
+class Prv_espn_Player_Out(TypedDict):
+    id: str
+    fullName: str
+    jersey: str | None
+    position: str | None
+    positionName: str | None
+    team: Prv_espn_PlayerTeam_Out | None
+    age: float | None
+    displayHeight: str | None
+    displayWeight: str | None
+    college: str | None
+    status: str | None
+    headshot: str | None
+
+class Prv_espn_PlayerTeam_Out(TypedDict):
+    id: str
+    abbreviation: str
+    name: str
+
+class Prv_espn_NewsArgs_In(TypedDict):
+    league: str
+    team: NotRequired[str]
+
+class Prv_espn_NewsResult_Out(TypedDict):
+    league: str
+    articles: list[Prv_espn_NewsArticle_Out]
+
+class Prv_espn_NewsArticle_Out(TypedDict):
+    id: str
+    headline: str
+    description: str | None
+    byline: str | None
+    published: str | None
+    url: str | None
+    teams: list[str]
+
 class Prv_estes_express_ShipmentRequest_In(TypedDict):
     origin: str
     destination: str
@@ -13479,6 +13632,41 @@ class Prv_fandom_GetSectionArgs_In(TypedDict):
     title: str
     wiki: NotRequired[str]
     section: str
+
+class Prv_fandom_GetWikitextArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+
+class Prv_fandom_Wikitext_Out(TypedDict):
+    title: str
+    wikitext: str
+    revision: str
+
+class Prv_fandom_GetInfoboxArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+
+class Prv_fandom_Infobox_Out(TypedDict):
+    title: str
+    template: str
+    fields: Mapping[str, str]
+
+class Prv_fandom_ListLinksArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+
+class Prv_fandom_LinkedPage_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_fandom_ListBacklinksArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+
+class Prv_fandom_Backlink_Out(TypedDict):
+    id: str
+    title: str
+    url: str
 
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
@@ -20095,6 +20283,24 @@ class Prv_linkedin_listMyGroups_return_Out(TypedDict):
     start: float
     nextStart: float | None
 
+class Prv_linkedin_createPost_input_In(TypedDict):
+    text: str
+    visibility: NotRequired[Literal["public"] | Literal["connections"]]
+
+class Prv_linkedin_LinkedinPostResult_Out(TypedDict):
+    id: str | None
+    url: str | None
+
+class Prv_linkedin_deletePost_return_Out(TypedDict):
+    deleted: Literal[True]
+
+class Prv_linkedin_commentOnPost_input_In(TypedDict):
+    post: str
+    text: str
+
+class Prv_linkedin_deleteComment_return_Out(TypedDict):
+    deleted: Literal[True]
+
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -23386,6 +23592,38 @@ class Prv_nhc_nhcOutlookDisturbance_Out(TypedDict):
     formationChance2Day: str
     formationChance7Day: str
 
+class Prv_nhc_listSeasonStorms_args_In(TypedDict):
+    year: float
+    basin: NotRequired[Literal["AL"] | Literal["EP"] | Literal["CP"]]
+
+class Prv_nhc_nhcSeasonStorm_Out(TypedDict):
+    id: str
+    name: str
+    classification: str
+    basin: Literal["AL"] | Literal["EP"] | Literal["CP"]
+    year: float
+
+class Prv_nhc_searchStorms_args_In(TypedDict):
+    name: str
+    year: NotRequired[float]
+    basin: NotRequired[Literal["AL"] | Literal["EP"] | Literal["CP"]]
+
+class Prv_nhc_listStormAdvisories_args_In(TypedDict):
+    stormId: str
+
+class Prv_nhc_nhcAdvisoryProduct_Out(TypedDict):
+    product: Literal["fstadv"] | Literal["public"] | Literal["public_a"] | Literal["discus"] | Literal["wndprb"] | Literal["update"]
+    number: float | None
+    issuedAt: str
+    url: str
+
+class Prv_nhc_getForecastDiscussion_args_In(TypedDict):
+    discussionUrl: str
+
+class Prv_nhc_nhcForecastDiscussion_Out(TypedDict):
+    number: float
+    text: str
+
 class Prv_nike_NikeLaunch_Out(TypedDict):
     slug: str
     title: str
@@ -26638,6 +26876,44 @@ class Prv_purevpn_PureVpnDedicatedIpPlan_Out(TypedDict):
     priceUsd: float
     per: str
 
+class Prv_quickbooks_QuickbooksServiceStatus_Out(TypedDict):
+    indicator: str
+    description: str
+    updatedAt: str | None
+    components: list[Prv_quickbooks_QuickbooksStatusComponent_Out]
+    openIncidents: list[Prv_quickbooks_QuickbooksServiceStatus_Out_openIncidents_item_Out]
+
+class Prv_quickbooks_QuickbooksStatusComponent_Out(TypedDict):
+    product: str | None
+    region: str
+    status: str
+
+class Prv_quickbooks_QuickbooksServiceStatus_Out_openIncidents_item_Out(TypedDict):
+    id: str
+    name: str
+    status: str
+    impact: str
+    url: str | None
+
+class Prv_quickbooks_QuickbooksListIncidentsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_quickbooks_QuickbooksIncident_Out(TypedDict):
+    id: str
+    name: str
+    status: str
+    impact: str
+    startedAt: str | None
+    resolvedAt: str | None
+    url: str | None
+    components: list[str]
+    updates: list[Prv_quickbooks_QuickbooksIncident_Out_updates_item_Out]
+
+class Prv_quickbooks_QuickbooksIncident_Out_updates_item_Out(TypedDict):
+    status: str
+    body: str
+    at: str | None
+
 class Prv_quince_QuinceSearchArgs_In(TypedDict):
     query: str
     gender: NotRequired[Literal["men"] | Literal["women"]]
@@ -28157,6 +28433,14 @@ class Prv_rivian_RivianLeaseEstimate_Out(TypedDict):
     annualMileage: float
     isLeaseEligible: bool
 
+class Prv_roblox_robloxGame_Out(TypedDict):
+    universeId: float
+    name: str
+    description: str | None
+    playerCount: float | None
+    upvotes: float | None
+    downvotes: float | None
+
 class Prv_roofmaxx_RoofmaxxCalculatorSettings_Out(TypedDict):
     title: str
     description: str
@@ -28989,6 +29273,9 @@ class Prv_seatgeek_seatgeekTrackedEvent_Out_stats_Out(TypedDict):
     listing_count: NotRequired[float]
     ticket_count: NotRequired[float]
 
+class Prv_seatgeek_TrackEventArgs_In(TypedDict):
+    id: float
+
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -29384,6 +29671,31 @@ class Prv_shop_app_ShopAppSearchSuggestion_Out(TypedDict):
     storeRating: NotRequired[float | None]
     storeReviewCount: NotRequired[float | None]
 
+class Prv_shop_app_ShopAppStoreSearchResults_Out(TypedDict):
+    products: list[Prv_shop_app_ShopAppStoreProduct_Out]
+    suggestedTerms: list[str]
+    warnings: list[str]
+
+class Prv_shop_app_getStoreReviews_options_In(TypedDict):
+    first: NotRequired[float]
+
+class Prv_shop_app_ShopAppStoreReviews_Out(TypedDict):
+    rating: float | None
+    reviewCount: float | None
+    reviews: list[Prv_shop_app_ShopAppStoreReview_Out]
+    hasNextPage: bool
+    cursor: str | None
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppStoreReview_Out(TypedDict):
+    id: str
+    rating: float
+    body: str | None
+    reviewerName: str | None
+    submittedAt: str | None
+    productId: str | None
+    productTitle: str | None
+
 class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
     zip: str
     locations: list[Prv_sitmeanssit_SitmeanssitLocation_Out]
@@ -29531,6 +29843,67 @@ class Prv_snapchat_SnapchatSearchItem_Out(TypedDict):
     title: NotRequired[str]
     username: NotRequired[str]
     result: Mapping[str, Any]
+
+class Prv_snapchat_SnapchatProfileRow_Out(TypedDict):
+    username: str
+    displayName: str
+    snapcodeImageUrl: str
+    kind: str
+    bio: NotRequired[str]
+    websiteUrl: NotRequired[str]
+    subscriberCount: NotRequired[float]
+    categoryStringId: NotRequired[str]
+    badge: NotRequired[bool]
+    relatedAccounts: NotRequired[list[Prv_snapchat_SnapchatProfileRow_Out_relatedAccounts_item_Out]]
+    profile: Mapping[str, Any]
+
+class Prv_snapchat_SnapchatProfileRow_Out_relatedAccounts_item_Out(TypedDict):
+    username: str
+    displayName: str
+
+class Prv_snapchat_SnapchatProfileStory_Out(TypedDict):
+    username: str
+    hasStory: bool
+    snaps: list[Prv_snapchat_SnapchatStorySnap_Out]
+
+class Prv_snapchat_SnapchatStorySnap_Out(TypedDict):
+    snapId: str
+    snapMediaType: NotRequired[str]
+    mediaUrl: NotRequired[str]
+    mediaPreviewUrl: NotRequired[str]
+
+class Prv_snapchat_SnapchatSpotlightFeed_Out(TypedDict):
+    videos: list[Prv_snapchat_SnapchatSpotlightVideo_Out]
+
+class Prv_snapchat_SnapchatSpotlightVideo_Out(TypedDict):
+    storyId: str
+    snapId: str
+    mediaUrl: NotRequired[str]
+    mediaPreviewUrl: NotRequired[str]
+    name: NotRequired[str]
+    viewCount: NotRequired[float]
+    uploadDateMs: NotRequired[float]
+    durationMs: NotRequired[float]
+    width: NotRequired[float]
+    height: NotRequired[float]
+    creatorUsername: NotRequired[str]
+    creatorDisplayName: NotRequired[str]
+    creatorUrl: NotRequired[str]
+    canonicalUrl: NotRequired[str]
+
+class Prv_snapchat_SnapchatSpotlightVideoDetail_Out(TypedDict):
+    name: NotRequired[str]
+    description: NotRequired[str]
+    viewCount: NotRequired[float]
+    uploadDateMs: NotRequired[float]
+    durationMs: NotRequired[float]
+    width: NotRequired[float]
+    height: NotRequired[float]
+    contentUrl: NotRequired[str]
+    creatorUsername: NotRequired[str]
+    creatorDisplayName: NotRequired[str]
+    creatorUrl: NotRequired[str]
+    relatedVideos: list[Prv_snapchat_SnapchatSpotlightVideo_Out]
 
 class Prv_solidcore_ListStudiosArgs_In(TypedDict):
     state: NotRequired[str]
@@ -30452,6 +30825,37 @@ class Prv_stubhub_stubhubListCategoriesResult_Out(TypedDict):
     warnings: list[str]
 
 class Prv_stubhub_stubhubCategory_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+
+class Prv_stubhub_findPerformers_args_u0_In(TypedDict):
+    query: str
+    site: NotRequired[Literal["stubhub"] | Literal["viagogo"]]
+
+class Prv_stubhub_stubhubFindPerformersResult_Out(TypedDict):
+    site: Literal["stubhub"] | Literal["viagogo"]
+    query: str
+    performers: list[Prv_stubhub_stubhubPerformerMatch_Out]
+    warnings: list[str]
+
+class Prv_stubhub_stubhubPerformerMatch_Out(TypedDict):
+    id: str
+    name: str
+    kind: str | None
+    url: str
+
+class Prv_stubhub_findVenues_args_u0_In(TypedDict):
+    query: str
+    site: NotRequired[Literal["stubhub"] | Literal["viagogo"]]
+
+class Prv_stubhub_stubhubFindVenuesResult_Out(TypedDict):
+    site: Literal["stubhub"] | Literal["viagogo"]
+    query: str
+    venues: list[Prv_stubhub_stubhubVenueMatch_Out]
+    warnings: list[str]
+
+class Prv_stubhub_stubhubVenueMatch_Out(TypedDict):
     id: str
     name: str
     url: str
@@ -32597,6 +33001,35 @@ class Prv_tripadvisor_TripadvisorHotelPriceOffer_Out(TypedDict):
     totalPrice: NotRequired[float]
     bookingUrl: NotRequired[str]
 
+class Prv_tripadvisor_GetRestaurantArgs_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_tripadvisor_TripadvisorRestaurantDetail_Out(TypedDict):
+    id: str
+    name: str
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+    rank: NotRequired[Prv_tripadvisor_TripadvisorRestaurantDetail_Out_rank_Out]
+    address: NotRequired[str]
+    phone: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    url: NotRequired[str]
+    cuisines: NotRequired[list[str]]
+    priceRange: NotRequired[str]
+    openingHours: NotRequired[list[Prv_tripadvisor_TripadvisorRestaurantDetail_Out_openingHours_item_Out]]
+
+class Prv_tripadvisor_TripadvisorRestaurantDetail_Out_rank_Out(TypedDict):
+    position: float
+    outOf: float
+    category: str
+
+class Prv_tripadvisor_TripadvisorRestaurantDetail_Out_openingHours_item_Out(TypedDict):
+    dayOfWeek: str
+    opens: str
+    closes: str
+
 class Prv_tripadvisor_SearchRestaurantsArgs_In(TypedDict):
     geoId: str
     offset: NotRequired[float]
@@ -34635,6 +35068,12 @@ class Prv_westelm_WsgcProduct_Out(TypedDict):
     imageUrl: str | None
     flags: list[str]
 
+class Prv_whatsapp_WhatsappGroupInvite_Out(TypedDict):
+    code: str
+    name: str
+    image: str | None
+    url: str
+
 class Prv_whatsapp_WhatsappBusinessCatalog_Out(TypedDict):
     name: str
     number: str
@@ -34648,6 +35087,19 @@ class Prv_whatsapp_WhatsappChannel_Out(TypedDict):
     description: str
     followerCount: str
     followerCountNumber: float
+    url: str
+
+class Prv_whatsapp_WhatsappBlogPostTeaser_Out(TypedDict):
+    slug: str
+    title: str
+    publishedAt: str | None
+    url: str
+
+class Prv_whatsapp_WhatsappBlogPost_Out(TypedDict):
+    slug: str
+    title: str
+    publishedAt: str | None
+    text: str
     url: str
 
 class Prv_whatsapp_WhatsappHelpSearchResult_Out(TypedDict):
@@ -35531,6 +35983,9 @@ class Prv_x_SearchArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
 
+class Prv_x_listHomeFeed_args_In(TypedDict):
+    limit: NotRequired[float]
+
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
     facilityId: str
     name: str
@@ -35799,6 +36254,20 @@ Prv_yahoo_mail_YahooMailMessage_Out = TypedDict(
 class Prv_yahoo_mail_SearchMessagesArgs_In(TypedDict):
     query: Any
     folderId: NotRequired[Any]
+
+Prv_yahoo_mail_SendMessageArgs_In = TypedDict(
+    "Prv_yahoo_mail_SendMessageArgs_In",
+    {
+    "to": Any,
+    "subject": Any,
+    "body": Any,
+    "from": NotRequired[Any],
+    },
+)
+
+class Prv_yahoo_mail_YahooMailSendResult_Out(TypedDict):
+    accepted: bool
+    raw: Mapping[str, Any]
 
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -39770,6 +40239,12 @@ class Prv_aol(Protocol):
         full catalogue in one call.
         """
 
+    async def listNewsletters(self, /) -> Prv_aol_listNewsletters_return_Out:
+        """Lists AOL's newsletter signup(s). Today the site offers a single generic daily roundup
+        ("AOL Today") rather than a catalog of topic newsletters — the door for
+        subscribeNewsletter.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -40983,6 +41458,20 @@ class Prv_beatthebomb(Protocol):
         own bundle-SKU codes that price at $0.
         """
 
+class Prv_bedbathandbeyond(Protocol):
+    """Bed Bath & Beyond home goods retailer. Searches the catalog (towels, bedding, kitchen,
+    furniture) and returns name, price and a product URL, filtered to items actually sold
+    under this brand.
+    """
+
+    async def search(self, args: Prv_bedbathandbeyond_BedBathAndBeyondSearchArgs_In, /) -> Prv_bedbathandbeyond_BedBathAndBeyondSearch_Out:
+        """Searches Bed Bath & Beyond's catalog the way the site's own search box does ("towel
+        set", "bath towel") and returns matching products with name, price and a product URL.
+        The site shares its Constructor.io search index with its sibling brand Overstock, so
+        this only returns rows whose URL is actually on bedbathandbeyond.com — a result never
+        names a price that belongs to a different storefront.
+        """
+
 class Prv_bellwethercoffee(Protocol):
     """Bellwether Coffee's own ROI calculator (bellwethercoffee.com/roi-calculator) — real
     monthly/annual savings, retail-bag revenue and profit, payback period, and first-year
@@ -41956,6 +42445,12 @@ class Prv_businessinsider_com(Protocol):
     async def listVideos(self, args: Prv_businessinsider_com_ListVideosArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderListedArticle_Out]:
         """Lists videos from the Video vertical, title and URL per video, newest-first as the site
         orders its grid.
+        """
+
+    async def getVideo(self, args: Prv_businessinsider_com_GetVideoArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderVideoRecord_Out:
+        """Reads one businessinsider.com video's metadata (title, description, upload date,
+        thumbnail, credited producers) and its JW Player media id and HLS playback URL off the
+        page's own VideoObject JSON-LD, given the video page URL.
         """
 
     async def getArticle(self, args: Prv_businessinsider_com_GetArticleArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderArticleRecord_Out:
@@ -43685,6 +44180,13 @@ class Prv_dailymotion(Protocol):
         getVideo. Playlist ids come from listChannelPlaylists or getPlaylist.
         """
 
+    async def searchPlaylists(self, args: Prv_dailymotion_SearchPlaylistsArgs_In, /) -> Prv_dailymotion_DailymotionPlaylistSearchResult_Out:
+        """Search Dailymotion playlists by keyword ("cats", "music"), as the site's own search page
+        does under its Playlists tab — id, name, owner and video count for up to 20 results.
+        `name` and `thumbnailUrl` are sometimes null (the search index has not populated them
+        for that collection); pass the id to getPlaylist for the full record.
+        """
+
 class Prv_dangotecement(Protocol):
     """Dangote Cement (dangotecement.com) — Africa's largest cement maker. findDistributors
     searches its authorised Nigerian distributor & retailer directory (name, address, phone,
@@ -44790,6 +45292,28 @@ class Prv_espn(Protocol):
         type (preseason, regular, postseason).
         """
 
+    async def teamRoster(self, args: Prv_espn_TeamRosterArgs_In, /) -> Prv_espn_TeamRosterResult_Out:
+        """One team's current roster, grouped as ESPN groups it (offense, defense, special teams;
+        injured reserve; practice squad) — every player with jersey number, position, age,
+        height, weight, experience, college, status and the ESPN athlete id getPlayer takes.
+        """
+
+    async def search(self, args: Prv_espn_SearchArgs_In, /) -> Prv_espn_SearchResult_Out:
+        """ESPN's own site search — players, teams, leagues and articles matching free text, each
+        with its ESPN id and sport. The door for getPlayer: a caller holding "Mahomes" gets the
+        athlete id here.
+        """
+
+    async def getPlayer(self, args: Prv_espn_GetPlayerArgs_In, /) -> Prv_espn_Player_Out:
+        """One player's page — team, position, jersey, age, height, weight, college, status and
+        headshot. Takes an athlete id from search or teamRoster.
+        """
+
+    async def news(self, args: Prv_espn_NewsArgs_In, /) -> Prv_espn_NewsResult_Out:
+        """The latest ESPN headlines for a league, optionally narrowed to one team — headline,
+        description, byline, published time and article id for getArticle.
+        """
+
 class Prv_estes_express(Protocol):
     """LTL freight quotes from Estes Express Lines' own public Quick Quote tool — no account or
     login needed.
@@ -45208,6 +45732,29 @@ class Prv_fandom(Protocol):
         """One named or numbered section of an article, without downloading the rest of the page.
         Takes the index `getSections` returns, or the heading text. `GET
         /api.php?action=parse&section=N&prop=text`.
+        """
+
+    async def getWikitext(self, args: Prv_fandom_GetWikitextArgs_In, /) -> Prv_fandom_Wikitext_Out:
+        """An article's raw wikitext source — what an editor sees in the edit box, templates and
+        all. The input `getInfobox` parses. `GET
+        /api.php?action=query&prop=revisions&rvprop=content&rvslots=main`.
+        """
+
+    async def getInfobox(self, args: Prv_fandom_GetInfoboxArgs_In, /) -> Prv_fandom_Infobox_Out:
+        """The fact box at the top of an article, as key/value pairs. Parses `getWikitext`'s output
+        for the first top-level template carrying at least two named parameters — each Fandom
+        wiki names its own data template (`Character`, `Item`, …), unlike Wikipedia's fixed
+        `{{Infobox}}` convention.
+        """
+
+    async def listLinks(self, args: Prv_fandom_ListLinksArgs_In, /) -> list[Prv_fandom_LinkedPage_Out]:
+        """Every other article on the same wiki this one links to, in page order. `GET
+        /api.php?action=query&prop=links`.
+        """
+
+    async def listBacklinks(self, args: Prv_fandom_ListBacklinksArgs_In, /) -> list[Prv_fandom_Backlink_Out]:
+        """What links HERE — every article on the wiki pointing at this one. `GET
+        /api.php?action=query&list=backlinks`.
         """
 
 class Prv_fbsappliance(Protocol):
@@ -50295,6 +50842,52 @@ class Prv_linkedin(Protocol):
         faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
+    async def createPost(self, input: Prv_linkedin_createPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinPostResult_Out:
+        """Publishes a text post to the caller's own feed, public by default (`visibility:
+        "connections"` restricts it the way LinkedIn's own composer does). Returns the new
+        post's id for `deletePost`, `commentOnPost` and `reactToPost` where LinkedIn's answer
+        carries one — otherwise `id` is null and the write still happened. Signed in: acts as
+        the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+        link where they sign in. Paced per LinkedIn account across runs so it never looks
+        automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+        and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
+    async def deletePost(self, post: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_deletePost_return_Out:
+        """Deletes a post the caller owns, by the id createPost returned or the post's urn — the
+        clean-up half of createPost. Signed in: acts as the caller's own LinkedIn account; with
+        no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
+        """
+
+    async def commentOnPost(self, input: Prv_linkedin_commentOnPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinPostResult_Out:
+        """Comments on a post, by the id createPost/getPost returned or the post's urn. Returns the
+        new comment's id for deleteComment where LinkedIn's answer carries one. Signed in: acts
+        as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands
+        back a link where they sign in. Paced per LinkedIn account across runs so it never looks
+        automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+        and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
+    async def deleteComment(self, comment: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_deleteComment_return_Out:
+        """Deletes a comment the caller wrote, by the id commentOnPost returned or the comment's
+        urn — the clean-up half of commentOnPost. Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -52255,6 +52848,11 @@ class Prv_netflix(Protocol):
         separately for English and non-English titles, by views. No sign-in.
         """
 
+    async def browseGenre(self, genreId: str, /) -> list[Prv_netflix_NetflixTitleMatch_Out]:
+        """Lists the titles in one Netflix genre — the id from listGenres or the number in
+        netflix.com/browse/genre/<id>, e.g. browseGenre("11714") for TV Dramas. No sign-in.
+        """
+
     async def listGenres(self, /) -> list[Prv_netflix_NetflixGenre_Out]:
         """Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only on
         Netflix hub pages (e.g. "TV Dramas", "Suspenseful TV Shows") with the genre id
@@ -52373,6 +52971,29 @@ class Prv_nhc(Protocol):
     async def getTropicalOutlook(self, args: Prv_nhc_getTropicalOutlook_args_In, /) -> Prv_nhc_nhcTropicalOutlook_Out:
         """Get the Tropical Weather Outlook for a basin: each disturbance being watched, where it
         is, and its 2-day and 7-day formation chance.
+        """
+
+    async def listSeasonStorms(self, args: Prv_nhc_listSeasonStorms_args_In, /) -> list[Prv_nhc_nhcSeasonStorm_Out]:
+        """List every storm of one hurricane season in a basin, with id, name and classification.
+        The archive covers 1998 onward.
+        """
+
+    async def searchStorms(self, args: Prv_nhc_searchStorms_args_In, /) -> list[Prv_nhc_nhcSeasonStorm_Out]:
+        """Find a storm by name. With no `year`, matches a currently active storm. With `year`,
+        searches that season's archive (1998 onward) and returns every match — a name can recur
+        across basins or seasons.
+        """
+
+    async def listStormAdvisories(self, args: Prv_nhc_listStormAdvisories_args_In, /) -> list[Prv_nhc_nhcAdvisoryProduct_Out]:
+        """List every forecast advisory, public advisory, discussion and wind probability product a
+        storm has issued, with product type, sequence number, issue time and url. Feeds the
+        advisory/forecast/discussion urls other functions take.
+        """
+
+    async def getForecastDiscussion(self, args: Prv_nhc_getForecastDiscussion_args_In, /) -> Prv_nhc_nhcForecastDiscussion_Out:
+        """Get the forecaster's discussion for a storm — the reasoning behind the track and
+        intensity forecast — from a discussion url (from listStormAdvisories or
+        listCurrentStorms' `links.forecastDiscussion`).
         """
 
 class Prv_nike(Protocol):
@@ -54399,6 +55020,18 @@ class Prv_purevpn(Protocol):
         billing term, optionally filtered to one `country`, read off purevpn.com/dedicated-ip.
         """
 
+class Prv_quickbooks(Protocol):
+    """QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators,
+    the ProAdvisor accountant directory, the App Store, Community answers, help articles and
+    service status.
+    """
+
+    async def getServiceStatus(self, /) -> Prv_quickbooks_QuickbooksServiceStatus_Out:
+        """QuickBooks' current service status per product and region, and any open incident"""
+
+    async def listIncidents(self, args: Prv_quickbooks_QuickbooksListIncidentsArgs_In | None = None, /) -> list[Prv_quickbooks_QuickbooksIncident_Out]:
+        """QuickBooks' recent service incidents, newest first, with their status updates"""
+
 class Prv_quince(Protocol):
     """Quince (quince.com) apparel and home store. Searches the live catalog (men's/women's,
     size, in-stock) and reads one product's per-variant size, color, price and live stock.
@@ -55140,6 +55773,16 @@ class Prv_rivian(Protocol):
         verified option combo today.
         """
 
+class Prv_roblox(Protocol):
+    """Search and discover games on Roblox."""
+
+    async def searchGames(self, query: str, opts: ConnectionOption | None = None, /) -> list[Prv_roblox_robloxGame_Out]:
+        """Searches Roblox's own game index (apis.roblox.com/search-api/omni-search — the site's
+        search bar) and returns matching games with name, description, live player count and
+        up/downvotes. `universeId` on each row is what `getGame` (once built) takes. A query
+        matching nothing returns an empty array.
+        """
+
 class Prv_roofmaxx(Protocol):
     """Roof Maxx's own Roof Replacement Cost Calculator (roofmaxx.com/learning-hub) — given a
     home's size, location and roof details, returns the site's real server-computed
@@ -55594,6 +56237,14 @@ class Prv_seatgeek(Protocol):
         throws rather than guess.
         """
 
+    async def trackEvent(self, args: Prv_seatgeek_TrackEventArgs_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Tracks (saves) an event to the signed-in caller's account. NEEDS THE CALLER'S SEATGEEK
+        SIGN-IN, same door as listTrackedEvents. With one, the sign-in is confirmed, but the
+        write itself has never been measured signed-in — no HTTP route or GraphQL mutation for
+        it survives a static read of the site's own JS, only version-stamped client analytics
+        with no network target — so the call still throws rather than guess.
+        """
+
 class Prv_sec_edgar(Protocol):
     """A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
     assets, shares outstanding), from SEC EDGAR
@@ -55823,6 +56474,16 @@ class Prv_shop_app(Protocol):
         the finder that turns a caller's words into a store handle or a better search phrase.
         """
 
+    async def searchStore(self, handle: str, query: str, /) -> Prv_shop_app_ShopAppStoreSearchResults_Out:
+        """Searches inside one store for products matching free text ("strawberry" in Liquid I.V.),
+        with the store's own alternate query phrases for a miss or a broader match.
+        """
+
+    async def getStoreReviews(self, handle: str, options: Prv_shop_app_getStoreReviews_options_In | None = None, /) -> Prv_shop_app_ShopAppStoreReviews_Out:
+        """Lists the reviews left across a whole store — rating, text, product, author and date —
+        with the store's overall rating, a page at a time.
+        """
+
 class Prv_sitmeanssit(Protocol):
     """Reads Sit Means Sit's own real-time Dog Training Locator directly (the same admin-ajax
     endpoint the site's /locations/ map runs) — the nearest real franchise locations to a US
@@ -55926,6 +56587,30 @@ class Prv_snapchat(Protocol):
         """Search Snapchat the way www.snapchat.com/explore/<query> does: every section it renders
         (Lenses, Spotlight, Add Friends, Subscribe, Places, Topics, Episodes), each item with
         its kind, id, title and username plus the site's own object.
+        """
+
+    async def getProfile(self, username: str, /) -> Prv_snapchat_SnapchatProfileRow_Out:
+        """Reads one Snapchat account's public page by username — www.snapchat.com/@<username> —
+        returning display name, snapcode image url, Bitmoji, and for a public profile its
+        category, subscriber count, bio, website, verification badge and related accounts.
+        """
+
+    async def listProfileStory(self, username: str, /) -> Prv_snapchat_SnapchatProfileStory_Out:
+        """Lists the snaps in a public profile's current Story — media url, preview url and media
+        type — the thing a person taps a profile's ring to watch. hasStory is false and snaps is
+        empty when the account has no live story.
+        """
+
+    async def listSpotlightFeed(self, /) -> Prv_snapchat_SnapchatSpotlightFeed_Out:
+        """Reads the Spotlight feed — Snapchat's public short-video feed at
+        www.snapchat.com/spotlight — returning each video's creator, caption, view count,
+        duration, upload date and video url.
+        """
+
+    async def getSpotlightVideo(self, url: str, /) -> Prv_snapchat_SnapchatSpotlightVideoDetail_Out:
+        """Reads one Spotlight video by its share url (or a bare snap id off
+        listSpotlightFeed/searchSnapchat) — creator, caption, view count, upload date, duration,
+        dimensions, the video url, and a handful of related videos the page ranks beside it.
         """
 
 class Prv_solidcore(Protocol):
@@ -56386,6 +57071,19 @@ class Prv_stubhub(Protocol):
         sports by league, theater, family, etc.), each with its own id, name and url — read from
         the site's own sitemap, which is unaffected by the DataDome wall blocking every other
         function on this provider.
+        """
+
+    async def findPerformers(self, args: Prv_stubhub_findPerformers_args_u0_In | str, /) -> Prv_stubhub_stubhubFindPerformersResult_Out:
+        """Finds a performer, artist or sports team by name and returns its id, display name and
+        category ("Concert", "Sports", "Theater", …), for a caller who knows WHO they want
+        tickets for before they know what's on the schedule. Browserless and fast — the same
+        search page as search(), filtered to the hits StubHub's own URLs mark as a performer.
+        """
+
+    async def findVenues(self, args: Prv_stubhub_findVenues_args_u0_In | str, /) -> Prv_stubhub_stubhubFindVenuesResult_Out:
+        """Finds a venue by name and returns its id, display name and StubHub's own page url for
+        it, for a caller who knows WHERE before they know WHAT. Browserless and fast — the same
+        search page as search(), filtered to the hits StubHub itself tags as a venue.
         """
 
 class Prv_suitsupply(Protocol):
@@ -57741,6 +58439,12 @@ class Prv_tripadvisor(Protocol):
         dates, each offer's partner name, nightly price, total and booking url.
         """
 
+    async def getRestaurant(self, args: Prv_tripadvisor_GetRestaurantArgs_In, /) -> Prv_tripadvisor_TripadvisorRestaurantDetail_Out:
+        """Reads one restaurant in full: name, address, phone, cuisines, price range, opening
+        hours, rating, review count and Tripadvisor rank — taking a restaurant id or url. Menu
+        link and food/service/value/atmosphere sub-ratings are not yet extracted.
+        """
+
     async def searchRestaurants(self, args: Prv_tripadvisor_SearchRestaurantsArgs_In, /) -> Prv_tripadvisor_SearchRestaurantsResult_Out:
         """Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name,
         rating, review count, cuisines, price level and url, paginated 30 at a time.
@@ -58890,6 +59594,18 @@ class Prv_whatsapp(Protocol):
     caller's chats, send messages and media, manage groups, follow Channels and post Status.
     """
 
+    async def previewGroupInvite(self, codeOrUrl: str, /) -> Prv_whatsapp_WhatsappGroupInvite_Out:
+        """Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) logged out, without
+        joining: the group's name and image as the invite page shows them. Throws if the invite
+        does not parse — including a revoked link, whose page shape is unmeasured.
+        """
+
+    async def createClickToChatLink(self, phone: str, message: str | None = None, /) -> str:
+        """Builds WhatsApp's documented click-to-chat link for a phone number in international
+        format (digits only, no +), optionally with a pre-filled message. Computed locally — no
+        request, and no claim about whether the number uses WhatsApp.
+        """
+
     async def previewBusinessCatalog(self, numberOrUrl: str, /) -> Prv_whatsapp_WhatsappBusinessCatalog_Out:
         """Previews a WhatsApp Business catalog link (wa.me/c/<number>) logged out: the business's
         display name and number as the catalog page shows them, and whether the number has a
@@ -58900,6 +59616,16 @@ class Prv_whatsapp(Protocol):
         """Reads a public WhatsApp Channel from its www.whatsapp.com/channel/<id> link (or the bare
         id): the channel's name, description, follower count as the page phrases it ("3.3M
         followers") and as a number, and its canonical url. Logged-out, so no posts.
+        """
+
+    async def listBlogPosts(self, /) -> list[Prv_whatsapp_WhatsappBlogPostTeaser_Out]:
+        """Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's slug, title,
+        publish date and url. The door to getBlogPost.
+        """
+
+    async def getBlogPost(self, slugOrUrl: str, /) -> Prv_whatsapp_WhatsappBlogPost_Out:
+        """Reads one WhatsApp Blog post by slug or url: its title, publish date and body text.
+        Slugs come from listBlogPosts.
         """
 
     async def searchHelpCenter(self, query: str, /) -> list[Prv_whatsapp_WhatsappHelpSearchResult_Out]:
@@ -59352,6 +60078,11 @@ class Prv_x(Protocol):
         `limit` is met.
         """
 
+    async def listHomeFeed(self, args: Prv_x_listHomeFeed_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XTweet_Out]:
+        """Reads the signed-in caller's personalized home timeline, in X's own order, scrolling
+        until `limit` is met.
+        """
+
 class Prv_xpresswellnessurgentcare(Protocol):
     """Reads the Xpress Wellness / Integrity Urgent Care clinic roster and each clinic's live
     healow wait-time / check-in widget — no key, no browser.
@@ -59558,6 +60289,13 @@ class Prv_yahoo_mail(Protocol):
         specified. Returns sender, subject, snippet, received time and read/unread state, the
         same shape as `listMessages`. Field values are read defensively and may come back as
         empty strings until a real signed-in capture measures the success shape.
+        """
+
+    async def sendMessage(self, args: Prv_yahoo_mail_SendMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_yahoo_mail_YahooMailSendResult_Out:
+        """Sends (or possibly only drafts — unconfirmed, see the function's own comment) a message
+        from the CALLER's own Yahoo Mail account. The caller signs in through the auth relay;
+        Bowmark never signs up on this site. `accepted` means only that Yahoo's gateway returned
+        2xx with no refusal, not that a recipient received anything.
         """
 
 class Prv_yahoo_sports(Protocol):
@@ -60328,6 +61066,7 @@ class BowmarkProviders(Protocol):
     bcparkscamping: Prv_bcparkscamping
     beaconfunding: Prv_beaconfunding
     beatthebomb: Prv_beatthebomb
+    bedbathandbeyond: Prv_bedbathandbeyond
     bellwethercoffee: Prv_bellwethercoffee
     beltservice: Prv_beltservice
     benelliusa: Prv_benelliusa
@@ -60720,6 +61459,7 @@ class BowmarkProviders(Protocol):
     pullandbear: Prv_pullandbear
     puls_com: Prv_puls_com
     purevpn: Prv_purevpn
+    quickbooks: Prv_quickbooks
     quince: Prv_quince
     quora: Prv_quora
     raadvanstate_nl: Prv_raadvanstate_nl
@@ -60735,6 +61475,7 @@ class BowmarkProviders(Protocol):
     rishitea: Prv_rishitea
     ritani: Prv_ritani
     rivian: Prv_rivian
+    roblox: Prv_roblox
     roofmaxx: Prv_roofmaxx
     rottentomatoes: Prv_rottentomatoes
     rover: Prv_rover
