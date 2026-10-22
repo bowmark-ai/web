@@ -1325,7 +1325,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.downloadSharedFolder` | dropbox.com | Downloads a whole shared folder as a zip and returns a Bowmark file URL for it. | ⚪ |
 | `dropbox.getFileMetadata` | dropbox.com | Reads one file or folder in the caller's Dropbox by path: size, modified time, who… | ⚪ |
 | `dropbox.getMyAccount` | dropbox.com | Reads the signed-in caller's account: name, email, profile photo, plan, and storage… | ⚪ |
-| `dropbox.getPlans` | dropbox.com | Lists Dropbox's plans as its own pricing page shows them — Basic, Plus, Essentials… | ⚪ |
+| `dropbox.getPlans` | dropbox.com | Lists Dropbox's plans as its own pricing page shows them — Basic, Plus, Essentials… | 🟢 |
 | `dropbox.getSharedLink` | dropbox.com | Opens a Dropbox shared link the caller was sent — any of the /s/, /sh/, /scl/fi/ or… | ⚪ |
 | `dropbox.getTransfer` | dropbox.com | Opens a Dropbox Transfer link (www.dropbox.com/t/<id>) the caller was sent: the files… | ⚪ |
 | `dropbox.listDeletedFiles` | dropbox.com | Lists the caller's recently deleted files and folders that can still be restored. | ⚪ |
