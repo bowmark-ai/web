@@ -1568,7 +1568,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
 | `extraspace.search` | extraspace.com | Searches Extra Space Storage's live facility inventory the way its own homepage… | 🟢 |
 | `facebook.commentOnPost` | facebook.com | Leave a comment on a post, by its permalink URL. | 🟢 |
-| `facebook.followPage` | facebook.com | Follow a Page to receive its posts in the caller's feed. | ⚪ |
+| `facebook.followPage` | facebook.com | Follow or unfollow a Page by its handle. | 🟢 |
 | `facebook.getConversation` | facebook.com | Read messages in a private conversation thread with another user or group. | 🟢 |
 | `facebook.getEventDetails` | facebook.com | Read details on a Facebook Event — name, date, location, description, attendance count. | 🟢 |
 | `facebook.getGroupInfo` | facebook.com | Read a Group's details — name, description, member count, profile photo. | 🟢 |
@@ -1581,7 +1581,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getPhotoAlbum` | facebook.com | Read a photo album's details — title, creation date, photo count and its photos. | 🟢 |
 | `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings — who can see posts, send messages, etc. | ⚪ |
 | `facebook.getVideo` | facebook.com | Read details on a Facebook video — title, description, view count, comments. | 🟢 |
-| `facebook.joinGroup` | facebook.com | Request to join or join a Group. | ⚪ |
+| `facebook.joinGroup` | facebook.com | Request to join a Group by its id or url slug. | 🟢 |
 | `facebook.likePhoto` | facebook.com | Like or unlike a photo. | 🟢 |
 | `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | 🟢 |
 | `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | 🟢 |
@@ -1592,13 +1592,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | 🟢 |
 | `facebook.postToTimeline` | facebook.com | Write a text post to the caller's own timeline. | 🟢 |
 | `facebook.reactToPost` | facebook.com | React to a post with like, love, haha, wow, sad or angry, by its permalink URL. | 🟢 |
-| `facebook.replyToComment` | facebook.com | Reply to a specific comment. | ⚪ |
+| `facebook.replyToComment` | facebook.com | Reply to a comment on a post, by the comment's own permalink URL. | 🟢 |
 | `facebook.savePost` | facebook.com | Save (bookmark) a post for later or add to a saved collection. | 🟢 |
 | `facebook.searchGroups` | facebook.com | Search for Groups by name or topic. | 🟢 |
 | `facebook.searchPages` | facebook.com | Search for Pages by name or category. | 🟢 |
 | `facebook.searchPeople` | facebook.com | Search for Facebook users by name. | 🟢 |
 | `facebook.sendMessage` | facebook.com | Send a direct message in an existing conversation thread. | 🟢 |
-| `facebook.sharePost` | facebook.com | Share someone else's post to the caller's own timeline or to a Group. | ⚪ |
+| `facebook.sharePost` | facebook.com | Share a post to the caller's own timeline, by its permalink URL. | 🟢 |
 | `facebook.updatePrivacySettings` | facebook.com | Change the caller's privacy settings. | ⚪ |
 | `facebook.updateProfile` | facebook.com | Edit the caller's own profile — bio, profile photo, cover photo, contact info. | ⚪ |
 | `faceforwardaesthetics.checkAvailability` | faceforwardaesthetics.com | Reads real open appointment slots for a service and date. | 🟢 |
@@ -2868,7 +2868,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | 🟢 |
 | `npr.listNewsletters` | npr.org | List NPR's email newsletters with what each one covers. | ⚪ |
 | `npr.listPodcastCategories` | npr.org | List the podcast directory's categories with the id each one takes. | ⚪ |
-| `npr.listPodcastEpisodes` | npr.org | List a podcast's episodes, newest first, with title, date, duration and audio URL… | ⚪ |
+| `npr.listPodcastEpisodes` | npr.org | List a podcast's episodes, newest first, with title, date, duration and audio URL… | 🟢 |
 | `npr.listPodcasts` | npr.org | List NPR's podcasts and shows, optionally filtered to one category (news, technology… | 🟡 |
 | `npr.listSections` | npr.org | List NPR's news sections and topics (news, politics, business, science, health… | 🟢 |
 | `npr.listSectionStories` | npr.org | List the latest stories in one section or topic, given its slug from listSections. | 🟡 |
