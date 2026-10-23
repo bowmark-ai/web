@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4785 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4797 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -549,6 +549,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bollandbranch.getCategoryOptions` | bollandbranch.com | Lists the real, currently-sellable products for one Virtual Bed Designer category… | 🟢 |
 | `bollandbranch.getSwatchDetails` | bollandbranch.com | Resolves color/fabric swatch names (as offered by getCategoryOptions) to their hex… | 🟢 |
 | `bollandbranch.renderBedPreview` | bollandbranch.com | Would render the Designer's own live combination preview (the stacked-bed visual for a… | ⚪ |
+| `bookeo.bookSlot` | bookeo.com | Books a slot for a party as a guest -- product, slot, participant counts, the… | ⚪ |
+| `bookeo.buyGiftVoucher` | bookeo.com | Buys a gift voucher from an operator. | ⚪ |
+| `bookeo.cancelBooking` | bookeo.com | Cancels a booking from the cancel link in the operator's confirmation email, reporting… | ⚪ |
+| `bookeo.checkGiftVoucher` | bookeo.com | Checks a gift voucher or promotion code against an operator and returns whether it is… | ⚪ |
+| `bookeo.findOperator` | bookeo.com | Finds a Bookeo operator from what a caller actually holds -- its bookeo.com short name… | ⚪ |
+| `bookeo.getAvailability` | bookeo.com | Returns a product's bookable dates and time slots over a date range: start/end time… | ⚪ |
+| `bookeo.getPriceQuote` | bookeo.com | Prices a party for one slot: the participant categories the product offers (adults… | ⚪ |
+| `bookeo.getProduct` | bookeo.com | Returns one product's full info page: long description, what to bring, location… | ⚪ |
+| `bookeo.joinWaitingList` | bookeo.com | Puts a party on the waiting list for a sold-out slot where the operator allows it, as… | ⚪ |
+| `bookeo.listGroupOperators` | bookeo.com | Lists the operators under a Bookeo multi-operator portal (one short name fronting… | ⚪ |
+| `bookeo.listMyBookings` | bookeo.com | Lists the caller's upcoming and past bookings with one operator, from that operator's… | ⚪ |
+| `bookeo.listProducts` | bookeo.com | Lists an operator's bookable products (tours, activities, classes, rentals): product… | ⚪ |
 | `booker.book` | booker.com | Books an appointment for the signed-in customer: one service (or an itinerary from… | ⚪ |
 | `booker.buyGiftCertificate` | booker.com | Buys a gift certificate from a location's online store. | ⚪ |
 | `booker.buyMembership` | booker.com | Buys a membership from a location's online store. | ⚪ |
@@ -2977,7 +2989,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟡 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟡 |
-| `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
+| `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟡 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟡 |
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
@@ -3614,7 +3626,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.listOrders` | shop.app | Lists the signed-in caller's orders from every store they bought from with Shop —… | ⚪ |
 | `shop_app.listProductLists` | shop.app | Lists the caller's own product lists (wishlists) with each list's items. | ⚪ |
 | `shop_app.listSavedProducts` | shop.app | Lists the products the caller has saved (hearted) on Shop. | ⚪ |
-| `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | 🟢 |
+| `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | 🟡 |
 | `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's orders as delivered, or un-marks it. | ⚪ |
 | `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | ⚪ |
 | `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | ⚪ |
@@ -4248,7 +4260,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟡 |
-| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | 🟢 |
+| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | 🟡 |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
 | `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |

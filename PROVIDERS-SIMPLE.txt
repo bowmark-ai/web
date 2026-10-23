@@ -103,6 +103,7 @@ bmwusa.com — bmwusa: buildVehicle, checkRecalls, estimatePayment, findDealers,
 bodacc.fr — bodacc: search
 boglewinery.com — boglewinery: checkAvailability, listExperiences
 bollandbranch.com — bollandbranch: getBedDesignerFlow, getCategoryOptions, getSwatchDetails, renderBedPreview
+bookeo.com — bookeo: bookSlot, buyGiftVoucher, cancelBooking, checkGiftVoucher, findOperator, getAvailability, getPriceQuote, getProduct, joinWaitingList, listGroupOperators, listMyBookings, listProducts
 booker.com — booker: book, buyGiftCertificate, buyMembership, buySeries, cancelAppointment, cancelMembership, confirmAppointment, findLocation, getAvailability, getAvailableDates, getBookingPolicies, getGroupAvailability, getLocationHours, getMultiServiceAvailability, getMyProfile, getService, getServiceMenu, getSpecial, listBrandLocations, listGiftCertificates, listMemberships, listMyAppointments, listMyMemberships, listMySeries, listPackages, listSeries, listStaff, requestAppointment, searchLocations, updateMyProfile
 booking.andstr.com — andstr: getListing, getQuote, search
 booking.com — booking_com: addToWishlist, autocompleteDestination, checkPrice, getAccountProfile, getBooking, getProperty, getReviewBreakdown, listAvailability, listBookings, listFilterOptions, listMyReviews, listPropertyPhotos, listPropertyReviews, listSavedPaymentMethods, listWishlist, removeFromWishlist, search, writeReview
