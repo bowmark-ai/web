@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4855 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5066 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -935,11 +935,46 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟢 |
 | `classicrockfab.checkAvailability` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Given an appointmentTypeId from listAppointmentTypes, returns real currently-open time… | 🟢 |
 | `classicrockfab.listAppointmentTypes` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Lists Classic Rock's public design-center appointment types across all four locations… | 🟢 |
+| `classpass.addFavorite` | classpass.com | Saves a studio to the signed-in member's favourites. | ⚪ |
+| `classpass.bookClass` | classpass.com | Reserves a spot in one class slot for the signed-in member, spending credits they… | ⚪ |
+| `classpass.buyCredits` | classpass.com | Would buy extra credits on the signed-in member's card. | ⚪ |
+| `classpass.cancelMembership` | classpass.com | Starts and completes the site's cancel-membership flow for the signed-in member… | ⚪ |
+| `classpass.cancelReservation` | classpass.com | Cancels one of the signed-in member's reservations, first reading the cancel terms… | ⚪ |
+| `classpass.changePlan` | classpass.com | Would move the signed-in member to a different plan tier. | ⚪ |
 | `classpass.checkAvailability` | classpass.com | Checks whether a specific already-known class or appointment slot still has an open… | ⚪ |
+| `classpass.checkIn` | classpass.com | Marks one of the signed-in member's reservations as attended (the app's check-in). | ⚪ |
+| `classpass.findLocation` | classpass.com | Turns a place name a caller holds (`Charlotte`, a neighbourhood, an address) into the… | ⚪ |
+| `classpass.findStudio` | classpass.com | Finds ClassPass studios by NAME (and matching activities) near a point — `Barry's`… | ⚪ |
+| `classpass.getBillingHistory` | classpass.com | Lists the signed-in member's past charges — plan renewals and credit purchases, with… | ⚪ |
+| `classpass.getBookingQuote` | classpass.com | Returns what booking one specific class slot would cost THIS member — the credit price… | ⚪ |
+| `classpass.getClass` | classpass.com | Returns one class's description at a studio — what it is, how long, what to expect —… | ⚪ |
+| `classpass.getClassReviews` | classpass.com | Reads the reviews members left for one class (not the whole studio). | ⚪ |
+| `classpass.getCreditBalance` | classpass.com | Returns how many credits the signed-in member has left this cycle, what rolls over and… | ⚪ |
+| `classpass.getMyProfile` | classpass.com | Returns the signed-in member's profile: name, email, home market, photo and the… | ⚪ |
+| `classpass.getMySubscription` | classpass.com | Returns the signed-in member's plan: tier, monthly credits, price, renewal date, and… | ⚪ |
 | `classpass.getPricing` | classpass.com | Returns ClassPass's own membership/credit-plan pricing for a market — the monthly… | ⚪ |
+| `classpass.getReservation` | classpass.com | Returns one reservation in full — class, studio, spot, credits, cancellation window… | ⚪ |
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
-| `classpass.search` | classpass.com | Searches fitness, wellness AND beauty businesses (gyms, studios, spas and salons) near… | 🟡 |
+| `classpass.getStudioReviews` | classpass.com | Reads a studio's member reviews — rating, text, class taken and date — the page a… | ⚪ |
+| `classpass.getVideo` | classpass.com | Returns one on-demand video — title, instructor, length, and the stream a member plays. | ⚪ |
+| `classpass.joinWaitlist` | classpass.com | Puts the signed-in member on a full class's waitlist, or turns on the class's… | ⚪ |
+| `classpass.listCategories` | classpass.com | Lists ClassPass's activity and category vocabulary (Classes & Appointments, Yoga… | ⚪ |
+| `classpass.listFavorites` | classpass.com | Lists the studios the signed-in member has saved as favourites. | ⚪ |
+| `classpass.listMarkets` | classpass.com | Lists the cities and metro areas ClassPass operates in, with each market's id, alias… | ⚪ |
+| `classpass.listMyReservations` | classpass.com | Lists the signed-in member's upcoming and past reservations — class, studio, time… | ⚪ |
+| `classpass.listOnDemandVideos` | classpass.com | Lists the member on-demand workout videos (filters, collections, stacks) included with… | ⚪ |
+| `classpass.listSimilarStudios` | classpass.com | Lists studios ClassPass considers similar to one studio — the 'you might also like'… | ⚪ |
+| `classpass.listStudioBranches` | classpass.com | Lists the other locations of the same brand on ClassPass — every Barry's, say — with… | ⚪ |
+| `classpass.listStudioClasses` | classpass.com | Lists the classes a studio teaches — its class catalogue (name, alias, description… | ⚪ |
+| `classpass.pauseMembership` | classpass.com | Pauses the signed-in member's plan for a period the site offers, and reports when it… | ⚪ |
+| `classpass.redeemGiftCode` | classpass.com | Redeems a ClassPass gift code onto the signed-in member's account. | ⚪ |
+| `classpass.removeFavorite` | classpass.com | Removes a studio from the signed-in member's favourites. | ⚪ |
+| `classpass.search` | classpass.com | Searches fitness, wellness AND beauty businesses (gyms, studios, spas and salons) near… | 🟢 |
+| `classpass.sendReferralInvites` | classpass.com | Would email ClassPass referral invitations to people the member names. | ⚪ |
+| `classpass.signWaiver` | classpass.com | Signs a studio's liability waiver for the signed-in member, which some studios require… | ⚪ |
+| `classpass.updateMyProfile` | classpass.com | Edits the signed-in member's profile — name, photo, home location, preferences. | ⚪ |
+| `classpass.updatePaymentMethod` | classpass.com | Would replace the card on the signed-in member's account. | ⚪ |
 | `claude_com.getDoc` | claude.com | Reads one page of claude.com's own documentation (claude.com/docs/...) by URL or path… | 🟢 |
 | `claude_com.listDocPages` | claude.com | Lists every /docs page claude.com publishes, parsed from the site's own /docs/llms.txt… | 🟢 |
 | `claude_support.getArticle` | support.claude.com | Returns one Claude help-center article's structured content by its URL — title… | 🟢 |
@@ -1349,8 +1384,40 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟢 |
 | `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🟡 |
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
-| `doordash.getCheckoutTotal` | doordash.com | Would open a specific store, add real menu items to the cart, set a delivery address… | ⚪ |
+| `doordash.addAddress` | doordash.com | Saves a new delivery address (with apartment, drop-off instructions) to the signed-in… | ⚪ |
+| `doordash.addToCart` | doordash.com | Adds a menu item (with its chosen options and quantity) to the cart for a store, the… | ⚪ |
+| `doordash.applyPromoCode` | doordash.com | Applies a promo code to the signed-in customer's cart at checkout and reports what it… | ⚪ |
+| `doordash.browseStores` | doordash.com | Lists the restaurants and stores DoorDash delivers from to one address — the home feed… | ⚪ |
+| `doordash.checkDeliveryAvailability` | doordash.com | Says whether a store will deliver to an address right now and when: open or closed… | ⚪ |
+| `doordash.clearCart` | doordash.com | Deletes a whole cart for a store. | ⚪ |
+| `doordash.deleteAddress` | doordash.com | Deletes one of the signed-in customer's saved addresses. | ⚪ |
+| `doordash.findAddress` | doordash.com | Turns a street address or place the caller types ("426 Main St Metuchen NJ") into… | ⚪ |
+| `doordash.getCart` | doordash.com | Returns the current cart(s): each item with quantity, options and price, and the cart… | ⚪ |
+| `doordash.getCheckoutTotal` | doordash.com | Opens a cart for a store at a delivery address and reads the itemized fee breakdown… | ⚪ |
+| `doordash.getMenu` | doordash.com | Returns one store's full menu: categories, and for each item its id, name… | ⚪ |
+| `doordash.getMenuItem` | doordash.com | Returns one menu item's detail: description, price and every option group with its… | ⚪ |
+| `doordash.getMyAccount` | doordash.com | Returns the signed-in customer's own account: name, email, phone, DashPass membership… | ⚪ |
+| `doordash.getOrder` | doordash.com | Returns one order: its items, fees and total, delivery address, and its live status… | ⚪ |
+| `doordash.getRetailStore` | doordash.com | Returns a grocery, convenience or retail store on DoorDash (7-Eleven, CVS, ALDI…) with… | ⚪ |
+| `doordash.getStore` | doordash.com | Returns one restaurant or store by its DoorDash store id or store URL: name, address… | ⚪ |
+| `doordash.getStoreReviews` | doordash.com | Returns a store's rating summary and its public customer reviews (reviewer display… | ⚪ |
+| `doordash.listCuisines` | doordash.com | Lists the cuisine and category filters DoorDash offers near an address (Thai, Pizza… | ⚪ |
+| `doordash.listDeals` | doordash.com | Lists the deals and promotions running near an address — store offers like '20% off… | ⚪ |
+| `doordash.listMyAddresses` | doordash.com | Lists the signed-in customer's saved delivery addresses with their ids and which one… | ⚪ |
+| `doordash.listNotifications` | doordash.com | Lists the signed-in customer's DoorDash notifications (order updates, offers) and… | ⚪ |
+| `doordash.listOrders` | doordash.com | Lists the signed-in customer's past and current orders with store, date, status, items… | ⚪ |
+| `doordash.listSavedStores` | doordash.com | Lists the stores the signed-in customer has saved (hearted). | ⚪ |
+| `doordash.placeOrder` | doordash.com | Places an order. | ⚪ |
+| `doordash.rateOrder` | doordash.com | Rates a past order and its items the way the post-delivery prompt does (thumbs, stars… | ⚪ |
+| `doordash.removeFromCart` | doordash.com | Removes one item from the cart. | ⚪ |
+| `doordash.saveStore` | doordash.com | Saves a store to, or removes it from, the signed-in customer's saved stores. | ⚪ |
 | `doordash.search` | doordash.com | Runs DoorDash's own store search for a free-text query and returns the real… | 🟡 |
+| `doordash.searchDishes` | doordash.com | Searches for a DISH rather than a restaurant ("pizza", "pad thai") near a location and… | ⚪ |
+| `doordash.searchStoreProducts` | doordash.com | Searches for products inside one grocery, convenience or retail store ("milk" at a… | ⚪ |
+| `doordash.setDefaultAddress` | doordash.com | Makes one saved address the signed-in customer's default delivery address. | ⚪ |
+| `doordash.updateAddress` | doordash.com | Edits one of the signed-in customer's saved addresses — apartment, building, entry… | ⚪ |
+| `doordash.updateCartItem` | doordash.com | Changes the quantity or options of an item already in the cart. | ⚪ |
+| `doordash.updateProfile` | doordash.com | Changes the signed-in customer's first name, last name or phone number, the way the… | ⚪ |
 | `dropbox.addFileComment` | dropbox.com | Adds a comment to a file in the caller's Dropbox. | ⚪ |
 | `dropbox.changeProfilePhoto` | dropbox.com | Changes the signed-in caller's profile photo. | ⚪ |
 | `dropbox.closeFileRequest` | dropbox.com | Closes one of the caller's file requests so it stops accepting uploads. | ⚪ |
@@ -1918,6 +1985,39 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fred.listSources` | fred.stlouisfed.org | Lists the agencies and organizations that originate FRED's data — the Bureau of Labor… | 🟢 |
 | `fred.searchSeries` | fred.stlouisfed.org | Finds the economic data series that match a search text — GDP, CPI, unemployment rate… | 🟢 |
 | `freightliner.getConfiguratorPrice` | freightliner.com | Drives the Cascadia configurator through a truck configuration and captures the final… | ⚪ |
+| `fresha.addFavorite` | fresha.com | Saves a venue to the signed-in caller's favourites. | ⚪ |
+| `fresha.bookAppointment` | fresha.com | Books an appointment for the signed-in caller at a venue: services, a start time and a… | ⚪ |
+| `fresha.buyGiftCard` | fresha.com | Buys a Fresha or venue gift card. | ⚪ |
+| `fresha.buyPackageOrMembership` | fresha.com | Buys a venue's service package or membership. | ⚪ |
+| `fresha.cancelAppointment` | fresha.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | ⚪ |
+| `fresha.getAvailability` | fresha.com | Returns the open appointment times at one venue for one or more services, optionally… | ⚪ |
+| `fresha.getBookingQuote` | fresha.com | Prices an appointment before booking it: the services, the date and time range, the… | ⚪ |
+| `fresha.getMyAppointment` | fresha.com | Returns one of the signed-in caller's appointments in full: venue, services, time… | ⚪ |
+| `fresha.getMyProfile` | fresha.com | Returns the signed-in caller's Fresha profile: name, email, phone, avatar, addresses… | ⚪ |
+| `fresha.getProfessional` | fresha.com | Returns one professional's public profile from their slug or fresha.com/p/... URL… | ⚪ |
+| `fresha.getProfessionalReviews` | fresha.com | Lists the reviews left for one professional, with rating, text, date and service… | ⚪ |
+| `fresha.getSearchSuggestions` | fresha.com | Turns what a caller typed ("balayage", a venue name, a stylist's name) into Fresha's… | ⚪ |
+| `fresha.getVenue` | fresha.com | Returns one venue from its slug or its fresha.com/a/... URL: name, description… | ⚪ |
+| `fresha.getVenuePhotos` | fresha.com | Lists a venue's portfolio and venue photos, with each image's description, paged. | ⚪ |
+| `fresha.getVenueReviews` | fresha.com | Lists a venue's verified customer reviews, newest first: rating, text, date, the… | ⚪ |
+| `fresha.joinWaitlist` | fresha.com | Puts the signed-in caller on a venue's waitlist for services on a day and time range… | ⚪ |
+| `fresha.leaveWaitlist` | fresha.com | Removes one of the signed-in caller's waitlist entries. | ⚪ |
+| `fresha.listBusinessTypes` | fresha.com | Lists the kinds of business Fresha lists (hair salons, barbers, nail salons, lashes… | ⚪ |
+| `fresha.listFavorites` | fresha.com | Lists the venues the signed-in caller has saved as favourites. | ⚪ |
+| `fresha.listMyAppointments` | fresha.com | Lists the signed-in caller's upcoming and past Fresha appointments: venue, services… | ⚪ |
+| `fresha.listMyConversations` | fresha.com | Lists the signed-in caller's message threads with venues, newest first, with the… | ⚪ |
+| `fresha.listMyGifts` | fresha.com | Lists the gift cards, vouchers and packages the signed-in caller holds, with balances… | ⚪ |
+| `fresha.listMyWaitlists` | fresha.com | Lists the signed-in caller's open waitlist entries: venue, services, dates and time… | ⚪ |
+| `fresha.listVenueOffers` | fresha.com | Lists what a venue sells besides single appointments -- service packages, memberships… | ⚪ |
+| `fresha.removeFavorite` | fresha.com | Removes a venue from the signed-in caller's favourites. | ⚪ |
+| `fresha.rescheduleAppointment` | fresha.com | Moves one of the signed-in caller's appointments to a new time, within the venue's… | ⚪ |
+| `fresha.searchProfessionals` | fresha.com | Searches Fresha's individual professionals (stylists, barbers, lash techs...) by what… | ⚪ |
+| `fresha.searchVenues` | fresha.com | Searches Fresha's marketplace for salons, barbers, spas, nail, lash and wellness… | ⚪ |
+| `fresha.sendMessageToVenue` | fresha.com | Sends a message to a venue in one of the signed-in caller's threads. | ⚪ |
+| `fresha.tipProfessional` | fresha.com | Tips the professional after an appointment. | ⚪ |
+| `fresha.updateMyProfile` | fresha.com | Edits the signed-in caller's profile details: name, birthday, gender, addresses. | ⚪ |
+| `fresha.updateProfilePicture` | fresha.com | Replaces the signed-in caller's profile photo. | ⚪ |
+| `fresha.writeReview` | fresha.com | Leaves a rating and review for one of the signed-in caller's completed appointments. | ⚪ |
 | `furniture.listCategories` | furniture.com | Lists furniture.com's real category taxonomy (Sofas & Couches, Mattresses, Platform… | 🟢 |
 | `furniture.listFilterOptions` | furniture.com | Lists furniture.com's live filter facets and their real, currently offered values —… | 🟢 |
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟡 |
@@ -2218,7 +2318,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hilton.getDeals` | hilton.com | Reads Hilton's currently published promotions and offers — the site's own "Offers"… | ⚪ |
 | `hilton.getHotelDetails` | hilton.com | Reads one Hilton-family property in full — full address, phone number, brand tier… | ⚪ |
 | `hilton.getReservation` | hilton.com | Reads an existing Hilton reservation the way the site's own "Find Your Reservation"… | ⚪ |
-| `hilton.search` | hilton.com | Searches Hilton's live cash room availability for one property (a hilton.com URL… | 🟡 |
+| `hilton.search` | hilton.com | Searches Hilton's live cash room availability for one property (a hilton.com URL… | 🔴 |
 | `hipcamp.search` | hipcamp.com | Given a destination name (a national park, region, or city, or a bare US state)… | 🟢 |
 | `historymaker.getHome` | historymaker.com | Reads one quick-move-in home's full detail: address, current and original price… | 🟢 |
 | `historymaker.listCommunities` | historymaker.com | Lists HistoryMaker's active DFW communities with city, price range, beds/baths range… | 🟢 |
@@ -3059,7 +3159,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listPodcasts` | nytimes.com | Lists NYT podcasts. | 🟡 |
 | `nytimes.listRSSFeeds` | nytimes.com | Lists every RSS feed the site's own /rss index publishes, with its title, url and nav… | 🟢 |
 | `nytimes.listSavedArticles` | nytimes.com | Lists articles saved by signed-in reader. | ⚪ |
-| `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟢 |
+| `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟡 |
 | `nytimes.listTopics` | nytimes.com | Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently… | 🟢 |
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
 | `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟢 |
@@ -3075,6 +3175,38 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `oliverwinery.checkShippingAvailability` | oliverwinery.com | Checks whether Oliver Winery currently ships wine to one US state, read off the… | 🟢 |
 | `oliverwinery.getWine` | oliverwinery.com | Reads one wine's full Commerce7 product record by its storefront slug (e.g.… | 🟢 |
 | `oliverwinery.listWines` | oliverwinery.com | Lists Oliver Winery's own Commerce7 shop catalog — real bottle titles, USD prices and… | 🟢 |
+| `olo.addToBasket` | olo.com | Adds a product to the basket with a quantity, its chosen options, special instructions… | ⚪ |
+| `olo.applyCoupon` | olo.com | Applies a coupon or promo code to the basket and reports the discount, or removes one. | ⚪ |
+| `olo.applyReward` | olo.com | Applies one of the caller's loyalty rewards to the basket, or removes it. | ⚪ |
+| `olo.cancelOrder` | olo.com | Cancels a placed order that the chain still allows cancelling (typically an advance… | ⚪ |
+| `olo.checkInOrder` | olo.com | Tells the restaurant the caller has arrived for a curbside or pickup order ('I'm here'). | ⚪ |
+| `olo.checkOrderAvailability` | olo.com | Checks whether a location can take an order right now or at a chosen time for a… | ⚪ |
+| `olo.deleteFavorite` | olo.com | Deletes one of the caller's saved favourites. | ⚪ |
+| `olo.findBrand` | olo.com | Finds the Olo order site for a restaurant chain from what a caller holds -- the… | ⚪ |
+| `olo.getBasket` | olo.com | Returns the basket: items with their options and prices, subtotal, fees, discounts… | ⚪ |
+| `olo.getLocation` | olo.com | Returns one location's details: address, coordinates, phone, open-now status, the… | ⚪ |
+| `olo.getLoyaltyAccount` | olo.com | Returns the caller's loyalty account at a chain: points or visits, available rewards… | ⚪ |
+| `olo.getMenu` | olo.com | Returns a location's menu: categories in order, and each product's id, name… | ⚪ |
+| `olo.getOrderStatus` | olo.com | Returns a placed order's status from its order id (the confirmation page link)… | ⚪ |
+| `olo.getProductOptions` | olo.com | Returns the customisation tree for one or more products at a location -- option groups… | ⚪ |
+| `olo.joinGroupOrder` | olo.com | Joins a group order from its invite link and adds the caller's items to it. | ⚪ |
+| `olo.listFavorites` | olo.com | Lists the caller's saved favourite orders and favourite locations at a chain. | ⚪ |
+| `olo.listOrderDays` | olo.com | Lists the days a location will take an order for, for a handoff mode (today through… | ⚪ |
+| `olo.listRecentOrders` | olo.com | Lists the signed-in caller's recent orders at a chain, with items, totals, location… | ⚪ |
+| `olo.listRegions` | olo.com | Lists the states (and optionally cities) where a chain has Olo-ordering locations. | ⚪ |
+| `olo.listSavedAddresses` | olo.com | Lists the caller's saved delivery addresses. | ⚪ |
+| `olo.listTimeSlots` | olo.com | Lists the pickup or delivery times a location offers on one day, for a handoff mode… | ⚪ |
+| `olo.placeOrder` | olo.com | Submits payment and places the order. | ⚪ |
+| `olo.removeBasketItem` | olo.com | Removes an item from the basket. | ⚪ |
+| `olo.reorder` | olo.com | Rebuilds a basket from one of the caller's past orders. | ⚪ |
+| `olo.saveFavoriteOrder` | olo.com | Saves a basket or past order as a named favourite. | ⚪ |
+| `olo.searchLocations` | olo.com | Searches a chain's locations near an address, a lat/lng, or in a state, for a handoff… | ⚪ |
+| `olo.startCheckout` | olo.com | Takes a guest basket to checkout: validates it, fills the guest's name, email and… | ⚪ |
+| `olo.startGroupOrder` | olo.com | Starts a group order at a location on chains that allow it and returns the invite link… | ⚪ |
+| `olo.startOrder` | olo.com | Starts a guest order at a location: opens a basket and sets the handoff mode and the… | ⚪ |
+| `olo.toggleFavoriteLocation` | olo.com | Marks or unmarks a location as one of the caller's favourites. | ⚪ |
+| `olo.updateBasketItem` | olo.com | Changes a basket item's quantity, options or instructions. | ⚪ |
+| `olo.updateProfile` | olo.com | Updates the caller's account profile at a chain: name, phone, email and marketing… | ⚪ |
 | `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟡 |
 | `openai.helpArticle` | learn.chatgpt.com | Retrieves the full text of a help article by its ID from OpenAI's documentation. | 🟡 |
 | `openai.plans` | learn.chatgpt.com | Returns per-(plan, model) usage limits from learn.chatgpt.com/docs/pricing. | 🟡 |
@@ -3140,6 +3272,33 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
 | `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |
 | `personio.listJobs` | personio.de | Lists every open position on one company's Personio job page — title, main and… | 🟢 |
+| `pike13.bookAppointment` | pike13.com | Books the signed-in caller into an open appointment slot getAppointmentAvailability… | ⚪ |
+| `pike13.bookClass` | pike13.com | Books the signed-in caller (or a dependent) into a class by occurrence id (POST… | ⚪ |
+| `pike13.cancelVisit` | pike13.com | Cancels one of the signed-in caller's bookings — a class or an appointment — by the… | ⚪ |
+| `pike13.checkEnrollmentEligibility` | pike13.com | Says whether the signed-in caller (and each dependent) can book a class and why not —… | ⚪ |
+| `pike13.findBusiness` | pike13.com | Finds Pike13 studios by name and town and returns each one's subdomain, name and… | ⚪ |
+| `pike13.getAppointmentAvailability` | pike13.com | Lists the open times for one bookable appointment service over a date range (up to 90… | ⚪ |
+| `pike13.getAppointmentAvailabilitySummary` | pike13.com | Gives, per day over a date range, the share of an appointment service's capacity still… | ⚪ |
+| `pike13.getBusiness` | pike13.com | Gets one studio's profile — name, subdomain, website, phone, currency, social links… | ⚪ |
+| `pike13.getClass` | pike13.com | Gets one scheduled class by the occurrence id getSchedule returned — description… | ⚪ |
+| `pike13.getMyProfile` | pike13.com | Gets the signed-in caller's own client record at a studio, with dependents (GET… | ⚪ |
+| `pike13.getPlan` | pike13.com | Gets one membership or pass product's full terms by the id listPlans returned (GET… | ⚪ |
+| `pike13.getSchedule` | pike13.com | Lists a studio's scheduled classes and courses for a date range — name, start/end… | ⚪ |
+| `pike13.getScheduleSummary` | pike13.com | Counts a studio's classes per day over a date range, for picking a day before listing… | ⚪ |
+| `pike13.getService` | pike13.com | Gets one service's full details by the id listServices returned (GET… | ⚪ |
+| `pike13.getWaitlistEligibility` | pike13.com | Says whether a full class takes a waitlist and what it requires (anonymous_allowed… | ⚪ |
+| `pike13.joinWaitlist` | pike13.com | Puts the signed-in caller on the waitlist for a full class by occurrence id (POST… | ⚪ |
+| `pike13.leaveWaitlist` | pike13.com | Removes the signed-in caller from a class waitlist by the entry id… | ⚪ |
+| `pike13.listClassSeries` | pike13.com | Lists a studio's recurring class series (events) with their recurrence and service… | ⚪ |
+| `pike13.listLocations` | pike13.com | Lists a studio's locations with address, coordinates, phone and timezone (GET… | ⚪ |
+| `pike13.listMyBusinesses` | pike13.com | Lists the studios the signed-in caller has a Pike13 client account with (GET… | ⚪ |
+| `pike13.listMyPlans` | pike13.com | Lists the signed-in caller's memberships and passes at a studio — remaining visits… | ⚪ |
+| `pike13.listMyVisits` | pike13.com | Lists the signed-in caller's bookings at a studio — upcoming and past classes and… | ⚪ |
+| `pike13.listMyWaitlistEntries` | pike13.com | Lists the signed-in caller's waitlist entries and their state (pending, waiting… | ⚪ |
+| `pike13.listMyWaivers` | pike13.com | Lists the waivers the signed-in caller has signed at a studio, and whether any are… | ⚪ |
+| `pike13.listPlans` | pike13.com | Lists the memberships, class packs and passes a studio sells, with price, visit count… | ⚪ |
+| `pike13.listServices` | pike13.com | Lists what a studio offers — group classes, courses and appointments, with duration… | ⚪ |
+| `pike13.listStaff` | pike13.com | Lists a studio's staff members with bio and photo (GET /api/v2/front/staff_members)… | ⚪ |
 | `pilotprotocol.getApp` | pilotprotocol.network | Reads one app's detail page (/apps/<id>) — vendor, tagline, description, category… | 🟢 |
 | `pilotprotocol.listApps` | pilotprotocol.network | Lists every app in Pilot Protocol's app store (id, name, vendor, category, tagline… | 🟢 |
 | `pinterest.commentOnPin` | pinterest.com | Leave a comment on a pin as the caller. | ⚪ |
@@ -3621,6 +3780,30 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seoulfood.getExhibitorPricing` | seoulfood.kotra.or.kr | Reads the organizer's published exhibitor booth rate card (trade show booth quote)… | 🟢 |
 | `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |
 | `serper.searchGoogle` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
+| `sevenrooms.bookReservation` | sevenrooms.com | Books an open slot as a guest with the caller's name, email and phone — holding the… | ⚪ |
+| `sevenrooms.bookReservationSignedIn` | sevenrooms.com | Books an open slot as the signed-in SevenRooms guest, using their saved profile — the… | ⚪ |
+| `sevenrooms.cancelRequest` | sevenrooms.com | Withdraws a booking request or turns off a priority alert from its id. | ⚪ |
+| `sevenrooms.cancelReservation` | sevenrooms.com | Cancels a reservation from its manage token, returning the cancelled status and any… | ⚪ |
+| `sevenrooms.checkGiftCardBalance` | sevenrooms.com | Reads the remaining balance on a venue gift card from its number and PIN. | ⚪ |
+| `sevenrooms.findVenue` | sevenrooms.com | Finds the SevenRooms venue slug for a restaurant from its name and city, its own… | ⚪ |
+| `sevenrooms.getAvailability` | sevenrooms.com | Returns a venue's open reservation times for a date range, party size and preferred… | ⚪ |
+| `sevenrooms.getAvailableDates` | sevenrooms.com | Lists the dates a venue is taking online bookings over a window, so a caller can pick… | ⚪ |
+| `sevenrooms.getBookingTerms` | sevenrooms.com | Reads the checkout terms of one open slot before booking it: the policy text, whether… | ⚪ |
+| `sevenrooms.getExperience` | sevenrooms.com | Returns one experience or event at a venue: title, description, photos, price per… | ⚪ |
+| `sevenrooms.getMyProfile` | sevenrooms.com | Returns the signed-in guest's SevenRooms profile: name, contact details, profile… | ⚪ |
+| `sevenrooms.getRequest` | sevenrooms.com | Reads a submitted booking request or priority alert from its id: venue, date, time… | ⚪ |
+| `sevenrooms.getReservation` | sevenrooms.com | Reads a reservation from the manage token in its confirmation email or link: venue… | ⚪ |
+| `sevenrooms.getVenue` | sevenrooms.com | Returns one venue from its slug: name, address, postal code, phone, website, timezone… | ⚪ |
+| `sevenrooms.joinLoyaltyProgram` | sevenrooms.com | Signs the guest up to a venue's loyalty or rewards programme with their name, email… | ⚪ |
+| `sevenrooms.listExperiences` | sevenrooms.com | Lists a venue's bookable experiences and events — tasting menus, holiday seatings… | ⚪ |
+| `sevenrooms.listMyMemberships` | sevenrooms.com | Lists the venue loyalty and membership programmes the signed-in guest belongs to. | ⚪ |
+| `sevenrooms.listMyReservations` | sevenrooms.com | Lists the signed-in guest's SevenRooms reservations across every venue, split into… | ⚪ |
+| `sevenrooms.listUpgrades` | sevenrooms.com | Lists the add-ons a venue offers with a booking — champagne on arrival, a cake, a… | ⚪ |
+| `sevenrooms.modifyReservation` | sevenrooms.com | Moves an existing reservation to another open slot — a new date, time or party size —… | ⚪ |
+| `sevenrooms.submitRequest` | sevenrooms.com | When no slot fits, submits a booking request to the venue for a date, time window and… | ⚪ |
+| `sevenrooms.updateMyProfile` | sevenrooms.com | Edits the signed-in guest's SevenRooms profile: name and contact details, profile… | ⚪ |
+| `sevenrooms.updateReservationPreferences` | sevenrooms.com | Updates the guest-side details of a reservation from its manage token: dietary… | ⚪ |
+| `sevenrooms.validatePromoCode` | sevenrooms.com | Checks whether a promo code is valid at a venue for a date and time before booking… | ⚪ |
 | `shein.addAddress` | shein.com | Adds a shipping address to the signed-in caller's address book. | ⚪ |
 | `shein.addToCart` | shein.com | Adds a product in a chosen size and colour to the signed-in caller's bag. | ⚪ |
 | `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | ⚪ |
@@ -3856,6 +4039,34 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.listNewReleases` | open.spotify.com | Get new release recommendations. | ⚪ |
 | `spotify.listPlaylistTracks` | open.spotify.com | Get all tracks from a playlist. | ⚪ |
 | `spotify.search` | open.spotify.com | Searches Spotify's catalog for tracks, albums, artists, playlists, podcasts or… | 🟢 |
+| `squire.acceptWaitlistOffer` | getsquire.com | Accepts one offered waitlist slot, turning it into a booked appointment. | ⚪ |
+| `squire.bookAppointment` | getsquire.com | Books an appointment for the signed-in caller: a service (and add-ons) with a chosen… | ⚪ |
+| `squire.buyGiftCard` | getsquire.com | Buys a shop gift card for someone, for a chosen amount. | ⚪ |
+| `squire.cancelAppointment` | getsquire.com | Cancels one of the caller's appointments (or the whole group booked together) inside… | ⚪ |
+| `squire.findShopsNear` | getsquire.com | Lists Squire barbershops near a place or a latitude/longitude, nearest first: name… | ⚪ |
+| `squire.getAppointment` | getsquire.com | Returns one of the caller's appointments or sales in full: services, barber, time… | ⚪ |
+| `squire.getAvailability` | getsquire.com | Returns the open appointment times for a service at a shop over a date range -- per… | ⚪ |
+| `squire.getBarber` | getsquire.com | Returns one barber's profile: name, bio, photos and portfolio, rating, the shop they… | ⚪ |
+| `squire.getBookingQuote` | getsquire.com | Prices an appointment before booking it -- service, barber, time and add-ons --… | ⚪ |
+| `squire.getBrand` | getsquire.com | Returns a multi-location brand and its shops, so a caller can pick the branch nearest… | ⚪ |
+| `squire.getMyProfile` | getsquire.com | Returns the signed-in caller's Squire profile: name, phone, email, photo and… | ⚪ |
+| `squire.getMyWalkInEntry` | getsquire.com | Returns the caller's place on a shop's walk-in list: position, estimated wait and… | ⚪ |
+| `squire.getReviews` | getsquire.com | Lists the customer reviews of a shop or of one barber, with the average rating, the… | ⚪ |
+| `squire.getShop` | getsquire.com | Returns one barbershop from its id, its route or a getsquire.com URL: name, address… | ⚪ |
+| `squire.getWaitlistOffers` | getsquire.com | Lists the slot times Squire is offering the caller from a waitlist entry, so the… | ⚪ |
+| `squire.getWalkInStatus` | getsquire.com | Says whether a shop is taking walk-ins or a same-day standby list right now, and which… | ⚪ |
+| `squire.joinWaitlist` | getsquire.com | Puts the caller on a shop's waitlist for chosen services on a day with no open time… | ⚪ |
+| `squire.joinWalkInList` | getsquire.com | Adds the caller to a shop's same-day walk-in (standby) list for chosen services, with… | ⚪ |
+| `squire.leaveWaitlist` | getsquire.com | Takes the caller off a shop's waitlist. | ⚪ |
+| `squire.listBarbers` | getsquire.com | Lists a shop's barbers: name, route, photos, working days and days off, and each… | ⚪ |
+| `squire.listMyAppointments` | getsquire.com | Lists the signed-in caller's upcoming Squire appointments: shop, barber, service, time… | ⚪ |
+| `squire.listServices` | getsquire.com | Lists a shop's services with category, price, duration and description, and the… | ⚪ |
+| `squire.lookupReservation` | getsquire.com | Looks up an appointment from the confirmation code Squire gives at booking: shop… | ⚪ |
+| `squire.rateAppointment` | getsquire.com | Rates one of the caller's past appointments from 1 to 5 with an optional written review. | ⚪ |
+| `squire.rebookAppointment` | getsquire.com | Books the same service with the same barber again from one of the caller's past… | ⚪ |
+| `squire.searchShops` | getsquire.com | Searches Squire by free text -- a shop or brand name, a barber's name, a city or a… | ⚪ |
+| `squire.tipAppointment` | getsquire.com | Adds a tip to one of the caller's finished appointments. | ⚪ |
+| `squire.updateMyProfile` | getsquire.com | Changes the caller's name or email, their notification preferences, or their profile… | ⚪ |
 | `starlighthomes.getMetro` | starlighthomes.com | Reads one metro's own page: every named neighborhood in it, each with a real live… | 🟢 |
 | `starlighthomes.getNeighborhood` | starlighthomes.com | Reads one neighborhood's own page: its ACTUAL move-in-ready homes right now — real… | 🟢 |
 | `starlighthomes.listMetros` | starlighthomes.com | Lists every metro division Starlight Homes currently builds in (e.g. Dallas - Fort… | 🟢 |
