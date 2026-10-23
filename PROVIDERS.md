@@ -387,7 +387,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, and its episodes newest first — title… | ⚪ |
 | `bbc.getPodcastEpisode` | bbc.com | One podcast episode: title, synopsis, duration, broadcast date, and the playable media… | ⚪ |
 | `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | 🟢 |
-| `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | 🟡 |
+| `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | 🟢 |
 | `bbc.getVideo` | bbc.com | One BBC video page as data: title, summary, duration, published time, section, poster… | 🟢 |
 | `bbc.getWeatherWarnings` | bbc.com | UK weather or flood warnings currently in force, grouped by region and issuing agency… | 🟢 |
 | `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | 🟢 |
@@ -3761,8 +3761,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spirithalloween.getProduct` | spirithalloween.com | Reads one product page's full live variant matrix — every real color/size combination… | 🟢 |
 | `spirithalloween.search` | spirithalloween.com | Browses Spirit Halloween's category listing for a query resolved against a small… | 🟢 |
 | `spotify.browseCategory` | open.spotify.com | Browse playlists in a Spotify category. | ⚪ |
-| `spotify.getAlbum` | open.spotify.com | Get details about a specific album. | ⚪ |
-| `spotify.getArtist` | open.spotify.com | Get details about a specific artist. | ⚪ |
+| `spotify.getAlbum` | open.spotify.com | Get details about a specific album. | 🟢 |
+| `spotify.getArtist` | open.spotify.com | Get details about a specific artist. | 🟢 |
 | `spotify.getAudioFeatures` | open.spotify.com | Get audio analysis features for a track. | ⚪ |
 | `spotify.getChart` | open.spotify.com | Get Spotify's featured charts by type and country. | ⚪ |
 | `spotify.getCurrentPlayback` | open.spotify.com | Get the signed-in user's current playback state. | ⚪ |
@@ -3773,13 +3773,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.getLibraryArtists` | open.spotify.com | Get the signed-in user's followed artists. | ⚪ |
 | `spotify.getLibraryPlaylists` | open.spotify.com | Get the signed-in user's playlists. | ⚪ |
 | `spotify.getLibraryTracks` | open.spotify.com | Get the signed-in user's saved tracks. | ⚪ |
-| `spotify.getPlaylist` | open.spotify.com | Get details about a specific playlist. | ⚪ |
+| `spotify.getPlaylist` | open.spotify.com | Get details about a specific playlist. | 🟢 |
 | `spotify.getPodcast` | open.spotify.com | Get details about a specific podcast show. | ⚪ |
 | `spotify.getRecentlyPlayed` | open.spotify.com | Get the signed-in user's recently played tracks. | ⚪ |
 | `spotify.getRecommendations` | open.spotify.com | Get track recommendations based on seeds. | ⚪ |
 | `spotify.getTopArtists` | open.spotify.com | Get the signed-in user's top artists. | ⚪ |
 | `spotify.getTopTracks` | open.spotify.com | Get the signed-in user's top tracks. | ⚪ |
-| `spotify.getTrack` | open.spotify.com | Get details about a specific track including audio features. | ⚪ |
+| `spotify.getTrack` | open.spotify.com | Get details about a specific track including audio features. | 🟢 |
 | `spotify.getUserProfile` | open.spotify.com | Get the signed-in user's profile information. | ⚪ |
 | `spotify.listAlbumTracks` | open.spotify.com | Get all tracks from an album. | ⚪ |
 | `spotify.listArtistTracks` | open.spotify.com | Get an artist's top or recently released tracks. | ⚪ |
