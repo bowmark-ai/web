@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 4797 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 4855 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -609,6 +609,34 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.removeFromWishlist` | booking.com | Remove a property from the caller's wishlist. | ⚪ |
 | `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | 🟡 |
 | `booking_com.writeReview` | booking.com | Write a review for a property the caller has booked. | ⚪ |
+| `booksy.addFavorite` | booksy.com | Saves a business to the signed-in caller's favourites. | ⚪ |
+| `booksy.bookAppointment` | booksy.com | Books an appointment for the signed-in caller: a service variant at a start time, with… | ⚪ |
+| `booksy.buyGiftCard` | booksy.com | Buys a business's gift card or voucher. | ⚪ |
+| `booksy.cancelAppointment` | booksy.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | ⚪ |
+| `booksy.getAvailability` | booksy.com | Returns the open appointment times for one service at one business over a date range… | ⚪ |
+| `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | ⚪ |
+| `booksy.getBusiness` | booksy.com | Returns one business from its id or its booksy.com page URL: name, description… | ⚪ |
+| `booksy.getBusinessContact` | booksy.com | Returns a business's contact email, which Booksy shows only to a signed-in customer. | ⚪ |
+| `booksy.getBusinessNetwork` | booksy.com | For a business that is part of a chain on Booksy, lists the chain's other locations… | ⚪ |
+| `booksy.getBusinessPhotos` | booksy.com | Lists a business's portfolio and venue photos, and the photos customers attached to… | ⚪ |
+| `booksy.getBusinessReviews` | booksy.com | Lists a business's customer reviews, newest first: rating, text, date, the service and… | ⚪ |
+| `booksy.getMyAppointment` | booksy.com | Returns one of the signed-in caller's appointments in full: service, time, staff… | ⚪ |
+| `booksy.getMyProfile` | booksy.com | Returns the signed-in caller's Booksy profile: name, email, phone, photo and… | ⚪ |
+| `booksy.getSearchSuggestions` | booksy.com | Turns what a caller typed ("skin fade", "gel nails", a business name) into Booksy's… | ⚪ |
+| `booksy.joinWaitlist` | booksy.com | Puts the signed-in caller on a business's waitlist for a service on a day with no open… | ⚪ |
+| `booksy.listCategories` | booksy.com | Lists Booksy's business categories with their subcategories and treatments (Hair… | ⚪ |
+| `booksy.listFavorites` | booksy.com | Lists the businesses the signed-in caller has saved as favourites. | ⚪ |
+| `booksy.listGiftCardOffers` | booksy.com | Lists the gift cards and vouchers a business sells online: name, value, price… | ⚪ |
+| `booksy.listMyBookings` | booksy.com | Lists the signed-in caller's upcoming and past Booksy appointments: business, service… | ⚪ |
+| `booksy.listMyGiftCards` | booksy.com | Lists the gift cards and vouchers the signed-in caller holds, with balance and validity. | ⚪ |
+| `booksy.payForAppointment` | booksy.com | Pays an appointment's deposit, prepayment or bill through Booksy Pay. | ⚪ |
+| `booksy.removeFavorite` | booksy.com | Removes a business from the signed-in caller's favourites. | ⚪ |
+| `booksy.rescheduleAppointment` | booksy.com | Moves one of the signed-in caller's appointments to a new time (and optionally a new… | ⚪ |
+| `booksy.resolveLocation` | booksy.com | Resolves a place a caller names ("Brooklyn", a street address) into the Booksy region… | ⚪ |
+| `booksy.searchBusinesses` | booksy.com | Searches Booksy's marketplace for businesses (barbers, salons, spas, nail, massage… | ⚪ |
+| `booksy.sendMessageToBusiness` | booksy.com | Sends a chat message from the signed-in caller to a business, and reads the… | ⚪ |
+| `booksy.updateMyProfile` | booksy.com | Updates the signed-in caller's Booksy profile: name, email, phone or profile photo. | ⚪ |
+| `booksy.writeReview` | booksy.com | Posts the signed-in caller's star rating and review of a business after an… | ⚪ |
 | `borsheims.configureRing` | borsheims.com | Composes a setting product page and a diamond/center-stone product page into a priced… | 🟢 |
 | `borsheims.getProduct` | borsheims.com | Reads one product's real, live price straight off its product page's own embedded data… | 🟢 |
 | `borsheims.searchProducts` | borsheims.com | Turns a free-text query into real borsheims.com product page URLs by matching every… | 🟢 |
@@ -1974,6 +2002,36 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
 | `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟡 |
+| `glofox.bookClass` | glofox.com | Books the signed-in member into one class, spending a credit or membership they… | ⚪ |
+| `glofox.bookCourse` | glofox.com | Books the signed-in member onto a course from listCourses; stops at the payment step. | ⚪ |
+| `glofox.bookFacilitySlot` | glofox.com | Books the signed-in member into one room or space slot from listFacilitySlots; stops… | ⚪ |
+| `glofox.bookTrainerSlot` | glofox.com | Books the signed-in member into one trainer appointment slot from listTrainerSlots… | ⚪ |
+| `glofox.buyMembership` | glofox.com | Buys a membership or class pack from listMemberships on the signed-in member's card. | ⚪ |
+| `glofox.cancelBooking` | glofox.com | Cancels one of the signed-in member's bookings by id (from listMyBookings), after… | ⚪ |
+| `glofox.cancelMembership` | glofox.com | Sends the studio a cancellation request for one of the signed-in member's memberships… | ⚪ |
+| `glofox.changePassword` | glofox.com | Changes the signed-in member's password at that studio. | ⚪ |
+| `glofox.findStudio` | glofox.com | Finds a Glofox studio (a 'branch') from what a caller has: its Glofox namespace… | ⚪ |
+| `glofox.getClass` | glofox.com | Returns one scheduled class by id, with its description, trainers, room, capacity… | ⚪ |
+| `glofox.getMyProfile` | glofox.com | Returns the signed-in member's own profile at that studio: name, email, phone, birth… | ⚪ |
+| `glofox.getPrice` | glofox.com | Returns what one class, course session, trainer slot or facility slot costs before… | ⚪ |
+| `glofox.getStudio` | glofox.com | Returns one studio's profile: name, address and coordinates, time zone, currency… | ⚪ |
+| `glofox.joinWaitlist` | glofox.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
+| `glofox.listAppointmentTypes` | glofox.com | Lists the one-to-one appointments a studio sells (personal training, consultations)… | ⚪ |
+| `glofox.listClasses` | glofox.com | Lists a studio's class schedule for a date range, optionally narrowed to a class type… | ⚪ |
+| `glofox.listClassTypes` | glofox.com | Lists a studio's class types ('programs') with their description, default length and… | ⚪ |
+| `glofox.listCourses` | glofox.com | Lists a studio's multi-week courses (teacher trainings, beginner series) with their… | ⚪ |
+| `glofox.listFacilities` | glofox.com | Lists a studio's bookable rooms and spaces (courts, studios, saunas) with description… | ⚪ |
+| `glofox.listFacilitySlots` | glofox.com | Lists the open booking slots for a studio's rooms and spaces over a date range… | ⚪ |
+| `glofox.listLinkedAccounts` | glofox.com | Lists the family members (child accounts) linked to the signed-in member, so bookings… | ⚪ |
+| `glofox.listMemberships` | glofox.com | Lists the memberships, class packs and trials a studio sells, each with its plans… | ⚪ |
+| `glofox.listMyBookings` | glofox.com | Lists the signed-in member's bookings at that studio — classes, courses, trainer and… | ⚪ |
+| `glofox.listMyCredits` | glofox.com | Lists the signed-in member's remaining class credits and what each can be spent on. | ⚪ |
+| `glofox.listMyMemberships` | glofox.com | Lists the signed-in member's active, paused and stacked memberships, with renewal dates. | ⚪ |
+| `glofox.listMyTransactions` | glofox.com | Lists the signed-in member's charges and invoices at that studio. | ⚪ |
+| `glofox.listTrainers` | glofox.com | Lists a studio's trainers with id, name, photo and bio — the ids listClasses and… | ⚪ |
+| `glofox.listTrainerSlots` | glofox.com | Lists the open appointment slots for a studio's trainers over a date range, optionally… | ⚪ |
+| `glofox.pauseMembership` | glofox.com | Pauses one of the signed-in member's memberships, after showing what the studio would… | ⚪ |
+| `glofox.updateMyProfile` | glofox.com | Changes the signed-in member's own profile fields at that studio (name, phone… | ⚪ |
 | `gobrightwing.getJobDetails` | gobrightwing.com | Get full details for a specific job posting, including description, requirements, and… | 🟢 |
 | `gobrightwing.listLocations` | gobrightwing.com | List all available job location options. | ⚪ |
 | `gobrightwing.listWorkTypes` | gobrightwing.com | List all available work type options (Full-time, Contract, etc.). | ⚪ |
