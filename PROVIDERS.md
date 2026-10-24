@@ -1563,7 +1563,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.listStarredFiles` | dropbox.com | Lists the files and folders the caller starred. | ⚪ |
 | `dropbox.listTransfers` | dropbox.com | Lists the transfers the caller has sent, with their links, view and download counts… | ⚪ |
 | `dropbox.moveFile` | dropbox.com | Moves or renames a file or folder in the caller's Dropbox. | ⚪ |
-| `dropbox.readSharedFile` | dropbox.com | Returns the text of a shared document (PDF, Word, slides, text) the way Dropbox's own… | ⚪ |
+| `dropbox.readSharedFile` | dropbox.com | Returns the text of a shared document (PDF, Word, slides, text) the way Dropbox's own… | 🟢 |
 | `dropbox.removeSharingMember` | dropbox.com | Removes a person's access to a shared file or folder in the caller's Dropbox. | ⚪ |
 | `dropbox.restoreFile` | dropbox.com | Restores a deleted file or folder in the caller's Dropbox. | ⚪ |
 | `dropbox.restoreFileVersion` | dropbox.com | Restores a file in the caller's Dropbox to one of its earlier versions. | ⚪ |
@@ -4891,7 +4891,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟢 |
 | `tripadvisor.askQuestion` | tripadvisor.com | Posts a question to a listing's Q&A from the signed-in caller's account. | ⚪ |
 | `tripadvisor.createTrip` | tripadvisor.com | Creates a new Trip on the signed-in caller's account with a name and optional dates. | ⚪ |
-| `tripadvisor.getAttraction` | tripadvisor.com | Reads one attraction in full: name, description, address, opening hours, suggested… | ⚪ |
+| `tripadvisor.getAttraction` | tripadvisor.com | Reads one attraction in full: name, description, address, phone, website, opening… | 🟢 |
 | `tripadvisor.getDestination` | tripadvisor.com | Reads a city or region's overview page (/Tourism-g<geoId>-…): its name and parent… | ⚪ |
 | `tripadvisor.getForumThread` | tripadvisor.com | Reads one forum thread — the opening post and every reply, with author, date and text… | ⚪ |
 | `tripadvisor.getForumTopics` | tripadvisor.com | Lists a destination's travel-forum topics — title, author, reply count, last post date… | ⚪ |
