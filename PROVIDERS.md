@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5110 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5157 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -924,6 +924,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cheapflights.searchHotels` | cheapflights.com | Runs the stays search on cheapflights.com — the site's own second vertical — and… | 🟢 |
 | `chesmar.searchQuickMoveInHomes` | chesmar.com | Runs Chesmar Homes' quick-move-in home search against the site's own live inventory… | 🟢 |
 | `chipotle.getBowlBuilder` | chipotle.com | Reads chipotle.com's own universal menu rules and returns every burrito-bowl protein… | 🟢 |
+| `chownow.findRestaurant` | chownow.com | Searches restaurants by name, cuisine, or address — the user-facing search a customer… | ⚪ |
+| `chownow.getMenu` | chownow.com | Reads one restaurant's complete menu: categories with menu items, item names… | ⚪ |
+| `chownow.getMenuItem` | chownow.com | Reads details for one menu item: name, description, price, modifiers available, and… | ⚪ |
+| `chownow.getOrderDetails` | chownow.com | Reads one order's full details: items ordered, customizations, prices, fees, status… | ⚪ |
+| `chownow.getPickupTimes` | chownow.com | Lists available pickup time slots for the next 96 hours in 15-minute intervals, with… | ⚪ |
+| `chownow.getRestaurant` | chownow.com | Reads one restaurant's full details: name, address, coordinates, phone, hours… | ⚪ |
+| `chownow.getRestaurantHours` | chownow.com | Reads a restaurant's operating hours and closures — the schedule when it accepts… | ⚪ |
+| `chownow.getRewardsBalance` | chownow.com | Reads the signed-in customer's loyalty rewards points balance and any active… | ⚪ |
+| `chownow.listMenuCategories` | chownow.com | Lists the menu categories for a restaurant without fetching the full menu — the… | ⚪ |
+| `chownow.listMenuItems` | chownow.com | Lists all menu items for a restaurant in a flattened view with prices and… | ⚪ |
+| `chownow.listOrders` | chownow.com | Lists the signed-in customer's order history with status, total price, order date, and… | ⚪ |
+| `chownow.listRestaurants` | chownow.com | Lists all restaurants under a company (e.g. a franchise group), with location id… | ⚪ |
+| `chownow.listSavedPaymentMethods` | chownow.com | Lists the signed-in customer's saved cards and payment methods. | ⚪ |
+| `chownow.validateOrder` | chownow.com | Validates an order before payment: checks fulfillment method availability, item… | ⚪ |
 | `chriscraft.getConfigurator` | chriscraft.com | Reads one model+boat-type's whole builder off build.chriscraft.com: every option group… | 🟢 |
 | `chriscraft.priceConfiguration` | chriscraft.com | Prices a specific build (a choice, or choices, per option group) against… | 🟢 |
 | `chriscraft.searchModels` | chriscraft.com | Lists every current Chris-Craft model reachable from the public "Build Your Own"… | 🟢 |
@@ -3311,6 +3325,25 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `paypal.getPolicyDocument` | paypal.com | Reads one of PayPal's binding policy documents from the legal hub — the User… | 🟢 |
 | `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — id, title, excerpt… | 🟢 |
 | `paypal.searchShoppingOffers` | paypal.com | Lists the cashback and discount offers PayPal's Shopping explore feed is currently… | 🟢 |
+| `peek.bookExperience` | peek.com | Books a session of an experience for a party -- session, ticket quantities and the… | ⚪ |
+| `peek.cancelBooking` | peek.com | Cancels one of the signed-in traveler's bookings where the experience's cancellation… | ⚪ |
+| `peek.getAccountCredits` | peek.com | Returns the signed-in traveler's Peek credit balance and any activity discounts on the… | ⚪ |
+| `peek.getAvailability` | peek.com | Returns an experience's bookable sessions for a party size over a date range: each… | ⚪ |
+| `peek.getExperience` | peek.com | Returns one experience's full listing: title, description, highlights, what is and is… | ⚪ |
+| `peek.getMyProfile` | peek.com | Returns the signed-in traveler's own profile: name, email and phone. | ⚪ |
+| `peek.getPriceQuote` | peek.com | Prices a party for one session -- how many of each ticket type -- and returns the line… | ⚪ |
+| `peek.listDestinations` | peek.com | Lists Peek's popular destinations as the home page shows them -- each place's name… | ⚪ |
+| `peek.listMyTickets` | peek.com | Lists the signed-in traveler's Peek tickets -- upcoming and past bookings with… | ⚪ |
+| `peek.listReviews` | peek.com | Lists an experience's customer reviews -- reviewer, date, star rating, title and text… | ⚪ |
+| `peek.listSavedExperiences` | peek.com | Lists the experiences the signed-in traveler has saved. | ⚪ |
+| `peek.listSimilarExperiences` | peek.com | Lists the experiences Peek shows beside one experience as similar picks, with their… | ⚪ |
+| `peek.listTags` | peek.com | Lists Peek's category tags (Adventures, Food & Drink, On the Water, Families, ...)… | ⚪ |
+| `peek.saveExperience` | peek.com | Saves (likes) an experience to the signed-in traveler's saved list. | ⚪ |
+| `peek.searchExperiences` | peek.com | Searches Peek's marketplace of tours and activities IN a region (regionId from… | ⚪ |
+| `peek.searchRegions` | peek.com | Finds Peek regions (cities, islands, states, countries) by name and returns each one's… | ⚪ |
+| `peek.unsaveExperience` | peek.com | Removes an experience from the signed-in traveler's saved list. | ⚪ |
+| `peek.updateProfile` | peek.com | Edits the signed-in traveler's own profile -- name, phone, email or password -- the… | ⚪ |
+| `peek.writeReview` | peek.com | Leaves a star rating and review on an experience the signed-in traveler has booked and… | ⚪ |
 | `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟡 |
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟡 |
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
@@ -3620,6 +3653,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟢 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
+| `reserve_with_google.bookReservation` | google.com/maps/reserve | Books a slot from checkAvailability on the caller's own Google account, with party… | ⚪ |
+| `reserve_with_google.cancelBooking` | google.com/maps/reserve | Cancels one of the caller's bookings by id and returns the cancellation status. | ⚪ |
+| `reserve_with_google.checkAvailability` | google.com/maps/reserve | Returns the open time slots at a Google-hosted merchant for a date and party size (or… | ⚪ |
+| `reserve_with_google.findBookablePlaces` | google.com/maps/reserve | Finds places you can book through Reserve with Google from words — "sushi near Union… | ⚪ |
+| `reserve_with_google.getBooking` | google.com/maps/reserve | Returns one of the caller's bookings by id: venue, time, party size, partner, status… | ⚪ |
+| `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists every booking action one place offers on Google — "Reserve a table", "Book… | ⚪ |
+| `reserve_with_google.getMerchant` | google.com/maps/reserve | Reads one Google-hosted booking page by merchant id or its… | ⚪ |
+| `reserve_with_google.getSettings` | google.com/maps/reserve | Reads the caller's Reserve with Google settings: the contact name, phone and email… | ⚪ |
+| `reserve_with_google.joinWaitlist` | google.com/maps/reserve | Adds the caller's name to a restaurant's waitlist through Google, where the venue… | ⚪ |
+| `reserve_with_google.listMyBookings` | google.com/maps/reserve | Lists the caller's upcoming and past Reserve with Google bookings, each with venue… | ⚪ |
+| `reserve_with_google.listMyPacks` | google.com/maps/reserve | Lists the class packs and memberships the caller bought through Reserve with Google… | ⚪ |
+| `reserve_with_google.listPartners` | google.com/maps/reserve | Lists the booking providers connected to Reserve with Google — the partners a place's… | ⚪ |
+| `reserve_with_google.modifyBooking` | google.com/maps/reserve | Changes the time or party size of one of the caller's bookings, where the partner… | ⚪ |
+| `reserve_with_google.updateSettings` | google.com/maps/reserve | Updates the caller's Reserve with Google contact details or notification preferences. | ⚪ |
 | `resy.cancelBooking` | resy.com | Cancels a reservation booked in the same session, using the diner's sign-in from that… | 🟢 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
 | `resy.confirmBooking` | resy.com | Finishes the booking startBooking began in the same session: signs the diner in with… | 🟢 |
@@ -4573,7 +4620,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟡 |
-| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | 🟡 |
+| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | ⚪ |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
 | `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |

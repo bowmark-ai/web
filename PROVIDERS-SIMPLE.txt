@@ -161,6 +161,7 @@ chatgpt.com — chatgpt: archiveConversation, ask, browseGPTStore, createGPT, cr
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 chesmar.com — chesmar: searchQuickMoveInHomes
 chipotle.com — chipotle: getBowlBuilder
+chownow.com — chownow: findRestaurant, getMenu, getMenuItem, getOrderDetails, getPickupTimes, getRestaurant, getRestaurantHours, getRewardsBalance, listMenuCategories, listMenuItems, listOrders, listRestaurants, listSavedPaymentMethods, validateOrder
 chriscraft.com — chriscraft: getConfigurator, priceConfiguration, searchModels
 christydawn.com — christydawn: search
 chromium.googlesource.com — chromium_googlesource_com: getFile, listDirectory, listRepos, searchCode
@@ -301,6 +302,7 @@ goodreads.com — goodreads: addToShelf, followUser, getAuthor, getBook, getBook
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: search
 google.com/maps — google_maps: addMissingPlace, geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaceEdit, suggestPlaces, writeReview
+google.com/maps/reserve — reserve_with_google: bookReservation, cancelBooking, checkAvailability, findBookablePlaces, getBooking, getBookingOptions, getMerchant, getSettings, joinWaitlist, listMyBookings, listMyPacks, listPartners, modifyBooking, updateSettings
 goremutual.ca — goremutual: getProductOverview
 gostoreit.com — gostoreit: findFacilities, getFacilityUnits
 gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
@@ -473,6 +475,7 @@ patreon.com — patreon: getCreator, getCurrentUserFeed, getPost, listCreatorPos
 pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCryptoPrices, getCurrencyConversionQuote, getFees, getHelpArticle, getInvoice, getPayPalMeProfile, getPolicyDocument, searchHelp, searchShoppingOffers
+peek.com — peek: bookExperience, cancelBooking, getAccountCredits, getAvailability, getExperience, getMyProfile, getPriceQuote, listDestinations, listMyTickets, listReviews, listSavedExperiences, listSimilarExperiences, listTags, saveExperience, searchExperiences, searchRegions, unsaveExperience, updateProfile, writeReview
 peerspace.com — peerspace: searchVenues
 perennialsandsutherland.com — perennialsandsutherland: getRugVariant, getTearsheetUrl, searchRugs
 personio.de — personio: listJobs

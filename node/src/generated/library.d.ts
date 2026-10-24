@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5f943ac3b5b363d95480fe71f94bad97e112659784a682e037b3935a9cd38191
+// Manifest version: d3ea9e30e2da8537f9dfc477db26d00c3ae77773a858aba0cf7b0e53255b5657
 // 86 capabilities, 624 providers, 2455 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -1845,30 +1845,33 @@ type FlightStatusResult = {
 }
 
   /**
-   * Search flights with one call and get back normalized, price-sorted results (the same
-   * physical flight appears once). Each result carries the site it came from (`site`) and every
-   * site it was found on (`sites`). Returns `{ flights, warnings }` — `warnings` names any site
-   * that was dropped from the fan-out, so a degraded search cannot read as a complete one.
+   * Search flights across four fare aggregators (Google Flights, Kayak, Momondo, Cheapflights)
+   * with one call — never an airline's own website, so it cannot return the price an airline
+   * quotes on its own site. Results are normalized and price-sorted (the same physical flight
+   * appears once). Each result carries the site it came from (`site`) and every site it was
+   * found on (`sites`). Returns `{ flights, warnings }` — `warnings` names any site that was
+   * dropped from the fan-out, so a degraded search cannot read as a complete one.
    */
   interface Unit {
     /**
-     * Searches for flights matching the query and returns `{ flights, warnings }`. `flights` are
-     * normalized `FlightResult`s, price-sorted, deduped so the same physical flight appears once;
-     * each result's `site` is where it came from and `sites` lists every site it was found on.
-     * **`warnings` is always present and is the only honest signal that the fan-out was
-     * incomplete** — this capability queries four aggregators in parallel and a slow or challenged
-     * one contributes zero rows, which the flight list alone cannot tell apart from a route nobody
-     * flies. A site missing from a result's `sites` merely had no matching flight, which is a
-     * completely different fact from a site that was never reached, so coverage is NOT inferable
-     * from the rows. Read `warnings` before treating them as the whole market: a dropped site
-     * means the real cheapest fare may not be here at all. Three of the four sites run one shared
-     * engine, so they tend to fail together — and when ALL FOUR are gone this THROWS instead of
-     * returning `flights: []`, since an empty list would otherwise be indistinguishable from a
-     * route nobody flies. `options.timeoutMs` sets the per-site budget (default 30000; kayak,
-     * momondo and cheapflights are each given at least 50000, because a site whose fast path does
-     * not answer is searched in a real browser) — a site slower than that is dropped and named, so
-     * the answer arrives rather than not at all. **For 'which day is cheapest' over a range of
-     * dates, do not call this once per date**:
+     * Searches four fare AGGREGATORS for flights matching the query — never an airline's own
+     * website, so an airline's own-site price is not something this can return — and returns `{
+     * flights, warnings }`. `flights` are normalized `FlightResult`s, price-sorted, deduped so the
+     * same physical flight appears once; each result's `site` is where it came from and `sites`
+     * lists every site it was found on. **`warnings` is always present and is the only honest
+     * signal that the fan-out was incomplete** — this capability queries four aggregators in
+     * parallel and a slow or challenged one contributes zero rows, which the flight list alone
+     * cannot tell apart from a route nobody flies. A site missing from a result's `sites` merely
+     * had no matching flight, which is a completely different fact from a site that was never
+     * reached, so coverage is NOT inferable from the rows. Read `warnings` before treating them as
+     * the whole market: a dropped site means the real cheapest fare may not be here at all. Three
+     * of the four sites run one shared engine, so they tend to fail together — and when ALL FOUR
+     * are gone this THROWS instead of returning `flights: []`, since an empty list would otherwise
+     * be indistinguishable from a route nobody flies. `options.timeoutMs` sets the per-site budget
+     * (default 30000; kayak, momondo and cheapflights are each given at least 50000, because a
+     * site whose fast path does not answer is searched in a real browser) — a site slower than
+     * that is dropped and named, so the answer arrives rather than not at all. **For 'which day is
+     * cheapest' over a range of dates, do not call this once per date**:
      * `bowmark.providers.google_flights.getPriceGraph(query: FlightQuery): Promise<PriceGraph>`
      * (both typed above) prices every departure date from about depart-7 to depart+52 in one call.
      */
@@ -3627,7 +3630,11 @@ type ReadFormat = "markdown" | "text" | "cleanHtml" | "html"
 type ReadStrategy = "auto" | "fetch" | "browser"
 
 type ReadOptions = {
-  format?: ReadFormat        // default "markdown"
+  format?: ReadFormat        // default "markdown", which keeps every link's url.
+                             // "text" is visible words ONLY: a button or link
+                             // reading "Book now" arrives with no url, so you
+                             // cannot tell where it goes. To check a link's
+                             // destination use "markdown" or "cleanHtml"
   strategy?: ReadStrategy    // default "auto" — a fast read, and a full page load only
                              // when the page needs one. "fetch" is FAST MODE: it never
                              // waits on a slow full load — the fast-fail escape for a
@@ -5327,7 +5334,14 @@ type FormFillResult = {
      * never a default one. When a click registers, `resultContent` carries what the site answered
      * back — a matched branch, a calculated price, a stock status — read off the destination page
      * or widget and capped at 4000 characters; `null` when neither `submit` nor `advance` was
-     * requested or the click never registered.
+     * requested or the click never registered. **Two ways it falls short, and neither is fixed by
+     * calling again with the same values.** On a page with several forms, keys are matched against
+     * every field on the page, so a key can land in a DIFFERENT form than the one you meant (a
+     * site search, a tracking-number box) and still be listed in `filled`, and a submit then
+     * answers for that form: check `resultContent` reads like the answer you asked for. And a
+     * calculator `getFields` listed may still refuse values (fields built from custom controls, or
+     * swapped out as you type): those keys come back in `notFound` or a warning. For either,
+     * `bowmark.browser_agent` (billed) operates the page like a person.
      */
     fillForm(url: string, values: Record<string, string>, options?: FormFillOptions): Promise<FormFillResult>;
   }
@@ -11976,9 +11990,8 @@ interface bestbuyProduct {
 
     /**
      * Looks up one product by Best Buy's own numeric SKU (the id `search`'s rows carry) and
-     * returns its full detail — the same fields as `search`. Uses Bowmark's Best Buy key and
-     * charges each request to your account; send your own key as the
-     * `x-bowmark-vendor-key-bestbuy` header instead.
+     * returns its full detail — the same fields as `search`. Which key serves the call is in this
+     * provider's key note above; your own goes in the `x-bowmark-vendor-key-bestbuy` header.
      */
     getProduct(sku: string | number): Promise<bestbuyProduct>;
   }
@@ -17352,8 +17365,10 @@ interface ClasspassSearchResult {
    * `getStudio` reads one studio's whole profile in a single request: what it does, where it is,
    * its rating, amenities, photos, contact routes and the practical booking prose. `getSchedule`
    * reads that studio's bookable timetable for a day or a week: every session with its start
-   * time, instructor, duration, credit price and whether it is still open. Studio and class
-   * search, per-slot availability and membership pricing are declared but not built yet.
+   * time, instructor, duration, credit price and whether it is still open. `search` finds every
+   * studio inside a radius of a point. Per-slot availability, membership pricing, studio-by-name
+   * lookup, reviews and the signed-in half (book, cancel, waitlist, my reservations, credit
+   * balance) are declared but not built yet.
    */
   interface Unit {
     /**
@@ -22741,8 +22756,8 @@ interface etsyListing {
      * Searches Etsy's live catalog of active listings by keyword, via Etsy's documented Open API
      * v3, and returns the matching listings — id, title, price, currency, quantity available, tags
      * and the listing's own etsy.com URL. `limit` caps the row count (default 10, Etsy's own
-     * ceiling 100). Uses Bowmark's Etsy key and charges each request to your account; send your
-     * own key as the `x-bowmark-vendor-key-etsy` header instead.
+     * ceiling 100). Which key serves the call is in this provider's key note above; your own goes
+     * in the `x-bowmark-vendor-key-etsy` header.
      */
     search(args: string | { query: string; limit?: number }): Promise<etsyListing[]>;
   }
@@ -28227,15 +28242,20 @@ interface SavePlaceResult {
      * Thai Tom and Dick's Drive-In. It is POSITIVE evidence only: an option missing from it is
      * unknown, never "does not offer", and the field is absent when no signal exists (Pagliacci
      * Pizza). `orderOnlineUrl` is the site's own Google ordering link when the place takes orders
-     * through Google. `serviceOptions: true` (the argument) additionally opts into a SEPARATE ~15s
-     * browser read of the About tab — an anonymous read of that tab serves Google's own "limited
-     * view" banner and no Service options section (measured 2026-09-30 against Pagliacci Pizza,
-     * Thai Tom and Dick's Drive-In), so it only adds anything with the caller's own Google session
-     * granted, and pushes a `warnings` entry rather than staying silent when the panel came back
-     * limited. A THIRD reading of searchPlaces' door: takes the same resolving query
-     * geocodeAddress does (typically a name plus address, since this does not take a feature id —
-     * measured live, neither the raw id nor a cid string resolves through this door), and throws
-     * when the query names a category or list rather than one business.
+     * through Google. `website` is ONE url, the business's own homepage link from the panel. It is
+     * not a list of every link Google shows: a separate Reserve or Book button (a booking platform
+     * such as Planity, Treatwell or OpenTable) is not read into any field, so a missing booking
+     * link here never means the business takes no online bookings. To check that, read its website
+     * with `bowmark.read.page` (the default markdown format keeps every link's url).
+     * `serviceOptions: true` (the argument) additionally opts into a SEPARATE ~15s browser read of
+     * the About tab — an anonymous read of that tab serves Google's own "limited view" banner and
+     * no Service options section (measured 2026-09-30 against Pagliacci Pizza, Thai Tom and Dick's
+     * Drive-In), so it only adds anything with the caller's own Google session granted, and pushes
+     * a `warnings` entry rather than staying silent when the panel came back limited. A THIRD
+     * reading of searchPlaces' door: takes the same resolving query geocodeAddress does (typically
+     * a name plus address, since this does not take a feature id — measured live, neither the raw
+     * id nor a cid string resolves through this door), and throws when the query names a category
+     * or list rather than one business.
      */
     getPlace(args: GetPlaceArgs): Promise<GetPlaceResult>;
 
@@ -31181,8 +31201,8 @@ interface higgsfieldSavedFile {
      * Bowmark account automatically and come back on `files` — use those URLs, not `imageUrls`.**
      * Higgsfield deletes its own copy after about seven days; a file in your account is yours
      * until you delete it, and costs storage while you keep it. Pass `save: false` to skip the
-     * copy and take the expiring links. Uses Bowmark's Higgsfield key and charges the generation
-     * to your account; send your own key as the `x-bowmark-vendor-key-higgsfield` header instead.
+     * copy and take the expiring links. Which key serves the call, and who is charged, is in this
+     * provider's key note above; your own goes in the `x-bowmark-vendor-key-higgsfield` header.
      */
     generateImage(args: string | { prompt: string; model?: string; waitMs?: number; save?: boolean; [param: string]: unknown }): Promise<higgsfieldGeneration>;
 
@@ -53038,8 +53058,7 @@ interface SerperSearchResult {
 
   /**
    * Google's own search results as JSON through Serper's API — honours site:, quoted phrases and
-   * every other Google operator, in about a second. Uses Bowmark's Serper key and charges each
-   * search to your account, or your own key sent as the `x-bowmark-vendor-key-serper` header.
+   * every other Google operator, in about a second.
    */
   interface Unit {
     /**
@@ -53047,8 +53066,8 @@ interface SerperSearchResult {
      * url, snippet — with every Google operator honoured. `site:cal.com "Chris Field"` returns
      * only cal.com pages naming him (cal.com/analytics/quick-chat among them), which is how to
      * find a page on one site by any words printed on it. An empty `results` is Google matching
-     * nothing. Uses Bowmark's Serper key and charges each search to your account; send your own
-     * key as the `x-bowmark-vendor-key-serper` header to spend your own credits instead.
+     * nothing. Which key serves the call, and who is charged, is in this provider's key note
+     * above; your own goes in the `x-bowmark-vendor-key-serper` header.
      */
     searchGoogle(query: string, opts?: SerperSearchOptions): Promise<SerperSearchResult>;
   }
