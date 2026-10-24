@@ -2556,7 +2556,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ibuypower.searchGear` | ibuypower.com | Searches the Gear Store — peripherals, components and accessories sold loose rather… | ⚪ |
 | `idealista.contactAdvertiser` | idealista.com | Sends the listing's contact form to the advertiser. | ⚪ |
 | `idealista.getListing` | idealista.com | Reads one listing's full page — every photo, the full description, features, energy… | ⚪ |
-| `idealista.search` | idealista.com | Searches homes for rent or for sale in Spain from plain words or a location path… | 🟢 |
+| `idealista.search` | idealista.com | Searches homes for rent or for sale in Spain from plain words or a location path… | 🟡 |
 | `idealista.searchRooms` | idealista.com | Searches rooms to share (alquiler-habitacion) rather than whole homes. | ⚪ |
 | `identitygroup.getSign` | identitygroup.com | Reads one sign product's full page: every mount-option variant, each with its own real… | 🟡 |
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟡 |
