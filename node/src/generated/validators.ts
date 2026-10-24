@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a8df492c1e1649f20f7e4a03a3fde00e2d9ed64ca6030eef57cf6f422ea21a1a
-// 2586 checked, 20 unchecked.
+// Manifest version: 656c01ec60a337b83da27eddd67e85d1ca63dc41765151c7023804faff345946
+// 2594 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a8df492c1e1649f20f7e4a03a3fde00e2d9ed64ca6030eef57cf6f422ea21a1a",
+  "version": "656c01ec60a337b83da27eddd67e85d1ca63dc41765151c7023804faff345946",
   "units": {
     "address_validation": {
       "defs": {
@@ -21259,6 +21259,74 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getUserFavourites": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "folderId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getUserPosts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getDailyDeviations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "date",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "suggestTags": [
           {
             "name": "args",
@@ -41355,6 +41423,88 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "acceptInvitation": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "invitation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "sharedSecret",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "ignoreInvitation": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "invitation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "sharedSecret",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "login": [
           {
             "name": "creds",
@@ -50999,51 +51149,26 @@ export const VALIDATORS: ValidatorTable = {
           "k": "object",
           "props": [
             {
-              "name": "game",
+              "name": "guesses",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
               "schema": {
                 "k": "string"
               },
-              "optional": false
+              "optional": true
             },
             {
-              "name": "gameData",
+              "name": "hardMode",
               "schema": {
-                "k": "any"
-              },
-              "optional": false
-            },
-            {
-              "name": "puzzleId",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
-            },
-            {
-              "name": "printDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "schemaVersion",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
-            },
-            {
-              "name": "userId",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "timestamp",
-              "schema": {
-                "k": "number"
+                "k": "boolean"
               },
               "optional": true
             }
@@ -73579,6 +73704,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchNewsArgs": {
           "k": "object",
           "props": [
@@ -73660,7 +73797,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listVideos": []
+        "listVideos": [],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.usps": {
@@ -74383,13 +74530,99 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.walla": {
-      "defs": {},
+      "defs": {
+        "ListClassesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "locationIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "instructorIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "search",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "findStudio": [
           {
             "name": "studioRef",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLocationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listClasses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListClassesArgs"
             },
             "optional": false
           }

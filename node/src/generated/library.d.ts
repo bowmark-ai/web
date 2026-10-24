@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a8df492c1e1649f20f7e4a03a3fde00e2d9ed64ca6030eef57cf6f422ea21a1a
-// 87 capabilities, 644 providers, 2604 typed functions, 20 refused.
+// Manifest version: 656c01ec60a337b83da27eddd67e85d1ca63dc41765151c7023804faff345946
+// 87 capabilities, 644 providers, 2612 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21149,6 +21149,38 @@ interface DeviantartCommentThread {
   nextCursor?: string;
 }
 
+interface DeviantartPost {
+  deviationId: string;
+  type?: string;
+  title?: string;
+  url?: string;
+  publishedTime?: string;
+  excerpt?: string;
+  isMature?: boolean;
+  author?: { username?: string; usericon?: string };
+  stats?: { views?: number; favourites?: number; comments?: number; downloads?: number };
+}
+
+interface DeviantartPostsResult {
+  total: number;
+  counters?: { all?: number; journals?: number; polls?: number; statuses?: number };
+  hasMore: boolean;
+  results: DeviantartPost[];
+}
+
+interface DeviantartDailyDeviation {
+  deviationId: string;
+  title: string;
+  url?: string;
+  author?: { username?: string; usericon?: string };
+  mediaUrl?: string;
+  stats?: { views?: number; favourites?: number; comments?: number; downloads?: number };
+}
+
+interface DeviantartDailyDeviationsResult {
+  results: DeviantartDailyDeviation[];
+}
+
   /**
    * DeviantArt artwork — search deviations, read one with its comments, browse a tag or the
    * Daily Deviations, and pull an artist's profile, gallery, favourites and posts; once a caller
@@ -21189,6 +21221,30 @@ interface DeviantartCommentThread {
      * — so a caller can pass one folderId to getUserGallery.
      */
     listGalleryFolders(args: { username: string; offset?: number }): Promise<DeviantartGalleryFolderList>;
+
+    /**
+     * Lists the deviations an artist has favourited — every public Favourites collection, or one
+     * collection folder when folderId is given — with each deviation's id, title, url, author,
+     * published time and stats, 24 at a time via offset/nextOffset. A premium or watchers-only
+     * collection reports `locked` instead of rows.
+     */
+    getUserFavourites(args: { username: string; folderId?: string; offset?: number }): Promise<DeviantartGalleryResult>;
+
+    /**
+     * Lists an artist's posts from their Posts tab — journals, status updates and polls — each
+     * with its type, title (journals/polls only), url, published time, plain-text excerpt and
+     * stats. The site's own door always answers its first page (measured 2026-10-24: offset, limit
+     * and type had no effect), so this returns only the most recent ~12 posts; total and hasMore
+     * are reported as the site states them.
+     */
+    getUserPosts(args: { username: string }): Promise<DeviantartPostsResult>;
+
+    /**
+     * Lists the Daily Deviations — the artworks DeviantArt's staff feature — for today when date
+     * is omitted, or for one day ("YYYY-MM-DD"). Each result carries its id, title, url, author
+     * and stats, in the site's own display order.
+     */
+    getDailyDeviations(args: { date?: string }): Promise<DeviantartDailyDeviationsResult>;
 
     /**
      * Autocompletes a partial tag ("lands" → landscape, landscapephotography …) the way
@@ -38717,6 +38773,30 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
     withdrawInvitation(invitation: string, opts?: ConnectionOption): Promise<{ withdrawn: true }>;
 
     /**
+     * Accepts a connection invitation the caller received, by the id and sharedSecret
+     * listInvitations returned. Signed in: acts as the caller's own LinkedIn account; with no
+     * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
+     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
+     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
+     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+     * first.
+     */
+    acceptInvitation(input: { invitation: string; sharedSecret: string }, opts?: ConnectionOption): Promise<{ accepted: true }>;
+
+    /**
+     * Ignores a connection invitation the caller received, without telling the sender, by the id
+     * and sharedSecret listInvitations returned. Signed in: acts as the caller's own LinkedIn
+     * account; with no saved sign-in the run pauses and hands back a link where they sign in.
+     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
+     */
+    ignoreInvitation(input: { invitation: string; sharedSecret: string }, opts?: ConnectionOption): Promise<{ ignored: true }>;
+
+    /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
      * never replacing an existing login, unless `connection` names an existing id to sign back in
      * to (its cookies replaced, its id and settings kept, a logged-out one revived). The returned
@@ -46141,8 +46221,8 @@ interface SportsConnectionsCard { content: string; position: number; }
 interface SportsConnectionsCategory { title: string; cards: SportsConnectionsCard[]; }
 interface NytSportsConnections { id: string; printDate: string; categories: SportsConnectionsCategory[]; difficulty: number | null; editor: string | null; hintUrl: string | null; }
 interface GetSportsConnectionsArgs { date?: string; edition?: "sports-connections" | "soccer-connections"; }
-interface SaveWordleGameArgs { game: string; gameData: unknown; puzzleId: number; printDate: string; schemaVersion: number; userId: string; timestamp?: number; }
-interface SaveWordleGameResult { response: unknown; }
+interface SaveWordleGameArgs { guesses: string[]; date?: string; hardMode?: boolean; }
+interface SaveWordleGameResult { status: "WIN" | "FAIL" | "IN_PROGRESS"; version: unknown; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -46250,9 +46330,10 @@ interface SaveWordleGameResult { response: unknown; }
     getSportsConnections(args?: GetSportsConnectionsArgs): Promise<NytSportsConnections>;
 
     /**
-     * Saves the signed-in caller's played Wordle game state, the write that makes it count toward
-     * their streak. Requires the caller to be signed in to NYT — the run pauses for a login the
-     * first time this is called.
+     * Saves a played Wordle — just the guesses — so it counts toward the signed-in caller's
+     * streak. Requires the caller to be signed in to NYT — the run pauses for a login the first
+     * time this is called. Pass { guesses: ["CRANE", "SLOTH", "PIGMY"] }; add { date: "YYYY-MM-DD"
+     * } for a missed day caught up from the archive.
      */
     saveWordleGame(args: SaveWordleGameArgs, opts?: ConnectionOption): Promise<SaveWordleGameResult>;
   }
@@ -63265,7 +63346,8 @@ interface usatodayVideo {
 }
 
 interface GetVideoArgs {
-  id: string;
+  /** The `url` of a listVideos row, verbatim — the id alone cannot reach a video. */
+  url: string;
 }
 
 interface usatodayVideoDetail {
@@ -63274,9 +63356,11 @@ interface usatodayVideoDetail {
   description?: string;
   url: string;
   thumbnailUrl?: string;
+  /** ISO 8601 duration as the page publishes it, e.g. `PT40S`. */
   duration?: string;
   publishDate?: string;
-  transcript?: string;
+  /** The video file itself (an mp4 on gannett-cdn.com), when the page names one. */
+  contentUrl?: string;
 }
 
   /** USA Today news site — articles, sections, search, sports scores and puzzles. */
@@ -63334,6 +63418,12 @@ interface usatodayVideoDetail {
      * and publish date. Duration is not shown on the hub page.
      */
     listVideos(): Promise<usatodayVideo[]>;
+
+    /**
+     * Reads one USA Today video — given the url a listVideos row returns — returning its title,
+     * description, duration, publish date, thumbnail and video file URL.
+     */
+    getVideo(args: GetVideoArgs): Promise<usatodayVideoDetail>;
   }
 }
 
@@ -64232,6 +64322,75 @@ interface WallaStudio {
   };
 }
 
+interface WallaLocation {
+  id: number;
+  name: string;
+  slug: string;
+  isDefault: boolean;
+  timezone: string;
+  email: string | null;
+  phone: string | null;
+  websiteUrl: string | null;
+  address: {
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    region: string | null;
+    postalCode: string | null;
+    country: string | null;
+    latitude: number | null;
+    longitude: number | null;
+  };
+  hours: { day: string; opens: string; closes: string }[];
+  rooms: { id: number; name: string; capacity: number | null }[];
+  amenities: string[];
+}
+
+interface ListLocationsArgs {
+  studio: string;
+}
+
+interface WallaLocationList {
+  locations: WallaLocation[];
+  warnings: string[];
+}
+
+interface WallaClass {
+  id: number;
+  name: string;
+  start: string;
+  end: string;
+  durationMins: number;
+  instructor: { id: number; name: string } | null;
+  location: { id: number; name: string } | null;
+  room: string | null;
+  capacity: number | null;
+  booked: number;
+  spotsLeft: number | null;
+  waitlisted: number;
+  waitlistable: boolean;
+  inPerson: boolean;
+  livestream: boolean;
+  dropInPrice: number | null;
+  memberPrice: number | null;
+  creditCost: number | null;
+  currency: string | null;
+}
+
+interface ListClassesArgs {
+  studio: string;
+  from: string;
+  to?: string;
+  locationIds?: number[];
+  instructorIds?: number[];
+  search?: string;
+}
+
+interface WallaClassList {
+  classes: WallaClass[];
+  warnings: string[];
+}
+
   /**
    * Walla studio booking widgets (yoga, pilates, sound baths): find a studio from its website,
    * read its locations, class schedule, pricing, private sessions and workshops, and (signed in)
@@ -64244,6 +64403,20 @@ interface WallaStudio {
      * studio's name, slug, time zone, currency and booking rules.
      */
     findStudio(studioRef: string): Promise<WallaStudio>;
+
+    /**
+     * Lists a studio's locations: id, name, street address, coordinates, phone, email, opening
+     * hours, rooms and time zone. A location id narrows listClasses to one studio location.
+     */
+    listLocations(args: ListLocationsArgs): Promise<WallaLocationList>;
+
+    /**
+     * Lists a studio's class schedule for a date range (default 7 days), optionally narrowed to
+     * locations, instructors or a search term: each class's id, name, start and end, instructor,
+     * location, room, capacity, booked, spots left, waitlist, drop-in price and credit cost, and
+     * whether it is also on livestream.
+     */
+    listClasses(args: ListClassesArgs): Promise<WallaClassList>;
   }
 }
 

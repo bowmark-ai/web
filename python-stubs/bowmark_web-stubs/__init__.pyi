@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a8df492c1e1649f20f7e4a03a3fde00e2d9ed64ca6030eef57cf6f422ea21a1a
-# 87 capabilities, 644 providers, 2586 typed functions, 20 refused.
+# Manifest version: 656c01ec60a337b83da27eddd67e85d1ca63dc41765151c7023804faff345946
+# 87 capabilities, 644 providers, 2594 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12010,6 +12010,71 @@ class Prv_deviantart_DeviantartGalleryFolder_Out(TypedDict):
     parentId: NotRequired[str]
     coverUrl: NotRequired[str]
 
+class Prv_deviantart_getUserFavourites_args_In(TypedDict):
+    username: str
+    folderId: NotRequired[str]
+    offset: NotRequired[float]
+
+class Prv_deviantart_getUserPosts_args_In(TypedDict):
+    username: str
+
+class Prv_deviantart_DeviantartPostsResult_Out(TypedDict):
+    total: float
+    counters: NotRequired[Prv_deviantart_DeviantartPostsResult_Out_counters_Out]
+    hasMore: bool
+    results: list[Prv_deviantart_DeviantartPost_Out]
+
+class Prv_deviantart_DeviantartPostsResult_Out_counters_Out(TypedDict):
+    all: NotRequired[float]
+    journals: NotRequired[float]
+    polls: NotRequired[float]
+    statuses: NotRequired[float]
+
+class Prv_deviantart_DeviantartPost_Out(TypedDict):
+    deviationId: str
+    type: NotRequired[str]
+    title: NotRequired[str]
+    url: NotRequired[str]
+    publishedTime: NotRequired[str]
+    excerpt: NotRequired[str]
+    isMature: NotRequired[bool]
+    author: NotRequired[Prv_deviantart_DeviantartPost_Out_author_Out]
+    stats: NotRequired[Prv_deviantart_DeviantartPost_Out_stats_Out]
+
+class Prv_deviantart_DeviantartPost_Out_author_Out(TypedDict):
+    username: NotRequired[str]
+    usericon: NotRequired[str]
+
+class Prv_deviantart_DeviantartPost_Out_stats_Out(TypedDict):
+    views: NotRequired[float]
+    favourites: NotRequired[float]
+    comments: NotRequired[float]
+    downloads: NotRequired[float]
+
+class Prv_deviantart_getDailyDeviations_args_In(TypedDict):
+    date: NotRequired[str]
+
+class Prv_deviantart_DeviantartDailyDeviationsResult_Out(TypedDict):
+    results: list[Prv_deviantart_DeviantartDailyDeviation_Out]
+
+class Prv_deviantart_DeviantartDailyDeviation_Out(TypedDict):
+    deviationId: str
+    title: str
+    url: NotRequired[str]
+    author: NotRequired[Prv_deviantart_DeviantartDailyDeviation_Out_author_Out]
+    mediaUrl: NotRequired[str]
+    stats: NotRequired[Prv_deviantart_DeviantartDailyDeviation_Out_stats_Out]
+
+class Prv_deviantart_DeviantartDailyDeviation_Out_author_Out(TypedDict):
+    username: NotRequired[str]
+    usericon: NotRequired[str]
+
+class Prv_deviantart_DeviantartDailyDeviation_Out_stats_Out(TypedDict):
+    views: NotRequired[float]
+    favourites: NotRequired[float]
+    comments: NotRequired[float]
+    downloads: NotRequired[float]
+
 class Prv_deviantart_suggestTags_args_In(TypedDict):
     query: str
 
@@ -21487,6 +21552,20 @@ class Prv_linkedin_sendConnectionRequest_return_Out(TypedDict):
 class Prv_linkedin_withdrawInvitation_return_Out(TypedDict):
     withdrawn: Literal[True]
 
+class Prv_linkedin_acceptInvitation_input_In(TypedDict):
+    invitation: str
+    sharedSecret: str
+
+class Prv_linkedin_acceptInvitation_return_Out(TypedDict):
+    accepted: Literal[True]
+
+class Prv_linkedin_ignoreInvitation_input_In(TypedDict):
+    invitation: str
+    sharedSecret: str
+
+class Prv_linkedin_ignoreInvitation_return_Out(TypedDict):
+    ignored: Literal[True]
+
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -25516,16 +25595,13 @@ class Prv_nyt_games_SportsConnectionsCard_Out(TypedDict):
     position: float
 
 class Prv_nyt_games_SaveWordleGameArgs_In(TypedDict):
-    game: str
-    gameData: Any
-    puzzleId: float
-    printDate: str
-    schemaVersion: float
-    userId: str
-    timestamp: NotRequired[float]
+    guesses: Sequence[str]
+    date: NotRequired[str]
+    hardMode: NotRequired[bool]
 
 class Prv_nyt_games_SaveWordleGameResult_Out(TypedDict):
-    response: Any
+    status: Literal["WIN"] | Literal["FAIL"] | Literal["IN_PROGRESS"]
+    version: Any
 
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
@@ -35996,6 +36072,19 @@ class Prv_usatoday_usatodayVideo_Out(TypedDict):
     duration: NotRequired[str]
     publishDate: NotRequired[str]
 
+class Prv_usatoday_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_usatoday_usatodayVideoDetail_Out(TypedDict):
+    id: str
+    title: str
+    description: NotRequired[str]
+    url: str
+    thumbnailUrl: NotRequired[str]
+    duration: NotRequired[str]
+    publishDate: NotRequired[str]
+    contentUrl: NotRequired[str]
+
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
     toZip: str
@@ -36535,6 +36624,92 @@ class Prv_walla_WallaStudio_Out_bookingRules_Out(TypedDict):
     allowWaitlist: bool
     allowLivestream: bool
     bookingWindowDays: float
+
+class Prv_walla_ListLocationsArgs_In(TypedDict):
+    studio: str
+
+class Prv_walla_WallaLocationList_Out(TypedDict):
+    locations: list[Prv_walla_WallaLocation_Out]
+    warnings: list[str]
+
+class Prv_walla_WallaLocation_Out(TypedDict):
+    id: float
+    name: str
+    slug: str
+    isDefault: bool
+    timezone: str
+    email: str | None
+    phone: str | None
+    websiteUrl: str | None
+    address: Prv_walla_WallaLocation_Out_address_Out
+    hours: list[Prv_walla_WallaLocation_Out_hours_item_Out]
+    rooms: list[Prv_walla_WallaLocation_Out_rooms_item_Out]
+    amenities: list[str]
+
+class Prv_walla_WallaLocation_Out_address_Out(TypedDict):
+    line1: str | None
+    line2: str | None
+    city: str | None
+    region: str | None
+    postalCode: str | None
+    country: str | None
+    latitude: float | None
+    longitude: float | None
+
+class Prv_walla_WallaLocation_Out_hours_item_Out(TypedDict):
+    day: str
+    opens: str
+    closes: str
+
+class Prv_walla_WallaLocation_Out_rooms_item_Out(TypedDict):
+    id: float
+    name: str
+    capacity: float | None
+
+Prv_walla_ListClassesArgs_In = TypedDict(
+    "Prv_walla_ListClassesArgs_In",
+    {
+    "studio": str,
+    "from": str,
+    "to": NotRequired[str],
+    "locationIds": NotRequired[Sequence[float]],
+    "instructorIds": NotRequired[Sequence[float]],
+    "search": NotRequired[str],
+    },
+)
+
+class Prv_walla_WallaClassList_Out(TypedDict):
+    classes: list[Prv_walla_WallaClass_Out]
+    warnings: list[str]
+
+class Prv_walla_WallaClass_Out(TypedDict):
+    id: float
+    name: str
+    start: str
+    end: str
+    durationMins: float
+    instructor: Prv_walla_WallaClass_Out_instructor_u0_Out | None
+    location: Prv_walla_WallaClass_Out_location_u0_Out | None
+    room: str | None
+    capacity: float | None
+    booked: float
+    spotsLeft: float | None
+    waitlisted: float
+    waitlistable: bool
+    inPerson: bool
+    livestream: bool
+    dropInPrice: float | None
+    memberPrice: float | None
+    creditCost: float | None
+    currency: str | None
+
+class Prv_walla_WallaClass_Out_instructor_u0_Out(TypedDict):
+    id: float
+    name: str
+
+class Prv_walla_WallaClass_Out_location_u0_Out(TypedDict):
+    id: float
+    name: str
 
 class Prv_walmart_search_args_In(TypedDict):
     query: str
@@ -47178,6 +47353,27 @@ class Prv_deviantart(Protocol):
         image — so a caller can pass one folderId to getUserGallery.
         """
 
+    async def getUserFavourites(self, args: Prv_deviantart_getUserFavourites_args_In, /) -> Prv_deviantart_DeviantartGalleryResult_Out:
+        """Lists the deviations an artist has favourited — every public Favourites collection, or
+        one collection folder when folderId is given — with each deviation's id, title, url,
+        author, published time and stats, 24 at a time via offset/nextOffset. A premium or
+        watchers-only collection reports `locked` instead of rows.
+        """
+
+    async def getUserPosts(self, args: Prv_deviantart_getUserPosts_args_In, /) -> Prv_deviantart_DeviantartPostsResult_Out:
+        """Lists an artist's posts from their Posts tab — journals, status updates and polls — each
+        with its type, title (journals/polls only), url, published time, plain-text excerpt and
+        stats. The site's own door always answers its first page (measured 2026-10-24: offset,
+        limit and type had no effect), so this returns only the most recent ~12 posts; total and
+        hasMore are reported as the site states them.
+        """
+
+    async def getDailyDeviations(self, args: Prv_deviantart_getDailyDeviations_args_In, /) -> Prv_deviantart_DeviantartDailyDeviationsResult_Out:
+        """Lists the Daily Deviations — the artworks DeviantArt's staff feature — for today when
+        date is omitted, or for one day ("YYYY-MM-DD"). Each result carries its id, title, url,
+        author and stats, in the site's own display order.
+        """
+
     async def suggestTags(self, args: Prv_deviantart_suggestTags_args_In, /) -> Prv_deviantart_suggestTags_return_Out:
         """Autocompletes a partial tag ("lands" → landscape, landscapephotography …) the way
         DeviantArt's search box does, returning tag names browseTag accepts.
@@ -53832,6 +54028,28 @@ class Prv_linkedin(Protocol):
         faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
+    async def acceptInvitation(self, input: Prv_linkedin_acceptInvitation_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_acceptInvitation_return_Out:
+        """Accepts a connection invitation the caller received, by the id and sharedSecret
+        listInvitations returned. Signed in: acts as the caller's own LinkedIn account; with no
+        saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
+        """
+
+    async def ignoreInvitation(self, input: Prv_linkedin_ignoreInvitation_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_ignoreInvitation_return_Out:
+        """Ignores a connection invitation the caller received, without telling the sender, by the
+        id and sharedSecret listInvitations returned. Signed in: acts as the caller's own
+        LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
+        sign in. Paced per LinkedIn account across runs so it never looks automated — 6 requests
+        a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -56354,9 +56572,10 @@ class Prv_nyt_games(Protocol):
         """
 
     async def saveWordleGame(self, args: Prv_nyt_games_SaveWordleGameArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_SaveWordleGameResult_Out:
-        """Saves the signed-in caller's played Wordle game state, the write that makes it count
-        toward their streak. Requires the caller to be signed in to NYT — the run pauses for a
-        login the first time this is called.
+        """Saves a played Wordle — just the guesses — so it counts toward the signed-in caller's
+        streak. Requires the caller to be signed in to NYT — the run pauses for a login the
+        first time this is called. Pass { guesses: ["CRANE", "SLOTH", "PIGMY"] }; add { date:
+        "YYYY-MM-DD" } for a missed day caught up from the archive.
         """
 
 class Prv_nytimes(Protocol):
@@ -62307,6 +62526,11 @@ class Prv_usatoday(Protocol):
         URL and publish date. Duration is not shown on the hub page.
         """
 
+    async def getVideo(self, args: Prv_usatoday_GetVideoArgs_In, /) -> Prv_usatoday_usatodayVideoDetail_Out:
+        """Reads one USA Today video — given the url a listVideos row returns — returning its
+        title, description, duration, publish date, thumbnail and video file URL.
+        """
+
 class Prv_usps(Protocol):
     """USPS's own Retail Postage Price Calculator (postcalc.usps.com) — prices a domestic
     package across every USPS Mail Service that quotes it for a ZIP-to-ZIP move, weight and
@@ -62634,6 +62858,18 @@ class Prv_walla(Protocol):
         """Finds a Walla studio from its own website (the page that embeds the Walla schedule) or
         its Walla integration id, returning the integration id every other function takes, plus
         the studio's name, slug, time zone, currency and booking rules.
+        """
+
+    async def listLocations(self, args: Prv_walla_ListLocationsArgs_In, /) -> Prv_walla_WallaLocationList_Out:
+        """Lists a studio's locations: id, name, street address, coordinates, phone, email, opening
+        hours, rooms and time zone. A location id narrows listClasses to one studio location.
+        """
+
+    async def listClasses(self, args: Prv_walla_ListClassesArgs_In, /) -> Prv_walla_WallaClassList_Out:
+        """Lists a studio's class schedule for a date range (default 7 days), optionally narrowed
+        to locations, instructors or a search term: each class's id, name, start and end,
+        instructor, location, room, capacity, booked, spots left, waitlist, drop-in price and
+        credit cost, and whether it is also on livestream.
         """
 
 class Prv_walmart(Protocol):
