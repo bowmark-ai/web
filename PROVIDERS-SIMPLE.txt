@@ -108,6 +108,7 @@ bookeo.com — bookeo: bookSlot, buyGiftVoucher, cancelBooking, checkGiftVoucher
 booker.com — booker: book, buyGiftCertificate, buyMembership, buySeries, cancelAppointment, cancelMembership, confirmAppointment, findLocation, getAvailability, getAvailableDates, getBookingPolicies, getGroupAvailability, getLocationHours, getMultiServiceAvailability, getMyProfile, getService, getServiceMenu, getSpecial, listBrandLocations, listGiftCertificates, listMemberships, listMyAppointments, listMyMemberships, listMySeries, listPackages, listSeries, listStaff, requestAppointment, searchLocations, updateMyProfile
 booking.andstr.com — andstr: getListing, getQuote, search
 booking.com — booking_com: addToWishlist, autocompleteDestination, checkPrice, getAccountProfile, getBooking, getProperty, getReviewBreakdown, listAvailability, listBookings, listFilterOptions, listMyReviews, listPropertyPhotos, listPropertyReviews, listSavedPaymentMethods, listWishlist, removeFromWishlist, search, writeReview
+booking.mangomint.com — mangomint: bookAppointment, buyGiftCard, buyMembership, buyPackage, cancelAppointment, checkAvailability, findBusiness, getAppointment, getBusinessInfo, getService, getStaff, joinWaitlist, listLocations, listMemberships, listMyAppointments, listPackages, listPastServices, listServiceCategories, listServices, listStaff, rescheduleAppointment, validateSlot
 booksy.com — booksy: addFavorite, bookAppointment, buyGiftCard, cancelAppointment, getAvailability, getBookingQuote, getBusiness, getBusinessContact, getBusinessNetwork, getBusinessPhotos, getBusinessReviews, getMyAppointment, getMyProfile, getSearchSuggestions, joinWaitlist, listCategories, listFavorites, listGiftCardOffers, listMyBookings, listMyGiftCards, payForAppointment, removeFavorite, rescheduleAppointment, resolveLocation, searchBusinesses, sendMessageToBusiness, updateMyProfile, writeReview
 borsheims.com — borsheims: configureRing, getProduct, searchProducts
 boxlunch.com — boxlunch: search
@@ -159,6 +160,7 @@ chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
 chatgpt.com — chatgpt: archiveConversation, ask, browseGPTStore, createGPT, createProject, deleteConversation, deleteMemory, deleteScheduledTask, deleteSharedLink, generateImage, getAccount, getConversation, getCustomInstructions, getGPT, getMemories, getProject, getSharedConversation, listConversations, listLibraryImages, listModels, listMyGPTs, listProjects, listScheduledTasks, listSharedLinks, moveConversationToProject, pinGPT, rateResponse, renameConversation, requestDataExport, searchConversations, searchGPTs, sendMessage, shareConversation, updateCustomInstructions, uploadFile
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
+checkfront.com — checkfront: addToCart, bookItems, buyGiftCertificate, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart
 chesmar.com — chesmar: searchQuickMoveInHomes
 chipotle.com — chipotle: getBowlBuilder
 chownow.com — chownow: findRestaurant, getMenu, getMenuItem, getOrderDetails, getPickupTimes, getRestaurant, getRestaurantHours, getRewardsBalance, listMenuCategories, listMenuItems, listOrders, listRestaurants, listSavedPaymentMethods, validateOrder
@@ -173,6 +175,7 @@ claude.com — claude_com: getDoc, listDocPages
 claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
 clboyd.com — clboyd: searchUsedEquipment
 cleanairlawncare.com — cleanairlawncare: checkServiceArea, getAvailableSlots, submitEstimateRequest
+cloudbeds.com — cloudbeds: bookRoom, findProperty, getAvailabilityCalendar, getBookingQuote, getOrganization, getPolicies, getProperty, getReservation, getRoomType, listAddons, payDeposit, searchOrganizationAvailability, searchRooms
 cloudflare.com — cloudflare: comparePlans, compareTeamsPlans, getDomainPricing, searchDomainAvailability
 clubchampion.com — clubchampion: checkAvailability, getFittings, listFitters, listStudios
 clubpilates.com — clubpilates: bookClass, buyPackage, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, joinWaitlist, listClassCategories, listClasses, listClassTypes, listInstructors, listMyBookings, listPricing, updateProfile
@@ -257,6 +260,7 @@ facebook.com — facebook: commentOnPost, followPage, getConversation, getEventD
 faceforwardaesthetics.com — faceforwardaesthetics: checkAvailability, listLocations, listServices
 facerealityskincare.com — facerealityskincare: searchAcneExperts
 fandom.com — fandom: createPage, editPage, findWiki, getArticle, getCurrentUser, getDiscussionPost, getImage, getInfobox, getRevision, getSection, getSections, getSummary, getUser, getWikiInfo, getWikitext, listBacklinks, listCategories, listCategoryMembers, listDiscussionPosts, listExternalLinks, listImages, listLinks, listRecentChanges, listRevisions, listUserContributions, listWatchlist, postDiscussionPost, search, suggestTitles, undoRevision, unwatchPage, watchPage
+fareharbor.com — fareharbor: cancelBooking, createBooking, getAvailabilitySlot, getBooking, getItem, listAvailability, listOperators, searchItems
 fbsappliance.com — fbsappliance: getProductDetails, searchAppliances
 fedex.com — fedex: getRate
 ferguson.com — ferguson: findBranches, findProducts, getProduct
@@ -294,6 +298,7 @@ github.com — github: createComment, createIssue, createPullRequest, createRevi
 glama.ai — glama: search
 glassesusa.com — glassesusa: getProduct, search
 glofox.com — glofox: bookClass, bookCourse, bookFacilitySlot, bookTrainerSlot, buyMembership, cancelBooking, cancelMembership, changePassword, findStudio, getClass, getMyProfile, getPrice, getStudio, joinWaitlist, listAppointmentTypes, listClasses, listClassTypes, listCourses, listFacilities, listFacilitySlots, listLinkedAccounts, listMemberships, listMyBookings, listMyCredits, listMyMemberships, listMyTransactions, listTrainers, listTrainerSlots, pauseMembership, updateMyProfile
+glossgenius.com — glossgenius: bookAppointment, buyGiftCard, buyPackageOrMembership, cancelAppointment, cancelMyMembership, confirmAppointment, findBusiness, getAppointment, getAvailability, getBookingRequirements, getBusiness, getGiftCardOptions, getMyProfile, getWaitlistEntry, getWalkInStatus, joinWaitlist, leaveReview, listLocations, listMemberships, listMyCards, listMyMemberships, listMyOrders, listPackages, listReviews, listServices, listTeam, payInvoice, rescheduleAppointment, sendContactMessage, submitIntakeForm, updateMyProfile
 gobrightwing.com — gobrightwing: getJobDetails, listLocations, listWorkTypes, searchJobs
 gokenko.com — kenko: bookAppointment, bookClass, buyPricingOption, cancelBooking, cancelMembership, findStudio, getAppointmentAvailability, getClass, getClassSpots, getMyProfile, joinWaitlist, listAppointmentTypes, listClasses, listCourses, listGiftCards, listInstructors, listMyBookings, listMyMemberships, listMyPurchases, listPricing, listProducts, listScheduleFilters, listVideos, pauseMembership, setMarketingPreferences, setProfilePicture, updateMyProfile
 golf.com — golf_com: findCourses, getCourse
@@ -359,6 +364,7 @@ iyc.com — iyc: checkCharterAvailability, searchCharterYachts
 jasminedilucci.com — jasmine_dilucci: getApplicationFormSchema
 jcrew.com — jcrew: addToCart, browseCategory, checkVariantStock, findStores, getCategory, getProduct, getProducts, listCategories, listProductReviews, listSearchRefinements, listSortOptions, searchProducts, startCheckout, suggestSearchTerms
 jennikayne.com — jennikayne: buildGiftCardLink, getGiftCardOptions
+joinblvd.com — boulevard: applyOfferCode, bookAppointment, buyGiftCard, cancelAppointment, cancelMembership, confirmAppointment, findBusiness, getAppointment, getAvailableDates, getAvailableTimes, getBusiness, getLocation, getMyProfile, getMyReferralCode, getRescheduleTimes, getServiceDetails, joinWaitlist, listBookingQuestions, listLocations, listMyAppointments, listMyConversations, listMyForms, listMyMemberships, listMyPaymentMethods, listMyUnpaidInvoices, listMyVouchers, listPackagesAndMemberships, listServices, listStaffForTime, pauseMembership, payInvoice, rateAppointment, rescheduleAppointment, reserveTime, sendMessage, submitForm, updateMyProfile
 joybird.com — joybird: getConfigurator, listConfigurators, priceConfigurator
 joycefactorydirect.com — joycefactorydirect: estimateWindowCost, getBathCalculatorOptions, getWindowCalculatorOptions
 junkluggers.com — junkluggers: createBooking, findFranchise, getAvailability, getServiceTypes
@@ -505,6 +511,7 @@ proxmox.com — proxmox: getIsoDownloads
 proxy-cheap.com — proxy_cheap: listCoverage, listPlans
 pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
 puls.com — puls_com: getRepairQuote, listApplianceCategories
+punchpass.com — punchpass: addChild, bookClass, bookClassAsGuest, cancelMembership, cancelReservation, findStudio, getCalendarFeed, getClass, getMyClassHistory, getMyProfile, getPass, getSchedule, getSeries, getStudio, joinStudio, joinWaitlist, leaveWaitlist, listAppointmentSlots, listInstructors, listMyChildren, listMyContentLibrary, listMyPasses, listMyReceipts, listMyReservations, listMyStudios, listMyWaivers, listPasses, listScheduleFilters, listSeries, moveReservation, signWaiver, updateMyProfile
 purevpn.com — purevpn: getDedicatedIp, getPlans
 pushpress.com — pushpress: bookAppointment, bookClass, buyAppointmentPackage, buyEventTicket, buyPlan, cancelBooking, getAppointmentAvailability, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyDocuments, listMyInvoices, listMyPlans, listPlans, payInvoice, signWaiver, updateProfile
 quickbooks.intuit.com — quickbooks: calculateEmployeeCost, calculatePaycheck, calculateSalesTax, contactAccountant, estimatePaymentFees, findAccountants, generateInvoice, getAccountant, getApp, getDesktopPlans, getEvent, getExpertPlans, getHelpArticle, getPaymentRates, getPayrollPlans, getPlans, getResourceArticle, getServiceStatus, getStatePayrollTaxes, getThread, getTimeTrackingPlans, listAppCategories, listAppReviews, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listResourceArticles, listTemplates, searchApps, searchCommunity, searchHelpArticles
@@ -597,7 +604,7 @@ teamtailor.com — teamtailor: listJobs
 teladochealth.com — teladoc: getArticle, getInsurancePricing, getPricing, search
 tenders.go.ke — tenders_go_ke: getTender, listTenders
 teneohg.com — teneohg: getMemberHotel, searchMemberHotels
-theguardian.com — theguardian_com: getArticle, getContributorArticles, getLiveBlog, getMostRead, getPhotoGallery, getReview, getSavedArticles, getTopicArticles, getVideo, listArticlesBySection, listBreakingNews, listContributors, listLiveBlogs, listNewsletters, listOpinionPieces, listPhotos, listReviews, listSections, listTopics, listVideos, searchArticles
+theguardian.com — theguardian_com: getArticle, getArticleComments, getContributorArticles, getCrossword, getFootballTable, getLiveBlog, getMostRead, getPhotoGallery, getReview, getSavedArticles, getTopicArticles, getVideo, listArticlesBySection, listBreakingNews, listContributors, listFootballMatches, listLiveBlogs, listNewsletters, listOpinionPieces, listPhotos, listReviews, listSections, listTopics, listVideos, searchArticles
 therabody.com — therabody: getTheragunProduct, listTheragunProducts, recommendTheragun
 therowhouse.com — therowhouse: getSchedule, listLocations
 thezebra.com — thezebra: estimateCoverageCost, getAutoQuotes, getCarrierRates, getCityRates, getCommercialAutoQuotes, getDiscounts, getHomeQuotes, getInsuranceStatistics, getLifeQuotes, getPetQuotes, getRatesByDriverProfile, getRentersQuotes, getRentersRates, getStateRates, getStateRequirements, getVehicleRates, listCarriers, listVehicles

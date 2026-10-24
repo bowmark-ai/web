@@ -6,6 +6,234 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.26.1 (2026-10-24)
+
+**Capabilities**
+
+- New capability **stock_photos** (1 function): `stock_photos.search`
+
+**Providers**
+
+- New provider **arketa.co** (4 functions): `arketa.findStudio`, `arketa.listClasses`, `arketa.listLocations`, `arketa.listScheduleFilters`
+- New provider **bedbathandbeyond.com** (1 function): `bedbathandbeyond.search`
+- New provider **mybobs.com** (1 function): `bobs.searchProducts`
+- New provider **canva.com** (1 function): `canva.searchTemplates`
+- New provider **dropbox.com** (1 function): `dropbox.getPlans`
+- New provider **reboot.floathelm.com** (1 function): `floathelm.findStudio`
+- New provider **gokenko.com** (3 functions): `kenko.findStudio`, `kenko.listClasses`, `kenko.listInstructors`
+- New provider **potterybarn.com** (1 function): `potterybarn.searchProducts`
+- New provider **pushpress.com** (1 function): `pushpress.getGym`
+- New provider **quickbooks.intuit.com** (2 functions): `quickbooks.getServiceStatus`, `quickbooks.listIncidents`
+- New provider **roblox.com** (1 function): `roblox.searchGames`
+- New provider **exploretock.com** (2 functions): `tock.findBusiness`, `tock.getBusiness`
+- New provider **tumblr.com** (1 function): `tumblr.findBlog`
+- New provider **unsplash.com** (1 function): `unsplash.search`
+- New provider **washingtonpost.com** (1 function): `washingtonpost.listSections`
+- New provider **westelm.com** (1 function): `westelm.searchProducts`
+- New provider **williams-sonoma.com** (1 function): `williams_sonoma.searchProducts`
+- Added `accuweather.getCurrentConditions`
+- Added `accuweather.getLocation`
+- Added `acuityscheduling.getAppointmentTypeDetails`
+- Added `acuityscheduling.listAppointmentTypes`
+- Added `acuityscheduling.listLocations`
+- Added `alibaba.getProductReviews`
+- Added `aol.listNewsletters`
+- Added `bluesky.getFeedInfo`
+- Added `booking_com.listAvailability`
+- Added `businessinsider_com.getVideo`
+- Added `ca_gov.getDepartmentContact`
+- Added `ca_gov.getService`
+- Added `ca_gov.searchServices`
+- Added `clubpilates.getClass`
+- Added `clubpilates.listClasses`
+- Added `corepoweryoga.getSchedule`
+- Added `corepoweryoga.listSchedules`
+- Added `dailymotion.searchPlaylists`
+- Added `duckduckgo.convertCurrency`
+- Added `duckduckgo.defineWord`
+- Added `duckduckgo.getInstantAnswer`
+- Added `duckduckgo.suggestQueries`
+- Added `ebay.getSellerProfile`
+- Added `epicgames.redeemCode`
+- Added `espn.getPlayer`
+- Added `espn.news`
+- Added `espn.search`
+- Added `espn.teamRoster`
+- Added `facebook.commentOnPost`
+- Added `facebook.followPage`
+- Added `facebook.getEventDetails`
+- Added `facebook.getGroupInfo`
+- Added `facebook.getGroupPosts`
+- Added `facebook.getMarketplaceListingDetails`
+- Added `facebook.getMarketplaceListings`
+- Added `facebook.getPagePosts`
+- Added `facebook.getPhotoAlbum`
+- Added `facebook.getPrivacySettings`
+- Added `facebook.getVideo`
+- Added `facebook.joinGroup`
+- Added `facebook.likePhoto`
+- Added `facebook.listEvents`
+- Added `facebook.listNotifications`
+- Added `facebook.listPhotos`
+- Added `facebook.postToGroup`
+- Added `facebook.postToPage`
+- Added `facebook.postToTimeline`
+- Added `facebook.reactToPost`
+- Added `facebook.replyToComment`
+- Added `facebook.savePost`
+- Added `facebook.searchGroups`
+- Added `facebook.searchPages`
+- Added `facebook.sharePost`
+- Added `facebook.updatePrivacySettings`
+- Added `facebook.updateProfile`
+- Added `fandom.getInfobox`
+- Added `fandom.getWikitext`
+- Added `fandom.listBacklinks`
+- Added `fandom.listLinks`
+- Added `foxnews.findAuthor`
+- Added `foxnews.getAuthor`
+- Added `foxnews.listSectionArticles`
+- Added `foxnews.listSections`
+- Added `github.createComment`
+- Added `github.deleteComment`
+- Added `github.updateComment`
+- Added `github.updateIssue`
+- Added `github.updatePullRequest`
+- Added `goodreads.getAuthor`
+- Added `linkedin.commentOnPost`
+- Added `linkedin.createPost`
+- Added `linkedin.deleteComment`
+- Added `linkedin.deletePost`
+- Added `linkedin.getArticle`
+- Added `linkedin.getGroup`
+- Added `linkedin.getLearningCourse`
+- Added `linkedin.getSchool`
+- Added `linkedin.listAppliedJobs`
+- Added `linkedin.listFollowing`
+- Added `linkedin.listMemberPosts`
+- Added `linkedin.listMyGroups`
+- Added `linkedin.listNotifications`
+- Added `linkedin.listPostComments`
+- Added `linkedin.listSavedJobs`
+- Added `linkedin.listSavedPosts`
+- Added `linkedin.listSuggestedConnections`
+- Added `linkedin.reactToPost`
+- Added `linkedin.repostPost`
+- Added `linkedin.saveJob`
+- Added `linkedin.savePost`
+- Added `linkedin.searchGroups`
+- Added `linkedin.searchLearningCourses`
+- Added `linkedin.searchServiceProviders`
+- Added `marianatek.bookAppointment`
+- Added `marianatek.bookClass`
+- Added `marianatek.cancelMembership`
+- Added `marianatek.cancelReservation`
+- Added `marianatek.changeSpot`
+- Added `marianatek.checkIn`
+- Added `marianatek.getMyAccount`
+- Added `marianatek.getMyReservation`
+- Added `marianatek.getMyStats`
+- Added `marianatek.joinWaitlist`
+- Added `marianatek.listAppointmentCategories`
+- Added `marianatek.listAppointmentPaymentOptions`
+- Added `marianatek.listAppointmentServices`
+- Added `marianatek.listAppointmentSlots`
+- Added `marianatek.listClassPaymentOptions`
+- Added `marianatek.listMyAppointments`
+- Added `marianatek.listMyCredits`
+- Added `marianatek.listMyMemberships`
+- Added `marianatek.listMyOrders`
+- Added `marianatek.listMyReservations`
+- Added `marianatek.listMyWaivers`
+- Added `marianatek.listPricing`
+- Added `marianatek.redeemGiftCard`
+- Added `marianatek.setProfileImage`
+- Added `marianatek.updateCommunicationPreferences`
+- Added `marianatek.updateMyAccount`
+- Added `microsoft_outlook.deleteCalendarEvent`
+- Added `microsoft_outlook.deleteMail`
+- Added `microsoft_outlook.forwardMail`
+- Added `microsoft_outlook.moveMail`
+- Added `microsoft_outlook.replyToMail`
+- Added `microsoft_outlook.respondToEventInvite`
+- Added `microsoft_outlook.searchMail`
+- Added `microsoft_outlook.updateCalendarEvent`
+- Added `momence.bookSession`
+- Added `momence.getBookingOptions`
+- Added `momence.getCheckoutFields`
+- Added `momence.getSessionDetails`
+- Added `momence.getSessionPlans`
+- Added `momence.getSessions`
+- Added `momence.getSessionsByDate`
+- Added `momence.getSessionsByLocation`
+- Added `momence.getSessionsByTeacher`
+- Added `momence.getSessionTiers`
+- Added `momence.getUserInfo`
+- Added `momence.joinWaitlist`
+- Added `msn.getArticle`
+- Added `netflix.browseGenre`
+- Added `nhc.getForecastDiscussion`
+- Added `nhc.listSeasonStorms`
+- Added `nhc.listStormAdvisories`
+- Added `nhc.searchStorms`
+- Added `nintendo.browseCategory`
+- Added `nintendo.searchProducts`
+- Added `npr.listPodcastEpisodes`
+- Added `nyt_cooking.addToGroceryList`
+- Added `nyt_cooking.clearGroceryList`
+- Added `nyt_cooking.removeFromGroceryList`
+- Added `pausestudio.bookAppointment`
+- Added `paypal.getHelpArticle`
+- Added `paypal.searchShoppingOffers`
+- Added `resy.cancelBooking`
+- Added `resy.confirmBooking`
+- Added `resy.startBooking`
+- Added `reuters.getCompanyKeyMetrics`
+- Added `reuters.getCompanyProfile`
+- Added `safeway.listAisles`
+- Added `seatgeek.trackEvent`
+- Added `shop_app.getStoreReviews`
+- Added `shop_app.searchStore`
+- Added `snapchat.getProfile`
+- Added `snapchat.getSpotlightVideo`
+- Added `snapchat.listProfileStory`
+- Added `snapchat.listSpotlightFeed`
+- Added `spotify.getAlbum`
+- Added `spotify.getArtist`
+- Added `spotify.getPlaylist`
+- Added `spotify.getTrack`
+- Added `steam.getProfile`
+- Added `stubhub.findPerformers`
+- Added `stubhub.findVenues`
+- Added `sweathouz.listMemberships`
+- Added `theguardian_com.getArticleComments`
+- Added `theguardian_com.getCrossword`
+- Added `theguardian_com.getFootballTable`
+- Added `theguardian_com.listFootballMatches`
+- Added `tiktok.bookmarkVideo`
+- Added `tripadvisor.getRestaurant`
+- Added `ups.validateAddress`
+- Added `whatsapp.createClickToChatLink`
+- Added `whatsapp.getBlogPost`
+- Added `whatsapp.listBlogPosts`
+- Added `whatsapp.previewGroupInvite`
+- Added `wikipedia.createPage`
+- Added `wikipedia.editPage`
+- Added `wikipedia.listNotifications`
+- Added `wikipedia.postTalkMessage`
+- Added `wikipedia.thankUser`
+- Added `wikipedia.undoRevision`
+- Added `wikipedia.unwatchPage`
+- Added `wikipedia.watchPage`
+- Added `wodify.getClassDetails`
+- Added `x.listHomeFeed`
+- Added `yahoo_mail.sendMessage`
+- Added `youtube.deleteComment`
+- Removed `target.trackOrder`
+- Removed `usatoday.getVideo`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.26.0 (2026-10-20)
 
 **Providers**
