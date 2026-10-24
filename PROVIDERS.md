@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5594 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5615 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -5347,6 +5347,27 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `windscribe.getServerLocations` | windscribe.com | Windscribe's full shared VPN server-location list (windscribe.com/status). | ⚪ |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
+| `wix_bookings.bookAppointment` | www.wixapis.com | Books an appointment as a guest for a service at an open time, with the customer's… | ⚪ |
+| `wix_bookings.bookClass` | www.wixapis.com | Books a spot in a class session as a guest. | ⚪ |
+| `wix_bookings.cancelBooking` | www.wixapis.com | Cancels a guest booking from the manage-booking link Wix emails the customer. | ⚪ |
+| `wix_bookings.cancelMyBooking` | www.wixapis.com | Cancels one of the caller's bookings from the site's Members Area. | ⚪ |
+| `wix_bookings.findSite` | www.wixapis.com | Resolves what a caller has (a Wix business's website URL, a wixsite.com or… | ⚪ |
+| `wix_bookings.getBookingForm` | www.wixapis.com | Returns the details a business asks for when booking a service (name, email, phone… | ⚪ |
+| `wix_bookings.getMyProfile` | www.wixapis.com | Returns the caller's member profile on one Wix site: name, email, phone, photo. | ⚪ |
+| `wix_bookings.getOpenTimes` | www.wixapis.com | Returns the open appointment times for a service between two dates, with location… | ⚪ |
+| `wix_bookings.getService` | www.wixapis.com | Returns one service in full: description, price and payment options, duration, staff… | ⚪ |
+| `wix_bookings.listCategories` | www.wixapis.com | Lists the categories a business groups its services into. | ⚪ |
+| `wix_bookings.listClassSessions` | www.wixapis.com | Lists the scheduled sessions of a business's classes and courses between two dates… | ⚪ |
+| `wix_bookings.listLocations` | www.wixapis.com | Lists a business's locations with address, phone, email and time zone. | ⚪ |
+| `wix_bookings.listMyBookings` | www.wixapis.com | Lists the caller's upcoming and past bookings on one Wix site from its Members Area… | ⚪ |
+| `wix_bookings.listMyPlans` | www.wixapis.com | Lists the memberships and class packs the caller holds on one Wix site, with sessions… | ⚪ |
+| `wix_bookings.listPricingPlans` | www.wixapis.com | Lists the memberships and class packs a business sells for its services, with price… | ⚪ |
+| `wix_bookings.listServices` | www.wixapis.com | Lists a Wix business's bookable services: name, description, type (appointment, class… | ⚪ |
+| `wix_bookings.listStaff` | www.wixapis.com | Lists the staff a customer can book with at a business, with name, photo and the… | ⚪ |
+| `wix_bookings.rescheduleBooking` | www.wixapis.com | Moves a guest booking to another open time from the manage-booking link. | ⚪ |
+| `wix_bookings.rescheduleMyBooking` | www.wixapis.com | Moves one of the caller's bookings to another open time from the Members Area. | ⚪ |
+| `wix_bookings.searchServices` | www.wixapis.com | Finds a business's services by words, e.g. 'consultation' or 'beard trim'. | ⚪ |
+| `wix_bookings.updateMyProfile` | www.wixapis.com | Edits the caller's member profile on one Wix site, including the profile picture. | ⚪ |
 | `wodify.bookClass` | wodify.com | Book a member into an available class. | ⚪ |
 | `wodify.bookDropIn` | wodify.com | Book a single drop-in class without membership. | ⚪ |
 | `wodify.buyMembership` | wodify.com | Purchase a new membership or membership plan. | ⚪ |
