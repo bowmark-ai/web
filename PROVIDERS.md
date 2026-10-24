@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5066 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5110 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -549,6 +549,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bollandbranch.getCategoryOptions` | bollandbranch.com | Lists the real, currently-sellable products for one Virtual Bed Designer category… | 🟢 |
 | `bollandbranch.getSwatchDetails` | bollandbranch.com | Resolves color/fabric swatch names (as offered by getCategoryOptions) to their hex… | 🟢 |
 | `bollandbranch.renderBedPreview` | bollandbranch.com | Would render the Designer's own live combination preview (the stacked-bed visual for a… | ⚪ |
+| `bookedin.bookAppointment` | bookedin.com | Books an appointment as a guest with name, email, phone, and service selection. | ⚪ |
+| `bookedin.cancelAppointment` | bookedin.com | Cancels an existing appointment using a confirmation code or appointment ID. | ⚪ |
+| `bookedin.getAvailability` | bookedin.com | Retrieves available time slots for a service and optional staff member. | ⚪ |
+| `bookedin.getMerchant` | bookedin.com | Retrieves merchant information including name, address, phone, timezone, and service… | ⚪ |
+| `bookedin.listServices` | bookedin.com | Lists all services offered by the merchant with pricing, duration, and description. | ⚪ |
+| `bookedin.listStaff` | bookedin.com | Lists all staff members (resources) available at the merchant with their names and… | ⚪ |
 | `bookeo.bookSlot` | bookeo.com | Books a slot for a party as a guest -- product, slot, participant counts, the… | ⚪ |
 | `bookeo.buyGiftVoucher` | bookeo.com | Buys a gift voucher from an operator. | ⚪ |
 | `bookeo.cancelBooking` | bookeo.com | Cancels a booking from the cancel link in the operator's confirmation email, reporting… | ⚪ |
@@ -2225,6 +2231,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gostoreit.getFacilityUnits` | gostoreit.com | Reads a public Go Store It facility URL's live rendered unit inventory: size… | 🟢 |
 | `gotchacovered.getDesignStyleQuizQuestions` | gotchacovered.com | Reads the live 'What Design Style Am I?' quiz's real 6 questions and their option… | 🟢 |
 | `gotchacovered.takeDesignStyleQuiz` | gotchacovered.com | Answers all 6 questions of Gotcha Covered's own Design Style Quiz and returns the… | 🟢 |
+| `goteamup_classes.bookClass` | goteamup.com | Books the signed-in caller into a free or membership-covered class (POST… | ⚪ |
+| `goteamup_classes.cancelClass` | goteamup.com | Cancels the signed-in caller's booking for a class, reporting the late-cancel deadline… | ⚪ |
+| `goteamup_classes.checkBookingEligibility` | goteamup.com | Says whether the signed-in caller can book a class and why not — full, no valid… | ⚪ |
+| `goteamup_classes.findStudio` | goteamup.com | Finds TeamUp studios by name (and town) and returns each one's provider id, slug and… | ⚪ |
+| `goteamup_classes.getClass` | goteamup.com | Gets one class by the event id listSchedule returned — description, time, venue… | ⚪ |
+| `goteamup_classes.getMembership` | goteamup.com | Gets one membership's full terms by the id listMemberships returned (GET… | ⚪ |
+| `goteamup_classes.getMyProfile` | goteamup.com | Gets the signed-in caller's own customer record at a studio (GET /api/v2/customers/me). | ⚪ |
+| `goteamup_classes.getStudio` | goteamup.com | Gets one studio's profile — name, address, timezone, currency and default booking… | ⚪ |
+| `goteamup_classes.joinWaitlist` | goteamup.com | Puts the signed-in caller on a full class's waitlist (POST… | ⚪ |
+| `goteamup_classes.leaveWaitlist` | goteamup.com | Takes the signed-in caller off a class's waitlist (POST… | ⚪ |
+| `goteamup_classes.listClassTypes` | goteamup.com | Lists a studio's class types (offering types) with description, whether drop-ins are… | ⚪ |
+| `goteamup_classes.listInstructors` | goteamup.com | Lists a studio's instructors with name, picture and bio (GET /api/v2/instructors). | ⚪ |
+| `goteamup_classes.listMemberships` | goteamup.com | Lists the memberships and class packs a studio sells, with type, price and terms (GET… | ⚪ |
+| `goteamup_classes.listMyBookings` | goteamup.com | Lists the signed-in caller's upcoming bookings at a studio, with class, time and venue… | ⚪ |
+| `goteamup_classes.listSchedule` | goteamup.com | Lists a studio's classes over a date range — name, start/end, venue, instructors… | ⚪ |
+| `goteamup_classes.listVenues` | goteamup.com | Lists a studio's venues with address (GET /api/v2/venues). | ⚪ |
 | `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🔴 |
 | `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟢 |
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟡 |
@@ -2250,6 +2272,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
 | `greenhouse.getJob` | greenhouse.io | Reads one posting's full description, pay-transparency ranges and application… | ⚪ |
 | `greenhouse.listJobs` | greenhouse.io | Lists every open job on one company's Greenhouse job board — title, location… | 🟢 |
+| `grubhub.addToCart` | grubhub.com | Adds a menu item with customizations to the user's cart. | ⚪ |
+| `grubhub.applyPromoCode` | grubhub.com | Applies a promotional code to the current cart for discount. | ⚪ |
+| `grubhub.getCart` | grubhub.com | Retrieves the contents of the current user's shopping cart. | ⚪ |
+| `grubhub.getDeliveryEstimate` | grubhub.com | Calculates delivery time and fee for a restaurant given a delivery address. | ⚪ |
+| `grubhub.getFavoriteRestaurants` | grubhub.com | Retrieves the user's list of saved favorite restaurants. | ⚪ |
+| `grubhub.getMenu` | grubhub.com | Returns the full menu for a restaurant, including categories, items, prices, and… | ⚪ |
+| `grubhub.getMenuItem` | grubhub.com | Gets detailed information for a single menu item including description, price… | ⚪ |
+| `grubhub.getOrderHistory` | grubhub.com | Lists past orders for the signed-in user with dates, restaurants, and amounts. | ⚪ |
+| `grubhub.getOrderStatus` | grubhub.com | Fetches the current status of an order including estimated delivery time. | ⚪ |
+| `grubhub.getPaymentMethods` | grubhub.com | Retrieves saved payment methods for the signed-in user. | ⚪ |
+| `grubhub.getPromoOffers` | grubhub.com | Lists active promotional offers and discounts available for a restaurant. | ⚪ |
+| `grubhub.getRestaurant` | grubhub.com | Fetches detailed restaurant information including hours, minimum order, delivery fee… | ⚪ |
+| `grubhub.getRestaurantReviews` | grubhub.com | Fetches customer reviews and ratings for a restaurant. | ⚪ |
+| `grubhub.getSavedAddresses` | grubhub.com | Returns the list of saved delivery addresses for the signed-in user. | ⚪ |
+| `grubhub.listCuisines` | grubhub.com | Lists all available cuisine types on Grubhub for filtering restaurants. | ⚪ |
+| `grubhub.listRestaurants` | grubhub.com | Lists restaurants available for delivery to a given address, paginated with… | ⚪ |
+| `grubhub.placeOrder` | grubhub.com | Completes the checkout and places an order with delivery address and payment. | ⚪ |
+| `grubhub.removeFromCart` | grubhub.com | Removes an item from the user's cart. | ⚪ |
+| `grubhub.saveRestaurant` | grubhub.com | Adds a restaurant to the user's favorites. | ⚪ |
+| `grubhub.search` | grubhub.com | Searches for restaurants by delivery address, cuisine, cuisine type, or restaurant name. | ⚪ |
+| `grubhub.searchByLocation` | grubhub.com | Searches for restaurants available in a specific geographic area or city. | ⚪ |
+| `grubhub.updateCartItem` | grubhub.com | Updates quantity or customizations for an item in the cart. | ⚪ |
 | `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟢 |
 | `hackernews.getItem` | news.ycombinator.com | Returns one Hacker News item — story, comment, job or poll — by its numeric id or… | 🟢 |
 | `hackernews.search` | news.ycombinator.com | Keyword-searches every Hacker News story through HN's own search (hn.algolia.com)… | 🟢 |
@@ -4620,7 +4664,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getWeeklyAd` | walmart.com | Reads the current local weekly ad / rollback & clearance circular for a store or zip —… | ⚪ |
 | `walmart.listAddresses` | walmart.com | Lists the delivery addresses saved on the signed-in account. | ⚪ |
 | `walmart.listDeals` | walmart.com | Lists what is on sale right now — Rollbacks, clearance and the site's current deal… | 🟢 |
-| `walmart.listDepartments` | walmart.com | Lists Walmart's departments and their sub-categories with the browse id each one opens… | 🟢 |
+| `walmart.listDepartments` | walmart.com | Lists Walmart's departments and their sub-categories with the browse id each one opens… | 🟡 |
 | `walmart.listLists` | walmart.com | Lists the signed-in shopper's saved lists — the door `getList` needs. | ⚪ |
 | `walmart.listOrders` | walmart.com | Lists the signed-in shopper's orders — date, total, status and the items in each — the… | ⚪ |
 | `walmart.listPurchasedItems` | walmart.com | Lists the items the signed-in shopper has bought before — Walmart's 'My Items' /… | ⚪ |

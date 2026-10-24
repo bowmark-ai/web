@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163
-// 2433 checked, 20 unchecked.
+// Manifest version: 5f943ac3b5b363d95480fe71f94bad97e112659784a682e037b3935a9cd38191
+// 2437 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163",
+  "version": "5f943ac3b5b363d95480fe71f94bad97e112659784a682e037b3935a9cd38191",
   "units": {
     "address_validation": {
       "defs": {
@@ -62862,6 +62862,42 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SpotifySearchOptions"
             },
             "optional": true
+          }
+        ],
+        "getTrack": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAlbum": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getArtist": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPlaylist": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

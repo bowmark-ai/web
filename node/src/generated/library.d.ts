@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163
-// 86 capabilities, 624 providers, 2451 typed functions, 20 refused.
+// Manifest version: 5f943ac3b5b363d95480fe71f94bad97e112659784a682e037b3935a9cd38191
+// 86 capabilities, 624 providers, 2455 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -54031,6 +54031,31 @@ interface SpotifySearchResult {
      * sent as `<client id>:<client secret>` (or a bearer access token).
      */
     search(query: string, opts?: SpotifySearchOptions): Promise<SpotifySearchResult>;
+
+    /**
+     * Gets one track by its Spotify id — name, artists, album, duration, explicit flag,
+     * popularity, open.spotify.com url and Spotify uri. Needs your own Spotify developer app key.
+     */
+    getTrack(id: string): Promise<SpotifyTrack>;
+
+    /**
+     * Gets one album by its Spotify id — name, artists, release date, track count, cover art,
+     * open.spotify.com url and Spotify uri. Needs your own Spotify developer app key.
+     */
+    getAlbum(id: string): Promise<SpotifyAlbum>;
+
+    /**
+     * Gets one artist by its Spotify id — name, genres, popularity, follower count, images,
+     * open.spotify.com url and Spotify uri. Needs your own Spotify developer app key.
+     */
+    getArtist(id: string): Promise<SpotifyArtist>;
+
+    /**
+     * Gets one playlist by its Spotify id — name, description, owner, cover images, track count,
+     * public/collaborative flags, open.spotify.com url and Spotify uri. Needs your own Spotify
+     * developer app key.
+     */
+    getPlaylist(id: string): Promise<SpotifyPlaylist>;
   }
 }
 

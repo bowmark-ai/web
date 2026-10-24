@@ -103,6 +103,7 @@ bmwusa.com — bmwusa: buildVehicle, checkRecalls, estimatePayment, findDealers,
 bodacc.fr — bodacc: search
 boglewinery.com — boglewinery: checkAvailability, listExperiences
 bollandbranch.com — bollandbranch: getBedDesignerFlow, getCategoryOptions, getSwatchDetails, renderBedPreview
+bookedin.com — bookedin: bookAppointment, cancelAppointment, getAvailability, getMerchant, listServices, listStaff
 bookeo.com — bookeo: bookSlot, buyGiftVoucher, cancelBooking, checkGiftVoucher, findOperator, getAvailability, getPriceQuote, getProduct, joinWaitingList, listGroupOperators, listMyBookings, listProducts
 booker.com — booker: book, buyGiftCertificate, buyMembership, buySeries, cancelAppointment, cancelMembership, confirmAppointment, findLocation, getAvailability, getAvailableDates, getBookingPolicies, getGroupAvailability, getLocationHours, getMultiServiceAvailability, getMyProfile, getService, getServiceMenu, getSpecial, listBrandLocations, listGiftCertificates, listMemberships, listMyAppointments, listMyMemberships, listMySeries, listPackages, listSeries, listStaff, requestAppointment, searchLocations, updateMyProfile
 booking.andstr.com — andstr: getListing, getQuote, search
@@ -303,10 +304,12 @@ google.com/maps — google_maps: addMissingPlace, geocodeAddress, getDirections,
 goremutual.ca — goremutual: getProductOverview
 gostoreit.com — gostoreit: findFacilities, getFacilityUnits
 gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
+goteamup.com — goteamup_classes: bookClass, cancelClass, checkBookingEligibility, findStudio, getClass, getMembership, getMyProfile, getStudio, joinWaitlist, leaveWaitlist, listClassTypes, listInstructors, listMemberships, listMyBookings, listSchedule, listVenues
 grainger.com — grainger: checkStock, findBranch, getProduct, search, trackOrder
 grandwelcome.com — grandwelcome: getRentalDetail, getRentalQuote, listGrandwelcomeDestinations, searchRentals
 greatlakesdentaltech.com — greatlakesdentaltech: getProduct, search
 greenhouse.io — greenhouse: getJob, listJobs
+grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate, getFavoriteRestaurants, getMenu, getMenuItem, getOrderHistory, getOrderStatus, getPaymentMethods, getPromoOffers, getRestaurant, getRestaurantReviews, getSavedAddresses, listCuisines, listRestaurants, placeOrder, removeFromCart, saveRestaurant, search, searchByLocation, updateCartItem
 hamptonwaterwine.com — hamptonwaterwine: findNearbyRetailers
 handypro.com — handypro: checkServiceArea, checkTechnicianAvailability, createBooking, searchServiceCategories
 hansons.com — hansons: bookEstimate, checkAvailability

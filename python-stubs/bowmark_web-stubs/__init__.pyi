@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163
-# 86 capabilities, 624 providers, 2433 typed functions, 20 refused.
+# Manifest version: 5f943ac3b5b363d95480fe71f94bad97e112659784a682e037b3935a9cd38191
+# 86 capabilities, 624 providers, 2437 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -30286,6 +30286,96 @@ class Prv_spotify_SpotifySearchItem_Out(TypedDict):
     explicit: bool | None
     image: str | None
 
+class Prv_spotify_SpotifyTrack_Out(TypedDict):
+    id: str
+    name: str
+    artists: list[Prv_spotify_SpotifyTrack_Out_artists_item_Out]
+    album: NotRequired[Prv_spotify_SpotifyTrack_Out_album_Out]
+    duration_ms: float
+    explicit: bool
+    popularity: float
+    external_urls: Prv_spotify_SpotifyTrack_Out_external_urls_Out
+    uri: str
+
+class Prv_spotify_SpotifyTrack_Out_artists_item_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_spotify_SpotifyTrack_Out_album_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_spotify_SpotifyTrack_Out_external_urls_Out(TypedDict):
+    spotify: str
+
+class Prv_spotify_SpotifyAlbum_Out(TypedDict):
+    id: str
+    name: str
+    artists: list[Prv_spotify_SpotifyAlbum_Out_artists_item_Out]
+    release_date: str
+    total_tracks: float
+    images: list[Prv_spotify_SpotifyAlbum_Out_images_item_Out]
+    external_urls: Prv_spotify_SpotifyAlbum_Out_external_urls_Out
+    uri: str
+
+class Prv_spotify_SpotifyAlbum_Out_artists_item_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_spotify_SpotifyAlbum_Out_images_item_Out(TypedDict):
+    url: str
+    height: NotRequired[float]
+    width: NotRequired[float]
+
+class Prv_spotify_SpotifyAlbum_Out_external_urls_Out(TypedDict):
+    spotify: str
+
+class Prv_spotify_SpotifyArtist_Out(TypedDict):
+    id: str
+    name: str
+    genres: list[str]
+    popularity: float
+    followers: Prv_spotify_SpotifyArtist_Out_followers_Out
+    images: list[Prv_spotify_SpotifyArtist_Out_images_item_Out]
+    external_urls: Prv_spotify_SpotifyArtist_Out_external_urls_Out
+    uri: str
+
+class Prv_spotify_SpotifyArtist_Out_followers_Out(TypedDict):
+    total: float
+
+class Prv_spotify_SpotifyArtist_Out_images_item_Out(TypedDict):
+    url: str
+    height: NotRequired[float]
+    width: NotRequired[float]
+
+class Prv_spotify_SpotifyArtist_Out_external_urls_Out(TypedDict):
+    spotify: str
+
+class Prv_spotify_SpotifyPlaylist_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    owner: Prv_spotify_SpotifyPlaylist_Out_owner_Out
+    images: list[Prv_spotify_SpotifyPlaylist_Out_images_item_Out]
+    tracks: Prv_spotify_SpotifyPlaylist_Out_tracks_Out
+    public: bool
+    collaborative: bool
+    external_urls: Prv_spotify_SpotifyPlaylist_Out_external_urls_Out
+    uri: str
+
+class Prv_spotify_SpotifyPlaylist_Out_owner_Out(TypedDict):
+    id: str
+    display_name: str
+
+class Prv_spotify_SpotifyPlaylist_Out_images_item_Out(TypedDict):
+    url: str
+
+class Prv_spotify_SpotifyPlaylist_Out_tracks_Out(TypedDict):
+    total: float
+
+class Prv_spotify_SpotifyPlaylist_Out_external_urls_Out(TypedDict):
+    spotify: str
+
 class Prv_starlighthomes_StarlighthomesMetroSummary_Out(TypedDict):
     name: str
     path: str
@@ -57001,6 +57091,28 @@ class Prv_spotify(Protocol):
         artists, playlists, podcasts (`show`) or episodes — name, artists, album, release date,
         duration, open.spotify.com url and Spotify uri. Needs your own Spotify developer app
         key, sent as `<client id>:<client secret>` (or a bearer access token).
+        """
+
+    async def getTrack(self, id: str, /) -> Prv_spotify_SpotifyTrack_Out:
+        """Gets one track by its Spotify id — name, artists, album, duration, explicit flag,
+        popularity, open.spotify.com url and Spotify uri. Needs your own Spotify developer app
+        key.
+        """
+
+    async def getAlbum(self, id: str, /) -> Prv_spotify_SpotifyAlbum_Out:
+        """Gets one album by its Spotify id — name, artists, release date, track count, cover art,
+        open.spotify.com url and Spotify uri. Needs your own Spotify developer app key.
+        """
+
+    async def getArtist(self, id: str, /) -> Prv_spotify_SpotifyArtist_Out:
+        """Gets one artist by its Spotify id — name, genres, popularity, follower count, images,
+        open.spotify.com url and Spotify uri. Needs your own Spotify developer app key.
+        """
+
+    async def getPlaylist(self, id: str, /) -> Prv_spotify_SpotifyPlaylist_Out:
+        """Gets one playlist by its Spotify id — name, description, owner, cover images, track
+        count, public/collaborative flags, open.spotify.com url and Spotify uri. Needs your own
+        Spotify developer app key.
         """
 
 class Prv_starlighthomes(Protocol):

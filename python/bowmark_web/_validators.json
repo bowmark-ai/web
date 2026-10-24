@@ -1,5 +1,5 @@
 {
-  "version": "3cd97a58176040fa979731dcb6dbdd120e41a82648d33ab027378a56acbfd163",
+  "version": "5f943ac3b5b363d95480fe71f94bad97e112659784a682e037b3935a9cd38191",
   "units": {
     "address_validation": {
       "defs": {
@@ -62850,6 +62850,42 @@
               "name": "SpotifySearchOptions"
             },
             "optional": true
+          }
+        ],
+        "getTrack": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAlbum": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getArtist": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPlaylist": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
