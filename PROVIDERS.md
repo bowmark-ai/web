@@ -327,7 +327,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `att.addLine` | att.com | Add a new line to the caller's existing AT&T family plan. | ⚪ |
 | `att.changePlan` | att.com | Switch a line to a different AT&T wireless plan. | ⚪ |
 | `att.findDevices` | att.com | Every phone on AT&T's own phones listing (att.com/buy/phones/) - name, brand, product… | 🟢 |
-| `att.getAccountBalance` | att.com | The caller's current AT&T account balance: amount due, past due balance if any… | ⚪ |
+| `att.getAccountBalance` | att.com | The signed-in caller's current AT&T account balance — amount due, due date and account… | 🟢 |
 | `att.getDevicePricing` | att.com | AT&T's current device price and financing for a phone (e.g. iPhone 16 Pro): full… | 🟢 |
 | `att.getMonthlyBill` | att.com | A specific month's bill: itemized charges by service (device payments, plan, add-ons)… | ⚪ |
 | `att.getPlanTotal` | att.com | Walks AT&T's new-line plan-builder / order flow (att.com/plans/unlimited-data-plans/ →… | ⚪ |
@@ -2396,16 +2396,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟡 |
 | `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟢 |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
-| `grammarly.checkGrammar` | TODO example.com | Analyzes text for grammar, spelling, clarity, engagement, and delivery errors; returns… | ⚪ |
-| `grammarly.countWords` | TODO example.com | Analyzes text metrics including word count, character count, readability score, and… | ⚪ |
-| `grammarly.detectAI` | TODO example.com | Checks if text was written by AI or humans using Grammarly's AI detection model. | ⚪ |
-| `grammarly.detectPlagiarism` | TODO example.com | Checks text against web sources for potential plagiarism and provides similarity score. | ⚪ |
-| `grammarly.detectTone` | TODO example.com | Identifies the tone and sentiment of written text. | ⚪ |
-| `grammarly.getPersonalDictionary` | TODO example.com | Retrieves custom words and phrases saved in the account's personal dictionary. | ⚪ |
-| `grammarly.humanize` | TODO example.com | Converts AI-written text to sound more human and natural. | ⚪ |
-| `grammarly.listDocuments` | TODO example.com | Lists saved documents in a signed-in account. | ⚪ |
-| `grammarly.listGoals` | TODO example.com | Lists writing goals (audience, tone, formality, domain) for the account. | ⚪ |
-| `grammarly.paraphrase` | TODO example.com | Rewrites text in different styles and tones while maintaining meaning. | ⚪ |
+| `grammarly.checkGrammar` | www.grammarly.com | Checks text for grammar, spelling and punctuation problems and returns each alert with… | 🟢 |
+| `grammarly.countWords` | www.grammarly.com | Analyzes text metrics including word count, character count, readability score, and… | ⚪ |
+| `grammarly.detectAI` | www.grammarly.com | Checks if text was written by AI or humans using Grammarly's AI detection model. | ⚪ |
+| `grammarly.detectPlagiarism` | www.grammarly.com | Checks text against web sources for potential plagiarism and provides similarity score. | ⚪ |
+| `grammarly.detectTone` | www.grammarly.com | Identifies the tone and sentiment of written text. | ⚪ |
+| `grammarly.getPersonalDictionary` | www.grammarly.com | Retrieves custom words and phrases saved in the account's personal dictionary. | ⚪ |
+| `grammarly.humanize` | www.grammarly.com | Converts AI-written text to sound more human and natural. | ⚪ |
+| `grammarly.listDocuments` | www.grammarly.com | Lists saved documents in a signed-in account. | ⚪ |
+| `grammarly.listGoals` | www.grammarly.com | Lists writing goals (audience, tone, formality, domain) for the account. | ⚪ |
+| `grammarly.paraphrase` | www.grammarly.com | Rewrites text in different styles and tones while maintaining meaning. | ⚪ |
 | `grandwelcome.getRentalDetail` | grandwelcome.com | Reads one rental's own detail page in full — name, description, photos and the site's… | 🟢 |
 | `grandwelcome.getRentalQuote` | grandwelcome.com | Runs the site's own real-time date-specific pricing engine for one property — rent… | 🟢 |
 | `grandwelcome.listGrandwelcomeDestinations` | grandwelcome.com | The entry door: reads the site's own /sitemap.xml for every published destination page… | 🟢 |
@@ -3719,20 +3719,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pushpress.buyPlan` | pushpress.com | Buys a membership, class pack or drop-in pass. | ⚪ |
 | `pushpress.cancelBooking` | pushpress.com | Cancels the signed-in member's reservation or waitlist spot for a class. | ⚪ |
 | `pushpress.getAppointmentAvailability` | pushpress.com | Returns open slots for one appointment type on a date, by staff member. | ⚪ |
-| `pushpress.getClass` | pushpress.com | Returns one class or event by id: description, coach, location, capacity, spots… | ⚪ |
+| `pushpress.getClass` | pushpress.com | Returns one class or event by id: description, coach, location, capacity and spots… | 🟢 |
 | `pushpress.getGym` | pushpress.com | Resolves a PushPress gym from its subdomain (crossfit7x7) or its own website URL (a… | 🟢 |
 | `pushpress.getMyProfile` | pushpress.com | Returns the signed-in member's profile at this gym: name, email, member status and… | ⚪ |
 | `pushpress.getPlan` | pushpress.com | Returns one plan by id with its prices, setup fee, free-trial terms, restrictions, and… | ⚪ |
 | `pushpress.joinWaitlist` | pushpress.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
 | `pushpress.listAppointmentTypes` | pushpress.com | Lists a gym's bookable one-on-one appointment types (personal training, assessments) —… | ⚪ |
-| `pushpress.listClasses` | pushpress.com | Lists a gym's classes and events for a date range: time, title, class type, coach… | ⚪ |
+| `pushpress.listClasses` | pushpress.com | Lists a gym's classes and events for one local day, or a range of local days: time… | 🟢 |
 | `pushpress.listCoaches` | pushpress.com | Lists the coaches who teach at a gym, derived from the schedule (name, photo, user… | ⚪ |
 | `pushpress.listLocations` | pushpress.com | Lists a gym's locations (the filter listClasses accepts for multi-site gyms). | ⚪ |
 | `pushpress.listMyBookings` | pushpress.com | Lists the signed-in member's upcoming class reservations and waitlist spots. | ⚪ |
 | `pushpress.listMyDocuments` | pushpress.com | Lists the waivers and agreements the gym asks the signed-in member to sign, and which… | ⚪ |
 | `pushpress.listMyInvoices` | pushpress.com | Lists the signed-in member's invoices and payment status at this gym. | ⚪ |
 | `pushpress.listMyPlans` | pushpress.com | Lists the signed-in member's active plans and remaining sessions — the subscription id… | ⚪ |
-| `pushpress.listPlans` | pushpress.com | Lists a gym's public memberships, class packs, drop-ins and trials with price, billing… | ⚪ |
+| `pushpress.listPlans` | pushpress.com | Lists a gym's public memberships, class packs, drop-ins and trials with price, billing… | 🟢 |
 | `pushpress.payInvoice` | pushpress.com | Retries payment on a failed invoice. | ⚪ |
 | `pushpress.signWaiver` | pushpress.com | Signs an outstanding gym waiver or agreement as the signed-in member, only when the… | ⚪ |
 | `pushpress.updateProfile` | pushpress.com | Updates the signed-in member's profile fields (name, phone, emergency contact, photo). | ⚪ |
@@ -4299,7 +4299,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soulcycle.bookmarkClass` | soul-cycle.com | Bookmarks or un-bookmarks a class for the signed-in rider — how a rider marks a class… | ⚪ |
 | `soulcycle.buySeries` | soul-cycle.com | Buys a class pack or Soul Renew membership for the signed-in rider. | ⚪ |
 | `soulcycle.cancelBooking` | soul-cycle.com | Cancels one of the signed-in rider's bookings. | ⚪ |
-| `soulcycle.findStudio` | soul-cycle.com | Finds a studio from what a caller holds — a name ("Union Street"), a studio page URL… | ⚪ |
+| `soulcycle.findStudio` | soul-cycle.com | Finds a studio from what a caller holds — a name ("Union Street"), a studio page URL… | 🟢 |
 | `soulcycle.getBikeMap` | soul-cycle.com | Returns a class's room map: every bike (seat) id with its position and whether it is… | ⚪ |
 | `soulcycle.getClassAvailability` | soul-cycle.com | Returns how many bikes are booked in a class and which bike (seat) ids are taken — a… | ⚪ |
 | `soulcycle.getInstructor` | soul-cycle.com | Returns one instructor's profile: full bio, Q&A (music, energy, workout style)… | ⚪ |
@@ -4314,10 +4314,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soulcycle.listMyBookings` | soul-cycle.com | Lists the signed-in rider's upcoming booked classes with studio, time, instructor… | ⚪ |
 | `soulcycle.listMyBookmarks` | soul-cycle.com | Lists the classes the signed-in rider has bookmarked (to book once they open). | ⚪ |
 | `soulcycle.listPurchaseHistory` | soul-cycle.com | Lists the signed-in rider's past series and merch purchases. | ⚪ |
-| `soulcycle.listRegions` | soul-cycle.com | Lists SoulCycle's regions (NYC, San Francisco, Bay Area, London …) with the studios in… | ⚪ |
+| `soulcycle.listRegions` | soul-cycle.com | Lists SoulCycle's regions (NYC, San Francisco, Bay Area, London …) with the studios in… | 🟢 |
 | `soulcycle.listSeries` | soul-cycle.com | Lists what a region sells and at what price: class packs (new-rider, starter… | ⚪ |
 | `soulcycle.listShopProducts` | soul-cycle.com | Lists the SoulCycle merch store's products (apparel, accessories) with price, variants… | ⚪ |
-| `soulcycle.listStudios` | soul-cycle.com | Lists the studios in a region (or all regions) with address, phone, coordinates and… | ⚪ |
+| `soulcycle.listStudios` | soul-cycle.com | Lists the studios in a region (or all regions) with address, phone, coordinates and… | 🟢 |
 | `soulcycle.redeemReferralCredits` | soul-cycle.com | Redeems the free classes the signed-in rider earned by referring friends (Spread the… | ⚪ |
 | `soulcycle.setFavoriteInstructor` | soul-cycle.com | Adds or removes an instructor from the signed-in rider's favorites. | ⚪ |
 | `soulcycle.setFavoriteStudio` | soul-cycle.com | Adds or removes a studio from the signed-in rider's favorites. | ⚪ |
@@ -5555,11 +5555,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.uploadPhoto` | yelp.com | Adds a photo to a business's gallery from the signed-in caller's account. | ⚪ |
 | `yelp.writeReview` | yelp.com | Posts, edits or deletes the signed-in caller's star rating and review of a business. | ⚪ |
 | `yogatreecollective.getEvent` | yogatreecollective.com | Gets one retreat or workshop by slug (from listEvents): description, dates, location… | ⚪ |
-| `yogatreecollective.getSchedule` | yogatreecollective.com | Reads the collective's weekly class timetable off /class-schedule: one row per class… | ⚪ |
+| `yogatreecollective.getSchedule` | yogatreecollective.com | Reads the collective's weekly class timetable off /class-schedule: one row per class… | 🟢 |
 | `yogatreecollective.getSignUpTarget` | yogatreecollective.com | Resolves a class's SIGN UP link to where the class really books: follows it, reports… | ⚪ |
-| `yogatreecollective.getTeacher` | yogatreecollective.com | Gets one teacher's profile by slug (from listTeachers or a name match): bio, styles… | ⚪ |
+| `yogatreecollective.getTeacher` | yogatreecollective.com | Gets one teacher's profile by slug (from listTeachers): bio, styles, former studio and… | 🟢 |
 | `yogatreecollective.listEvents` | yogatreecollective.com | Lists the collective's retreats and workshops from /events?format=json, upcoming and… | ⚪ |
-| `yogatreecollective.listTeachers` | yogatreecollective.com | Lists the collective's teacher directory from /teacher-profile?format=json: name… | ⚪ |
+| `yogatreecollective.listTeachers` | yogatreecollective.com | Lists the collective's teacher directory from /teacher-profile?format=json: name… | 🟢 |
 | `yogatreecollective.searchSite` | yogatreecollective.com | Searches the site's own Squarespace index (/api/search/GeneralSearch?q=) for teachers… | ⚪ |
 | `yogatreecollective.sendContactMessage` | yogatreecollective.com | Submits the /contact form (name, email, message) to the collective. | ⚪ |
 | `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page — the exact Add to cart button for this… | 🟡 |
