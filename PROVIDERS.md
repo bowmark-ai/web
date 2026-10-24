@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5671 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5673 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -349,6 +349,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `avis.getReservation` | avis.com | Reads an existing Avis reservation the way the site's own "View / Modify / Cancel"… | ⚪ |
 | `avis.search` | avis.com | Searches Avis's live car rental availability the way its own booking widget does —… | ⚪ |
 | `avis.searchLocations` | avis.com | Finds Avis rental locations matching a full city name or an airport code (`query`… | 🟢 |
+| `avocatparis_org.getLawyer` | avocatparis.org | Reads one lawyer's full directory record — contact details, practice areas… | 🟢 |
+| `avocatparis_org.searchLawyers` | avocatparis.org | Searches the Paris bar's public lawyer directory (annuaire des avocats) by name, city… | 🟢 |
 | `ayreshotels.checkRates` | ayreshotels.com | Checks one property's real live rate/availability for a date range, straight off the… | 🟡 |
 | `azazie.getBuildYourOwnConfig` | azazie.com | Reads one bridesmaid-dress style's full Build Your Own configuration — every color… | 🟢 |
 | `azazie.getColorFamily` | azazie.com | Reads every dress style available in one named color, mirroring the product page's own… | ⚪ |

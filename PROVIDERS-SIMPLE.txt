@@ -68,6 +68,7 @@ avalonmalibu.com — avalonmalibu_com: getInsuranceForm
 avantstay.com — avantstay: getPricing, searchProperties
 avenuehealthcare.com — avenuehealthcare: search
 avis.com — avis: getDeals, getLocation, getReservation, search, searchLocations
+avocatparis.org — avocatparis_org: getLawyer, searchLawyers
 ayreshotels.com — ayreshotels: checkRates
 azazie.com — azazie: getBuildYourOwnConfig, getColorFamily, search
 azure.microsoft.com — azure: checkRegionAvailability, estimateCost, getServiceHealth, getServicePricing, getServiceSla, listRegions, listServices, listVmSizes
