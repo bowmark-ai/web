@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5319 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5338 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1135,7 +1135,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubready.buyPackage` | clubready.com | Would buy a class pack or membership at a studio for the signed-in member. | ⚪ |
 | `clubready.cancelBooking` | clubready.com | Cancels one of the signed-in member's bookings or waitlist spots. | ⚪ |
 | `clubready.favoriteInstructor` | clubready.com | Adds or removes an instructor from the signed-in member's favourites. | ⚪ |
-| `clubready.findStudios` | clubready.com | Finds a brand's studios near a place — by latitude/longitude, or by a city or… | ⚪ |
+| `clubready.findStudios` | clubready.com | Finds a brand's studios near a place — by latitude/longitude, or by a city or… | 🟢 |
 | `clubready.getClass` | clubready.com | Returns one scheduled class by id ("piq_20369037") at a studio: description, times… | ⚪ |
 | `clubready.getClassPoints` | clubready.com | Returns the signed-in member's ClassPoints rewards balance, recent earning activity… | ⚪ |
 | `clubready.getMyMembership` | clubready.com | Returns the signed-in member's membership and class credits at their home studio —… | ⚪ |
@@ -3130,7 +3130,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `my_auroramedicalspa_com.getServices` | my.auroramedicalspa.com | Reads the live bookable services in one category at one location — name, starting… | 🟢 |
 | `my_auroramedicalspa_com.listLocations` | my.auroramedicalspa.com | Lists every Aurora Medical Spa location (9 today, across Colorado, Missouri and Texas)… | 🟢 |
 | `my_best_studio._client` | mybeststudio.us | Shared studio client: subdomain to account bootstrap, public and signed-in session… | ⚪ |
-| `my_best_studio.bookClass` | mybeststudio.us | Books a signed-in member into one class. | ⚪ |
+| `my_best_studio.bookClass` | mybeststudio.us | Books a signed-in member into one class. | 🟢 |
 | `my_best_studio.cancelBooking` | mybeststudio.us | Cancels a signed-in member's booking or waitlist spot. | ⚪ |
 | `my_best_studio.getClass` | mybeststudio.us | Returns the detail of one class — time, instructor, capacity, booking-button label —… | 🟢 |
 | `my_best_studio.joinWaitlist` | mybeststudio.us | Adds a signed-in member to the waitlist for one class. | ⚪ |
@@ -4029,6 +4029,25 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seoulfood.getExhibitorPricing` | seoulfood.kotra.or.kr | Reads the organizer's published exhibitor booth rate card (trade show booth quote)… | 🟢 |
 | `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |
 | `serper.searchGoogle` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
+| `setmore.bookAppointment` | setmore.com | Books a service at a business for a guest -- the service, a slot time and staff member… | ⚪ |
+| `setmore.bookClass` | setmore.com | Books a guest into a class session at a business, holding the seat first so it cannot… | ⚪ |
+| `setmore.cancelAppointment` | setmore.com | Cancels a guest's appointment or class booking at a business, from the booking id… | ⚪ |
+| `setmore.checkPromoCode` | setmore.com | Checks whether a promo code is valid at a business for a given order amount and… | ⚪ |
+| `setmore.findBusiness` | setmore.com | Finds a Setmore business from what a caller actually holds -- its booking-page link… | ⚪ |
+| `setmore.getAvailability` | setmore.com | Returns the open appointment times for one or more services at a business over a date… | ⚪ |
+| `setmore.getBooking` | setmore.com | Reads a guest's booking back from its confirmation id: service or class, staff member… | ⚪ |
+| `setmore.getBookingForm` | setmore.com | Returns what a business asks a guest for at checkout -- whether email, phone and… | ⚪ |
+| `setmore.getBusiness` | setmore.com | Returns a business's own profile from its booking page: name, about text, business… | ⚪ |
+| `setmore.getClassSession` | setmore.com | Returns one class session in full: title, start and end time, time zone, cost, seats… | ⚪ |
+| `setmore.getMyBookings` | setmore.com | Lists the signed-in customer's own upcoming and past bookings with one business… | ⚪ |
+| `setmore.getReviews` | setmore.com | Returns a business's customer reviews -- author, date, star rating, text and where it… | ⚪ |
+| `setmore.leaveReview` | setmore.com | Posts a star rating and written review of a business under a name and email. | ⚪ |
+| `setmore.listClasses` | setmore.com | Lists the group classes a business runs and their upcoming sessions: each class's id… | ⚪ |
+| `setmore.listGalleryImages` | setmore.com | Lists the photos a business shows on its booking page, from its own gallery and its… | ⚪ |
+| `setmore.listServices` | setmore.com | Lists the appointments a business offers -- each service's id, title, description… | ⚪ |
+| `setmore.listStaff` | setmore.com | Lists the people a customer can book with at a business: staff id, display name, role… | ⚪ |
+| `setmore.rescheduleAppointment` | setmore.com | Moves a guest's appointment to another open time from getAvailability, keeping the… | ⚪ |
+| `setmore.updateMyDetails` | setmore.com | Changes the signed-in customer's own details at one business: name, phone, email… | ⚪ |
 | `sevenrooms.bookReservation` | sevenrooms.com | Books an open slot as a guest with the caller's name, email and phone — holding the… | ⚪ |
 | `sevenrooms.bookReservationSignedIn` | sevenrooms.com | Books an open slot as the signed-in SevenRooms guest, using their saved profile — the… | ⚪ |
 | `sevenrooms.cancelRequest` | sevenrooms.com | Withdraws a booking request or turns off a priority alert from its id. | ⚪ |
@@ -4835,7 +4854,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walla.buyPricingOption` | hellowalla.com | Would buy a class pack, intro offer or membership at a studio for the signed-in client. | ⚪ |
 | `walla.cancelBooking` | hellowalla.com | Cancels one of the signed-in client's class bookings, waitlist spots or private… | ⚪ |
 | `walla.enrollWorkshop` | hellowalla.com | Enrolls the signed-in client in a workshop or series from listWorkshops using a pass… | ⚪ |
-| `walla.findStudio` | hellowalla.com | Finds a Walla studio from its own website (the page that embeds the Walla schedule) or… | ⚪ |
+| `walla.findStudio` | hellowalla.com | Finds a Walla studio from its own website (the page that embeds the Walla schedule) or… | 🟢 |
 | `walla.getClass` | hellowalla.com | Returns one scheduled class by id: description, start and end time, instructor and… | ⚪ |
 | `walla.getMyProfile` | hellowalla.com | Returns the signed-in client's own profile at a studio: name, email, phone, address… | ⚪ |
 | `walla.getPrivateSessionAvailability` | hellowalla.com | Returns the days, and the start times on a day, that a private session can be booked… | ⚪ |
