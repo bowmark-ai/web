@@ -4335,10 +4335,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spectrum.getEquipmentStatus` | spectrum.com | The signed-in caller's modem/router and any DVR/receiver status (online, offline, in… | ⚪ |
 | `spectrum.getInternetPlanDetails` | spectrum.com | One internet plan's own page (e.g. spectrum.com/internet/plans/internet-gig/1-gig)… | ⚪ |
 | `spectrum.getUsageSummary` | spectrum.com | The signed-in caller's internet and mobile data usage for the current billing period… | ⚪ |
-| `spectrum.listInternetPlans` | spectrum.com | Every residential internet plan Spectrum advertises on spectrum.com/internet/plans —… | ⚪ |
+| `spectrum.listInternetPlans` | spectrum.com | Every residential internet-only plan Spectrum advertises on… | 🟢 |
 | `spectrum.listMobileDeals` | spectrum.com | Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals… | ⚪ |
 | `spectrum.listMobilePlans` | spectrum.com | Every Spectrum Mobile plan on spectrum.com/mobile/plans — plan name, data allowance… | ⚪ |
-| `spectrum.listTvAddOns` | spectrum.com | Premium channel and add-on packages (e.g. HBO, Starz, international/Latino tiers… | ⚪ |
+| `spectrum.listTvAddOns` | spectrum.com | Every premium channel and add-on package Spectrum advertises on… | 🟢 |
 | `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, channel count… | ⚪ |
 | `spectrum.payBill` | spectrum.com | Pay the signed-in caller's Spectrum bill using a payment method already on the account. | ⚪ |
 | `spectrum.scheduleServiceAppointment` | spectrum.com | Book a technician visit for the signed-in caller's account, from spectrum.net's… | ⚪ |
