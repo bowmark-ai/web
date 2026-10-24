@@ -6,6 +6,94 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.27.0 (2026-10-24)
+
+**Capabilities**
+
+- New capability **lawyer_directory** (2 functions): `lawyer_directory.getLawyer`, `lawyer_directory.search`
+
+**Providers**
+
+- New provider **avocatparis.org** (2 functions): `avocatparis_org.getLawyer`, `avocatparis_org.searchLawyers`
+- New provider **canadacomputers.com** (1 function): `canadacomputers.search`
+- New provider **fitdegree.com** (2 functions): `fitdegree.findStudio`, `fitdegree.getStudio`
+- New provider **www.grammarly.com** (1 function): `grammarly.checkGrammar`
+- New provider **soul-cycle.com** (3 functions): `soulcycle.findStudio`, `soulcycle.listRegions`, `soulcycle.listStudios`
+- New provider **spectrum.com** (2 functions): `spectrum.listInternetPlans`, `spectrum.listTvAddOns`
+- New provider **www.temu.com** (1 function): `temu.listCategories`
+- New provider **turbotax.intuit.com** (2 functions): `turbotax.listEditions`, `turbotax.listTaxTools`
+- New provider **hellowalla.com** (1 function): `walla.findStudio`
+- New provider **wsj.com** (2 functions): `wsj.listArticles`, `wsj.listSections`
+- New provider **yogatreecollective.com** (3 functions): `yogatreecollective.getSchedule`, `yogatreecollective.getTeacher`, `yogatreecollective.listTeachers`
+- Added `arketa.getClass`
+- Added `arketa.listInstructors`
+- Added `arketa.listPricing`
+- Added `arketa.listPrivateSessions`
+- Added `att.getAccountBalance`
+- Added `bbc.getPodcast`
+- Added `clubpilates.listClassCategories`
+- Added `clubpilates.listClassTypes`
+- Added `clubpilates.listPricing`
+- Added `clubready.findStudios`
+- Added `coops.getStationMetadata`
+- Added `corepoweryoga.getClass`
+- Added `corepoweryoga.listClasses`
+- Added `discord.searchServers`
+- Added `dropbox.downloadSharedFile`
+- Added `dropbox.getSharedLink`
+- Added `eventbrite.getSavedEvents`
+- Added `facebook.browseMarketplace`
+- Added `floathelm.listLocations`
+- Added `foxnews.getShow`
+- Added `foxnews.getTopStories`
+- Added `foxnews.listShows`
+- Added `goodreads.getMemberProfile`
+- Added `ikea.findStores`
+- Added `ikea.getProductAvailability`
+- Added `imdb.listCustomLists`
+- Added `imdb.listRatings`
+- Added `kenko.listScheduleFilters`
+- Added `linkedin.followCompany`
+- Added `linkedin.followMember`
+- Added `linkedin.sendConnectionRequest`
+- Added `linkedin.withdrawInvitation`
+- Added `my_best_studio.bookClass`
+- Added `nws.getActiveAlerts`
+- Added `nws.getForecast`
+- Added `nws.getHourlyForecast`
+- Added `nws.getPoint`
+- Added `pausestudio.cancelBooking`
+- Added `pausestudio.listMyBookings`
+- Added `pinterest.getUser`
+- Added `pinterest.listUserBoards`
+- Added `pinterest.listUserCreatedPins`
+- Added `pinterest.listUserSavedPins`
+- Added `pushpress.getClass`
+- Added `pushpress.listClasses`
+- Added `pushpress.listPlans`
+- Added `quickbooks.getPayrollPlans`
+- Added `quickbooks.getPlans`
+- Added `quora.getHomeFeed`
+- Added `quora.searchQuestions`
+- Added `spotify.getEpisode`
+- Added `spotify.getPodcast`
+- Added `spotify.listAlbumTracks`
+- Added `spotify.listArtistTracks`
+- Added `steam.editProfile`
+- Added `sweathouz.findStudio`
+- Added `sweathouz.getStudioHours`
+- Added `theguardian_com.listPodcastEpisodes`
+- Added `tock.listExperiences`
+- Added `tripadvisor.searchAttractions`
+- Added `washingtonpost.getArticle`
+- Added `washingtonpost.getWriter`
+- Added `washingtonpost.listArticles`
+- Added `washingtonpost.listArticlesByWriter`
+- Added `wellnessliving.getLocationDetails`
+- Added `wellnessliving.listScheduleClasses`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.26.1 (2026-10-24)
 
 **Capabilities**

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5673 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5674 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4651,6 +4651,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listNewsletters` | theguardian.com | Every email newsletter The Guardian publishes — name, description, frequency, theme… | 🟢 |
 | `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | 🟢 |
 | `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | 🟢 |
+| `theguardian_com.listPodcastEpisodes` | theguardian.com | Episodes of one Guardian podcast, newest first — title, summary, publish date… | 🟢 |
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | 🟢 |
 | `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
 | `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟢 |

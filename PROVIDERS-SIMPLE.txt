@@ -614,7 +614,7 @@ teamtailor.com — teamtailor: listJobs
 teladochealth.com — teladoc: getArticle, getInsurancePricing, getPricing, search
 tenders.go.ke — tenders_go_ke: getTender, listTenders
 teneohg.com — teneohg: getMemberHotel, searchMemberHotels
-theguardian.com — theguardian_com: getArticle, getArticleComments, getContributorArticles, getCrossword, getFootballTable, getLiveBlog, getMostRead, getPhotoGallery, getReview, getSavedArticles, getTopicArticles, getVideo, listArticlesBySection, listBreakingNews, listContributors, listFootballMatches, listLiveBlogs, listNewsletters, listOpinionPieces, listPhotos, listReviews, listSections, listTopics, listVideos, searchArticles
+theguardian.com — theguardian_com: getArticle, getArticleComments, getContributorArticles, getCrossword, getFootballTable, getLiveBlog, getMostRead, getPhotoGallery, getReview, getSavedArticles, getTopicArticles, getVideo, listArticlesBySection, listBreakingNews, listContributors, listFootballMatches, listLiveBlogs, listNewsletters, listOpinionPieces, listPhotos, listPodcastEpisodes, listReviews, listSections, listTopics, listVideos, searchArticles
 therabody.com — therabody: getTheragunProduct, listTheragunProducts, recommendTheragun
 therowhouse.com — therowhouse: getSchedule, listLocations
 thezebra.com — thezebra: estimateCoverageCost, getAutoQuotes, getCarrierRates, getCityRates, getCommercialAutoQuotes, getDiscounts, getHomeQuotes, getInsuranceStatistics, getLifeQuotes, getPetQuotes, getRatesByDriverProfile, getRentersQuotes, getRentersRates, getStateRates, getStateRequirements, getVehicleRates, listCarriers, listVehicles
