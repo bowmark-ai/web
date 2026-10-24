@@ -1492,7 +1492,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
 | `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟢 |
-| `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🟡 |
+| `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🔴 |
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
 | `doordash.addAddress` | doordash.com | Saves a new delivery address (with apartment, drop-off instructions) to the signed-in… | ⚪ |
 | `doordash.addToCart` | doordash.com | Adds a menu item (with its chosen options and quantity) to the cart for a store, the… | ⚪ |
@@ -2297,7 +2297,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | 🟢 |
 | `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer name, review text, and creation… | 🟢 |
 | `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | 🟢 |
-| `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | ⚪ |
+| `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | 🟢 |
 | `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | ⚪ |
 | `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | ⚪ |
 | `goodreads.getOwnProfile` | goodreads.com | Reads the signed-in caller's own profile — their shelves with counts, friend list, and… | ⚪ |
@@ -4280,7 +4280,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `solidcore.getPack` | solidcore.co | Returns details of a class pack: price, expiration, class count. | ⚪ |
 | `solidcore.getPricing` | solidcore.co | Returns class pricing, drop-in rates, and package options. | ⚪ |
 | `solidcore.getSchedule` | solidcore.co | Returns class schedule for a studio and date range, including class name, time, coach… | ⚪ |
-| `solidcore.getStudio` | solidcore.co | Returns one studio's own record off the same chain-wide registry listStudios reads… | 🟢 |
+| `solidcore.getStudio` | solidcore.co | Returns one studio's own record off the same chain-wide registry listStudios reads… | 🟡 |
 | `solidcore.getStudioHours` | solidcore.co | Returns a studio's operating hours. | ⚪ |
 | `solidcore.joinWaitlist` | solidcore.co | Joins the waitlist for a full class. | ⚪ |
 | `solidcore.listClassCategories` | solidcore.co | Lists class types offered (strength, cardio, endurance, etc.). | ⚪ |
