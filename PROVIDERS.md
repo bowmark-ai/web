@@ -1885,7 +1885,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fitdegree.buyPricingOption` | fitdegree.com | Would buy a membership, class pack, drop-in or intro offer at a studio for the… | ⚪ |
 | `fitdegree.cancelBooking` | fitdegree.com | Cancels one of the signed-in member's class or event bookings. | ⚪ |
 | `fitdegree.cancelPrivateSession` | fitdegree.com | Cancels one of the signed-in member's private sessions, refusing a late cancel with a… | ⚪ |
-| `fitdegree.findStudio` | fitdegree.com | Finds a FitDegree studio by name, city or website, or from the URL of a page that… | ⚪ |
+| `fitdegree.findStudio` | fitdegree.com | Finds a FitDegree studio by name, city or website, or from the URL of a page that… | 🟢 |
 | `fitdegree.getCancellationPolicy` | fitdegree.com | Returns a studio's cancellation policy for a class — the early and late cancellation… | ⚪ |
 | `fitdegree.getClass` | fitdegree.com | Returns one scheduled class by id: description, start and end time, instructor, room… | ⚪ |
 | `fitdegree.getClassPricing` | fitdegree.com | Returns what booking one class would cost the signed-in member: the drop-in price, and… | ⚪ |
@@ -1894,7 +1894,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fitdegree.getMyProfile` | fitdegree.com | Returns the signed-in member's own profile at FitDegree: name, username, email, phone… | ⚪ |
 | `fitdegree.getPrivateSessionAvailability` | fitdegree.com | Returns the open times for a private session type, optionally with one instructor… | ⚪ |
 | `fitdegree.getSpotMap` | fitdegree.com | Returns the spot or equipment map for a class at a studio that lets members choose… | ⚪ |
-| `fitdegree.getStudio` | fitdegree.com | Returns one studio by fitspot id: name, address, time zone, contact details, logo, its… | ⚪ |
+| `fitdegree.getStudio` | fitdegree.com | Returns one studio by fitspot id: name, address, time zone, contact details, logo, its… | 🟢 |
 | `fitdegree.joinWaitlist` | fitdegree.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
 | `fitdegree.leaveWaitlist` | fitdegree.com | Takes the signed-in member off a class waitlist. | ⚪ |
 | `fitdegree.listAnnouncements` | fitdegree.com | Lists a studio's announcements to members (new schedule, closures, promotions) with… | ⚪ |
@@ -2783,7 +2783,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kenko.listMyPurchases` | gokenko.com | List the signed-in member's purchase history (classes, products, passes). | ⚪ |
 | `kenko.listPricing` | gokenko.com | List all pricing plans and class packages offered. | ⚪ |
 | `kenko.listProducts` | gokenko.com | List products (apparel, merchandise) for sale. | ⚪ |
-| `kenko.listScheduleFilters` | gokenko.com | List available filters for class schedule (service types, date ranges). | ⚪ |
+| `kenko.listScheduleFilters` | gokenko.com | List the schedule page's own filter options: facilities/rooms, class types and… | 🟢 |
 | `kenko.listVideos` | gokenko.com | List on-demand videos and recorded classes. | ⚪ |
 | `kenko.pauseMembership` | gokenko.com | Pause an active membership for the signed-in member. | ⚪ |
 | `kenko.setMarketingPreferences` | gokenko.com | Update marketing and communication preferences for the signed-in member. | ⚪ |
@@ -3374,7 +3374,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟡 |
 | `nytimes.listTopics` | nytimes.com | Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently… | 🟢 |
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
-| `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟢 |
+| `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟡 |
 | `nytimes.saveArticle` | nytimes.com | Saves an article to the reader's collection (requires auth). | ⚪ |
 | `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟡 |
 | `nytimes.searchWriters` | nytimes.com | Searches NYT's own writers by name off its collections sitemap (the site publishes no… | 🟢 |
@@ -3547,7 +3547,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.getPin` | pinterest.com | Read one pin in full: title, `seo_title`, the description Pinterest renders, the… | 🟢 |
 | `pinterest.getProduct` | pinterest.com | Read the product behind a shoppable pin: price and currency, the merchant and the… | 🟢 |
 | `pinterest.getTopic` | pinterest.com | Read one idea topic: its display name, the description Pinterest wrote for it, its… | ⚪ |
-| `pinterest.getUser` | pinterest.com | Read a person's or a brand's profile: full name, username, the bio they wrote… | ⚪ |
+| `pinterest.getUser` | pinterest.com | Read a person's or a brand's profile: id, full name, username, follower and following… | 🟢 |
 | `pinterest.hidePin` | pinterest.com | Tell Pinterest the caller does not want to see a pin. | ⚪ |
 | `pinterest.listBoardPins` | pinterest.com | Every pin inside a board, in the board's own order, with a `bookmark` for the next… | ⚪ |
 | `pinterest.listBoardSectionPins` | pinterest.com | The pins inside one section of a board, taking the section id `listBoardSections`… | ⚪ |
@@ -3559,11 +3559,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | 🟡 |
 | `pinterest.listTopicPins` | pinterest.com | The best pins in a topic — Pinterest's editorial feed for that interest, which is the… | ⚪ |
 | `pinterest.listTopics` | pinterest.com | Pinterest's own top-level idea topics — Food and Drink, Home Decor, Travel, Tattoos… | ⚪ |
-| `pinterest.listUserBoards` | pinterest.com | Every board a person has made public, with id, name, url, pin count, section count and… | ⚪ |
-| `pinterest.listUserCreatedPins` | pinterest.com | The pins a person made themselves rather than saved from somebody else —… | ⚪ |
+| `pinterest.listUserBoards` | pinterest.com | Every board a person has made public, with id, name, url, pin count and section count… | 🟢 |
+| `pinterest.listUserCreatedPins` | pinterest.com | The pins a person made themselves rather than saved from somebody else —… | 🟢 |
 | `pinterest.listUserFollowers` | pinterest.com | Who follows this person, page by page — the audience side of a profile. | ⚪ |
 | `pinterest.listUserFollowing` | pinterest.com | Who this person follows — people, boards and topics. | ⚪ |
-| `pinterest.listUserSavedPins` | pinterest.com | The pins a person has saved, newest first, across all their boards — what… | ⚪ |
+| `pinterest.listUserSavedPins` | pinterest.com | The pins a person has saved, newest first, across all their boards — what… | 🟢 |
 | `pinterest.listVisualObjects` | pinterest.com | The objects Pinterest's own computer vision found inside a pin's image — each with a… | 🟢 |
 | `pinterest.reactToPin` | pinterest.com | React to a pin as the caller — Pinterest's good-idea / love / thanks set, which… | ⚪ |
 | `pinterest.savePin` | pinterest.com | Save an existing pin to one of the caller's boards — the repin, which is the single… | ⚪ |
@@ -4372,22 +4372,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.getChart` | open.spotify.com | Get Spotify's featured charts by type and country. | ⚪ |
 | `spotify.getCurrentPlayback` | open.spotify.com | Get the signed-in user's current playback state. | ⚪ |
 | `spotify.getDevices` | open.spotify.com | Get the signed-in user's available devices. | ⚪ |
-| `spotify.getEpisode` | open.spotify.com | Get details about a specific podcast episode. | ⚪ |
+| `spotify.getEpisode` | open.spotify.com | Get details about a specific podcast episode. | 🟢 |
 | `spotify.getFeaturedPlaylists` | open.spotify.com | Get Spotify's featured playlists. | ⚪ |
 | `spotify.getLibraryAlbums` | open.spotify.com | Get the signed-in user's saved albums. | ⚪ |
 | `spotify.getLibraryArtists` | open.spotify.com | Get the signed-in user's followed artists. | ⚪ |
 | `spotify.getLibraryPlaylists` | open.spotify.com | Get the signed-in user's playlists. | ⚪ |
 | `spotify.getLibraryTracks` | open.spotify.com | Get the signed-in user's saved tracks. | ⚪ |
 | `spotify.getPlaylist` | open.spotify.com | Get details about a specific playlist. | 🟢 |
-| `spotify.getPodcast` | open.spotify.com | Get details about a specific podcast show. | ⚪ |
+| `spotify.getPodcast` | open.spotify.com | Get details about a specific podcast show. | 🟢 |
 | `spotify.getRecentlyPlayed` | open.spotify.com | Get the signed-in user's recently played tracks. | ⚪ |
 | `spotify.getRecommendations` | open.spotify.com | Get track recommendations based on seeds. | ⚪ |
 | `spotify.getTopArtists` | open.spotify.com | Get the signed-in user's top artists. | ⚪ |
 | `spotify.getTopTracks` | open.spotify.com | Get the signed-in user's top tracks. | ⚪ |
 | `spotify.getTrack` | open.spotify.com | Get details about a specific track including audio features. | 🟢 |
 | `spotify.getUserProfile` | open.spotify.com | Get the signed-in user's profile information. | ⚪ |
-| `spotify.listAlbumTracks` | open.spotify.com | Get all tracks from an album. | ⚪ |
-| `spotify.listArtistTracks` | open.spotify.com | Get an artist's top or recently released tracks. | ⚪ |
+| `spotify.listAlbumTracks` | open.spotify.com | Get a page of an album's track listing. | 🟢 |
+| `spotify.listArtistTracks` | open.spotify.com | Get an artist's top tracks. | 🟢 |
 | `spotify.listNewReleases` | open.spotify.com | Get new release recommendations. | ⚪ |
 | `spotify.listPlaylistTracks` | open.spotify.com | Get all tracks from a playlist. | ⚪ |
 | `spotify.search` | open.spotify.com | Searches Spotify's catalog for tracks, albums, artists, playlists, podcasts or… | 🟢 |
