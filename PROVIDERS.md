@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5652 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5667 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2495,8 +2495,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hellotend.listServices` | hellotend.com | Lists the service codes a specific Tend studio offers (Dental Exam CLNCHK, Clear… | 🟢 |
 | `hellotend.listStudios` | hellotend.com | Lists every Tend dental studio across all markets — 33+ locations with name, slug… | 🟢 |
 | `higgsfield.estimateCost` | higgsfield.ai | Asks Higgsfield what one generation will cost, for exactly the parameters that would… | 🟢 |
-| `higgsfield.generateImage` | higgsfield.ai | Turns a text prompt into finished images and waits for them, returning their URLs plus… | 🟡 |
-| `higgsfield.generateVideo` | higgsfield.ai | Turns a text prompt — or a prompt plus an input image — into a finished video and… | 🟡 |
+| `higgsfield.generateImage` | higgsfield.ai | Turns a text prompt into finished images and waits for them, returning their URLs plus… | 🟢 |
+| `higgsfield.generateVideo` | higgsfield.ai | Turns a text prompt — or a prompt plus an input image — into a finished video and… | 🟢 |
 | `higgsfield.getRequestStatus` | higgsfield.ai | Checks one submitted generation by the request id a generate call returned, and hands… | 🟢 |
 | `higgsfield.listModels` | higgsfield.ai | Lists every generation model Bowmark's Higgsfield account can actually call — id… | 🟢 |
 | `highlandhomes.search` | highlandhomes.org | Searches Highland Homes' live new-construction inventory (Florida only) by city… | 🟢 |
@@ -2520,8 +2520,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟢 |
 | `holidaybuilders.searchAvailableHomes` | holidaybuilders.com | Runs Holiday Builders' site-wide Available Homes search — every real move-in-ready or… | 🟢 |
 | `hottopic.search` | hottopic.com | Searches hottopic.com's own storefront for a keyword and returns the real, priced… | 🟢 |
-| `hubspot.addNoteToDeal` | app.hubspot.com | Writes a note onto a deal in the caller's own HubSpot CRM portal — creates the note… | 🟡 |
-| `hubspot.getDeal` | app.hubspot.com | Reads one deal from the caller's own HubSpot CRM portal by its id — name, amount… | 🟡 |
+| `hubspot.addNoteToDeal` | app.hubspot.com | Writes a note onto a deal in the caller's own HubSpot CRM portal — creates the note… | 🟢 |
+| `hubspot.getDeal` | app.hubspot.com | Reads one deal from the caller's own HubSpot CRM portal by its id — name, amount… | 🟢 |
 | `hubspot.searchContacts` | app.hubspot.com | Searches the contacts in the caller's own HubSpot CRM portal by name or email. | ⚪ |
 | `hubspot.searchDeals` | app.hubspot.com | Searches the deals in the caller's own HubSpot CRM portal by name ("Q4 direct mail")… | 🟢 |
 | `hubspot.updateDeal` | app.hubspot.com | Changes a deal's properties (stage, amount, close date) in the caller's own HubSpot… | ⚪ |
@@ -3598,9 +3598,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `poshmark.getBulkUploadTemplateGuide` | poshmark.com | Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required… | 🟢 |
 | `poshmark.getZipFileGuide` | poshmark.com | Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how… | 🟢 |
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
-| `postiz.createPost` | postiz.com | Create and schedule a new post on one connected channel, by the channel id… | 🟡 |
-| `postiz.listIntegrations` | postiz.com | List the organization's connected social channels with the id createPost takes, the… | 🟡 |
-| `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟡 |
+| `postiz.createPost` | postiz.com | Create and schedule a new post on one connected channel, by the channel id… | 🟢 |
+| `postiz.listIntegrations` | postiz.com | List the organization's connected social channels with the id createPost takes, the… | 🟢 |
+| `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟢 |
 | `potterybarn.getProduct` | potterybarn.com | Reads one product page: every size/colour SKU with its own price, stock and delivery… | ⚪ |
 | `potterybarn.searchProducts` | potterybarn.com | Searches the Pottery Barn catalog the way its own search box does ("sofa") and returns… | 🟢 |
 | `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟡 |
@@ -5612,6 +5612,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.updatePlaylist` | youtube.com | Change the title, description or privacy of one of the signed-in account's own… | 🟢 |
 | `youtube.updateVideo` | youtube.com | Change the title, description, tags, category or privacy of one of the signed-in… | 🟢 |
 | `youtube.uploadVideo` | youtube.com | Upload a video file to the signed-in account's own channel, with its title… | 🟢 |
+| `zen_planner.bookClass` | TODO example.com | Books a class slot for the caller, accepting guest checkout with email and phone. | ⚪ |
+| `zen_planner.cancelBooking` | TODO example.com | Cancels one of the caller's bookings, reading the cancellation policy and deadline. | ⚪ |
+| `zen_planner.findStudio` | TODO example.com | Finds a fitness studio on Zen Planner by its name or URL. | ⚪ |
+| `zen_planner.getClassDetails` | TODO example.com | Returns detailed information about a specific class including level, capacity and… | ⚪ |
+| `zen_planner.getMemberInfo` | TODO example.com | Returns the signed-in member's profile including name, email, membership status and… | ⚪ |
+| `zen_planner.getMembershipStatus` | TODO example.com | Returns details about the caller's current membership, credits remaining and renewal… | ⚪ |
+| `zen_planner.getPrice` | TODO example.com | Returns pricing for a specific class including drop-in rates and package pricing. | ⚪ |
+| `zen_planner.getStudioInfo` | TODO example.com | Returns details about a studio including address, hours, contact information… | ⚪ |
+| `zen_planner.listClasses` | TODO example.com | Lists all classes offered by a studio with their names, descriptions, duration and… | ⚪ |
+| `zen_planner.listMyBookings` | TODO example.com | Lists the signed-in caller's upcoming and past class bookings. | ⚪ |
+| `zen_planner.listPackages` | TODO example.com | Lists class packages and memberships available with their pricing and benefits. | ⚪ |
+| `zen_planner.listScheduleSlots` | TODO example.com | Lists available class times for a given date range at a studio with remaining spots… | ⚪ |
+| `zen_planner.rescheduleBooking` | TODO example.com | Reschedules a caller's booking to a different class time. | ⚪ |
+| `zen_planner.searchSchedule` | TODO example.com | Searches for available classes matching filter criteria like class type, time and day. | ⚪ |
+| `zen_planner.updateMemberInfo` | TODO example.com | Updates the signed-in member's profile information including name, email and… | ⚪ |
 | `zennioptical.checkStock` | zennioptical.com | Checks live per-SKU inventory (in stock, quantity, backorder/preorder flags) off the… | 🟢 |
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
 | `zennioptical.priceLensConfig` | zennioptical.com | Runs a real prescription + usage type through the site's own order-configurator flow… | 🟢 |
