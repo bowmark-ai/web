@@ -3455,12 +3455,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
 | `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | 🟢 |
 | `patreon.getCurrentUserFeed` | patreon.com | Get the signed-in caller's home feed. | ⚪ |
-| `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | ⚪ |
+| `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | 🟢 |
 | `patreon.listCreatorPosts` | patreon.com | List a creator's posts, newest first, one page at a time with the site's own cursor. | 🟢 |
 | `patreon.listCreatorTiers` | patreon.com | List all membership tiers offered by a creator with pricing. | 🟢 |
 | `patreon.listMemberOnlyPosts` | patreon.com | List posts only visible to the signed-in caller (requires membership). | ⚪ |
 | `patreon.listPledges` | patreon.com | List the signed-in caller's memberships and pledges. | ⚪ |
-| `patreon.listPostComments` | patreon.com | List all comments on a post. | ⚪ |
+| `patreon.listPostComments` | patreon.com | List all comments on a post. | 🟢 |
 | `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | 🟢 |
 | `pausestudio.bookAppointment` | pausestudio.com | Books one service at one location at a time listAvailableSlots() returned, on the… | 🟢 |
 | `pausestudio.cancelBooking` | pausestudio.com | Cancels one of the caller's own appointments by its id — requires the caller's own… | 🟢 |
@@ -5150,7 +5150,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.addAddress` | walmart.com | Saves a new delivery address on the signed-in account. | ⚪ |
 | `walmart.addToCart` | walmart.com | Puts an item in the cart in the quantity asked for and reports what the cart then holds. | ⚪ |
 | `walmart.addToList` | walmart.com | Adds an item to one of the shopper's saved lists. | ⚪ |
-| `walmart.browseBrand` | walmart.com | Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a… | 🟢 |
+| `walmart.browseBrand` | walmart.com | Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a… | 🟡 |
 | `walmart.browseCategory` | walmart.com | Lists products under one of the site's own department/category pages (e.g.… | 🟢 |
 | `walmart.checkStock` | walmart.com | Answers whether a specific item is actually available right now at a given store or… | ⚪ |
 | `walmart.createList` | walmart.com | Creates a new saved list with a name. | ⚪ |
