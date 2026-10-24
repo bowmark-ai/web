@@ -2005,9 +2005,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getTokenThesis` | fomo.family | Returns the written theses traders have posted about one token, ranked by the site's… | 🟢 |
 | `fomo.getTokenWarnings` | fomo.family | Returns fomo's risk flags for one token — the honeypot, mint-authority… | 🟢 |
 | `fomo.getTopHolders` | fomo.family | Returns the largest holders of each requested token, one result array per token in the… | 🟢 |
-| `fomo.getTrade` | fomo.family | Returns one trade in full by id, with its author and token — the narrow read behind a… | ⚪ |
-| `fomo.getTradeComments` | fomo.family | Returns the comment thread under one trade. `GET /trades/:tradeId/comments`. | ⚪ |
-| `fomo.getTrades` | fomo.family | Pages trades across the platform, optionally filtered to one trader. `GET… | ⚪ |
+| `fomo.getTrade` | fomo.family | Returns one trade in full by id, with its author and token — the narrow read behind a… | 🟢 |
+| `fomo.getTradeComments` | fomo.family | Returns the comment thread under one trade, in the site's own order. | 🟢 |
+| `fomo.getTrades` | fomo.family | Pages trades across the platform, optionally filtered to one trader by userId. | 🟢 |
 | `fomo.getTradingActivityFeed` | fomo.family | Pages raw trading activity rather than the composed social feed — the unfiltered… | 🟢 |
 | `fomo.getTransfers` | fomo.family | Pages the signed-in trader's transfers, and the transfers exchanged with one other… | ⚪ |
 | `fomo.getTransfersWith` | fomo.family | Pages the transfers between the signed-in trader and ONE other user — the two-party… | ⚪ |
@@ -2016,7 +2016,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getUserByHandle` | fomo.family | Returns one trader's profile from their `@handle` — the half of a… | 🟢 |
 | `fomo.getUserLeaderboardStanding` | fomo.family | Returns one trader's own rank and stats without walking the board — the narrow… | ⚪ |
 | `fomo.getUserSpotlight` | fomo.family | Returns the highlighted trades and stats fomo pins to the top of one trader's profile… | 🟢 |
-| `fomo.getUserSwaps` | fomo.family | Pages one trader's executed swaps — token, side, amount, USD value, price and realized… | ⚪ |
+| `fomo.getUserSwaps` | fomo.family | Pages one trader's own executed swaps — the raw trade log behind everything the… | 🟢 |
 | `fomo.getUserTransfers` | fomo.family | Pages one trader's token transfers in and out — distinct from swaps, which are trades.… | ⚪ |
 | `fomo.getUserWithdrawals` | fomo.family | Returns one trader's withdrawals off the platform for a given chain. `GET… | ⚪ |
 | `fomo.getVerifiedTokens` | fomo.family | Returns the tokens fomo has verified — its own trust list, as distinct from the… | 🟢 |
@@ -4010,7 +4010,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `scribd.createList` | scribd.com | Creates a new list (collection) on the signed-in caller's account, public or private… | ⚪ |
 | `scribd.deleteDocument` | scribd.com | Deletes one of the signed-in caller's own uploaded documents. | ⚪ |
 | `scribd.downloadDocument` | scribd.com | Downloads a document's file (PDF, DOCX, TXT … as its formats list offers) for the… | ⚪ |
-| `scribd.getDocument` | scribd.com | Reads one document's metadata — title, uploader (name and profile url), description… | ⚪ |
+| `scribd.getDocument` | scribd.com | Reads one document's metadata — title, uploader (name and profile url), description… | 🟢 |
 | `scribd.getDocumentText` | scribd.com | Reads the full extracted text of a public document, page by page where the site marks… | ⚪ |
 | `scribd.getEmbedCode` | scribd.com | Returns the embed for a public document — Scribd's iframe html, aspect ratio, title… | ⚪ |
 | `scribd.getList` | scribd.com | Reads a public Scribd list (a curated collection) — its name, description, owner, and… | ⚪ |

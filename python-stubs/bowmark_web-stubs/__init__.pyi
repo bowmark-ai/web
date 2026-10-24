@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cad4168f0e90998361dce128e109907cb19c4cfe1898c1d6b808a83604e39260
-# 87 capabilities, 641 providers, 2545 typed functions, 20 refused.
+# Manifest version: 10039cc601d8afc9a6ad2007fed7d1f7686ec5e7fda5371aa0fc3330c5d1d97d
+# 87 capabilities, 641 providers, 2554 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -32531,6 +32531,27 @@ class Prv_sweathouz_SweathouzPlan_Out(TypedDict):
     perks: list[str]
     purchaseUrl: str
 
+class Prv_sweathouz_SweathouzGetStudioHoursArgs_In(TypedDict):
+    studio: str
+
+class Prv_sweathouz_SweathouzHours_Out(TypedDict):
+    studioId: str
+    studioName: str
+    hours: list[Prv_sweathouz_SweathouzHours_Out_hours_item_Out]
+
+class Prv_sweathouz_SweathouzHours_Out_hours_item_Out(TypedDict):
+    day: str
+    open: str | None
+    close: str | None
+
+class Prv_sweathouz_SweathouzFindStudioArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_sweathouz_SweathouzStudioMatch_Out(TypedDict):
+    studio: Prv_sweathouz_SweathouzStudio_Out
+    score: float
+
 class Prv_tagtrans_net_TagtransShipmentRateForm_Out(TypedDict):
     formUrl: str
     recipient: str
@@ -34121,6 +34142,23 @@ class Prv_tock_TockBusinessHours_Out(TypedDict):
     serviceType: str
     startTime: str
     endTime: str
+
+class Prv_tock_TockExperience_Out(TypedDict):
+    id: float
+    slug: str
+    name: str
+    type: str
+    description: str
+    priceDescription: str
+    pricePerPersonCents: Prv_tock_TockExperience_Out_pricePerPersonCents_u0_Out | None
+    currencyCode: str
+    partySizes: list[float]
+    state: str
+    isOneTimeEvent: bool
+
+class Prv_tock_TockExperience_Out_pricePerPersonCents_u0_Out(TypedDict):
+    min: float
+    max: float
 
 class Prv_topviewtix_topviewtixPackageSummary_Out(TypedDict):
     id: float
@@ -36213,6 +36251,34 @@ class Prv_washingtonpost_WashingtonpostSection_Out(TypedDict):
     name: str
     url: str
 
+class Prv_washingtonpost_WashingtonpostArticle_Out(TypedDict):
+    headline: str
+    byline: NotRequired[str]
+    url: str
+    publishDate: NotRequired[str]
+    section: NotRequired[str]
+    teaser: NotRequired[str]
+    imageUrl: NotRequired[str]
+
+class Prv_washingtonpost_WashingtonpostArticleDetail_Out(TypedDict):
+    headline: str
+    byline: NotRequired[str]
+    url: str
+    publishDate: NotRequired[str]
+    section: NotRequired[str]
+    teaser: NotRequired[str]
+    lede: NotRequired[str]
+    isAccessibleForFree: bool
+
+class Prv_washingtonpost_WashingtonpostWriter_Out(TypedDict):
+    slug: str
+    name: str
+    jobProfile: NotRequired[str]
+    bio: NotRequired[str]
+    longBio: NotRequired[str]
+    location: NotRequired[str]
+    imageUrl: NotRequired[str]
+
 class Prv_waterfurnace_lookupHomeDetails_input_In(TypedDict):
     address: str
     city: NotRequired[str]
@@ -36714,6 +36780,35 @@ class Prv_wellnessliving_WellnesslivingLocation_Out(TypedDict):
     latitude: float | None
     longitude: float | None
     timezone: str
+
+class Prv_wellnessliving_WellnesslivingGetLocationDetailsArgs_In(TypedDict):
+    scheduleUrl: str
+    locationId: str
+
+class Prv_wellnessliving_WellnesslivingListScheduleClassesArgs_In(TypedDict):
+    scheduleUrl: str
+    locationId: NotRequired[str]
+
+class Prv_wellnessliving_WellnesslivingClassSession_Out(TypedDict):
+    classId: str
+    classPeriodId: str
+    locationId: str
+    title: str
+    localStart: str
+    utcStart: str
+    timezone: str
+    durationMinutes: float
+    description: str
+    staffIds: list[str]
+    room: str
+    booked: float
+    capacity: float
+    waitlisted: float
+    waitlistEnabled: bool
+    isCancelled: bool
+    isEvent: bool
+    isVirtual: bool
+    bookUrl: str
 
 class Prv_westelm_WsgcSearchArgs_In(TypedDict):
     query: str
@@ -59739,6 +59834,19 @@ class Prv_sweathouz(Protocol):
         billing tells them apart). Anonymous; no sign-in needed.
         """
 
+    async def getStudioHours(self, args: Prv_sweathouz_SweathouzGetStudioHoursArgs_In, /) -> Prv_sweathouz_SweathouzHours_Out:
+        """Looks up one SWTHZ studio's operating hours by id or name — the same `hours` listStudios
+        already carries per studio, for a caller who only has one studio in hand. Anonymous; no
+        sign-in needed.
+        """
+
+    async def findStudio(self, args: Prv_sweathouz_SweathouzFindStudioArgs_In, /) -> list[Prv_sweathouz_SweathouzStudioMatch_Out]:
+        """Fuzzy-searches SWTHZ studios by name, city, state, ZIP or keyword, tolerating typos and
+        partial names — unlike listStudios' exact-substring filter, this ranks every studio by
+        similarity and returns the closest matches with a 0-1 score. Anonymous; no sign-in
+        needed.
+        """
+
 class Prv_tagtrans_net(Protocol):
     """TAG Trans's public freight shipment-rate request form: its current fields and services,
     plus a prefilled email handoff the site itself uses.
@@ -60706,6 +60814,12 @@ class Prv_tock(Protocol):
     async def getBusiness(self, slug: str, /) -> Prv_tock_TockBusiness_Out:
         """Full details of one Tock venue — name, address, hours, description, cuisine and price
         range — by its URL slug, e.g. "onsenurbanbathandrestaurant" or "bogle".
+        """
+
+    async def listExperiences(self, slug: str, /) -> list[Prv_tock_TockExperience_Out]:
+        """Every bookable experience a Tock venue lists — timed reservations and ticketed events,
+        with price, party sizes and sold-out state — by business slug, e.g.
+        "onsenurbanbathandrestaurant".
         """
 
 class Prv_topviewtix(Protocol):
@@ -61949,6 +62063,24 @@ class Prv_washingtonpost(Protocol):
     async def listSections(self, /) -> list[Prv_washingtonpost_WashingtonpostSection_Out]:
         """Lists the site's own news sections (Politics, World, Business, Sports, Opinions, etc.)"""
 
+    async def listArticles(self, section: str, /) -> list[Prv_washingtonpost_WashingtonpostArticle_Out]:
+        """Lists a section front's own article grid, newest first, with headline, byline, teaser
+        and publish date.
+        """
+
+    async def getArticle(self, url: str, /) -> Prv_washingtonpost_WashingtonpostArticleDetail_Out:
+        """Gets one article's own headline, byline, publish date, section and lede. Full body text
+        needs the caller's own subscription — see getArticleFullText.
+        """
+
+    async def getWriter(self, writer: str, /) -> Prv_washingtonpost_WashingtonpostWriter_Out:
+        """Gets a Washington Post writer's own byline page — name, job title/desk, bio and
+        headshot.
+        """
+
+    async def listArticlesByWriter(self, writer: str, /) -> list[Prv_washingtonpost_WashingtonpostArticle_Out]:
+        """Lists a writer's own most recent articles off their byline page, newest first."""
+
 class Prv_waterfurnace(Protocol):
     """WaterFurnace's Savings Calculator, run for real — the site's own computed Free Savings
     Report (annual dollar savings, energy comparison, carbon footprint, recommended
@@ -62196,6 +62328,19 @@ class Prv_wellnessliving(Protocol):
         domain redirects to, or embeds as an iframe) — `listKnownBusinesses` has it for a studio
         whose name you already know. An empty array is a real business with no locations on
         file.
+        """
+
+    async def getLocationDetails(self, args: Prv_wellnessliving_WellnesslivingGetLocationDetailsArgs_In, /) -> Prv_wellnessliving_WellnesslivingLocation_Out:
+        """Reads one studio location — address, phone, email, lat/lng and timezone — by the id
+        `listLocations` returned. WellnessLiving's public location record carries no opening
+        hours or amenities. An unknown id throws, naming the ids that do exist.
+        """
+
+    async def listScheduleClasses(self, args: Prv_wellnessliving_WellnesslivingListScheduleClassesArgs_In, /) -> list[Prv_wellnessliving_WellnesslivingClassSession_Out]:
+        """Lists the class sessions on a business's public schedule for the week it opens on (today
+        onward, ~7 days) — title, local and UTC start, duration, instructor ids, booked vs
+        capacity, waitlist, and the `bookUrl` a signed-in customer books through. Optional
+        `locationId` narrows to one studio.
         """
 
 class Prv_westelm(Protocol):

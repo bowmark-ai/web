@@ -1,5 +1,5 @@
 {
-  "version": "cad4168f0e90998361dce128e109907cb19c4cfe1898c1d6b808a83604e39260",
+  "version": "10039cc601d8afc9a6ad2007fed7d1f7686ec5e7fda5371aa0fc3330c5d1d97d",
   "units": {
     "address_validation": {
       "defs": {
@@ -66812,7 +66812,38 @@
             }
           ]
         },
+        "SweathouzFindStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SweathouzGetPricingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SweathouzGetStudioHoursArgs": {
           "k": "object",
           "props": [
             {
@@ -66893,6 +66924,26 @@
             "schema": {
               "k": "ref",
               "name": "SweathouzListMembershipsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStudioHours": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SweathouzGetStudioHoursArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SweathouzFindStudioArgs"
             },
             "optional": false
           }
@@ -69745,6 +69796,15 @@
           }
         ],
         "getBusiness": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listExperiences": [
           {
             "name": "slug",
             "schema": {
@@ -73730,7 +73790,43 @@
     "providers.washingtonpost": {
       "defs": {},
       "functions": {
-        "listSections": []
+        "listSections": [],
+        "listArticles": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getWriter": [
+          {
+            "name": "writer",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listArticlesByWriter": [
+          {
+            "name": "writer",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.waterfurnace": {
@@ -74403,6 +74499,25 @@
     },
     "providers.wellnessliving": {
       "defs": {
+        "WellnesslivingGetLocationDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "scheduleUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "WellnesslivingListLocationsArgs": {
           "k": "object",
           "props": [
@@ -74412,6 +74527,25 @@
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "WellnesslivingListScheduleClassesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "scheduleUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         }
@@ -74424,6 +74558,26 @@
             "schema": {
               "k": "ref",
               "name": "WellnesslivingListLocationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLocationDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WellnesslivingGetLocationDetailsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listScheduleClasses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WellnesslivingListScheduleClassesArgs"
             },
             "optional": false
           }

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cad4168f0e90998361dce128e109907cb19c4cfe1898c1d6b808a83604e39260
-// 2545 checked, 20 unchecked.
+// Manifest version: 10039cc601d8afc9a6ad2007fed7d1f7686ec5e7fda5371aa0fc3330c5d1d97d
+// 2554 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cad4168f0e90998361dce128e109907cb19c4cfe1898c1d6b808a83604e39260",
+  "version": "10039cc601d8afc9a6ad2007fed7d1f7686ec5e7fda5371aa0fc3330c5d1d97d",
   "units": {
     "address_validation": {
       "defs": {
@@ -66824,7 +66824,38 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SweathouzFindStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SweathouzGetPricingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SweathouzGetStudioHoursArgs": {
           "k": "object",
           "props": [
             {
@@ -66905,6 +66936,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SweathouzListMembershipsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStudioHours": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SweathouzGetStudioHoursArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SweathouzFindStudioArgs"
             },
             "optional": false
           }
@@ -69757,6 +69808,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getBusiness": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listExperiences": [
           {
             "name": "slug",
             "schema": {
@@ -73742,7 +73802,43 @@ export const VALIDATORS: ValidatorTable = {
     "providers.washingtonpost": {
       "defs": {},
       "functions": {
-        "listSections": []
+        "listSections": [],
+        "listArticles": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getWriter": [
+          {
+            "name": "writer",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listArticlesByWriter": [
+          {
+            "name": "writer",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.waterfurnace": {
@@ -74415,6 +74511,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.wellnessliving": {
       "defs": {
+        "WellnesslivingGetLocationDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "scheduleUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "WellnesslivingListLocationsArgs": {
           "k": "object",
           "props": [
@@ -74424,6 +74539,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "WellnesslivingListScheduleClassesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "scheduleUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         }
@@ -74436,6 +74570,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "WellnesslivingListLocationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLocationDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WellnesslivingGetLocationDetailsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listScheduleClasses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WellnesslivingListScheduleClassesArgs"
             },
             "optional": false
           }

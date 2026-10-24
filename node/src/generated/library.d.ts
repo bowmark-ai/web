@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cad4168f0e90998361dce128e109907cb19c4cfe1898c1d6b808a83604e39260
-// 87 capabilities, 641 providers, 2563 typed functions, 20 refused.
+// Manifest version: 10039cc601d8afc9a6ad2007fed7d1f7686ec5e7fda5371aa0fc3330c5d1d97d
+// 87 capabilities, 641 providers, 2572 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -57475,6 +57475,26 @@ interface SweathouzPlans {
   memberships: SweathouzPlan[];  // recurring monthly tiers
 }
 
+interface SweathouzGetStudioHoursArgs {
+  studio: string;              // id or name from listStudios
+}
+
+interface SweathouzHours {
+  studioId: string;
+  studioName: string;
+  hours: { day: string; open: string | null; close: string | null }[]; // same shape as SweathouzStudio.hours
+}
+
+interface SweathouzFindStudioArgs {
+  query: string;                // a studio name, city, state, ZIP, or a misspelling of one
+  limit?: number;                // default 5 — how many ranked matches to return
+}
+
+interface SweathouzStudioMatch {
+  studio: SweathouzStudio;
+  score: number;                 // 0-1; 1 = exact or substring match, lower = a near-miss
+}
+
   /**
    * SWTHZ (sweathouz.com) private contrast-therapy suites (sauna, cold plunge, shower) booked as
    * timed 60-minute appointments: read studios, open suite times and pricing, and (signed in
@@ -57511,6 +57531,20 @@ interface SweathouzPlans {
      * them apart). Anonymous; no sign-in needed.
      */
     listMemberships(args: SweathouzListMembershipsArgs): Promise<SweathouzPlans>;
+
+    /**
+     * Looks up one SWTHZ studio's operating hours by id or name — the same `hours` listStudios
+     * already carries per studio, for a caller who only has one studio in hand. Anonymous; no
+     * sign-in needed.
+     */
+    getStudioHours(args: SweathouzGetStudioHoursArgs): Promise<SweathouzHours>;
+
+    /**
+     * Fuzzy-searches SWTHZ studios by name, city, state, ZIP or keyword, tolerating typos and
+     * partial names — unlike listStudios' exact-substring filter, this ranks every studio by
+     * similarity and returns the closest matches with a 0-1 score. Anonymous; no sign-in needed.
+     */
+    findStudio(args: SweathouzFindStudioArgs): Promise<SweathouzStudioMatch[]>;
   }
 }
 
@@ -60209,6 +60243,20 @@ interface TockBusiness {
   hours: TockBusinessHours[];
 }
 
+interface TockExperience {
+  id: number;
+  slug: string;          // e.g. "co-ed-bathhouse"
+  name: string;
+  type: string;          // "PRIX_FIXE" (timed reservation) | "GA_EVENT" (ticketed event) | …
+  description: string;
+  priceDescription: string;  // the venue's own label, e.g. "$50 per person"
+  pricePerPersonCents: { min: number; max: number } | null;
+  currencyCode: string;
+  partySizes: number[];  // party sizes it accepts, e.g. [1, 2, 3, 4]
+  state: string;         // "AVAILABLE" | "SOLD"
+  isOneTimeEvent: boolean;
+}
+
 interface TockBusinessSuggestion {
   slug: string;          // pass this to getBusiness
   name: string;
@@ -60232,6 +60280,13 @@ interface TockBusinessSuggestion {
      * — by its URL slug, e.g. "onsenurbanbathandrestaurant" or "bogle".
      */
     getBusiness(slug: string): Promise<TockBusiness>;
+
+    /**
+     * Every bookable experience a Tock venue lists — timed reservations and ticketed events, with
+     * price, party sizes and sold-out state — by business slug, e.g.
+     * "onsenurbanbathandrestaurant".
+     */
+    listExperiences(slug: string): Promise<TockExperience[]>;
   }
 }
 
@@ -63815,6 +63870,27 @@ interface WashingtonpostArticle {
   imageUrl?: string;
 }
 
+interface WashingtonpostArticleDetail {
+  headline: string;
+  byline?: string;
+  url: string;
+  publishDate?: string;
+  section?: string;
+  teaser?: string;
+  lede?: string;
+  isAccessibleForFree: boolean;
+}
+
+interface WashingtonpostWriter {
+  slug: string;
+  name: string;
+  jobProfile?: string;
+  bio?: string;
+  longBio?: string;
+  location?: string;
+  imageUrl?: string;
+}
+
   /**
    * The Washington Post's own sections, articles, writers and podcasts — full article text needs
    * the caller's own subscription.
@@ -63822,6 +63898,24 @@ interface WashingtonpostArticle {
   interface Unit {
     /** Lists the site's own news sections (Politics, World, Business, Sports, Opinions, etc.) */
     listSections(): Promise<WashingtonpostSection[]>;
+
+    /**
+     * Lists a section front's own article grid, newest first, with headline, byline, teaser and
+     * publish date.
+     */
+    listArticles(section: string): Promise<WashingtonpostArticle[]>;
+
+    /**
+     * Gets one article's own headline, byline, publish date, section and lede. Full body text
+     * needs the caller's own subscription — see getArticleFullText.
+     */
+    getArticle(url: string): Promise<WashingtonpostArticleDetail>;
+
+    /** Gets a Washington Post writer's own byline page — name, job title/desk, bio and headshot. */
+    getWriter(writer: string): Promise<WashingtonpostWriter>;
+
+    /** Lists a writer's own most recent articles off their byline page, newest first. */
+    listArticlesByWriter(writer: string): Promise<WashingtonpostArticle[]>;
   }
 }
 
@@ -64619,6 +64713,35 @@ interface WellnesslivingKnownBusiness {
   name: string;
   scheduleUrl: string;
 }
+interface WellnesslivingGetLocationDetailsArgs {
+  scheduleUrl: string;
+  locationId: string;
+}
+interface WellnesslivingListScheduleClassesArgs {
+  scheduleUrl: string;
+  locationId?: string;
+}
+interface WellnesslivingClassSession {
+  classId: string;
+  classPeriodId: string;
+  locationId: string;
+  title: string;
+  localStart: string;
+  utcStart: string;
+  timezone: string;
+  durationMinutes: number;
+  description: string;
+  staffIds: string[];
+  room: string;
+  booked: number;
+  capacity: number;
+  waitlisted: number;
+  waitlistEnabled: boolean;
+  isCancelled: boolean;
+  isEvent: boolean;
+  isVirtual: boolean;
+  bookUrl: string;
+}
 
   /**
    * WellnessLiving fitness/wellness studio platform (schedules, classes, locations across many
@@ -64642,6 +64765,21 @@ interface WellnesslivingKnownBusiness {
      * you already know. An empty array is a real business with no locations on file.
      */
     listLocations(args: WellnesslivingListLocationsArgs): Promise<WellnesslivingLocation[]>;
+
+    /**
+     * Reads one studio location — address, phone, email, lat/lng and timezone — by the id
+     * `listLocations` returned. WellnessLiving's public location record carries no opening hours
+     * or amenities. An unknown id throws, naming the ids that do exist.
+     */
+    getLocationDetails(args: WellnesslivingGetLocationDetailsArgs): Promise<WellnesslivingLocation>;
+
+    /**
+     * Lists the class sessions on a business's public schedule for the week it opens on (today
+     * onward, ~7 days) — title, local and UTC start, duration, instructor ids, booked vs capacity,
+     * waitlist, and the `bookUrl` a signed-in customer books through. Optional `locationId`
+     * narrows to one studio.
+     */
+    listScheduleClasses(args: WellnesslivingListScheduleClassesArgs): Promise<WellnesslivingClassSession[]>;
   }
 }
 
