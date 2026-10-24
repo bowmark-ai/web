@@ -1543,12 +1543,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.createTransfer` | dropbox.com | Creates a Dropbox Transfer from files in the caller's Dropbox or uploaded with it, and… | ⚪ |
 | `dropbox.deleteFile` | dropbox.com | Deletes a file or folder in the caller's Dropbox (it goes to Deleted files, where… | ⚪ |
 | `dropbox.downloadFile` | dropbox.com | Downloads a file from the caller's Dropbox and returns a Bowmark file URL for it. | ⚪ |
-| `dropbox.downloadSharedFile` | dropbox.com | Downloads the file behind a shared link and returns a Bowmark file URL for it, with… | ⚪ |
+| `dropbox.downloadSharedFile` | dropbox.com | Downloads the file behind a shared link and returns a Bowmark file URL for it, with… | 🟢 |
 | `dropbox.downloadSharedFolder` | dropbox.com | Downloads a whole shared folder as a zip and returns a Bowmark file URL for it. | ⚪ |
 | `dropbox.getFileMetadata` | dropbox.com | Reads one file or folder in the caller's Dropbox by path: size, modified time, who… | ⚪ |
 | `dropbox.getMyAccount` | dropbox.com | Reads the signed-in caller's account: name, email, profile photo, plan, and storage… | ⚪ |
 | `dropbox.getPlans` | dropbox.com | Lists Dropbox's plans as its own pricing page shows them — Basic, Plus, Essentials… | 🟢 |
-| `dropbox.getSharedLink` | dropbox.com | Opens a Dropbox shared link the caller was sent — any of the /s/, /sh/, /scl/fi/ or… | ⚪ |
+| `dropbox.getSharedLink` | dropbox.com | Opens a Dropbox shared link the caller was sent — any of the /s/, /sh/, /scl/fi/ or… | 🟢 |
 | `dropbox.getTransfer` | dropbox.com | Opens a Dropbox Transfer link (www.dropbox.com/t/<id>) the caller was sent: the files… | ⚪ |
 | `dropbox.listDeletedFiles` | dropbox.com | Lists the caller's recently deleted files and folders that can still be restored. | ⚪ |
 | `dropbox.listFileComments` | dropbox.com | Reads the comments on a file in the caller's Dropbox. | ⚪ |
@@ -1950,7 +1950,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `floathelm.joinWaitlist` | reboot.floathelm.com | Join the waitlist for a fully booked time slot. | ⚪ |
 | `floathelm.listAvailableSlots` | reboot.floathelm.com | List available time slots for a service at a location by date. | ⚪ |
 | `floathelm.listGiftCards` | reboot.floathelm.com | List available gift card denominations. | ⚪ |
-| `floathelm.listLocations` | reboot.floathelm.com | List all available studio locations. | ⚪ |
+| `floathelm.listLocations` | reboot.floathelm.com | List all available studio locations. | 🟢 |
 | `floathelm.listMyBookings` | reboot.floathelm.com | List all bookings for the signed-in user. | ⚪ |
 | `floathelm.listMyCredits` | reboot.floathelm.com | List account credits available to the signed-in user. | ⚪ |
 | `floathelm.listRooms` | reboot.floathelm.com | List all rooms/service types (float, cryo, sauna) at a location. | ⚪ |
@@ -3463,12 +3463,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `patreon.listPostComments` | patreon.com | List all comments on a post. | ⚪ |
 | `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | 🟢 |
 | `pausestudio.bookAppointment` | pausestudio.com | Books one service at one location at a time listAvailableSlots() returned, on the… | 🟢 |
-| `pausestudio.cancelBooking` | pausestudio.com | Cancels a confirmed booking | ⚪ |
+| `pausestudio.cancelBooking` | pausestudio.com | Cancels one of the caller's own appointments by its id — requires the caller's own… | 🟢 |
 | `pausestudio.getLocationInfo` | pausestudio.com | Gets address, phone and the services offered at one location, by the id… | 🟢 |
 | `pausestudio.joinWaitlist` | pausestudio.com | Adds caller to waitlist for a time slot | ⚪ |
 | `pausestudio.listAvailableSlots` | pausestudio.com | Lists available appointment times by service, date and location — requires the… | 🟢 |
 | `pausestudio.listLocations` | pausestudio.com | Lists all Pause Studio recovery/wellness locations | 🟢 |
-| `pausestudio.listMyBookings` | pausestudio.com | Lists caller's upcoming and past bookings | ⚪ |
+| `pausestudio.listMyBookings` | pausestudio.com | Lists the caller's own upcoming or past appointments — requires the caller's own… | 🟢 |
 | `pausestudio.listServices` | pausestudio.com | Lists available recovery services (float, cryo, sauna, IV drips, etc.) at a location | 🟢 |
 | `pausestudio.listWaitlistedSlots` | pausestudio.com | Lists times caller is waitlisted for | ⚪ |
 | `pausestudio.modifyBooking` | pausestudio.com | Reschedules a booking to a different date/time | ⚪ |
@@ -4285,7 +4285,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `solidcore.getPack` | solidcore.co | Returns details of a class pack: price, expiration, class count. | ⚪ |
 | `solidcore.getPricing` | solidcore.co | Returns class pricing, drop-in rates, and package options. | ⚪ |
 | `solidcore.getSchedule` | solidcore.co | Returns class schedule for a studio and date range, including class name, time, coach… | ⚪ |
-| `solidcore.getStudio` | solidcore.co | Returns one studio's own record off the same chain-wide registry listStudios reads… | 🟡 |
+| `solidcore.getStudio` | solidcore.co | Returns one studio's own record off the same registry listStudios reads: name, full… | 🟡 |
 | `solidcore.getStudioHours` | solidcore.co | Returns a studio's operating hours. | ⚪ |
 | `solidcore.joinWaitlist` | solidcore.co | Joins the waitlist for a full class. | ⚪ |
 | `solidcore.listClassCategories` | solidcore.co | Lists class types offered (strength, cardio, endurance, etc.). | ⚪ |
@@ -5435,7 +5435,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.getPodcast` | wsj.com | Gets one podcast's own details — name, description and feed url. | ⚪ |
 | `wsj.getQuote` | wsj.com | Gets one symbol's current quote off WSJ's own Markets data pages — price, change… | ⚪ |
 | `wsj.getWatchlist` | wsj.com | Gets the signed-in reader's own saved stock watchlist off WSJ's Markets section (My… | ⚪ |
-| `wsj.listArticles` | wsj.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | ⚪ |
+| `wsj.listArticles` | wsj.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | 🟢 |
 | `wsj.listArticlesByAuthor` | wsj.com | Lists a journalist's own most recent articles off their byline page. | ⚪ |
 | `wsj.listEpisodes` | wsj.com | Lists a podcast's own episodes, newest first, off its page on the site. | ⚪ |
 | `wsj.listMarketIndices` | wsj.com | Lists the major market indices WSJ's own Markets page tracks (Dow Jones, S&P 500… | ⚪ |
@@ -5443,7 +5443,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.listPodcasts` | wsj.com | Lists WSJ's own podcasts (The Journal, Minute Briefing, Tech News Briefing, etc.) off… | ⚪ |
 | `wsj.listQuotes` | wsj.com | Gets quotes for several symbols in one call, the same fields as getQuote for each. | ⚪ |
 | `wsj.listSavedArticles` | wsj.com | Lists the signed-in reader's own saved/bookmarked articles off their WSJ account (My… | ⚪ |
-| `wsj.listSections` | wsj.com | Lists WSJ's own news sections and verticals (World, Business, Markets, Tech, Opinion… | ⚪ |
+| `wsj.listSections` | wsj.com | Lists WSJ's own news sections and verticals (World, Business, Markets, Tech, Opinion… | 🟢 |
 | `wsj.listTrending` | wsj.com | Lists WSJ's own 'most popular' articles off the site's trending module. | ⚪ |
 | `wsj.removeFromWatchlist` | wsj.com | Removes a symbol from the signed-in reader's own watchlist. | ⚪ |
 | `wsj.saveArticle` | wsj.com | Saves an article to the signed-in reader's own WSJ account (My WSJ). | ⚪ |

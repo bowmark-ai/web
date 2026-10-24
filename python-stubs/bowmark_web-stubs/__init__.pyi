@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 60af2cb497d6fe6e00fa62804295823d7368f3cbbd5e6def89b1e92216628f71
-# 86 capabilities, 638 providers, 2526 typed functions, 20 refused.
+# Manifest version: f2119a91636ee92baa8431ada84abb942b6b7b20e6742e48311488b07e892ebb
+# 86 capabilities, 639 providers, 2534 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5432,6 +5432,82 @@ class Prv_arketa_ArketaClassInstructor_Out(TypedDict):
     about: str | None
     profileImageUrl: str | None
 
+class Prv_arketa_GetClassArgs_In(TypedDict):
+    studio: str
+    classId: str
+
+class Prv_arketa_ArketaClassDetail_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    startTime: str | None
+    endTime: str | None
+    durationMinutes: float | None
+    experienceType: str | None
+    locationType: str | None
+    canceled: bool
+    instructorIds: list[str]
+    instructorName: str | None
+    location: Prv_arketa_ArketaClassDetail_Out_location_u0_Out | None
+    roomId: str | None
+    classTypeId: str | None
+    capacity: float | None
+    totalBooked: float | None
+    waitlistLength: float | None
+    price: float | None
+    credits: float | None
+    intensity: str | None
+    bodyFocus: str | None
+    equipment: list[str]
+    workoutTypes: list[str]
+    preparationDirections: str | None
+
+class Prv_arketa_ArketaClassDetail_Out_location_u0_Out(TypedDict):
+    line1: str | None
+    line2: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    country: str | None
+    cityState: str | None
+    full: str | None
+    lat: float | None
+    lng: float | None
+    googlePlaceId: str | None
+    id: str | None
+    name: str | None
+
+class Prv_arketa_ArketaPricingOption_Out(TypedDict):
+    id: str
+    name: str
+    type: str | None
+    price: float | None
+    credits: float | None
+    unlimited: bool
+    subscriptionType: str | None
+    expiresIn: float | None
+    expiresInUnit: str | None
+    newStudentOnly: bool
+    oneTimeOffer: bool
+    locationTypes: list[str]
+    description: str | None
+
+class Prv_arketa_ArketaInstructor_Out(TypedDict):
+    id: str
+    name: str
+    about: str | None
+    profileImageUrl: str | None
+
+class Prv_arketa_ArketaPrivateSession_Out(TypedDict):
+    id: str
+    title: str
+    durationMinutes: float | None
+    price: float | None
+    priceLabel: str | None
+    purchaseType: str | None
+    category: str | None
+    description: str | None
+
 class Prv_artpix3d_Artpix3dShape_Out(TypedDict):
     slug: str
     name: str
@@ -8758,6 +8834,29 @@ class Prv_campspot_CampspotCampground_Out_events_item_Out(TypedDict):
     endDate: str | None
     description: str | None
 
+class Prv_canadacomputers_CanadaComputersSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_canadacomputers_CanadaComputersSearchResult_Out(TypedDict):
+    query: str
+    searchUrl: str
+    products: list[Prv_canadacomputers_CanadaComputersProduct_Out]
+
+class Prv_canadacomputers_CanadaComputersProduct_Out(TypedDict):
+    id: str
+    sku: str | None
+    title: str
+    url: str
+    imageUrl: str | None
+    price: float | None
+    regularPrice: float | None
+    onSale: bool
+    availableOnline: bool
+    availableInStore: bool
+    onlineStatus: str | None
+    inStoreStatus: str | None
+
 class Prv_cancer_findCancerCenters_args_In(TypedDict):
     state: NotRequired[str]
 
@@ -10637,6 +10736,39 @@ class Prv_corepoweryoga_ListSchedulesArgs_In(TypedDict):
     studio: str
     startDate: str
     endDate: str
+
+class Prv_corepoweryoga_CorePowerYogaClass_Out(TypedDict):
+    id: str
+    name: str
+    shortCode: str | None
+    zenotiClassIds: list[float]
+    subtitle: str | None
+    description: str | None
+    intensity: str | None
+    physicalIntensity: str | None
+    heatIntensity: str | None
+    focusAreas: list[str]
+    order: float | None
+    hiddenFromFilters: bool
+
+class Prv_corepoweryoga_CorePowerYogaClassDetail_Out(TypedDict):
+    id: str
+    name: str
+    shortCode: str | None
+    zenotiClassIds: list[float]
+    subtitle: str | None
+    description: str | None
+    intensity: str | None
+    physicalIntensity: str | None
+    heatIntensity: str | None
+    focusAreas: list[str]
+    order: float | None
+    hiddenFromFilters: bool
+    overview: str | None
+    whatToExpect: str | None
+    whatToBring: str | None
+    bestPractices: str | None
+    studioEnvironment: str | None
 
 class Prv_costco_CostcoSearchSuggestion_Out(TypedDict):
     term: str
@@ -34352,6 +34484,27 @@ class Prv_tripadvisor_TripadvisorRestaurant_Out(TypedDict):
     priceLevel: NotRequired[str]
     url: NotRequired[str]
 
+class Prv_tripadvisor_SearchAttractionsArgs_In(TypedDict):
+    geoId: str
+    categoryId: NotRequired[str]
+    offset: NotRequired[float]
+
+class Prv_tripadvisor_SearchAttractionsResult_Out(TypedDict):
+    attractions: list[Prv_tripadvisor_TripadvisorAttraction_Out]
+    offset: float
+    hasMore: bool
+
+class Prv_tripadvisor_TripadvisorAttraction_Out(TypedDict):
+    id: str
+    name: str
+    rank: NotRequired[float]
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+    categories: NotRequired[list[str]]
+    neighborhood: NotRequired[str]
+    description: NotRequired[str]
+    url: str
+
 class Prv_trojanstorage_TrojanstorageFacilitySearchFilters_In(TypedDict):
     state: NotRequired[str]
     city: NotRequired[str]
@@ -42260,6 +42413,28 @@ class Prv_arketa(Protocol):
         class type or instructor.
         """
 
+    async def getClass(self, args: Prv_arketa_GetClassArgs_In, /) -> Prv_arketa_ArketaClassDetail_Out:
+        """Returns one scheduled class by id (from listClasses): description, start and end time,
+        instructor, location and room, capacity, number booked, waitlist length, drop-in price,
+        credits it costs, and preparation directions.
+        """
+
+    async def listPricing(self, widgetName: str, /) -> list[Prv_arketa_ArketaPricingOption_Out]:
+        """Lists what a studio sells — drop-ins, class packs, memberships, on-demand subscriptions
+        — with price, credits, expiry and new-students-only flags. Takes
+        findStudio().widgetName, not the id.
+        """
+
+    async def listInstructors(self, studio: str, /) -> list[Prv_arketa_ArketaInstructor_Out]:
+        """Lists a studio's instructors with id and name, plus bio and photo for those teaching in
+        the next two weeks.
+        """
+
+    async def listPrivateSessions(self, studio: str, /) -> list[Prv_arketa_ArketaPrivateSession_Out]:
+        """Lists the private (one-to-one) sessions a studio offers, with title, length, price and
+        description.
+        """
+
 class Prv_artpix3d(Protocol):
     """Reads ArtPix 3D's own live product configurator — every crystal shape, and for a chosen
     shape, every size's real current price (with active sale discounts) and
@@ -44265,6 +44440,19 @@ class Prv_campspot(Protocol):
         published listing.
         """
 
+class Prv_canadacomputers(Protocol):
+    """Canada Computers (canadacomputers.com) — Canadian PC parts and electronics retailer.
+    search() returns matching products with CAD price, sale price, and whether each is
+    available online and in store.
+    """
+
+    async def search(self, args: Prv_canadacomputers_CanadaComputersSearchArgs_In | str, /) -> Prv_canadacomputers_CanadaComputersSearchResult_Out:
+        """Searches canadacomputers.com (Canada Computers & Electronics) for a product, e.g. "rtx
+        5070", and returns the first page of matches: title, SKU, product URL, price in CAD,
+        regular price and sale flag, and stock — available online (ship/order) and available in
+        store for pickup, with the site's own status labels.
+        """
+
 class Prv_cancer(Protocol):
     """The US National Cancer Institute: PDQ cancer information, the clinical-trial register,
     cancer drugs, NCI-designated cancer centers and the cancer dictionaries. Callable now:
@@ -45496,6 +45684,21 @@ class Prv_corepoweryoga(Protocol):
         getSchedule returns, for every date from startDate through endDate inclusive. No login
         needed. Takes the Zenoti center GUID listStudios() returns as `id`; each call is scoped
         to one studio, since the site's own schedule endpoint takes one center at a time.
+        """
+
+    async def listClasses(self, /) -> list[Prv_corepoweryoga_CorePowerYogaClass_Out]:
+        """Lists every CorePower Yoga class type (e.g. CorePower Yoga 2, Yoga Sculpt, Hot Power
+        Fusion, Yoga Nidra) in the site's own display order: name, short code, tagline, one-line
+        description, intensity and heat level, focus areas, and the Zenoti class ids each type
+        covers — so a schedule session's class can be matched back to its description. No login
+        needed.
+        """
+
+    async def getClass(self, cls: str | float, /) -> Prv_corepoweryoga_CorePowerYogaClassDetail_Out:
+        """Gets one class type's full description — everything listClasses returns plus the site's
+        own overview, what to expect, what to bring, best practices and studio environment copy.
+        Takes the `id` or `name` a listClasses() row returns, its short code (e.g. "YS"), or a
+        Zenoti class id. Throws if no class type matches.
         """
 
 class Prv_costco(Protocol):
@@ -60584,6 +60787,12 @@ class Prv_tripadvisor(Protocol):
         rating, review count, cuisines, price level and url, paginated 30 at a time.
         """
 
+    async def searchAttractions(self, args: Prv_tripadvisor_SearchAttractionsArgs_In, /) -> Prv_tripadvisor_SearchAttractionsResult_Out:
+        """Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank,
+        rating, review count, categories, neighborhood, blurb and url — optionally filtered to
+        one category (the c<id> in the site's own url), paginated 30 at a time.
+        """
+
 class Prv_trojanstorage(Protocol):
     """Reads Trojan Storage's own live per-facility unit pricing and availability — real size,
     features, regular and current promo price, and a pre-computed Quikstor move-in handoff
@@ -63332,6 +63541,7 @@ class BowmarkProviders(Protocol):
     califloors: Prv_califloors
     camelcamelcamel: Prv_camelcamelcamel
     campspot: Prv_campspot
+    canadacomputers: Prv_canadacomputers
     cancer: Prv_cancer
     canva: Prv_canva
     capitalbrands: Prv_capitalbrands

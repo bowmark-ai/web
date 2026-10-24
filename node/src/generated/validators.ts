@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 60af2cb497d6fe6e00fa62804295823d7368f3cbbd5e6def89b1e92216628f71
-// 2526 checked, 20 unchecked.
+// Manifest version: f2119a91636ee92baa8431ada84abb942b6b7b20e6742e48311488b07e892ebb
+// 2534 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "60af2cb497d6fe6e00fa62804295823d7368f3cbbd5e6def89b1e92216628f71",
+  "version": "f2119a91636ee92baa8431ada84abb942b6b7b20e6742e48311488b07e892ebb",
   "units": {
     "address_validation": {
       "defs": {
@@ -10484,6 +10484,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.arketa": {
       "defs": {
+        "GetClassArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "classId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListClassesArgs": {
           "k": "object",
           "props": [
@@ -10573,6 +10592,43 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListClassesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getClass": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetClassArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPricing": [
+          {
+            "name": "widgetName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listInstructors": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPrivateSessions": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -15816,6 +15872,49 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.canadacomputers": {
+      "defs": {
+        "CanadaComputersSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "CanadaComputersSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.cancer": {
       "defs": {},
       "functions": {
@@ -19148,6 +19247,24 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListSchedulesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listClasses": [],
+        "getClass": [
+          {
+            "name": "cls",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
             },
             "optional": false
           }
@@ -70219,6 +70336,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchAttractionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "geoId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchHotelsArgs": {
           "k": "object",
           "props": [
@@ -70315,6 +70458,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchRestaurantsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchAttractions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchAttractionsArgs"
             },
             "optional": false
           }

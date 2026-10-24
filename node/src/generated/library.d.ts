@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 60af2cb497d6fe6e00fa62804295823d7368f3cbbd5e6def89b1e92216628f71
-// 86 capabilities, 638 providers, 2544 typed functions, 20 refused.
+// Manifest version: f2119a91636ee92baa8431ada84abb942b6b7b20e6742e48311488b07e892ebb
+// 86 capabilities, 639 providers, 2552 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9703,6 +9703,72 @@ interface ArketaClass {
   description: string | null;
 }
 
+interface ArketaClassDetail {
+  id: string;
+  name: string;
+  description: string | null;
+  startTime: string | null;
+  endTime: string | null;
+  durationMinutes: number | null;
+  experienceType: string | null;
+  locationType: string | null;
+  canceled: boolean;
+  instructorIds: string[];
+  instructorName: string | null;
+  location: (ArketaAddress & { id: string | null; name: string | null }) | null;
+  roomId: string | null;
+  classTypeId: string | null;
+  capacity: number | null;
+  totalBooked: number | null;
+  waitlistLength: number | null;
+  price: number | null;
+  credits: number | null;
+  intensity: string | null;
+  bodyFocus: string | null;
+  equipment: string[];
+  workoutTypes: string[];
+  preparationDirections: string | null;
+}
+
+interface GetClassArgs {
+  studio: string;
+  classId: string;
+}
+
+interface ArketaPricingOption {
+  id: string;
+  name: string;
+  type: string | null;
+  price: number | null;
+  credits: number | null;
+  unlimited: boolean;
+  subscriptionType: string | null;
+  expiresIn: number | null;
+  expiresInUnit: string | null;
+  newStudentOnly: boolean;
+  oneTimeOffer: boolean;
+  locationTypes: string[];
+  description: string | null;
+}
+
+interface ArketaInstructor {
+  id: string;
+  name: string;
+  about: string | null;
+  profileImageUrl: string | null;
+}
+
+interface ArketaPrivateSession {
+  id: string;
+  title: string;
+  durationMinutes: number | null;
+  price: number | null;
+  priceLabel: string | null;
+  purchaseType: string | null;
+  category: string | null;
+  description: string | null;
+}
+
   /**
    * Arketa studio booking pages (yoga, pilates, barre): find a studio, read its class schedule,
    * pricing, private sessions and on-demand library, and (signed in) book, waitlist and cancel
@@ -9730,6 +9796,32 @@ interface ArketaClass {
      * type or instructor.
      */
     listClasses(args: ListClassesArgs): Promise<ArketaClass[]>;
+
+    /**
+     * Returns one scheduled class by id (from listClasses): description, start and end time,
+     * instructor, location and room, capacity, number booked, waitlist length, drop-in price,
+     * credits it costs, and preparation directions.
+     */
+    getClass(args: GetClassArgs): Promise<ArketaClassDetail>;
+
+    /**
+     * Lists what a studio sells — drop-ins, class packs, memberships, on-demand subscriptions —
+     * with price, credits, expiry and new-students-only flags. Takes findStudio().widgetName, not
+     * the id.
+     */
+    listPricing(widgetName: string): Promise<ArketaPricingOption[]>;
+
+    /**
+     * Lists a studio's instructors with id and name, plus bio and photo for those teaching in the
+     * next two weeks.
+     */
+    listInstructors(studio: string): Promise<ArketaInstructor[]>;
+
+    /**
+     * Lists the private (one-to-one) sessions a studio offers, with title, length, price and
+     * description.
+     */
+    listPrivateSessions(studio: string): Promise<ArketaPrivateSession[]>;
   }
 }
 
@@ -15389,6 +15481,55 @@ interface CampspotCampground {
   }
 }
 
+declare namespace BowmarkProvider_canadacomputers {
+  // ── Canada Computers — the unit's own declarations, verbatim ──
+interface CanadaComputersProduct {
+  id: string;
+  sku: string | null;
+  title: string;
+  url: string;
+  imageUrl: string | null;
+  /** CAD, the price the shopper pays today. */
+  price: number | null;
+  regularPrice: number | null;
+  onSale: boolean;
+  /** Orderable online (ships or backorders). */
+  availableOnline: boolean;
+  /** In stock at one or more Canada Computers stores for pickup. */
+  availableInStore: boolean;
+  /** The site's own label, e.g. "Online - Available to Ship", "Online - Sold Out". */
+  onlineStatus: string | null;
+  /** e.g. "In Store - Available for Pickup", "In Store - Sold Out". */
+  inStoreStatus: string | null;
+}
+
+interface CanadaComputersSearchResult {
+  query: string;
+  searchUrl: string;
+  products: CanadaComputersProduct[];
+}
+
+interface CanadaComputersSearchArgs {
+  query: string;
+  limit?: number;
+}
+
+  /**
+   * Canada Computers (canadacomputers.com) — Canadian PC parts and electronics retailer.
+   * search() returns matching products with CAD price, sale price, and whether each is available
+   * online and in store.
+   */
+  interface Unit {
+    /**
+     * Searches canadacomputers.com (Canada Computers & Electronics) for a product, e.g. "rtx
+     * 5070", and returns the first page of matches: title, SKU, product URL, price in CAD, regular
+     * price and sale flag, and stock — available online (ship/order) and available in store for
+     * pickup, with the site's own status labels.
+     */
+    search(args: CanadaComputersSearchArgs | string): Promise<CanadaComputersSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_cancer {
   // ── National Cancer Institute (cancer.gov) — the unit's own declarations, verbatim ──
 type cancerCenterDesignation =
@@ -18830,6 +18971,32 @@ interface GetScheduleArgs {
   date: string;
 }
 
+interface CorePowerYogaClass {
+  /** The site's own class-type id; getClass() takes it. */
+  id: string;
+  name: string;
+  shortCode: string | null;
+  /** The Zenoti class ids this type covers — a CorePowerYogaSession's class maps back here. */
+  zenotiClassIds: number[];
+  subtitle: string | null;
+  description: string | null;
+  intensity: string | null;
+  physicalIntensity: string | null;
+  heatIntensity: string | null;
+  focusAreas: string[];
+  order: number | null;
+  /** The site leaves this type out of its schedule filters (special events and the like). */
+  hiddenFromFilters: boolean;
+}
+
+interface CorePowerYogaClassDetail extends CorePowerYogaClass {
+  overview: string | null;
+  whatToExpect: string | null;
+  whatToBring: string | null;
+  bestPractices: string | null;
+  studioEnvironment: string | null;
+}
+
 interface ListSchedulesArgs {
   /** The Zenoti center GUID a listStudios() row returns as `id`. */
   studio: string;
@@ -18874,6 +19041,23 @@ interface ListSchedulesArgs {
      * one studio, since the site's own schedule endpoint takes one center at a time.
      */
     listSchedules(args: ListSchedulesArgs): Promise<CorePowerYogaSession[]>;
+
+    /**
+     * Lists every CorePower Yoga class type (e.g. CorePower Yoga 2, Yoga Sculpt, Hot Power Fusion,
+     * Yoga Nidra) in the site's own display order: name, short code, tagline, one-line
+     * description, intensity and heat level, focus areas, and the Zenoti class ids each type
+     * covers — so a schedule session's class can be matched back to its description. No login
+     * needed.
+     */
+    listClasses(): Promise<CorePowerYogaClass[]>;
+
+    /**
+     * Gets one class type's full description — everything listClasses returns plus the site's own
+     * overview, what to expect, what to bring, best practices and studio environment copy. Takes
+     * the `id` or `name` a listClasses() row returns, its short code (e.g. "YS"), or a Zenoti
+     * class id. Throws if no class type matches.
+     */
+    getClass(cls: string | number): Promise<CorePowerYogaClassDetail>;
   }
 }
 
@@ -60643,6 +60827,31 @@ interface TripadvisorHotelPrices {
   offers: TripadvisorHotelPriceOffer[];
 }
 
+interface TripadvisorAttraction {
+  id: string;
+  name: string;
+  rank?: number;
+  rating?: number;
+  reviewCount?: number;
+  categories?: string[];
+  neighborhood?: string;
+  description?: string;
+  url: string;
+}
+
+interface SearchAttractionsArgs {
+  geoId: string;
+  // the c<id> in /Attractions-g<geo>-Activities-c<id>-… — e.g. "49" museums, "57" nature & parks
+  categoryId?: string;
+  offset?: number;
+}
+
+interface SearchAttractionsResult {
+  attractions: TripadvisorAttraction[];
+  offset: number;
+  hasMore: boolean;
+}
+
   /**
    * Travel data worldwide — find a city, hotel, restaurant or attraction by name; list and read
    * hotels and restaurants with ratings, review counts, and booking prices.
@@ -60684,6 +60893,13 @@ interface TripadvisorHotelPrices {
      * review count, cuisines, price level and url, paginated 30 at a time.
      */
     searchRestaurants(args: SearchRestaurantsArgs): Promise<SearchRestaurantsResult>;
+
+    /**
+     * Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank,
+     * rating, review count, categories, neighborhood, blurb and url — optionally filtered to one
+     * category (the c<id> in the site's own url), paginated 30 at a time.
+     */
+    searchAttractions(args: SearchAttractionsArgs): Promise<SearchAttractionsResult>;
   }
 }
 
@@ -68845,6 +69061,7 @@ interface BowmarkProviders {
   califloors: BowmarkProvider_califloors.Unit;
   camelcamelcamel: BowmarkProvider_camelcamelcamel.Unit;
   campspot: BowmarkProvider_campspot.Unit;
+  canadacomputers: BowmarkProvider_canadacomputers.Unit;
   cancer: BowmarkProvider_cancer.Unit;
   canva: BowmarkProvider_canva.Unit;
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
