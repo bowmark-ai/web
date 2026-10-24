@@ -4573,12 +4573,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sweathouz.buyMembership` | sweathouz.com | Purchases a membership for the signed-in customer. | ⚪ |
 | `sweathouz.buyPack` | sweathouz.com | Purchases a session pack for the signed-in customer. | ⚪ |
 | `sweathouz.cancel` | sweathouz.com | Cancels an existing appointment for the signed-in customer. | ⚪ |
-| `sweathouz.findStudio` | sweathouz.com | Searches for a studio by name, location, or keyword. | ⚪ |
+| `sweathouz.findStudio` | sweathouz.com | Fuzzy-searches studios by name, city, state, ZIP or keyword, tolerating typos. | 🟢 |
 | `sweathouz.getAvailability` | sweathouz.com | Lists open appointment times for one studio on a given date: start time, session type… | 🟢 |
 | `sweathouz.getPricing` | sweathouz.com | Reads one studio's priced session options (the main contrast-therapy session and the… | 🟢 |
 | `sweathouz.getPromoCode` | sweathouz.com | Validates and retrieves details for a promotional code. | ⚪ |
 | `sweathouz.getStudioDetails` | sweathouz.com | Gets full details for a studio including amenities, class descriptions, and instructor… | ⚪ |
-| `sweathouz.getStudioHours` | sweathouz.com | Gets the operating hours for a specific studio. | ⚪ |
+| `sweathouz.getStudioHours` | sweathouz.com | Looks up one studio's operating hours by id or name — the same `hours` listStudios… | 🟢 |
 | `sweathouz.getSuiteTypes` | sweathouz.com | Lists available suite types and session durations offered. | ⚪ |
 | `sweathouz.getWaitlist` | sweathouz.com | Gets waitlist information for a specific studio and date. | ⚪ |
 | `sweathouz.listCredits` | sweathouz.com | Gets the signed-in customer's available credits and expiration dates. | ⚪ |

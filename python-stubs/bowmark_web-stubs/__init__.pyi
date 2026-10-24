@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f2119a91636ee92baa8431ada84abb942b6b7b20e6742e48311488b07e892ebb
-# 86 capabilities, 639 providers, 2534 typed functions, 20 refused.
+# Manifest version: cad4168f0e90998361dce128e109907cb19c4cfe1898c1d6b808a83604e39260
+# 87 capabilities, 641 providers, 2545 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1723,6 +1723,54 @@ class Cap_kenya_fuel_prices_FuelPrice_Out(TypedDict):
     product: Literal["petrol"] | Literal["diesel"] | Literal["kerosene"]
     price: float
     unit: Literal["KES/liter"]
+
+class Cap_lawyer_directory_LawyerSearchQuery_In(TypedDict):
+    name: NotRequired[str]
+    city: NotRequired[str]
+    address: NotRequired[str]
+    lawyersOnly: NotRequired[bool]
+    page: NotRequired[float]
+
+class Cap_lawyer_directory_LawyerSearchResult_Out(TypedDict):
+    total: float
+    page: float
+    lawyers: list[Cap_lawyer_directory_LawyerListing_Out]
+    warnings: list[str]
+
+class Cap_lawyer_directory_LawyerListing_Out(TypedDict):
+    id: str
+    name: str
+    kind: Literal["lawyer"] | Literal["firm"]
+    bar: str
+    barNumber: str | None
+    phones: list[str]
+    emails: list[str]
+    websites: list[str]
+    address: str | None
+    practising: bool
+    statusNote: str | None
+    profileUrl: str
+
+class Cap_lawyer_directory_LawyerRecord_Out(TypedDict):
+    id: str
+    name: str
+    firstName: str | None
+    lastName: str | None
+    bar: str
+    barNumber: str | None
+    swornIn: str | None
+    phones: list[str]
+    emails: list[str]
+    websites: list[str]
+    address: str | None
+    languages: list[str]
+    practiceAreas: list[str]
+    specialties: list[str]
+    firms: list[str]
+    practising: bool
+    statusNote: str | None
+    profileUrl: str
+    warnings: list[str]
 
 class Cap_local_database_gui_DbGuiBrowseOptions_In(TypedDict):
     maxTables: NotRequired[float]
@@ -5981,6 +6029,51 @@ class Prv_avis_AvisLocationDetail_Out_holidays_item_Out(TypedDict):
 class Prv_avis_AvisLocationDetail_Out_associatedLocation_u0_Out(TypedDict):
     mnemonic: str | None
     name: str | None
+
+class Prv_avocatparis_org_AvocatParisSearchQuery_In(TypedDict):
+    name: NotRequired[str]
+    city: NotRequired[str]
+    address: NotRequired[str]
+    lawyersOnly: NotRequired[bool]
+    page: NotRequired[float]
+
+class Prv_avocatparis_org_AvocatParisSearchResult_Out(TypedDict):
+    total: float
+    page: float
+    results: list[Prv_avocatparis_org_AvocatParisListing_Out]
+
+class Prv_avocatparis_org_AvocatParisListing_Out(TypedDict):
+    id: str
+    name: str
+    kind: Literal["lawyer"] | Literal["firm"]
+    toque: str | None
+    phones: list[str]
+    emails: list[str]
+    websites: list[str]
+    address: str | None
+    practising: bool
+    statusNote: str | None
+    match: Literal["exact"] | Literal["contains"] | Literal["status"]
+    profileUrl: str
+
+class Prv_avocatparis_org_AvocatParisLawyer_Out(TypedDict):
+    id: str
+    name: str
+    firstName: str | None
+    lastName: str | None
+    toque: str | None
+    swornIn: str | None
+    phones: list[str]
+    emails: list[str]
+    websites: list[str]
+    address: str | None
+    languages: list[str]
+    practiceAreas: list[str]
+    specialties: list[str]
+    firms: list[str]
+    practising: bool
+    statusNote: str | None
+    profileUrl: str
 
 class Prv_ayreshotels_AyreshotelsCheckRatesArgs_In(TypedDict):
     property: str
@@ -12222,6 +12315,40 @@ class Prv_dropbox_DropboxPlan_Out_features_item_Out(TypedDict):
     section: str
     feature: str
     value: str | bool
+
+class Prv_dropbox_getSharedLink_input_In(TypedDict):
+    url: str
+
+class Prv_dropbox_DropboxSharedLink_Out(TypedDict):
+    url: str
+    kind: Literal["file"] | Literal["folder"]
+    name: str
+    fileId: NotRequired[str]
+    sizeBytes: NotRequired[float]
+    modified: NotRequired[str]
+    ownerName: NotRequired[str]
+    ownerEmail: NotRequired[str]
+    ownerPhotoUrl: NotRequired[str]
+    previews: Mapping[str, str]
+
+class Prv_dropbox_downloadSharedFile_input_In(TypedDict):
+    url: str
+
+class Prv_dropbox_DropboxDownload_Out(TypedDict):
+    url: str
+    name: str
+    contentType: str
+    sizeBytes: float
+    file: NotRequired[Prv_dropbox_DropboxDownload_Out_file_Out]
+    warnings: list[str]
+
+class Prv_dropbox_DropboxDownload_Out_file_Out(TypedDict):
+    id: str
+    name: str
+    contentType: str
+    bytes: float
+    url: str
+    expiresAt: str
 
 class Prv_duckduckgo_SearchNewsArgs_In(TypedDict):
     query: str
@@ -26094,6 +26221,27 @@ class Prv_pausestudio_BookedAppointment_Out(TypedDict):
     invoiceId: str | None
     bookingId: str | None
 
+class Prv_pausestudio_CancelBookingArgs_In(TypedDict):
+    locationId: str
+    appointmentId: str
+    reason: NotRequired[str]
+
+class Prv_pausestudio_CancelledBooking_Out(TypedDict):
+    appointmentId: str
+    cancellationCharges: float
+    depositRefunded: bool
+
+class Prv_pausestudio_ListMyBookingsArgs_In(TypedDict):
+    locationId: str
+    when: NotRequired[Literal["upcoming"] | Literal["past"]]
+
+class Prv_pausestudio_MyBooking_Out(TypedDict):
+    appointmentId: str
+    appointmentGroupId: str | None
+    serviceName: str | None
+    startTime: str
+    status: str | float | None
+
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
     checkOutDate: str
@@ -30983,6 +31131,7 @@ class Prv_solidcore_SolidcoreStudio_Out(TypedDict):
 
 class Prv_solidcore_GetStudioArgs_In(TypedDict):
     locationId: NotRequired[str]
+    siteId: NotRequired[str]
     slug: NotRequired[str]
 
 class Prv_solostove_SolostoveBundleSearch_Out(TypedDict):
@@ -37447,6 +37596,20 @@ class Prv_workday_WorkdayPosting_Out(TypedDict):
     requisitionId: str | None
     url: str
 
+class Prv_wsj_WsjSection_Out(TypedDict):
+    name: str
+    path: str
+    url: str
+
+class Prv_wsj_ListArticlesArgs_In(TypedDict):
+    section: str
+
+class Prv_wsj_WsjArticleSummary_Out(TypedDict):
+    headline: str
+    byline: str | None
+    teaser: str | None
+    url: str
+
 class Prv_wunderflats_search_args_In(TypedDict):
     city: str
 
@@ -39906,6 +40069,22 @@ class Cap_kenya_fuel_prices(Protocol):
 
     async def search(self, product: str | None = None, /) -> Cap_kenya_fuel_prices_kenya_fuel_pricesResult_Out:
         """Returns current Kenya pump prices for diesel, petrol, or kerosene."""
+
+class Cap_lawyer_directory(Protocol):
+    """Look up a lawyer in a bar association's own directory (annuaire des avocats) — Paris bar
+    today.
+    """
+
+    async def search(self, query: Cap_lawyer_directory_LawyerSearchQuery_In, /) -> Cap_lawyer_directory_LawyerSearchResult_Out:
+        """Searches the bar association's own lawyer directory (annuaire des avocats, Paris bar) by
+        name, city or address; returns lawyers and firms with bar number, phone, email, website
+        and address. A plain string is read as a name.
+        """
+
+    async def getLawyer(self, id: str, /) -> Cap_lawyer_directory_LawyerRecord_Out:
+        """Reads one lawyer's full bar record by the `id` search returned — practice areas,
+        specialties, languages, firm, swearing-in date and contact details.
+        """
 
 class Cap_local_database_gui(Protocol):
     """Turns the HTML of a local database GUI (Adminer, phpMyAdmin, pgAdmin, Drizzle Studio,
@@ -42701,6 +42880,23 @@ class Prv_avis(Protocol):
         holiday schedule, the after-hours sibling (`associatedLocation`), and the full set of
         service flags (24h drop-off, key drop, self-service kiosk, corporate, free pickup,
         truck, Avis First).
+        """
+
+class Prv_avocatparis_org(Protocol):
+    """The Paris bar's public lawyer directory (annuaire des avocats) — find a lawyer or firm
+    by name, city or address, then read their full record: toque number, contact details,
+    practice areas, languages, swearing-in date.
+    """
+
+    async def searchLawyers(self, query: Prv_avocatparis_org_AvocatParisSearchQuery_In, /) -> Prv_avocatparis_org_AvocatParisSearchResult_Out:
+        """Searches the Paris bar's lawyer directory (annuaire des avocats du Barreau de Paris) by
+        name, city or address and returns up to 30 lawyers and firms per page with their toque
+        number, phone, email, website and address. A plain string is read as a name.
+        """
+
+    async def getLawyer(self, id: str, /) -> Prv_avocatparis_org_AvocatParisLawyer_Out:
+        """Reads one lawyer's full Paris bar record by the `id` searchLawyers returned — contact
+        details, practice areas, specialties, languages, firm and swearing-in date.
         """
 
 class Prv_ayreshotels(Protocol):
@@ -46654,6 +46850,20 @@ class Prv_dropbox(Protocol):
         "Plus"). THROWS if the page stops carrying the table.
         """
 
+    async def getSharedLink(self, input: Prv_dropbox_getSharedLink_input_In, /) -> Prv_dropbox_DropboxSharedLink_Out:
+        """Opens a Dropbox shared link (/s/, /sh/, /scl/fi/ or /scl/fo/, with its rlkey) and says
+        what it points at: file or folder, name, and for a file its size, modified time, file
+        id, owner name, email and photo, and the preview URLs Dropbox serves (pdf_txt is the
+        text extract). A folder carries only its name — list it with listSharedFolder. THROWS on
+        a removed link.
+        """
+
+    async def downloadSharedFile(self, input: Prv_dropbox_downloadSharedFile_input_In, /) -> Prv_dropbox_DropboxDownload_Out:
+        """Downloads the file behind a Dropbox shared FILE link (logged out, the link's dl=1 hop)
+        and saves it to the run's files — returns the saved file with its name, content type and
+        size. THROWS on a folder link (use downloadSharedFolder) or a removed link.
+        """
+
 class Prv_duckduckgo(Protocol):
     """DuckDuckGo (duckduckgo.com) — private web, image, video, news and maps search, Instant
     Answers, autocomplete, the dictionary, currency, weather, time and translation answers,
@@ -47791,6 +48001,11 @@ class Prv_floathelm(Protocol):
         """Finds a Reboot Float & Cryo location by name ("Marina", "Mission", "East Bay") and
         returns its FloatHelm location code, which the rest of this provider's functions need to
         pick that location.
+        """
+
+    async def listLocations(self, /) -> list[Prv_floathelm_FloathelmStudio_Out]:
+        """Lists every Reboot Float & Cryo location (Marina, East Bay, Mission) with the FloatHelm
+        location code the rest of this provider's functions take.
         """
 
 class Prv_fluencecorp(Protocol):
@@ -55957,6 +56172,16 @@ class Prv_pausestudio(Protocol):
         across runs: calling twice books twice
         """
 
+    async def cancelBooking(self, args: Prv_pausestudio_CancelBookingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_pausestudio_CancelledBooking_Out:
+        """Cancels one of the caller's own appointments by its id — requires the caller's own
+        signed-in session. A late cancellation may carry a fee, returned as cancellationCharges
+        """
+
+    async def listMyBookings(self, args: Prv_pausestudio_ListMyBookingsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_pausestudio_MyBooking_Out]:
+        """Lists the caller's own upcoming (default) or past appointments — requires the caller's
+        own signed-in session
+        """
+
 class Prv_pawsup(Protocol):
     """Luxury glamping resort availability and accommodations on Paws Up's booking portal."""
 
@@ -58819,10 +59044,11 @@ class Prv_solidcore(Protocol):
         """
 
     async def getStudio(self, args: Prv_solidcore_GetStudioArgs_In, /) -> Prv_solidcore_SolidcoreStudio_Out:
-        """Returns one [solidcore] studio's own record off the same chain-wide registry listStudios
-        reads — name, full address, state, siteId/locationId pair, phone, email, and whether
-        it's coming soon. Look it up by { locationId } (what listStudios returns) or { slug }
-        (the site's own studioIdentifier, e.g. "castro"). Throws if neither matches.
+        """Returns one [solidcore] studio's own record off the same registry listStudios reads —
+        name, full address, state, siteId/locationId pair, phone, email, and whether it's coming
+        soon. Look it up by { slug } (the site's own studioIdentifier, e.g. "castro" — globally
+        unique) or { siteId, locationId } together (locationId alone repeats across siteId's ~38
+        regional groups). Throws if neither matches.
         """
 
 class Prv_solostove(Protocol):
@@ -62448,6 +62674,20 @@ class Prv_workday(Protocol):
         department or exact date — `postedOn` is its own relative text.
         """
 
+class Prv_wsj(Protocol):
+    """WSJ news, markets data and articles — a DataDome wall in front, cleared by a browser;
+    most of the site is reachable with no account, full paywalled articles need the caller's
+    own subscription.
+    """
+
+    async def listSections(self, /) -> list[Prv_wsj_WsjSection_Out]:
+        """Lists WSJ's own news sections and verticals off the site's top nav."""
+
+    async def listArticles(self, args: Prv_wsj_ListArticlesArgs_In, /) -> list[Prv_wsj_WsjArticleSummary_Out]:
+        """Lists a section front's own article grid, newest first, with headline, byline, teaser
+        and url.
+        """
+
 class Prv_wunderflats(Protocol):
     """Search for furnished apartments across German cities."""
 
@@ -63480,6 +63720,7 @@ class BowmarkProviders(Protocol):
     avantstay: Prv_avantstay
     avenuehealthcare: Prv_avenuehealthcare
     avis: Prv_avis
+    avocatparis_org: Prv_avocatparis_org
     ayreshotels: Prv_ayreshotels
     azazie: Prv_azazie
     azure: Prv_azure
@@ -64046,6 +64287,7 @@ class BowmarkProviders(Protocol):
     wodify: Prv_wodify
     workable: Prv_workable
     workday: Prv_workday
+    wsj: Prv_wsj
     wunderflats: Prv_wunderflats
     x: Prv_x
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
@@ -64115,6 +64357,7 @@ class Bowmark(Protocol):
     istanbul_schedules: Cap_istanbul_schedules
     job_search: Cap_job_search
     kenya_fuel_prices: Cap_kenya_fuel_prices
+    lawyer_directory: Cap_lawyer_directory
     local_database_gui: Cap_local_database_gui
     local_html_preview: Cap_local_html_preview
     mac_trade_in: Cap_mac_trade_in

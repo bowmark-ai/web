@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f2119a91636ee92baa8431ada84abb942b6b7b20e6742e48311488b07e892ebb
-// 2534 checked, 20 unchecked.
+// Manifest version: cad4168f0e90998361dce128e109907cb19c4cfe1898c1d6b808a83604e39260
+// 2545 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f2119a91636ee92baa8431ada84abb942b6b7b20e6742e48311488b07e892ebb",
+  "version": "cad4168f0e90998361dce128e109907cb19c4cfe1898c1d6b808a83604e39260",
   "units": {
     "address_validation": {
       "defs": {
@@ -3212,6 +3212,71 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "lawyer_directory": {
+      "defs": {
+        "LawyerSearchQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lawyersOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "LawyerSearchQuery"
+            },
+            "optional": false
+          }
+        ],
+        "getLawyer": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -11246,6 +11311,71 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AvisGetLocationArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.avocatparis_org": {
+      "defs": {
+        "AvocatParisSearchQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lawyersOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLawyers": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "AvocatParisSearchQuery"
+            },
+            "optional": false
+          }
+        ],
+        "getLawyer": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -21735,6 +21865,42 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getSharedLink": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "downloadSharedFile": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -26268,7 +26434,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listLocations": []
       }
     },
     "providers.fluencecorp": {
@@ -52463,6 +52630,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "CancelBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "appointmentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "reason",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListAvailableSlotsArgs": {
           "k": "object",
           "props": [
@@ -52486,6 +52679,35 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListMyBookingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "when",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "upcoming"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "past"
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         }
@@ -52542,6 +52764,58 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BookAppointmentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CancelBookingArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyBookings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListMyBookingsArgs"
             },
             "optional": false
           },
@@ -63923,6 +64197,13 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "siteId",
               "schema": {
                 "k": "string"
               },
@@ -75926,6 +76207,35 @@ export const VALIDATORS: ValidatorTable = {
               "name": "WorkdayListOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.wsj": {
+      "defs": {
+        "ListArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listSections": [],
+        "listArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListArticlesArgs"
+            },
+            "optional": false
           }
         ]
       }

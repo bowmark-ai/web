@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f2119a91636ee92baa8431ada84abb942b6b7b20e6742e48311488b07e892ebb
-// 86 capabilities, 639 providers, 2552 typed functions, 20 refused.
+// Manifest version: cad4168f0e90998361dce128e109907cb19c4cfe1898c1d6b808a83604e39260
+// 87 capabilities, 641 providers, 2563 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2861,6 +2861,80 @@ interface kenya_fuel_pricesResult {
   interface Unit {
     /** Returns current Kenya pump prices for diesel, petrol, or kerosene. */
     search(product?: string): Promise<kenya_fuel_pricesResult>;
+  }
+}
+
+declare namespace BowmarkCapability_lawyer_directory {
+  // ── Lawyer Directory Lookup (Bar Association) — the unit's own declarations, verbatim ──
+interface LawyerSearchQuery {
+  name?: string;          // 2+ chars
+  city?: string;          // 3+ chars
+  address?: string;       // 3+ chars
+  lawyersOnly?: boolean;  // true = lawyers only, false = firms only
+  page?: number;          // zero-based page of 30
+}
+
+interface LawyerListing {
+  id: string;                 // pass to getLawyer
+  name: string;
+  kind: "lawyer" | "firm";
+  bar: string;                // "Barreau de Paris"
+  barNumber: string | null;   // the bar's own number (Paris "toque", "D1288")
+  phones: string[];
+  emails: string[];
+  websites: string[];
+  address: string | null;
+  practising: boolean;
+  statusNote: string | null;  // "Avocat non exerçant depuis le 30/09/2024"
+  profileUrl: string;
+}
+
+interface LawyerSearchResult {
+  total: number;
+  page: number;
+  lawyers: LawyerListing[];
+  warnings: string[];
+}
+
+interface LawyerRecord {
+  id: string;
+  name: string;
+  firstName: string | null;
+  lastName: string | null;
+  bar: string;
+  barNumber: string | null;
+  swornIn: string | null;     // as the bar writes it, "04/12/15"
+  phones: string[];
+  emails: string[];
+  websites: string[];
+  address: string | null;
+  languages: string[];
+  practiceAreas: string[];
+  specialties: string[];
+  firms: string[];
+  practising: boolean;
+  statusNote: string | null;
+  profileUrl: string;
+  warnings: string[];
+}
+
+  /**
+   * Look up a lawyer in a bar association's own directory (annuaire des avocats) — Paris bar
+   * today.
+   */
+  interface Unit {
+    /**
+     * Searches the bar association's own lawyer directory (annuaire des avocats, Paris bar) by
+     * name, city or address; returns lawyers and firms with bar number, phone, email, website and
+     * address. A plain string is read as a name.
+     */
+    search(query: LawyerSearchQuery): Promise<LawyerSearchResult>;
+
+    /**
+     * Reads one lawyer's full bar record by the `id` search returned — practice areas,
+     * specialties, languages, firm, swearing-in date and contact details.
+     */
+    getLawyer(id: string): Promise<LawyerRecord>;
   }
 }
 
@@ -10584,6 +10658,80 @@ interface AvisLocationDetail extends AvisLocationRow {
      * self-service kiosk, corporate, free pickup, truck, Avis First).
      */
     getLocation(args: AvisGetLocationArgs): Promise<AvisLocationDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_avocatparis_org {
+  // ── Barreau de Paris — Annuaire des avocats — the unit's own declarations, verbatim ──
+// The Paris bar directory's OWN shapes — not a capability contract.
+
+interface AvocatParisSearchQuery {
+  name?: string;          // 2+ chars — a lawyer's or firm's name
+  city?: string;          // 3+ chars
+  address?: string;       // 3+ chars, a street fragment
+  lawyersOnly?: boolean;  // true = lawyers only, false = firms only
+  page?: number;          // zero-based page of 30
+}
+
+interface AvocatParisListing {
+  id: string;                    // pass to getLawyer
+  name: string;                  // "Aude DUPONT"
+  kind: "lawyer" | "firm";
+  toque: string | null;          // the Paris bar's box number, "D1288"
+  phones: string[];
+  emails: string[];
+  websites: string[];
+  address: string | null;
+  practising: boolean;           // false when the bar marks them non-practising
+  statusNote: string | null;     // "Avocat non exerçant depuis le 30/09/2024"
+  match: "exact" | "contains" | "status";
+  profileUrl: string;
+}
+
+interface AvocatParisSearchResult {
+  total: number;
+  page: number;
+  results: AvocatParisListing[];
+}
+
+interface AvocatParisLawyer {
+  id: string;
+  name: string;
+  firstName: string | null;
+  lastName: string | null;
+  toque: string | null;
+  swornIn: string | null;        // "04/12/15", as the site writes it
+  phones: string[];
+  emails: string[];
+  websites: string[];
+  address: string | null;
+  languages: string[];
+  practiceAreas: string[];       // "Droit des affaires", …
+  specialties: string[];
+  firms: string[];
+  practising: boolean;
+  statusNote: string | null;
+  profileUrl: string;
+}
+
+  /**
+   * The Paris bar's public lawyer directory (annuaire des avocats) — find a lawyer or firm by
+   * name, city or address, then read their full record: toque number, contact details, practice
+   * areas, languages, swearing-in date.
+   */
+  interface Unit {
+    /**
+     * Searches the Paris bar's lawyer directory (annuaire des avocats du Barreau de Paris) by
+     * name, city or address and returns up to 30 lawyers and firms per page with their toque
+     * number, phone, email, website and address. A plain string is read as a name.
+     */
+    searchLawyers(query: AvocatParisSearchQuery): Promise<AvocatParisSearchResult>;
+
+    /**
+     * Reads one lawyer's full Paris bar record by the `id` searchLawyers returned — contact
+     * details, practice areas, specialties, languages, firm and swearing-in date.
+     */
+    getLawyer(id: string): Promise<AvocatParisLawyer>;
   }
 }
 
@@ -21651,6 +21799,26 @@ interface DropboxPlan {
   features: Array<{ section: string; feature: string; value: string | boolean }>; // true/false = included or not
 }
 interface DropboxPlans { url: string; plans: DropboxPlan[] }
+interface DropboxSharedLink {
+  url: string;
+  kind: "file" | "folder";
+  name: string;
+  fileId?: string;
+  sizeBytes?: number;
+  modified?: string; // ISO
+  ownerName?: string;
+  ownerEmail?: string;
+  ownerPhotoUrl?: string;
+  previews: Record<string, string>; // by Dropbox's own kind: pdf_txt, pdf_img, pdf, thumb
+}
+interface DropboxDownload {
+  url: string;
+  name: string;
+  contentType: string;
+  sizeBytes: number;
+  file?: { id: string; name: string; contentType: string; bytes: number; url: string; expiresAt: string }; // the run's saved copy; absent on a run no account owns
+  warnings: string[];
+}
 
   /**
    * Dropbox, the cloud file storage service: open, list, read and download files and folders
@@ -21666,6 +21834,21 @@ interface DropboxPlans { url: string; plans: DropboxPlan[] }
      * page stops carrying the table.
      */
     getPlans(input?: { plan?: string }): Promise<DropboxPlans>;
+
+    /**
+     * Opens a Dropbox shared link (/s/, /sh/, /scl/fi/ or /scl/fo/, with its rlkey) and says what
+     * it points at: file or folder, name, and for a file its size, modified time, file id, owner
+     * name, email and photo, and the preview URLs Dropbox serves (pdf_txt is the text extract). A
+     * folder carries only its name — list it with listSharedFolder. THROWS on a removed link.
+     */
+    getSharedLink(input: { url: string }): Promise<DropboxSharedLink>;
+
+    /**
+     * Downloads the file behind a Dropbox shared FILE link (logged out, the link's dl=1 hop) and
+     * saves it to the run's files — returns the saved file with its name, content type and size.
+     * THROWS on a folder link (use downloadSharedFolder) or a removed link.
+     */
+    downloadSharedFile(input: { url: string }): Promise<DropboxDownload>;
   }
 }
 
@@ -25338,6 +25521,12 @@ interface FloathelmStudio {
      * location.
      */
     findStudio(query: string): Promise<FloathelmStudio[]>;
+
+    /**
+     * Lists every Reboot Float & Cryo location (Marina, East Bay, Mission) with the FloatHelm
+     * location code the rest of this provider's functions take.
+     */
+    listLocations(): Promise<FloathelmStudio[]>;
   }
 }
 
@@ -47161,6 +47350,27 @@ interface BookedAppointment {
   invoiceId: string | null;
   bookingId: string | null;
 }
+interface CancelBookingArgs {
+  locationId: string; // the location the appointment is at, e.g. "castro"
+  appointmentId: string; // an appointmentId listMyBookings() returned
+  reason?: string; // optional note sent with the cancellation; defaults to "Cancelled by Guest"
+}
+interface ListMyBookingsArgs {
+  locationId: string; // any location id listLocations() returns, e.g. "castro" — used to open the booking session
+  when?: "upcoming" | "past"; // defaults to "upcoming"
+}
+interface MyBooking {
+  appointmentId: string; // pass to cancelBooking()
+  appointmentGroupId: string | null;
+  serviceName: string | null; // e.g. "Float"
+  startTime: string; // exactly as Pause Studio's own booking API carries it
+  status: string | number | null; // the site's own appointment status, as returned
+}
+interface CancelledBooking {
+  appointmentId: string;
+  cancellationCharges: number; // the late-cancel fee the site applied, 0 when none
+  depositRefunded: boolean;
+}
 
   /** Recovery and wellness studio with float, cryo, sauna, and IV therapy bookings. */
   interface Unit {
@@ -47191,6 +47401,18 @@ interface BookedAppointment {
      * calling twice books twice
      */
     bookAppointment(args: BookAppointmentArgs, opts?: ConnectionOption): Promise<BookedAppointment>;
+
+    /**
+     * Cancels one of the caller's own appointments by its id — requires the caller's own signed-in
+     * session. A late cancellation may carry a fee, returned as cancellationCharges
+     */
+    cancelBooking(args: CancelBookingArgs, opts?: ConnectionOption): Promise<CancelledBooking>;
+
+    /**
+     * Lists the caller's own upcoming (default) or past appointments — requires the caller's own
+     * signed-in session
+     */
+    listMyBookings(args: ListMyBookingsArgs, opts?: ConnectionOption): Promise<MyBooking[]>;
   }
 }
 
@@ -55044,9 +55266,9 @@ interface solidcoreRow {
 }
 
 interface SolidcoreStudio {
-  siteId: string;       // shared chain-wide; what getSchedule and the booking functions key on, with locationId
-  locationId: string;   // disambiguates THIS studio under siteId
-  slug: string;          // the site's own studioIdentifier, e.g. "castro"
+  siteId: string;       // a REGIONAL group (38 of them); locationId is unique only within one
+  locationId: string;   // disambiguates THIS studio under siteId — repeats across siteId groups
+  slug: string;          // the site's own studioIdentifier, e.g. "castro" — globally unique
   name: string;
   address: string;       // full street address, as the site publishes it (no separate city field exists)
   state: string;         // two-letter code, e.g. "CA"
@@ -55061,8 +55283,9 @@ interface ListStudiosArgs {
 }
 
 interface GetStudioArgs {
-  locationId?: string;   // e.g. "11" for Castro — what listStudios returns
-  slug?: string;         // the site's own studioIdentifier, e.g. "castro"
+  locationId?: string;   // e.g. "11" — only unique paired with siteId; both come off the same listStudios row
+  siteId?: string;        // required alongside locationId
+  slug?: string;         // the site's own studioIdentifier, e.g. "castro" — globally unique on its own
 }
 
   /**
@@ -55080,10 +55303,11 @@ interface GetStudioArgs {
     listStudios(args?: ListStudiosArgs): Promise<SolidcoreStudio[]>;
 
     /**
-     * Returns one [solidcore] studio's own record off the same chain-wide registry listStudios
-     * reads — name, full address, state, siteId/locationId pair, phone, email, and whether it's
-     * coming soon. Look it up by { locationId } (what listStudios returns) or { slug } (the site's
-     * own studioIdentifier, e.g. "castro"). Throws if neither matches.
+     * Returns one [solidcore] studio's own record off the same registry listStudios reads — name,
+     * full address, state, siteId/locationId pair, phone, email, and whether it's coming soon.
+     * Look it up by { slug } (the site's own studioIdentifier, e.g. "castro" — globally unique) or
+     * { siteId, locationId } together (locationId alone repeats across siteId's ~38 regional
+     * groups). Throws if neither matches.
      */
     getStudio(args: GetStudioArgs): Promise<SolidcoreStudio>;
   }
@@ -65561,6 +65785,46 @@ interface WorkdayListOptions {
   }
 }
 
+declare namespace BowmarkProvider_wsj {
+  // ── The Wall Street Journal — the unit's own declarations, verbatim ──
+interface wsjRow {
+  id: string;
+}
+
+interface WsjSection {
+  name: string; // e.g. "World", "Personal Finance"
+  path: string; // e.g. "/world", pass to listArticles
+  url: string;
+}
+
+interface WsjArticleSummary {
+  headline: string;
+  byline: string | null; // e.g. "Erin Mulvaney, Cara Lombardo"
+  teaser: string | null;
+  url: string; // pass to getArticle
+}
+
+interface ListArticlesArgs {
+  section: string; // a path from listSections, e.g. "/world" or "world"
+}
+
+  /**
+   * WSJ news, markets data and articles — a DataDome wall in front, cleared by a browser; most
+   * of the site is reachable with no account, full paywalled articles need the caller's own
+   * subscription.
+   */
+  interface Unit {
+    /** Lists WSJ's own news sections and verticals off the site's top nav. */
+    listSections(): Promise<WsjSection[]>;
+
+    /**
+     * Lists a section front's own article grid, newest first, with headline, byline, teaser and
+     * url.
+     */
+    listArticles(args: ListArticlesArgs): Promise<WsjArticleSummary[]>;
+  }
+}
+
 declare namespace BowmarkProvider_wunderflats {
   // ── Wunderflats — the unit's own declarations, verbatim ──
 interface SearchArgs {
@@ -69000,6 +69264,7 @@ interface BowmarkProviders {
   avantstay: BowmarkProvider_avantstay.Unit;
   avenuehealthcare: BowmarkProvider_avenuehealthcare.Unit;
   avis: BowmarkProvider_avis.Unit;
+  avocatparis_org: BowmarkProvider_avocatparis_org.Unit;
   ayreshotels: BowmarkProvider_ayreshotels.Unit;
   azazie: BowmarkProvider_azazie.Unit;
   azure: BowmarkProvider_azure.Unit;
@@ -69566,6 +69831,7 @@ interface BowmarkProviders {
   wodify: BowmarkProvider_wodify.Unit;
   workable: BowmarkProvider_workable.Unit;
   workday: BowmarkProvider_workday.Unit;
+  wsj: BowmarkProvider_wsj.Unit;
   wunderflats: BowmarkProvider_wunderflats.Unit;
   x: BowmarkProvider_x.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
@@ -119504,6 +119770,7 @@ interface BowmarkLibrary {
   istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
   job_search: BowmarkCapability_job_search.Unit;
   kenya_fuel_prices: BowmarkCapability_kenya_fuel_prices.Unit;
+  lawyer_directory: BowmarkCapability_lawyer_directory.Unit;
   local_database_gui: BowmarkCapability_local_database_gui.Unit;
   local_html_preview: BowmarkCapability_local_html_preview.Unit;
   mac_trade_in: BowmarkCapability_mac_trade_in.Unit;
