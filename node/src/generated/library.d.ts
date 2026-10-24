@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 10039cc601d8afc9a6ad2007fed7d1f7686ec5e7fda5371aa0fc3330c5d1d97d
-// 87 capabilities, 641 providers, 2572 typed functions, 20 refused.
+// Manifest version: bd2cb56660d39c16a62d40de1db9ae9267553dbf6889be67934e1dbaff259034
+// 87 capabilities, 642 providers, 2586 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2865,7 +2865,7 @@ interface kenya_fuel_pricesResult {
 }
 
 declare namespace BowmarkCapability_lawyer_directory {
-  // ── Lawyer Directory Lookup (Bar Association) — the unit's own declarations, verbatim ──
+  // ── Search Bar Association Lawyer Directory — the unit's own declarations, verbatim ──
 interface LawyerSearchQuery {
   name?: string;          // 2+ chars
   city?: string;          // 3+ chars
@@ -2919,14 +2919,14 @@ interface LawyerRecord {
 }
 
   /**
-   * Look up a lawyer in a bar association's own directory (annuaire des avocats) — Paris bar
-   * today.
+   * Search a bar association's official lawyer directory (annuaire des avocats) by name, city,
+   * or bar number to find lawyers, their contact details, practice areas, and qualifications.
    */
   interface Unit {
     /**
-     * Searches the bar association's own lawyer directory (annuaire des avocats, Paris bar) by
-     * name, city or address; returns lawyers and firms with bar number, phone, email, website and
-     * address. A plain string is read as a name.
+     * Searches a bar association's official lawyer directory (Paris bar — annuaire des avocats) by
+     * lawyer name, city, or bar number; returns matching lawyers and firms with contact details,
+     * bar registration numbers, practice areas, and bar status.
      */
     search(query: LawyerSearchQuery): Promise<LawyerSearchResult>;
 
@@ -20964,6 +20964,46 @@ interface DeviantartGalleryResult {
   nextOffset?: number;
   locked?: { reason: string };
 }
+interface DeviantartGalleryFolder {
+  folderId: string;
+  name: string;
+  size?: number;
+  hasSubfolders?: boolean;
+  parentId?: string;
+  coverUrl?: string;
+}
+
+interface DeviantartGalleryFolderList {
+  folders: DeviantartGalleryFolder[];
+  hasMore: boolean;
+  nextOffset?: number;
+}
+
+interface DeviantartTagResult {
+  tag: string;
+  results: DeviantartGalleryItem[];
+  hasMore: boolean;
+  nextCursor?: string;
+}
+
+interface DeviantartComment {
+  commentId: string;
+  parentId?: string;
+  posted?: string;
+  edited?: string;
+  text: string;
+  replies?: number;
+  likes?: number;
+  hidden?: string;
+  author?: { username?: string; usericon?: string };
+}
+
+interface DeviantartCommentThread {
+  total: number;
+  comments: DeviantartComment[];
+  hasMore: boolean;
+  nextCursor?: string;
+}
 
   /**
    * DeviantArt artwork — search deviations, read one with its comments, browse a tag or the
@@ -20999,6 +21039,31 @@ interface DeviantartGalleryResult {
      * folder reports `locked` instead of rows.
      */
     getUserGallery(args: { username: string; folderId?: string; offset?: number }): Promise<DeviantartGalleryResult>;
+
+    /**
+     * Lists an artist's gallery folders — each folder's id, name, deviation count and cover image
+     * — so a caller can pass one folderId to getUserGallery.
+     */
+    listGalleryFolders(args: { username: string; offset?: number }): Promise<DeviantartGalleryFolderList>;
+
+    /**
+     * Autocompletes a partial tag ("lands" → landscape, landscapephotography …) the way
+     * DeviantArt's search box does, returning tag names browseTag accepts.
+     */
+    suggestTags(args: { query: string }): Promise<{ tags: string[] }>;
+
+    /**
+     * Lists the deviations filed under one tag, as deviantart.com/tag/<tag> shows them, with each
+     * deviation's id, title, url, author, image and stats, 24 at a time via the site's own cursor.
+     */
+    browseTag(args: { tag: string; cursor?: string }): Promise<DeviantartTagResult>;
+
+    /**
+     * Reads a deviation's comment thread — each comment's author, posted time, plain text, reply
+     * and like counts, and its parent for replies — newest or oldest first, with the total and a
+     * cursor for the next page.
+     */
+    getComments(args: { url?: string; deviationId?: string; order?: "newest" | "oldest"; cursor?: string }): Promise<DeviantartCommentThread>;
   }
 }
 
@@ -25685,6 +25750,15 @@ interface FomoTrade {
   createdAt: string;
 }
 
+interface FomoComment {
+  id: string;
+  author: FomoUser;
+  body: string;
+  reactionCount: number | null;
+  reacted: boolean | null;
+  createdAt: string;
+}
+
 /** UNIX SECONDS, matching the TradingView datafeed contract — not milliseconds. */
 interface FomoCandle {
   time: number;
@@ -25984,6 +26058,36 @@ interface FomoCandle {
      * not found anywhere in the site's statically-linked JS reachable from the token page.
      */
     getTokenThesis(address: string, chain: string, opts?: ConnectionOption): Promise<unknown[]>;
+
+    /**
+     * Pages trades across the platform, optionally filtered to one trader by userId. Unscoped,
+     * this is the same unfiltered stream as getTradingActivityFeed; filtered by userId, it is one
+     * trader's own trade history. Overlaps with getUserSwaps, which is not yet built — when it is,
+     * measure whether the two share a row shape, since this provider should carry one function for
+     * one read, not two names for it.
+     */
+    getTrades(userId?: string, cursor?: string, limit?: number, opts?: ConnectionOption): Promise<FomoPage<FomoTrade>>;
+
+    /**
+     * Returns one trade in full by id, with its author and token — the narrow read behind a shared
+     * fomo.family trade link.
+     */
+    getTrade(tradeId: string, opts?: ConnectionOption): Promise<FomoTrade>;
+
+    /**
+     * Returns the comment thread under one trade, in the site's own order. No paging: the route
+     * takes no cursor.
+     */
+    getTradeComments(tradeId: string, opts?: ConnectionOption): Promise<FomoComment[]>;
+
+    /**
+     * Pages one trader's own executed swaps — the raw trade log behind everything the leaderboard
+     * summarizes. Returns the same FomoTrade shape as
+     * getTrades/getTradingActivityFeed/getTokenFeed; no live call has yet confirmed whether this
+     * route's rows and getTrades(userId) are the identical data under two names, which the next
+     * author with a session should settle before adding a third.
+     */
+    getUserSwaps(userId: string, cursor?: string, opts?: ConnectionOption): Promise<FomoPage<FomoTrade>>;
   }
 }
 
@@ -51164,6 +51268,25 @@ interface RedditCommentReplies {
   remainingIds: string[];       // ids passed but past the 100-per-call ceiling
 }
 
+interface RedditCommentHit {
+  id: string;                  // "t1_…"
+  author: string | null;
+  body: string;                // plain text
+  score: number | null;
+  createdAt: string | null;    // ISO
+  permalink: string | null;    // to this exact reply
+  parentId: string | null;     // "t1_…" when it answers a comment
+  subreddit: string;
+  thread: { id: string; title: string; permalink: string | null; score: number | null; numComments: number | null };
+}
+
+interface RedditCommentSearch {
+  query: string;
+  sort: "relevance" | "new" | "top";
+  comments: RedditCommentHit[];
+  nextCursor: string | null;   // pass back as `cursor`
+}
+
 interface RedditMyAccount {
   id: string;                  // "t2_…"
   name: string;
@@ -51426,6 +51549,16 @@ interface RedditProfileText {
      * whole reply branch.
      */
     getCommentReplies(args: { post: string; ids?: string[]; parent?: string; sort?: "confidence" | "top" | "new" | "controversial" | "old" | "qa" }): Promise<RedditCommentReplies>;
+
+    /**
+     * Searches the text of COMMENTS site-wide (not posts) — each match with its body, author,
+     * score, timestamp, a permalink to that exact reply, and `thread`: the post it sits in (id,
+     * title, permalink, score, comment count). The read for evidence: the post asks the question,
+     * the reply holds the answer. `sort` is relevance (default), new or top; a page is up to ~10
+     * comments, and `nextCursor` passed back as `cursor` reads the next. For the conversation
+     * around a hit, call getPost on `thread.id`.
+     */
+    searchComments(query: string | { query: string; sort?: "relevance" | "new" | "top"; cursor?: string }): Promise<RedditCommentSearch>;
 
     /**
      * The signed-in caller's own Reddit account: username, karma, account age, avatar, whether
@@ -53813,6 +53946,29 @@ interface ScribdSearchResult {
   imageUrl?: string;
   type: string;
 }
+interface ScribdDocument {
+  id: number;
+  title: string;
+  url: string;
+  type: string;
+  description?: string;
+  summary?: string;
+  uploader?: { name: string; url?: string };
+  pageCount?: number;
+  pageDimensions?: { width: number; height: number };
+  wordCount?: number;
+  views?: string;
+  rating: { upvoteCount: number; downvoteCount: number; ratingCount: number; averageRating?: number };
+  formats: Array<{ extension: string; filesize?: string }>;
+  isDownloadable: boolean;
+  isViewRestricted: boolean;
+  isPrivate: boolean;
+  copyright?: string;
+  categories: string[];
+  keyphrases: Array<{ keyphrase: string; definition: string; pageNum?: number }>;
+  questions: Array<{ question: string; answer: string }>;
+  imageUrl?: string;
+}
 
   /**
    * Scribd, the document-sharing library: search user-uploaded documents, read a document's
@@ -53826,6 +53982,15 @@ interface ScribdSearchResult {
      * thumbnail and type. page defaults to 1.
      */
     searchDocuments(query: string, page?: number): Promise<ScribdSearchResult[]>;
+
+    /**
+     * Reads one Scribd document's metadata from a scribd.com/document/<id>/<slug> url or the
+     * numeric id: title, type, uploader, description and Scribd's AI summary, page count and
+     * dimensions, word count, views, rating, formats with file sizes, downloadable /
+     * view-restricted flags, categories, key-phrase definitions, the site's generated Q&A pairs
+     * and thumbnail. Not the text — that is getDocumentText.
+     */
+    getDocument(document: string | number): Promise<ScribdDocument>;
   }
 }
 
@@ -58668,6 +58833,31 @@ interface GuardianArticleCommentsResult {
   closedForComments: boolean;
   comments: GuardianComment[];
 }
+interface GuardianListPodcastEpisodesArgs {
+  /** A podcast series path or URL, e.g. "news/series/todayinfocus" (default), "politics/series/politicsweekly", "football/series/footballweekly", "science/series/science", "news/series/the-audio-long-read". */
+  series?: string;
+  limit?: number;
+}
+interface GuardianPodcastEpisode {
+  /** The feed's own guid for the episode. */
+  id: string | null;
+  title: string;
+  /** HTML stripped. */
+  summary: string | null;
+  /** RFC 822 date, verbatim from the feed. */
+  published: string | null;
+  /** Direct audio file URL. */
+  audioUrl: string | null;
+  /** "HH:MM:SS", verbatim from itunes:duration. */
+  duration: string | null;
+  image: string | null;
+}
+interface GuardianListPodcastEpisodesResult {
+  series: string;
+  title: string | null;
+  description: string | null;
+  episodes: GuardianPodcastEpisode[];
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -58820,6 +59010,13 @@ interface GuardianArticleCommentsResult {
      * prize etc, or `number` for a specific past puzzle.
      */
     getCrossword(args?: GuardianGetCrosswordArgs): Promise<GuardianCrossword>;
+
+    /**
+     * Episodes of one Guardian podcast, newest first — title, summary, publish date, duration,
+     * artwork and the direct audio URL. Defaults to Today in Focus; pass a series path such as
+     * "politics/series/politicsweekly".
+     */
+    listPodcastEpisodes(args?: GuardianListPodcastEpisodesArgs): Promise<GuardianListPodcastEpisodesResult>;
 
     /**
      * Reader comments on one Guardian article — author, body, publish time and recommend count,
@@ -60212,6 +60409,58 @@ interface TmobileUpgradeOffer {
      * page carrying tiers like "Save $830: iPhone 13".
      */
     getUpgradeOffer(arg: { devicePath: string; tradeInModel?: string }): Promise<TmobileUpgradeOffer>;
+  }
+}
+
+declare namespace BowmarkProvider_toast {
+  // ── Toast — the unit's own declarations, verbatim ──
+interface ToastRestaurant {
+  guid: string;              // the id every other toast function takes
+  shortUrl: string | null;   // the slug in toast.app/r/<slug>
+  url: string | null;
+  name: string;
+  description: string | null;
+  cuisine: string | null;
+  address: ToastAddress;
+  phone: string | null;
+  onlineOrderingEnabled: boolean;
+  deliveryOffered: boolean;
+  reservationsEnabled: boolean;
+  waitlistEnabled: boolean;
+  websiteUrl: string | null;
+  logoUrl: string | null;
+  rating: { average: number; count: number } | null;
+}
+
+interface ToastAddress {
+  line1: string | null;
+  line2: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  country: string | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+// A toast.app URL ("https://toast.app/r/bombaytandoor"), a slug ("bombaytandoor") or a guid.
+type ToastRestaurantRef = string;
+
+  /**
+   * Toast, the restaurant platform behind Toast Local (toast.app), Toast online ordering and
+   * Toast Tables: find restaurants near a place or in a city, a restaurant's details, menu, item
+   * choices, ordering options and pickup times, a priced cart up to the payment step,
+   * reservation availability, waitlist estimates, events, offers, order tracking, and the
+   * signed-in guest's own orders, bookings, reservations, addresses, cards and rewards.
+   */
+  interface Unit {
+    /**
+     * Reads one Toast restaurant by its toast.app URL, slug or guid: name, cuisine, address,
+     * phone, whether online ordering, delivery, reservations and the waitlist are on, its website
+     * and rating, and the guid every other Toast function takes. An unknown slug is a clear error,
+     * not an empty answer.
+     */
+    getRestaurant(ref: ToastRestaurantRef): Promise<ToastRestaurant>;
   }
 }
 
@@ -68381,6 +68630,15 @@ interface ZoomMeetingParticipants {
   raw: string; // signed-in response shape is UNMEASURED — see manifest.json
 }
 
+interface ZoomWebinarList {
+  raw: string; // signed-in response shape is UNMEASURED — see manifest.json
+}
+
+interface ZoomWebinarDetail {
+  webinarId: string;
+  raw: string; // signed-in response shape is UNMEASURED — see manifest.json
+}
+
   /** Video conferencing, meetings, and webinars. */
   interface Unit {
     /** Read Zoom Workplace pricing plans and features */
@@ -68418,6 +68676,18 @@ interface ZoomMeetingParticipants {
      * needs the caller signed in
      */
     getMeetingParticipants(meetingId: string | number, opts?: ConnectionOption): Promise<ZoomMeetingParticipants>;
+
+    /**
+     * Read the signed-in caller's webinars from the signed-in caller's webinar list page — needs
+     * the caller signed in
+     */
+    listWebinars(opts?: ConnectionOption): Promise<ZoomWebinarList>;
+
+    /**
+     * Read full details of one webinar from the signed-in caller's webinar detail page — needs the
+     * caller signed in
+     */
+    getWebinar(webinarId: string | number, opts?: ConnectionOption): Promise<ZoomWebinarDetail>;
   }
 }
 
@@ -69910,6 +70180,7 @@ interface BowmarkProviders {
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
   titlenine: BowmarkProvider_titlenine.Unit;
   tmobile: BowmarkProvider_tmobile.Unit;
+  toast: BowmarkProvider_toast.Unit;
   tock: BowmarkProvider_tock.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
   totalplastics: BowmarkProvider_totalplastics.Unit;

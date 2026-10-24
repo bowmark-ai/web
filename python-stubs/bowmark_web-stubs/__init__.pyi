@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 10039cc601d8afc9a6ad2007fed7d1f7686ec5e7fda5371aa0fc3330c5d1d97d
-# 87 capabilities, 641 providers, 2554 typed functions, 20 refused.
+# Manifest version: bd2cb56660d39c16a62d40de1db9ae9267553dbf6889be67934e1dbaff259034
+# 87 capabilities, 642 providers, 2568 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11899,6 +11899,66 @@ class Prv_deviantart_DeviantartGalleryItem_Out_stats_Out(TypedDict):
 class Prv_deviantart_DeviantartGalleryResult_Out_locked_Out(TypedDict):
     reason: str
 
+class Prv_deviantart_listGalleryFolders_args_In(TypedDict):
+    username: str
+    offset: NotRequired[float]
+
+class Prv_deviantart_DeviantartGalleryFolderList_Out(TypedDict):
+    folders: list[Prv_deviantart_DeviantartGalleryFolder_Out]
+    hasMore: bool
+    nextOffset: NotRequired[float]
+
+class Prv_deviantart_DeviantartGalleryFolder_Out(TypedDict):
+    folderId: str
+    name: str
+    size: NotRequired[float]
+    hasSubfolders: NotRequired[bool]
+    parentId: NotRequired[str]
+    coverUrl: NotRequired[str]
+
+class Prv_deviantart_suggestTags_args_In(TypedDict):
+    query: str
+
+class Prv_deviantart_suggestTags_return_Out(TypedDict):
+    tags: list[str]
+
+class Prv_deviantart_browseTag_args_In(TypedDict):
+    tag: str
+    cursor: NotRequired[str]
+
+class Prv_deviantart_DeviantartTagResult_Out(TypedDict):
+    tag: str
+    results: list[Prv_deviantart_DeviantartGalleryItem_Out]
+    hasMore: bool
+    nextCursor: NotRequired[str]
+
+class Prv_deviantart_getComments_args_In(TypedDict):
+    url: NotRequired[str]
+    deviationId: NotRequired[str]
+    order: NotRequired[Literal["newest"] | Literal["oldest"]]
+    cursor: NotRequired[str]
+
+class Prv_deviantart_DeviantartCommentThread_Out(TypedDict):
+    total: float
+    comments: list[Prv_deviantart_DeviantartComment_Out]
+    hasMore: bool
+    nextCursor: NotRequired[str]
+
+class Prv_deviantart_DeviantartComment_Out(TypedDict):
+    commentId: str
+    parentId: NotRequired[str]
+    posted: NotRequired[str]
+    edited: NotRequired[str]
+    text: str
+    replies: NotRequired[float]
+    likes: NotRequired[float]
+    hidden: NotRequired[str]
+    author: NotRequired[Prv_deviantart_DeviantartComment_Out_author_Out]
+
+class Prv_deviantart_DeviantartComment_Out_author_Out(TypedDict):
+    username: NotRequired[str]
+    usericon: NotRequired[str]
+
 class Prv_dhl_dhlQuoteArgs_In(TypedDict):
     originCountry: str
     originPostalCode: str
@@ -14774,6 +14834,26 @@ class Prv_fomo_getTopHolders_tokens_item_In(TypedDict):
 class Prv_fomo_getFriendHolders_tokens_item_In(TypedDict):
     address: str
     chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float
+
+class Prv_fomo_FomoTrade_Out(TypedDict):
+    id: str
+    user: Prv_fomo_FomoUser_Out
+    token: Prv_fomo_FomoToken_Out
+    side: str
+    amount: str
+    amountUsd: float | None
+    priceUsd: str | None
+    pnlUsd: float | None
+    txHash: str | None
+    createdAt: str
+
+class Prv_fomo_FomoComment_Out(TypedDict):
+    id: str
+    author: Prv_fomo_FomoUser_Out
+    body: str
+    reactionCount: float | None
+    reacted: bool | None
+    createdAt: str
 
 class Prv_forbes_ForbesNewsList_Out(TypedDict):
     articles: list[Prv_forbes_ForbesArticle_Out]
@@ -28671,6 +28751,35 @@ class Prv_reddit_RedditCommentReplies_Out_more_u0_Out(TypedDict):
     count: float
     ids: list[str]
 
+class Prv_reddit_searchComments_query_u1_In(TypedDict):
+    query: str
+    sort: NotRequired[Literal["relevance"] | Literal["new"] | Literal["top"]]
+    cursor: NotRequired[str]
+
+class Prv_reddit_RedditCommentSearch_Out(TypedDict):
+    query: str
+    sort: Literal["relevance"] | Literal["new"] | Literal["top"]
+    comments: list[Prv_reddit_RedditCommentHit_Out]
+    nextCursor: str | None
+
+class Prv_reddit_RedditCommentHit_Out(TypedDict):
+    id: str
+    author: str | None
+    body: str
+    score: float | None
+    createdAt: str | None
+    permalink: str | None
+    parentId: str | None
+    subreddit: str
+    thread: Prv_reddit_RedditCommentHit_Out_thread_Out
+
+class Prv_reddit_RedditCommentHit_Out_thread_Out(TypedDict):
+    id: str
+    title: str
+    permalink: str | None
+    score: float | None
+    numComments: float | None
+
 class Prv_reddit_RedditMyAccount_Out(TypedDict):
     id: str
     name: str
@@ -30259,6 +30368,56 @@ class Prv_scribd_ScribdSearchResult_Out(TypedDict):
 class Prv_scribd_ScribdSearchResult_Out_author_Out(TypedDict):
     name: str
     url: NotRequired[str]
+
+class Prv_scribd_ScribdDocument_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    type: str
+    description: NotRequired[str]
+    summary: NotRequired[str]
+    uploader: NotRequired[Prv_scribd_ScribdDocument_Out_uploader_Out]
+    pageCount: NotRequired[float]
+    pageDimensions: NotRequired[Prv_scribd_ScribdDocument_Out_pageDimensions_Out]
+    wordCount: NotRequired[float]
+    views: NotRequired[str]
+    rating: Prv_scribd_ScribdDocument_Out_rating_Out
+    formats: list[Prv_scribd_ScribdDocument_Out_formats_item_Out]
+    isDownloadable: bool
+    isViewRestricted: bool
+    isPrivate: bool
+    copyright: NotRequired[str]
+    categories: list[str]
+    keyphrases: list[Prv_scribd_ScribdDocument_Out_keyphrases_item_Out]
+    questions: list[Prv_scribd_ScribdDocument_Out_questions_item_Out]
+    imageUrl: NotRequired[str]
+
+class Prv_scribd_ScribdDocument_Out_uploader_Out(TypedDict):
+    name: str
+    url: NotRequired[str]
+
+class Prv_scribd_ScribdDocument_Out_pageDimensions_Out(TypedDict):
+    width: float
+    height: float
+
+class Prv_scribd_ScribdDocument_Out_rating_Out(TypedDict):
+    upvoteCount: float
+    downvoteCount: float
+    ratingCount: float
+    averageRating: NotRequired[float]
+
+class Prv_scribd_ScribdDocument_Out_formats_item_Out(TypedDict):
+    extension: str
+    filesize: NotRequired[str]
+
+class Prv_scribd_ScribdDocument_Out_keyphrases_item_Out(TypedDict):
+    keyphrase: str
+    definition: str
+    pageNum: NotRequired[float]
+
+class Prv_scribd_ScribdDocument_Out_questions_item_Out(TypedDict):
+    question: str
+    answer: str
 
 class Prv_seakeeper_SeakeeperDealer_Out(TypedDict):
     name: str
@@ -33370,6 +33529,25 @@ class Prv_theguardian_com_GuardianCrosswordClue_Out(TypedDict):
     length: float
     solution: str | None
 
+class Prv_theguardian_com_GuardianListPodcastEpisodesArgs_In(TypedDict):
+    series: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_theguardian_com_GuardianListPodcastEpisodesResult_Out(TypedDict):
+    series: str
+    title: str | None
+    description: str | None
+    episodes: list[Prv_theguardian_com_GuardianPodcastEpisode_Out]
+
+class Prv_theguardian_com_GuardianPodcastEpisode_Out(TypedDict):
+    id: str | None
+    title: str
+    summary: str | None
+    published: str | None
+    audioUrl: str | None
+    duration: str | None
+    image: str | None
+
 class Prv_theguardian_com_GuardianGetArticleCommentsArgs_In(TypedDict):
     articleUrlOrId: str
     limit: NotRequired[float]
@@ -34109,6 +34287,37 @@ class Prv_tmobile_TmobileTradeInMatch_Out(TypedDict):
     promoId: str
     promoDisplayName: str
     creditUsd: float
+
+class Prv_toast_ToastRestaurant_Out(TypedDict):
+    guid: str
+    shortUrl: str | None
+    url: str | None
+    name: str
+    description: str | None
+    cuisine: str | None
+    address: Prv_toast_ToastAddress_Out
+    phone: str | None
+    onlineOrderingEnabled: bool
+    deliveryOffered: bool
+    reservationsEnabled: bool
+    waitlistEnabled: bool
+    websiteUrl: str | None
+    logoUrl: str | None
+    rating: Prv_toast_ToastRestaurant_Out_rating_u0_Out | None
+
+class Prv_toast_ToastAddress_Out(TypedDict):
+    line1: str | None
+    line2: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    country: str | None
+    latitude: float | None
+    longitude: float | None
+
+class Prv_toast_ToastRestaurant_Out_rating_u0_Out(TypedDict):
+    average: float
+    count: float
 
 class Prv_tock_TockBusinessSuggestion_Out(TypedDict):
     slug: str
@@ -39130,6 +39339,13 @@ class Prv_zoom_ZoomMeetingParticipants_Out(TypedDict):
     meetingId: str
     raw: str
 
+class Prv_zoom_ZoomWebinarList_Out(TypedDict):
+    raw: str
+
+class Prv_zoom_ZoomWebinarDetail_Out(TypedDict):
+    webinarId: str
+    raw: str
+
 class Prv_zoopla_search_args_In(TypedDict):
     location: str
     bedrooms: NotRequired[float]
@@ -40166,14 +40382,15 @@ class Cap_kenya_fuel_prices(Protocol):
         """Returns current Kenya pump prices for diesel, petrol, or kerosene."""
 
 class Cap_lawyer_directory(Protocol):
-    """Look up a lawyer in a bar association's own directory (annuaire des avocats) — Paris bar
-    today.
+    """Search a bar association's official lawyer directory (annuaire des avocats) by name,
+    city, or bar number to find lawyers, their contact details, practice areas, and
+    qualifications.
     """
 
     async def search(self, query: Cap_lawyer_directory_LawyerSearchQuery_In, /) -> Cap_lawyer_directory_LawyerSearchResult_Out:
-        """Searches the bar association's own lawyer directory (annuaire des avocats, Paris bar) by
-        name, city or address; returns lawyers and firms with bar number, phone, email, website
-        and address. A plain string is read as a name.
+        """Searches a bar association's official lawyer directory (Paris bar — annuaire des
+        avocats) by lawyer name, city, or bar number; returns matching lawyers and firms with
+        contact details, bar registration numbers, practice areas, and bar status.
         """
 
     async def getLawyer(self, id: str, /) -> Cap_lawyer_directory_LawyerRecord_Out:
@@ -46661,6 +46878,28 @@ class Prv_deviantart(Protocol):
         folder reports `locked` instead of rows.
         """
 
+    async def listGalleryFolders(self, args: Prv_deviantart_listGalleryFolders_args_In, /) -> Prv_deviantart_DeviantartGalleryFolderList_Out:
+        """Lists an artist's gallery folders — each folder's id, name, deviation count and cover
+        image — so a caller can pass one folderId to getUserGallery.
+        """
+
+    async def suggestTags(self, args: Prv_deviantart_suggestTags_args_In, /) -> Prv_deviantart_suggestTags_return_Out:
+        """Autocompletes a partial tag ("lands" → landscape, landscapephotography …) the way
+        DeviantArt's search box does, returning tag names browseTag accepts.
+        """
+
+    async def browseTag(self, args: Prv_deviantart_browseTag_args_In, /) -> Prv_deviantart_DeviantartTagResult_Out:
+        """Lists the deviations filed under one tag, as deviantart.com/tag/<tag> shows them, with
+        each deviation's id, title, url, author, image and stats, 24 at a time via the site's
+        own cursor.
+        """
+
+    async def getComments(self, args: Prv_deviantart_getComments_args_In, /) -> Prv_deviantart_DeviantartCommentThread_Out:
+        """Reads a deviation's comment thread — each comment's author, posted time, plain text,
+        reply and like counts, and its parent for replies — newest or oldest first, with the
+        total and a cursor for the next page.
+        """
+
 class Prv_dhl(Protocol):
     """DHL's own Get a Quote tool, no login: shipping price, service and transit time for a
     parcel or pallet between two postal codes.
@@ -48328,6 +48567,32 @@ class Prv_fomo(Protocol):
         takes no cursor. The row shape is returned in fomo's own untyped form — same reason as
         getTopHolders/getFriendHolders/getUserSpotlight: the component that renders this data
         was not found anywhere in the site's statically-linked JS reachable from the token page.
+        """
+
+    async def getTrades(self, userId: str | None = None, cursor: str | None = None, limit: float | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Pages trades across the platform, optionally filtered to one trader by userId. Unscoped,
+        this is the same unfiltered stream as getTradingActivityFeed; filtered by userId, it is
+        one trader's own trade history. Overlaps with getUserSwaps, which is not yet built —
+        when it is, measure whether the two share a row shape, since this provider should carry
+        one function for one read, not two names for it.
+        """
+
+    async def getTrade(self, tradeId: str, opts: ConnectionOption | None = None, /) -> Prv_fomo_FomoTrade_Out:
+        """Returns one trade in full by id, with its author and token — the narrow read behind a
+        shared fomo.family trade link.
+        """
+
+    async def getTradeComments(self, tradeId: str, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoComment_Out]:
+        """Returns the comment thread under one trade, in the site's own order. No paging: the
+        route takes no cursor.
+        """
+
+    async def getUserSwaps(self, userId: str, cursor: str | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Pages one trader's own executed swaps — the raw trade log behind everything the
+        leaderboard summarizes. Returns the same FomoTrade shape as
+        getTrades/getTradingActivityFeed/getTokenFeed; no live call has yet confirmed whether
+        this route's rows and getTrades(userId) are the identical data under two names, which
+        the next author with a session should settle before adding a third.
         """
 
 class Prv_forbes(Protocol):
@@ -57779,6 +58044,15 @@ class Prv_reddit(Protocol):
         its whole reply branch.
         """
 
+    async def searchComments(self, query: str | Prv_reddit_searchComments_query_u1_In, /) -> Prv_reddit_RedditCommentSearch_Out:
+        """Searches the text of COMMENTS site-wide (not posts) — each match with its body, author,
+        score, timestamp, a permalink to that exact reply, and `thread`: the post it sits in
+        (id, title, permalink, score, comment count). The read for evidence: the post asks the
+        question, the reply holds the answer. `sort` is relevance (default), new or top; a page
+        is up to ~10 comments, and `nextCursor` passed back as `cursor` reads the next. For the
+        conversation around a hit, call getPost on `thread.id`.
+        """
+
     async def getMyAccount(self, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditMyAccount_Out:
         """The signed-in caller's own Reddit account: username, karma, account age, avatar, whether
         they have unread mail and how much, whether they moderate anywhere, and whether the
@@ -58643,6 +58917,14 @@ class Prv_scribd(Protocol):
         """Searches Scribd's user-uploaded documents by free text and returns up to 40 a page: id,
         title, url, author (name and profile url), description, page count, views, up/down
         votes, thumbnail and type. page defaults to 1.
+        """
+
+    async def getDocument(self, document: str | float, /) -> Prv_scribd_ScribdDocument_Out:
+        """Reads one Scribd document's metadata from a scribd.com/document/<id>/<slug> url or the
+        numeric id: title, type, uploader, description and Scribd's AI summary, page count and
+        dimensions, word count, views, rating, formats with file sizes, downloadable /
+        view-restricted flags, categories, key-phrase definitions, the site's generated Q&A
+        pairs and thumbnail. Not the text — that is getDocumentText.
         """
 
 class Prv_seakeeper(Protocol):
@@ -60239,6 +60521,12 @@ class Prv_theguardian_com(Protocol):
         cryptic, mini, prize etc, or `number` for a specific past puzzle.
         """
 
+    async def listPodcastEpisodes(self, args: Prv_theguardian_com_GuardianListPodcastEpisodesArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListPodcastEpisodesResult_Out:
+        """Episodes of one Guardian podcast, newest first — title, summary, publish date, duration,
+        artwork and the direct audio URL. Defaults to Today in Focus; pass a series path such as
+        "politics/series/politicsweekly".
+        """
+
     async def getArticleComments(self, args: Prv_theguardian_com_GuardianGetArticleCommentsArgs_In, /) -> Prv_theguardian_com_GuardianArticleCommentsResult_Out:
         """Reader comments on one Guardian article — author, body, publish time and recommend
         count, newest first. Takes a theguardian.com URL or the `id` getArticle returns. Throws
@@ -60801,6 +61089,21 @@ class Prv_tmobile(Protocol):
         and every applicable promotion's per-trade-in-device credit tier) and, when
         `tradeInModel` is given, resolves the BEST matching credit across all of them — e.g.
         "iPhone 13" against a page carrying tiers like "Save $830: iPhone 13".
+        """
+
+class Prv_toast(Protocol):
+    """Toast, the restaurant platform behind Toast Local (toast.app), Toast online ordering and
+    Toast Tables: find restaurants near a place or in a city, a restaurant's details, menu,
+    item choices, ordering options and pickup times, a priced cart up to the payment step,
+    reservation availability, waitlist estimates, events, offers, order tracking, and the
+    signed-in guest's own orders, bookings, reservations, addresses, cards and rewards.
+    """
+
+    async def getRestaurant(self, ref: str, /) -> Prv_toast_ToastRestaurant_Out:
+        """Reads one Toast restaurant by its toast.app URL, slug or guid: name, cuisine, address,
+        phone, whether online ordering, delivery, reservations and the waitlist are on, its
+        website and rating, and the guid every other Toast function takes. An unknown slug is a
+        clear error, not an empty answer.
         """
 
 class Prv_tock(Protocol):
@@ -63794,6 +64097,16 @@ class Prv_zoom(Protocol):
         page — needs the caller signed in
         """
 
+    async def listWebinars(self, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomWebinarList_Out:
+        """Read the signed-in caller's webinars from the signed-in caller's webinar list page —
+        needs the caller signed in
+        """
+
+    async def getWebinar(self, webinarId: str | float, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomWebinarDetail_Out:
+        """Read full details of one webinar from the signed-in caller's webinar detail page — needs
+        the caller signed in
+        """
+
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""
 
@@ -64373,6 +64686,7 @@ class BowmarkProviders(Protocol):
     tilsonhomes: Prv_tilsonhomes
     titlenine: Prv_titlenine
     tmobile: Prv_tmobile
+    toast: Prv_toast
     tock: Prv_tock
     topviewtix: Prv_topviewtix
     totalplastics: Prv_totalplastics
