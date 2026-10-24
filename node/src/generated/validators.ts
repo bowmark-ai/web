@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bd2cb56660d39c16a62d40de1db9ae9267553dbf6889be67934e1dbaff259034
-// 2568 checked, 20 unchecked.
+// Manifest version: 7e13f4d25b984255230eb3de35d5d45af3369009298a089248cd8f07906e1f0b
+// 2574 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bd2cb56660d39c16a62d40de1db9ae9267553dbf6889be67934e1dbaff259034",
+  "version": "7e13f4d25b984255230eb3de35d5d45af3369009298a089248cd8f07906e1f0b",
   "units": {
     "address_validation": {
       "defs": {
@@ -8168,6 +8168,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.aliexpress": {
       "defs": {
+        "GetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -8188,6 +8200,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductArgs"
             },
             "optional": false
           }
@@ -22018,6 +22040,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "readSharedFile": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -35258,6 +35298,100 @@ export const VALIDATORS: ValidatorTable = {
               "name": "InspirecommunitiesSearchHomesArgs"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.instacart": {
+      "defs": {
+        "InstacartGetStoreArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "postalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "InstacartListStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "postalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findLocation": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartListStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStore": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartGetStoreArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -70944,6 +71078,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.tripadvisor": {
       "defs": {
+        "GetAttractionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetHotelArgs": {
           "k": "object",
           "props": [
@@ -71156,6 +71309,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchRestaurantsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAttraction": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAttractionArgs"
             },
             "optional": false
           }

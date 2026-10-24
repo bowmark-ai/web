@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bd2cb56660d39c16a62d40de1db9ae9267553dbf6889be67934e1dbaff259034
-# 87 capabilities, 642 providers, 2568 typed functions, 20 refused.
+# Manifest version: 7e13f4d25b984255230eb3de35d5d45af3369009298a089248cd8f07906e1f0b
+# 87 capabilities, 643 providers, 2574 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4052,6 +4052,36 @@ class Prv_aliexpress_aliexpressProduct_Out(TypedDict):
     shop_name: str
     rating: NotRequired[float]
     shipping_free: NotRequired[bool]
+
+class Prv_aliexpress_GetProductArgs_In(TypedDict):
+    id: str
+
+class Prv_aliexpress_aliexpressProductDetail_Out(TypedDict):
+    id: str
+    title: str
+    price: NotRequired[float]
+    original_price: NotRequired[float]
+    currency: NotRequired[str]
+    images: list[str]
+    variants: list[Prv_aliexpress_aliexpressProductDetail_Out_variants_item_Out]
+    properties: list[Prv_aliexpress_aliexpressProductDetail_Out_properties_item_Out]
+    rating: NotRequired[float]
+    review_count: NotRequired[float]
+    store: NotRequired[Prv_aliexpress_aliexpressProductDetail_Out_store_Out]
+    url: str
+
+class Prv_aliexpress_aliexpressProductDetail_Out_variants_item_Out(TypedDict):
+    name: str
+    values: list[str]
+
+class Prv_aliexpress_aliexpressProductDetail_Out_properties_item_Out(TypedDict):
+    name: str
+    value: str
+
+class Prv_aliexpress_aliexpressProductDetail_Out_store_Out(TypedDict):
+    name: str
+    url: NotRequired[str]
+    positive_rate: NotRequired[str]
 
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
@@ -12410,6 +12440,21 @@ class Prv_dropbox_DropboxDownload_Out_file_Out(TypedDict):
     url: str
     expiresAt: str
 
+class Prv_dropbox_readSharedFile_input_In(TypedDict):
+    url: str
+
+class Prv_dropbox_DropboxSharedFileText_Out(TypedDict):
+    url: str
+    name: str
+    pageCount: float
+    pages: list[Prv_dropbox_DropboxSharedFileText_Out_pages_item_Out]
+    text: str
+    links: list[str]
+
+class Prv_dropbox_DropboxSharedFileText_Out_pages_item_Out(TypedDict):
+    page: float
+    text: str
+
 class Prv_duckduckgo_SearchNewsArgs_In(TypedDict):
     query: str
 
@@ -18867,6 +18912,33 @@ class Prv_inspirecommunities_InspirecommunitiesHome_Out(TypedDict):
     listingType: Literal["sale"] | Literal["rent"]
     detailUrl: str
     tourHandoffUrl: str | None
+
+class Prv_instacart_InstacartLocation_Out(TypedDict):
+    postalCode: str
+    latitude: float
+    longitude: float
+    city: str | None
+    state: str | None
+
+class Prv_instacart_InstacartListStoresArgs_In(TypedDict):
+    postalCode: str
+    latitude: float
+    longitude: float
+
+class Prv_instacart_InstacartStore_Out(TypedDict):
+    shopId: str
+    retailerId: str
+    slug: str
+    name: str
+    retailerType: str
+    serviceType: str
+    logoUrl: str | None
+
+class Prv_instacart_InstacartGetStoreArgs_In(TypedDict):
+    slug: str
+    postalCode: str
+    latitude: float
+    longitude: float
 
 class Prv_instagram_InstagramProfile_Out(TypedDict):
     id: str
@@ -34880,6 +34952,32 @@ class Prv_tripadvisor_TripadvisorRestaurant_Out(TypedDict):
     priceLevel: NotRequired[str]
     url: NotRequired[str]
 
+class Prv_tripadvisor_GetAttractionArgs_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_tripadvisor_TripadvisorAttractionDetail_Out(TypedDict):
+    id: str
+    name: str
+    description: NotRequired[str]
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+    rank: NotRequired[Prv_tripadvisor_TripadvisorAttractionDetail_Out_rank_Out]
+    address: NotRequired[str]
+    locality: NotRequired[str]
+    phone: NotRequired[str]
+    website: NotRequired[str]
+    openingHours: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    image: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_tripadvisor_TripadvisorAttractionDetail_Out_rank_Out(TypedDict):
+    position: float
+    outOf: float
+    category: str
+
 class Prv_tripadvisor_SearchAttractionsArgs_In(TypedDict):
     geoId: str
     categoryId: NotRequired[str]
@@ -41938,6 +42036,11 @@ class Prv_aliexpress(Protocol):
         and rating.
         """
 
+    async def getProduct(self, args: Prv_aliexpress_GetProductArgs_In, /) -> Prv_aliexpress_aliexpressProductDetail_Out:
+        """Fetches one product's detail — price, variants, specs, images, rating and seller — by
+        the id a search row returns.
+        """
+
 class Prv_allied(Protocol):
     """Runs Allied Van Lines' own Packing Calculator — takes which rooms are moving (no name,
     email or phone) and returns a real, server-computed whole-house and per-room
@@ -47198,6 +47301,13 @@ class Prv_dropbox(Protocol):
         size. THROWS on a folder link (use downloadSharedFolder) or a removed link.
         """
 
+    async def readSharedFile(self, input: Prv_dropbox_readSharedFile_input_In, /) -> Prv_dropbox_DropboxSharedFileText_Out:
+        """Reads the text of a document behind a Dropbox shared FILE link (PDF, Word, slides…)
+        through Dropbox's own text preview, logged out — per page and joined, plus the links in
+        it. THROWS on a folder link, or on a file Dropbox makes no text preview for (use
+        downloadSharedFile).
+        """
+
 class Prv_duckduckgo(Protocol):
     """DuckDuckGo (duckduckgo.com) — private web, image, video, news and maps search, Instant
     Answers, autocomplete, the dictionary, currency, weather, time and translation answers,
@@ -51509,6 +51619,28 @@ class Prv_inspirecommunities(Protocol):
         """Searches Inspire Communities' current manufactured homes by state, community, beds,
         baths, price and sale or rent status. Returns live inventory, detail URLs and a
         read-only schedule-a-tour handoff URL.
+        """
+
+class Prv_instacart(Protocol):
+    """Instacart grocery delivery: find the stores that deliver to a ZIP, search one store or
+    compare a product's price across every nearby store, read products, deals, departments,
+    weekly ads, store hours and delivery estimates, and (signed in) read and fill the
+    customer's cart, past orders, lists and addresses. Never checks out.
+    """
+
+    async def findLocation(self, query: str, /) -> Prv_instacart_InstacartLocation_Out:
+        """Turns a ZIP code or address text into the location every other Instacart function takes
+        — postal code plus latitude/longitude — with the city and state it resolved to.
+        """
+
+    async def listStores(self, args: Prv_instacart_InstacartListStoresArgs_In, /) -> list[Prv_instacart_InstacartStore_Out]:
+        """Lists the stores Instacart serves at a location — Safeway, Costco, Kroger, local markets
+        — each with its shop id, retailer name, logo, and delivery or pickup service type.
+        """
+
+    async def getStore(self, args: Prv_instacart_InstacartGetStoreArgs_In, /) -> Prv_instacart_InstacartStore_Out:
+        """Returns one store by its Instacart slug or name ("costco", "safeway") at a location —
+        shop id, retailer id, service type and logo.
         """
 
 class Prv_instagram(Protocol):
@@ -61430,6 +61562,12 @@ class Prv_tripadvisor(Protocol):
         rating, review count, cuisines, price level and url, paginated 30 at a time.
         """
 
+    async def getAttraction(self, args: Prv_tripadvisor_GetAttractionArgs_In, /) -> Prv_tripadvisor_TripadvisorAttractionDetail_Out:
+        """Reads one attraction in full: name, description, address, phone, website, opening hours,
+        coordinates, rating, review count and Tripadvisor rank — taking an attraction id or url.
+        Suggested duration and the tours sold for it are not yet extracted.
+        """
+
     async def searchAttractions(self, args: Prv_tripadvisor_SearchAttractionsArgs_In, /) -> Prv_tripadvisor_SearchAttractionsResult_Out:
         """Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank,
         rating, review count, categories, neighborhood, blurb and url — optionally filtered to
@@ -64441,6 +64579,7 @@ class BowmarkProviders(Protocol):
     imdb: Prv_imdb
     indeed: Prv_indeed
     inspirecommunities: Prv_inspirecommunities
+    instacart: Prv_instacart
     instagram: Prv_instagram
     insurify: Prv_insurify
     intactinsurance: Prv_intactinsurance

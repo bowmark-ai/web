@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bd2cb56660d39c16a62d40de1db9ae9267553dbf6889be67934e1dbaff259034
-// 87 capabilities, 642 providers, 2586 typed functions, 20 refused.
+// Manifest version: 7e13f4d25b984255230eb3de35d5d45af3369009298a089248cd8f07906e1f0b
+// 87 capabilities, 643 providers, 2592 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7208,6 +7208,27 @@ interface aliexpressProduct {
   shipping_free?: boolean;
 }
 
+interface GetProductArgs {
+  /** The numeric product id from a search row's `id`, or an /item/<id>.html url. */
+  id: string;
+}
+
+interface aliexpressProductDetail {
+  id: string;
+  title: string;
+  price?: number;
+  original_price?: number;
+  currency?: string;
+  images: string[];
+  /** SKU dimensions, e.g. { name: "Color", values: ["black", "white"] }. */
+  variants: { name: string; values: string[] }[];
+  properties: { name: string; value: string }[];
+  rating?: number;
+  review_count?: number;
+  store?: { name: string; url?: string; positive_rate?: string };
+  url: string;
+}
+
   /** AliExpress product search — a keyword in, priced product rows out. */
   interface Unit {
     /**
@@ -7215,6 +7236,12 @@ interface aliexpressProduct {
      * rating.
      */
     search(args: SearchArgs): Promise<aliexpressProduct[]>;
+
+    /**
+     * Fetches one product's detail — price, variants, specs, images, rating and seller — by the id
+     * a search row returns.
+     */
+    getProduct(args: GetProductArgs): Promise<aliexpressProductDetail>;
   }
 }
 
@@ -21884,6 +21911,14 @@ interface DropboxDownload {
   file?: { id: string; name: string; contentType: string; bytes: number; url: string; expiresAt: string }; // the run's saved copy; absent on a run no account owns
   warnings: string[];
 }
+interface DropboxSharedFileText {
+  url: string;
+  name: string;
+  pageCount: number;
+  pages: Array<{ page: number; text: string }>; // 1-based, lines top-down
+  text: string; // every page, joined
+  links: string[]; // hyperlinks in the document
+}
 
   /**
    * Dropbox, the cloud file storage service: open, list, read and download files and folders
@@ -21914,6 +21949,13 @@ interface DropboxDownload {
      * THROWS on a folder link (use downloadSharedFolder) or a removed link.
      */
     downloadSharedFile(input: { url: string }): Promise<DropboxDownload>;
+
+    /**
+     * Reads the text of a document behind a Dropbox shared FILE link (PDF, Word, slides…) through
+     * Dropbox's own text preview, logged out — per page and joined, plus the links in it. THROWS
+     * on a folder link, or on a file Dropbox makes no text preview for (use downloadSharedFile).
+     */
+    readSharedFile(input: { url: string }): Promise<DropboxSharedFileText>;
   }
 }
 
@@ -33918,6 +33960,66 @@ interface InspirecommunitiesSearchHomesResult { total: number; pages: number; ho
      * schedule-a-tour handoff URL.
      */
     searchHomes(args?: InspirecommunitiesSearchHomesArgs): Promise<InspirecommunitiesSearchHomesResult>;
+  }
+}
+
+declare namespace BowmarkProvider_instacart {
+  // ── Instacart — the unit's own declarations, verbatim ──
+interface InstacartLocation {
+  postalCode: string;
+  latitude: number;
+  longitude: number;
+  city: string | null;
+  state: string | null;
+}
+
+interface InstacartListStoresArgs {
+  postalCode: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface InstacartStore {
+  shopId: string;
+  retailerId: string;
+  slug: string;
+  name: string;
+  retailerType: string;
+  serviceType: string;
+  logoUrl: string | null;
+}
+
+interface InstacartGetStoreArgs {
+  slug: string;
+  postalCode: string;
+  latitude: number;
+  longitude: number;
+}
+
+  /**
+   * Instacart grocery delivery: find the stores that deliver to a ZIP, search one store or
+   * compare a product's price across every nearby store, read products, deals, departments,
+   * weekly ads, store hours and delivery estimates, and (signed in) read and fill the customer's
+   * cart, past orders, lists and addresses. Never checks out.
+   */
+  interface Unit {
+    /**
+     * Turns a ZIP code or address text into the location every other Instacart function takes —
+     * postal code plus latitude/longitude — with the city and state it resolved to.
+     */
+    findLocation(query: string): Promise<InstacartLocation>;
+
+    /**
+     * Lists the stores Instacart serves at a location — Safeway, Costco, Kroger, local markets —
+     * each with its shop id, retailer name, logo, and delivery or pickup service type.
+     */
+    listStores(args: InstacartListStoresArgs): Promise<InstacartStore[]>;
+
+    /**
+     * Returns one store by its Instacart slug or name ("costco", "safeway") at a location — shop
+     * id, retailer id, service type and logo.
+     */
+    getStore(args: InstacartGetStoreArgs): Promise<InstacartStore>;
   }
 }
 
@@ -61299,6 +61401,29 @@ interface GetRestaurantArgs {
   url?: string;
 }
 
+interface GetAttractionArgs {
+  id?: string;
+  url?: string;
+}
+
+interface TripadvisorAttractionDetail {
+  id: string;
+  name: string;
+  description?: string;
+  rating?: number;
+  reviewCount?: number;
+  rank?: { position: number; outOf: number; category: string };
+  address?: string;
+  locality?: string;
+  phone?: string;
+  website?: string;
+  openingHours?: string; // the site's own schema.org string, e.g. "Mo-Su 05:15-02:00"
+  latitude?: number;
+  longitude?: number;
+  image?: string;
+  url?: string;
+}
+
 interface GetHotelPricesArgs {
   hotelId: string;
   checkIn: string; // ISO date string YYYY-MM-DD
@@ -61421,6 +61546,13 @@ interface SearchAttractionsResult {
      * review count, cuisines, price level and url, paginated 30 at a time.
      */
     searchRestaurants(args: SearchRestaurantsArgs): Promise<SearchRestaurantsResult>;
+
+    /**
+     * Reads one attraction in full: name, description, address, phone, website, opening hours,
+     * coordinates, rating, review count and Tripadvisor rank — taking an attraction id or url.
+     * Suggested duration and the tours sold for it are not yet extracted.
+     */
+    getAttraction(args: GetAttractionArgs): Promise<TripadvisorAttractionDetail>;
 
     /**
      * Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank,
@@ -69935,6 +70067,7 @@ interface BowmarkProviders {
   imdb: BowmarkProvider_imdb.Unit;
   indeed: BowmarkProvider_indeed.Unit;
   inspirecommunities: BowmarkProvider_inspirecommunities.Unit;
+  instacart: BowmarkProvider_instacart.Unit;
   instagram: BowmarkProvider_instagram.Unit;
   insurify: BowmarkProvider_insurify.Unit;
   intactinsurance: BowmarkProvider_intactinsurance.Unit;
