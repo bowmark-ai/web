@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5476 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5533 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4747,6 +4747,63 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tilsonhomes.listPlans` | tilsonhomes.com | Lists Tilson Homes' Build-On-Your-Land floor plans — model name, bed/bath/size and the… | 🟢 |
 | `titlenine.calculateBraSize` | titlenine.com | Runs Title Nine's own bra-size calculator — chest, bust and under-bust measurements… | 🟢 |
 | `tmobile.getUpgradeOffer` | t-mobile.com | Reads one t-mobile.com device page's own pricing call — real list price, real monthly… | 🟢 |
+| `toast.addMyAddress` | toasttab.com | Saves a delivery address to the signed-in guest's account. | ⚪ |
+| `toast.addToCart` | toasttab.com | Adds a menu item (with its size and modifier choices) to a cart for one restaurant… | ⚪ |
+| `toast.applyPromoCode` | toasttab.com | Applies a promo code to the cart, returning the discount or the site's own reason it… | ⚪ |
+| `toast.buyEventTickets` | toasttab.com | Buys tickets to a restaurant's ticketed event. | ⚪ |
+| `toast.buyGiftCard` | toasttab.com | Buys a restaurant e-gift card. | ⚪ |
+| `toast.cancelReservation` | toasttab.com | Cancels one of the signed-in guest's reservations or ticket bookings. | ⚪ |
+| `toast.cancelSlotAlert` | toasttab.com | Cancels one slot alert. | ⚪ |
+| `toast.checkDeliveryAddress` | toasttab.com | Says whether a restaurant delivers to an address, and the fee and minimum when it does. | ⚪ |
+| `toast.createSlotAlert` | toasttab.com | Asks Toast to notify the signed-in guest when a reservation slot opens at a restaurant… | ⚪ |
+| `toast.deleteMyAccount` | toasttab.com | Deletes the signed-in guest's Toast account. | ⚪ |
+| `toast.getBooking` | toasttab.com | Reads one reservation or ticket booking from its confirmation link: restaurant, time… | ⚪ |
+| `toast.getCart` | toasttab.com | Reads a cart: items, choices, subtotal, tax, fees, tip, discounts and total. | ⚪ |
+| `toast.getEvent` | toasttab.com | Reads one ticketed event or experience: description, showings on a date, ticket types… | ⚪ |
+| `toast.getGiftCardBalance` | toasttab.com | Checks the balance on a restaurant gift card the caller holds, by card number. | ⚪ |
+| `toast.getLoyaltyProgram` | toasttab.com | Reads a restaurant's loyalty program as a guest sees it before joining: how points are… | ⚪ |
+| `toast.getMenu` | toasttab.com | Reads a restaurant's online-ordering menu: menus, groups, and items with name… | ⚪ |
+| `toast.getMenuItem` | toasttab.com | Reads one menu item with everything ordering it needs: sizes, modifier groups… | ⚪ |
+| `toast.getMyAccount` | toasttab.com | Reads the signed-in guest's own Toast profile: name, email, phone and saved delivery… | ⚪ |
+| `toast.getMyOrder` | toasttab.com | Reads one of the signed-in guest's past orders in full: items, choices, totals… | ⚪ |
+| `toast.getMyRewards` | toasttab.com | Reads the signed-in guest's loyalty points and rewards at each Toast restaurant they… | ⚪ |
+| `toast.getMyWallet` | toasttab.com | Reads the offers the signed-in guest has saved to their Toast wallet. | ⚪ |
+| `toast.getOrderingOptions` | toasttab.com | Says how a restaurant takes online orders right now: takeout, delivery and catering on… | ⚪ |
+| `toast.getOrderReceipt` | toasttab.com | Gets the receipt for one of the signed-in guest's orders as a PDF file. | ⚪ |
+| `toast.getPopularItems` | toasttab.com | Lists a restaurant's most-ordered items with price and guid. | ⚪ |
+| `toast.getReservationAvailability` | toasttab.com | Reads a Toast Tables restaurant's open reservation times for a party size across a… | ⚪ |
+| `toast.getRestaurant` | toasttab.com | Reads one Toast restaurant by its toast.app URL, slug ("bombaytandoor") or guid: name… | ⚪ |
+| `toast.getRestaurantLocations` | toasttab.com | Lists the other locations of the same restaurant group (a chain's sister restaurants… | ⚪ |
+| `toast.getRestaurantOffers` | toasttab.com | Lists the offers a restaurant is running on Toast (discounts, free delivery… | ⚪ |
+| `toast.getReviews` | toasttab.com | Reads a restaurant's guest reviews and rating summary on Toast, and the Google… | ⚪ |
+| `toast.getWaitlistEstimate` | toasttab.com | Reads a restaurant's current waitlist: whether it is taking names and the estimated… | ⚪ |
+| `toast.joinWaitlist` | toasttab.com | Puts the signed-in guest on a restaurant's waitlist for a party size. | ⚪ |
+| `toast.listCities` | toasttab.com | Lists the cities Toast's restaurant directory covers (toast.app/cities), with the city… | ⚪ |
+| `toast.listCityRestaurants` | toasttab.com | Lists the Toast restaurants in a city ("richmond-va"), optionally by cuisine (pizza… | ⚪ |
+| `toast.listEvents` | toasttab.com | Lists the ticketed events and special experiences restaurants near a place (or one… | ⚪ |
+| `toast.listMyBookings` | toasttab.com | Lists the signed-in guest's reservations and ticket bookings, upcoming and past, with… | ⚪ |
+| `toast.listMyOrders` | toasttab.com | Lists the signed-in guest's past Toast orders across every restaurant, newest first… | ⚪ |
+| `toast.listMyPaymentMethods` | toasttab.com | Lists the signed-in guest's saved cards: brand, last four digits, expiry, which is… | ⚪ |
+| `toast.listSlotAlerts` | toasttab.com | Lists the signed-in guest's open slot alerts. | ⚪ |
+| `toast.makeReservation` | toasttab.com | Books a table at a Toast Tables restaurant for the signed-in guest: party size, time… | ⚪ |
+| `toast.placeOrder` | toasttab.com | Places the cart as a real order at the restaurant. | ⚪ |
+| `toast.removeFromCart` | toasttab.com | Takes an item out of the cart. | ⚪ |
+| `toast.removeMyAddress` | toasttab.com | Deletes a saved delivery address. | ⚪ |
+| `toast.removeMyPaymentMethod` | toasttab.com | Deletes a saved card. | ⚪ |
+| `toast.removePromoCode` | toasttab.com | Removes a promo code from the cart. | ⚪ |
+| `toast.reorder` | toasttab.com | Puts the items from one of the signed-in guest's past orders into a new cart at that… | ⚪ |
+| `toast.saveOfferToWallet` | toasttab.com | Saves a restaurant offer to the signed-in guest's wallet. | ⚪ |
+| `toast.searchMenu` | toasttab.com | Searches one restaurant's menu by words ("paneer") and returns the matching items with… | ⚪ |
+| `toast.searchReservations` | toasttab.com | Finds restaurants near a place with reservation slots open for a party size around a… | ⚪ |
+| `toast.searchRestaurants` | toasttab.com | Finds Toast restaurants near a place or coordinates for delivery, pickup or catering… | ⚪ |
+| `toast.setFulfillment` | toasttab.com | Sets how and when the cart's order is fulfilled: takeout or delivery (with the… | ⚪ |
+| `toast.setPrimaryPaymentMethod` | toasttab.com | Makes one saved card the default. | ⚪ |
+| `toast.trackOrder` | toasttab.com | Reads an order's status from its confirmation link: received, in the kitchen, ready… | ⚪ |
+| `toast.updateCartItem` | toasttab.com | Changes an item already in the cart: quantity, size or modifier choices. | ⚪ |
+| `toast.updateMarketingPreferences` | toasttab.com | Turns a restaurant's marketing email or text messages on or off for the signed-in guest. | ⚪ |
+| `toast.updateMyAddress` | toasttab.com | Edits a saved delivery address. | ⚪ |
+| `toast.updateMyProfile` | toasttab.com | Changes the signed-in guest's name or contact details. | ⚪ |
+| `toast.validateCart` | toasttab.com | Prices the cart as checkout would and lists what blocks it (an item now unavailable… | ⚪ |
 | `tock.bookExperience` | exploretock.com | Book an experience at a venue — guest checkout, stops before payment. | ⚪ |
 | `tock.buyGiftCard` | exploretock.com | Purchase a gift card — requires payment, never completed. | ⚪ |
 | `tock.cancelReservation` | exploretock.com | Cancel one of the signed-in user's reservations. | ⚪ |
