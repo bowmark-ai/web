@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5640 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5652 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -549,12 +549,24 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bollandbranch.getCategoryOptions` | bollandbranch.com | Lists the real, currently-sellable products for one Virtual Bed Designer category… | 🟢 |
 | `bollandbranch.getSwatchDetails` | bollandbranch.com | Resolves color/fabric swatch names (as offered by getCategoryOptions) to their hex… | 🟢 |
 | `bollandbranch.renderBedPreview` | bollandbranch.com | Would render the Designer's own live combination preview (the stacked-bed visual for a… | ⚪ |
-| `bookedin.bookAppointment` | bookedin.com | Books an appointment as a guest with name, email, phone, and service selection. | ⚪ |
-| `bookedin.cancelAppointment` | bookedin.com | Cancels an existing appointment using a confirmation code or appointment ID. | ⚪ |
-| `bookedin.getAvailability` | bookedin.com | Retrieves available time slots for a service and optional staff member. | ⚪ |
-| `bookedin.getMerchant` | bookedin.com | Retrieves merchant information including name, address, phone, timezone, and service… | ⚪ |
-| `bookedin.listServices` | bookedin.com | Lists all services offered by the merchant with pricing, duration, and description. | ⚪ |
-| `bookedin.listStaff` | bookedin.com | Lists all staff members (resources) available at the merchant with their names and… | ⚪ |
+| `bookedin.bookAppointment` | bookedin.com | Books an appointment as a guest with name, email and phone at a chosen service, staff… | ⚪ |
+| `bookedin.bookClass` | bookedin.com | Registers a guest for a class session with name, email and phone. | ⚪ |
+| `bookedin.cancelAppointment` | bookedin.com | Cancels an appointment from the cancel link in its Bookedin confirmation email (or its… | ⚪ |
+| `bookedin.cancelClassBooking` | bookedin.com | Cancels a class registration from the cancel link in its confirmation email. | ⚪ |
+| `bookedin.confirmAppointment` | bookedin.com | Confirms an appointment from the confirm link in a Bookedin reminder email. | ⚪ |
+| `bookedin.getAppointment` | bookedin.com | Reads one booked appointment's status and details by its appointment id. | ⚪ |
+| `bookedin.getAvailability` | bookedin.com | Returns the open appointment times on one day for a service, optionally narrowed to… | ⚪ |
+| `bookedin.getAvailableDates` | bookedin.com | Returns which days in a date range have open times for a service (and optionally a… | ⚪ |
+| `bookedin.getClassBooking` | bookedin.com | Reads one class registration's status by its registration id. | ⚪ |
+| `bookedin.getClassDates` | bookedin.com | Returns which days in a date range have class sessions at a business that runs classes… | ⚪ |
+| `bookedin.getClassSession` | bookedin.com | Reads one class session's details — description, instructor, capacity and price — by… | ⚪ |
+| `bookedin.getMerchant` | bookedin.com | Retrieves one business's record from its booking token or its… | ⚪ |
+| `bookedin.listClassSessions` | bookedin.com | Lists the class sessions on one day with their class, instructor, time and spots left. | ⚪ |
+| `bookedin.listRegions` | bookedin.com | Lists the countries Bookedin's public directory covers (AU, CA, GB, IE, NZ, SE, US)… | ⚪ |
+| `bookedin.listServices` | bookedin.com | Lists every appointment service a business offers, grouped by category, with price… | ⚪ |
+| `bookedin.listStaff` | bookedin.com | Lists the staff members (resources) a caller can book with at a business, with names… | ⚪ |
+| `bookedin.requestAppointment` | bookedin.com | Sends an appointment request to a business that takes requests instead of instant… | ⚪ |
+| `bookedin.searchMerchants` | bookedin.com | Finds Bookedin businesses by name, city or business type inside one country and… | ⚪ |
 | `bookeo.bookSlot` | bookeo.com | Books a slot for a party as a guest -- product, slot, participant counts, the… | ⚪ |
 | `bookeo.buyGiftVoucher` | bookeo.com | Buys a gift voucher from an operator. | ⚪ |
 | `bookeo.cancelBooking` | bookeo.com | Cancels a booking from the cancel link in the operator's confirmation email, reporting… | ⚪ |
