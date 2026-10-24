@@ -2827,8 +2827,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.createPost` | linkedin.com | Publishes a text post to the signed-in caller's feed, visible to anyone or to… | 🟢 |
 | `linkedin.deleteComment` | linkedin.com | Deletes one of the signed-in caller's own comments. | 🟢 |
 | `linkedin.deletePost` | linkedin.com | Deletes one of the signed-in caller's own posts or reposts. | 🟢 |
-| `linkedin.followCompany` | linkedin.com | Follows or unfollows a company page as the signed-in caller. | ⚪ |
-| `linkedin.followMember` | linkedin.com | Follows or unfollows a member as the signed-in caller, so their posts appear in the… | ⚪ |
+| `linkedin.followCompany` | linkedin.com | Follows or unfollows a company page as the signed-in caller. `company` is the numeric… | 🟢 |
+| `linkedin.followMember` | linkedin.com | Follows or unfollows a member as the signed-in caller, so their posts appear in the… | 🟢 |
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | 🟢 |
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
 | `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟢 |
@@ -2877,11 +2877,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
 | `linkedin.searchSchools` | linkedin.com | Searches LinkedIn's schools and universities by name and returns each one's name… | ⚪ |
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | 🟢 |
-| `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | ⚪ |
+| `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | 🟢 |
 | `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | ⚪ |
 | `linkedin.setProfilePhoto` | linkedin.com | Replaces the signed-in caller's profile photo with an image from a URL or uploaded file. | ⚪ |
 | `linkedin.updateProfile` | linkedin.com | Edits the signed-in caller's profile intro and About section — headline, About text… | ⚪ |
-| `linkedin.withdrawInvitation` | linkedin.com | Withdraws a connection invitation the signed-in caller sent and is still pending. | ⚪ |
+| `linkedin.withdrawInvitation` | linkedin.com | Withdraws a connection invitation the signed-in caller sent and is still pending, by… | 🟢 |
 | `liquiddeath.addToCart` | liquiddeath.com | Builds a filled cart for the shopper to open — cartUrl lands on the store's own cart… | 🟢 |
 | `liquiddeath.getCart` | liquiddeath.com | Reads a cart the shopper already has, by its id — line items, quantities, per-line and… | 🟢 |
 | `liquiddeath.getProduct` | liquiddeath.com | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
