@@ -1382,13 +1382,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.browseTag` | deviantart.com | Lists the deviations filed under one tag ("landscape", "fanart", "oc"), as the site's… | 🟢 |
 | `deviantart.favouriteDeviation` | deviantart.com | Adds a deviation to the signed-in caller's Favourites (optionally into one collection… | ⚪ |
 | `deviantart.getComments` | deviantart.com | Reads a deviation's comment thread — each comment's author, posted time, text and… | 🟢 |
-| `deviantart.getDailyDeviations` | deviantart.com | Lists the Daily Deviations — the artworks DeviantArt's staff feature each day — for… | ⚪ |
+| `deviantart.getDailyDeviations` | deviantart.com | Lists the Daily Deviations — the artworks DeviantArt's staff feature each day — for… | 🟢 |
 | `deviantart.getDeviation` | deviantart.com | Reads one deviation in full — title, author, published time, description text, tags… | 🟡 |
 | `deviantart.getNotifications` | deviantart.com | Reads the signed-in caller's notifications — comments, favourites, new watchers and… | ⚪ |
 | `deviantart.getRelatedDeviations` | deviantart.com | Lists deviations like a given one — the 'more like this' and 'more from this artist'… | ⚪ |
-| `deviantart.getUserFavourites` | deviantart.com | Lists the deviations an artist has favourited — their public 'Favourites' collections… | ⚪ |
+| `deviantart.getUserFavourites` | deviantart.com | Lists the deviations an artist has favourited — their public 'Favourites' collections… | 🟢 |
 | `deviantart.getUserGallery` | deviantart.com | Lists an artist's gallery — every deviation they posted, newest first, or one gallery… | 🟢 |
-| `deviantart.getUserPosts` | deviantart.com | Lists an artist's posts — journals, status updates and polls from their Posts tab —… | ⚪ |
+| `deviantart.getUserPosts` | deviantart.com | Lists an artist's posts — journals, status updates and polls from their Posts tab —… | 🟢 |
 | `deviantart.getUserProfile` | deviantart.com | Reads an artist's public profile — display name, avatar, tagline, country, website… | 🟢 |
 | `deviantart.getWatchFeed` | deviantart.com | Reads the signed-in caller's Watch feed — the newest deviations and posts from the… | ⚪ |
 | `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | 🟢 |
@@ -3358,7 +3358,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getWordle` | games.nytimes.com | Reads one day's Wordle answer, puzzle number and editor from NYT's own game JSON. | 🟢 |
 | `nyt_games.listBonusPuzzles` | games.nytimes.com | Lists this week's Bonus Puzzles drop (Wordle in 1, Connections 3x3, Colorful Strands… | 🟢 |
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | 🟢 |
-| `nyt_games.saveWordleGame` | games.nytimes.com | Saves the signed-in caller's played Wordle game state, the write that makes it count… | 🟢 |
+| `nyt_games.saveWordleGame` | games.nytimes.com | Saves a played Wordle — just the guesses — so it counts toward the signed-in caller's… | 🟢 |
 | `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
 | `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
