@@ -291,19 +291,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `arketa.buyPricingOption` | arketa.co | Would buy a class pack, membership or on-demand subscription at a studio for the… | ⚪ |
 | `arketa.cancelBooking` | arketa.co | Cancels one of the signed-in client's class bookings or waitlist spots. | ⚪ |
 | `arketa.findStudio` | arketa.co | Finds an Arketa studio by its booking-page name ("thesilhouettemethod"), its… | 🟢 |
-| `arketa.getClass` | arketa.co | Returns one scheduled class by id: description, start and end time, instructor… | ⚪ |
+| `arketa.getClass` | arketa.co | Returns one scheduled class by id: description, start and end time, instructor… | 🟢 |
 | `arketa.getMyProfile` | arketa.co | Returns the signed-in client's own profile at a studio: name, email, phone, waiver… | ⚪ |
 | `arketa.getPrivateSession` | arketa.co | Returns one private-session service by id, with the instructors who teach it, the… | ⚪ |
 | `arketa.getPrivateSessionAvailability` | arketa.co | Returns the days, and the times on a day, that a private session can be booked with a… | ⚪ |
 | `arketa.joinWaitlist` | arketa.co | Puts the signed-in client on the waitlist for a full class. | ⚪ |
 | `arketa.listClasses` | arketa.co | Lists a studio's class schedule for a date range, optionally narrowed to a location… | 🟢 |
-| `arketa.listInstructors` | arketa.co | Lists the instructors who teach at a studio, with id, name, photo and bio — the ids… | ⚪ |
+| `arketa.listInstructors` | arketa.co | Lists the instructors who teach at a studio, with id and name, plus photo and bio for… | 🟢 |
 | `arketa.listLocations` | arketa.co | Lists a studio's physical locations: id, name, full address and coordinates. | 🟢 |
 | `arketa.listMyBookings` | arketa.co | Lists the signed-in client's upcoming and past class and private-session bookings at a… | ⚪ |
 | `arketa.listMyPasses` | arketa.co | Lists the signed-in client's class packs and memberships at a studio — what they own… | ⚪ |
 | `arketa.listOnDemandVideos` | arketa.co | Lists a studio's on-demand video library by category: each video's title, length… | ⚪ |
-| `arketa.listPricing` | arketa.co | Lists what a studio sells — drop-in classes, class packs, memberships and on-demand… | ⚪ |
-| `arketa.listPrivateSessions` | arketa.co | Lists the private sessions (one-to-one appointments) a studio offers, with name… | ⚪ |
+| `arketa.listPricing` | arketa.co | Lists what a studio sells — drop-in classes, class packs, memberships and on-demand… | 🟢 |
+| `arketa.listPrivateSessions` | arketa.co | Lists the private sessions (one-to-one appointments) a studio offers, with name… | 🟢 |
 | `arketa.listProducts` | arketa.co | Lists the retail products a studio sells through Arketa (apparel, equipment), with… | ⚪ |
 | `arketa.listReviews` | arketa.co | Lists a studio's public client reviews — first name, star rating, text and date. | ⚪ |
 | `arketa.listScheduleFilters` | arketa.co | Lists what a studio's schedule can be filtered by — its locations, class types and… | 🟢 |
@@ -1135,12 +1135,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubpilates.getMyProfile` | clubpilates.com | Returns the signed-in member's own profile: name, email, phone, home studio. | ⚪ |
 | `clubpilates.getStudio` | clubpilates.com | Returns one studio's full detail by id (from findStudios) or by its clubpilates.com… | 🟢 |
 | `clubpilates.joinWaitlist` | clubpilates.com | Puts the signed-in member on the waitlist for a full class (the class must have… | ⚪ |
-| `clubpilates.listClassCategories` | clubpilates.com | Lists the class categories used to filter a schedule (Reformer Flow, Center + Balance… | ⚪ |
+| `clubpilates.listClassCategories` | clubpilates.com | Lists the class categories used to filter a schedule (Reformer Flow, Center + Balance… | 🟢 |
 | `clubpilates.listClasses` | clubpilates.com | Lists a studio's class schedule for a date or date range — each class's id, title… | 🟢 |
-| `clubpilates.listClassTypes` | clubpilates.com | Lists every Club Pilates class type the brand runs (Intro Class, Reformer Flow 1… | ⚪ |
+| `clubpilates.listClassTypes` | clubpilates.com | Lists every Club Pilates class type the brand runs (Intro Class, Reformer Flow 1… | 🟢 |
 | `clubpilates.listInstructors` | clubpilates.com | Lists the instructors teaching at a studio, by name, drawn from the classes on its… | ⚪ |
 | `clubpilates.listMyBookings` | clubpilates.com | Lists the signed-in member's upcoming and past class bookings and waitlist spots… | ⚪ |
-| `clubpilates.listPricing` | clubpilates.com | Lists what a studio sells — single class, class packs and memberships — with each… | ⚪ |
+| `clubpilates.listPricing` | clubpilates.com | Lists what a studio sells — single class, class packs and memberships — with each… | 🟢 |
 | `clubpilates.updateProfile` | clubpilates.com | Edits the signed-in member's own profile fields (name, phone, address, emergency… | ⚪ |
 | `clubready.bookClass` | clubready.com | Books the signed-in member into a scheduled class using their existing membership or… | ⚪ |
 | `clubready.bookService` | clubready.com | Books the signed-in member a one-on-one session (a StretchLab stretch) with a chosen… | ⚪ |
@@ -2566,12 +2566,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.addToCart` | ikea.com | Adds an item (by item number and quantity) to an IKEA shopping cart and returns the… | ⚪ |
 | `ikea.addToFavorites` | ikea.com | Saves a product to an IKEA favorites list (IKEA's shopping list), creating the list… | ⚪ |
 | `ikea.bookPlanningAppointment` | ikea.com | Books a planning appointment (kitchen, bedroom, office…) at a store or online for the… | ⚪ |
-| `ikea.findStores` | ikea.com | Lists IKEA's US stores, optionally near a ZIP code or in a state, with address… | ⚪ |
+| `ikea.findStores` | ikea.com | Lists IKEA's US stores, optionally near a ZIP code or in a state, with address… | 🟢 |
 | `ikea.getCart` | ikea.com | Reads a cart's items, quantities, line prices and total. | ⚪ |
 | `ikea.getDeliveryOptions` | ikea.com | Quotes the home-delivery and pick-up options for a set of items to a US ZIP code —… | ⚪ |
 | `ikea.getFamilyMembership` | ikea.com | Reads the signed-in caller's IKEA Family membership — card number, member since, and… | ⚪ |
 | `ikea.getProduct` | ikea.com | Reads one product page by item number or URL: name, price, description, dimensions… | 🟢 |
-| `ikea.getProductAvailability` | ikea.com | Checks whether an item is in stock at each US IKEA store and for home delivery… | ⚪ |
+| `ikea.getProductAvailability` | ikea.com | Checks whether an item is in stock at each US IKEA store and for home delivery… | 🟢 |
 | `ikea.getProductDocuments` | ikea.com | Lists a product's documents — assembly instructions, manuals and product information… | ⚪ |
 | `ikea.getProductRatings` | ikea.com | Reads a product's customer rating summary — average stars, review count and the… | ⚪ |
 | `ikea.getProfile` | ikea.com | Reads the signed-in caller's IKEA profile — name, email, phone, saved addresses… | ⚪ |
