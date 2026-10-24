@@ -78,7 +78,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `job_search.search` | Open job listings for a role, optionally in a city — picks Indeed's regional board… | 13 | 🟢 |
 | `kenya_fuel_prices.search` | Returns current Kenya pump prices for diesel, petrol, or kerosene. | 0 | 🟢 |
 | `lawyer_directory.getLawyer` | Reads one lawyer's full bar record by the `id` search returned — practice areas… | 1 | 🟢 |
-| `lawyer_directory.search` | Searches the bar association's own lawyer directory (annuaire des avocats, Paris bar)… | 1 | 🟢 |
+| `lawyer_directory.search` | Searches a bar association's official lawyer directory (Paris bar — annuaire des… | 1 | 🟢 |
 | `local_database_gui.browse` | Parses the HTML of a local database GUI page (e.g. the caller's own agent read it off… | 0 | 🟢 |
 | `local_html_preview.render` | Parses supplied HTML (a local file's contents, or a fragment) and returns a structured… | 0 | 🟢 |
 | `mac_trade_in.estimate` | Get the Apple Trade In credit value for a Mac model, with optional specs. | 1 | 🟢 |

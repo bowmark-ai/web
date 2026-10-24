@@ -149,7 +149,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
 | `aliexpress.addToCart` | aliexpress.us | Adds a product to the user's shopping cart. | ⚪ |
-| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | ⚪ |
+| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | 🔴 |
 | `aliexpress.getStore` | aliexpress.us | Retrieves seller/store information including store name, ratings, product count, and… | ⚪ |
 | `aliexpress.listCart` | aliexpress.us | Lists items currently in the user's shopping cart. | ⚪ |
 | `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | ⚪ |
@@ -521,7 +521,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.repost` | bsky.app | Repost a post as the caller, or undo the repost. | ⚪ |
 | `bluesky.resolveHandle` | bsky.app | Turn a Bluesky handle (alice.bsky.social, or a custom domain handle) into its… | 🟢 |
 | `bluesky.saveFeed` | bsky.app | Save or pin a custom feed to the caller's feed list, or remove it. | ⚪ |
-| `bluesky.searchFeeds` | bsky.app | Find custom feeds by words (e.g. 'science', 'art'), the way Explore's feed search… | 🟡 |
+| `bluesky.searchFeeds` | bsky.app | Find custom feeds by words (e.g. 'science', 'art'), the way Explore's feed search… | 🟢 |
 | `bluesky.searchPosts` | bsky.app | Search all public posts by words, with the Search tab's Top/Latest sort and its… | 🟢 |
 | `bluesky.searchStarterPacks` | bsky.app | Find starter packs by words. | ⚪ |
 | `bluesky.searchUsers` | bsky.app | Search people by name, handle or bio words, the way the Search tab's People list does… | 🟢 |
@@ -1377,9 +1377,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `detailxperts.listVehicleTypes` | detailxperts.com | Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …)… | 🟡 |
 | `deutschepost.getDialogpostRates` | deutschepost.de | Retrieves Deutsche Post Dialogpost pricing rates by weight category and format type. | 🟢 |
 | `developersopenai.getDocPage` | developers.openai.com | Reads one page of OpenAI's own developer documentation (e.g. the MCP connector / OAuth… | 🟢 |
-| `deviantart.browseTag` | deviantart.com | Lists the deviations filed under one tag ("landscape", "fanart", "oc"), as the site's… | ⚪ |
+| `deviantart.browseTag` | deviantart.com | Lists the deviations filed under one tag ("landscape", "fanart", "oc"), as the site's… | 🟢 |
 | `deviantart.favouriteDeviation` | deviantart.com | Adds a deviation to the signed-in caller's Favourites (optionally into one collection… | ⚪ |
-| `deviantart.getComments` | deviantart.com | Reads a deviation's comment thread — each comment's author, posted time, text and… | ⚪ |
+| `deviantart.getComments` | deviantart.com | Reads a deviation's comment thread — each comment's author, posted time, text and… | 🟢 |
 | `deviantart.getDailyDeviations` | deviantart.com | Lists the Daily Deviations — the artworks DeviantArt's staff feature each day — for… | ⚪ |
 | `deviantart.getDeviation` | deviantart.com | Reads one deviation in full — title, author, published time, description text, tags… | 🟡 |
 | `deviantart.getNotifications` | deviantart.com | Reads the signed-in caller's notifications — comments, favourites, new watchers and… | ⚪ |
@@ -1389,14 +1389,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.getUserPosts` | deviantart.com | Lists an artist's posts — journals, status updates and polls from their Posts tab —… | ⚪ |
 | `deviantart.getUserProfile` | deviantart.com | Reads an artist's public profile — display name, avatar, tagline, country, website… | 🟡 |
 | `deviantart.getWatchFeed` | deviantart.com | Reads the signed-in caller's Watch feed — the newest deviations and posts from the… | ⚪ |
-| `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | ⚪ |
+| `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | 🟢 |
 | `deviantart.listNotes` | deviantart.com | Reads the signed-in caller's Notes inbox — each note's sender, subject, time and body. | ⚪ |
 | `deviantart.postComment` | deviantart.com | Posts a comment on a deviation (or a reply to a comment) as the signed-in caller. | ⚪ |
 | `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | 🟡 |
 | `deviantart.searchShop` | deviantart.com | Searches DeviantArt's Shop — prints, downloads, adoptables and commissions artists… | ⚪ |
 | `deviantart.sendNote` | deviantart.com | Sends a private Note (DeviantArt's direct message) from the signed-in caller to… | ⚪ |
 | `deviantart.submitDeviation` | deviantart.com | Submits a new deviation from the signed-in caller's account — an image with title… | ⚪ |
-| `deviantart.suggestTags` | deviantart.com | Autocompletes a partial tag ("lands" → landscape, landscapephotography… | ⚪ |
+| `deviantart.suggestTags` | deviantart.com | Autocompletes a partial tag ("lands" → landscape, landscapephotography… | 🟢 |
 | `deviantart.unfavouriteDeviation` | deviantart.com | Removes a deviation from the signed-in caller's Favourites. | ⚪ |
 | `deviantart.unwatchUser` | deviantart.com | Stops watching an artist from the signed-in caller's account. | ⚪ |
 | `deviantart.updateProfile` | deviantart.com | Edits the signed-in caller's own profile — tagline, bio, location, avatar. | ⚪ |
@@ -3827,7 +3827,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reddit.reportPostOrComment` | reddit.com | Reports a post or comment to a community's moderators, as the signed-in caller, under… | 🟢 |
 | `reddit.savePostOrComment` | reddit.com | Saves a post or comment to the signed-in caller's Saved list. | 🟢 |
 | `reddit.search` | reddit.com | Searches Reddit's posts for a query — across the whole site or scoped to one subreddit… | 🟡 |
-| `reddit.searchComments` | reddit.com | Searches the text of comments rather than posts, returning each match with its body… | ⚪ |
+| `reddit.searchComments` | reddit.com | Searches the text of comments rather than posts, returning each match with its body… | 🟢 |
 | `reddit.searchSubreddits` | reddit.com | Finds communities by topic — a query goes in, matching subreddits come out with their… | 🟢 |
 | `reddit.searchUsers` | reddit.com | Finds redditors by name — a partial or remembered username goes in, matching accounts… | 🟢 |
 | `reddit.sendDirectMessage` | reddit.com | Sends a direct message (Reddit chat) from the signed-in caller to another redditor. | 🟢 |
@@ -4791,7 +4791,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `toast.getOrderReceipt` | toasttab.com | Gets the receipt for one of the signed-in guest's orders as a PDF file. | ⚪ |
 | `toast.getPopularItems` | toasttab.com | Lists a restaurant's most-ordered items with price and guid. | ⚪ |
 | `toast.getReservationAvailability` | toasttab.com | Reads a Toast Tables restaurant's open reservation times for a party size across a… | ⚪ |
-| `toast.getRestaurant` | toasttab.com | Reads one Toast restaurant by its toast.app URL, slug ("bombaytandoor") or guid: name… | ⚪ |
+| `toast.getRestaurant` | toasttab.com | Reads one Toast restaurant by its toast.app URL, slug ("bombaytandoor") or guid: name… | 🟢 |
 | `toast.getRestaurantLocations` | toasttab.com | Lists the other locations of the same restaurant group (a chain's sister restaurants… | ⚪ |
 | `toast.getRestaurantOffers` | toasttab.com | Lists the offers a restaurant is running on Toast (discounts, free delivery… | ⚪ |
 | `toast.getReviews` | toasttab.com | Reads a restaurant's guest reviews and rating summary on Toast, and the Google… | ⚪ |
