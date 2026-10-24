@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5624 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5640 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -5604,6 +5604,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
 | `zennioptical.priceLensConfig` | zennioptical.com | Runs a real prescription + usage type through the site's own order-configurator flow… | 🟢 |
 | `zennioptical.searchFrames` | zennioptical.com | Searches Zenni's own storefront catalog for what a shopper would type — "round… | 🟢 |
+| `zenoti.bookAppointment` | zenoti.com | Books one or more services at a center for a chosen open time, as the signed-in caller. | ⚪ |
+| `zenoti.cancelAppointment` | zenoti.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | ⚪ |
+| `zenoti.findTenant` | zenoti.com | Finds the Zenoti webstore behind a salon, spa or clinic -- from its own website, a… | ⚪ |
+| `zenoti.getAvailableTimes` | zenoti.com | Returns open appointment times for one or more services at a center on a date… | ⚪ |
+| `zenoti.getMyProfile` | zenoti.com | Returns the signed-in caller's profile at that business: name, email, phone… | ⚪ |
+| `zenoti.getService` | zenoti.com | Returns one service's full detail -- description, price, duration, add-ons and which… | ⚪ |
+| `zenoti.listCenters` | zenoti.com | Lists a tenant's locations (Zenoti 'centers') with name, address, phone, time zone and… | ⚪ |
+| `zenoti.listClassSessions` | zenoti.com | Lists scheduled group classes (yoga, fitness, workshops) at a center for a date range… | ⚪ |
+| `zenoti.listGiftCards` | zenoti.com | Lists a center's gift-card designs and amounts, as the webstore's gift-card page… | ⚪ |
+| `zenoti.listMyAppointments` | zenoti.com | Lists the signed-in caller's upcoming and past appointments at that business. | ⚪ |
+| `zenoti.listPackagesAndMemberships` | zenoti.com | Lists a center's day packages, series packages and memberships with price and what… | ⚪ |
+| `zenoti.listProviders` | zenoti.com | Lists the staff (Zenoti 'therapists') who can perform a service at a center, so a… | ⚪ |
+| `zenoti.listServiceCategories` | zenoti.com | Lists a center's service categories (Hair, Massage, Facials...) with their ids, as the… | ⚪ |
+| `zenoti.rescheduleAppointment` | zenoti.com | Moves the signed-in caller's appointment to another open time. | ⚪ |
+| `zenoti.searchServices` | zenoti.com | Lists or searches a center's bookable services: name, description, price, duration and… | ⚪ |
+| `zenoti.updateMyProfile` | zenoti.com | Updates the signed-in caller's name, phone or email preferences at that business. | ⚪ |
 | `zoom.deleteMeeting` | zoom.us | Cancels a scheduled meeting. | 🟢 |
 | `zoom.downloadRecording` | zoom.us | Returns the download URL for a recording video file. | ⚪ |
 | `zoom.getContactInfo` | zoom.us | Returns details of one contact. | ⚪ |
