@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5533 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5594 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4963,8 +4963,34 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.signUp` | twitch.tv | Registers a new developer application on the Twitch console. | ⚪ |
 | `twitch.unfollowChannel` | twitch.tv | Removes a channel from the signed-in user's followed list. | 🟢 |
 | `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟢 |
-| `ubereats.getCheckoutTotal` | ubereats.com | Would open a specific restaurant, add real menu items to the cart, set a delivery… | ⚪ |
-| `ubereats.search` | ubereats.com | Would run Uber Eats' own restaurant search for a free-text query + address and return… | ⚪ |
+| `ubereats.addAddress` | ubereats.com | Saves a new delivery address (with drop-off instructions) to the caller's account. | ⚪ |
+| `ubereats.addToCart` | ubereats.com | Adds a menu item, with its chosen options and quantity, to the caller's Uber Eats cart… | ⚪ |
+| `ubereats.applyPromoCode` | ubereats.com | Applies a promo code to the caller's cart at checkout and reports whether it was… | ⚪ |
+| `ubereats.browseStores` | ubereats.com | Lists the restaurants and stores Uber Eats delivers from to one address — the home… | ⚪ |
+| `ubereats.cancelOrder` | ubereats.com | Would cancel one of the caller's active orders. | ⚪ |
+| `ubereats.checkDeliveryAvailability` | ubereats.com | Says whether one store will deliver to one address right now, with the ETA range and… | ⚪ |
+| `ubereats.clearCart` | ubereats.com | Discards the caller's cart for a store. | ⚪ |
+| `ubereats.findAddress` | ubereats.com | Turns an address the caller types into Uber Eats' own delivery location — formatted… | ⚪ |
+| `ubereats.findChainStore` | ubereats.com | Finds the nearest location of a chain (McDonald's, Chipotle) that delivers to an… | ⚪ |
+| `ubereats.getBalances` | ubereats.com | Returns the caller's Uber Cash / gift-card balance and available promotions. | ⚪ |
+| `ubereats.getCart` | ubereats.com | Reads the caller's current Uber Eats cart(s): store, items, options, quantities and… | ⚪ |
+| `ubereats.getCheckoutTotal` | ubereats.com | Reads the itemized total at the last screen before payment — subtotal, delivery fee… | ⚪ |
+| `ubereats.getMenuItem` | ubereats.com | Returns one menu item with its description, price, photo and every customization group… | ⚪ |
+| `ubereats.getMyAccount` | ubereats.com | Returns the caller's Uber Eats profile — name, email, phone — and their Uber One… | ⚪ |
+| `ubereats.getOrder` | ubereats.com | Returns one past or active order in full — items, fees, status, courier progress. | ⚪ |
+| `ubereats.getStore` | ubereats.com | Returns one restaurant or store — name, address, hours, rating, whether it is open… | ⚪ |
+| `ubereats.listActiveOrders` | ubereats.com | Lists the caller's orders that are in progress right now, with their status and ETA. | ⚪ |
+| `ubereats.listCategoryStores` | ubereats.com | Lists the stores Uber Eats shows for a cuisine in a city ('mexican in houston-tx') —… | ⚪ |
+| `ubereats.listFavorites` | ubereats.com | Lists the stores the caller has saved as favorites. | ⚪ |
+| `ubereats.listMyAddresses` | ubereats.com | Lists the delivery addresses saved on the caller's account. | ⚪ |
+| `ubereats.listOrders` | ubereats.com | Lists the caller's past Uber Eats orders: store, date, items and total. | ⚪ |
+| `ubereats.placeOrder` | ubereats.com | Would place the order in the caller's cart and charge their payment method. | ⚪ |
+| `ubereats.removeFromCart` | ubereats.com | Removes an item from the caller's cart. | ⚪ |
+| `ubereats.saveStore` | ubereats.com | Adds a store to the caller's favorites. | ⚪ |
+| `ubereats.search` | ubereats.com | Runs Uber Eats' own search for a free-text query (a dish, cuisine or restaurant name)… | ⚪ |
+| `ubereats.searchStoreProducts` | ubereats.com | Searches the products inside one grocery or convenience store on Uber Eats (e.g.… | ⚪ |
+| `ubereats.unsaveStore` | ubereats.com | Removes a store from the caller's favorites. | ⚪ |
+| `ubereats.updateCartItem` | ubereats.com | Changes the quantity or options of an item already in the caller's cart. | ⚪ |
 | `uhaul.getRates` | uhaul.com | Gets U-Haul truck or trailer rental rates for a pickup location and date — in-town, or… | 🟢 |
 | `uhc_smallbusiness.getGroupHealthQuote` | smallbusiness.uhc.com | Real level-funded and fully-insured small-group health plan premiums for a ZIP code… | 🟢 |
 | `ulrichlifestyle.getConfigurator` | ulrichlifestyle.com | Reads one model's default configurator: its base price (before delivery/tax) plus… | 🟢 |
@@ -5005,6 +5031,41 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.saveArticle` | usatoday.com | Saves an article to the signed-in user's reading list. | ⚪ |
 | `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | 🟢 |
 | `usps.getRate` | usps.com | Prices a domestic package across USPS's own Mail Services (Priority Mail Express… | 🟢 |
+| `vagaro.bookAppointment` | www.vagaro.com | Books an appointment for the signed-in caller: services, add-ons, staff, date and… | ⚪ |
+| `vagaro.bookClass` | www.vagaro.com | Books the signed-in caller into a scheduled class. | ⚪ |
+| `vagaro.cancelAppointment` | www.vagaro.com | Cancels one of the caller's appointments or class bookings, reporting any cancellation… | ⚪ |
+| `vagaro.favoriteBusiness` | www.vagaro.com | Saves a business to, or removes it from, the signed-in caller's favorites. | ⚪ |
+| `vagaro.findBusiness` | www.vagaro.com | Finds a Vagaro business from what a caller has: its vagaro.com/<slug> link, its… | ⚪ |
+| `vagaro.getAppointment` | www.vagaro.com | Returns one of the caller's appointments: business, services, staff, time, price, and… | ⚪ |
+| `vagaro.getAvailableDates` | www.vagaro.com | Returns the dates a business has open appointment times for chosen services and staff… | ⚪ |
+| `vagaro.getBusiness` | www.vagaro.com | Returns one business's profile: name, address, phone, opening hours by weekday, rating… | ⚪ |
+| `vagaro.getCancellationPolicy` | www.vagaro.com | Returns a business's cancellation and no-show policy for appointments and classes. | ⚪ |
+| `vagaro.getClass` | www.vagaro.com | Returns one class: description, instructor, sessions, capacity, price and cancellation… | ⚪ |
+| `vagaro.getIntakeForms` | www.vagaro.com | Returns the intake or consent forms a business asks a customer to fill in before a… | ⚪ |
+| `vagaro.getMyProfile` | www.vagaro.com | Returns the signed-in caller's Vagaro profile: name, email, phone, address, and the… | ⚪ |
+| `vagaro.getOpenTimes` | www.vagaro.com | Returns the open appointment times on one date for chosen services, per staff member… | ⚪ |
+| `vagaro.getService` | www.vagaro.com | Returns one service with its description, price, duration, the staff who perform it… | ⚪ |
+| `vagaro.getStaffMember` | www.vagaro.com | Returns one staff member's profile: bio, the services they perform, their working… | ⚪ |
+| `vagaro.joinWaitlist` | www.vagaro.com | Puts the signed-in caller on a business's waitlist for a service, staff member and… | ⚪ |
+| `vagaro.listAddOns` | www.vagaro.com | Lists the optional add-ons a business offers on top of its services, with price and… | ⚪ |
+| `vagaro.listCategories` | www.vagaro.com | Lists the service categories Vagaro's search is organized by (Beauty, Wellness… | ⚪ |
+| `vagaro.listClasses` | www.vagaro.com | Lists a business's scheduled classes and workshops by date, including livestreamed… | ⚪ |
+| `vagaro.listFavoriteBusinesses` | www.vagaro.com | Lists the businesses the signed-in caller has saved as favorites. | ⚪ |
+| `vagaro.listGiftCardOptions` | www.vagaro.com | Lists the gift cards a business sells: designs, amounts, and the services a gift… | ⚪ |
+| `vagaro.listMembershipsAndPackages` | www.vagaro.com | Lists the memberships and prepaid service packages a business sells, with price, what… | ⚪ |
+| `vagaro.listMyAppointments` | www.vagaro.com | Lists the signed-in caller's upcoming and past appointments and class bookings across… | ⚪ |
+| `vagaro.listMyMembershipsAndPackages` | www.vagaro.com | Lists the memberships, packages and gift cards the signed-in caller holds, with what… | ⚪ |
+| `vagaro.listPhotos` | www.vagaro.com | Lists a business's portfolio photos and styles, optionally for one staff member. | ⚪ |
+| `vagaro.listProducts` | www.vagaro.com | Lists the retail products a business sells through its Vagaro store, with price, brand… | ⚪ |
+| `vagaro.listPromotions` | www.vagaro.com | Lists a business's current deals and promotions: discount, the services it applies to… | ⚪ |
+| `vagaro.listReviews` | www.vagaro.com | Lists a business's customer reviews, newest first, with rating, text, the staff member… | ⚪ |
+| `vagaro.listServices` | www.vagaro.com | Lists a business's bookable services by category: name, description, price (and… | ⚪ |
+| `vagaro.listStaff` | www.vagaro.com | Lists the staff a customer can book at a business, with photo, title, rating and… | ⚪ |
+| `vagaro.messageBusiness` | www.vagaro.com | Sends a message to a business through Vagaro's customer chat. | ⚪ |
+| `vagaro.rescheduleAppointment` | www.vagaro.com | Moves one of the caller's appointments to another open time. | ⚪ |
+| `vagaro.searchBusinesses` | www.vagaro.com | Searches Vagaro's marketplace for salons, spas, barbers and studios by service… | ⚪ |
+| `vagaro.updateMyProfile` | www.vagaro.com | Updates the signed-in caller's Vagaro profile: name, phone, address, birthday or… | ⚪ |
+| `vagaro.writeReview` | www.vagaro.com | Leaves a star rating and review for a business or staff member the signed-in caller… | ⚪ |
 | `vbt.getTourDepartures` | vbt.com | Reads one VBT tour's own public page and returns its Tour-Only and Tour+Travel-Package… | 🟢 |
 | `vbt.listTours` | vbt.com | Lists every self-guided/guided bike and walking tour VBT publishes, straight off its… | 🟢 |
 | `verizon.getPlanTotal` | verizon.com | Walks the new-line plan-builder flow (verizon.com/smartphones/?isMyPlanFlow=true → a… | ⚪ |

@@ -644,7 +644,7 @@ turbotax.intuit.com — turbotax: compareEditions, findLocalExperts, listEdition
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
 twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getFollowStatus, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, signUp, unfollowChannel
-ubereats.com — ubereats: getCheckoutTotal, search
+ubereats.com — ubereats: addAddress, addToCart, applyPromoCode, browseStores, cancelOrder, checkDeliveryAvailability, clearCart, findAddress, findChainStore, getBalances, getCart, getCheckoutTotal, getMenuItem, getMyAccount, getOrder, getStore, listActiveOrders, listCategoryStores, listFavorites, listMyAddresses, listOrders, placeOrder, removeFromCart, saveStore, search, searchStoreProducts, unsaveStore, updateCartItem
 uhaul.com — uhaul: getRates
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration
 uniqlo.com — uniqlo: getProduct, searchProducts
@@ -697,6 +697,7 @@ www.reuters.com — reuters: findAuthor, followTopic, getArticle, getAuthor, get
 www.speedrun.com — speedrun: categories, findGame, platforms, submitRun
 www.temu.com — temu: addToCart, addToWishlist, checkout, getProduct, getProductReviews, listCategories, listOrders, removeFromCart, searchProducts, trackOrder, updateCart, viewCart, writeReview
 www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends, getEarnings, getEconomicCalendar, getFinancials, getMarketOverview, getNews, getOptionChain, getQuote, getScreenerResults, getTechnicalAnalysis, listIdeas, searchSymbols
+www.vagaro.com — vagaro: bookAppointment, bookClass, cancelAppointment, favoriteBusiness, findBusiness, getAppointment, getAvailableDates, getBusiness, getCancellationPolicy, getClass, getIntakeForms, getMyProfile, getOpenTimes, getService, getStaffMember, joinWaitlist, listAddOns, listCategories, listClasses, listFavoriteBusinesses, listGiftCardOptions, listMembershipsAndPackages, listMyAppointments, listMyMembershipsAndPackages, listPhotos, listProducts, listPromotions, listReviews, listServices, listStaff, messageBusiness, rescheduleAppointment, searchBusinesses, updateMyProfile, writeReview
 x.com — x: bookmarkPost, createPost, deletePost, followUser, getConversation, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listNotifications, listTrending, post, profile, quotePost, replyToPost, repost, search, sendMessage, updateProfile, uploadProfilePicture, userTimeline
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
