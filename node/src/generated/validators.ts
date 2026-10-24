@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d1c69aad6f3ae7af95df9a8641209e31f6d8104644e07ecc50f4d602ef3a66c5
-// 2494 checked, 20 unchecked.
+// Manifest version: c124904258a14450e637efa4b084f8561ecdfdc8f3781155779f5789b2bf5bce
+// 2510 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d1c69aad6f3ae7af95df9a8641209e31f6d8104644e07ecc50f4d602ef3a66c5",
+  "version": "c124904258a14450e637efa4b084f8561ecdfdc8f3781155779f5789b2bf5bce",
   "units": {
     "address_validation": {
       "defs": {
@@ -10933,6 +10933,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getAccountBalance": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -21161,6 +21179,38 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "searchServers": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "category",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getInvite": [
@@ -31764,6 +31814,34 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GraingerCheckStockArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.grammarly": {
+      "defs": {
+        "CheckGrammarArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "checkGrammar": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckGrammarArgs"
             },
             "optional": false
           }
@@ -56862,6 +56940,54 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listClasses": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "date",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "endDate",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getClass": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "classId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPlans": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -56881,6 +57007,8 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getPayrollPlans": [],
+        "getPlans": [],
         "getServiceStatus": [],
         "listIncidents": [
           {
@@ -63514,6 +63642,57 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.soulcycle": {
+      "defs": {
+        "FindStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListStudiosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "regionId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listRegions": [],
+        "listStudios": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListStudiosArgs"
+            },
+            "optional": true
+          }
+        ],
+        "findStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindStudioArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.soundcloud": {
       "defs": {
         "ScPlaylist": {
@@ -70037,6 +70216,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.turbotax": {
+      "defs": {},
+      "functions": {
+        "listEditions": [],
+        "listTaxTools": []
       }
     },
     "providers.tweethunter": {
@@ -76683,6 +76869,22 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "YelpSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.yogatreecollective": {
+      "defs": {},
+      "functions": {
+        "getSchedule": [],
+        "listTeachers": [],
+        "getTeacher": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

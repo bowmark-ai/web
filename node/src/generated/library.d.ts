@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d1c69aad6f3ae7af95df9a8641209e31f6d8104644e07ecc50f4d602ef3a66c5
-// 86 capabilities, 633 providers, 2512 typed functions, 20 refused.
+// Manifest version: c124904258a14450e637efa4b084f8561ecdfdc8f3781155779f5789b2bf5bce
+// 86 capabilities, 637 providers, 2528 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10183,6 +10183,11 @@ interface AttPlanTotal {
   itemizedFeesUsd: Array<{ label: string; amountUsd: number }>;
   totalMonthlyUsd: number;
 }
+interface AttAccountBalance {
+  amountDueUsd: number | null;
+  dueDate: string | null;
+  accountStatus: string | null;
+}
 
   /**
    * att.com's own phone catalog and device pricing — a phone's current full retail price and
@@ -10207,6 +10212,14 @@ interface AttPlanTotal {
      * false`. THROWS if no phone on the listing matches the name.
      */
     getDevicePricing(device: string): Promise<AttDevicePricing>;
+
+    /**
+     * The signed-in caller's current AT&T account balance — amount due, due date and account
+     * status — off myatt.com's account overview. CALLER-login function, declared in authFunctions:
+     * pauses the run for a sign-in when the caller holds none, and throws when a saved sign-in has
+     * gone dead (the site bounces to signin.att.com).
+     */
+    getAccountBalance(opts?: ConnectionOption): Promise<AttAccountBalance>;
   }
 }
 
@@ -21035,6 +21048,25 @@ interface discordInvite {
   expiresAt: string | null;
   channelId?: string;
 }
+interface discordDirectoryServer {
+  id: string;
+  name: string;
+  slug: string;
+  url: string;
+  description: string | null;
+  badge: string | null;
+  onlineCount: number | null;
+  memberCount: number | null;
+  iconUrl: string | null;
+}
+interface discordServerSearch {
+  query: string;
+  category: string | null;
+  offset: number;
+  total: number | null;
+  servers: discordDirectoryServer[];
+  nextOffset: number | null;
+}
 
   /**
    * Discord, chat for communities. Built so far: Discord's developer documentation
@@ -21055,6 +21087,14 @@ interface discordInvite {
      * discordInputError for a url outside the developer docs.
      */
     getDocPage(url: string): Promise<discordDocPage>;
+
+    /**
+     * Searches Discord's public server directory (discord.com/servers) by keyword, optionally
+     * inside one category ("gaming", "music", "entertainment", "education", "science & tech") —
+     * each server's id, name, slug, description, badge, online and member counts, plus the
+     * directory's own total. Twelve a page; pass nextOffset back as `offset` for the next.
+     */
+    searchServers(query: string, opts?: { category?: string; offset?: number }): Promise<discordServerSearch>;
 
     /**
      * Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare code) to
@@ -29871,6 +29911,55 @@ interface graingerStockRow {
      * `quantity` (default 1) is forwarded to the site.
      */
     checkStock(args: GraingerCheckStockArgs): Promise<graingerStockRow>;
+  }
+}
+
+declare namespace BowmarkProvider_grammarly {
+  // ── Grammarly — the unit's own declarations, verbatim ──
+interface CheckGrammarArgs {
+  /** The text to check, up to 150,000 characters. */
+  text: string;
+}
+interface GrammarAlert {
+  /** "Grammar", "Punctuation", "Spelling", "Clarity", … */
+  group: string;
+  category: string;
+  title: string;
+  /** Character offsets into the submitted text, end exclusive. */
+  begin: number;
+  end: number;
+  highlightText: string;
+  /** Suggested replacements; empty when Grammarly withholds the fix. */
+  replacements: string[];
+  explanation: string;
+  impact: string | null;
+  /** True for a Premium-only alert: the problem is named, the fix withheld. */
+  premium: boolean;
+}
+interface GrammarCheck {
+  alerts: GrammarAlert[];
+  /** Alert counts per outcome: Correctness, Clarity, Engagement, Tone. */
+  outcomeAlerts: Record<string, number>;
+  /** 0-100, or null when the text is too short to score. */
+  score: number | null;
+  premiumAlertsCount: number;
+}
+
+  /**
+   * Grammarly's own writing checker, logged out: grammar, spelling and punctuation alerts with
+   * suggested fixes.
+   */
+  interface Unit {
+    /**
+     * Checks text with Grammarly's free checker, no account — e.g. `checkGrammar({ text: "She go
+     * to school yesterday." })`. Returns `alerts`, each with `group` ("Grammar", "Punctuation",
+     * "Spelling", …), `title`, the `begin`/`end` character offsets and `highlightText` it covers,
+     * and `replacements` — e.g. `go` → `["went"]`. A `premium: true` alert names a problem whose
+     * fix Grammarly keeps for paying users, so its `replacements` is empty. Also returns
+     * `outcomeAlerts` (counts per Correctness/Clarity/Engagement/Tone) and `score` (null for short
+     * text). Up to 150,000 characters.
+     */
+    checkGrammar(args: CheckGrammarArgs): Promise<GrammarCheck>;
   }
 }
 
@@ -49719,6 +49808,37 @@ interface PushpressGym {
   portalUrl: string;
 }
 
+interface PushpressClass {
+  id: string;             // pass this to getClass
+  title: string;
+  type: string;           // "Class" | "Event"
+  classType: string | null;
+  start: string;          // true instant, ISO — never the gym's fake-UTC wall clock
+  end: string;
+  attendanceCap: number;  // 0 = uncapped (e.g. Open Gym)
+  spotsLeft: number | null; // null when uncapped; a COUNT, never other members' ids
+  coachUuid: string | null;
+  locationName: string | null;
+  price: string | null;
+  bookingOpensAt: string | null; // derived from the site's registration offset
+  bookingClosesAt: string | null;
+}
+
+interface PushpressPlan {
+  id: string;
+  name: string;
+  type: string;           // "session-pack" | "recurring" | "non-recurring"
+  description: string | null;
+  active: boolean;
+  allowClassBooking: boolean;
+  amount: number;
+  amountRecurring: number | null;
+  interval: number;       // billing interval, months; 0 = one-time
+  setupFee: number;
+  calendarItemTypes: string[]; // [] = every class type
+  category: string | null;
+}
+
   /**
    * PushPress gym-management platform (CrossFit and independent gyms on <gym>.pushpress.com):
    * read any gym's class schedule, class details, locations and membership plans with no login,
@@ -49732,6 +49852,26 @@ interface PushpressGym {
      * timezone and logo. Throws a caller-fixable error for a subdomain PushPress does not know.
      */
     getGym(gym: string): Promise<PushpressGym>;
+
+    /**
+     * Lists a gym's classes and events for one local day (YYYY-MM-DD), or a range of local days
+     * ending on endDate. spotsLeft is a count (attendanceCap minus active registrations), never
+     * other members' ids.
+     */
+    listClasses(gym: string, date: string, endDate?: string): Promise<PushpressClass[]>;
+
+    /**
+     * Returns one class or event by the id listClasses returns: description, coach, location,
+     * capacity and spots available. Throws a caller-fixable error for an id this gym does not
+     * know.
+     */
+    getClass(gym: string, classId: string): Promise<PushpressClass>;
+
+    /**
+     * Lists a gym's public memberships, class packs, drop-ins and trials with price, billing
+     * interval and which class types each allows.
+     */
+    listPlans(gym: string): Promise<PushpressPlan[]>;
   }
 }
 
@@ -49764,6 +49904,40 @@ interface QuickbooksIncident {
   updates: { status: string; body: string; at: string | null }[];
 }
 
+/** One QuickBooks Online plan as the /pricing/ shopping widget lists it. */
+interface QuickbooksPlan {
+  id: string;
+  name: string;
+  tagline: string | null;
+  /** Monthly list price in dollars; null for Free and the quote-only Enterprise Suite. */
+  monthlyPrice: number | null;
+  /** The promotional monthly price, when a promotion runs. */
+  promoPrice: number | null;
+  promoPercentOff: number | null;
+  /** How long the promotion lasts, e.g. "3 months". */
+  promoDuration: string | null;
+  /** The plan's user allowance as the card words it, e.g. "3 users". */
+  users: string | null;
+  usersNote: string | null;
+  recommended: boolean;
+  features: string[]; // "Run enhanced reports", "Automated bookkeeping"
+}
+
+/** One QuickBooks Payroll bundle (payroll plus a QuickBooks Online plan) off /payroll/pricing/. */
+interface QuickbooksPayrollPlan {
+  id: string;
+  name: string;
+  tagline: string | null;
+  /** Monthly base price in dollars, before per-employee charges. */
+  monthlyPrice: number | null;
+  promoPrice: number | null;
+  promoPercentOff: number | null;
+  promoDuration: string | null;
+  /** The monthly charge per employee paid, in dollars. */
+  perEmployeePrice: number | null;
+  features: string[]; // "Full service payroll", "Same-day direct deposit"
+}
+
 interface QuickbooksListIncidentsArgs {
   /** How many of the most recent incidents to return, 1-50 (default 20). */
   limit?: number;
@@ -49775,6 +49949,18 @@ interface QuickbooksListIncidentsArgs {
    * status.
    */
   interface Unit {
+    /**
+     * QuickBooks Payroll bundles with monthly base price, per-employee price, current promo and
+     * features
+     */
+    getPayrollPlans(): Promise<QuickbooksPayrollPlan[]>;
+
+    /**
+     * QuickBooks Online plans with monthly list price, current promo price and length, users and
+     * headline features
+     */
+    getPlans(): Promise<QuickbooksPlan[]>;
+
     /** QuickBooks' current service status per product and region, and any open incident */
     getServiceStatus(): Promise<QuickbooksServiceStatus>;
 
@@ -54572,6 +54758,61 @@ interface SolostoveBundleCheck {
      * flow rather than asking the caller for one first.
      */
     checkBundle(args: { bundleId: string }): Promise<SolostoveBundleCheck>;
+  }
+}
+
+declare namespace BowmarkProvider_soulcycle {
+  // ── SoulCycle — the unit's own declarations, verbatim ──
+interface SoulcycleRegion {
+  id: number; // the region id listStudios takes, e.g. 27 = San Francisco
+  title: string;
+  country: string;
+  studios: { id: number; title: string }[];
+}
+interface SoulcycleStudio {
+  id: number; // the studio id the schedule functions take
+  title: string;
+  slug: string; // e.g. "ca-sanfrancisco-castro"
+  url: string;
+  shortName?: string;
+  regionTitle?: string;
+  address?: string;
+  phone?: string;
+  lat?: number;
+  lon?: number;
+}
+interface ListStudiosArgs {
+  regionId?: number; // from listRegions(); omit for every region
+}
+interface FindStudioArgs {
+  query: string; // a studio name ("Union Street"), its page URL, or its slug
+}
+
+  /**
+   * SoulCycle indoor cycling: find a studio, read its weekly class schedule, live bike
+   * availability, instructors and series prices, and (signed in) book a bike, join a waitlist,
+   * cancel and list your bookings.
+   */
+  interface Unit {
+    /**
+     * Lists SoulCycle's regions (NYC, San Francisco, London …) with each region's id and its
+     * studios' ids and titles. Example: `bowmark.providers.soulcycle.listRegions()`.
+     */
+    listRegions(): Promise<{ regions: SoulcycleRegion[] }>;
+
+    /**
+     * Lists the studios in one region (`regionId` from listRegions) or in every region: id, slug,
+     * page URL, address, phone and coordinates. Example:
+     * `bowmark.providers.soulcycle.listStudios({ regionId: 27 })`.
+     */
+    listStudios(args?: ListStudiosArgs): Promise<{ studios: SoulcycleStudio[] }>;
+
+    /**
+     * Finds studios from a name, a studio page URL or its slug; exact matches first, otherwise
+     * every studio whose name or slug contains the query. Empty when nothing matches. Example:
+     * `bowmark.providers.soulcycle.findStudio({ query: "Union Street" })`.
+     */
+    findStudio(args: FindStudioArgs): Promise<{ studios: SoulcycleStudio[] }>;
   }
 }
 
@@ -60403,6 +60644,82 @@ interface TumblrBlogSummary {
   }
 }
 
+declare namespace BowmarkProvider_turbotax {
+  // ── TurboTax — the unit's own declarations, verbatim ──
+interface TurboTaxEdition {
+  /** The page's own key, e.g. "DIY_DELUXE", "DIWM_PREMIUM", "DIFM_FBP". */
+  id: string;
+  /** diy = file yourself, live-assisted = expert help on demand, full-service = an expert files for you. */
+  tier: "diy" | "live-assisted" | "full-service";
+  /** basic, deluxe, premium, business, sole-proprietor, full-service. */
+  plan: string;
+  /** Current federal price in whole US dollars; null when the page withholds it. */
+  federalPrice: number | null;
+  /** The pre-discount federal price. */
+  federalListPrice: number | null;
+  /** Price per state return in whole US dollars. */
+  statePrice: number | null;
+  sku: string | null;
+  url: string;
+}
+
+interface TurboTaxTool {
+  name: string;
+  description: string;
+  url: string;
+}
+
+interface Edition {
+  name: string;
+  price: string;
+  url: string;
+}
+
+interface Comparison {
+  editions: Edition[];
+  features: Record<string, boolean>;
+}
+
+interface Article {
+  title: string;
+  url: string;
+  summary?: string;
+}
+
+interface TaxTool {
+  name: string;
+  url: string;
+  description: string;
+}
+
+interface LocalExpert {
+  name: string;
+  specialty?: string;
+  url: string;
+  location?: string;
+}
+
+interface turbotaxRow {
+  id: string;
+}
+
+  /** List TurboTax editions, compare pricing, search help articles, and find local tax experts. */
+  interface Unit {
+    /**
+     * Every TurboTax online edition with its current federal and per-state price in US dollars:
+     * DIY (Free Edition, Deluxe, Premium), Live Assisted (Basic, Deluxe, Premium, Business) and
+     * Full Service, read from the editions page's own pricing data.
+     */
+    listEditions(): Promise<TurboTaxEdition[]>;
+
+    /**
+     * TurboTax's free tax calculators (TaxCaster refund estimator, tax bracket, W-4 withholding,
+     * self-employed, crypto and more) with a one-line description and link for each.
+     */
+    listTaxTools(): Promise<TurboTaxTool[]>;
+  }
+}
+
 declare namespace BowmarkProvider_tweethunter {
   // ── Tweet Hunter — the unit's own declarations, verbatim ──
 interface TweetHunterFeature {
@@ -65997,6 +66314,68 @@ interface YelpSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_yogatreecollective {
+  // ── Yoga Tree Collective — the unit's own declarations, verbatim ──
+interface YtcScheduleClass {
+  day: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+  time: string;
+  className: string;
+  teacher: string;
+  note: string | null;
+  signUpUrl: string | null;
+}
+
+interface YogatreecollectiveSchedule {
+  classes: YtcScheduleClass[];
+  lastModified: string | null;
+  warnings: string[];
+}
+
+interface YtcTeacher {
+  slug: string;
+  name: string;
+  photoUrl: string | null;
+  styles: string[];
+  formerStudio: string[];
+  profileUrl: string;
+}
+
+interface YogatreecollectiveTeacherList {
+  teachers: YtcTeacher[];
+  warnings: string[];
+}
+
+interface YogatreecollectiveTeacherProfile {
+  teacher: YtcTeacher;
+  bio: string | null;
+}
+
+  /**
+   * Yoga Tree Collective (San Francisco): the weekly class timetable, teacher directory and
+   * retreats; each class books on its teacher's own platform.
+   */
+  interface Unit {
+    /**
+     * Reads the collective's weekly class timetable off /class-schedule: one row per class with
+     * day, time, class name, teacher, any partner note, and the SIGN UP link. Also returns the
+     * page's sitemap last-modified date, since the timetable itself carries no dates.
+     */
+    getSchedule(): Promise<YogatreecollectiveSchedule>;
+
+    /**
+     * Lists the collective's whole teacher directory off /teacher-profile?format=json: name, slug,
+     * photo, styles taught and former Yoga Tree studio. Walks every page of the collection.
+     */
+    listTeachers(): Promise<YogatreecollectiveTeacherList>;
+
+    /**
+     * Gets one teacher's profile by slug (read off listTeachers().teachers[].slug): their photo,
+     * styles, former studio and bio text.
+     */
+    getTeacher(slug: string): Promise<YogatreecollectiveTeacherProfile>;
+  }
+}
+
 declare namespace BowmarkProvider_yorkwallcoverings {
   // ── York Wallcoverings — the unit's own declarations, verbatim ──
 interface YorkWallcoveringsSearchResult {
@@ -68350,6 +68729,7 @@ interface BowmarkProviders {
   gostoreit: BowmarkProvider_gostoreit.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;
+  grammarly: BowmarkProvider_grammarly.Unit;
   grandwelcome: BowmarkProvider_grandwelcome.Unit;
   greatlakesbrewing: BowmarkProvider_greatlakesbrewing.Unit;
   greatlakesdentaltech: BowmarkProvider_greatlakesdentaltech.Unit;
@@ -68593,6 +68973,7 @@ interface BowmarkProviders {
   snapchat: BowmarkProvider_snapchat.Unit;
   solidcore: BowmarkProvider_solidcore.Unit;
   solostove: BowmarkProvider_solostove.Unit;
+  soulcycle: BowmarkProvider_soulcycle.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   spectrum: BowmarkProvider_spectrum.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;
@@ -68645,6 +69026,7 @@ interface BowmarkProviders {
   trustpilot: BowmarkProvider_trustpilot.Unit;
   tryalma_com: BowmarkProvider_tryalma_com.Unit;
   tumblr: BowmarkProvider_tumblr.Unit;
+  turbotax: BowmarkProvider_turbotax.Unit;
   tweethunter: BowmarkProvider_tweethunter.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
   twitch: BowmarkProvider_twitch.Unit;
@@ -68698,6 +69080,7 @@ interface BowmarkProviders {
   yahoo_sports: BowmarkProvider_yahoo_sports.Unit;
   ycombinator: BowmarkProvider_ycombinator.Unit;
   yelp: BowmarkProvider_yelp.Unit;
+  yogatreecollective: BowmarkProvider_yogatreecollective.Unit;
   yorkwallcoverings: BowmarkProvider_yorkwallcoverings.Unit;
   yourarborhome: BowmarkProvider_yourarborhome.Unit;
   youtube: BowmarkProvider_youtube.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d1c69aad6f3ae7af95df9a8641209e31f6d8104644e07ecc50f4d602ef3a66c5
-# 86 capabilities, 633 providers, 2494 typed functions, 20 refused.
+# Manifest version: c124904258a14450e637efa4b084f8561ecdfdc8f3781155779f5789b2bf5bce
+# 86 capabilities, 637 providers, 2510 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5723,6 +5723,11 @@ class Prv_att_AttDeviceVariant_Out_promotions_item_Out(TypedDict):
     type: str
     monthlyPromoPriceUsd: float | None
     tradeInCreditUsd: float | None
+
+class Prv_att_AttAccountBalance_Out(TypedDict):
+    amountDueUsd: float | None
+    dueDate: str | None
+    accountStatus: str | None
 
 class Prv_audibel_AudibelClinicSearch_Out(TypedDict):
     search: str
@@ -11818,6 +11823,29 @@ class Prv_discord_discordDocPage_Out(TypedDict):
     description: str | None
     body: str
 
+class Prv_discord_searchServers_opts_In(TypedDict):
+    category: NotRequired[str]
+    offset: NotRequired[float]
+
+class Prv_discord_discordServerSearch_Out(TypedDict):
+    query: str
+    category: str | None
+    offset: float
+    total: float | None
+    servers: list[Prv_discord_discordDirectoryServer_Out]
+    nextOffset: float | None
+
+class Prv_discord_discordDirectoryServer_Out(TypedDict):
+    id: str
+    name: str
+    slug: str
+    url: str
+    description: str | None
+    badge: str | None
+    onlineCount: float | None
+    memberCount: float | None
+    iconUrl: str | None
+
 class Prv_discord_discordInvite_Out(TypedDict):
     guildId: str
     guildName: str
@@ -16709,6 +16737,27 @@ class Prv_grainger_graingerStockRow_Out_pickup_u0_Out_branch_u0_Out_address_u0_O
     state: str | None
     zip: str | None
     country: str | None
+
+class Prv_grammarly_CheckGrammarArgs_In(TypedDict):
+    text: str
+
+class Prv_grammarly_GrammarCheck_Out(TypedDict):
+    alerts: list[Prv_grammarly_GrammarAlert_Out]
+    outcomeAlerts: Mapping[str, float]
+    score: float | None
+    premiumAlertsCount: float
+
+class Prv_grammarly_GrammarAlert_Out(TypedDict):
+    group: str
+    category: str
+    title: str
+    begin: float
+    end: float
+    highlightText: str
+    replacements: list[str]
+    explanation: str
+    impact: str | None
+    premium: bool
 
 class Prv_grandwelcome_GrandwelcomeDestination_Out(TypedDict):
     slug: str
@@ -27511,6 +27560,59 @@ class Prv_pushpress_PushpressGym_Out(TypedDict):
     logoUrl: str | None
     portalUrl: str
 
+class Prv_pushpress_PushpressClass_Out(TypedDict):
+    id: str
+    title: str
+    type: str
+    classType: str | None
+    start: str
+    end: str
+    attendanceCap: float
+    spotsLeft: float | None
+    coachUuid: str | None
+    locationName: str | None
+    price: str | None
+    bookingOpensAt: str | None
+    bookingClosesAt: str | None
+
+class Prv_pushpress_PushpressPlan_Out(TypedDict):
+    id: str
+    name: str
+    type: str
+    description: str | None
+    active: bool
+    allowClassBooking: bool
+    amount: float
+    amountRecurring: float | None
+    interval: float
+    setupFee: float
+    calendarItemTypes: list[str]
+    category: str | None
+
+class Prv_quickbooks_QuickbooksPayrollPlan_Out(TypedDict):
+    id: str
+    name: str
+    tagline: str | None
+    monthlyPrice: float | None
+    promoPrice: float | None
+    promoPercentOff: float | None
+    promoDuration: str | None
+    perEmployeePrice: float | None
+    features: list[str]
+
+class Prv_quickbooks_QuickbooksPlan_Out(TypedDict):
+    id: str
+    name: str
+    tagline: str | None
+    monthlyPrice: float | None
+    promoPrice: float | None
+    promoPercentOff: float | None
+    promoDuration: str | None
+    users: str | None
+    usersNote: str | None
+    recommended: bool
+    features: list[str]
+
 class Prv_quickbooks_QuickbooksServiceStatus_Out(TypedDict):
     indicator: str
     description: str
@@ -30619,6 +30721,43 @@ class Prv_solostove_SolostoveBundleComponent_Out(TypedDict):
     quantity: float
     orderable: bool
     availableToSell: float
+
+class Prv_soulcycle_listRegions_return_Out(TypedDict):
+    regions: list[Prv_soulcycle_SoulcycleRegion_Out]
+
+class Prv_soulcycle_SoulcycleRegion_Out(TypedDict):
+    id: float
+    title: str
+    country: str
+    studios: list[Prv_soulcycle_SoulcycleRegion_Out_studios_item_Out]
+
+class Prv_soulcycle_SoulcycleRegion_Out_studios_item_Out(TypedDict):
+    id: float
+    title: str
+
+class Prv_soulcycle_ListStudiosArgs_In(TypedDict):
+    regionId: NotRequired[float]
+
+class Prv_soulcycle_listStudios_return_Out(TypedDict):
+    studios: list[Prv_soulcycle_SoulcycleStudio_Out]
+
+class Prv_soulcycle_SoulcycleStudio_Out(TypedDict):
+    id: float
+    title: str
+    slug: str
+    url: str
+    shortName: NotRequired[str]
+    regionTitle: NotRequired[str]
+    address: NotRequired[str]
+    phone: NotRequired[str]
+    lat: NotRequired[float]
+    lon: NotRequired[float]
+
+class Prv_soulcycle_FindStudioArgs_In(TypedDict):
+    query: str
+
+class Prv_soulcycle_findStudio_return_Out(TypedDict):
+    studios: list[Prv_soulcycle_SoulcycleStudio_Out]
 
 class Prv_soundcloud_ScTrack_Out(TypedDict):
     id: float
@@ -34124,6 +34263,21 @@ class Prv_tumblr_TumblrBlogSummary_Out(TypedDict):
     totalPosts: float
     description: str
 
+class Prv_turbotax_TurboTaxEdition_Out(TypedDict):
+    id: str
+    tier: Literal["diy"] | Literal["live-assisted"] | Literal["full-service"]
+    plan: str
+    federalPrice: float | None
+    federalListPrice: float | None
+    statePrice: float | None
+    sku: str | None
+    url: str
+
+class Prv_turbotax_TurboTaxTool_Out(TypedDict):
+    name: str
+    description: str
+    url: str
+
 class Prv_tweethunter_TweetHunterFeature_Out(TypedDict):
     name: str
     description: str
@@ -37576,6 +37730,35 @@ class Prv_yelp_YelpSearchResult_Out(TypedDict):
     reviewCount: float | None
     priceRange: str | None
     neighborhood: str | None
+
+class Prv_yogatreecollective_YogatreecollectiveSchedule_Out(TypedDict):
+    classes: list[Prv_yogatreecollective_YtcScheduleClass_Out]
+    lastModified: str | None
+    warnings: list[str]
+
+class Prv_yogatreecollective_YtcScheduleClass_Out(TypedDict):
+    day: Literal["MONDAY"] | Literal["TUESDAY"] | Literal["WEDNESDAY"] | Literal["THURSDAY"] | Literal["FRIDAY"] | Literal["SATURDAY"] | Literal["SUNDAY"]
+    time: str
+    className: str
+    teacher: str
+    note: str | None
+    signUpUrl: str | None
+
+class Prv_yogatreecollective_YogatreecollectiveTeacherList_Out(TypedDict):
+    teachers: list[Prv_yogatreecollective_YtcTeacher_Out]
+    warnings: list[str]
+
+class Prv_yogatreecollective_YtcTeacher_Out(TypedDict):
+    slug: str
+    name: str
+    photoUrl: str | None
+    styles: list[str]
+    formerStudio: list[str]
+    profileUrl: str
+
+class Prv_yogatreecollective_YogatreecollectiveTeacherProfile_Out(TypedDict):
+    teacher: Prv_yogatreecollective_YtcTeacher_Out
+    bio: str | None
 
 class Prv_yorkwallcoverings_YorkWallcoveringsSearchResult_Out(TypedDict):
     sku: str
@@ -42016,6 +42199,13 @@ class Prv_att(Protocol):
         rest come back with `priced: false`. THROWS if no phone on the listing matches the name.
         """
 
+    async def getAccountBalance(self, opts: ConnectionOption | None = None, /) -> Prv_att_AttAccountBalance_Out:
+        """The signed-in caller's current AT&T account balance — amount due, due date and account
+        status — off myatt.com's account overview. CALLER-login function, declared in
+        authFunctions: pauses the run for a sign-in when the caller holds none, and throws when
+        a saved sign-in has gone dead (the site bounces to signin.att.com).
+        """
+
 class Prv_audibel(Protocol):
     """Audibel's own find-a-clinic locator — a ZIP/city/address search returning the real
     network hearing clinics nearest that point, sorted by distance, each with its full
@@ -45887,6 +46077,13 @@ class Prv_discord(Protocol):
         Throws discordInputError for a url outside the developer docs.
         """
 
+    async def searchServers(self, query: str, opts: Prv_discord_searchServers_opts_In | None = None, /) -> Prv_discord_discordServerSearch_Out:
+        """Searches Discord's public server directory (discord.com/servers) by keyword, optionally
+        inside one category ("gaming", "music", "entertainment", "education", "science & tech")
+        — each server's id, name, slug, description, badge, online and member counts, plus the
+        directory's own total. Twelve a page; pass nextOffset back as `offset` for the next.
+        """
+
     async def getInvite(self, code: str, /) -> Prv_discord_discordInvite_Out:
         """Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare
         code) to the server it opens — server id, name, description, feature flags, approximate
@@ -49198,6 +49395,22 @@ class Prv_grainger(Protocol):
         the site doesn't publish one) plus its opaque status codes for each mode, and the ACTUAL
         branch that answered the pickup half (nearest-to-point, not necessarily one the caller
         could have named). Optional `quantity` (default 1) is forwarded to the site.
+        """
+
+class Prv_grammarly(Protocol):
+    """Grammarly's own writing checker, logged out: grammar, spelling and punctuation alerts
+    with suggested fixes.
+    """
+
+    async def checkGrammar(self, args: Prv_grammarly_CheckGrammarArgs_In, /) -> Prv_grammarly_GrammarCheck_Out:
+        """Checks text with Grammarly's free checker, no account — e.g. `checkGrammar({ text: "She
+        go to school yesterday." })`. Returns `alerts`, each with `group` ("Grammar",
+        "Punctuation", "Spelling", …), `title`, the `begin`/`end` character offsets and
+        `highlightText` it covers, and `replacements` — e.g. `go` → `["went"]`. A `premium:
+        true` alert names a problem whose fix Grammarly keeps for paying users, so its
+        `replacements` is empty. Also returns `outcomeAlerts` (counts per
+        Correctness/Clarity/Engagement/Tone) and `score` (null for short text). Up to 150,000
+        characters.
         """
 
 class Prv_grandwelcome(Protocol):
@@ -56435,11 +56648,38 @@ class Prv_pushpress(Protocol):
         not know.
         """
 
+    async def listClasses(self, gym: str, date: str, endDate: str | None = None, /) -> list[Prv_pushpress_PushpressClass_Out]:
+        """Lists a gym's classes and events for one local day (YYYY-MM-DD), or a range of local
+        days ending on endDate. spotsLeft is a count (attendanceCap minus active registrations),
+        never other members' ids.
+        """
+
+    async def getClass(self, gym: str, classId: str, /) -> Prv_pushpress_PushpressClass_Out:
+        """Returns one class or event by the id listClasses returns: description, coach, location,
+        capacity and spots available. Throws a caller-fixable error for an id this gym does not
+        know.
+        """
+
+    async def listPlans(self, gym: str, /) -> list[Prv_pushpress_PushpressPlan_Out]:
+        """Lists a gym's public memberships, class packs, drop-ins and trials with price, billing
+        interval and which class types each allows.
+        """
+
 class Prv_quickbooks(Protocol):
     """QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators,
     the ProAdvisor accountant directory, the App Store, Community answers, help articles and
     service status.
     """
+
+    async def getPayrollPlans(self, /) -> list[Prv_quickbooks_QuickbooksPayrollPlan_Out]:
+        """QuickBooks Payroll bundles with monthly base price, per-employee price, current promo
+        and features
+        """
+
+    async def getPlans(self, /) -> list[Prv_quickbooks_QuickbooksPlan_Out]:
+        """QuickBooks Online plans with monthly list price, current promo price and length, users
+        and headline features
+        """
 
     async def getServiceStatus(self, /) -> Prv_quickbooks_QuickbooksServiceStatus_Out:
         """QuickBooks' current service status per product and region, and any open incident"""
@@ -58093,6 +58333,29 @@ class Prv_solostove(Protocol):
         bundle id, use listBundles to find one, or the Dream Backyard Bundle's —
         "SS27+SS22+WINDCHILL30-CHARCOAL-17AH" — to check the flow rather than asking the caller
         for one first.
+        """
+
+class Prv_soulcycle(Protocol):
+    """SoulCycle indoor cycling: find a studio, read its weekly class schedule, live bike
+    availability, instructors and series prices, and (signed in) book a bike, join a
+    waitlist, cancel and list your bookings.
+    """
+
+    async def listRegions(self, /) -> Prv_soulcycle_listRegions_return_Out:
+        """Lists SoulCycle's regions (NYC, San Francisco, London …) with each region's id and its
+        studios' ids and titles. Example: `bowmark.providers.soulcycle.listRegions()`.
+        """
+
+    async def listStudios(self, args: Prv_soulcycle_ListStudiosArgs_In | None = None, /) -> Prv_soulcycle_listStudios_return_Out:
+        """Lists the studios in one region (`regionId` from listRegions) or in every region: id,
+        slug, page URL, address, phone and coordinates. Example:
+        `bowmark.providers.soulcycle.listStudios({ regionId: 27 })`.
+        """
+
+    async def findStudio(self, args: Prv_soulcycle_FindStudioArgs_In, /) -> Prv_soulcycle_findStudio_return_Out:
+        """Finds studios from a name, a studio page URL or its slug; exact matches first, otherwise
+        every studio whose name or slug contains the query. Empty when nothing matches. Example:
+        `bowmark.providers.soulcycle.findStudio({ query: "Union Street" })`.
         """
 
 class Prv_soundcloud(Protocol):
@@ -60063,6 +60326,23 @@ class Prv_tumblr(Protocol):
         basic info.
         """
 
+class Prv_turbotax(Protocol):
+    """List TurboTax editions, compare pricing, search help articles, and find local tax
+    experts.
+    """
+
+    async def listEditions(self, /) -> list[Prv_turbotax_TurboTaxEdition_Out]:
+        """Every TurboTax online edition with its current federal and per-state price in US
+        dollars: DIY (Free Edition, Deluxe, Premium), Live Assisted (Basic, Deluxe, Premium,
+        Business) and Full Service, read from the editions page's own pricing data.
+        """
+
+    async def listTaxTools(self, /) -> list[Prv_turbotax_TurboTaxTool_Out]:
+        """TurboTax's free tax calculators (TaxCaster refund estimator, tax bracket, W-4
+        withholding, self-employed, crypto and more) with a one-line description and link for
+        each.
+        """
+
 class Prv_tweethunter(Protocol):
     """Publicly advertised Tweet Hunter features for writing, scheduling, analyzing, and
     automating an X account.
@@ -62028,6 +62308,29 @@ class Prv_yelp(Protocol):
         neighborhood. Read-only.
         """
 
+class Prv_yogatreecollective(Protocol):
+    """Yoga Tree Collective (San Francisco): the weekly class timetable, teacher directory and
+    retreats; each class books on its teacher's own platform.
+    """
+
+    async def getSchedule(self, /) -> Prv_yogatreecollective_YogatreecollectiveSchedule_Out:
+        """Reads the collective's weekly class timetable off /class-schedule: one row per class
+        with day, time, class name, teacher, any partner note, and the SIGN UP link. Also
+        returns the page's sitemap last-modified date, since the timetable itself carries no
+        dates.
+        """
+
+    async def listTeachers(self, /) -> Prv_yogatreecollective_YogatreecollectiveTeacherList_Out:
+        """Lists the collective's whole teacher directory off /teacher-profile?format=json: name,
+        slug, photo, styles taught and former Yoga Tree studio. Walks every page of the
+        collection.
+        """
+
+    async def getTeacher(self, slug: str, /) -> Prv_yogatreecollective_YogatreecollectiveTeacherProfile_Out:
+        """Gets one teacher's profile by slug (read off listTeachers().teachers[].slug): their
+        photo, styles, former studio and bio text.
+        """
+
 class Prv_yorkwallcoverings(Protocol):
     """Reads York Wallcoverings' public wallpaper/mural storefront (yorkwallcoverings.com) —
     search the catalog by keyword, read a product's live price and stock, and get the
@@ -62851,6 +63154,7 @@ class BowmarkProviders(Protocol):
     gostoreit: Prv_gostoreit
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger
+    grammarly: Prv_grammarly
     grandwelcome: Prv_grandwelcome
     greatlakesbrewing: Prv_greatlakesbrewing
     greatlakesdentaltech: Prv_greatlakesdentaltech
@@ -63094,6 +63398,7 @@ class BowmarkProviders(Protocol):
     snapchat: Prv_snapchat
     solidcore: Prv_solidcore
     solostove: Prv_solostove
+    soulcycle: Prv_soulcycle
     soundcloud: Prv_soundcloud
     spectrum: Prv_spectrum
     speedrun: Prv_speedrun
@@ -63146,6 +63451,7 @@ class BowmarkProviders(Protocol):
     trustpilot: Prv_trustpilot
     tryalma_com: Prv_tryalma_com
     tumblr: Prv_tumblr
+    turbotax: Prv_turbotax
     tweethunter: Prv_tweethunter
     twiddy: Prv_twiddy
     twitch: Prv_twitch
@@ -63199,6 +63505,7 @@ class BowmarkProviders(Protocol):
     yahoo_sports: Prv_yahoo_sports
     ycombinator: Prv_ycombinator
     yelp: Prv_yelp
+    yogatreecollective: Prv_yogatreecollective
     yorkwallcoverings: Prv_yorkwallcoverings
     yourarborhome: Prv_yourarborhome
     youtube: Prv_youtube
