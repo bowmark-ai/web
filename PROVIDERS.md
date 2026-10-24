@@ -4841,7 +4841,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tock.joinNotifyList` | exploretock.com | Join the notify (waitlist) for a full experience at a venue. | ⚪ |
 | `tock.leaveNotifyList` | exploretock.com | Leave (cancel) a waitlist request. | ⚪ |
 | `tock.listCities` | exploretock.com | List all cities where Tock venues operate. | ⚪ |
-| `tock.listExperiences` | exploretock.com | List all experiences (timed slots) available at a specific venue. | ⚪ |
+| `tock.listExperiences` | exploretock.com | List all experiences (timed slots) available at a specific venue. | 🟢 |
 | `tock.listGiftCards` | exploretock.com | List available gift cards at a venue. | ⚪ |
 | `tock.listMyGiftCards` | exploretock.com | List gift cards owned by the signed-in user. | ⚪ |
 | `tock.listMyNotifyRequests` | exploretock.com | List signed-in user's active waitlist requests. | ⚪ |
@@ -5183,15 +5183,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.trackOrder` | walmart.com | Looks up shipment/delivery status for a guest order by order number plus the email… | ⚪ |
 | `walmart.updateCartItem` | walmart.com | Changes the quantity of an item already in the cart. | ⚪ |
 | `walmart.updateProfile` | walmart.com | Edits the signed-in shopper's profile name. | ⚪ |
-| `washingtonpost.getArticle` | washingtonpost.com | Gets one article's own headline, byline, publish date, section and lede. | ⚪ |
+| `washingtonpost.getArticle` | washingtonpost.com | Gets one article's own headline, byline, publish date, section and lede. | 🟢 |
 | `washingtonpost.getArticleFullText` | washingtonpost.com | Gets the full text of a subscriber-only article using the CALLER's own Washington Post… | ⚪ |
 | `washingtonpost.getLiveBlog` | washingtonpost.com | Gets a live-coverage page's own running updates (used for elections, breaking news). | ⚪ |
 | `washingtonpost.getNewsletter` | washingtonpost.com | Gets one newsletter's own catalog entry (title, description, frequency). | ⚪ |
 | `washingtonpost.getPodcast` | washingtonpost.com | Gets one podcast's own details — name, description and feed url. | ⚪ |
 | `washingtonpost.getTopicArticles` | washingtonpost.com | Gets a topic page's own name and article grid. | ⚪ |
-| `washingtonpost.getWriter` | washingtonpost.com | Gets a Washington Post writer's own byline page — name, job title/desk, bio and… | ⚪ |
-| `washingtonpost.listArticles` | washingtonpost.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | ⚪ |
-| `washingtonpost.listArticlesByWriter` | washingtonpost.com | Lists a writer's own most recent articles off their byline page, newest first. | ⚪ |
+| `washingtonpost.getWriter` | washingtonpost.com | Gets a Washington Post writer's own byline page — name, job title/desk, bio and… | 🟢 |
+| `washingtonpost.listArticles` | washingtonpost.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | 🟢 |
+| `washingtonpost.listArticlesByWriter` | washingtonpost.com | Lists a writer's own most recent articles off their byline page, newest first. | 🟢 |
 | `washingtonpost.listEpisodes` | washingtonpost.com | Lists a podcast's own episodes, newest first. | ⚪ |
 | `washingtonpost.listNewsletters` | washingtonpost.com | Lists the site's own email newsletters off its newsletter catalog page. | ⚪ |
 | `washingtonpost.listPodcasts` | washingtonpost.com | Lists the site's own podcasts off its podcast catalog page. | ⚪ |
@@ -5248,7 +5248,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellnessliving.getClassTypes` | wellnessliving.com | Lists all available class types (yoga, pilates, etc) | ⚪ |
 | `wellnessliving.getDiscounts` | wellnessliving.com | Lists available discounts for the customer | ⚪ |
 | `wellnessliving.getInstructors` | wellnessliving.com | Lists all instructors across studios | ⚪ |
-| `wellnessliving.getLocationDetails` | wellnessliving.com | Reads detailed information for one studio location including hours, address, amenities | ⚪ |
+| `wellnessliving.getLocationDetails` | wellnessliving.com | Reads detailed information for one studio location including hours, address, amenities | 🟢 |
 | `wellnessliving.getLocationInfo` | wellnessliving.com | Gets hours of operation, contact info, and general information for a location | ⚪ |
 | `wellnessliving.getLocationSchedule` | wellnessliving.com | Gets the full weekly schedule for a specific studio location | ⚪ |
 | `wellnessliving.getMyBookings` | wellnessliving.com | Lists the signed-in customer's upcoming and past bookings | ⚪ |
@@ -5266,7 +5266,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellnessliving.leaveWaitlist` | wellnessliving.com | Removes the customer from a class waitlist | ⚪ |
 | `wellnessliving.listKnownBusinesses` | wellnessliving.com | Lists the WellnessLiving businesses this provider already has a confirmed scheduleUrl… | 🟢 |
 | `wellnessliving.listLocations` | wellnessliving.com | Lists all studio locations available on the platform | 🟢 |
-| `wellnessliving.listScheduleClasses` | wellnessliving.com | Lists available classes across studios by date and location | ⚪ |
+| `wellnessliving.listScheduleClasses` | wellnessliving.com | Lists available classes across studios by date and location | 🟢 |
 | `wellnessliving.purchasePackage` | wellnessliving.com | Purchases a class package; requires payment | ⚪ |
 | `wellnessliving.searchClasses` | wellnessliving.com | Searches classes by class type, instructor, or location filters | ⚪ |
 | `wellnessliving.updateProfile` | wellnessliving.com | Updates the customer's profile information | ⚪ |
