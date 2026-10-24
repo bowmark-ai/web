@@ -55,6 +55,7 @@ archipelago.gg — archipelago: getClientRelease, getGameOptions
 archive.org — archive_org: checkAvailability, checkLendingAvailability, downloadFile, getItem, getSnapshot, listSnapshots, searchItems, searchScholar
 arketa.co — arketa: bookClass, bookPrivateSession, buyPricingOption, cancelBooking, findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listOnDemandVideos, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters, updateMyProfile
 artpix3d.com — artpix3d: getSizePricing, listPhotoCrystalShapes, listShapes
+arxiv.org — arxiv: getPaper, search
 ashbyhq.com — ashby: listJobs
 ashleyfurniture.com — ashleyfurniture: checkStock, findStore, getProduct, search, trackOrder
 asppoolco.com — asppoolco: findLocationByZip, listLocations

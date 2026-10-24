@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5674 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5676 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -311,6 +311,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟡 |
 | `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟡 |
 | `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟡 |
+| `arxiv.getPaper` | arxiv.org | Reads one arXiv paper by its id or abs/pdf url — title, authors, abstract, categories… | 🟢 |
+| `arxiv.search` | arxiv.org | Searches arXiv preprints by keyword, author, title or category through arXiv's own… | 🟢 |
 | `ashby.listJobs` | ashbyhq.com | Lists every listed job on one company's Ashby board (jobs.ashbyhq.com/{name}) — title… | 🟢 |
 | `ashleyfurniture.checkStock` | ashleyfurniture.com | Answers whether a product (by SKU) is available for delivery to a ZIP — the function… | 🟡 |
 | `ashleyfurniture.findStore` | ashleyfurniture.com | Finds nearby Ashley HomeStore locations for a ZIP or address — hours, phone, and… | 🟢 |
@@ -1387,7 +1389,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.getUserFavourites` | deviantart.com | Lists the deviations an artist has favourited — their public 'Favourites' collections… | ⚪ |
 | `deviantart.getUserGallery` | deviantart.com | Lists an artist's gallery — every deviation they posted, newest first, or one gallery… | 🟢 |
 | `deviantart.getUserPosts` | deviantart.com | Lists an artist's posts — journals, status updates and polls from their Posts tab —… | ⚪ |
-| `deviantart.getUserProfile` | deviantart.com | Reads an artist's public profile — display name, avatar, tagline, country, website… | 🟡 |
+| `deviantart.getUserProfile` | deviantart.com | Reads an artist's public profile — display name, avatar, tagline, country, website… | 🟢 |
 | `deviantart.getWatchFeed` | deviantart.com | Reads the signed-in caller's Watch feed — the newest deviations and posts from the… | ⚪ |
 | `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | 🟢 |
 | `deviantart.listNotes` | deviantart.com | Reads the signed-in caller's Notes inbox — each note's sender, subject, time and body. | ⚪ |
@@ -5041,7 +5043,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟡 |
-| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given a video URL or ID — returning title, description… | ⚪ |
+| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given the url a listVideos row returns — returning its… | 🔴 |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
 | `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |
