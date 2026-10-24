@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5367 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5428 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1401,6 +1401,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟢 |
 | `dillards.search` | dillards.com | Searches dillards.com's catalog for a keyword and returns the matching products the… | 🟢 |
 | `dillards.searchRegistry` | dillards.com | Searches Dillard's wedding/gift registry (dillards.com/registry) — a distinctive… | 🟢 |
+| `direct_book.cancelReservation` | direct-book.com | Cancels a guest's booking by its reservation code, where the hotel allows guests to… | ⚪ |
+| `direct_book.checkAvailability` | direct-book.com | Checks which room types a hotel has free for a check-in and check-out date and party… | ⚪ |
+| `direct_book.checkPromoCode` | direct-book.com | Checks whether a promo code is valid at a hotel for given dates and returns what it… | ⚪ |
+| `direct_book.completeBooking` | direct-book.com | Completes a booking with the guest's details and card. | ⚪ |
+| `direct_book.findProperty` | direct-book.com | Finds a SiteMinder Book Direct hotel from what a caller has: its booking link… | ⚪ |
+| `direct_book.getPolicies` | direct-book.com | Returns a hotel's booking policies: cancellation, check-in and check-out, child and… | ⚪ |
+| `direct_book.getProperty` | direct-book.com | Returns one hotel's profile: name, description, star rating, address and map link… | ⚪ |
+| `direct_book.getReservation` | direct-book.com | Reads a guest's existing booking from its reservation code — dates, rooms, guest name… | ⚪ |
+| `direct_book.getRoomRates` | direct-book.com | Returns every rate plan for one room type on given dates — name, what it includes… | ⚪ |
+| `direct_book.initiateBooking` | direct-book.com | Starts a booking for chosen dates, room and rate: validates the cart with the hotel… | ⚪ |
+| `direct_book.listExtras` | direct-book.com | Lists the add-ons a hotel sells with a stay — breakfast, parking, transfers — with… | ⚪ |
+| `direct_book.listRoomTypes` | direct-book.com | Lists a hotel's room types with their ids, names, category (room or suite), beds… | ⚪ |
+| `direct_book.sendEnquiry` | direct-book.com | Sends a question to a hotel through its booking page's contact form. | ⚪ |
 | `discord.acceptFriendRequest` | discord.com | Accepts a pending incoming friend request. | ⚪ |
 | `discord.addReaction` | discord.com | Adds an emoji reaction to a message as the caller. | ⚪ |
 | `discord.blockUser` | discord.com | Blocks a user. | ⚪ |
@@ -2045,8 +2058,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.getComments` | foxnews.com | Reads the reader comments under a Fox News article — each comment's text, author… | ⚪ |
 | `foxnews.getElectionResults` | foxnews.com | Reads Fox News's results for one race — each candidate's votes and share, percent of… | ⚪ |
 | `foxnews.getLiveBlog` | foxnews.com | Reads one Fox News live-coverage page — its headline and every update posted to it… | ⚪ |
-| `foxnews.getShow` | foxnews.com | Reads one Fox News Channel show — description, hosts, genre and its latest clips —… | ⚪ |
-| `foxnews.getTopStories` | foxnews.com | Returns what Fox News is leading with right now — the homepage's lead story, the top… | ⚪ |
+| `foxnews.getShow` | foxnews.com | Reads one Fox News Channel show — description, hosts, genre and its latest clips —… | 🟢 |
+| `foxnews.getTopStories` | foxnews.com | Returns what Fox News is leading with right now — the homepage's lead story and the… | 🟢 |
 | `foxnews.getVideo` | foxnews.com | Reads one Fox News video clip — title, description, duration, upload date, thumbnail… | ⚪ |
 | `foxnews.listAuthorArticles` | foxnews.com | Lists every story by one Fox News author, newest first with paging, past the handful… | ⚪ |
 | `foxnews.listElectionRaces` | foxnews.com | Lists the races Fox News's Elections Center covers for an election (Senate, House… | ⚪ |
@@ -2057,7 +2070,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.listPodcasts` | foxnews.com | Lists the Fox News podcasts (Fox News Talk, Perino on Politics, The Brian Kilmeade… | ⚪ |
 | `foxnews.listSectionArticles` | foxnews.com | Lists the latest stories in one Fox News section or topic ("politics"… | 🟢 |
 | `foxnews.listSections` | foxnews.com | Lists Fox News's sections and topics (Politics, U.S., World, Opinion, Media… | 🟢 |
-| `foxnews.listShows` | foxnews.com | Lists the Fox News Channel shows (Hannity, The Five, Fox & Friends, Special Report…)… | ⚪ |
+| `foxnews.listShows` | foxnews.com | Lists the Fox News Channel shows (Hannity, The Five, Fox & Friends, Special Report…)… | 🟢 |
 | `foxnews.listVideoPlaylists` | foxnews.com | Lists the video playlists Fox News groups its clips into (by show and by topic) with… | ⚪ |
 | `foxnews.listVideos` | foxnews.com | Lists the clips in one Fox News video playlist, newest first with paging — each clip's… | ⚪ |
 | `foxnews.postComment` | foxnews.com | Posts a comment under a Fox News article, or a reply to another comment, as the… | ⚪ |
@@ -4336,6 +4349,25 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.listNewReleases` | open.spotify.com | Get new release recommendations. | ⚪ |
 | `spotify.listPlaylistTracks` | open.spotify.com | Get all tracks from a playlist. | ⚪ |
 | `spotify.search` | open.spotify.com | Searches Spotify's catalog for tracks, albums, artists, playlists, podcasts or… | 🟢 |
+| `square_online.addToCart` | square.site | Creates a guest cart (or adds to one) with menu items, variations, modifiers and… | ⚪ |
+| `square_online.getCheckoutTotal` | square.site | Opens checkout for a cart and returns the order total, taxes, fees and tip options… | ⚪ |
+| `square_online.getDeliveryTimes` | square.site | Returns the earliest delivery time and delivery slots per day at one location, where… | ⚪ |
+| `square_online.getItemAvailability` | square.site | Says which menu items are in stock or sold out at one location, by item ids or for a… | ⚪ |
+| `square_online.getLoyaltyBalance` | square.site | Looks up the caller's own loyalty points at a store by their phone number. | ⚪ |
+| `square_online.getLoyaltyProgram` | square.site | Returns a store's loyalty program: whether it is active, and each reward tier's points… | ⚪ |
+| `square_online.getMenuItem` | square.site | Returns one menu item in full: variations (SKUs) with prices, modifier groups and… | ⚪ |
+| `square_online.getMyAccount` | square.site | Returns the signed-in buyer's Square Online account: name, phone, email, saved… | ⚪ |
+| `square_online.getPickupTimes` | square.site | Returns the earliest pickup time and the available pickup slots per day at one… | ⚪ |
+| `square_online.getSite` | square.site | Resolves a Square Online storefront from a URL the caller has (<name>.square.site or… | ⚪ |
+| `square_online.listCategories` | square.site | Lists the menu's categories (sections) with their ids, names and storefront links. | ⚪ |
+| `square_online.listLocations` | square.site | Lists a storefront's locations: address, phone, description, pickup and delivery hours… | ⚪ |
+| `square_online.listMenuItems` | square.site | Lists or searches a storefront's menu items with name, description, price range… | ⚪ |
+| `square_online.listMyOrders` | square.site | Lists the signed-in buyer's past orders at this store, for reordering. | ⚪ |
+| `square_online.listMySubscriptions` | square.site | Lists the signed-in buyer's subscriptions at this store and their invoices. | ⚪ |
+| `square_online.listSubscriptionPlans` | square.site | Lists the subscription plans a store sells (e.g. a weekly meal plan). | ⚪ |
+| `square_online.placeOrder` | square.site | Pays for and places an order. | ⚪ |
+| `square_online.setPickupTime` | square.site | Sets or validates the pickup (or delivery) time on a cart before checkout. | ⚪ |
+| `square_online.submitContactForm` | square.site | Sends a message through a storefront's contact form. | ⚪ |
 | `squire.acceptWaitlistOffer` | getsquire.com | Accepts one offered waitlist slot, turning it into a booked appointment. | ⚪ |
 | `squire.bookAppointment` | getsquire.com | Books an appointment for the signed-in caller: a service (and add-ons) with a chosen… | ⚪ |
 | `squire.buyGiftCard` | getsquire.com | Buys a shop gift card for someone, for a chosen amount. | ⚪ |
@@ -4428,6 +4460,35 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `stubhub.listFavorites` | stubhub.com | The signed-in caller's followed performers, teams and venues — the StubHub app… | ⚪ |
 | `stubhub.listMyOrders` | stubhub.com | The signed-in caller's own order history — tickets bought and sold, each with its… | ⚪ |
 | `stubhub.search` | stubhub.com | Runs the site's own search for a performer, team, event or venue name and returns the… | 🟢 |
+| `styleseat.addFavorite` | styleseat.com | Saves a pro to the signed-in caller's favorites. | ⚪ |
+| `styleseat.bookAppointment` | styleseat.com | Books an appointment with a pro for the signed-in caller: services at a date and start… | ⚪ |
+| `styleseat.buyServicePackage` | styleseat.com | Buys a prepaid package of a pro's services. | ⚪ |
+| `styleseat.cancelAppointment` | styleseat.com | Cancels one of the signed-in caller's upcoming appointments. | ⚪ |
+| `styleseat.cancelAppointmentByLink` | styleseat.com | Cancels an appointment from the manage link in StyleSeat's confirmation message, with… | ⚪ |
+| `styleseat.getAppointmentByLink` | styleseat.com | Reads an appointment from the manage link StyleSeat sends in its confirmation email or… | ⚪ |
+| `styleseat.getAvailability` | styleseat.com | Lists a pro's open start times for one or more of their services over a date range, as… | ⚪ |
+| `styleseat.getBookingQuote` | styleseat.com | Prices a prospective appointment before booking -- services at a date and start time… | ⚪ |
+| `styleseat.getGallery` | styleseat.com | Lists the photos (and videos) of a pro's or a salon's work, paged. | ⚪ |
+| `styleseat.getMyAppointment` | styleseat.com | Gets one of the signed-in caller's appointments in full, with its status details… | ⚪ |
+| `styleseat.getMyProfile` | styleseat.com | Reads the signed-in caller's StyleSeat client profile: name, email, phone, photo and… | ⚪ |
+| `styleseat.getOffers` | styleseat.com | Lists what a pro is offering on top of list prices: active promotions and discounts… | ⚪ |
+| `styleseat.getProfessional` | styleseat.com | Gets one StyleSeat pro's public profile from a vanity name, profile URL or id: name… | ⚪ |
+| `styleseat.getReviews` | styleseat.com | Lists a pro's client reviews, newest first and paged, with stars, review text, photos… | ⚪ |
+| `styleseat.getSalon` | styleseat.com | Gets a salon page on StyleSeat -- the salon's details plus every pro who works there… | ⚪ |
+| `styleseat.joinWaitlist` | styleseat.com | Puts the signed-in caller on a pro's waitlist for chosen services, with a note, when… | ⚪ |
+| `styleseat.leaveReview` | styleseat.com | Leaves a star rating and review for a pro after the signed-in caller's completed… | ⚪ |
+| `styleseat.listClassTimes` | styleseat.com | Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons)… | ⚪ |
+| `styleseat.listFavorites` | styleseat.com | Lists the pros the signed-in caller has saved as favorites. | ⚪ |
+| `styleseat.listMyAppointments` | styleseat.com | Lists the signed-in caller's upcoming and past StyleSeat appointments: pro, services… | ⚪ |
+| `styleseat.listMyDiscounts` | styleseat.com | Lists the signed-in caller's saved discount codes and loyalty rewards they have earned… | ⚪ |
+| `styleseat.listServiceCategories` | styleseat.com | Lists StyleSeat's service categories and the services under each (Braids > Knotless… | ⚪ |
+| `styleseat.payForAppointment` | styleseat.com | Pays an appointment's deposit, prepayment or balance, or saves a card for it. | ⚪ |
+| `styleseat.removeFavorite` | styleseat.com | Removes a pro from the signed-in caller's favorites. | ⚪ |
+| `styleseat.rescheduleAppointment` | styleseat.com | Moves one of the signed-in caller's appointments to a new date and start time with the… | ⚪ |
+| `styleseat.resolveLocation` | styleseat.com | Turns a place a caller typed ("Brooklyn, NY", a ZIP code, an address) into the… | ⚪ |
+| `styleseat.searchProfessionals` | styleseat.com | Searches StyleSeat for hair stylists, barbers, braiders, nail techs, lash and brow… | ⚪ |
+| `styleseat.sendMessageToProfessional` | styleseat.com | Opens a chat with a pro and sends the signed-in caller's message (a question about a… | ⚪ |
+| `styleseat.updateMyProfile` | styleseat.com | Changes the signed-in caller's profile details: name, phone, profile photo. | ⚪ |
 | `suitsupply.getProduct` | suitsupply.com | Reads one product page's stock check: every size variant with in-stock flag, max… | 🟢 |
 | `suitsupply.listCategory` | suitsupply.com | Lists one men's category grid (suits, jackets, coats, knitwear, shirts, trousers… | 🟢 |
 | `suitsupply.search` | suitsupply.com | Keyword search of Suitsupply's US men's clothing store — suits, sweaters/knitwear… | 🟢 |

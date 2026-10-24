@@ -219,6 +219,7 @@ dhl.com — dhl: getQuote
 dice.com — dice: getCompany, getJob, listCompanyJobs, searchCompanies, searchJobs
 dickssportinggoods.com — dickssportinggoods: checkStock, findStores, getProduct, getWeeklyAd, search
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
+direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, completeBooking, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listExtras, listRoomTypes, sendEnquiry
 discord.com — discord: acceptFriendRequest, addReaction, blockUser, createInvite, createServer, createThread, deleteMessage, editMessage, getAnnouncement, getApp, getDocPage, getGame, getInvite, getMyProfile, getServer, getUserProfile, joinServer, leaveServer, listAppCategories, listBlogPosts, listChannels, listDirectMessages, listDocPages, listFeaturedApps, listFriendRequests, listFriends, listMentions, listMessages, listMyServers, listPinnedMessages, listQuests, listServerAnnouncements, listServerCategories, listServerEvents, listServers, listSimilarApps, listThreads, listTrendingGames, removeFriend, removeReaction, searchApps, searchMessages, searchServerMembers, searchServers, sendDirectMessage, sendFriendRequest, sendMessage, setAvatar, setStatus, updateProfile
 discounttire.com — discounttire: checkStock, findStores, getAppointmentAvailability, getOrderStatus, getProduct, getProductReviews, getPromotions, getStore, getTreadwellRecommendation, getVehicleFitment, searchPackages, searchTiresBySize, searchTiresByVehicle, searchWheelsBySize, searchWheelsByVehicle
 disneyworld.disney.go.com — disney: getTicketPrice
@@ -583,6 +584,7 @@ speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, listTeams, setFantasyLineup
 spotapps.co — spotapps: applyForJob, bookReservation, cancelReservation, checkAvailability, findRestaurant, getCateringOptions, getMenu, getOnlineOrderMenu, getPrivatePartyOptions, getReservationSettings, joinMailingList, listJobs, requestCatering, requestPrivateParty, startOnlineOrder
+square.site — square_online: addToCart, getCheckoutTotal, getDeliveryTimes, getItemAvailability, getLoyaltyBalance, getLoyaltyProgram, getMenuItem, getMyAccount, getPickupTimes, getSite, listCategories, listLocations, listMenuItems, listMyOrders, listMySubscriptions, listSubscriptionPlans, placeOrder, setPickupTime, submitContactForm
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments
 statefarm.com — statefarm: findAgent, getAgent, getAutoQuote, getBoatQuote, getBusinessQuote, getCondoQuote, getDisabilityQuote, getHealthQuote, getHomeQuote, getLifeQuote, getManufacturedHomeQuote, getMotorcycleQuote, getPersonalArticlesQuote, getPetQuote, getRecreationalVehicleQuote, getRentalPropertyQuote, getRentersQuote, getUmbrellaQuote
@@ -590,6 +592,7 @@ steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievemen
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
+styleseat.com — styleseat: addFavorite, bookAppointment, buyServicePackage, cancelAppointment, cancelAppointmentByLink, getAppointmentByLink, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, payForAppointment, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
 sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches, getSaunaFinderQuestions
