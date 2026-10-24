@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5676 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5678 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1159,12 +1159,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubready.getClassPoints` | clubready.com | Returns the signed-in member's ClassPoints rewards balance, recent earning activity… | ⚪ |
 | `clubready.getMyMembership` | clubready.com | Returns the signed-in member's membership and class credits at their home studio —… | ⚪ |
 | `clubready.getMyProfile` | clubready.com | Returns the signed-in member's own profile: name, email, phone, home studio. | ⚪ |
-| `clubready.getStudio` | clubready.com | Returns one studio by its API id ("cyclebar-berkeley") or by its brand-site page URL… | ⚪ |
+| `clubready.getStudio` | clubready.com | Returns one studio by its API id ("cyclebar-berkeley") or by its brand-site page URL… | 🟢 |
 | `clubready.getWorkoutStats` | clubready.com | Returns the signed-in member's own workout history and performance numbers — CycleBar… | ⚪ |
 | `clubready.joinWaitlist` | clubready.com | Puts the signed-in member on a full class's waitlist. | ⚪ |
 | `clubready.listBrands` | clubready.com | Lists every studio brand on the Xponential/ClubReady member platform — CycleBar, Club… | 🟢 |
 | `clubready.listClassCategories` | clubready.com | Lists a brand's class categories used to filter a schedule (Xpress, Classic… | ⚪ |
-| `clubready.listClasses` | clubready.com | Lists a studio's class schedule for a date or date range — each class's id, title… | ⚪ |
+| `clubready.listClasses` | clubready.com | Lists a studio's class schedule for a date or date range — each class's id, title… | 🟢 |
 | `clubready.listClassTypes` | clubready.com | Lists every class type a brand runs (CycleBar Classic, Xpress, Pure Barre Classic… | ⚪ |
 | `clubready.listInstructors` | clubready.com | Lists the instructors teaching at a studio, by name, drawn from the classes on its… | ⚪ |
 | `clubready.listInvoices` | clubready.com | Lists the signed-in member's past purchases and invoices — what they paid for which… | ⚪ |
@@ -1808,6 +1808,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getPagePosts` | facebook.com | List a Page's newest public posts, logged out. | 🟢 |
 | `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and follower count, logged… | 🟢 |
 | `facebook.getPhotoAlbum` | facebook.com | Read a photo album's details — title, creation date, photo count and its photos. | 🟢 |
+| `facebook.getPost` | facebook.com | Read one public post from its link logged out — author, text, rounded reaction and… | 🟢 |
 | `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings as rendered on Facebook's own Privacy settings page. | 🟢 |
 | `facebook.getVideo` | facebook.com | Read a public video's details — title, description, play count, comment count — logged… | 🟢 |
 | `facebook.joinGroup` | facebook.com | Request to join a Group by its id or url slug. | 🟢 |
@@ -1816,6 +1817,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.listEvents` | facebook.com | List upcoming events the caller is invited to or interested in. | 🟢 |
 | `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | 🟢 |
 | `facebook.listNotifications` | facebook.com | List the caller's recent notifications — friend requests, reactions, comments, mentions. | 🟢 |
+| `facebook.listPageEvents` | facebook.com | List a public Page's own events logged out — name, start time, place and link per event. | 🟢 |
 | `facebook.listPhotos` | facebook.com | List photos posted by a Page or person, newest first. | 🟢 |
 | `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | 🟢 |
 | `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | 🟢 |
@@ -4341,13 +4343,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spectrum.getBillingHistory` | spectrum.com | The signed-in caller's past Spectrum bills: period, amount and payment status. | ⚪ |
 | `spectrum.getChannelLineup` | spectrum.com | The channel lineup on spectrum.com/cable-tv/channel-lineup — which channels ship in… | ⚪ |
 | `spectrum.getEquipmentStatus` | spectrum.com | The signed-in caller's modem/router and any DVR/receiver status (online, offline, in… | ⚪ |
-| `spectrum.getInternetPlanDetails` | spectrum.com | One internet plan's own page (e.g. spectrum.com/internet/plans/internet-gig/1-gig)… | ⚪ |
+| `spectrum.getInternetPlanDetails` | spectrum.com | One Gig-tier internet plan's own detail page at… | 🟢 |
 | `spectrum.getUsageSummary` | spectrum.com | The signed-in caller's internet and mobile data usage for the current billing period… | ⚪ |
 | `spectrum.listInternetPlans` | spectrum.com | Every residential internet-only plan Spectrum advertises on… | 🟢 |
 | `spectrum.listMobileDeals` | spectrum.com | Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals… | ⚪ |
 | `spectrum.listMobilePlans` | spectrum.com | Every Spectrum Mobile plan on spectrum.com/mobile/plans — plan name, data allowance… | ⚪ |
 | `spectrum.listTvAddOns` | spectrum.com | Every premium channel and add-on package Spectrum advertises on… | 🟢 |
-| `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, channel count… | ⚪ |
+| `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, the page's… | 🟢 |
 | `spectrum.payBill` | spectrum.com | Pay the signed-in caller's Spectrum bill using a payment method already on the account. | ⚪ |
 | `spectrum.scheduleServiceAppointment` | spectrum.com | Book a technician visit for the signed-in caller's account, from spectrum.net's… | ⚪ |
 | `spectrum.updateWifiNetwork` | spectrum.com | Change the signed-in caller's home WiFi network name (SSID) or password, from… | ⚪ |
