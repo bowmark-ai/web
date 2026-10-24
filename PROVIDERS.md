@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5615 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5624 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -5456,6 +5456,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.updateProfile` | x.com | Edit the signed-in account's own profile — name, bio, location, website. | ⚪ |
 | `x.uploadProfilePicture` | x.com | Change the signed-in account's own profile picture. | ⚪ |
 | `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts, scrolling until `limit`… | 🟢 |
+| `xola.bookExperience` | xola.com | Books a session for a party with the lead traveler's name, email and phone, completing… | ⚪ |
+| `xola.findSeller` | xola.com | Finds the Xola seller (the tour operator) behind an operator's own website or a… | ⚪ |
+| `xola.getAvailability` | xola.com | Returns an experience's open sessions over a date range: each date and start time… | ⚪ |
+| `xola.getExperience` | xola.com | Returns one experience's full listing: description, what is included, duration… | ⚪ |
+| `xola.getPriceQuote` | xola.com | Prices a party for one session -- how many of each demographic, add-ons and a coupon… | ⚪ |
+| `xola.joinWaitlist` | xola.com | Adds a traveler to the waitlist for a sold-out session. | ⚪ |
+| `xola.listExperiences` | xola.com | Lists one seller's bookable experiences -- id, name, short description, duration… | ⚪ |
+| `xola.listPackagesAndCombos` | xola.com | Lists a seller's packages, combos and memberships -- multi-experience bundles with… | ⚪ |
+| `xola.listWaivers` | xola.com | Returns the waiver form a seller requires for an experience, with its fields. | ⚪ |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
 | `yahoo_finance.addToWatchlist` | finance.yahoo.com | Adds a ticker to one of the signed-in viewer's watchlists — for a caller who wants to… | 🟢 |
