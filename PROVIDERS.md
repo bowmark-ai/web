@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5447 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5476 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4189,6 +4189,35 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shopify.searchProducts` | shopify.com (49870 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
+| `slice.addMyAddress` | slicelife.com | Saves a new delivery address to the signed-in caller's Slice account. | ⚪ |
+| `slice.addPaymentMethod` | slicelife.com | Saves a new card or PayPal account to the caller's Slice account. | ⚪ |
+| `slice.checkDelivery` | slicelife.com | Checks whether a pizzeria delivers to an address and, if it does, the delivery fee… | ⚪ |
+| `slice.getDeliveryEstimate` | slicelife.com | Gets the delivery time and fee a third-party courier (DoorDash Drive and similar)… | ⚪ |
+| `slice.getHours` | slicelife.com | Gets when a pizzeria takes delivery and pickup orders over the coming days, as… | ⚪ |
+| `slice.getLoyaltyProgram` | slicelife.com | Gets a pizzeria's Slice rewards program, if it runs one: points per dollar and the… | ⚪ |
+| `slice.getMenu` | slicelife.com | Gets a pizzeria's full menu: categories, items with descriptions, photos and… | ⚪ |
+| `slice.getMenuItemOptions` | slicelife.com | Gets the choices for one menu item and size: required and optional add-on groups… | ⚪ |
+| `slice.getMyAccount` | slicelife.com | Gets the signed-in caller's Slice profile: name, email, phone, marketing preferences… | ⚪ |
+| `slice.getMyLoyaltyPoints` | slicelife.com | Gets the signed-in caller's rewards points and progress at one pizzeria. | ⚪ |
+| `slice.getMyOrder` | slicelife.com | Gets one of the signed-in caller's orders in full: items with choices, receipt… | ⚪ |
+| `slice.getPizzeria` | slicelife.com | Gets one pizzeria's details from its Slice URL, web slug or shop id: name, address and… | ⚪ |
+| `slice.getRecommendedAddOns` | slicelife.com | Gets the add-ons a pizzeria suggests for what is already in the cart ("add garlic… | ⚪ |
+| `slice.getReviews` | slicelife.com | Lists a pizzeria's customer reviews, newest first and paged -- star rating, text, date… | ⚪ |
+| `slice.listMyAddresses` | slicelife.com | Lists the signed-in caller's saved delivery addresses, with the address id the other… | ⚪ |
+| `slice.listMyOrders` | slicelife.com | Lists the signed-in caller's past Slice orders, newest first, optionally for one… | ⚪ |
+| `slice.listMyPaymentMethods` | slicelife.com | Lists the cards and wallets saved on the signed-in caller's Slice account (brand, last… | ⚪ |
+| `slice.listPizzeriasInCity` | slicelife.com | Lists the Slice pizzerias in a city ("Brooklyn, NY"), the site's city pages: name… | ⚪ |
+| `slice.listRecentlyOrderedItems` | slicelife.com | Lists the items the signed-in caller has ordered before from one pizzeria, for a quick… | ⚪ |
+| `slice.placeOrder` | slicelife.com | Places an order with a pizzeria for delivery or pickup. | ⚪ |
+| `slice.priceCart` | slicelife.com | Prices an order before checkout -- items with sizes and add-on choices, delivery or… | ⚪ |
+| `slice.removeMyAddress` | slicelife.com | Deletes one of the signed-in caller's saved delivery addresses. | ⚪ |
+| `slice.removeMyPaymentMethod` | slicelife.com | Removes a saved card from the signed-in caller's Slice account. | ⚪ |
+| `slice.resolveAddress` | slicelife.com | Turns an address a caller typed ("8658 Mentor Ave, Mentor, OH") into Slice's own… | ⚪ |
+| `slice.searchPizzerias` | slicelife.com | Finds the Slice pizzerias that deliver to an address (or are near it, for pickup)… | ⚪ |
+| `slice.trackOrder` | slicelife.com | Tracks an order from the order id in its confirmation link: status (received, being… | ⚪ |
+| `slice.updateMyProfile` | slicelife.com | Updates the signed-in caller's name or phone number on their Slice account. | ⚪ |
+| `slice.updateNotificationPreferences` | slicelife.com | Turns the signed-in caller's Slice marketing email and text messages on or off. | ⚪ |
+| `slice.validatePromoCode` | slicelife.com | Checks whether a promo code works at a pizzeria for a given order, and what it takes… | ⚪ |
 | `smartrecruiters.getJob` | smartrecruiters.com | Reads one posting's full job ad (company description, job description, qualifications)… | ⚪ |
 | `smartrecruiters.listJobs` | smartrecruiters.com | Lists a company's public SmartRecruiters postings — title, full location… | 🟢 |
 | `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟢 |

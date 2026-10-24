@@ -569,6 +569,7 @@ shop.lululemon.com — lululemon: addToCart, checkStoreStock, findStores, getCar
 shopify.com (49870 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getShippingRates, getStyleDetails, listCollections, listProducts, removeFromCart, resolveProductUrl, search, searchPolicies, searchProducts
 sitmeanssit.com — sitmeanssit: findNearestLocations
 sixflags.com — sixflags: getTickets
+slicelife.com — slice: addMyAddress, addPaymentMethod, checkDelivery, getDeliveryEstimate, getHours, getLoyaltyProgram, getMenu, getMenuItemOptions, getMyAccount, getMyLoyaltyPoints, getMyOrder, getPizzeria, getRecommendedAddOns, getReviews, listMyAddresses, listMyOrders, listMyPaymentMethods, listPizzeriasInCity, listRecentlyOrderedItems, placeOrder, priceCart, removeMyAddress, removeMyPaymentMethod, resolveAddress, searchPizzerias, trackOrder, updateMyProfile, updateNotificationPreferences, validatePromoCode
 smallbusiness.uhc.com — uhc_smallbusiness: getGroupHealthQuote
 smartrecruiters.com — smartrecruiters: getJob, listJobs
 smartsign.com — smartsign: getTemplate, search
