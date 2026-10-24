@@ -4284,7 +4284,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `solidcore.getMyStats` | solidcore.co | Returns the signed-in member's stats: classes booked, streak, favorite coaches. | ⚪ |
 | `solidcore.getPack` | solidcore.co | Returns details of a class pack: price, expiration, class count. | ⚪ |
 | `solidcore.getPricing` | solidcore.co | Returns class pricing, drop-in rates, and package options. | ⚪ |
-| `solidcore.getSchedule` | solidcore.co | Returns class schedule for a studio and date range, including class name, time, coach… | ⚪ |
+| `solidcore.getSchedule` | solidcore.co | Returns the class schedule for one studio over a date window: class name, coach… | 🟢 |
 | `solidcore.getStudio` | solidcore.co | Returns one studio's own record off the same registry listStudios reads: name, full… | 🟡 |
 | `solidcore.getStudioHours` | solidcore.co | Returns a studio's operating hours. | ⚪ |
 | `solidcore.joinWaitlist` | solidcore.co | Joins the waitlist for a full class. | ⚪ |
