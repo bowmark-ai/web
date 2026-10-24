@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d3ea9e30e2da8537f9dfc477db26d00c3ae77773a858aba0cf7b0e53255b5657
-# 86 capabilities, 624 providers, 2437 typed functions, 20 refused.
+# Manifest version: 63ed9189fe54e4eb2c8daba889e912c479877218be016a16f3aca5f05e0e9293
+# 86 capabilities, 626 providers, 2447 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5330,6 +5330,72 @@ class Prv_archive_org_archive_orgLendingAvailability_Out(TypedDict):
     maxBorrowableCopies: float
     waitlistSize: float
 
+class Prv_arketa_ArketaStudio_Out(TypedDict):
+    id: str
+    widgetName: str
+    currency: str | None
+    timezone: str | None
+
+class Prv_arketa_ArketaLocation_Out(TypedDict):
+    id: str
+    name: str
+    address: Prv_arketa_ArketaAddress_Out
+
+class Prv_arketa_ArketaAddress_Out(TypedDict):
+    line1: str | None
+    line2: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    country: str | None
+    cityState: str | None
+    full: str | None
+    lat: float | None
+    lng: float | None
+    googlePlaceId: str | None
+
+class Prv_arketa_ArketaScheduleFilters_Out(TypedDict):
+    locations: list[Prv_arketa_ArketaNamedRef_Out]
+    classTypes: list[Prv_arketa_ArketaNamedRef_Out]
+    instructors: list[Prv_arketa_ArketaNamedRef_Out]
+
+class Prv_arketa_ArketaNamedRef_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_arketa_ListClassesArgs_In(TypedDict):
+    studio: str
+    startDate: str
+    endDate: str
+    locationId: NotRequired[str]
+    classTypeId: NotRequired[str]
+    instructorId: NotRequired[str]
+    timezone: NotRequired[str]
+
+class Prv_arketa_ArketaClass_Out(TypedDict):
+    id: str
+    name: str
+    startTime: str | None
+    durationMinutes: float | None
+    experienceType: str | None
+    canceled: bool
+    instructors: list[Prv_arketa_ArketaClassInstructor_Out]
+    locationId: str | None
+    locationName: str | None
+    capacity: float | None
+    totalBooked: float | None
+    isBookable: bool
+    unavailableReason: str | None
+    waitlistLength: float | None
+    isWaitlistFull: bool
+    description: str | None
+
+class Prv_arketa_ArketaClassInstructor_Out(TypedDict):
+    id: str
+    name: str
+    about: str | None
+    profileImageUrl: str | None
+
 class Prv_artpix3d_Artpix3dShape_Out(TypedDict):
     slug: str
     name: str
@@ -10105,6 +10171,42 @@ class Prv_clubpilates_ClubPilatesStudioDetail_Out(TypedDict):
     waiverUrl: str | None
     laFitness: bool
     laFitnessWarning: str | None
+
+class Prv_clubpilates_ListClassesArgs_In(TypedDict):
+    studio: str
+    startDate: str
+    endDate: NotRequired[str]
+
+class Prv_clubpilates_ClubPilatesClass_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    startsAt: str
+    endsAt: str
+    instructor: Prv_clubpilates_ClubPilatesClass_Out_instructor_u0_Out | None
+    category: Prv_clubpilates_ClubPilatesClass_Out_category_u0_Out | None
+    capacity: float | None
+    freeSpots: float | None
+    hasWaitlist: bool
+    waitlistSize: float | None
+    bookingOpensAt: str | None
+    bookingClosesAt: str | None
+    freeCancelUntil: str | None
+    waitlistUntil: str | None
+    locationType: str | None
+    bookingUrl: str
+
+class Prv_clubpilates_ClubPilatesClass_Out_instructor_u0_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_clubpilates_ClubPilatesClass_Out_category_u0_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_clubpilates_GetClassArgs_In(TypedDict):
+    studio: str
+    classId: str
 
 class Prv_clubready_ClubreadyBrand_Out(TypedDict):
     id: str
@@ -20402,6 +20504,32 @@ class Prv_linkedin_commentOnPost_input_In(TypedDict):
 class Prv_linkedin_deleteComment_return_Out(TypedDict):
     deleted: Literal[True]
 
+class Prv_linkedin_reactToPost_input_In(TypedDict):
+    post: str
+    reaction: NotRequired[Literal["LIKE"] | Literal["PRAISE"] | Literal["APPRECIATION"] | Literal["EMPATHY"] | Literal["INTEREST"] | Literal["ENTERTAINMENT"]]
+
+class Prv_linkedin_LinkedinReactToPostResult_Out(TypedDict):
+    reacted: Literal[True]
+    reaction: Literal["LIKE"] | Literal["PRAISE"] | Literal["APPRECIATION"] | Literal["EMPATHY"] | Literal["INTEREST"] | Literal["ENTERTAINMENT"]
+
+class Prv_linkedin_repostPost_input_In(TypedDict):
+    post: str
+    text: NotRequired[str]
+
+class Prv_linkedin_savePost_input_In(TypedDict):
+    post: str
+    save: NotRequired[bool]
+
+class Prv_linkedin_savePost_return_Out(TypedDict):
+    saved: bool
+
+class Prv_linkedin_saveJob_input_u1_In(TypedDict):
+    job: str
+    save: NotRequired[bool]
+
+class Prv_linkedin_saveJob_return_Out(TypedDict):
+    saved: bool
+
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -27004,6 +27132,15 @@ class Prv_purevpn_PureVpnDedicatedIpPlan_Out(TypedDict):
     name: str
     priceUsd: float
     per: str
+
+class Prv_pushpress_PushpressGym_Out(TypedDict):
+    subdomain: str
+    clientUuid: str
+    name: str
+    timezone: str
+    currency: str | None
+    logoUrl: str | None
+    portalUrl: str
 
 class Prv_quickbooks_QuickbooksServiceStatus_Out(TypedDict):
     indicator: str
@@ -34085,19 +34222,6 @@ class Prv_usatoday_usatodayVideo_Out(TypedDict):
     duration: NotRequired[str]
     publishDate: NotRequired[str]
 
-class Prv_usatoday_GetVideoArgs_In(TypedDict):
-    id: str
-
-class Prv_usatoday_usatodayVideoDetail_Out(TypedDict):
-    id: str
-    title: str
-    description: NotRequired[str]
-    url: str
-    thumbnailUrl: NotRequired[str]
-    duration: NotRequired[str]
-    publishDate: NotRequired[str]
-    transcript: NotRequired[str]
-
 class Prv_usps_getRate_args_In(TypedDict):
     fromZip: str
     toZip: str
@@ -41041,6 +41165,32 @@ class Prv_archive_org(Protocol):
         archive.org/details/<identifier> url. Throws when no item exists at that identifier.
         """
 
+class Prv_arketa(Protocol):
+    """Arketa studio booking pages (yoga, pilates, barre): find a studio, read its class
+    schedule, pricing, private sessions and on-demand library, and (signed in) book,
+    waitlist and cancel classes.
+    """
+
+    async def findStudio(self, studio: str, /) -> Prv_arketa_ArketaStudio_Out:
+        """Finds an Arketa studio by its booking-page name ("thesilhouettemethod"), its
+        app.arketa.co URL, or the studio's own website that embeds the Arketa schedule. Returns
+        the studio `id` — pass that, not the booking-page name, to every other function's
+        `studio` argument.
+        """
+
+    async def listLocations(self, studio: str, /) -> list[Prv_arketa_ArketaLocation_Out]:
+        """Lists a studio's physical locations: id, name, full address and coordinates."""
+
+    async def listScheduleFilters(self, studio: str, /) -> Prv_arketa_ArketaScheduleFilters_Out:
+        """Lists what a studio's schedule can be filtered by — its locations, class types and
+        instructors, each with an id — for `listClasses`.
+        """
+
+    async def listClasses(self, args: Prv_arketa_ListClassesArgs_In, /) -> list[Prv_arketa_ArketaClass_Out]:
+        """Lists a studio's class schedule for a date range, optionally narrowed to a location,
+        class type or instructor.
+        """
+
 class Prv_artpix3d(Protocol):
     """Reads ArtPix 3D's own live product configurator — every crystal shape, and for a chosen
     shape, every size's real current price (with active sale discounts) and
@@ -43989,6 +44139,18 @@ class Prv_clubpilates(Protocol):
         Fitness membership to book).
         """
 
+    async def listClasses(self, args: Prv_clubpilates_ListClassesArgs_In, /) -> list[Prv_clubpilates_ClubPilatesClass_Out]:
+        """Lists a studio's class schedule for a date or date range (YYYY-MM-DD): each class's id,
+        title, start and end time, instructor, category, capacity, free spots, waitlist size,
+        booking window and free-cancel deadline. The read a caller makes before booking.
+        """
+
+    async def getClass(self, args: Prv_clubpilates_GetClassArgs_In, /) -> Prv_clubpilates_ClubPilatesClass_Out:
+        """Returns one scheduled class by id ("cr_89941546", from listClasses) at a studio:
+        description, times, instructor, spots left, waitlist state, booking and free-cancel
+        deadlines, and the members-site booking URL.
+        """
+
 class Prv_clubready(Protocol):
     """Xponential studios on ClubReady — CycleBar, Club Pilates, Pure Barre, YogaSix,
     StretchLab, Rumble, BFT and more: find a studio, read its class schedule and pricing,
@@ -45885,7 +46047,7 @@ class Prv_facebook(Protocol):
     async def listFriends(self, args: Prv_facebook_ListFriendsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookFriend_Out]:
         """List the caller's Facebook friends."""
 
-    async def getPersonProfile(self, args: Prv_facebook_GetPersonProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookProfile_Out:
+    async def getPersonProfile(self, args: Prv_facebook_GetPersonProfileArgs_In, /) -> Prv_facebook_FacebookProfile_Out:
         """Read a person's public profile — name, photo, bio and friend count."""
 
     async def listConversations(self, args: Prv_facebook_ListConversationsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookConversation_Out]:
@@ -45897,12 +46059,12 @@ class Prv_facebook(Protocol):
     async def sendMessage(self, args: Prv_facebook_SendMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookSentMessage_Out:
         """Send a direct message in an existing conversation thread."""
 
-    async def getPageInfo(self, args: Prv_facebook_GetPageInfoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPageInfo_Out:
+    async def getPageInfo(self, args: Prv_facebook_GetPageInfoArgs_In, /) -> Prv_facebook_FacebookPageInfo_Out:
         """Read a Page's details — name, about section, follower count, category, profile and cover
         photos.
         """
 
-    async def getPagePosts(self, args: Prv_facebook_GetPagePostsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookPagePost_Out]:
+    async def getPagePosts(self, args: Prv_facebook_GetPagePostsArgs_In, /) -> list[Prv_facebook_FacebookPagePost_Out]:
         """List posts published on a Page, newest first."""
 
     async def getGroupInfo(self, args: Prv_facebook_GetGroupInfoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookGroupInfo_Out:
@@ -51220,6 +51382,52 @@ class Prv_linkedin(Protocol):
         "fast" } as an extra last argument; ask them first.
         """
 
+    async def reactToPost(self, input: Prv_linkedin_reactToPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinReactToPostResult_Out:
+        """Reacts to a post as the caller — "LIKE" by default, or one of the other five LinkedIn
+        offers. `post` is the id createPost/getPost returned, a bare activity id, or the post's
+        urn. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run
+        pauses and hands back a link where they sign in. Paced per LinkedIn account across runs
+        so it never looks automated — 6 requests a minute, and a reserve of 400 that refills
+        about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
+        throws LinkedinRateLimited saying when to retry: wait that long. The account owner may
+        opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+        first.
+        """
+
+    async def repostPost(self, input: Prv_linkedin_repostPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinPostResult_Out:
+        """Reposts a post to the caller's own feed, with or without their own text on top. `post`
+        is the id createPost/getPost returned, a bare activity id, or the post's urn. Signed in:
+        acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
+    async def savePost(self, input: Prv_linkedin_savePost_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_savePost_return_Out:
+        """Saves a post to the caller's saved items (listSavedPosts), or unsaves it when `save:
+        false`. Private to the caller. `post` is the id createPost/getPost returned, a bare
+        activity id, or the post's urn. Signed in: acts as the caller's own LinkedIn account;
+        with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
+        """
+
+    async def saveJob(self, input: str | Prv_linkedin_saveJob_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_saveJob_return_Out:
+        """Saves a job posting to the caller's saved jobs (listSavedJobs), or unsaves it when
+        `save: false`. Private to the caller. Takes a job URL or its numeric posting id. Signed
+        in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -55375,6 +55583,20 @@ class Prv_purevpn(Protocol):
         billing term, optionally filtered to one `country`, read off purevpn.com/dedicated-ip.
         """
 
+class Prv_pushpress(Protocol):
+    """PushPress gym-management platform (CrossFit and independent gyms on
+    <gym>.pushpress.com): read any gym's class schedule, class details, locations and
+    membership plans with no login, and — signed in as the member — book, waitlist and
+    cancel classes, list bookings and plans, sign waivers and book appointments.
+    """
+
+    async def getGym(self, gym: str, /) -> Prv_pushpress_PushpressGym_Out:
+        """Resolves a PushPress gym from its subdomain ("crossfit7x7"), its <sub>.pushpress.com
+        URL, or its own website (a page embedding the PushPress calendar) to the subdomain, id,
+        name, timezone and logo. Throws a caller-fixable error for a subdomain PushPress does
+        not know.
+        """
+
 class Prv_quickbooks(Protocol):
     """QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators,
     the ProAdvisor accountant directory, the App Store, Community answers, help articles and
@@ -59304,11 +59526,6 @@ class Prv_usatoday(Protocol):
         URL and publish date. Duration is not shown on the hub page.
         """
 
-    async def getVideo(self, args: Prv_usatoday_GetVideoArgs_In, /) -> Prv_usatoday_usatodayVideoDetail_Out:
-        """Reads the details of one USA Today video — given a video ID from listVideos — returning
-        the title, description, thumbnail, duration, publish date and transcript if available.
-        """
-
 class Prv_usps(Protocol):
     """USPS's own Retail Postage Price Calculator (postcalc.usps.com) — prices a domestic
     package across every USPS Mail Service that quotes it for a ZIP-to-ZIP move, weight and
@@ -61422,6 +61639,7 @@ class BowmarkProviders(Protocol):
     arajet: Prv_arajet
     archipelago: Prv_archipelago
     archive_org: Prv_archive_org
+    arketa: Prv_arketa
     artpix3d: Prv_artpix3d
     ashby: Prv_ashby
     ashleyfurniture: Prv_ashleyfurniture
@@ -61845,6 +62063,7 @@ class BowmarkProviders(Protocol):
     pullandbear: Prv_pullandbear
     puls_com: Prv_puls_com
     purevpn: Prv_purevpn
+    pushpress: Prv_pushpress
     quickbooks: Prv_quickbooks
     quince: Prv_quince
     quora: Prv_quora

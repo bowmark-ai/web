@@ -1,5 +1,5 @@
 {
-  "version": "d3ea9e30e2da8537f9dfc477db26d00c3ae77773a858aba0cf7b0e53255b5657",
+  "version": "63ed9189fe54e4eb2c8daba889e912c479877218be016a16f3aca5f05e0e9293",
   "units": {
     "address_validation": {
       "defs": {
@@ -10438,6 +10438,103 @@
         ]
       }
     },
+    "providers.arketa": {
+      "defs": {
+        "ListClassesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "classTypeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "instructorId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timezone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findStudio": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listScheduleFilters": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listClasses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListClassesArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.artpix3d": {
       "defs": {},
       "functions": {
@@ -18206,6 +18303,25 @@
             }
           ]
         },
+        "GetClassArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "classId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetStudioArgs": {
           "k": "object",
           "props": [
@@ -18215,6 +18331,32 @@
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListClassesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         }
@@ -18236,6 +18378,26 @@
             "schema": {
               "k": "ref",
               "name": "GetStudioArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listClasses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListClassesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getClass": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetClassArgs"
             },
             "optional": false
           }
@@ -24012,22 +24174,6 @@
               "name": "GetPersonProfileArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listConversations": [
@@ -24116,22 +24262,6 @@
               "name": "GetPageInfoArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getPagePosts": [
@@ -24142,22 +24272,6 @@
               "name": "GetPagePostsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGroupInfo": [
@@ -39481,6 +39595,204 @@
             "name": "comment",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "reactToPost": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "post",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "reaction",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "LIKE"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "PRAISE"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "APPRECIATION"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "EMPATHY"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "INTEREST"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "ENTERTAINMENT"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "repostPost": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "post",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "savePost": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "post",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "save",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "saveJob": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "job",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "save",
+                      "schema": {
+                        "k": "boolean"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           },
@@ -55785,6 +56097,20 @@
         ]
       }
     },
+    "providers.pushpress": {
+      "defs": {},
+      "functions": {
+        "getGym": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.quickbooks": {
       "defs": {
         "QuickbooksListIncidentsArgs": {
@@ -70351,18 +70677,6 @@
             }
           ]
         },
-        "GetVideoArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "id",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        },
         "SearchNewsArgs": {
           "k": "object",
           "props": [
@@ -70444,17 +70758,7 @@
             "optional": false
           }
         ],
-        "listVideos": [],
-        "getVideo": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetVideoArgs"
-            },
-            "optional": false
-          }
-        ]
+        "listVideos": []
       }
     },
     "providers.usps": {

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d3ea9e30e2da8537f9dfc477db26d00c3ae77773a858aba0cf7b0e53255b5657
-// 86 capabilities, 624 providers, 2455 typed functions, 20 refused.
+// Manifest version: 63ed9189fe54e4eb2c8daba889e912c479877218be016a16f3aca5f05e0e9293
+// 86 capabilities, 626 providers, 2465 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3712,7 +3712,11 @@ type ReadResult = {
                              // than an empty page. Uncleared on the content served
                              // ⇒ ok:false, and warnings says the site refused the
                              // read — retrying will not help. A 4xx/5xx page is
-                             // ok:false too: it is the site's error page
+                             // ok:false too: it is the site's error page —
+                             // except a 404/410 whose page is the item itself,
+                             // marked sold out or discontinued (Etsy's sold-out
+                             // listing): ok:true, status kept, so a stock check
+                             // reads ok && (status === 404 || status === 410)
   headers?: Record<string, string> // only with options.headers: true — the response
                              // headers of the document that served content, names
                              // lowercased; {} when none were captured
@@ -9583,6 +9587,116 @@ interface archive_orgDownloadUrl {
      * archive.org/details/<identifier> url. Throws when no item exists at that identifier.
      */
     checkLendingAvailability(identifier: string): Promise<archive_orgLendingAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_arketa {
+  // ── Arketa — the unit's own declarations, verbatim ──
+interface arketaRow {
+  id: string;
+}
+
+interface ArketaStudio {
+  id: string;
+  widgetName: string;
+  currency: string | null;
+  timezone: string | null;
+}
+
+interface ArketaAddress {
+  line1: string | null;
+  line2: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
+  cityState: string | null;
+  full: string | null;
+  lat: number | null;
+  lng: number | null;
+  googlePlaceId: string | null;
+}
+
+interface ArketaLocation {
+  id: string;
+  name: string;
+  address: ArketaAddress;
+}
+
+interface ArketaNamedRef {
+  id: string;
+  name: string;
+}
+
+interface ArketaScheduleFilters {
+  locations: ArketaNamedRef[];
+  classTypes: ArketaNamedRef[];
+  instructors: ArketaNamedRef[];
+}
+
+interface ListClassesArgs {
+  studio: string;
+  startDate: string;
+  endDate: string;
+  locationId?: string;
+  classTypeId?: string;
+  instructorId?: string;
+  timezone?: string;
+}
+
+interface ArketaClassInstructor {
+  id: string;
+  name: string;
+  about: string | null;
+  profileImageUrl: string | null;
+}
+
+interface ArketaClass {
+  id: string;
+  name: string;
+  startTime: string | null;
+  durationMinutes: number | null;
+  experienceType: string | null;
+  canceled: boolean;
+  instructors: ArketaClassInstructor[];
+  locationId: string | null;
+  locationName: string | null;
+  capacity: number | null;
+  totalBooked: number | null;
+  isBookable: boolean;
+  unavailableReason: string | null;
+  waitlistLength: number | null;
+  isWaitlistFull: boolean;
+  description: string | null;
+}
+
+  /**
+   * Arketa studio booking pages (yoga, pilates, barre): find a studio, read its class schedule,
+   * pricing, private sessions and on-demand library, and (signed in) book, waitlist and cancel
+   * classes.
+   */
+  interface Unit {
+    /**
+     * Finds an Arketa studio by its booking-page name ("thesilhouettemethod"), its app.arketa.co
+     * URL, or the studio's own website that embeds the Arketa schedule. Returns the studio `id` —
+     * pass that, not the booking-page name, to every other function's `studio` argument.
+     */
+    findStudio(studio: string): Promise<ArketaStudio>;
+
+    /** Lists a studio's physical locations: id, name, full address and coordinates. */
+    listLocations(studio: string): Promise<ArketaLocation[]>;
+
+    /**
+     * Lists what a studio's schedule can be filtered by — its locations, class types and
+     * instructors, each with an id — for `listClasses`.
+     */
+    listScheduleFilters(studio: string): Promise<ArketaScheduleFilters>;
+
+    /**
+     * Lists a studio's class schedule for a date range, optionally narrowed to a location, class
+     * type or instructor.
+     */
+    listClasses(args: ListClassesArgs): Promise<ArketaClass[]>;
   }
 }
 
@@ -17891,6 +18005,37 @@ interface ClubPilatesStudioDetail {
   laFitnessWarning: string | null;
 }
 
+interface ListClassesArgs {
+  studio: string;
+  startDate: string;
+  endDate?: string;
+}
+
+interface GetClassArgs {
+  studio: string;
+  classId: string;
+}
+
+interface ClubPilatesClass {
+  id: string;
+  title: string;
+  description: string | null;
+  startsAt: string;
+  endsAt: string;
+  instructor: { id: string; name: string } | null;
+  category: { id: string; name: string } | null;
+  capacity: number | null;
+  freeSpots: number | null;
+  hasWaitlist: boolean;
+  waitlistSize: number | null;
+  bookingOpensAt: string | null;
+  bookingClosesAt: string | null;
+  freeCancelUntil: string | null;
+  waitlistUntil: string | null;
+  locationType: string | null;
+  bookingUrl: string;
+}
+
   /**
    * Club Pilates studios: find a studio, read its class schedule and pricing, and (signed in)
    * book, waitlist and cancel classes.
@@ -17910,6 +18055,20 @@ interface ClubPilatesStudioDetail {
      * membership to book).
      */
     getStudio(args: GetStudioArgs): Promise<ClubPilatesStudioDetail>;
+
+    /**
+     * Lists a studio's class schedule for a date or date range (YYYY-MM-DD): each class's id,
+     * title, start and end time, instructor, category, capacity, free spots, waitlist size,
+     * booking window and free-cancel deadline. The read a caller makes before booking.
+     */
+    listClasses(args: ListClassesArgs): Promise<ClubPilatesClass[]>;
+
+    /**
+     * Returns one scheduled class by id ("cr_89941546", from listClasses) at a studio:
+     * description, times, instructor, spots left, waitlist state, booking and free-cancel
+     * deadlines, and the members-site booking URL.
+     */
+    getClass(args: GetClassArgs): Promise<ClubPilatesClass>;
   }
 }
 
@@ -23823,7 +23982,7 @@ interface FacebookProfileUpdate {
     listFriends(args: ListFriendsArgs, opts?: ConnectionOption): Promise<FacebookFriend[]>;
 
     /** Read a person's public profile — name, photo, bio and friend count. */
-    getPersonProfile(args: GetPersonProfileArgs, opts?: ConnectionOption): Promise<FacebookProfile>;
+    getPersonProfile(args: GetPersonProfileArgs): Promise<FacebookProfile>;
 
     /** List the caller's private message threads and people they can message. */
     listConversations(args: ListConversationsArgs, opts?: ConnectionOption): Promise<FacebookConversation[]>;
@@ -23838,10 +23997,10 @@ interface FacebookProfileUpdate {
      * Read a Page's details — name, about section, follower count, category, profile and cover
      * photos.
      */
-    getPageInfo(args: GetPageInfoArgs, opts?: ConnectionOption): Promise<FacebookPageInfo>;
+    getPageInfo(args: GetPageInfoArgs): Promise<FacebookPageInfo>;
 
     /** List posts published on a Page, newest first. */
-    getPagePosts(args: GetPagePostsArgs, opts?: ConnectionOption): Promise<FacebookPagePost[]>;
+    getPagePosts(args: GetPagePostsArgs): Promise<FacebookPagePost[]>;
 
     /** Read a Group's details — name, description, member count, profile photo. */
     getGroupInfo(args: GetGroupInfoArgs, opts?: ConnectionOption): Promise<FacebookGroupInfo>;
@@ -36515,6 +36674,8 @@ interface LinkedinPostResult {
   url: string | null;
 }
 
+interface LinkedinReactToPostResult { reacted: true; reaction: "LIKE" | "PRAISE" | "APPRECIATION" | "EMPATHY" | "INTEREST" | "ENTERTAINMENT"; }
+
 // Paged results carry { start, nextStart } — pass nextStart back as start; null means the last page.
 interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: number; nextStart: number | null; }
 
@@ -37126,6 +37287,54 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * argument; ask them first.
      */
     deleteComment(comment: string, opts?: ConnectionOption): Promise<{ deleted: true }>;
+
+    /**
+     * Reacts to a post as the caller — "LIKE" by default, or one of the other five LinkedIn
+     * offers. `post` is the id createPost/getPost returned, a bare activity id, or the post's urn.
+     * Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses
+     * and hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     */
+    reactToPost(input: { post: string; reaction?: "LIKE" | "PRAISE" | "APPRECIATION" | "EMPATHY" | "INTEREST" | "ENTERTAINMENT" }, opts?: ConnectionOption): Promise<LinkedinReactToPostResult>;
+
+    /**
+     * Reposts a post to the caller's own feed, with or without their own text on top. `post` is
+     * the id createPost/getPost returned, a bare activity id, or the post's urn. Signed in: acts
+     * as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+     * link where they sign in. Paced per LinkedIn account across runs so it never looks automated
+     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
+     * "fast" } as an extra last argument; ask them first.
+     */
+    repostPost(input: { post: string; text?: string }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
+
+    /**
+     * Saves a post to the caller's saved items (listSavedPosts), or unsaves it when `save: false`.
+     * Private to the caller. `post` is the id createPost/getPost returned, a bare activity id, or
+     * the post's urn. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in
+     * the run pauses and hands back a link where they sign in. Paced per LinkedIn account across
+     * runs so it never looks automated — 6 requests a minute, and a reserve of 400 that refills
+     * about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
+     * throws LinkedinRateLimited saying when to retry: wait that long. The account owner may opt
+     * into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     */
+    savePost(input: { post: string; save?: boolean }, opts?: ConnectionOption): Promise<{ saved: boolean }>;
+
+    /**
+     * Saves a job posting to the caller's saved jobs (listSavedJobs), or unsaves it when `save:
+     * false`. Private to the caller. Takes a job URL or its numeric posting id. Signed in: acts as
+     * the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+     * link where they sign in. Paced per LinkedIn account across runs so it never looks automated
+     * — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30
+     * minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying
+     * when to retry: wait that long. The account owner may opt into faster pacing with { pacing:
+     * "fast" } as an extra last argument; ask them first.
+     */
+    saveJob(input: string | { job: string; save?: boolean }, opts?: ConnectionOption): Promise<{ saved: boolean }>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -48950,6 +49159,34 @@ interface PureVpnDedicatedIp {
   }
 }
 
+declare namespace BowmarkProvider_pushpress {
+  // ── PushPress — gym class schedules and booking — the unit's own declarations, verbatim ──
+interface PushpressGym {
+  subdomain: string;      // "crossfit7x7" — pass this to every other function
+  clientUuid: string;     // PushPress's id for the gym
+  name: string;
+  timezone: string;       // IANA, e.g. "America/Los_Angeles"; class times are in it
+  currency: string | null;
+  logoUrl: string | null;
+  portalUrl: string;
+}
+
+  /**
+   * PushPress gym-management platform (CrossFit and independent gyms on <gym>.pushpress.com):
+   * read any gym's class schedule, class details, locations and membership plans with no login,
+   * and — signed in as the member — book, waitlist and cancel classes, list bookings and plans,
+   * sign waivers and book appointments.
+   */
+  interface Unit {
+    /**
+     * Resolves a PushPress gym from its subdomain ("crossfit7x7"), its <sub>.pushpress.com URL, or
+     * its own website (a page embedding the PushPress calendar) to the subdomain, id, name,
+     * timezone and logo. Throws a caller-fixable error for a subdomain PushPress does not know.
+     */
+    getGym(gym: string): Promise<PushpressGym>;
+  }
+}
+
 declare namespace BowmarkProvider_quickbooks {
   // ── QuickBooks — the unit's own declarations, verbatim ──
 /** One component on status.quickbooks.intuit.com — a region under a product. */
@@ -60507,12 +60744,6 @@ interface usatodayVideoDetail {
      * and publish date. Duration is not shown on the hub page.
      */
     listVideos(): Promise<usatodayVideo[]>;
-
-    /**
-     * Reads the details of one USA Today video — given a video ID from listVideos — returning the
-     * title, description, thumbnail, duration, publish date and transcript if available.
-     */
-    getVideo(args: GetVideoArgs): Promise<usatodayVideoDetail>;
   }
 }
 
@@ -66906,6 +67137,7 @@ interface BowmarkProviders {
   arajet: BowmarkProvider_arajet.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
   archive_org: BowmarkProvider_archive_org.Unit;
+  arketa: BowmarkProvider_arketa.Unit;
   artpix3d: BowmarkProvider_artpix3d.Unit;
   ashby: BowmarkProvider_ashby.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
@@ -67329,6 +67561,7 @@ interface BowmarkProviders {
   pullandbear: BowmarkProvider_pullandbear.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
   purevpn: BowmarkProvider_purevpn.Unit;
+  pushpress: BowmarkProvider_pushpress.Unit;
   quickbooks: BowmarkProvider_quickbooks.Unit;
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;

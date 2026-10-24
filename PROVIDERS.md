@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5338 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5367 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1210,7 +1210,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `coops.getMeteorologicalObservations` | tidesandcurrents.noaa.gov | Get a station's weather sensor readings (wind, air temperature, air pressure, water… | ⚪ |
 | `coops.getStationDatums` | tidesandcurrents.noaa.gov | Get a station's tidal datums (MHHW, MLLW, etc) and the epoch they're referenced to. | ⚪ |
 | `coops.getStationHarmonicConstituents` | tidesandcurrents.noaa.gov | Get a station's harmonic constituents used to derive its tide predictions. | ⚪ |
-| `coops.getStationMetadata` | tidesandcurrents.noaa.gov | Get a station's location, timezone and the product pages it publishes. | ⚪ |
+| `coops.getStationMetadata` | tidesandcurrents.noaa.gov | Get a station's location, timezone and the product pages it publishes. | 🟢 |
 | `coops.getTidePredictions` | tidesandcurrents.noaa.gov | Get tide predictions for a station for specified dates. | ⚪ |
 | `coops.getWaterLevel` | tidesandcurrents.noaa.gov | Get water level observations for a station. | ⚪ |
 | `coops.listStations` | tidesandcurrents.noaa.gov | Find tide/current stations, optionally filtered by product type or state — the finder… | 🟢 |
@@ -1743,7 +1743,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventbrite.getOrderHistory` | eventbrite.com | Reads the signed-in caller's past and upcoming ticket orders from their account's… | ⚪ |
 | `eventbrite.getOrganizer` | eventbrite.com | Reads an organizer's public page — name, bio, verification status, website… | 🟢 |
 | `eventbrite.getOwnProfile` | eventbrite.com | Reads the signed-in caller's own account profile (name, email on file, location). | ⚪ |
-| `eventbrite.getSavedEvents` | eventbrite.com | Reads the signed-in caller's saved ('liked') events. | ⚪ |
+| `eventbrite.getSavedEvents` | eventbrite.com | Reads the signed-in caller's saved ('liked') events. | 🟢 |
 | `eventbrite.getVenue` | eventbrite.com | Reads one event's venue — name, address, city/region/country and coordinates — taking… | 🟢 |
 | `eventbrite.saveEvent` | eventbrite.com | Saves ('likes') an event to the signed-in caller's account, taking an event url or id. | ⚪ |
 | `eventbrite.searchEvents` | eventbrite.com | Searches live events by location (a city/region string or 'online') with an optional… | 🟢 |
@@ -2568,6 +2568,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `imdb.getPerson` | imdb.com | Reads a person's biography, birth year, filmography, awards, and known roles. | 🟢 |
 | `imdb.getTitle` | imdb.com | Reads a title's full details: year, runtime, genres, plot, ratings, cast, crew… | 🟢 |
 | `imdb.getTitleReviews` | imdb.com | Reads user reviews for a title, with user rating, text, and helpfulness count. | 🟢 |
+| `imdb.listCustomLists` | imdb.com | Reads the signed-in caller's own IMDb custom lists. | 🟢 |
+| `imdb.listRatings` | imdb.com | Reads the signed-in caller's own IMDb star ratings. | 🟢 |
 | `imdb.listWatchlist` | imdb.com | Reads the signed-in caller's IMDb Watchlist. | 🟢 |
 | `imdb.search` | imdb.com | Full-text search across titles and people, returning matching results ranked by… | 🟢 |
 | `imdb.searchSuggestions` | imdb.com | Typeahead search for quick title and person completion as the user types. | 🟢 |
@@ -3747,7 +3749,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.askQuestion` | quora.com | Posts a new question as the signed-in caller. | ⚪ |
 | `quora.followEntity` | quora.com | Follows a person, a topic, or a Space as the signed-in caller, taking that entity's… | ⚪ |
 | `quora.getAnswers` | quora.com | Pages through a question's answers beyond the first 7 that getQuestion returns, using… | ⚪ |
-| `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | ⚪ |
+| `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | 🟢 |
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary. | ⚪ |
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟡 |
@@ -3755,7 +3757,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟢 |
 | `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | ⚪ |
 | `quora.postComment` | quora.com | Posts a comment on an answer as the signed-in caller. | ⚪ |
-| `quora.searchQuestions` | quora.com | Runs Quora's own search and returns matching questions with their urls — the finder a… | ⚪ |
+| `quora.searchQuestions` | quora.com | Runs Quora's own search and returns matching questions with their urls — the finder a… | 🟢 |
 | `quora.upvoteAnswer` | quora.com | Upvotes an answer as the signed-in caller. | ⚪ |
 | `quora.writeAnswer` | quora.com | Posts a text answer to a question as the signed-in caller. | ⚪ |
 | `raadvanstate_nl.getRuling` | raadvanstate.nl | Reads one Council of State ruling in full by ECLI — case number, dates, procedure… | 🟢 |
@@ -3870,6 +3872,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.unsubscribeNewsletter` | www.reuters.com | Unsubscribe the signed-in reader from a Reuters newsletter. | ⚪ |
 | `revisionskincare.getSkincareQuizQuestions` | revisionskincare.com | Reads the live 'Product Finder Quiz' at revisionskincare.com/pages/skincare-quiz… | 🟢 |
 | `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟢 |
+| `rezdy.bookSession` | rezdy.com | Books a session as a guest -- product, session, the quantity of each price option, the… | ⚪ |
+| `rezdy.buyGiftCard` | rezdy.com | Buys a gift card or a product as a gift from an operator. | ⚪ |
+| `rezdy.checkVoucher` | rezdy.com | Checks a voucher, coupon, promo or gift-card code against a held cart and returns… | ⚪ |
+| `rezdy.findOperator` | rezdy.com | Finds a Rezdy operator from what a caller actually holds -- its Rezdy alias… | ⚪ |
+| `rezdy.getAvailability` | rezdy.com | Returns a product's sessions over a month: each date and start time, the session id… | ⚪ |
+| `rezdy.getPickupLocations` | rezdy.com | Lists the pickup points and times a product offers (hotel pickups on transfers and day… | ⚪ |
+| `rezdy.getPriceQuote` | rezdy.com | Prices a party for one session: the quantity of each price option given, returning the… | ⚪ |
+| `rezdy.getProduct` | rezdy.com | Returns one product's full page: description, duration, location, the price options… | ⚪ |
+| `rezdy.joinWaitingList` | rezdy.com | Joins the waiting list for a sold-out session where the operator allows it, as a guest. | ⚪ |
+| `rezdy.listCatalogs` | rezdy.com | Lists the catalogs (the operator's own product groupings, e.g. "Sunrise kayak tours"… | ⚪ |
+| `rezdy.listProducts` | rezdy.com | Lists an operator's bookable products (tours, activities, rentals, transfers, gift… | ⚪ |
+| `rezdy.sendEnquiry` | rezdy.com | Sends the operator a question through its booking site's contact form (name, email… | ⚪ |
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
 | `rippling.listJobs` | rippling.com | Lists every open job on one company's Rippling job board — title, work location… | 🟢 |
 | `rishitea.getTeaFinderQuiz` | rishi-tea.com | Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —… | 🟢 |
@@ -4281,6 +4295,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `speedrun.submitRun` | www.speedrun.com | Submits a speedrun to a game category, with optional video URL and user variables. | ⚪ |
 | `spirithalloween.getProduct` | spirithalloween.com | Reads one product page's full live variant matrix — every real color/size combination… | 🟢 |
 | `spirithalloween.search` | spirithalloween.com | Browses Spirit Halloween's category listing for a query resolved against a small… | 🟢 |
+| `spotapps.applyForJob` | spotapps.co | Submits a job application to a restaurant, with a resume upload. | ⚪ |
+| `spotapps.bookReservation` | spotapps.co | Sends a guest reservation request (name, email, phone, party size, date, time, notes)… | ⚪ |
+| `spotapps.cancelReservation` | spotapps.co | Cancels a guest reservation made through the widget. | ⚪ |
+| `spotapps.checkAvailability` | spotapps.co | Checks whether a restaurant has a table for a party size at a date and time, and… | ⚪ |
+| `spotapps.findRestaurant` | spotapps.co | Finds a SpotHopper restaurant's spot_id from its own website URL or name, by reading… | ⚪ |
+| `spotapps.getCateringOptions` | spotapps.co | Reads a restaurant's catering inquiry form and options. | ⚪ |
+| `spotapps.getMenu` | spotapps.co | Reads a restaurant's menu as its contactless-menu page shows it: sections, items… | ⚪ |
+| `spotapps.getOnlineOrderMenu` | spotapps.co | Reads a restaurant's online-ordering menu: items, modifiers, prices, pickup/delivery… | ⚪ |
+| `spotapps.getPrivatePartyOptions` | spotapps.co | Reads a restaurant's private-party / event inquiry form: spaces, capacities, required… | ⚪ |
+| `spotapps.getReservationSettings` | spotapps.co | Reads one restaurant's reservation widget settings: whether online reservations are… | ⚪ |
+| `spotapps.joinMailingList` | spotapps.co | Signs an email or phone up for a restaurant's mailing list or texting list. | ⚪ |
+| `spotapps.listJobs` | spotapps.co | Lists a restaurant's open job listings. | ⚪ |
+| `spotapps.requestCatering` | spotapps.co | Sends a catering inquiry to the restaurant. | ⚪ |
+| `spotapps.requestPrivateParty` | spotapps.co | Sends a private-party inquiry to the restaurant. | ⚪ |
+| `spotapps.startOnlineOrder` | spotapps.co | Builds an online pickup or delivery order up to the payment step and stops there. | ⚪ |
 | `spotify.browseCategory` | open.spotify.com | Browse playlists in a Spotify category. | ⚪ |
 | `spotify.getAlbum` | open.spotify.com | Get details about a specific album. | 🟢 |
 | `spotify.getArtist` | open.spotify.com | Get details about a specific artist. | 🟢 |
@@ -4360,7 +4389,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `statefarm.getUmbrellaQuote` | statefarm.com | Returns a personal umbrella liability quote — the excess liability layer above the… | ⚪ |
 | `steam.addFriend` | steampowered.com | Sends a friend request to another Steam user by username or ID. | ⚪ |
 | `steam.addToWishlist` | steampowered.com | Adds a game to the signed-in caller's wishlist, off the store's own addtowishlist door. | 🟢 |
-| `steam.editProfile` | steampowered.com | Updates the caller's own profile information like profile name, bio/summary, and… | ⚪ |
+| `steam.editProfile` | steampowered.com | Updates the signed-in caller's own persona name and/or profile summary off the… | 🟢 |
 | `steam.getAchievements` | steampowered.com | Reads a game's achievement list from its public Steam Community page by appid: name… | 🟡 |
 | `steam.getCommunityHub` | steampowered.com | Retrieves the community hub for a game, including recent discussions, artwork… | ⚪ |
 | `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | 🟢 |
