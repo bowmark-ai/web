@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5428 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5447 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -4349,6 +4349,25 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.listNewReleases` | open.spotify.com | Get new release recommendations. | ⚪ |
 | `spotify.listPlaylistTracks` | open.spotify.com | Get all tracks from a playlist. | ⚪ |
 | `spotify.search` | open.spotify.com | Searches Spotify's catalog for tracks, albums, artists, playlists, podcasts or… | 🟢 |
+| `square_appointments.bookAppointment` | book.squareup.com | Books an appointment for the caller: services, staff, start time, and the caller's… | ⚪ |
+| `square_appointments.bookClass` | book.squareup.com | Books the caller into a scheduled class. | ⚪ |
+| `square_appointments.cancelBooking` | book.squareup.com | Cancels one of the caller's appointments, where the business allows customers to cancel. | ⚪ |
+| `square_appointments.cancelClassBooking` | book.squareup.com | Cancels the caller's class booking. | ⚪ |
+| `square_appointments.checkAvailability` | book.squareup.com | Returns the open appointment times for one or more services at a location between two… | ⚪ |
+| `square_appointments.findBusiness` | book.squareup.com | Finds a Square Appointments business from what a caller has: its booking link… | ⚪ |
+| `square_appointments.getBooking` | book.squareup.com | Returns one of the caller's appointments: services, staff, time, location, price and… | ⚪ |
+| `square_appointments.getBusiness` | book.squareup.com | Returns one business's profile and booking rules: name, locations and addresses… | ⚪ |
+| `square_appointments.getService` | book.squareup.com | Returns one service with its variations, add-on modifiers, deposit and no-show fee… | ⚪ |
+| `square_appointments.joinWaitlist` | book.squareup.com | Puts the caller on a business's waitlist for a service and time window when nothing is… | ⚪ |
+| `square_appointments.listCategories` | book.squareup.com | Lists the service categories a business groups its menu under. | ⚪ |
+| `square_appointments.listClasses` | book.squareup.com | Lists a business's scheduled classes (group sessions) by date, with capacity and price. | ⚪ |
+| `square_appointments.listCreditPacks` | book.squareup.com | Lists the class credit packs the signed-in caller holds at a business. | ⚪ |
+| `square_appointments.listLocations` | book.squareup.com | Lists a business's active locations with address, map position and unit token, so a… | ⚪ |
+| `square_appointments.listMyBookings` | book.squareup.com | Lists the signed-in caller's upcoming or past appointments at a business. | ⚪ |
+| `square_appointments.listMyClassBookings` | book.squareup.com | Lists the signed-in caller's class bookings at a business. | ⚪ |
+| `square_appointments.listServices` | book.squareup.com | Lists a business's bookable services at a location: name, description, category… | ⚪ |
+| `square_appointments.listStaff` | book.squareup.com | Lists the staff a customer can book at a location, with name, short bio and the… | ⚪ |
+| `square_appointments.rescheduleBooking` | book.squareup.com | Moves one of the caller's appointments to another open time. | ⚪ |
 | `square_online.addToCart` | square.site | Creates a guest cart (or adds to one) with menu items, variations, modifiers and… | ⚪ |
 | `square_online.getCheckoutTotal` | square.site | Opens checkout for a cart and returns the order total, taxes, fees and tip options… | ⚪ |
 | `square_online.getDeliveryTimes` | square.site | Returns the earliest delivery time and delivery slots per day at one location, where… | ⚪ |
