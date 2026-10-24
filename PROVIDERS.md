@@ -2829,7 +2829,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lever.listJobs` | lever.co | Lists every published job on one company's Lever board (jobs.lever.co/{site}) — title… | 🟢 |
 | `lime.cityPricing` | li.me | Reads one city's Lime ride pricing from its li.me city page: unlock fee, per-minute… | 🟢 |
 | `lime.listCities` | li.me | Lists every city Lime operates e-scooters and e-bikes in, grouped by region, from… | 🟢 |
-| `linkedin.acceptInvitation` | linkedin.com | Accepts a connection invitation the signed-in caller received, by the id and shared… | ⚪ |
+| `linkedin.acceptInvitation` | linkedin.com | Accepts a connection invitation the signed-in caller received, by the id and… | 🟢 |
 | `linkedin.applyToJob` | linkedin.com | Submits an Easy Apply application to a job posting as the signed-in caller, using the… | ⚪ |
 | `linkedin.commentOnPost` | linkedin.com | Comments on a post as the signed-in caller. | 🟢 |
 | `linkedin.createPost` | linkedin.com | Publishes a text post to the signed-in caller's feed, visible to anyone or to… | 🟢 |
@@ -2851,7 +2851,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟢 |
 | `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟢 |
 | `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | 🟢 |
-| `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | ⚪ |
+| `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | 🟢 |
 | `linkedin.joinGroup` | linkedin.com | Joins a LinkedIn group as the signed-in caller, or asks to join one that needs approval. | ⚪ |
 | `linkedin.leaveGroup` | linkedin.com | Leaves a LinkedIn group the signed-in caller belongs to. | ⚪ |
 | `linkedin.listAppliedJobs` | linkedin.com | Lists the jobs the caller has applied to on LinkedIn, newest first — each posting's id… | 🟢 |
@@ -5137,9 +5137,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walla.getPrivateSessionAvailability` | hellowalla.com | Returns the days, and the start times on a day, that a private session can be booked… | ⚪ |
 | `walla.joinWaitlist` | hellowalla.com | Puts the signed-in client on the waitlist for a full class. | ⚪ |
 | `walla.listClassCategories` | hellowalla.com | Lists the class categories a studio's schedule can be filtered by (yoga style, sound… | ⚪ |
-| `walla.listClasses` | hellowalla.com | Lists a studio's class schedule for a date range, optionally narrowed to locations… | ⚪ |
+| `walla.listClasses` | hellowalla.com | Lists a studio's class schedule for a date range (default 7 days), optionally narrowed… | 🟢 |
 | `walla.listInstructors` | hellowalla.com | Lists the instructors at a studio with id, name, photo and bio — the ids listClasses… | ⚪ |
-| `walla.listLocations` | hellowalla.com | Lists a studio's locations: id, name, street address, coordinates, phone, email… | ⚪ |
+| `walla.listLocations` | hellowalla.com | Lists a studio's locations: id, name, street address, coordinates, phone, email… | 🟢 |
 | `walla.listMyBookings` | hellowalla.com | Lists the signed-in client's upcoming and past bookings at a studio — classes… | ⚪ |
 | `walla.listMyPasses` | hellowalla.com | Lists the signed-in client's packs and memberships at a studio, the credits left to… | ⚪ |
 | `walla.listMyPurchases` | hellowalla.com | Lists the signed-in client's purchase history at a studio (what was bought, when, how… | ⚪ |

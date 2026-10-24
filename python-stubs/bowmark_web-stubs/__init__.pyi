@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 45ba577c9f774c458fd5d557a2d5f02f070c0d997e85e48a8c7fb4e766cbaaae
-# 87 capabilities, 643 providers, 2582 typed functions, 20 refused.
+# Manifest version: a8df492c1e1649f20f7e4a03a3fde00e2d9ed64ca6030eef57cf6f422ea21a1a
+# 87 capabilities, 644 providers, 2586 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5644,6 +5644,31 @@ class Prv_artpix3d_Artpix3dSizePrice_Out(TypedDict):
     inStock: bool
     bestSeller: bool
     lowStockLabel: str | None
+
+class Prv_arxiv_arxivSearchOptions_In(TypedDict):
+    sort: NotRequired[Literal["relevance"] | Literal["submitted"] | Literal["updated"]]
+    limit: NotRequired[float]
+    start: NotRequired[float]
+
+class Prv_arxiv_arxivSearchResults_Out(TypedDict):
+    query: str
+    totalResults: float
+    papers: list[Prv_arxiv_arxivPaper_Out]
+
+class Prv_arxiv_arxivPaper_Out(TypedDict):
+    id: str
+    title: str
+    authors: list[str]
+    summary: str
+    published: str | None
+    updated: str | None
+    primaryCategory: str | None
+    categories: list[str]
+    comment: str | None
+    journalRef: str | None
+    doi: str | None
+    absUrl: str
+    pdfUrl: str | None
 
 class Prv_ashby_AshbyBoard_Out(TypedDict):
     name: str
@@ -26374,6 +26399,41 @@ class Prv_patreon_patreonPost_Out(TypedDict):
     commentCount: NotRequired[float]
     likeCount: NotRequired[float]
 
+class Prv_patreon_GetPostArgs_In(TypedDict):
+    postId: str
+
+class Prv_patreon_patreonPostDetail_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    publishedAt: NotRequired[str]
+    url: NotRequired[str]
+    isPublic: bool
+    postType: NotRequired[str]
+    commentCount: NotRequired[float]
+    likeCount: NotRequired[float]
+    body: NotRequired[str]
+    imageUrl: NotRequired[str]
+
+class Prv_patreon_ListPostCommentsArgs_In(TypedDict):
+    postId: str
+    cursor: NotRequired[str]
+
+class Prv_patreon_ListPostCommentsResult_Out(TypedDict):
+    comments: list[Prv_patreon_patreonComment_Out]
+    total: NotRequired[float]
+    nextCursor: NotRequired[str]
+
+class Prv_patreon_patreonComment_Out(TypedDict):
+    id: str
+    body: NotRequired[str]
+    createdAt: NotRequired[str]
+    authorId: NotRequired[str]
+    authorName: NotRequired[str]
+    authorAvatar: NotRequired[str]
+    isByCreator: bool
+    isByPatron: bool
+    voteSum: NotRequired[float]
+
 class Prv_pausestudio_Location_Out(TypedDict):
     id: str
     name: str
@@ -43165,6 +43225,25 @@ class Prv_artpix3d(Protocol):
         current ones.
         """
 
+class Prv_arxiv(Protocol):
+    """arXiv preprints — search papers by keyword, author, title or category, and read one
+    paper's abstract, authors and PDF link.
+    """
+
+    async def search(self, query: str, opts: Prv_arxiv_arxivSearchOptions_In | None = None, /) -> Prv_arxiv_arxivSearchResults_Out:
+        """Searches arXiv papers. A plain phrase ("diffusion models protein folding") matches every
+        word anywhere in the paper; the API's field syntax passes straight through —
+        `au:hinton`, `ti:transformer`, `cat:cs.LG`, combined with AND / OR / ANDNOT. `sort:
+        "submitted"` lists the newest first. Each paper carries its abstract, authors,
+        categories and PDF url; its `id` goes to getPaper.
+        """
+
+    async def getPaper(self, id: str, /) -> Prv_arxiv_arxivPaper_Out:
+        """Reads one arXiv paper — title, authors, abstract, categories, dates, comment, journal
+        reference, DOI and PDF url. Takes an arXiv id ("1706.03762", "hep-th/9901001", with or
+        without a version) or an arxiv.org/abs or /pdf url. Throws when no paper has that id.
+        """
+
 class Prv_ashby(Protocol):
     """Every listed job on a company's Ashby board (jobs.ashbyhq.com) — title, team, location,
     remote flag and the posted pay range — live off Ashby's own public job-posting API.
@@ -56750,6 +56829,16 @@ class Prv_patreon(Protocol):
         Each row says whether the post is public.
         """
 
+    async def getPost(self, args: Prv_patreon_GetPostArgs_In, /) -> Prv_patreon_patreonPostDetail_Out:
+        """Get one post by id: title, publish date, counts and, when it is public, its body as
+        markdown. A member-only post comes back with isPublic false and no body.
+        """
+
+    async def listPostComments(self, args: Prv_patreon_ListPostCommentsArgs_In, /) -> Prv_patreon_ListPostCommentsResult_Out:
+        """List a post's comments, newest first, one page at a time with the site's own cursor —
+        each with its author's name and avatar.
+        """
+
 class Prv_pausestudio(Protocol):
     """Recovery and wellness studio with float, cryo, sauna, and IV therapy bookings."""
 
@@ -64450,6 +64539,7 @@ class BowmarkProviders(Protocol):
     archive_org: Prv_archive_org
     arketa: Prv_arketa
     artpix3d: Prv_artpix3d
+    arxiv: Prv_arxiv
     ashby: Prv_ashby
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco

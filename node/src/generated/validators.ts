@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 45ba577c9f774c458fd5d557a2d5f02f070c0d997e85e48a8c7fb4e766cbaaae
-// 2582 checked, 20 unchecked.
+// Manifest version: a8df492c1e1649f20f7e4a03a3fde00e2d9ed64ca6030eef57cf6f422ea21a1a
+// 2586 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "45ba577c9f774c458fd5d557a2d5f02f070c0d997e85e48a8c7fb4e766cbaaae",
+  "version": "a8df492c1e1649f20f7e4a03a3fde00e2d9ed64ca6030eef57cf6f422ea21a1a",
   "units": {
     "address_validation": {
       "defs": {
@@ -10770,6 +10770,78 @@ export const VALIDATORS: ValidatorTable = {
         "getSizePricing": [
           {
             "name": "shape",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.arxiv": {
+      "defs": {
+        "arxivSearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "submitted"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "updated"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "start",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "arxivSearchOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getPaper": [
+          {
+            "name": "id",
             "schema": {
               "k": "string"
             },
@@ -52927,6 +52999,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "postId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListCreatorPostsArgs": {
           "k": "object",
           "props": [
@@ -52955,6 +53039,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListPostCommentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "postId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -53008,6 +53111,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListCreatorPostsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPostArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPostComments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPostCommentsArgs"
             },
             "optional": false
           }

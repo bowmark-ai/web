@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 45ba577c9f774c458fd5d557a2d5f02f070c0d997e85e48a8c7fb4e766cbaaae
-// 87 capabilities, 643 providers, 2600 typed functions, 20 refused.
+// Manifest version: a8df492c1e1649f20f7e4a03a3fde00e2d9ed64ca6030eef57cf6f422ea21a1a
+// 87 capabilities, 644 providers, 2604 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10038,6 +10038,59 @@ interface Artpix3dProductPricing {
      * ones.
      */
     getSizePricing(shape: string): Promise<Artpix3dProductPricing>;
+  }
+}
+
+declare namespace BowmarkProvider_arxiv {
+  // ── arXiv — the unit's own declarations, verbatim ──
+interface arxivPaper {
+  id: string;                   // "1706.03762v7" — pass to getPaper
+  title: string;
+  authors: string[];
+  summary: string;              // the abstract
+  published: string | null;     // ISO timestamp of v1
+  updated: string | null;       // ISO timestamp of the latest version
+  primaryCategory: string | null; // e.g. "cs.CL"
+  categories: string[];
+  comment: string | null;       // the authors' comment line, e.g. "15 pages, 5 figures"
+  journalRef: string | null;
+  doi: string | null;
+  absUrl: string;               // https://arxiv.org/abs/<id>
+  pdfUrl: string | null;        // https://arxiv.org/pdf/<id>
+}
+
+interface arxivSearchOptions {
+  sort?: "relevance" | "submitted" | "updated";  // default "relevance"; "submitted" = newest first
+  limit?: number;               // 1-100, default 10
+  start?: number;               // offset for paging, default 0
+}
+
+interface arxivSearchResults {
+  query: string;
+  totalResults: number;         // the full match count, not just papers.length
+  papers: arxivPaper[];
+}
+
+  /**
+   * arXiv preprints — search papers by keyword, author, title or category, and read one paper's
+   * abstract, authors and PDF link.
+   */
+  interface Unit {
+    /**
+     * Searches arXiv papers. A plain phrase ("diffusion models protein folding") matches every
+     * word anywhere in the paper; the API's field syntax passes straight through — `au:hinton`,
+     * `ti:transformer`, `cat:cs.LG`, combined with AND / OR / ANDNOT. `sort: "submitted"` lists
+     * the newest first. Each paper carries its abstract, authors, categories and PDF url; its `id`
+     * goes to getPaper.
+     */
+    search(query: string, opts?: arxivSearchOptions): Promise<arxivSearchResults>;
+
+    /**
+     * Reads one arXiv paper — title, authors, abstract, categories, dates, comment, journal
+     * reference, DOI and PDF url. Takes an arXiv id ("1706.03762", "hep-th/9901001", with or
+     * without a version) or an arxiv.org/abs or /pdf url. Throws when no paper has that id.
+     */
+    getPaper(id: string): Promise<arxivPaper>;
   }
 }
 
@@ -47550,6 +47603,38 @@ interface ListCreatorPostsResult {
   nextCursor?: string;
 }
 
+interface GetPostArgs {
+  postId: string;
+}
+
+interface patreonPostDetail extends patreonPost {
+  body?: string;
+  imageUrl?: string;
+}
+
+interface ListPostCommentsArgs {
+  postId: string;
+  cursor?: string;
+}
+
+interface patreonComment {
+  id: string;
+  body?: string;
+  createdAt?: string;
+  authorId?: string;
+  authorName?: string;
+  authorAvatar?: string;
+  isByCreator: boolean;
+  isByPatron: boolean;
+  voteSum?: number;
+}
+
+interface ListPostCommentsResult {
+  comments: patreonComment[];
+  total?: number;
+  nextCursor?: string;
+}
+
 interface patreonTier {
   id: string;
   title?: string;
@@ -47577,6 +47662,18 @@ interface patreonTier {
      * row says whether the post is public.
      */
     listCreatorPosts(args: ListCreatorPostsArgs): Promise<ListCreatorPostsResult>;
+
+    /**
+     * Get one post by id: title, publish date, counts and, when it is public, its body as
+     * markdown. A member-only post comes back with isPublic false and no body.
+     */
+    getPost(args: GetPostArgs): Promise<patreonPostDetail>;
+
+    /**
+     * List a post's comments, newest first, one page at a time with the site's own cursor — each
+     * with its author's name and avatar.
+     */
+    listPostComments(args: ListPostCommentsArgs): Promise<ListPostCommentsResult>;
   }
 }
 
@@ -69932,6 +70029,7 @@ interface BowmarkProviders {
   archive_org: BowmarkProvider_archive_org.Unit;
   arketa: BowmarkProvider_arketa.Unit;
   artpix3d: BowmarkProvider_artpix3d.Unit;
+  arxiv: BowmarkProvider_arxiv.Unit;
   ashby: BowmarkProvider_ashby.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
