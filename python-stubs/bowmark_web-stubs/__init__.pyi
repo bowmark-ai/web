@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 72082ca7d13e9056a32149601ecd278b8c8e7ac166dd2c0212a2957301e79352
-# 86 capabilities, 632 providers, 2486 typed functions, 20 refused.
+# Manifest version: d1c69aad6f3ae7af95df9a8641209e31f6d8104644e07ecc50f4d602ef3a66c5
+# 86 capabilities, 633 providers, 2494 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6555,6 +6555,31 @@ class Prv_bbc_BbcPodcast_Out(TypedDict):
     image: NotRequired[str]
     url: str
     podcastId: str
+
+class Prv_bbc_getPodcast_args_In(TypedDict):
+    podcastId: str
+    page: NotRequired[float]
+
+class Prv_bbc_BbcGetPodcastResult_Out(TypedDict):
+    podcastId: str
+    title: str
+    description: str
+    image: NotRequired[str]
+    genres: list[str]
+    episodeCount: float
+    page: float
+    hasMore: bool
+    url: str
+    episodes: list[Prv_bbc_BbcPodcastEpisodeSummary_Out]
+
+class Prv_bbc_BbcPodcastEpisodeSummary_Out(TypedDict):
+    episodeId: str
+    title: str
+    summary: str
+    duration: NotRequired[str]
+    date: NotRequired[str]
+    image: NotRequired[str]
+    url: str
 
 class Prv_bbc_listTopicStories_args_In(TypedDict):
     topicId: str
@@ -13792,6 +13817,10 @@ class Prv_facebook_FacebookMarketplaceListing_Out(TypedDict):
     url: NotRequired[str]
     location: NotRequired[str]
 
+class Prv_facebook_BrowseMarketplaceArgs_In(TypedDict):
+    city: str
+    category: NotRequired[str]
+
 class Prv_facebook_GetMarketplaceListingDetailsArgs_In(TypedDict):
     listingId: str
 
@@ -15881,6 +15910,16 @@ class Prv_goodreads_GoodreadsQuote_Out(TypedDict):
     bookUrl: NotRequired[str]
     likes: NotRequired[float]
     tags: list[str]
+
+class Prv_goodreads_GoodreadsMemberProfile_Out(TypedDict):
+    name: str
+    username: NotRequired[str]
+    location: NotRequired[str]
+    booksCount: NotRequired[float]
+    friendCount: NotRequired[float]
+    shelfCounts: Mapping[str, float]
+    favoriteGenres: list[str]
+    private: bool
 
 class Prv_goodway_GoodwayProductSummary_Out(TypedDict):
     sku: str
@@ -24336,6 +24375,64 @@ class Prv_nws_SearchLocationResult_Out(TypedDict):
     lat: float
     lon: float
 
+class Prv_nws_GetPointArgs_In(TypedDict):
+    place: str
+
+class Prv_nws_NwsPoint_Out(TypedDict):
+    gridId: str
+    gridX: float
+    gridY: float
+    forecastZone: str
+    fireWeatherZone: str
+    county: str
+    radarStation: str
+    timeZone: str
+    city: str
+    state: str
+    lat: float
+    lon: float
+
+class Prv_nws_GetForecastArgs_In(TypedDict):
+    place: str
+
+class Prv_nws_ForecastPeriod_Out(TypedDict):
+    name: str
+    temperature: float
+    temperatureUnit: str
+    probabilityOfPrecipitation: float | None
+    dewpointCelsius: float | None
+    relativeHumidity: float | None
+    windSpeed: str
+    windDirection: str
+    shortForecast: str
+    detailedForecast: str
+    startTime: str
+    endTime: str
+
+class Prv_nws_GetHourlyForecastArgs_In(TypedDict):
+    place: str
+
+class Prv_nws_GetActiveAlertsArgs_In(TypedDict):
+    place: NotRequired[str]
+    area: NotRequired[str]
+    zone: NotRequired[str]
+    event: NotRequired[str]
+    severity: NotRequired[str]
+
+class Prv_nws_NwsAlert_Out(TypedDict):
+    id: str
+    areaDesc: str
+    event: str
+    headline: str
+    severity: str
+    urgency: str
+    certainty: str
+    status: str
+    onset: str | None
+    expires: str | None
+    description: str
+    instruction: str | None
+
 class Prv_nyt_cooking_NytCookingSearchArgs_In(TypedDict):
     query: str
     cuisine: NotRequired[str]
@@ -32217,6 +32314,20 @@ class Prv_teladoc_teladocInsuranceCoverage_Out(TypedDict):
     headlinePriceUsd: float
     services: list[str]
     disclaimer: str
+
+class Prv_temu_ListCategoriesArgs_In(TypedDict):
+    parent: NotRequired[str]
+
+class Prv_temu_TemuCategory_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    subcategories: list[Prv_temu_TemuCategoryLink_Out]
+
+class Prv_temu_TemuCategoryLink_Out(TypedDict):
+    id: str
+    name: str
+    url: str
 
 class Prv_tenders_go_ke_ListTendersArgs_In(TypedDict):
     status: NotRequired[Literal["active"] | Literal["all"]]
@@ -42331,6 +42442,12 @@ class Prv_bbc(Protocol):
         and podcast id — the finder for getPodcast and followPodcast.
         """
 
+    async def getPodcast(self, args: Prv_bbc_getPodcast_args_In, /) -> Prv_bbc_BbcGetPodcastResult_Out:
+        """One BBC podcast or series: title, description, genres, episode count, and ten episodes a
+        page newest first — title, summary, duration, date and episode id. Takes a podcast id
+        (or /audio/brand URL) from listPodcasts.
+        """
+
     async def listTopicStories(self, args: Prv_bbc_listTopicStories_args_In, /) -> Prv_bbc_BbcListTopicStoriesResult_Out:
         """The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id, date
         — with paging. Takes a topic id from getArticle's tags.
@@ -46677,7 +46794,7 @@ class Prv_facebook(Protocol):
     async def joinGroup(self, args: Prv_facebook_JoinGroupArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookGroupJoin_Out:
         """Request to join a Group by its id or url slug."""
 
-    async def getVideo(self, args: Prv_facebook_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookVideo_Out:
+    async def getVideo(self, args: Prv_facebook_GetVideoArgs_In, /) -> Prv_facebook_FacebookVideo_Out:
         """Read a Facebook video's details — title, description, view count, comment count."""
 
     async def searchPages(self, args: Prv_facebook_SearchPagesArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookPageSearchResult_Out]:
@@ -46686,7 +46803,7 @@ class Prv_facebook(Protocol):
     async def searchGroups(self, args: Prv_facebook_SearchGroupsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookGroupSearchResult_Out]:
         """Search for Facebook Groups by name or topic."""
 
-    async def getEventDetails(self, args: Prv_facebook_GetEventDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookEventDetails_Out:
+    async def getEventDetails(self, args: Prv_facebook_GetEventDetailsArgs_In, /) -> Prv_facebook_FacebookEventDetails_Out:
         """Read a Facebook Event's details — name, date, location, description, attendance."""
 
     async def postToPage(self, args: Prv_facebook_PostToPageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPagePostResult_Out:
@@ -46701,7 +46818,13 @@ class Prv_facebook(Protocol):
     async def getMarketplaceListings(self, args: Prv_facebook_GetMarketplaceListingsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookMarketplaceListing_Out]:
         """Search Facebook Marketplace listings by keyword."""
 
-    async def getMarketplaceListingDetails(self, args: Prv_facebook_GetMarketplaceListingDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookMarketplaceListingDetails_Out:
+    async def browseMarketplace(self, args: Prv_facebook_BrowseMarketplaceArgs_In, /) -> list[Prv_facebook_FacebookMarketplaceListing_Out]:
+        """Browse a city's Marketplace front page (optionally one category) logged out — title,
+        price, place and link per listing. Keyword search is getMarketplaceListings, which needs
+        a sign-in.
+        """
+
+    async def getMarketplaceListingDetails(self, args: Prv_facebook_GetMarketplaceListingDetailsArgs_In, /) -> Prv_facebook_FacebookMarketplaceListingDetails_Out:
         """Read a Marketplace listing's details — title, price, description, location, seller."""
 
     async def listNotifications(self, args: Prv_facebook_ListNotificationsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookNotification_Out]:
@@ -48247,6 +48370,13 @@ class Prv_goodreads(Protocol):
     async def searchQuotes(self, query: str, /) -> list[Prv_goodreads_GoodreadsQuote_Out]:
         """Runs the public quotes search and returns quote text with its attributed author, the
         book it's from (when the card names one), like count and tags.
+        """
+
+    async def getMemberProfile(self, idOrUrl: str, /) -> Prv_goodreads_GoodreadsMemberProfile_Out:
+        """Reads a member's PUBLIC profile summary — display name, shelf counts, favorite genres
+        and friend count — off their profile page. Takes the numeric id or the full
+        goodreads.com user URL. A member whose own privacy setting restricts this to signed-in
+        visitors comes back with only the name and book count (`private: true`).
         """
 
 class Prv_goodway(Protocol):
@@ -54397,6 +54527,28 @@ class Prv_nws(Protocol):
         API only speaks coordinates.
         """
 
+    async def getPoint(self, args: Prv_nws_GetPointArgs_In, /) -> Prv_nws_NwsPoint_Out:
+        """Everything NWS knows about one place: its forecast grid cell, forecast/county/fire
+        zones, nearest radar station and time zone. The hop that turns a place into the ids the
+        forecast, zone, station and office functions take.
+        """
+
+    async def getForecast(self, args: Prv_nws_GetForecastArgs_In, /) -> list[Prv_nws_ForecastPeriod_Out]:
+        """The 7-day forecast a person reads on weather.gov — fourteen day/night periods with
+        temperature, wind, chance of precipitation, a short phrase and the full detailed
+        sentence.
+        """
+
+    async def getHourlyForecast(self, args: Prv_nws_GetHourlyForecastArgs_In, /) -> list[Prv_nws_ForecastPeriod_Out]:
+        """The hour-by-hour forecast for the next week — temperature, dewpoint, humidity, wind and
+        chance of precipitation per hour. What answers "will it be raining at 3pm".
+        """
+
+    async def getActiveAlerts(self, args: Prv_nws_GetActiveAlertsArgs_In, /) -> list[Prv_nws_NwsAlert_Out]:
+        """The weather warnings, watches and advisories in effect right now — for a place, a state,
+        or a zone, optionally narrowed to one event type or severity.
+        """
+
 class Prv_nyt_cooking(Protocol):
     """Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking."""
 
@@ -58757,6 +58909,14 @@ class Prv_teladoc(Protocol):
         way this parser cannot read surfaces as an error rather than an empty answer.
         """
 
+class Prv_temu(Protocol):
+    """Shop Temu — search, product detail, cart and order functions on the marketplace app."""
+
+    async def listCategories(self, args: Prv_temu_ListCategoriesArgs_In | None = None, /) -> list[Prv_temu_TemuCategory_Out]:
+        """Lists Temu's top-level shopping categories, each with its subcategories and the url that
+        opens it; pass { parent } to read just one.
+        """
+
 class Prv_tenders_go_ke(Protocol):
     """List open (or all) Kenyan government procurement tenders with close dates, paginated and
     filterable by title; read one tender's documents and award value.
@@ -62958,6 +63118,7 @@ class BowmarkProviders(Protocol):
     tatcha: Prv_tatcha
     teamtailor: Prv_teamtailor
     teladoc: Prv_teladoc
+    temu: Prv_temu
     tenders_go_ke: Prv_tenders_go_ke
     teneohg: Prv_teneohg
     theguardian_com: Prv_theguardian_com

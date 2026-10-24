@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 72082ca7d13e9056a32149601ecd278b8c8e7ac166dd2c0212a2957301e79352
-// 2486 checked, 20 unchecked.
+// Manifest version: d1c69aad6f3ae7af95df9a8641209e31f6d8104644e07ecc50f4d602ef3a66c5
+// 2494 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "72082ca7d13e9056a32149601ecd278b8c8e7ac166dd2c0212a2957301e79352",
+  "version": "d1c69aad6f3ae7af95df9a8641209e31f6d8104644e07ecc50f4d602ef3a66c5",
   "units": {
     "address_validation": {
       "defs": {
@@ -12263,6 +12263,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listPodcasts": [],
+        "getPodcast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "podcastId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listTopicStories": [
           {
             "name": "args",
@@ -23821,6 +23846,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.facebook": {
       "defs": {
+        "BrowseMarketplaceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "CommentOnPostArgs": {
           "k": "object",
           "props": [
@@ -24809,22 +24853,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetVideoArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "searchPages": [
@@ -24887,22 +24915,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetEventDetailsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "postToPage": [
@@ -25009,6 +25021,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "browseMarketplace": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowseMarketplaceArgs"
+            },
+            "optional": false
+          }
+        ],
         "getMarketplaceListingDetails": [
           {
             "name": "args",
@@ -25017,22 +25039,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetMarketplaceListingDetailsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listNotifications": [
@@ -30069,6 +30075,15 @@ export const VALIDATORS: ValidatorTable = {
         "searchQuotes": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMemberProfile": [
+          {
+            "name": "idOrUrl",
             "schema": {
               "k": "string"
             },
@@ -49015,6 +49030,82 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.nws": {
       "defs": {
+        "GetActiveAlertsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "area",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "zone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "event",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "severity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetForecastArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetHourlyForecastArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetPointArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchLocationArgs": {
           "k": "object",
           "props": [
@@ -49035,6 +49126,46 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPoint": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPointArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getForecast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetForecastArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHourlyForecast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHourlyForecastArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getActiveAlerts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetActiveAlertsArgs"
             },
             "optional": false
           }
@@ -66559,6 +66690,34 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getPricing": [],
         "getInsurancePricing": []
+      }
+    },
+    "providers.temu": {
+      "defs": {
+        "ListCategoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "parent",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCategoriesArgs"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.tenders_go_ke": {

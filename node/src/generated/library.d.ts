@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 72082ca7d13e9056a32149601ecd278b8c8e7ac166dd2c0212a2957301e79352
-// 86 capabilities, 632 providers, 2504 typed functions, 20 refused.
+// Manifest version: d1c69aad6f3ae7af95df9a8641209e31f6d8104644e07ecc50f4d602ef3a66c5
+// 86 capabilities, 633 providers, 2512 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11280,6 +11280,29 @@ interface BbcListPodcastsResult {
   podcasts: BbcPodcast[];
 }
 
+interface BbcPodcastEpisodeSummary {
+  episodeId: string;
+  title: string;
+  summary: string;
+  duration?: string;
+  date?: string;
+  image?: string;
+  url: string;
+}
+
+interface BbcGetPodcastResult {
+  podcastId: string;
+  title: string;
+  description: string;
+  image?: string;
+  genres: string[];
+  episodeCount: number;
+  page: number;
+  hasMore: boolean;
+  url: string;
+  episodes: BbcPodcastEpisodeSummary[];
+}
+
 interface BbcGetVideoResult {
   videoId: string;
   title: string;
@@ -11664,6 +11687,13 @@ interface bbcRow {
      * podcast id — the finder for getPodcast and followPodcast.
      */
     listPodcasts(): Promise<BbcListPodcastsResult>;
+
+    /**
+     * One BBC podcast or series: title, description, genres, episode count, and ten episodes a
+     * page newest first — title, summary, duration, date and episode id. Takes a podcast id (or
+     * /audio/brand URL) from listPodcasts.
+     */
+    getPodcast(args: { podcastId: string; page?: number }): Promise<BbcGetPodcastResult>;
 
     /**
      * The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id, date —
@@ -24049,6 +24079,11 @@ interface FacebookMarketplaceListing {
   location?: string;
 }
 
+interface BrowseMarketplaceArgs {
+  city: string;
+  category?: string;
+}
+
 interface GetMarketplaceListingDetailsArgs {
   listingId: string;
 }
@@ -24177,7 +24212,7 @@ interface FacebookProfileUpdate {
     joinGroup(args: JoinGroupArgs, opts?: ConnectionOption): Promise<FacebookGroupJoin>;
 
     /** Read a Facebook video's details — title, description, view count, comment count. */
-    getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<FacebookVideo>;
+    getVideo(args: GetVideoArgs): Promise<FacebookVideo>;
 
     /** Search for Facebook Pages by name or category. */
     searchPages(args: SearchPagesArgs, opts?: ConnectionOption): Promise<FacebookPageSearchResult[]>;
@@ -24186,7 +24221,7 @@ interface FacebookProfileUpdate {
     searchGroups(args: SearchGroupsArgs, opts?: ConnectionOption): Promise<FacebookGroupSearchResult[]>;
 
     /** Read a Facebook Event's details — name, date, location, description, attendance. */
-    getEventDetails(args: GetEventDetailsArgs, opts?: ConnectionOption): Promise<FacebookEventDetails>;
+    getEventDetails(args: GetEventDetailsArgs): Promise<FacebookEventDetails>;
 
     /** Write a text post to a Page the caller owns or administrates. */
     postToPage(args: PostToPageArgs, opts?: ConnectionOption): Promise<FacebookPagePostResult>;
@@ -24200,8 +24235,14 @@ interface FacebookProfileUpdate {
     /** Search Facebook Marketplace listings by keyword. */
     getMarketplaceListings(args: GetMarketplaceListingsArgs, opts?: ConnectionOption): Promise<FacebookMarketplaceListing[]>;
 
+    /**
+     * Browse a city's Marketplace front page (optionally one category) logged out — title, price,
+     * place and link per listing. Keyword search is getMarketplaceListings, which needs a sign-in.
+     */
+    browseMarketplace(args: BrowseMarketplaceArgs): Promise<FacebookMarketplaceListing[]>;
+
     /** Read a Marketplace listing's details — title, price, description, location, seller. */
-    getMarketplaceListingDetails(args: GetMarketplaceListingDetailsArgs, opts?: ConnectionOption): Promise<FacebookMarketplaceListingDetails>;
+    getMarketplaceListingDetails(args: GetMarketplaceListingDetailsArgs): Promise<FacebookMarketplaceListingDetails>;
 
     /** List the caller's recent notifications — friend requests, reactions, comments, mentions. */
     listNotifications(args: ListNotificationsArgs, opts?: ConnectionOption): Promise<FacebookNotification[]>;
@@ -28166,6 +28207,19 @@ interface GoodreadsAuthor {
   followersCount?: number;
   books: GoodreadsAuthorBook[];
 }
+interface GoodreadsMemberProfile {
+  name: string;
+  username?: string;
+  location?: string;
+  booksCount?: number;
+  friendCount?: number;
+  shelfCounts: Record<string, number>;
+  favoriteGenres: string[];
+  // true when the member's own privacy setting restricts this page to
+  // signed-in visitors — shelfCounts/favoriteGenres are empty because the
+  // site never sent them, not because the member has none.
+  private: boolean;
+}
 
   /**
    * A social network for book readers: book details and ratings, member reviews, curated lists,
@@ -28216,6 +28270,14 @@ interface GoodreadsAuthor {
      * it's from (when the card names one), like count and tags.
      */
     searchQuotes(query: string): Promise<GoodreadsQuote[]>;
+
+    /**
+     * Reads a member's PUBLIC profile summary — display name, shelf counts, favorite genres and
+     * friend count — off their profile page. Takes the numeric id or the full goodreads.com user
+     * URL. A member whose own privacy setting restricts this to signed-in visitors comes back with
+     * only the name and book count (`private: true`).
+     */
+    getMemberProfile(idOrUrl: string): Promise<GoodreadsMemberProfile>;
   }
 }
 
@@ -44585,6 +44647,72 @@ interface SearchLocationResult {
   lon: number;
 }
 
+interface GetPointArgs {
+  place: string;
+}
+
+interface NwsPoint {
+  gridId: string;
+  gridX: number;
+  gridY: number;
+  forecastZone: string;
+  fireWeatherZone: string;
+  county: string;
+  radarStation: string;
+  timeZone: string;
+  city: string;
+  state: string;
+  lat: number;
+  lon: number;
+}
+
+interface GetForecastArgs {
+  place: string;
+}
+
+interface ForecastPeriod {
+  name: string;
+  temperature: number;
+  temperatureUnit: string;
+  probabilityOfPrecipitation: number | null;
+  dewpointCelsius: number | null;
+  relativeHumidity: number | null;
+  windSpeed: string;
+  windDirection: string;
+  shortForecast: string;
+  detailedForecast: string;
+  startTime: string;
+  endTime: string;
+}
+
+interface GetHourlyForecastArgs {
+  place: string;
+}
+
+interface GetActiveAlertsArgs {
+  place?: string;
+  area?: string;
+  zone?: string;
+  event?: string;
+  severity?: string;
+}
+
+interface NwsAlert {
+  id: string;
+  areaDesc: string;
+  event: string;
+  headline: string;
+  severity: string;
+  urgency: string;
+  certainty: string;
+  /** CAP alert status — the site's own labels, e.g. "Actual"; read the values off a result, never guess one from prose. */
+  status: string;
+  onset: string | null;
+  expires: string | null;
+  description: string;
+  instruction: string | null;
+}
+
   /**
    * National Weather Service forecasts, alerts, current conditions, radar and forecast-office
    * products for any US place, keyless and public.
@@ -44596,6 +44724,31 @@ interface SearchLocationResult {
      * speaks coordinates.
      */
     searchLocation(args: SearchLocationArgs): Promise<SearchLocationResult[]>;
+
+    /**
+     * Everything NWS knows about one place: its forecast grid cell, forecast/county/fire zones,
+     * nearest radar station and time zone. The hop that turns a place into the ids the forecast,
+     * zone, station and office functions take.
+     */
+    getPoint(args: GetPointArgs): Promise<NwsPoint>;
+
+    /**
+     * The 7-day forecast a person reads on weather.gov — fourteen day/night periods with
+     * temperature, wind, chance of precipitation, a short phrase and the full detailed sentence.
+     */
+    getForecast(args: GetForecastArgs): Promise<ForecastPeriod[]>;
+
+    /**
+     * The hour-by-hour forecast for the next week — temperature, dewpoint, humidity, wind and
+     * chance of precipitation per hour. What answers "will it be raining at 3pm".
+     */
+    getHourlyForecast(args: GetHourlyForecastArgs): Promise<ForecastPeriod[]>;
+
+    /**
+     * The weather warnings, watches and advisories in effect right now — for a place, a state, or
+     * a zone, optionally narrowed to one event type or severity.
+     */
+    getActiveAlerts(args: GetActiveAlertsArgs): Promise<NwsAlert[]>;
   }
 }
 
@@ -57098,6 +57251,25 @@ interface teladocInsuranceCoverage {
   }
 }
 
+declare namespace BowmarkProvider_temu {
+  // ── Temu — the unit's own declarations, verbatim ──
+interface temuRow {
+  id: string;
+}
+interface TemuCategoryLink { id: string; name: string; url: string; }
+interface TemuCategory extends TemuCategoryLink { subcategories: TemuCategoryLink[]; }
+interface ListCategoriesArgs { parent?: string; }
+
+  /** Shop Temu — search, product detail, cart and order functions on the marketplace app. */
+  interface Unit {
+    /**
+     * Lists Temu's top-level shopping categories, each with its subcategories and the url that
+     * opens it; pass { parent } to read just one.
+     */
+    listCategories(args?: ListCategoriesArgs): Promise<TemuCategory[]>;
+  }
+}
+
 declare namespace BowmarkProvider_tenders_go_ke {
   // ── tenders.go.ke - Kenya Public Procurement Information Portal — the unit's own declarations, verbatim ──
 interface ListTendersArgs {
@@ -68445,6 +68617,7 @@ interface BowmarkProviders {
   tatcha: BowmarkProvider_tatcha.Unit;
   teamtailor: BowmarkProvider_teamtailor.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
+  temu: BowmarkProvider_temu.Unit;
   tenders_go_ke: BowmarkProvider_tenders_go_ke.Unit;
   teneohg: BowmarkProvider_teneohg.Unit;
   theguardian_com: BowmarkProvider_theguardian_com.Unit;

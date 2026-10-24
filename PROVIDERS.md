@@ -1469,7 +1469,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.searchApps` | discord.com | Searches Discord's App Directory (discord.com/discovery/applications) for bots, games… | ⚪ |
 | `discord.searchMessages` | discord.com | Searches the messages in one joined server (or the caller's DMs) by text, author… | ⚪ |
 | `discord.searchServerMembers` | discord.com | Finds members of a joined server by name — user id, username, nickname, roles and join… | ⚪ |
-| `discord.searchServers` | discord.com | Searches Discord's public server directory (discord.com/servers) by keyword… | ⚪ |
+| `discord.searchServers` | discord.com | Searches Discord's public server directory (discord.com/servers) by keyword… | 🟢 |
 | `discord.sendDirectMessage` | discord.com | Sends a direct message to one user by username or user id, opening the DM if none… | ⚪ |
 | `discord.sendFriendRequest` | discord.com | Sends a friend request to a user by username. | ⚪ |
 | `discord.sendMessage` | discord.com | Posts a message as the signed-in caller to a channel or DM, optionally as a reply to… | ⚪ |
@@ -3750,8 +3750,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.getExpertPlans` | quickbooks.intuit.com | Lists the QuickBooks Live expert bookkeeping and setup-help offers with their monthly… | ⚪ |
 | `quickbooks.getHelpArticle` | quickbooks.intuit.com | Reads one QuickBooks help article as text: title, the steps, which QuickBooks products… | ⚪ |
 | `quickbooks.getPaymentRates` | quickbooks.intuit.com | Returns QuickBooks Payments' published processing rates per method (card swiped, card… | ⚪ |
-| `quickbooks.getPayrollPlans` | quickbooks.intuit.com | Lists the QuickBooks Payroll plans (Core, Premium, Elite) with monthly base price… | ⚪ |
-| `quickbooks.getPlans` | quickbooks.intuit.com | Lists the QuickBooks Online plans (Solopreneur, Simple Start, Essentials, Plus… | ⚪ |
+| `quickbooks.getPayrollPlans` | quickbooks.intuit.com | Lists the QuickBooks Payroll plans (Core, Premium, Elite) with monthly base price… | 🟢 |
+| `quickbooks.getPlans` | quickbooks.intuit.com | Lists the QuickBooks Online plans (Solopreneur, Simple Start, Essentials, Plus… | 🟢 |
 | `quickbooks.getResourceArticle` | quickbooks.intuit.com | Reads one Resource Center article (/r/<topic>/<slug>/) as text with its title, author… | ⚪ |
 | `quickbooks.getServiceStatus` | quickbooks.intuit.com | Returns QuickBooks' current service status per region and component (operational… | 🟢 |
 | `quickbooks.getStatePayrollTaxes` | quickbooks.intuit.com | Returns one US state's payroll tax facts as the /payroll/tools/tax-map/ page lists… | ⚪ |
@@ -4943,8 +4943,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.unreblogPost` | tumblr.com | Remove a reblog from the signed-in account's blog. | ⚪ |
 | `turbotax.compareEditions` | turbotax.intuit.com | Compare TurboTax editions side by side, showing which features each includes. | ⚪ |
 | `turbotax.findLocalExperts` | turbotax.intuit.com | Find local TurboTax Live tax experts by searching the profile directory at… | ⚪ |
-| `turbotax.listEditions` | turbotax.intuit.com | List all TurboTax editions with their names, prices, and product pages. | ⚪ |
-| `turbotax.listTaxTools` | turbotax.intuit.com | List available tax calculation tools: TaxCaster, tax bracket, W-4, self-employed, and… | ⚪ |
+| `turbotax.listEditions` | turbotax.intuit.com | List all TurboTax editions with their names, prices, and product pages. | 🟢 |
+| `turbotax.listTaxTools` | turbotax.intuit.com | List available tax calculation tools: TaxCaster, tax bracket, W-4, self-employed, and… | 🟢 |
 | `turbotax.searchArticles` | turbotax.intuit.com | Search the TurboTax help library on ttlc.intuit.com for tax articles and guides. | ⚪ |
 | `tweethunter.listFeatureCategories` | tweethunter.io | Lists Tweet Hunter's public feature categories: content creation, X analytics and… | 🟢 |
 | `tweethunter.listFeatures` | tweethunter.io | Lists Tweet Hunter's publicly advertised X-account features, including scheduling… | 🟢 |
