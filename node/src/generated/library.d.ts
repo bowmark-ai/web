@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c124904258a14450e637efa4b084f8561ecdfdc8f3781155779f5789b2bf5bce
-// 86 capabilities, 637 providers, 2528 typed functions, 20 refused.
+// Manifest version: 60af2cb497d6fe6e00fa62804295823d7368f3cbbd5e6def89b1e92216628f71
+// 86 capabilities, 638 providers, 2544 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18111,6 +18111,41 @@ interface ClubPilatesClass {
   locationType: string | null;
   bookingUrl: string;
 }
+interface ListPricingArgs {
+  studio: string;
+}
+
+interface ClubPilatesPackage {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number | null;
+  priceFormatted: string | null;
+  currency: string | null;
+  creditCount: number;
+  isMembership: boolean;
+  isRecurring: boolean;
+  isUnlimited: boolean;
+  isIntroOffer: boolean;
+  interval: string | null;
+  intervalCount: number | null;
+}
+
+interface ClubPilatesClassType {
+  id: string;
+  name: string;
+  description: string | null;
+  longDescription: string | null;
+  categoryName: string | null;
+}
+
+interface ClubPilatesClassCategory {
+  id: string;
+  name: string;
+  summary: string | null;
+  description: string | null;
+  imageUrl: string | null;
+}
 
   /**
    * Club Pilates studios: find a studio, read its class schedule and pricing, and (signed in)
@@ -18145,6 +18180,26 @@ interface ClubPilatesClass {
      * deadlines, and the members-site booking URL.
      */
     getClass(args: GetClassArgs): Promise<ClubPilatesClass>;
+
+    /**
+     * Lists what a studio sells — single class, class packs and memberships — with each one's
+     * price, credit count (0 for unlimited), and whether it is a recurring membership. Read only;
+     * nothing is bought.
+     */
+    listPricing(args: ListPricingArgs): Promise<ClubPilatesPackage[]>;
+
+    /**
+     * Lists every Club Pilates class type brand-wide (Intro Class, Reformer Flow 1/1.5/2, Cardio
+     * Sculpt, …) with its description and category name.
+     */
+    listClassTypes(): Promise<ClubPilatesClassType[]>;
+
+    /**
+     * Lists the class categories a schedule is grouped by (Reformer Flow, Center + Balance,
+     * F.I.T., …) with a one-line summary and description of each; the ids match a class's
+     * `category.id` from listClasses.
+     */
+    listClassCategories(): Promise<ClubPilatesClassCategory[]>;
   }
 }
 
@@ -24817,6 +24872,54 @@ interface FirstdibsListing {
      * Contact Seller, whichever this seller has enabled.
      */
     getListing(url: string): Promise<FirstdibsListing>;
+  }
+}
+
+declare namespace BowmarkProvider_fitdegree {
+  // ── FitDegree — the unit's own declarations, verbatim ──
+interface FitdegreeStudio {
+  fitspotId: string;      // what every other fitdegree function takes
+  name: string;           // the fitspot's own name, often just the location ("Miami, FL")
+  companyId: string;
+  companyName?: string;   // the brand ("Pilathon")
+  address?: string; city?: string; state?: string; zip?: string;
+  timeZone?: string;      // IANA, e.g. "America/New_York"
+  phone?: string; email?: string; websiteUrl?: string; logoUrl?: string;
+  active: boolean;        // false for a retired or deleted fitspot
+}
+interface FitdegreeCompany {
+  id: string; name: string; iosAppUrl?: string; androidAppUrl?: string;
+  primaryColor?: string; hasBrandedApp: boolean;
+  fitspotIds: string[];   // every studio this company runs
+}
+interface FitdegreeStudioDetail extends FitdegreeStudio {
+  company?: FitdegreeCompany;
+  enableSpotBooking: boolean; classpassEnabled: boolean; acceptsPayment: boolean;
+}
+interface FitdegreeFindStudioArgs {
+  query: string;              // name, city, website, or a page URL embedding the FitDegree schedule
+  includeInactive?: boolean;  // include retired/deleted fitspots (default false)
+}
+
+  /**
+   * FitDegree studio schedules (pilates, yoga, barre, gyms): find a studio from the FitDegree
+   * directory or its website, read its class schedule, classes, instructors, memberships,
+   * offers, events and private sessions, and (signed in) book, waitlist and cancel classes.
+   */
+  interface Unit {
+    /**
+     * Finds FitDegree studios by brand or studio name, city, website, or the URL of a page that
+     * embeds the FitDegree schedule, and returns each one's fitspotId (what every other fitdegree
+     * function takes), address and time zone. Retired studios are left out unless includeInactive
+     * is true.
+     */
+    findStudio(query: string | FitdegreeFindStudioArgs): Promise<FitdegreeStudio[]>;
+
+    /**
+     * Returns one studio by fitspot id: name, address, time zone, contact details, logo, and its
+     * company (brand) with app links and every other studio it runs.
+     */
+    getStudio(fitspotId: string): Promise<FitdegreeStudioDetail>;
   }
 }
 
@@ -32733,6 +32836,55 @@ interface IkeaProduct {
 interface GetProductArgs {
   itemNo: string;
 }
+interface IkeaStoreHours {
+  day: string;
+  open: string;
+  close: string;
+}
+interface IkeaStore {
+  storeId: string;
+  name: string;
+  displayName: string | null;
+  street: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  timezone: string | null;
+  kind: string | null;
+  hours: IkeaStoreHours[];
+  clickAndCollectHours: IkeaStoreHours[];
+  exceptions: { date: string; open: string | null; close: string | null; reason: string | null }[];
+  url: string | null;
+  distanceMiles: number | null;
+}
+interface FindStoresArgs {
+  /** A 5-digit US ZIP; stores come back nearest first with distanceMiles. */
+  zip?: string;
+  /** Two-letter state, e.g. "CA". */
+  state?: string;
+  limit?: number;
+}
+interface IkeaStoreStock {
+  storeId: string;
+  cashAndCarry: boolean;
+  clickAndCollect: boolean;
+  quantity: number | null;
+  stockLevel: string | null;
+  aisles: string[];
+}
+interface IkeaAvailability {
+  itemNo: string;
+  homeDelivery: boolean;
+  stores: IkeaStoreStock[];
+}
+interface GetProductAvailabilityArgs {
+  /** One item number, or several. */
+  itemNos: string | string[];
+  /** Only this store's row (a storeId from findStores). */
+  storeId?: string;
+}
 
   /**
    * IKEA's US store: search the catalogue, read a product's price, dimensions and assembly PDFs,
@@ -32751,6 +32903,18 @@ interface GetProductArgs {
      * materials, care instructions, package count and weight, rating and images.
      */
     getProduct(args: GetProductArgs): Promise<IkeaProduct>;
+
+    /**
+     * Lists IKEA's US stores, optionally nearest a ZIP code or in one state, with address,
+     * coordinates, opening hours, holiday closures and the storeId the stock check takes.
+     */
+    findStores(args: FindStoresArgs): Promise<IkeaStore[]>;
+
+    /**
+     * Checks whether items are in stock at each US IKEA store and for home delivery: shelf
+     * quantity, stock band, click-and-collect and the aisle/bin to pick it from.
+     */
+    getProductAvailability(args: GetProductAvailabilityArgs): Promise<IkeaAvailability[]>;
   }
 }
 
@@ -36009,6 +36173,8 @@ interface KenkoRegion { id: number; name: string; timezone: string | null; curre
 interface KenkoStudio { urlPrefix: string; name: string; websiteUrl: string | null; logoUrl: string | null; regions: KenkoRegion[] }
 interface KenkoClass { id: number; name: string; classIds: number[] }
 interface KenkoInstructor { id: number; name: string; imageUrl: string | null; bio: string | null; centerIds: number[] }
+interface KenkoFacility { id: number; name: string }
+interface KenkoScheduleFilters { facilities: KenkoFacility[]; classes: KenkoClass[]; instructors: KenkoInstructor[] }
 
   /**
    * Kenko AI / Bookee studio booking widgets (yoga, pilates, aerial): find a studio, read its
@@ -36033,6 +36199,13 @@ interface KenkoInstructor { id: number; name: string; imageUrl: string | null; b
      * urlPrefix, regionId } from findStudio.
      */
     listInstructors(studio: KenkoStudioRef): Promise<KenkoInstructor[]>;
+
+    /**
+     * The schedule page's own filter options — facilities/rooms, class types and instructors —
+     * composed from the studio's facilities, classes and trainers reads. Takes { urlPrefix,
+     * regionId } from findStudio.
+     */
+    listScheduleFilters(studio: KenkoStudioRef): Promise<KenkoScheduleFilters>;
   }
 }
 
@@ -47492,6 +47665,40 @@ interface PinterestComment {
      * non-string term.
      */
     suggestSearches(term: string): Promise<{ suggestions: PinterestSuggestion[] }>;
+
+    /**
+     * Read a person's or a brand's profile: `id`, `username`, `full_name`, `follower_count`,
+     * `following_count`, `board_count`, `pin_count`, `is_verified_merchant` and `website_url` —
+     * the door from a username to everything else they own. `POST/GET /resource/UserResource/get/`
+     * with `field_set_key: "unauth_profile"`. THROWS `PinterestInputError` on an empty or
+     * non-string username.
+     */
+    getUser(username: string): Promise<PinterestUser>;
+
+    /**
+     * Every board a person has made public: `id`, `name`, `url`, `pin_count` and `section_count` —
+     * the list a caller walks before picking one for `getBoard`/`listBoardPins`. `POST/GET
+     * /resource/BoardsFeedResource/get/` with `{ username, field_set_key: "profile_grid_item",
+     * sort: "last_pinned_to" }`. THROWS `PinterestInputError` on an empty or non-string username.
+     */
+    listUserBoards(username: string, options?: { bookmark?: string }): Promise<{ boards: PinterestBoard[]; bookmark: string | null }>;
+
+    /**
+     * The pins a person has saved, newest first, across all their boards — what `/<username>/`
+     * actually shows a visitor. Same row shape as `searchPins`. `POST/GET
+     * /resource/UserPinsResource/get/` with `{ username, field_set_key: "mobile_grid_item",
+     * page_size: 25 }`. THROWS `PinterestInputError` on an empty or non-string username.
+     */
+    listUserSavedPins(username: string, options?: { bookmark?: string }): Promise<{ pins: PinterestPin[]; bookmark: string | null }>;
+
+    /**
+     * The pins a person made themselves rather than saved from somebody else —
+     * `/<username>/_created/`, which is the half that matters for a brand or a creator. Same row
+     * shape as `searchPins`. `POST/GET /resource/UserActivityPinsResource/get/` with `{ username,
+     * field_set_key: "mobile_grid_item", page_size: 25 }`. THROWS `PinterestInputError` on an
+     * empty or non-string username.
+     */
+    listUserCreatedPins(username: string, options?: { bookmark?: string }): Promise<{ pins: PinterestPin[]; bookmark: string | null }>;
   }
 }
 
@@ -55122,6 +55329,50 @@ interface SpotifyPlaylist {
   external_urls: { spotify: string };
   uri: string;
 }
+interface SpotifyShow {
+  id: string;
+  name: string;
+  description: string;
+  publisher: string;
+  explicit: boolean;
+  mediaType: string;
+  totalEpisodes: number;
+  images: { url: string; height?: number; width?: number }[];
+  external_urls: { spotify: string };
+  uri: string;
+}
+interface SpotifyEpisode {
+  id: string;
+  name: string;
+  description: string;
+  releaseDate: string;
+  durationMs: number;
+  explicit: boolean;
+  show?: { id: string; name: string };
+  images: { url: string; height?: number; width?: number }[];
+  external_urls: { spotify: string };
+  uri: string;
+}
+interface SpotifyAlbumTrack {
+  id: string;
+  name: string;
+  artists: { id: string; name: string }[];
+  durationMs: number;
+  explicit: boolean;
+  trackNumber: number;
+  external_urls: { spotify: string };
+  uri: string;
+}
+interface SpotifyAlbumTracksOptions {
+  limit?: number;   // 1-50, default 50
+  offset?: number;  // default 0
+}
+interface SpotifyAlbumTracksResult {
+  albumId: string;
+  tracks: SpotifyAlbumTrack[];
+  total: number;
+  warnings: string[];
+}
 type SpotifySearchType = "track" | "album" | "artist" | "playlist" | "show" | "episode";
 interface SpotifySearchOptions {
   types?: SpotifySearchType[];   // default track, album, artist, playlist
@@ -55186,6 +55437,31 @@ interface SpotifySearchResult {
      * developer app key.
      */
     getPlaylist(id: string): Promise<SpotifyPlaylist>;
+
+    /**
+     * Gets one podcast show by its Spotify id — name, description, publisher, episode count, cover
+     * images, open.spotify.com url and Spotify uri. Needs your own Spotify developer app key.
+     */
+    getPodcast(id: string): Promise<SpotifyShow>;
+
+    /**
+     * Gets one podcast episode by its Spotify id — name, description, release date, duration, its
+     * show, cover images, open.spotify.com url and Spotify uri. Needs your own Spotify developer
+     * app key.
+     */
+    getEpisode(id: string): Promise<SpotifyEpisode>;
+
+    /**
+     * Gets an artist's top tracks (Spotify's own ranking) for a market, two-letter country code,
+     * default "US". Needs your own Spotify developer app key.
+     */
+    listArtistTracks(id: string, market?: string): Promise<SpotifyTrack[]>;
+
+    /**
+     * Gets one page of an album's track listing, in disc/track order — up to 50 per call, with the
+     * album's total track count. Needs your own Spotify developer app key.
+     */
+    listAlbumTracks(id: string, opts?: SpotifyAlbumTracksOptions): Promise<SpotifyAlbumTracksResult>;
   }
 }
 
@@ -68690,6 +68966,7 @@ interface BowmarkProviders {
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
   firstamericahomes: BowmarkProvider_firstamericahomes.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
+  fitdegree: BowmarkProvider_fitdegree.Unit;
   fitness1440: BowmarkProvider_fitness1440.Unit;
   fivebelow: BowmarkProvider_fivebelow.Unit;
   fivestarbathsolutions: BowmarkProvider_fivestarbathsolutions.Unit;

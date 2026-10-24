@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c124904258a14450e637efa4b084f8561ecdfdc8f3781155779f5789b2bf5bce
-# 86 capabilities, 637 providers, 2510 typed functions, 20 refused.
+# Manifest version: 60af2cb497d6fe6e00fa62804295823d7368f3cbbd5e6def89b1e92216628f71
+# 86 capabilities, 638 providers, 2526 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10274,6 +10274,38 @@ class Prv_clubpilates_GetClassArgs_In(TypedDict):
     studio: str
     classId: str
 
+class Prv_clubpilates_ListPricingArgs_In(TypedDict):
+    studio: str
+
+class Prv_clubpilates_ClubPilatesPackage_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    price: float | None
+    priceFormatted: str | None
+    currency: str | None
+    creditCount: float
+    isMembership: bool
+    isRecurring: bool
+    isUnlimited: bool
+    isIntroOffer: bool
+    interval: str | None
+    intervalCount: float | None
+
+class Prv_clubpilates_ClubPilatesClassType_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    longDescription: str | None
+    categoryName: str | None
+
+class Prv_clubpilates_ClubPilatesClassCategory_Out(TypedDict):
+    id: str
+    name: str
+    summary: str | None
+    description: str | None
+    imageUrl: str | None
+
 class Prv_clubready_ClubreadyBrand_Out(TypedDict):
     id: str
     name: str
@@ -14208,6 +14240,55 @@ class Prv_firstdibs_FirstdibsCompletingAction_Out(TypedDict):
     contactSeller: bool
     purchase: Literal[False]
 
+class Prv_fitdegree_FitdegreeFindStudioArgs_In(TypedDict):
+    query: str
+    includeInactive: NotRequired[bool]
+
+class Prv_fitdegree_FitdegreeStudio_Out(TypedDict):
+    fitspotId: str
+    name: str
+    companyId: str
+    companyName: NotRequired[str]
+    address: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
+    zip: NotRequired[str]
+    timeZone: NotRequired[str]
+    phone: NotRequired[str]
+    email: NotRequired[str]
+    websiteUrl: NotRequired[str]
+    logoUrl: NotRequired[str]
+    active: bool
+
+class Prv_fitdegree_FitdegreeStudioDetail_Out(TypedDict):
+    fitspotId: str
+    name: str
+    companyId: str
+    companyName: NotRequired[str]
+    address: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
+    zip: NotRequired[str]
+    timeZone: NotRequired[str]
+    phone: NotRequired[str]
+    email: NotRequired[str]
+    websiteUrl: NotRequired[str]
+    logoUrl: NotRequired[str]
+    active: bool
+    company: NotRequired[Prv_fitdegree_FitdegreeCompany_Out]
+    enableSpotBooking: bool
+    classpassEnabled: bool
+    acceptsPayment: bool
+
+class Prv_fitdegree_FitdegreeCompany_Out(TypedDict):
+    id: str
+    name: str
+    iosAppUrl: NotRequired[str]
+    androidAppUrl: NotRequired[str]
+    primaryColor: NotRequired[str]
+    hasBrandedApp: bool
+    fitspotIds: list[str]
+
 class Prv_fitness1440_Fitness1440ListLocationsArgs_In(TypedDict):
     state: NotRequired[str]
 
@@ -18046,6 +18127,57 @@ class Prv_ikea_IkeaProductMaterial_Out(TypedDict):
     part: str
     material: str
 
+class Prv_ikea_FindStoresArgs_In(TypedDict):
+    zip: NotRequired[str]
+    state: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_ikea_IkeaStore_Out(TypedDict):
+    storeId: str
+    name: str
+    displayName: str | None
+    street: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    latitude: float | None
+    longitude: float | None
+    timezone: str | None
+    kind: str | None
+    hours: list[Prv_ikea_IkeaStoreHours_Out]
+    clickAndCollectHours: list[Prv_ikea_IkeaStoreHours_Out]
+    exceptions: list[Prv_ikea_IkeaStore_Out_exceptions_item_Out]
+    url: str | None
+    distanceMiles: float | None
+
+class Prv_ikea_IkeaStoreHours_Out(TypedDict):
+    day: str
+    open: str
+    close: str
+
+class Prv_ikea_IkeaStore_Out_exceptions_item_Out(TypedDict):
+    date: str
+    open: str | None
+    close: str | None
+    reason: str | None
+
+class Prv_ikea_GetProductAvailabilityArgs_In(TypedDict):
+    itemNos: str | Sequence[str]
+    storeId: NotRequired[str]
+
+class Prv_ikea_IkeaAvailability_Out(TypedDict):
+    itemNo: str
+    homeDelivery: bool
+    stores: list[Prv_ikea_IkeaStoreStock_Out]
+
+class Prv_ikea_IkeaStoreStock_Out(TypedDict):
+    storeId: str
+    cashAndCarry: bool
+    clickAndCollect: bool
+    quantity: float | None
+    stockLevel: str | None
+    aisles: list[str]
+
 class Prv_imdb_ImdbSearchArgs_In(TypedDict):
     query: str
     type: NotRequired[Literal["title"] | Literal["person"] | Literal["all"]]
@@ -19929,6 +20061,15 @@ class Prv_kenko_KenkoInstructor_Out(TypedDict):
     imageUrl: str | None
     bio: str | None
     centerIds: list[float]
+
+class Prv_kenko_KenkoScheduleFilters_Out(TypedDict):
+    facilities: list[Prv_kenko_KenkoFacility_Out]
+    classes: list[Prv_kenko_KenkoClass_Out]
+    instructors: list[Prv_kenko_KenkoInstructor_Out]
+
+class Prv_kenko_KenkoFacility_Out(TypedDict):
+    id: float
+    name: str
 
 class Prv_kingsdown_KingsdownGetBedMatchResultArgs_In(TypedDict):
     name: str
@@ -26264,6 +26405,27 @@ class Prv_pinterest_PinterestSuggestion_Out(TypedDict):
     url: NotRequired[str]
     username: NotRequired[str]
 
+class Prv_pinterest_listUserBoards_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_listUserBoards_return_Out(TypedDict):
+    boards: list[Prv_pinterest_PinterestBoard_Out]
+    bookmark: str | None
+
+class Prv_pinterest_listUserSavedPins_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_listUserSavedPins_return_Out(TypedDict):
+    pins: list[Prv_pinterest_PinterestPin_Out]
+    bookmark: str | None
+
+class Prv_pinterest_listUserCreatedPins_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_listUserCreatedPins_return_Out(TypedDict):
+    pins: list[Prv_pinterest_PinterestPin_Out]
+    bookmark: str | None
+
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
     width: float
@@ -31062,6 +31224,77 @@ class Prv_spotify_SpotifyPlaylist_Out_tracks_Out(TypedDict):
     total: float
 
 class Prv_spotify_SpotifyPlaylist_Out_external_urls_Out(TypedDict):
+    spotify: str
+
+class Prv_spotify_SpotifyShow_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    publisher: str
+    explicit: bool
+    mediaType: str
+    totalEpisodes: float
+    images: list[Prv_spotify_SpotifyShow_Out_images_item_Out]
+    external_urls: Prv_spotify_SpotifyShow_Out_external_urls_Out
+    uri: str
+
+class Prv_spotify_SpotifyShow_Out_images_item_Out(TypedDict):
+    url: str
+    height: NotRequired[float]
+    width: NotRequired[float]
+
+class Prv_spotify_SpotifyShow_Out_external_urls_Out(TypedDict):
+    spotify: str
+
+class Prv_spotify_SpotifyEpisode_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    releaseDate: str
+    durationMs: float
+    explicit: bool
+    show: NotRequired[Prv_spotify_SpotifyEpisode_Out_show_Out]
+    images: list[Prv_spotify_SpotifyEpisode_Out_images_item_Out]
+    external_urls: Prv_spotify_SpotifyEpisode_Out_external_urls_Out
+    uri: str
+
+class Prv_spotify_SpotifyEpisode_Out_show_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_spotify_SpotifyEpisode_Out_images_item_Out(TypedDict):
+    url: str
+    height: NotRequired[float]
+    width: NotRequired[float]
+
+class Prv_spotify_SpotifyEpisode_Out_external_urls_Out(TypedDict):
+    spotify: str
+
+class Prv_spotify_SpotifyAlbumTracksOptions_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_spotify_SpotifyAlbumTracksResult_Out(TypedDict):
+    albumId: str
+    tracks: list[Prv_spotify_SpotifyAlbumTrack_Out]
+    total: float
+    warnings: list[str]
+
+class Prv_spotify_SpotifyAlbumTrack_Out(TypedDict):
+    id: str
+    name: str
+    artists: list[Prv_spotify_SpotifyAlbumTrack_Out_artists_item_Out]
+    durationMs: float
+    explicit: bool
+    trackNumber: float
+    external_urls: Prv_spotify_SpotifyAlbumTrack_Out_external_urls_Out
+    uri: str
+
+class Prv_spotify_SpotifyAlbumTrack_Out_artists_item_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_spotify_SpotifyAlbumTrack_Out_external_urls_Out(TypedDict):
     spotify: str
 
 class Prv_starlighthomes_StarlighthomesMetroSummary_Out(TypedDict):
@@ -45000,6 +45233,23 @@ class Prv_clubpilates(Protocol):
         deadlines, and the members-site booking URL.
         """
 
+    async def listPricing(self, args: Prv_clubpilates_ListPricingArgs_In, /) -> list[Prv_clubpilates_ClubPilatesPackage_Out]:
+        """Lists what a studio sells — single class, class packs and memberships — with each one's
+        price, credit count (0 for unlimited), and whether it is a recurring membership. Read
+        only; nothing is bought.
+        """
+
+    async def listClassTypes(self, /) -> list[Prv_clubpilates_ClubPilatesClassType_Out]:
+        """Lists every Club Pilates class type brand-wide (Intro Class, Reformer Flow 1/1.5/2,
+        Cardio Sculpt, …) with its description and category name.
+        """
+
+    async def listClassCategories(self, /) -> list[Prv_clubpilates_ClubPilatesClassCategory_Out]:
+        """Lists the class categories a schedule is grouped by (Reformer Flow, Center + Balance,
+        F.I.T., …) with a one-line summary and description of each; the ids match a class's
+        `category.id` from listClasses.
+        """
+
 class Prv_clubready(Protocol):
     """Xponential studios on ClubReady — CycleBar, Club Pilates, Pure Barre, YogaSix,
     StretchLab, Rumble, BFT and more: find a studio, read its class schedule and pricing,
@@ -47237,6 +47487,25 @@ class Prv_firstdibs(Protocol):
     async def getListing(self, url: str, /) -> Prv_firstdibs_FirstdibsListing_Out:
         """Reads one listing's real price and its concrete completing action(s) — Make an Offer
         and/or Contact Seller, whichever this seller has enabled.
+        """
+
+class Prv_fitdegree(Protocol):
+    """FitDegree studio schedules (pilates, yoga, barre, gyms): find a studio from the
+    FitDegree directory or its website, read its class schedule, classes, instructors,
+    memberships, offers, events and private sessions, and (signed in) book, waitlist and
+    cancel classes.
+    """
+
+    async def findStudio(self, query: str | Prv_fitdegree_FitdegreeFindStudioArgs_In, /) -> list[Prv_fitdegree_FitdegreeStudio_Out]:
+        """Finds FitDegree studios by brand or studio name, city, website, or the URL of a page
+        that embeds the FitDegree schedule, and returns each one's fitspotId (what every other
+        fitdegree function takes), address and time zone. Retired studios are left out unless
+        includeInactive is true.
+        """
+
+    async def getStudio(self, fitspotId: str, /) -> Prv_fitdegree_FitdegreeStudioDetail_Out:
+        """Returns one studio by fitspot id: name, address, time zone, contact details, logo, and
+        its company (brand) with app links and every other studio it runs.
         """
 
 class Prv_fitness1440(Protocol):
@@ -50337,6 +50606,16 @@ class Prv_ikea(Protocol):
         colour, materials, care instructions, package count and weight, rating and images.
         """
 
+    async def findStores(self, args: Prv_ikea_FindStoresArgs_In, /) -> list[Prv_ikea_IkeaStore_Out]:
+        """Lists IKEA's US stores, optionally nearest a ZIP code or in one state, with address,
+        coordinates, opening hours, holiday closures and the storeId the stock check takes.
+        """
+
+    async def getProductAvailability(self, args: Prv_ikea_GetProductAvailabilityArgs_In, /) -> list[Prv_ikea_IkeaAvailability_Out]:
+        """Checks whether items are in stock at each US IKEA store and for home delivery: shelf
+        quantity, stock band, click-and-collect and the aisle/bin to pick it from.
+        """
+
 class Prv_imdb(Protocol):
     """IMDb — the movie and TV database. Search films, shows and people; read a title's rating,
     cast, crew, plot and runtime; read a person's bio and filmography; read user reviews.
@@ -51486,6 +51765,12 @@ class Prv_kenko(Protocol):
     async def listInstructors(self, studio: Prv_kenko_KenkoStudioRef_In, /) -> list[Prv_kenko_KenkoInstructor_Out]:
         """Lists a studio's instructors with photo, bio and the center ids each teaches at. Takes {
         urlPrefix, regionId } from findStudio.
+        """
+
+    async def listScheduleFilters(self, studio: Prv_kenko_KenkoStudioRef_In, /) -> Prv_kenko_KenkoScheduleFilters_Out:
+        """The schedule page's own filter options — facilities/rooms, class types and instructors —
+        composed from the studio's facilities, classes and trainers reads. Takes { urlPrefix,
+        regionId } from findStudio.
         """
 
 class Prv_kingsdown(Protocol):
@@ -55730,6 +56015,37 @@ class Prv_pinterest(Protocol):
         empty or non-string term.
         """
 
+    async def getUser(self, username: str, /) -> Prv_pinterest_PinterestUser_Out:
+        """Read a person's or a brand's profile: `id`, `username`, `full_name`, `follower_count`,
+        `following_count`, `board_count`, `pin_count`, `is_verified_merchant` and `website_url`
+        — the door from a username to everything else they own. `POST/GET
+        /resource/UserResource/get/` with `field_set_key: "unauth_profile"`. THROWS
+        `PinterestInputError` on an empty or non-string username.
+        """
+
+    async def listUserBoards(self, username: str, options: Prv_pinterest_listUserBoards_options_In | None = None, /) -> Prv_pinterest_listUserBoards_return_Out:
+        """Every board a person has made public: `id`, `name`, `url`, `pin_count` and
+        `section_count` — the list a caller walks before picking one for
+        `getBoard`/`listBoardPins`. `POST/GET /resource/BoardsFeedResource/get/` with `{
+        username, field_set_key: "profile_grid_item", sort: "last_pinned_to" }`. THROWS
+        `PinterestInputError` on an empty or non-string username.
+        """
+
+    async def listUserSavedPins(self, username: str, options: Prv_pinterest_listUserSavedPins_options_In | None = None, /) -> Prv_pinterest_listUserSavedPins_return_Out:
+        """The pins a person has saved, newest first, across all their boards — what `/<username>/`
+        actually shows a visitor. Same row shape as `searchPins`. `POST/GET
+        /resource/UserPinsResource/get/` with `{ username, field_set_key: "mobile_grid_item",
+        page_size: 25 }`. THROWS `PinterestInputError` on an empty or non-string username.
+        """
+
+    async def listUserCreatedPins(self, username: str, options: Prv_pinterest_listUserCreatedPins_options_In | None = None, /) -> Prv_pinterest_listUserCreatedPins_return_Out:
+        """The pins a person made themselves rather than saved from somebody else —
+        `/<username>/_created/`, which is the half that matters for a brand or a creator. Same
+        row shape as `searchPins`. `POST/GET /resource/UserActivityPinsResource/get/` with `{
+        username, field_set_key: "mobile_grid_item", page_size: 25 }`. THROWS
+        `PinterestInputError` on an empty or non-string username.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -58493,6 +58809,28 @@ class Prv_spotify(Protocol):
         """Gets one playlist by its Spotify id — name, description, owner, cover images, track
         count, public/collaborative flags, open.spotify.com url and Spotify uri. Needs your own
         Spotify developer app key.
+        """
+
+    async def getPodcast(self, id: str, /) -> Prv_spotify_SpotifyShow_Out:
+        """Gets one podcast show by its Spotify id — name, description, publisher, episode count,
+        cover images, open.spotify.com url and Spotify uri. Needs your own Spotify developer app
+        key.
+        """
+
+    async def getEpisode(self, id: str, /) -> Prv_spotify_SpotifyEpisode_Out:
+        """Gets one podcast episode by its Spotify id — name, description, release date, duration,
+        its show, cover images, open.spotify.com url and Spotify uri. Needs your own Spotify
+        developer app key.
+        """
+
+    async def listArtistTracks(self, id: str, market: str | None = None, /) -> list[Prv_spotify_SpotifyTrack_Out]:
+        """Gets an artist's top tracks (Spotify's own ranking) for a market, two-letter country
+        code, default "US". Needs your own Spotify developer app key.
+        """
+
+    async def listAlbumTracks(self, id: str, opts: Prv_spotify_SpotifyAlbumTracksOptions_In | None = None, /) -> Prv_spotify_SpotifyAlbumTracksResult_Out:
+        """Gets one page of an album's track listing, in disc/track order — up to 50 per call, with
+        the album's total track count. Needs your own Spotify developer app key.
         """
 
 class Prv_starlighthomes(Protocol):
@@ -63115,6 +63453,7 @@ class BowmarkProviders(Protocol):
     fieldstonehomes: Prv_fieldstonehomes
     firstamericahomes: Prv_firstamericahomes
     firstdibs: Prv_firstdibs
+    fitdegree: Prv_fitdegree
     fitness1440: Prv_fitness1440
     fivebelow: Prv_fivebelow
     fivestarbathsolutions: Prv_fivestarbathsolutions

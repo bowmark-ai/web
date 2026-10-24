@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c124904258a14450e637efa4b084f8561ecdfdc8f3781155779f5789b2bf5bce
-// 2510 checked, 20 unchecked.
+// Manifest version: 60af2cb497d6fe6e00fa62804295823d7368f3cbbd5e6def89b1e92216628f71
+// 2526 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c124904258a14450e637efa4b084f8561ecdfdc8f3781155779f5789b2bf5bce",
+  "version": "60af2cb497d6fe6e00fa62804295823d7368f3cbbd5e6def89b1e92216628f71",
   "units": {
     "address_validation": {
       "defs": {
@@ -18446,6 +18446,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ListPricingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -18488,7 +18500,19 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listPricing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPricingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listClassTypes": [],
+        "listClassCategories": []
       }
     },
     "providers.clubready": {
@@ -25926,6 +25950,58 @@ export const VALIDATORS: ValidatorTable = {
         "getListing": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.fitdegree": {
+      "defs": {
+        "FitdegreeFindStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "includeInactive",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findStudio": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "FitdegreeFindStudioArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getStudio": [
+          {
+            "name": "fitspotId",
             "schema": {
               "k": "string"
             },
@@ -33939,6 +34015,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.ikea": {
       "defs": {
+        "FindStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetProductArgs": {
           "k": "object",
           "props": [
@@ -33948,6 +34050,36 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "GetProductAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemNos",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "storeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -33988,6 +34120,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProductAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductAvailabilityArgs"
             },
             "optional": false
           }
@@ -37852,6 +38004,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listInstructors": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "KenkoStudioRef"
+            },
+            "optional": false
+          }
+        ],
+        "listScheduleFilters": [
           {
             "name": "studio",
             "schema": {
@@ -52906,6 +53068,90 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getUser": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listUserBoards": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listUserSavedPins": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listUserCreatedPins": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -64097,6 +64343,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.spotify": {
       "defs": {
+        "SpotifyAlbumTracksOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SpotifySearchOptions": {
           "k": "object",
           "props": [
@@ -64209,6 +64474,57 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getPodcast": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getEpisode": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listArtistTracks": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "market",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "listAlbumTracks": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "SpotifyAlbumTracksOptions"
+            },
+            "optional": true
           }
         ]
       }
