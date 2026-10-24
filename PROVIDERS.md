@@ -5667,12 +5667,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getRecording` | zoom.us | Returns metadata and access info for one recording. | ⚪ |
 | `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | ⚪ |
 | `zoom.getSystemStatus` | zoom.us | Returns Zoom's current system status. | 🟢 |
-| `zoom.getWebinar` | zoom.us | Returns details of one webinar. | ⚪ |
+| `zoom.getWebinar` | zoom.us | Returns details of one webinar. | 🟢 |
 | `zoom.joinMeeting` | zoom.us | Checks whether a Zoom meeting link is valid and joinable, reading the site's own join… | 🟢 |
 | `zoom.listMeetings` | zoom.us | The signed-in caller's upcoming meetings. | ⚪ |
 | `zoom.listRecordings` | zoom.us | The signed-in caller's recorded meetings and webinars. | ⚪ |
 | `zoom.listRecordingTranscripts` | zoom.us | Lists available transcripts for a recording. | ⚪ |
-| `zoom.listWebinars` | zoom.us | The signed-in caller's webinars. | ⚪ |
+| `zoom.listWebinars` | zoom.us | The signed-in caller's webinars. | 🟢 |
 | `zoom.scheduleMeeting` | zoom.us | Creates a new meeting on the caller's account. | ⚪ |
 | `zoom.searchContacts` | zoom.us | Searches the caller's contacts by name. | ⚪ |
 | `zoom.searchHelpArticles` | zoom.us | Searches the help center for articles. | 🟡 |
