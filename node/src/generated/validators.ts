@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 244e02ef4a7a8da63eb8068ef7385bdd6fef15b5fecc01c42bdee6b86e69faf6
-// 2480 checked, 20 unchecked.
+// Manifest version: 72082ca7d13e9056a32149601ecd278b8c8e7ac166dd2c0212a2957301e79352
+// 2486 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "244e02ef4a7a8da63eb8068ef7385bdd6fef15b5fecc01c42bdee6b86e69faf6",
+  "version": "72082ca7d13e9056a32149601ecd278b8c8e7ac166dd2c0212a2957301e79352",
   "units": {
     "address_validation": {
       "defs": {
@@ -40184,6 +40184,154 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "followCompany": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "company",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "follow",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followMember": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "member",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "follow",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendConnectionRequest": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "member",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "message",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "withdrawInvitation": [
+          {
+            "name": "invitation",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "login": [
           {
             "name": "creds",
@@ -63508,6 +63656,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      }
+    },
+    "providers.spectrum": {
+      "defs": {},
+      "functions": {
+        "listInternetPlans": [],
+        "listTvAddOns": []
       }
     },
     "providers.speedrun": {

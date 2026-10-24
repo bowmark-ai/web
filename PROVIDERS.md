@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5667 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5668 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -384,7 +384,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | 🟢 |
 | `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | 🟢 |
 | `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | 🟢 |
-| `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, and its episodes newest first — title… | ⚪ |
+| `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, genres, episode count, and ten episodes… | 🟢 |
 | `bbc.getPodcastEpisode` | bbc.com | One podcast episode: title, synopsis, duration, broadcast date, and the playable media… | ⚪ |
 | `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | 🟢 |
 | `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | 🟢 |
@@ -1788,20 +1788,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
 | `extraspace.search` | extraspace.com | Searches Extra Space Storage's live facility inventory the way its own homepage… | 🟢 |
+| `facebook.browseMarketplace` | facebook.com | Browse a city's Marketplace front page (optionally one category) logged out — title… | 🟢 |
 | `facebook.commentOnPost` | facebook.com | Leave a comment on a post, by its permalink URL. | 🟢 |
 | `facebook.followPage` | facebook.com | Follow or unfollow a Page by its handle. | 🟢 |
 | `facebook.getConversation` | facebook.com | Read messages in a private conversation thread with another user or group. | 🟢 |
-| `facebook.getEventDetails` | facebook.com | Read details on a Facebook Event — name, date, location, description, attendance count. | 🟢 |
+| `facebook.getEventDetails` | facebook.com | Read a public Event's details — name, start time, place, description, interested +… | 🟢 |
 | `facebook.getGroupInfo` | facebook.com | Read a Group's details — name, description, member count, profile photo. | 🟢 |
 | `facebook.getGroupPosts` | facebook.com | List posts in a Group, newest first. | 🟢 |
-| `facebook.getMarketplaceListingDetails` | facebook.com | Read details on one Marketplace listing — title, photos, price, seller info… | 🟢 |
+| `facebook.getMarketplaceListingDetails` | facebook.com | Read a public Marketplace listing's details — title, price, description, location —… | 🟢 |
 | `facebook.getMarketplaceListings` | facebook.com | Search Marketplace listings by category, location, price range and keywords. | 🟢 |
 | `facebook.getPageInfo` | facebook.com | Read a Page's details — name, about section, follower count, category, profile and… | 🟢 |
 | `facebook.getPagePosts` | facebook.com | List a Page's newest public posts, logged out. | 🟢 |
 | `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and follower count, logged… | 🟢 |
 | `facebook.getPhotoAlbum` | facebook.com | Read a photo album's details — title, creation date, photo count and its photos. | 🟢 |
 | `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings as rendered on Facebook's own Privacy settings page. | 🟢 |
-| `facebook.getVideo` | facebook.com | Read details on a Facebook video — title, description, view count, comments. | 🟢 |
+| `facebook.getVideo` | facebook.com | Read a public video's details — title, description, play count, comment count — logged… | 🟢 |
 | `facebook.joinGroup` | facebook.com | Request to join a Group by its id or url slug. | 🟢 |
 | `facebook.likePhoto` | facebook.com | Like or unlike a photo. | 🟢 |
 | `facebook.listConversations` | facebook.com | List the caller's private message threads and people they can message. | 🟢 |
@@ -3272,20 +3273,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nws.findRadarStations` | api.weather.gov | List NWS radar sites (WSR-88D and TDWR) with id, name, location and whether each is up… | ⚪ |
 | `nws.findStations` | api.weather.gov | Find NWS observation stations — nearest to a place, in a state, or in a forecast zone… | ⚪ |
 | `nws.findZones` | api.weather.gov | List NWS forecast, county, fire or marine zones by state or for a place, with zone id… | ⚪ |
-| `nws.getActiveAlerts` | api.weather.gov | The weather warnings, watches and advisories in effect right now — for a place, a… | ⚪ |
+| `nws.getActiveAlerts` | api.weather.gov | The weather warnings, watches and advisories in effect right now — for a place, a… | 🟢 |
 | `nws.getAlert` | api.weather.gov | One alert in full by its id — the complete text, instructions, every affected zone and… | ⚪ |
 | `nws.getAlertCounts` | api.weather.gov | How many alerts are active right now, nationally and broken down by state, marine… | ⚪ |
 | `nws.getClimateHistory` | api.weather.gov | Daily climate records for a station across a date range — high, low, precipitation and… | ⚪ |
 | `nws.getCurrentConditions` | api.weather.gov | The weather right now at the nearest observing station — temperature, dewpoint… | ⚪ |
-| `nws.getForecast` | api.weather.gov | The 7-day forecast a person reads on weather.gov — fourteen day/night periods, each… | ⚪ |
+| `nws.getForecast` | api.weather.gov | The 7-day forecast a person reads on weather.gov — fourteen day/night periods, each… | 🟢 |
 | `nws.getForecastDiscussion` | api.weather.gov | The Area Forecast Discussion — the forecasters' own write-up of what they expect and… | ⚪ |
 | `nws.getGridpointData` | api.weather.gov | The raw numbers behind a forecast for one grid cell — rainfall and snowfall amounts… | ⚪ |
-| `nws.getHourlyForecast` | api.weather.gov | The hour-by-hour forecast for the next week — temperature, dewpoint, humidity, wind… | ⚪ |
+| `nws.getHourlyForecast` | api.weather.gov | The hour-by-hour forecast for the next week — temperature, dewpoint, humidity, wind… | 🟢 |
 | `nws.getMarineForecast` | api.weather.gov | The coastal-waters or offshore marine forecast for one marine zone — winds in knots… | ⚪ |
 | `nws.getObservationHistory` | api.weather.gov | Past observations at a station across a time window — what the temperature, wind and… | ⚪ |
 | `nws.getOffice` | api.weather.gov | One NWS forecast office — its name, street address, phone, email, the counties and… | ⚪ |
 | `nws.getOfficeHeadlines` | api.weather.gov | The headlines a forecast office has posted — event notices, outreach and important… | ⚪ |
-| `nws.getPoint` | api.weather.gov | Everything NWS knows about one place: its forecast office, forecast grid cell… | ⚪ |
+| `nws.getPoint` | api.weather.gov | Everything NWS knows about one place: its forecast office, forecast grid cell… | 🟢 |
 | `nws.getRadarImage` | api.weather.gov | The current radar loop for a radar site, a place's nearest radar, or the whole country… | ⚪ |
 | `nws.getTaf` | api.weather.gov | The Terminal Aerodrome Forecast for an airport — the aviation forecast pilots file… | ⚪ |
 | `nws.getTextProduct` | api.weather.gov | The latest issuance of any NWS text product for an office — Hazardous Weather Outlook… | ⚪ |
@@ -4613,7 +4614,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `temu.checkout` | www.temu.com | Read the live order total (items, shipping, tax, any coupon) for the caller's cart and… | ⚪ |
 | `temu.getProduct` | www.temu.com | Read one product's detail page — title, price, images, variants, shipping estimate… | ⚪ |
 | `temu.getProductReviews` | www.temu.com | Read a product's customer reviews and rating breakdown by its product url. | ⚪ |
-| `temu.listCategories` | www.temu.com | List Temu's top-level shopping categories (Women, Men, Home & Kitchen, Beauty… | ⚪ |
+| `temu.listCategories` | www.temu.com | List Temu's top-level shopping categories (Women's Clothing, Home & Kitchen… | 🟢 |
 | `temu.listOrders` | www.temu.com | The caller's own order history — what they bought, when, for how much, and where each… | ⚪ |
 | `temu.removeFromCart` | www.temu.com | Remove one line from the cart. | ⚪ |
 | `temu.searchProducts` | www.temu.com | Search Temu's catalog by keyword and return matching products (title, price, image… | ⚪ |

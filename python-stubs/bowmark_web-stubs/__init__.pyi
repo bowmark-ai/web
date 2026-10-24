@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 244e02ef4a7a8da63eb8068ef7385bdd6fef15b5fecc01c42bdee6b86e69faf6
-# 86 capabilities, 631 providers, 2480 typed functions, 20 refused.
+# Manifest version: 72082ca7d13e9056a32149601ecd278b8c8e7ac166dd2c0212a2957301e79352
+# 86 capabilities, 632 providers, 2486 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20759,6 +20759,30 @@ class Prv_linkedin_saveJob_input_u1_In(TypedDict):
 class Prv_linkedin_saveJob_return_Out(TypedDict):
     saved: bool
 
+class Prv_linkedin_followCompany_input_In(TypedDict):
+    company: str
+    follow: NotRequired[bool]
+
+class Prv_linkedin_followCompany_return_Out(TypedDict):
+    following: bool
+
+class Prv_linkedin_followMember_input_In(TypedDict):
+    member: str
+    follow: NotRequired[bool]
+
+class Prv_linkedin_followMember_return_Out(TypedDict):
+    following: bool
+
+class Prv_linkedin_sendConnectionRequest_input_In(TypedDict):
+    member: str
+    message: NotRequired[str]
+
+class Prv_linkedin_sendConnectionRequest_return_Out(TypedDict):
+    sent: Literal[True]
+
+class Prv_linkedin_withdrawInvitation_return_Out(TypedDict):
+    withdrawn: Literal[True]
+
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -30561,6 +30585,19 @@ class Prv_soundcloud_ScPlaylist_Out(TypedDict):
     likeCount: float | None
     createdAt: str | None
     tracks: list[Prv_soundcloud_ScTrack_Out]
+
+class Prv_spectrum_SpectrumInternetPlan_Out(TypedDict):
+    name: str
+    downloadMbps: float
+    advertisedMonthlyPrice: float
+    availability: str | None
+    sourceUrl: str
+
+class Prv_spectrum_SpectrumTvAddOn_Out(TypedDict):
+    name: str
+    description: str
+    monthlyPrice: float | None
+    sourceUrl: str
 
 class Prv_speedrun_FindGameArgs_In(TypedDict):
     name: str
@@ -52018,6 +52055,53 @@ class Prv_linkedin(Protocol):
         faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
+    async def followCompany(self, input: Prv_linkedin_followCompany_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_followCompany_return_Out:
+        """Follows or unfollows a company page as the caller, unfollows when `follow: false`.
+        `company` is the numeric companyId getCompany, searchCompanies or listCompanyEmployees
+        returns — not the URL handle. Signed in: acts as the caller's own LinkedIn account; with
+        no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
+        """
+
+    async def followMember(self, input: Prv_linkedin_followMember_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_followMember_return_Out:
+        """Follows or unfollows a member as the caller, so their public posts reach the caller's
+        feed without a connection; unfollows when `follow: false`. `member` is the numeric
+        profile id a member record's `id` field carries, not the `/in/<slug>` URL slug. Signed
+        in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
+    async def sendConnectionRequest(self, input: Prv_linkedin_sendConnectionRequest_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_sendConnectionRequest_return_Out:
+        """Sends a connection invitation from the caller to a member, with an optional note up to
+        300 characters. `member` is the numeric profile id a member record's `id` field carries,
+        not the `/in/<slug>` URL slug. Signed in: acts as the caller's own LinkedIn account;
+        with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
+        """
+
+    async def withdrawInvitation(self, invitation: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_withdrawInvitation_return_Out:
+        """Withdraws a connection invitation the caller sent and is still pending, by the id
+        listSentInvitations returned — the clean-up half of sendConnectionRequest. Signed in:
+        acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -57894,6 +57978,28 @@ class Prv_soundcloud(Protocol):
         could be read — an empty track list would be a failed read wearing a success costume.
         """
 
+class Prv_spectrum(Protocol):
+    """Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check
+    address availability, mobile coverage and deals, and channel lineups — all public on
+    spectrum.com — and (signed in, on the separate spectrum.net account site) read
+    billing/usage and manage the account.
+    """
+
+    async def listInternetPlans(self, /) -> list[Prv_spectrum_SpectrumInternetPlan_Out]:
+        """Every residential internet-only plan Spectrum advertises on spectrum.com/internet/plans
+        — plan name, download speed and the advertised first-year monthly price, straight off
+        the page's own comparison table.
+        """
+
+    async def listTvAddOns(self, /) -> list[Prv_spectrum_SpectrumTvAddOn_Out]:
+        """Every premium channel and add-on package Spectrum advertises on
+        spectrum.com/cable-tv/add-ons (Sports View, Entertainment Pack +, HBO MAX, Paramount+
+        with Showtime, Starz + Starz Encore, Cinemax, The Movie Channel, MGM+, International
+        Channels) — name and description, with a monthly price where the page states one inline
+        (most premium channel add-ons require entering the cart to see a price, so those come
+        back with monthlyPrice: null).
+        """
+
 class Prv_speedrun(Protocol):
     """Submit speedruns and search game metadata on speedrun.com"""
 
@@ -62829,6 +62935,7 @@ class BowmarkProviders(Protocol):
     solidcore: Prv_solidcore
     solostove: Prv_solostove
     soundcloud: Prv_soundcloud
+    spectrum: Prv_spectrum
     speedrun: Prv_speedrun
     spirithalloween: Prv_spirithalloween
     spotify: Prv_spotify
