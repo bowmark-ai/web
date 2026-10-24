@@ -37,19 +37,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `accuweather.getAllergyForecast` | accuweather.com | Pollen and allergen outlook for a location over the coming days - tree, grass and… | ⚪ |
 | `accuweather.getArticle` | accuweather.com | Reads one AccuWeather news article by url - headline, author, published time and body… | ⚪ |
 | `accuweather.getCurrentConditions` | accuweather.com | Current conditions for a location - temperature, RealFeel, conditions phrase, wind and… | 🟢 |
-| `accuweather.getDailyForecast` | accuweather.com | The 10-day daily forecast for a location - day and night conditions, high/low… | ⚪ |
+| `accuweather.getDailyForecast` | accuweather.com | The 10-day daily forecast for a location - high/low, precipitation chance, daytime… | 🟢 |
 | `accuweather.getDayDetails` | accuweather.com | Full day and night detail for one forecast day (1-15) - RealFeel, RealFeel Shade… | ⚪ |
 | `accuweather.getExtendedForecast` | accuweather.com | The long-range daily forecast beyond day 15 (to day 45) that AccuWeather sells with… | ⚪ |
 | `accuweather.getHealthForecast` | accuweather.com | Weather-driven health risk outlook for a location by condition - arthritis, sinus… | ⚪ |
-| `accuweather.getHourlyForecast` | accuweather.com | Hour-by-hour forecast for a location for today or a later day - temperature, RealFeel… | ⚪ |
+| `accuweather.getHourlyForecast` | accuweather.com | Hour-by-hour forecast for a location - temperature, RealFeel, conditions… | 🟢 |
 | `accuweather.getLocation` | accuweather.com | Resolves a place name, autocomplete key or lat/lon to AccuWeather's numeric location… | 🟢 |
-| `accuweather.getMinuteCast` | accuweather.com | Minute-by-minute precipitation for the next two hours at a location - start and end of… | ⚪ |
+| `accuweather.getMinuteCast` | accuweather.com | Minute-by-minute precipitation for the next two hours at a location - the site's own… | 🟢 |
 | `accuweather.getMonthlyForecast` | accuweather.com | A month's calendar for a location - forecast high/low for upcoming days, actual… | ⚪ |
 | `accuweather.getRadarMap` | accuweather.com | The weather radar view for a location - the radar image or tile URLs for current and… | ⚪ |
 | `accuweather.getStorm` | accuweather.com | One tropical storm's tracker - position, category, winds, movement and forecast path… | ⚪ |
 | `accuweather.getWinterForecast` | accuweather.com | The winter outlook for a location - expected snowfall and ice accumulation by period… | ⚪ |
 | `accuweather.listActiveStorms` | accuweather.com | Active hurricanes, typhoons and tropical cyclones worldwide - each storm's name… | ⚪ |
-| `accuweather.listAlerts` | accuweather.com | Active weather warnings, watches and advisories for a location, with each alert's… | ⚪ |
+| `accuweather.listAlerts` | accuweather.com | Active weather warnings, watches and advisories for a location, with each alert's… | 🟢 |
 | `accuweather.listLifestyleIndices` | accuweather.com | Today's level for every allergy, health and outdoor-activity index AccuWeather… | ⚪ |
 | `accuweather.listNews` | accuweather.com | Latest AccuWeather weather news headlines, optionally by section (weather forecasts… | ⚪ |
 | `accuweather.searchLocations` | accuweather.com | Finds places by name, ZIP or postal code via the site's own search box autocomplete -… | 🟢 |
@@ -2620,7 +2620,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instacart.createList` | instacart.com | Creates a new shopping list on the signed-in customer's account. | ⚪ |
 | `instacart.deleteAddress` | instacart.com | Deletes one of the signed-in customer's saved addresses. | ⚪ |
 | `instacart.favoriteProduct` | instacart.com | Saves a product to, or removes it from, the signed-in customer's favorites. | ⚪ |
-| `instacart.findLocation` | instacart.com | Turns a ZIP code or address text into the location every other Instacart function… | ⚪ |
+| `instacart.findLocation` | instacart.com | Turns a ZIP code or address text into the location every other Instacart function… | 🟢 |
 | `instacart.findRecipesForProduct` | instacart.com | Lists recipes that use a given product at a store — the finder getRecipe's id comes… | ⚪ |
 | `instacart.getCart` | instacart.com | Returns one cart's contents: each item with quantity, price, any sale, and the cart's… | ⚪ |
 | `instacart.getDeliveryEstimate` | instacart.com | Says how soon a store can deliver to, or have pickup ready at, a location, and what… | ⚪ |
@@ -2630,7 +2630,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instacart.getProduct` | instacart.com | Returns one product at one store by item id: name, brand, size, price, sale and… | ⚪ |
 | `instacart.getProductReviews` | instacart.com | Returns the star rating and customer reviews of a product, newest or most relevant… | ⚪ |
 | `instacart.getRecipe` | instacart.com | Returns one Instacart recipe: ingredients, steps, servings and time, with each… | ⚪ |
-| `instacart.getStore` | instacart.com | Returns one store by its Instacart slug or name ("costco", "safeway") at a location… | ⚪ |
+| `instacart.getStore` | instacart.com | Returns one store by its Instacart slug ("costco", "safeway") at a location: shop id… | 🟢 |
 | `instacart.getStoreHours` | instacart.com | Returns a store's opening hours for each day of a date range, for delivery or pickup. | ⚪ |
 | `instacart.getWeeklyAd` | instacart.com | Returns a store's current weekly ad (circular): its pages as images, the dates it… | ⚪ |
 | `instacart.linkLoyaltyCard` | instacart.com | Links the signed-in customer's store loyalty card (a Safeway or Kroger card number) to… | ⚪ |
@@ -2645,7 +2645,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instacart.listMyAddresses` | instacart.com | Lists the signed-in customer's saved delivery addresses with their ids, which cart… | ⚪ |
 | `instacart.listMyLists` | instacart.com | Lists the signed-in customer's shopping lists with name and item count. | ⚪ |
 | `instacart.listOrders` | instacart.com | Lists the signed-in customer's past and current orders with store, date, status and… | ⚪ |
-| `instacart.listStores` | instacart.com | Lists the stores Instacart serves at a location — Safeway, Costco, Kroger, local… | ⚪ |
+| `instacart.listStores` | instacart.com | Lists the stores Instacart serves at a location — Safeway, Costco, Kroger, local… | 🟢 |
 | `instacart.messageShopper` | instacart.com | Sends a chat message to the shopper on one of the signed-in customer's live orders… | ⚪ |
 | `instacart.placeOrder` | instacart.com | Checks out a cart. | ⚪ |
 | `instacart.removeFromCart` | instacart.com | Removes a product from the signed-in customer's cart. | ⚪ |
@@ -4625,7 +4625,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `temu.searchProducts` | www.temu.com | Search Temu's catalog by keyword and return matching products (title, price, image… | ⚪ |
 | `temu.trackOrder` | www.temu.com | Where a specific order's package is and when it is due — the follow-up to listOrders. | ⚪ |
 | `temu.updateCart` | www.temu.com | Change a cart line's quantity or chosen variant. | ⚪ |
-| `temu.viewCart` | www.temu.com | Read the caller's current cart — line items, quantities, per-item and total price. | ⚪ |
+| `temu.viewCart` | www.temu.com | Read the caller's current cart — line items, quantities, per-item and total price. | 🟢 |
 | `temu.writeReview` | www.temu.com | Post a review and star rating on a product the caller has an order for. | ⚪ |
 | `tenders_go_ke.getTender` | tenders.go.ke | Read a single Kenya public procurement tender: close date, tender fee, venue, notice… | 🟢 |
 | `tenders_go_ke.listTenders` | tenders.go.ke | List Kenya government procurement tenders from the Public Procurement Information… | 🟢 |
@@ -5020,7 +5020,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `unsplash.search` | unsplash.com | Searches Unsplash's photo library by keyword and returns the first page of photos with… | 🟢 |
 | `upkeepstl_com.estimatePlanCost` | upkeepstl.com | Computes the total contract price and per-year price for one plan selection (home… | 🟢 |
 | `upkeepstl_com.getPlanBuilder` | upkeepstl.com | Reads UPKEEP's public 'Build Your Plan' quote-form schema: the home-warranty plan… | 🟢 |
-| `ups.calculateShippingCost` | ups.com | Calculates shipping cost and delivery timeframes from the public shipping calculator… | ⚪ |
+| `ups.calculateShippingCost` | ups.com | Flat-rate UPS® Simple Rate quote (box-size category, no weight, no account) from the… | 🟢 |
 | `ups.estimateDeliveryDate` | ups.com | Estimates delivery date and timeframe for shipment between two locations with a… | 🟢 |
 | `ups.findNearbyLocation` | ups.com | Finds nearby UPS drop-off and pickup locations by ZIP code or address. | ⚪ |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
@@ -5396,7 +5396,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wodify.disableNotifications` | wodify.com | Disable class and reminder notifications. | ⚪ |
 | `wodify.editBio` | wodify.com | Edit the member's profile bio and display name. | ⚪ |
 | `wodify.enableNotifications` | wodify.com | Enable class and reminder notifications. | ⚪ |
-| `wodify.findGym` | wodify.com | Find a Wodify-powered gym by name or location. | ⚪ |
+| `wodify.findGym` | wodify.com | Resolve a Wodify-powered gym from its own website page to the gymHost and locationId… | 🟢 |
 | `wodify.getAccountSettings` | wodify.com | View the member's account settings and preferences. | ⚪ |
 | `wodify.getClassDetails` | wodify.com | Get detailed information about a specific class, including capacity, duration, and… | 🟢 |
 | `wodify.getClassHistory` | wodify.com | Get the member's past class attendance history. | ⚪ |
