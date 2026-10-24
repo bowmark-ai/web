@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7e13f4d25b984255230eb3de35d5d45af3369009298a089248cd8f07906e1f0b
-// 87 capabilities, 643 providers, 2592 typed functions, 20 refused.
+// Manifest version: 45ba577c9f774c458fd5d557a2d5f02f070c0d997e85e48a8c7fb4e766cbaaae
+// 87 capabilities, 643 providers, 2600 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2865,7 +2865,7 @@ interface kenya_fuel_pricesResult {
 }
 
 declare namespace BowmarkCapability_lawyer_directory {
-  // ── Search Bar Association Lawyer Directory — the unit's own declarations, verbatim ──
+  // ── Search Lawyer Directory (Bar Association) — the unit's own declarations, verbatim ──
 interface LawyerSearchQuery {
   name?: string;          // 2+ chars
   city?: string;          // 3+ chars
@@ -2919,8 +2919,9 @@ interface LawyerRecord {
 }
 
   /**
-   * Search a bar association's official lawyer directory (annuaire des avocats) by name, city,
-   * or bar number to find lawyers, their contact details, practice areas, and qualifications.
+   * Search official bar association lawyer directories by name, city, or bar number to find
+   * lawyers, law firms, contact details, practice areas, and bar status. Currently covers the
+   * Paris bar (avocatparis.org).
    */
   interface Unit {
     /**
@@ -6235,6 +6236,45 @@ interface AccuweatherLocationMatch {
   postalCode: string | null;
 }
 
+interface AccuweatherDailyForecastDay {
+  day: number;
+  dow: string;
+  date: string;
+  highTemp: number | null;
+  lowTemp: number | null;
+  precipChance: number | null;
+  phrase: string | null;
+  realFeel: number | null;
+  realFeelShade: number | null;
+  maxUvIndex: string | null;
+  wind: string | null;
+}
+
+interface AccuweatherHourlyForecastHour {
+  time: number;
+  label: string;
+  temperature: number | null;
+  phrase: string | null;
+  realFeel: number | null;
+  precipChance: number | null;
+  details: Record<string, string>;
+}
+
+interface AccuweatherMinuteCast {
+  summary: string | null;
+  minutes: Array<{ time: string; phrase: string }>;
+}
+
+interface AccuweatherAlert {
+  id: string | null;
+  areaId: string | null;
+  area: string;
+  headline: string;
+  source: string | null;
+  start: string | null;
+  end: string | null;
+}
+
   /**
    * AccuWeather forecasts for any place — current conditions, hourly, daily, MinuteCast, alerts,
    * air quality, allergy and activity indices.
@@ -6259,6 +6299,30 @@ interface AccuweatherLocationMatch {
      * ceiling).
      */
     getCurrentConditions(args: LocationArgs): Promise<AccuweatherCurrentConditions>;
+
+    /**
+     * The 10-day daily forecast for a location — high/low, precipitation chance, daytime phrase,
+     * RealFeel and wind per day.
+     */
+    getDailyForecast(args: LocationArgs): Promise<AccuweatherDailyForecastDay[]>;
+
+    /**
+     * Hour-by-hour forecast for the next 12 hours — temperature, RealFeel, conditions,
+     * precipitation chance, wind, humidity and UV per hour.
+     */
+    getHourlyForecast(args: LocationArgs): Promise<AccuweatherHourlyForecastHour[]>;
+
+    /**
+     * Minute-by-minute precipitation for the next two hours at a location — the site's own summary
+     * line plus start/end/intensity by minute.
+     */
+    getMinuteCast(args: LocationArgs): Promise<AccuweatherMinuteCast>;
+
+    /**
+     * Active weather warnings, watches and advisories for a location — headline, issuing area,
+     * source and validity window; an empty array means none are active.
+     */
+    listAlerts(args: LocationArgs): Promise<AccuweatherAlert[]>;
   }
 }
 
@@ -55555,6 +55619,31 @@ interface GetStudioArgs {
   slug?: string;         // the site's own studioIdentifier, e.g. "castro" — globally unique on its own
 }
 
+interface GetScheduleArgs {
+  locationId: string;    // e.g. "11" for Castro — what listStudios returns
+  startDate?: string;    // "YYYY-MM-DD", defaults to today
+  endDate?: string;      // "YYYY-MM-DD", defaults to startDate + 7 days
+}
+
+interface SolidcoreClass {
+  id: number;
+  className: string;
+  displayClassName: string;
+  startTime: string;        // the studio's own local time, as the site prints it
+  endTime: string;
+  timezone: string;
+  coach: string;
+  coachId: number;
+  locationId: string;
+  capacity: number;
+  openings: number;
+  waitlistSize: number;
+  availability: "bookable" | "waitlist" | "full_no_waitlist";
+  description: string;
+  category: string;
+  isCanceled: boolean;
+}
+
   /**
    * solidcore.co — the [solidcore] boutique fitness studio chain (Pilates-based strength
    * classes). listStudios and getStudio are built; everything else is queued — see
@@ -55577,6 +55666,15 @@ interface GetStudioArgs {
      * groups). Throws if neither matches.
      */
     getStudio(args: GetStudioArgs): Promise<SolidcoreStudio>;
+
+    /**
+     * Returns the class schedule for one [solidcore] studio over a date window — class name,
+     * coach, start/end time, capacity, openings, waitlist size and a live availability ("bookable"
+     * | "waitlist" | "full_no_waitlist"). Takes { locationId } (what listStudios returns) and
+     * optional { startDate, endDate } as "YYYY-MM-DD"; the window defaults to today through seven
+     * days out.
+     */
+    getSchedule(args: GetScheduleArgs): Promise<SolidcoreClass[]>;
   }
 }
 
@@ -58485,6 +58583,8 @@ interface temuRow {
 interface TemuCategoryLink { id: string; name: string; url: string; }
 interface TemuCategory extends TemuCategoryLink { subcategories: TemuCategoryLink[]; }
 interface ListCategoriesArgs { parent?: string; }
+interface TemuCartItem { productId: string; quantity: number; price?: string; }
+interface TemuCart { items: TemuCartItem[]; }
 
   /** Shop Temu — search, product detail, cart and order functions on the marketplace app. */
   interface Unit {
@@ -58493,6 +58593,9 @@ interface ListCategoriesArgs { parent?: string; }
      * opens it; pass { parent } to read just one.
      */
     listCategories(args?: ListCategoriesArgs): Promise<TemuCategory[]>;
+
+    /** Reads the caller's current Temu cart. Needs the caller signed in to their own Temu account. */
+    viewCart(opts?: ConnectionOption): Promise<TemuCart>;
   }
 }
 
@@ -62907,6 +63010,16 @@ interface upsAddressValidation {
   candidates: upsAddressCandidate[];  // empty when UPS could not match the address at all
 }
 
+interface UpsSimpleRateQuote {
+  serviceCode: string;
+  serviceName: string;
+  cost: number;
+  currency: string;
+  daysInTransit: number;
+  deliveredBy: string | null;  // the site's own words, e.g. "By End of Day Monday October 26, 2026"
+  guaranteed: boolean;
+}
+
   /**
    * UPS's own documented Rating API (onlinetools.ups.com) — prices a domestic shipment across
    * UPS's service levels for a ZIP-to-ZIP move, weight and optional dimensions, the same rate
@@ -62948,6 +63061,18 @@ interface upsAddressValidation {
      * Requires a UPS OAuth2 client-credentials token — see this provider's `auth`.
      */
     validateAddress(args: { addressLine: string; addressLine2?: string; city?: string; state?: string; zip?: string; countryCode?: string }): Promise<upsAddressValidation>;
+
+    /**
+     * Flat-rate shipping quote from ups.com's own public calculator's UPS® Simple Rate — no
+     * account, no weight, no dimensions. `packageSize` is one of UPS's own five box-size
+     * categories ("extraSmall" through "extraLarge"); `shipDate` defaults to today. Returns one
+     * row per UPS service level the calculator quoted (Ground, 3 Day Select, 2nd Day Air, Next Day
+     * Air Saver, etc.) with cost, days in transit and the site's own delivery-date wording. A
+     * DIFFERENT product from `getRate` (negotiated, weight-based pricing through the keyed Rating
+     * API) — this is the flat retail price any anonymous visitor sees. No key needed; drives the
+     * calculator's own multi-step wizard in a headless browser.
+     */
+    calculateShippingCost(args: { fromZip: string; toZip: string; packageSize: "extraSmall" | "small" | "medium" | "large" | "extraLarge"; shipDate?: string }): Promise<UpsSimpleRateQuote[]>;
   }
 }
 
@@ -66175,6 +66300,12 @@ interface wodifyRow {
   id: string;
 }
 
+interface WodifyGym {
+  gymHost: string;
+  locationId: number;
+  embedUrl: string;
+}
+
 interface WodifyScheduleClass {
   id: number;
   name: string;
@@ -66195,6 +66326,16 @@ interface WodifyClassDetails extends WodifyScheduleClass {
 
   /** Wodify gym booking — class schedules, pricing and member functions for Wodify-powered gyms. */
   interface Unit {
+    /**
+     * Resolves a Wodify-powered gym to the `gymHost` + `locationId` pair `listGymSchedule` and
+     * `getClassDetails` take, by reading the Wodify booking embed off the gym's OWN website page
+     * (e.g. "https://www.crossfitalinea.com/schedule" → crossfitalineamembership.wodify.com, 596).
+     * No login, no browser. Wodify runs no public gym directory, so this takes the gym's site URL,
+     * not a name; one entry per distinct embed (a multi-location gym can carry several). Throws a
+     * caller-fixable error when the page has no Wodify embed.
+     */
+    findGym(args: { url: string }): Promise<WodifyGym[]>;
+
     /**
      * Reads one Wodify-powered gym's public class schedule for a single day — class name, program,
      * start/end time, coach names, and live capacity (limit, reserved, available, waitlisted). No

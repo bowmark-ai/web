@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7e13f4d25b984255230eb3de35d5d45af3369009298a089248cd8f07906e1f0b
-// 2574 checked, 20 unchecked.
+// Manifest version: 45ba577c9f774c458fd5d557a2d5f02f070c0d997e85e48a8c7fb4e766cbaaae
+// 2582 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7e13f4d25b984255230eb3de35d5d45af3369009298a089248cd8f07906e1f0b",
+  "version": "45ba577c9f774c458fd5d557a2d5f02f070c0d997e85e48a8c7fb4e766cbaaae",
   "units": {
     "address_validation": {
       "defs": {
@@ -7051,6 +7051,46 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getCurrentConditions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDailyForecast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHourlyForecast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMinuteCast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listAlerts": [
           {
             "name": "args",
             "schema": {
@@ -64635,6 +64675,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.solidcore": {
       "defs": {
+        "GetScheduleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetStudioArgs": {
           "k": "object",
           "props": [
@@ -64691,6 +64757,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetStudioArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSchedule": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetScheduleArgs"
             },
             "optional": false
           }
@@ -68101,6 +68177,24 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListCategoriesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "viewCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -73234,6 +73328,67 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "calculateShippingCost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "fromZip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "toZip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "packageSize",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "extraSmall"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "small"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "medium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "large"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "extraLarge"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "shipDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -76756,6 +76911,24 @@ export const VALIDATORS: ValidatorTable = {
     "providers.wodify": {
       "defs": {},
       "functions": {
+        "findGym": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listGymSchedule": [
           {
             "name": "args",

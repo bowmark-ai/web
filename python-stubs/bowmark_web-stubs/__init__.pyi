@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7e13f4d25b984255230eb3de35d5d45af3369009298a089248cd8f07906e1f0b
-# 87 capabilities, 643 providers, 2574 typed functions, 20 refused.
+# Manifest version: 45ba577c9f774c458fd5d557a2d5f02f070c0d997e85e48a8c7fb4e766cbaaae
+# 87 capabilities, 643 providers, 2582 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3452,6 +3452,45 @@ class Prv_accuweather_AccuweatherCurrentConditions_Out(TypedDict):
     realFeel: float | None
     realFeelShade: float | None
     details: Mapping[str, str]
+
+class Prv_accuweather_AccuweatherDailyForecastDay_Out(TypedDict):
+    day: float
+    dow: str
+    date: str
+    highTemp: float | None
+    lowTemp: float | None
+    precipChance: float | None
+    phrase: str | None
+    realFeel: float | None
+    realFeelShade: float | None
+    maxUvIndex: str | None
+    wind: str | None
+
+class Prv_accuweather_AccuweatherHourlyForecastHour_Out(TypedDict):
+    time: float
+    label: str
+    temperature: float | None
+    phrase: str | None
+    realFeel: float | None
+    precipChance: float | None
+    details: Mapping[str, str]
+
+class Prv_accuweather_AccuweatherMinuteCast_Out(TypedDict):
+    summary: str | None
+    minutes: list[Prv_accuweather_AccuweatherMinuteCast_Out_minutes_item_Out]
+
+class Prv_accuweather_AccuweatherMinuteCast_Out_minutes_item_Out(TypedDict):
+    time: str
+    phrase: str
+
+class Prv_accuweather_AccuweatherAlert_Out(TypedDict):
+    id: str | None
+    areaId: str | None
+    area: str
+    headline: str
+    source: str | None
+    start: str | None
+    end: str | None
 
 class Prv_acerentacar_AcerentacarSearchArgs_In(TypedDict):
     pickupLocationCode: str
@@ -31365,6 +31404,29 @@ class Prv_solidcore_GetStudioArgs_In(TypedDict):
     siteId: NotRequired[str]
     slug: NotRequired[str]
 
+class Prv_solidcore_GetScheduleArgs_In(TypedDict):
+    locationId: str
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+
+class Prv_solidcore_SolidcoreClass_Out(TypedDict):
+    id: float
+    className: str
+    displayClassName: str
+    startTime: str
+    endTime: str
+    timezone: str
+    coach: str
+    coachId: float
+    locationId: str
+    capacity: float
+    openings: float
+    waitlistSize: float
+    availability: Literal["bookable"] | Literal["waitlist"] | Literal["full_no_waitlist"]
+    description: str
+    category: str
+    isCanceled: bool
+
 class Prv_solostove_SolostoveBundleSearch_Out(TypedDict):
     query: str
     bundles: list[Prv_solostove_SolostoveBundleSummary_Out]
@@ -33233,6 +33295,14 @@ class Prv_temu_TemuCategoryLink_Out(TypedDict):
     id: str
     name: str
     url: str
+
+class Prv_temu_TemuCart_Out(TypedDict):
+    items: list[Prv_temu_TemuCartItem_Out]
+
+class Prv_temu_TemuCartItem_Out(TypedDict):
+    productId: str
+    quantity: float
+    price: NotRequired[str]
 
 class Prv_tenders_go_ke_ListTendersArgs_In(TypedDict):
     status: NotRequired[Literal["active"] | Literal["all"]]
@@ -35778,6 +35848,21 @@ class Prv_ups_upsAddressCandidate_Out(TypedDict):
     countryCode: str
     classification: str | None
 
+class Prv_ups_calculateShippingCost_args_In(TypedDict):
+    fromZip: str
+    toZip: str
+    packageSize: Literal["extraSmall"] | Literal["small"] | Literal["medium"] | Literal["large"] | Literal["extraLarge"]
+    shipDate: NotRequired[str]
+
+class Prv_ups_UpsSimpleRateQuote_Out(TypedDict):
+    serviceCode: str
+    serviceName: str
+    cost: float
+    currency: str
+    daysInTransit: float
+    deliveredBy: str | None
+    guaranteed: bool
+
 class Prv_usatoday_usatodaySection_Out(TypedDict):
     id: str
     name: str
@@ -37907,6 +37992,14 @@ class Prv_winestyles_WinestylesProduct_Out(TypedDict):
 class Prv_winestyles_WinestylesProduct_Out_price_Out(TypedDict):
     value: float | None
     formatted: str | None
+
+class Prv_wodify_findGym_args_In(TypedDict):
+    url: str
+
+class Prv_wodify_WodifyGym_Out(TypedDict):
+    gymHost: str
+    locationId: float
+    embedUrl: str
 
 class Prv_wodify_listGymSchedule_args_In(TypedDict):
     gymHost: str
@@ -40480,9 +40573,9 @@ class Cap_kenya_fuel_prices(Protocol):
         """Returns current Kenya pump prices for diesel, petrol, or kerosene."""
 
 class Cap_lawyer_directory(Protocol):
-    """Search a bar association's official lawyer directory (annuaire des avocats) by name,
-    city, or bar number to find lawyers, their contact details, practice areas, and
-    qualifications.
+    """Search official bar association lawyer directories by name, city, or bar number to find
+    lawyers, law firms, contact details, practice areas, and bar status. Currently covers
+    the Paris bar (avocatparis.org).
     """
 
     async def search(self, query: Cap_lawyer_directory_LawyerSearchQuery_In, /) -> Cap_lawyer_directory_LawyerSearchResult_Out:
@@ -41700,6 +41793,26 @@ class Prv_accuweather(Protocol):
         """Current conditions for a location — temperature, RealFeel, phrase, and every detail row
         the page shows (wind, gusts, humidity, dew point, pressure, UV, visibility, cloud cover,
         ceiling).
+        """
+
+    async def getDailyForecast(self, args: Prv_accuweather_LocationArgs_In, /) -> list[Prv_accuweather_AccuweatherDailyForecastDay_Out]:
+        """The 10-day daily forecast for a location — high/low, precipitation chance, daytime
+        phrase, RealFeel and wind per day.
+        """
+
+    async def getHourlyForecast(self, args: Prv_accuweather_LocationArgs_In, /) -> list[Prv_accuweather_AccuweatherHourlyForecastHour_Out]:
+        """Hour-by-hour forecast for the next 12 hours — temperature, RealFeel, conditions,
+        precipitation chance, wind, humidity and UV per hour.
+        """
+
+    async def getMinuteCast(self, args: Prv_accuweather_LocationArgs_In, /) -> Prv_accuweather_AccuweatherMinuteCast_Out:
+        """Minute-by-minute precipitation for the next two hours at a location — the site's own
+        summary line plus start/end/intensity by minute.
+        """
+
+    async def listAlerts(self, args: Prv_accuweather_LocationArgs_In, /) -> list[Prv_accuweather_AccuweatherAlert_Out]:
+        """Active weather warnings, watches and advisories for a location — headline, issuing area,
+        source and validity window; an empty array means none are active.
         """
 
 class Prv_acerentacar(Protocol):
@@ -59560,6 +59673,14 @@ class Prv_solidcore(Protocol):
         regional groups). Throws if neither matches.
         """
 
+    async def getSchedule(self, args: Prv_solidcore_GetScheduleArgs_In, /) -> list[Prv_solidcore_SolidcoreClass_Out]:
+        """Returns the class schedule for one [solidcore] studio over a date window — class name,
+        coach, start/end time, capacity, openings, waitlist size and a live availability
+        ("bookable" | "waitlist" | "full_no_waitlist"). Takes { locationId } (what listStudios
+        returns) and optional { startDate, endDate } as "YYYY-MM-DD"; the window defaults to
+        today through seven days out.
+        """
+
 class Prv_solostove(Protocol):
     """Solo Stove's bundle-builder check flow — search bundles by what a shopper would type
     (e.g. "pizza bundle"), then check one bundle's own product id (fire pit + accessories,
@@ -60467,6 +60588,11 @@ class Prv_temu(Protocol):
     async def listCategories(self, args: Prv_temu_ListCategoriesArgs_In | None = None, /) -> list[Prv_temu_TemuCategory_Out]:
         """Lists Temu's top-level shopping categories, each with its subcategories and the url that
         opens it; pass { parent } to read just one.
+        """
+
+    async def viewCart(self, opts: ConnectionOption | None = None, /) -> Prv_temu_TemuCart_Out:
+        """Reads the caller's current Temu cart. Needs the caller signed in to their own Temu
+        account.
         """
 
 class Prv_tenders_go_ke(Protocol):
@@ -62033,6 +62159,17 @@ class Prv_ups(Protocol):
         `auth`.
         """
 
+    async def calculateShippingCost(self, args: Prv_ups_calculateShippingCost_args_In, /) -> list[Prv_ups_UpsSimpleRateQuote_Out]:
+        """Flat-rate shipping quote from ups.com's own public calculator's UPS® Simple Rate — no
+        account, no weight, no dimensions. `packageSize` is one of UPS's own five box-size
+        categories ("extraSmall" through "extraLarge"); `shipDate` defaults to today. Returns
+        one row per UPS service level the calculator quoted (Ground, 3 Day Select, 2nd Day Air,
+        Next Day Air Saver, etc.) with cost, days in transit and the site's own delivery-date
+        wording. A DIFFERENT product from `getRate` (negotiated, weight-based pricing through
+        the keyed Rating API) — this is the flat retail price any anonymous visitor sees. No key
+        needed; drives the calculator's own multi-step wizard in a headless browser.
+        """
+
 class Prv_usatoday(Protocol):
     """USA Today news site — articles, sections, search, sports scores and puzzles."""
 
@@ -63209,6 +63346,16 @@ class Prv_wodify(Protocol):
     """Wodify gym booking — class schedules, pricing and member functions for Wodify-powered
     gyms.
     """
+
+    async def findGym(self, args: Prv_wodify_findGym_args_In, /) -> list[Prv_wodify_WodifyGym_Out]:
+        """Resolves a Wodify-powered gym to the `gymHost` + `locationId` pair `listGymSchedule` and
+        `getClassDetails` take, by reading the Wodify booking embed off the gym's OWN website
+        page (e.g. "https://www.crossfitalinea.com/schedule" →
+        crossfitalineamembership.wodify.com, 596). No login, no browser. Wodify runs no public
+        gym directory, so this takes the gym's site URL, not a name; one entry per distinct
+        embed (a multi-location gym can carry several). Throws a caller-fixable error when the
+        page has no Wodify embed.
+        """
 
     async def listGymSchedule(self, args: Prv_wodify_listGymSchedule_args_In, /) -> list[Prv_wodify_WodifyScheduleClass_Out]:
         """Reads one Wodify-powered gym's public class schedule for a single day — class name,

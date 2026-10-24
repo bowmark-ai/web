@@ -1,5 +1,5 @@
 {
-  "version": "7e13f4d25b984255230eb3de35d5d45af3369009298a089248cd8f07906e1f0b",
+  "version": "45ba577c9f774c458fd5d557a2d5f02f070c0d997e85e48a8c7fb4e766cbaaae",
   "units": {
     "address_validation": {
       "defs": {
@@ -7039,6 +7039,46 @@
           }
         ],
         "getCurrentConditions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDailyForecast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHourlyForecast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMinuteCast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listAlerts": [
           {
             "name": "args",
             "schema": {
@@ -64623,6 +64663,32 @@
     },
     "providers.solidcore": {
       "defs": {
+        "GetScheduleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetStudioArgs": {
           "k": "object",
           "props": [
@@ -64679,6 +64745,16 @@
             "schema": {
               "k": "ref",
               "name": "GetStudioArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSchedule": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetScheduleArgs"
             },
             "optional": false
           }
@@ -68089,6 +68165,24 @@
             "schema": {
               "k": "ref",
               "name": "ListCategoriesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "viewCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -73222,6 +73316,67 @@
             },
             "optional": false
           }
+        ],
+        "calculateShippingCost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "fromZip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "toZip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "packageSize",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "extraSmall"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "small"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "medium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "large"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "extraLarge"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "shipDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -76744,6 +76899,24 @@
     "providers.wodify": {
       "defs": {},
       "functions": {
+        "findGym": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listGymSchedule": [
           {
             "name": "args",
