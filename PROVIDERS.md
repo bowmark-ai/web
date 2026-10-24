@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5668 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5671 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -808,6 +808,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `camelcamelcamel.search` | camelcamelcamel.com | Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title… | 🟡 |
 | `campspot.findCampgrounds` | campspot.com | Given a free-text region (a US state, a Canadian province, or one of Campspot's own… | 🟢 |
 | `campspot.getCampground` | campspot.com | Given a campspot.com/park/<slug> url (from findCampgrounds), returns that campground's… | 🟢 |
+| `canadacomputers.checkStoreStock` | canadacomputers.com | Which Canada Computers store has an item on the shelf, per branch. | ⚪ |
+| `canadacomputers.getProduct` | canadacomputers.com | Reads one product page in full — spec sheet, manufacturer part number and the price… | ⚪ |
+| `canadacomputers.search` | canadacomputers.com | Searches canadacomputers.com (Canada Computers & Electronics) for a product, e.g. "rtx… | 🟢 |
 | `cancer.findCancerCenters` | cancer.gov | Returns the NCI-Designated Cancer Centers — the institutions NCI itself certifies as… | 🟢 |
 | `cancer.getCancerInfoSummary` | cancer.gov | Returns NCI's own PDQ information summary for one cancer type or topic — what the… | 🟢 |
 | `cancer.getCancerStatistics` | cancer.gov | Returns NCI's published statistics for a cancer type — new cases and deaths per year… | ⚪ |
@@ -1235,7 +1238,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.freezeMembership` | corepoweryoga.com | Freezes an active membership temporarily. | ⚪ |
 | `corepoweryoga.getBuddyPassEligibility` | corepoweryoga.com | Checks if the caller is eligible for buddy pass benefits. | ⚪ |
 | `corepoweryoga.getChallenge` | corepoweryoga.com | Gets details about a specific challenge including goals and progress tracking. | ⚪ |
-| `corepoweryoga.getClass` | corepoweryoga.com | Gets details about a specific class including description, duration, and intensity. | ⚪ |
+| `corepoweryoga.getClass` | corepoweryoga.com | Gets one class type's full description: overview, what to expect, what to bring, best… | 🟢 |
 | `corepoweryoga.getClassPack` | corepoweryoga.com | Gets details about a specific class pack including classes remaining and expiration. | ⚪ |
 | `corepoweryoga.getMembership` | corepoweryoga.com | Gets details about a specific membership including usage and renewal date. | ⚪ |
 | `corepoweryoga.getOnDemandVideo` | corepoweryoga.com | Gets details about a specific on-demand video including duration and instructor. | ⚪ |
@@ -1247,7 +1250,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.getWorkshop` | corepoweryoga.com | Gets details about a specific workshop including schedule, capacity, and teacher. | ⚪ |
 | `corepoweryoga.joinWaitlist` | corepoweryoga.com | Joins the waitlist for a full class. | ⚪ |
 | `corepoweryoga.listChallenges` | corepoweryoga.com | Lists current and upcoming yoga challenges. | ⚪ |
-| `corepoweryoga.listClasses` | corepoweryoga.com | Lists all class types offered (e.g., power flow, yin, sculpt, hot yoga). | ⚪ |
+| `corepoweryoga.listClasses` | corepoweryoga.com | Lists every class type (e.g. CorePower Yoga 2, Yoga Sculpt, Hot Power Fusion) with… | 🟢 |
 | `corepoweryoga.listClassPackPrices` | corepoweryoga.com | Lists class pack options with pricing and expiration periods. | ⚪ |
 | `corepoweryoga.listFavoriteTeachers` | corepoweryoga.com | Lists the caller's favorite instructors. | ⚪ |
 | `corepoweryoga.listMembershipPrices` | corepoweryoga.com | Lists current membership plan pricing and benefits. | ⚪ |
@@ -3361,7 +3364,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟡 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟡 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟡 |
-| `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
+| `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟡 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets a day's Wordle puzzle — the solution, puzzle id and editor. | 🟢 |
 | `nytimes.getWriter` | nytimes.com | Gets a writer's own profile off their /by/<slug> page — the site's real name and short… | 🟡 |
@@ -4906,7 +4909,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.replyToForumTopic` | tripadvisor.com | Posts a reply to a travel-forum thread from the signed-in caller's account. | ⚪ |
 | `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
 | `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟡 |
-| `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region — attractions, tours and activities — in… | ⚪ |
+| `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank… | 🟢 |
 | `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟡 |
 | `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | 🟡 |
 | `tripadvisor.writeReview` | tripadvisor.com | Posts a review of a listing from the signed-in caller's account — rating, title, text… | ⚪ |

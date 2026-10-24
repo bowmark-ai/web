@@ -136,6 +136,7 @@ califloors.com — califloors: getProduct, listCategories, searchProducts
 camelcamelcamel.com — camelcamelcamel: getPriceHistory, search
 camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
+canadacomputers.com — canadacomputers: checkStoreStock, getProduct, search
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary, getCancerStatistics, getClinicalTrial, getDrugInfo, listCancerDrugs, listCancerTypes, lookupCancerTerm, lookupGeneticsTerm, searchClinicalTrials, searchFundingOpportunities, searchNews, searchPublications
 canva.com — canva: addComment, autofillBrandTemplate, browseTemplates, copyDesign, createDesign, createFolder, deleteDesign, exportDesign, generateDesign, generatePaletteFromImage, getApp, getBrandKit, getBrandTemplateDataset, getColorCombinations, getColorMeaning, getColorPalette, getCreator, getDesign, getDesignContent, getGraphic, getMyProfile, getPhoto, getPresenterNotes, getPricing, getSharedDesign, getTemplate, importDesign, listColorPalettes, listComments, listDesignPages, listDesignSizes, listFolderItems, listFolders, listPrintProducts, listTemplateCategories, listUploads, mergeDesigns, moveToFolder, orderPrint, renameDesign, resizeDesign, searchApps, searchAudio, searchBrandTemplates, searchGraphics, searchMyDesigns, searchPhotos, searchTemplates, searchVideos, setProfilePicture, shareDesign, updateProfile, uploadAsset
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
