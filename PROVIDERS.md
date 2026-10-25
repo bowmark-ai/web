@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5694 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5695 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -151,7 +151,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
 | `aliexpress.addToCart` | aliexpress.us | Adds a product to the user's shopping cart. | ⚪ |
-| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including variants (size, color, etc.), pricing… | 🔴 |
+| `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including the price of every variant (size… | 🔴 |
 | `aliexpress.getStore` | aliexpress.us | Retrieves seller/store information including store name, ratings, product count, and… | ⚪ |
 | `aliexpress.listCart` | aliexpress.us | Lists items currently in the user's shopping cart. | ⚪ |
 | `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | ⚪ |
@@ -217,7 +217,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | 🟡 |
 | `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | 🟢 |
 | `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | 🟢 |
-| `aol.listFavorites` | aol.com | Reads the signed-in caller's AOL Favorites — their saved links and the folders holding… | ⚪ |
+| `aol.listFavorites` | aol.com | Reads the signed-in caller's AOL Favorites — their saved links and the folders holding… | 🟢 |
 | `aol.listGames` | aol.com | Lists AOL Games' free web games — id, title, publisher, category (board, card, casino… | 🟢 |
 | `aol.listNewsletters` | aol.com | Lists AOL's newsletter signup(s) — today a single generic daily roundup ("AOL Today")… | 🟢 |
 | `aol.listSectionArticles` | aol.com | Lists the articles in one AOL section or sub-section, newest first, page by page —… | 🟢 |
@@ -1704,13 +1704,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.addFavorite` | espn.com | Adds a team, league or player to the CALLER's My ESPN favourites. | ⚪ |
 | `espn.createFantasyLeague` | espn.com | Creates a new ESPN fantasy league (football, baseball, basketball or hockey) owned by… | ⚪ |
 | `espn.draftPicks` | espn.com | A league's draft by round and pick — team, player, position and college — for the… | ⚪ |
-| `espn.fantasyPlayers` | espn.com | ESPN Fantasy's public player board for fantasy football, baseball, basketball or… | ⚪ |
+| `espn.fantasyPlayers` | espn.com | ESPN Fantasy's public player board for fantasy football, baseball, basketball or… | 🟢 |
 | `espn.getArticle` | espn.com | The full text of one ESPN story — headline, byline, published and updated times, body… | ⚪ |
 | `espn.getFantasyLeague` | espn.com | One ESPN fantasy league — settings, scoring, standings, this week's matchups and… | ⚪ |
 | `espn.getFantasyTeam` | espn.com | One team in an ESPN fantasy league — its roster with each player's slot, projected and… | ⚪ |
 | `espn.getGame` | espn.com | One game in full, with score by period, every player's box-score line, team stats… | 🟡 |
 | `espn.getPlayer` | espn.com | One player's page — team, position, jersey, age, height, weight, college, status and… | 🟢 |
-| `espn.getTeam` | espn.com | One team's page header — record, standing in its division, next game, coach, venue and… | ⚪ |
+| `espn.getTeam` | espn.com | One team's page header — record, standing in its division, next game, coach, venue and… | 🟢 |
 | `espn.injuries` | espn.com | Reads a league's injury report the way ESPN's own /nfl/injuries page does — every… | 🟢 |
 | `espn.listFavorites` | espn.com | The CALLER's My ESPN favourites — the teams, leagues and players they follow, which… | ⚪ |
 | `espn.listLeagues` | espn.com | Every sport ESPN's core API tracks (call with no arguments), or every league slug… | 🟢 |
@@ -1728,12 +1728,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.search` | espn.com | ESPN's own site search — players, teams, leagues and articles matching free text, each… | 🟢 |
 | `espn.setFantasyLineup` | espn.com | Moves players between the CALLER's starting lineup and bench in one of their own ESPN… | ⚪ |
 | `espn.standings` | espn.com | A league's current standings by conference and division — wins, losses, ties, win… | 🟢 |
-| `espn.statLeaders` | espn.com | A league's season leaderboard in one category — passing yards, points per game, home… | ⚪ |
+| `espn.statLeaders` | espn.com | A league's season leaderboard — every stat category (passing yards, points per game… | 🟢 |
 | `espn.submitPicks` | espn.com | Enters the CALLER's picks in one of ESPN's free prediction games — Pigskin Pick'em… | ⚪ |
 | `espn.teamDepthChart` | espn.com | One team's depth chart — the starter and backups at every position, in order. | ⚪ |
 | `espn.teamRoster` | espn.com | One team's current roster — every player with jersey number, position, age, height… | 🟢 |
 | `espn.teamSchedule` | espn.com | One team's full season schedule — every game with date, opponent, home or away, TV… | 🟢 |
-| `espn.teamStats` | espn.com | One team's season statistics, team totals and per-game, with its league rank in each… | ⚪ |
+| `espn.teamStats` | espn.com | One team's season statistics, team totals and per-game, with its league rank in each… | 🟢 |
 | `espn.transactions` | espn.com | A league's recent transactions — signings, releases, trades, injured-list moves and… | ⚪ |
 | `estes_express.estimateFreightQuote` | estes-express.com | Gets LTL (less than truckload) freight shipping rate quotes for an origin/destination… | 🟢 |
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
@@ -1803,6 +1803,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.browseMarketplace` | facebook.com | Browse a city's Marketplace front page (optionally one category) logged out — title… | 🟢 |
 | `facebook.commentOnPost` | facebook.com | Leave a comment on a post, by its permalink URL. | 🟢 |
 | `facebook.followPage` | facebook.com | Follow or unfollow a Page by its handle. | 🟢 |
+| `facebook.getBusinessDetails` | facebook.com | Read a local business Page's contact-card intro, logged out — category, phone, email… | 🟢 |
 | `facebook.getConversation` | facebook.com | Read messages in a private conversation thread with another user or group. | 🟢 |
 | `facebook.getEventDetails` | facebook.com | Read a public Event's details — name, start time, place, description, interested +… | 🟢 |
 | `facebook.getGroupInfo` | facebook.com | Read a Group's details — name, description, member count, profile photo. | 🟢 |
@@ -3237,13 +3238,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getStormForecast` | nhc.noaa.gov | Get a storm's forecast positions and intensities out to five days, with wind radii… | 🟢 |
 | `nhc.getStormGraphics` | nhc.noaa.gov | List a storm's current forecast graphics — cone, current wind field, wind history… | ⚪ |
 | `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | 🟡 |
-| `nhc.getStormNames` | nhc.noaa.gov | Get the rotating list of tropical cyclone names for a basin and year, including which… | ⚪ |
+| `nhc.getStormNames` | nhc.noaa.gov | Get the rotating list of tropical cyclone names for a basin and year, including which… | 🟢 |
 | `nhc.getStormSurge` | nhc.noaa.gov | Get the storm surge watch/warning area and peak storm surge forecast for a storm… | ⚪ |
 | `nhc.getTropicalCycloneReport` | nhc.noaa.gov | Get NHC's post-season Tropical Cyclone Report for a storm: the final meteorological… | ⚪ |
 | `nhc.getTropicalOutlook` | nhc.noaa.gov | Get the Tropical Weather Outlook for a basin: each disturbance being watched, where it… | 🟢 |
-| `nhc.getTropicalWeatherDiscussion` | nhc.noaa.gov | Get the Tropical Weather Discussion for the Atlantic or East Pacific: the analysts'… | ⚪ |
+| `nhc.getTropicalWeatherDiscussion` | nhc.noaa.gov | Get the Tropical Weather Discussion for the Atlantic or East Pacific: the analysts'… | 🟢 |
 | `nhc.getWatchesWarnings` | nhc.noaa.gov | Get the watches and warnings in effect for a storm from its public advisory —… | 🟢 |
-| `nhc.getWindSpeedProbabilities` | nhc.noaa.gov | Get the probability of tropical-storm-force (34 kt), 50 kt and hurricane-force (64 kt)… | ⚪ |
+| `nhc.getWindSpeedProbabilities` | nhc.noaa.gov | Get the probability of tropical-storm-force (34 kt), 50 kt and hurricane-force (64 kt)… | 🟢 |
 | `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | 🟢 |
 | `nhc.listMarineZones` | nhc.noaa.gov | List the offshore waters and high seas forecast areas NHC covers, with the zone code… | ⚪ |
 | `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name and classification. | 🟢 |
