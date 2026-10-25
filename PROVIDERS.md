@@ -727,7 +727,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `builder_strucsure_com.getNewConstructionRegistrationFields` | builder.strucsure.com | Returns the foundation-type, home-type and warranty-term (enrollment-type) choices for… | 🟢 |
 | `builder_strucsure_com.listRegistrationStates` | builder.strucsure.com | Lists the states StrucSure Home Warranty's builder registration portal recognizes, and… | 🟢 |
 | `buildingengines.getAccessRequestStatus` | buildingengines.com | Retrieves the status of after-hours vendor and cleaning-crew access requests from the… | 🟢 |
-| `bulletproof.findStores` | bulletproof.com | Finds real physical retailers near a US zip code that carry Bulletproof products… | 🟢 |
+| `bulletproof.findStores` | bulletproof.com | Finds real physical retailers near a US zip code that carry Bulletproof products… | 🟡 |
 | `bungalow.getListing` | bungalow.com | Returns one listing's full detail — every room with its own rent and availability… | 🟢 |
 | `bungalow.listMarkets` | bungalow.com | Lists every market Bungalow currently operates in — city, region and country, plus the… | 🟢 |
 | `bungalow.searchListings` | bungalow.com | Searches Bungalow's live, priced room and whole-home rental inventory in one market —… | 🟢 |
@@ -4539,7 +4539,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
 | `stubhub.createListing` | stubhub.com | Publishes a ticket listing for sale on one of the caller's own events, at a given… | ⚪ |
-| `stubhub.findEventsToSell` | stubhub.com | The seller-side entry point: given an event name or performer, finds the matching… | ⚪ |
+| `stubhub.findEventsToSell` | stubhub.com | The seller side of the marketplace: searches StubHub's own event-finder… | 🟢 |
 | `stubhub.findPerformers` | stubhub.com | Finds a performer, artist or sports team by name and returns its id, display name and… | 🟢 |
 | `stubhub.findVenues` | stubhub.com | Finds a venue by name and returns its id, display name and StubHub's own page url for… | 🟢 |
 | `stubhub.getCheckoutHandoff` | stubhub.com | Given a listing id from `getEventListings`, resolves the price and returns StubHub's… | ⚪ |
@@ -5315,7 +5315,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.getGroupInfo` | whatsapp.com | Reads a group the caller belongs to: name, description, picture, creation date… | ⚪ |
 | `whatsapp.getGroupInviteLink` | whatsapp.com | Reads the current invite link of a group the caller administers, optionally revoking… | ⚪ |
 | `whatsapp.getHelpArticle` | whatsapp.com | Reads one WhatsApp Help Center article by its numeric id or faq.whatsapp.com url… | 🟢 |
-| `whatsapp.getMyProfile` | whatsapp.com | Reads the signed-in caller's own WhatsApp profile: display name, about text, profile… | ⚪ |
+| `whatsapp.getMyProfile` | whatsapp.com | Reads the signed-in caller's own WhatsApp profile: display name, about text, profile… | 🟢 |
 | `whatsapp.joinGroupByInvite` | whatsapp.com | Joins a group from its chat.whatsapp.com invite link as the caller, and returns the… | ⚪ |
 | `whatsapp.leaveGroup` | whatsapp.com | Leaves a group as the caller. | ⚪ |
 | `whatsapp.listBlogPosts` | whatsapp.com | Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's slug, title… | 🟢 |
