@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5684 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5687 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3449,6 +3449,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `otto.trackOrder` | otto.de | Looks up shipment/delivery status for an OTTO order by order number plus the account… | ⚪ |
 | `outdoorresearch.checkClaimEligibility` | outdoorresearch.com | Starts an Infinite Guarantee warranty claim by order number + email against the live… | 🟢 |
 | `outdoorresearch.getWarrantyPolicy` | outdoorresearch.com | Reads Outdoor Research's Infinite Guarantee warranty program settings straight from… | 🟢 |
+| `overstock.addToCart` | overstock.com | Adds an item to the visitor's cart. | ⚪ |
+| `overstock.getProduct` | overstock.com | Reads one product page: full description, every size/colour option with stock, and… | ⚪ |
+| `overstock.search` | overstock.com | Searches Overstock's catalog the way the site's own search box does ("area rug"… | 🟢 |
 | `pacificabeauty.getHairRecommendation` | pacificabeauty.com | Runs Pacifica's own hair-quiz recommendation engine (the Tangent AI-powered quiz at… | 🟢 |
 | `pacificcompanies.assembleApplication` | pacificcompanies.com | Validates a caller's name/email/phone against the posting's live apply-form… | 🟢 |
 | `pacificcompanies.getApplicationSchema` | pacificcompanies.com | Reads one posting's own live 'Apply For This Job' Gravity Forms structure. | 🟢 |

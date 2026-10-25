@@ -477,6 +477,7 @@ othership.us — othership: getClassSchedule, getLocations
 otto.de — otto: browseCategory, getProduct, getReviews, search, trackOrder
 outdoorresearch.com — outdoorresearch: checkClaimEligibility, getWarrantyPolicy
 outlook.live.com — microsoft_outlook: createCalendarEvent, createContact, deleteCalendarEvent, deleteMail, forwardMail, getCalendarEvents, getContact, getMail, listContacts, listMailFolders, moveMail, readMailFolder, replyToMail, respondToEventInvite, searchMail, sendMail, updateCalendarEvent
+overstock.com — overstock: addToCart, getProduct, search
 pacificabeauty.com — pacificabeauty: getHairRecommendation
 pacificcompanies.com — pacificcompanies: assembleApplication, getApplicationSchema, getJob, getJobCategories, searchJobs
 pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
