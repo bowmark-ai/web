@@ -203,6 +203,7 @@ crecipr.gov.br — crecipr: searchCredenciados, verifyBroker
 credibly.com — credibly_com: getApplicationForm, getEligibilityRequirements
 cruiselakegeneva.com — cruiselakegeneva: getTour, listTours
 crunchbase.com — crunchbase: getFundingRounds, getOrganization, recentFundingRounds, searchNews, searchOrganizations
+crutchfield.com — crutchfield: getProduct, search
 culturefly.com — culturefly: buildCultureFlyCheckoutLink, getCultureFlyBoxOptions, listCultureFlyBoxes
 curiocity.com — curiocity: listEvents
 cve.circl.lu — circl: getCve, search

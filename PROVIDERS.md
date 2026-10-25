@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5687 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5689 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1290,6 +1290,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `crunchbase.recentFundingRounds` | crunchbase.com | The week's 10 biggest announced funding rounds raised by U.S.-based startups, read off… | 🟢 |
 | `crunchbase.searchNews` | crunchbase.com | Searches Crunchbase News for a company or topic, newest first, through the newsroom's… | 🟢 |
 | `crunchbase.searchOrganizations` | crunchbase.com | Finds companies by name the way the site's header search does — Crunchbase's own… | 🟢 |
+| `crutchfield.getProduct` | crutchfield.com | Reads one product's full page — price, availability, images, brand, spec/description… | ⚪ |
+| `crutchfield.search` | crutchfield.com | Searches Crutchfield's catalog for car audio products — items found, price, brand, URL… | 🟢 |
 | `culturefly.buildCultureFlyCheckoutLink` | culturefly.com | Resolves a chosen size + cadence against getCultureFlyBoxOptions and returns the exact… | 🟢 |
 | `culturefly.getCultureFlyBoxOptions` | culturefly.com | Reads one box's full configure surface off its own product page — every apparel size… | 🟢 |
 | `culturefly.listCultureFlyBoxes` | culturefly.com | Reads the live CultureFly catalogue for exactly the licensed subscription-box product… | 🟢 |
