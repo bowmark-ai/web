@@ -1,5 +1,5 @@
 {
-  "version": "9a9d1062166a3a8597aa4fb100a4a05fa6bc8d5ed95c587a9d7f01fc5faa09a6",
+  "version": "1e58245294632cf6e498e8aa5a949baf0a4ddf0dc46ce752508fa63ee2f74a6b",
   "units": {
     "address_validation": {
       "defs": {
@@ -52804,6 +52804,41 @@
             "name": "email",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.overstock": {
+      "defs": {
+        "OverstockSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OverstockSearchArgs"
             },
             "optional": false
           }

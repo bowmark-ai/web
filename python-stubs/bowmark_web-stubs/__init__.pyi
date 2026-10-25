@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9a9d1062166a3a8597aa4fb100a4a05fa6bc8d5ed95c587a9d7f01fc5faa09a6
-# 87 capabilities, 647 providers, 2614 typed functions, 20 refused.
+# Manifest version: 1e58245294632cf6e498e8aa5a949baf0a4ddf0dc46ce752508fa63ee2f74a6b
+# 87 capabilities, 648 providers, 2615 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -26424,6 +26424,21 @@ class Prv_outdoorresearch_OutdoorResearchClaimEligibility_Out(TypedDict):
     message: str
     continueUrl: str | None
 
+class Prv_overstock_OverstockSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_overstock_OverstockSearch_Out(TypedDict):
+    products: list[Prv_overstock_OverstockProduct_Out]
+    totalAcrossBrand: float
+
+class Prv_overstock_OverstockProduct_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    price: float | None
+    imageUrl: str | None
+
 class Prv_pacificabeauty_getHairRecommendation_arg_In(TypedDict):
     tags: Sequence[str]
 
@@ -44654,26 +44669,32 @@ class Prv_bing(Protocol):
 
     async def searchWeb(self, args: Prv_bing_searchWeb_args_In, /) -> Prv_bing_BingSearchResult_Out:
         """Searches the web and returns the ten results Bing ranked first, with title, destination
-        URL, snippet and date. THREE LIMITS. (1) It NEVER returns an empty list — a query of
-        three invented words came back with ten confident, unrelated rows, and a long-tail query
-        (an obscure company name plus "pricing", say) can get the same substituted treatment.
-        (2) It IGNORES search operators, so `site:reddit.com …` is not scoped to reddit. (3)
-        MEASURED 2026-09-11, and the one that hits ordinary research: it answers a MULTI-WORD
-        query by reducing it to the single most popular word in it and returning that word's
-        results — "React useEffect dependency array" comes back as React's own homepage, and a
-        nine-word query naming a company, a job and a protocol came back as the results for the
-        one two-letter acronym in it. Quoting the proper noun, shortening the query and
-        site-scoping it were all tried and all returned the identical substituted set, so
-        rewriting the query does not help. `warnings` flags four shapes. Three read the words:
-        no row sharing a single word with the query, every row matching only a generic word like
-        "pricing" while the thing you named is absent, or fewer than half the query's subject
-        words appearing anywhere in the results. The fourth reads Bing's own behaviour and is
-        the reliable one — the query is asked TWICE down the same exit, and an answer that
-        differs the second time is a random decoy, because a query Bing can actually answer is
-        stable across repeats (measured 2026-09-12: 1.00 repeat overlap on every answerable
-        query, 0.00 on every unanswerable one, nothing in between). A partially-relevant result
-        set is still not caught, so treat the rows as Bing's best offer rather than as proof
-        anything matched.
+        URL, snippet and date. Passing `limit` over 10 fetches further pages too — bing's RSS
+        feed and its HTML page both ignore a `first=` offset and answer the identical page 1
+        again (measured 2026-10-25), so rows past the tenth come from a browser rung following
+        the page's own "Next page" link, deduped by url against page 1. That link is itself
+        unreliable — about one run in four it also replays page 1 — so a `limit` over 10 can
+        still come back short, with a warning saying whether the browser call failed or bing
+        genuinely ran out of pages; never read a short answer as a cap. THREE FURTHER LIMITS,
+        present whatever `limit` is. (1) It NEVER returns an empty list — a query of three
+        invented words came back with ten confident, unrelated rows, and a long-tail query (an
+        obscure company name plus "pricing", say) can get the same substituted treatment. (2) It
+        IGNORES search operators, so `site:reddit.com …` is not scoped to reddit. (3) MEASURED
+        2026-09-11, and the one that hits ordinary research: it answers a MULTI-WORD query by
+        reducing it to the single most popular word in it and returning that word's results —
+        "React useEffect dependency array" comes back as React's own homepage, and a nine-word
+        query naming a company, a job and a protocol came back as the results for the one
+        two-letter acronym in it. Quoting the proper noun, shortening the query and site-scoping
+        it were all tried and all returned the identical substituted set, so rewriting the query
+        does not help. `warnings` flags four shapes. Three read the words: no row sharing a
+        single word with the query, every row matching only a generic word like "pricing" while
+        the thing you named is absent, or fewer than half the query's subject words appearing
+        anywhere in the results. The fourth reads Bing's own behaviour and is the reliable one —
+        the query is asked TWICE down the same exit, and an answer that differs the second time
+        is a random decoy, because a query Bing can actually answer is stable across repeats
+        (measured 2026-09-12: 1.00 repeat overlap on every answerable query, 0.00 on every
+        unanswerable one, nothing in between). A partially-relevant result set is still not
+        caught, so treat the rows as Bing's best offer rather than as proof anything matched.
         """
 
     async def searchWebBrowser(self, args: Prv_bing_searchWebBrowser_args_In, /) -> Prv_bing_BingSearchResult_Out:
@@ -57299,6 +57320,20 @@ class Prv_outdoorresearch(Protocol):
         THROWS only on a transport failure or an unrecognized response.
         """
 
+class Prv_overstock(Protocol):
+    """Overstock online home goods and rug retailer. Searches the catalog (rugs, furniture,
+    bedding, decor) and returns name, price and a product URL, filtered to items actually
+    sold under this brand.
+    """
+
+    async def search(self, args: Prv_overstock_OverstockSearchArgs_In, /) -> Prv_overstock_OverstockSearch_Out:
+        """Searches Overstock's catalog the way the site's own search box does ("area rug", "runner
+        rug") and returns matching products with name, price and a product URL. The site shares
+        its Constructor.io search index with its sibling brand Bed Bath & Beyond, so this only
+        returns rows whose URL is actually on overstock.com — a result never names a price that
+        belongs to a different storefront.
+        """
+
 class Prv_pacificabeauty(Protocol):
     """Pacifica Beauty's own hair-quiz recommendation engine
     (pacificabeauty.com/pages/hair-quiz) — submits real answer tags to the site's own
@@ -65602,6 +65637,7 @@ class BowmarkProviders(Protocol):
     othership: Prv_othership
     otto: Prv_otto
     outdoorresearch: Prv_outdoorresearch
+    overstock: Prv_overstock
     pacificabeauty: Prv_pacificabeauty
     pacificcompanies: Prv_pacificcompanies
     pacificlifestylehomes: Prv_pacificlifestylehomes

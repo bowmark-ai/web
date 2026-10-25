@@ -4724,7 +4724,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.replyToPost` | threads.com | Replies to a post as the CALLER. | ⚪ |
 | `threads.repostPost` | threads.com | Reposts a post to the CALLER's profile. | ⚪ |
 | `threads.savePost` | threads.com | Saves a post to the CALLER's saved list. | ⚪ |
-| `threads.searchAccounts` | threads.com | Searches Threads accounts by name or username — the finder that turns a person or… | ⚪ |
+| `threads.searchAccounts` | threads.com | Searches Threads accounts by name or username, logged out — the finder that turns a… | 🟢 |
 | `threads.searchPosts` | threads.com | Searches Threads posts by keyword and returns the top results with author, text and… | ⚪ |
 | `threads.searchTopics` | threads.com | Finds Threads topic tags by keyword and lists the posts filed under one. | ⚪ |
 | `threads.sendMessage` | threads.com | Sends a direct message from the CALLER to a Threads account. | ⚪ |
