@@ -593,7 +593,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booker.cancelAppointment` | booker.com | Cancels one of the signed-in customer's upcoming appointments, after reading whether… | ⚪ |
 | `booker.cancelMembership` | booker.com | Cancels one of the signed-in customer's memberships. | ⚪ |
 | `booker.confirmAppointment` | booker.com | Confirms one of the signed-in customer's upcoming appointments when the location asks… | ⚪ |
-| `booker.findLocation` | booker.com | Resolves a Booker storefront to its location record: pass a slug (`kabuki`) or a… | ⚪ |
+| `booker.findLocation` | booker.com | Resolves a Booker storefront to its location record: pass a slug (`kabuki`) or a… | 🟢 |
 | `booker.getAvailability` | booker.com | Returns the open appointment times for a service on a date at a location, each with… | ⚪ |
 | `booker.getAvailableDates` | booker.com | Returns the dates a service has open appointments at a location over a date range… | ⚪ |
 | `booker.getBookingPolicies` | booker.com | Returns a location's booking rules: its cancellation policy text and fee window, how… | ⚪ |
@@ -602,7 +602,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booker.getMultiServiceAvailability` | booker.com | Finds back-to-back open times for several services booked as one visit (for example a… | ⚪ |
 | `booker.getMyProfile` | booker.com | Returns the signed-in customer's profile at a location: name, email, phone, address… | ⚪ |
 | `booker.getService` | booker.com | Returns one service's full detail: description, duration, price, add-ons, whether it… | ⚪ |
-| `booker.getServiceMenu` | booker.com | Returns a location's online service menu: each section and category with its services… | ⚪ |
+| `booker.getServiceMenu` | booker.com | Returns a location's online menu in the order the storefront shows it: each section… | 🟢 |
 | `booker.getSpecial` | booker.com | Looks up a promo or special by code at a location and returns what it discounts and… | ⚪ |
 | `booker.listBrandLocations` | booker.com | Lists every location of a multi-location Booker brand (the go.booker.com/brand/<slug>… | ⚪ |
 | `booker.listGiftCertificates` | booker.com | Lists the gift certificate designs and amounts a location sells online. | ⚪ |
@@ -5444,7 +5444,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `workday.getJob` | myworkdayjobs.com | Reads one posting's full description, exact posted date, time type and every location… | ⚪ |
 | `workday.listJobs` | myworkdayjobs.com | Lists open jobs on one company's Workday careers site… | 🟢 |
 | `wsj.addToWatchlist` | wsj.com | Adds a symbol to the signed-in reader's own watchlist. | ⚪ |
-| `wsj.getArticle` | wsj.com | Gets one article's own headline, byline, publish date and body. | ⚪ |
+| `wsj.getArticle` | wsj.com | Gets one article's own headline, byline, dek, section, publish date and body. | 🟢 |
 | `wsj.getArticleFullText` | wsj.com | Gets the full text of a subscriber-only article using the CALLER's own WSJ… | ⚪ |
 | `wsj.getAuthor` | wsj.com | Gets a WSJ journalist's own byline page — name, title/beat and bio. | ⚪ |
 | `wsj.getNewsletter` | wsj.com | Gets one newsletter's own catalog entry (title, description, frequency). | ⚪ |
