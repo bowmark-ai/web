@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d193608b2e39d15f0e6269944a252ab24ba7ff96e57f1386270fcdc2dd9201d0
-// 87 capabilities, 652 providers, 2671 typed functions, 20 refused.
+// Manifest version: 52fc2a9093ffefb9812d775471e532ec345279ff7a50b60b52feb7f6e24cd599
+// 87 capabilities, 652 providers, 2672 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -61658,6 +61658,9 @@ type UnfollowUserArgs = {
 type BookmarkVideoArgs = {
   video: string;
 };
+type DeleteVideoArgs = {
+  video: string;
+};
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -61857,6 +61860,14 @@ type BookmarkVideoArgs = {
      * up on this site. Returns a confirmation of the save.
      */
     bookmarkVideo(args: BookmarkVideoArgs, opts?: ConnectionOption): Promise<{ bookmarked: boolean }>;
+
+    /**
+     * Delete the signed-in caller's own video. Takes a video reference — a full video URL or a
+     * bare video id. Writes via POST to /api/aweme/delete/ with the caller's session cookies, no
+     * browser. The caller signs in through the auth relay; Bowmark never signs up on this site.
+     * Returns a confirmation of the deletion.
+     */
+    deleteVideo(args: DeleteVideoArgs, opts?: ConnectionOption): Promise<{ deleted: boolean }>;
   }
 }
 

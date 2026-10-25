@@ -403,6 +403,7 @@ lmstudio.ai — lmstudio: getDoc, listDocPages
 lonelyplanet.com — lonelyplanet: getBestInTravel, getDestinationGuide, search, searchGuidebooks, searchTrips
 louvershop.com — louvershop: findLocalDealer, requestConsultation
 lovelybride.com — lovelybride: getAvailableSlots, getStoreAppointmentTypes, listStores
+lowes.com — lowes: checkStoreInventory, findStores, getProduct, search
 lufthansa.com — lufthansa: getBaggageAllowance, getFlightStatus, getSeatMap, retrieveBooking, search
 luggageforward.com — luggageforward: getQuoteOptions, listLuggageTypes
 luma.com — luma: discoverEvents, getEvent, listCalendarEvents, listCategories, listPlaces

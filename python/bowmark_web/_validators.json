@@ -1,5 +1,5 @@
 {
-  "version": "d193608b2e39d15f0e6269944a252ab24ba7ff96e57f1386270fcdc2dd9201d0",
+  "version": "52fc2a9093ffefb9812d775471e532ec345279ff7a50b60b52feb7f6e24cd599",
   "units": {
     "address_validation": {
       "defs": {
@@ -71141,6 +71141,18 @@
             }
           ]
         },
+        "DeleteVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "EditProfileArgs": {
           "k": "object",
           "props": [
@@ -71827,6 +71839,32 @@
             "schema": {
               "k": "ref",
               "name": "BookmarkVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeleteVideoArgs"
             },
             "optional": false
           },

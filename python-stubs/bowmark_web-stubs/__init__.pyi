@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d193608b2e39d15f0e6269944a252ab24ba7ff96e57f1386270fcdc2dd9201d0
-# 87 capabilities, 652 providers, 2653 typed functions, 20 refused.
+# Manifest version: 52fc2a9093ffefb9812d775471e532ec345279ff7a50b60b52feb7f6e24cd599
+# 87 capabilities, 652 providers, 2654 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -35207,6 +35207,12 @@ class Prv_tiktok_BookmarkVideoArgs_In(TypedDict):
 class Prv_tiktok_bookmarkVideo_return_Out(TypedDict):
     bookmarked: bool
 
+class Prv_tiktok_DeleteVideoArgs_In(TypedDict):
+    video: str
+
+class Prv_tiktok_deleteVideo_return_Out(TypedDict):
+    deleted: bool
+
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
     name: str
@@ -62849,6 +62855,13 @@ class Prv_tiktok(Protocol):
         — a full video URL or a bare video id. Writes via POST to /api/collect/item/ with the
         caller's session cookies, no browser. The caller signs in through the auth relay;
         Bowmark never signs up on this site. Returns a confirmation of the save.
+        """
+
+    async def deleteVideo(self, args: Prv_tiktok_DeleteVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_deleteVideo_return_Out:
+        """Delete the signed-in caller's own video. Takes a video reference — a full video URL or a
+        bare video id. Writes via POST to /api/aweme/delete/ with the caller's session cookies,
+        no browser. The caller signs in through the auth relay; Bowmark never signs up on this
+        site. Returns a confirmation of the deletion.
         """
 
 class Prv_tilsonhomes(Protocol):

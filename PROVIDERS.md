@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5690 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5694 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -618,17 +618,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booker.updateMyProfile` | booker.com | Updates the signed-in customer's profile fields (name, phone, address, communication… | ⚪ |
 | `booking_com.addToWishlist` | booking.com | Add a property to the caller's wishlist. | ⚪ |
 | `booking_com.autocompleteDestination` | booking.com | Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text… | 🟡 |
-| `booking_com.checkPrice` | booking.com | Check price and availability for a property on specific dates. | ⚪ |
+| `booking_com.checkPrice` | booking.com | Check a specific property's own room rate table for given dates — every room offered… | 🟢 |
 | `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | ⚪ |
 | `booking_com.getBooking` | booking.com | Get details of one past or upcoming booking. | ⚪ |
 | `booking_com.getProperty` | booking.com | Fetch detailed property information including amenities, photos and reviews. | 🟢 |
 | `booking_com.getReviewBreakdown` | booking.com | Get overall review score and category breakdown for a property. | ⚪ |
 | `booking_com.listAvailability` | booking.com | List available properties for a given search with availability status and pricing. | 🟢 |
 | `booking_com.listBookings` | booking.com | List the caller's past and upcoming bookings. | ⚪ |
-| `booking_com.listFilterOptions` | booking.com | List available filter options (amenities, price range, ratings) for a search. | ⚪ |
+| `booking_com.listFilterOptions` | booking.com | List the checkbox filter options (property rating, facilities, review score, meal… | 🟢 |
 | `booking_com.listMyReviews` | booking.com | List reviews the caller has written. | ⚪ |
 | `booking_com.listPropertyPhotos` | booking.com | List photos and galleries for a property. | ⚪ |
-| `booking_com.listPropertyReviews` | booking.com | List guest reviews for a property. | ⚪ |
+| `booking_com.listPropertyReviews` | booking.com | List guest reviews for a property — the reviewer, their stay, the score, and what they… | 🟢 |
 | `booking_com.listSavedPaymentMethods` | booking.com | List payment methods saved to the caller's account. | ⚪ |
 | `booking_com.listWishlist` | booking.com | List properties the caller has saved to their wishlist. | ⚪ |
 | `booking_com.removeFromWishlist` | booking.com | Remove a property from the caller's wishlist. | ⚪ |
@@ -2848,7 +2848,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | 🟢 |
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
 | `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟢 |
-| `linkedin.getEvent` | linkedin.com | Returns one public LinkedIn event from its URL — name, organizer, start and end time… | ⚪ |
+| `linkedin.getEvent` | linkedin.com | Returns one LinkedIn event by its URL or numeric id (from searchEvents) — name… | 🟢 |
 | `linkedin.getGroup` | linkedin.com | Returns one LinkedIn group by its URL or numeric id (from searchGroups or… | 🟢 |
 | `linkedin.getHomeFeed` | linkedin.com | Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL… | 🟢 |
 | `linkedin.getJob` | linkedin.com | Returns one job posting in full from its posting URL — title, employer and employer… | 🟢 |
@@ -2922,6 +2922,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lovelybride.getAvailableSlots` | lovelybride.com | Reads the real open appointment slots for one store, one appointment type and one date… | 🟢 |
 | `lovelybride.getStoreAppointmentTypes` | lovelybride.com | Reads one store's real, currently-bookable BridalLive appointment types — each with… | 🟢 |
 | `lovelybride.listStores` | lovelybride.com | Lists every Lovely Bride store the site's own store locator links — 19 across the US… | 🟢 |
+| `lowes.checkStoreInventory` | lowes.com | Checks an item's in-store stock and pickup availability at a Lowe's store near a ZIP. | ⚪ |
+| `lowes.findStores` | lowes.com | Finds Lowe's stores near a ZIP or city, with address and hours. | ⚪ |
+| `lowes.getProduct` | lowes.com | Reads one product page: full specs, price, availability and store pickup for an item. | ⚪ |
+| `lowes.search` | lowes.com | Searches Lowe's product catalog for a shopper's query (e.g. "cordless drill") and… | 🟢 |
 | `lufthansa.getBaggageAllowance` | lufthansa.com | Reads the checked and carry-on baggage allowance for a fare class and route — bag… | 🟢 |
 | `lufthansa.getFlightStatus` | lufthansa.com | Looks up a flight's real-time status by flight number and date — scheduled vs.… | 🟢 |
 | `lufthansa.getSeatMap` | lufthansa.com | Reads the seat map for a specific flight — cabin layout, which seats are open… | ⚪ |
@@ -4750,7 +4754,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ticketmaster.searchVenues` | ticketmaster.com | Finds venues by name or location (city/state/postal or geo radius) and returns each… | ⚪ |
 | `tiktok.bookmarkVideo` | tiktok.com | Save a video to the signed-in caller's own Favorites/bookmarks. | 🟢 |
 | `tiktok.deleteComment` | tiktok.com | Delete the caller's own comment — the reverse of postComment, and how a test write is… | 🟢 |
-| `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | ⚪ |
+| `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | 🟢 |
 | `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | 🟢 |
 | `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller — takes the userId and secUid off… | 🟢 |
 | `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟡 |

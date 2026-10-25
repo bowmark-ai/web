@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d193608b2e39d15f0e6269944a252ab24ba7ff96e57f1386270fcdc2dd9201d0
-// 2653 checked, 20 unchecked.
+// Manifest version: 52fc2a9093ffefb9812d775471e532ec345279ff7a50b60b52feb7f6e24cd599
+// 2654 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d193608b2e39d15f0e6269944a252ab24ba7ff96e57f1386270fcdc2dd9201d0",
+  "version": "52fc2a9093ffefb9812d775471e532ec345279ff7a50b60b52feb7f6e24cd599",
   "units": {
     "address_validation": {
       "defs": {
@@ -71153,6 +71153,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "DeleteVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "EditProfileArgs": {
           "k": "object",
           "props": [
@@ -71839,6 +71851,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BookmarkVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DeleteVideoArgs"
             },
             "optional": false
           },
