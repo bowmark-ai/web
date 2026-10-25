@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5678 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5683 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -31,6 +31,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `abercrombie.search` | abercrombie.com | Searches or browses Abercrombie's live catalog the way the site's own search bar and… | 🟢 |
 | `abqplumb.getAvailability` | abqplumb.com | Returns currently-open ABQ Plumb appointment slots for a service and issue type… | 🟢 |
 | `abqplumb.listServices` | abqplumb.com | Lists ABQ Plumb's public booking-widget services and their issue types — the entry… | 🟢 |
+| `abt.getProduct` | abt.com | Reads one abt.com product page's schema.org Product data — live offer price and… | 🟢 |
+| `abt.search` | abt.com | Runs abt.com's own keyword search (appliances, refrigerators, TVs, electronics) and… | 🟢 |
 | `accuweather.browseLocations` | accuweather.com | Walks AccuWeather's location directory - regions, countries, states or provinces, and… | ⚪ |
 | `accuweather.getActivityForecast` | accuweather.com | Outdoor activity outlook for a location by activity - running, hiking, biking, golf… | ⚪ |
 | `accuweather.getAirQuality` | accuweather.com | Current air quality for a location - the AQI value and category, health message, and… | ⚪ |
@@ -2430,13 +2432,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grubhub.getCart` | grubhub.com | Retrieves the contents of the current user's shopping cart. | ⚪ |
 | `grubhub.getDeliveryEstimate` | grubhub.com | Calculates delivery time and fee for a restaurant given a delivery address. | ⚪ |
 | `grubhub.getFavoriteRestaurants` | grubhub.com | Retrieves the user's list of saved favorite restaurants. | ⚪ |
-| `grubhub.getMenu` | grubhub.com | Returns the full menu for a restaurant, including categories, items, prices, and… | ⚪ |
+| `grubhub.getMenu` | grubhub.com | The menu of one Grubhub restaurant by search()'s id: categories → items with price… | 🟢 |
 | `grubhub.getMenuItem` | grubhub.com | Gets detailed information for a single menu item including description, price… | ⚪ |
 | `grubhub.getOrderHistory` | grubhub.com | Lists past orders for the signed-in user with dates, restaurants, and amounts. | ⚪ |
 | `grubhub.getOrderStatus` | grubhub.com | Fetches the current status of an order including estimated delivery time. | ⚪ |
 | `grubhub.getPaymentMethods` | grubhub.com | Retrieves saved payment methods for the signed-in user. | ⚪ |
 | `grubhub.getPromoOffers` | grubhub.com | Lists active promotional offers and discounts available for a restaurant. | ⚪ |
-| `grubhub.getRestaurant` | grubhub.com | Fetches detailed restaurant information including hours, minimum order, delivery fee… | ⚪ |
+| `grubhub.getRestaurant` | grubhub.com | Reads one Grubhub restaurant by search()'s id: address, cuisines, rating, price level… | 🟢 |
 | `grubhub.getRestaurantReviews` | grubhub.com | Fetches customer reviews and ratings for a restaurant. | ⚪ |
 | `grubhub.getSavedAddresses` | grubhub.com | Returns the list of saved delivery addresses for the signed-in user. | ⚪ |
 | `grubhub.listCuisines` | grubhub.com | Lists all available cuisine types on Grubhub for filtering restaurants. | ⚪ |
@@ -2444,7 +2446,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grubhub.placeOrder` | grubhub.com | Completes the checkout and places an order with delivery address and payment. | ⚪ |
 | `grubhub.removeFromCart` | grubhub.com | Removes an item from the user's cart. | ⚪ |
 | `grubhub.saveRestaurant` | grubhub.com | Adds a restaurant to the user's favorites. | ⚪ |
-| `grubhub.search` | grubhub.com | Searches for restaurants by delivery address, cuisine, cuisine type, or restaurant name. | ⚪ |
+| `grubhub.search` | grubhub.com | Searches Grubhub for restaurants delivering to (or offering pickup near) a place — by… | 🟢 |
 | `grubhub.searchByLocation` | grubhub.com | Searches for restaurants available in a specific geographic area or city. | ⚪ |
 | `grubhub.updateCartItem` | grubhub.com | Updates quantity or customizations for an item in the cart. | ⚪ |
 | `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟢 |
@@ -3362,7 +3364,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | 🟢 |
 | `nyt_games.saveWordleGame` | games.nytimes.com | Saves a played Wordle — just the guesses — so it counts toward the signed-in caller's… | 🟢 |
 | `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
-| `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
+| `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟡 |
 | `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
 | `nytimes.getConnections` | nytimes.com | Gets a day's Connections puzzle — the four categories and their cards. | 🟢 |
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟡 |
@@ -3442,7 +3444,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `otto.browseCategory` | otto.de | Lists products under one of OTTO's own department/category pages (e.g. Damenmode… | ⚪ |
 | `otto.getProduct` | otto.de | Reads one OTTO product page — price, current availability, delivery-time estimate (the… | 🟢 |
 | `otto.getReviews` | otto.de | Reads the customer reviews on one OTTO product — rating, review text… | ⚪ |
-| `otto.search` | otto.de | Searches OTTO's catalog for a keyword the way the site's own search bar does, across… | 🔴 |
+| `otto.search` | otto.de | Searches OTTO's catalog for a keyword the way the site's own search bar does, across… | 🟢 |
 | `otto.trackOrder` | otto.de | Looks up shipment/delivery status for an OTTO order by order number plus the account… | ⚪ |
 | `outdoorresearch.checkClaimEligibility` | outdoorresearch.com | Starts an Infinite Guarantee warranty claim by order number + email against the live… | 🟢 |
 | `outdoorresearch.getWarrantyPolicy` | outdoorresearch.com | Reads Outdoor Research's Infinite Guarantee warranty program settings straight from… | 🟢 |
@@ -4240,6 +4242,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `slice.updateMyProfile` | slicelife.com | Updates the signed-in caller's name or phone number on their Slice account. | ⚪ |
 | `slice.updateNotificationPreferences` | slicelife.com | Turns the signed-in caller's Slice marketing email and text messages on or off. | ⚪ |
 | `slice.validatePromoCode` | slicelife.com | Checks whether a promo code works at a pizzeria for a given order, and what it takes… | ⚪ |
+| `slickdeals.getDeal` | slickdeals.net | Reads one deal thread in full — the post body, expiry, coupon code and the comment… | ⚪ |
+| `slickdeals.getFrontpageDeals` | slickdeals.net | Reads the deals currently on the Slickdeals frontpage — the community-voted hot deals… | 🟢 |
+| `slickdeals.searchDeals` | slickdeals.net | Searches Slickdeals deal threads by keyword, e.g. "laptop" or "airpods", newest first… | 🟢 |
 | `smartrecruiters.getJob` | smartrecruiters.com | Reads one posting's full job ad (company description, job description, qualifications)… | ⚪ |
 | `smartrecruiters.listJobs` | smartrecruiters.com | Lists a company's public SmartRecruiters postings — title, full location… | 🟢 |
 | `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟢 |
@@ -4915,7 +4920,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.removeFromTrip` | tripadvisor.com | Removes a saved place from one of the signed-in caller's Trips. | ⚪ |
 | `tripadvisor.replyToForumTopic` | tripadvisor.com | Posts a reply to a travel-forum thread from the signed-in caller's account. | ⚪ |
 | `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
-| `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟡 |
+| `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟢 |
 | `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank… | 🟢 |
 | `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟡 |
 | `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | 🟡 |
@@ -5119,7 +5124,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `vistaprint.getShippingBoxPrice` | vistaprint.com | Prices Vistaprint's Full-Print Shipping Boxes (product PRD-Y1LEPL3MX) for a given box… | 🟢 |
 | `voluspa.getFragranceQuizIntro` | voluspa.com | Reads the "Find Your Fragrance" quiz suite's entry screen — the two branching paths… | 🔴 |
 | `voluspa.matchFragranceQuiz` | voluspa.com | Drives the actual multi-step quiz end to end with a caller-supplied path and set of… | ⚪ |
-| `vscode.getDoc` | code.visualstudio.com | Returns one code.visualstudio.com documentation page's structured content by its URL —… | 🟢 |
+| `vscode.getDoc` | code.visualstudio.com | Returns one code.visualstudio.com documentation page's structured content by its URL —… | 🟡 |
 | `vscode.listDocPages` | code.visualstudio.com | Lists every doc page code.visualstudio.com publishes, parsed from the site's own… | 🟢 |
 | `vts_marketplace.getListing` | marketplace.vts.com | One VTS Marketplace listing by id or URL — description, photos, coordinates, days on… | 🟢 |
 | `vts_marketplace.listMarkets` | marketplace.vts.com | Every public market VTS Marketplace lists commercial space in — the market ids… | 🟢 |

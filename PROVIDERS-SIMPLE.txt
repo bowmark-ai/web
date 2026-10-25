@@ -14,6 +14,7 @@ a1storage.com — a1storage: getFacilityUnits, getMoveInCost, listFacilities
 aa.com — aa: getAirportInfo, getBaggageAllowance, getFlightStatus, getSeatMap, getServiceFees, listLounges, retrieveBooking, search, searchAwardFlights
 abercrombie.com — abercrombie: checkGiftCardBalance, checkStock, findStores, getDeals, getProduct, search
 abqplumb.com — abqplumb: getAvailability, listServices
+abt.com — abt: getProduct, search
 accuweather.com — accuweather: browseLocations, getActivityForecast, getAirQuality, getAllergyForecast, getArticle, getCurrentConditions, getDailyForecast, getDayDetails, getExtendedForecast, getHealthForecast, getHourlyForecast, getLocation, getMinuteCast, getMonthlyForecast, getRadarMap, getStorm, getWinterForecast, listActiveStorms, listAlerts, listLifestyleIndices, listNews, searchLocations
 acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
@@ -573,6 +574,7 @@ shopify.com (49870 stores) — shopify: addToCart, getCart, getCollection, getPr
 sitmeanssit.com — sitmeanssit: findNearestLocations
 sixflags.com — sixflags: getTickets
 slicelife.com — slice: addMyAddress, addPaymentMethod, checkDelivery, getDeliveryEstimate, getHours, getLoyaltyProgram, getMenu, getMenuItemOptions, getMyAccount, getMyLoyaltyPoints, getMyOrder, getPizzeria, getRecommendedAddOns, getReviews, listMyAddresses, listMyOrders, listMyPaymentMethods, listPizzeriasInCity, listRecentlyOrderedItems, placeOrder, priceCart, removeMyAddress, removeMyPaymentMethod, resolveAddress, searchPizzerias, trackOrder, updateMyProfile, updateNotificationPreferences, validatePromoCode
+slickdeals.net — slickdeals: getDeal, getFrontpageDeals, searchDeals
 smallbusiness.uhc.com — uhc_smallbusiness: getGroupHealthQuote
 smartrecruiters.com — smartrecruiters: getJob, listJobs
 smartsign.com — smartsign: getTemplate, search
