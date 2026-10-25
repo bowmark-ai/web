@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 085e885d3010aff25016b74cc254b6c7fb499d99c0366abf5e930322f242ed1c
-# 87 capabilities, 657 providers, 2709 typed functions, 20 refused.
+# Manifest version: 540971b2a57eebe11b169d10ff34371ba1969991b5fae6ea2ca8fd792871d0b9
+# 87 capabilities, 657 providers, 2711 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15108,6 +15108,22 @@ class Prv_facebook_FacebookPhoto_Out(TypedDict):
     url: NotRequired[str]
     caption: NotRequired[str]
     timestamp: NotRequired[str]
+
+class Prv_facebook_ListPageReelsArgs_In(TypedDict):
+    handle: str
+
+class Prv_facebook_FacebookReel_Out(TypedDict):
+    id: str
+    url: str
+
+class Prv_facebook_GetPageReviewsArgs_In(TypedDict):
+    handle: str
+
+class Prv_facebook_FacebookPageReview_Out(TypedDict):
+    id: str
+    author: str
+    recommends: bool
+    text: NotRequired[str]
 
 class Prv_facebook_GetPhotoAlbumArgs_In(TypedDict):
     albumId: str
@@ -50474,6 +50490,16 @@ class Prv_facebook(Protocol):
     async def listPhotos(self, args: Prv_facebook_ListPhotosArgs_In, /) -> list[Prv_facebook_FacebookPhoto_Out]:
         """List photos posted by a Page or person, newest first, logged out. Upgrades to the
         caller's own session when Facebook serves a login wall.
+        """
+
+    async def listPageReels(self, args: Prv_facebook_ListPageReelsArgs_In, /) -> list[Prv_facebook_FacebookReel_Out]:
+        """List a public Page's latest reels, logged out — each an id and /reel/ link; open one
+        with getVideo.
+        """
+
+    async def getPageReviews(self, args: Prv_facebook_GetPageReviewsArgs_In, /) -> list[Prv_facebook_FacebookPageReview_Out]:
+        """Read the reviews people left on a business Page, logged out — reviewer, whether they
+        recommend it, and their words.
         """
 
     async def getPhotoAlbum(self, args: Prv_facebook_GetPhotoAlbumArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPhotoAlbum_Out:

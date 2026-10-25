@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5704 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5714 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -82,7 +82,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟡 |
 | `adobe.getCreativeCloudPlans` | adobe.com | Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html… | 🟢 |
 | `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | 🟡 |
-| `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail page — title, full description, media type… | ⚪ |
+| `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail — title, media type, dimensions, keywords… | 🟢 |
 | `adobe.getTemplate` | adobe.com | Returns one Adobe Express template's detail — title, category, dimensions, whether it… | 🟡 |
 | `adobe.licenseStockAsset` | adobe.com | Buys a license for an Adobe Stock asset on the signed-in caller's own account — the… | ⚪ |
 | `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | ⚪ |
@@ -91,6 +91,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟡 |
 | `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text and, where… | 🟡 |
 | `adobe.sendForSignature` | adobe.com | Sends a caller-supplied document out for e-signature through Adobe Acrobat Sign — the… | ⚪ |
+| `adorama.checkStock` | adorama.com | Answers whether one product is in stock and its availability wording. | ⚪ |
+| `adorama.getProduct` | adorama.com | Reads one product page — typeset title, current price, specs, rating. | ⚪ |
+| `adorama.listCategories` | adorama.com | Lists every Adorama department and sub-category with its full path and url, from its… | 🟢 |
+| `adorama.search` | adorama.com | Finds Adorama products by name, brand, model or SKU across its whole catalog, from… | 🟢 |
 | `agakhanhospitals.getHospitalInfo` | agakhanhospitals.org | Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services… | 🟢 |
 | `agakhanhospitals.listSpecialties` | agakhanhospitals.org | Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics… | 🟢 |
 | `agentstatus.getServer` | agentstatus.dev | Reads one server's entry on the index by slug, including every tool the index probed… | 🟢 |
@@ -378,8 +382,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `barletta.getConfigurator` | barlettapontoonboats.com | Reads one model's whole builder: every option group (Railskin Color, Furniture… | 🟢 |
 | `barletta.priceConfiguration` | barlettapontoonboats.com | Prices a specific build (a choice per option group) against getConfigurator's live… | 🟢 |
 | `barletta.searchModels` | barlettapontoonboats.com | Lists every current Barletta floorplan from the public "Build Your Pontoon Boat"… | 🟢 |
-| `barnesfoundation.getAdmissionCalendar` | visit.barnesfoundation.org | Reads the live open/closed status for every published date (a rolling ~6-month window)… | 🟡 |
-| `barnesfoundation.priceAdmission` | visit.barnesfoundation.org | Computes the real ticket total for a set of admission-category quantities… | 🟡 |
+| `barnesfoundation.getAdmissionCalendar` | visit.barnesfoundation.org | Reads the live open/closed status for every published date (a rolling ~6-month window)… | 🟢 |
+| `barnesfoundation.priceAdmission` | visit.barnesfoundation.org | Computes the real ticket total for a set of admission-category quantities… | 🟢 |
 | `baublebar.getBaublebarCheckoutLink` | baublebar.com | Resolves a product handle + chosen size/color + (for personalizer products) the… | 🟢 |
 | `baublebar.getBaublebarProduct` | baublebar.com | Reads one product by its handle — every size/color variant with its exact price and… | 🟢 |
 | `baublebar.listBaublebarCollections` | baublebar.com | The entry door: reads the storefront's own published collection index… | 🟢 |
@@ -758,11 +762,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ca_gov.getDepartmentContact` | www.ca.gov | Returns a department's contact details — phone, email (often absent) and its own… | 🟢 |
 | `ca_gov.getService` | www.ca.gov | Returns detailed information about a specific California state service — description… | 🟢 |
 | `ca_gov.listDepartments` | www.ca.gov | Lists all California state agencies and departments available through CA.gov with… | 🟢 |
-| `ca_gov.listNews` | www.ca.gov | Lists recent California state news and announcements from CA.gov. | ⚪ |
-| `ca_gov.listPublicData` | www.ca.gov | Lists public datasets available through data.ca.gov (California's open data portal)… | ⚪ |
+| `ca_gov.listNews` | www.ca.gov | Lists the recent state news CA.gov's home page features in its "In the spotlight"… | 🟢 |
+| `ca_gov.listPublicData` | www.ca.gov | Lists public datasets available through data.ca.gov (California's open data portal)… | 🟢 |
 | `ca_gov.listServices` | www.ca.gov | Lists all state services available through the CA.gov portal — organized by category… | 🟢 |
-| `ca_gov.searchNews` | www.ca.gov | Searches California state news, announcements, and updates by keyword — returns recent… | ⚪ |
-| `ca_gov.searchPublicData` | www.ca.gov | Searches California's open data portal (data.ca.gov) for public datasets by keyword —… | ⚪ |
+| `ca_gov.searchNews` | www.ca.gov | Searches the Governor's newsroom (gov.ca.gov), which CA.gov's home page links to for… | 🟢 |
+| `ca_gov.searchPublicData` | www.ca.gov | Searches California's open data portal (data.ca.gov) for public datasets by keyword —… | 🟢 |
 | `ca_gov.searchServices` | www.ca.gov | Searches the State of California's service directory for public services by keyword or… | 🟢 |
 | `cabinsforyou.getCabinDetail` | cabinsforyou.com | Reads one cabin's own listing page — bedrooms/bathrooms/sleeps/parking, pet policy… | 🟢 |
 | `cabinsforyou.search` | cabinsforyou.com | Runs Cabins For You's own homepage cabin-availability search (Check In / Check Out /… | 🟢 |
@@ -1816,6 +1820,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getMarketplaceListings` | facebook.com | Search Facebook Marketplace listings by keyword — logged out when a city is given… | 🟢 |
 | `facebook.getPageInfo` | facebook.com | Read a Page's details — name, about section, follower count, category, profile and… | 🟢 |
 | `facebook.getPagePosts` | facebook.com | List a Page's newest public posts, logged out. | 🟢 |
+| `facebook.getPageReviews` | facebook.com | Read the reviews people left on a business Page, logged out — reviewer, whether they… | 🟢 |
 | `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and follower count, logged… | 🟢 |
 | `facebook.getPhotoAlbum` | facebook.com | Read a photo album's details — title, creation date, photo count and its photos. | 🟢 |
 | `facebook.getPost` | facebook.com | Read one public post from its link logged out — author, text, rounded reaction and… | 🟢 |
@@ -1829,6 +1834,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | 🟢 |
 | `facebook.listNotifications` | facebook.com | List the caller's recent notifications — friend requests, reactions, comments, mentions. | 🟢 |
 | `facebook.listPageEvents` | facebook.com | List a public Page's own events logged out — name, start time, place and link per event. | 🟢 |
+| `facebook.listPageReels` | facebook.com | List a public Page's latest reels, logged out — each an id and /reel/ link; open one… | 🟢 |
 | `facebook.listPhotos` | facebook.com | List photos posted by a Page or person, newest first, logged out. | 🟢 |
 | `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | 🟢 |
 | `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | 🟢 |
@@ -2082,7 +2088,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fortressbp.recommendProduct` | fortressbp.com | Walks Fortress's own Simplifinder decision tree (product type, then application and… | 🟢 |
 | `fourseasonsyachts.getVoyage` | fourseasonsyachts.com | Reads one voyage's full itinerary — the day-by-day description, its region, its vessel… | 🟢 |
 | `fourseasonsyachts.getVoyageSailing` | fourseasonsyachts.com | Reads the real, live departure for one voyageCode — exact embark/disembark ports and… | 🟢 |
-| `fourseasonsyachts.searchVoyages` | fourseasonsyachts.com | Reads the live Voyage Finder inventory — every published sailing, its region, vessel… | 🟡 |
+| `fourseasonsyachts.searchVoyages` | fourseasonsyachts.com | Reads the live Voyage Finder inventory — every published sailing, its region, vessel… | 🟢 |
 | `foxnews.deleteComment` | foxnews.com | Deletes one of the signed-in caller's own comments on a Fox News article. | ⚪ |
 | `foxnews.findAuthor` | foxnews.com | Finds a Fox News reporter, columnist, host or contributor by name ("Charles Creitz"… | 🟢 |
 | `foxnews.getAccount` | foxnews.com | Reads the signed-in caller's Fox profile — display name, email, and account details. | ⚪ |
@@ -2504,7 +2510,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `healthie.searchPractices` | gethealthie.com | Searches for therapists, coaches, dietitians, and other health practitioners by… | ⚪ |
 | `healthie.searchProviders` | gethealthie.com | Searches for individual practitioners (therapists, coaches, dietitians) by… | ⚪ |
 | `heatherwood.getFloorplan` | heatherwood.com | Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently… | 🟢 |
-| `heatherwood.listFloorplans` | heatherwood.com | Lists every floor-plan TYPE Heritage Westminster publishes (studio through 3-bedroom… | 🟡 |
+| `heatherwood.listFloorplans` | heatherwood.com | Lists every floor-plan TYPE Heritage Westminster publishes (studio through 3-bedroom… | 🟢 |
 | `hellofresh.checkDeliveryAvailability` | hellofresh.com | Answers whether HelloFresh delivers to a given ZIP code, and which delivery days that… | 🟢 |
 | `hellofresh.getPlanPricing` | hellofresh.com | Prices a plan configuration — meals per week x servings per meal — into the numbers a… | ⚪ |
 | `hellofresh.getRecipe` | hellofresh.com | Reads one recipe page in full for a recipe URL or bare id that `getWeeklyMenu` (or the… | 🟢 |
@@ -3079,7 +3085,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `meteofrance.getMarineWindForecast` | meteofrance.com | Marine wind forecast for French coastal regions, including wind speed, gusts, and… | ⚪ |
 | `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟡 |
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟢 |
-| `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
+| `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟡 |
 | `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `microsoft_365.createDocument` | m365.cloud.microsoft.com | Creates a new document in the user's Microsoft 365 OneDrive with the specified name… | 🟢 |
 | `microsoft_365.deleteDocument` | m365.cloud.microsoft.com | Deletes a document or folder from the user's Microsoft 365 OneDrive by item ID. | 🟢 |
@@ -3246,7 +3252,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getStormAdvisory` | nhc.noaa.gov | Get a storm's public advisory text — the latest, or a given advisory number — with… | 🟢 |
 | `nhc.getStormForecast` | nhc.noaa.gov | Get a storm's forecast positions and intensities out to five days, with wind radii… | 🟢 |
 | `nhc.getStormGraphics` | nhc.noaa.gov | List a storm's current forecast graphics — cone, current wind field, wind history… | ⚪ |
-| `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | 🟡 |
+| `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | 🟢 |
 | `nhc.getStormNames` | nhc.noaa.gov | Get the rotating list of tropical cyclone names for a basin and year, including which… | 🟢 |
 | `nhc.getStormSurge` | nhc.noaa.gov | Get the storm surge watch/warning area and peak storm surge forecast for a storm… | ⚪ |
 | `nhc.getTropicalCycloneReport` | nhc.noaa.gov | Get NHC's post-season Tropical Cyclone Report for a storm: the final meteorological… | ⚪ |
@@ -3448,7 +3454,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `olo.toggleFavoriteLocation` | olo.com | Marks or unmarks a location as one of the caller's favourites. | ⚪ |
 | `olo.updateBasketItem` | olo.com | Changes a basket item's quantity, options or instructions. | ⚪ |
 | `olo.updateProfile` | olo.com | Updates the caller's account profile at a chain: name, phone, email and marketing… | ⚪ |
-| `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟡 |
+| `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟢 |
 | `openai.helpArticle` | learn.chatgpt.com | Retrieves the full text of a help article by its ID from OpenAI's documentation. | 🟡 |
 | `openai.plans` | learn.chatgpt.com | Returns per-(plan, model) usage limits from learn.chatgpt.com/docs/pricing. | 🟡 |
 | `opentable.cancelBooking` | opentable.com | Cancels a reservation from its OpenTable confirmation page: Cancel, then Confirm… | 🟢 |
@@ -3507,7 +3513,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `paypal.getFees` | paypal.com | Reads PayPal's own published fee schedule for a country and audience (consumer or… | 🟢 |
 | `paypal.getHelpArticle` | paypal.com | Reads one PayPal help article in full by its id — the complete answer, its numbered… | 🟢 |
 | `paypal.getInvoice` | paypal.com | Reads a PayPal invoice from the payer-view link printed on the invoice itself — the… | ⚪ |
-| `paypal.getPayPalMeProfile` | paypal.com | Resolves a PayPal.Me link or handle to the public profile behind it — the display… | ⚪ |
+| `paypal.getPayPalMeProfile` | paypal.com | Resolves a PayPal.Me link or handle to the public profile behind it — the display… | 🟢 |
 | `paypal.getPolicyDocument` | paypal.com | Reads one of PayPal's binding policy documents from the legal hub — the User… | 🟢 |
 | `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — id, title, excerpt… | 🟢 |
 | `paypal.searchShoppingOffers` | paypal.com | Lists the cashback and discount offers PayPal's Shopping explore feed is currently… | 🟢 |
@@ -3615,8 +3621,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pirateship.trackShipment` | pirateship.com | Looks up delivery status for a shipment by tracking number, the way… | ⚪ |
 | `pirateship.validateAddress` | pirateship.com | Validates and standardizes a US shipping address the way Pirate Ship checks an address… | ⚪ |
 | `pizzahut.checkDeliveryAvailability` | pizzahut.com | Answers whether Pizza Hut delivers to a given address, and on what terms — which store… | ⚪ |
-| `pizzahut.findStores` | pizzahut.com | Finds the Pizza Hut stores that serve a given address or ZIP — each store's id, street… | 🟢 |
-| `pizzahut.getDeals` | pizzahut.com | Reads the deals, coupons and bundle offers Pizza Hut is running at a store right now —… | 🟢 |
+| `pizzahut.findStores` | pizzahut.com | Finds the Pizza Hut stores that serve a given address or ZIP — each store's id, street… | 🟡 |
+| `pizzahut.getDeals` | pizzahut.com | Reads the deals, coupons and bundle offers Pizza Hut is running at a store right now —… | 🟡 |
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | 🟢 |
 | `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
 | `pizzahut.priceOrder` | pizzahut.com | Prices a configured basket at a store WITHOUT placing it — line items with their… | 🟢 |
@@ -3820,6 +3826,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.writeAnswer` | quora.com | Posts a text answer to a question as the signed-in caller. | ⚪ |
 | `raadvanstate_nl.getRuling` | raadvanstate.nl | Reads one Council of State ruling in full by ECLI — case number, dates, procedure… | 🟢 |
 | `raadvanstate_nl.searchRulings` | raadvanstate.nl | Searches the Council of State's case register (raadvanstate.nl/uitspraken) by keyword… | 🟢 |
+| `rakuten.getCashBackBalance` | rakuten.com | Reads the signed-in member's pending and paid cash-back balance. | ⚪ |
+| `rakuten.getStore` | rakuten.com | Reads one Rakuten store page — the store's name and today's cash-back rate — by the… | 🟢 |
+| `rakuten.listStoreCoupons` | rakuten.com | Lists the coupon codes and deals Rakuten shows on one store's page. | ⚪ |
+| `rakuten.search` | rakuten.com | Searches Rakuten's cash-back store directory by store or brand name the way its search… | 🟢 |
 | `recruitee.listJobs` | recruitee.com | Lists every published offer on one company's Recruitee careers site — title, location… | 🟢 |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
 | `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | 🟢 |

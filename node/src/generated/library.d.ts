@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 085e885d3010aff25016b74cc254b6c7fb499d99c0366abf5e930322f242ed1c
-// 87 capabilities, 657 providers, 2727 typed functions, 20 refused.
+// Manifest version: 540971b2a57eebe11b169d10ff34371ba1969991b5fae6ea2ca8fd792871d0b9
+// 87 capabilities, 657 providers, 2729 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -25840,6 +25840,26 @@ interface FacebookPhoto {
   timestamp?: string;
 }
 
+interface ListPageReelsArgs {
+  handle: string;
+}
+
+interface FacebookReel {
+  id: string;
+  url: string;  // /reel/<id> — read details with getVideo({ videoId: id })
+}
+
+interface GetPageReviewsArgs {
+  handle: string;
+}
+
+interface FacebookPageReview {
+  id: string;  // the review story's post id
+  author: string;
+  recommends: boolean;
+  text?: string;
+}
+
 interface GetVideoArgs {
   videoId: string;
 }
@@ -26223,6 +26243,18 @@ interface FacebookBusinessDetails {
      * own session when Facebook serves a login wall.
      */
     listPhotos(args: ListPhotosArgs): Promise<FacebookPhoto[]>;
+
+    /**
+     * List a public Page's latest reels, logged out — each an id and /reel/ link; open one with
+     * getVideo.
+     */
+    listPageReels(args: ListPageReelsArgs): Promise<FacebookReel[]>;
+
+    /**
+     * Read the reviews people left on a business Page, logged out — reviewer, whether they
+     * recommend it, and their words.
+     */
+    getPageReviews(args: GetPageReviewsArgs): Promise<FacebookPageReview[]>;
 
     /** Read a photo album's details — title, creation date, photo count and its photos. */
     getPhotoAlbum(args: GetPhotoAlbumArgs, opts?: ConnectionOption): Promise<FacebookPhotoAlbum>;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 085e885d3010aff25016b74cc254b6c7fb499d99c0366abf5e930322f242ed1c
-// 2709 checked, 20 unchecked.
+// Manifest version: 540971b2a57eebe11b169d10ff34371ba1969991b5fae6ea2ca8fd792871d0b9
+// 2711 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "085e885d3010aff25016b74cc254b6c7fb499d99c0366abf5e930322f242ed1c",
+  "version": "540971b2a57eebe11b169d10ff34371ba1969991b5fae6ea2ca8fd792871d0b9",
   "units": {
     "address_validation": {
       "defs": {
@@ -25959,6 +25959,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPageReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPersonProfileArgs": {
           "k": "object",
           "props": [
@@ -26071,6 +26083,18 @@ export const VALIDATORS: ValidatorTable = {
           "props": []
         },
         "ListPageEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListPageReelsArgs": {
           "k": "object",
           "props": [
             {
@@ -26603,6 +26627,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListPhotosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPageReels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPageReelsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPageReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPageReviewsArgs"
             },
             "optional": false
           }
