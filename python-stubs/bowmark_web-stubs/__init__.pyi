@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1eb7a6be373a43c234104cddae2d53947f9a88cce3251ac0e35455714e340837
-# 87 capabilities, 649 providers, 2619 typed functions, 20 refused.
+# Manifest version: e2032a34c224cc6a861a646c91b7bd359a08111c31bbcf07dbeaa6ab37e60ddc
+# 87 capabilities, 650 providers, 2622 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11234,6 +11234,15 @@ class Prv_crunchbase_CrunchbaseOrganizationSearchHit_Out(TypedDict):
     shortDescription: str | None
     url: str
 
+class Prv_crutchfield_SearchArgs_In(TypedDict):
+    query: str
+
+class Prv_crutchfield_crutchfieldProduct_Out(TypedDict):
+    name: str
+    price: str | None
+    url: str
+    brand: str | None
+
 class Prv_culturefly_CultureFlyBoxSummary_Out(TypedDict):
     handle: str
     title: str
@@ -21781,6 +21790,13 @@ class Prv_linkedin_leaveGroup_group_u1_In(TypedDict):
 
 class Prv_linkedin_leaveGroup_return_Out(TypedDict):
     left: Literal[True]
+
+class Prv_linkedin_updateProfile_input_In(TypedDict):
+    headline: NotRequired[str]
+    about: NotRequired[str]
+
+class Prv_linkedin_updateProfile_return_Out(TypedDict):
+    updated: list[str]
 
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
@@ -39351,6 +39367,43 @@ class Prv_yelp_YelpSearchResult_Out(TypedDict):
     priceRange: str | None
     neighborhood: str | None
 
+class Prv_yelp_YelpBusiness_Out(TypedDict):
+    name: str
+    url: str
+    alias: str
+    phone: str | None
+    address: Prv_yelp_YelpBusiness_Out_address_u0_Out | None
+    coordinates: Prv_yelp_YelpBusiness_Out_coordinates_u0_Out | None
+    rating: float | None
+    reviewCount: float | None
+    priceRange: str | None
+    categories: list[str]
+    hours: list[Prv_yelp_YelpBusiness_Out_hours_item_Out]
+    amenities: list[Prv_yelp_YelpBusiness_Out_amenities_item_Out]
+    paymentAccepted: list[str]
+    photoUrl: str | None
+    videoCount: float
+
+class Prv_yelp_YelpBusiness_Out_address_u0_Out(TypedDict):
+    street: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    country: str | None
+
+class Prv_yelp_YelpBusiness_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_yelp_YelpBusiness_Out_hours_item_Out(TypedDict):
+    day: str
+    opens: str
+    closes: str
+
+class Prv_yelp_YelpBusiness_Out_amenities_item_Out(TypedDict):
+    name: str
+    value: bool
+
 class Prv_yogatreecollective_YogatreecollectiveSchedule_Out(TypedDict):
     classes: list[Prv_yogatreecollective_YtcScheduleClass_Out]
     lastModified: str | None
@@ -47201,6 +47254,14 @@ class Prv_crunchbase(Protocol):
         short description for each candidate. Same caller-browser door as `getOrganization`.
         """
 
+class Prv_crutchfield(Protocol):
+    """Car audio and electronics retailer with searchable catalog."""
+
+    async def search(self, args: Prv_crutchfield_SearchArgs_In, /) -> list[Prv_crutchfield_crutchfieldProduct_Out]:
+        """Searches Crutchfield's catalog for car audio products — items found, price, brand, URL —
+        the way the site's search bar does.
+        """
+
 class Prv_culturefly(Protocol):
     """CultureFly's licensed pop-culture subscription boxes — the live catalogue, every box's
     real size + cadence (One-Time/Quarterly/Annual) options and price, and a ready checkout
@@ -54510,6 +54571,17 @@ class Prv_linkedin(Protocol):
         hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
         LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
         faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
+    async def updateProfile(self, input: Prv_linkedin_updateProfile_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_updateProfile_return_Out:
+        """Edits the caller's own profile headline and About text; only the fields passed are
+        changed, and `updated` names them. Signed in: acts as the caller's own LinkedIn account;
+        with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
         """
 
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
@@ -64705,6 +64777,13 @@ class Prv_yelp(Protocol):
         neighborhood. Read-only.
         """
 
+    async def getBusiness(self, ref: str, /) -> Prv_yelp_YelpBusiness_Out:
+        """Reads one business's own schema.org listing off its /biz/ page: name, phone, address,
+        coordinates, Yelp's own rating and review count, price tier, category path, hours,
+        amenities, accepted payment and the main photo. Takes a /biz/ url or bare alias from
+        search. Read-only.
+        """
+
 class Prv_yogatreecollective(Protocol):
     """Yoga Tree Collective (San Francisco): the weekly class timetable, teacher directory and
     retreats; each class books on its teacher's own platform.
@@ -65465,6 +65544,7 @@ class BowmarkProviders(Protocol):
     credibly_com: Prv_credibly_com
     cruiselakegeneva: Prv_cruiselakegeneva
     crunchbase: Prv_crunchbase
+    crutchfield: Prv_crutchfield
     culturefly: Prv_culturefly
     curiocity: Prv_curiocity
     currency_exchange: Prv_currency_exchange

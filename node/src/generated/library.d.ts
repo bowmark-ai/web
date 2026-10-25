@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1eb7a6be373a43c234104cddae2d53947f9a88cce3251ac0e35455714e340837
-// 87 capabilities, 649 providers, 2637 typed functions, 20 refused.
+// Manifest version: e2032a34c224cc6a861a646c91b7bd359a08111c31bbcf07dbeaa6ab37e60ddc
+// 87 capabilities, 650 providers, 2640 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19824,6 +19824,29 @@ interface CrunchbaseOrganizationSearchHit {
   }
 }
 
+declare namespace BowmarkProvider_crutchfield {
+  // ── Crutchfield — the unit's own declarations, verbatim ──
+interface crutchfieldProduct {
+  name: string;
+  price: string | null;
+  url: string;
+  brand: string | null;
+}
+
+interface SearchArgs {
+  query: string;
+}
+
+  /** Car audio and electronics retailer with searchable catalog. */
+  interface Unit {
+    /**
+     * Searches Crutchfield's catalog for car audio products — items found, price, brand, URL — the
+     * way the site's search bar does.
+     */
+    search(args: SearchArgs): Promise<crutchfieldProduct[]>;
+  }
+}
+
 declare namespace BowmarkProvider_culturefly {
   // ── CultureFly — the unit's own declarations, verbatim ──
 interface CultureFlyBoxSummary {
@@ -39126,6 +39149,18 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * pacing: "fast" } as an extra last argument; ask them first.
      */
     leaveGroup(group: string | { group: string }, opts?: ConnectionOption): Promise<{ left: true }>;
+
+    /**
+     * Edits the caller's own profile headline and About text; only the fields passed are changed,
+     * and `updated` names them. Signed in: acts as the caller's own LinkedIn account; with no
+     * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
+     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
+     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
+     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+     * first.
+     */
+    updateProfile(input: { headline?: string; about?: string }, opts?: ConnectionOption): Promise<{ updated: string[] }>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -68557,6 +68592,24 @@ interface YelpSearchResult {
   neighborhood: string | null;
 }
 
+interface YelpBusiness {
+  name: string;
+  url: string;
+  alias: string;
+  phone: string | null;
+  address: { street: string | null; city: string | null; state: string | null; zip: string | null; country: string | null } | null;
+  coordinates: { lat: number; lng: number } | null;
+  rating: number | null;
+  reviewCount: number | null;
+  priceRange: string | null;
+  categories: string[];        // breadcrumb path, root first ("Restaurants", "Japanese", "Ramen")
+  hours: { day: string; opens: string; closes: string }[];
+  amenities: { name: string; value: boolean }[];
+  paymentAccepted: string[];
+  photoUrl: string | null;
+  videoCount: number;
+}
+
   /**
    * Yelp's own business search — returns real, currently-listed businesses for a search term and
    * location with Yelp's own star rating, review count, price tier and neighborhood.
@@ -68567,6 +68620,14 @@ interface YelpSearchResult {
      * businesses with Yelp's own rating, review count, price tier and neighborhood. Read-only.
      */
     search(args: YelpSearchArgs): Promise<YelpSearchResult[]>;
+
+    /**
+     * Reads one business's own schema.org listing off its /biz/ page: name, phone, address,
+     * coordinates, Yelp's own rating and review count, price tier, category path, hours,
+     * amenities, accepted payment and the main photo. Takes a /biz/ url or bare alias from search.
+     * Read-only.
+     */
+    getBusiness(ref: string): Promise<YelpBusiness>;
   }
 }
 
@@ -70910,6 +70971,7 @@ interface BowmarkProviders {
   credibly_com: BowmarkProvider_credibly_com.Unit;
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;
   crunchbase: BowmarkProvider_crunchbase.Unit;
+  crutchfield: BowmarkProvider_crutchfield.Unit;
   culturefly: BowmarkProvider_culturefly.Unit;
   curiocity: BowmarkProvider_curiocity.Unit;
   currency_exchange: BowmarkProvider_currency_exchange.Unit;

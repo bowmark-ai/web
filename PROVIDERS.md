@@ -1158,7 +1158,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubready.cancelBooking` | clubready.com | Cancels one of the signed-in member's bookings or waitlist spots. | ⚪ |
 | `clubready.favoriteInstructor` | clubready.com | Adds or removes an instructor from the signed-in member's favourites. | ⚪ |
 | `clubready.findStudios` | clubready.com | Finds a brand's studios near a place — by latitude/longitude, or by a city or… | 🟢 |
-| `clubready.getClass` | clubready.com | Returns one scheduled class by id ("piq_20369037") at a studio: description, times… | ⚪ |
+| `clubready.getClass` | clubready.com | Returns one scheduled class by id from listClasses ("piq_20416972") at a studio… | 🟢 |
 | `clubready.getClassPoints` | clubready.com | Returns the signed-in member's ClassPoints rewards balance, recent earning activity… | ⚪ |
 | `clubready.getMyMembership` | clubready.com | Returns the signed-in member's membership and class credits at their home studio —… | ⚪ |
 | `clubready.getMyProfile` | clubready.com | Returns the signed-in member's own profile: name, email, phone, home studio. | ⚪ |
@@ -1172,7 +1172,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubready.listInstructors` | clubready.com | Lists the instructors teaching at a studio, by name, drawn from the classes on its… | ⚪ |
 | `clubready.listInvoices` | clubready.com | Lists the signed-in member's past purchases and invoices — what they paid for which… | ⚪ |
 | `clubready.listMyBookings` | clubready.com | Lists the signed-in member's upcoming and past class bookings and waitlist spots… | ⚪ |
-| `clubready.listPricing` | clubready.com | Lists what a studio sells — drop-in class, class packs and memberships — with each… | ⚪ |
+| `clubready.listPricing` | clubready.com | Lists what a studio sells — drop-in classes, class packs and memberships — with each… | 🟢 |
 | `clubready.listServiceAvailability` | clubready.com | Lists who can take a one-on-one session at a studio on a date — the flexologists or… | ⚪ |
 | `clubready.listServiceTypes` | clubready.com | Lists the one-on-one session types a studio sells — StretchLab's assisted stretches… | ⚪ |
 | `clubready.updateProfile` | clubready.com | Edits the signed-in member's own profile fields (name, phone, address, emergency… | ⚪ |
@@ -1808,7 +1808,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getGroupInfo` | facebook.com | Read a Group's details — name, description, member count, profile photo. | 🟢 |
 | `facebook.getGroupPosts` | facebook.com | List posts in a Group, newest first. | 🟢 |
 | `facebook.getMarketplaceListingDetails` | facebook.com | Read a public Marketplace listing's details — title, price, description, location —… | 🟢 |
-| `facebook.getMarketplaceListings` | facebook.com | Search Marketplace listings by category, location, price range and keywords. | 🟢 |
+| `facebook.getMarketplaceListings` | facebook.com | Search Facebook Marketplace listings by keyword — logged out when a city is given… | 🟢 |
 | `facebook.getPageInfo` | facebook.com | Read a Page's details — name, about section, follower count, category, profile and… | 🟢 |
 | `facebook.getPagePosts` | facebook.com | List a Page's newest public posts, logged out. | 🟢 |
 | `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and follower count, logged… | 🟢 |
@@ -1823,7 +1823,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.listFriends` | facebook.com | List the caller's friends or a person's visible friend list. | 🟢 |
 | `facebook.listNotifications` | facebook.com | List the caller's recent notifications — friend requests, reactions, comments, mentions. | 🟢 |
 | `facebook.listPageEvents` | facebook.com | List a public Page's own events logged out — name, start time, place and link per event. | 🟢 |
-| `facebook.listPhotos` | facebook.com | List photos posted by a Page or person, newest first. | 🟢 |
+| `facebook.listPhotos` | facebook.com | List photos posted by a Page or person, newest first, logged out. | 🟢 |
 | `facebook.postToGroup` | facebook.com | Post to a Group the caller is a member of. | 🟢 |
 | `facebook.postToPage` | facebook.com | Post to a Page the caller owns or administrates. | 🟢 |
 | `facebook.postToTimeline` | facebook.com | Write a text post to the caller's own timeline. | 🟢 |
@@ -4946,7 +4946,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.findBlog` | tumblr.com | Find a blog by name. | 🟢 |
 | `tumblr.findTag` | tumblr.com | Find posts by searching a tag. | ⚪ |
 | `tumblr.followBlog` | tumblr.com | Follow a blog from the signed-in account. | ⚪ |
-| `tumblr.getBlogInfo` | tumblr.com | Get metadata for a blog including name, description, follower count, and post count. | ⚪ |
+| `tumblr.getBlogInfo` | tumblr.com | Get metadata for a blog: name, title, url, post count, description, last-post time… | 🟢 |
 | `tumblr.getBlogPosts` | tumblr.com | List posts from a blog, newest first. | ⚪ |
 | `tumblr.getPost` | tumblr.com | Get a single post by ID with its content and metadata. | ⚪ |
 | `tumblr.getPostNotes` | tumblr.com | Get notes (likes and reblogs) on a post with the blog names that interacted with it. | ⚪ |
