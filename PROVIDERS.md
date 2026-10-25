@@ -2884,14 +2884,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.saveJob` | linkedin.com | Saves a job posting to the signed-in caller's saved jobs, or unsaves it. | 🟢 |
 | `linkedin.savePost` | linkedin.com | Saves a post to the signed-in caller's saved items, or unsaves it. | 🟢 |
 | `linkedin.searchCompanies` | linkedin.com | Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per… | 🟢 |
-| `linkedin.searchEvents` | linkedin.com | Searches LinkedIn events by keyword and returns each one's name, organizer, start… | ⚪ |
+| `linkedin.searchEvents` | linkedin.com | Searches LinkedIn events by keyword, 10 per page — each one's id, name, organizer… | 🟢 |
 | `linkedin.searchGroups` | linkedin.com | Searches LinkedIn groups by keyword, 10 per page — each group's id (for getGroup and… | 🟢 |
 | `linkedin.searchJobs` | linkedin.com | Returns the job postings matching a search — keywords, location and how recently the… | 🟢 |
 | `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | 🟢 |
 | `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟢 |
 | `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name through LinkedIn's own public people directory and… | 🟢 |
 | `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
-| `linkedin.searchSchools` | linkedin.com | Searches LinkedIn's schools and universities by name and returns each one's name… | ⚪ |
+| `linkedin.searchSchools` | linkedin.com | Searches LinkedIn schools and universities by name, 10 per page — each one's handle… | 🟢 |
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | 🟢 |
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | 🟢 |
 | `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | 🟢 |
