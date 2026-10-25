@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5683 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5684 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -457,6 +457,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bing.searchVideos` | bing.com | Searches Bing's video index the way bing.com/videos/search does and returns each hit's… | 🟢 |
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🔴 |
 | `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |
+| `bing.suggestQueries` | bing.com | Returns what Bing's own search-box autocomplete suggests for a partial query — 'what… | 🟢 |
 | `bing.translateText` | bing.com | Translates text the way bing.com/translator does and returns the translated string… | 🟡 |
 | `bionicpo.getInquiryServiceDetails` | bionicpo.com | Looks one inquiry service up by name or id among the inquiry-services page's service… | 🟢 |
 | `bionicpo.listInquiryServices` | bionicpo.com | Lists the inquiry and service categories available on BionicPO's inquiry-services page. | 🟢 |

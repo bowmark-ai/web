@@ -94,7 +94,7 @@ bigairusa.com — bigairusa: listLocations, listPasses
 bigjoeforklifts.com — bigjoeforklifts: estimateRuntimeAndRoi, getRuntimeEstimatorInputs, listForkliftModels, prepareQuoteRequest
 bigrentz.com — bigrentz: getEquipment, getRentalPricing, listCategories, search
 bigyellow.co.uk — bigyellow: getQuote
-bing.com — bing: define, findPlace, listSaves, saveResult, searchImages, searchNews, searchPlaces, searchShopping, searchVideos, searchWeb, searchWebBrowser, translateText
+bing.com — bing: define, findPlace, listSaves, saveResult, searchImages, searchNews, searchPlaces, searchShopping, searchVideos, searchWeb, searchWebBrowser, suggestQueries, translateText
 bionicpo.com — bionicpo: getInquiryServiceDetails, listInquiryServices
 bishops.co — bishops: checkAvailability, findLocation, listLocations, listServices
 blackstoneproducts.com — blackstoneproducts: findNearbyDealers
