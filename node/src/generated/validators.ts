@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a37a78515bf8f94003dd846c51476013ab825a7365e8eac0eaff08c8b03be160
-// 2634 checked, 20 unchecked.
+// Manifest version: 63003dc1f40ddfa594d8db3ef9f87c5ae574e46c9173db7244e4caac792a173b
+// 2639 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a37a78515bf8f94003dd846c51476013ab825a7365e8eac0eaff08c8b03be160",
+  "version": "63003dc1f40ddfa594d8db3ef9f87c5ae574e46c9173db7244e4caac792a173b",
   "units": {
     "address_validation": {
       "defs": {
@@ -14862,6 +14862,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "BookerServiceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "serviceId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -14881,6 +14900,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getService": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerServiceArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listStaff": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerServiceArgs"
             },
             "optional": false
           }
@@ -18539,6 +18578,47 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ClasspassScheduleOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.claude": {
+      "defs": {},
+      "functions": {
+        "getSharedConversation": [
+          {
+            "name": "shareId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPublishedArtifact": [
+          {
+            "name": "artifactId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }

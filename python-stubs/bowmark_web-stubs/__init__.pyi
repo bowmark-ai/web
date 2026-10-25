@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a37a78515bf8f94003dd846c51476013ab825a7365e8eac0eaff08c8b03be160
-# 87 capabilities, 651 providers, 2634 typed functions, 20 refused.
+# Manifest version: 63003dc1f40ddfa594d8db3ef9f87c5ae574e46c9173db7244e4caac792a173b
+# 87 capabilities, 652 providers, 2639 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8252,6 +8252,40 @@ class Prv_booker_BookerMenuItem_Out(TypedDict):
     price: str | None
     imageUrl: str | None
 
+class Prv_booker_BookerServiceArgs_In(TypedDict):
+    location: str
+    serviceId: float
+
+class Prv_booker_BookerService_Out(TypedDict):
+    id: float
+    name: str
+    displayName: str | None
+    description: str | None
+    category: str | None
+    subCategory: str | None
+    price: Prv_booker_BookerService_Out_price_u0_Out | None
+    totalDuration: float | None
+    treatmentDuration: float | None
+    requiresTwoTechnicians: bool
+    isActive: bool
+    isDeleted: bool
+    bookableOnline: bool
+    imageUrl: str | None
+
+class Prv_booker_BookerService_Out_price_u0_Out(TypedDict):
+    amount: float
+    currencyCode: str
+
+class Prv_booker_BookerStaff_Out(TypedDict):
+    id: float
+    displayName: str
+    firstName: str | None
+    lastName: str | None
+    gender: str | None
+    rank: float | None
+    profileDescription: str | None
+    photoUrl: str | None
+
 class Prv_booking_com_AutocompleteDestinationArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -10372,6 +10406,49 @@ class Prv_classpass_ClasspassSession_Out(TypedDict):
     availability: str | None
     isLivestream: bool
     demandSignals: list[str]
+
+class Prv_claude_ClaudeSharedConversation_Out(TypedDict):
+    id: str
+    conversationId: str
+    title: str
+    createdAt: str
+    creator: Prv_claude_ClaudeSharedConversation_Out_creator_Out
+    projectId: str | None
+    isPublic: bool
+    messages: list[Prv_claude_ClaudeSharedMessage_Out]
+    workingDocuments: list[Any]
+
+class Prv_claude_ClaudeSharedConversation_Out_creator_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_claude_ClaudeSharedMessage_Out(TypedDict):
+    id: str
+    sender: str
+    text: str
+    createdAt: str
+    attachments: list[Any]
+    files: list[Any]
+    parentMessageId: str | None
+
+class Prv_claude_ClaudePublishedArtifact_Out(TypedDict):
+    id: str
+    title: str
+    description: str
+    language: str | None
+    type: str
+    content: str
+    viewCount: float | None
+
+class Prv_claude_ClaudeAccount_Out(TypedDict):
+    id: str
+    email: str
+    fullName: str
+    organizations: list[Prv_claude_ClaudeOrganization_Out]
+
+class Prv_claude_ClaudeOrganization_Out(TypedDict):
+    id: str
+    name: str
 
 class Prv_claude_com_claude_comDoc_Out(TypedDict):
     url: str
@@ -45506,6 +45583,16 @@ class Prv_booker(Protocol):
         item's service id, name, description, duration and display price.
         """
 
+    async def getService(self, args: Prv_booker_BookerServiceArgs_In, /) -> Prv_booker_BookerService_Out:
+        """One service's full detail: description, category, duration, price and whether it
+        requires two technicians. Use listStaff for who performs it.
+        """
+
+    async def listStaff(self, args: Prv_booker_BookerServiceArgs_In, /) -> list[Prv_booker_BookerStaff_Out]:
+        """The staff who perform a service at a location — id, display name, gender, rank, bio and
+        photo — the ids getAvailability can narrow a search to.
+        """
+
 class Prv_booking_com(Protocol):
     """Global online travel reservation service with property search, reviews and booking
     management.
@@ -46828,6 +46915,30 @@ class Prv_classpass(Protocol):
         sessions — "closed today" and "I never looked" are different answers. A studio that has
         LEFT ClassPass throws a caller-fixable error quoting the site's own reason ("Venue
         disabled") rather than returning an empty timetable that reads like a quiet day.
+        """
+
+class Prv_claude(Protocol):
+    """Anthropic's Claude app at claude.ai — read a shared conversation or a published artifact
+    logged out, and, signed in as the CALLER, read and search their chat history, send
+    messages, and manage projects, artifacts, share links, memory and preferences.
+    """
+
+    async def getSharedConversation(self, shareId: str, /) -> Prv_claude_ClaudeSharedConversation_Out:
+        """Reads a public shared Claude conversation from its share link (claude.ai/share/<id>) —
+        title, who shared it, when, and every user and assistant message in order, with any
+        working documents.
+        """
+
+    async def getPublishedArtifact(self, artifactId: str, /) -> Prv_claude_ClaudePublishedArtifact_Out:
+        """Reads a published Claude artifact from its public link (claude.ai/public/artifacts/<id>)
+        — title, description, content type, the full content, and its view count.
+        """
+
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeAccount_Out:
+        """Reads the CALLER's own Claude account — id, email, display name and the organizations
+        they belong to. NEEDS A SIGN-IN: call it through a capability context holding a
+        claude.ai session, or the caller signs in through the relay. The door for every
+        org-scoped function queued after it in BUILD_QUEUE.md.
         """
 
 class Prv_claude_com(Protocol):
@@ -65782,6 +65893,7 @@ class BowmarkProviders(Protocol):
     classichome: Prv_classichome
     classicrockfab: Prv_classicrockfab
     classpass: Prv_classpass
+    claude: Prv_claude
     claude_com: Prv_claude_com
     claude_support: Prv_claude_support
     claudemarketplaces_com: Prv_claudemarketplaces_com

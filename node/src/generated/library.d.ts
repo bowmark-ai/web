@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a37a78515bf8f94003dd846c51476013ab825a7365e8eac0eaff08c8b03be160
-// 87 capabilities, 651 providers, 2652 typed functions, 20 refused.
+// Manifest version: 63003dc1f40ddfa594d8db3ef9f87c5ae574e46c9173db7244e4caac792a173b
+// 87 capabilities, 652 providers, 2657 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14323,6 +14323,12 @@ interface BookerLocationArgs {
   /** A location slug (`kabuki`) or a go.booker.com/location/<slug> URL. */
   location: string;
 }
+interface BookerServiceArgs {
+  /** A location slug (`kabuki`) or a go.booker.com/location/<slug> URL. */
+  location: string;
+  /** The numeric id from getServiceMenu's `serviceId`. */
+  serviceId: number;
+}
 interface BookerLocation {
   id: number;
   slug: string;
@@ -14360,6 +14366,32 @@ interface BookerServiceMenu {
   location: string;
   sections: BookerMenuSection[];
 }
+interface BookerService {
+  id: number;
+  name: string;
+  displayName: string | null;
+  description: string | null;
+  category: string | null;
+  subCategory: string | null;
+  price: { amount: number; currencyCode: string } | null;
+  totalDuration: number | null;
+  treatmentDuration: number | null;
+  requiresTwoTechnicians: boolean;
+  isActive: boolean;
+  isDeleted: boolean;
+  bookableOnline: boolean;
+  imageUrl: string | null;
+}
+interface BookerStaff {
+  id: number;
+  displayName: string;
+  firstName: string | null;
+  lastName: string | null;
+  gender: string | null;
+  rank: number | null;
+  profileDescription: string | null;
+  photoUrl: string | null;
+}
 
   /**
    * Booker (go.booker.com), Mindbody's spa and salon booking storefront: a location's service
@@ -14378,6 +14410,18 @@ interface BookerServiceMenu {
      * service id, name, description, duration and display price.
      */
     getServiceMenu(args: BookerLocationArgs): Promise<BookerServiceMenu>;
+
+    /**
+     * One service's full detail: description, category, duration, price and whether it requires
+     * two technicians. Use listStaff for who performs it.
+     */
+    getService(args: BookerServiceArgs): Promise<BookerService>;
+
+    /**
+     * The staff who perform a service at a location — id, display name, gender, rank, bio and
+     * photo — the ids getAvailability can narrow a search to.
+     */
+    listStaff(args: BookerServiceArgs): Promise<BookerStaff[]>;
   }
 }
 
@@ -18197,6 +18241,81 @@ interface ClasspassSearchResult {
      * like a quiet day.
      */
     getSchedule(studio: number | string, options?: ClasspassScheduleOptions): Promise<ClasspassSchedule>;
+  }
+}
+
+declare namespace BowmarkProvider_claude {
+  // ── Claude — the unit's own declarations, verbatim ──
+interface ClaudeSharedMessage {
+  id: string;
+  sender: string;
+  text: string;
+  createdAt: string;
+  attachments: unknown[];
+  files: unknown[];
+  parentMessageId: string | null;
+}
+
+interface ClaudeSharedConversation {
+  id: string;
+  conversationId: string;
+  title: string;
+  createdAt: string;
+  creator: { id: string; name: string };
+  projectId: string | null;
+  isPublic: boolean;
+  messages: ClaudeSharedMessage[];
+  workingDocuments: unknown[];
+}
+
+interface ClaudePublishedArtifact {
+  id: string;
+  title: string;
+  description: string;
+  language: string | null;
+  type: string;
+  content: string;
+  viewCount: number | null;
+}
+
+interface ClaudeOrganization {
+  id: string;
+  name: string;
+}
+
+interface ClaudeAccount {
+  id: string;
+  email: string;
+  fullName: string;
+  organizations: ClaudeOrganization[];
+}
+
+  /**
+   * Anthropic's Claude app at claude.ai — read a shared conversation or a published artifact
+   * logged out, and, signed in as the CALLER, read and search their chat history, send messages,
+   * and manage projects, artifacts, share links, memory and preferences.
+   */
+  interface Unit {
+    /**
+     * Reads a public shared Claude conversation from its share link (claude.ai/share/<id>) —
+     * title, who shared it, when, and every user and assistant message in order, with any working
+     * documents.
+     */
+    getSharedConversation(shareId: string): Promise<ClaudeSharedConversation>;
+
+    /**
+     * Reads a published Claude artifact from its public link (claude.ai/public/artifacts/<id>) —
+     * title, description, content type, the full content, and its view count.
+     */
+    getPublishedArtifact(artifactId: string): Promise<ClaudePublishedArtifact>;
+
+    /**
+     * Reads the CALLER's own Claude account — id, email, display name and the organizations they
+     * belong to. NEEDS A SIGN-IN: call it through a capability context holding a claude.ai
+     * session, or the caller signs in through the relay. The door for every org-scoped function
+     * queued after it in BUILD_QUEUE.md.
+     */
+    getAccount(opts?: ConnectionOption): Promise<ClaudeAccount>;
   }
 }
 
@@ -71206,6 +71325,7 @@ interface BowmarkProviders {
   classichome: BowmarkProvider_classichome.Unit;
   classicrockfab: BowmarkProvider_classicrockfab.Unit;
   classpass: BowmarkProvider_classpass.Unit;
+  claude: BowmarkProvider_claude.Unit;
   claude_com: BowmarkProvider_claude_com.Unit;
   claude_support: BowmarkProvider_claude_support.Unit;
   claudemarketplaces_com: BowmarkProvider_claudemarketplaces_com.Unit;
