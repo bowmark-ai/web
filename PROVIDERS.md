@@ -1858,11 +1858,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.getWikiInfo` | fandom.com | A wiki's own vital stats — its real display name (`Wookieepedia`, not the `starwars`… | 🟢 |
 | `fandom.getWikitext` | fandom.com | An article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟢 |
 | `fandom.listBacklinks` | fandom.com | What links HERE — every article on the wiki pointing at this one. `GET… | 🟢 |
-| `fandom.listCategories` | fandom.com | The categories an article belongs to — how a Fandom wiki organizes its own subject… | ⚪ |
-| `fandom.listCategoryMembers` | fandom.com | Every article filed under one category — hand it "Category:Characters" and get every… | ⚪ |
+| `fandom.listCategories` | fandom.com | The categories an article belongs to — how a Fandom wiki organizes its own subject… | 🟢 |
+| `fandom.listCategoryMembers` | fandom.com | Every article filed under one category — hand it "Category:Characters" (or just… | 🟢 |
 | `fandom.listDiscussionPosts` | fandom.com | A wiki's Discussions feed — Fandom's own community forum layer, separate from article… | ⚪ |
-| `fandom.listExternalLinks` | fandom.com | Every link off-wiki from one article — sources and official sites the page cites, as… | ⚪ |
-| `fandom.listImages` | fandom.com | Every image used in an article, by file title, in page order. `GET… | ⚪ |
+| `fandom.listExternalLinks` | fandom.com | Every link off-wiki from one article — sources and official sites the page cites, as… | 🟢 |
+| `fandom.listImages` | fandom.com | Every image used in an article, by file title, in page order. `GET… | 🟢 |
 | `fandom.listLinks` | fandom.com | Every other article on the same wiki this one links to. `GET… | 🟢 |
 | `fandom.listRecentChanges` | fandom.com | What is being edited on a wiki right now — a live feed of recent edits with page… | ⚪ |
 | `fandom.listRevisions` | fandom.com | An article's edit history on this wiki — each revision with its id, timestamp, editor… | ⚪ |
@@ -3262,12 +3262,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nintendo.searchProducts` | www.nintendo.com | Search Nintendo's own store catalog by keyword — games, hardware, accessories and… | 🟢 |
 | `nintendo.searchSupport` | www.nintendo.com | Search Nintendo's support knowledge base by keyword — "Switch won't charge", "error… | ⚪ |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
-| `npr.findStations` | npr.org | Find NPR member stations by city, zip code, call letters or coordinates — call sign… | ⚪ |
+| `npr.findStations` | npr.org | Find NPR member stations by city, zip code, call letters or coordinates — call sign… | 🟢 |
 | `npr.getAuthorStories` | npr.org | List stories by one NPR correspondent or host, given their name or byline page. | ⚪ |
-| `npr.getLiveStream` | npr.org | Get the live audio stream URL(s) for a member station, given its call letters or org id. | ⚪ |
+| `npr.getLiveStream` | npr.org | Get the live audio stream URL(s) for a member station, given its call letters or org id. | 🟢 |
 | `npr.getPodcast` | npr.org | Read one podcast or show's details — description, hosts, artwork and its RSS feed —… | ⚪ |
-| `npr.getProgramRundown` | npr.org | List the segments one broadcast program (Morning Edition, All Things Considered… | ⚪ |
-| `npr.getStation` | npr.org | Read one member station's details — brand, frequency, market, homepage, donation page… | ⚪ |
+| `npr.getProgramRundown` | npr.org | List the segments one broadcast program (Morning Edition, All Things Considered… | 🟢 |
+| `npr.getStation` | npr.org | Read one member station's details — brand, frequency, market, homepage, donation page… | 🟢 |
 | `npr.getStory` | npr.org | A complete NPR story — headline, publication date, author, body text and (when… | 🟡 |
 | `npr.getTranscript` | npr.org | Read the broadcast transcript of a story or episode that aired, given its story id. | ⚪ |
 | `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | 🟢 |
@@ -4982,7 +4982,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.getChannel` | twitch.tv | Reads the signed-in streamer's channel settings: title, language and game/category… | 🟢 |
 | `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | 🟢 |
 | `twitch.getChannelSchedule` | twitch.tv | Reads a channel's scheduled broadcast times and upcoming events (if public). Logged… | 🟢 |
-| `twitch.getClip` | twitch.tv | Reads one clip by its slug, a clips.twitch.tv link or a twitch.tv/<login>/clip/<slug>… | 🟡 |
+| `twitch.getClip` | twitch.tv | Reads one clip by its slug, a clips.twitch.tv link or a twitch.tv/<login>/clip/<slug>… | 🟢 |
 | `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | 🟢 |
 | `twitch.getStream` | twitch.tv | Reads a channel's LIVE state right now: whether it is live, title, game, viewer count… | 🟢 |
 | `twitch.getSubscriptionStatus` | twitch.tv | Checks whether the signed-in user is subscribed to one named channel: id, Twitch's own… | 🟢 |
