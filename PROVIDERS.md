@@ -4188,7 +4188,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getSharedList` | shop.app | Reads a product list someone shared from Shop (a shop.app/collections/<id> link) — the… | ⚪ |
 | `shop_app.getShopCash` | shop.app | Reads the caller's Shop Cash balance and its recent activity. | ⚪ |
 | `shop_app.getStore` | shop.app | Reads one store's Shop page — name, logo, description, rating and review count… | 🟢 |
-| `shop_app.getStoreCollection` | shop.app | Lists the products in one of a store's collections ("Best Sellers", "Sugar-Free")… | ⚪ |
+| `shop_app.getStoreCollection` | shop.app | Lists the products in one of a store's collections ("Best Sellers", "Sugar-Free")… | 🟢 |
 | `shop_app.getStoreContacts` | shop.app | Reads how to reach a store — its support email, phone or contact page as Shop lists… | ⚪ |
 | `shop_app.getStorePolicies` | shop.app | Reads a store's refund and shipping policies as text — the policy sheet on its Shop… | ⚪ |
 | `shop_app.getStoreReviews` | shop.app | Lists the reviews left across a whole store — rating, text, product, author and date —… | 🟢 |
