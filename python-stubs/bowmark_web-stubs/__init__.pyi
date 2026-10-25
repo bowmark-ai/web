@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 217b60eec2042603cfd96d9a03944f3d7d57808cad1608527c785eb501aecf89
-# 87 capabilities, 653 providers, 2675 typed functions, 20 refused.
+# Manifest version: a82776c4995251ce8d5747b00624a0d2ddc0545e42f21286f55e9e7763fb8c9f
+# 87 capabilities, 655 providers, 2687 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4392,6 +4392,35 @@ class Prv_amazon_AmazonCartItem_Out(TypedDict):
     quantity: float
     price: float | None
 
+class Prv_amazon_ca_SearchProductsArgs_In(TypedDict):
+    keywords: str
+    page: NotRequired[float]
+
+class Prv_amazon_ca_AmazonCaSearchResult_Out(TypedDict):
+    products: list[Prv_amazon_ca_AmazonCaProduct_Out]
+    totalResultCount: float
+
+class Prv_amazon_ca_AmazonCaProduct_Out(TypedDict):
+    asin: str
+    title: str
+    url: str
+    price: float | None
+    rating: float | None
+    ratingCount: float | None
+    sponsored: bool
+
+class Prv_amazon_ca_GetProductArgs_In(TypedDict):
+    asin: str
+
+class Prv_amazon_ca_AmazonCaProductDetail_Out(TypedDict):
+    asin: str
+    title: str
+    url: str
+    price: float | None
+    rating: float | None
+    ratingCount: float | None
+    inStock: bool
+
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
     name: str
@@ -4760,6 +4789,16 @@ class Prv_aol_AolNewsletter_Out(TypedDict):
     id: str
     title: str
     description: NotRequired[str]
+
+class Prv_aol_listFavorites_return_Out(TypedDict):
+    favorites: list[Prv_aol_AolFavorite_Out]
+
+class Prv_aol_AolFavorite_Out(TypedDict):
+    id: str
+    name: str
+    type: Literal["folder"] | Literal["link"]
+    url: NotRequired[str]
+    children: NotRequired[list[Prv_aol_AolFavorite_Out]]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -10077,6 +10116,11 @@ class Prv_charterhomes_CharterhomesVisitOption_Out(TypedDict):
     label: str
     calendlyUrl: str
 
+class Prv_chatgpt_ChatGPTAnswer_Out(TypedDict):
+    answer: str
+    conversationUrl: str
+    warnings: list[str]
+
 Prv_cheapflights_KayakQuery_In = TypedDict(
     "Prv_cheapflights_KayakQuery_In",
     {
@@ -14146,6 +14190,121 @@ class Prv_espn_NewsArticle_Out(TypedDict):
     url: str | None
     teams: list[str]
 
+class Prv_espn_GetTeamArgs_In(TypedDict):
+    league: str
+    team: str
+
+class Prv_espn_GetTeamResult_Out(TypedDict):
+    league: str
+    team: Prv_espn_TeamHeader_Out
+
+class Prv_espn_TeamHeader_Out(TypedDict):
+    id: str
+    abbreviation: str
+    name: str
+    location: str
+    nickname: str
+    color: str | None
+    alternateColor: str | None
+    standingSummary: str | None
+    wins: float | None
+    losses: float | None
+    ties: float | None
+    venue: str | None
+    logo: str | None
+    nextGame: Prv_espn_TeamNextGame_Out | None
+
+class Prv_espn_TeamNextGame_Out(TypedDict):
+    eventId: str
+    dateTime: str
+    shortName: str
+    isHome: bool
+    opponent: Prv_espn_TeamNextGame_Out_opponent_u0_Out | None
+
+class Prv_espn_TeamNextGame_Out_opponent_u0_Out(TypedDict):
+    id: str
+    abbreviation: str
+    name: str
+
+class Prv_espn_TeamStatsArgs_In(TypedDict):
+    league: str
+    team: str
+
+class Prv_espn_TeamStatsResult_Out(TypedDict):
+    league: str
+    team: Prv_espn_TeamStatsResult_Out_team_Out
+    season: float | None
+    categories: list[Prv_espn_TeamStatCategory_Out]
+
+class Prv_espn_TeamStatsResult_Out_team_Out(TypedDict):
+    id: str
+    abbreviation: str
+    name: str
+
+class Prv_espn_TeamStatCategory_Out(TypedDict):
+    name: str
+    displayName: str
+    stats: list[Prv_espn_TeamStatValue_Out]
+
+class Prv_espn_TeamStatValue_Out(TypedDict):
+    name: str
+    displayName: str
+    value: float
+    displayValue: str
+    rank: float | None
+
+class Prv_espn_StatLeadersArgs_In(TypedDict):
+    league: str
+    category: NotRequired[str]
+
+class Prv_espn_StatLeadersResult_Out(TypedDict):
+    league: str
+    categories: list[Prv_espn_StatLeaderCategory_Out]
+
+class Prv_espn_StatLeaderCategory_Out(TypedDict):
+    name: str
+    displayName: str
+    leaders: list[Prv_espn_StatLeaderEntry_Out]
+
+class Prv_espn_StatLeaderEntry_Out(TypedDict):
+    value: float
+    displayValue: str
+    athlete: Prv_espn_StatLeaderEntry_Out_athlete_Out
+    team: Prv_espn_StatLeaderEntry_Out_team_u0_Out | None
+
+class Prv_espn_StatLeaderEntry_Out_athlete_Out(TypedDict):
+    id: str
+    fullName: str
+    position: str | None
+
+class Prv_espn_StatLeaderEntry_Out_team_u0_Out(TypedDict):
+    id: str
+    abbreviation: str
+    name: str
+
+class Prv_espn_FantasyPlayersArgs_In(TypedDict):
+    sport: str
+    season: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_espn_FantasyPlayersResult_Out(TypedDict):
+    sport: str
+    season: float
+    players: list[Prv_espn_FantasyPlayer_Out]
+
+class Prv_espn_FantasyPlayer_Out(TypedDict):
+    id: float
+    fullName: str
+    position: str | None
+    proTeamId: float | None
+    injuryStatus: str | None
+    percentOwned: float | None
+    percentStarted: float | None
+    averageDraftPosition: float | None
+    positionRank: float | None
+    seasonPoints: float | None
+    projectedPoints: float | None
+
 class Prv_estes_express_ShipmentRequest_In(TypedDict):
     origin: str
     destination: str
@@ -14669,6 +14828,26 @@ class Prv_facebook_FacebookPageInfo_Out(TypedDict):
     likeCount: NotRequired[float]
     profilePhotoUrl: NotRequired[str]
     coverPhotoUrl: NotRequired[str]
+
+class Prv_facebook_GetBusinessDetailsArgs_In(TypedDict):
+    handle: str
+
+class Prv_facebook_FacebookBusinessDetails_Out(TypedDict):
+    name: NotRequired[str]
+    url: str
+    category: NotRequired[str]
+    phone: NotRequired[str]
+    email: NotRequired[str]
+    website: NotRequired[str]
+    address: NotRequired[str]
+    hours: NotRequired[str]
+    services: NotRequired[str]
+    priceRange: NotRequired[str]
+    rating: NotRequired[Prv_facebook_FacebookBusinessDetails_Out_rating_Out]
+
+class Prv_facebook_FacebookBusinessDetails_Out_rating_Out(TypedDict):
+    recommendPercent: NotRequired[float]
+    reviewCount: NotRequired[float]
 
 class Prv_facebook_GetPagePostsArgs_In(TypedDict):
     handle: str
@@ -25661,6 +25840,42 @@ class Prv_nhc_getForecastDiscussion_args_In(TypedDict):
 class Prv_nhc_nhcForecastDiscussion_Out(TypedDict):
     number: float
     text: str
+
+class Prv_nhc_getWindSpeedProbabilities_args_In(TypedDict):
+    productUrl: str
+
+class Prv_nhc_nhcWindSpeedProbabilities_Out(TypedDict):
+    number: float
+    storm: str
+    locations: list[Prv_nhc_nhcWindProbability_Out]
+    text: str
+
+class Prv_nhc_nhcWindProbability_Out(TypedDict):
+    location: str
+    thresholdKt: Literal[34] | Literal[50] | Literal[64]
+    periods: list[float]
+    cumulative: float
+
+class Prv_nhc_getTropicalWeatherDiscussion_args_In(TypedDict):
+    basin: Literal["AL"] | Literal["EP"]
+
+class Prv_nhc_nhcTropicalWeatherDiscussion_Out(TypedDict):
+    basin: Literal["AL"] | Literal["EP"]
+    issued: str
+    sections: list[Prv_nhc_nhcTropicalWeatherDiscussion_Out_sections_item_Out]
+    text: str
+
+class Prv_nhc_nhcTropicalWeatherDiscussion_Out_sections_item_Out(TypedDict):
+    heading: str
+    text: str
+
+class Prv_nhc_getStormNames_args_In(TypedDict):
+    basin: NotRequired[Literal["AL"] | Literal["EP"] | Literal["CP"]]
+
+class Prv_nhc_nhcStormNameList_Out(TypedDict):
+    basin: Literal["AL"] | Literal["EP"] | Literal["CP"]
+    list: str
+    names: list[str]
 
 class Prv_nike_NikeLaunch_Out(TypedDict):
     slug: str
@@ -43713,6 +43928,15 @@ class Prv_amazon(Protocol):
         a repeated add changes the line's quantity), so this always adds exactly one unit.
         """
 
+class Prv_amazon_ca(Protocol):
+    """Search products and check pricing on Amazon Canada (amazon.ca)"""
+
+    async def searchProducts(self, args: Prv_amazon_ca_SearchProductsArgs_In, /) -> Prv_amazon_ca_AmazonCaSearchResult_Out:
+        """Search Amazon Canada for products by keywords"""
+
+    async def getProduct(self, args: Prv_amazon_ca_GetProductArgs_In, /) -> Prv_amazon_ca_AmazonCaProductDetail_Out:
+        """Get product details from Amazon Canada by ASIN"""
+
 class Prv_americandreamvacations(Protocol):
     """American Dream Vacations' own RV rental inventory search (americandreamvacations.net) —
     given one of their 10 store locations and an RV class (Class A/B/C or Trailer), returns
@@ -43947,6 +44171,12 @@ class Prv_aol(Protocol):
         """Lists AOL's newsletter signup(s). Today the site offers a single generic daily roundup
         ("AOL Today") rather than a catalog of topic newsletters — the door for
         subscribeNewsletter.
+        """
+
+    async def listFavorites(self, opts: ConnectionOption | None = None, /) -> Prv_aol_listFavorites_return_Out:
+        """Reads the signed-in caller's AOL Favorites — saved links and the folders holding them,
+        as a tree (id, name, type folder|link, url, children). Needs the caller signed in to
+        AOL.
         """
 
 class Prv_aosom(Protocol):
@@ -47153,6 +47383,18 @@ class Prv_charterhomes(Protocol):
         Calendly tour-booking URL. Never books anything.
         """
 
+class Prv_chatgpt(Protocol):
+    """OpenAI's ChatGPT at chatgpt.com — read a shared conversation link or a custom GPT's
+    store page logged out, and, signed in as the CALLER, read and search their chat history,
+    send messages, generate images and manage projects, memories and GPTs.
+    """
+
+    async def ask(self, prompt: str, /) -> Prv_chatgpt_ChatGPTAnswer_Out:
+        """Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers
+        any visitor — and returns the answer text. Nothing is saved to any account. Pass a
+        question the way a person would type it, e.g. ask("what is the capital of France?").
+        """
+
 class Prv_cheapflights(Protocol):
     """Cheapflights (cheapflights.com) — metasearch flight results, cheapest-first, read
     directly from the result cards.
@@ -49508,6 +49750,29 @@ class Prv_espn(Protocol):
         description, byline, published time and article id for getArticle.
         """
 
+    async def getTeam(self, args: Prv_espn_GetTeamArgs_In, /) -> Prv_espn_GetTeamResult_Out:
+        """One team's page header — record, standing in its division, next game, coach, venue and
+        links — by name, abbreviation or ESPN id.
+        """
+
+    async def teamStats(self, args: Prv_espn_TeamStatsArgs_In, /) -> Prv_espn_TeamStatsResult_Out:
+        """One team's season statistics, team totals and per-game, with its league rank in each
+        category.
+        """
+
+    async def statLeaders(self, args: Prv_espn_StatLeadersArgs_In, /) -> Prv_espn_StatLeadersResult_Out:
+        """A league's season leaderboard — every stat category (passing yards, points per game,
+        home runs, goals, …) with its ranked leaders, each player's team and value. Pass
+        `category` to narrow to one.
+        """
+
+    async def fantasyPlayers(self, args: Prv_espn_FantasyPlayersArgs_In, /) -> Prv_espn_FantasyPlayersResult_Out:
+        """ESPN Fantasy's public player board for fantasy football, baseball, basketball or hockey
+        — each player's projected and season points, position rank, ADP, percent rostered and
+        started, and injury status. What a person reads before a draft or a waiver claim; no
+        league needed.
+        """
+
 class Prv_estes_express(Protocol):
     """LTL freight quotes from Estes Express Lines' own public Quick Quote tool — no account or
     login needed.
@@ -49772,6 +50037,11 @@ class Prv_facebook(Protocol):
     async def getPageInfo(self, args: Prv_facebook_GetPageInfoArgs_In, /) -> Prv_facebook_FacebookPageInfo_Out:
         """Read a Page's details — name, about section, follower count, category, profile and cover
         photos.
+        """
+
+    async def getBusinessDetails(self, args: Prv_facebook_GetBusinessDetailsArgs_In, /) -> Prv_facebook_FacebookBusinessDetails_Out:
+        """Read a local business Page's contact-card intro, logged out — category, phone, email,
+        website, address, hours status, services and the recommend-rating.
         """
 
     async def getPagePosts(self, args: Prv_facebook_GetPagePostsArgs_In, /) -> list[Prv_facebook_FacebookPagePost_Out]:
@@ -57681,6 +57951,23 @@ class Prv_nhc(Protocol):
         """Get the forecaster's discussion for a storm — the reasoning behind the track and
         intensity forecast — from a discussion url (from listStormAdvisories or
         listCurrentStorms' `links.forecastDiscussion`).
+        """
+
+    async def getWindSpeedProbabilities(self, args: Prv_nhc_getWindSpeedProbabilities_args_In, /) -> Prv_nhc_nhcWindSpeedProbabilities_Out:
+        """Get a storm's wind speed probabilities: for each listed town, the chance of 34, 50 and
+        64 kt sustained winds per time period and over 5 days. Takes a wndprb product url from
+        listStormAdvisories() or listCurrentStorms' `links.windSpeedProbabilities`.
+        """
+
+    async def getTropicalWeatherDiscussion(self, args: Prv_nhc_getTropicalWeatherDiscussion_args_In, /) -> Prv_nhc_nhcTropicalWeatherDiscussion_Out:
+        """Get the latest basin-wide Tropical Weather Discussion for the Atlantic or East Pacific —
+        special features, tropical waves, the monsoon trough and marine weather, split by
+        section.
+        """
+
+    async def getStormNames(self, args: Prv_nhc_getStormNames_args_In | None = None, /) -> list[Prv_nhc_nhcStormNameList_Out]:
+        """Get the official storm name lists: the six rotating Atlantic and East Pacific season
+        lists and the four Central Pacific lists. Pass `basin` to narrow.
         """
 
 class Prv_nike(Protocol):
@@ -66471,6 +66758,7 @@ class BowmarkProviders(Protocol):
     allied: Prv_allied
     alphavantage: Prv_alphavantage
     amazon: Prv_amazon
+    amazon_ca: Prv_amazon_ca
     americandreamvacations: Prv_americandreamvacations
     americanstandard: Prv_americanstandard
     americanvisionwindows: Prv_americanvisionwindows
@@ -66591,6 +66879,7 @@ class BowmarkProviders(Protocol):
     chantecaille: Prv_chantecaille
     chappellet: Prv_chappellet
     charterhomes: Prv_charterhomes
+    chatgpt: Prv_chatgpt
     cheapflights: Prv_cheapflights
     chesmar: Prv_chesmar
     chipotle: Prv_chipotle

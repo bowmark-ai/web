@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 217b60eec2042603cfd96d9a03944f3d7d57808cad1608527c785eb501aecf89
-// 87 capabilities, 653 providers, 2693 typed functions, 20 refused.
+// Manifest version: a82776c4995251ce8d5747b00624a0d2ddc0545e42f21286f55e9e7763fb8c9f
+// 87 capabilities, 655 providers, 2705 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7805,6 +7805,52 @@ interface AmazonCart {
   }
 }
 
+declare namespace BowmarkProvider_amazon_ca {
+  // ── Amazon Canada — the unit's own declarations, verbatim ──
+interface SearchProductsArgs {
+  keywords: string;
+  page?: number;
+}
+
+interface GetProductArgs {
+  asin: string;
+}
+
+interface AmazonCaProduct {
+  asin: string;
+  title: string;
+  url: string;
+  price: number | null;
+  rating: number | null;
+  ratingCount: number | null;
+  sponsored: boolean;
+}
+
+interface AmazonCaSearchResult {
+  products: AmazonCaProduct[];
+  totalResultCount: number;
+}
+
+interface AmazonCaProductDetail {
+  asin: string;
+  title: string;
+  url: string;
+  price: number | null;
+  rating: number | null;
+  ratingCount: number | null;
+  inStock: boolean;
+}
+
+  /** Search products and check pricing on Amazon Canada (amazon.ca) */
+  interface Unit {
+    /** Search Amazon Canada for products by keywords */
+    searchProducts(args: SearchProductsArgs): Promise<AmazonCaSearchResult>;
+
+    /** Get product details from Amazon Canada by ASIN */
+    getProduct(args: GetProductArgs): Promise<AmazonCaProductDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_americandreamvacations {
   // ── American Dream Vacations — the unit's own declarations, verbatim ──
 interface AdvLocation {
@@ -8395,6 +8441,13 @@ interface AolNewsletter {
   title: string;
   description?: string;
 }
+interface AolFavorite {
+  id: string;
+  name: string;
+  type: "folder" | "link";
+  url?: string;
+  children?: AolFavorite[];
+}
 
   /**
    * AOL's news portal: the front page, every section and article (syndicated from AP, Reuters,
@@ -8487,6 +8540,12 @@ interface AolNewsletter {
      * Today") rather than a catalog of topic newsletters — the door for subscribeNewsletter.
      */
     listNewsletters(): Promise<{ newsletters: AolNewsletter[] }>;
+
+    /**
+     * Reads the signed-in caller's AOL Favorites — saved links and the folders holding them, as a
+     * tree (id, name, type folder|link, url, children). Needs the caller signed in to AOL.
+     */
+    listFavorites(opts?: ConnectionOption): Promise<{ favorites: AolFavorite[] }>;
   }
 }
 
@@ -17556,6 +17615,35 @@ interface CharterhomesVisitOption { neighborhood: string; label: string; calendl
   }
 }
 
+declare namespace BowmarkProvider_chatgpt {
+  // ── ChatGPT — the unit's own declarations, verbatim ──
+interface chatgptRow {
+  id: string;
+}
+
+interface ChatGPTAnswer {
+  /** The assistant's reply text. */
+  answer: string;
+  /** The ephemeral chat's own url (chatgpt.com/uc/<id>) — nothing is saved to any account. */
+  conversationUrl: string;
+  warnings: string[];
+}
+
+  /**
+   * OpenAI's ChatGPT at chatgpt.com — read a shared conversation link or a custom GPT's store
+   * page logged out, and, signed in as the CALLER, read and search their chat history, send
+   * messages, generate images and manage projects, memories and GPTs.
+   */
+  interface Unit {
+    /**
+     * Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers any
+     * visitor — and returns the answer text. Nothing is saved to any account. Pass a question the
+     * way a person would type it, e.g. ask("what is the capital of France?").
+     */
+    ask(prompt: string): Promise<ChatGPTAnswer>;
+  }
+}
+
 declare namespace BowmarkProvider_cheapflights {
   // ── Cheapflights — the unit's own declarations, verbatim ──
 interface KayakQuery {
@@ -24406,6 +24494,125 @@ interface NewsResult {
   articles: NewsArticle[];
 }
 
+interface GetTeamArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. */
+  league: string;
+  /** Team abbreviation, name, or nickname (e.g. "ARI", "Cardinals", "Arizona Cardinals") */
+  team: string;
+}
+
+interface TeamNextGame {
+  eventId: string;
+  dateTime: string;
+  shortName: string;
+  isHome: boolean;
+  opponent: { id: string; abbreviation: string; name: string } | null;
+}
+
+interface TeamHeader {
+  id: string;
+  abbreviation: string;
+  name: string;
+  location: string;
+  nickname: string;
+  color: string | null;
+  alternateColor: string | null;
+  standingSummary: string | null; // the site's own label, e.g. "3rd in NFC West"
+  wins: number | null;
+  losses: number | null;
+  ties: number | null;
+  venue: string | null;
+  logo: string | null;
+  nextGame: TeamNextGame | null;
+}
+
+interface GetTeamResult {
+  league: string;
+  team: TeamHeader;
+}
+
+interface TeamStatsArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. */
+  league: string;
+  /** Team abbreviation, name, or nickname */
+  team: string;
+}
+
+interface TeamStatValue {
+  name: string; // ESPN's own stat key, e.g. "completionPct", "rushingYards"
+  displayName: string;
+  value: number;
+  displayValue: string;
+  rank: number | null; // the team's league rank in this stat, when ESPN publishes one
+}
+
+interface TeamStatCategory {
+  name: string; // ESPN's own category key, e.g. "passing", "rushing", "defensive"
+  displayName: string;
+  stats: TeamStatValue[];
+}
+
+interface TeamStatsResult {
+  league: string;
+  team: { id: string; abbreviation: string; name: string };
+  season: number | null;
+  categories: TeamStatCategory[];
+}
+
+interface StatLeadersArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. */
+  league: string;
+  /** Narrow to one category by key or display name, case-insensitive. Omit for every category. */
+  category?: string;
+}
+
+interface StatLeaderEntry {
+  value: number;
+  displayValue: string;
+  athlete: { id: string; fullName: string; position: string | null };
+  team: { id: string; abbreviation: string; name: string } | null;
+}
+
+interface StatLeaderCategory {
+  name: string; // ESPN's own category key, e.g. "passingYards"
+  displayName: string;
+  leaders: StatLeaderEntry[];
+}
+
+interface StatLeadersResult {
+  league: string;
+  categories: StatLeaderCategory[];
+}
+
+interface FantasyPlayersArgs {
+  /** "football", "baseball", "basketball" or "hockey" */
+  sport: string;
+  /** Season year, e.g. 2026. Defaults to the current calendar year. */
+  season?: number;
+  /** How many players to return, ranked by percent-rostered. Default 50, max 200. */
+  limit?: number;
+}
+
+interface FantasyPlayer {
+  id: number;
+  fullName: string;
+  position: string | null; // ESPN's own position abbreviation, when the id is known
+  proTeamId: number | null; // ESPN fantasy's own numeric pro-team id, not resolved to a name
+  injuryStatus: string | null;
+  percentOwned: number | null;
+  percentStarted: number | null;
+  averageDraftPosition: number | null;
+  positionRank: number | null; // this season's PPR position rank, when ESPN publishes one
+  seasonPoints: number | null; // this season's actual fantasy points so far
+  projectedPoints: number | null; // this season's full-season projected fantasy points
+}
+
+interface FantasyPlayersResult {
+  sport: string;
+  season: number;
+  players: FantasyPlayer[];
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -24486,6 +24693,32 @@ interface NewsResult {
      * description, byline, published time and article id for getArticle.
      */
     news(args: NewsArgs): Promise<NewsResult>;
+
+    /**
+     * One team's page header — record, standing in its division, next game, coach, venue and links
+     * — by name, abbreviation or ESPN id.
+     */
+    getTeam(args: GetTeamArgs): Promise<GetTeamResult>;
+
+    /**
+     * One team's season statistics, team totals and per-game, with its league rank in each
+     * category.
+     */
+    teamStats(args: TeamStatsArgs): Promise<TeamStatsResult>;
+
+    /**
+     * A league's season leaderboard — every stat category (passing yards, points per game, home
+     * runs, goals, …) with its ranked leaders, each player's team and value. Pass `category` to
+     * narrow to one.
+     */
+    statLeaders(args: StatLeadersArgs): Promise<StatLeadersResult>;
+
+    /**
+     * ESPN Fantasy's public player board for fantasy football, baseball, basketball or hockey —
+     * each player's projected and season points, position rank, ADP, percent rostered and started,
+     * and injury status. What a person reads before a draft or a waiver claim; no league needed.
+     */
+    fantasyPlayers(args: FantasyPlayersArgs): Promise<FantasyPlayersResult>;
   }
 }
 
@@ -25652,6 +25885,24 @@ interface FacebookProfileUpdate {
   updated: true;
 }
 
+interface GetBusinessDetailsArgs {
+  handle: string;
+}
+
+interface FacebookBusinessDetails {
+  name?: string;
+  url: string;
+  category?: string;
+  phone?: string;
+  email?: string;
+  website?: string;
+  address?: string;
+  hours?: string;
+  services?: string;  // the site's own labels — read the values off a result, never guess one from prose
+  priceRange?: string;
+  rating?: { recommendPercent?: number; reviewCount?: number };
+}
+
   /**
    * Facebook — profiles, pages, groups, marketplace, messages and posts. Every function needs
    * the caller signed in; the caller signs in through the relay.
@@ -25680,6 +25931,12 @@ interface FacebookProfileUpdate {
      * photos.
      */
     getPageInfo(args: GetPageInfoArgs): Promise<FacebookPageInfo>;
+
+    /**
+     * Read a local business Page's contact-card intro, logged out — category, phone, email,
+     * website, address, hours status, services and the recommend-rating.
+     */
+    getBusinessDetails(args: GetBusinessDetailsArgs): Promise<FacebookBusinessDetails>;
 
     /** List posts published on a Page, newest first. */
     getPagePosts(args: GetPagePostsArgs): Promise<FacebookPagePost[]>;
@@ -46330,6 +46587,32 @@ interface nhcForecastDiscussion {
   number: number;
   text: string;
 }
+interface nhcWindProbability {
+  location: string;
+  thresholdKt: 34 | 50 | 64;
+  periods: number[];
+  cumulative: number;
+}
+
+interface nhcWindSpeedProbabilities {
+  number: number;
+  storm: string;
+  locations: nhcWindProbability[];
+  text: string;
+}
+
+interface nhcTropicalWeatherDiscussion {
+  basin: 'AL' | 'EP';
+  issued: string;
+  sections: Array<{ heading: string; text: string }>;
+  text: string;
+}
+
+interface nhcStormNameList {
+  basin: 'AL' | 'EP' | 'CP';
+  list: string;
+  names: string[];
+}
 
   /**
    * Current and recent tropical storms and hurricanes from NOAA's Hurricane Center, keyless and
@@ -46399,6 +46682,25 @@ interface nhcForecastDiscussion {
      * `links.forecastDiscussion`).
      */
     getForecastDiscussion(args: { discussionUrl: string }): Promise<nhcForecastDiscussion>;
+
+    /**
+     * Get a storm's wind speed probabilities: for each listed town, the chance of 34, 50 and 64 kt
+     * sustained winds per time period and over 5 days. Takes a wndprb product url from
+     * listStormAdvisories() or listCurrentStorms' `links.windSpeedProbabilities`.
+     */
+    getWindSpeedProbabilities(args: { productUrl: string }): Promise<nhcWindSpeedProbabilities>;
+
+    /**
+     * Get the latest basin-wide Tropical Weather Discussion for the Atlantic or East Pacific —
+     * special features, tropical waves, the monsoon trough and marine weather, split by section.
+     */
+    getTropicalWeatherDiscussion(args: { basin: 'AL' | 'EP' }): Promise<nhcTropicalWeatherDiscussion>;
+
+    /**
+     * Get the official storm name lists: the six rotating Atlantic and East Pacific season lists
+     * and the four Central Pacific lists. Pass `basin` to narrow.
+     */
+    getStormNames(args?: { basin?: 'AL' | 'EP' | 'CP' }): Promise<nhcStormNameList[]>;
   }
 }
 
@@ -71935,6 +72237,7 @@ interface BowmarkProviders {
   allied: BowmarkProvider_allied.Unit;
   alphavantage: BowmarkProvider_alphavantage.Unit;
   amazon: BowmarkProvider_amazon.Unit;
+  amazon_ca: BowmarkProvider_amazon_ca.Unit;
   americandreamvacations: BowmarkProvider_americandreamvacations.Unit;
   americanstandard: BowmarkProvider_americanstandard.Unit;
   americanvisionwindows: BowmarkProvider_americanvisionwindows.Unit;
@@ -72055,6 +72358,7 @@ interface BowmarkProviders {
   chantecaille: BowmarkProvider_chantecaille.Unit;
   chappellet: BowmarkProvider_chappellet.Unit;
   charterhomes: BowmarkProvider_charterhomes.Unit;
+  chatgpt: BowmarkProvider_chatgpt.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
   chipotle: BowmarkProvider_chipotle.Unit;

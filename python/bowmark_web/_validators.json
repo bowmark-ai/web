@@ -1,5 +1,5 @@
 {
-  "version": "217b60eec2042603cfd96d9a03944f3d7d57808cad1608527c785eb501aecf89",
+  "version": "a82776c4995251ce8d5747b00624a0d2ddc0545e42f21286f55e9e7763fb8c9f",
   "units": {
     "address_validation": {
       "defs": {
@@ -8728,6 +8728,63 @@
         ]
       }
     },
+    "providers.amazon_ca": {
+      "defs": {
+        "GetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "asin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "keywords",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.americandreamvacations": {
       "defs": {},
       "functions": {
@@ -9232,7 +9289,25 @@
         ],
         "getMarketSummary": [],
         "listGames": [],
-        "listNewsletters": []
+        "listNewsletters": [],
+        "listFavorites": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.aosom": {
@@ -17928,6 +18003,20 @@
         "getScheduleVisitOptions": []
       }
     },
+    "providers.chatgpt": {
+      "defs": {},
+      "functions": {
+        "ask": [
+          {
+            "name": "prompt",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.cheapflights": {
       "defs": {
         "KayakCarQuery": {
@@ -24263,6 +24352,32 @@
     },
     "providers.espn": {
       "defs": {
+        "FantasyPlayersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sport",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetGameArgs": {
           "k": "object",
           "props": [
@@ -24294,6 +24409,25 @@
             },
             {
               "name": "athleteId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetTeamArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "team",
               "schema": {
                 "k": "string"
               },
@@ -24470,6 +24604,25 @@
             }
           ]
         },
+        "StatLeadersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TeamRosterArgs": {
           "k": "object",
           "props": [
@@ -24519,6 +24672,25 @@
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "TeamStatsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         }
@@ -24630,6 +24802,46 @@
             "schema": {
               "k": "ref",
               "name": "NewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTeam": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTeamArgs"
+            },
+            "optional": false
+          }
+        ],
+        "teamStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TeamStatsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "statLeaders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StatLeadersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "fantasyPlayers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FantasyPlayersArgs"
             },
             "optional": false
           }
@@ -25340,6 +25552,18 @@
             }
           ]
         },
+        "GetBusinessDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetConversationArgs": {
           "k": "object",
           "props": [
@@ -25927,6 +26151,16 @@
             "schema": {
               "k": "ref",
               "name": "GetPageInfoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getBusinessDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetBusinessDetailsArgs"
             },
             "optional": false
           }
@@ -51157,6 +51391,84 @@
               ]
             },
             "optional": false
+          }
+        ],
+        "getWindSpeedProbabilities": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getTropicalWeatherDiscussion": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "basin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "AL"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "EP"
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getStormNames": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "basin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "AL"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "EP"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "CP"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

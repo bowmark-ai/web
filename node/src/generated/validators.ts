@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 217b60eec2042603cfd96d9a03944f3d7d57808cad1608527c785eb501aecf89
-// 2675 checked, 20 unchecked.
+// Manifest version: a82776c4995251ce8d5747b00624a0d2ddc0545e42f21286f55e9e7763fb8c9f
+// 2687 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "217b60eec2042603cfd96d9a03944f3d7d57808cad1608527c785eb501aecf89",
+  "version": "a82776c4995251ce8d5747b00624a0d2ddc0545e42f21286f55e9e7763fb8c9f",
   "units": {
     "address_validation": {
       "defs": {
@@ -8740,6 +8740,63 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.amazon_ca": {
+      "defs": {
+        "GetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "asin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "keywords",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.americandreamvacations": {
       "defs": {},
       "functions": {
@@ -9244,7 +9301,25 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getMarketSummary": [],
         "listGames": [],
-        "listNewsletters": []
+        "listNewsletters": [],
+        "listFavorites": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.aosom": {
@@ -17940,6 +18015,20 @@ export const VALIDATORS: ValidatorTable = {
         "getScheduleVisitOptions": []
       }
     },
+    "providers.chatgpt": {
+      "defs": {},
+      "functions": {
+        "ask": [
+          {
+            "name": "prompt",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.cheapflights": {
       "defs": {
         "KayakCarQuery": {
@@ -24275,6 +24364,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.espn": {
       "defs": {
+        "FantasyPlayersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sport",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetGameArgs": {
           "k": "object",
           "props": [
@@ -24306,6 +24421,25 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "athleteId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetTeamArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "team",
               "schema": {
                 "k": "string"
               },
@@ -24482,6 +24616,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "StatLeadersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TeamRosterArgs": {
           "k": "object",
           "props": [
@@ -24531,6 +24684,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "TeamStatsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         }
@@ -24642,6 +24814,46 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "NewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTeam": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTeamArgs"
+            },
+            "optional": false
+          }
+        ],
+        "teamStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TeamStatsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "statLeaders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StatLeadersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "fantasyPlayers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FantasyPlayersArgs"
             },
             "optional": false
           }
@@ -25352,6 +25564,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetBusinessDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetConversationArgs": {
           "k": "object",
           "props": [
@@ -25939,6 +26163,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetPageInfoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getBusinessDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetBusinessDetailsArgs"
             },
             "optional": false
           }
@@ -51169,6 +51403,84 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ],
+        "getWindSpeedProbabilities": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getTropicalWeatherDiscussion": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "basin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "AL"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "EP"
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getStormNames": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "basin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "AL"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "EP"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "CP"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
