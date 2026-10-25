@@ -2895,7 +2895,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | 🟢 |
 | `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | 🟢 |
 | `linkedin.setProfilePhoto` | linkedin.com | Replaces the signed-in caller's profile photo with an image from a URL or uploaded file. | ⚪ |
-| `linkedin.updateProfile` | linkedin.com | Edits the signed-in caller's profile intro and About section — headline, About text… | ⚪ |
+| `linkedin.updateProfile` | linkedin.com | Edits the signed-in caller's own profile headline and About text. | 🟢 |
 | `linkedin.withdrawInvitation` | linkedin.com | Withdraws a connection invitation the signed-in caller sent and is still pending, by… | 🟢 |
 | `liquiddeath.addToCart` | liquiddeath.com | Builds a filled cart for the shopper to open — cartUrl lands on the store's own cart… | 🟢 |
 | `liquiddeath.getCart` | liquiddeath.com | Reads a cart the shopper already has, by its id — line items, quantities, per-line and… | 🟢 |
@@ -5549,7 +5549,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.askQuestion` | yelp.com | Posts a question, or answers one, in a business's 'Ask the Community' from the… | ⚪ |
 | `yelp.followUser` | yelp.com | Follows or unfollows a Yelp member from the signed-in caller's account. | ⚪ |
 | `yelp.getBookmarks` | yelp.com | Lists the businesses the signed-in caller has bookmarked. | ⚪ |
-| `yelp.getBusiness` | yelp.com | Reads one business in full from its /biz/<alias> page: name, address, coordinates… | ⚪ |
+| `yelp.getBusiness` | yelp.com | Reads one business's own schema.org listing off its /biz/<alias> page: name, phone… | 🟢 |
 | `yelp.getCollection` | yelp.com | Reads a public Yelp collection (a member's named list of businesses) from its share… | ⚪ |
 | `yelp.getCollections` | yelp.com | Lists the signed-in caller's own collections and the businesses in each. | ⚪ |
 | `yelp.getMenu` | yelp.com | Reads a restaurant's menu from /menu/<alias>: sections, items, descriptions and… | ⚪ |
