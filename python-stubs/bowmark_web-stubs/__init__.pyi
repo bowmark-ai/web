@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 855fe8d4088d0cd50a179322419b04078ae52b3a6d59c826fa2dee96ff67042f
-# 87 capabilities, 647 providers, 2608 typed functions, 20 refused.
+# Manifest version: 9a9d1062166a3a8597aa4fb100a4a05fa6bc8d5ed95c587a9d7f01fc5faa09a6
+# 87 capabilities, 647 providers, 2614 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7528,6 +7528,11 @@ class Prv_bing_saveResult_args_In(TypedDict):
 
 class Prv_bing_BingSaveResultResult_Out(TypedDict):
     collectionId: str | None
+    warnings: list[str]
+
+class Prv_bing_BingSuggestResult_Out(TypedDict):
+    query: str
+    suggestions: list[str]
     warnings: list[str]
 
 class Prv_bionicpo_listInquiryServices_return_Out(TypedDict):
@@ -26701,6 +26706,55 @@ class Prv_patreon_patreonComment_Out(TypedDict):
     isByPatron: bool
     voteSum: NotRequired[float]
 
+class Prv_patreon_ListMemberOnlyPostsArgs_In(TypedDict):
+    vanity: str
+    cursor: NotRequired[str]
+
+class Prv_patreon_ListMemberOnlyPostsResult_Out(TypedDict):
+    posts: list[Prv_patreon_patreonMemberPost_Out]
+    nextCursor: NotRequired[str]
+
+class Prv_patreon_patreonMemberPost_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    publishedAt: NotRequired[str]
+    url: NotRequired[str]
+    isPublic: bool
+    postType: NotRequired[str]
+    commentCount: NotRequired[float]
+    likeCount: NotRequired[float]
+    canView: bool
+
+class Prv_patreon_patreonPledge_Out(TypedDict):
+    id: str
+    amountCents: NotRequired[float]
+    currency: NotRequired[str]
+    createdAt: NotRequired[str]
+    creatorId: NotRequired[str]
+    creatorName: NotRequired[str]
+    creatorUrl: NotRequired[str]
+    tierId: NotRequired[str]
+    tierTitle: NotRequired[str]
+
+class Prv_patreon_GetCurrentUserFeedArgs_In(TypedDict):
+    cursor: NotRequired[str]
+
+class Prv_patreon_GetCurrentUserFeedResult_Out(TypedDict):
+    posts: list[Prv_patreon_patreonFeedPost_Out]
+    nextCursor: NotRequired[str]
+
+class Prv_patreon_patreonFeedPost_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    publishedAt: NotRequired[str]
+    url: NotRequired[str]
+    isPublic: bool
+    postType: NotRequired[str]
+    commentCount: NotRequired[float]
+    likeCount: NotRequired[float]
+    creatorId: NotRequired[str]
+    creatorName: NotRequired[str]
+
 class Prv_pausestudio_Location_Out(TypedDict):
     id: str
     name: str
@@ -31925,6 +31979,21 @@ class Prv_spectrum_SpectrumTvPlan_Out(TypedDict):
     channelCount: float | None
     promotionalMonthlyPrice: float | None
     standardMonthlyPrice: float
+    sourceUrl: str
+
+class Prv_spectrum_SpectrumMobilePlan_Out(TypedDict):
+    name: str
+    description: str
+    monthlyPricePerLine: float
+    firstLineIntroPrice: float | None
+    deviceCredit: str | None
+    highlights: list[str]
+    sourceUrl: str
+
+class Prv_spectrum_SpectrumMobileDeal_Out(TypedDict):
+    device: str
+    requirement: str
+    discountAmount: float | None
     sourceUrl: str
 
 class Prv_speedrun_FindGameArgs_In(TypedDict):
@@ -44688,6 +44757,13 @@ class Prv_bing(Protocol):
         no-op the second time (idempotent per run), not two saved items.
         """
 
+    async def suggestQueries(self, partialQuery: str, /) -> Prv_bing_BingSuggestResult_Out:
+        """Returns what Bing's own search-box autocomplete suggests for a partial query — 'what are
+        people searching about X' — ranked, off the same endpoint the search box itself calls.
+        May return an empty list for a fragment Bing has nothing to suggest for; that is an
+        honest answer, not a failure.
+        """
+
 class Prv_bionicpo(Protocol):
     """Query inquiry and service details from BionicPO's services directory."""
 
@@ -57326,7 +57402,10 @@ class Prv_partiful(Protocol):
         """
 
 class Prv_patreon(Protocol):
-    """Reads a Patreon creator's page, tiers, and public posts and comments — logged out."""
+    """Reads a Patreon creator's page, tiers, and public posts and comments — logged out. With
+    the caller signed in: their memberships, their home feed, and a creator's member-only
+    posts.
+    """
 
     async def searchCreators(self, args: Prv_patreon_SearchCreatorsArgs_In, /) -> list[Prv_patreon_patreonCreator_Out]:
         """Search for creators across Patreon by name or query."""
@@ -57350,6 +57429,21 @@ class Prv_patreon(Protocol):
     async def listPostComments(self, args: Prv_patreon_ListPostCommentsArgs_In, /) -> Prv_patreon_ListPostCommentsResult_Out:
         """List a post's comments, newest first, one page at a time with the site's own cursor —
         each with its author's name and avatar.
+        """
+
+    async def listMemberOnlyPosts(self, args: Prv_patreon_ListMemberOnlyPostsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_patreon_ListMemberOnlyPostsResult_Out:
+        """List a creator's member-only posts, newest first, with the site's own cursor — each says
+        whether the signed-in caller's membership unlocks it. Needs the caller signed in.
+        """
+
+    async def listPledges(self, opts: ConnectionOption | None = None, /) -> list[Prv_patreon_patreonPledge_Out]:
+        """List the signed-in caller's Patreon memberships: which creator, which tier, how much.
+        Needs the caller signed in.
+        """
+
+    async def getCurrentUserFeed(self, args: Prv_patreon_GetCurrentUserFeedArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_patreon_GetCurrentUserFeedResult_Out:
+        """Read the signed-in caller's Patreon home feed — recent posts from the creators they
+        follow or back, with the site's own cursor. Needs the caller signed in.
         """
 
 class Prv_pausestudio(Protocol):
@@ -60422,6 +60516,19 @@ class Prv_spectrum(Protocol):
         channel-count claim (null for TV Latino, which states none), and the
         promotional/standard monthly price off the plan's own price table at
         /modals/cable-tv/spectrum-tv-plan-prices.
+        """
+
+    async def listMobilePlans(self, /) -> list[Prv_spectrum_SpectrumMobilePlan_Out]:
+        """The three Spectrum Mobile "Unlimited" plans on spectrum.com/mobile/plans (Unlimited,
+        Unlimited Plus, Unlimited Plus Premium) — plan name, description, the regular per-line
+        price, any new-customer first-line intro price, and the plan's own highlights (hotspot
+        allowance, international roaming caps). "By the Gig" has its own separate page and is
+        not covered.
+        """
+
+    async def listMobileDeals(self, /) -> list[Prv_spectrum_SpectrumMobileDeal_Out]:
+        """Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals —
+        device, discount and the line/plan requirement to qualify.
         """
 
 class Prv_speedrun(Protocol):

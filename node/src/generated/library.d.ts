@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 855fe8d4088d0cd50a179322419b04078ae52b3a6d59c826fa2dee96ff67042f
-// 87 capabilities, 647 providers, 2626 typed functions, 20 refused.
+// Manifest version: 9a9d1062166a3a8597aa4fb100a4a05fa6bc8d5ed95c587a9d7f01fc5faa09a6
+// 87 capabilities, 647 providers, 2632 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13015,6 +13015,12 @@ interface BingSaveResultResult {
   warnings: string[];
 }
 
+interface BingSuggestResult {
+  query: string;
+  suggestions: string[];
+  warnings: string[];
+}
+
   /**
    * General web and news search over Bing's index, read off Bing's own RSS output — ten ranked
    * results per query with title, destination URL, snippet and date. Keyless, browserless, ~5 KB
@@ -13136,6 +13142,14 @@ interface BingSaveResultResult {
      * second time (idempotent per run), not two saved items.
      */
     saveResult(args: { url: string, title: string, note?: string }, opts?: ConnectionOption): Promise<BingSaveResultResult>;
+
+    /**
+     * Returns what Bing's own search-box autocomplete suggests for a partial query — 'what are
+     * people searching about X' — ranked, off the same endpoint the search box itself calls. May
+     * return an empty list for a fragment Bing has nothing to suggest for; that is an honest
+     * answer, not a failure.
+     */
+    suggestQueries(partialQuery: string): Promise<BingSuggestResult>;
   }
 }
 
@@ -48001,8 +48015,50 @@ interface patreonTier {
   published?: boolean;
   url?: string;
 }
+interface ListMemberOnlyPostsArgs {
+  vanity: string;
+  cursor?: string;
+}
 
-  /** Reads a Patreon creator's page, tiers, and public posts and comments — logged out. */
+interface patreonMemberPost extends patreonPost {
+  canView: boolean;
+}
+
+interface ListMemberOnlyPostsResult {
+  posts: patreonMemberPost[];
+  nextCursor?: string;
+}
+
+interface patreonPledge {
+  id: string;
+  amountCents?: number;
+  currency?: string;
+  createdAt?: string;
+  creatorId?: string;
+  creatorName?: string;
+  creatorUrl?: string;
+  tierId?: string;
+  tierTitle?: string;
+}
+
+interface GetCurrentUserFeedArgs {
+  cursor?: string;
+}
+
+interface patreonFeedPost extends patreonPost {
+  creatorId?: string;
+  creatorName?: string;
+}
+
+interface GetCurrentUserFeedResult {
+  posts: patreonFeedPost[];
+  nextCursor?: string;
+}
+
+  /**
+   * Reads a Patreon creator's page, tiers, and public posts and comments — logged out. With the
+   * caller signed in: their memberships, their home feed, and a creator's member-only posts.
+   */
   interface Unit {
     /** Search for creators across Patreon by name or query. */
     searchCreators(args: SearchCreatorsArgs): Promise<patreonCreator[]>;
@@ -48030,6 +48086,24 @@ interface patreonTier {
      * with its author's name and avatar.
      */
     listPostComments(args: ListPostCommentsArgs): Promise<ListPostCommentsResult>;
+
+    /**
+     * List a creator's member-only posts, newest first, with the site's own cursor — each says
+     * whether the signed-in caller's membership unlocks it. Needs the caller signed in.
+     */
+    listMemberOnlyPosts(args: ListMemberOnlyPostsArgs, opts?: ConnectionOption): Promise<ListMemberOnlyPostsResult>;
+
+    /**
+     * List the signed-in caller's Patreon memberships: which creator, which tier, how much. Needs
+     * the caller signed in.
+     */
+    listPledges(opts?: ConnectionOption): Promise<patreonPledge[]>;
+
+    /**
+     * Read the signed-in caller's Patreon home feed — recent posts from the creators they follow
+     * or back, with the site's own cursor. Needs the caller signed in.
+     */
+    getCurrentUserFeed(args?: GetCurrentUserFeedArgs, opts?: ConnectionOption): Promise<GetCurrentUserFeedResult>;
   }
 }
 
@@ -56396,6 +56470,21 @@ interface SpectrumTvPlan {
   standardMonthlyPrice: number;
   sourceUrl: string;
 }
+interface SpectrumMobilePlan {
+  name: string;
+  description: string;
+  monthlyPricePerLine: number;
+  firstLineIntroPrice: number | null;
+  deviceCredit: string | null;
+  highlights: string[];  // the site's own bullet lines — read the values off a result, never guess one from prose
+  sourceUrl: string;
+}
+interface SpectrumMobileDeal {
+  device: string;
+  requirement: string;
+  discountAmount: number | null;
+  sourceUrl: string;
+}
 
   /**
    * Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check address
@@ -56437,6 +56526,21 @@ interface SpectrumTvPlan {
      * monthly price off the plan's own price table at /modals/cable-tv/spectrum-tv-plan-prices.
      */
     listTvPlans(): Promise<SpectrumTvPlan[]>;
+
+    /**
+     * The three Spectrum Mobile "Unlimited" plans on spectrum.com/mobile/plans (Unlimited,
+     * Unlimited Plus, Unlimited Plus Premium) — plan name, description, the regular per-line
+     * price, any new-customer first-line intro price, and the plan's own highlights (hotspot
+     * allowance, international roaming caps). "By the Gig" has its own separate page and is not
+     * covered.
+     */
+    listMobilePlans(): Promise<SpectrumMobilePlan[]>;
+
+    /**
+     * Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals —
+     * device, discount and the line/plan requirement to qualify.
+     */
+    listMobileDeals(): Promise<SpectrumMobileDeal[]>;
   }
 }
 

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 855fe8d4088d0cd50a179322419b04078ae52b3a6d59c826fa2dee96ff67042f
-// 2608 checked, 20 unchecked.
+// Manifest version: 9a9d1062166a3a8597aa4fb100a4a05fa6bc8d5ed95c587a9d7f01fc5faa09a6
+// 2614 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "855fe8d4088d0cd50a179322419b04078ae52b3a6d59c826fa2dee96ff67042f",
+  "version": "9a9d1062166a3a8597aa4fb100a4a05fa6bc8d5ed95c587a9d7f01fc5faa09a6",
   "units": {
     "address_validation": {
       "defs": {
@@ -13604,6 +13604,15 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "suggestQueries": [
+          {
+            "name": "partialQuery",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -53369,6 +53378,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetCurrentUserFeedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetPostArgs": {
           "k": "object",
           "props": [
@@ -53409,6 +53430,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListMemberOnlyPostsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "vanity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -53503,6 +53543,76 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListPostCommentsArgs"
             },
             "optional": false
+          }
+        ],
+        "listMemberOnlyPosts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListMemberOnlyPostsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listPledges": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCurrentUserFeed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCurrentUserFeedArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -65653,7 +65763,9 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listTvPlans": []
+        "listTvPlans": [],
+        "listMobilePlans": [],
+        "listMobileDeals": []
       }
     },
     "providers.speedrun": {
