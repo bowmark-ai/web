@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e2032a34c224cc6a861a646c91b7bd359a08111c31bbcf07dbeaa6ab37e60ddc
-// 87 capabilities, 650 providers, 2640 typed functions, 20 refused.
+// Manifest version: de9d63c3f1b29efb26cbe31efe446419f00eb1a1b272d678df004498be85b94d
+// 87 capabilities, 651 providers, 2646 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14314,6 +14314,73 @@ interface BollAndBranchSwatch {
   }
 }
 
+declare namespace BowmarkProvider_booker {
+  // ── Booker — the unit's own declarations, verbatim ──
+interface bookerRow {
+  id: string;
+}
+interface BookerLocationArgs {
+  /** A location slug (`kabuki`) or a go.booker.com/location/<slug> URL. */
+  location: string;
+}
+interface BookerLocation {
+  id: number;
+  slug: string;
+  name: string;
+  businessType: string | null;
+  description: string | null;
+  address: { street1: string | null; street2: string | null; city: string | null; state: string | null; zip: string | null; country: string | null };
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  timeZone: string | null;
+  currency: string | null;
+  brandId: number | null;
+  brandSlug: string | null;
+  closedDates: string[];
+  storefrontUrl: string;
+}
+interface BookerMenuItem {
+  menuItemId: number;
+  serviceId: number | null;
+  name: string;
+  type: string | null;
+  action: string | null;
+  description: string | null;
+  duration: string | null;
+  price: string | null;
+  imageUrl: string | null;
+}
+interface BookerMenuSection {
+  id: string;
+  name: string;
+  groups: { id: number; name: string; type: string | null; items: BookerMenuItem[] }[];
+}
+interface BookerServiceMenu {
+  location: string;
+  sections: BookerMenuSection[];
+}
+
+  /**
+   * Booker (go.booker.com), Mindbody's spa and salon booking storefront: a location's service
+   * menu, prices, staff and open appointment times, and the signed-in customer's own
+   * appointments.
+   */
+  interface Unit {
+    /**
+     * Resolve a Booker storefront slug or go.booker.com URL to its location record: numeric id,
+     * name, address, phone, email, time zone, currency, brand and published closed dates.
+     */
+    findLocation(args: BookerLocationArgs): Promise<BookerLocation>;
+
+    /**
+     * A location's online menu in storefront order: sections (Book, Buy), groups, and each item's
+     * service id, name, description, duration and display price.
+     */
+    getServiceMenu(args: BookerLocationArgs): Promise<BookerServiceMenu>;
+  }
+}
+
 declare namespace BowmarkProvider_booking_com {
   // ── Booking.com — the unit's own declarations, verbatim ──
 interface BookingDestination {
@@ -18787,6 +18854,20 @@ interface ClubreadyClass {
   bookingUrl: string;
 }
 
+interface ClubreadyPackage {
+  id: string;
+  name: string;
+  type: string;
+  creditCount: number;
+  isMembership: boolean;
+  isRecurring: boolean;
+  isUnlimited: boolean;
+  price: { formatted: string; numeric: number; currency: string };
+  category: string | null;
+  description: string | null;
+  contractUrl: string | null;
+}
+
   /**
    * Xponential studios on ClubReady — CycleBar, Club Pilates, Pure Barre, YogaSix, StretchLab,
    * Rumble, BFT and more: find a studio, read its class schedule and pricing, and (signed in)
@@ -18824,6 +18905,20 @@ interface ClubreadyClass {
      * booking.
      */
     listClasses(args: { studio: string, from?: string, to?: string }): Promise<ClubreadyClass[]>;
+
+    /**
+     * Returns one scheduled class by id from listClasses (e.g. "piq_20416972") at a studio: title,
+     * description, times, instructor, capacity, free spots, waitlist state, booking window,
+     * free-cancel deadline and booking link.
+     */
+    getClass(args: { studio: string, classId: string }): Promise<ClubreadyClass>;
+
+    /**
+     * Lists what a studio sells — drop-in classes, class packs and memberships — with each one's
+     * price, credit count, whether it is a membership or recurring, its category and (where the
+     * site states one) its terms. Read only: buying is `buyPackage`, which is parked for money.
+     */
+    listPricing(studio: string): Promise<ClubreadyPackage[]>;
   }
 }
 
@@ -24970,6 +25065,7 @@ interface FacebookEventSummary {
 
 interface GetMarketplaceListingsArgs {
   query: string;
+  city?: string;
 }
 
 interface FacebookMarketplaceListing {
@@ -25113,8 +25209,11 @@ interface FacebookProfileUpdate {
     /** React to a post with like, love, haha, wow, sad or angry, by its permalink URL. */
     reactToPost(args: ReactToPostArgs, opts?: ConnectionOption): Promise<FacebookReaction>;
 
-    /** List photos posted by a Page or person, newest first. */
-    listPhotos(args: ListPhotosArgs, opts?: ConnectionOption): Promise<FacebookPhoto[]>;
+    /**
+     * List photos posted by a Page or person, newest first, logged out. Upgrades to the caller's
+     * own session when Facebook serves a login wall.
+     */
+    listPhotos(args: ListPhotosArgs): Promise<FacebookPhoto[]>;
 
     /** Read a photo album's details — title, creation date, photo count and its photos. */
     getPhotoAlbum(args: GetPhotoAlbumArgs, opts?: ConnectionOption): Promise<FacebookPhotoAlbum>;
@@ -25158,12 +25257,15 @@ interface FacebookProfileUpdate {
     /** List the caller's upcoming Facebook Events. */
     listEvents(args: ListEventsArgs, opts?: ConnectionOption): Promise<FacebookEventSummary[]>;
 
-    /** Search Facebook Marketplace listings by keyword. */
+    /**
+     * Search Facebook Marketplace listings by keyword — logged out when a city is given, otherwise
+     * the caller's own session.
+     */
     getMarketplaceListings(args: GetMarketplaceListingsArgs, opts?: ConnectionOption): Promise<FacebookMarketplaceListing[]>;
 
     /**
      * Browse a city's Marketplace front page (optionally one category) logged out — title, price,
-     * place and link per listing. Keyword search is getMarketplaceListings, which needs a sign-in.
+     * place and link per listing. Keyword search with a city is getMarketplaceListings.
      */
     browseMarketplace(args: BrowseMarketplaceArgs): Promise<FacebookMarketplaceListing[]>;
 
@@ -62669,6 +62771,23 @@ interface TumblrBlogSummary {
   description: string;
 }
 
+interface TumblrBlogInfo {
+  name: string;
+  title: string;
+  url: string;
+  totalPosts: number;
+  description: string;
+  /** ISO timestamp of the blog's last post, or null when the site did not send one. */
+  updatedAt: string | null;
+  isNsfw: boolean;
+  isAdult: boolean;
+  asksEnabled: boolean;
+  asksAllowAnon: boolean;
+  canSubscribe: boolean;
+  /** The largest avatar image the site published, or "" when none came back. */
+  avatarUrl: string;
+}
+
   /**
    * Tumblr's public API — blog info, posts, tag timelines, trending, and site-wide or
    * blog-scoped search.
@@ -62679,6 +62798,12 @@ interface TumblrBlogSummary {
      * info.
      */
     findBlog(args: { name: string }): Promise<TumblrBlogSummary>;
+
+    /**
+     * Full metadata for a blog — name, title, url, post count, description, when it last posted,
+     * its NSFW/adult flags, ask and subscribe settings, and its avatar.
+     */
+    getBlogInfo(args: { name: string }): Promise<TumblrBlogInfo>;
   }
 }
 
@@ -67343,6 +67468,21 @@ interface ListArticlesArgs {
   section: string; // a path from listSections, e.g. "/world" or "world"
 }
 
+interface WsjArticle {
+  headline: string;
+  byline: string | null; // e.g. "Marcus Walker and Serhiy Bosak"
+  dek: string | null;
+  section: string | null;
+  publishedAt: string | null; // ISO
+  body: string[]; // the free preview when paywalled, the full article otherwise
+  paywalled: boolean;
+  url: string;
+}
+
+interface GetArticleArgs {
+  url: string; // a url from listArticles or listSections
+}
+
   /**
    * WSJ news, markets data and articles — a DataDome wall in front, cleared by a browser; most
    * of the site is reachable with no account, full paywalled articles need the caller's own
@@ -67357,6 +67497,12 @@ interface ListArticlesArgs {
      * url.
      */
     listArticles(args: ListArticlesArgs): Promise<WsjArticleSummary[]>;
+
+    /**
+     * Gets one article's own headline, byline, dek, section, publish date and body — the free
+     * preview when the article is paywalled, the full text otherwise.
+     */
+    getArticle(args: GetArticleArgs): Promise<WsjArticle>;
   }
 }
 
@@ -70888,6 +71034,7 @@ interface BowmarkProviders {
   bodensee_schiffsbetriebe_berths: BowmarkProvider_bodensee_schiffsbetriebe_berths.Unit;
   boglewinery: BowmarkProvider_boglewinery.Unit;
   bollandbranch: BowmarkProvider_bollandbranch.Unit;
+  booker: BowmarkProvider_booker.Unit;
   booking_com: BowmarkProvider_booking_com.Unit;
   borsheims: BowmarkProvider_borsheims.Unit;
   boxlunch: BowmarkProvider_boxlunch.Unit;

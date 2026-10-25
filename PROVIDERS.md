@@ -5463,7 +5463,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.listTrending` | wsj.com | Lists WSJ's own 'most popular' articles off the site's trending module. | ⚪ |
 | `wsj.removeFromWatchlist` | wsj.com | Removes a symbol from the signed-in reader's own watchlist. | ⚪ |
 | `wsj.saveArticle` | wsj.com | Saves an article to the signed-in reader's own WSJ account (My WSJ). | ⚪ |
-| `wsj.searchArticles` | wsj.com | Searches WSJ's own site search for a keyword and returns matching articles with… | ⚪ |
+| `wsj.searchArticles` | wsj.com | Searches WSJ's own site search for a keyword and returns matching articles with… | 🟢 |
 | `wsj.unsaveArticle` | wsj.com | Removes an article from the signed-in reader's own saved list. | ⚪ |
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
 | `x.bookmarkPost` | x.com | Bookmark or un-bookmark a post as the signed-in account. | ⚪ |

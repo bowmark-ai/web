@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e2032a34c224cc6a861a646c91b7bd359a08111c31bbcf07dbeaa6ab37e60ddc
-# 87 capabilities, 650 providers, 2622 typed functions, 20 refused.
+# Manifest version: de9d63c3f1b29efb26cbe31efe446419f00eb1a1b272d678df004498be85b94d
+# 87 capabilities, 651 providers, 2628 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8198,6 +8198,60 @@ class Prv_bollandbranch_BollAndBranchSwatch_Out(TypedDict):
     hex: str | None
     imageUrl: str | None
 
+class Prv_booker_BookerLocationArgs_In(TypedDict):
+    location: str
+
+class Prv_booker_BookerLocation_Out(TypedDict):
+    id: float
+    slug: str
+    name: str
+    businessType: str | None
+    description: str | None
+    address: Prv_booker_BookerLocation_Out_address_Out
+    phone: str | None
+    email: str | None
+    website: str | None
+    timeZone: str | None
+    currency: str | None
+    brandId: float | None
+    brandSlug: str | None
+    closedDates: list[str]
+    storefrontUrl: str
+
+class Prv_booker_BookerLocation_Out_address_Out(TypedDict):
+    street1: str | None
+    street2: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    country: str | None
+
+class Prv_booker_BookerServiceMenu_Out(TypedDict):
+    location: str
+    sections: list[Prv_booker_BookerMenuSection_Out]
+
+class Prv_booker_BookerMenuSection_Out(TypedDict):
+    id: str
+    name: str
+    groups: list[Prv_booker_BookerMenuSection_Out_groups_item_Out]
+
+class Prv_booker_BookerMenuSection_Out_groups_item_Out(TypedDict):
+    id: float
+    name: str
+    type: str | None
+    items: list[Prv_booker_BookerMenuItem_Out]
+
+class Prv_booker_BookerMenuItem_Out(TypedDict):
+    menuItemId: float
+    serviceId: float | None
+    name: str
+    type: str | None
+    action: str | None
+    description: str | None
+    duration: str | None
+    price: str | None
+    imageUrl: str | None
+
 class Prv_booking_com_AutocompleteDestinationArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -10714,6 +10768,28 @@ class Prv_clubready_ClubreadyClass_Out(TypedDict):
 class Prv_clubready_ClubreadyClass_Out_instructor_u0_Out(TypedDict):
     id: str
     name: str
+
+class Prv_clubready_getClass_args_In(TypedDict):
+    studio: str
+    classId: str
+
+class Prv_clubready_ClubreadyPackage_Out(TypedDict):
+    id: str
+    name: str
+    type: str
+    creditCount: float
+    isMembership: bool
+    isRecurring: bool
+    isUnlimited: bool
+    price: Prv_clubready_ClubreadyPackage_Out_price_Out
+    category: str | None
+    description: str | None
+    contractUrl: str | None
+
+class Prv_clubready_ClubreadyPackage_Out_price_Out(TypedDict):
+    formatted: str
+    numeric: float
+    currency: str
 
 class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
     symbol: str
@@ -14464,6 +14540,7 @@ class Prv_facebook_FacebookEventSummary_Out(TypedDict):
 
 class Prv_facebook_GetMarketplaceListingsArgs_In(TypedDict):
     query: str
+    city: NotRequired[str]
 
 class Prv_facebook_FacebookMarketplaceListing_Out(TypedDict):
     id: str
@@ -35706,6 +35783,23 @@ class Prv_tumblr_TumblrBlogSummary_Out(TypedDict):
     totalPosts: float
     description: str
 
+class Prv_tumblr_getBlogInfo_args_In(TypedDict):
+    name: str
+
+class Prv_tumblr_TumblrBlogInfo_Out(TypedDict):
+    name: str
+    title: str
+    url: str
+    totalPosts: float
+    description: str
+    updatedAt: str | None
+    isNsfw: bool
+    isAdult: bool
+    asksEnabled: bool
+    asksAllowAnon: bool
+    canSubscribe: bool
+    avatarUrl: str
+
 class Prv_turbotax_TurboTaxEdition_Out(TypedDict):
     id: str
     tier: Literal["diy"] | Literal["live-assisted"] | Literal["full-service"]
@@ -38695,6 +38789,19 @@ class Prv_wsj_WsjArticleSummary_Out(TypedDict):
     headline: str
     byline: str | None
     teaser: str | None
+    url: str
+
+class Prv_wsj_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_wsj_WsjArticle_Out(TypedDict):
+    headline: str
+    byline: str | None
+    dek: str | None
+    section: str | None
+    publishedAt: str | None
+    body: list[str]
+    paywalled: bool
     url: str
 
 class Prv_wunderflats_search_args_In(TypedDict):
@@ -45309,6 +45416,22 @@ class Prv_bollandbranch(Protocol):
         reference swatch image. THROWS on an unknown name.
         """
 
+class Prv_booker(Protocol):
+    """Booker (go.booker.com), Mindbody's spa and salon booking storefront: a location's
+    service menu, prices, staff and open appointment times, and the signed-in customer's own
+    appointments.
+    """
+
+    async def findLocation(self, args: Prv_booker_BookerLocationArgs_In, /) -> Prv_booker_BookerLocation_Out:
+        """Resolve a Booker storefront slug or go.booker.com URL to its location record: numeric
+        id, name, address, phone, email, time zone, currency, brand and published closed dates.
+        """
+
+    async def getServiceMenu(self, args: Prv_booker_BookerLocationArgs_In, /) -> Prv_booker_BookerServiceMenu_Out:
+        """A location's online menu in storefront order: sections (Book, Buy), groups, and each
+        item's service id, name, description, duration and display price.
+        """
+
 class Prv_booking_com(Protocol):
     """Global online travel reservation service with property search, reviews and booking
     management.
@@ -46872,6 +46995,19 @@ class Prv_clubready(Protocol):
         class's id, title, category, start and end time in the studio's offset, instructor,
         capacity, free spots, waitlist size, booking window, free-cancel deadline and booking
         link. The read before booking.
+        """
+
+    async def getClass(self, args: Prv_clubready_getClass_args_In, /) -> Prv_clubready_ClubreadyClass_Out:
+        """Returns one scheduled class by id from listClasses (e.g. "piq_20416972") at a studio:
+        title, description, times, instructor, capacity, free spots, waitlist state, booking
+        window, free-cancel deadline and booking link.
+        """
+
+    async def listPricing(self, studio: str, /) -> list[Prv_clubready_ClubreadyPackage_Out]:
+        """Lists what a studio sells — drop-in classes, class packs and memberships — with each
+        one's price, credit count, whether it is a membership or recurring, its category and
+        (where the site states one) its terms. Read only: buying is `buyPackage`, which is
+        parked for money.
         """
 
 class Prv_cnbc_com(Protocol):
@@ -48907,8 +49043,10 @@ class Prv_facebook(Protocol):
     async def reactToPost(self, args: Prv_facebook_ReactToPostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookReaction_Out:
         """React to a post with like, love, haha, wow, sad or angry, by its permalink URL."""
 
-    async def listPhotos(self, args: Prv_facebook_ListPhotosArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookPhoto_Out]:
-        """List photos posted by a Page or person, newest first."""
+    async def listPhotos(self, args: Prv_facebook_ListPhotosArgs_In, /) -> list[Prv_facebook_FacebookPhoto_Out]:
+        """List photos posted by a Page or person, newest first, logged out. Upgrades to the
+        caller's own session when Facebook serves a login wall.
+        """
 
     async def getPhotoAlbum(self, args: Prv_facebook_GetPhotoAlbumArgs_In, opts: ConnectionOption | None = None, /) -> Prv_facebook_FacebookPhotoAlbum_Out:
         """Read a photo album's details — title, creation date, photo count and its photos."""
@@ -48953,12 +49091,13 @@ class Prv_facebook(Protocol):
         """List the caller's upcoming Facebook Events."""
 
     async def getMarketplaceListings(self, args: Prv_facebook_GetMarketplaceListingsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_facebook_FacebookMarketplaceListing_Out]:
-        """Search Facebook Marketplace listings by keyword."""
+        """Search Facebook Marketplace listings by keyword — logged out when a city is given,
+        otherwise the caller's own session.
+        """
 
     async def browseMarketplace(self, args: Prv_facebook_BrowseMarketplaceArgs_In, /) -> list[Prv_facebook_FacebookMarketplaceListing_Out]:
         """Browse a city's Marketplace front page (optionally one category) logged out — title,
-        price, place and link per listing. Keyword search is getMarketplaceListings, which needs
-        a sign-in.
+        price, place and link per listing. Keyword search with a city is getMarketplaceListings.
         """
 
     async def listPageEvents(self, args: Prv_facebook_ListPageEventsArgs_In, /) -> list[Prv_facebook_FacebookPageEvent_Out]:
@@ -62712,6 +62851,11 @@ class Prv_tumblr(Protocol):
         basic info.
         """
 
+    async def getBlogInfo(self, args: Prv_tumblr_getBlogInfo_args_In, /) -> Prv_tumblr_TumblrBlogInfo_Out:
+        """Full metadata for a blog — name, title, url, post count, description, when it last
+        posted, its NSFW/adult flags, ask and subscribe settings, and its avatar.
+        """
+
 class Prv_turbotax(Protocol):
     """List TurboTax editions, compare pricing, search help articles, and find local tax
     experts.
@@ -64370,6 +64514,11 @@ class Prv_wsj(Protocol):
         and url.
         """
 
+    async def getArticle(self, args: Prv_wsj_GetArticleArgs_In, /) -> Prv_wsj_WsjArticle_Out:
+        """Gets one article's own headline, byline, dek, section, publish date and body — the free
+        preview when the article is paywalled, the full text otherwise.
+        """
+
 class Prv_wunderflats(Protocol):
     """Search for furnished apartments across German cities."""
 
@@ -65461,6 +65610,7 @@ class BowmarkProviders(Protocol):
     bodensee_schiffsbetriebe_berths: Prv_bodensee_schiffsbetriebe_berths
     boglewinery: Prv_boglewinery
     bollandbranch: Prv_bollandbranch
+    booker: Prv_booker
     booking_com: Prv_booking_com
     borsheims: Prv_borsheims
     boxlunch: Prv_boxlunch

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e2032a34c224cc6a861a646c91b7bd359a08111c31bbcf07dbeaa6ab37e60ddc
-// 2622 checked, 20 unchecked.
+// Manifest version: de9d63c3f1b29efb26cbe31efe446419f00eb1a1b272d678df004498be85b94d
+// 2628 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e2032a34c224cc6a861a646c91b7bd359a08111c31bbcf07dbeaa6ab37e60ddc",
+  "version": "de9d63c3f1b29efb26cbe31efe446419f00eb1a1b272d678df004498be85b94d",
   "units": {
     "address_validation": {
       "defs": {
@@ -14849,6 +14849,44 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.booker": {
+      "defs": {
+        "BookerLocationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findLocation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getServiceMenu": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.booking_com": {
       "defs": {
         "AutocompleteDestinationArgs": {
@@ -19026,6 +19064,40 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getClass": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "studio",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "classId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listPricing": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -24827,6 +24899,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -25478,22 +25557,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListPhotosArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getPhotoAlbum": [
@@ -72540,6 +72603,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getBlogInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -78069,6 +78150,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.wsj": {
       "defs": {
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesArgs": {
           "k": "object",
           "props": [
@@ -78090,6 +78183,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
             },
             "optional": false
           }
