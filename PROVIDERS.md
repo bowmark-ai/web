@@ -3460,12 +3460,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `partiful.discoverEvents` | partiful.com | Lists the public events Partiful's explore page shows for one region (sf, nyc, la… | 🟢 |
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
 | `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | 🟢 |
-| `patreon.getCurrentUserFeed` | patreon.com | Get the signed-in caller's home feed. | ⚪ |
+| `patreon.getCurrentUserFeed` | patreon.com | Read the signed-in caller's Patreon home feed — recent posts from the creators they… | 🟢 |
 | `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | 🟢 |
 | `patreon.listCreatorPosts` | patreon.com | List a creator's posts, newest first, one page at a time with the site's own cursor. | 🟢 |
 | `patreon.listCreatorTiers` | patreon.com | List all membership tiers offered by a creator with pricing. | 🟢 |
-| `patreon.listMemberOnlyPosts` | patreon.com | List posts only visible to the signed-in caller (requires membership). | ⚪ |
-| `patreon.listPledges` | patreon.com | List the signed-in caller's memberships and pledges. | ⚪ |
+| `patreon.listMemberOnlyPosts` | patreon.com | List a creator's member-only posts, newest first, with the site's own cursor — each… | 🟢 |
+| `patreon.listPledges` | patreon.com | List the signed-in caller's Patreon memberships: which creator, which tier, how much. | 🟢 |
 | `patreon.listPostComments` | patreon.com | List all comments on a post. | 🟢 |
 | `patreon.searchCreators` | patreon.com | Search for creators across Patreon by name or query. | 🟢 |
 | `pausestudio.bookAppointment` | pausestudio.com | Books one service at one location at a time listAvailableSlots() returned, on the… | 🟢 |
