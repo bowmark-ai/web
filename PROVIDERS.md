@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5697 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5703 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -927,6 +927,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `casadragones.listProducts` | casadragones.com | Lists Casa Dragones' real sipping-tequila catalog off their own product listing page… | 🟢 |
 | `cascadiaseniorliving_com.getSitePage` | cascadiaseniorliving.com | Reads one Cascadia Senior Living page (by its url from listSitePages, or by its slug)… | 🟢 |
 | `cascadiaseniorliving_com.listSitePages` | cascadiaseniorliving.com | Lists every page Cascadia Senior Living's own site publishes — title, url, slug and… | 🟢 |
+| `cb2.getProduct` | cb2.com | Reads one product page: every size, fabric and finish option with its own price… | ⚪ |
+| `cb2.searchProducts` | cb2.com | Searches CB2's furniture and decor catalog the way its own search box does ("sofas")… | 🟢 |
 | `cbhhomes.assembleInquiry` | cbhhomes.com | Validates a caller's inquiry against the form's live schema and maps it onto the… | 🟢 |
 | `cbhhomes.getInquiryFormSchema` | cbhhomes.com | Reads the site's own live 'get in touch about a home' Gravity Forms inquiry form… | 🟢 |
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
@@ -2807,6 +2809,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kenko.setMarketingPreferences` | gokenko.com | Update marketing and communication preferences for the signed-in member. | ⚪ |
 | `kenko.setProfilePicture` | gokenko.com | Upload or change the signed-in member's profile picture. | ⚪ |
 | `kenko.updateMyProfile` | gokenko.com | Update the signed-in member's profile information. | ⚪ |
+| `kijiji.getListing` | kijiji.ca | Reads one Kijiji ad in full — whole description, every image, attributes such as… | 🟢 |
+| `kijiji.postAd` | kijiji.ca | Posts a new classified ad from the signed-in caller's account. | ⚪ |
+| `kijiji.search` | kijiji.ca | Searches all of Kijiji Canada's classifieds by keyword the way its search box does —… | 🟢 |
+| `kijiji.searchInLocation` | kijiji.ca | Searches Kijiji listings within one city or region and category, the way the site's… | ⚪ |
 | `kingsdown.getBedMatchResult` | kingsdown.com | Runs Kingsdown's own bedMATCH diagnostic — the same multi-step questionnaire embedded… | 🟢 |
 | `kitchentuneup.listCabinetStyles` | kitchentuneup.com | Reads Kitchen Tune-Up's own AI Design Tool catalog off its visualizer vendor's API —… | 🟢 |
 | `kitchentuneup.visualizeKitchen` | kitchentuneup.com | Runs a photo through Kitchen Tune-Up's own AI Design Tool the way… | 🟢 |

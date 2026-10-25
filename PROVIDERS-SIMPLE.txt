@@ -155,6 +155,7 @@ carusohomes.com — carusohomes: assembleTourRequest, getTourAppointmentSchema, 
 casadragones.com — casadragones: addToCart, findNearbyRetailers, getProduct, listProducts
 cascadiaseniorliving.com — cascadiaseniorliving_com: getSitePage, listSitePages
 catalog.aquaphoenixsci.com — aquaphoenixsci: browseCategory, getProduct
+cb2.com — cb2: getProduct, searchProducts
 cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
 cbhhomes.com — cbhhomes: assembleInquiry, getInquiryFormSchema, searchListings
 cerebralvalley.ai — cerebralvalley: getEvent, listEvents
@@ -381,6 +382,7 @@ kalshi.com — kalshi: getMarket, getMarkets
 kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct, searchProducts
+kijiji.ca — kijiji: getListing, postAd, search, searchInLocation
 kingsdown.com — kingsdown: getBedMatchResult
 kitchentuneup.com — kitchentuneup: listCabinetStyles, visualizeKitchen
 kompan.com — kompan: getSparePartsDocuments, searchPlaygroundSpareParts, searchProduct
