@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 656c01ec60a337b83da27eddd67e85d1ca63dc41765151c7023804faff345946
-// 87 capabilities, 644 providers, 2612 typed functions, 20 refused.
+// Manifest version: da49655050e2bccc0a058be294833a55ab30e27acad3b493a817c2e2ab3ced4c
+// 87 capabilities, 644 providers, 2618 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18666,6 +18666,49 @@ interface ClubreadyStudio {
   distanceMiles: number;
 }
 
+interface ClubreadyStudioDetail {
+  id: string;
+  name: string;
+  address: string;
+  address2: string | null;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  phone: string;
+  email: string;
+  timezone: string;
+  lat: number;
+  lng: number;
+  openStatus: string;
+  siteUrl: string;
+  waiverUrl: string;
+  clubreadyId: string;
+  hours: Record<string, [string, string][]> | null;
+  whatToBring: string | null;
+  parkingInfo: string | null;
+}
+
+interface ClubreadyClass {
+  id: string;
+  studio: string;
+  title: string;
+  subtitle: string | null;
+  description: string | null;
+  category: string | null;
+  startsAt: string;
+  endsAt: string;
+  instructor: { id: string; name: string } | null;
+  capacity: number;
+  freeSpots: number;
+  hasWaitlist: boolean;
+  waitlistSize: number;
+  bookingOpensAt: string | null;
+  bookingClosesAt: string | null;
+  freeCancelUntil: string | null;
+  bookingUrl: string;
+}
+
   /**
    * Xponential studios on ClubReady — CycleBar, Club Pilates, Pure Barre, YogaSix, StretchLab,
    * Rumble, BFT and more: find a studio, read its class schedule and pricing, and (signed in)
@@ -18688,6 +18731,21 @@ interface ClubreadyStudio {
      * status and the brand's own public page.
      */
     findStudios(args: { brand: string, lat?: number, lng?: number, place?: string, host?: string, limit?: number }): Promise<ClubreadyStudio[]>;
+
+    /**
+     * Returns one studio by its id from findStudios ("cyclebar-berkeley") or by the brand's own
+     * page URL ("https://www.cyclebar.com/location/berkeley"): address, phone, email, timezone,
+     * open status, opening hours, waiver link, parking and what-to-bring notes.
+     */
+    getStudio(studio: string): Promise<ClubreadyStudioDetail>;
+
+    /**
+     * Lists a studio's class schedule between two YYYY-MM-DD dates (default: today): each class's
+     * id, title, category, start and end time in the studio's offset, instructor, capacity, free
+     * spots, waitlist size, booking window, free-cancel deadline and booking link. The read before
+     * booking.
+     */
+    listClasses(args: { studio: string, from?: string, to?: string }): Promise<ClubreadyClass[]>;
   }
 }
 
@@ -24826,6 +24884,31 @@ interface BrowseMarketplaceArgs {
   category?: string;
 }
 
+interface ListPageEventsArgs {
+  handle: string;
+}
+
+interface FacebookPageEvent {
+  id: string;
+  name: string;
+  url: string;
+  startTime?: string;
+  location?: string;
+}
+
+interface GetPostArgs {
+  url: string;
+}
+
+interface FacebookPost {
+  id: string;
+  url: string;
+  author?: string;
+  text?: string;
+  reactionCount?: number;
+  shareCount?: number;
+}
+
 interface GetMarketplaceListingDetailsArgs {
   listingId: string;
 }
@@ -24982,6 +25065,18 @@ interface FacebookProfileUpdate {
      * place and link per listing. Keyword search is getMarketplaceListings, which needs a sign-in.
      */
     browseMarketplace(args: BrowseMarketplaceArgs): Promise<FacebookMarketplaceListing[]>;
+
+    /**
+     * List a public Page's own events logged out — name, start time, place and link per event. The
+     * caller's own invitations are listEvents.
+     */
+    listPageEvents(args: ListPageEventsArgs): Promise<FacebookPageEvent[]>;
+
+    /**
+     * Read one public post from its link logged out — author, text, and Facebook's own rounded
+     * reaction and share counts.
+     */
+    getPost(args: GetPostArgs): Promise<FacebookPost>;
 
     /** Read a Marketplace listing's details — title, price, description, location, seller. */
     getMarketplaceListingDetails(args: GetMarketplaceListingDetailsArgs): Promise<FacebookMarketplaceListingDetails>;
@@ -56070,6 +56165,23 @@ interface SpectrumTvAddOn {
   monthlyPrice: number | null;
   sourceUrl: string;
 }
+interface SpectrumInternetPlanDetails {
+  name: string;
+  downloadMbps: number;
+  connection: string;
+  wifiIncluded: string;
+  idealFor: string;
+  advertisedMonthlyPrice: number;
+  standardMonthlyPrice: number | null;
+  sourceUrl: string;
+}
+interface SpectrumTvPlan {
+  name: string;
+  channelCount: number | null;
+  promotionalMonthlyPrice: number | null;
+  standardMonthlyPrice: number;
+  sourceUrl: string;
+}
 
   /**
    * Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check address
@@ -56094,6 +56206,23 @@ interface SpectrumTvAddOn {
      * monthlyPrice: null).
      */
     listTvAddOns(): Promise<SpectrumTvAddOn[]>;
+
+    /**
+     * One Gig-tier internet plan's own detail page — download speed, connection type, included
+     * WiFi equipment and its stated retail value, who it's 'ideal for', and the Year 1 price (with
+     * the struck-through standard rate when shown). Takes the plan name as listInternetPlans/the
+     * page itself states it, e.g. "Internet 1 Gig" or "1 Gig". Covers Internet 1 Gig, 2 Gig and 7
+     * Gig only — spectrum.com publishes no dedicated detail page for Internet 100 or Internet 500,
+     * which this function says plainly rather than guessing a URL.
+     */
+    getInternetPlanDetails(planName: string): Promise<SpectrumInternetPlanDetails>;
+
+    /**
+     * Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, the page's own
+     * channel-count claim (null for TV Latino, which states none), and the promotional/standard
+     * monthly price off the plan's own price table at /modals/cable-tv/spectrum-tv-plan-prices.
+     */
+    listTvPlans(): Promise<SpectrumTvPlan[]>;
   }
 }
 

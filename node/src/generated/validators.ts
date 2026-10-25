@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 656c01ec60a337b83da27eddd67e85d1ca63dc41765151c7023804faff345946
-// 2594 checked, 20 unchecked.
+// Manifest version: da49655050e2bccc0a058be294833a55ab30e27acad3b493a817c2e2ab3ced4c
+// 2600 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "656c01ec60a337b83da27eddd67e85d1ca63dc41765151c7023804faff345946",
+  "version": "da49655050e2bccc0a058be294833a55ab30e27acad3b493a817c2e2ab3ced4c",
   "units": {
     "address_validation": {
       "defs": {
@@ -18942,6 +18942,47 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getStudio": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listClasses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "studio",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -24763,6 +24804,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPrivacySettingsArgs": {
           "k": "object",
           "props": []
@@ -24825,6 +24878,18 @@ export const VALIDATORS: ValidatorTable = {
         "ListNotificationsArgs": {
           "k": "object",
           "props": []
+        },
+        "ListPageEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         },
         "ListPhotosArgs": {
           "k": "object",
@@ -25721,6 +25786,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BrowseMarketplaceArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPageEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPageEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPostArgs"
             },
             "optional": false
           }
@@ -65383,7 +65468,17 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "listInternetPlans": [],
-        "listTvAddOns": []
+        "listTvAddOns": [],
+        "getInternetPlanDetails": [
+          {
+            "name": "planName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listTvPlans": []
       }
     },
     "providers.speedrun": {

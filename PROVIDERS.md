@@ -2875,7 +2875,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟢 |
 | `linkedin.listSuggestedConnections` | linkedin.com | Lists the people LinkedIn suggests the caller connect with ("People you may know") —… | 🟢 |
 | `linkedin.reactToPost` | linkedin.com | Reacts to a post as the signed-in caller — LIKE by default, or PRAISE, APPRECIATION… | 🟢 |
-| `linkedin.removeConnection` | linkedin.com | Removes a member from the signed-in caller's connections. | ⚪ |
+| `linkedin.removeConnection` | linkedin.com | Removes a member from the signed-in caller's connections. | 🟢 |
 | `linkedin.repostPost` | linkedin.com | Reposts a post to the signed-in caller's feed, with or without their own text on top. | 🟢 |
 | `linkedin.saveJob` | linkedin.com | Saves a job posting to the signed-in caller's saved jobs, or unsaves it. | 🟢 |
 | `linkedin.savePost` | linkedin.com | Saves a post to the signed-in caller's saved items, or unsaves it. | 🟢 |

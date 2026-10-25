@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 656c01ec60a337b83da27eddd67e85d1ca63dc41765151c7023804faff345946
-# 87 capabilities, 644 providers, 2594 typed functions, 20 refused.
+# Manifest version: da49655050e2bccc0a058be294833a55ab30e27acad3b493a817c2e2ab3ced4c
+# 87 capabilities, 644 providers, 2600 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10622,6 +10622,60 @@ class Prv_clubready_ClubreadyStudio_Out(TypedDict):
     siteUrl: str
     distanceMiles: float
 
+class Prv_clubready_ClubreadyStudioDetail_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    address2: str | None
+    city: str
+    state: str
+    zip: str
+    country: str
+    phone: str
+    email: str
+    timezone: str
+    lat: float
+    lng: float
+    openStatus: str
+    siteUrl: str
+    waiverUrl: str
+    clubreadyId: str
+    hours: Mapping[str, list[tuple[str, str]]] | None
+    whatToBring: str | None
+    parkingInfo: str | None
+
+Prv_clubready_listClasses_args_In = TypedDict(
+    "Prv_clubready_listClasses_args_In",
+    {
+    "studio": str,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    },
+)
+
+class Prv_clubready_ClubreadyClass_Out(TypedDict):
+    id: str
+    studio: str
+    title: str
+    subtitle: str | None
+    description: str | None
+    category: str | None
+    startsAt: str
+    endsAt: str
+    instructor: Prv_clubready_ClubreadyClass_Out_instructor_u0_Out | None
+    capacity: float
+    freeSpots: float
+    hasWaitlist: bool
+    waitlistSize: float
+    bookingOpensAt: str | None
+    bookingClosesAt: str | None
+    freeCancelUntil: str | None
+    bookingUrl: str
+
+class Prv_clubready_ClubreadyClass_Out_instructor_u0_Out(TypedDict):
+    id: str
+    name: str
+
 class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
     symbol: str
 
@@ -14373,6 +14427,27 @@ class Prv_facebook_FacebookMarketplaceListing_Out(TypedDict):
 class Prv_facebook_BrowseMarketplaceArgs_In(TypedDict):
     city: str
     category: NotRequired[str]
+
+class Prv_facebook_ListPageEventsArgs_In(TypedDict):
+    handle: str
+
+class Prv_facebook_FacebookPageEvent_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    startTime: NotRequired[str]
+    location: NotRequired[str]
+
+class Prv_facebook_GetPostArgs_In(TypedDict):
+    url: str
+
+class Prv_facebook_FacebookPost_Out(TypedDict):
+    id: str
+    url: str
+    author: NotRequired[str]
+    text: NotRequired[str]
+    reactionCount: NotRequired[float]
+    shareCount: NotRequired[float]
 
 class Prv_facebook_GetMarketplaceListingDetailsArgs_In(TypedDict):
     listingId: str
@@ -31707,6 +31782,23 @@ class Prv_spectrum_SpectrumTvAddOn_Out(TypedDict):
     monthlyPrice: float | None
     sourceUrl: str
 
+class Prv_spectrum_SpectrumInternetPlanDetails_Out(TypedDict):
+    name: str
+    downloadMbps: float
+    connection: str
+    wifiIncluded: str
+    idealFor: str
+    advertisedMonthlyPrice: float
+    standardMonthlyPrice: float | None
+    sourceUrl: str
+
+class Prv_spectrum_SpectrumTvPlan_Out(TypedDict):
+    name: str
+    channelCount: float | None
+    promotionalMonthlyPrice: float | None
+    standardMonthlyPrice: float
+    sourceUrl: str
+
 class Prv_speedrun_FindGameArgs_In(TypedDict):
     name: str
 
@@ -46437,6 +46529,19 @@ class Prv_clubready(Protocol):
         email, timezone, open status and the brand's own public page.
         """
 
+    async def getStudio(self, studio: str, /) -> Prv_clubready_ClubreadyStudioDetail_Out:
+        """Returns one studio by its id from findStudios ("cyclebar-berkeley") or by the brand's
+        own page URL ("https://www.cyclebar.com/location/berkeley"): address, phone, email,
+        timezone, open status, opening hours, waiver link, parking and what-to-bring notes.
+        """
+
+    async def listClasses(self, args: Prv_clubready_listClasses_args_In, /) -> list[Prv_clubready_ClubreadyClass_Out]:
+        """Lists a studio's class schedule between two YYYY-MM-DD dates (default: today): each
+        class's id, title, category, start and end time in the studio's offset, instructor,
+        capacity, free spots, waitlist size, booking window, free-cancel deadline and booking
+        link. The read before booking.
+        """
+
 class Prv_cnbc_com(Protocol):
     """Stock quotes, market data, news, videos and analysis from CNBC."""
 
@@ -48514,6 +48619,16 @@ class Prv_facebook(Protocol):
         """Browse a city's Marketplace front page (optionally one category) logged out — title,
         price, place and link per listing. Keyword search is getMarketplaceListings, which needs
         a sign-in.
+        """
+
+    async def listPageEvents(self, args: Prv_facebook_ListPageEventsArgs_In, /) -> list[Prv_facebook_FacebookPageEvent_Out]:
+        """List a public Page's own events logged out — name, start time, place and link per event.
+        The caller's own invitations are listEvents.
+        """
+
+    async def getPost(self, args: Prv_facebook_GetPostArgs_In, /) -> Prv_facebook_FacebookPost_Out:
+        """Read one public post from its link logged out — author, text, and Facebook's own rounded
+        reaction and share counts.
         """
 
     async def getMarketplaceListingDetails(self, args: Prv_facebook_GetMarketplaceListingDetailsArgs_In, /) -> Prv_facebook_FacebookMarketplaceListingDetails_Out:
@@ -60096,6 +60211,23 @@ class Prv_spectrum(Protocol):
         Channels) — name and description, with a monthly price where the page states one inline
         (most premium channel add-ons require entering the cart to see a price, so those come
         back with monthlyPrice: null).
+        """
+
+    async def getInternetPlanDetails(self, planName: str, /) -> Prv_spectrum_SpectrumInternetPlanDetails_Out:
+        """One Gig-tier internet plan's own detail page — download speed, connection type, included
+        WiFi equipment and its stated retail value, who it's 'ideal for', and the Year 1 price
+        (with the struck-through standard rate when shown). Takes the plan name as
+        listInternetPlans/the page itself states it, e.g. "Internet 1 Gig" or "1 Gig". Covers
+        Internet 1 Gig, 2 Gig and 7 Gig only — spectrum.com publishes no dedicated detail page
+        for Internet 100 or Internet 500, which this function says plainly rather than guessing
+        a URL.
+        """
+
+    async def listTvPlans(self, /) -> list[Prv_spectrum_SpectrumTvPlan_Out]:
+        """Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, the page's own
+        channel-count claim (null for TV Latino, which states none), and the
+        promotional/standard monthly price off the plan's own price table at
+        /modals/cable-tv/spectrum-tv-plan-prices.
         """
 
 class Prv_speedrun(Protocol):
