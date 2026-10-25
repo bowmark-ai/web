@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1e58245294632cf6e498e8aa5a949baf0a4ddf0dc46ce752508fa63ee2f74a6b
-# 87 capabilities, 648 providers, 2615 typed functions, 20 refused.
+# Manifest version: 1eb7a6be373a43c234104cddae2d53947f9a88cce3251ac0e35455714e340837
+# 87 capabilities, 649 providers, 2619 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21762,6 +21762,26 @@ class Prv_linkedin_ignoreInvitation_return_Out(TypedDict):
 class Prv_linkedin_removeConnection_return_Out(TypedDict):
     removed: Literal[True]
 
+class Prv_linkedin_sendMessage_input_In(TypedDict):
+    conversation: NotRequired[str]
+    member: NotRequired[str]
+    text: str
+
+class Prv_linkedin_sendMessage_return_Out(TypedDict):
+    sent: Literal[True]
+
+class Prv_linkedin_joinGroup_group_u1_In(TypedDict):
+    group: str
+
+class Prv_linkedin_joinGroup_return_Out(TypedDict):
+    joined: Literal[True]
+
+class Prv_linkedin_leaveGroup_group_u1_In(TypedDict):
+    group: str
+
+class Prv_linkedin_leaveGroup_return_Out(TypedDict):
+    left: Literal[True]
+
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -34502,6 +34522,23 @@ class Prv_thibautdesign_ThibautdesignRollCalculationResult_Out(TypedDict):
     wasteMarginAdvice: str
     howToBuyUrl: str
     calculatorUrl: str
+
+class Prv_threads_ThreadsSearchAccountsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_threads_ThreadsAccountSearch_Out(TypedDict):
+    query: str
+    accounts: list[Prv_threads_ThreadsAccount_Out]
+
+class Prv_threads_ThreadsAccount_Out(TypedDict):
+    id: str
+    username: str
+    fullName: str | None
+    biography: str | None
+    isVerified: bool
+    profilePicUrl: str | None
+    url: str
 
 class Prv_ticketmaster_mx_EventLink_Out(TypedDict):
     url: str
@@ -54441,6 +54478,40 @@ class Prv_linkedin(Protocol):
         faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
+    async def sendMessage(self, input: Prv_linkedin_sendMessage_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_sendMessage_return_Out:
+        """Sends a LinkedIn message as the caller — into an existing thread (`conversation`, the
+        id/urn/`/messaging/thread/` URL listConversations or getConversation returns), or to a
+        member as a new one (`member`, the numeric profile id a member record's `id` field
+        carries). Signed in: acts as the caller's own LinkedIn account; with no saved sign-in
+        the run pauses and hands back a link where they sign in. Paced per LinkedIn account
+        across runs so it never looks automated — 6 requests a minute, and a reserve of 400 that
+        refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+        the pace throws LinkedinRateLimited saying when to retry: wait that long. The account
+        owner may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask
+        them first.
+        """
+
+    async def joinGroup(self, group: str | Prv_linkedin_joinGroup_group_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_joinGroup_return_Out:
+        """Joins a LinkedIn group as the caller, or asks to join one that needs approval — from a
+        group URL or the numeric id getGroup/searchGroups/listMyGroups return. Signed in: acts
+        as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands
+        back a link where they sign in. Paced per LinkedIn account across runs so it never looks
+        automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+        and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
+    async def leaveGroup(self, group: str | Prv_linkedin_leaveGroup_group_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_leaveGroup_return_Out:
+        """Leaves a LinkedIn group the caller belongs to — the clean-up half of joinGroup. Signed
+        in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -61869,6 +61940,19 @@ class Prv_thibautdesign(Protocol):
         there is no DTC checkout on this calculator to route to.
         """
 
+class Prv_threads(Protocol):
+    """Meta's Threads at threads.com — read public profiles, their posts, replies and media, a
+    post with its whole reply thread, and search posts, accounts and topics logged out;
+    signed in as the CALLER, read their feeds, activity, saved posts and DMs, and post,
+    reply, quote, like, repost, follow and edit their profile.
+    """
+
+    async def searchAccounts(self, args: Prv_threads_ThreadsSearchAccountsArgs_In, /) -> Prv_threads_ThreadsAccountSearch_Out:
+        """Searches Threads accounts by name or username, logged out — the finder that turns a
+        person or brand named in words into the `username` every profile function takes. Rows
+        come in Threads' own relevance order with verified flag, bio and avatar.
+        """
+
 class Prv_ticketmaster_mx(Protocol):
     """Event details, availability, and pricing on Ticketmaster México."""
 
@@ -65764,6 +65848,7 @@ class BowmarkProviders(Protocol):
     thestowcompany: Prv_thestowcompany
     thezebra: Prv_thezebra
     thibautdesign: Prv_thibautdesign
+    threads: Prv_threads
     ticketmaster_mx: Prv_ticketmaster_mx
     ticketmaster_nl: Prv_ticketmaster_nl
     tiktok: Prv_tiktok

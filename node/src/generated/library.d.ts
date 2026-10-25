@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1e58245294632cf6e498e8aa5a949baf0a4ddf0dc46ce752508fa63ee2f74a6b
-// 87 capabilities, 648 providers, 2633 typed functions, 20 refused.
+// Manifest version: 1eb7a6be373a43c234104cddae2d53947f9a88cce3251ac0e35455714e340837
+// 87 capabilities, 649 providers, 2637 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39092,6 +39092,42 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
     removeConnection(member: string, opts?: ConnectionOption): Promise<{ removed: true }>;
 
     /**
+     * Sends a LinkedIn message as the caller — into an existing thread (`conversation`, the
+     * id/urn/`/messaging/thread/` URL listConversations or getConversation returns), or to a
+     * member as a new one (`member`, the numeric profile id a member record's `id` field carries).
+     * Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses
+     * and hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     */
+    sendMessage(input: { conversation?: string; member?: string; text: string }, opts?: ConnectionOption): Promise<{ sent: true }>;
+
+    /**
+     * Joins a LinkedIn group as the caller, or asks to join one that needs approval — from a group
+     * URL or the numeric id getGroup/searchGroups/listMyGroups return. Signed in: acts as the
+     * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
+     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
+     */
+    joinGroup(group: string | { group: string }, opts?: ConnectionOption): Promise<{ joined: true }>;
+
+    /**
+     * Leaves a LinkedIn group the caller belongs to — the clean-up half of joinGroup. Signed in:
+     * acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands
+     * back a link where they sign in. Paced per LinkedIn account across runs so it never looks
+     * automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and
+     * held 30 minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
+     * saying when to retry: wait that long. The account owner may opt into faster pacing with {
+     * pacing: "fast" } as an extra last argument; ask them first.
+     */
+    leaveGroup(group: string | { group: string }, opts?: ConnectionOption): Promise<{ left: true }>;
+
+    /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
      * never replacing an existing login, unless `connection` names an existing id to sign back in
      * to (its cookies replaced, its id and settings kept, a logged-out one revived). The returned
@@ -60640,6 +60676,49 @@ interface ThibautdesignRollCalculationResult {
   }
 }
 
+declare namespace BowmarkProvider_threads {
+  // ── Threads — the unit's own declarations, verbatim ──
+interface threadsRow {
+  id: string;
+}
+interface ThreadsSearchAccountsArgs {
+  /** A person's or brand's name, or part of a username. */
+  query: string;
+  /** Keep at most this many accounts; Threads answers up to ~50. */
+  limit?: number;
+}
+interface ThreadsAccount {
+  /** Threads' numeric user id. */
+  id: string;
+  /** The handle every profile function takes, without the "@". */
+  username: string;
+  fullName: string | null;
+  biography: string | null;
+  isVerified: boolean;
+  profilePicUrl: string | null;
+  url: string;
+}
+interface ThreadsAccountSearch {
+  query: string;
+  accounts: ThreadsAccount[];
+}
+
+  /**
+   * Meta's Threads at threads.com — read public profiles, their posts, replies and media, a post
+   * with its whole reply thread, and search posts, accounts and topics logged out; signed in as
+   * the CALLER, read their feeds, activity, saved posts and DMs, and post, reply, quote, like,
+   * repost, follow and edit their profile.
+   */
+  interface Unit {
+    /**
+     * Searches Threads accounts by name or username, logged out — the finder that turns a person
+     * or brand named in words into the `username` every profile function takes. Rows come in
+     * Threads' own relevance order with verified flag, bio and avatar.
+     */
+    searchAccounts(args: ThreadsSearchAccountsArgs): Promise<ThreadsAccountSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_ticketmaster_mx {
   // ── Ticketmaster México — the unit's own declarations, verbatim ──
 interface EventLink {
@@ -71214,6 +71293,7 @@ interface BowmarkProviders {
   thestowcompany: BowmarkProvider_thestowcompany.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   thibautdesign: BowmarkProvider_thibautdesign.Unit;
+  threads: BowmarkProvider_threads.Unit;
   ticketmaster_mx: BowmarkProvider_ticketmaster_mx.Unit;
   ticketmaster_nl: BowmarkProvider_ticketmaster_nl.Unit;
   tiktok: BowmarkProvider_tiktok.Unit;
