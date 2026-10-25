@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5689 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5690 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1589,12 +1589,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.defineWord` | duckduckgo.com | Look a word up the way DuckDuckGo's dictionary answer does — part of speech… | 🟢 |
 | `duckduckgo.getEmailProtectionAccount` | duckduckgo.com | Read the signed-in caller's DuckDuckGo Email Protection account — their @duck.com… | ⚪ |
 | `duckduckgo.getInstantAnswer` | duckduckgo.com | Get DuckDuckGo's Instant Answer for a topic — the abstract and its source, a direct… | 🟢 |
-| `duckduckgo.getLocalTime` | duckduckgo.com | Get the current local time and time zone in a city, the way DuckDuckGo's time answer… | ⚪ |
-| `duckduckgo.getWeather` | duckduckgo.com | Get the current conditions and forecast for a place, the way DuckDuckGo's weather… | ⚪ |
-| `duckduckgo.listBangs` | duckduckgo.com | List DuckDuckGo's !bangs — the shortcut, the site it searches and its category —… | ⚪ |
+| `duckduckgo.getLocalTime` | duckduckgo.com | Get the current local time and time zone in a city, the way DuckDuckGo's time answer… | 🟢 |
+| `duckduckgo.getWeather` | duckduckgo.com | Get the current conditions and forecast for a place, the way DuckDuckGo's weather… | 🟢 |
+| `duckduckgo.listBangs` | duckduckgo.com | List DuckDuckGo's !bangs — the shortcut, the site it searches and its category —… | 🟢 |
 | `duckduckgo.listDuckAiModels` | duckduckgo.com | List the AI models Duck.ai currently offers (e.g. GPT, Claude, Llama, Mistral… | ⚪ |
 | `duckduckgo.listRegions` | duckduckgo.com | List the search regions DuckDuckGo offers ("us-en", "uk-en", "de-de"…) with their… | ⚪ |
-| `duckduckgo.resolveBang` | duckduckgo.com | Turn a !bang query ("!w duck", "!a usb-c cable") into the destination URL DuckDuckGo… | ⚪ |
+| `duckduckgo.resolveBang` | duckduckgo.com | Turn a !bang query ("!w duck", "!a usb-c cable") into the destination URL DuckDuckGo… | 🟢 |
 | `duckduckgo.searchImages` | duckduckgo.com | Searches DuckDuckGo's Images vertical and returns each result's title, page URL… | 🟡 |
 | `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | 🟡 |
 | `duckduckgo.searchPlaces` | duckduckgo.com | Find places on DuckDuckGo Maps by what and where ("coffee in Seattle") — name… | 🟡 |
@@ -1814,6 +1814,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facebook.getPersonProfile` | facebook.com | Read a person's public profile — name, profile photo, bio and follower count, logged… | 🟢 |
 | `facebook.getPhotoAlbum` | facebook.com | Read a photo album's details — title, creation date, photo count and its photos. | 🟢 |
 | `facebook.getPost` | facebook.com | Read one public post from its link logged out — author, text, rounded reaction and… | 🟢 |
+| `facebook.getPostComments` | facebook.com | Read the top comments under one public post from its link logged out — commenter, text… | 🟢 |
 | `facebook.getPrivacySettings` | facebook.com | Read the caller's privacy settings as rendered on Facebook's own Privacy settings page. | 🟢 |
 | `facebook.getVideo` | facebook.com | Read a public video's details — title, description, play count, comment count — logged… | 🟢 |
 | `facebook.joinGroup` | facebook.com | Request to join a Group by its id or url slug. | 🟢 |
@@ -3879,7 +3880,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.followTopic` | www.reuters.com | Follow a Reuters topic or section so it appears in the reader's My News feed. | ⚪ |
 | `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | 🟢 |
 | `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, beat, bio and their latest stories. | ⚪ |
-| `reuters.getCompanyEvents` | www.reuters.com | A company's upcoming and past events — earnings dates, dividends, shareholder meetings… | ⚪ |
+| `reuters.getCompanyEvents` | www.reuters.com | A company's next scheduled event (typically its next earnings release) and any recent… | 🟢 |
 | `reuters.getCompanyFinancials` | www.reuters.com | A company's income statement, balance sheet and cash-flow statement, annual and… | ⚪ |
 | `reuters.getCompanyKeyMetrics` | www.reuters.com | A company's key ratios on Reuters — valuation, profitability, growth, dividends and… | 🟢 |
 | `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile — description, website, sector, industry, head office… | 🟢 |
