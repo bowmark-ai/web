@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0cf17a66690f1a15c9fcae3e4825a976bf461a4e3852ae7e9fbd8416a6ae439c
-# 87 capabilities, 655 providers, 2693 typed functions, 20 refused.
+# Manifest version: 085e885d3010aff25016b74cc254b6c7fb499d99c0366abf5e930322f242ed1c
+# 87 capabilities, 657 providers, 2709 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3631,6 +3631,89 @@ class Prv_acuityscheduling_AcuityLocation_Out(TypedDict):
     description: str
     location: str
     timezone: str
+
+class Prv_acuityscheduling_AcuityPack_Out(TypedDict):
+    id: float
+    title: str
+    description: str
+    category: str
+    price: float
+    formattedPrice: str
+    isSubscription: bool
+    subscriptionTermsText: str
+    thumbnailUrl: str | None
+    catalogUrl: str
+
+class Prv_acuityscheduling_AcuityBookingForm_Out(TypedDict):
+    clientFields: list[Prv_acuityscheduling_AcuityBookingForm_Out_clientFields_item_Out]
+    forms: list[Prv_acuityscheduling_AcuityForm_Out]
+
+class Prv_acuityscheduling_AcuityBookingForm_Out_clientFields_item_Out(TypedDict):
+    name: Literal["firstName"] | Literal["lastName"] | Literal["email"] | Literal["phone"]
+    isRequired: bool
+
+class Prv_acuityscheduling_AcuityForm_Out(TypedDict):
+    id: float
+    name: str
+    description: str
+    fields: list[Prv_acuityscheduling_AcuityFormField_Out]
+
+class Prv_acuityscheduling_AcuityFormField_Out(TypedDict):
+    fieldID: float
+    name: str
+    type: str
+    isRequired: bool
+    options: list[str]
+
+class Prv_acuityscheduling_AcuitySchedulerInfo_Out(TypedDict):
+    ownerId: str
+    name: str
+    description: str
+    logoUrl: str | None
+    schedulingUrl: str
+    prettyUrl: str | None
+    catalogUrl: str | None
+    timezone: str | None
+    country: str | None
+    language: str | None
+    currency: str | None
+    isExpired: bool
+    policies: Prv_acuityscheduling_AcuitySchedulerInfo_Out_policies_Out
+
+class Prv_acuityscheduling_AcuitySchedulerInfo_Out_policies_Out(TypedDict):
+    canClientsReschedule: bool
+    canClientsCancel: bool
+    waitlist: bool
+    classWaitlist: bool
+    tipping: bool
+    phoneRequired: bool
+
+class Prv_acuityscheduling_AcuityPrice_Out(TypedDict):
+    appointmentTypeId: float
+    name: str
+    price: str
+    currency: str | None
+    paymentRequired: bool
+    packs: list[Prv_acuityscheduling_AcuityPrice_Out_packs_item_Out]
+    cheapestPerSession: Prv_acuityscheduling_AcuityPrice_Out_cheapestPerSession_u0_Out | None
+
+class Prv_acuityscheduling_AcuityPrice_Out_packs_item_Out(TypedDict):
+    id: float
+    title: str
+    description: str
+    category: str
+    price: float
+    formattedPrice: str
+    isSubscription: bool
+    subscriptionTermsText: str
+    thumbnailUrl: str | None
+    catalogUrl: str
+    sessions: float | None
+    perSession: float | None
+
+class Prv_acuityscheduling_AcuityPrice_Out_cheapestPerSession_u0_Out(TypedDict):
+    packId: float
+    perSession: float
 
 class Prv_adobe_CreativeCloudPlan_Out(TypedDict):
     name: str
@@ -9409,6 +9492,35 @@ class Prv_canva_CanvaTemplatePreviewImage_Out(TypedDict):
     width: float
     height: float
 
+class Prv_canva_CanvaTemplateDetail_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    description: str | None
+    designType: str | None
+    creator: Prv_canva_CanvaTemplateCreator_Out | None
+    pageImages: list[Prv_canva_CanvaTemplatePreviewImage_Out]
+
+class Prv_canva_CanvaTemplateCreator_Out(TypedDict):
+    name: str
+    url: str | None
+
+class Prv_canva_searchPhotos_return_Out(TypedDict):
+    photos: list[Prv_canva_CanvaPhoto_Out]
+    warnings: list[str]
+
+class Prv_canva_CanvaPhoto_Out(TypedDict):
+    id: str
+    title: str | None
+    url: str
+    licence: Literal["free"] | Literal["pro"]
+    images: list[Prv_canva_CanvaPhotoImage_Out]
+
+class Prv_canva_CanvaPhotoImage_Out(TypedDict):
+    url: str
+    width: float
+    height: float
+
 class Prv_capitalbrands_CapitalbrandsQuizQuestions_Out(TypedDict):
     questions: list[Prv_capitalbrands_CapitalbrandsQuizQuestion_Out]
 
@@ -9877,6 +9989,39 @@ class Prv_cascadiaseniorliving_com_cascadiaseniorliving_comPageDetail_Out(TypedD
     slug: str
     body: str
     hasContactForm: bool
+
+class Prv_cb2_Cb2SearchArgs_In(TypedDict):
+    query: str
+    sort: NotRequired[Literal["relevance"] | Literal["price_ascending"] | Literal["price_descending"] | Literal["top_rated"] | Literal["best_selling"] | Literal["newest"]]
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_cb2_Cb2Search_Out(TypedDict):
+    products: list[Prv_cb2_Cb2Product_Out]
+    total: float
+    page: float
+    redirect: str | None
+
+class Prv_cb2_Cb2Product_Out(TypedDict):
+    sku: str
+    name: str
+    url: str
+    price: float | None
+    regularPrice: float | None
+    onSale: bool
+    priceLabel: str | None
+    familyName: str | None
+    familyPriceMin: float | None
+    familyPriceMax: float | None
+    types: list[str]
+    rating: float | None
+    reviewCount: float | None
+    availability: list[str]
+    isNew: bool
+    finalSale: bool
+    widthInches: float | None
+    description: str
+    imageUrl: str | None
 
 class Prv_cbhhomes_SearchListingsArgs_In(TypedDict):
     city: NotRequired[str]
@@ -11881,6 +12026,51 @@ class Prv_dailymotion_DailymotionPlaylistSearchHit_Out_owner_Out(TypedDict):
     id: str | None
     name: str | None
     displayName: str | None
+
+class Prv_dailymotion_ListTrendingVideosArgs_In(TypedDict):
+    country: NotRequired[str]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionTrendingResult_Out(TypedDict):
+    page: float
+    hasMore: bool
+    videos: list[Prv_dailymotion_DailymotionVideo_Out]
+    country: str | None
+
+class Prv_dailymotion_DailymotionCategoriesResult_Out(TypedDict):
+    categories: list[Prv_dailymotion_DailymotionCategory_Out]
+
+class Prv_dailymotion_DailymotionCategory_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+
+class Prv_dailymotion_ListCategoryVideosArgs_In(TypedDict):
+    category: str
+    sort: NotRequired[Literal["recent"] | Literal["visited"] | Literal["trending"]]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionCategoryVideosResult_Out(TypedDict):
+    page: float
+    hasMore: bool
+    videos: list[Prv_dailymotion_DailymotionVideo_Out]
+    category: str
+    sort: Literal["recent"] | Literal["visited"] | Literal["trending"]
+
+class Prv_dailymotion_ListLiveStreamsArgs_In(TypedDict):
+    query: NotRequired[str]
+    channel: NotRequired[str]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionLiveStreamsResult_Out(TypedDict):
+    page: float
+    hasMore: bool
+    videos: list[Prv_dailymotion_DailymotionVideo_Out]
+    query: str | None
+    channel: str | None
 
 class Prv_dangotecement_FindDistributorsFilters_In(TypedDict):
     query: NotRequired[str]
@@ -21445,6 +21635,38 @@ class Prv_kenko_KenkoFacility_Out(TypedDict):
     id: float
     name: str
 
+class Prv_kijiji_KijijiSearchArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+    includeSponsored: NotRequired[bool]
+
+class Prv_kijiji_KijijiSearchResult_Out(TypedDict):
+    query: str
+    page: float
+    totalCount: float | None
+    listings: list[Prv_kijiji_KijijiListing_Out]
+    url: str
+
+class Prv_kijiji_KijijiListing_Out(TypedDict):
+    id: str
+    title: str
+    price: float | None
+    currency: str
+    priceType: str | None
+    description: str | None
+    url: str
+    location: str | None
+    address: str | None
+    latitude: float | None
+    longitude: float | None
+    categoryId: float | None
+    imageUrls: list[str]
+    postedAt: str | None
+    sortedAt: str | None
+    sponsored: bool
+    posterId: str | None
+    attributes: Mapping[str, list[str]]
+
 class Prv_kingsdown_KingsdownGetBedMatchResultArgs_In(TypedDict):
     name: str
     ageBand: Literal[20] | Literal[33] | Literal[48] | Literal[63] | Literal[85]
@@ -24777,7 +24999,8 @@ class Prv_millisaraylar_MillisaraylarTicketPrices_Out(TypedDict):
     url: str
 
 class Prv_mindbodyonline_ListSchedulesArgs_In(TypedDict):
-    widgetId: str
+    widgetId: NotRequired[str]
+    healcodeWidgetId: NotRequired[str]
     locationId: str
     date: NotRequired[str]
 
@@ -24794,12 +25017,14 @@ class Prv_mindbodyonline_MindbodySession_Out(TypedDict):
     cancelled: bool
 
 class Prv_mindbodyonline_GetScheduleArgs_In(TypedDict):
-    widgetId: str
+    widgetId: NotRequired[str]
+    healcodeWidgetId: NotRequired[str]
     locationId: str
     sessionId: str
 
 class Prv_mindbodyonline_BookSessionArgs_In(TypedDict):
-    widgetId: str
+    widgetId: NotRequired[str]
+    healcodeWidgetId: NotRequired[str]
     locationId: str
     sessionId: str
 
@@ -24808,12 +25033,14 @@ class Prv_mindbodyonline_BookSessionResult_Out(TypedDict):
     message: str
 
 class Prv_mindbodyonline_WaitlistSessionArgs_In(TypedDict):
-    widgetId: str
+    widgetId: NotRequired[str]
+    healcodeWidgetId: NotRequired[str]
     locationId: str
     sessionId: str
 
 class Prv_mindbodyonline_CancelSessionArgs_In(TypedDict):
-    widgetId: str
+    widgetId: NotRequired[str]
+    healcodeWidgetId: NotRequired[str]
     locationId: str
     sessionId: str
 
@@ -24822,7 +25049,8 @@ class Prv_mindbodyonline_CancelSessionResult_Out(TypedDict):
     message: str
 
 class Prv_mindbodyonline_MyBookingsArgs_In(TypedDict):
-    widgetId: str
+    widgetId: NotRequired[str]
+    healcodeWidgetId: NotRequired[str]
     locationId: str
 
 class Prv_mindbodyonline_myBookings_return_Out(TypedDict):
@@ -32087,6 +32315,9 @@ class Prv_seatgeek_seatgeekTrackedEvent_Out_stats_Out(TypedDict):
 class Prv_seatgeek_TrackEventArgs_In(TypedDict):
     id: float
 
+class Prv_seatgeek_UntrackEventArgs_In(TypedDict):
+    id: float
+
 class Prv_sec_edgar_sec_edgarFindArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -32506,6 +32737,15 @@ class Prv_shop_app_ShopAppStoreReview_Out(TypedDict):
     submittedAt: str | None
     productId: str | None
     productTitle: str | None
+
+class Prv_shop_app_ShopAppStoreCollection_Out(TypedDict):
+    id: str
+    title: str
+    slug: str
+    products: list[Prv_shop_app_ShopAppStoreProduct_Out]
+    hasNextPage: bool
+    cursor: str | None
+    warnings: list[str]
 
 class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
     zip: str
@@ -39810,6 +40050,17 @@ class Prv_x_SearchArgs_In(TypedDict):
 class Prv_x_listHomeFeed_args_In(TypedDict):
     limit: NotRequired[float]
 
+class Prv_x_listNotifications_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_x_XNotification_Out(TypedDict):
+    type: Literal["like"] | Literal["repost"] | Literal["follow"] | Literal["reply"] | Literal["mention"] | Literal["quote"] | Literal["other"]
+    text: str
+    actors: list[str]
+    postId: str | None
+    postUrl: str | None
+    createdAt: str
+
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
     facilityId: str
     name: str
@@ -43560,6 +43811,33 @@ class Prv_acuityscheduling(Protocol):
         staff — each with the id an appointment type's calendarIDs refers to.
         """
 
+    async def listPacks(self, query: str, /) -> list[Prv_acuityscheduling_AcuityPack_Out]:
+        """Lists everything the business sells on its Acuity catalog — class packages,
+        subscriptions, gift certificates and any retail — each with category, price and
+        description. Empty when the business sells none. `query` is anything findScheduler
+        takes.
+        """
+
+    async def getBookingForm(self, query: str, appointmentTypeId: str | None = None, /) -> Prv_acuityscheduling_AcuityBookingForm_Out:
+        """Returns what a guest must fill in to book: the contact fields (and whether phone is
+        required) plus the business's intake-form questions, with their types, options and which
+        are required. Pass an appointment type id to keep only the forms that type attaches.
+        """
+
+    async def getSchedulerInfo(self, query: str, /) -> Prv_acuityscheduling_AcuitySchedulerInfo_Out:
+        """Returns the business's Acuity profile — description, logo, timezone, currency, catalog
+        link — and its booking policies (whether clients may reschedule or cancel themselves,
+        waitlists, tipping, phone required). Acuity publishes no opening hours, address or
+        phone; read those off the business's own site.
+        """
+
+    async def getPrice(self, query: str, appointmentTypeId: str, /) -> Prv_acuityscheduling_AcuityPrice_Out:
+        """Returns one appointment type's single-booking price and currency beside every class pack
+        the business sells, each priced per session where its title states a count, plus the
+        cheapest per-session pack. Acuity does not publish which types a pack covers — match by
+        title.
+        """
+
 class Prv_adobe(Protocol):
     """Adobe Stock, Fonts and Express search, Creative Cloud plans, Acrobat's free PDF tools,
     and Adobe's help center — all reachable logged out.
@@ -43819,8 +44097,9 @@ class Prv_aliexpress(Protocol):
         """
 
     async def getProduct(self, args: Prv_aliexpress_GetProductArgs_In, /) -> Prv_aliexpress_aliexpressProductDetail_Out:
-        """Fetches one product's detail — the price of every variant (size, color), shipping cost
-        and delivery days, specs, images, rating and seller — by the id a search row returns.
+        """Fetches per-variant pricing and shipping details for one AliExpress product by id —
+        includes every SKU's price, stock status, variant attributes (color, size, etc), and
+        shipping costs to the default country.
         """
 
 class Prv_allied(Protocol):
@@ -47031,6 +47310,16 @@ class Prv_canva(Protocol):
         images at every published size.
         """
 
+    async def getTemplate(self, idOrUrl: str, /) -> Prv_canva_CanvaTemplateDetail_Out:
+        """Reads one template by id or url — title, description, design type and page previews, and
+        the creator who published it.
+        """
+
+    async def searchPhotos(self, query: str, /) -> Prv_canva_searchPhotos_return_Out:
+        """Searches Canva's stock photo library by keyword — photo id, title (when the photo has
+        one), url, free-or-Pro licence and image urls.
+        """
+
 class Prv_capitalbrands(Protocol):
     """NutriBullet's own "Which nutribullet is Best for Me?" product-recommendation quiz
     (nutribullet.com) — reads the real four-question quiz and runs the site's own scoring
@@ -47326,6 +47615,18 @@ class Prv_cascadiaseniorliving_com(Protocol):
         "living-options") and returns its title and body as plain text, plus whether it embeds
         one of the site's own contact/inquiry forms. THROWS if no page matches, or if a url
         names a host other than cascadiaseniorliving.com.
+        """
+
+class Prv_cb2(Protocol):
+    """CB2 (modern furniture and home decor, a Crate & Barrel brand). Searches the catalog —
+    sofas, sectionals, tables, decor — with current and regular price, sale/clearance flag,
+    rating, stock status, width, image and product link.
+    """
+
+    async def searchProducts(self, args: Prv_cb2_Cb2SearchArgs_In, /) -> Prv_cb2_Cb2Search_Out:
+        """Searches CB2's furniture and decor catalog the way its own search box does ("sofas") and
+        returns products with current and regular price, sale/clearance flag, family price
+        range, rating, stock status, width, image and product-page link.
         """
 
 class Prv_cbhhomes(Protocol):
@@ -48601,6 +48902,27 @@ class Prv_dailymotion(Protocol):
         does under its Playlists tab — id, name, owner and video count for up to 20 results.
         `name` and `thumbnailUrl` are sometimes null (the search index has not populated them
         for that collection); pass the id to getPlaylist for the full record.
+        """
+
+    async def listTrendingVideos(self, args: Prv_dailymotion_ListTrendingVideosArgs_In | None = None, /) -> Prv_dailymotion_DailymotionTrendingResult_Out:
+        """List the videos trending on Dailymotion right now — optionally for one country ("us",
+        "fr") — paged, same fields as getVideo. No search word needed.
+        """
+
+    async def listCategories(self, /) -> Prv_dailymotion_DailymotionCategoriesResult_Out:
+        """List Dailymotion's 17 video categories (news, music, sport, animals …) with their ids
+        and descriptions. The finder for listCategoryVideos.
+        """
+
+    async def listCategoryVideos(self, args: Prv_dailymotion_ListCategoryVideosArgs_In, /) -> Prv_dailymotion_DailymotionCategoryVideosResult_Out:
+        """List the videos in one Dailymotion category ("news", "sport") — newest first, or most
+        viewed / trending — paged, same fields as getVideo. Category ids come from
+        listCategories.
+        """
+
+    async def listLiveStreams(self, args: Prv_dailymotion_ListLiveStreamsArgs_In | None = None, /) -> Prv_dailymotion_DailymotionLiveStreamsResult_Out:
+        """List Dailymotion live streams on air right now, optionally matching a keyword or from
+        one channel — same fields as getVideo, paged. Often only a handful are on air at once.
         """
 
 class Prv_dangotecement(Protocol):
@@ -54820,6 +55142,23 @@ class Prv_kenko(Protocol):
         """The schedule page's own filter options — facilities/rooms, class types and instructors —
         composed from the studio's facilities, classes and trainers reads. Takes { urlPrefix,
         regionId } from findStudio.
+        """
+
+class Prv_kijiji(Protocol):
+    """Kijiji, Canada's classifieds marketplace — search used/for-sale listings (cars,
+    furniture, electronics, housing) by keyword with price, location and posted date, then
+    read one ad in full.
+    """
+
+    async def search(self, args: Prv_kijiji_KijijiSearchArgs_In, /) -> Prv_kijiji_KijijiSearchResult_Out:
+        """Searches all of Kijiji Canada by keyword the way its search box does and returns the
+        listings — title, price in CAD, location, posted date, images and the ad's url. 40 rows
+        a page; `page` pages on.
+        """
+
+    async def getListing(self, ref: str, /) -> Prv_kijiji_KijijiListing_Out:
+        """Reads one Kijiji ad in full — the whole description, every image, attributes such as
+        condition, price, address and poster id. Takes the ad id or url `search` returns.
         """
 
 class Prv_kingsdown(Protocol):
@@ -61607,6 +61946,14 @@ class Prv_seatgeek(Protocol):
         with no network target — so the call still throws rather than guess.
         """
 
+    async def untrackEvent(self, args: Prv_seatgeek_UntrackEventArgs_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Removes a tracked event from the signed-in caller's account. NEEDS THE CALLER'S SEATGEEK
+        SIGN-IN, same door as listTrackedEvents and trackEvent. With one, the sign-in is
+        confirmed, but the write itself has never been measured signed-in — same static-read
+        result as trackEvent, no HTTP route or GraphQL mutation survives, only client analytics
+        with no network target — so the call still throws rather than guess.
+        """
+
 class Prv_sec_edgar(Protocol):
     """A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
     assets, shares outstanding), from SEC EDGAR
@@ -61841,6 +62188,12 @@ class Prv_shop_app(Protocol):
     async def getStoreReviews(self, handle: str, options: Prv_shop_app_getStoreReviews_options_In | None = None, /) -> Prv_shop_app_ShopAppStoreReviews_Out:
         """Lists the reviews left across a whole store — rating, text, product, author and date —
         with the store's overall rating, a page at a time.
+        """
+
+    async def getStoreCollection(self, handleOrUrl: str, collectionId: str | None = None, /) -> Prv_shop_app_ShopAppStoreCollection_Out:
+        """The products in one of a store's named collections ("Best Sellers", "Sugar-Free") — pass
+        a store handle plus the collection id from getStore's collection titles, or the full
+        shop.app/m/<handle>/collections/<id>/<slug> url.
         """
 
 class Prv_sitmeanssit(Protocol):
@@ -65908,6 +66261,11 @@ class Prv_x(Protocol):
         until `limit` is met.
         """
 
+    async def listNotifications(self, args: Prv_x_listNotifications_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XNotification_Out]:
+        """Reads the signed-in caller's notifications — likes, reposts, follows, replies, mentions
+        and quotes — with who did it and the post it points at.
+        """
+
 class Prv_xpresswellnessurgentcare(Protocol):
     """Reads the Xpress Wellness / Integrity Urgent Care clinic roster and each clinic's live
     healow wait-time / check-in widget — no key, no browser.
@@ -67000,6 +67358,7 @@ class BowmarkProviders(Protocol):
     carusohomes: Prv_carusohomes
     casadragones: Prv_casadragones
     cascadiaseniorliving_com: Prv_cascadiaseniorliving_com
+    cb2: Prv_cb2
     cbhhomes: Prv_cbhhomes
     census_api: Prv_census_api
     cerebralvalley: Prv_cerebralvalley
@@ -67213,6 +67572,7 @@ class BowmarkProviders(Protocol):
     kbb: Prv_kbb
     keepa: Prv_keepa
     kenko: Prv_kenko
+    kijiji: Prv_kijiji
     kingsdown: Prv_kingsdown
     kitchentuneup: Prv_kitchentuneup
     kompan: Prv_kompan

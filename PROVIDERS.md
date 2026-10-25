@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5703 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5704 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -64,16 +64,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acuityscheduling.cancelAppointment` | acuityscheduling.com | Cancels a booking; caller must own the appointment. | ⚪ |
 | `acuityscheduling.findScheduler` | acuityscheduling.com | Finds one business's Acuity scheduler and its owner id from the business name (tried… | 🟢 |
 | `acuityscheduling.getAppointmentTypeDetails` | acuityscheduling.com | Returns details of a specific appointment type including duration, provider, and… | 🟢 |
-| `acuityscheduling.getBookingForm` | acuityscheduling.com | Returns the form fields and requirements needed to complete a booking. | ⚪ |
-| `acuityscheduling.getPrice` | acuityscheduling.com | Returns pricing for an appointment type, including discounts for multi-class packages. | ⚪ |
-| `acuityscheduling.getSchedulerInfo` | acuityscheduling.com | Returns business information including hours, policies, and contact details. | ⚪ |
+| `acuityscheduling.getBookingForm` | acuityscheduling.com | Returns the form fields and requirements needed to complete a booking. | 🟢 |
+| `acuityscheduling.getPrice` | acuityscheduling.com | Returns pricing for an appointment type, including discounts for multi-class packages. | 🟢 |
+| `acuityscheduling.getSchedulerInfo` | acuityscheduling.com | Returns the business's Acuity profile and booking policies (reschedule, cancel… | 🟢 |
 | `acuityscheduling.getWaitlistStatus` | acuityscheduling.com | Gets the caller's position and estimated wait time on a waitlist. | ⚪ |
 | `acuityscheduling.joinWaitlist` | acuityscheduling.com | Joins the waitlist for a full appointment slot. | ⚪ |
 | `acuityscheduling.leaveWaitlist` | acuityscheduling.com | Removes the caller from a waitlist. | ⚪ |
 | `acuityscheduling.listAppointmentTypes` | acuityscheduling.com | Lists all appointment types (classes, services) offered by the business. | 🟢 |
 | `acuityscheduling.listLocations` | acuityscheduling.com | Lists all service locations available for this business. | 🟢 |
 | `acuityscheduling.listMyBookings` | acuityscheduling.com | Lists the signed-in caller's upcoming and past appointments. | ⚪ |
-| `acuityscheduling.listPacks` | acuityscheduling.com | Lists multi-class packages with discounted per-class pricing. | ⚪ |
+| `acuityscheduling.listPacks` | acuityscheduling.com | Lists multi-class packages with discounted per-class pricing. | 🟢 |
 | `acuityscheduling.listScheduleSlots` | acuityscheduling.com | Lists available appointment slots for a given type, date range, and location. | ⚪ |
 | `acuityscheduling.rescheduleAppointment` | acuityscheduling.com | Reschedules a booking to a different date/time; caller must own the appointment. | ⚪ |
 | `acuityscheduling.searchSchedule` | acuityscheduling.com | Searches available slots by location and date range. | ⚪ |
@@ -2866,6 +2866,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getPost` | linkedin.com | Reads one public LinkedIn post — the author, the written text in full, any attached… | 🟢 |
 | `linkedin.getProfile` | linkedin.com | Returns the public professional record of one person from their profile URL — full… | 🟢 |
 | `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟢 |
+| `linkedin.getProfileSkills` | linkedin.com | Returns the skills and the licences and certifications one member lists on their… | ⚪ |
 | `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟢 |
 | `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | 🟢 |
 | `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | 🟢 |

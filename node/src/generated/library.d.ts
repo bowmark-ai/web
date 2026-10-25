@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0cf17a66690f1a15c9fcae3e4825a976bf461a4e3852ae7e9fbd8416a6ae439c
-// 87 capabilities, 655 providers, 2711 typed functions, 20 refused.
+// Manifest version: 085e885d3010aff25016b74cc254b6c7fb499d99c0366abf5e930322f242ed1c
+// 87 capabilities, 657 providers, 2727 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6535,6 +6535,79 @@ interface AcuityLocation {
   timezone: string;
 }
 
+interface AcuityPack {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  /** In the business's currency. */
+  price: number;
+  formattedPrice: string;
+  isSubscription: boolean;
+  subscriptionTermsText: string;
+  thumbnailUrl: string | null;
+  /** The business's catalog page, where the pack is bought. */
+  catalogUrl: string;
+}
+
+interface AcuityFormField {
+  fieldID: number;
+  name: string;
+  /** TEXTBOX, TEXTAREA, DROPDOWN, CHECKBOX, CHECKBOX_LIST, YESNO, FILE, ADDRESS */
+  type: string;
+  isRequired: boolean;
+  options: string[];
+}
+
+interface AcuityForm {
+  id: number;
+  name: string;
+  description: string;
+  fields: AcuityFormField[];
+}
+
+interface AcuityBookingForm {
+  clientFields: { name: "firstName" | "lastName" | "email" | "phone"; isRequired: boolean }[];
+  forms: AcuityForm[];
+}
+
+interface AcuitySchedulerInfo {
+  ownerId: string;
+  name: string;
+  description: string;
+  logoUrl: string | null;
+  schedulingUrl: string;
+  prettyUrl: string | null;
+  catalogUrl: string | null;
+  timezone: string | null;
+  country: string | null;
+  language: string | null;
+  /** ISO code, e.g. "USD". */
+  currency: string | null;
+  isExpired: boolean;
+  policies: {
+    canClientsReschedule: boolean;
+    canClientsCancel: boolean;
+    waitlist: boolean;
+    classWaitlist: boolean;
+    tipping: boolean;
+    phoneRequired: boolean;
+  };
+}
+
+interface AcuityPrice {
+  appointmentTypeId: number;
+  name: string;
+  /** Single-booking price, a decimal string ("165.00"). */
+  price: string;
+  currency: string | null;
+  paymentRequired: boolean;
+  /** Every non-subscription pack the business sells; Acuity does not publish which
+   * types a pack covers, so match by title. */
+  packs: (AcuityPack & { sessions: number | null; perSession: number | null })[];
+  cheapestPerSession: { packId: number; perSession: number } | null;
+}
+
   /** Schedule and book fitness studio classes and appointments. */
   interface Unit {
     /**
@@ -6563,6 +6636,35 @@ interface AcuityLocation {
      * — each with the id an appointment type's calendarIDs refers to.
      */
     listLocations(query: string): Promise<AcuityLocation[]>;
+
+    /**
+     * Lists everything the business sells on its Acuity catalog — class packages, subscriptions,
+     * gift certificates and any retail — each with category, price and description. Empty when the
+     * business sells none. `query` is anything findScheduler takes.
+     */
+    listPacks(query: string): Promise<AcuityPack[]>;
+
+    /**
+     * Returns what a guest must fill in to book: the contact fields (and whether phone is
+     * required) plus the business's intake-form questions, with their types, options and which are
+     * required. Pass an appointment type id to keep only the forms that type attaches.
+     */
+    getBookingForm(query: string, appointmentTypeId?: string): Promise<AcuityBookingForm>;
+
+    /**
+     * Returns the business's Acuity profile — description, logo, timezone, currency, catalog link
+     * — and its booking policies (whether clients may reschedule or cancel themselves, waitlists,
+     * tipping, phone required). Acuity publishes no opening hours, address or phone; read those
+     * off the business's own site.
+     */
+    getSchedulerInfo(query: string): Promise<AcuitySchedulerInfo>;
+
+    /**
+     * Returns one appointment type's single-booking price and currency beside every class pack the
+     * business sells, each priced per session where its title states a count, plus the cheapest
+     * per-session pack. Acuity does not publish which types a pack covers — match by title.
+     */
+    getPrice(query: string, appointmentTypeId: string): Promise<AcuityPrice>;
   }
 }
 
@@ -7367,8 +7469,9 @@ interface aliexpressProductDetail {
     search(args: SearchArgs): Promise<aliexpressProduct[]>;
 
     /**
-     * Fetches one product's detail — the price of every variant (size, color), shipping cost and
-     * delivery days, specs, images, rating and seller — by the id a search row returns.
+     * Fetches per-variant pricing and shipping details for one AliExpress product by id — includes
+     * every SKU's price, stock status, variant attributes (color, size, etc), and shipping costs
+     * to the default country.
      */
     getProduct(args: GetProductArgs): Promise<aliexpressProductDetail>;
   }
@@ -16376,6 +16479,35 @@ interface CanvaTemplate {
   previewImages: CanvaTemplatePreviewImage[];
 }
 
+interface CanvaTemplateCreator {
+  name: string;
+  url: string | null;
+}
+
+interface CanvaTemplateDetail {
+  id: string;
+  title: string;
+  url: string;
+  description: string | null;
+  designType: string | null;
+  creator: CanvaTemplateCreator | null;
+  pageImages: CanvaTemplatePreviewImage[];
+}
+
+interface CanvaPhotoImage {
+  url: string;
+  width: number;
+  height: number;
+}
+
+interface CanvaPhoto {
+  id: string;
+  title: string | null;
+  url: string;
+  licence: "free" | "pro";
+  images: CanvaPhotoImage[];
+}
+
   /**
    * Canva, the online design tool: search its templates and stock photos, read plans and prices,
    * and, with the caller signed in, create, export and organise their own designs.
@@ -16386,6 +16518,18 @@ interface CanvaTemplate {
      * every published size.
      */
     searchTemplates(query: string): Promise<{ templates: CanvaTemplate[]; warnings: string[] }>;
+
+    /**
+     * Reads one template by id or url — title, description, design type and page previews, and the
+     * creator who published it.
+     */
+    getTemplate(idOrUrl: string): Promise<CanvaTemplateDetail>;
+
+    /**
+     * Searches Canva's stock photo library by keyword — photo id, title (when the photo has one),
+     * url, free-or-Pro licence and image urls.
+     */
+    searchPhotos(query: string): Promise<{ photos: CanvaPhoto[]; warnings: string[] }>;
   }
 }
 
@@ -17191,6 +17335,59 @@ interface cascadiaseniorliving_comPageDetail {
      * other than cascadiaseniorliving.com.
      */
     getSitePage(pageRef: string): Promise<cascadiaseniorliving_comPageDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_cb2 {
+  // ── CB2 — the unit's own declarations, verbatim ──
+interface Cb2SearchArgs {
+  query: string;                 // what CB2's own search box takes, e.g. "sofas", "velvet sectional"
+  sort?: "relevance" | "price_ascending" | "price_descending" | "top_rated" | "best_selling" | "newest";
+  page?: number;                 // from 1
+  limit?: number;                // 1-100, default 24
+}
+interface Cb2Product {
+  sku: string;
+  name: string;                  // e.g. 'Berkeley 106" Jade Performance Velvet Sofa'
+  url: string;                   // the product page on www.cb2.com
+  price: number | null;          // current price of THIS size/colour, USD
+  regularPrice: number | null;   // its regular (non-sale) price, USD
+  onSale: boolean;               // a sale or clearance markdown
+  priceLabel: string | null;     // the store's own word: "Sale", "Clearance"
+  familyName: string | null;     // the product family, e.g. 'Berkeley Jade Performance Velvet Sofa (78"-106")'
+  familyPriceMin: number | null; // lowest price across the family's sizes, USD
+  familyPriceMax: number | null;
+  types: string[];               // e.g. ["Sofas"]
+  rating: number | null;         // 0-5
+  reviewCount: number | null;
+  availability: string[];        // e.g. ["InStock"], ["InStock", "Backorder"]
+  isNew: boolean;
+  finalSale: boolean;
+  widthInches: number | null;
+  description: string;
+  imageUrl: string | null;
+}
+interface Cb2Search {
+  products: Cb2Product[];
+  total: number;                 // matches across all pages
+  page: number;
+  // Set when the store maps this term to a category page instead of searching it; the
+  // products then come from the store's own autocomplete and there is no next page.
+  redirect: string | null;
+}
+
+  /**
+   * CB2 (modern furniture and home decor, a Crate & Barrel brand). Searches the catalog — sofas,
+   * sectionals, tables, decor — with current and regular price, sale/clearance flag, rating,
+   * stock status, width, image and product link.
+   */
+  interface Unit {
+    /**
+     * Searches CB2's furniture and decor catalog the way its own search box does ("sofas") and
+     * returns products with current and regular price, sale/clearance flag, family price range,
+     * rating, stock status, width, image and product-page link.
+     */
+    searchProducts(args: Cb2SearchArgs): Promise<Cb2Search>;
   }
 }
 
@@ -20746,6 +20943,47 @@ interface DailymotionPlaylistSearchResult {
   hasMore: boolean;
   playlists: DailymotionPlaylistSearchHit[];
 }
+interface DailymotionVideoListResult {
+  page: number;
+  hasMore: boolean;
+  videos: DailymotionVideo[];
+}
+interface ListTrendingVideosArgs {
+  country?: string;
+  limit?: number;
+  page?: number;
+}
+interface DailymotionTrendingResult extends DailymotionVideoListResult {
+  country: string | null;
+}
+interface DailymotionCategory {
+  id: string;
+  name: string;
+  description: string | null;
+}
+interface DailymotionCategoriesResult {
+  categories: DailymotionCategory[];
+}
+interface ListCategoryVideosArgs {
+  category: string;
+  sort?: "recent" | "visited" | "trending";
+  limit?: number;
+  page?: number;
+}
+interface DailymotionCategoryVideosResult extends DailymotionVideoListResult {
+  category: string;
+  sort: "recent" | "visited" | "trending";
+}
+interface ListLiveStreamsArgs {
+  query?: string;
+  channel?: string;
+  limit?: number;
+  page?: number;
+}
+interface DailymotionLiveStreamsResult extends DailymotionVideoListResult {
+  query: string | null;
+  channel: string | null;
+}
 
   /**
    * Search Dailymotion videos by keyword and read one video's title, channel, duration, views
@@ -20810,6 +21048,30 @@ interface DailymotionPlaylistSearchResult {
      * collection); pass the id to getPlaylist for the full record.
      */
     searchPlaylists(args: SearchPlaylistsArgs): Promise<DailymotionPlaylistSearchResult>;
+
+    /**
+     * List the videos trending on Dailymotion right now — optionally for one country ("us", "fr")
+     * — paged, same fields as getVideo. No search word needed.
+     */
+    listTrendingVideos(args?: ListTrendingVideosArgs): Promise<DailymotionTrendingResult>;
+
+    /**
+     * List Dailymotion's 17 video categories (news, music, sport, animals …) with their ids and
+     * descriptions. The finder for listCategoryVideos.
+     */
+    listCategories(): Promise<DailymotionCategoriesResult>;
+
+    /**
+     * List the videos in one Dailymotion category ("news", "sport") — newest first, or most viewed
+     * / trending — paged, same fields as getVideo. Category ids come from listCategories.
+     */
+    listCategoryVideos(args: ListCategoryVideosArgs): Promise<DailymotionCategoryVideosResult>;
+
+    /**
+     * List Dailymotion live streams on air right now, optionally matching a keyword or from one
+     * channel — same fields as getVideo, paged. Often only a handful are on air at once.
+     */
+    listLiveStreams(args?: ListLiveStreamsArgs): Promise<DailymotionLiveStreamsResult>;
   }
 }
 
@@ -38187,6 +38449,66 @@ interface KenkoScheduleFilters { facilities: KenkoFacility[]; classes: KenkoClas
   }
 }
 
+declare namespace BowmarkProvider_kijiji {
+  // ── Kijiji — the unit's own declarations, verbatim ──
+interface KijijiListing {
+  id: string;
+  title: string;
+  /** Asking price in dollars; null for "Please contact", free, swap. */
+  price: number | null;
+  currency: string;
+  priceType: string | null;
+  description: string | null;
+  url: string;
+  location: string | null;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  categoryId: number | null;
+  imageUrls: string[];
+  postedAt: string | null;
+  sortedAt: string | null;
+  /** A paid Top Ad rather than an organic match. */
+  sponsored: boolean;
+  posterId: string | null;
+  attributes: Record<string, string[]>;
+}
+interface KijijiSearchArgs {
+  query: string;
+  /** 1-based, 40 rows per page. */
+  page?: number;
+  /** Include paid Top Ads. Default false. */
+  includeSponsored?: boolean;
+}
+interface KijijiSearchResult {
+  query: string;
+  page: number;
+  totalCount: number | null;
+  listings: KijijiListing[];
+  url: string;
+}
+
+  /**
+   * Kijiji, Canada's classifieds marketplace — search used/for-sale listings (cars, furniture,
+   * electronics, housing) by keyword with price, location and posted date, then read one ad in
+   * full.
+   */
+  interface Unit {
+    /**
+     * Searches all of Kijiji Canada by keyword the way its search box does and returns the
+     * listings — title, price in CAD, location, posted date, images and the ad's url. 40 rows a
+     * page; `page` pages on.
+     */
+    search(args: KijijiSearchArgs): Promise<KijijiSearchResult>;
+
+    /**
+     * Reads one Kijiji ad in full — the whole description, every image, attributes such as
+     * condition, price, address and poster id. Takes the ad id or url `search` returns.
+     */
+    getListing(ref: string): Promise<KijijiListing>;
+  }
+}
+
 declare namespace BowmarkProvider_kingsdown {
   // ── Kingsdown — the unit's own declarations, verbatim ──
 interface KingsdownGetBedMatchResultArgs {
@@ -44525,37 +44847,55 @@ interface MindbodySession {
 }
 
 interface ListSchedulesArgs {
-  widgetId: string;
+  /** BrandedWeb schedule widget id. A studio page's <healcode-widget data-widget-id> IS this id. */
+  widgetId?: string;
+  /** Alias for widgetId — the data-widget-id off a studio page's <healcode-widget> tag. */
+  healcodeWidgetId?: string;
   locationId: string;
   date?: string;
 }
 
 interface GetScheduleArgs {
-  widgetId: string;
+  /** BrandedWeb schedule widget id. A studio page's <healcode-widget data-widget-id> IS this id. */
+  widgetId?: string;
+  /** Alias for widgetId — the data-widget-id off a studio page's <healcode-widget> tag. */
+  healcodeWidgetId?: string;
   locationId: string;
   sessionId: string;
 }
 
 interface BookSessionArgs {
-  widgetId: string;
+  /** BrandedWeb schedule widget id. A studio page's <healcode-widget data-widget-id> IS this id. */
+  widgetId?: string;
+  /** Alias for widgetId — the data-widget-id off a studio page's <healcode-widget> tag. */
+  healcodeWidgetId?: string;
   locationId: string;
   sessionId: string;
 }
 
 interface WaitlistSessionArgs {
-  widgetId: string;
+  /** BrandedWeb schedule widget id. A studio page's <healcode-widget data-widget-id> IS this id. */
+  widgetId?: string;
+  /** Alias for widgetId — the data-widget-id off a studio page's <healcode-widget> tag. */
+  healcodeWidgetId?: string;
   locationId: string;
   sessionId: string;
 }
 
 interface CancelSessionArgs {
-  widgetId: string;
+  /** BrandedWeb schedule widget id. A studio page's <healcode-widget data-widget-id> IS this id. */
+  widgetId?: string;
+  /** Alias for widgetId — the data-widget-id off a studio page's <healcode-widget> tag. */
+  healcodeWidgetId?: string;
   locationId: string;
   sessionId: string;
 }
 
 interface MyBookingsArgs {
-  widgetId: string;
+  /** BrandedWeb schedule widget id. A studio page's <healcode-widget data-widget-id> IS this id. */
+  widgetId?: string;
+  /** Alias for widgetId — the data-widget-id off a studio page's <healcode-widget> tag. */
+  healcodeWidgetId?: string;
   locationId: string;
 }
 
@@ -56363,6 +56703,10 @@ interface TrackEventArgs {
   id: number;
 }
 
+interface UntrackEventArgs {
+  id: number;
+}
+
 interface seatgeekEvent {
   id: number;
   title: string;
@@ -56484,6 +56828,15 @@ interface seatgeekRow {
      * target — so the call still throws rather than guess.
      */
     trackEvent(args: TrackEventArgs, opts?: ConnectionOption): Promise<void>;
+
+    /**
+     * Removes a tracked event from the signed-in caller's account. NEEDS THE CALLER'S SEATGEEK
+     * SIGN-IN, same door as listTrackedEvents and trackEvent. With one, the sign-in is confirmed,
+     * but the write itself has never been measured signed-in — same static-read result as
+     * trackEvent, no HTTP route or GraphQL mutation survives, only client analytics with no
+     * network target — so the call still throws rather than guess.
+     */
+    untrackEvent(args: UntrackEventArgs, opts?: ConnectionOption): Promise<void>;
   }
 }
 
@@ -57169,6 +57522,15 @@ interface ShopAppStoreReviews {
   cursor: string | null;
   warnings: string[];
 }
+interface ShopAppStoreCollection {
+  id: string;
+  title: string;
+  slug: string;
+  products: ShopAppStoreProduct[];
+  hasNextPage: boolean;
+  cursor: string | null;
+  warnings: string[];
+}
 
   /**
    * Shop (Shopify's shopping app) — search products across every Shopify store, read a product
@@ -57217,6 +57579,13 @@ interface ShopAppStoreReviews {
      * the store's overall rating, a page at a time.
      */
     getStoreReviews(handle: string, options?: { first?: number }): Promise<ShopAppStoreReviews>;
+
+    /**
+     * The products in one of a store's named collections ("Best Sellers", "Sugar-Free") — pass a
+     * store handle plus the collection id from getStore's collection titles, or the full
+     * shop.app/m/<handle>/collections/<id>/<slug> url.
+     */
+    getStoreCollection(handleOrUrl: string, collectionId?: string): Promise<ShopAppStoreCollection>;
   }
 }
 
@@ -68953,6 +69322,15 @@ interface XTweet {
   url: string;
 }
 
+interface XNotification {
+  type: "like" | "repost" | "follow" | "reply" | "mention" | "quote" | "other";
+  text: string;
+  actors: string[]; // handles, no @
+  postId: string | null;
+  postUrl: string | null;
+  createdAt: string;
+}
+
 interface XProfile {
   handle: string;
   name: string;
@@ -69028,6 +69406,12 @@ interface XPost {
      * `limit` is met.
      */
     listHomeFeed(args?: { limit?: number }, opts?: ConnectionOption): Promise<XTweet[]>;
+
+    /**
+     * Reads the signed-in caller's notifications — likes, reposts, follows, replies, mentions and
+     * quotes — with who did it and the post it points at.
+     */
+    listNotifications(args?: { limit?: number }, opts?: ConnectionOption): Promise<XNotification[]>;
   }
 }
 
@@ -72464,6 +72848,7 @@ interface BowmarkProviders {
   carusohomes: BowmarkProvider_carusohomes.Unit;
   casadragones: BowmarkProvider_casadragones.Unit;
   cascadiaseniorliving_com: BowmarkProvider_cascadiaseniorliving_com.Unit;
+  cb2: BowmarkProvider_cb2.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
   census_api: BowmarkProvider_census_api.Unit;
   cerebralvalley: BowmarkProvider_cerebralvalley.Unit;
@@ -72677,6 +73062,7 @@ interface BowmarkProviders {
   kbb: BowmarkProvider_kbb.Unit;
   keepa: BowmarkProvider_keepa.Unit;
   kenko: BowmarkProvider_kenko.Unit;
+  kijiji: BowmarkProvider_kijiji.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
   kompan: BowmarkProvider_kompan.Unit;
