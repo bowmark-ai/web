@@ -11,7 +11,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `address_validation.validate` | Validates a one-line US street address against the US Census Geocoder. `valid` says… | 1 | 🟢 |
 | `bank_transactions.parse` | Reads a bank statement export's text — OFX/QFX (Quicken, Money, most US banks) or a… | 0 | 🟢 |
 | `bank_transactions.summarize` | Totals money in and out, the ten biggest payees by spend, and a per-month breakdown —… | 0 | 🟢 |
-| `booking_links.find` | Finds a person's public booking links from their name. | 5 | 🟡 |
+| `booking_links.find` | Finds a person's public booking links from their name. | 5 | 🔴 |
 | `booking_links.read` | Reads a Calendly or Cal.com booking page without booking: who owns it, the events it… | 5 | 🟢 |
 | `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 5 | 🟢 |
 | `browser_agent.list` | Lists this account's browser agent sessions (open ones by default) — check how many… | 1 | 🟢 |
@@ -102,7 +102,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `read.page` | Loads one page and returns its content. **On a booking calendar or a… | 0 | 🟢 |
 | `read.pages` | The same read over many urls: requests to the SAME origin are serialized (one at a… | 0 | 🟢 |
 | `read.urls` | Lists the pages a site has, so you can pick which to `read.page` instead of guessing… | 0 | 🟢 |
-| `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 2 | 🟡 |
+| `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 2 | 🟢 |
 | `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one… | 3 | 🟢 |
 | `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟢 |
 | `script_execution.guide` | Returns the loop for doing a task (get_library, then a script, then run), the… | 0 | 🟢 |

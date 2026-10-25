@@ -291,7 +291,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archive_org.downloadFile` | archive.org | Builds a download URL for one file within an item — a book PDF, an audio file, a… | 🟢 |
 | `archive_org.getItem` | archive.org | Fetches one item's full metadata — title, creator, description, date, mediatype… | 🟢 |
 | `archive_org.getSnapshot` | archive.org | Reads one archived page as it was captured — the original HTML without the archive's… | 🟢 |
-| `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🟡 |
+| `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🔴 |
 | `archive_org.searchItems` | archive.org | Search the Internet Archive's library of books, films, audio, software and more using… | 🟢 |
 | `archive_org.searchScholar` | archive.org | Search scholar.archive.org for scholarly articles, papers, and academic texts —… | ⚪ |
 | `arketa.bookClass` | arketa.co | Books the signed-in client into a scheduled class using a pack or membership they… | ⚪ |
@@ -917,7 +917,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cars.getModelResearch` | cars.com | Reads Cars.com's research overview for one year/make/model: MSRP or price range, the… | 🟡 |
 | `cars.getRecalls` | cars.com | Looks up open safety recalls for a specific vehicle on Cars.com's recall surface — by… | ⚪ |
 | `cars.getTrimSpecs` | cars.com | Reads the full specification table for one year/make/model broken out BY TRIM: engine… | ⚪ |
-| `cars.getVehicleValue` | cars.com | Gets Cars.com's own valuation for a car the caller already owns — supply a VIN, a ZIP… | 🟡 |
+| `cars.getVehicleValue` | cars.com | Gets Cars.com's own valuation for a car the caller already owns — supply a VIN, a ZIP… | 🔴 |
 | `cars.search` | cars.com | Searches Cars.com's live for-sale inventory the way its own shopping results page does… | 🟢 |
 | `cars.searchDealers` | cars.com | Finds the car dealerships Cars.com lists near a ZIP — name, full address and distance… | ⚪ |
 | `cartebtp.verifyCard` | cartebtp.fr | Verifies a French construction worker card (Carte BTP) from the hash its QR code… | 🟢 |
@@ -1407,7 +1407,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.listGalleryFolders` | deviantart.com | Lists an artist's gallery folders — name, id, deviation count and cover image — so a… | 🟢 |
 | `deviantart.listNotes` | deviantart.com | Reads the signed-in caller's Notes inbox — each note's sender, subject, time and body. | ⚪ |
 | `deviantart.postComment` | deviantart.com | Posts a comment on a deviation (or a reply to a comment) as the signed-in caller. | ⚪ |
-| `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | 🟡 |
+| `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | 🟢 |
 | `deviantart.searchShop` | deviantart.com | Searches DeviantArt's Shop — prints, downloads, adoptables and commissions artists… | ⚪ |
 | `deviantart.sendNote` | deviantart.com | Sends a private Note (DeviantArt's direct message) from the signed-in caller to… | ⚪ |
 | `deviantart.submitDeviation` | deviantart.com | Submits a new deviation from the signed-in caller's account — an image with title… | ⚪ |
@@ -2075,7 +2075,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ford.findDealers` | ford.com | Finds franchised Ford dealers near a US ZIP code — name, address, phone, coordinates… | 🟢 |
 | `ford.getModelDetails` | ford.com | Reads one Ford model's showroom page — its trims with starting MSRP, key specs… | ⚪ |
 | `ford.getOffers` | ford.com | Returns Ford's current incentives for one model near a US ZIP — cash back, APR… | 🟢 |
-| `ford.getRecalls` | ford.com | Looks up the open safety recalls and field service actions on one specific Ford… | 🟢 |
+| `ford.getRecalls` | ford.com | Looks up the open safety recalls and field service actions on one specific Ford… | 🟡 |
 | `ford.getVehicle` | ford.com | Reads one specific vehicle by VIN — its full option list, all Ford-approved images… | 🟢 |
 | `ford.listColors` | ford.com | Lists the exterior paint options actually available for one Ford model near a ZIP code… | ⚪ |
 | `ford.listNameplates` | ford.com | Lists every Ford model the inventory surface can be searched by — slug, display name… | 🟢 |
@@ -2241,7 +2241,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list. | ⚪ |
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in caller's watched list. | ⚪ |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🔴 |
-| `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🔴 |
+| `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🟢 |
 | `github.updatePullRequest` | github.com | Renames a pull request's TITLE, off the same issue-viewer web mutation (PUT… | 🔴 |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
@@ -2255,14 +2255,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glofox.cancelBooking` | glofox.com | Cancels one of the signed-in member's bookings by id (from listMyBookings), after… | ⚪ |
 | `glofox.cancelMembership` | glofox.com | Sends the studio a cancellation request for one of the signed-in member's memberships… | ⚪ |
 | `glofox.changePassword` | glofox.com | Changes the signed-in member's password at that studio. | ⚪ |
-| `glofox.findStudio` | glofox.com | Finds a Glofox studio (a 'branch') from what a caller has: its Glofox namespace… | ⚪ |
+| `glofox.findStudio` | glofox.com | Finds a Glofox studio (a 'branch') from what a caller has: its Glofox namespace… | 🟢 |
 | `glofox.getClass` | glofox.com | Returns one scheduled class by id, with its description, trainers, room, capacity… | ⚪ |
 | `glofox.getMyProfile` | glofox.com | Returns the signed-in member's own profile at that studio: name, email, phone, birth… | ⚪ |
 | `glofox.getPrice` | glofox.com | Returns what one class, course session, trainer slot or facility slot costs before… | ⚪ |
-| `glofox.getStudio` | glofox.com | Returns one studio's profile: name, address and coordinates, time zone, currency… | ⚪ |
+| `glofox.getStudio` | glofox.com | Returns one studio's profile: name, address and coordinates, time zone, currency… | 🟢 |
 | `glofox.joinWaitlist` | glofox.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
 | `glofox.listAppointmentTypes` | glofox.com | Lists the one-to-one appointments a studio sells (personal training, consultations)… | ⚪ |
-| `glofox.listClasses` | glofox.com | Lists a studio's class schedule for a date range, optionally narrowed to a class type… | ⚪ |
+| `glofox.listClasses` | glofox.com | Lists a studio's class schedule for a date range, optionally narrowed to a class type… | 🟢 |
 | `glofox.listClassTypes` | glofox.com | Lists a studio's class types ('programs') with their description, default length and… | ⚪ |
 | `glofox.listCourses` | glofox.com | Lists a studio's multi-week courses (teacher trainings, beginner series) with their… | ⚪ |
 | `glofox.listFacilities` | glofox.com | Lists a studio's bookable rooms and spaces (courts, studios, saunas) with description… | ⚪ |
@@ -2392,7 +2392,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.speak` | translate.google.com | Hear `args.text` spoken in `args.language`, as the MP3 the site's own speaker button… | 🟢 |
 | `google_translate.translate` | translate.google.com | Turn text into another language — the whole point of the site, and the provider's main… | 🟢 |
 | `google_translate.translateDocument` | translate.google.com | Translate a whole document — the Documents tab, which takes a PDF, Word or PowerPoint… | 🟢 |
-| `google_translate.translateImage` | translate.google.com | Read the text in a picture and translate it — the Images tab, where a person points a… | 🟢 |
+| `google_translate.translateImage` | translate.google.com | Read the text in a picture and translate it — the Images tab, where a person points a… | 🟡 |
 | `google_translate.translateWebPage` | translate.google.com | Read somebody else's web page in your own language — the Websites tab. | 🟢 |
 | `google_translate.unsavePhrase` | translate.google.com | Take a phrase back out of the signed-in person's saved phrases — the undo for… | ⚪ |
 | `google.search` | google.com | Runs a Google web search and returns the ranked results — title, destination url and… | ⚪ |
@@ -3083,7 +3083,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mergify.pullStatus` | mergify.com | One pull request's own position in the merge queue — queued-at time, queue position… | ⚪ |
 | `mergify.queueStatus` | mergify.com | The live state of a repo's Mergify merge queue — every active batch (its status code… | 🟢 |
 | `meteofrance.getMarineWindForecast` | meteofrance.com | Marine wind forecast for French coastal regions, including wind speed, gusts, and… | ⚪ |
-| `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟡 |
+| `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🔴 |
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟢 |
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟡 |
 | `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
@@ -3896,7 +3896,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reserve_with_google.modifyBooking` | google.com/maps/reserve | Changes the time or party size of one of the caller's bookings, where the partner… | ⚪ |
 | `reserve_with_google.updateSettings` | google.com/maps/reserve | Updates the caller's Reserve with Google contact details or notification preferences. | ⚪ |
 | `resy.cancelBooking` | resy.com | Cancels a reservation booked in the same session, using the diner's sign-in from that… | 🟢 |
-| `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
+| `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟢 |
 | `resy.confirmBooking` | resy.com | Finishes the booking startBooking began in the same session: signs the diner in with… | 🟢 |
 | `resy.search` | resy.com | Finds Resy venues matching a restaurant name, ranked by Resy's own relevance and… | 🟢 |
 | `resy.startBooking` | resy.com | Starts booking one open time for a diner with a Resy account: checks the time is open… | 🟢 |
@@ -4601,7 +4601,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `summerfridaysquiz.getSkincareQuizQuestions` | summerfridays.com | Lists the live Skincare Quiz's questions (skin type, sensitivity, skin concerns, eye… | 🟢 |
 | `summerfridaysquiz.getSkincareRoutine` | summerfridays.com | Runs Summer Fridays' own published Skincare Quiz decision tree (the routine-category… | 🟢 |
 | `sunhomesaunas.addSaunaToCart` | sunhomesaunas.com | Adds one real matched product to a real Shopify cart at Sun Home Saunas' own real live… | 🟢 |
-| `sunhomesaunas.getPersonalizedSaunaMatches` | sunhomesaunas.com | Applies real answers to the live Digioh product-weight rules the site's quiz… | 🟢 |
+| `sunhomesaunas.getPersonalizedSaunaMatches` | sunhomesaunas.com | Applies real answers to the live Digioh product-weight rules the site's quiz… | 🟡 |
 | `sunhomesaunas.getSaunaFinderQuestions` | sunhomesaunas.com | Reads Sun Home Saunas' real, live Digioh buyer quiz from its public breakpoint… | 🟢 |
 | `sunlighten.getModelPricing` | sunlighten.com | Reads the real, currently-quoted price for a Sunlighten sauna model off the public… | 🟢 |
 | `sunlighten.matchSauna` | sunlighten.com | Runs Sunlighten's own 'Find My Sauna' quiz match — the same wellness-goal +… | 🟢 |
