@@ -2857,8 +2857,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟢 |
 | `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | 🟢 |
 | `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | 🟢 |
-| `linkedin.joinGroup` | linkedin.com | Joins a LinkedIn group as the signed-in caller, or asks to join one that needs approval. | ⚪ |
-| `linkedin.leaveGroup` | linkedin.com | Leaves a LinkedIn group the signed-in caller belongs to. | ⚪ |
+| `linkedin.joinGroup` | linkedin.com | Joins a LinkedIn group as the signed-in caller, or asks to join one that needs approval. | 🟢 |
+| `linkedin.leaveGroup` | linkedin.com | Leaves a LinkedIn group the signed-in caller belongs to. | 🟢 |
 | `linkedin.listAppliedJobs` | linkedin.com | Lists the jobs the caller has applied to on LinkedIn, newest first — each posting's id… | 🟢 |
 | `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟢 |
 | `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | 🟢 |
@@ -2891,7 +2891,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.searchSchools` | linkedin.com | Searches LinkedIn's schools and universities by name and returns each one's name… | ⚪ |
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | 🟢 |
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | 🟢 |
-| `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | ⚪ |
+| `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | 🟢 |
 | `linkedin.setProfilePhoto` | linkedin.com | Replaces the signed-in caller's profile photo with an image from a URL or uploaded file. | ⚪ |
 | `linkedin.updateProfile` | linkedin.com | Edits the signed-in caller's profile intro and About section — headline, About text… | ⚪ |
 | `linkedin.withdrawInvitation` | linkedin.com | Withdraws a connection invitation the signed-in caller sent and is still pending, by… | 🟢 |
