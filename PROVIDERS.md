@@ -1079,13 +1079,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude.deleteConversation` | claude.ai | Deletes one of the CALLER's Claude chats. | ⚪ |
 | `claude.deleteProjectDocument` | claude.ai | Removes a document from one of the CALLER's project knowledge bases. | ⚪ |
 | `claude.deleteSharedLink` | claude.ai | Turns off one of the CALLER's conversation share links so the URL stops working. | ⚪ |
-| `claude.getAccount` | claude.ai | Reads the CALLER's Claude account — name, email, the organizations they belong to and… | ⚪ |
+| `claude.getAccount` | claude.ai | Reads the CALLER's own Claude account — id, email and display name — and the… | 🟢 |
 | `claude.getConversation` | claude.ai | Reads one of the CALLER's Claude conversations — title, model, and every message in… | ⚪ |
 | `claude.getMemory` | claude.ai | Reads what Claude remembers about the CALLER (Settings → Capabilities → Memory)… | ⚪ |
 | `claude.getPreferences` | claude.ai | Reads the CALLER's personal preferences — what Claude should call them, their work… | ⚪ |
 | `claude.getProject` | claude.ai | Reads one of the CALLER's Claude projects — name, description, custom instructions… | ⚪ |
-| `claude.getPublishedArtifact` | claude.ai | Reads a published Claude artifact from its public link… | ⚪ |
-| `claude.getSharedConversation` | claude.ai | Reads a public shared Claude conversation from its share link (claude.ai/share/<id>) —… | ⚪ |
+| `claude.getPublishedArtifact` | claude.ai | Reads a published Claude artifact from its public link… | 🟢 |
+| `claude.getSharedConversation` | claude.ai | Reads a public shared Claude conversation from its share link (claude.ai/share/<id>) —… | 🟢 |
 | `claude.getUsage` | claude.ai | Reads how much of the CALLER's Claude usage limit is spent and when it resets, the way… | ⚪ |
 | `claude.listArtifacts` | claude.ai | Lists the artifacts the CALLER has made across their chats, with whether each is… | ⚪ |
 | `claude.listConnectors` | claude.ai | Lists the connectors (MCP servers) the CALLER has added to Claude and whether each is… | ⚪ |

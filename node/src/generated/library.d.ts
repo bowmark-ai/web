@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: de9d63c3f1b29efb26cbe31efe446419f00eb1a1b272d678df004498be85b94d
-// 87 capabilities, 651 providers, 2646 typed functions, 20 refused.
+// Manifest version: a37a78515bf8f94003dd846c51476013ab825a7365e8eac0eaff08c8b03be160
+// 87 capabilities, 651 providers, 2652 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18868,6 +18868,39 @@ interface ClubreadyPackage {
   contractUrl: string | null;
 }
 
+interface ClubreadyServiceType {
+  id: string;
+  name: string;
+  description: string | null;
+  durations: { id: string; minutes: number }[];
+  startMinutes: string[];
+  allowCrossStudioBooking: boolean;
+}
+
+interface ClubreadyClassType {
+  id: string;
+  name: string;
+  description: string | null;
+  category: string | null;
+  categoryId: string | null;
+}
+
+interface ClubreadyClassCategory {
+  id: string;
+  name: string;
+  summary: string | null;
+  description: string | null;
+  imageUrl: string | null;
+}
+
+interface ClubreadyInstructor {
+  id: string;
+  name: string;
+  bio: string | null;
+  headshotUrl: string | null;
+  classCount: number;
+}
+
   /**
    * Xponential studios on ClubReady — CycleBar, Club Pilates, Pure Barre, YogaSix, StretchLab,
    * Rumble, BFT and more: find a studio, read its class schedule and pricing, and (signed in)
@@ -18919,6 +18952,34 @@ interface ClubreadyPackage {
      * site states one) its terms. Read only: buying is `buyPackage`, which is parked for money.
      */
     listPricing(studio: string): Promise<ClubreadyPackage[]>;
+
+    /**
+     * Lists the one-on-one session types a studio sells — StretchLab's assisted stretch, for one —
+     * with each type's id, its bookable durations (each with the id a booking takes) and the
+     * minute marks a session may start on. The door for listServiceAvailability and bookService.
+     * Most class-only studios answer an empty list.
+     */
+    listServiceTypes(studio: string): Promise<ClubreadyServiceType[]>;
+
+    /**
+     * Lists every class type a brand runs (CycleBar Classic, Performance, Endurance, …) with its
+     * description and category. Types the brand itself marks "DO NOT USE" are dropped.
+     */
+    listClassTypes(brand: string): Promise<ClubreadyClassType[]>;
+
+    /**
+     * Lists the categories a brand groups its schedule by (CycleBar: Xpress, Connect, Classic,
+     * Performance, …) with each one's summary, description and card image.
+     */
+    listClassCategories(brand: string): Promise<ClubreadyClassCategory[]>;
+
+    /**
+     * Lists the instructors teaching at a studio between two YYYY-MM-DD dates (default: the next
+     * 14 days), with each one's id, name, bio, headshot and how many classes they teach in that
+     * window — drawn from the schedule, since the site has no anonymous instructor route. Busiest
+     * first.
+     */
+    listInstructors(args: { studio: string, from?: string, to?: string }): Promise<ClubreadyInstructor[]>;
   }
 }
 
@@ -44536,6 +44597,30 @@ interface MsnMarketSummary {
   nasdaq: MsnStockQuote;
 }
 
+interface MsnWeatherDay {
+  date: string;
+  highTemp: number;
+  lowTemp: number;
+  condition: string;  // the site's own labels — read the values off a result, never guess one from prose
+  nightCondition: string;
+  precipitationChance: number;
+  nightPrecipitationChance: number;
+  rainAmount: string;
+  snowAmount: string;
+  summary: string;
+}
+
+interface MsnWeatherForecast {
+  location: string;
+  currentTemperature: number;
+  currentCondition: string;
+  feelsLike: number;
+  humidity: number;
+  windSpeedMph: number;
+  lastUpdated: string;
+  days: MsnWeatherDay[];
+}
+
   /**
    * MSN's news portal — top stories, section feeds, article text, money quotes and weather,
    * logged out.
@@ -44607,6 +44692,17 @@ interface MsnMarketSummary {
      * them).
      */
     getMarketSummary(): Promise<MsnMarketSummary>;
+
+    /**
+     * Reads the 10-day forecast for a named city off MSN Weather the way
+     * msn.com/en-us/weather/forecast/in-<City>,<ST> does for a visitor with no account: current
+     * temperature and condition, then per day a high/low, condition, day and night precipitation
+     * chance, rain/snow amount and the site's own summary sentence. `location` is a city,
+     * optionally with a 2-letter state, e.g. "Seattle, WA" or "Seattle". Throws when MSN cannot
+     * resolve the name and would otherwise fall back to guessing a location from the caller's own
+     * network address — never silently returns weather for the wrong place.
+     */
+    getWeatherForecast(location: string): Promise<MsnWeatherForecast>;
   }
 }
 
@@ -67483,6 +67579,18 @@ interface GetArticleArgs {
   url: string; // a url from listArticles or listSections
 }
 
+interface WsjSearchResult {
+  headline: string;
+  byline: string | null; // e.g. "Patrick George"
+  teaser: string | null;
+  publishedAt: string | null; // the site's own timestamp string, relative or absolute
+  url: string; // pass to getArticle
+}
+
+interface SearchArticlesArgs {
+  query: string;
+}
+
   /**
    * WSJ news, markets data and articles — a DataDome wall in front, cleared by a browser; most
    * of the site is reachable with no account, full paywalled articles need the caller's own
@@ -67503,6 +67611,12 @@ interface GetArticleArgs {
      * preview when the article is paywalled, the full text otherwise.
      */
     getArticle(args: GetArticleArgs): Promise<WsjArticle>;
+
+    /**
+     * Searches WSJ's own site search for a keyword and returns matching articles with headline,
+     * byline, a publish timestamp and url.
+     */
+    searchArticles(args: SearchArticlesArgs): Promise<WsjSearchResult[]>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: de9d63c3f1b29efb26cbe31efe446419f00eb1a1b272d678df004498be85b94d
-# 87 capabilities, 651 providers, 2628 typed functions, 20 refused.
+# Manifest version: a37a78515bf8f94003dd846c51476013ab825a7365e8eac0eaff08c8b03be160
+# 87 capabilities, 651 providers, 2634 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10790,6 +10790,48 @@ class Prv_clubready_ClubreadyPackage_Out_price_Out(TypedDict):
     formatted: str
     numeric: float
     currency: str
+
+class Prv_clubready_ClubreadyServiceType_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    durations: list[Prv_clubready_ClubreadyServiceType_Out_durations_item_Out]
+    startMinutes: list[str]
+    allowCrossStudioBooking: bool
+
+class Prv_clubready_ClubreadyServiceType_Out_durations_item_Out(TypedDict):
+    id: str
+    minutes: float
+
+class Prv_clubready_ClubreadyClassType_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    category: str | None
+    categoryId: str | None
+
+class Prv_clubready_ClubreadyClassCategory_Out(TypedDict):
+    id: str
+    name: str
+    summary: str | None
+    description: str | None
+    imageUrl: str | None
+
+Prv_clubready_listInstructors_args_In = TypedDict(
+    "Prv_clubready_listInstructors_args_In",
+    {
+    "studio": str,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    },
+)
+
+class Prv_clubready_ClubreadyInstructor_Out(TypedDict):
+    id: str
+    name: str
+    bio: str | None
+    headshotUrl: str | None
+    classCount: float
 
 class Prv_cnbc_com_GetQuoteArgs_In(TypedDict):
     symbol: str
@@ -24670,6 +24712,28 @@ class Prv_msn_MsnMarketSummary_Out(TypedDict):
     dow: Prv_msn_MsnStockQuote_Out
     sp500: Prv_msn_MsnStockQuote_Out
     nasdaq: Prv_msn_MsnStockQuote_Out
+
+class Prv_msn_MsnWeatherForecast_Out(TypedDict):
+    location: str
+    currentTemperature: float
+    currentCondition: str
+    feelsLike: float
+    humidity: float
+    windSpeedMph: float
+    lastUpdated: str
+    days: list[Prv_msn_MsnWeatherDay_Out]
+
+class Prv_msn_MsnWeatherDay_Out(TypedDict):
+    date: str
+    highTemp: float
+    lowTemp: float
+    condition: str
+    nightCondition: str
+    precipitationChance: float
+    nightPrecipitationChance: float
+    rainAmount: str
+    snowAmount: str
+    summary: str
 
 class Prv_municipal_recreation_fees_fetcher_municipal_recreation_fees_fetcherRow_Out(TypedDict):
     municipality: str
@@ -38804,6 +38868,16 @@ class Prv_wsj_WsjArticle_Out(TypedDict):
     paywalled: bool
     url: str
 
+class Prv_wsj_SearchArticlesArgs_In(TypedDict):
+    query: str
+
+class Prv_wsj_WsjSearchResult_Out(TypedDict):
+    headline: str
+    byline: str | None
+    teaser: str | None
+    publishedAt: str | None
+    url: str
+
 class Prv_wunderflats_search_args_In(TypedDict):
     city: str
 
@@ -47008,6 +47082,30 @@ class Prv_clubready(Protocol):
         one's price, credit count, whether it is a membership or recurring, its category and
         (where the site states one) its terms. Read only: buying is `buyPackage`, which is
         parked for money.
+        """
+
+    async def listServiceTypes(self, studio: str, /) -> list[Prv_clubready_ClubreadyServiceType_Out]:
+        """Lists the one-on-one session types a studio sells — StretchLab's assisted stretch, for
+        one — with each type's id, its bookable durations (each with the id a booking takes) and
+        the minute marks a session may start on. The door for listServiceAvailability and
+        bookService. Most class-only studios answer an empty list.
+        """
+
+    async def listClassTypes(self, brand: str, /) -> list[Prv_clubready_ClubreadyClassType_Out]:
+        """Lists every class type a brand runs (CycleBar Classic, Performance, Endurance, …) with
+        its description and category. Types the brand itself marks "DO NOT USE" are dropped.
+        """
+
+    async def listClassCategories(self, brand: str, /) -> list[Prv_clubready_ClubreadyClassCategory_Out]:
+        """Lists the categories a brand groups its schedule by (CycleBar: Xpress, Connect, Classic,
+        Performance, …) with each one's summary, description and card image.
+        """
+
+    async def listInstructors(self, args: Prv_clubready_listInstructors_args_In, /) -> list[Prv_clubready_ClubreadyInstructor_Out]:
+        """Lists the instructors teaching at a studio between two YYYY-MM-DD dates (default: the
+        next 14 days), with each one's id, name, bio, headshot and how many classes they teach
+        in that window — drawn from the schedule, since the site has no anonymous instructor
+        route. Busiest first.
         """
 
 class Prv_cnbc_com(Protocol):
@@ -56426,6 +56524,17 @@ class Prv_msn(Protocol):
         (indices don't carry them).
         """
 
+    async def getWeatherForecast(self, location: str, /) -> Prv_msn_MsnWeatherForecast_Out:
+        """Reads the 10-day forecast for a named city off MSN Weather the way
+        msn.com/en-us/weather/forecast/in-<City>,<ST> does for a visitor with no account:
+        current temperature and condition, then per day a high/low, condition, day and night
+        precipitation chance, rain/snow amount and the site's own summary sentence. `location`
+        is a city, optionally with a 2-letter state, e.g. "Seattle, WA" or "Seattle". Throws
+        when MSN cannot resolve the name and would otherwise fall back to guessing a location
+        from the caller's own network address — never silently returns weather for the wrong
+        place.
+        """
+
 class Prv_municipal_recreation_fees_fetcher(Protocol):
     """Fetches recreation centre membership and pass fees from Fredericton and Dieppe, with
     periods (annual, monthly, per-visit).
@@ -64517,6 +64626,11 @@ class Prv_wsj(Protocol):
     async def getArticle(self, args: Prv_wsj_GetArticleArgs_In, /) -> Prv_wsj_WsjArticle_Out:
         """Gets one article's own headline, byline, dek, section, publish date and body — the free
         preview when the article is paywalled, the full text otherwise.
+        """
+
+    async def searchArticles(self, args: Prv_wsj_SearchArticlesArgs_In, /) -> list[Prv_wsj_WsjSearchResult_Out]:
+        """Searches WSJ's own site search for a keyword and returns matching articles with
+        headline, byline, a publish timestamp and url.
         """
 
 class Prv_wunderflats(Protocol):

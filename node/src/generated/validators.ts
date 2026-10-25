@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: de9d63c3f1b29efb26cbe31efe446419f00eb1a1b272d678df004498be85b94d
-// 2628 checked, 20 unchecked.
+// Manifest version: a37a78515bf8f94003dd846c51476013ab825a7365e8eac0eaff08c8b03be160
+// 2634 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "de9d63c3f1b29efb26cbe31efe446419f00eb1a1b272d678df004498be85b94d",
+  "version": "a37a78515bf8f94003dd846c51476013ab825a7365e8eac0eaff08c8b03be160",
   "units": {
     "address_validation": {
       "defs": {
@@ -19098,6 +19098,65 @@ export const VALIDATORS: ValidatorTable = {
             "name": "studio",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listServiceTypes": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listClassTypes": [
+          {
+            "name": "brand",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listClassCategories": [
+          {
+            "name": "brand",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listInstructors": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "studio",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -49352,7 +49411,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getMarketSummary": []
+        "getMarketSummary": [],
+        "getWeatherForecast": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.municipal_recreation_fees_fetcher": {
@@ -78173,6 +78241,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -78193,6 +78273,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArticlesArgs"
             },
             "optional": false
           }
