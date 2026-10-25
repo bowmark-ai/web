@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 634ba0521954d8915f122b030967e53d979d225cc4a9c12fc2237be1436f1d34
-// 87 capabilities, 653 providers, 2681 typed functions, 20 refused.
+// Manifest version: 217b60eec2042603cfd96d9a03944f3d7d57808cad1608527c785eb501aecf89
+// 87 capabilities, 653 providers, 2693 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7285,8 +7285,8 @@ interface alibabaProductReviewsArgs {
     searchProducts(args: { query: string, language?: string, country?: string, priceMin?: number, priceMax?: number, page?: number }): Promise<alibabaSearchRow[]>;
 
     /**
-     * Get detailed information for a single product by ID or URL, including title, price ladder,
-     * MOQ, images and supplier.
+     * Get detailed information for a single product by ID or URL, including title, price and its
+     * unit, MOQ, images, spec table, variant options and supplier.
      */
     getProduct(idOrUrl: string | number): Promise<alibabaProductRow>;
 
@@ -7344,6 +7344,13 @@ interface aliexpressProductDetail {
   images: string[];
   /** SKU dimensions, e.g. { name: "Color", values: ["black", "white"] }. */
   variants: { name: string; values: string[] }[];
+  /** Every SKU with its OWN price, e.g. { options: { Color: "black", Length: "1m" }, price: 1.09 }.
+   *  `price` above is only the page's selected SKU. */
+  skus: { sku_id: string; options: Record<string, string>; price?: number; original_price?: number;
+    currency?: string; stock?: number; available: boolean }[];
+  /** Delivery to the ship-to country AliExpress resolved (US through our proxy); not choosable yet. */
+  shipping: { ship_to: string; ship_from?: string; fee?: number; currency?: string; carrier?: string;
+    delivery_days_min?: number; delivery_days_max?: number }[];
   properties: { name: string; value: string }[];
   rating?: number;
   review_count?: number;
@@ -7360,8 +7367,8 @@ interface aliexpressProductDetail {
     search(args: SearchArgs): Promise<aliexpressProduct[]>;
 
     /**
-     * Fetches one product's detail — price, variants, specs, images, rating and seller — by the id
-     * a search row returns.
+     * Fetches one product's detail — the price of every variant (size, color), shipping cost and
+     * delivery days, specs, images, rating and seller — by the id a search row returns.
      */
     getProduct(args: GetProductArgs): Promise<aliexpressProductDetail>;
   }
@@ -13750,6 +13757,49 @@ interface BlueskyFeedInfo {
   isValid: boolean;
 }
 
+interface BlueskyUserFeed {
+  uri: string;
+  name: string;
+  creator: BlueskyPostAuthor;
+  description: string | null;
+  likeCount: number;
+}
+
+interface BlueskyUserFeedsResults {
+  feeds: BlueskyUserFeed[];
+  cursor?: string;
+}
+
+interface BlueskyUserList {
+  uri: string;
+  name: string;
+  purpose: "curate" | "moderation" | "unknown";
+  itemCount: number;
+  description: string | null;
+  creator: BlueskyPostAuthor;
+}
+
+interface BlueskyUserListsResults {
+  lists: BlueskyUserList[];
+  cursor?: string;
+}
+
+interface BlueskyListMember {
+  uri: string;
+  member: BlueskyPostAuthor;
+}
+
+interface BlueskyListResult {
+  list: BlueskyUserList;
+  members: BlueskyListMember[];
+  cursor?: string;
+}
+
+interface BlueskyListFeedResult {
+  posts: BlueskyPost[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -13921,6 +13971,38 @@ interface BlueskyFeedInfo {
      * answers a fixed-size list.
      */
     getSuggestedUsers(options?: { limit?: number }): Promise<BlueskySuggestedUsersResults>;
+
+    /**
+     * The custom feeds a person has made, page by page, as their profile's Feeds tab shows them.
+     * Takes a handle, a DID, or a bsky.app profile URL. Returns each feed's URI, name, creator
+     * profile, description and like count. THROWS `blueskyInputError` on an actor the AppView
+     * cannot find — check the spelling with `searchUsers` or `resolveHandle`.
+     */
+    getUserFeeds(actor: string | { actor: string; limit?: number; cursor?: string }): Promise<BlueskyUserFeedsResults>;
+
+    /**
+     * The lists (curation and moderation lists) a person has made, page by page, as their
+     * profile's Lists tab shows them. Takes a handle, a DID, or a bsky.app profile URL. Returns
+     * each list's URI, name, purpose, item count, description and creator profile. THROWS
+     * `blueskyInputError` on an actor the AppView cannot find — check the spelling with
+     * `searchUsers` or `resolveHandle`.
+     */
+    getUserLists(actor: string | { actor: string; limit?: number; cursor?: string }): Promise<BlueskyUserListsResults>;
+
+    /**
+     * A list's own details plus its members, page by page. Takes a list at:// URI or a bsky.app
+     * list URL, from `getUserLists`' own `uri` field. Returns the list's own name, purpose, item
+     * count and description plus each member's handle, DID, display name and avatar. THROWS
+     * `blueskyInputError` on a list the AppView cannot find.
+     */
+    getList(list: string | { list: string; limit?: number; cursor?: string }): Promise<BlueskyListResult>;
+
+    /**
+     * The posts from everyone on a curation list, as the list's own feed tab shows them, page by
+     * page. Takes a list at:// URI or a bsky.app list URL, from `getUserLists`' own `uri` field. A
+     * list the AppView cannot find answers with an empty result rather than an error.
+     */
+    getListFeed(list: string | { list: string; limit?: number; cursor?: string }): Promise<BlueskyListFeedResult>;
   }
 }
 
@@ -15167,6 +15249,33 @@ interface BusinessInsiderVideoRecord {
   playerScriptUrl?: string;
   hlsUrl?: string;
 }
+interface GetMarketQuoteArgs {
+  symbol?: string;
+  url?: string;
+}
+interface BusinessInsiderMarketSnapshot {
+  label: string;
+  symbol: string;
+  category: string;
+  currentValue: number;
+  previousClose: number;
+  absoluteChange: number;
+  relativeChange: number;
+  asOf: string | null;
+  fields: Record<string, string>;
+}
+interface FindTickerArgs {
+  query: string;
+  limit?: number;
+}
+interface BusinessInsiderTickerMatch {
+  name: string;
+  category: string;
+  symbol: string | null;
+  isin: string | null;
+  slug: string;
+  url: string | null;
+}
 
   /**
    * Reads Business Insider's news, markets and guides verticals — section listings and full
@@ -15216,6 +15325,20 @@ interface BusinessInsiderVideoRecord {
      * VideoObject JSON-LD, given the video page URL.
      */
     getVideo(args: GetVideoArgs): Promise<BusinessInsiderVideoRecord>;
+
+    /**
+     * Reads a live quote snapshot (current value, previous close, change, bid/ask, volume, market
+     * cap, day and 52-week range) off a markets.businessinsider.com page, given a stock symbol or
+     * the page URL of an index, currency pair, commodity or bond.
+     */
+    getMarketQuote(args: GetMarketQuoteArgs): Promise<BusinessInsiderMarketSnapshot>;
+
+    /**
+     * Resolves a company name to matching stock listings on markets.businessinsider.com (name,
+     * ticker, ISIN, quote page URL), best match first, e.g. "Apple" -> AAPL. Feed a match's symbol
+     * or url to getMarketQuote.
+     */
+    findTicker(args: FindTickerArgs): Promise<BusinessInsiderTickerMatch[]>;
 
     /**
      * Reads one businessinsider.com article's full text and metadata (headline, author, section,
@@ -25860,6 +25983,44 @@ interface Backlink {
   url: string;
 }
 
+interface ListExternalLinksArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface ExternalLink {
+  url: string;
+}
+
+interface ListCategoriesArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface WikiCategory {
+  title: string;
+}
+
+interface ListCategoryMembersArgs {
+  category: string;
+  wiki: string;
+}
+
+interface CategoryMember {
+  title: string;
+  url: string;
+  type: "page" | "subcategory" | "file";
+}
+
+interface ListImagesArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface WikiImage {
+  title: string;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -25941,6 +26102,33 @@ interface Backlink {
      * /api.php?action=query&list=backlinks`.
      */
     listBacklinks(args: ListBacklinksArgs): Promise<Backlink[]>;
+
+    /**
+     * Every link off-wiki from one article — sources and official sites the page cites, as raw
+     * urls. `GET /api.php?action=query&prop=extlinks`.
+     */
+    listExternalLinks(args: ListExternalLinksArgs): Promise<ExternalLink[]>;
+
+    /**
+     * The categories an article belongs to — how a Fandom wiki organizes its own subject matter (a
+     * character's affiliations, a game's platform, an episode's season). `GET
+     * /api.php?action=query&prop=categories`.
+     */
+    listCategories(args: ListCategoriesArgs): Promise<WikiCategory[]>;
+
+    /**
+     * Every article filed under one category — hand it "Category:Characters" (or just
+     * "Characters") and get every member page back, each labeled page/subcategory/file by its
+     * namespace. A door in its own right: a category name is words a person would say. `GET
+     * /api.php?action=query&list=categorymembers`.
+     */
+    listCategoryMembers(args: ListCategoryMembersArgs): Promise<CategoryMember[]>;
+
+    /**
+     * Every image used in an article, by file title, in page order — the door to `getImage`. `GET
+     * /api.php?action=query&prop=images`.
+     */
+    listImages(args: ListImagesArgs): Promise<WikiImage[]>;
   }
 }
 
@@ -54511,6 +54699,28 @@ interface robloxGame {
   downvotes: number | null;
 }
 
+interface robloxGameDetail {
+  universeId: number;
+  rootPlaceId: number;
+  name: string;
+  description: string | null;
+  creator: { id: number; name: string; type: string; verified: boolean };
+  price: number | null;
+  playing: number;
+  visits: number;
+  maxPlayers: number;
+  genre: string | null;
+  created: string;
+  updated: string;
+  url: string;
+}
+
+interface robloxChart {
+  sortId: string;
+  title: string;
+  games: robloxGame[];
+}
+
   /** Search and discover games on Roblox. */
   interface Unit {
     /**
@@ -54520,6 +54730,21 @@ interface robloxGame {
      * returns an empty array.
      */
     searchGames(query: string, opts?: ConnectionOption): Promise<robloxGame[]>;
+
+    /**
+     * One Roblox game's full record by `universeId` (the id `searchGames` and `listPopularGames`
+     * return): name, description, creator, price, live players, total visits, max players, genre,
+     * created/updated dates and its roblox.com URL. Throws an input error for a universeId Roblox
+     * does not know.
+     */
+    getGame(universeId: number, opts?: ConnectionOption): Promise<robloxGameDetail>;
+
+    /**
+     * Roblox's Charts page (apis.roblox.com/explore-api): each chart — Top Trending,
+     * Up-and-Coming, Top Playing Now, Fun with Friends, Top Revisited — with its games, live
+     * player counts and up/downvotes, in the site's own order. Sponsored entries are dropped.
+     */
+    listPopularGames(opts?: ConnectionOption): Promise<robloxChart[]>;
   }
 }
 

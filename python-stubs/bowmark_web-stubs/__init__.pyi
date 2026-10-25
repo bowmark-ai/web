@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 634ba0521954d8915f122b030967e53d979d225cc4a9c12fc2237be1436f1d34
-# 87 capabilities, 653 providers, 2663 typed functions, 20 refused.
+# Manifest version: 217b60eec2042603cfd96d9a03944f3d7d57808cad1608527c785eb501aecf89
+# 87 capabilities, 653 providers, 2675 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4137,6 +4137,8 @@ class Prv_aliexpress_aliexpressProductDetail_Out(TypedDict):
     currency: NotRequired[str]
     images: list[str]
     variants: list[Prv_aliexpress_aliexpressProductDetail_Out_variants_item_Out]
+    skus: list[Prv_aliexpress_aliexpressProductDetail_Out_skus_item_Out]
+    shipping: list[Prv_aliexpress_aliexpressProductDetail_Out_shipping_item_Out]
     properties: list[Prv_aliexpress_aliexpressProductDetail_Out_properties_item_Out]
     rating: NotRequired[float]
     review_count: NotRequired[float]
@@ -4146,6 +4148,24 @@ class Prv_aliexpress_aliexpressProductDetail_Out(TypedDict):
 class Prv_aliexpress_aliexpressProductDetail_Out_variants_item_Out(TypedDict):
     name: str
     values: list[str]
+
+class Prv_aliexpress_aliexpressProductDetail_Out_skus_item_Out(TypedDict):
+    sku_id: str
+    options: Mapping[str, str]
+    price: NotRequired[float]
+    original_price: NotRequired[float]
+    currency: NotRequired[str]
+    stock: NotRequired[float]
+    available: bool
+
+class Prv_aliexpress_aliexpressProductDetail_Out_shipping_item_Out(TypedDict):
+    ship_to: str
+    ship_from: NotRequired[str]
+    fee: NotRequired[float]
+    currency: NotRequired[str]
+    carrier: NotRequired[str]
+    delivery_days_min: NotRequired[float]
+    delivery_days_max: NotRequired[float]
 
 class Prv_aliexpress_aliexpressProductDetail_Out_properties_item_Out(TypedDict):
     name: str
@@ -7973,6 +7993,62 @@ class Prv_bluesky_getSuggestedUsers_options_In(TypedDict):
 class Prv_bluesky_BlueskySuggestedUsersResults_Out(TypedDict):
     users: list[Prv_bluesky_BlueskyPostAuthor_Out]
 
+class Prv_bluesky_getUserFeeds_actor_u1_In(TypedDict):
+    actor: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyUserFeedsResults_Out(TypedDict):
+    feeds: list[Prv_bluesky_BlueskyUserFeed_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyUserFeed_Out(TypedDict):
+    uri: str
+    name: str
+    creator: Prv_bluesky_BlueskyPostAuthor_Out
+    description: str | None
+    likeCount: float
+
+class Prv_bluesky_getUserLists_actor_u1_In(TypedDict):
+    actor: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyUserListsResults_Out(TypedDict):
+    lists: list[Prv_bluesky_BlueskyUserList_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyUserList_Out(TypedDict):
+    uri: str
+    name: str
+    purpose: Literal["curate"] | Literal["moderation"] | Literal["unknown"]
+    itemCount: float
+    description: str | None
+    creator: Prv_bluesky_BlueskyPostAuthor_Out
+
+class Prv_bluesky_getList_list_u1_In(TypedDict):
+    list: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyListResult_Out(TypedDict):
+    list: Prv_bluesky_BlueskyUserList_Out
+    members: list[Prv_bluesky_BlueskyListMember_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyListMember_Out(TypedDict):
+    uri: str
+    member: Prv_bluesky_BlueskyPostAuthor_Out
+
+class Prv_bluesky_getListFeed_list_u1_In(TypedDict):
+    list: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyListFeedResult_Out(TypedDict):
+    posts: list[Prv_bluesky_BlueskyPost_Out]
+    cursor: NotRequired[str]
+
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
     modelName: str
@@ -8710,6 +8786,33 @@ class Prv_businessinsider_com_BusinessInsiderArticleAuthor_Out(TypedDict):
     name: str
     url: NotRequired[str]
     jobTitle: NotRequired[str]
+
+class Prv_businessinsider_com_GetMarketQuoteArgs_In(TypedDict):
+    symbol: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_businessinsider_com_BusinessInsiderMarketSnapshot_Out(TypedDict):
+    label: str
+    symbol: str
+    category: str
+    currentValue: float
+    previousClose: float
+    absoluteChange: float
+    relativeChange: float
+    asOf: str | None
+    fields: Mapping[str, str]
+
+class Prv_businessinsider_com_FindTickerArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_businessinsider_com_BusinessInsiderTickerMatch_Out(TypedDict):
+    name: str
+    category: str
+    symbol: str | None
+    isin: str | None
+    slug: str
+    url: str | None
 
 class Prv_businessinsider_com_GetArticleArgs_In(TypedDict):
     url: str
@@ -15004,6 +15107,36 @@ class Prv_fandom_Backlink_Out(TypedDict):
     id: str
     title: str
     url: str
+
+class Prv_fandom_ListExternalLinksArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+
+class Prv_fandom_ExternalLink_Out(TypedDict):
+    url: str
+
+class Prv_fandom_ListCategoriesArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+
+class Prv_fandom_WikiCategory_Out(TypedDict):
+    title: str
+
+class Prv_fandom_ListCategoryMembersArgs_In(TypedDict):
+    category: str
+    wiki: str
+
+class Prv_fandom_CategoryMember_Out(TypedDict):
+    title: str
+    url: str
+    type: Literal["page"] | Literal["subcategory"] | Literal["file"]
+
+class Prv_fandom_ListImagesArgs_In(TypedDict):
+    title: str
+    wiki: NotRequired[str]
+
+class Prv_fandom_WikiImage_Out(TypedDict):
+    title: str
 
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
@@ -30808,6 +30941,32 @@ class Prv_roblox_robloxGame_Out(TypedDict):
     upvotes: float | None
     downvotes: float | None
 
+class Prv_roblox_robloxGameDetail_Out(TypedDict):
+    universeId: float
+    rootPlaceId: float
+    name: str
+    description: str | None
+    creator: Prv_roblox_robloxGameDetail_Out_creator_Out
+    price: float | None
+    playing: float
+    visits: float
+    maxPlayers: float
+    genre: str | None
+    created: str
+    updated: str
+    url: str
+
+class Prv_roblox_robloxGameDetail_Out_creator_Out(TypedDict):
+    id: float
+    name: str
+    type: str
+    verified: bool
+
+class Prv_roblox_robloxChart_Out(TypedDict):
+    sortId: str
+    title: str
+    games: list[Prv_roblox_robloxGame_Out]
+
 class Prv_roofmaxx_RoofmaxxCalculatorSettings_Out(TypedDict):
     title: str
     description: str
@@ -43325,8 +43484,8 @@ class Prv_alibaba(Protocol):
         """Search for products by keyword, with an optional price range and page number."""
 
     async def getProduct(self, idOrUrl: str | float, /) -> Prv_alibaba_alibabaProductRow_Out:
-        """Get detailed information for a single product by ID or URL, including title, price
-        ladder, MOQ, images and supplier.
+        """Get detailed information for a single product by ID or URL, including title, price and
+        its unit, MOQ, images, spec table, variant options and supplier.
         """
 
     async def listCategories(self, /) -> list[Prv_alibaba_alibabaCategoryRow_Out]:
@@ -43358,8 +43517,8 @@ class Prv_aliexpress(Protocol):
         """
 
     async def getProduct(self, args: Prv_aliexpress_GetProductArgs_In, /) -> Prv_aliexpress_aliexpressProductDetail_Out:
-        """Fetches one product's detail — price, variants, specs, images, rating and seller — by
-        the id a search row returns.
+        """Fetches one product's detail — the price of every variant (size, color), shipping cost
+        and delivery days, specs, images, rating and seller — by the id a search row returns.
         """
 
 class Prv_allied(Protocol):
@@ -45743,6 +45902,34 @@ class Prv_bluesky(Protocol):
         site answers a fixed-size list.
         """
 
+    async def getUserFeeds(self, actor: str | Prv_bluesky_getUserFeeds_actor_u1_In, /) -> Prv_bluesky_BlueskyUserFeedsResults_Out:
+        """The custom feeds a person has made, page by page, as their profile's Feeds tab shows
+        them. Takes a handle, a DID, or a bsky.app profile URL. Returns each feed's URI, name,
+        creator profile, description and like count. THROWS `blueskyInputError` on an actor the
+        AppView cannot find — check the spelling with `searchUsers` or `resolveHandle`.
+        """
+
+    async def getUserLists(self, actor: str | Prv_bluesky_getUserLists_actor_u1_In, /) -> Prv_bluesky_BlueskyUserListsResults_Out:
+        """The lists (curation and moderation lists) a person has made, page by page, as their
+        profile's Lists tab shows them. Takes a handle, a DID, or a bsky.app profile URL.
+        Returns each list's URI, name, purpose, item count, description and creator profile.
+        THROWS `blueskyInputError` on an actor the AppView cannot find — check the spelling with
+        `searchUsers` or `resolveHandle`.
+        """
+
+    async def getList(self, list: str | Prv_bluesky_getList_list_u1_In, /) -> Prv_bluesky_BlueskyListResult_Out:
+        """A list's own details plus its members, page by page. Takes a list at:// URI or a
+        bsky.app list URL, from `getUserLists`' own `uri` field. Returns the list's own name,
+        purpose, item count and description plus each member's handle, DID, display name and
+        avatar. THROWS `blueskyInputError` on a list the AppView cannot find.
+        """
+
+    async def getListFeed(self, list: str | Prv_bluesky_getListFeed_list_u1_In, /) -> Prv_bluesky_BlueskyListFeedResult_Out:
+        """The posts from everyone on a curation list, as the list's own feed tab shows them, page
+        by page. Takes a list at:// URI or a bsky.app list URL, from `getUserLists`' own `uri`
+        field. A list the AppView cannot find answers with an empty result rather than an error.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -46147,6 +46334,18 @@ class Prv_businessinsider_com(Protocol):
         """Reads one businessinsider.com video's metadata (title, description, upload date,
         thumbnail, credited producers) and its JW Player media id and HLS playback URL off the
         page's own VideoObject JSON-LD, given the video page URL.
+        """
+
+    async def getMarketQuote(self, args: Prv_businessinsider_com_GetMarketQuoteArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderMarketSnapshot_Out:
+        """Reads a live quote snapshot (current value, previous close, change, bid/ask, volume,
+        market cap, day and 52-week range) off a markets.businessinsider.com page, given a stock
+        symbol or the page URL of an index, currency pair, commodity or bond.
+        """
+
+    async def findTicker(self, args: Prv_businessinsider_com_FindTickerArgs_In, /) -> list[Prv_businessinsider_com_BusinessInsiderTickerMatch_Out]:
+        """Resolves a company name to matching stock listings on markets.businessinsider.com (name,
+        ticker, ISIN, quote page URL), best match first, e.g. "Apple" -> AAPL. Feed a match's
+        symbol or url to getMarketQuote.
         """
 
     async def getArticle(self, args: Prv_businessinsider_com_GetArticleArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderArticleRecord_Out:
@@ -49779,6 +49978,29 @@ class Prv_fandom(Protocol):
     async def listBacklinks(self, args: Prv_fandom_ListBacklinksArgs_In, /) -> list[Prv_fandom_Backlink_Out]:
         """What links HERE — every article on the wiki pointing at this one. `GET
         /api.php?action=query&list=backlinks`.
+        """
+
+    async def listExternalLinks(self, args: Prv_fandom_ListExternalLinksArgs_In, /) -> list[Prv_fandom_ExternalLink_Out]:
+        """Every link off-wiki from one article — sources and official sites the page cites, as raw
+        urls. `GET /api.php?action=query&prop=extlinks`.
+        """
+
+    async def listCategories(self, args: Prv_fandom_ListCategoriesArgs_In, /) -> list[Prv_fandom_WikiCategory_Out]:
+        """The categories an article belongs to — how a Fandom wiki organizes its own subject
+        matter (a character's affiliations, a game's platform, an episode's season). `GET
+        /api.php?action=query&prop=categories`.
+        """
+
+    async def listCategoryMembers(self, args: Prv_fandom_ListCategoryMembersArgs_In, /) -> list[Prv_fandom_CategoryMember_Out]:
+        """Every article filed under one category — hand it "Category:Characters" (or just
+        "Characters") and get every member page back, each labeled page/subcategory/file by its
+        namespace. A door in its own right: a category name is words a person would say. `GET
+        /api.php?action=query&list=categorymembers`.
+        """
+
+    async def listImages(self, args: Prv_fandom_ListImagesArgs_In, /) -> list[Prv_fandom_WikiImage_Out]:
+        """Every image used in an article, by file title, in page order — the door to `getImage`.
+        `GET /api.php?action=query&prop=images`.
         """
 
 class Prv_fbsappliance(Protocol):
@@ -60508,6 +60730,19 @@ class Prv_roblox(Protocol):
         search bar) and returns matching games with name, description, live player count and
         up/downvotes. `universeId` on each row is what `getGame` (once built) takes. A query
         matching nothing returns an empty array.
+        """
+
+    async def getGame(self, universeId: float, opts: ConnectionOption | None = None, /) -> Prv_roblox_robloxGameDetail_Out:
+        """One Roblox game's full record by `universeId` (the id `searchGames` and
+        `listPopularGames` return): name, description, creator, price, live players, total
+        visits, max players, genre, created/updated dates and its roblox.com URL. Throws an
+        input error for a universeId Roblox does not know.
+        """
+
+    async def listPopularGames(self, opts: ConnectionOption | None = None, /) -> list[Prv_roblox_robloxChart_Out]:
+        """Roblox's Charts page (apis.roblox.com/explore-api): each chart — Top Trending,
+        Up-and-Coming, Top Playing Now, Fun with Friends, Top Revisited — with its games, live
+        player counts and up/downvotes, in the site's own order. Sponsored entries are dropped.
         """
 
 class Prv_roofmaxx(Protocol):

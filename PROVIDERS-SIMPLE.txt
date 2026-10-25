@@ -692,6 +692,7 @@ wodify.com — wodify: bookClass, bookDropIn, buyMembership, cancelBooking, chan
 workable.com — workable: listJobs
 wsj.com — wsj: addToWatchlist, getArticle, getArticleFullText, getAuthor, getNewsletter, getPodcast, getQuote, getWatchlist, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSavedArticles, listSections, listTrending, removeFromWatchlist, saveArticle, searchArticles, unsaveArticle
 wunderflats.com — wunderflats: search
+www.amazon.ca — amazon_ca: getProduct, searchProducts
 www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listMostWishedFor, listMoversAndShakers, listNewReleases, listOrders, listQuestions, listRelatedProducts, listReviews, listSellerOffers, listVariations, listWishLists, searchProducts, suggestKeywords, trackShipment
 www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepartments, listNews, listPublicData, listServices, searchNews, searchPublicData, searchServices
 www.cardiff.gov.uk — cardiff: getApplication, search
