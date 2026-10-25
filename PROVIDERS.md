@@ -1166,15 +1166,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubready.getWorkoutStats` | clubready.com | Returns the signed-in member's own workout history and performance numbers — CycleBar… | ⚪ |
 | `clubready.joinWaitlist` | clubready.com | Puts the signed-in member on a full class's waitlist. | ⚪ |
 | `clubready.listBrands` | clubready.com | Lists every studio brand on the Xponential/ClubReady member platform — CycleBar, Club… | 🟢 |
-| `clubready.listClassCategories` | clubready.com | Lists a brand's class categories used to filter a schedule (Xpress, Classic… | ⚪ |
+| `clubready.listClassCategories` | clubready.com | Lists a brand's class categories used to filter a schedule (Xpress, Classic… | 🟢 |
 | `clubready.listClasses` | clubready.com | Lists a studio's class schedule for a date or date range — each class's id, title… | 🟢 |
-| `clubready.listClassTypes` | clubready.com | Lists every class type a brand runs (CycleBar Classic, Xpress, Pure Barre Classic… | ⚪ |
-| `clubready.listInstructors` | clubready.com | Lists the instructors teaching at a studio, by name, drawn from the classes on its… | ⚪ |
+| `clubready.listClassTypes` | clubready.com | Lists every class type a brand runs (CycleBar Classic, Performance, Endurance, …) with… | 🟢 |
+| `clubready.listInstructors` | clubready.com | Lists the instructors teaching at a studio over a date window (default the next 14… | 🟢 |
 | `clubready.listInvoices` | clubready.com | Lists the signed-in member's past purchases and invoices — what they paid for which… | ⚪ |
 | `clubready.listMyBookings` | clubready.com | Lists the signed-in member's upcoming and past class bookings and waitlist spots… | ⚪ |
 | `clubready.listPricing` | clubready.com | Lists what a studio sells — drop-in classes, class packs and memberships — with each… | 🟢 |
 | `clubready.listServiceAvailability` | clubready.com | Lists who can take a one-on-one session at a studio on a date — the flexologists or… | ⚪ |
-| `clubready.listServiceTypes` | clubready.com | Lists the one-on-one session types a studio sells — StretchLab's assisted stretches… | ⚪ |
+| `clubready.listServiceTypes` | clubready.com | Lists the one-on-one session types a studio sells — StretchLab's assisted stretches… | 🟢 |
 | `clubready.updateProfile` | clubready.com | Edits the signed-in member's own profile fields (name, phone, address, emergency… | ⚪ |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | ⚪ |
@@ -3161,7 +3161,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `msn.getSectionFeed` | msn.com | Returns the current top-stories feed the way msn.com/en-us/<section> does for a… | 🟢 |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E… | 🟢 |
 | `msn.getTopStories` | msn.com | Returns the top stories the MSN front page is showing right now, the way www.msn.com… | 🟢 |
-| `msn.getWeatherForecast` | msn.com | Reads the multi-day forecast for a named city off MSN Weather the way… | ⚪ |
+| `msn.getWeatherForecast` | msn.com | Reads the 10-day forecast for a named city off MSN Weather the way… | 🟢 |
 | `msn.listSavedArticles` | msn.com | Lists the articles the signed-in caller has saved to their MSN reading list — the… | ⚪ |
 | `msn.saveArticle` | msn.com | Adds an article to the signed-in caller's MSN reading list — the write half of… | ⚪ |
 | `msn.searchNews` | msn.com | Searches MSN's own aggregated news index the way its front-page search does and… | 🟢 |
