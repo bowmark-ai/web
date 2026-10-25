@@ -3939,10 +3939,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟡 |
 | `ritani.priceConfiguration` | ritani.com | Prices one exact custom-ring build against Ritani's own live Ring Studio pricing… | 🟡 |
 | `rivian.estimateLeasePayment` | rivian.com | Prices a 36- or 24-month Rivian lease for a 2027-model-year R1T Premium — monthly… | 🟢 |
-| `roblox.getGame` | roblox.com | Get details of a specific game including description, creator, stats, and play… | ⚪ |
+| `roblox.getGame` | roblox.com | Get details of a specific game including description, creator, stats, and play… | 🟢 |
 | `roblox.getRecommendations` | roblox.com | Get personalized game recommendations based on the user's play history and preferences. | ⚪ |
 | `roblox.getUsersLibrary` | roblox.com | Get the user's library of played games, saved favorites, and game history. | ⚪ |
-| `roblox.listPopularGames` | roblox.com | List trending and popular games on the platform. | ⚪ |
+| `roblox.listPopularGames` | roblox.com | List trending and popular games on the platform. | 🟢 |
 | `roblox.searchGames` | roblox.com | Search for games on Roblox by keyword, returning matching games with details. | 🟢 |
 | `roofmaxx.estimateRoofReplacementCost` | roofmaxx.com | Runs Roof Maxx's own Roof Replacement Cost Calculator — given a home's square footage… | 🟢 |
 | `roofmaxx.getCalculatorSettings` | roofmaxx.com | The Roof Replacement Cost Calculator's own admin-configured title and description… | 🟢 |
