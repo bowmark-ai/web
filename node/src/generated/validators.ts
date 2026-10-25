@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 63003dc1f40ddfa594d8db3ef9f87c5ae574e46c9173db7244e4caac792a173b
-// 2639 checked, 20 unchecked.
+// Manifest version: d193608b2e39d15f0e6269944a252ab24ba7ff96e57f1386270fcdc2dd9201d0
+// 2653 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "63003dc1f40ddfa594d8db3ef9f87c5ae574e46c9173db7244e4caac792a173b",
+  "version": "d193608b2e39d15f0e6269944a252ab24ba7ff96e57f1386270fcdc2dd9201d0",
   "units": {
     "address_validation": {
       "defs": {
@@ -22691,6 +22691,61 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetLocalTimeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetWeatherArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListBangsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "filter",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ResolveBangArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchImagesArgs": {
           "k": "object",
           "props": [
@@ -22874,6 +22929,46 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ConvertCurrencyArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getWeather": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetWeatherArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLocalTime": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetLocalTimeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listBangs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListBangsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "resolveBang": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ResolveBangArgs"
             },
             "optional": false
           }
@@ -25108,6 +25203,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPostCommentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPrivacySettingsArgs": {
           "k": "object",
           "props": []
@@ -26082,6 +26189,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetPostArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPostComments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPostCommentsArgs"
             },
             "optional": false
           }
@@ -41394,6 +41511,104 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "searchSchools": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "keywords",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "start",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchEvents": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "keywords",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "start",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "createPost": [
           {
             "name": "input",
@@ -42138,6 +42353,65 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "about",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "applyToJob": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "job",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "answers",
+                  "schema": {
+                    "k": "record",
+                    "value": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "string"
+                        },
+                        {
+                          "k": "number"
+                        }
+                      ]
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "submit",
+                  "schema": {
+                    "k": "boolean"
                   },
                   "optional": true
                 }
@@ -50503,6 +50777,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listDeals": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -51018,6 +51310,53 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NytCookingCreateRecipeBoxFolderArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "folderName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "NytCookingDeleteRecipeBoxFolderArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "folderId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingGetArticleArgs": {
           "k": "object",
           "props": [
@@ -51239,6 +51578,40 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": false
+            }
+          ]
+        },
+        "NytCookingRenameRecipeBoxFolderArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "folderId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "folderName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -51629,6 +52002,102 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "clearGroceryList": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listRecipeBoxFolders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createRecipeBoxFolder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingCreateRecipeBoxFolderArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "renameRecipeBoxFolder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingRenameRecipeBoxFolderArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteRecipeBoxFolder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingDeleteRecipeBoxFolderArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -62402,6 +62871,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetCompanyEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ric",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetCompanyKeyMetricsArgs": {
           "k": "object",
           "props": [
@@ -62849,6 +63330,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCompanyKeyMetricsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCompanyEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCompanyEventsArgs"
             },
             "optional": false
           }

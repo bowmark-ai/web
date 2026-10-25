@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 63003dc1f40ddfa594d8db3ef9f87c5ae574e46c9173db7244e4caac792a173b
-# 87 capabilities, 652 providers, 2639 typed functions, 20 refused.
+# Manifest version: d193608b2e39d15f0e6269944a252ab24ba7ff96e57f1386270fcdc2dd9201d0
+# 87 capabilities, 652 providers, 2653 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13021,6 +13021,72 @@ Prv_duckduckgo_DuckDuckGoCurrencyConversion_Out = TypedDict(
     },
 )
 
+class Prv_duckduckgo_GetWeatherArgs_In(TypedDict):
+    place: str
+
+class Prv_duckduckgo_DuckDuckGoWeather_Out(TypedDict):
+    place: str
+    timezone: str
+    units: Literal["metric"]
+    current: Prv_duckduckgo_DuckDuckGoWeatherNow_Out
+    daily: list[Prv_duckduckgo_DuckDuckGoWeatherDay_Out]
+    hourly: list[Prv_duckduckgo_DuckDuckGoWeatherHour_Out]
+
+class Prv_duckduckgo_DuckDuckGoWeatherNow_Out(TypedDict):
+    asOf: str
+    conditionCode: str
+    temperature: float
+    temperatureApparent: float
+    humidity: float
+    windSpeed: float
+    windDirection: float
+    uvIndex: float
+    precipitationIntensity: float
+
+class Prv_duckduckgo_DuckDuckGoWeatherDay_Out(TypedDict):
+    date: str
+    conditionCode: str
+    temperatureMin: float
+    temperatureMax: float
+    precipitationChance: float
+
+class Prv_duckduckgo_DuckDuckGoWeatherHour_Out(TypedDict):
+    forecastStart: str
+    conditionCode: str
+    temperature: float
+    precipitationChance: float
+
+class Prv_duckduckgo_GetLocalTimeArgs_In(TypedDict):
+    place: str
+
+class Prv_duckduckgo_DuckDuckGoLocalTime_Out(TypedDict):
+    place: str
+    resolvedPlace: str
+    timezone: str
+    abbreviation: str
+    time: str
+    utcOffsetMinutes: float
+
+class Prv_duckduckgo_ListBangsArgs_In(TypedDict):
+    filter: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_duckduckgo_DuckDuckGoBang_Out(TypedDict):
+    trigger: str
+    site: str
+    domain: str
+    category: str
+    subcategory: str
+
+class Prv_duckduckgo_ResolveBangArgs_In(TypedDict):
+    query: str
+
+class Prv_duckduckgo_DuckDuckGoBangResolution_Out(TypedDict):
+    trigger: str
+    site: str
+    searchTerm: str
+    url: str
+
 class Prv_dumpsters_DumpstersGetQuoteArgs_In(TypedDict):
     address: str
     projectType: NotRequired[Literal["homeCleanout"] | Literal["homeRemodel"] | Literal["yardCleanupOrLandscaping"] | Literal["bathroomOrKitchenDemo"] | Literal["roofingOrSidingTearDown"] | Literal["other"]]
@@ -14692,6 +14758,15 @@ class Prv_facebook_FacebookPost_Out(TypedDict):
     text: NotRequired[str]
     reactionCount: NotRequired[float]
     shareCount: NotRequired[float]
+
+class Prv_facebook_GetPostCommentsArgs_In(TypedDict):
+    url: str
+
+class Prv_facebook_FacebookPostComment_Out(TypedDict):
+    id: str
+    author: NotRequired[str]
+    text: str
+    timestamp: NotRequired[str]
 
 class Prv_facebook_GetMarketplaceListingDetailsArgs_In(TypedDict):
     listingId: str
@@ -21882,6 +21957,14 @@ class Prv_linkedin_listMyGroups_return_Out(TypedDict):
     start: float
     nextStart: float | None
 
+class Prv_linkedin_searchSchools_input_u1_In(TypedDict):
+    keywords: str
+    start: NotRequired[float]
+
+class Prv_linkedin_searchEvents_input_u1_In(TypedDict):
+    keywords: str
+    start: NotRequired[float]
+
 class Prv_linkedin_createPost_input_In(TypedDict):
     text: str
     visibility: NotRequired[Literal["public"] | Literal["connections"]]
@@ -21993,6 +22076,16 @@ class Prv_linkedin_updateProfile_input_In(TypedDict):
 
 class Prv_linkedin_updateProfile_return_Out(TypedDict):
     updated: list[str]
+
+class Prv_linkedin_applyToJob_input_In(TypedDict):
+    job: str
+    answers: NotRequired[Mapping[str, str | float]]
+    submit: NotRequired[bool]
+
+class Prv_linkedin_applyToJob_return_Out(TypedDict):
+    submitted: bool
+    unanswered: list[str]
+    questions: list[str]
 
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
@@ -25417,6 +25510,9 @@ class Prv_nintendo_NintendoProductSummary_Out(TypedDict):
 class Prv_nintendo_browseCategory_options_In(TypedDict):
     limit: NotRequired[float]
 
+class Prv_nintendo_listDeals_options_In(TypedDict):
+    limit: NotRequired[float]
+
 class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     package: str
     downloads: float
@@ -25848,6 +25944,47 @@ class Prv_nyt_cooking_NytCookingRemoveFromGroceryListResult_Out(TypedDict):
 class Prv_nyt_cooking_NytCookingClearGroceryListResult_Out(TypedDict):
     cleared: Literal[True]
     removedCount: float
+
+class Prv_nyt_cooking_NytCookingListRecipeBoxFoldersResult_Out(TypedDict):
+    folders: list[Prv_nyt_cooking_NytCookingRecipeBoxFolder_Out]
+
+class Prv_nyt_cooking_NytCookingRecipeBoxFolder_Out(TypedDict):
+    id: str
+    slug: str
+    name: str
+    description: str | None
+    url: str
+    uri: str
+    collectableCount: float
+    folderRecipeIds: list[float]
+
+class Prv_nyt_cooking_NytCookingCreateRecipeBoxFolderArgs_In(TypedDict):
+    folderName: str
+    recipeId: NotRequired[float | str]
+
+class Prv_nyt_cooking_NytCookingCreateRecipeBoxFolderResult_Out(TypedDict):
+    folder: Prv_nyt_cooking_NytCookingCreateRecipeBoxFolderResult_Out_folder_Out
+
+class Prv_nyt_cooking_NytCookingCreateRecipeBoxFolderResult_Out_folder_Out(TypedDict):
+    id: str
+    name: str
+    recipesCount: float
+
+class Prv_nyt_cooking_NytCookingRenameRecipeBoxFolderArgs_In(TypedDict):
+    folderId: float | str
+    folderName: str
+    description: NotRequired[str]
+
+class Prv_nyt_cooking_NytCookingRenameRecipeBoxFolderResult_Out(TypedDict):
+    folderId: str
+    renamed: Literal[True]
+
+class Prv_nyt_cooking_NytCookingDeleteRecipeBoxFolderArgs_In(TypedDict):
+    folderId: float | str
+
+class Prv_nyt_cooking_NytCookingDeleteRecipeBoxFolderResult_Out(TypedDict):
+    folderId: str
+    deleted: Literal[True]
 
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
@@ -29433,7 +29570,7 @@ class Prv_reddit_findPostsByUrl_url_u1_In(TypedDict):
 class Prv_reddit_RedditPostsByUrl_Out(TypedDict):
     url: str
     matched: list[Prv_reddit_RedditPostsByUrl_Out_matched_item_Out]
-    via: Literal["info"] | Literal["duplicates"]
+    via: Literal["search"] | Literal["duplicates"]
     posts: list[Prv_reddit_RedditPost_Out]
 
 class Prv_reddit_RedditPostsByUrl_Out_matched_item_Out(TypedDict):
@@ -30308,6 +30445,23 @@ class Prv_reuters_ReutersCompanyKeyMetrics_Out_perShare_Out(TypedDict):
     cashFlowPerShareTtm: float | None
     freeCashFlowPerShareTtm: float | None
     revenuePerShareTtm: float | None
+
+class Prv_reuters_GetCompanyEventsArgs_In(TypedDict):
+    ric: str
+
+class Prv_reuters_ReutersCompanyEvents_Out(TypedDict):
+    ric: str
+    nextEvent: Prv_reuters_ReutersNextEvent_Out | None
+    recentEvents: list[Prv_reuters_ReutersRecentEvent_Out]
+
+class Prv_reuters_ReutersNextEvent_Out(TypedDict):
+    name: str
+    time: str
+
+class Prv_reuters_ReutersRecentEvent_Out(TypedDict):
+    title: str
+    detail: str
+    eventDate: str
 
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
@@ -48546,6 +48700,28 @@ class Prv_duckduckgo(Protocol):
         (sourced from xe.com), with the rate's timestamp.
         """
 
+    async def getWeather(self, args: Prv_duckduckgo_GetWeatherArgs_In, /) -> Prv_duckduckgo_DuckDuckGoWeather_Out:
+        """Gets current conditions, an hourly outlook and a multi-day forecast for a place, the way
+        DuckDuckGo's weather answer does (sourced from Apple WeatherKit). Metric units
+        throughout.
+        """
+
+    async def getLocalTime(self, args: Prv_duckduckgo_GetLocalTimeArgs_In, /) -> Prv_duckduckgo_DuckDuckGoLocalTime_Out:
+        """Gets the current local time, UTC offset and time zone name in a city, the way
+        DuckDuckGo's time answer does.
+        """
+
+    async def listBangs(self, args: Prv_duckduckgo_ListBangsArgs_In | None = None, /) -> list[Prv_duckduckgo_DuckDuckGoBang_Out]:
+        """Lists DuckDuckGo's !bangs — the shortcut, the site it searches and its category —
+        filtered by a word so a caller can find the bang for a site; omit the filter for the
+        highest-relevance bangs overall.
+        """
+
+    async def resolveBang(self, args: Prv_duckduckgo_ResolveBangArgs_In, /) -> Prv_duckduckgo_DuckDuckGoBangResolution_Out:
+        """Turns a !bang query ("!w duck", "usb-c cable !a") into the destination URL DuckDuckGo
+        would redirect to, by resolving the trigger against the live !bang directory.
+        """
+
 class Prv_dumpsters(Protocol):
     """Real per-size roll-off dumpster pricing + next available delivery date for a US address,
     straight from Dumpsters.com's own /cart ordering tool — prefer this over general
@@ -49317,6 +49493,11 @@ class Prv_facebook(Protocol):
     async def getPost(self, args: Prv_facebook_GetPostArgs_In, /) -> Prv_facebook_FacebookPost_Out:
         """Read one public post from its link logged out — author, text, and Facebook's own rounded
         reaction and share counts.
+        """
+
+    async def getPostComments(self, args: Prv_facebook_GetPostCommentsArgs_In, /) -> list[Prv_facebook_FacebookPostComment_Out]:
+        """Read the top comments under one public post from its link logged out — commenter, text
+        and time. Only the few Facebook shows signed out, never the whole thread.
         """
 
     async def getMarketplaceListingDetails(self, args: Prv_facebook_GetMarketplaceListingDetailsArgs_In, /) -> Prv_facebook_FacebookMarketplaceListingDetails_Out:
@@ -54715,6 +54896,28 @@ class Prv_linkedin(Protocol):
         faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
+    async def searchSchools(self, input: str | Prv_linkedin_searchSchools_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Searches LinkedIn schools and universities by name, 10 per page — each one's handle (for
+        getSchool), name, location and URL. Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
+        """
+
+    async def searchEvents(self, input: str | Prv_linkedin_searchEvents_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Searches LinkedIn events by keyword, 10 per page — each one's id, name, organizer,
+        LinkedIn's own time/format line and URL. The door to getEvent. Signed in: acts as the
+        caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+        link where they sign in. Paced per LinkedIn account across runs so it never looks
+        automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+        and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
     async def createPost(self, input: Prv_linkedin_createPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinPostResult_Out:
         """Publishes a text post to the caller's own feed, public by default (`visibility:
         "connections"` restricts it the way LinkedIn's own composer does). Returns the new
@@ -54930,6 +55133,19 @@ class Prv_linkedin(Protocol):
         throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
         that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
         extra last argument; ask them first.
+        """
+
+    async def applyToJob(self, input: Prv_linkedin_applyToJob_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_applyToJob_return_Out:
+        """Submits an Easy Apply application to a job posting as the caller, with the profile and
+        resume already on their account, answering screening questions from `answers` (keyed by
+        question label). Returns the required questions it could not answer instead of
+        submitting; `submit: false` stops at the form. Signed in: acts as the caller's own
+        LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
+        sign in. Paced per LinkedIn account across runs so it never looks automated — 6 requests
+        a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
         """
 
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
@@ -57103,6 +57319,11 @@ class Prv_nintendo(Protocol):
         result's own categoryIds). `limit` defaults to 20.
         """
 
+    async def listDeals(self, options: Prv_nintendo_listDeals_options_In | None = None, /) -> Prv_nintendo_NintendoSearchResult_Out:
+        """Lists what is on sale on the Nintendo store right now — the site's own Sales and deals
+        listing — each product with its regular and sale price. `limit` defaults to 20.
+        """
+
 class Prv_npmjs(Protocol):
     """npmjs.com's own public download-counts API — real weekly/daily/monthly download totals
     (or a custom date range) for any published npm package, scoped or not.
@@ -57372,6 +57593,28 @@ class Prv_nyt_cooking(Protocol):
         this is called.
         """
 
+    async def listRecipeBoxFolders(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingListRecipeBoxFoldersResult_Out:
+        """Lists the signed-in reader's own Recipe Box folders. Requires the caller to be signed in
+        to NYT — the run pauses for a login the first time this is called.
+        """
+
+    async def createRecipeBoxFolder(self, args: Prv_nyt_cooking_NytCookingCreateRecipeBoxFolderArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingCreateRecipeBoxFolderResult_Out:
+        """Creates a new Recipe Box folder for the signed-in reader, optionally filing one recipe
+        into it as it is created. Requires the caller to be signed in to NYT — the run pauses
+        for a login the first time this is called.
+        """
+
+    async def renameRecipeBoxFolder(self, args: Prv_nyt_cooking_NytCookingRenameRecipeBoxFolderArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingRenameRecipeBoxFolderResult_Out:
+        """Renames one of the signed-in reader's Recipe Box folders, and optionally its
+        description. Requires the caller to be signed in to NYT — the run pauses for a login the
+        first time this is called.
+        """
+
+    async def deleteRecipeBoxFolder(self, args: Prv_nyt_cooking_NytCookingDeleteRecipeBoxFolderArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingDeleteRecipeBoxFolderResult_Out:
+        """Deletes one of the signed-in reader's Recipe Box folders. Requires the caller to be
+        signed in to NYT — the run pauses for a login the first time this is called.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -57491,7 +57734,9 @@ class Prv_nytimes(Protocol):
 
     async def getArticle(self, path: str, /) -> Prv_nytimes_NytimesArticle_Out:
         """Gets full article text, metadata and comments count. Takes an article path like
-        /2026/09/26/world/article-slug.html.
+        /2026/09/26/world/article-slug.html. When NYT's bot wall refuses the page it falls back
+        to NYT's own oEmbed card: headline, description, bylines and publish date only, with the
+        url as id.
         """
 
     async def searchArticles(self, query: str, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesSearchResult_Out]:
@@ -59388,14 +59633,17 @@ class Prv_reddit(Protocol):
         """
 
     async def getPost(self, post: str | Prv_reddit_getPost_post_u1_In, /) -> Prv_reddit_RedditThread_Out:
-        """Reads one Reddit thread in full from a thread URL, a `t3_…` fullname or a post id: the
-        post with its score, comment count and body, and the comment TREE — each comment nested
-        under the one it replies to, with its score, author, body, depth and a permalink to that
-        exact reply. `sort` is reddit's own comment sort (default confidence, i.e. Best);
-        `limit` caps comments per request (default 200, max 500). Reddit folds long discussions:
-        a comment's `moreReplies` and the thread's `moreComments` list what was folded, and
-        `getCommentReplies` expands them. A deleted author is `null`. Throws when the thread
-        does not exist.
+        """Reads one Reddit thread from a thread URL, a `t3_…` fullname or a post id: the post with
+        its score, comment count and body, and the comment TREE — each comment nested under the
+        one it replies to, with its score, author, body (plain text, as reddit renders it),
+        depth and a permalink to that exact reply. `sort` is reddit's own comment sort (default
+        confidence, i.e. Best); `limit` is how many comments to gather before stopping (default
+        100, max 500) — reddit serves a thread about 10 top-level branches at a time, so a big
+        `limit` on a big thread is several requests. A comment's `moreReplies.count` and the
+        thread's `moreComments.count` say how many replies are still folded; their `ids` are
+        empty, because this door names a folded branch by an opaque cursor rather than by
+        comment ids. A deleted author is `null`; `editedAt`, `stickied` and `distinguished` are
+        not on this door and read `null`/`false`. Throws when the thread does not exist.
         """
 
     async def getSubredditPosts(self, input: str | Prv_reddit_getSubredditPosts_input_u1_In, /) -> Prv_reddit_RedditSubredditPostsResult_Out:
@@ -59469,12 +59717,14 @@ class Prv_reddit(Protocol):
         """Given a link — an article, a paper, a product page, a repository — returns the Reddit
         threads that submitted it, most-discussed first, each with subreddit, score, comment
         count and permalink: the fastest route to what Reddit said about one specific thing.
-        Reddit matches submissions on the exact URL, so this also asks about the spellings
-        reddit treats as different (tracking parameters stripped, trailing slash toggled,
-        http/https, with and without www.) — one request each, up to five — and `matched` lists
-        every spelling asked and how many threads it found. `exact: true` asks only the URL as
-        given. Given a Reddit thread URL instead, it returns that thread plus its 'other
-        discussions' (the same link posted elsewhere).
+        Reddit stores submissions on the exact URL, so this also counts the spellings reddit
+        treats as different (tracking parameters stripped, trailing slash toggled, http/https,
+        with and without www.), and `matched` lists every spelling and how many threads it
+        found. It reads Reddit's own site search for the link and keeps only exact matches, so
+        it sees the threads among the first ~35 search candidates — a link submitted hundreds of
+        times may not come back whole. `exact: true` asks only the URL as given. Given a Reddit
+        thread URL instead, it returns that thread plus its 'other discussions' (the same link
+        posted elsewhere).
         """
 
     async def listWikiPages(self, subreddit: str | Prv_reddit_listWikiPages_subreddit_u1_In, /) -> Prv_reddit_RedditWikiPages_Out | Prv_reddit_RedditWikiAbsent_Out:
@@ -59940,6 +60190,13 @@ class Prv_reuters(Protocol):
     async def getCompanyKeyMetrics(self, args: Prv_reuters_GetCompanyKeyMetricsArgs_In, /) -> Prv_reuters_ReutersCompanyKeyMetrics_Out:
         """A company's key ratios on Reuters — valuation, profitability, growth, dividends and
         per-share figures. Takes a RIC from searchCompanies.
+        """
+
+    async def getCompanyEvents(self, args: Prv_reuters_GetCompanyEventsArgs_In, /) -> Prv_reuters_ReutersCompanyEvents_Out:
+        """A company's next scheduled event (typically its next earnings release) and any recent
+        notable events (a new 52-week high/low, an unusual move) Reuters' own Events page
+        surfaces. Takes a RIC from searchCompanies. Reuters publishes no dividend or
+        shareholder-meeting calendar beyond the next event.
         """
 
 class Prv_revisionskincare(Protocol):

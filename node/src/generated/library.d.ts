@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 63003dc1f40ddfa594d8db3ef9f87c5ae574e46c9173db7244e4caac792a173b
-// 87 capabilities, 652 providers, 2657 typed functions, 20 refused.
+// Manifest version: d193608b2e39d15f0e6269944a252ab24ba7ff96e57f1386270fcdc2dd9201d0
+// 87 capabilities, 652 providers, 2671 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22746,6 +22746,96 @@ interface DuckDuckGoCurrencyConversion {
   timestamp: string;
 }
 
+interface GetWeatherArgs {
+  /** A place name, e.g. "New York, NY" or "Paris, France". */
+  place: string;
+}
+
+interface DuckDuckGoWeatherNow {
+  asOf: string;
+  conditionCode: string;
+  temperature: number;
+  temperatureApparent: number;
+  humidity: number;
+  windSpeed: number;
+  windDirection: number;
+  uvIndex: number;
+  precipitationIntensity: number;
+}
+
+interface DuckDuckGoWeatherDay {
+  date: string;
+  conditionCode: string;
+  temperatureMin: number;
+  temperatureMax: number;
+  precipitationChance: number;
+}
+
+interface DuckDuckGoWeatherHour {
+  forecastStart: string;
+  conditionCode: string;
+  temperature: number;
+  precipitationChance: number;
+}
+
+interface DuckDuckGoWeather {
+  place: string;
+  timezone: string;
+  /** Apple WeatherKit's metric units — Celsius, km/h, millimeters — the only
+   * units DuckDuckGo's weather answer carries (measured 2026-10-25). */
+  units: "metric";
+  current: DuckDuckGoWeatherNow;
+  daily: DuckDuckGoWeatherDay[];
+  hourly: DuckDuckGoWeatherHour[];
+}
+
+interface GetLocalTimeArgs {
+  /** A place name, e.g. "New York, NY" or "Tokyo, Japan". */
+  place: string;
+}
+
+interface DuckDuckGoLocalTime {
+  place: string;
+  /** The resolved place name DuckDuckGo matched, e.g. "New York, New York, United States". */
+  resolvedPlace: string;
+  timezone: string;
+  abbreviation: string;
+  /** ISO 8601 with offset, e.g. "2026-10-25T02:07:44-04:00". */
+  time: string;
+  utcOffsetMinutes: number;
+}
+
+interface ListBangsArgs {
+  /** Matched case-insensitively against the bang's trigger, site name,
+   * category and subcategory. Omit to get the highest-relevance bangs overall. */
+  filter?: string;
+  /** Default 50, capped at 500 — the directory holds ~13,500 rows and this
+   * function is for finding the right bang, not dumping the whole list. */
+  limit?: number;
+}
+
+interface DuckDuckGoBang {
+  /** The shortcut typed after `!`, e.g. "w" for Wikipedia. */
+  trigger: string;
+  site: string;
+  domain: string;
+  category: string;
+  subcategory: string;
+}
+
+interface ResolveBangArgs {
+  /** A bang query, trigger either leading ("!w duck") or trailing ("duck !w"). */
+  query: string;
+}
+
+interface DuckDuckGoBangResolution {
+  trigger: string;
+  site: string;
+  searchTerm: string;
+  /** The URL DuckDuckGo would redirect to. */
+  url: string;
+}
+
   /**
    * DuckDuckGo (duckduckgo.com) — private web, image, video, news and maps search, Instant
    * Answers, autocomplete, the dictionary, currency, weather, time and translation answers,
@@ -22812,6 +22902,31 @@ interface DuckDuckGoCurrencyConversion {
      * from xe.com), with the rate's timestamp.
      */
     convertCurrency(args: ConvertCurrencyArgs): Promise<DuckDuckGoCurrencyConversion>;
+
+    /**
+     * Gets current conditions, an hourly outlook and a multi-day forecast for a place, the way
+     * DuckDuckGo's weather answer does (sourced from Apple WeatherKit). Metric units throughout.
+     */
+    getWeather(args: GetWeatherArgs): Promise<DuckDuckGoWeather>;
+
+    /**
+     * Gets the current local time, UTC offset and time zone name in a city, the way DuckDuckGo's
+     * time answer does.
+     */
+    getLocalTime(args: GetLocalTimeArgs): Promise<DuckDuckGoLocalTime>;
+
+    /**
+     * Lists DuckDuckGo's !bangs — the shortcut, the site it searches and its category — filtered
+     * by a word so a caller can find the bang for a site; omit the filter for the
+     * highest-relevance bangs overall.
+     */
+    listBangs(args?: ListBangsArgs): Promise<DuckDuckGoBang[]>;
+
+    /**
+     * Turns a !bang query ("!w duck", "usb-c cable !a") into the destination URL DuckDuckGo would
+     * redirect to, by resolving the trigger against the live !bang directory.
+     */
+    resolveBang(args: ResolveBangArgs): Promise<DuckDuckGoBangResolution>;
   }
 }
 
@@ -25286,6 +25401,17 @@ interface FacebookPost {
   shareCount?: number;
 }
 
+interface GetPostCommentsArgs {
+  url: string;
+}
+
+interface FacebookPostComment {
+  id: string;
+  author?: string;
+  text: string;
+  timestamp?: string;
+}
+
 interface GetMarketplaceListingDetailsArgs {
   listingId: string;
 }
@@ -25460,6 +25586,12 @@ interface FacebookProfileUpdate {
      * reaction and share counts.
      */
     getPost(args: GetPostArgs): Promise<FacebookPost>;
+
+    /**
+     * Read the top comments under one public post from its link logged out — commenter, text and
+     * time. Only the few Facebook shows signed out, never the whole thread.
+     */
+    getPostComments(args: GetPostCommentsArgs): Promise<FacebookPostComment[]>;
 
     /** Read a Marketplace listing's details — title, price, description, location, seller. */
     getMarketplaceListingDetails(args: GetMarketplaceListingDetailsArgs): Promise<FacebookMarketplaceListingDetails>;
@@ -38644,6 +38776,21 @@ interface LinkedinGroupDetail {
   members: string | null; // LinkedIn's member line, verbatim — "12K members" — where the entity carries one
 }
 
+interface LinkedinSearchSchool {
+  handle: string | null; // feeds getSchool
+  url: string | null;
+  name: string;
+  location: string | null;
+}
+
+interface LinkedinSearchEvent {
+  id: string | null;      // feeds getEvent once it exists
+  url: string | null;
+  name: string;
+  organizer: string | null;
+  when: string | null;    // LinkedIn's own time/format line, verbatim
+}
+
 interface LinkedinPostResult {
   id: string | null;  // feeds deletePost / deleteComment / commentOnPost / reactToPost — null when unread, not when the write failed
   url: string | null;
@@ -39214,6 +39361,30 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
     listMyGroups(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ groups: LinkedinGroupDetail[]; start: number; nextStart: number | null }>;
 
     /**
+     * Searches LinkedIn schools and universities by name, 10 per page — each one's handle (for
+     * getSchool), name, location and URL. Signed in: acts as the caller's own LinkedIn account;
+     * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
+     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
+     * argument; ask them first.
+     */
+    searchSchools(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchSchool>>;
+
+    /**
+     * Searches LinkedIn events by keyword, 10 per page — each one's id, name, organizer,
+     * LinkedIn's own time/format line and URL. The door to getEvent. Signed in: acts as the
+     * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
+     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
+     */
+    searchEvents(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchEvent>>;
+
+    /**
      * Publishes a text post to the caller's own feed, public by default (`visibility:
      * "connections"` restricts it the way LinkedIn's own composer does). Returns the new post's id
      * for `deletePost`, `commentOnPost` and `reactToPost` where LinkedIn's answer carries one —
@@ -39443,6 +39614,20 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * first.
      */
     updateProfile(input: { headline?: string; about?: string }, opts?: ConnectionOption): Promise<{ updated: string[] }>;
+
+    /**
+     * Submits an Easy Apply application to a job posting as the caller, with the profile and
+     * resume already on their account, answering screening questions from `answers` (keyed by
+     * question label). Returns the required questions it could not answer instead of submitting;
+     * `submit: false` stops at the form. Signed in: acts as the caller's own LinkedIn account;
+     * with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+     * LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+     * reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn throttles
+     * it; a call over the pace throws LinkedinRateLimited saying when to retry: wait that long.
+     * The account owner may opt into faster pacing with { pacing: "fast" } as an extra last
+     * argument; ask them first.
+     */
+    applyToJob(input: { job: string; answers?: Record<string, string | number>; submit?: boolean }, opts?: ConnectionOption): Promise<{ submitted: boolean; unanswered: string[]; questions: string[] }>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -46024,6 +46209,12 @@ interface NintendoSearchResult {
      * categoryIds). `limit` defaults to 20.
      */
     browseCategory(category: string, options?: { limit?: number }): Promise<NintendoSearchResult>;
+
+    /**
+     * Lists what is on sale on the Nintendo store right now — the site's own Sales and deals
+     * listing — each product with its regular and sale price. `limit` defaults to 20.
+     */
+    listDeals(options?: { limit?: number }): Promise<NintendoSearchResult>;
   }
 }
 
@@ -46739,6 +46930,50 @@ interface NytCookingClearGroceryListResult {
   removedCount: number;
 }
 
+interface NytCookingRecipeBoxFolder {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  url: string;
+  uri: string;
+  collectableCount: number;
+  folderRecipeIds: number[];
+}
+
+interface NytCookingListRecipeBoxFoldersResult {
+  folders: NytCookingRecipeBoxFolder[];
+}
+
+interface NytCookingCreateRecipeBoxFolderArgs {
+  folderName: string;
+  recipeId?: number | string;
+}
+
+interface NytCookingCreateRecipeBoxFolderResult {
+  folder: { id: string; name: string; recipesCount: number };
+}
+
+interface NytCookingRenameRecipeBoxFolderArgs {
+  folderId: number | string;
+  folderName: string;
+  description?: string;
+}
+
+interface NytCookingRenameRecipeBoxFolderResult {
+  folderId: string;
+  renamed: true;
+}
+
+interface NytCookingDeleteRecipeBoxFolderArgs {
+  folderId: number | string;
+}
+
+interface NytCookingDeleteRecipeBoxFolderResult {
+  folderId: string;
+  deleted: true;
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -46865,6 +47100,32 @@ interface NytCookingClearGroceryListResult {
      * is called.
      */
     clearGroceryList(opts?: ConnectionOption): Promise<NytCookingClearGroceryListResult>;
+
+    /**
+     * Lists the signed-in reader's own Recipe Box folders. Requires the caller to be signed in to
+     * NYT — the run pauses for a login the first time this is called.
+     */
+    listRecipeBoxFolders(opts?: ConnectionOption): Promise<NytCookingListRecipeBoxFoldersResult>;
+
+    /**
+     * Creates a new Recipe Box folder for the signed-in reader, optionally filing one recipe into
+     * it as it is created. Requires the caller to be signed in to NYT — the run pauses for a login
+     * the first time this is called.
+     */
+    createRecipeBoxFolder(args: NytCookingCreateRecipeBoxFolderArgs, opts?: ConnectionOption): Promise<NytCookingCreateRecipeBoxFolderResult>;
+
+    /**
+     * Renames one of the signed-in reader's Recipe Box folders, and optionally its description.
+     * Requires the caller to be signed in to NYT — the run pauses for a login the first time this
+     * is called.
+     */
+    renameRecipeBoxFolder(args: NytCookingRenameRecipeBoxFolderArgs, opts?: ConnectionOption): Promise<NytCookingRenameRecipeBoxFolderResult>;
+
+    /**
+     * Deletes one of the signed-in reader's Recipe Box folders. Requires the caller to be signed
+     * in to NYT — the run pauses for a login the first time this is called.
+     */
+    deleteRecipeBoxFolder(args: NytCookingDeleteRecipeBoxFolderArgs, opts?: ConnectionOption): Promise<NytCookingDeleteRecipeBoxFolderResult>;
   }
 }
 
@@ -47226,7 +47487,9 @@ interface NytimesRssFeed {
 
     /**
      * Gets full article text, metadata and comments count. Takes an article path like
-     * /2026/09/26/world/article-slug.html.
+     * /2026/09/26/world/article-slug.html. When NYT's bot wall refuses the page it falls back to
+     * NYT's own oEmbed card: headline, description, bylines and publish date only, with the url as
+     * id.
      */
     getArticle(path: string): Promise<NytimesArticle>;
 
@@ -52181,7 +52444,7 @@ interface RedditPost {
 interface RedditComment {
   id: string;                  // fullname "t1_…"
   author: string | null;       // null = deleted account
-  body: string;                // markdown as written
+  body: string;                // markdown as written (plain rendered text from getPost)
   score: number | null;        // null while reddit hides a new comment's score
   createdAt: string;
   editedAt: string | null;
@@ -52194,7 +52457,7 @@ interface RedditComment {
   stickied: boolean;
   distinguished: string | null; // "moderator", "admin"
   replies: RedditComment[];    // nested, as reddit nests them
-  moreReplies: { count: number; ids: string[] } | null; // folded replies — pass ids to getCommentReplies
+  moreReplies: { count: number; ids: string[] } | null; // folded replies — ids are empty from getPost (its door names a branch by cursor)
   viewer: { vote: "up" | "down" | null; saved: boolean } | null;
 }
 
@@ -52289,7 +52552,7 @@ interface RedditThread {
   post: RedditPost;
   sort: "confidence" | "top" | "new" | "controversial" | "old" | "qa";
   comments: RedditComment[];   // nested
-  moreComments: { count: number; ids: string[] } | null; // folded top-level comments — see getCommentReplies
+  moreComments: { count: number; ids: string[] } | null; // top-level comments still folded once limit was reached; ids empty
 }
 
 interface RedditUserProfile extends RedditUserInfo {
@@ -52335,7 +52598,7 @@ interface RedditUserComments {
 interface RedditPostsByUrl {
   url: string;                 // as passed
   matched: { url: string; posts: number }[]; // every spelling asked, and how many threads it matched
-  via: "info" | "duplicates";  // duplicates = a reddit thread URL was passed
+  via: "search" | "duplicates";  // duplicates = a reddit thread URL was passed
   posts: RedditPost[];         // most-discussed first
 }
 
@@ -52531,13 +52794,17 @@ interface RedditProfileText {
     search(query: string | {query: string, subreddit?: string, sort?: "relevance"|"hot"|"top"|"new"|"comments", time?: "hour"|"day"|"week"|"month"|"year"|"all", limit?: number, after?: string}): Promise<RedditSearchResult>;
 
     /**
-     * Reads one Reddit thread in full from a thread URL, a `t3_…` fullname or a post id: the post
-     * with its score, comment count and body, and the comment TREE — each comment nested under the
-     * one it replies to, with its score, author, body, depth and a permalink to that exact reply.
-     * `sort` is reddit's own comment sort (default confidence, i.e. Best); `limit` caps comments
-     * per request (default 200, max 500). Reddit folds long discussions: a comment's `moreReplies`
-     * and the thread's `moreComments` list what was folded, and `getCommentReplies` expands them.
-     * A deleted author is `null`. Throws when the thread does not exist.
+     * Reads one Reddit thread from a thread URL, a `t3_…` fullname or a post id: the post with its
+     * score, comment count and body, and the comment TREE — each comment nested under the one it
+     * replies to, with its score, author, body (plain text, as reddit renders it), depth and a
+     * permalink to that exact reply. `sort` is reddit's own comment sort (default confidence, i.e.
+     * Best); `limit` is how many comments to gather before stopping (default 100, max 500) —
+     * reddit serves a thread about 10 top-level branches at a time, so a big `limit` on a big
+     * thread is several requests. A comment's `moreReplies.count` and the thread's
+     * `moreComments.count` say how many replies are still folded; their `ids` are empty, because
+     * this door names a folded branch by an opaque cursor rather than by comment ids. A deleted
+     * author is `null`; `editedAt`, `stickied` and `distinguished` are not on this door and read
+     * `null`/`false`. Throws when the thread does not exist.
      */
     getPost(post: string | {post: string, sort?: "confidence"|"top"|"new"|"controversial"|"old"|"qa", limit?: number}): Promise<RedditThread>;
 
@@ -52616,13 +52883,14 @@ interface RedditProfileText {
     /**
      * Given a link — an article, a paper, a product page, a repository — returns the Reddit
      * threads that submitted it, most-discussed first, each with subreddit, score, comment count
-     * and permalink: the fastest route to what Reddit said about one specific thing. Reddit
-     * matches submissions on the exact URL, so this also asks about the spellings reddit treats as
-     * different (tracking parameters stripped, trailing slash toggled, http/https, with and
-     * without www.) — one request each, up to five — and `matched` lists every spelling asked and
-     * how many threads it found. `exact: true` asks only the URL as given. Given a Reddit thread
-     * URL instead, it returns that thread plus its 'other discussions' (the same link posted
-     * elsewhere).
+     * and permalink: the fastest route to what Reddit said about one specific thing. Reddit stores
+     * submissions on the exact URL, so this also counts the spellings reddit treats as different
+     * (tracking parameters stripped, trailing slash toggled, http/https, with and without www.),
+     * and `matched` lists every spelling and how many threads it found. It reads Reddit's own site
+     * search for the link and keeps only exact matches, so it sees the threads among the first ~35
+     * search candidates — a link submitted hundreds of times may not come back whole. `exact:
+     * true` asks only the URL as given. Given a Reddit thread URL instead, it returns that thread
+     * plus its 'other discussions' (the same link posted elsewhere).
      */
     findPostsByUrl(url: string | { url: string; exact?: boolean }): Promise<RedditPostsByUrl>;
 
@@ -53547,6 +53815,23 @@ interface ReutersCompanyKeyMetrics {
 interface GetCompanyKeyMetricsArgs {
   ric: string;                      // a RIC from searchCompanies, e.g. "AAPL.O"
 }
+interface ReutersNextEvent {
+  name: string;
+  time: string;                     // ISO timestamp
+}
+interface ReutersRecentEvent {
+  title: string;                    // the vendor's own category key, e.g. "priceMovement"
+  detail: string;                   // human-readable text
+  eventDate: string;                // ISO timestamp
+}
+interface ReutersCompanyEvents {
+  ric: string;
+  nextEvent: ReutersNextEvent | null;
+  recentEvents: ReutersRecentEvent[];
+}
+interface GetCompanyEventsArgs {
+  ric: string;                      // a RIC from searchCompanies, e.g. "AAPL.O"
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -53675,6 +53960,14 @@ interface GetCompanyKeyMetricsArgs {
      * per-share figures. Takes a RIC from searchCompanies.
      */
     getCompanyKeyMetrics(args: GetCompanyKeyMetricsArgs): Promise<ReutersCompanyKeyMetrics>;
+
+    /**
+     * A company's next scheduled event (typically its next earnings release) and any recent
+     * notable events (a new 52-week high/low, an unusual move) Reuters' own Events page surfaces.
+     * Takes a RIC from searchCompanies. Reuters publishes no dividend or shareholder-meeting
+     * calendar beyond the next event.
+     */
+    getCompanyEvents(args: GetCompanyEventsArgs): Promise<ReutersCompanyEvents>;
   }
 }
 
