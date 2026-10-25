@@ -2837,7 +2837,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lime.cityPricing` | li.me | Reads one city's Lime ride pricing from its li.me city page: unlock fee, per-minute… | 🟢 |
 | `lime.listCities` | li.me | Lists every city Lime operates e-scooters and e-bikes in, grouped by region, from… | 🟢 |
 | `linkedin.acceptInvitation` | linkedin.com | Accepts a connection invitation the signed-in caller received, by the id and… | 🟢 |
-| `linkedin.applyToJob` | linkedin.com | Submits an Easy Apply application to a job posting as the signed-in caller, using the… | ⚪ |
+| `linkedin.applyToJob` | linkedin.com | Submits an Easy Apply application to a job posting as the signed-in caller, using the… | 🟢 |
 | `linkedin.commentOnPost` | linkedin.com | Comments on a post as the signed-in caller. | 🟢 |
 | `linkedin.createPost` | linkedin.com | Publishes a text post to the signed-in caller's feed, visible to anyone or to… | 🟢 |
 | `linkedin.deleteComment` | linkedin.com | Deletes one of the signed-in caller's own comments. | 🟢 |
@@ -3251,7 +3251,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | 🟢 |
 | `nintendo.getSupportArticle` | www.nintendo.com | Read one support article in full — title, body steps, and any linked follow-ups — the… | ⚪ |
 | `nintendo.listCategories` | www.nintendo.com | List the store's own departments as its Shop menu shows them — Games, Hardware… | 🟡 |
-| `nintendo.listDeals` | www.nintendo.com | Today's discounted games and hardware on the Nintendo store — the read behind "what's… | ⚪ |
+| `nintendo.listDeals` | www.nintendo.com | Today's discounted games and hardware on the Nintendo store — the read behind "what's… | 🟢 |
 | `nintendo.listNews` | www.nintendo.com | Nintendo's own announcements and news articles — game reveals, updates, events — from… | ⚪ |
 | `nintendo.listOrders` | www.nintendo.com | Read the signed-in caller's Nintendo eShop / store order history. | ⚪ |
 | `nintendo.searchProducts` | www.nintendo.com | Search Nintendo's own store catalog by keyword — games, hardware, accessories and… | 🟢 |
@@ -3316,9 +3316,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.addRecipeToFolder` | cooking.nytimes.com | Files a saved recipe into one of the signed-in reader's Recipe Box folders. | ⚪ |
 | `nyt_cooking.addToGroceryList` | cooking.nytimes.com | Adds a recipe's ingredients to the signed-in reader's grocery list. | 🟢 |
 | `nyt_cooking.clearGroceryList` | cooking.nytimes.com | Removes every recipe currently in the signed-in reader's grocery list, one at a time. | 🟢 |
-| `nyt_cooking.createRecipeBoxFolder` | cooking.nytimes.com | Creates a new Recipe Box folder for the signed-in reader. | ⚪ |
+| `nyt_cooking.createRecipeBoxFolder` | cooking.nytimes.com | Creates a new Recipe Box folder for the signed-in reader. | 🟢 |
 | `nyt_cooking.createRecipeNote` | cooking.nytimes.com | Writes the signed-in reader's own private cook note on a recipe. | ⚪ |
-| `nyt_cooking.deleteRecipeBoxFolder` | cooking.nytimes.com | Deletes one of the signed-in reader's Recipe Box folders. | ⚪ |
+| `nyt_cooking.deleteRecipeBoxFolder` | cooking.nytimes.com | Deletes one of the signed-in reader's Recipe Box folders. | 🟢 |
 | `nyt_cooking.deleteRecipeNote` | cooking.nytimes.com | Deletes one of the signed-in reader's own private cook notes. | ⚪ |
 | `nyt_cooking.getAccountProfile` | cooking.nytimes.com | Reads the signed-in reader's own account profile (display name, email). Needs the… | ⚪ |
 | `nyt_cooking.getArticle` | cooking.nytimes.com | Reads one cooking article or guide's title, summary, authors, full body text and any… | 🟢 |
@@ -3336,13 +3336,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getTopic` | cooking.nytimes.com | Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes. | 🟢 |
 | `nyt_cooking.getTrendingArticles` | cooking.nytimes.com | Lists the articles behind the site's "Most Popular This Week" homepage carousel. | 🟢 |
 | `nyt_cooking.listFeaturedCollections` | cooking.nytimes.com | Lists the collections currently featured on the site's own homepage — the entry point… | 🟢 |
-| `nyt_cooking.listRecipeBoxFolders` | cooking.nytimes.com | Lists the signed-in reader's own Recipe Box folders. | ⚪ |
+| `nyt_cooking.listRecipeBoxFolders` | cooking.nytimes.com | Lists the signed-in reader's own Recipe Box folders. | 🟢 |
 | `nyt_cooking.listTopics` | cooking.nytimes.com | Lists the site's topic pages off its own navigation — the finder for a topic a caller… | 🟢 |
 | `nyt_cooking.markRecipeCooked` | cooking.nytimes.com | Marks a recipe as cooked on the signed-in reader's account. | 🟢 |
 | `nyt_cooking.rateRecipe` | cooking.nytimes.com | Submits the signed-in reader's own rating for a recipe, on NYT Cooking's own 1-4 scale. | 🟢 |
 | `nyt_cooking.removeFromGroceryList` | cooking.nytimes.com | Removes a recipe's ingredients from the signed-in reader's grocery list. | 🟢 |
 | `nyt_cooking.removeRecipeFromFolder` | cooking.nytimes.com | Removes a saved recipe from one of the signed-in reader's Recipe Box folders. | ⚪ |
-| `nyt_cooking.renameRecipeBoxFolder` | cooking.nytimes.com | Renames one of the signed-in reader's Recipe Box folders. | ⚪ |
+| `nyt_cooking.renameRecipeBoxFolder` | cooking.nytimes.com | Renames one of the signed-in reader's Recipe Box folders. | 🟢 |
 | `nyt_cooking.saveRecipe` | cooking.nytimes.com | Saves a recipe to the signed-in reader's Recipe Box. | 🟢 |
 | `nyt_cooking.searchMyRecipeBox` | cooking.nytimes.com | Searches inside the signed-in reader's own saved Recipe Box, rather than the whole site. | ⚪ |
 | `nyt_cooking.searchRecipes` | cooking.nytimes.com | Runs the site's own recipe search (query text plus cuisine/diet/mealType/cookTime… | 🟢 |
@@ -5053,7 +5053,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `urbanoutfitters.search` | urbanoutfitters.com | Searches Urban Outfitters' live catalogue the way the site's own search bar does and… | ⚪ |
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
-| `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟢 |
+| `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟡 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟡 |
 | `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given the url a listVideos row returns — returning its… | 🔴 |
