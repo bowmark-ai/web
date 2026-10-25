@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: da49655050e2bccc0a058be294833a55ab30e27acad3b493a817c2e2ab3ced4c
-# 87 capabilities, 644 providers, 2600 typed functions, 20 refused.
+# Manifest version: 855fe8d4088d0cd50a179322419b04078ae52b3a6d59c826fa2dee96ff67042f
+# 87 capabilities, 647 providers, 2608 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3405,6 +3405,40 @@ class Prv_abqplumb_AbqPlumbAppointmentRequest_In(TypedDict):
 class Prv_abqplumb_AbqPlumbAppointmentSlot_Out(TypedDict):
     startTime: str
     endTime: str
+
+class Prv_abt_AbtSearchArgs_In(TypedDict):
+    query: str
+
+class Prv_abt_AbtSearchResult_Out(TypedDict):
+    productId: str
+    name: str
+    url: str
+    price: float | None
+    wasPrice: float | None
+    abtModel: str | None
+    reviewCount: float | None
+    stock: str | None
+    keyFeatures: list[str]
+    imageUrl: str | None
+
+class Prv_abt_AbtProduct_Out(TypedDict):
+    productId: str
+    name: str
+    brand: str | None
+    model: str | None
+    sku: str | None
+    gtin: str | None
+    price: float | None
+    currency: str | None
+    availability: str | None
+    rating: float | None
+    reviewCount: float | None
+    category: str | None
+    description: str | None
+    color: str | None
+    images: list[str]
+    specs: Mapping[str, str]
+    url: str
 
 class Prv_accuweather_SearchLocationsArgs_In(TypedDict):
     query: str
@@ -17554,6 +17588,85 @@ class Prv_greenhouse_GreenhouseJob_Out(TypedDict):
     updatedAt: str | None
     requisitionId: str | None
 
+class Prv_grubhub_GrubhubSearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    place: NotRequired[str]
+    lat: NotRequired[float]
+    lng: NotRequired[float]
+    mode: NotRequired[Literal["delivery"] | Literal["pickup"]]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_grubhub_GrubhubSearchResult_Out(TypedDict):
+    restaurants: list[Prv_grubhub_GrubhubRestaurantRow_Out]
+    totalResults: float
+    page: float
+    totalPages: float
+    point: Prv_grubhub_GrubhubSearchResult_Out_point_Out
+
+class Prv_grubhub_GrubhubRestaurantRow_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    address: Prv_grubhub_GrubhubAddress_Out
+    cuisines: list[str]
+    rating: float | None
+    ratingCount: float | None
+    priceRating: float | None
+    distanceMiles: float | None
+    open: bool
+    delivery: bool
+    pickup: bool
+    deliveryFee: Prv_grubhub_GrubhubMoney_Out | None
+    deliveryMinimum: Prv_grubhub_GrubhubMoney_Out | None
+    deliveryMinutes: Prv_grubhub_GrubhubRestaurantRow_Out_deliveryMinutes_u0_Out | None
+    pickupMinutes: float | None
+    logo: str | None
+
+class Prv_grubhub_GrubhubAddress_Out(TypedDict):
+    street: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+
+class Prv_grubhub_GrubhubMoney_Out(TypedDict):
+    cents: float
+    currency: str
+
+class Prv_grubhub_GrubhubRestaurantRow_Out_deliveryMinutes_u0_Out(TypedDict):
+    low: float
+    high: float
+
+class Prv_grubhub_GrubhubSearchResult_Out_point_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_grubhub_GrubhubRestaurant_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    address: Prv_grubhub_GrubhubAddress_Out
+    cuisines: list[str]
+    rating: float | None
+    ratingCount: float | None
+    priceRating: float | None
+    pickup: bool
+    menu: list[Prv_grubhub_GrubhubMenuCategory_Out]
+
+class Prv_grubhub_GrubhubMenuCategory_Out(TypedDict):
+    id: str
+    name: str
+    items: list[Prv_grubhub_GrubhubMenuItem_Out]
+
+class Prv_grubhub_GrubhubMenuItem_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    price: Prv_grubhub_GrubhubMoney_Out | None
+    available: bool
+    popular: bool
+    image: str | None
+
 class Prv_gst_india_gst_indiaRow_Out(TypedDict):
     gstin: str
     name: str
@@ -21640,6 +21753,9 @@ class Prv_linkedin_ignoreInvitation_input_In(TypedDict):
 
 class Prv_linkedin_ignoreInvitation_return_Out(TypedDict):
     ignored: Literal[True]
+
+class Prv_linkedin_removeConnection_return_Out(TypedDict):
+    removed: Literal[True]
 
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
@@ -31414,6 +31530,18 @@ class Prv_sixflags_SixFlagsPassRow_Out(TypedDict):
     currentPriceModifier: str | None
     strikethroughPrice: str | None
     buyUrl: str | None
+
+class Prv_slickdeals_SlickdealsDeal_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    price: float | None
+    store: str | None
+    thumbScore: float | None
+    summary: str | None
+    image: str | None
+    postedAt: str | None
+    author: str | None
 
 class Prv_smartrecruiters_SmartRecruitersListOptions_In(TypedDict):
     query: NotRequired[str]
@@ -42100,6 +42228,23 @@ class Prv_abqplumb(Protocol):
         listServices. This reads availability only; it never submits a booking.
         """
 
+class Prv_abt(Protocol):
+    """Searches Abt Electronics (abt.com) — appliances, refrigerators, TVs, electronics — and
+    reads live prices, stock and specs off its own pages. No key, no browser.
+    """
+
+    async def search(self, args: Prv_abt_AbtSearchArgs_In, /) -> list[Prv_abt_AbtSearchResult_Out]:
+        """Runs abt.com's own keyword search and returns the first page of real listed products (up
+        to ~20) with live price, Abt model, review count, stock text and key features. Returns
+        [] when nothing matches.
+        """
+
+    async def getProduct(self, url: str, /) -> Prv_abt_AbtProduct_Out:
+        """Reads one abt.com product page (a url from search) — live offer price and availability,
+        brand, model, SKU, GTIN, rating, description, images and named specs from the page's own
+        schema.org Product data.
+        """
+
 class Prv_accuweather(Protocol):
     """AccuWeather forecasts for any place — current conditions, hourly, daily, MinuteCast,
     alerts, air quality, allergy and activity indices.
@@ -51154,6 +51299,29 @@ class Prv_greenhouse(Protocol):
         (`bowmark.job_search.atCompany` finds which).
         """
 
+class Prv_grubhub(Protocol):
+    """Grubhub food delivery — search restaurants delivering to an address (by cuisine, dish or
+    name) with fees, ETAs and ratings, then read a restaurant's full menu with prices.
+    """
+
+    async def search(self, args: Prv_grubhub_GrubhubSearchArgs_In, /) -> Prv_grubhub_GrubhubSearchResult_Out:
+        """Searches Grubhub for restaurants delivering to (or offering pickup near) a place — `{
+        query: "pizza", place: "Union Square, New York, NY" }` or lat/lng — returning each
+        restaurant's id, url, cuisines, rating, price level, distance, open state, delivery fee,
+        minimum and ETA. The door for getRestaurant/getMenu.
+        """
+
+    async def getRestaurant(self, id: str, /) -> Prv_grubhub_GrubhubRestaurant_Out:
+        """Reads one Grubhub restaurant by the id search() returns: address, cuisines, rating,
+        price level, pickup, and its full menu (categories → items with price in cents,
+        description, availability, image).
+        """
+
+    async def getMenu(self, id: str, /) -> list[Prv_grubhub_GrubhubMenuCategory_Out]:
+        """Just the menu of one Grubhub restaurant (by search()'s id): categories, each with its
+        items, prices in cents, descriptions and availability.
+        """
+
 class Prv_gst_india(Protocol):
     """Search India's GST registry for registrant details by GSTIN."""
 
@@ -54163,6 +54331,17 @@ class Prv_linkedin(Protocol):
         LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
         retry: wait that long. The account owner may opt into faster pacing with { pacing:
         "fast" } as an extra last argument; ask them first.
+        """
+
+    async def removeConnection(self, member: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_removeConnection_return_Out:
+        """Removes a member from the caller's connections, by the `publicIdentifier` (the
+        /in/<slug>) a member record carries. LinkedIn does not tell the other member. Signed in:
+        acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
@@ -59974,6 +60153,21 @@ class Prv_sixflags(Protocol):
         Throws if the slug does not resolve to a real park page on the site.
         """
 
+class Prv_slickdeals(Protocol):
+    """Slickdeals deals: today's frontpage hot deals, or search deals by keyword — price, store
+    and community thumb score.
+    """
+
+    async def getFrontpageDeals(self, /) -> list[Prv_slickdeals_SlickdealsDeal_Out]:
+        """Reads the deals currently on the Slickdeals frontpage — the community-voted hot deals —
+        newest first, each with price, store, thumb score and its thread URL.
+        """
+
+    async def searchDeals(self, query: str, /) -> list[Prv_slickdeals_SlickdealsDeal_Out]:
+        """Searches Slickdeals deal threads by keyword, e.g. "laptop" or "airpods", newest first,
+        each with price, store, thumb score and its thread URL.
+        """
+
 class Prv_smartrecruiters(Protocol):
     """Every public posting a company has on SmartRecruiters — title, location, remote/hybrid,
     department, release date — live off SmartRecruiters' own Posting API, with its keyword
@@ -64868,6 +65062,7 @@ class BowmarkProviders(Protocol):
     aauto: Prv_aauto
     abercrombie: Prv_abercrombie
     abqplumb: Prv_abqplumb
+    abt: Prv_abt
     accuweather: Prv_accuweather
     acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
@@ -65150,6 +65345,7 @@ class BowmarkProviders(Protocol):
     greatlakesbrewing: Prv_greatlakesbrewing
     greatlakesdentaltech: Prv_greatlakesdentaltech
     greenhouse: Prv_greenhouse
+    grubhub: Prv_grubhub
     gst_india: Prv_gst_india
     hackernews: Prv_hackernews
     hamptonwaterwine: Prv_hamptonwaterwine
@@ -65383,6 +65579,7 @@ class BowmarkProviders(Protocol):
     shop_app: Prv_shop_app
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
+    slickdeals: Prv_slickdeals
     smartrecruiters: Prv_smartrecruiters
     smartsign: Prv_smartsign
     smartwool: Prv_smartwool

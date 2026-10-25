@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: da49655050e2bccc0a058be294833a55ab30e27acad3b493a817c2e2ab3ced4c
-// 2600 checked, 20 unchecked.
+// Manifest version: 855fe8d4088d0cd50a179322419b04078ae52b3a6d59c826fa2dee96ff67042f
+// 2608 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "da49655050e2bccc0a058be294833a55ab30e27acad3b493a817c2e2ab3ced4c",
+  "version": "855fe8d4088d0cd50a179322419b04078ae52b3a6d59c826fa2dee96ff67042f",
   "units": {
     "address_validation": {
       "defs": {
@@ -6996,6 +6996,43 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AbqPlumbAppointmentRequest"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.abt": {
+      "defs": {
+        "AbtSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AbtSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -32903,6 +32940,104 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.grubhub": {
+      "defs": {
+        "GrubhubSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "mode",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "delivery"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pickup"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GrubhubSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRestaurant": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMenu": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.gst_india": {
       "defs": {},
       "functions": {
@@ -41570,6 +41705,31 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeConnection": [
+          {
+            "name": "member",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },
@@ -64772,6 +64932,21 @@ export const VALIDATORS: ValidatorTable = {
         "getTickets": [
           {
             "name": "park",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.slickdeals": {
+      "defs": {},
+      "functions": {
+        "getFrontpageDeals": [],
+        "searchDeals": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

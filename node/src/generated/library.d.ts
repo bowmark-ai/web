@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: da49655050e2bccc0a058be294833a55ab30e27acad3b493a817c2e2ab3ced4c
-// 87 capabilities, 644 providers, 2618 typed functions, 20 refused.
+// Manifest version: 855fe8d4088d0cd50a179322419b04078ae52b3a6d59c826fa2dee96ff67042f
+// 87 capabilities, 647 providers, 2626 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6178,6 +6178,64 @@ interface AbqPlumbAppointmentSlot { startTime: string; endTime: string; }
      * listServices. This reads availability only; it never submits a booking.
      */
     getAvailability(input: AbqPlumbAppointmentRequest): Promise<AbqPlumbAppointmentSlot[]>;
+  }
+}
+
+declare namespace BowmarkProvider_abt {
+  // ── Abt Electronics — the unit's own declarations, verbatim ──
+interface AbtSearchArgs {
+  query: string;                 // e.g. "refrigerator", "french door refrigerator", "LG OLED TV"
+}
+interface AbtSearchResult {
+  productId: string;
+  name: string;
+  url: string;                   // pass to getProduct
+  price: number | null;          // dollars, the grid's "Your Price"
+  wasPrice: number | null;
+  abtModel: string | null;
+  reviewCount: number | null;    // the grid shows stars only; getProduct has the exact rating
+  stock: string | null;          // e.g. "In Stock"
+  keyFeatures: string[];
+  imageUrl: string | null;
+}
+interface AbtProduct {
+  productId: string;
+  name: string;
+  brand: string | null;
+  model: string | null;          // manufacturer model number
+  sku: string | null;            // Abt's own SKU
+  gtin: string | null;
+  price: number | null;          // dollars, the live offer
+  currency: string | null;
+  availability: string | null;   // "InStock", "OutOfStock", …
+  rating: number | null;
+  reviewCount: number | null;
+  category: string | null;
+  description: string | null;
+  color: string | null;
+  images: string[];
+  specs: Record<string, string>;
+  url: string;
+}
+
+  /**
+   * Searches Abt Electronics (abt.com) — appliances, refrigerators, TVs, electronics — and reads
+   * live prices, stock and specs off its own pages. No key, no browser.
+   */
+  interface Unit {
+    /**
+     * Runs abt.com's own keyword search and returns the first page of real listed products (up to
+     * ~20) with live price, Abt model, review count, stock text and key features. Returns [] when
+     * nothing matches.
+     */
+    search(args: AbtSearchArgs): Promise<AbtSearchResult[]>;
+
+    /**
+     * Reads one abt.com product page (a url from search) — live offer price and availability,
+     * brand, model, SKU, GTIN, rating, description, images and named specs from the page's own
+     * schema.org Product data.
+     */
+    getProduct(url: string): Promise<AbtProduct>;
   }
 }
 
@@ -31041,6 +31099,116 @@ interface GreenhouseBoard {
   }
 }
 
+declare namespace BowmarkProvider_grubhub {
+  // ── Grubhub — the unit's own declarations, verbatim ──
+interface GrubhubMoney {
+  /** Cents, as Grubhub reports it. */
+  cents: number;
+  currency: string;
+}
+interface GrubhubAddress {
+  street: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+}
+interface GrubhubSearchArgs {
+  /** What to look for — a cuisine, dish or restaurant name, e.g. "pizza". Omit to list everything delivering there. */
+  query?: string;
+  /** A US place to deliver to, geocoded via OpenStreetMap, e.g. "Union Square, New York, NY". Or pass lat+lng. */
+  place?: string;
+  lat?: number;
+  lng?: number;
+  /** "delivery" (default) or "pickup". */
+  mode?: "delivery" | "pickup";
+  /** 1-50, default 20. */
+  limit?: number;
+  /** 1-based page, default 1. */
+  page?: number;
+}
+interface GrubhubRestaurantRow {
+  /** The id getRestaurant/getMenu take. */
+  id: string;
+  name: string;
+  url: string;
+  address: GrubhubAddress;
+  cuisines: string[];
+  rating: number | null;
+  ratingCount: number | null;
+  /** 1-4 dollar signs. */
+  priceRating: number | null;
+  distanceMiles: number | null;
+  open: boolean;
+  delivery: boolean;
+  pickup: boolean;
+  deliveryFee: GrubhubMoney | null;
+  deliveryMinimum: GrubhubMoney | null;
+  deliveryMinutes: { low: number; high: number } | null;
+  pickupMinutes: number | null;
+  logo: string | null;
+}
+interface GrubhubSearchResult {
+  restaurants: GrubhubRestaurantRow[];
+  totalResults: number;
+  page: number;
+  totalPages: number;
+  point: { lat: number; lng: number };
+}
+interface GrubhubMenuItem {
+  id: string;
+  name: string;
+  description: string | null;
+  price: GrubhubMoney | null;
+  available: boolean;
+  popular: boolean;
+  image: string | null;
+}
+interface GrubhubMenuCategory {
+  id: string;
+  name: string;
+  items: GrubhubMenuItem[];
+}
+interface GrubhubRestaurant {
+  id: string;
+  name: string;
+  url: string;
+  address: GrubhubAddress;
+  cuisines: string[];
+  rating: number | null;
+  ratingCount: number | null;
+  priceRating: number | null;
+  pickup: boolean;
+  menu: GrubhubMenuCategory[];
+}
+
+  /**
+   * Grubhub food delivery — search restaurants delivering to an address (by cuisine, dish or
+   * name) with fees, ETAs and ratings, then read a restaurant's full menu with prices.
+   */
+  interface Unit {
+    /**
+     * Searches Grubhub for restaurants delivering to (or offering pickup near) a place — `{ query:
+     * "pizza", place: "Union Square, New York, NY" }` or lat/lng — returning each restaurant's id,
+     * url, cuisines, rating, price level, distance, open state, delivery fee, minimum and ETA. The
+     * door for getRestaurant/getMenu.
+     */
+    search(args: GrubhubSearchArgs): Promise<GrubhubSearchResult>;
+
+    /**
+     * Reads one Grubhub restaurant by the id search() returns: address, cuisines, rating, price
+     * level, pickup, and its full menu (categories → items with price in cents, description,
+     * availability, image).
+     */
+    getRestaurant(id: string): Promise<GrubhubRestaurant>;
+
+    /**
+     * Just the menu of one Grubhub restaurant (by search()'s id): categories, each with its items,
+     * prices in cents, descriptions and availability.
+     */
+    getMenu(id: string): Promise<GrubhubMenuCategory[]>;
+  }
+}
+
 declare namespace BowmarkProvider_gst_india {
   // ── GST India Search — the unit's own declarations, verbatim ──
 interface gst_indiaRow {
@@ -38890,6 +39058,18 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * last argument; ask them first.
      */
     ignoreInvitation(input: { invitation: string; sharedSecret: string }, opts?: ConnectionOption): Promise<{ ignored: true }>;
+
+    /**
+     * Removes a member from the caller's connections, by the `publicIdentifier` (the /in/<slug>) a
+     * member record carries. LinkedIn does not tell the other member. Signed in: acts as the
+     * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
+     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
+     */
+    removeConnection(member: string, opts?: ConnectionOption): Promise<{ removed: true }>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -55560,6 +55740,40 @@ interface SixFlagsTicketsResult {
   }
 }
 
+declare namespace BowmarkProvider_slickdeals {
+  // ── Slickdeals — the unit's own declarations, verbatim ──
+interface SlickdealsDeal {
+  id: string;
+  title: string;
+  url: string;
+  price: number | null;
+  store: string | null;
+  thumbScore: number | null;
+  summary: string | null;
+  image: string | null;
+  postedAt: string | null;
+  author: string | null;
+}
+
+  /**
+   * Slickdeals deals: today's frontpage hot deals, or search deals by keyword — price, store and
+   * community thumb score.
+   */
+  interface Unit {
+    /**
+     * Reads the deals currently on the Slickdeals frontpage — the community-voted hot deals —
+     * newest first, each with price, store, thumb score and its thread URL.
+     */
+    getFrontpageDeals(): Promise<SlickdealsDeal[]>;
+
+    /**
+     * Searches Slickdeals deal threads by keyword, e.g. "laptop" or "airpods", newest first, each
+     * with price, store, thumb score and its thread URL.
+     */
+    searchDeals(query: string): Promise<SlickdealsDeal[]>;
+  }
+}
+
 declare namespace BowmarkProvider_smartrecruiters {
   // ── SmartRecruiters — the unit's own declarations, verbatim ──
 interface SmartRecruitersPosting {
@@ -70292,6 +70506,7 @@ interface BowmarkProviders {
   aauto: BowmarkProvider_aauto.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
   abqplumb: BowmarkProvider_abqplumb.Unit;
+  abt: BowmarkProvider_abt.Unit;
   accuweather: BowmarkProvider_accuweather.Unit;
   acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
@@ -70574,6 +70789,7 @@ interface BowmarkProviders {
   greatlakesbrewing: BowmarkProvider_greatlakesbrewing.Unit;
   greatlakesdentaltech: BowmarkProvider_greatlakesdentaltech.Unit;
   greenhouse: BowmarkProvider_greenhouse.Unit;
+  grubhub: BowmarkProvider_grubhub.Unit;
   gst_india: BowmarkProvider_gst_india.Unit;
   hackernews: BowmarkProvider_hackernews.Unit;
   hamptonwaterwine: BowmarkProvider_hamptonwaterwine.Unit;
@@ -70807,6 +71023,7 @@ interface BowmarkProviders {
   shop_app: BowmarkProvider_shop_app.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
+  slickdeals: BowmarkProvider_slickdeals.Unit;
   smartrecruiters: BowmarkProvider_smartrecruiters.Unit;
   smartsign: BowmarkProvider_smartsign.Unit;
   smartwool: BowmarkProvider_smartwool.Unit;

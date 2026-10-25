@@ -4351,8 +4351,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spectrum.getInternetPlanDetails` | spectrum.com | One Gig-tier internet plan's own detail page at… | 🟢 |
 | `spectrum.getUsageSummary` | spectrum.com | The signed-in caller's internet and mobile data usage for the current billing period… | ⚪ |
 | `spectrum.listInternetPlans` | spectrum.com | Every residential internet-only plan Spectrum advertises on… | 🟢 |
-| `spectrum.listMobileDeals` | spectrum.com | Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals… | ⚪ |
-| `spectrum.listMobilePlans` | spectrum.com | Every Spectrum Mobile plan on spectrum.com/mobile/plans — plan name, data allowance… | ⚪ |
+| `spectrum.listMobileDeals` | spectrum.com | Current Spectrum Mobile device and line promotions on spectrum.com/mobile/mobile-deals… | 🟢 |
+| `spectrum.listMobilePlans` | spectrum.com | The three Spectrum Mobile "Unlimited" plans on spectrum.com/mobile/plans (Unlimited… | 🟢 |
 | `spectrum.listTvAddOns` | spectrum.com | Every premium channel and add-on package Spectrum advertises on… | 🟢 |
 | `spectrum.listTvPlans` | spectrum.com | Every Spectrum TV package on spectrum.com/cable-tv/plans — package name, the page's… | 🟢 |
 | `spectrum.payBill` | spectrum.com | Pay the signed-in caller's Spectrum bill using a payment method already on the account. | ⚪ |
