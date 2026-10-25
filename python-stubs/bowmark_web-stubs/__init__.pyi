@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a82776c4995251ce8d5747b00624a0d2ddc0545e42f21286f55e9e7763fb8c9f
-# 87 capabilities, 655 providers, 2687 typed functions, 20 refused.
+# Manifest version: 0cf17a66690f1a15c9fcae3e4825a976bf461a4e3852ae7e9fbd8416a6ae439c
+# 87 capabilities, 655 providers, 2693 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22454,6 +22454,16 @@ class Prv_linkedin_updateProfile_input_In(TypedDict):
 class Prv_linkedin_updateProfile_return_Out(TypedDict):
     updated: list[str]
 
+class Prv_linkedin_setProfilePhoto_input_u0_In(TypedDict):
+    base64: str
+    mimeType: Literal["image/jpeg"] | Literal["image/png"]
+
+class Prv_linkedin_setProfilePhoto_input_u1_In(TypedDict):
+    url: str
+
+class Prv_linkedin_setProfilePhoto_return_Out(TypedDict):
+    updated: Literal[True]
+
 class Prv_linkedin_applyToJob_input_In(TypedDict):
     job: str
     answers: NotRequired[Mapping[str, str | float]]
@@ -32718,6 +32728,63 @@ class Prv_snapchat_SnapchatSpotlightVideoDetail_Out(TypedDict):
     creatorUrl: NotRequired[str]
     relatedVideos: list[Prv_snapchat_SnapchatSpotlightVideo_Out]
 
+class Prv_snapchat_SnapchatDiscoverFeed_Out(TypedDict):
+    stories: list[Prv_snapchat_SnapchatDiscoverStory_Out]
+
+class Prv_snapchat_SnapchatDiscoverStory_Out(TypedDict):
+    id: str
+    kind: str
+    title: NotRequired[str]
+    creatorUsername: NotRequired[str]
+    creatorDisplayName: NotRequired[str]
+    thumbnailUrl: NotRequired[str]
+    tapId: NotRequired[str]
+    snapCount: float
+    canonicalUrl: str
+
+class Prv_snapchat_SnapchatLensList_Out(TypedDict):
+    lenses: list[Prv_snapchat_SnapchatLens_Out]
+    categories: list[Prv_snapchat_SnapchatLensCategory_Out]
+    hasMore: bool
+    nextCursorId: NotRequired[str]
+
+class Prv_snapchat_SnapchatLens_Out(TypedDict):
+    lensId: str
+    scannableUuid: str
+    name: str
+    creatorUsername: NotRequired[str]
+    creatorDisplayName: NotRequired[str]
+    previewImageUrl: NotRequired[str]
+    previewVideoUrl: NotRequired[str]
+    iconUrl: NotRequired[str]
+    unlockUrl: NotRequired[str]
+    searchTags: NotRequired[list[str]]
+    official: bool
+
+class Prv_snapchat_SnapchatLensCategory_Out(TypedDict):
+    name: str
+    displayName: str
+    selected: bool
+
+class Prv_snapchat_SnapchatLensDetail_Out(TypedDict):
+    lensId: str
+    scannableUuid: str
+    name: str
+    creatorUsername: NotRequired[str]
+    creatorDisplayName: NotRequired[str]
+    previewImageUrl: NotRequired[str]
+    previewVideoUrl: NotRequired[str]
+    iconUrl: NotRequired[str]
+    unlockUrl: NotRequired[str]
+    searchTags: NotRequired[list[str]]
+    official: bool
+    moreLenses: list[Prv_snapchat_SnapchatLens_Out]
+    spotlightsUsingThisLens: list[Prv_snapchat_SnapchatLensDetail_Out_spotlightsUsingThisLens_item_Out]
+
+class Prv_snapchat_SnapchatLensDetail_Out_spotlightsUsingThisLens_item_Out(TypedDict):
+    thumbnailUrl: NotRequired[str]
+    storyPageUrl: NotRequired[str]
+
 class Prv_solidcore_ListStudiosArgs_In(TypedDict):
     state: NotRequired[str]
 
@@ -33947,6 +34014,20 @@ class Prv_stubhub_stubhubFindVenuesResult_Out(TypedDict):
 class Prv_stubhub_stubhubVenueMatch_Out(TypedDict):
     id: str
     name: str
+    url: str
+
+class Prv_stubhub_findEventsToSell_args_u0_In(TypedDict):
+    query: str
+
+class Prv_stubhub_stubhubFindEventsToSellResult_Out(TypedDict):
+    query: str
+    matches: list[Prv_stubhub_stubhubSellMatch_Out]
+    warnings: list[str]
+
+class Prv_stubhub_stubhubSellMatch_Out(TypedDict):
+    id: str
+    title: str
+    group: str | None
     url: str
 
 class Prv_suitsupply_SuitsupplyListArgs_In(TypedDict):
@@ -38733,6 +38814,12 @@ class Prv_westelm_WsgcProduct_Out(TypedDict):
     description: str
     imageUrl: str | None
     flags: list[str]
+
+class Prv_whatsapp_WhatsappMyProfile_Out(TypedDict):
+    phone: str | None
+    name: str | None
+    about: str | None
+    photoUrl: str | None
 
 class Prv_whatsapp_WhatsappGroupInvite_Out(TypedDict):
     code: str
@@ -55804,6 +55891,17 @@ class Prv_linkedin(Protocol):
         extra last argument; ask them first.
         """
 
+    async def setProfilePhoto(self, input: Prv_linkedin_setProfilePhoto_input_u0_In | Prv_linkedin_setProfilePhoto_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_setProfilePhoto_return_Out:
+        """Replaces the caller's own profile photo with an image from a URL or uploaded (base64)
+        file. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the
+        run pauses and hands back a link where they sign in. Paced per LinkedIn account across
+        runs so it never looks automated — 6 requests a minute, and a reserve of 400 that
+        refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+        the pace throws LinkedinRateLimited saying when to retry: wait that long. The account
+        owner may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask
+        them first.
+        """
+
     async def applyToJob(self, input: Prv_linkedin_applyToJob_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_applyToJob_return_Out:
         """Submits an Easy Apply application to a job posting as the caller, with the profile and
         resume already on their account, answering screening questions from `answers` (keyed by
@@ -61889,6 +61987,23 @@ class Prv_snapchat(Protocol):
         dimensions, the video url, and a handful of related videos the page ranks beside it.
         """
 
+    async def listDiscoverStories(self, /) -> Prv_snapchat_SnapchatDiscoverFeed_Out:
+        """Reads the public Discover feed at www.snapchat.com/discover — publisher Shows and Snap
+        Pro creator stories, each with its title, creator, thumbnail and snap count.
+        """
+
+    async def listLenses(self, /) -> Prv_snapchat_SnapchatLensList_Out:
+        """Reads the Lens Explorer's top lenses at www.snapchat.com/lens — the default 'For You'
+        feed, each lens with its name, creator, preview media and unlock url — plus the category
+        list the page offers.
+        """
+
+    async def getLens(self, scannableUuid: str, /) -> Prv_snapchat_SnapchatLensDetail_Out:
+        """Reads one Lens's own page (www.snapchat.com/lens/<scannableUuid>) — its name, creator,
+        preview media and unlock url, plus a handful of related lenses and the Spotlight videos
+        made with it.
+        """
+
 class Prv_solidcore(Protocol):
     """solidcore.co — the [solidcore] boutique fitness studio chain (Pilates-based strength
     classes). listStudios and getStudio are built; everything else is queued — see
@@ -62494,6 +62609,14 @@ class Prv_stubhub(Protocol):
         """Finds a venue by name and returns its id, display name and StubHub's own page url for
         it, for a caller who knows WHERE before they know WHAT. Browserless and fast — the same
         search page as search(), filtered to the hits StubHub itself tags as a venue.
+        """
+
+    async def findEventsToSell(self, args: Prv_stubhub_findEventsToSell_args_u0_In | str, /) -> Prv_stubhub_stubhubFindEventsToSellResult_Out:
+        """The seller side of the marketplace: searches StubHub's own event-finder for a performer,
+        team or event name and returns the matches (id, title, StubHub's own
+        `/SellTickets/FindEvent/<id>` url) a caller would pick from before listing tickets for
+        sale. Reachable with no account — only submitting a listing needs a signed-in caller.
+        Opens a browser to drive the search box, so expect 10-25s.
         """
 
 class Prv_suitsupply(Protocol):
@@ -65246,6 +65369,12 @@ class Prv_whatsapp(Protocol):
     catalogs, search the Help Center; signed in through WhatsApp Web, read and search the
     caller's chats, send messages and media, manage groups, follow Channels and post Status.
     """
+
+    async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMyProfile_Out:
+        """Reads the signed-in caller's own WhatsApp profile through WhatsApp Web: phone number,
+        display name, about text and photo url (each null when the page does not show it). The
+        cheapest proof the linked session is alive. Needs the caller signed in.
+        """
 
     async def previewGroupInvite(self, codeOrUrl: str, /) -> Prv_whatsapp_WhatsappGroupInvite_Out:
         """Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) logged out, without

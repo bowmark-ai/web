@@ -858,7 +858,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.getPresenterNotes` | canva.com | Reads the presenter notes on each slide of one of the caller's presentations. | ⚪ |
 | `canva.getPricing` | canva.com | Reads Canva's plans and prices — Free, Pro, Teams/Business and Enterprise — with each… | ⚪ |
 | `canva.getSharedDesign` | canva.com | Reads a Canva design someone shared by view link (canva.com/design/<id>/<token>/view)… | ⚪ |
-| `canva.getTemplate` | canva.com | Reads one template by id or url — title, description, design type and dimensions, page… | ⚪ |
+| `canva.getTemplate` | canva.com | Reads one template by id or url — title, description, design type and page previews… | 🟢 |
 | `canva.importDesign` | canva.com | Imports a file at a url (PDF, PowerPoint, Word, Keynote) into the caller's account as… | ⚪ |
 | `canva.listColorPalettes` | canva.com | Lists Canva's curated colour palettes (name, hex colours, page url), paged. | ⚪ |
 | `canva.listComments` | canva.com | Lists the comments on one of the caller's designs — author, text, page, resolved or… | ⚪ |
@@ -879,7 +879,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.searchBrandTemplates` | canva.com | Searches the Brand Templates the caller's team has shared with them. | ⚪ |
 | `canva.searchGraphics` | canva.com | Searches Canva's graphics and illustrations library (stickers, icons, illustrations)… | ⚪ |
 | `canva.searchMyDesigns` | canva.com | Searches the signed-in caller's designs by title or content (or lists the most recent… | ⚪ |
-| `canva.searchPhotos` | canva.com | Searches Canva's stock photo library by keyword — photo id, title, creator, free or… | ⚪ |
+| `canva.searchPhotos` | canva.com | Searches Canva's stock photo library by keyword — photo id, title (when the photo has… | 🟢 |
 | `canva.searchTemplates` | canva.com | Searches Canva's template library by keyword — title, template id, url and preview… | 🟢 |
 | `canva.searchVideos` | canva.com | Searches Canva's stock video library by keyword — clip id, title, duration, licence… | ⚪ |
 | `canva.setProfilePicture` | canva.com | Replaces the signed-in caller's profile picture with an image from a url. | ⚪ |
@@ -1319,21 +1319,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.getVideo` | dailymotion.com | Read one Dailymotion video from its id or a dailymotion.com / dai.ly URL: title… | 🟢 |
 | `dailymotion.likeVideo` | dailymotion.com | Like a Dailymotion video as the signed-in caller, or remove the like. | ⚪ |
 | `dailymotion.listCaptionTracks` | dailymotion.com | List the caption tracks one Dailymotion video has — language, label, and whether it is… | ⚪ |
-| `dailymotion.listCategories` | dailymotion.com | List Dailymotion's video categories (news, music, sport, animals …) with their ids. | ⚪ |
-| `dailymotion.listCategoryVideos` | dailymotion.com | List the newest or most-viewed videos in one Dailymotion category, such as news or… | ⚪ |
+| `dailymotion.listCategories` | dailymotion.com | List Dailymotion's 17 video categories (news, music, sport, animals …) with their ids… | 🟢 |
+| `dailymotion.listCategoryVideos` | dailymotion.com | List the videos in one Dailymotion category ("news", "sport") — newest first, or most… | 🟢 |
 | `dailymotion.listChannelPlaylists` | dailymotion.com | List the playlists one Dailymotion channel has published — id, name, description… | 🟢 |
 | `dailymotion.listChannelVideos` | dailymotion.com | List the videos one Dailymotion uploader has published, newest first, paged — same… | 🟢 |
 | `dailymotion.listFollowedChannels` | dailymotion.com | List the channels the signed-in caller follows. | ⚪ |
 | `dailymotion.listFollowingFeed` | dailymotion.com | List the newest videos from the channels the signed-in caller follows — the site's… | ⚪ |
 | `dailymotion.listHashtagVideos` | dailymotion.com | List Dailymotion videos carrying one tag or hashtag. | ⚪ |
-| `dailymotion.listLiveStreams` | dailymotion.com | List live streams on air on Dailymotion now, optionally matching a keyword or from one… | ⚪ |
+| `dailymotion.listLiveStreams` | dailymotion.com | List Dailymotion live streams on air right now, optionally matching a keyword or from… | 🟢 |
 | `dailymotion.listMyLikedVideos` | dailymotion.com | List the videos the signed-in caller has liked. | ⚪ |
 | `dailymotion.listMyPlaylists` | dailymotion.com | List the signed-in caller's own playlists, private ones included. | ⚪ |
 | `dailymotion.listMyVideos` | dailymotion.com | List the videos the signed-in caller has uploaded, private and draft ones included. | ⚪ |
 | `dailymotion.listPlaylistVideos` | dailymotion.com | List the videos in one Dailymotion playlist, in playlist order, paged — same fields as… | 🟢 |
 | `dailymotion.listRelatedVideos` | dailymotion.com | List the videos Dailymotion recommends alongside one video. | ⚪ |
 | `dailymotion.listStreamFormats` | dailymotion.com | List the playable streams of one Dailymotion video — the HLS manifest URL and the… | ⚪ |
-| `dailymotion.listTrendingVideos` | dailymotion.com | List the videos trending on Dailymotion now, optionally for one country or language. | ⚪ |
+| `dailymotion.listTrendingVideos` | dailymotion.com | List the videos trending on Dailymotion right now — optionally for one country ("us"… | 🟢 |
 | `dailymotion.listWatchHistory` | dailymotion.com | List the videos the signed-in caller has watched, newest first. | ⚪ |
 | `dailymotion.listWatchLater` | dailymotion.com | List the signed-in caller's Watch Later videos. | ⚪ |
 | `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion channels (uploaders) by name — id, username, display name, follower… | 🟡 |
@@ -4078,7 +4078,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seatgeek.trackEvent` | seatgeek.com | Tracks (saves) an event to the signed-in caller's account. | 🟢 |
 | `seatgeek.transferTicket` | seatgeek.com | Transfers a purchased ticket to another person's SeatGeek account. | ⚪ |
 | `seatgeek.unfollowPerformer` | seatgeek.com | Unfollows a performer on the signed-in caller's account. | ⚪ |
-| `seatgeek.untrackEvent` | seatgeek.com | Removes a tracked event from the signed-in caller's account. | ⚪ |
+| `seatgeek.untrackEvent` | seatgeek.com | Removes a tracked event from the signed-in caller's account. | 🟢 |
 | `sec_edgar.companyFacts` | sec.gov | A public company's own reported XBRL facts from its 10-K / 10-Q filings — revenue, net… | 🟢 |
 | `sec_edgar.findCompany` | sec.gov | Find SEC-registered public companies by ticker, CIK or name from EDGAR's own… | 🟢 |
 | `sec_edgar.fullTextSearch` | sec.gov | Search the text of every EDGAR filing since 2001 for a phrase, via… | ⚪ |
@@ -5492,7 +5492,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.listFollowers` | x.com | A user's followers list. | ⚪ |
 | `x.listFollowing` | x.com | Who a user follows. | ⚪ |
 | `x.listHomeFeed` | x.com | The signed-in account's personalized home timeline, in X's own order. | 🟢 |
-| `x.listNotifications` | x.com | The signed-in account's notifications — likes, replies, reposts, follows and mentions. | ⚪ |
+| `x.listNotifications` | x.com | The signed-in account's notifications — likes, replies, reposts, follows and mentions. | 🟢 |
 | `x.listTrending` | x.com | The site's current trending topics, the /explore page. | ⚪ |
 | `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |
 | `x.profile` | x.com | Reads an X (Twitter) profile by handle or profile URL — display name, bio text… | 🟢 |

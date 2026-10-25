@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a82776c4995251ce8d5747b00624a0d2ddc0545e42f21286f55e9e7763fb8c9f
-// 2687 checked, 20 unchecked.
+// Manifest version: 0cf17a66690f1a15c9fcae3e4825a976bf461a4e3852ae7e9fbd8416a6ae439c
+// 2693 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a82776c4995251ce8d5747b00624a0d2ddc0545e42f21286f55e9e7763fb8c9f",
+  "version": "0cf17a66690f1a15c9fcae3e4825a976bf461a4e3852ae7e9fbd8416a6ae439c",
   "units": {
     "address_validation": {
       "defs": {
@@ -43057,6 +43057,74 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "setProfilePhoto": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "base64",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "mimeType",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "image/jpeg"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "image/png"
+                          }
+                        ]
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "applyToJob": [
           {
             "name": "input",
@@ -67180,6 +67248,17 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listDiscoverStories": [],
+        "listLenses": [],
+        "getLens": [
+          {
+            "name": "scannableUuid",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -69586,6 +69665,32 @@ export const VALIDATORS: ValidatorTable = {
                         ]
                       },
                       "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "findEventsToSell": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
                     }
                   ]
                 },
@@ -78058,6 +78163,24 @@ export const VALIDATORS: ValidatorTable = {
     "providers.whatsapp": {
       "defs": {},
       "functions": {
+        "getMyProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "previewGroupInvite": [
           {
             "name": "codeOrUrl",

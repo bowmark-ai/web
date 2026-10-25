@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a82776c4995251ce8d5747b00624a0d2ddc0545e42f21286f55e9e7763fb8c9f
-// 87 capabilities, 655 providers, 2705 typed functions, 20 refused.
+// Manifest version: 0cf17a66690f1a15c9fcae3e4825a976bf461a4e3852ae7e9fbd8416a6ae439c
+// 87 capabilities, 655 providers, 2711 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -40148,6 +40148,17 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
     updateProfile(input: { headline?: string; about?: string }, opts?: ConnectionOption): Promise<{ updated: string[] }>;
 
     /**
+     * Replaces the caller's own profile photo with an image from a URL or uploaded (base64) file.
+     * Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses
+     * and hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     */
+    setProfilePhoto(input: { base64: string; mimeType: "image/jpeg" | "image/png" } | { url: string }, opts?: ConnectionOption): Promise<{ updated: true }>;
+
+    /**
      * Submits an Easy Apply application to a job posting as the caller, with the profile and
      * resume already on their account, answering screening questions from `answers` (keyed by
      * question label). Returns the required questions it could not answer instead of submitting;
@@ -57572,6 +57583,54 @@ interface SnapchatSpotlightVideoDetail {
   relatedVideos: SnapchatSpotlightVideo[];
 }
 
+interface SnapchatDiscoverStory {
+  id: string;
+  kind: string; // the site's __typename: "PremiumPublisherStory" (a Show) or "SnapProStory" (a creator)
+  title?: string;
+  creatorUsername?: string;
+  creatorDisplayName?: string;
+  thumbnailUrl?: string;
+  tapId?: string;
+  snapCount: number;
+  canonicalUrl: string; // story.snapchat.com/p/<id>
+}
+
+interface SnapchatDiscoverFeed {
+  stories: SnapchatDiscoverStory[];
+}
+
+interface SnapchatLens {
+  lensId: string;
+  scannableUuid: string;
+  name: string;
+  creatorUsername?: string;
+  creatorDisplayName?: string;
+  previewImageUrl?: string;
+  previewVideoUrl?: string;
+  iconUrl?: string;
+  unlockUrl?: string;
+  searchTags?: string[];
+  official: boolean;
+}
+
+interface SnapchatLensCategory {
+  name: string;
+  displayName: string;
+  selected: boolean;
+}
+
+interface SnapchatLensList {
+  lenses: SnapchatLens[];
+  categories: SnapchatLensCategory[];
+  hasMore: boolean;
+  nextCursorId?: string;
+}
+
+interface SnapchatLensDetail extends SnapchatLens {
+  moreLenses: SnapchatLens[];
+  spotlightsUsingThisLens: Array<{ thumbnailUrl?: string; storyPageUrl?: string }>;
+}
+
   /**
    * Snapchat, the photo and video messaging app: search accounts, lenses, topics, shows and
    * places; read public profiles, their Stories, Spotlight videos and lenses; browse Spotlight,
@@ -57612,6 +57671,26 @@ interface SnapchatSpotlightVideoDetail {
      * dimensions, the video url, and a handful of related videos the page ranks beside it.
      */
     getSpotlightVideo(url: string): Promise<SnapchatSpotlightVideoDetail>;
+
+    /**
+     * Reads the public Discover feed at www.snapchat.com/discover — publisher Shows and Snap Pro
+     * creator stories, each with its title, creator, thumbnail and snap count.
+     */
+    listDiscoverStories(): Promise<SnapchatDiscoverFeed>;
+
+    /**
+     * Reads the Lens Explorer's top lenses at www.snapchat.com/lens — the default 'For You' feed,
+     * each lens with its name, creator, preview media and unlock url — plus the category list the
+     * page offers.
+     */
+    listLenses(): Promise<SnapchatLensList>;
+
+    /**
+     * Reads one Lens's own page (www.snapchat.com/lens/<scannableUuid>) — its name, creator,
+     * preview media and unlock url, plus a handful of related lenses and the Spotlight videos made
+     * with it.
+     */
+    getLens(scannableUuid: string): Promise<SnapchatLensDetail>;
   }
 }
 
@@ -59500,6 +59579,19 @@ interface stubhubFindVenuesResult {
   warnings: string[];
 }
 
+interface stubhubSellMatch {
+  id: string;        // pass to the seller flow's own /SellTickets/FindEvent/<id>
+  title: string;
+  group: string | null;  // the search's own label: "Top Result", "Performers", …
+  url: string;
+}
+
+interface stubhubFindEventsToSellResult {
+  query: string;
+  matches: stubhubSellMatch[];
+  warnings: string[];
+}
+
   /**
    * Secondary ticket marketplace for sports, concerts, theater and other live events — and
    * viagogo, its international brand, on the same inventory. search() finds events by name;
@@ -59554,6 +59646,15 @@ interface stubhubFindVenuesResult {
      * page as search(), filtered to the hits StubHub itself tags as a venue.
      */
     findVenues(args: { query: string; site?: "stubhub" | "viagogo" } | string): Promise<stubhubFindVenuesResult>;
+
+    /**
+     * The seller side of the marketplace: searches StubHub's own event-finder for a performer,
+     * team or event name and returns the matches (id, title, StubHub's own
+     * `/SellTickets/FindEvent/<id>` url) a caller would pick from before listing tickets for sale.
+     * Reachable with no account — only submitting a listing needs a signed-in caller. Opens a
+     * browser to drive the search box, so expect 10-25s.
+     */
+    findEventsToSell(args: { query: string } | string): Promise<stubhubFindEventsToSellResult>;
   }
 }
 
@@ -67633,6 +67734,12 @@ interface WhatsappBlogPostTeaser {
   publishedAt: string | null;
   url: string;
 }
+interface WhatsappMyProfile {
+  phone: string | null;
+  name: string | null;
+  about: string | null;
+  photoUrl: string | null;
+}
 interface WhatsappBlogPost {
   slug: string;
   title: string;
@@ -67647,6 +67754,13 @@ interface WhatsappBlogPost {
    * caller's chats, send messages and media, manage groups, follow Channels and post Status.
    */
   interface Unit {
+    /**
+     * Reads the signed-in caller's own WhatsApp profile through WhatsApp Web: phone number,
+     * display name, about text and photo url (each null when the page does not show it). The
+     * cheapest proof the linked session is alive. Needs the caller signed in.
+     */
+    getMyProfile(opts?: ConnectionOption): Promise<WhatsappMyProfile>;
+
     /**
      * Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) logged out, without
      * joining: the group's name and image as the invite page shows them. Throws if the invite does
