@@ -491,8 +491,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getFollows` | bsky.app | Who a person follows, page by page. | 🟢 |
 | `bluesky.getKnownFollowers` | bsky.app | Which of the caller's own follows also follow a given person — the 'Followed by' line… | ⚪ |
 | `bluesky.getLabelers` | bsky.app | A moderation service's (labeler's) details and the labels it applies. | ⚪ |
-| `bluesky.getList` | bsky.app | A list's details and members, page by page. | ⚪ |
-| `bluesky.getListFeed` | bsky.app | The posts from everyone on a curation list, as the list's own feed tab shows them. | ⚪ |
+| `bluesky.getList` | bsky.app | A list's details and members, page by page. | 🟢 |
+| `bluesky.getListFeed` | bsky.app | The posts from everyone on a curation list, as the list's own feed tab shows them. | 🟢 |
 | `bluesky.getMe` | bsky.app | Who the signed-in caller is: their DID, handle, email-confirmed flag and PDS host. | ⚪ |
 | `bluesky.getMyLikes` | bsky.app | The posts the caller has liked. | ⚪ |
 | `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟡 |
@@ -509,8 +509,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getTimeline` | bsky.app | The caller's home Following feed, newest first, page by page. | ⚪ |
 | `bluesky.getTrendingTopics` | bsky.app | What is trending on Bluesky right now: the topics and the links to their search or… | 🟢 |
 | `bluesky.getTrends` | bsky.app | The richer trending list the Explore page shows: each trend's post count, status… | 🟢 |
-| `bluesky.getUserFeeds` | bsky.app | The custom feeds a person has made. | ⚪ |
-| `bluesky.getUserLists` | bsky.app | The lists (curation and moderation lists) a person has made. | ⚪ |
+| `bluesky.getUserFeeds` | bsky.app | The custom feeds a person has made. | 🟢 |
+| `bluesky.getUserLists` | bsky.app | The lists (curation and moderation lists) a person has made. | 🟢 |
 | `bluesky.getUserPosts` | bsky.app | A person's posts, newest first, as their profile tabs show them — posts only, posts… | 🟢 |
 | `bluesky.getUserStarterPacks` | bsky.app | The starter packs a person has made. | ⚪ |
 | `bluesky.likePost` | bsky.app | Like a post as the caller, or undo the like. | ⚪ |
@@ -729,12 +729,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bungalow.getListing` | bungalow.com | Returns one listing's full detail — every room with its own rent and availability… | 🟢 |
 | `bungalow.listMarkets` | bungalow.com | Lists every market Bungalow currently operates in — city, region and country, plus the… | 🟢 |
 | `bungalow.searchListings` | bungalow.com | Searches Bungalow's live, priced room and whole-home rental inventory in one market —… | 🟢 |
-| `businessinsider_com.findTicker` | businessinsider.com | Resolve a company or asset name to its market symbol and markets.businessinsider.com… | ⚪ |
+| `businessinsider_com.findTicker` | businessinsider.com | Resolve a company or asset name to its market symbol and markets.businessinsider.com… | 🟢 |
 | `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | 🟢 |
 | `businessinsider_com.getArticleComments` | businessinsider.com | Read the public comments/discussion thread under one article. | ⚪ |
 | `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | 🟢 |
 | `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟢 |
-| `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | ⚪ |
+| `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | 🟢 |
 | `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | 🟢 |
 | `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | 🟢 |
 | `businessinsider_com.listCryptoCurrencies` | businessinsider.com | List cryptocurrencies with their current prices from the Cryptocurrencies vertical. | ⚪ |
@@ -2498,7 +2498,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `healthie.getPracticeDetails` | gethealthie.com | Returns detailed information about a specific practice including providers, services… | ⚪ |
 | `healthie.searchPractices` | gethealthie.com | Searches for therapists, coaches, dietitians, and other health practitioners by… | ⚪ |
 | `healthie.searchProviders` | gethealthie.com | Searches for individual practitioners (therapists, coaches, dietitians) by… | ⚪ |
-| `heatherwood.getFloorplan` | heatherwood.com | Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently… | 🟡 |
+| `heatherwood.getFloorplan` | heatherwood.com | Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently… | 🟢 |
 | `heatherwood.listFloorplans` | heatherwood.com | Lists every floor-plan TYPE Heritage Westminster publishes (studio through 3-bedroom… | 🟡 |
 | `hellofresh.checkDeliveryAvailability` | hellofresh.com | Answers whether HelloFresh delivers to a given ZIP code, and which delivery days that… | 🟢 |
 | `hellofresh.getPlanPricing` | hellofresh.com | Prices a plan configuration — meals per week x servings per meal — into the numbers a… | ⚪ |

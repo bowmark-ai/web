@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 52fc2a9093ffefb9812d775471e532ec345279ff7a50b60b52feb7f6e24cd599
-# 87 capabilities, 652 providers, 2654 typed functions, 20 refused.
+# Manifest version: 634ba0521954d8915f122b030967e53d979d225cc4a9c12fc2237be1436f1d34
+# 87 capabilities, 653 providers, 2663 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8363,6 +8363,55 @@ class Prv_booking_com_AvailableUnit_Out(TypedDict):
     pricePerNight: float | None
     totalPrice: float | None
     originalTotalPrice: float | None
+
+class Prv_booking_com_CheckPriceArgs_In(TypedDict):
+    url: str
+    checkIn: str
+    checkOut: str
+    adults: NotRequired[float]
+    rooms: NotRequired[float]
+
+class Prv_booking_com_PropertyPriceCheck_Out(TypedDict):
+    id: str
+    url: str
+    checkIn: str
+    checkOut: str
+    rates: list[Prv_booking_com_RoomRate_Out]
+
+class Prv_booking_com_RoomRate_Out(TypedDict):
+    roomType: str
+    pricePerNight: float | None
+    totalPrice: float | None
+    roomsLeft: float | None
+    cancellationPolicy: Literal["free_cancellation"] | Literal["non_refundable"] | None
+    cancellationDetail: str | None
+    breakfastIncluded: bool
+
+class Prv_booking_com_listPropertyReviews_return_Out(TypedDict):
+    reviews: list[Prv_booking_com_PropertyReview_Out]
+
+class Prv_booking_com_PropertyReview_Out(TypedDict):
+    author: str
+    authorCountry: str | None
+    roomName: str | None
+    nights: float | None
+    stayDate: str | None
+    travelerType: str | None
+    reviewDate: str | None
+    title: str | None
+    score: float | None
+    positiveText: str | None
+    negativeText: str | None
+
+class Prv_booking_com_listFilterOptions_return_Out(TypedDict):
+    filters: list[Prv_booking_com_FilterOption_Out]
+
+class Prv_booking_com_FilterOption_Out(TypedDict):
+    group: str
+    groupLabel: str
+    value: str
+    label: str
+    count: float | None
 
 class Prv_borsheims_BorsheimsSearchResult_Out(TypedDict):
     name: str
@@ -21965,6 +22014,22 @@ class Prv_linkedin_searchEvents_input_u1_In(TypedDict):
     keywords: str
     start: NotRequired[float]
 
+class Prv_linkedin_getEvent_input_u1_In(TypedDict):
+    event: str
+
+class Prv_linkedin_LinkedinEventDetail_Out(TypedDict):
+    id: str
+    url: str
+    name: str
+    organizer: str | None
+    description: str | None
+    startsAt: str | None
+    endsAt: str | None
+    timezone: str | None
+    format: Literal["online"] | Literal["in_person"] | None
+    venue: str | None
+    attendees: float | None
+
 class Prv_linkedin_createPost_input_In(TypedDict):
     text: str
     visibility: NotRequired[Literal["public"] | Literal["connections"]]
@@ -22354,6 +22419,29 @@ class Prv_lovelybride_LovelybrideTimeSlot_Out(TypedDict):
     endDateTime: str
     startDateTimeForView: str
     location: str | None
+
+class Prv_lowes_LowesSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_lowes_LowesSearchResult_Out(TypedDict):
+    query: str
+    totalResults: float | None
+    products: list[Prv_lowes_LowesProduct_Out]
+
+class Prv_lowes_LowesProduct_Out(TypedDict):
+    itemNumber: str
+    modelNumber: str | None
+    brand: str | None
+    title: str
+    price: float | None
+    wasPrice: float | None
+    rating: float | None
+    reviewCount: float | None
+    imageUrl: str | None
+    url: str
+    sponsored: bool
+    marketplace: bool
 
 class Prv_lufthansa_LufthansaFlightStatus_Out(TypedDict):
     airline: str
@@ -25584,6 +25672,60 @@ class Prv_npr_NprPodcastEpisode_Out(TypedDict):
     summary: str | None
     audioUrl: str | None
     durationSeconds: float | None
+
+class Prv_npr_GetProgramRundownArgs_In(TypedDict):
+    program: str
+    date: NotRequired[str]
+
+class Prv_npr_NprProgramRundown_Out(TypedDict):
+    program: str
+    date: str
+    episodeId: str | None
+    title: str | None
+    url: str | None
+    segments: list[Prv_npr_NprRundownSegment_Out]
+
+class Prv_npr_NprRundownSegment_Out(TypedDict):
+    title: str
+    url: str
+    id: str | None
+    audioUrl: str | None
+    durationSeconds: float | None
+    slug: str | None
+    affiliation: str | None
+
+class Prv_npr_FindStationsArgs_In(TypedDict):
+    query: NotRequired[str]
+    lat: NotRequired[float]
+    lon: NotRequired[float]
+
+class Prv_npr_NprStation_Out(TypedDict):
+    orgId: str
+    call: str | None
+    name: str | None
+    band: str | None
+    frequency: str | None
+    marketCity: str | None
+    marketState: str | None
+    tagline: str | None
+    homepage: str | None
+    logo: str | None
+    streams: list[Prv_npr_NprLiveStream_Out]
+
+class Prv_npr_NprLiveStream_Out(TypedDict):
+    title: str | None
+    url: str
+    contentType: str | None
+    primary: bool
+    musicOnly: bool
+    description: str | None
+
+class Prv_npr_StationArgs_In(TypedDict):
+    station: str
+
+class Prv_npr_NprStationStreams_Out(TypedDict):
+    station: Prv_npr_NprStation_Out
+    streams: list[Prv_npr_NprLiveStream_Out]
 
 class Prv_nurturelife_GetMealPlansResult_Out(TypedDict):
     plans: list[Prv_nurturelife_NurtureLifeMealPlan_Out]
@@ -29634,8 +29776,11 @@ class Prv_reddit_RedditSubredditBrowse_Out(TypedDict):
 
 class Prv_reddit_getCommentReplies_args_In(TypedDict):
     post: str
-    ids: NotRequired[Sequence[str]]
+    cursor: NotRequired[str]
+    path: NotRequired[str]
+    query: NotRequired[Mapping[str, str]]
     parent: NotRequired[str]
+    subreddit: NotRequired[str]
     sort: NotRequired[Literal["confidence"] | Literal["top"] | Literal["new"] | Literal["controversial"] | Literal["old"] | Literal["qa"]]
 
 class Prv_reddit_RedditCommentReplies_Out(TypedDict):
@@ -29643,11 +29788,10 @@ class Prv_reddit_RedditCommentReplies_Out(TypedDict):
     parent: Prv_reddit_RedditComment_Out | None
     comments: list[Prv_reddit_RedditComment_Out]
     more: Prv_reddit_RedditCommentReplies_Out_more_u0_Out | None
-    remainingIds: list[str]
 
 class Prv_reddit_RedditCommentReplies_Out_more_u0_Out(TypedDict):
     count: float
-    ids: list[str]
+    cursor: str
 
 class Prv_reddit_searchComments_query_u1_In(TypedDict):
     query: str
@@ -45778,6 +45922,21 @@ class Prv_booking_com(Protocol):
         room offered, how many are left, free cancellation and the price.
         """
 
+    async def checkPrice(self, args: Prv_booking_com_CheckPriceArgs_In, /) -> Prv_booking_com_PropertyPriceCheck_Out:
+        """Check a specific property's own room rate table for given dates — every room offered,
+        its price, how many are left, cancellation policy and whether breakfast is included.
+        """
+
+    async def listPropertyReviews(self, args: Prv_booking_com_GetPropertyArgs_In, /) -> Prv_booking_com_listPropertyReviews_return_Out:
+        """List guest reviews for a property — the reviewer, their stay, the score, and what they
+        said was good and bad.
+        """
+
+    async def listFilterOptions(self, args: Prv_booking_com_SearchArgs_In, /) -> Prv_booking_com_listFilterOptions_return_Out:
+        """List the checkbox filter options (property rating, facilities, review score, meal plan,
+        …) a search's own sidebar offers, with how many properties each currently narrows to.
+        """
+
 class Prv_borsheims(Protocol):
     """Reads Borsheims' live product catalog and composes a setting + diamond into a priced
     ring, straight off borsheims.com's own embedded product data — no key, no browser.
@@ -48581,7 +48740,7 @@ class Prv_disney(Protocol):
 
 class Prv_donsappliances(Protocol):
     """Browses Don's Appliances' own public catalog and reads a product's live price,
-    availability and inventory-label wording straight off the site's own data — no browser.
+    availability and inventory-label wording straight off the site's own data.
     """
 
     async def search(self, args: Prv_donsappliances_DonsAppliancesSearchArgs_In, /) -> list[Prv_donsappliances_DonsAppliancesListing_Out]:
@@ -54924,6 +55083,18 @@ class Prv_linkedin(Protocol):
         faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
+    async def getEvent(self, input: str | Prv_linkedin_getEvent_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinEventDetail_Out:
+        """Returns one LinkedIn event by its URL or numeric id (from searchEvents) — name,
+        organizer, description, start and end time, timezone, online or in-person with the
+        venue, and the attendee count. Signed in: acts as the caller's own LinkedIn account;
+        with no saved sign-in the run pauses and hands back a link where they sign in. Paced per
+        LinkedIn account across runs so it never looks automated — 6 requests a minute, and a
+        reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+        throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+        that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+        extra last argument; ask them first.
+        """
+
     async def createPost(self, input: Prv_linkedin_createPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinPostResult_Out:
         """Publishes a text post to the caller's own feed, public by default (`visibility:
         "connections"` restricts it the way LinkedIn's own composer does). Returns the new
@@ -55360,6 +55531,17 @@ class Prv_lovelybride(Protocol):
         booked), never an error. This is a READ only: it does not hold or submit anything — a
         shopper follows the store's schedulerUrl (from getStoreAppointmentTypes) to actually
         book the slot this function found.
+        """
+
+class Prv_lowes(Protocol):
+    """Search Lowe's (lowes.com) product catalog — tools, hardware, appliances, home
+    improvement — and get each listing's price, brand, model, item number, rating and link.
+    """
+
+    async def search(self, args: Prv_lowes_LowesSearchArgs_In, /) -> Prv_lowes_LowesSearchResult_Out:
+        """Searches Lowe's product catalog for a shopper's query (e.g. "cordless drill") and
+        returns the first page of listings with price, was-price, brand, model, item number,
+        rating, review count, image and product link. A real browser load, so expect 15-40 s.
         """
 
 class Prv_lufthansa(Protocol):
@@ -57385,6 +57567,28 @@ class Prv_npr(Protocol):
         """A podcast's episodes, newest first, off its own RSS feed — title, story URL, publish
         date, summary, audio URL and duration. Read the id off listPodcasts(). Optional limit
         (default 50, max 500).
+        """
+
+    async def getProgramRundown(self, args: Prv_npr_GetProgramRundownArgs_In, /) -> Prv_npr_NprProgramRundown_Out:
+        """The segments one broadcast program aired on a date, in running order — title, story url,
+        mp3 and duration. program is the npr.org slug ("morning-edition",
+        "all-things-considered", "weekend-edition-saturday"); date is "YYYY-MM-DD", default the
+        latest show.
+        """
+
+    async def findStations(self, args: Prv_npr_FindStationsArgs_In, /) -> list[Prv_npr_NprStation_Out]:
+        """Find NPR member stations by city, zip, call letters ({ query }) or coordinates ({ lat,
+        lon }) — call sign, band, frequency, market, homepage, logo and live streams.
+        """
+
+    async def getLiveStream(self, args: Prv_npr_StationArgs_In, /) -> Prv_npr_NprStationStreams_Out:
+        """A member station's live audio stream URLs, primary first. station is call letters
+        ("WBEZ") or an orgId from findStations.
+        """
+
+    async def getStation(self, args: Prv_npr_StationArgs_In, /) -> Prv_npr_NprStation_Out:
+        """One NPR member station by call letters ("WNYC") or orgId — brand, frequency, market,
+        homepage, logo and streams.
         """
 
 class Prv_nurturelife(Protocol):
@@ -59769,13 +59973,13 @@ class Prv_reddit(Protocol):
         """
 
     async def getCommentReplies(self, args: Prv_reddit_getCommentReplies_args_In, /) -> Prv_reddit_RedditCommentReplies_Out:
-        """Expands what getPost could not return in a big thread. Pass the thread (`post`) and the
-        `ids` from a comment's `moreReplies` or the thread's `moreComments` — the 'load more
-        comments' stubs — and get those comments back nested under the ones they answer, with
-        author, body, score and permalink; up to 100 ids per call, the rest come back in
-        `remainingIds`, and anything still folded in `more`. A `moreReplies` with EMPTY ids is
-        reddit's 'continue this thread' link: pass `parent` (that comment's id) instead and get
-        its whole reply branch.
+        """Expands what getPost could not return in a big thread. Pass the thread (`post`) and
+        either: (1) a `cursor` + `path` from a comment's `moreReplies` or the thread's
+        `moreComments` button on the page (the 'load more comments' partial endpoints), or (2) a
+        `parent` comment id for reddit's 'continue this thread' stubs (optionally provide
+        `subreddit` to avoid an extra fetch). Get those comments back nested under the ones they
+        answer, with author, body, score and permalink. Anything still folded comes back in
+        `more` with its cursor for the next call.
         """
 
     async def searchComments(self, query: str | Prv_reddit_searchComments_query_u1_In, /) -> Prv_reddit_RedditCommentSearch_Out:
@@ -66377,6 +66581,7 @@ class BowmarkProviders(Protocol):
     lonelyplanet: Prv_lonelyplanet
     louvershop: Prv_louvershop
     lovelybride: Prv_lovelybride
+    lowes: Prv_lowes
     lufthansa: Prv_lufthansa
     luggageforward: Prv_luggageforward
     lululemon: Prv_lululemon

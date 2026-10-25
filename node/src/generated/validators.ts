@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 52fc2a9093ffefb9812d775471e532ec345279ff7a50b60b52feb7f6e24cd599
-// 2654 checked, 20 unchecked.
+// Manifest version: 634ba0521954d8915f122b030967e53d979d225cc4a9c12fc2237be1436f1d34
+// 2663 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "52fc2a9093ffefb9812d775471e532ec345279ff7a50b60b52feb7f6e24cd599",
+  "version": "634ba0521954d8915f122b030967e53d979d225cc4a9c12fc2237be1436f1d34",
   "units": {
     "address_validation": {
       "defs": {
@@ -14947,6 +14947,46 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "CheckPriceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetPropertyArgs": {
           "k": "object",
           "props": [
@@ -15077,6 +15117,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkPrice": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckPriceArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPropertyReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPropertyArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listFilterOptions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
             },
             "optional": false
           }
@@ -41609,6 +41679,48 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getEvent": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "event",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "createPost": [
           {
             "name": "input",
@@ -42902,6 +43014,41 @@ export const VALIDATORS: ValidatorTable = {
             "name": "date",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.lowes": {
+      "defs": {
+        "LowesSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LowesSearchArgs"
             },
             "optional": false
           }
@@ -50821,6 +50968,51 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.npr": {
       "defs": {
+        "FindStationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lon",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetProgramRundownArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "program",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetStoryArgs": {
           "k": "object",
           "props": [
@@ -50901,6 +51093,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "StationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "station",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -50952,6 +51156,46 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListPodcastEpisodesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProgramRundown": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProgramRundownArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findStations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindStationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLiveStream": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StationArgs"
             },
             "optional": false
           }
@@ -60713,10 +60957,24 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 },
                 {
-                  "name": "ids",
+                  "name": "cursor",
                   "schema": {
-                    "k": "array",
-                    "of": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "record",
+                    "value": {
                       "k": "string"
                     }
                   },
@@ -60724,6 +60982,13 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "parent",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "subreddit",
                   "schema": {
                     "k": "string"
                   },

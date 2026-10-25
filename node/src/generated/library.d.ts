@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 52fc2a9093ffefb9812d775471e532ec345279ff7a50b60b52feb7f6e24cd599
-// 87 capabilities, 652 providers, 2672 typed functions, 20 refused.
+// Manifest version: 634ba0521954d8915f122b030967e53d979d225cc4a9c12fc2237be1436f1d34
+// 87 capabilities, 653 providers, 2681 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14492,6 +14492,49 @@ interface ListAvailabilityArgs {
   adults?: number;   // default 2
   rooms?: number;    // default 1
 }
+interface RoomRate {
+  roomType: string;             // the site's own room name, e.g. "Superior Double or Twin Room"
+  pricePerNight: number | null;
+  totalPrice: number | null;
+  roomsLeft: number | null;           // "We have 3 left"; null when the site states no scarcity
+  cancellationPolicy: "free_cancellation" | "non_refundable" | null;
+  cancellationDetail: string | null;  // e.g. "before November 12, 2026"; null for non_refundable or when absent
+  breakfastIncluded: boolean;
+}
+interface PropertyPriceCheck {
+  id: string;
+  url: string;
+  checkIn: string;
+  checkOut: string;
+  rates: RoomRate[];  // every rate the property's own room table shows for these dates; [] when sold out
+}
+interface CheckPriceArgs {
+  url: string;       // a property page url, e.g. from search/listAvailability/getProperty
+  checkIn: string;   // YYYY-MM-DD
+  checkOut: string;  // YYYY-MM-DD
+  adults?: number;   // default 2
+  rooms?: number;    // default 1
+}
+interface FilterOption {
+  group: string;        // the site's own group key, e.g. "class", "hotelfacility", "review_score"
+  groupLabel: string;   // e.g. "Property rating"
+  value: string;        // the raw filter value, e.g. "class=1"
+  label: string;        // e.g. "1 star"
+  count: number | null; // how many properties this filter currently narrows to
+}
+interface PropertyReview {
+  author: string;
+  authorCountry: string | null;      // the flag's alt text, e.g. "United States"
+  roomName: string | null;           // the room the reviewer stayed in, as the site names it
+  nights: number | null;
+  stayDate: string | null;           // e.g. "July 2025" — the site's own month/year granularity
+  travelerType: string | null;       // e.g. "Family", "Couple", "Solo traveler"
+  reviewDate: string | null;         // e.g. "July 20, 2025"
+  title: string | null;
+  score: number | null;              // the site's 0-10 scale
+  positiveText: string | null;
+  negativeText: string | null;       // null when the guest left none — never ""
+}
 
   /**
    * Global online travel reservation service with property search, reviews and booking
@@ -14521,6 +14564,24 @@ interface ListAvailabilityArgs {
      * offered, how many are left, free cancellation and the price.
      */
     listAvailability(args: ListAvailabilityArgs): Promise<{ totalAvailable: number | null; properties: AvailableUnit[] }>;
+
+    /**
+     * Check a specific property's own room rate table for given dates — every room offered, its
+     * price, how many are left, cancellation policy and whether breakfast is included.
+     */
+    checkPrice(args: CheckPriceArgs): Promise<PropertyPriceCheck>;
+
+    /**
+     * List guest reviews for a property — the reviewer, their stay, the score, and what they said
+     * was good and bad.
+     */
+    listPropertyReviews(args: GetPropertyArgs): Promise<{ reviews: PropertyReview[] }>;
+
+    /**
+     * List the checkbox filter options (property rating, facilities, review score, meal plan, …) a
+     * search's own sidebar offers, with how many properties each currently narrows to.
+     */
+    listFilterOptions(args: SearchArgs): Promise<{ filters: FilterOption[] }>;
   }
 }
 
@@ -22432,7 +22493,7 @@ interface DonsAppliancesSearchArgs {
 
   /**
    * Browses Don's Appliances' own public catalog and reads a product's live price, availability
-   * and inventory-label wording straight off the site's own data — no browser.
+   * and inventory-label wording straight off the site's own data.
    */
   interface Unit {
     /**
@@ -38784,11 +38845,25 @@ interface LinkedinSearchSchool {
 }
 
 interface LinkedinSearchEvent {
-  id: string | null;      // feeds getEvent once it exists
+  id: string | null;      // feeds getEvent
   url: string | null;
   name: string;
   organizer: string | null;
   when: string | null;    // LinkedIn's own time/format line, verbatim
+}
+
+interface LinkedinEventDetail {
+  id: string;
+  url: string;
+  name: string;
+  organizer: string | null;
+  description: string | null;
+  startsAt: string | null; // ISO
+  endsAt: string | null;   // ISO
+  timezone: string | null;
+  format: "online" | "in_person" | null;
+  venue: string | null;
+  attendees: number | null;
 }
 
 interface LinkedinPostResult {
@@ -39383,6 +39458,18 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * as an extra last argument; ask them first.
      */
     searchEvents(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchEvent>>;
+
+    /**
+     * Returns one LinkedIn event by its URL or numeric id (from searchEvents) — name, organizer,
+     * description, start and end time, timezone, online or in-person with the venue, and the
+     * attendee count. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in
+     * the run pauses and hands back a link where they sign in. Paced per LinkedIn account across
+     * runs so it never looks automated — 6 requests a minute, and a reserve of 400 that refills
+     * about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over the pace
+     * throws LinkedinRateLimited saying when to retry: wait that long. The account owner may opt
+     * into faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     */
+    getEvent(input: string | { event: string }, opts?: ConnectionOption): Promise<LinkedinEventDetail>;
 
     /**
      * Publishes a text post to the caller's own feed, public by default (`visibility:
@@ -40112,6 +40199,46 @@ interface LovelybrideAvailability {
      * function found.
      */
     getAvailableSlots(storeSlug: string, appointmentTypeId: number, date: string): Promise<LovelybrideAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_lowes {
+  // ── Lowe's — the unit's own declarations, verbatim ──
+interface LowesSearchArgs {
+  query: string;   // what a shopper types into Lowe's search, e.g. "cordless drill"
+  limit?: number;  // at most 24 (one results page)
+}
+interface LowesProduct {
+  itemNumber: string;          // Lowe's item #
+  modelNumber: string | null;
+  brand: string | null;
+  title: string;               // brand + Lowe's own description
+  price: number | null;        // current selling price, USD; null when Lowe's shows none
+  wasPrice: number | null;     // the regular price, only when it is above the selling price
+  rating: number | null;       // out of 5
+  reviewCount: number | null;
+  imageUrl: string | null;
+  url: string;                 // the product page
+  sponsored: boolean;
+  marketplace: boolean;        // sold by a third-party seller on Lowe's Marketplace
+}
+interface LowesSearchResult {
+  query: string;
+  totalResults: number | null;
+  products: LowesProduct[];
+}
+
+  /**
+   * Search Lowe's (lowes.com) product catalog — tools, hardware, appliances, home improvement —
+   * and get each listing's price, brand, model, item number, rating and link.
+   */
+  interface Unit {
+    /**
+     * Searches Lowe's product catalog for a shopper's query (e.g. "cordless drill") and returns
+     * the first page of listings with price, was-price, brand, model, item number, rating, review
+     * count, image and product link. A real browser load, so expect 15-40 s.
+     */
+    search(args: LowesSearchArgs): Promise<LowesSearchResult>;
   }
 }
 
@@ -46322,6 +46449,68 @@ interface NprPodcastEpisode {
   durationSeconds: number | null;
 }
 
+interface GetProgramRundownArgs {
+  program: string;
+  date?: string;
+}
+
+interface NprRundownSegment {
+  title: string;
+  url: string;
+  id: string | null;
+  audioUrl: string | null;
+  durationSeconds: number | null;
+  slug: string | null;
+  affiliation: string | null;
+}
+
+interface NprProgramRundown {
+  program: string;
+  date: string;
+  episodeId: string | null;
+  title: string | null;
+  url: string | null;
+  segments: NprRundownSegment[];
+}
+
+interface FindStationsArgs {
+  query?: string;
+  lat?: number;
+  lon?: number;
+}
+
+interface StationArgs {
+  station: string;
+}
+
+interface NprLiveStream {
+  title: string | null;
+  url: string;
+  contentType: string | null;
+  primary: boolean;
+  musicOnly: boolean;
+  description: string | null;
+}
+
+interface NprStation {
+  orgId: string;
+  call: string | null;
+  name: string | null;
+  band: string | null;
+  frequency: string | null;
+  marketCity: string | null;
+  marketState: string | null;
+  tagline: string | null;
+  homepage: string | null;
+  logo: string | null;
+  streams: NprLiveStream[];
+}
+
+interface NprStationStreams {
+  station: NprStation;
+  streams: NprLiveStream[];
+}
+
   /**
    * NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast program
    * rundowns, and the member-station finder with live streams.
@@ -46368,6 +46557,31 @@ interface NprPodcastEpisode {
      * max 500).
      */
     listPodcastEpisodes(args: ListPodcastEpisodesArgs): Promise<NprPodcastEpisode[]>;
+
+    /**
+     * The segments one broadcast program aired on a date, in running order — title, story url, mp3
+     * and duration. program is the npr.org slug ("morning-edition", "all-things-considered",
+     * "weekend-edition-saturday"); date is "YYYY-MM-DD", default the latest show.
+     */
+    getProgramRundown(args: GetProgramRundownArgs): Promise<NprProgramRundown>;
+
+    /**
+     * Find NPR member stations by city, zip, call letters ({ query }) or coordinates ({ lat, lon
+     * }) — call sign, band, frequency, market, homepage, logo and live streams.
+     */
+    findStations(args: FindStationsArgs): Promise<NprStation[]>;
+
+    /**
+     * A member station's live audio stream URLs, primary first. station is call letters ("WBEZ")
+     * or an orgId from findStations.
+     */
+    getLiveStream(args: StationArgs): Promise<NprStationStreams>;
+
+    /**
+     * One NPR member station by call letters ("WNYC") or orgId — brand, frequency, market,
+     * homepage, logo and streams.
+     */
+    getStation(args: StationArgs): Promise<NprStation>;
   }
 }
 
@@ -52652,8 +52866,7 @@ interface RedditCommentReplies {
   postId: string;
   parent: RedditComment | null; // the comment a "continue this thread" branch hangs under
   comments: RedditComment[];    // nested
-  more: { count: number; ids: string[] } | null; // still folded — pass ids again
-  remainingIds: string[];       // ids passed but past the 100-per-call ceiling
+  more: { count: number; cursor: string } | null; // still folded — pass this cursor again
 }
 
 interface RedditCommentHit {
@@ -52933,15 +53146,14 @@ interface RedditProfileText {
     browseSubreddits(list?: "popular" | "new" | { list?: "popular" | "new"; limit?: number; after?: string }): Promise<RedditSubredditBrowse>;
 
     /**
-     * Expands what getPost could not return in a big thread. Pass the thread (`post`) and the
-     * `ids` from a comment's `moreReplies` or the thread's `moreComments` — the 'load more
-     * comments' stubs — and get those comments back nested under the ones they answer, with
-     * author, body, score and permalink; up to 100 ids per call, the rest come back in
-     * `remainingIds`, and anything still folded in `more`. A `moreReplies` with EMPTY ids is
-     * reddit's 'continue this thread' link: pass `parent` (that comment's id) instead and get its
-     * whole reply branch.
+     * Expands what getPost could not return in a big thread. Pass the thread (`post`) and either:
+     * (1) a `cursor` + `path` from a comment's `moreReplies` or the thread's `moreComments` button
+     * on the page (the 'load more comments' partial endpoints), or (2) a `parent` comment id for
+     * reddit's 'continue this thread' stubs (optionally provide `subreddit` to avoid an extra
+     * fetch). Get those comments back nested under the ones they answer, with author, body, score
+     * and permalink. Anything still folded comes back in `more` with its cursor for the next call.
      */
-    getCommentReplies(args: { post: string; ids?: string[]; parent?: string; sort?: "confidence" | "top" | "new" | "controversial" | "old" | "qa" }): Promise<RedditCommentReplies>;
+    getCommentReplies(args: { post: string; cursor?: string; path?: string; query?: Record<string, string>; parent?: string; subreddit?: string; sort?: "confidence" | "top" | "new" | "controversial" | "old" | "qa" }): Promise<RedditCommentReplies>;
 
     /**
      * Searches the text of COMMENTS site-wide (not posts) — each match with its body, author,
@@ -71843,6 +72055,7 @@ interface BowmarkProviders {
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
   louvershop: BowmarkProvider_louvershop.Unit;
   lovelybride: BowmarkProvider_lovelybride.Unit;
+  lowes: BowmarkProvider_lowes.Unit;
   lufthansa: BowmarkProvider_lufthansa.Unit;
   luggageforward: BowmarkProvider_luggageforward.Unit;
   lululemon: BowmarkProvider_lululemon.Unit;
