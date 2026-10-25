@@ -2898,7 +2898,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | 🟢 |
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | 🟢 |
 | `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | 🟢 |
-| `linkedin.setProfilePhoto` | linkedin.com | Replaces the signed-in caller's profile photo with an image from a URL or uploaded file. | ⚪ |
+| `linkedin.setProfilePhoto` | linkedin.com | Replaces the signed-in caller's profile photo with an image from a URL or uploaded file. | 🟢 |
 | `linkedin.updateProfile` | linkedin.com | Edits the signed-in caller's own profile headline and About text. | 🟢 |
 | `linkedin.withdrawInvitation` | linkedin.com | Withdraws a connection invitation the signed-in caller sent and is still pending, by… | 🟢 |
 | `liquiddeath.addToCart` | liquiddeath.com | Builds a filled cart for the shopper to open — cartUrl lands on the store's own cart… | 🟢 |
@@ -4269,7 +4269,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.blockUser` | snapchat.com | Blocks an account from contacting the signed-in caller. | ⚪ |
 | `snapchat.getChatMessages` | snapchat.com | Reads the messages in one of the signed-in caller's conversations — sender, time… | ⚪ |
 | `snapchat.getEpisode` | snapchat.com | Reads one Discover show episode — title, publish date, and the snaps (media urls) that… | ⚪ |
-| `snapchat.getLens` | snapchat.com | Reads one Lens by id — name, creator, preview media, unlock link and snapcode, plus… | ⚪ |
+| `snapchat.getLens` | snapchat.com | Reads one Lens's own page (www.snapchat.com/lens/<scannableUuid>) — its name, creator… | 🟢 |
 | `snapchat.getLocalGuide` | snapchat.com | Reads a city's local guide… | ⚪ |
 | `snapchat.getMyProfile` | snapchat.com | Reads the signed-in caller's own Snapchat account — username, display name, Bitmoji… | ⚪ |
 | `snapchat.getProfile` | snapchat.com | Reads one Snapchat account's public page by username — www.snapchat.com/@<username> —… | 🟢 |
@@ -4277,10 +4277,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.getSnapMap` | snapchat.com | Reads the signed-in caller's Snap Map — friends who share their location and the… | ⚪ |
 | `snapchat.getSpotlightVideo` | snapchat.com | Reads one Spotlight video by its share url or snap id — creator (username, display… | 🟢 |
 | `snapchat.listChats` | snapchat.com | Lists the signed-in caller's conversations in Snapchat for Web — who, the last… | ⚪ |
-| `snapchat.listDiscoverStories` | snapchat.com | Reads the Discover page — publisher and creator Stories (news outlets, shows… | ⚪ |
+| `snapchat.listDiscoverStories` | snapchat.com | Reads the public Discover feed at www.snapchat.com/discover — publisher Shows and Snap… | 🟢 |
 | `snapchat.listFriends` | snapchat.com | Lists the signed-in caller's friends — username, display name, Bitmoji and friendship… | ⚪ |
 | `snapchat.listFriendStories` | snapchat.com | Lists the Stories the signed-in caller's friends have posted, unseen first, with each… | ⚪ |
-| `snapchat.listLenses` | snapchat.com | Browses the Lens Explorer (www.snapchat.com/lens) by category — For You, Trending… | ⚪ |
+| `snapchat.listLenses` | snapchat.com | Reads the Lens Explorer's top lenses at www.snapchat.com/lens — the default 'For You'… | 🟢 |
 | `snapchat.listLocalCities` | snapchat.com | Lists the cities Snapchat publishes local guides for (the city tiles map.snapchat.com… | ⚪ |
 | `snapchat.listProfileHighlights` | snapchat.com | Lists a public profile's saved Story highlights (curated Stories kept on the profile)… | ⚪ |
 | `snapchat.listProfileLenses` | snapchat.com | Lists the Lenses a public profile has published, with lens name, preview image and… | ⚪ |
@@ -4760,7 +4760,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | 🟢 |
 | `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | 🟢 |
 | `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller — takes the userId and secUid off… | 🟢 |
-| `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟡 |
+| `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟢 |
 | `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | 🟢 |
 | `tiktok.getProfile` | tiktok.com | A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId… | 🟢 |
 | `tiktok.getSound` | tiktok.com | A sound/music track's own facts — title, artist, duration, how many videos use it —… | 🟢 |
