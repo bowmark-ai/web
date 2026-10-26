@@ -677,11 +677,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boulevard.cancelAppointment` | joinblvd.com | Cancels one of the signed-in client's appointments, subject to the business's… | ⚪ |
 | `boulevard.cancelMembership` | joinblvd.com | Cancels one of the signed-in client's memberships, or withdraws a scheduled… | ⚪ |
 | `boulevard.confirmAppointment` | joinblvd.com | Confirms one of the signed-in client's upcoming appointments when the business asks… | ⚪ |
-| `boulevard.findBusiness` | joinblvd.com | Resolves a salon or spa on Boulevard to its business id and profile, from its… | ⚪ |
+| `boulevard.findBusiness` | joinblvd.com | Resolves a salon or spa on Boulevard to its business id and profile, from its… | 🟢 |
 | `boulevard.getAppointment` | joinblvd.com | Gets one of the signed-in client's appointments: services, staff, start and end… | ⚪ |
 | `boulevard.getAvailableDates` | joinblvd.com | Lists the dates a service (optionally with a chosen staff member) has open… | ⚪ |
 | `boulevard.getAvailableTimes` | joinblvd.com | Lists the open appointment start times for a service at a location on one date. | ⚪ |
-| `boulevard.getBusiness` | joinblvd.com | Gets a Boulevard business's profile: name, website, phone, time zone, cancellation fee… | ⚪ |
+| `boulevard.getBusiness` | joinblvd.com | Gets a Boulevard business's profile: name, website, phone, time zone, cancellation fee… | 🟢 |
 | `boulevard.getLocation` | joinblvd.com | Gets one location's detail: hours, phone, contact email, arrival instructions, social… | ⚪ |
 | `boulevard.getMyProfile` | joinblvd.com | Gets the signed-in client's profile at a business: name, email, phone, date of birth… | ⚪ |
 | `boulevard.getMyReferralCode` | joinblvd.com | Gets the signed-in client's referral code and the business's referral offer. | ⚪ |
@@ -689,7 +689,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boulevard.getServiceDetails` | joinblvd.com | Gets one service's full detail at a location: description, price and duration range… | ⚪ |
 | `boulevard.joinWaitlist` | joinblvd.com | Adds the client to a location's waitlist for a service on a date range when no time… | ⚪ |
 | `boulevard.listBookingQuestions` | joinblvd.com | Lists the questions a business asks before it confirms a booking (intake questions on… | ⚪ |
-| `boulevard.listLocations` | joinblvd.com | Lists a business's locations: id, name, full address, coordinates, time zone, opening… | ⚪ |
+| `boulevard.listLocations` | joinblvd.com | Lists a business's locations: id, name, full address, coordinates, time zone, opening… | 🟢 |
 | `boulevard.listMyAppointments` | joinblvd.com | Lists the signed-in client's upcoming and past appointments at a business. | ⚪ |
 | `boulevard.listMyConversations` | joinblvd.com | Lists the signed-in client's secure message threads with a business's locations, with… | ⚪ |
 | `boulevard.listMyForms` | joinblvd.com | Lists the intake and consent forms the signed-in client has been sent or has completed… | ⚪ |
@@ -2108,7 +2108,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.getLiveBlog` | foxnews.com | Reads one Fox News live-coverage page — its headline and every update posted to it… | ⚪ |
 | `foxnews.getShow` | foxnews.com | Reads one Fox News Channel show — description, hosts, genre and its latest clips —… | 🟢 |
 | `foxnews.getTopStories` | foxnews.com | Returns what Fox News is leading with right now — the homepage's lead story and the… | 🟢 |
-| `foxnews.getVideo` | foxnews.com | Reads one Fox News video clip — title, description, duration, upload date, thumbnail… | ⚪ |
+| `foxnews.getVideo` | foxnews.com | Reads one Fox News video clip — title, description, duration, upload date, thumbnail… | 🟢 |
 | `foxnews.listAuthorArticles` | foxnews.com | Lists every story by one Fox News author, newest first with paging, past the handful… | ⚪ |
 | `foxnews.listElectionRaces` | foxnews.com | Lists the races Fox News's Elections Center covers for an election (Senate, House… | ⚪ |
 | `foxnews.listLatest` | foxnews.com | Lists the newest stories and clips published anywhere on Fox News, newest first, with… | 🟢 |
@@ -2119,8 +2119,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.listSectionArticles` | foxnews.com | Lists the latest stories in one Fox News section or topic ("politics"… | 🟢 |
 | `foxnews.listSections` | foxnews.com | Lists Fox News's sections and topics (Politics, U.S., World, Opinion, Media… | 🟢 |
 | `foxnews.listShows` | foxnews.com | Lists the Fox News Channel shows (Hannity, The Five, Fox & Friends, Special Report…)… | 🟢 |
-| `foxnews.listVideoPlaylists` | foxnews.com | Lists the video playlists Fox News groups its clips into (by show and by topic) with… | ⚪ |
-| `foxnews.listVideos` | foxnews.com | Lists the clips in one Fox News video playlist, newest first with paging — each clip's… | ⚪ |
+| `foxnews.listVideoPlaylists` | foxnews.com | Lists the video playlists Fox News groups its clips into — each show's Episodes rail… | 🟢 |
+| `foxnews.listVideos` | foxnews.com | Lists the clips in one Fox News video playlist, newest first with paging — each clip's… | 🟢 |
 | `foxnews.postComment` | foxnews.com | Posts a comment under a Fox News article, or a reply to another comment, as the… | ⚪ |
 | `foxnews.searchArticles` | foxnews.com | Searches Fox News for stories and video clips matching free text ("border wall"… | 🟢 |
 | `foxnews.submitNewsTip` | foxnews.com | Sends a news tip to Fox News's newsroom through its tip form — name, email, and the… | ⚪ |
@@ -2255,7 +2255,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
-| `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟡 |
+| `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟢 |
 | `glofox.bookClass` | glofox.com | Books the signed-in member into one class, spending a credit or membership they… | ⚪ |
 | `glofox.bookCourse` | glofox.com | Books the signed-in member onto a course from listCourses; stops at the payment step. | ⚪ |
 | `glofox.bookFacilitySlot` | glofox.com | Books the signed-in member into one room or space slot from listFacilitySlots; stops… | ⚪ |
@@ -5533,7 +5533,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.replyToPost` | x.com | Reply to another post as the signed-in account. | ⚪ |
 | `x.repost` | x.com | Repost (retweet) or un-repost a post as the signed-in account — one `repost` boolean… | ⚪ |
 | `x.search` | x.com | Runs the site's own search across posts, scrolling until the limit is met or results… | 🟢 |
-| `x.sendMessage` | x.com | Send a direct message to a user as the signed-in account, starting a new conversation… | ⚪ |
+| `x.sendDirectMessage` | x.com | Send a direct message (DM) to an X user by handle as the signed-in account, starting a… | 🟢 |
 | `x.updateProfile` | x.com | Edit the signed-in account's own profile — name, bio, location, website. | ⚪ |
 | `x.uploadProfilePicture` | x.com | Change the signed-in account's own profile picture. | ⚪ |
 | `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts, scrolling until `limit`… | 🟢 |
