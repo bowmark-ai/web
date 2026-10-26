@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e99a39e25e7a6548df1cec1ea6174f90907754f7147b46dec698118a4b4aa9a9
-// 2788 checked, 20 unchecked.
+// Manifest version: 31e234ec304e110325e69b2ab236c595859efa17567ae72f8e73a60078aedd80
+// 2806 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e99a39e25e7a6548df1cec1ea6174f90907754f7147b46dec698118a4b4aa9a9",
+  "version": "31e234ec304e110325e69b2ab236c595859efa17567ae72f8e73a60078aedd80",
   "units": {
     "address_validation": {
       "defs": {
@@ -19143,6 +19143,54 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.chownow": {
+      "defs": {},
+      "functions": {
+        "findRestaurant": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchRestaurants": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "citySlug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listRestaurants": [
+          {
+            "name": "companyId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getRestaurant": [
+          {
+            "name": "restaurantId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.chriscraft": {
       "defs": {
         "ChriscraftBoatType": {
@@ -33231,6 +33279,73 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.glossgenius": {
+      "defs": {
+        "GlossGeniusFindBusinessArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GlossGeniusListServicesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findBusiness": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GlossGeniusFindBusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getBusiness": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GlossGeniusFindBusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listServices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GlossGeniusListServicesArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.gobrightwing": {
       "defs": {
         "GetJobDetailsArgs": {
@@ -35348,6 +35463,65 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.grubhub": {
       "defs": {
+        "GrubhubDeliveryEstimateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GrubhubReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GrubhubSearchArgs": {
           "k": "object",
           "props": [
@@ -35438,6 +35612,51 @@ export const VALIDATORS: ValidatorTable = {
             "name": "id",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMenuItem": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "restaurantId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "itemId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getDeliveryEstimate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GrubhubDeliveryEstimateArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRestaurantReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GrubhubReviewsArgs"
             },
             "optional": false
           }
@@ -46712,6 +46931,87 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.mangomint": {
+      "defs": {
+        "MangomintBusinessArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MangomintListServicesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findBusiness": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MangomintBusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getBusinessInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MangomintBusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listServices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MangomintListServicesArgs"
             },
             "optional": false
           }
@@ -58250,6 +58550,141 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.peek": {
+      "defs": {
+        "PeekGetExperienceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PeekSearchExperiencesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "regionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "latLng",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "tagId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PeekSearchRegionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchRegions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PeekSearchRegionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchExperiences": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PeekSearchExperiencesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getExperience": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PeekGetExperienceArgs"
             },
             "optional": false
           }
@@ -71711,6 +72146,10 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ViewFriendsArgs": {
+          "k": "object",
+          "props": []
         }
       },
       "functions": {
@@ -71964,6 +72403,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "EditProfileArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "viewFriends": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ViewFriendsArgs"
             },
             "optional": false
           },
@@ -80204,6 +80669,41 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.wayfair": {
+      "defs": {
+        "WayfairSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WayfairSearchArgs"
             },
             "optional": false
           }

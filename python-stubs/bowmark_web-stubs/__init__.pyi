@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e99a39e25e7a6548df1cec1ea6174f90907754f7147b46dec698118a4b4aa9a9
-# 87 capabilities, 673 providers, 2788 typed functions, 20 refused.
+# Manifest version: 31e234ec304e110325e69b2ab236c595859efa17567ae72f8e73a60078aedd80
+# 87 capabilities, 678 providers, 2806 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10728,6 +10728,82 @@ class Prv_chipotle_ChipotleCustomization_Out(TypedDict):
     id: float
     name: str
 
+class Prv_chownow_ChownowRestaurantRef_Out(TypedDict):
+    companyId: str
+    restaurantId: str | None
+    url: str
+
+class Prv_chownow_ChownowSearch_Out(TypedDict):
+    restaurants: list[Prv_chownow_ChownowSearchResult_Out]
+    total: float
+    cuisineCounts: Mapping[str, float]
+
+class Prv_chownow_ChownowSearchResult_Out(TypedDict):
+    restaurantId: str
+    companyId: str
+    name: str
+    shortName: str
+    cuisines: list[str]
+    phone: str
+    address: Prv_chownow_ChownowSearchResult_Out_address_Out
+    isPickupAvailable: bool
+    isDeliveryAvailable: bool
+
+class Prv_chownow_ChownowSearchResult_Out_address_Out(TypedDict):
+    street: str
+    city: str
+    state: str
+    zip: str
+    latitude: float | None
+    longitude: float | None
+
+class Prv_chownow_ChownowBrand_Out(TypedDict):
+    companyId: str
+    name: str
+    locations: list[Prv_chownow_ChownowLocation_Out]
+
+class Prv_chownow_ChownowLocation_Out(TypedDict):
+    companyId: str
+    restaurantId: str
+    name: str
+    address: Prv_chownow_ChownowLocation_Out_address_Out
+    allowsOrderForNow: bool
+    isLive: bool
+
+class Prv_chownow_ChownowLocation_Out_address_Out(TypedDict):
+    street: str
+    city: str
+    state: str
+    zip: str
+    latitude: float | None
+    longitude: float | None
+
+class Prv_chownow_ChownowRestaurantDetails_Out(TypedDict):
+    restaurantId: str
+    companyId: str
+    name: str
+    phone: str
+    address: Prv_chownow_ChownowRestaurantDetails_Out_address_Out
+    isLive: bool
+    isBusy: bool
+    pickup: Prv_chownow_ChownowFulfillmentMethod_Out | None
+    delivery: Prv_chownow_ChownowFulfillmentMethod_Out | None
+    taxRate: float | None
+    websiteUrl: str | None
+
+class Prv_chownow_ChownowRestaurantDetails_Out_address_Out(TypedDict):
+    street: str
+    city: str
+    state: str
+    zip: str
+    latitude: float | None
+    longitude: float | None
+
+class Prv_chownow_ChownowFulfillmentMethod_Out(TypedDict):
+    isAvailableNow: bool
+    nextAvailableTime: str | None
+    minLeadTimeMinutes: float | None
+
 class Prv_chriscraft_ChriscraftModelSummary_Out(TypedDict):
     modelId: str
     boatType: Literal["STERNDRIVE"] | Literal["OUTBOARD"] | Literal["SURF"]
@@ -17915,6 +17991,95 @@ class Prv_glofox_glofoxClass_Out(TypedDict):
     online: bool
     imageUrl: str | None
 
+class Prv_glossgenius_GlossGeniusFindBusinessArgs_In(TypedDict):
+    business: str
+
+class Prv_glossgenius_GlossGeniusBusinessRef_Out(TypedDict):
+    slug: str
+    bookingUrl: str
+    name: str
+    businessToken: str
+    address: str | None
+    phone: str | None
+
+class Prv_glossgenius_GlossGeniusBusiness_Out(TypedDict):
+    slug: str
+    bookingUrl: str
+    name: str
+    businessToken: str
+    address: str | None
+    phone: str | None
+    about: str | None
+    email: str | None
+    latitude: float | None
+    longitude: float | None
+    timezone: str | None
+    instagram: str | None
+    website: str | None
+    coverImage: str | None
+    businessHours: Mapping[str, Prv_glossgenius_GlossGeniusBusiness_Out_businessHours_value_Out]
+    policies: Prv_glossgenius_GlossGeniusBusiness_Out_policies_Out
+    team: list[Prv_glossgenius_GlossGeniusTeamMember_Out]
+    locations: list[Prv_glossgenius_GlossGeniusLocation_Out]
+
+class Prv_glossgenius_GlossGeniusBusiness_Out_businessHours_value_Out(TypedDict):
+    open: bool
+    start: float
+    end: float
+
+class Prv_glossgenius_GlossGeniusBusiness_Out_policies_Out(TypedDict):
+    cancellationPolicy: str | None
+    cancellationWindowHours: float | None
+    cancellationFee: float | None
+    cardRequired: str | None
+    onlineBookingDisabled: bool
+    allowOnlineCancellations: bool
+    futureBookingsLimit: float | None
+    requireFormCompletion: bool
+    waitlistEnabled: bool
+    giftCardsEnabled: bool
+
+class Prv_glossgenius_GlossGeniusTeamMember_Out(TypedDict):
+    guid: str
+    name: str
+    about: str | None
+    availableForBooking: bool
+    serviceGuids: list[str]
+
+class Prv_glossgenius_GlossGeniusLocation_Out(TypedDict):
+    token: str
+    name: str
+    phone: str | None
+    address: str | None
+    hours: Mapping[str, list[str]]
+    engagementTypes: list[str]
+
+class Prv_glossgenius_GlossGeniusListServicesArgs_In(TypedDict):
+    business: str
+    location: NotRequired[str]
+
+class Prv_glossgenius_GlossGeniusServiceList_Out(TypedDict):
+    business: str
+    location: str
+    services: list[Prv_glossgenius_GlossGeniusService_Out]
+
+class Prv_glossgenius_GlossGeniusService_Out(TypedDict):
+    guid: str
+    token: str
+    name: str
+    category: str | None
+    description: str | None
+    price: str | None
+    priceVaries: bool
+    durationMinutes: float
+    processingMinutes: float
+    depositAmount: str | None
+    depositForNewClientsOnly: bool
+    image: str | None
+    options: list[Any]
+    modifierGroups: list[Any]
+    teamGuids: list[str]
+
 class Prv_gobrightwing_SearchJobsArgs_In(TypedDict):
     keyword: NotRequired[str]
     location: NotRequired[str]
@@ -19130,6 +19295,93 @@ class Prv_grubhub_GrubhubMenuItem_Out(TypedDict):
     available: bool
     popular: bool
     image: str | None
+
+class Prv_grubhub_getMenuItem_args_In(TypedDict):
+    restaurantId: str
+    itemId: str
+
+class Prv_grubhub_GrubhubMenuItemDetail_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    price: Prv_grubhub_GrubhubMoney_Out | None
+    available: bool
+    popular: bool
+    image: str | None
+    restaurantId: str
+    category: str | None
+    priceRange: Prv_grubhub_GrubhubMenuItemDetail_Out_priceRange_Out
+    tags: list[str]
+    choices: list[Prv_grubhub_GrubhubChoiceGroup_Out]
+
+class Prv_grubhub_GrubhubMenuItemDetail_Out_priceRange_Out(TypedDict):
+    min: Prv_grubhub_GrubhubMoney_Out | None
+    max: Prv_grubhub_GrubhubMoney_Out | None
+
+class Prv_grubhub_GrubhubChoiceGroup_Out(TypedDict):
+    id: str
+    name: str
+    minChoices: float
+    maxChoices: float | None
+    options: list[Prv_grubhub_GrubhubChoiceOption_Out]
+
+class Prv_grubhub_GrubhubChoiceOption_Out(TypedDict):
+    id: str
+    name: str
+    price: Prv_grubhub_GrubhubMoney_Out | None
+    available: bool
+    choices: list[Prv_grubhub_GrubhubChoiceGroup_Out]
+
+class Prv_grubhub_GrubhubDeliveryEstimateArgs_In(TypedDict):
+    id: str
+    place: NotRequired[str]
+    lat: NotRequired[float]
+    lng: NotRequired[float]
+
+class Prv_grubhub_GrubhubDeliveryEstimate_Out(TypedDict):
+    restaurantId: str
+    name: str | None
+    deliversHere: bool
+    open: bool
+    openForDelivery: bool
+    openForPickup: bool
+    distanceMiles: float | None
+    deliveryFee: Prv_grubhub_GrubhubMoney_Out | None
+    deliveryFeeBeforeDiscounts: Prv_grubhub_GrubhubMoney_Out | None
+    orderMinimum: Prv_grubhub_GrubhubMoney_Out | None
+    deliveryMinutes: float | None
+    pickupMinutes: float | None
+    nextDeliveryTime: str | None
+    point: Prv_grubhub_GrubhubDeliveryEstimate_Out_point_Out
+
+class Prv_grubhub_GrubhubDeliveryEstimate_Out_point_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_grubhub_GrubhubReviewsArgs_In(TypedDict):
+    id: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_grubhub_GrubhubReviews_Out(TypedDict):
+    restaurantId: str
+    totalCount: float
+    page: float
+    totalPages: float
+    reviews: list[Prv_grubhub_GrubhubReview_Out]
+
+class Prv_grubhub_GrubhubReview_Out(TypedDict):
+    id: str
+    reviewer: str | None
+    stars: float | None
+    text: str | None
+    date: str | None
+    sentiment: str | None
+    items: list[Prv_grubhub_GrubhubReview_Out_items_item_Out]
+
+class Prv_grubhub_GrubhubReview_Out_items_item_Out(TypedDict):
+    id: str
+    name: str
 
 class Prv_gst_india_gst_indiaRow_Out(TypedDict):
     gstin: str
@@ -24287,6 +24539,70 @@ class Prv_mango_getProduct_productId_u2_In(TypedDict):
     productId: str
     country: NotRequired[Literal["us"] | Literal["ca"]]
 
+class Prv_mangomint_MangomintBusinessArgs_In(TypedDict):
+    business: str
+    locationId: NotRequired[float]
+
+class Prv_mangomint_MangomintBusiness_Out(TypedDict):
+    companyId: float
+    key: str
+    locationId: float | None
+    name: str
+    timezoneId: str | None
+    bookingUrl: str
+
+class Prv_mangomint_MangomintBusinessInfo_Out(TypedDict):
+    companyId: float
+    key: str
+    locationId: float | None
+    name: str
+    timezoneId: str | None
+    bookingUrl: str
+    email: str | None
+    phone: str | None
+    address: str | None
+    currencyCode: str | None
+    maxDaysFutureBooking: float | None
+    cancellationPolicyHtml: str | None
+    savedCardRequiredHtml: str | None
+    smsSignInEnabled: bool
+    waitlistEnabled: bool
+    groupBookingEnabled: bool
+    challengeRequired: bool
+    packagesUrl: str | None
+    membershipsUrl: str | None
+    giftCardsUrl: str | None
+
+class Prv_mangomint_MangomintListServicesArgs_In(TypedDict):
+    business: str
+    locationId: NotRequired[float]
+    categoryId: NotRequired[float]
+
+class Prv_mangomint_MangomintServiceList_Out(TypedDict):
+    business: Prv_mangomint_MangomintServiceList_Out_business_Out
+    services: list[Prv_mangomint_MangomintService_Out]
+
+class Prv_mangomint_MangomintServiceList_Out_business_Out(TypedDict):
+    companyId: float
+    name: str
+
+class Prv_mangomint_MangomintService_Out(TypedDict):
+    id: float
+    name: str
+    description: str | None
+    categoryId: float | None
+    categoryName: str | None
+    durationMinutes: float | None
+    price: float | None
+    minPrice: float | None
+    isPriceRange: bool
+    hidePrice: bool
+    prepayRequired: bool
+    savedCardRequired: bool
+    promptToCall: bool
+    requiresTwoStaff: bool
+    isGroupService: bool
+
 class Prv_marianatek_marianatekFindStudioArgs_In(TypedDict):
     studio: str
 
@@ -28987,6 +29303,103 @@ class Prv_paypal_PaypalMeProfile_Out_socials_Out(TypedDict):
     facebook: str | None
     twitter: str | None
     website: str | None
+
+class Prv_peek_PeekSearchRegionsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_peek_searchRegions_return_Out(TypedDict):
+    regions: list[Prv_peek_PeekRegion_Out]
+
+class Prv_peek_PeekRegion_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+
+class Prv_peek_PeekSearchExperiencesArgs_In(TypedDict):
+    regionId: NotRequired[str]
+    latLng: NotRequired[str]
+    query: NotRequired[str]
+    tagId: NotRequired[str]
+    categoryId: NotRequired[str]
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_peek_PeekSearchResult_Out(TypedDict):
+    total: float | None
+    experiences: list[Prv_peek_PeekExperienceRow_Out]
+    categories: list[Prv_peek_PeekFacet_Out]
+    tags: list[Prv_peek_PeekFacet_Out]
+    regions: list[Prv_peek_PeekFacet_Out]
+
+class Prv_peek_PeekExperienceRow_Out(TypedDict):
+    id: str
+    title: str
+    address: str | None
+    lat: float | None
+    lng: float | None
+    rating: float | None
+    reviewCount: float | None
+    description: str
+    bookingUrl: str
+
+class Prv_peek_PeekFacet_Out(TypedDict):
+    id: str
+    name: str
+    count: NotRequired[float]
+
+class Prv_peek_PeekGetExperienceArgs_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_peek_PeekExperience_Out(TypedDict):
+    id: str
+    title: str
+    tier: str | None
+    durationMinutes: Prv_peek_PeekExperience_Out_durationMinutes_u0_Out | None
+    cancellationMinutesBefore: float | None
+    travelerRequirements: str | None
+    address: str | None
+    lat: float | None
+    lng: float | None
+    region: str | None
+    price: Prv_peek_PeekExperience_Out_price_u0_Out | None
+    rating: float | None
+    reviewCount: float | None
+    recentReviews: list[Prv_peek_PeekReview_Out]
+    categories: list[str]
+    operator: str | None
+    tickets: list[Prv_peek_PeekTicketType_Out]
+    images: list[str]
+    description: str | None
+    highlights: list[str]
+    included: list[str]
+    excluded: list[str]
+    cancellationPolicy: str | None
+    meetingLocation: str | None
+    toKnow: list[str]
+    bookingUrl: str
+
+class Prv_peek_PeekExperience_Out_durationMinutes_u0_Out(TypedDict):
+    min: float
+    max: float
+
+class Prv_peek_PeekExperience_Out_price_u0_Out(TypedDict):
+    amount: float
+    currency: str
+
+class Prv_peek_PeekReview_Out(TypedDict):
+    rating: float
+    title: str
+    text: str
+    date: str | None
+
+class Prv_peek_PeekTicketType_Out(TypedDict):
+    name: str
+    ages: str | None
+    min: float | None
+    max: float | None
 
 class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
     city: str
@@ -35240,6 +35653,21 @@ class Prv_steam_EditProfileResult_Out(TypedDict):
     summary: str | None
     updated: Literal[True]
 
+class Prv_steam_ViewFriendsArgs_In(TypedDict):
+    pass
+
+class Prv_steam_ViewFriendsResult_Out(TypedDict):
+    friends: list[Prv_steam_SteamFriend_Out]
+    totalCount: float
+
+class Prv_steam_SteamFriend_Out(TypedDict):
+    steamId: str
+    name: str
+    profileUrl: str
+    avatarUrl: str | None
+    status: str
+    playingGame: str | None
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -39723,6 +40151,28 @@ class Prv_waterfurnace_WaterfurnaceRecommendedSystem_Out(TypedDict):
     title: str
     description: str
     highlights: list[str]
+
+class Prv_wayfair_WayfairSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_wayfair_WayfairSearchResult_Out(TypedDict):
+    query: str
+    pageUrl: str
+    products: list[Prv_wayfair_WayfairProduct_Out]
+
+class Prv_wayfair_WayfairProduct_Out(TypedDict):
+    listingId: str
+    name: str
+    brand: str | None
+    price: float | None
+    wasPrice: float | None
+    rating: float | None
+    reviewCount: float | None
+    selectedOptions: str | None
+    imageUrl: str | None
+    url: str
+    sponsored: bool
 
 class Prv_wearehirschfeld_WearehirschfeldSitemapPage_Out(TypedDict):
     url: str
@@ -45309,7 +45759,9 @@ class Prv_ajmadison(Protocol):
         """
 
 class Prv_alibaba(Protocol):
-    """TODO — one line an agent reads to decide whether to call this."""
+    """Search and browse products on Alibaba's B2B marketplace; read product details, reviews,
+    and supplier information.
+    """
 
     async def searchProducts(self, args: Prv_alibaba_searchProducts_args_In, /) -> list[Prv_alibaba_alibabaSearchRow_Out]:
         """Search for products by keyword, with an optional price range and page number."""
@@ -49187,6 +49639,44 @@ class Prv_chipotle(Protocol):
         """Every burrito-bowl protein option and its full rice/beans/salsa/topping build, straight
         off chipotle.com's own ordering API. Prices are not in this document (Chipotle prices
         per restaurant) — pricesAvailable is always false.
+        """
+
+class Prv_chownow(Protocol):
+    """ChowNow commission-free online ordering for independent restaurants: a brand's
+    locations, a restaurant's menu and prices, pickup times, and order pricing up to the
+    payment step.
+    """
+
+    async def findRestaurant(self, url: str, /) -> Prv_chownow_ChownowRestaurantRef_Out:
+        """Resolves a ChowNow ordering URL (`www.chownow.com`, `order.chownow.com`,
+        `direct.chownow.com`, `eat.chownow.com`, or the bare apex, e.g.
+        "https://www.chownow.com/order/32/locations/35") into its `companyId` and `restaurantId`
+        — the finder every other function's id arguments come from. No network call: the ids are
+        already in the URL's own path. Takes a link the caller already holds (from a web search,
+        the restaurant's own site, or a prior result); to find a restaurant from words a person
+        would say, use `searchRestaurants`.
+        """
+
+    async def searchRestaurants(self, query: str, citySlug: str, /) -> Prv_chownow_ChownowSearch_Out:
+        """Searches ChowNow restaurants by free text (a cuisine, a dish or a restaurant name)
+        within one city — the entry point when the caller holds only words a person would say,
+        not a link. `citySlug` is lowercase and hyphenated with the two-letter state code, e.g.
+        `"los-angeles-ca"`. Returns each match's `companyId`/`restaurantId` (for
+        `listRestaurants`/`getRestaurant`), plus a cuisine breakdown for the city.
+        """
+
+    async def listRestaurants(self, companyId: str, /) -> Prv_chownow_ChownowBrand_Out:
+        """Lists every location a ChowNow brand operates, by `companyId` (from `findRestaurant`).
+        Each location carries its own `restaurantId`, name, full address with coordinates,
+        whether it is live for ordering, and whether it currently allows ordering for right now
+        (vs. order-ahead only).
+        """
+
+    async def getRestaurant(self, restaurantId: str, /) -> Prv_chownow_ChownowRestaurantDetails_Out:
+        """Reads one restaurant location's own details: name, phone, address, whether it is
+        currently live and whether it is flagged busy (orders running behind), and its
+        pickup/delivery availability right now with each method's minimum lead time.
+        `restaurantId` comes from `findRestaurant` or a `listRestaurants` row.
         """
 
 class Prv_chriscraft(Protocol):
@@ -53551,6 +54041,32 @@ class Prv_glofox(Protocol):
         start, length, capacity, booked, waiting, trainers, room.
         """
 
+class Prv_glossgenius(Protocol):
+    """GlossGenius salon, barber and spa booking sites (<slug>.glossgenius.com): services,
+    team, open times, reviews; book, reschedule and cancel an appointment as a guest.
+    """
+
+    async def findBusiness(self, args: Prv_glossgenius_GlossGeniusFindBusinessArgs_In, /) -> Prv_glossgenius_GlossGeniusBusinessRef_Out:
+        """Finds a GlossGenius business from its booking-site slug, a <slug>.glossgenius.com link,
+        or the business's own website or Instagram link that points at one, and returns the slug
+        every other function takes. GlossGenius has no public directory, so a name-and-city
+        lookup needs a web search for "<name> site:glossgenius.com" first. Example:
+        `bowmark.providers.glossgenius.findBusiness({ business: "sweettouchskin" })`.
+        """
+
+    async def getBusiness(self, args: Prv_glossgenius_GlossGeniusFindBusinessArgs_In, /) -> Prv_glossgenius_GlossGeniusBusiness_Out:
+        """Returns a business's public profile: about, address, phone, timezone, opening hours,
+        booking policies (cancellation window and fee, card required, booking limits), its team
+        and its locations. Example: `bowmark.providers.glossgenius.getBusiness({ business:
+        "sweettouchskin" })`.
+        """
+
+    async def listServices(self, args: Prv_glossgenius_GlossGeniusListServicesArgs_In, /) -> Prv_glossgenius_GlossGeniusServiceList_Out:
+        """Lists a business's bookable services with category, price, duration, deposit, options
+        and the team members who perform each. Example:
+        `bowmark.providers.glossgenius.listServices({ business: "sweettouchskin" })`.
+        """
+
 class Prv_gobrightwing(Protocol):
     """Search Brightwing's job listings by keyword, location and work type, with live pay
     ranges.
@@ -54615,6 +55131,23 @@ class Prv_grubhub(Protocol):
     async def getMenu(self, id: str, /) -> list[Prv_grubhub_GrubhubMenuCategory_Out]:
         """Just the menu of one Grubhub restaurant (by search()'s id): categories, each with its
         items, prices in cents, descriptions and availability.
+        """
+
+    async def getMenuItem(self, args: Prv_grubhub_getMenuItem_args_In, /) -> Prv_grubhub_GrubhubMenuItemDetail_Out:
+        """One Grubhub menu item (ids from getMenu()) with its customizations: every choice group
+        (min/max picks) and option with its surcharge in cents, nested choices, the item's price
+        range and dish tags.
+        """
+
+    async def getDeliveryEstimate(self, args: Prv_grubhub_GrubhubDeliveryEstimateArgs_In, /) -> Prv_grubhub_GrubhubDeliveryEstimate_Out:
+        """Whether a Grubhub restaurant (search()'s id) delivers to a place — `{ id: "469121",
+        place: "Union Square, New York, NY" }` or lat/lng — and at what delivery fee, order
+        minimum, ETA in minutes, distance and next arrival time.
+        """
+
+    async def getRestaurantReviews(self, args: Prv_grubhub_GrubhubReviewsArgs_In, /) -> Prv_grubhub_GrubhubReviews_Out:
+        """A page of diner reviews for one Grubhub restaurant (search()'s id), newest first: star
+        rating, text, date, sentiment and the items ordered, with the total review count.
         """
 
 class Prv_gst_india(Protocol):
@@ -58371,6 +58904,26 @@ class Prv_mango(Protocol):
         hit (which keeps its US or Canadian store).
         """
 
+class Prv_mangomint(Protocol):
+    """Mangomint salon and spa booking: find a business, its services, staff and open times,
+    book, and manage an appointment from its link.
+    """
+
+    async def findBusiness(self, args: Prv_mangomint_MangomintBusinessArgs_In, /) -> Prv_mangomint_MangomintBusiness_Out:
+        """Finds a Mangomint salon or spa from its booking link, alias, company id or its own
+        website, and returns the `key` every other function takes.
+        """
+
+    async def getBusinessInfo(self, args: Prv_mangomint_MangomintBusinessArgs_In, /) -> Prv_mangomint_MangomintBusinessInfo_Out:
+        """One business's profile: contact, address, time zone, currency, cancellation policy, how
+        far ahead it books, and whether booking needs a card, an SMS sign-in or a challenge.
+        """
+
+    async def listServices(self, args: Prv_mangomint_MangomintListServicesArgs_In, /) -> Prv_mangomint_MangomintServiceList_Out:
+        """A business's bookable services in its own menu order, optionally one category: id, name,
+        description, duration, price or range, and prepay/card/call-to-book flags.
+        """
+
 class Prv_marianatek(Protocol):
     """Mariana Tek studio booking (Barry's, Body Temp Yoga and other boutique fitness brands,
     one tenant per brand): find a studio, read its locations, class schedule, spot maps,
@@ -61200,6 +61753,33 @@ class Prv_paypal(Protocol):
         "PERSONAL", socials: { instagram: null, facebook: null, twitter: null, website: null }
         }. A handle that is not a live PayPal.Me profile answers found: false rather than
         throwing. Accepts a bare handle or a full paypal.me/paypal.com URL.
+        """
+
+class Prv_peek(Protocol):
+    """Peek (peek.com), the tours and activities marketplace: find a region, search experiences
+    by place, keyword, tag and date, read an experience and its reviews, check sessions and
+    prices for a party, book up to the payment step, and (signed in) manage tickets,
+    cancellations and saved experiences.
+    """
+
+    async def searchRegions(self, args: Prv_peek_PeekSearchRegionsArgs_In, /) -> Prv_peek_searchRegions_return_Out:
+        """Finds Peek regions (cities, islands, states, countries) by name and returns each one's
+        region id and full name — "Seattle" gives r0gd "Seattle, Washington". The region id is
+        what searchExperiences takes.
+        """
+
+    async def searchExperiences(self, args: Prv_peek_PeekSearchExperiencesArgs_In, /) -> Prv_peek_PeekSearchResult_Out:
+        """Searches Peek's tours and activities in a region (regionId) or near a lat,lng,
+        optionally by keyword, tag, category and a date window. Returns each experience's id,
+        title, address, coordinates, rating, review count, description and booking URL, plus
+        category, tag and nearby-region facets with counts.
+        """
+
+    async def getExperience(self, args: Prv_peek_PeekGetExperienceArgs_In, /) -> Prv_peek_PeekExperience_Out:
+        """One Peek experience in full: tier, duration, cancellation policy, traveler limits,
+        meeting location and coordinates, region, from-price, ticket types with ages and
+        min/max, categories, operator, images, description, highlights, included and excluded,
+        things to know, rating and recent reviews, and the booking URL. Takes { id } or { url }.
         """
 
 class Prv_peerspace(Protocol):
@@ -64704,6 +65284,12 @@ class Prv_steam(Protocol):
         profile picture upload is a separate binary door and is out of scope.
         """
 
+    async def viewFriends(self, args: Prv_steam_ViewFriendsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_ViewFriendsResult_Out:
+        """Lists the signed-in caller's Steam friends — name, profile url, avatar, and
+        in-game/online/offline status (with the game name when in-game). NEEDS A SIGN-IN — the
+        caller signs in, not us. Steam does not publish a last-seen date on this page.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -67289,6 +67875,18 @@ class Prv_waterfurnace(Protocol):
         keyless geocode. THROWS if the API's response shape has changed.
         """
 
+class Prv_wayfair(Protocol):
+    """Search Wayfair (wayfair.com) — furniture, beds, sofas, rugs, decor and home goods — and
+    get each listing's price, was-price, brand, rating, review count, image and link.
+    """
+
+    async def search(self, args: Prv_wayfair_WayfairSearchArgs_In, /) -> Prv_wayfair_WayfairSearchResult_Out:
+        """Searches Wayfair's catalog the way the site's own search box does ("queen bed frame",
+        "accent chair") and returns the first page of listings — furniture, rugs, decor — with
+        Wayfair SKU, name, brand, price, was-price, rating, review count, image and product
+        link. A real browser load, so expect 15-40 s.
+        """
+
 class Prv_wearehirschfeld(Protocol):
     """Hirschfeld's own page index (page-sitemap.xml) and its Connect contact form's real
     fields — name, label, type and required — parsed from the site's server-rendered markup
@@ -69219,6 +69817,7 @@ class BowmarkProviders(Protocol):
     cheapflights: Prv_cheapflights
     chesmar: Prv_chesmar
     chipotle: Prv_chipotle
+    chownow: Prv_chownow
     chriscraft: Prv_chriscraft
     christianbrothersauto: Prv_christianbrothersauto
     christydawn: Prv_christydawn
@@ -69346,6 +69945,7 @@ class BowmarkProviders(Protocol):
     glama: Prv_glama
     glassesusa: Prv_glassesusa
     glofox: Prv_glofox
+    glossgenius: Prv_glossgenius
     gobrightwing: Prv_gobrightwing
     golf_com: Prv_golf_com
     goloadup: Prv_goloadup
@@ -69458,6 +70058,7 @@ class BowmarkProviders(Protocol):
     maidenhome: Prv_maidenhome
     mailchimp: Prv_mailchimp
     mango: Prv_mango
+    mangomint: Prv_mangomint
     marianatek: Prv_marianatek
     marketplace_visualstudio: Prv_marketplace_visualstudio
     marks: Prv_marks
@@ -69531,6 +70132,7 @@ class BowmarkProviders(Protocol):
     pausestudio: Prv_pausestudio
     pawsup: Prv_pawsup
     paypal: Prv_paypal
+    peek: Prv_peek
     peerspace: Prv_peerspace
     perennialsandsutherland: Prv_perennialsandsutherland
     personio: Prv_personio
@@ -69704,6 +70306,7 @@ class BowmarkProviders(Protocol):
     walmart_ca: Prv_walmart_ca
     washingtonpost: Prv_washingtonpost
     waterfurnace: Prv_waterfurnace
+    wayfair: Prv_wayfair
     wearehirschfeld: Prv_wearehirschfeld
     weather_channel: Prv_weather_channel
     webshare: Prv_webshare

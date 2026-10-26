@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e99a39e25e7a6548df1cec1ea6174f90907754f7147b46dec698118a4b4aa9a9
-// 87 capabilities, 673 providers, 2806 typed functions, 20 refused.
+// Manifest version: 31e234ec304e110325e69b2ab236c595859efa17567ae72f8e73a60078aedd80
+// 87 capabilities, 678 providers, 2824 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7453,7 +7453,10 @@ interface alibabaProductReviewsArgs {
   pageSize?: number;                 // 1-20, default 10
 }
 
-  /** TODO — one line an agent reads to decide whether to call this. */
+  /**
+   * Search and browse products on Alibaba's B2B marketplace; read product details, reviews, and
+   * supplier information.
+   */
   interface Unit {
     /** Search for products by keyword, with an optional price range and page number. */
     searchProducts(args: { query: string, language?: string, country?: string, priceMin?: number, priceMax?: number, page?: number }): Promise<alibabaSearchRow[]>;
@@ -18498,6 +18501,131 @@ interface ChipotleBowlBuilderResult {
      * restaurant) — pricesAvailable is always false.
      */
     getBowlBuilder(options?: { protein?: string }): Promise<ChipotleBowlBuilderResult>;
+  }
+}
+
+declare namespace BowmarkProvider_chownow {
+  // ── ChowNow — the unit's own declarations, verbatim ──
+interface ChownowRestaurantRef {
+  companyId: string;
+  restaurantId: string | null;
+  url: string;
+}
+
+interface ChownowLocation {
+  companyId: string;
+  restaurantId: string;
+  name: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    latitude: number | null;
+    longitude: number | null;
+  };
+  allowsOrderForNow: boolean;
+  isLive: boolean;
+}
+
+interface ChownowBrand {
+  companyId: string;
+  name: string;
+  locations: ChownowLocation[];
+}
+
+interface ChownowSearchResult {
+  restaurantId: string;
+  companyId: string;
+  name: string;
+  shortName: string;
+  cuisines: string[];
+  phone: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    latitude: number | null;
+    longitude: number | null;
+  };
+  isPickupAvailable: boolean;
+  isDeliveryAvailable: boolean;
+}
+
+interface ChownowSearch {
+  restaurants: ChownowSearchResult[];
+  total: number;
+  cuisineCounts: Record<string, number>;
+}
+
+interface ChownowFulfillmentMethod {
+  isAvailableNow: boolean;
+  nextAvailableTime: string | null; // "YYYYMMDDHHmm", ChowNow's own timestamp format
+  minLeadTimeMinutes: number | null;
+}
+
+interface ChownowRestaurantDetails {
+  restaurantId: string;
+  companyId: string;
+  name: string;
+  phone: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    latitude: number | null;
+    longitude: number | null;
+  };
+  isLive: boolean;
+  isBusy: boolean;
+  pickup: ChownowFulfillmentMethod | null;
+  delivery: ChownowFulfillmentMethod | null;
+  taxRate: number | null;
+  websiteUrl: string | null;
+}
+
+  /**
+   * ChowNow commission-free online ordering for independent restaurants: a brand's locations, a
+   * restaurant's menu and prices, pickup times, and order pricing up to the payment step.
+   */
+  interface Unit {
+    /**
+     * Resolves a ChowNow ordering URL (`www.chownow.com`, `order.chownow.com`,
+     * `direct.chownow.com`, `eat.chownow.com`, or the bare apex, e.g.
+     * "https://www.chownow.com/order/32/locations/35") into its `companyId` and `restaurantId` —
+     * the finder every other function's id arguments come from. No network call: the ids are
+     * already in the URL's own path. Takes a link the caller already holds (from a web search, the
+     * restaurant's own site, or a prior result); to find a restaurant from words a person would
+     * say, use `searchRestaurants`.
+     */
+    findRestaurant(url: string): Promise<ChownowRestaurantRef>;
+
+    /**
+     * Searches ChowNow restaurants by free text (a cuisine, a dish or a restaurant name) within
+     * one city — the entry point when the caller holds only words a person would say, not a link.
+     * `citySlug` is lowercase and hyphenated with the two-letter state code, e.g.
+     * `"los-angeles-ca"`. Returns each match's `companyId`/`restaurantId` (for
+     * `listRestaurants`/`getRestaurant`), plus a cuisine breakdown for the city.
+     */
+    searchRestaurants(query: string, citySlug: string): Promise<ChownowSearch>;
+
+    /**
+     * Lists every location a ChowNow brand operates, by `companyId` (from `findRestaurant`). Each
+     * location carries its own `restaurantId`, name, full address with coordinates, whether it is
+     * live for ordering, and whether it currently allows ordering for right now (vs. order-ahead
+     * only).
+     */
+    listRestaurants(companyId: string): Promise<ChownowBrand>;
+
+    /**
+     * Reads one restaurant location's own details: name, phone, address, whether it is currently
+     * live and whether it is flagged busy (orders running behind), and its pickup/delivery
+     * availability right now with each method's minimum lead time. `restaurantId` comes from
+     * `findRestaurant` or a `listRestaurants` row.
+     */
+    getRestaurant(restaurantId: string): Promise<ChownowRestaurantDetails>;
   }
 }
 
@@ -31058,6 +31186,127 @@ interface glofoxClassPage {
   }
 }
 
+declare namespace BowmarkProvider_glossgenius {
+  // ── GlossGenius — the unit's own declarations, verbatim ──
+interface GlossGeniusFindBusinessArgs {
+  /** a booking-site slug ("sweettouchskin"), a <slug>.glossgenius.com link, or the business's own website / Instagram link that points at one */
+  business: string;
+}
+interface GlossGeniusBusinessRef {
+  slug: string;
+  bookingUrl: string;
+  name: string;
+  businessToken: string;
+  address: string | null;
+  phone: string | null;
+}
+interface GlossGeniusLocation {
+  /** pass as `location` to listServices */
+  token: string;
+  name: string;
+  phone: string | null;
+  address: string | null;
+  /** per weekday, "HH:MM-HH:MM" ranges; empty means closed */
+  hours: Record<string, string[]>;
+  engagementTypes: string[];
+}
+interface GlossGeniusTeamMember {
+  guid: string;
+  name: string;
+  about: string | null;
+  availableForBooking: boolean;
+  /** service guids this member performs */
+  serviceGuids: string[];
+}
+interface GlossGeniusBusiness extends GlossGeniusBusinessRef {
+  about: string | null;
+  email: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  timezone: string | null;
+  instagram: string | null;
+  website: string | null;
+  coverImage: string | null;
+  /** weekday -> { start, end } in decimal hours, from the business's own hours setting */
+  businessHours: Record<string, { open: boolean; start: number; end: number }>;
+  policies: {
+    cancellationPolicy: string | null;
+    cancellationWindowHours: number | null;
+    cancellationFee: number | null;
+    /** "always_require" | "never_require" | … as the site sends it */
+    cardRequired: string | null;
+    onlineBookingDisabled: boolean;
+    allowOnlineCancellations: boolean;
+    futureBookingsLimit: number | null;
+    requireFormCompletion: boolean;
+    waitlistEnabled: boolean;
+    giftCardsEnabled: boolean;
+  };
+  team: GlossGeniusTeamMember[];
+  locations: GlossGeniusLocation[];
+}
+interface GlossGeniusListServicesArgs {
+  business: string;
+  /** a location token from getBusiness().locations; defaults to the first location */
+  location?: string;
+}
+interface GlossGeniusService {
+  guid: string;
+  /** the token getAvailability takes */
+  token: string;
+  name: string;
+  category: string | null;
+  description: string | null;
+  /** dollars as the site sends them, e.g. "180.00"; null when hidden */
+  price: string | null;
+  priceVaries: boolean;
+  durationMinutes: number;
+  processingMinutes: number;
+  depositAmount: string | null;
+  depositForNewClientsOnly: boolean;
+  image: string | null;
+  options: unknown[];
+  modifierGroups: unknown[];
+  /** team member guids that perform it */
+  teamGuids: string[];
+}
+interface GlossGeniusServiceList {
+  business: string;
+  location: string;
+  services: GlossGeniusService[];
+}
+
+  /**
+   * GlossGenius salon, barber and spa booking sites (<slug>.glossgenius.com): services, team,
+   * open times, reviews; book, reschedule and cancel an appointment as a guest.
+   */
+  interface Unit {
+    /**
+     * Finds a GlossGenius business from its booking-site slug, a <slug>.glossgenius.com link, or
+     * the business's own website or Instagram link that points at one, and returns the slug every
+     * other function takes. GlossGenius has no public directory, so a name-and-city lookup needs a
+     * web search for "<name> site:glossgenius.com" first. Example:
+     * `bowmark.providers.glossgenius.findBusiness({ business: "sweettouchskin" })`.
+     */
+    findBusiness(args: GlossGeniusFindBusinessArgs): Promise<GlossGeniusBusinessRef>;
+
+    /**
+     * Returns a business's public profile: about, address, phone, timezone, opening hours, booking
+     * policies (cancellation window and fee, card required, booking limits), its team and its
+     * locations. Example: `bowmark.providers.glossgenius.getBusiness({ business: "sweettouchskin"
+     * })`.
+     */
+    getBusiness(args: GlossGeniusFindBusinessArgs): Promise<GlossGeniusBusiness>;
+
+    /**
+     * Lists a business's bookable services with category, price, duration, deposit, options and
+     * the team members who perform each. Example: `bowmark.providers.glossgenius.listServices({
+     * business: "sweettouchskin" })`.
+     */
+    listServices(args: GlossGeniusListServicesArgs): Promise<GlossGeniusServiceList>;
+  }
+}
+
 declare namespace BowmarkProvider_gobrightwing {
   // ── Brightwing — the unit's own declarations, verbatim ──
 interface JobListing { id: string; title: string; location: string; workType: string; payMin?: number; payMax?: number; payCurrency?: string; postedDate?: string; }
@@ -33295,6 +33544,82 @@ interface GrubhubRestaurant {
   pickup: boolean;
   menu: GrubhubMenuCategory[];
 }
+interface GrubhubChoiceOption {
+  id: string;
+  name: string;
+  /** Surcharge on top of the item price. */
+  price: GrubhubMoney | null;
+  available: boolean;
+  /** Nested choices this option opens (e.g. a size that has its own toppings). */
+  choices: GrubhubChoiceGroup[];
+}
+interface GrubhubChoiceGroup {
+  id: string;
+  name: string;
+  minChoices: number;
+  /** null when Grubhub sets no cap. */
+  maxChoices: number | null;
+  options: GrubhubChoiceOption[];
+}
+interface GrubhubMenuItemDetail extends GrubhubMenuItem {
+  restaurantId: string;
+  category: string | null;
+  /** Cheapest and dearest the item can come to with its choices. */
+  priceRange: { min: GrubhubMoney | null; max: GrubhubMoney | null };
+  tags: string[];
+  choices: GrubhubChoiceGroup[];
+}
+interface GrubhubDeliveryEstimateArgs {
+  /** The restaurant id search() returns. */
+  id: string;
+  /** Where to deliver: a US place, or lat+lng — as search() takes them. */
+  place?: string;
+  lat?: number;
+  lng?: number;
+}
+interface GrubhubDeliveryEstimate {
+  restaurantId: string;
+  name: string | null;
+  /** false when this point is outside the restaurant's delivery area. */
+  deliversHere: boolean;
+  open: boolean;
+  openForDelivery: boolean;
+  openForPickup: boolean;
+  distanceMiles: number | null;
+  deliveryFee: GrubhubMoney | null;
+  deliveryFeeBeforeDiscounts: GrubhubMoney | null;
+  orderMinimum: GrubhubMoney | null;
+  deliveryMinutes: number | null;
+  pickupMinutes: number | null;
+  /** ISO instant the next delivery placed now would arrive. */
+  nextDeliveryTime: string | null;
+  point: { lat: number; lng: number };
+}
+interface GrubhubReviewsArgs {
+  id: string;
+  /** 1-50, default 10. */
+  limit?: number;
+  /** 1-based, default 1. */
+  page?: number;
+}
+interface GrubhubReview {
+  id: string;
+  /** The diner's first name, as Grubhub shows it. */
+  reviewer: string | null;
+  stars: number | null;
+  text: string | null;
+  /** ISO date the review was written. */
+  date: string | null;
+  sentiment: string | null;
+  items: { id: string; name: string }[];
+}
+interface GrubhubReviews {
+  restaurantId: string;
+  totalCount: number;
+  page: number;
+  totalPages: number;
+  reviews: GrubhubReview[];
+}
 
   /**
    * Grubhub food delivery — search restaurants delivering to an address (by cuisine, dish or
@@ -33321,6 +33646,26 @@ interface GrubhubRestaurant {
      * prices in cents, descriptions and availability.
      */
     getMenu(id: string): Promise<GrubhubMenuCategory[]>;
+
+    /**
+     * One Grubhub menu item (ids from getMenu()) with its customizations: every choice group
+     * (min/max picks) and option with its surcharge in cents, nested choices, the item's price
+     * range and dish tags.
+     */
+    getMenuItem(args: { restaurantId: string; itemId: string }): Promise<GrubhubMenuItemDetail>;
+
+    /**
+     * Whether a Grubhub restaurant (search()'s id) delivers to a place — `{ id: "469121", place:
+     * "Union Square, New York, NY" }` or lat/lng — and at what delivery fee, order minimum, ETA in
+     * minutes, distance and next arrival time.
+     */
+    getDeliveryEstimate(args: GrubhubDeliveryEstimateArgs): Promise<GrubhubDeliveryEstimate>;
+
+    /**
+     * A page of diner reviews for one Grubhub restaurant (search()'s id), newest first: star
+     * rating, text, date, sentiment and the items ordered, with the total review count.
+     */
+    getRestaurantReviews(args: GrubhubReviewsArgs): Promise<GrubhubReviews>;
   }
 }
 
@@ -43028,6 +43373,102 @@ interface MangoSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_mangomint {
+  // ── Mangomint — the unit's own declarations, verbatim ──
+interface mangomintRow {
+  id: string;
+}
+
+/** A business, as the caller holds it: its booking link
+ * ("https://booking.mangomint.com/waxculture"), alias ("waxculture"), numeric
+ * company id ("236723"), or its own website ("https://waxculture.com"). */
+interface MangomintBusinessArgs {
+  business: string;
+  /** Only for a multi-location business: the number after the alias in its booking link. */
+  locationId?: number;
+}
+
+interface MangomintListServicesArgs extends MangomintBusinessArgs {
+  /** Only services in this category. */
+  categoryId?: number;
+}
+
+interface MangomintBusiness {
+  companyId: number;
+  /** The id or alias as the booking link spells it — pass it back as `business`. */
+  key: string;
+  locationId: number | null;
+  name: string;
+  timezoneId: string | null;
+  bookingUrl: string;
+}
+
+interface MangomintBusinessInfo extends MangomintBusiness {
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  currencyCode: string | null;
+  maxDaysFutureBooking: number | null;
+  cancellationPolicyHtml: string | null;
+  savedCardRequiredHtml: string | null;
+  smsSignInEnabled: boolean;
+  waitlistEnabled: boolean;
+  groupBookingEnabled: boolean;
+  /** A Turnstile check guards booking at this business. */
+  challengeRequired: boolean;
+  packagesUrl: string | null;
+  membershipsUrl: string | null;
+  giftCardsUrl: string | null;
+}
+
+interface MangomintService {
+  id: number;
+  name: string;
+  description: string | null;
+  categoryId: number | null;
+  categoryName: string | null;
+  durationMinutes: number | null;
+  price: number | null;
+  minPrice: number | null;
+  isPriceRange: boolean;
+  hidePrice: boolean;
+  prepayRequired: boolean;
+  savedCardRequired: boolean;
+  promptToCall: boolean;
+  requiresTwoStaff: boolean;
+  isGroupService: boolean;
+}
+
+interface MangomintServiceList {
+  business: { companyId: number; name: string };
+  services: MangomintService[];
+}
+
+  /**
+   * Mangomint salon and spa booking: find a business, its services, staff and open times, book,
+   * and manage an appointment from its link.
+   */
+  interface Unit {
+    /**
+     * Finds a Mangomint salon or spa from its booking link, alias, company id or its own website,
+     * and returns the `key` every other function takes.
+     */
+    findBusiness(args: MangomintBusinessArgs): Promise<MangomintBusiness>;
+
+    /**
+     * One business's profile: contact, address, time zone, currency, cancellation policy, how far
+     * ahead it books, and whether booking needs a card, an SMS sign-in or a challenge.
+     */
+    getBusinessInfo(args: MangomintBusinessArgs): Promise<MangomintBusinessInfo>;
+
+    /**
+     * A business's bookable services in its own menu order, optionally one category: id, name,
+     * description, duration, price or range, and prepay/card/call-to-book flags.
+     */
+    listServices(args: MangomintListServicesArgs): Promise<MangomintServiceList>;
+  }
+}
+
 declare namespace BowmarkProvider_marianatek {
   // ── Mariana Tek — the unit's own declarations, verbatim ──
 interface marianatekRow {
@@ -51511,6 +51952,87 @@ interface PaypalMeProfile {
      * full paypal.me/paypal.com URL.
      */
     getPayPalMeProfile(args: { handle: string }): Promise<PaypalMeProfile>;
+  }
+}
+
+declare namespace BowmarkProvider_peek {
+  // ── Peek — the unit's own declarations, verbatim ──
+interface PeekSearchRegionsArgs { query: string; limit?: number }
+interface PeekRegion { id: string; name: string; url: string }
+interface PeekFacet { id: string; name: string; count?: number }
+interface PeekSearchExperiencesArgs {
+  /** From searchRegions, e.g. "r0gd" (Seattle). One of regionId / latLng is required. */
+  regionId?: string;
+  /** "lat,lng" — experiences NEAR a point rather than in a region. */
+  latLng?: string;
+  /** One keyword matched against titles ("beer", "kayak"); never a place. */
+  query?: string;
+  tagId?: string;
+  categoryId?: string;
+  /** YYYY-MM-DD; only experiences running on or after it. */
+  startDate?: string;
+  /** YYYY-MM-DD; only experiences running on or before it. */
+  endDate?: string;
+  limit?: number;
+}
+interface PeekExperienceRow {
+  id: string; title: string; address: string | null; lat: number | null; lng: number | null;
+  rating: number | null; reviewCount: number | null; description: string; bookingUrl: string;
+}
+interface PeekSearchResult {
+  total: number | null; experiences: PeekExperienceRow[];
+  categories: PeekFacet[]; tags: PeekFacet[]; regions: PeekFacet[];
+}
+interface PeekGetExperienceArgs {
+  /** An experience id such as "a0q5bg3". */
+  id?: string;
+  /** Or its www.peek.com activity / booking URL. */
+  url?: string;
+}
+interface PeekReview { rating: number; title: string; text: string; date: string | null }
+interface PeekTicketType { name: string; ages: string | null; min: number | null; max: number | null }
+interface PeekExperience {
+  id: string; title: string; tier: string | null;
+  durationMinutes: { min: number; max: number } | null;
+  cancellationMinutesBefore: number | null; travelerRequirements: string | null;
+  address: string | null; lat: number | null; lng: number | null; region: string | null;
+  price: { amount: number; currency: string } | null;
+  rating: number | null; reviewCount: number | null; recentReviews: PeekReview[];
+  categories: string[]; operator: string | null; tickets: PeekTicketType[]; images: string[];
+  description: string | null; highlights: string[]; included: string[]; excluded: string[];
+  cancellationPolicy: string | null; meetingLocation: string | null; toKnow: string[];
+  bookingUrl: string;
+}
+
+  /**
+   * Peek (peek.com), the tours and activities marketplace: find a region, search experiences by
+   * place, keyword, tag and date, read an experience and its reviews, check sessions and prices
+   * for a party, book up to the payment step, and (signed in) manage tickets, cancellations and
+   * saved experiences.
+   */
+  interface Unit {
+    /**
+     * Finds Peek regions (cities, islands, states, countries) by name and returns each one's
+     * region id and full name — "Seattle" gives r0gd "Seattle, Washington". The region id is what
+     * searchExperiences takes.
+     */
+    searchRegions(args: PeekSearchRegionsArgs): Promise<{ regions: PeekRegion[] }>;
+
+    /**
+     * Searches Peek's tours and activities in a region (regionId) or near a lat,lng, optionally by
+     * keyword, tag, category and a date window. Returns each experience's id, title, address,
+     * coordinates, rating, review count, description and booking URL, plus category, tag and
+     * nearby-region facets with counts.
+     */
+    searchExperiences(args: PeekSearchExperiencesArgs): Promise<PeekSearchResult>;
+
+    /**
+     * One Peek experience in full: tier, duration, cancellation policy, traveler limits, meeting
+     * location and coordinates, region, from-price, ticket types with ages and min/max,
+     * categories, operator, images, description, highlights, included and excluded, things to
+     * know, rating and recent reviews, and the booking URL. Takes { id } or { url }.
+     */
+    getExperience(args: PeekGetExperienceArgs): Promise<PeekExperience>;
   }
 }
 
@@ -61326,6 +61848,23 @@ interface EditProfileResult {
   updated: true;
 }
 
+interface ViewFriendsArgs {
+}
+
+interface SteamFriend {
+  steamId: string;
+  name: string;
+  profileUrl: string;
+  avatarUrl: string | null;
+  status: string;  // "in-game", "online", "offline" — the site's own persona class
+  playingGame: string | null;
+}
+
+interface ViewFriendsResult {
+  friends: SteamFriend[];
+  totalCount: number;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -61450,6 +61989,13 @@ interface EditProfileResult {
      * upload is a separate binary door and is out of scope.
      */
     editProfile(args: EditProfileArgs, opts?: ConnectionOption): Promise<EditProfileResult>;
+
+    /**
+     * Lists the signed-in caller's Steam friends — name, profile url, avatar, and
+     * in-game/online/offline status (with the game name when in-game). NEEDS A SIGN-IN — the
+     * caller signs in, not us. Steam does not publish a last-seen date on this page.
+     */
+    viewFriends(args: ViewFriendsArgs, opts?: ConnectionOption): Promise<ViewFriendsResult>;
   }
 }
 
@@ -68934,6 +69480,46 @@ interface WaterfurnaceSavingsEstimate {
   }
 }
 
+declare namespace BowmarkProvider_wayfair {
+  // ── Wayfair — the unit's own declarations, verbatim ──
+interface WayfairSearchArgs {
+  query: string;   // what a shopper types into Wayfair's search, e.g. "queen bed frame"
+  limit?: number;  // default 24, at most 48 (one results page)
+}
+interface WayfairProduct {
+  listingId: string;              // Wayfair's own SKU, e.g. "W005076085"
+  name: string;
+  brand: string | null;           // Wayfair's brand label, e.g. "Red Barrel Studio®"
+  price: number | null;           // current price shown on the card, USD
+  wasPrice: number | null;        // struck-through previous price, only when above price
+  rating: number | null;          // average out of 5
+  reviewCount: number | null;
+  selectedOptions: string | null; // the variant the card shows, e.g. "Queen, Black"
+  imageUrl: string | null;
+  url: string;                    // the product page
+  sponsored: boolean;
+}
+interface WayfairSearchResult {
+  query: string;
+  pageUrl: string;                // where Wayfair landed the search (it may redirect to a category)
+  products: WayfairProduct[];
+}
+
+  /**
+   * Search Wayfair (wayfair.com) — furniture, beds, sofas, rugs, decor and home goods — and get
+   * each listing's price, was-price, brand, rating, review count, image and link.
+   */
+  interface Unit {
+    /**
+     * Searches Wayfair's catalog the way the site's own search box does ("queen bed frame",
+     * "accent chair") and returns the first page of listings — furniture, rugs, decor — with
+     * Wayfair SKU, name, brand, price, was-price, rating, review count, image and product link. A
+     * real browser load, so expect 15-40 s.
+     */
+    search(args: WayfairSearchArgs): Promise<WayfairSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_wearehirschfeld {
   // ── Hirschfeld — the unit's own declarations, verbatim ──
 // Hirschfeld's OWN shapes — not a capability contract.
@@ -74682,6 +75268,7 @@ interface BowmarkProviders {
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
   chipotle: BowmarkProvider_chipotle.Unit;
+  chownow: BowmarkProvider_chownow.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;
   christianbrothersauto: BowmarkProvider_christianbrothersauto.Unit;
   christydawn: BowmarkProvider_christydawn.Unit;
@@ -74809,6 +75396,7 @@ interface BowmarkProviders {
   glama: BowmarkProvider_glama.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
   glofox: BowmarkProvider_glofox.Unit;
+  glossgenius: BowmarkProvider_glossgenius.Unit;
   gobrightwing: BowmarkProvider_gobrightwing.Unit;
   golf_com: BowmarkProvider_golf_com.Unit;
   goloadup: BowmarkProvider_goloadup.Unit;
@@ -74921,6 +75509,7 @@ interface BowmarkProviders {
   maidenhome: BowmarkProvider_maidenhome.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;
   mango: BowmarkProvider_mango.Unit;
+  mangomint: BowmarkProvider_mangomint.Unit;
   marianatek: BowmarkProvider_marianatek.Unit;
   marketplace_visualstudio: BowmarkProvider_marketplace_visualstudio.Unit;
   marks: BowmarkProvider_marks.Unit;
@@ -74994,6 +75583,7 @@ interface BowmarkProviders {
   pausestudio: BowmarkProvider_pausestudio.Unit;
   pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
+  peek: BowmarkProvider_peek.Unit;
   peerspace: BowmarkProvider_peerspace.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   personio: BowmarkProvider_personio.Unit;
@@ -75167,6 +75757,7 @@ interface BowmarkProviders {
   walmart_ca: BowmarkProvider_walmart_ca.Unit;
   washingtonpost: BowmarkProvider_washingtonpost.Unit;
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
+  wayfair: BowmarkProvider_wayfair.Unit;
   wearehirschfeld: BowmarkProvider_wearehirschfeld.Unit;
   weather_channel: BowmarkProvider_weather_channel.Unit;
   webshare: BowmarkProvider_webshare.Unit;
