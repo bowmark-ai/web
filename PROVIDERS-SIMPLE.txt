@@ -208,6 +208,7 @@ crunchbase.com — crunchbase: getFundingRounds, getOrganization, recentFundingR
 crutchfield.com — crutchfield: getProduct, search
 culturefly.com — culturefly: buildCultureFlyCheckoutLink, getCultureFlyBoxOptions, listCultureFlyBoxes
 curiocity.com — curiocity: listEvents
+currys.co.uk — currys: checkStoreStock, getProduct, listClearance, search
 cve.circl.lu — circl: getCve, search
 cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuild
 dailymotion.com — dailymotion: addToPlaylist, addToWatchLater, createPlaylist, deletePlaylist, deleteVideo, followChannel, getChannel, getMyProfile, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listFollowedChannels, listFollowingFeed, listHashtagVideos, listLiveStreams, listMyLikedVideos, listMyPlaylists, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listTrendingVideos, listWatchHistory, listWatchLater, searchChannels, searchPlaylists, searchVideos, updateProfile, updateVideo, uploadVideo

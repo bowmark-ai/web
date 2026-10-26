@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5722 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5726 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1305,6 +1305,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `culturefly.listCultureFlyBoxes` | culturefly.com | Reads the live CultureFly catalogue for exactly the licensed subscription-box product… | 🟢 |
 | `curiocity.listEvents` | curiocity.com | Reads curiocity.com's own city 'things to do' feed and returns individual events… | 🟢 |
 | `currency_exchange.getRate` | exchangerate-api.com | Returns the current exchange rate between two currency codes | 🟢 |
+| `currys.checkStoreStock` | currys.co.uk | Checks whether an item can be collected from Currys stores near a UK postcode. | ⚪ |
+| `currys.getProduct` | currys.co.uk | Reads one product page: full specs, price, delivery and store-collection stock for one… | ⚪ |
+| `currys.listClearance` | currys.co.uk | Lists Currys' clearance / outlet / reduced-price deals (its clearance-all category)… | 🟢 |
+| `currys.search` | currys.co.uk | Searches Currys' catalogue for a shopper's query (e.g. "air fryer") and returns a page… | 🟢 |
 | `cyberpowerpc.getConfigurator` | cyberpowerpc.com | Reads one base configurator's whole component tree — every section (CPU, GPU, memory… | 🟢 |
 | `cyberpowerpc.listConfigurators` | cyberpowerpc.com | Lists every base gaming-PC configurator on the site — AMD and Intel, every tier from… | 🟢 |
 | `cyberpowerpc.priceBuild` | cyberpowerpc.com | Prices an exact build for one configurator given a caller's part selections (one part… | 🟢 |
@@ -2096,7 +2100,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.deleteComment` | foxnews.com | Deletes one of the signed-in caller's own comments on a Fox News article. | ⚪ |
 | `foxnews.findAuthor` | foxnews.com | Finds a Fox News reporter, columnist, host or contributor by name ("Charles Creitz"… | 🟢 |
 | `foxnews.getAccount` | foxnews.com | Reads the signed-in caller's Fox profile — display name, email, and account details. | ⚪ |
-| `foxnews.getArticle` | foxnews.com | Reads one Fox News article in full — headline, description, the whole body text… | 🟡 |
+| `foxnews.getArticle` | foxnews.com | Reads one Fox News article in full — headline, description, the whole body text… | 🟢 |
 | `foxnews.getAuthor` | foxnews.com | Reads one Fox News person's profile — name, job title, bio, social links and their… | 🟢 |
 | `foxnews.getComments` | foxnews.com | Reads the reader comments under a Fox News article — each comment's text, author… | ⚪ |
 | `foxnews.getElectionResults` | foxnews.com | Reads Fox News's results for one race — each candidate's votes and share, percent of… | ⚪ |
@@ -2246,7 +2250,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in caller's watched list. | ⚪ |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🟢 |
 | `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🟢 |
-| `github.updatePullRequest` | github.com | Renames a pull request's TITLE, off the same issue-viewer web mutation (PUT… | 🔴 |
+| `github.updatePullRequest` | github.com | Renames a pull request's TITLE, off the same issue-viewer web mutation (PUT… | 🟢 |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
@@ -3438,14 +3442,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `olo.deleteFavorite` | olo.com | Deletes one of the caller's saved favourites. | ⚪ |
 | `olo.findBrand` | olo.com | Finds the Olo order site for a restaurant chain from what a caller holds -- an… | 🟢 |
 | `olo.getBasket` | olo.com | Returns the basket: items with their options and prices, subtotal, fees, discounts… | ⚪ |
-| `olo.getLocation` | olo.com | Returns one location's details: address, coordinates, phone, open-now status, the… | ⚪ |
+| `olo.getLocation` | olo.com | Returns one location's details: address, coordinates, phone, open-now status, whether… | 🟢 |
 | `olo.getLoyaltyAccount` | olo.com | Returns the caller's loyalty account at a chain: points or visits, available rewards… | ⚪ |
-| `olo.getMenu` | olo.com | Returns a location's menu: categories in order, and each product's id, name… | ⚪ |
+| `olo.getMenu` | olo.com | Returns a location's menu: categories in order, and each product's id, name… | 🟢 |
 | `olo.getOrderStatus` | olo.com | Returns a placed order's status from its order id (the confirmation page link)… | ⚪ |
-| `olo.getProductOptions` | olo.com | Returns the customisation tree for one or more products at a location -- option groups… | ⚪ |
+| `olo.getProductOptions` | olo.com | Returns the customisation tree for a product's option groups -- whether each is… | 🟢 |
 | `olo.joinGroupOrder` | olo.com | Joins a group order from its invite link and adds the caller's items to it. | ⚪ |
 | `olo.listFavorites` | olo.com | Lists the caller's saved favourite orders and favourite locations at a chain. | ⚪ |
-| `olo.listOrderDays` | olo.com | Lists the days a location will take an order for, for a handoff mode (today through… | ⚪ |
+| `olo.listOrderDays` | olo.com | Lists the days a location will take an order for, for a handoff mode (today through… | 🟢 |
 | `olo.listRecentOrders` | olo.com | Lists the signed-in caller's recent orders at a chain, with items, totals, location… | ⚪ |
 | `olo.listRegions` | olo.com | Lists the states where a chain has Olo-ordering locations. | 🟢 |
 | `olo.listSavedAddresses` | olo.com | Lists the caller's saved delivery addresses. | ⚪ |
@@ -3552,10 +3556,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pike13.bookClass` | pike13.com | Books the signed-in caller (or a dependent) into a class by occurrence id (POST… | ⚪ |
 | `pike13.cancelVisit` | pike13.com | Cancels one of the signed-in caller's bookings — a class or an appointment — by the… | ⚪ |
 | `pike13.checkEnrollmentEligibility` | pike13.com | Says whether the signed-in caller (and each dependent) can book a class and why not —… | ⚪ |
-| `pike13.findBusiness` | pike13.com | Finds Pike13 studios by name and town and returns each one's subdomain, name and… | ⚪ |
+| `pike13.findBusiness` | pike13.com | Finds Pike13 studios by name and town and returns each one's subdomain and confirmed… | 🟢 |
 | `pike13.getAppointmentAvailability` | pike13.com | Lists the open times for one bookable appointment service over a date range (up to 90… | ⚪ |
 | `pike13.getAppointmentAvailabilitySummary` | pike13.com | Gives, per day over a date range, the share of an appointment service's capacity still… | ⚪ |
-| `pike13.getBusiness` | pike13.com | Gets one studio's profile — name, subdomain, website, phone, currency, social links… | ⚪ |
+| `pike13.getBusiness` | pike13.com | Gets one studio's profile — name, subdomain, website, phone, currency, social links… | 🟢 |
 | `pike13.getClass` | pike13.com | Gets one scheduled class by the occurrence id getSchedule returned — description… | ⚪ |
 | `pike13.getMyProfile` | pike13.com | Gets the signed-in caller's own client record at a studio, with dependents (GET… | ⚪ |
 | `pike13.getPlan` | pike13.com | Gets one membership or pass product's full terms by the id listPlans returned (GET… | ⚪ |
@@ -3566,14 +3570,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pike13.joinWaitlist` | pike13.com | Puts the signed-in caller on the waitlist for a full class by occurrence id (POST… | ⚪ |
 | `pike13.leaveWaitlist` | pike13.com | Removes the signed-in caller from a class waitlist by the entry id… | ⚪ |
 | `pike13.listClassSeries` | pike13.com | Lists a studio's recurring class series (events) with their recurrence and service… | ⚪ |
-| `pike13.listLocations` | pike13.com | Lists a studio's locations with address, coordinates, phone and timezone (GET… | ⚪ |
+| `pike13.listLocations` | pike13.com | Lists a studio's locations with address, coordinates, phone and timezone (GET… | 🟢 |
 | `pike13.listMyBusinesses` | pike13.com | Lists the studios the signed-in caller has a Pike13 client account with (GET… | ⚪ |
 | `pike13.listMyPlans` | pike13.com | Lists the signed-in caller's memberships and passes at a studio — remaining visits… | ⚪ |
 | `pike13.listMyVisits` | pike13.com | Lists the signed-in caller's bookings at a studio — upcoming and past classes and… | ⚪ |
 | `pike13.listMyWaitlistEntries` | pike13.com | Lists the signed-in caller's waitlist entries and their state (pending, waiting… | ⚪ |
 | `pike13.listMyWaivers` | pike13.com | Lists the waivers the signed-in caller has signed at a studio, and whether any are… | ⚪ |
 | `pike13.listPlans` | pike13.com | Lists the memberships, class packs and passes a studio sells, with price, visit count… | ⚪ |
-| `pike13.listServices` | pike13.com | Lists what a studio offers — group classes, courses and appointments, with duration… | ⚪ |
+| `pike13.listServices` | pike13.com | Lists what a studio offers — group classes, courses and appointments, with duration… | 🟢 |
 | `pike13.listStaff` | pike13.com | Lists a studio's staff members with bio and photo (GET /api/v2/front/staff_members)… | ⚪ |
 | `pilotprotocol.getApp` | pilotprotocol.network | Reads one app's detail page (/apps/<id>) — vendor, tagline, description, category… | 🟢 |
 | `pilotprotocol.listApps` | pilotprotocol.network | Lists every app in Pilot Protocol's app store (id, name, vendor, category, tagline… | 🟢 |
@@ -3720,7 +3724,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `proxy_cheap.listPlans` | proxy-cheap.com | Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting… | 🟡 |
 | `pullandbear.getProduct` | pullandbear.com | Reads one Pull&Bear product's colours and sizes with each colour's price, compare-at… | 🟢 |
 | `pullandbear.listCategories` | pullandbear.com | Lists Pull&Bear's US catalog categories (jackets, jeans, t-shirts…), read live off the… | 🟢 |
-| `pullandbear.searchProducts` | pullandbear.com | Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer… | 🟡 |
+| `pullandbear.searchProducts` | pullandbear.com | Searches Pull&Bear's apparel catalog for what a shopper asks ("jacket", "puffer… | 🟢 |
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `punchpass.addChild` | punchpass.com | Adds a child to the signed-in caller's family account at a studio, on studios that use… | ⚪ |
@@ -3826,7 +3830,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟡 |
 | `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟡 |
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟢 |
-| `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | ⚪ |
+| `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | 🟢 |
 | `quora.postComment` | quora.com | Posts a comment on an answer as the signed-in caller. | ⚪ |
 | `quora.searchQuestions` | quora.com | Runs Quora's own search and returns matching questions with their urls — the finder a… | 🟢 |
 | `quora.upvoteAnswer` | quora.com | Upvotes an answer as the signed-in caller. | ⚪ |
@@ -5267,7 +5271,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getHistoricalDaily` | weather.com | Historical daily summaries — past 30 days of high, low, and precipitation records. | 🟢 |
 | `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | 🟡 |
 | `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | 🟡 |
-| `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | ⚪ |
+| `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | 🟢 |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
 | `weather_channel.getLocation` | weather.com | Gets location details by place name, postal code, or coordinates — returns full… | 🟢 |
 | `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-level precipitation data — highly granular rainfall/snowfall timing and… | ⚪ |
