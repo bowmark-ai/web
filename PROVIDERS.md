@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5726 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5731 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2412,11 +2412,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goteamup_classes.bookClass` | goteamup.com | Books the signed-in caller into a free or membership-covered class (POST… | ⚪ |
 | `goteamup_classes.cancelClass` | goteamup.com | Cancels the signed-in caller's booking for a class, reporting the late-cancel deadline… | ⚪ |
 | `goteamup_classes.checkBookingEligibility` | goteamup.com | Says whether the signed-in caller can book a class and why not — full, no valid… | ⚪ |
-| `goteamup_classes.findStudio` | goteamup.com | Finds TeamUp studios by name (and town) and returns each one's provider id, slug and… | ⚪ |
+| `goteamup_classes.findStudio` | goteamup.com | Finds TeamUp studios by name (and town) and returns each one's provider id, slug and… | 🟢 |
 | `goteamup_classes.getClass` | goteamup.com | Gets one class by the event id listSchedule returned — description, time, venue… | ⚪ |
 | `goteamup_classes.getMembership` | goteamup.com | Gets one membership's full terms by the id listMemberships returned (GET… | ⚪ |
 | `goteamup_classes.getMyProfile` | goteamup.com | Gets the signed-in caller's own customer record at a studio (GET /api/v2/customers/me). | ⚪ |
-| `goteamup_classes.getStudio` | goteamup.com | Gets one studio's profile — name, address, timezone, currency and default booking… | ⚪ |
+| `goteamup_classes.getStudio` | goteamup.com | Gets one studio's profile — name, address, timezone, currency and default booking… | 🟢 |
 | `goteamup_classes.joinWaitlist` | goteamup.com | Puts the signed-in caller on a full class's waitlist (POST… | ⚪ |
 | `goteamup_classes.leaveWaitlist` | goteamup.com | Takes the signed-in caller off a class's waitlist (POST… | ⚪ |
 | `goteamup_classes.listClassTypes` | goteamup.com | Lists a studio's class types (offering types) with description, whether drop-ins are… | ⚪ |
@@ -2864,8 +2864,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lime.cityPricing` | li.me | Reads one city's Lime ride pricing from its li.me city page: unlock fee, per-minute… | 🟢 |
 | `lime.listCities` | li.me | Lists every city Lime operates e-scooters and e-bikes in, grouped by region, from… | 🟢 |
 | `linkedin.acceptInvitation` | linkedin.com | Accepts a connection invitation the signed-in caller received, by the id and… | 🟢 |
+| `linkedin.addProfileSkill` | linkedin.com | Adds one skill to the signed-in caller's own LinkedIn profile — the write half of… | 🟢 |
 | `linkedin.applyToJob` | linkedin.com | Submits an Easy Apply application to a job posting as the signed-in caller, using the… | 🟢 |
+| `linkedin.attendEvent` | linkedin.com | RSVPs the signed-in caller to a LinkedIn event (the Attend button), or withdraws the… | 🟢 |
 | `linkedin.commentOnPost` | linkedin.com | Comments on a post as the signed-in caller. | 🟢 |
+| `linkedin.createGroupPost` | linkedin.com | Publishes a text post inside a LinkedIn group the signed-in caller belongs to. `group`… | 🟢 |
 | `linkedin.createPost` | linkedin.com | Publishes a text post to the signed-in caller's feed, visible to anyone or to… | 🟢 |
 | `linkedin.deleteComment` | linkedin.com | Deletes one of the signed-in caller's own comments. | 🟢 |
 | `linkedin.deletePost` | linkedin.com | Deletes one of the signed-in caller's own posts or reposts. | 🟢 |
@@ -2907,6 +2910,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.listSuggestedConnections` | linkedin.com | Lists the people LinkedIn suggests the caller connect with ("People you may know") —… | 🟢 |
 | `linkedin.reactToPost` | linkedin.com | Reacts to a post as the signed-in caller — LIKE by default, or PRAISE, APPRECIATION… | 🟢 |
 | `linkedin.removeConnection` | linkedin.com | Removes a member from the signed-in caller's connections. | 🟢 |
+| `linkedin.replyToComment` | linkedin.com | Replies under one comment on a LinkedIn post as the signed-in caller, threaded —… | 🟢 |
 | `linkedin.repostPost` | linkedin.com | Reposts a post to the signed-in caller's feed, with or without their own text on top. | 🟢 |
 | `linkedin.saveJob` | linkedin.com | Saves a job posting to the signed-in caller's saved jobs, or unsaves it. | 🟢 |
 | `linkedin.savePost` | linkedin.com | Saves a post to the signed-in caller's saved items, or unsaves it. | 🟢 |
@@ -2923,6 +2927,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | 🟢 |
 | `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | 🟢 |
 | `linkedin.setProfilePhoto` | linkedin.com | Replaces the signed-in caller's profile photo with an image from a URL or uploaded file. | 🟢 |
+| `linkedin.subscribeToNewsletter` | linkedin.com | Subscribes the signed-in caller to a LinkedIn newsletter, or unsubscribes when… | 🟢 |
 | `linkedin.updateProfile` | linkedin.com | Edits the signed-in caller's own profile headline and About text. | 🟢 |
 | `linkedin.withdrawInvitation` | linkedin.com | Withdraws a connection invitation the signed-in caller sent and is still pending, by… | 🟢 |
 | `liquiddeath.addToCart` | liquiddeath.com | Builds a filled cart for the shopper to open — cartUrl lands on the store's own cart… | 🟢 |
@@ -3895,10 +3900,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reserve_with_google.bookReservation` | google.com/maps/reserve | Books a slot from checkAvailability on the caller's own Google account, with party… | ⚪ |
 | `reserve_with_google.cancelBooking` | google.com/maps/reserve | Cancels one of the caller's bookings by id and returns the cancellation status. | ⚪ |
 | `reserve_with_google.checkAvailability` | google.com/maps/reserve | Returns the open time slots at a Google-hosted merchant for a date and party size (or… | ⚪ |
-| `reserve_with_google.findBookablePlaces` | google.com/maps/reserve | Finds places you can book through Reserve with Google from words — "sushi near Union… | ⚪ |
+| `reserve_with_google.findBookablePlaces` | google.com/maps/reserve | Finds places you can book through Reserve with Google from words — "sushi near Union… | 🟢 |
 | `reserve_with_google.getBooking` | google.com/maps/reserve | Returns one of the caller's bookings by id: venue, time, party size, partner, status… | ⚪ |
-| `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists every booking action one place offers on Google — "Reserve a table", "Book… | ⚪ |
-| `reserve_with_google.getMerchant` | google.com/maps/reserve | Reads one Google-hosted booking page by merchant id or its… | ⚪ |
+| `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists the booking action one place offers on Google — "Reserve a table", "Book online"… | 🟢 |
+| `reserve_with_google.getMerchant` | google.com/maps/reserve | Reads one Google-hosted booking page by merchant id or its… | 🟢 |
 | `reserve_with_google.getSettings` | google.com/maps/reserve | Reads the caller's Reserve with Google settings: the contact name, phone and email… | ⚪ |
 | `reserve_with_google.joinWaitlist` | google.com/maps/reserve | Adds the caller's name to a restaurant's waitlist through Google, where the venue… | ⚪ |
 | `reserve_with_google.listMyBookings` | google.com/maps/reserve | Lists the caller's upcoming and past Reserve with Google bookings, each with venue… | ⚪ |
