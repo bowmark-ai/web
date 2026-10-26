@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 31e234ec304e110325e69b2ab236c595859efa17567ae72f8e73a60078aedd80
-# 87 capabilities, 678 providers, 2806 typed functions, 20 refused.
+# Manifest version: 04a3d80e21d0884e01754780631bb6c347e323acea075bbc7238899da4219b56
+# 88 capabilities, 681 providers, 2821 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1771,6 +1771,34 @@ class Cap_lawyer_directory_LawyerRecord_Out(TypedDict):
     statusNote: str | None
     profileUrl: str
     warnings: list[str]
+
+class Cap_local_classifieds_search_ClassifiedSearchArgs_In(TypedDict):
+    query: str
+    location: NotRequired[str]
+    limit: NotRequired[float]
+    pages: NotRequired[float]
+
+class Cap_local_classifieds_search_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_local_classifieds_search_ClassifiedSearchResult_Out(TypedDict):
+    query: str
+    location: str | None
+    listings: list[Cap_local_classifieds_search_ClassifiedListing_Out]
+    scanned: float
+    warnings: list[str]
+
+class Cap_local_classifieds_search_ClassifiedListing_Out(TypedDict):
+    id: str
+    title: str
+    price: float | None
+    currency: str
+    location: str | None
+    address: str | None
+    imageUrl: str | None
+    postedAt: str | None
+    url: str
+    source: Literal["kijiji.ca"]
 
 class Cap_local_database_gui_DbGuiBrowseOptions_In(TypedDict):
     maxTables: NotRequired[float]
@@ -8899,6 +8927,54 @@ class Prv_borsheims_BorsheimsRingConfiguration_Out(TypedDict):
     diamond: Prv_borsheims_BorsheimsProduct_Out
     totalPrice: float
     builderUrl: str
+
+class Prv_boulevard_BoulevardBusinessRef_Out(TypedDict):
+    id: str
+    name: str
+    website: str | None
+    customBookingUrl: str | None
+    slug: str | None
+
+class Prv_boulevard_BoulevardBusiness_Out(TypedDict):
+    id: str
+    name: str
+    website: str | None
+    phoneNumber: str | None
+    avatar: str | None
+    customBookingUrl: str | None
+    cancellationFeeFixedCents: float | None
+    cancellationFeePercentage: float | None
+    hasMemberships: bool
+    giftCardMessage: str | None
+
+class Prv_boulevard_BoulevardLocations_Out(TypedDict):
+    locations: list[Prv_boulevard_BoulevardLocation_Out]
+
+class Prv_boulevard_BoulevardLocation_Out(TypedDict):
+    id: str
+    name: str
+    businessName: str
+    tz: str
+    isRemote: bool
+    allowOnlineBooking: bool
+    phoneNumber: str | None
+    contactEmail: str | None
+    coordinates: Any
+    address: Prv_boulevard_BoulevardLocation_Out_address_Out
+    hours: list[Prv_boulevard_BoulevardLocation_Out_hours_item_Out]
+
+class Prv_boulevard_BoulevardLocation_Out_address_Out(TypedDict):
+    line1: str | None
+    line2: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    country: str | None
+
+class Prv_boulevard_BoulevardLocation_Out_hours_item_Out(TypedDict):
+    open: bool
+    start: str | None
+    finish: str | None
 
 class Prv_boxlunch_search_arg_In(TypedDict):
     query: str
@@ -16054,6 +16130,88 @@ class Prv_fandom_ListImagesArgs_In(TypedDict):
 class Prv_fandom_WikiImage_Out(TypedDict):
     title: str
 
+class Prv_fareharbor_FareharborSearchItemsArgs_In(TypedDict):
+    operator: str
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_fareharbor_FareharborItemSearch_Out(TypedDict):
+    operator: Prv_fareharbor_FareharborOperator_Out
+    items: list[Prv_fareharbor_FareharborItem_Out]
+    total: float
+
+class Prv_fareharbor_FareharborOperator_Out(TypedDict):
+    shortname: str
+    name: str
+    currency: str | None
+
+class Prv_fareharbor_FareharborItem_Out(TypedDict):
+    id: float
+    name: str
+    headline: str | None
+    shortDescription: str | None
+    imageUrl: str | None
+    minPartySize: float | None
+    maxPartySize: float | None
+    bookingUrl: str
+
+class Prv_fareharbor_FareharborItemArgs_In(TypedDict):
+    operator: str
+    itemId: float
+
+class Prv_fareharbor_FareharborItemDetail_Out(TypedDict):
+    id: float
+    name: str
+    headline: str | None
+    shortDescription: str | None
+    imageUrl: str | None
+    minPartySize: float | None
+    maxPartySize: float | None
+    bookingUrl: str
+    operator: Prv_fareharbor_FareharborOperator_Out
+    description: str | None
+    bookingNotes: str | None
+    cancellationNotes: str | None
+    cancellationPolicy: str | None
+    imageUrls: list[str]
+    location: Prv_fareharbor_FareharborLocation_Out | None
+    isWaitlistWhenFull: bool
+
+class Prv_fareharbor_FareharborLocation_Out(TypedDict):
+    name: str
+    street: str | None
+    city: str | None
+    province: str | None
+    country: str | None
+    postalCode: str | None
+    latitude: float | None
+    longitude: float | None
+
+class Prv_fareharbor_FareharborListAvailabilityArgs_In(TypedDict):
+    operator: str
+    itemId: float
+    date: str
+
+class Prv_fareharbor_FareharborAvailability_Out(TypedDict):
+    operator: str
+    itemId: float
+    date: str
+    slots: list[Prv_fareharbor_FareharborSlot_Out]
+
+class Prv_fareharbor_FareharborSlot_Out(TypedDict):
+    id: float
+    startAt: str
+    endAt: str
+    utcStartAt: str | None
+    utcEndAt: str | None
+    headline: str | None
+    isBookable: bool
+    isSoldOut: bool
+    isWaitlist: bool
+    isBookableOnlyByPhone: bool
+    approximateCapacity: float | None
+    bookingUrl: str
+
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
     limit: NotRequired[float]
@@ -16983,6 +17141,45 @@ class Prv_foxnews_FoxnewsShowClip_Out(TypedDict):
     title: str
     url: str
     datePublished: str | None
+
+class Prv_foxnews_listVideoPlaylists_return_Out(TypedDict):
+    playlists: list[Prv_foxnews_FoxnewsVideoPlaylist_Out]
+
+class Prv_foxnews_FoxnewsVideoPlaylist_Out(TypedDict):
+    id: str
+    name: str
+    kind: Literal["episodes"] | Literal["clips"]
+    showUrl: NotRequired[str]
+
+class Prv_foxnews_ListVideosArgs_In(TypedDict):
+    playlistId: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_foxnews_listVideos_return_Out(TypedDict):
+    total: float
+    videos: list[Prv_foxnews_FoxnewsVideoRow_Out]
+
+class Prv_foxnews_FoxnewsVideoRow_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    thumbnailUrl: NotRequired[str]
+    publicationDate: NotRequired[str]
+    duration: NotRequired[float]
+    isEpisode: NotRequired[bool]
+
+class Prv_foxnews_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_foxnews_FoxnewsVideo_Out(TypedDict):
+    title: str
+    url: str
+    description: NotRequired[str]
+    duration: NotRequired[str]
+    uploadDate: NotRequired[str]
+    thumbnailUrl: NotRequired[str]
+    embedUrl: NotRequired[str]
 
 class Prv_framebridge_FramebridgeFrameStyle_Out(TypedDict):
     productId: str
@@ -32644,6 +32841,72 @@ class Prv_revisionskincare_RevisionRecommendedProduct_Out(TypedDict):
     averageRating: float | None
     approvedReviewsCount: float | None
 
+class Prv_rezdy_FindOperatorArgs_In(TypedDict):
+    operator: str
+
+class Prv_rezdy_RezdyOperator_Out(TypedDict):
+    alias: str
+    name: str
+    url: str
+    logo: str | None
+    catalogs: list[Prv_rezdy_RezdyCatalogRef_Out]
+    social: list[str]
+    foundOn: str | None
+
+class Prv_rezdy_RezdyCatalogRef_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+
+class Prv_rezdy_ListProductsArgs_In(TypedDict):
+    operator: str
+    catalogId: NotRequired[str]
+
+class Prv_rezdy_RezdyProductList_Out(TypedDict):
+    operator: str
+    products: list[Prv_rezdy_RezdyProductRow_Out]
+
+class Prv_rezdy_RezdyProductRow_Out(TypedDict):
+    id: str
+    slug: str
+    name: str
+    url: str
+    summary: str
+    duration: str | None
+    priceFrom: float | None
+    currency: str | None
+    image: str | None
+    catalogId: str | None
+
+class Prv_rezdy_GetProductArgs_In(TypedDict):
+    operator: str
+    productId: str
+
+class Prv_rezdy_RezdyProduct_Out(TypedDict):
+    operator: str
+    id: str
+    code: str | None
+    name: str
+    url: str
+    description: str
+    duration: str | None
+    location: str | None
+    latitude: float | None
+    longitude: float | None
+    priceFrom: float | None
+    currency: str | None
+    priceOptions: list[Prv_rezdy_RezdyPriceOption_Out]
+    firstBookableDate: str | None
+    giftable: bool
+    images: list[str]
+
+class Prv_rezdy_RezdyPriceOption_Out(TypedDict):
+    id: str
+    label: str
+    price: float | None
+    minQuantity: float | None
+    maxQuantity: float | None
+
 class Prv_rightmove_search_args_In(TypedDict):
     location: str
     type: Literal["sale"] | Literal["rent"]
@@ -35667,6 +35930,13 @@ class Prv_steam_SteamFriend_Out(TypedDict):
     avatarUrl: str | None
     status: str
     playingGame: str | None
+
+class Prv_steam_AddFriendArgs_In(TypedDict):
+    steamId: str | float
+
+class Prv_steam_AddFriendResult_Out(TypedDict):
+    steamId: str
+    requested: Literal[True]
 
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
@@ -41684,6 +41954,16 @@ class Prv_x_XNotification_Out(TypedDict):
     postUrl: str | None
     createdAt: str
 
+class Prv_x_SendDirectMessageArgs_In(TypedDict):
+    handle: str
+    text: str
+
+class Prv_x_XDirectMessageResult_Out(TypedDict):
+    sent: Literal[True]
+    to: str
+    text: str
+    conversationUrl: str
+
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
     facilityId: str
     name: str
@@ -44165,6 +44445,22 @@ class Cap_lawyer_directory(Protocol):
     async def getLawyer(self, id: str, /) -> Cap_lawyer_directory_LawyerRecord_Out:
         """Reads one lawyer's full bar record by the `id` search returned — practice areas,
         specialties, languages, firm, swearing-in date and contact details.
+        """
+
+class Cap_local_classifieds_search(Protocol):
+    """Find used and secondhand items for sale near a Canadian city on the local classifieds
+    (Kijiji) — couches, furniture, bikes, electronics — with asking price, location, photo
+    and the ad link. Takes plain text like "used couch toronto".
+    """
+
+    async def search(self, query: str | Cap_local_classifieds_search_ClassifiedSearchArgs_In, options: Cap_local_classifieds_search_CallOptions_In | None = None, /) -> Cap_local_classifieds_search_ClassifiedSearchResult_Out:
+        """Finds used items for sale on Kijiji near a Canadian city —
+        `bowmark.local_classifieds_search.search("used couch toronto")` or `{ query: "couch",
+        location: "Toronto" }` — returning title, asking price in CAD, location, address, first
+        photo, posted date and the ad url. The free-text form reads a known Canadian city out of
+        the text and drops filler like "used" / "for sale". The city is a filter over
+        Canada-wide results (`pages` result pages, default 3), so `scanned` says how many rows
+        were read. `listings: []` is a real answer.
         """
 
 class Cap_local_database_gui(Protocol):
@@ -48521,6 +48817,31 @@ class Prv_borsheims(Protocol):
         performs, plus the ring-builder URL as the handoff to actually configure and buy.
         """
 
+class Prv_boulevard(Protocol):
+    """Boulevard salon and spa booking (Heyday, Chillhouse, Glowbar…): find a business, read
+    its locations, services, open dates and times, book as a guest, and (signed in) list,
+    cancel and reschedule appointments.
+    """
+
+    async def findBusiness(self, slugOrUrl: str, /) -> Prv_boulevard_BoulevardBusinessRef_Out:
+        """The door: resolves a salon or spa on Boulevard to its business id from its booking slug
+        ("heyday"), a blvd.app/@<slug> or joinblvd.com/b/<slug> link, a business id, or the
+        business's OWN website (its Boulevard link or booking widget is read off the page).
+        Boulevard has no name search, so a caller holding only a name passes the website. An
+        unknown slug, or a site with no Boulevard link, throws a fixable error.
+        """
+
+    async def getBusiness(self, business: str, /) -> Prv_boulevard_BoulevardBusiness_Out:
+        """A Boulevard business's profile — name, website, avatar, late-cancel fee (fixed cents and
+        percentage), and whether it sells memberships. `business` is findBusiness().id.
+        """
+
+    async def listLocations(self, business: str, /) -> Prv_boulevard_BoulevardLocations_Out:
+        """Every location of a Boulevard business with its address, time zone, contact email,
+        weekly hours and whether it takes online bookings. Each `id` is what the location-scoped
+        functions take.
+        """
+
 class Prv_boxlunch(Protocol):
     """BoxLunch's own storefront search (boxlunch.com) — licensed pop-culture and entertainment
     merch (apparel, figures, accessories, home goods) across every property the store
@@ -52619,6 +52940,27 @@ class Prv_fandom(Protocol):
         `GET /api.php?action=query&prop=images`.
         """
 
+class Prv_fareharbor(Protocol):
+    """FareHarbor tour, activity and cruise booking pages: find an operator, list its tours,
+    check live availability by date, and book or cancel a reservation.
+    """
+
+    async def searchItems(self, args: Prv_fareharbor_FareharborSearchItemsArgs_In, /) -> Prv_fareharbor_FareharborItemSearch_Out:
+        """Lists every tour, activity or rental a FareHarbor operator sells (e.g. { operator:
+        "sail-nyc" }), optionally filtered by words in the name. Returns each item's id, name,
+        headline, image and booking url.
+        """
+
+    async def getItem(self, args: Prv_fareharbor_FareharborItemArgs_In, /) -> Prv_fareharbor_FareharborItemDetail_Out:
+        """One FareHarbor item in full: description, booking and cancellation notes, cancellation
+        policy, images and meeting point.
+        """
+
+    async def listAvailability(self, args: Prv_fareharbor_FareharborListAvailabilityArgs_In, /) -> Prv_fareharbor_FareharborAvailability_Out:
+        """The live time slots for one FareHarbor item on one date, each with start/end (local and
+        UTC), whether it is bookable, sold out or waitlist-only, and its booking url.
+        """
+
 class Prv_fbsappliance(Protocol):
     """FBS Appliance's real catalog across 8 Texas showrooms — searchAppliances runs the site's
     own category grid and returns real, currently-listed appliances with live selling price,
@@ -53352,6 +53694,21 @@ class Prv_foxnews(Protocol):
     async def getShow(self, args: Prv_foxnews_GetShowArgs_In, /) -> Prv_foxnews_FoxnewsShowDetail_Out:
         """Reads one Fox News Channel show — description, hosts, genre and its latest clips —
         taking the show's /shows/<slug> url from listShows.
+        """
+
+    async def listVideoPlaylists(self, /) -> Prv_foxnews_listVideoPlaylists_return_Out:
+        """Lists the video playlists Fox News groups its clips into — each show's Episodes rail and
+        Clips rail — with each one's id and name, the door to listVideos.
+        """
+
+    async def listVideos(self, args: Prv_foxnews_ListVideosArgs_In, /) -> Prv_foxnews_listVideos_return_Out:
+        """Lists the clips in one Fox News video playlist, newest first with paging — each clip's
+        id, title, url, thumbnail, duration and date.
+        """
+
+    async def getVideo(self, args: Prv_foxnews_GetVideoArgs_In, /) -> Prv_foxnews_FoxnewsVideo_Out:
+        """Reads one Fox News video clip — title, description, duration, upload date, thumbnail,
+        and the direct mp4 url — taking a /video/<id> url.
         """
 
 class Prv_framebridge(Protocol):
@@ -63715,6 +64072,28 @@ class Prv_revisionskincare(Protocol):
         computed product recommendations.
         """
 
+class Prv_rezdy(Protocol):
+    """Rezdy booking sites used by tour and activity operators: an operator's products, session
+    availability and prices, and guest booking up to the payment step.
+    """
+
+    async def findOperator(self, args: Prv_rezdy_FindOperatorArgs_In, /) -> Prv_rezdy_RezdyOperator_Out:
+        """Finds a Rezdy operator from its alias, its <alias>.rezdy.com link, or the operator's own
+        website (which links its Rezdy booking site), and returns the alias every other rezdy
+        function takes, the operator's name, logo and product catalogs.
+        """
+
+    async def listProducts(self, args: Prv_rezdy_ListProductsArgs_In, /) -> Prv_rezdy_RezdyProductList_Out:
+        """Lists an operator's bookable products from its Rezdy booking site — id, name, summary,
+        duration, headline 'From' price and image — across every catalog, or one catalog by id.
+        """
+
+    async def getProduct(self, args: Prv_rezdy_GetProductArgs_In, /) -> Prv_rezdy_RezdyProduct_Out:
+        """Returns one product's page: description, duration, location and coordinates, product
+        code, the price options (id, label, price, quantity range) a booking is made against,
+        the first bookable date, whether it can be bought as a gift, and images.
+        """
+
 class Prv_rightmove(Protocol):
     """Search for properties for sale or rent on Rightmove."""
 
@@ -65288,6 +65667,12 @@ class Prv_steam(Protocol):
         """Lists the signed-in caller's Steam friends — name, profile url, avatar, and
         in-game/online/offline status (with the game name when in-game). NEEDS A SIGN-IN — the
         caller signs in, not us. Steam does not publish a last-seen date on this page.
+        """
+
+    async def addFriend(self, args: Prv_steam_AddFriendArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_AddFriendResult_Out:
+        """Sends a friend request to another Steam user by steamid64, off the friends page's own
+        AddFriendAjax door. NEEDS A SIGN-IN — the caller signs in, not us. Takes the numeric
+        steamid (from viewFriends/getProfile), not a username.
         """
 
 class Prv_stickergiant(Protocol):
@@ -68694,6 +69079,11 @@ class Prv_x(Protocol):
         and quotes — with who did it and the post it points at.
         """
 
+    async def sendDirectMessage(self, args: Prv_x_SendDirectMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_x_XDirectMessageResult_Out:
+        """Sends a direct message (DM) on X / Twitter to a user by handle, as the signed-in caller
+        — starts a new conversation or continues the existing one.
+        """
+
 class Prv_xpresswellnessurgentcare(Protocol):
     """Reads the Xpress Wellness / Integrity Urgent Care clinic roster and each clinic's live
     healow wait-time / check-in widget — no key, no browser.
@@ -69768,6 +70158,7 @@ class BowmarkProviders(Protocol):
     booking_com: Prv_booking_com
     booksy: Prv_booksy
     borsheims: Prv_borsheims
+    boulevard: Prv_boulevard
     boxlunch: Prv_boxlunch
     boydsleep: Prv_boydsleep
     breezyhq: Prv_breezyhq
@@ -69911,6 +70302,7 @@ class BowmarkProviders(Protocol):
     faceforwardaesthetics: Prv_faceforwardaesthetics
     facerealityskincare: Prv_facerealityskincare
     fandom: Prv_fandom
+    fareharbor: Prv_fareharbor
     fbsappliance: Prv_fbsappliance
     fedex: Prv_fedex
     ferguson: Prv_ferguson
@@ -70176,6 +70568,7 @@ class BowmarkProviders(Protocol):
     resy: Prv_resy
     reuters: Prv_reuters
     revisionskincare: Prv_revisionskincare
+    rezdy: Prv_rezdy
     rightmove: Prv_rightmove
     rippling: Prv_rippling
     rishitea: Prv_rishitea
@@ -70394,6 +70787,7 @@ class Bowmark(Protocol):
     job_search: Cap_job_search
     kenya_fuel_prices: Cap_kenya_fuel_prices
     lawyer_directory: Cap_lawyer_directory
+    local_classifieds_search: Cap_local_classifieds_search
     local_database_gui: Cap_local_database_gui
     local_html_preview: Cap_local_html_preview
     mac_trade_in: Cap_mac_trade_in

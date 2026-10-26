@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 31e234ec304e110325e69b2ab236c595859efa17567ae72f8e73a60078aedd80
-// 87 capabilities, 678 providers, 2824 typed functions, 20 refused.
+// Manifest version: 04a3d80e21d0884e01754780631bb6c347e323acea075bbc7238899da4219b56
+// 88 capabilities, 681 providers, 2839 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2938,6 +2938,59 @@ interface LawyerRecord {
      * specialties, languages, firm, swearing-in date and contact details.
      */
     getLawyer(id: string): Promise<LawyerRecord>;
+  }
+}
+
+declare namespace BowmarkCapability_local_classifieds_search {
+  // ── Local classifieds search — used and secondhand items for sale near a city — the unit's own declarations, verbatim ──
+type ClassifiedListing = {
+  id: string
+  title: string
+  price: number | null          // asking price; null for "please contact", free, swap
+  currency: string              // "CAD"
+  location: string | null       // the site's region, e.g. "City of Toronto"
+  address: string | null        // e.g. "Kendal Ave, Toronto, M5R 1L9"
+  imageUrl: string | null
+  postedAt: string | null       // ISO
+  url: string                   // the ad — contact the seller there
+  source: "kijiji.ca"
+}
+type ClassifiedSearchResult = {
+  query: string                 // the keyword actually searched
+  location: string | null       // the city rows were filtered to; null = everywhere
+  listings: ClassifiedListing[] // [] when nothing in that city matched — a real answer
+  scanned: number               // site rows read to find them
+  warnings: string[]            // always present
+}
+type ClassifiedSearchArgs = {
+  query: string                 // "couch"
+  location?: string             // a Canadian city, e.g. "Toronto"; omit for all of Canada
+  limit?: number                // 1-100, default 20
+  pages?: number                // result pages scanned (40 rows each), 1-5, default 3
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Find used and secondhand items for sale near a Canadian city on the local classifieds
+   * (Kijiji) — couches, furniture, bikes, electronics — with asking price, location, photo and
+   * the ad link. Takes plain text like "used couch toronto".
+   */
+  interface Unit {
+    /**
+     * Finds used items for sale on Kijiji near a Canadian city —
+     * `bowmark.local_classifieds_search.search("used couch toronto")` or `{ query: "couch",
+     * location: "Toronto" }` — returning title, asking price in CAD, location, address, first
+     * photo, posted date and the ad url. The free-text form reads a known Canadian city out of the
+     * text and drops filler like "used" / "for sale". The city is a filter over Canada-wide
+     * results (`pages` result pages, default 3), so `scanned` says how many rows were read.
+     * `listings: []` is a real answer.
+     */
+    search(query: string | ClassifiedSearchArgs, options?: CallOptions): Promise<ClassifiedSearchResult>;
   }
 }
 
@@ -15258,6 +15311,78 @@ interface ConfigureRingArgs {
   }
 }
 
+declare namespace BowmarkProvider_boulevard {
+  // ── Boulevard — the unit's own declarations, verbatim ──
+interface BoulevardBusinessRef {
+  /** The business id every other function takes as `business`. */
+  id: string;
+  name: string;
+  website: string | null;
+  customBookingUrl: string | null;
+  slug: string | null;
+}
+interface BoulevardBusiness {
+  id: string;
+  name: string;
+  website: string | null;
+  phoneNumber: string | null;
+  avatar: string | null;
+  customBookingUrl: string | null;
+  /** Fixed late-cancel fee in cents. */
+  cancellationFeeFixedCents: number | null;
+  cancellationFeePercentage: number | null;
+  hasMemberships: boolean;
+  giftCardMessage: string | null;
+}
+interface BoulevardLocation {
+  /** "urn:blvd:Location:<uuid>" — what the location-scoped functions take. */
+  id: string;
+  name: string;
+  businessName: string;
+  tz: string;
+  isRemote: boolean;
+  allowOnlineBooking: boolean;
+  phoneNumber: string | null;
+  contactEmail: string | null;
+  coordinates: unknown;
+  address: { line1: string | null; line2: string | null; city: string | null; state: string | null; zip: string | null; country: string | null };
+  /** Seven entries in the site's own order; "HH:MM", null when closed. */
+  hours: { open: boolean; start: string | null; finish: string | null }[];
+}
+interface BoulevardLocations {
+  locations: BoulevardLocation[];
+}
+
+  /**
+   * Boulevard salon and spa booking (Heyday, Chillhouse, Glowbar…): find a business, read its
+   * locations, services, open dates and times, book as a guest, and (signed in) list, cancel and
+   * reschedule appointments.
+   */
+  interface Unit {
+    /**
+     * The door: resolves a salon or spa on Boulevard to its business id from its booking slug
+     * ("heyday"), a blvd.app/@<slug> or joinblvd.com/b/<slug> link, a business id, or the
+     * business's OWN website (its Boulevard link or booking widget is read off the page).
+     * Boulevard has no name search, so a caller holding only a name passes the website. An unknown
+     * slug, or a site with no Boulevard link, throws a fixable error.
+     */
+    findBusiness(slugOrUrl: string): Promise<BoulevardBusinessRef>;
+
+    /**
+     * A Boulevard business's profile — name, website, avatar, late-cancel fee (fixed cents and
+     * percentage), and whether it sells memberships. `business` is findBusiness().id.
+     */
+    getBusiness(business: string): Promise<BoulevardBusiness>;
+
+    /**
+     * Every location of a Boulevard business with its address, time zone, contact email, weekly
+     * hours and whether it takes online bookings. Each `id` is what the location-scoped functions
+     * take.
+     */
+    listLocations(business: string): Promise<BoulevardLocations>;
+  }
+}
+
 declare namespace BowmarkProvider_boxlunch {
   // ── BoxLunch — the unit's own declarations, verbatim ──
 interface BoxlunchOffer {
@@ -27435,6 +27560,97 @@ interface WikiImage {
   }
 }
 
+declare namespace BowmarkProvider_fareharbor {
+  // ── FareHarbor — the unit's own declarations, verbatim ──
+interface FareharborSearchItemsArgs {
+  /** Operator shortname — the segment after /embeds/book/ in a FareHarbor url, e.g. "sail-nyc". A booking url is accepted too. */
+  operator: string;
+  /** Words that must all appear in the item name or headline. */
+  query?: string;
+  /** Max items returned (default 50, max 200). */
+  limit?: number;
+}
+interface FareharborItemArgs {
+  operator: string;
+  /** Numeric item id from searchItems().items[].id. */
+  itemId: number;
+}
+interface FareharborListAvailabilityArgs {
+  operator: string;
+  itemId: number;
+  /** "YYYY-MM-DD", operator-local. */
+  date: string;
+}
+interface FareharborOperator { shortname: string; name: string; currency: string | null; }
+interface FareharborItem {
+  id: number;
+  name: string;
+  headline: string | null;
+  shortDescription: string | null;
+  imageUrl: string | null;
+  minPartySize: number | null;
+  maxPartySize: number | null;
+  bookingUrl: string;
+}
+interface FareharborItemSearch { operator: FareharborOperator; items: FareharborItem[]; total: number; }
+interface FareharborLocation {
+  name: string; street: string | null; city: string | null; province: string | null;
+  country: string | null; postalCode: string | null; latitude: number | null; longitude: number | null;
+}
+interface FareharborItemDetail extends FareharborItem {
+  operator: FareharborOperator;
+  description: string | null;
+  bookingNotes: string | null;
+  cancellationNotes: string | null;
+  cancellationPolicy: string | null;
+  imageUrls: string[];
+  location: FareharborLocation | null;
+  isWaitlistWhenFull: boolean;
+}
+interface FareharborSlot {
+  id: number;
+  /** Operator-local wall-clock time, no offset. */
+  startAt: string;
+  endAt: string;
+  utcStartAt: string | null;
+  utcEndAt: string | null;
+  headline: string | null;
+  isBookable: boolean;
+  isSoldOut: boolean;
+  isWaitlist: boolean;
+  isBookableOnlyByPhone: boolean;
+  /** FareHarbor's own approximate figure; reads 0 on slots that still book. */
+  approximateCapacity: number | null;
+  bookingUrl: string;
+}
+interface FareharborAvailability { operator: string; itemId: number; date: string; slots: FareharborSlot[]; }
+
+  /**
+   * FareHarbor tour, activity and cruise booking pages: find an operator, list its tours, check
+   * live availability by date, and book or cancel a reservation.
+   */
+  interface Unit {
+    /**
+     * Lists every tour, activity or rental a FareHarbor operator sells (e.g. { operator:
+     * "sail-nyc" }), optionally filtered by words in the name. Returns each item's id, name,
+     * headline, image and booking url.
+     */
+    searchItems(args: FareharborSearchItemsArgs): Promise<FareharborItemSearch>;
+
+    /**
+     * One FareHarbor item in full: description, booking and cancellation notes, cancellation
+     * policy, images and meeting point.
+     */
+    getItem(args: FareharborItemArgs): Promise<FareharborItemDetail>;
+
+    /**
+     * The live time slots for one FareHarbor item on one date, each with start/end (local and
+     * UTC), whether it is bookable, sold out or waitlist-only, and its booking url.
+     */
+    listAvailability(args: FareharborListAvailabilityArgs): Promise<FareharborAvailability>;
+  }
+}
+
 declare namespace BowmarkProvider_fbsappliance {
   // ── Factory Builder Stores (FBS Appliance) — the unit's own declarations, verbatim ──
 interface FbsapplianceSearchArgs {
@@ -29341,6 +29557,43 @@ interface GetShowArgs {
   url: string;
 }
 
+interface FoxnewsVideoPlaylist {
+  id: string;
+  name: string;
+  kind: "episodes" | "clips";
+  showUrl?: string;
+}
+
+interface ListVideosArgs {
+  playlistId: string;
+  limit?: number;
+  offset?: number;
+}
+
+interface FoxnewsVideoRow {
+  id: string;
+  title: string;
+  url: string;
+  thumbnailUrl?: string;
+  publicationDate?: string;
+  duration?: number;
+  isEpisode?: boolean;
+}
+
+interface FoxnewsVideo {
+  title: string;
+  url: string;
+  description?: string;
+  duration?: string;
+  uploadDate?: string;
+  thumbnailUrl?: string;
+  embedUrl?: string;
+}
+
+interface GetVideoArgs {
+  url: string;
+}
+
   /**
    * Fox News (foxnews.com) — search stories and clips, read an article in full, get the top
    * stories, the latest news and any section's front, look up authors and Fox News Channel
@@ -29407,6 +29660,24 @@ interface GetShowArgs {
      * the show's /shows/<slug> url from listShows.
      */
     getShow(args: GetShowArgs): Promise<FoxnewsShowDetail>;
+
+    /**
+     * Lists the video playlists Fox News groups its clips into — each show's Episodes rail and
+     * Clips rail — with each one's id and name, the door to listVideos.
+     */
+    listVideoPlaylists(): Promise<{ playlists: FoxnewsVideoPlaylist[] }>;
+
+    /**
+     * Lists the clips in one Fox News video playlist, newest first with paging — each clip's id,
+     * title, url, thumbnail, duration and date.
+     */
+    listVideos(args: ListVideosArgs): Promise<{ total: number; videos: FoxnewsVideoRow[] }>;
+
+    /**
+     * Reads one Fox News video clip — title, description, duration, upload date, thumbnail, and
+     * the direct mp4 url — taking a /video/<id> url.
+     */
+    getVideo(args: GetVideoArgs): Promise<FoxnewsVideo>;
   }
 }
 
@@ -57135,6 +57406,115 @@ interface RevisionQuizResult {
   }
 }
 
+declare namespace BowmarkProvider_rezdy {
+  // ── Rezdy — the unit's own declarations, verbatim ──
+interface FindOperatorArgs {
+  /** An operator's Rezdy alias ("sydneykayakingtoursptyltd"), its <alias>.rezdy.com link, or the operator's own website, which must link its Rezdy booking site. */
+  operator: string;
+}
+interface RezdyCatalogRef {
+  id: string;
+  name: string;
+  url: string;
+}
+interface RezdyOperator {
+  /** Pass this as `operator` to every other rezdy function. */
+  alias: string;
+  name: string;
+  url: string;
+  logo: string | null;
+  catalogs: RezdyCatalogRef[];
+  /** The operator's own social links, as its booking site lists them (only some pages carry them). */
+  social: string[];
+  /** Where the alias came from when `operator` was the operator's own website. */
+  foundOn: string | null;
+}
+interface ListProductsArgs {
+  operator: string;
+  /** A catalog id from findOperator().catalogs — only that catalog's products. Omit for every catalog. */
+  catalogId?: string;
+}
+interface RezdyProductRow {
+  /** Pass to getProduct / getAvailability as `productId`. */
+  id: string;
+  slug: string;
+  name: string;
+  url: string;
+  summary: string;
+  /** As the site words it, e.g. "2 Hours (approx.)". */
+  duration: string | null;
+  /** The headline "From" price. */
+  priceFrom: number | null;
+  currency: string | null;
+  image: string | null;
+  /** The catalog the row was listed under, or null when the operator has no catalogs. */
+  catalogId: string | null;
+}
+interface RezdyProductList {
+  operator: string;
+  products: RezdyProductRow[];
+}
+interface GetProductArgs {
+  operator: string;
+  /** A product id from listProducts().products[].id. */
+  productId: string;
+}
+interface RezdyPriceOption {
+  /** The price option id a booking quantity is given against. */
+  id: string;
+  label: string;
+  price: number | null;
+  minQuantity: number | null;
+  maxQuantity: number | null;
+}
+interface RezdyProduct {
+  operator: string;
+  id: string;
+  /** The operator's own product code. */
+  code: string | null;
+  name: string;
+  url: string;
+  description: string;
+  duration: string | null;
+  location: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  priceFrom: number | null;
+  currency: string | null;
+  priceOptions: RezdyPriceOption[];
+  /** The first date the booking form will accept (YYYY-MM-DD). */
+  firstBookableDate: string | null;
+  giftable: boolean;
+  images: string[];
+}
+
+  /**
+   * Rezdy booking sites used by tour and activity operators: an operator's products, session
+   * availability and prices, and guest booking up to the payment step.
+   */
+  interface Unit {
+    /**
+     * Finds a Rezdy operator from its alias, its <alias>.rezdy.com link, or the operator's own
+     * website (which links its Rezdy booking site), and returns the alias every other rezdy
+     * function takes, the operator's name, logo and product catalogs.
+     */
+    findOperator(args: FindOperatorArgs): Promise<RezdyOperator>;
+
+    /**
+     * Lists an operator's bookable products from its Rezdy booking site — id, name, summary,
+     * duration, headline 'From' price and image — across every catalog, or one catalog by id.
+     */
+    listProducts(args: ListProductsArgs): Promise<RezdyProductList>;
+
+    /**
+     * Returns one product's page: description, duration, location and coordinates, product code,
+     * the price options (id, label, price, quantity range) a booking is made against, the first
+     * bookable date, whether it can be bought as a gift, and images.
+     */
+    getProduct(args: GetProductArgs): Promise<RezdyProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_rightmove {
   // ── Rightmove — the unit's own declarations, verbatim ──
 interface RightmoveListing {
@@ -61865,6 +62245,15 @@ interface ViewFriendsResult {
   totalCount: number;
 }
 
+interface AddFriendArgs {
+  steamId: string | number;
+}
+
+interface AddFriendResult {
+  steamId: string;
+  requested: true;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -61996,6 +62385,13 @@ interface ViewFriendsResult {
      * caller signs in, not us. Steam does not publish a last-seen date on this page.
      */
     viewFriends(args: ViewFriendsArgs, opts?: ConnectionOption): Promise<ViewFriendsResult>;
+
+    /**
+     * Sends a friend request to another Steam user by steamid64, off the friends page's own
+     * AddFriendAjax door. NEEDS A SIGN-IN — the caller signs in, not us. Takes the numeric steamid
+     * (from viewFriends/getProfile), not a username.
+     */
+    addFriend(args: AddFriendArgs, opts?: ConnectionOption): Promise<AddFriendResult>;
   }
 }
 
@@ -71653,6 +72049,18 @@ interface XTweet {
   url: string;
 }
 
+interface SendDirectMessageArgs {
+  handle: string; // "@jack", "jack" or a profile URL
+  text: string;
+}
+
+interface XDirectMessageResult {
+  sent: true;
+  to: string; // handle, no @
+  text: string;
+  conversationUrl: string;
+}
+
 interface XNotification {
   type: "like" | "repost" | "follow" | "reply" | "mention" | "quote" | "other";
   text: string;
@@ -71743,6 +72151,12 @@ interface XPost {
      * quotes — with who did it and the post it points at.
      */
     listNotifications(args?: { limit?: number }, opts?: ConnectionOption): Promise<XNotification[]>;
+
+    /**
+     * Sends a direct message (DM) on X / Twitter to a user by handle, as the signed-in caller —
+     * starts a new conversation or continues the existing one.
+     */
+    sendDirectMessage(args: SendDirectMessageArgs, opts?: ConnectionOption): Promise<XDirectMessageResult>;
   }
 }
 
@@ -75219,6 +75633,7 @@ interface BowmarkProviders {
   booking_com: BowmarkProvider_booking_com.Unit;
   booksy: BowmarkProvider_booksy.Unit;
   borsheims: BowmarkProvider_borsheims.Unit;
+  boulevard: BowmarkProvider_boulevard.Unit;
   boxlunch: BowmarkProvider_boxlunch.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;
   breezyhq: BowmarkProvider_breezyhq.Unit;
@@ -75362,6 +75777,7 @@ interface BowmarkProviders {
   faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
   fandom: BowmarkProvider_fandom.Unit;
+  fareharbor: BowmarkProvider_fareharbor.Unit;
   fbsappliance: BowmarkProvider_fbsappliance.Unit;
   fedex: BowmarkProvider_fedex.Unit;
   ferguson: BowmarkProvider_ferguson.Unit;
@@ -75627,6 +76043,7 @@ interface BowmarkProviders {
   resy: BowmarkProvider_resy.Unit;
   reuters: BowmarkProvider_reuters.Unit;
   revisionskincare: BowmarkProvider_revisionskincare.Unit;
+  rezdy: BowmarkProvider_rezdy.Unit;
   rightmove: BowmarkProvider_rightmove.Unit;
   rippling: BowmarkProvider_rippling.Unit;
   rishitea: BowmarkProvider_rishitea.Unit;
@@ -125714,6 +126131,7 @@ interface BowmarkLibrary {
   job_search: BowmarkCapability_job_search.Unit;
   kenya_fuel_prices: BowmarkCapability_kenya_fuel_prices.Unit;
   lawyer_directory: BowmarkCapability_lawyer_directory.Unit;
+  local_classifieds_search: BowmarkCapability_local_classifieds_search.Unit;
   local_database_gui: BowmarkCapability_local_database_gui.Unit;
   local_html_preview: BowmarkCapability_local_html_preview.Unit;
   mac_trade_in: BowmarkCapability_mac_trade_in.Unit;

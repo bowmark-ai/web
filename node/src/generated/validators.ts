@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 31e234ec304e110325e69b2ab236c595859efa17567ae72f8e73a60078aedd80
-// 2806 checked, 20 unchecked.
+// Manifest version: 04a3d80e21d0884e01754780631bb6c347e323acea075bbc7238899da4219b56
+// 2821 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "31e234ec304e110325e69b2ab236c595859efa17567ae72f8e73a60078aedd80",
+  "version": "04a3d80e21d0884e01754780631bb6c347e323acea075bbc7238899da4219b56",
   "units": {
     "address_validation": {
       "defs": {
@@ -3277,6 +3277,83 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "local_classifieds_search": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ClassifiedSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "pages",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ClassifiedSearchArgs"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -15963,6 +16040,38 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.boulevard": {
+      "defs": {},
+      "functions": {
+        "findBusiness": [
+          {
+            "name": "slugOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getBusiness": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.boxlunch": {
       "defs": {},
       "functions": {
@@ -28604,6 +28713,113 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.fareharbor": {
+      "defs": {
+        "FareharborItemArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "FareharborListAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "FareharborSearchItemsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchItems": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FareharborSearchItemsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getItem": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FareharborItemArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FareharborListAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.fbsappliance": {
       "defs": {
         "FbsapplianceSearchArgs": {
@@ -30893,6 +31109,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListLatestArgs": {
           "k": "object",
           "props": [
@@ -30917,6 +31145,32 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playlistId",
               "schema": {
                 "k": "string"
               },
@@ -31043,6 +31297,27 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetShowArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVideoPlaylists": [],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
             },
             "optional": false
           }
@@ -67219,6 +67494,92 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.rezdy": {
+      "defs": {
+        "FindOperatorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "catalogId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findOperator": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindOperatorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.rightmove": {
       "defs": {},
       "functions": {
@@ -71714,6 +72075,26 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.steam": {
       "defs": {
+        "AddFriendArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "steamId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "AddToWishlistArgs": {
           "k": "object",
           "props": [
@@ -72429,6 +72810,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ViewFriendsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addFriend": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AddFriendArgs"
             },
             "optional": false
           },
@@ -83217,6 +83624,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SendDirectMessageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "UserTimelineArgs": {
           "k": "object",
           "props": [
@@ -83387,6 +83813,32 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendDirectMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SendDirectMessageArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
