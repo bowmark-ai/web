@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5714 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5719 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -204,14 +204,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `anthropic_com.getDoc` | anthropic.com | Reads one page of anthropic.com's engineering blog (/engineering/...) or legal terms… | 🟢 |
 | `anthropic_com.listDocs` | anthropic.com | Lists every engineering-blog and legal-terms page anthropic.com publishes — url… | 🟢 |
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
-| `aol_mail.deleteMessage` | mail.aol.com | Deletes one of the CALLER's own messages (moves it to Trash, matching what the site's… | ⚪ |
+| `aol_mail.deleteMessage` | mail.aol.com | Deletes one of the CALLER's own AOL Mail messages the way the site's own delete button… | 🟢 |
 | `aol_mail.getAccountProfile` | mail.aol.com | Reads the CALLER's own AOL account profile from `myaccount.aol.com` — display name… | ⚪ |
-| `aol_mail.getMessage` | mail.aol.com | Reads one message in full from the CALLER's own AOL mailbox — sender, recipients… | ⚪ |
-| `aol_mail.listFolders` | mail.aol.com | Lists the CALLER's own AOL Mail folders — Inbox, Sent, Drafts, Spam, Trash and any… | ⚪ |
-| `aol_mail.listMessages` | mail.aol.com | Lists messages in the CALLER's own AOL mailbox, newest first, from a chosen folder… | ⚪ |
-| `aol_mail.markAsRead` | mail.aol.com | Marks one or more of the CALLER's own messages read or unread. | ⚪ |
-| `aol_mail.moveMessage` | mail.aol.com | Moves one of the CALLER's own messages to another folder (archive, trash, a custom… | ⚪ |
-| `aol_mail.searchMessages` | mail.aol.com | Searches the CALLER's own AOL mailbox the way AOL Mail's own search bar does — by… | ⚪ |
+| `aol_mail.getMessage` | mail.aol.com | Reads one of the CALLER's own AOL Mail messages in full — sender, recipients, subject… | 🟢 |
+| `aol_mail.listFolders` | mail.aol.com | Lists the CALLER's own AOL Mail folders — Inbox, Sent, Drafts, Spam, Trash and custom… | 🟢 |
+| `aol_mail.listMessages` | mail.aol.com | Lists the newest messages in one of the CALLER's own AOL Mail folders (Inbox by… | 🟢 |
+| `aol_mail.markAsRead` | mail.aol.com | Marks one of the CALLER's own AOL Mail messages read or unread, given a row id from… | 🟢 |
+| `aol_mail.moveMessage` | mail.aol.com | Moves one of the CALLER's own AOL Mail messages to another folder (archive, spam… | 🟢 |
+| `aol_mail.searchMessages` | mail.aol.com | Searches the CALLER's own AOL Mail by sender, recipient, subject, read/flagged state… | 🟢 |
 | `aol_mail.sendMessage` | mail.aol.com | Sends an email from the CALLER's own AOL Mail account. | ⚪ |
 | `aol_mail.updateAccountProfile` | mail.aol.com | Updates the CALLER's own AOL account profile — display name or profile photo — the way… | ⚪ |
 | `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | ⚪ |
@@ -1043,10 +1043,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.cancelMembership` | classpass.com | Starts and completes the site's cancel-membership flow for the signed-in member… | ⚪ |
 | `classpass.cancelReservation` | classpass.com | Cancels one of the signed-in member's reservations, first reading the cancel terms… | ⚪ |
 | `classpass.changePlan` | classpass.com | Would move the signed-in member to a different plan tier. | ⚪ |
-| `classpass.checkAvailability` | classpass.com | Checks whether a specific already-known class or appointment slot still has an open… | ⚪ |
+| `classpass.checkAvailability` | classpass.com | Checks whether one already-known class slot is still bookable and at what credit… | 🟢 |
 | `classpass.checkIn` | classpass.com | Marks one of the signed-in member's reservations as attended (the app's check-in). | ⚪ |
 | `classpass.findLocation` | classpass.com | Turns a place name a caller holds (`Charlotte`, a neighbourhood, an address) into the… | ⚪ |
-| `classpass.findStudio` | classpass.com | Finds ClassPass studios by NAME (and matching activities) near a point — `Barry's`… | ⚪ |
+| `classpass.findStudio` | classpass.com | Finds ClassPass studios by NAME (and matching brand) near a point — the door for a… | 🟢 |
 | `classpass.getBillingHistory` | classpass.com | Lists the signed-in member's past charges — plan renewals and credit purchases, with… | ⚪ |
 | `classpass.getBookingQuote` | classpass.com | Returns what booking one specific class slot would cost THIS member — the credit price… | ⚪ |
 | `classpass.getClass` | classpass.com | Returns one class's description at a studio — what it is, how long, what to expect —… | ⚪ |
@@ -1241,7 +1241,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `coops.getStationDatums` | tidesandcurrents.noaa.gov | Get a station's tidal datums (MHHW, MLLW, etc) and the epoch they're referenced to. | ⚪ |
 | `coops.getStationHarmonicConstituents` | tidesandcurrents.noaa.gov | Get a station's harmonic constituents used to derive its tide predictions. | ⚪ |
 | `coops.getStationMetadata` | tidesandcurrents.noaa.gov | Get a station's location, timezone and the product pages it publishes. | 🟢 |
-| `coops.getTidePredictions` | tidesandcurrents.noaa.gov | Get tide predictions for a station for specified dates. | ⚪ |
+| `coops.getTidePredictions` | tidesandcurrents.noaa.gov | Get tide predictions for a station for specified dates. | 🟢 |
 | `coops.getWaterLevel` | tidesandcurrents.noaa.gov | Get water level observations for a station. | ⚪ |
 | `coops.listStations` | tidesandcurrents.noaa.gov | Find tide/current stations, optionally filtered by product type or state — the finder… | 🟢 |
 | `corepoweryoga.addFavoriteTeacher` | corepoweryoga.com | Adds an instructor to the caller's favorites. | ⚪ |
@@ -1790,9 +1790,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventbrite.getOwnProfile` | eventbrite.com | Reads the signed-in caller's own account profile (name, email on file, location). | ⚪ |
 | `eventbrite.getSavedEvents` | eventbrite.com | Reads the signed-in caller's saved ('liked') events. | 🟢 |
 | `eventbrite.getVenue` | eventbrite.com | Reads one event's venue — name, address, city/region/country and coordinates — taking… | 🟢 |
-| `eventbrite.saveEvent` | eventbrite.com | Saves ('likes') an event to the signed-in caller's account, taking an event url or id. | ⚪ |
+| `eventbrite.saveEvent` | eventbrite.com | Saves ('likes') an event to the signed-in caller's account, taking an event url or id. | 🟢 |
 | `eventbrite.searchEvents` | eventbrite.com | Searches live events by location (a city/region string or 'online') with an optional… | 🟢 |
-| `eventbrite.unsaveEvent` | eventbrite.com | Removes a previously saved event from the signed-in caller's account, taking an event… | ⚪ |
+| `eventbrite.unsaveEvent` | eventbrite.com | Removes a previously saved event from the signed-in caller's account, taking an event… | 🟢 |
 | `eventim.getEvent` | eventim.com | Would read one event's ticket page in full — every price category, seat map… | ⚪ |
 | `eventim.search` | eventim.com | Searches Eventim's event-ticket listings by artist or keyword, optionally narrowed to… | 🟢 |
 | `eventsource.getShowroom` | eventsource.com | Reads a public Virtual Design Center showroom by its access code — the pre-built room… | 🟢 |
@@ -1804,6 +1804,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `evolvemedspa.listLocations` | evolvemedspa.com | Lists Evolve Med Spa's real bookable Zenoti locations. | 🟢 |
 | `evolvemedspa.listServices` | evolvemedspa.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
 | `executivehomecare.findLocalOffice` | executivehomecare.com | Looks up the Executive Home Care franchise office that covers a US ZIP — the same… | 🟡 |
+| `exhalespa.getLocation` | exhalespa.com | Resolves one exhale spa location from a slug or free text such as "midtown atlanta"… | 🟢 |
+| `exhalespa.listClasses` | exhalespa.com | Lists one location's upcoming fitness classes (Pilates, barre, yoga) for a date, from… | ⚪ |
+| `exhalespa.listLocations` | exhalespa.com | Lists every physical exhale spa location (Midtown Atlanta, Battery Wharf Boston… | 🟢 |
+| `exhalespa.listSpaServices` | exhalespa.com | Lists one location's bookable spa treatments (massages, facials, body treatments) with… | ⚪ |
 | `extraspace.checkAvailability` | extraspace.com | Checks current availability and price for one specific unit size (e.g. 5x10, 10x10… | 🟢 |
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
@@ -2141,7 +2145,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fresha.getMyProfile` | fresha.com | Returns the signed-in caller's Fresha profile: name, email, phone, avatar, addresses… | ⚪ |
 | `fresha.getProfessional` | fresha.com | Returns one professional's public profile from their slug or fresha.com/p/... URL… | ⚪ |
 | `fresha.getProfessionalReviews` | fresha.com | Lists the reviews left for one professional, with rating, text, date and service… | ⚪ |
-| `fresha.getSearchSuggestions` | fresha.com | Turns what a caller typed ("balayage", a venue name, a stylist's name) into Fresha's… | ⚪ |
+| `fresha.getSearchSuggestions` | fresha.com | Turns what a caller typed ("balayage", a venue name, a stylist's name) into Fresha's… | 🟢 |
 | `fresha.getVenue` | fresha.com | Returns one venue from its slug or its fresha.com/a/... URL: name, description… | ⚪ |
 | `fresha.getVenuePhotos` | fresha.com | Lists a venue's portfolio and venue photos, with each image's description, paged. | ⚪ |
 | `fresha.getVenueReviews` | fresha.com | Lists a venue's verified customer reviews, newest first: rating, text, date, the… | ⚪ |
@@ -2157,7 +2161,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fresha.removeFavorite` | fresha.com | Removes a venue from the signed-in caller's favourites. | ⚪ |
 | `fresha.rescheduleAppointment` | fresha.com | Moves one of the signed-in caller's appointments to a new time, within the venue's… | ⚪ |
 | `fresha.searchProfessionals` | fresha.com | Searches Fresha's individual professionals (stylists, barbers, lash techs...) by what… | ⚪ |
-| `fresha.searchVenues` | fresha.com | Searches Fresha's marketplace for salons, barbers, spas, nail, lash and wellness… | ⚪ |
+| `fresha.searchVenues` | fresha.com | Searches Fresha's marketplace for salons, barbers, spas, nail, lash and wellness… | 🟢 |
 | `fresha.sendMessageToVenue` | fresha.com | Sends a message to a venue in one of the signed-in caller's threads. | ⚪ |
 | `fresha.tipProfessional` | fresha.com | Tips the professional after an appointment. | ⚪ |
 | `fresha.updateMyProfile` | fresha.com | Edits the signed-in caller's profile details: name, birthday, gender, addresses. | ⚪ |
@@ -2210,12 +2214,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.listPartnerCompanies` | geico.com | Returns which insurance companies GEICO Insurance Agency actually places each line of… | 🟢 |
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
-| `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🔴 |
+| `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
 | `github.createIssue` | github.com | Creates a new issue on a repository. | ⚪ |
 | `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | ⚪ |
 | `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
 | `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
-| `github.deleteComment` | github.com | Deletes a comment on an issue or pull request, off github.com's own issue-viewer web… | 🔴 |
+| `github.deleteComment` | github.com | Deletes a comment on an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
@@ -2240,7 +2244,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.starRepository` | github.com | Adds a repository to the signed-in caller's starred list. | ⚪ |
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list. | ⚪ |
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in caller's watched list. | ⚪ |
-| `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🔴 |
+| `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🟢 |
 | `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🟢 |
 | `github.updatePullRequest` | github.com | Renames a pull request's TITLE, off the same issue-viewer web mutation (PUT… | 🔴 |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
@@ -3194,13 +3198,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `my_auroramedicalspa_com.listLocations` | my.auroramedicalspa.com | Lists every Aurora Medical Spa location (9 today, across Colorado, Missouri and Texas)… | 🟢 |
 | `my_best_studio._client` | mybeststudio.us | Shared studio client: subdomain to account bootstrap, public and signed-in session… | ⚪ |
 | `my_best_studio.bookClass` | mybeststudio.us | Books a signed-in member into one class. | 🟢 |
-| `my_best_studio.cancelBooking` | mybeststudio.us | Cancels a signed-in member's booking or waitlist spot. | ⚪ |
+| `my_best_studio.cancelBooking` | mybeststudio.us | Cancels a signed-in member's booking or waitlist spot by its FutureSignupID. | 🟢 |
 | `my_best_studio.getClass` | mybeststudio.us | Returns the detail of one class — time, instructor, capacity, booking-button label —… | 🟢 |
-| `my_best_studio.joinWaitlist` | mybeststudio.us | Adds a signed-in member to the waitlist for one class. | ⚪ |
+| `my_best_studio.joinWaitlist` | mybeststudio.us | Adds a signed-in member to the waitlist for a full class — the same booking door as… | 🟢 |
 | `my_best_studio.listClasses` | mybeststudio.us | Reads one studio's class schedule (public, no login): time, class name, instructor… | 🟢 |
-| `my_best_studio.listInstructors` | mybeststudio.us | Lists all instructors for a studio. | ⚪ |
+| `my_best_studio.listInstructors` | mybeststudio.us | Lists every instructor teaching at one studio: id, name and email. | 🟢 |
 | `my_best_studio.listLocations` | mybeststudio.us | Lists all studio locations and their details (name, address, timezone). | ⚪ |
-| `my_best_studio.listMyBookings` | mybeststudio.us | Lists a signed-in member's future class bookings and waitlist spots. | ⚪ |
+| `my_best_studio.listMyBookings` | mybeststudio.us | Lists a signed-in member's future class bookings and waitlist spots. | 🟢 |
 | `myollie.getMealPlan` | myollie.com | Computes Ollie's personalized fresh-food meal plan and REAL weekly price for a dog… | 🟢 |
 | `naic.getCompanyProfile` | naic.org | Reads one insurer's CIS financial report — the holding group that owns it, the state… | 🟢 |
 | `naic.getComplaintIndex` | naic.org | Reads one insurer's closed-confirmed complaint index against the national baseline of… | 🟢 |
@@ -4136,14 +4140,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sevenrooms.cancelReservation` | sevenrooms.com | Cancels a reservation from its manage token, returning the cancelled status and any… | ⚪ |
 | `sevenrooms.checkGiftCardBalance` | sevenrooms.com | Reads the remaining balance on a venue gift card from its number and PIN. | ⚪ |
 | `sevenrooms.findVenue` | sevenrooms.com | Finds the SevenRooms venue slug for a restaurant from its name and city, its own… | ⚪ |
-| `sevenrooms.getAvailability` | sevenrooms.com | Returns a venue's open reservation times for a date range, party size and preferred… | ⚪ |
-| `sevenrooms.getAvailableDates` | sevenrooms.com | Lists the dates a venue is taking online bookings over a window, so a caller can pick… | ⚪ |
+| `sevenrooms.getAvailability` | sevenrooms.com | Returns a venue's open reservation times for a date range, party size and preferred… | 🟢 |
+| `sevenrooms.getAvailableDates` | sevenrooms.com | Lists the dates a venue is taking online bookings over a window, so a caller can pick… | 🟢 |
 | `sevenrooms.getBookingTerms` | sevenrooms.com | Reads the checkout terms of one open slot before booking it: the policy text, whether… | ⚪ |
 | `sevenrooms.getExperience` | sevenrooms.com | Returns one experience or event at a venue: title, description, photos, price per… | ⚪ |
 | `sevenrooms.getMyProfile` | sevenrooms.com | Returns the signed-in guest's SevenRooms profile: name, contact details, profile… | ⚪ |
 | `sevenrooms.getRequest` | sevenrooms.com | Reads a submitted booking request or priority alert from its id: venue, date, time… | ⚪ |
 | `sevenrooms.getReservation` | sevenrooms.com | Reads a reservation from the manage token in its confirmation email or link: venue… | ⚪ |
-| `sevenrooms.getVenue` | sevenrooms.com | Returns one venue from its slug: name, address, postal code, phone, website, timezone… | ⚪ |
+| `sevenrooms.getVenue` | sevenrooms.com | Returns one venue from its slug: name, address, postal code, phone, website, timezone… | 🟢 |
 | `sevenrooms.joinLoyaltyProgram` | sevenrooms.com | Signs the guest up to a venue's loyalty or rewards programme with their name, email… | ⚪ |
 | `sevenrooms.listExperiences` | sevenrooms.com | Lists a venue's bookable experiences and events — tasting menus, holiday seatings… | ⚪ |
 | `sevenrooms.listMyMemberships` | sevenrooms.com | Lists the venue loyalty and membership programmes the signed-in guest belongs to. | ⚪ |
@@ -4478,7 +4482,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `squire.bookAppointment` | getsquire.com | Books an appointment for the signed-in caller: a service (and add-ons) with a chosen… | ⚪ |
 | `squire.buyGiftCard` | getsquire.com | Buys a shop gift card for someone, for a chosen amount. | ⚪ |
 | `squire.cancelAppointment` | getsquire.com | Cancels one of the caller's appointments (or the whole group booked together) inside… | ⚪ |
-| `squire.findShopsNear` | getsquire.com | Lists Squire barbershops near a place or a latitude/longitude, nearest first: name… | ⚪ |
+| `squire.findShopsNear` | getsquire.com | Lists Squire barbershops near a place or a latitude/longitude, nearest first: name… | 🟢 |
 | `squire.getAppointment` | getsquire.com | Returns one of the caller's appointments or sales in full: services, barber, time… | ⚪ |
 | `squire.getAvailability` | getsquire.com | Returns the open appointment times for a service at a shop over a date range -- per… | ⚪ |
 | `squire.getBarber` | getsquire.com | Returns one barber's profile: name, bio, photos and portfolio, rating, the shop they… | ⚪ |
@@ -4487,7 +4491,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `squire.getMyProfile` | getsquire.com | Returns the signed-in caller's Squire profile: name, phone, email, photo and… | ⚪ |
 | `squire.getMyWalkInEntry` | getsquire.com | Returns the caller's place on a shop's walk-in list: position, estimated wait and… | ⚪ |
 | `squire.getReviews` | getsquire.com | Lists the customer reviews of a shop or of one barber, with the average rating, the… | ⚪ |
-| `squire.getShop` | getsquire.com | Returns one barbershop from its id, its route or a getsquire.com URL: name, address… | ⚪ |
+| `squire.getShop` | getsquire.com | Returns one barbershop from its id, its route or a getsquire.com URL: name, address… | 🟢 |
 | `squire.getWaitlistOffers` | getsquire.com | Lists the slot times Squire is offering the caller from a waitlist entry, so the… | ⚪ |
 | `squire.getWalkInStatus` | getsquire.com | Says whether a shop is taking walk-ins or a same-day standby list right now, and which… | ⚪ |
 | `squire.joinWaitlist` | getsquire.com | Puts the caller on a shop's waitlist for chosen services on a day with no open time… | ⚪ |
@@ -4499,7 +4503,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `squire.lookupReservation` | getsquire.com | Looks up an appointment from the confirmation code Squire gives at booking: shop… | ⚪ |
 | `squire.rateAppointment` | getsquire.com | Rates one of the caller's past appointments from 1 to 5 with an optional written review. | ⚪ |
 | `squire.rebookAppointment` | getsquire.com | Books the same service with the same barber again from one of the caller's past… | ⚪ |
-| `squire.searchShops` | getsquire.com | Searches Squire by free text -- a shop or brand name, a barber's name, a city or a… | ⚪ |
+| `squire.searchShops` | getsquire.com | Searches Squire by free text -- a shop or brand name, a barber's name, a city or a… | 🟢 |
 | `squire.tipAppointment` | getsquire.com | Adds a tip to one of the caller's finished appointments. | ⚪ |
 | `squire.updateMyProfile` | getsquire.com | Changes the caller's name or email, their notification preferences, or their profile… | ⚪ |
 | `starlighthomes.getMetro` | starlighthomes.com | Reads one metro's own page: every named neighborhood in it, each with a real live… | 🟢 |
@@ -5187,6 +5191,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walla.listWorkshops` | hellowalla.com | Lists a studio's workshops, series and trainings (multi-session enrollments): name… | ⚪ |
 | `walla.requestMembershipCancellation` | hellowalla.com | Sends the studio the signed-in client's request to cancel one of their memberships… | ⚪ |
 | `walla.updateMyProfile` | hellowalla.com | Edits the signed-in client's own profile at a studio (name, phone, address, emergency… | ⚪ |
+| `walmart_ca.search` | www.walmart.ca | Search walmart.ca for products by keywords and return matching results with price… | 🟢 |
 | `walmart.addAddress` | walmart.com | Saves a new delivery address on the signed-in account. | ⚪ |
 | `walmart.addToCart` | walmart.com | Puts an item in the cart in the quantity asked for and reports what the cart then holds. | ⚪ |
 | `walmart.addToList` | walmart.com | Adds an item to one of the shopper's saved lists. | ⚪ |
@@ -5543,13 +5548,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.listCurrencyRates` | finance.yahoo.com | Reads live currency-pair rates the way the site's own Currencies markets page does —… | ⚪ |
 | `yahoo_finance.listWatchlists` | finance.yahoo.com | Reads the signed-in viewer's saved watchlists with their tickers and current quotes —… | 🟢 |
 | `yahoo_finance.searchSymbols` | finance.yahoo.com | Resolves what a person would type — a company name ("Apple"), a ticker ("AAPL") or a… | 🟢 |
-| `yahoo_mail.deleteMessage` | mail.yahoo.com | Deletes one of the CALLER's own messages (moves it to Trash, matching what the site's… | ⚪ |
-| `yahoo_mail.getMessage` | mail.yahoo.com | Reads one message in full from the CALLER's own mailbox — sender, recipients, subject… | 🟢 |
-| `yahoo_mail.listFolders` | mail.yahoo.com | Lists the CALLER's own mail folders — Inbox, Sent, Drafts, Spam, Trash and any custom… | 🟢 |
-| `yahoo_mail.listMessages` | mail.yahoo.com | Lists messages in the CALLER's own mailbox from a chosen folder (Inbox by default)… | 🟢 |
-| `yahoo_mail.markAsRead` | mail.yahoo.com | Marks one or more of the CALLER's own messages read or unread. | ⚪ |
-| `yahoo_mail.moveMessage` | mail.yahoo.com | Moves one of the CALLER's own messages to another folder (archive, trash, a custom… | ⚪ |
-| `yahoo_mail.searchMessages` | mail.yahoo.com | Searches messages in the CALLER's own mailbox by sender, subject or body text — the… | 🟢 |
+| `yahoo_mail.deleteMessage` | mail.yahoo.com | Deletes one of the CALLER's own Yahoo Mail messages the way the site's own delete… | 🟢 |
+| `yahoo_mail.getMessage` | mail.yahoo.com | Reads one of the CALLER's own Yahoo Mail messages in full — sender, recipients… | 🟢 |
+| `yahoo_mail.listFolders` | mail.yahoo.com | Lists the CALLER's own Yahoo Mail folders — Inbox, Sent, Drafts, Spam, Trash and… | 🟢 |
+| `yahoo_mail.listMessages` | mail.yahoo.com | Lists the newest messages in one of the CALLER's own Yahoo Mail folders (Inbox by… | 🟢 |
+| `yahoo_mail.markAsRead` | mail.yahoo.com | Marks one of the CALLER's own Yahoo Mail messages read or unread, given a row id from… | 🟢 |
+| `yahoo_mail.moveMessage` | mail.yahoo.com | Moves one of the CALLER's own Yahoo Mail messages to another folder (archive, spam… | 🟢 |
+| `yahoo_mail.searchMessages` | mail.yahoo.com | Searches the CALLER's own Yahoo Mail by sender, recipient, subject, read/flagged state… | 🟢 |
 | `yahoo_mail.sendMessage` | mail.yahoo.com | Sends an email from the CALLER's own Yahoo Mail account. | 🟢 |
 | `yahoo_sports.findPlayers` | sports.yahoo.com | Finds players on one team's roster by name — the door for `getPlayer`, so a caller… | 🟢 |
 | `yahoo_sports.getFantasyLeague` | sports.yahoo.com | Reads the CALLER's own fantasy football league — standings and the current week's… | 🟢 |
