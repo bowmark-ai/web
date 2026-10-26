@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 93d6f92474d3cc70435d13828216118aff233defcced80c30406f6f31cc51a02
-# 87 capabilities, 670 providers, 2773 typed functions, 20 refused.
+# Manifest version: e99a39e25e7a6548df1cec1ea6174f90907754f7147b46dec698118a4b4aa9a9
+# 87 capabilities, 673 providers, 2788 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18781,6 +18781,27 @@ class Prv_gotchacovered_GotchaCoveredQuizResult_Out(TypedDict):
     recommendedProducts: str | None
     url: str
 
+class Prv_goteamup_classes_GoteamupStudio_Out(TypedDict):
+    providerId: str
+    name: str
+    description: str
+    country: str
+    currencyCode: str
+    currencySymbol: str
+    address: Prv_goteamup_classes_GoteamupStudio_Out_address_Out
+    contactEmail: str | None
+    contactPhone: str | None
+    urlSlug: str
+    url: str
+
+class Prv_goteamup_classes_GoteamupStudio_Out_address_Out(TypedDict):
+    street: str | None
+    city: str | None
+    region: str | None
+    postalCode: str | None
+    country: str
+    timezone: str
+
 class Prv_grainger_GraingerSearchArgs_In(TypedDict):
     query: str
 
@@ -23351,6 +23372,35 @@ class Prv_linkedin_applyToJob_return_Out(TypedDict):
     submitted: bool
     unanswered: list[str]
     questions: list[str]
+
+class Prv_linkedin_attendEvent_input_u1_In(TypedDict):
+    event: str
+    attend: NotRequired[bool]
+
+class Prv_linkedin_attendEvent_return_Out(TypedDict):
+    attending: bool
+
+class Prv_linkedin_createGroupPost_input_In(TypedDict):
+    group: str
+    text: str
+
+class Prv_linkedin_subscribeToNewsletter_input_u1_In(TypedDict):
+    newsletter: str
+    subscribe: NotRequired[bool]
+
+class Prv_linkedin_subscribeToNewsletter_return_Out(TypedDict):
+    subscribed: bool
+
+class Prv_linkedin_addProfileSkill_input_u1_In(TypedDict):
+    skill: str
+
+class Prv_linkedin_addProfileSkill_return_Out(TypedDict):
+    added: str
+    id: str | None
+
+class Prv_linkedin_replyToComment_input_In(TypedDict):
+    comment: str
+    text: str
 
 class Prv_linkedin_login_return_Out(TypedDict):
     connection: str
@@ -29010,6 +29060,54 @@ class Prv_personio_PersonioJob_Out(TypedDict):
     url: str
     createdAt: str | None
 
+class Prv_pike13_Pike13FindBusinessArgs_In(TypedDict):
+    name: str
+    town: NotRequired[str]
+
+class Prv_pike13_Pike13BusinessMatch_Out(TypedDict):
+    subdomain: str
+    business: Prv_pike13_Pike13Business_Out
+
+class Prv_pike13_Pike13Business_Out(TypedDict):
+    id: float
+    name: str
+    subdomain: str
+    default_locale: str
+    currency_code: str
+    website: str | None
+    phone: str | None
+    twitter: str | None
+    facebook: str | None
+    instagram: str | None
+    is_franchise: bool
+    is_active: bool
+    is_in_trial: bool
+    is_suspended: bool
+    email_address: str | None
+    timezone: str
+
+class Prv_pike13_Pike13Location_Out(TypedDict):
+    id: float
+    name: str
+    address: str | None
+    latitude: float | None
+    longitude: float | None
+    phone: str | None
+    description: str | None
+    formatted_address: str | None
+    city: str | None
+    state_code: str | None
+    postal_code: str | None
+    country_code: str | None
+    timezone: str
+
+class Prv_pike13_Pike13Service_Out(TypedDict):
+    id: float
+    name: str
+    type: str
+    description: str | None
+    position: float
+
 class Prv_pilotprotocol_PilotprotocolAppSummary_Out(TypedDict):
     id: str
     name: str
@@ -30784,6 +30882,15 @@ class Prv_quora_QuoraHomeFeed_Out_questions_item_Out(TypedDict):
     title: str
     url: str
 
+class Prv_quora_QuoraTopicFeed_Out(TypedDict):
+    topicUrl: str
+    questions: list[Prv_quora_QuoraTopicFeed_Out_questions_item_Out]
+
+class Prv_quora_QuoraTopicFeed_Out_questions_item_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+
 class Prv_raadvanstate_nl_RaadvanstateSearchResult_Out(TypedDict):
     query: str
     page: float
@@ -31688,6 +31795,50 @@ class Prv_reliancepartners_AssembledApplication_Out(TypedDict):
     entryUrl: str
     formFields: Mapping[str, str]
     summary: str
+
+class Prv_reserve_with_google_BookablePlace_Out(TypedDict):
+    featureId: str
+    name: str
+    url: str
+    address: str
+    coordinates: Prv_reserve_with_google_BookablePlace_Out_coordinates_u0_Out | None
+    categories: list[str]
+    booking: Prv_reserve_with_google_BookingAction_Out
+
+class Prv_reserve_with_google_BookablePlace_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_reserve_with_google_BookingAction_Out(TypedDict):
+    kind: Literal["google-hosted"] | Literal["partner"]
+    merchantId: NotRequired[str]
+    vertical: NotRequired[str]
+    partner: NotRequired[str]
+    label: str
+    url: str
+
+class Prv_reserve_with_google_Merchant_Out(TypedDict):
+    merchantId: str
+    name: str
+    photos: list[str]
+    rating: float | None
+    coordinates: Prv_reserve_with_google_Merchant_Out_coordinates_u0_Out | None
+    address: str
+    phone: str | None
+    website: str | None
+    googleMapsUrl: str | None
+    partner: str | None
+    timeZone: str
+    category: str | None
+    featureId: str | None
+    partySizes: list[float]
+    serviceWindowSeconds: tuple[float, float] | None
+    room: str | None
+    bookableDays: list[float]
+
+class Prv_reserve_with_google_Merchant_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
 
 class Prv_resy_search_query_u1_In(TypedDict):
     query: str
@@ -54284,6 +54435,24 @@ class Prv_gotchacovered(Protocol):
         the site's real computed style match.
         """
 
+class Prv_goteamup_classes(Protocol):
+    """TeamUp gym and fitness studios: find a studio, read its class timetable, class types,
+    venues, instructors and memberships, and book, cancel or waitlist a class as the
+    signed-in customer.
+    """
+
+    async def findStudio(self, name: str, /) -> list[Prv_goteamup_classes_GoteamupStudio_Out]:
+        """Finds TeamUp studios by name and returns each one's profile — provider id, name,
+        address, currency. TeamUp has no studio search API, so this matches the query against
+        goteamup.com/robots.txt's list of /p/<id>-<slug> studio paths and confirms each
+        candidate through getStudio.
+        """
+
+    async def getStudio(self, studio: str | float, /) -> Prv_goteamup_classes_GoteamupStudio_Out:
+        """Gets one studio's profile — name, address, timezone, currency — from its provider id or
+        goteamup.com/p/<id>-<slug> url.
+        """
+
 class Prv_grainger(Protocol):
     """Grainger's industrial MRO catalog, product detail, and branch/stock availability —
     search (keyword/category catalog search returning name, item number, brand, price and
@@ -55110,8 +55279,9 @@ class Prv_huggingface(Protocol):
     async def searchModels(self, args: str | Prv_huggingface_HuggingFaceSearchArgs_In, /) -> list[Prv_huggingface_HuggingFaceModel_Out]:
         """Search every public Hugging Face model by name, `author` (org) or `task`, sorted by
         "trending" (default), "downloads", "likes", "created" or "updated"; `limit` 1-100,
-        default 20. Returns [] on no match. Example: searchModels({ query: "llama", sort:
-        "downloads" }).
+        default 20. With only a `sort` it lists the top models overall, e.g. searchModels({
+        sort: "downloads", limit: 10 }). Returns [] on no match. Example: searchModels({ query:
+        "llama", sort: "downloads" }).
         """
 
     async def getModel(self, id: str, /) -> Prv_huggingface_HuggingFaceModel_Out:
@@ -57623,6 +57793,63 @@ class Prv_linkedin(Protocol):
         LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
         retry: wait that long. The account owner may opt into faster pacing with { pacing:
         "fast" } as an extra last argument; ask them first.
+        """
+
+    async def attendEvent(self, input: str | Prv_linkedin_attendEvent_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_attendEvent_return_Out:
+        """RSVPs the caller to a LinkedIn event (LinkedIn's Attend button), or withdraws the RSVP
+        when `attend: false`. Takes the event URL or the numeric id searchEvents/getEvent
+        return. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the
+        run pauses and hands back a link where they sign in. Paced per LinkedIn account across
+        runs so it never looks automated — 6 requests a minute, and a reserve of 400 that
+        refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+        the pace throws LinkedinRateLimited saying when to retry: wait that long. The account
+        owner may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask
+        them first.
+        """
+
+    async def createGroupPost(self, input: Prv_linkedin_createGroupPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinPostResult_Out:
+        """Publishes a text post inside a group the caller belongs to. `group` is a group URL or
+        the numeric id searchGroups/listMyGroups return. Returns the post's id for deletePost
+        where LinkedIn's answer carries one. Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
+        """
+
+    async def subscribeToNewsletter(self, input: str | Prv_linkedin_subscribeToNewsletter_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_subscribeToNewsletter_return_Out:
+        """Subscribes the caller to a LinkedIn newsletter, or unsubscribes when `subscribe: false`.
+        Takes the newsletter URL or its numeric id. Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+        minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+        LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+        retry: wait that long. The account owner may opt into faster pacing with { pacing:
+        "fast" } as an extra last argument; ask them first.
+        """
+
+    async def addProfileSkill(self, input: str | Prv_linkedin_addProfileSkill_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_addProfileSkill_return_Out:
+        """Adds one skill to the caller's own profile — the write half of getProfileSkills. Signed
+        in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+        """
+
+    async def replyToComment(self, input: Prv_linkedin_replyToComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinPostResult_Out:
+        """Replies under one comment, threaded — commentOnPost only makes top-level comments.
+        `comment` is the full comment urn, "urn:li:comment:(urn:li:activity:<post>,<comment>)".
+        Returns the reply's id for deleteComment where LinkedIn's answer carries one. Signed in:
+        acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+        looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an
+        hour — and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+        LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+        faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
         """
 
     async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
@@ -61025,6 +61252,37 @@ class Prv_personio(Protocol):
         (`bowmark.job_search.atCompany` finds which).
         """
 
+class Prv_pike13(Protocol):
+    """Pike13 studios (music schools, gyms, swim schools, yoga): find a studio, read its class
+    schedule, appointment slots and plans, and book or cancel as the signed-in client.
+    """
+
+    async def findBusiness(self, args: Prv_pike13_Pike13FindBusinessArgs_In, /) -> list[Prv_pike13_Pike13BusinessMatch_Out]:
+        """Finds Pike13 studios by name and town and returns each one's subdomain and confirmed
+        business profile — the door every other function needs, since a caller holds a studio's
+        name, not its subdomain. Pike13 publishes no business directory, so this searches the
+        web and confirms each candidate through the business's own front API.
+        """
+
+    async def getBusiness(self, business: str, /) -> Prv_pike13_Pike13Business_Out:
+        """Gets one studio's profile — name, subdomain, website, phone, currency, social links,
+        whether it is active. Takes the business as its Pike13 subdomain, a
+        <business>.pike13.com url, or the studio's own website.
+        """
+
+    async def listLocations(self, business: str, /) -> list[Prv_pike13_Pike13Location_Out]:
+        """Lists a studio's locations with address, coordinates, phone and timezone. Takes the
+        business as its Pike13 subdomain, a <business>.pike13.com url, or the studio's own
+        website.
+        """
+
+    async def listServices(self, business: str, /) -> list[Prv_pike13_Pike13Service_Out]:
+        """Lists what a studio offers — group classes, courses and appointments, with duration,
+        booking windows, free-cancellation window and whether clients may book online. Takes the
+        business as its Pike13 subdomain, a <business>.pike13.com url, or the studio's own
+        website.
+        """
+
 class Prv_pilotprotocol(Protocol):
     """Pilot Protocol's own app store — a directory of installable agent capabilities (30+
     apps: databases, comms, browser automation, payments, …). listApps returns the whole
@@ -62195,6 +62453,12 @@ class Prv_quora(Protocol):
         refused with the site's own marketing page.
         """
 
+    async def getTopicFeed(self, topic: str, opts: ConnectionOption | None = None, /) -> Prv_quora_QuoraTopicFeed_Out:
+        """Reads the questions Quora files under one topic (by url), as a signed-in viewer sees
+        them, taking a topic URL or name. Needs the caller signed in to Quora; a signed-out
+        topic page carries no question feed and is refused.
+        """
+
 class Prv_raadvanstate_nl(Protocol):
     """Searches the Dutch Council of State's (Raad van State) case register of
     administrative-court rulings and reads any ruling in full by ECLI — no key, no browser.
@@ -62660,6 +62924,29 @@ class Prv_reliancepartners(Protocol):
         requirements and enumerated catalogs, then maps it onto the site's own Gravity Forms
         field names — exact, ready to submit. Never submits it; the site's own flow ends in a
         human underwriting follow-up, not an instant quote.
+        """
+
+class Prv_reserve_with_google(Protocol):
+    """Google's own booking layer on Maps and Search: find places that take a booking through
+    Google, see which partner takes it, read a Google-hosted restaurant's party sizes and
+    bookable days, and (signed in) list, change or cancel your Reserve with Google bookings.
+    """
+
+    async def findBookablePlaces(self, query: str, /) -> list[Prv_reserve_with_google_BookablePlace_Out]:
+        """Finds places you can book through Reserve with Google from words — "sushi near Union
+        Square", "hair salon Seattle" — and returns each place's name, address, category, Google
+        feature id, and how it books: a Google-hosted merchant id (dining) or the partner that
+        takes the booking.
+        """
+
+    async def getBookingOptions(self, place: str, /) -> list[Prv_reserve_with_google_BookingAction_Out]:
+        """Resolves a place by words (name plus city) through the same search door and returns its
+        booking action — "Reserve a table" or "Book online" — with the partner name and URL.
+        """
+
+    async def getMerchant(self, merchantId: str, /) -> Prv_reserve_with_google_Merchant_Out:
+        """Reads one Google-hosted booking page by merchant id: the venue's details, the fulfilling
+        partner, party sizes, time zone, bookable room and bookable days.
         """
 
 class Prv_resy(Protocol):
@@ -69072,6 +69359,7 @@ class BowmarkProviders(Protocol):
     goremutual: Prv_goremutual
     gostoreit: Prv_gostoreit
     gotchacovered: Prv_gotchacovered
+    goteamup_classes: Prv_goteamup_classes
     grainger: Prv_grainger
     grammarly: Prv_grammarly
     grandwelcome: Prv_grandwelcome
@@ -69246,6 +69534,7 @@ class BowmarkProviders(Protocol):
     peerspace: Prv_peerspace
     perennialsandsutherland: Prv_perennialsandsutherland
     personio: Prv_personio
+    pike13: Prv_pike13
     pilotprotocol: Prv_pilotprotocol
     pinterest: Prv_pinterest
     pirateship: Prv_pirateship
@@ -69281,6 +69570,7 @@ class BowmarkProviders(Protocol):
     reddit: Prv_reddit
     rei: Prv_rei
     reliancepartners: Prv_reliancepartners
+    reserve_with_google: Prv_reserve_with_google
     resy: Prv_resy
     reuters: Prv_reuters
     revisionskincare: Prv_revisionskincare

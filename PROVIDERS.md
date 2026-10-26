@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5731 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5736 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1006,19 +1006,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `checkfront.updateCart` | checkfront.com | Changes a booking cart: set a line's quantity, remove a line, opt in or out of a… | ⚪ |
 | `chesmar.searchQuickMoveInHomes` | chesmar.com | Runs Chesmar Homes' quick-move-in home search against the site's own live inventory… | 🟢 |
 | `chipotle.getBowlBuilder` | chipotle.com | Reads chipotle.com's own universal menu rules and returns every burrito-bowl protein… | 🟢 |
-| `chownow.findRestaurant` | chownow.com | Searches restaurants by name, cuisine, or address — the user-facing search a customer… | ⚪ |
+| `chownow.findRestaurant` | chownow.com | Resolves a ChowNow ordering URL (www/order/direct/eat subdomain, or the bare apex)… | 🟢 |
 | `chownow.getMenu` | chownow.com | Reads one restaurant's complete menu: categories with menu items, item names… | ⚪ |
 | `chownow.getMenuItem` | chownow.com | Reads details for one menu item: name, description, price, modifiers available, and… | ⚪ |
 | `chownow.getOrderDetails` | chownow.com | Reads one order's full details: items ordered, customizations, prices, fees, status… | ⚪ |
 | `chownow.getPickupTimes` | chownow.com | Lists available pickup time slots for the next 96 hours in 15-minute intervals, with… | ⚪ |
-| `chownow.getRestaurant` | chownow.com | Reads one restaurant's full details: name, address, coordinates, phone, hours… | ⚪ |
+| `chownow.getRestaurant` | chownow.com | Reads one restaurant location's own details: name, phone, address, whether it is… | 🟢 |
 | `chownow.getRestaurantHours` | chownow.com | Reads a restaurant's operating hours and closures — the schedule when it accepts… | ⚪ |
 | `chownow.getRewardsBalance` | chownow.com | Reads the signed-in customer's loyalty rewards points balance and any active… | ⚪ |
 | `chownow.listMenuCategories` | chownow.com | Lists the menu categories for a restaurant without fetching the full menu — the… | ⚪ |
 | `chownow.listMenuItems` | chownow.com | Lists all menu items for a restaurant in a flattened view with prices and… | ⚪ |
 | `chownow.listOrders` | chownow.com | Lists the signed-in customer's order history with status, total price, order date, and… | ⚪ |
-| `chownow.listRestaurants` | chownow.com | Lists all restaurants under a company (e.g. a franchise group), with location id… | ⚪ |
+| `chownow.listRestaurants` | chownow.com | Lists all restaurants under a company (e.g. a franchise group), with location id… | 🟢 |
 | `chownow.listSavedPaymentMethods` | chownow.com | Lists the signed-in customer's saved cards and payment methods. | ⚪ |
+| `chownow.searchRestaurants` | chownow.com | Searches ChowNow restaurants by free text (a cuisine, a dish or a restaurant name)… | 🟢 |
 | `chownow.validateOrder` | chownow.com | Validates an order before payment: checks fulfillment method availability, item… | ⚪ |
 | `chriscraft.getConfigurator` | chriscraft.com | Reads one model+boat-type's whole builder off build.chriscraft.com: every option group… | 🟢 |
 | `chriscraft.priceConfiguration` | chriscraft.com | Prices a specific build (a choice, or choices, per option group) against… | 🟢 |
@@ -2291,11 +2292,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glossgenius.cancelAppointment` | glossgenius.com | Cancels an appointment from its confirmation link, reporting the business's… | ⚪ |
 | `glossgenius.cancelMyMembership` | glossgenius.com | Cancels the signed-in caller's membership at a business, under the business's… | ⚪ |
 | `glossgenius.confirmAppointment` | glossgenius.com | Confirms attendance for an appointment from its confirmation or reminder link. | ⚪ |
-| `glossgenius.findBusiness` | glossgenius.com | Finds a GlossGenius business from what a caller actually holds -- its booking-site… | ⚪ |
+| `glossgenius.findBusiness` | glossgenius.com | Finds a GlossGenius business from what a caller actually holds -- its booking-site… | 🟢 |
 | `glossgenius.getAppointment` | glossgenius.com | Returns one appointment from its confirmation link: status, services, team member… | ⚪ |
 | `glossgenius.getAvailability` | glossgenius.com | Returns the open appointment times for one or more services at a business over a date… | ⚪ |
 | `glossgenius.getBookingRequirements` | glossgenius.com | Says what a business will ask for before it books a given service and time for a given… | ⚪ |
-| `glossgenius.getBusiness` | glossgenius.com | Returns one business's public profile: name, about text, address and coordinates… | ⚪ |
+| `glossgenius.getBusiness` | glossgenius.com | Returns one business's public profile: name, about text, address and coordinates… | 🟢 |
 | `glossgenius.getGiftCardOptions` | glossgenius.com | Returns whether a business sells gift cards online and on what terms: preset amounts… | ⚪ |
 | `glossgenius.getMyProfile` | glossgenius.com | Returns the signed-in caller's client profile at a business: name, phone, email… | ⚪ |
 | `glossgenius.getWaitlistEntry` | glossgenius.com | Returns a waitlist entry from its link: services, dates wanted and status, with the… | ⚪ |
@@ -2309,7 +2310,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glossgenius.listMyOrders` | glossgenius.com | Lists the signed-in caller's past purchases at a business -- gift cards, packages… | ⚪ |
 | `glossgenius.listPackages` | glossgenius.com | Lists the service packages a business sells (a bundle of sessions at one price): name… | ⚪ |
 | `glossgenius.listReviews` | glossgenius.com | Lists a business's client reviews: rating, text, reviewer first name, date, the… | ⚪ |
-| `glossgenius.listServices` | glossgenius.com | Lists a business's bookable services with category, price (or 'varies'/hidden)… | ⚪ |
+| `glossgenius.listServices` | glossgenius.com | Lists a business's bookable services with category, price (or 'varies'/hidden)… | 🟢 |
 | `glossgenius.listTeam` | glossgenius.com | Lists the team members a client can book with at a business: name, bio, avatar… | ⚪ |
 | `glossgenius.payInvoice` | glossgenius.com | Pays an invoice or an appointment balance a business has sent. | ⚪ |
 | `glossgenius.rescheduleAppointment` | glossgenius.com | Moves an appointment from its confirmation link to another open time from… | ⚪ |
@@ -2453,16 +2454,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grubhub.addToCart` | grubhub.com | Adds a menu item with customizations to the user's cart. | ⚪ |
 | `grubhub.applyPromoCode` | grubhub.com | Applies a promotional code to the current cart for discount. | ⚪ |
 | `grubhub.getCart` | grubhub.com | Retrieves the contents of the current user's shopping cart. | ⚪ |
-| `grubhub.getDeliveryEstimate` | grubhub.com | Calculates delivery time and fee for a restaurant given a delivery address. | ⚪ |
+| `grubhub.getDeliveryEstimate` | grubhub.com | Whether a Grubhub restaurant delivers to a place and at what fee, order minimum, ETA… | 🟢 |
 | `grubhub.getFavoriteRestaurants` | grubhub.com | Retrieves the user's list of saved favorite restaurants. | ⚪ |
 | `grubhub.getMenu` | grubhub.com | The menu of one Grubhub restaurant by search()'s id: categories → items with price… | 🟢 |
-| `grubhub.getMenuItem` | grubhub.com | Gets detailed information for a single menu item including description, price… | ⚪ |
+| `grubhub.getMenuItem` | grubhub.com | One Grubhub menu item (ids from getMenu()) with every customization group and option… | 🟢 |
 | `grubhub.getOrderHistory` | grubhub.com | Lists past orders for the signed-in user with dates, restaurants, and amounts. | ⚪ |
 | `grubhub.getOrderStatus` | grubhub.com | Fetches the current status of an order including estimated delivery time. | ⚪ |
 | `grubhub.getPaymentMethods` | grubhub.com | Retrieves saved payment methods for the signed-in user. | ⚪ |
 | `grubhub.getPromoOffers` | grubhub.com | Lists active promotional offers and discounts available for a restaurant. | ⚪ |
 | `grubhub.getRestaurant` | grubhub.com | Reads one Grubhub restaurant by search()'s id: address, cuisines, rating, price level… | 🟢 |
-| `grubhub.getRestaurantReviews` | grubhub.com | Fetches customer reviews and ratings for a restaurant. | ⚪ |
+| `grubhub.getRestaurantReviews` | grubhub.com | A page of diner reviews for one Grubhub restaurant: stars, text, date, sentiment and… | 🟢 |
 | `grubhub.getSavedAddresses` | grubhub.com | Returns the list of saved delivery addresses for the signed-in user. | ⚪ |
 | `grubhub.listCuisines` | grubhub.com | Lists all available cuisine types on Grubhub for filtering restaurants. | ⚪ |
 | `grubhub.listRestaurants` | grubhub.com | Lists restaurants available for delivery to a given address, paginated with… | ⚪ |
@@ -2999,9 +3000,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mangomint.buyPackage` | booking.mangomint.com | Buys a package from listPackages on the caller's card. | ⚪ |
 | `mangomint.cancelAppointment` | booking.mangomint.com | Cancels one of the caller's appointments, within the business's cancellation policy. | ⚪ |
 | `mangomint.checkAvailability` | booking.mangomint.com | Lists open appointment times for one or more services over a date range, with any… | ⚪ |
-| `mangomint.findBusiness` | booking.mangomint.com | Finds a Mangomint business from what a caller has: its booking link… | ⚪ |
+| `mangomint.findBusiness` | booking.mangomint.com | Finds a Mangomint business from what a caller has: its booking link… | 🟢 |
 | `mangomint.getAppointment` | booking.mangomint.com | Returns one of the caller's appointments — service, staff, time, price and whether it… | ⚪ |
-| `mangomint.getBusinessInfo` | booking.mangomint.com | Returns one business's profile: name, address, phone, email, website, time zone… | ⚪ |
+| `mangomint.getBusinessInfo` | booking.mangomint.com | Returns one business's profile: name, address, phone, email, website, time zone… | 🟢 |
 | `mangomint.getService` | booking.mangomint.com | Returns one service with its full description, its add-on options, which staff perform… | ⚪ |
 | `mangomint.getStaff` | booking.mangomint.com | Returns one staff member with their bio, photo, the services they perform at their own… | ⚪ |
 | `mangomint.joinWaitlist` | booking.mangomint.com | Puts the caller on a business's waitlist for a service and date range when… | ⚪ |
@@ -3011,7 +3012,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mangomint.listPackages` | booking.mangomint.com | Lists the prepaid service packages a business sells online (e.g. six red-light… | ⚪ |
 | `mangomint.listPastServices` | booking.mangomint.com | Lists the services the signed-in caller has had at a business before, so they can… | ⚪ |
 | `mangomint.listServiceCategories` | booking.mangomint.com | Lists a business's service categories (waxing, facials, massage…) with the services in… | ⚪ |
-| `mangomint.listServices` | booking.mangomint.com | Lists a business's bookable services, optionally within one category: id, name… | ⚪ |
+| `mangomint.listServices` | booking.mangomint.com | Lists a business's bookable services, optionally within one category: id, name… | 🟢 |
 | `mangomint.listStaff` | booking.mangomint.com | Lists a business's bookable staff with id, name, photo and bio, optionally only those… | ⚪ |
 | `mangomint.rescheduleAppointment` | booking.mangomint.com | Moves one of the caller's appointments to another open time, offering the times the… | ⚪ |
 | `mangomint.validateSlot` | booking.mangomint.com | Checks that a time returned by checkAvailability is still free immediately before… | ⚪ |
@@ -3537,7 +3538,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `peek.cancelBooking` | peek.com | Cancels one of the signed-in traveler's bookings where the experience's cancellation… | ⚪ |
 | `peek.getAccountCredits` | peek.com | Returns the signed-in traveler's Peek credit balance and any activity discounts on the… | ⚪ |
 | `peek.getAvailability` | peek.com | Returns an experience's bookable sessions for a party size over a date range: each… | ⚪ |
-| `peek.getExperience` | peek.com | Returns one experience's full listing: title, description, highlights, what is and is… | ⚪ |
+| `peek.getExperience` | peek.com | Returns one experience's full listing: title, tier, description, highlights, what is… | 🟢 |
 | `peek.getMyProfile` | peek.com | Returns the signed-in traveler's own profile: name, email and phone. | ⚪ |
 | `peek.getPriceQuote` | peek.com | Prices a party for one session -- how many of each ticket type -- and returns the line… | ⚪ |
 | `peek.listDestinations` | peek.com | Lists Peek's popular destinations as the home page shows them -- each place's name… | ⚪ |
@@ -3547,8 +3548,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `peek.listSimilarExperiences` | peek.com | Lists the experiences Peek shows beside one experience as similar picks, with their… | ⚪ |
 | `peek.listTags` | peek.com | Lists Peek's category tags (Adventures, Food & Drink, On the Water, Families, ...)… | ⚪ |
 | `peek.saveExperience` | peek.com | Saves (likes) an experience to the signed-in traveler's saved list. | ⚪ |
-| `peek.searchExperiences` | peek.com | Searches Peek's marketplace of tours and activities IN a region (regionId from… | ⚪ |
-| `peek.searchRegions` | peek.com | Finds Peek regions (cities, islands, states, countries) by name and returns each one's… | ⚪ |
+| `peek.searchExperiences` | peek.com | Searches Peek's marketplace of tours and activities IN a region (regionId from… | 🟢 |
+| `peek.searchRegions` | peek.com | Finds Peek regions (cities, islands, states, countries) by name and returns each one's… | 🟢 |
 | `peek.unsaveExperience` | peek.com | Removes an experience from the signed-in traveler's saved list. | ⚪ |
 | `peek.updateProfile` | peek.com | Edits the signed-in traveler's own profile -- name, phone, email or password -- the… | ⚪ |
 | `peek.writeReview` | peek.com | Leaves a star rating and review on an experience the signed-in traveler has booked and… | ⚪ |
@@ -4566,7 +4567,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.removeFromWishlist` | steampowered.com | Removes a game from the signed-in caller's wishlist by appid, off the store's own… | 🟢 |
 | `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | 🟢 |
 | `steam.searchNews` | steampowered.com | Searches a game's recent news items by keyword and/or date range. | 🟢 |
-| `steam.viewFriends` | steampowered.com | Lists the caller's Steam friends, including online status and last-seen date. | ⚪ |
+| `steam.viewFriends` | steampowered.com | Lists the signed-in caller's Steam friends — name, profile url, avatar, and… | 🟢 |
 | `steam.viewInventory` | steampowered.com | Displays the caller's inventory including trading cards, profile items, and gift… | ⚪ |
 | `steam.viewMarketHistory` | steampowered.com | Shows the caller's Steam Community Market transaction history including listings… | ⚪ |
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
@@ -5263,6 +5264,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `washingtonpost.unsaveArticle` | washingtonpost.com | Removes an article from the signed-in reader's own saved list. | ⚪ |
 | `waterfurnace.estimateGeothermalSavings` | waterfurnace.com | Runs the Savings Calculator's real backend computation (the same one the site's 3-step… | 🟢 |
 | `waterfurnace.lookupHomeDetails` | waterfurnace.com | Runs the Savings Calculator's own home-details lookup for an address/zip — the same… | 🟢 |
+| `wayfair.addToCart` | wayfair.com | Adds a product option to the visitor's Wayfair cart. | ⚪ |
+| `wayfair.getProduct` | wayfair.com | Reads one Wayfair product page: full description, every size/colour option with price… | ⚪ |
+| `wayfair.listReviews` | wayfair.com | Reads the customer reviews on one Wayfair product, with rating, text and photos. | ⚪ |
+| `wayfair.search` | wayfair.com | Searches Wayfair's catalog the way the site's own search box does ("queen bed frame"… | 🟢 |
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
 | `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟡 |
@@ -5676,21 +5681,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.updatePlaylist` | youtube.com | Change the title, description or privacy of one of the signed-in account's own… | 🟢 |
 | `youtube.updateVideo` | youtube.com | Change the title, description, tags, category or privacy of one of the signed-in… | 🟢 |
 | `youtube.uploadVideo` | youtube.com | Upload a video file to the signed-in account's own channel, with its title… | 🟢 |
-| `zen_planner.bookClass` | TODO example.com | Books a class slot for the caller, accepting guest checkout with email and phone. | ⚪ |
-| `zen_planner.cancelBooking` | TODO example.com | Cancels one of the caller's bookings, reading the cancellation policy and deadline. | ⚪ |
-| `zen_planner.findStudio` | TODO example.com | Finds a fitness studio on Zen Planner by its name or URL. | ⚪ |
-| `zen_planner.getClassDetails` | TODO example.com | Returns detailed information about a specific class including level, capacity and… | ⚪ |
-| `zen_planner.getMemberInfo` | TODO example.com | Returns the signed-in member's profile including name, email, membership status and… | ⚪ |
-| `zen_planner.getMembershipStatus` | TODO example.com | Returns details about the caller's current membership, credits remaining and renewal… | ⚪ |
-| `zen_planner.getPrice` | TODO example.com | Returns pricing for a specific class including drop-in rates and package pricing. | ⚪ |
-| `zen_planner.getStudioInfo` | TODO example.com | Returns details about a studio including address, hours, contact information… | ⚪ |
-| `zen_planner.listClasses` | TODO example.com | Lists all classes offered by a studio with their names, descriptions, duration and… | ⚪ |
-| `zen_planner.listMyBookings` | TODO example.com | Lists the signed-in caller's upcoming and past class bookings. | ⚪ |
-| `zen_planner.listPackages` | TODO example.com | Lists class packages and memberships available with their pricing and benefits. | ⚪ |
-| `zen_planner.listScheduleSlots` | TODO example.com | Lists available class times for a given date range at a studio with remaining spots… | ⚪ |
-| `zen_planner.rescheduleBooking` | TODO example.com | Reschedules a caller's booking to a different class time. | ⚪ |
-| `zen_planner.searchSchedule` | TODO example.com | Searches for available classes matching filter criteria like class type, time and day. | ⚪ |
-| `zen_planner.updateMemberInfo` | TODO example.com | Updates the signed-in member's profile information including name, email and… | ⚪ |
+| `zen_planner.bookClass` | zenplanner.com | Books a class slot for the caller, accepting guest checkout with email and phone. | ⚪ |
+| `zen_planner.cancelBooking` | zenplanner.com | Cancels one of the caller's bookings, reading the cancellation policy and deadline. | ⚪ |
+| `zen_planner.findStudio` | zenplanner.com | Finds a fitness studio on Zen Planner by its name or URL. | ⚪ |
+| `zen_planner.getClassDetails` | zenplanner.com | Returns detailed information about a specific class including level, capacity and… | ⚪ |
+| `zen_planner.getMemberInfo` | zenplanner.com | Returns the signed-in member's profile including name, email, membership status and… | ⚪ |
+| `zen_planner.getMembershipStatus` | zenplanner.com | Returns details about the caller's current membership, credits remaining and renewal… | ⚪ |
+| `zen_planner.getPrice` | zenplanner.com | Returns pricing for a specific class including drop-in rates and package pricing. | ⚪ |
+| `zen_planner.getStudioInfo` | zenplanner.com | Returns details about a studio including address, hours, contact information… | ⚪ |
+| `zen_planner.listClasses` | zenplanner.com | Lists all classes offered by a studio with their names, descriptions, duration and… | ⚪ |
+| `zen_planner.listMyBookings` | zenplanner.com | Lists the signed-in caller's upcoming and past class bookings. | ⚪ |
+| `zen_planner.listPackages` | zenplanner.com | Lists class packages and memberships available with their pricing and benefits. | ⚪ |
+| `zen_planner.listScheduleSlots` | zenplanner.com | Lists available class times for a given date range at a studio with remaining spots… | ⚪ |
+| `zen_planner.rescheduleBooking` | zenplanner.com | Reschedules a caller's booking to a different class time. | ⚪ |
+| `zen_planner.searchSchedule` | zenplanner.com | Searches for available classes matching filter criteria like class type, time and day. | ⚪ |
+| `zen_planner.updateMemberInfo` | zenplanner.com | Updates the signed-in member's profile information including name, email and… | ⚪ |
 | `zennioptical.checkStock` | zennioptical.com | Checks live per-SKU inventory (in stock, quantity, backorder/preorder flags) off the… | 🟢 |
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
 | `zennioptical.priceLensConfig` | zennioptical.com | Runs a real prescription + usage type through the site's own order-configurator flow… | 🟢 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 93d6f92474d3cc70435d13828216118aff233defcced80c30406f6f31cc51a02
-// 87 capabilities, 670 providers, 2791 typed functions, 20 refused.
+// Manifest version: e99a39e25e7a6548df1cec1ea6174f90907754f7147b46dec698118a4b4aa9a9
+// 87 capabilities, 673 providers, 2806 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32786,6 +32786,56 @@ interface GotchaCoveredQuizResult {
   }
 }
 
+declare namespace BowmarkProvider_goteamup_classes {
+  // ── TeamUp — the unit's own declarations, verbatim ──
+interface goteamup_classesRow {
+  id: string;
+}
+
+interface GoteamupStudio {
+  providerId: string;
+  name: string;
+  description: string;
+  country: string;
+  currencyCode: string;
+  currencySymbol: string;
+  address: {
+    street: string | null;
+    city: string | null;
+    region: string | null;
+    postalCode: string | null;
+    country: string;
+    timezone: string;
+  };
+  contactEmail: string | null;
+  contactPhone: string | null;
+  urlSlug: string;
+  /** This studio's own page, e.g. "https://goteamup.com/p/3707700-kb-fitness-studio/". */
+  url: string;
+}
+
+  /**
+   * TeamUp gym and fitness studios: find a studio, read its class timetable, class types,
+   * venues, instructors and memberships, and book, cancel or waitlist a class as the signed-in
+   * customer.
+   */
+  interface Unit {
+    /**
+     * Finds TeamUp studios by name and returns each one's profile — provider id, name, address,
+     * currency. TeamUp has no studio search API, so this matches the query against
+     * goteamup.com/robots.txt's list of /p/<id>-<slug> studio paths and confirms each candidate
+     * through getStudio.
+     */
+    findStudio(name: string): Promise<GoteamupStudio[]>;
+
+    /**
+     * Gets one studio's profile — name, address, timezone, currency — from its provider id or
+     * goteamup.com/p/<id>-<slug> url.
+     */
+    getStudio(studio: string | number): Promise<GoteamupStudio>;
+  }
+}
+
 declare namespace BowmarkProvider_grainger {
   // ── Grainger — the unit's own declarations, verbatim ──
 interface GraingerSearchArgs {
@@ -35427,7 +35477,9 @@ interface HuggingFaceSearchArgs {
     /**
      * Search every public Hugging Face model by name, `author` (org) or `task`, sorted by
      * "trending" (default), "downloads", "likes", "created" or "updated"; `limit` 1-100, default
-     * 20. Returns [] on no match. Example: searchModels({ query: "llama", sort: "downloads" }).
+     * 20. With only a `sort` it lists the top models overall, e.g. searchModels({ sort:
+     * "downloads", limit: 10 }). Returns [] on no match. Example: searchModels({ query: "llama",
+     * sort: "downloads" }).
      */
     searchModels(args: string | HuggingFaceSearchArgs): Promise<HuggingFaceModel[]>;
 
@@ -41404,6 +41456,67 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * argument; ask them first.
      */
     applyToJob(input: { job: string; answers?: Record<string, string | number>; submit?: boolean }, opts?: ConnectionOption): Promise<{ submitted: boolean; unanswered: string[]; questions: string[] }>;
+
+    /**
+     * RSVPs the caller to a LinkedIn event (LinkedIn's Attend button), or withdraws the RSVP when
+     * `attend: false`. Takes the event URL or the numeric id searchEvents/getEvent return. Signed
+     * in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+     * hands back a link where they sign in. Paced per LinkedIn account across runs so it never
+     * looks automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour —
+     * and held 30 minutes after LinkedIn throttles it; a call over the pace throws
+     * LinkedinRateLimited saying when to retry: wait that long. The account owner may opt into
+     * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
+     */
+    attendEvent(input: string | { event: string; attend?: boolean }, opts?: ConnectionOption): Promise<{ attending: boolean }>;
+
+    /**
+     * Publishes a text post inside a group the caller belongs to. `group` is a group URL or the
+     * numeric id searchGroups/listMyGroups return. Returns the post's id for deletePost where
+     * LinkedIn's answer carries one. Signed in: acts as the caller's own LinkedIn account; with no
+     * saved sign-in the run pauses and hands back a link where they sign in. Paced per LinkedIn
+     * account across runs so it never looks automated — 6 requests a minute, and a reserve of 400
+     * that refills about 17 an hour — and held 30 minutes after LinkedIn throttles it; a call over
+     * the pace throws LinkedinRateLimited saying when to retry: wait that long. The account owner
+     * may opt into faster pacing with { pacing: "fast" } as an extra last argument; ask them
+     * first.
+     */
+    createGroupPost(input: { group: string; text: string }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
+
+    /**
+     * Subscribes the caller to a LinkedIn newsletter, or unsubscribes when `subscribe: false`.
+     * Takes the newsletter URL or its numeric id. Signed in: acts as the caller's own LinkedIn
+     * account; with no saved sign-in the run pauses and hands back a link where they sign in.
+     * Paced per LinkedIn account across runs so it never looks automated — 6 requests a minute,
+     * and a reserve of 400 that refills about 17 an hour — and held 30 minutes after LinkedIn
+     * throttles it; a call over the pace throws LinkedinRateLimited saying when to retry: wait
+     * that long. The account owner may opt into faster pacing with { pacing: "fast" } as an extra
+     * last argument; ask them first.
+     */
+    subscribeToNewsletter(input: string | { newsletter: string; subscribe?: boolean }, opts?: ConnectionOption): Promise<{ subscribed: boolean }>;
+
+    /**
+     * Adds one skill to the caller's own profile — the write half of getProfileSkills. Signed in:
+     * acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and hands
+     * back a link where they sign in. Paced per LinkedIn account across runs so it never looks
+     * automated — 6 requests a minute, and a reserve of 400 that refills about 17 an hour — and
+     * held 30 minutes after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited
+     * saying when to retry: wait that long. The account owner may opt into faster pacing with {
+     * pacing: "fast" } as an extra last argument; ask them first.
+     */
+    addProfileSkill(input: string | { skill: string }, opts?: ConnectionOption): Promise<{ added: string; id: string | null }>;
+
+    /**
+     * Replies under one comment, threaded — commentOnPost only makes top-level comments. `comment`
+     * is the full comment urn, "urn:li:comment:(urn:li:activity:<post>,<comment>)". Returns the
+     * reply's id for deleteComment where LinkedIn's answer carries one. Signed in: acts as the
+     * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
+     * where they sign in. Paced per LinkedIn account across runs so it never looks automated — 6
+     * requests a minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes
+     * after LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to
+     * retry: wait that long. The account owner may opt into faster pacing with { pacing: "fast" }
+     * as an extra last argument; ask them first.
+     */
+    replyToComment(input: { comment: string; text: string }, opts?: ConnectionOption): Promise<LinkedinPostResult>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -51541,6 +51654,92 @@ interface PersonioBoard {
   }
 }
 
+declare namespace BowmarkProvider_pike13 {
+  // ── Pike13 — the unit's own declarations, verbatim ──
+interface Pike13FindBusinessArgs {
+  name: string;   // the studio's name, as a person would say it, e.g. "PranaMoon Yoga"
+  town?: string;  // narrows the search, e.g. "Peekskill NY"
+}
+interface Pike13BusinessMatch {
+  subdomain: string;      // the <subdomain> in <subdomain>.pike13.com
+  business: Pike13Business;
+}
+interface Pike13Business {
+  id: number;
+  name: string;
+  subdomain: string;
+  default_locale: string;
+  currency_code: string;
+  website: string | null;
+  phone: string | null;
+  twitter: string | null;
+  facebook: string | null;
+  instagram: string | null;
+  is_franchise: boolean;
+  is_active: boolean;
+  is_in_trial: boolean;
+  is_suspended: boolean;
+  email_address: string | null;
+  timezone: string;
+}
+interface Pike13Location {
+  id: number;
+  name: string;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  phone: string | null;
+  description: string | null;
+  formatted_address: string | null;
+  city: string | null;
+  state_code: string | null;
+  postal_code: string | null;
+  country_code: string | null;
+  timezone: string;
+}
+interface Pike13Service {
+  id: number;
+  name: string;
+  type: string;           // "GroupClass" | "Course" | "Appointment" | …
+  description: string | null;
+  position: number;
+}
+
+  /**
+   * Pike13 studios (music schools, gyms, swim schools, yoga): find a studio, read its class
+   * schedule, appointment slots and plans, and book or cancel as the signed-in client.
+   */
+  interface Unit {
+    /**
+     * Finds Pike13 studios by name and town and returns each one's subdomain and confirmed
+     * business profile — the door every other function needs, since a caller holds a studio's
+     * name, not its subdomain. Pike13 publishes no business directory, so this searches the web
+     * and confirms each candidate through the business's own front API.
+     */
+    findBusiness(args: Pike13FindBusinessArgs): Promise<Pike13BusinessMatch[]>;
+
+    /**
+     * Gets one studio's profile — name, subdomain, website, phone, currency, social links, whether
+     * it is active. Takes the business as its Pike13 subdomain, a <business>.pike13.com url, or
+     * the studio's own website.
+     */
+    getBusiness(business: string): Promise<Pike13Business>;
+
+    /**
+     * Lists a studio's locations with address, coordinates, phone and timezone. Takes the business
+     * as its Pike13 subdomain, a <business>.pike13.com url, or the studio's own website.
+     */
+    listLocations(business: string): Promise<Pike13Location[]>;
+
+    /**
+     * Lists what a studio offers — group classes, courses and appointments, with duration, booking
+     * windows, free-cancellation window and whether clients may book online. Takes the business as
+     * its Pike13 subdomain, a <business>.pike13.com url, or the studio's own website.
+     */
+    listServices(business: string): Promise<Pike13Service[]>;
+  }
+}
+
 declare namespace BowmarkProvider_pilotprotocol {
   // ── Pilot Protocol App Store — the unit's own declarations, verbatim ──
 interface PilotprotocolAppSummary {
@@ -54495,6 +54694,10 @@ interface SearchQuestionsArgs {
 interface QuoraHomeFeed {
   questions: Array<{ id: string; title: string; url: string }>;
 }
+interface QuoraTopicFeed {
+  topicUrl: string;
+  questions: Array<{ id: string; title: string; url: string }>;
+}
 
   /**
    * A question-and-answer site: questions and their answers, member profiles and Spaces, and
@@ -54543,6 +54746,13 @@ interface QuoraHomeFeed {
      * with the site's own marketing page.
      */
     getHomeFeed(opts?: ConnectionOption): Promise<QuoraHomeFeed>;
+
+    /**
+     * Reads the questions Quora files under one topic (by url), as a signed-in viewer sees them,
+     * taking a topic URL or name. Needs the caller signed in to Quora; a signed-out topic page
+     * carries no question feed and is refused.
+     */
+    getTopicFeed(topic: string, opts?: ConnectionOption): Promise<QuoraTopicFeed>;
   }
 }
 
@@ -55722,6 +55932,84 @@ interface AssembledApplication {
      * underwriting follow-up, not an instant quote.
      */
     assembleApplication(args: ReliancePartnersAssembleApplicationArgs): Promise<AssembledApplication>;
+  }
+}
+
+declare namespace BowmarkProvider_reserve_with_google {
+  // ── Reserve with Google — the unit's own declarations, verbatim ──
+interface reserve_with_googleRow {
+  id: string;
+}
+
+interface BookingAction {
+  kind: "google-hosted" | "partner";
+  /** Set when kind is "google-hosted": the Maps-hosted booking page's merchant id, e.g. "ACNsCyuOaeQ" — pass to getMerchant. */
+  merchantId?: string;
+  /** Set when kind is "google-hosted": which Reserve with Google vertical, e.g. "dine". */
+  vertical?: string;
+  /** Set when kind is "partner": the site that fulfills the booking, e.g. "Tock", "Square". */
+  partner?: string;
+  /** The button's own label, e.g. "Reserve a table", "Book online". */
+  label: string;
+  /** The link Google's own page shows for this action. */
+  url: string;
+}
+
+interface BookablePlace {
+  featureId: string;
+  name: string;
+  url: string;
+  address: string;
+  coordinates: { lat: number; lng: number } | null;
+  categories: string[];
+  booking: BookingAction;
+}
+
+interface Merchant {
+  merchantId: string;
+  name: string;
+  photos: string[];
+  rating: number | null;
+  coordinates: { lat: number; lng: number } | null;
+  address: string;
+  phone: string | null;
+  website: string | null;
+  googleMapsUrl: string | null;
+  partner: string | null;
+  timeZone: string;
+  category: string | null;
+  featureId: string | null;
+  partySizes: number[];
+  serviceWindowSeconds: [number, number] | null;
+  room: string | null;
+  bookableDays: number[];
+}
+
+  /**
+   * Google's own booking layer on Maps and Search: find places that take a booking through
+   * Google, see which partner takes it, read a Google-hosted restaurant's party sizes and
+   * bookable days, and (signed in) list, change or cancel your Reserve with Google bookings.
+   */
+  interface Unit {
+    /**
+     * Finds places you can book through Reserve with Google from words — "sushi near Union
+     * Square", "hair salon Seattle" — and returns each place's name, address, category, Google
+     * feature id, and how it books: a Google-hosted merchant id (dining) or the partner that takes
+     * the booking.
+     */
+    findBookablePlaces(query: string): Promise<BookablePlace[]>;
+
+    /**
+     * Resolves a place by words (name plus city) through the same search door and returns its
+     * booking action — "Reserve a table" or "Book online" — with the partner name and URL.
+     */
+    getBookingOptions(place: string): Promise<BookingAction[]>;
+
+    /**
+     * Reads one Google-hosted booking page by merchant id: the venue's details, the fulfilling
+     * partner, party sizes, time zone, bookable room and bookable days.
+     */
+    getMerchant(merchantId: string): Promise<Merchant>;
   }
 }
 
@@ -74534,6 +74822,7 @@ interface BowmarkProviders {
   goremutual: BowmarkProvider_goremutual.Unit;
   gostoreit: BowmarkProvider_gostoreit.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
+  goteamup_classes: BowmarkProvider_goteamup_classes.Unit;
   grainger: BowmarkProvider_grainger.Unit;
   grammarly: BowmarkProvider_grammarly.Unit;
   grandwelcome: BowmarkProvider_grandwelcome.Unit;
@@ -74708,6 +74997,7 @@ interface BowmarkProviders {
   peerspace: BowmarkProvider_peerspace.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   personio: BowmarkProvider_personio.Unit;
+  pike13: BowmarkProvider_pike13.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
   pinterest: BowmarkProvider_pinterest.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
@@ -74743,6 +75033,7 @@ interface BowmarkProviders {
   reddit: BowmarkProvider_reddit.Unit;
   rei: BowmarkProvider_rei.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
+  reserve_with_google: BowmarkProvider_reserve_with_google.Unit;
   resy: BowmarkProvider_resy.Unit;
   reuters: BowmarkProvider_reuters.Unit;
   revisionskincare: BowmarkProvider_revisionskincare.Unit;

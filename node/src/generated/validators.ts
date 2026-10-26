@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 93d6f92474d3cc70435d13828216118aff233defcced80c30406f6f31cc51a02
-// 2773 checked, 20 unchecked.
+// Manifest version: e99a39e25e7a6548df1cec1ea6174f90907754f7147b46dec698118a4b4aa9a9
+// 2788 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "93d6f92474d3cc70435d13828216118aff233defcced80c30406f6f31cc51a02",
+  "version": "e99a39e25e7a6548df1cec1ea6174f90907754f7147b46dec698118a4b4aa9a9",
   "units": {
     "address_validation": {
       "defs": {
@@ -34999,6 +34999,37 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.goteamup_classes": {
+      "defs": {},
+      "functions": {
+        "findStudio": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getStudio": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.grainger": {
       "defs": {
         "GraingerCheckStockArgs": {
@@ -44642,6 +44673,228 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "boolean"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "attendEvent": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "event",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "attend",
+                      "schema": {
+                        "k": "boolean"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createGroupPost": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "group",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "subscribeToNewsletter": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "newsletter",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "subscribe",
+                      "schema": {
+                        "k": "boolean"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addProfileSkill": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "skill",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "replyToComment": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "comment",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },
@@ -58131,6 +58384,68 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.pike13": {
+      "defs": {
+        "Pike13FindBusinessArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "town",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findBusiness": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "Pike13FindBusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getBusiness": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listServices": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.pilotprotocol": {
       "defs": {},
       "functions": {
@@ -62826,6 +63141,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getTopicFeed": [
+          {
+            "name": "topic",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -65647,6 +65987,38 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ReliancePartnersAssembleApplicationArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.reserve_with_google": {
+      "defs": {},
+      "functions": {
+        "findBookablePlaces": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getBookingOptions": [
+          {
+            "name": "place",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMerchant": [
+          {
+            "name": "merchantId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
