@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 540971b2a57eebe11b169d10ff34371ba1969991b5fae6ea2ca8fd792871d0b9
-// 2711 checked, 20 unchecked.
+// Manifest version: 19fedfd2f42baa39a87c4b35623c7ca4da3305ac650e0553587f91cd6d3c31c3
+// 2721 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "540971b2a57eebe11b169d10ff34371ba1969991b5fae6ea2ca8fd792871d0b9",
+  "version": "19fedfd2f42baa39a87c4b35623c7ca4da3305ac650e0553587f91cd6d3c31c3",
   "units": {
     "address_validation": {
       "defs": {
@@ -7453,7 +7453,52 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getStockAsset": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
+      }
+    },
+    "providers.adorama": {
+      "defs": {
+        "AdoramaSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AdoramaSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": []
       }
     },
     "providers.agakhanhospitals": {
@@ -16235,7 +16280,53 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.ca_gov": {
-      "defs": {},
+      "defs": {
+        "ca_govListPublicDataArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ca_govSearchPublicDataArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "listDepartments": [
           {
@@ -16279,6 +16370,36 @@ export const VALIDATORS: ValidatorTable = {
             "name": "departmentId",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listNews": [],
+        "searchNews": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPublicData": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ca_govListPublicDataArgs"
+            },
+            "optional": true
+          }
+        ],
+        "searchPublicData": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ca_govSearchPublicDataArgs"
             },
             "optional": false
           }
@@ -56454,6 +56575,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getPayPalMeProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "handle",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -61305,6 +61444,50 @@ export const VALIDATORS: ValidatorTable = {
         "getRuling": [
           {
             "name": "ecli",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.rakuten": {
+      "defs": {
+        "RakutenSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RakutenSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStore": [
+          {
+            "name": "ref",
             "schema": {
               "k": "string"
             },

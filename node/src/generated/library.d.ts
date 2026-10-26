@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 540971b2a57eebe11b169d10ff34371ba1969991b5fae6ea2ca8fd792871d0b9
-// 87 capabilities, 657 providers, 2729 typed functions, 20 refused.
+// Manifest version: 19fedfd2f42baa39a87c4b35623c7ca4da3305ac650e0553587f91cd6d3c31c3
+// 87 capabilities, 659 providers, 2739 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6732,9 +6732,20 @@ interface StockAsset {
   id: string;
   title: string;
   thumbnail: string;
-  mediaType: "photo" | "vector" | "illustration" | "template" | "video";
+  mediaType: "photo" | "vector" | "illustration" | "template" | "video" | "3d-asset";
   orientation?: "landscape" | "portrait" | "square";
   licensingPriceTier?: string;
+}
+
+interface StockAssetDetail {
+  id: string;
+  title: string;
+  mediaType: "photo" | "vector" | "illustration" | "template" | "video" | "3d-asset";
+  width: number;
+  height: number;
+  keywords: string[];
+  contributor: string;
+  licensing: Array<{ name: string; price: string }>;
 }
 
 interface adobeRow {
@@ -6799,6 +6810,59 @@ interface adobeRow {
      * function: nothing on Stock can be read without an asset id.
      */
     searchStockAssets(query: string): Promise<StockAsset[]>;
+
+    /**
+     * Returns one Adobe Stock asset's detail — title, media type, dimensions, keywords,
+     * contributor name and every licensing tier's price — from the asset id or stock.adobe.com URL
+     * searchStockAssets returns. The site's own description meta is a templated restatement of the
+     * title, so it is not carried as a separate field.
+     */
+    getStockAsset(idOrUrl: string): Promise<StockAssetDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_adorama {
+  // ── Adorama — the unit's own declarations, verbatim ──
+interface AdoramaSearchArgs {
+  /** Free text — product name, brand, model or an Adorama SKU. */
+  query: string;
+  /** Max rows, default 20, clamped to [1, 100]. */
+  limit?: number;
+}
+interface AdoramaProduct {
+  /** Adorama's own SKU, e.g. "lc11160". */
+  sku: string;
+  /** The title as Adorama's url slug spells it, de-hyphenated. */
+  title: string;
+  url: string;
+  /** YYYY-MM-DD, or null. */
+  lastModified: string | null;
+}
+interface AdoramaCategory {
+  name: string;
+  path: string[];
+  url: string;
+}
+
+  /**
+   * Adorama, the New York camera, photo, video and electronics retailer: find a product by name,
+   * brand, model or SKU across its whole catalog (url + SKU), and list its departments. Prices
+   * and stock are not available.
+   */
+  interface Unit {
+    /**
+     * Finds Adorama products by name, brand, model or SKU (e.g. { query: "sony a7 iv" }) across
+     * the ~85k products in Adorama's own product sitemaps, returning each one's SKU, slug title
+     * and product url. Every query word must appear. NO price or stock — Adorama's product pages
+     * are behind a bot wall Bowmark cannot pass. Empty array when nothing matches.
+     */
+    search(args: AdoramaSearchArgs): Promise<AdoramaProduct[]>;
+
+    /**
+     * Lists every Adorama department and sub-category (name, full path, url) from its own category
+     * sitemap.
+     */
+    listCategories(): Promise<AdoramaCategory[]>;
   }
 }
 
@@ -15679,10 +15743,36 @@ interface ca_govServiceSearchRow {
   department?: string;
   description?: string;
 }
+interface ca_govNewsItem {
+  title: string;
+  url: string;
+  date?: string;
+  summary?: string;
+}
+interface ca_govDataset {
+  id: string;
+  name: string;
+  title: string;
+  url: string;
+  description?: string;
+  organization?: string;
+  modified?: string;
+  license?: string;
+  resources: { name?: string; format?: string; url: string }[];
+}
+interface ca_govListPublicDataArgs {
+  limit?: number;
+  offset?: number;
+}
+interface ca_govSearchPublicDataArgs {
+  query: string;
+  limit?: number;
+  offset?: number;
+}
 
   /**
-   * California's state government portal — services, departments and public data. Surveyed, not
-   * yet built.
+   * California's state government portal — services, departments and public data. Departments,
+   * services, state news and open data.
    */
   interface Unit {
     /**
@@ -15719,6 +15809,32 @@ interface ca_govServiceSearchRow {
      * the department's own contact-us page — read off the department page's own structured data.
      */
     getDepartmentContact(departmentId: string): Promise<ca_govDepartmentContact>;
+
+    /**
+     * Lists the state news CA.gov's home page features in its "In the spotlight" list — title,
+     * link (usually a Governor's office release on gov.ca.gov) and date.
+     */
+    listNews(): Promise<ca_govNewsItem[]>;
+
+    /**
+     * Searches the Governor's newsroom (www.gov.ca.gov, where CA.gov's news links point) by
+     * keyword — newest first, up to 20 releases with title, link, date and excerpt.
+     */
+    searchNews(query: string): Promise<ca_govNewsItem[]>;
+
+    /**
+     * Lists datasets on data.ca.gov, California's open data portal, most recently updated first —
+     * title, publishing department, description, license and download links. `limit` (default 20,
+     * max 100) and `offset` page through them.
+     */
+    listPublicData(args?: ca_govListPublicDataArgs): Promise<{count: number; datasets: ca_govDataset[]}>;
+
+    /**
+     * Searches data.ca.gov's open datasets by keyword through the portal's own CKAN API — the
+     * total match count and each dataset's title, department, description, license and download
+     * links.
+     */
+    searchPublicData(args: ca_govSearchPublicDataArgs): Promise<{count: number; datasets: ca_govDataset[]}>;
   }
 }
 
@@ -50153,15 +50269,27 @@ interface PaypalShoppingOffersResult {
   merchant: string | null;       // echoes the caller's filter, or null when none was given
   offers: PaypalShoppingOffer[];
 }
+interface PaypalMeProfile {
+  handle: string;
+  found: boolean;                // false means the handle does not resolve to a live profile
+  displayName: string | null;
+  location: string | null;
+  profilePhotoUrl: string | null;
+  primaryCurrencyCode: string | null;
+  intent: string | null;         // "PERSONAL" or "BUSINESS"
+  socials: { instagram: string | null; facebook: string | null; twitter: string | null; website: string | null };
+  profileUrl: string;
+}
 
   /**
    * PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules, the
    * fee on one concrete personal (friends-and-family) transaction, the spread PayPal adds on a
    * currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help Center search
-   * and articles, the binding policy documents, PayPal Shopping cashback offers, crypto prices,
-   * and invoice payer-view reads. Eight functions callable today — estimateFee, getFees,
-   * getCurrencyConversionQuote, getPolicyDocument, estimatePayLaterPlan, searchHelp,
-   * getHelpArticle, searchShoppingOffers.
+   * and articles, the binding policy documents, and PayPal Shopping cashback offers. Nine
+   * functions callable today — estimateFee, getFees, getCurrencyConversionQuote,
+   * getPolicyDocument, estimatePayLaterPlan, searchHelp, getHelpArticle, searchShoppingOffers,
+   * getPayPalMeProfile. Crypto prices are not offered by the site's public page, and invoice
+   * reads are blocked on a real invoice id nobody here holds.
    */
   interface Unit {
     /**
@@ -50248,6 +50376,19 @@ interface PaypalShoppingOffersResult {
      * array rather than an error.
      */
     searchShoppingOffers(args?: { merchant?: string }): Promise<PaypalShoppingOffersResult>;
+
+    /**
+     * Resolves a PayPal.Me handle or link to the public profile behind it — display name,
+     * location, profile photo and which social links the owner has published — so a person can
+     * check that a paypal.me link they were sent belongs to who they think before paying it, e.g.
+     * getPayPalMeProfile({ handle: "LeeDread" }) -> { handle: "LeeDread", found: true,
+     * displayName: "El Phillips", location: "Panama City, Provincia de Panamá", profilePhotoUrl:
+     * "https://pics.paypal.com/...", primaryCurrencyCode: "USD", intent: "PERSONAL", socials: {
+     * instagram: null, facebook: null, twitter: null, website: null } }. A handle that is not a
+     * live PayPal.Me profile answers found: false rather than throwing. Accepts a bare handle or a
+     * full paypal.me/paypal.com URL.
+     */
+    getPayPalMeProfile(args: { handle: string }): Promise<PaypalMeProfile>;
   }
 }
 
@@ -53446,6 +53587,58 @@ interface RaadvanstateRuling {
      * and the complete ruling text, from the Dutch judiciary's open-data service.
      */
     getRuling(ecli: string): Promise<RaadvanstateRuling>;
+  }
+}
+
+declare namespace BowmarkProvider_rakuten {
+  // ── Rakuten — the unit's own declarations, verbatim ──
+interface RakutenStore {
+  storeId: string;
+  name: string;
+  /** Path slug — what getStore takes. */
+  slug: string;
+  /** "8.0%", "Up to 3.0%", "$10.00" or "No Discount". */
+  cashBack: string;
+  /** e.g. "8.0% Cash Back". */
+  offer: string;
+  logoUrl: string | null;
+  url: string;
+}
+interface RakutenSearchArgs {
+  query: string;
+  /** 1-50, default 10. */
+  limit?: number;
+}
+interface RakutenSearchResult {
+  query: string;
+  totalCount: number | null;
+  stores: RakutenStore[];
+}
+interface RakutenStoreDetail {
+  slug: string;
+  name: string;
+  cashBack: string | null;
+  headline: string | null;
+  url: string;
+}
+
+  /**
+   * Rakuten (formerly Ebates), the US cash-back shopping portal — find which stores Rakuten pays
+   * cash back at and the current rate for each, then read one store's offer.
+   */
+  interface Unit {
+    /**
+     * Searches Rakuten's store directory by store or brand name the way its search box does and
+     * returns each matching store with its current cash-back rate, offer line, logo and Rakuten
+     * url.
+     */
+    search(args: RakutenSearchArgs): Promise<RakutenSearchResult>;
+
+    /**
+     * Reads one Rakuten store page — the store's name and today's cash-back rate. Takes the slug
+     * or url `search` returns.
+     */
+    getStore(ref: string): Promise<RakutenStoreDetail>;
   }
 }
 
@@ -72753,6 +72946,7 @@ interface BowmarkProviders {
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
   acuityscheduling: BowmarkProvider_acuityscheduling.Unit;
   adobe: BowmarkProvider_adobe.Unit;
+  adorama: BowmarkProvider_adorama.Unit;
   agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
   agentstatus: BowmarkProvider_agentstatus.Unit;
   agoda: BowmarkProvider_agoda.Unit;
@@ -73231,6 +73425,7 @@ interface BowmarkProviders {
   quince: BowmarkProvider_quince.Unit;
   quora: BowmarkProvider_quora.Unit;
   raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
+  rakuten: BowmarkProvider_rakuten.Unit;
   recruitee: BowmarkProvider_recruitee.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   rei: BowmarkProvider_rei.Unit;

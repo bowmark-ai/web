@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 540971b2a57eebe11b169d10ff34371ba1969991b5fae6ea2ca8fd792871d0b9
-# 87 capabilities, 657 providers, 2711 typed functions, 20 refused.
+# Manifest version: 19fedfd2f42baa39a87c4b35623c7ca4da3305ac650e0553587f91cd6d3c31c3
+# 87 capabilities, 659 providers, 2721 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3774,9 +3774,38 @@ class Prv_adobe_StockAsset_Out(TypedDict):
     id: str
     title: str
     thumbnail: str
-    mediaType: Literal["photo"] | Literal["vector"] | Literal["illustration"] | Literal["template"] | Literal["video"]
+    mediaType: Literal["photo"] | Literal["vector"] | Literal["illustration"] | Literal["template"] | Literal["video"] | Literal["3d-asset"]
     orientation: NotRequired[Literal["landscape"] | Literal["portrait"] | Literal["square"]]
     licensingPriceTier: NotRequired[str]
+
+class Prv_adobe_StockAssetDetail_Out(TypedDict):
+    id: str
+    title: str
+    mediaType: Literal["photo"] | Literal["vector"] | Literal["illustration"] | Literal["template"] | Literal["video"] | Literal["3d-asset"]
+    width: float
+    height: float
+    keywords: list[str]
+    contributor: str
+    licensing: list[Prv_adobe_StockAssetDetail_Out_licensing_item_Out]
+
+class Prv_adobe_StockAssetDetail_Out_licensing_item_Out(TypedDict):
+    name: str
+    price: str
+
+class Prv_adorama_AdoramaSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_adorama_AdoramaProduct_Out(TypedDict):
+    sku: str
+    title: str
+    url: str
+    lastModified: str | None
+
+class Prv_adorama_AdoramaCategory_Out(TypedDict):
+    name: str
+    path: list[str]
+    url: str
 
 class Prv_agakhanhospitals_getHospitalInfo_location_u1_In(TypedDict):
     location: str
@@ -9078,6 +9107,45 @@ class Prv_ca_gov_ca_govDepartmentContact_Out(TypedDict):
     phone: NotRequired[str]
     email: NotRequired[str]
     contactUrl: NotRequired[str]
+
+class Prv_ca_gov_ca_govNewsItem_Out(TypedDict):
+    title: str
+    url: str
+    date: NotRequired[str]
+    summary: NotRequired[str]
+
+class Prv_ca_gov_ca_govListPublicDataArgs_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_ca_gov_listPublicData_return_Out(TypedDict):
+    count: float
+    datasets: list[Prv_ca_gov_ca_govDataset_Out]
+
+class Prv_ca_gov_ca_govDataset_Out(TypedDict):
+    id: str
+    name: str
+    title: str
+    url: str
+    description: NotRequired[str]
+    organization: NotRequired[str]
+    modified: NotRequired[str]
+    license: NotRequired[str]
+    resources: list[Prv_ca_gov_ca_govDataset_Out_resources_item_Out]
+
+class Prv_ca_gov_ca_govDataset_Out_resources_item_Out(TypedDict):
+    name: NotRequired[str]
+    format: NotRequired[str]
+    url: str
+
+class Prv_ca_gov_ca_govSearchPublicDataArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_ca_gov_searchPublicData_return_Out(TypedDict):
+    count: float
+    datasets: list[Prv_ca_gov_ca_govDataset_Out]
 
 class Prv_cabinsforyou_CabinsforyouSearchArgs_In(TypedDict):
     checkIn: str
@@ -28132,6 +28200,26 @@ class Prv_paypal_PaypalShoppingOffer_Out(TypedDict):
     campaignId: str
     detailsUrl: str | None
 
+class Prv_paypal_getPayPalMeProfile_args_In(TypedDict):
+    handle: str
+
+class Prv_paypal_PaypalMeProfile_Out(TypedDict):
+    handle: str
+    found: bool
+    displayName: str | None
+    location: str | None
+    profilePhotoUrl: str | None
+    primaryCurrencyCode: str | None
+    intent: str | None
+    socials: Prv_paypal_PaypalMeProfile_Out_socials_Out
+    profileUrl: str
+
+class Prv_paypal_PaypalMeProfile_Out_socials_Out(TypedDict):
+    instagram: str | None
+    facebook: str | None
+    twitter: str | None
+    website: str | None
+
 class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
     city: str
     state: str
@@ -30003,6 +30091,31 @@ class Prv_raadvanstate_nl_RaadvanstateRuling_Out(TypedDict):
     title: str | None
     summary: str | None
     text: str
+    url: str
+
+class Prv_rakuten_RakutenSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_rakuten_RakutenSearchResult_Out(TypedDict):
+    query: str
+    totalCount: float | None
+    stores: list[Prv_rakuten_RakutenStore_Out]
+
+class Prv_rakuten_RakutenStore_Out(TypedDict):
+    storeId: str
+    name: str
+    slug: str
+    cashBack: str
+    offer: str
+    logoUrl: str | None
+    url: str
+
+class Prv_rakuten_RakutenStoreDetail_Out(TypedDict):
+    slug: str
+    name: str
+    cashBack: str | None
+    headline: str | None
     url: str
 
 class Prv_recruitee_RecruiteeBoard_Out(TypedDict):
@@ -43907,6 +44020,32 @@ class Prv_adobe(Protocol):
         Stock function: nothing on Stock can be read without an asset id.
         """
 
+    async def getStockAsset(self, idOrUrl: str, /) -> Prv_adobe_StockAssetDetail_Out:
+        """Returns one Adobe Stock asset's detail — title, media type, dimensions, keywords,
+        contributor name and every licensing tier's price — from the asset id or stock.adobe.com
+        URL searchStockAssets returns. The site's own description meta is a templated
+        restatement of the title, so it is not carried as a separate field.
+        """
+
+class Prv_adorama(Protocol):
+    """Adorama, the New York camera, photo, video and electronics retailer: find a product by
+    name, brand, model or SKU across its whole catalog (url + SKU), and list its
+    departments. Prices and stock are not available.
+    """
+
+    async def search(self, args: Prv_adorama_AdoramaSearchArgs_In, /) -> list[Prv_adorama_AdoramaProduct_Out]:
+        """Finds Adorama products by name, brand, model or SKU (e.g. { query: "sony a7 iv" })
+        across the ~85k products in Adorama's own product sitemaps, returning each one's SKU,
+        slug title and product url. Every query word must appear. NO price or stock — Adorama's
+        product pages are behind a bot wall Bowmark cannot pass. Empty array when nothing
+        matches.
+        """
+
+    async def listCategories(self, /) -> list[Prv_adorama_AdoramaCategory_Out]:
+        """Lists every Adorama department and sub-category (name, full path, url) from its own
+        category sitemap.
+        """
+
 class Prv_agakhanhospitals(Protocol):
     """Reads the Aga Khan Hospital, Kisumu (AKHK)'s public contact info, department leadership
     and full specialty-clinic catalog straight off agakhanhospitals.org's own Next.js page
@@ -47030,8 +47169,8 @@ class Prv_byltbasics(Protocol):
         """
 
 class Prv_ca_gov(Protocol):
-    """California's state government portal — services, departments and public data. Surveyed,
-    not yet built.
+    """California's state government portal — services, departments and public data.
+    Departments, services, state news and open data.
     """
 
     async def listDepartments(self, filter: str | None = None, /) -> list[Prv_ca_gov_ca_govRow_Out]:
@@ -47063,6 +47202,28 @@ class Prv_ca_gov(Protocol):
         """Returns a California state department's contact details — phone, email (often absent)
         and the department's own contact-us page — read off the department page's own structured
         data.
+        """
+
+    async def listNews(self, /) -> list[Prv_ca_gov_ca_govNewsItem_Out]:
+        """Lists the state news CA.gov's home page features in its "In the spotlight" list — title,
+        link (usually a Governor's office release on gov.ca.gov) and date.
+        """
+
+    async def searchNews(self, query: str, /) -> list[Prv_ca_gov_ca_govNewsItem_Out]:
+        """Searches the Governor's newsroom (www.gov.ca.gov, where CA.gov's news links point) by
+        keyword — newest first, up to 20 releases with title, link, date and excerpt.
+        """
+
+    async def listPublicData(self, args: Prv_ca_gov_ca_govListPublicDataArgs_In | None = None, /) -> Prv_ca_gov_listPublicData_return_Out:
+        """Lists datasets on data.ca.gov, California's open data portal, most recently updated
+        first — title, publishing department, description, license and download links. `limit`
+        (default 20, max 100) and `offset` page through them.
+        """
+
+    async def searchPublicData(self, args: Prv_ca_gov_ca_govSearchPublicDataArgs_In, /) -> Prv_ca_gov_searchPublicData_return_Out:
+        """Searches data.ca.gov's open datasets by keyword through the portal's own CKAN API — the
+        total match count and each dataset's title, department, description, license and
+        download links.
         """
 
 class Prv_cabinsforyou(Protocol):
@@ -59457,10 +59618,12 @@ class Prv_paypal(Protocol):
     """PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules,
     the fee on one concrete personal (friends-and-family) transaction, the spread PayPal
     adds on a currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help
-    Center search and articles, the binding policy documents, PayPal Shopping cashback
-    offers, crypto prices, and invoice payer-view reads. Eight functions callable today —
-    estimateFee, getFees, getCurrencyConversionQuote, getPolicyDocument,
-    estimatePayLaterPlan, searchHelp, getHelpArticle, searchShoppingOffers.
+    Center search and articles, the binding policy documents, and PayPal Shopping cashback
+    offers. Nine functions callable today — estimateFee, getFees,
+    getCurrencyConversionQuote, getPolicyDocument, estimatePayLaterPlan, searchHelp,
+    getHelpArticle, searchShoppingOffers, getPayPalMeProfile. Crypto prices are not offered
+    by the site's public page, and invoice reads are blocked on a real invoice id nobody
+    here holds.
     """
 
     async def estimateFee(self, args: Prv_paypal_PaypalEstimateFeeArgs_In, /) -> Prv_paypal_PaypalFeeEstimate_Out:
@@ -59538,6 +59701,18 @@ class Prv_paypal(Protocol):
         explore feed is ONE browsable collection today, not a merchant-indexed search — this
         function walks it and filters client-side, so a merchant with no current offer answers
         an empty `offers` array rather than an error.
+        """
+
+    async def getPayPalMeProfile(self, args: Prv_paypal_getPayPalMeProfile_args_In, /) -> Prv_paypal_PaypalMeProfile_Out:
+        """Resolves a PayPal.Me handle or link to the public profile behind it — display name,
+        location, profile photo and which social links the owner has published — so a person can
+        check that a paypal.me link they were sent belongs to who they think before paying it,
+        e.g. getPayPalMeProfile({ handle: "LeeDread" }) -> { handle: "LeeDread", found: true,
+        displayName: "El Phillips", location: "Panama City, Provincia de Panamá",
+        profilePhotoUrl: "https://pics.paypal.com/...", primaryCurrencyCode: "USD", intent:
+        "PERSONAL", socials: { instagram: null, facebook: null, twitter: null, website: null }
+        }. A handle that is not a live PayPal.Me profile answers found: false rather than
+        throwing. Accepts a bare handle or a full paypal.me/paypal.com URL.
         """
 
 class Prv_peerspace(Protocol):
@@ -60778,6 +60953,22 @@ class Prv_raadvanstate_nl(Protocol):
         """Reads one Raad van State ruling in full by its ECLI (e.g. "ECLI:NL:RVS:2026:5911", as
         returned by searchRulings) — case number, dates, procedure, area of law, the court's
         summary and the complete ruling text, from the Dutch judiciary's open-data service.
+        """
+
+class Prv_rakuten(Protocol):
+    """Rakuten (formerly Ebates), the US cash-back shopping portal — find which stores Rakuten
+    pays cash back at and the current rate for each, then read one store's offer.
+    """
+
+    async def search(self, args: Prv_rakuten_RakutenSearchArgs_In, /) -> Prv_rakuten_RakutenSearchResult_Out:
+        """Searches Rakuten's store directory by store or brand name the way its search box does
+        and returns each matching store with its current cash-back rate, offer line, logo and
+        Rakuten url.
+        """
+
+    async def getStore(self, ref: str, /) -> Prv_rakuten_RakutenStoreDetail_Out:
+        """Reads one Rakuten store page — the store's name and today's cash-back rate. Takes the
+        slug or url `search` returns.
         """
 
 class Prv_recruitee(Protocol):
@@ -67257,6 +67448,7 @@ class BowmarkProviders(Protocol):
     acqualinaresort: Prv_acqualinaresort
     acuityscheduling: Prv_acuityscheduling
     adobe: Prv_adobe
+    adorama: Prv_adorama
     agakhanhospitals: Prv_agakhanhospitals
     agentstatus: Prv_agentstatus
     agoda: Prv_agoda
@@ -67735,6 +67927,7 @@ class BowmarkProviders(Protocol):
     quince: Prv_quince
     quora: Prv_quora
     raadvanstate_nl: Prv_raadvanstate_nl
+    rakuten: Prv_rakuten
     recruitee: Prv_recruitee
     reddit: Prv_reddit
     rei: Prv_rei
