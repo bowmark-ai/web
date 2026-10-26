@@ -3409,7 +3409,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listNewsletters` | nytimes.com | Lists NYT's own email newsletters off the signup page's catalog tray — up to 13, the… | 🟢 |
 | `nytimes.listPodcasts` | nytimes.com | Lists NYT podcasts. | 🟡 |
 | `nytimes.listRSSFeeds` | nytimes.com | Lists every RSS feed the site's own /rss index publishes, with its title, url and nav… | 🟢 |
-| `nytimes.listSavedArticles` | nytimes.com | Lists articles saved by signed-in reader. | ⚪ |
+| `nytimes.listSavedArticles` | nytimes.com | The signed-in reader's saved articles (Reading List), newest first. | 🟢 |
 | `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟡 |
 | `nytimes.listTopics` | nytimes.com | Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently… | 🟢 |
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
@@ -3433,7 +3433,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `olo.checkInOrder` | olo.com | Tells the restaurant the caller has arrived for a curbside or pickup order ('I'm here'). | ⚪ |
 | `olo.checkOrderAvailability` | olo.com | Checks whether a location can take an order right now or at a chosen time for a… | ⚪ |
 | `olo.deleteFavorite` | olo.com | Deletes one of the caller's saved favourites. | ⚪ |
-| `olo.findBrand` | olo.com | Finds the Olo order site for a restaurant chain from what a caller holds -- the… | ⚪ |
+| `olo.findBrand` | olo.com | Finds the Olo order site for a restaurant chain from what a caller holds -- an… | 🟢 |
 | `olo.getBasket` | olo.com | Returns the basket: items with their options and prices, subtotal, fees, discounts… | ⚪ |
 | `olo.getLocation` | olo.com | Returns one location's details: address, coordinates, phone, open-now status, the… | ⚪ |
 | `olo.getLoyaltyAccount` | olo.com | Returns the caller's loyalty account at a chain: points or visits, available rewards… | ⚪ |
@@ -3444,14 +3444,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `olo.listFavorites` | olo.com | Lists the caller's saved favourite orders and favourite locations at a chain. | ⚪ |
 | `olo.listOrderDays` | olo.com | Lists the days a location will take an order for, for a handoff mode (today through… | ⚪ |
 | `olo.listRecentOrders` | olo.com | Lists the signed-in caller's recent orders at a chain, with items, totals, location… | ⚪ |
-| `olo.listRegions` | olo.com | Lists the states (and optionally cities) where a chain has Olo-ordering locations. | ⚪ |
+| `olo.listRegions` | olo.com | Lists the states where a chain has Olo-ordering locations. | 🟢 |
 | `olo.listSavedAddresses` | olo.com | Lists the caller's saved delivery addresses. | ⚪ |
 | `olo.listTimeSlots` | olo.com | Lists the pickup or delivery times a location offers on one day, for a handoff mode… | ⚪ |
 | `olo.placeOrder` | olo.com | Submits payment and places the order. | ⚪ |
 | `olo.removeBasketItem` | olo.com | Removes an item from the basket. | ⚪ |
 | `olo.reorder` | olo.com | Rebuilds a basket from one of the caller's past orders. | ⚪ |
 | `olo.saveFavoriteOrder` | olo.com | Saves a basket or past order as a named favourite. | ⚪ |
-| `olo.searchLocations` | olo.com | Searches a chain's locations near an address, a lat/lng, or in a state, for a handoff… | ⚪ |
+| `olo.searchLocations` | olo.com | Searches a chain's locations near an address, a lat/lng, or in a state, optionally for… | 🟢 |
 | `olo.startCheckout` | olo.com | Takes a guest basket to checkout: validates it, fills the guest's name, email and… | ⚪ |
 | `olo.startGroupOrder` | olo.com | Starts a group order at a location on chains that allow it and returns the invite link… | ⚪ |
 | `olo.startOrder` | olo.com | Starts a guest order at a location: opens a basket and sets the handoff mode and the… | ⚪ |
