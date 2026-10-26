@@ -381,6 +381,7 @@ junkluggers.com — junkluggers: createBooking, findFranchise, getAvailability, 
 justinwine.com — justinwine: checkTastingAvailability, listClubTiers
 kaleidescape.com — kaleidescape: findDealersNear
 kalshi.com — kalshi: getMarket, getMarkets
+katzsdelicatessen.com — katzsdelicatessen: getProduct, getStoreInfo, searchProducts
 kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct, searchProducts
