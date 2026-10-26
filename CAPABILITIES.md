@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 138 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 139 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -15,8 +15,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `booking_links.read` | Reads a Calendly or Cal.com booking page without booking: who owns it, the events it… | 5 | 🟢 |
 | `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 5 | 🟢 |
 | `browser_agent.list` | Lists this account's browser agent sessions (open ones by default) — check how many… | 1 | 🟢 |
-| `browser_agent.send` | Sends the agent a follow-up in the same session: an answer to its question, the… | 1 | 🟢 |
-| `browser_agent.start` | A one-shot live browser for ONE task on a site nothing in the library covers; returns… | 1 | 🟢 |
+| `browser_agent.send` | Sends the agent a follow-up in the same session: an answer to its question, the… | 1 | 🟡 |
+| `browser_agent.start` | A one-shot live browser for ONE task on a site nothing in the library covers; returns… | 1 | 🟡 |
 | `browser_agent.status` | Reads a session: `running`, `needs_input` (relay `question` to your user, answer with… | 1 | 🟢 |
 | `browser_agent.stop` | Stops the agent and shuts its browser; the watch link stops working. | 1 | 🟢 |
 | `browser_agent.watchLink` | Makes a NEW watch link for an open session, for when the one from `start` was lost. | 1 | 🟢 |
@@ -79,6 +79,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `kenya_fuel_prices.search` | Returns current Kenya pump prices for diesel, petrol, or kerosene. | 0 | 🟢 |
 | `lawyer_directory.getLawyer` | Reads one lawyer's full bar record by the `id` search returned — practice areas… | 1 | 🟢 |
 | `lawyer_directory.search` | Searches a bar association's official lawyer directory (Paris bar — annuaire des… | 1 | 🟢 |
+| `local_classifieds_search.search` | Finds used items for sale on Kijiji near a Canadian city —… | 1 | 🟢 |
 | `local_database_gui.browse` | Parses the HTML of a local database GUI page (e.g. the caller's own agent read it off… | 0 | 🟢 |
 | `local_html_preview.render` | Parses supplied HTML (a local file's contents, or a fragment) and returns a structured… | 0 | 🟢 |
 | `mac_trade_in.estimate` | Get the Apple Trade In credit value for a Mac model, with optional specs. | 1 | 🟢 |
@@ -92,7 +93,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `pcparts.getProduct` | Reads ONE product page in full — pass a product URL or an offer straight from… | 3 | 🟡 |
 | `pcparts.search` | Searches Newegg + Micro Center + B&H for ONE part (e.g. "Ryzen 7 7800X3D" or "RTX… | 3 | 🟢 |
 | `pet_boarding.search` | Searches overnight pet-boarding sitters for a city and increasing ISO start/end dates… | 1 | 🟢 |
-| `phone_price.compare` | Prices one phone across T-Mobile and Visible in parallel and returns a price-sorted… | 2 | 🟢 |
+| `phone_price.compare` | Prices one phone across T-Mobile and Visible in parallel and returns a price-sorted… | 2 | 🟡 |
 | `phone_trade_in.estimate` | Looks up the current buyback value of an iPhone — `bowmark.phone_trade_in.estimate({… | 2 | 🟢 |
 | `pricing.checkPersonalization` | Reads one product page's price once per persona (default: desktop + mobile, each a… | 0 | 🟢 |
 | `products.getAvailability` | Reads one product page and returns its price and stock status — from the page's own… | 4 | 🟢 |
@@ -126,7 +127,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `used_car_search.search` | Finds used cars for sale near a US ZIP — `bowmark.used_car_search.search("used toyota… | 1 | 🟢 |
 | `vacation_rental.quote` | The total price for a stay at one vacation rental — `id` or `url` from `search`, plus… | 1 | 🟢 |
 | `vacation_rental.search` | Search vacation rentals for a free-text location (e.g. "Austin, Texas"), optional… | 1 | 🟢 |
-| `video_editing.editFootage` | Trims, cuts or blurs one of the caller's own YouTube videos by starting a hosted… | 1 | 🟢 |
+| `video_editing.editFootage` | Trims, cuts or blurs one of the caller's own YouTube videos by starting a hosted… | 1 | 🟡 |
 | `video_library.addToPlaylist` | Adds one or many videos to one of the caller's own playlists, as a single edit. | 1 | 🟢 |
 | `video_library.createChannel` | Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and… | 1 | 🟢 |
 | `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟢 |

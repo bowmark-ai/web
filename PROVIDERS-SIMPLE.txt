@@ -273,7 +273,7 @@ facebook.com — facebook: browseMarketplace, commentOnPost, followPage, getBusi
 faceforwardaesthetics.com — faceforwardaesthetics: checkAvailability, listLocations, listServices
 facerealityskincare.com — facerealityskincare: searchAcneExperts
 fandom.com — fandom: getArticle, getInfobox, getSection, getSections, getSummary, getWikiInfo, getWikitext, listBacklinks, listCategories, listCategoryMembers, listExternalLinks, listImages, listLinks, search, suggestTitles (+17 planned)
-fareharbor.com — fareharbor: nothing callable yet (+8 planned)
+fareharbor.com — fareharbor: getItem, listAvailability, searchItems (+5 planned)
 fbsappliance.com — fbsappliance: searchAppliances (+1 planned)
 fedex.com — fedex: getRate
 ferguson.com — ferguson: findBranches, findProducts (+1 planned)
@@ -544,7 +544,7 @@ rei.com — rei: getProduct, getSku, search (+3 planned)
 reliancepartners.com — reliancepartners: assembleApplication, getApplicationSchema
 resy.com — resy: cancelBooking, checkAvailability, confirmBooking, search, startBooking
 revisionskincare.com — revisionskincare: getSkincareQuizQuestions, takeSkincareQuiz
-rezdy.com — rezdy: nothing callable yet (+12 planned)
+rezdy.com — rezdy: findOperator, getProduct, listProducts (+9 planned)
 rightmove.co.uk — rightmove: search
 rippling.com — rippling: listJobs
 rishi-tea.com — rishitea: getTeaFinderQuiz, matchTeaFinderQuiz

@@ -717,7 +717,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `brixton.getBrixtonProduct` | brixton.com | Reads one product by its handle — every size/color variant, its exact price and… | 🟡 |
 | `brixton.listBrixtonProducts` | brixton.com | Reads the live Brixton catalogue as the storefront publishes it — every hat, tee… | 🟡 |
 | `browser_use.cancelRun` | browser-use.com | Cancels an in-flight agent run via POST /api/v4/runs/{id}/cancel; idempotent on a… | 🟢 |
-| `browser_use.createRun` | browser-use.com | Starts a Browser Use Cloud agent run on a natural-language task (optionally continuing… | 🟢 |
+| `browser_use.createRun` | browser-use.com | Starts a Browser Use Cloud agent run on a natural-language task (optionally continuing… | 🟡 |
 | `browser_use.findSessionBrowser` | browser-use.com | Finds the cloud browser attached to an agent session via GET… | 🟢 |
 | `browser_use.getBrowser` | browser-use.com | Reads one cloud browser via GET /api/v4/browsers/{id}: status, live view url, browser… | 🟢 |
 | `browser_use.getRun` | browser-use.com | Reads one agent run via GET /api/v4/runs/{id}: status, final result or error, token… | 🟢 |
@@ -1898,10 +1898,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fareharbor.createBooking` | fareharbor.com | Create a booking with customer information (name, email, phone) and selected date/time… | ⚪ |
 | `fareharbor.getAvailabilitySlot` | fareharbor.com | Get details of a specific available time slot including start time, duration, and… | ⚪ |
 | `fareharbor.getBooking` | fareharbor.com | Retrieve details of a created booking including confirmation number and booking status. | ⚪ |
-| `fareharbor.getItem` | fareharbor.com | Get detailed information about a specific item including title, description, and… | ⚪ |
-| `fareharbor.listAvailability` | fareharbor.com | Check availability and list available time slots for an item on a specific date. | ⚪ |
+| `fareharbor.getItem` | fareharbor.com | Get detailed information about a specific item including title, description, and… | 🟢 |
+| `fareharbor.listAvailability` | fareharbor.com | Check availability and list available time slots for an item on a specific date. | 🟢 |
 | `fareharbor.listOperators` | fareharbor.com | List available tour operators that use the FareHarbor platform. | ⚪ |
-| `fareharbor.searchItems` | fareharbor.com | Search for tour and activity items by operator shortname. | ⚪ |
+| `fareharbor.searchItems` | fareharbor.com | Lists every tour, activity or rental a FareHarbor operator sells, optionally filtered… | 🟢 |
 | `fbsappliance.getProductDetails` | fbsappliance.com | Reads one product's detail page for its full spec sheet, real per-showroom inventory… | ⚪ |
 | `fbsappliance.searchAppliances` | fbsappliance.com | Runs the site's own category grid (e.g. built-in-refrigerators) and returns real… | 🟡 |
 | `fedex.getRate` | fedex.com | Prices a domestic package across FedEx's own service levels (Ground, Home Delivery… | 🟢 |
@@ -3318,7 +3318,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nurturelife.getMealPlans` | nurturelife.com | Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's… | 🟢 |
 | `nutrafol.assessHairWellness` | nutrafol.com | Runs Nutrafol's own Hair Wellness Quiz along its default answer path (the site's own… | 🟢 |
 | `nutrafol.computeHairWellness` | nutrafol.com | Would run the quiz with the caller's own answers (age range, shedding pattern, stress… | ⚪ |
-| `nutrafol.getQuizOverview` | nutrafol.com | Reads the Hair Wellness Quiz's own static intro page — its real description text and… | 🟡 |
+| `nutrafol.getQuizOverview` | nutrafol.com | Reads the Hair Wellness Quiz's own static intro page — its real description text and… | 🟢 |
 | `nvisioncenters.calculateLasikSavings` | nvisioncenters.com | Runs NVISION's own LASIK Savings Calculator — age plus glasses/contacts usage and cost… | 🟢 |
 | `nvisioncenters.checkLasikCandidacy` | nvisioncenters.com | Runs NVISION's own LASIK Candidate Quiz disqualification rule — age bracket in, the… | 🟢 |
 | `nvisioncenters.estimateLasikSavings` | nvisioncenters.com | Alias of calculateLasikSavings taking the snake_case argument spelling (glasses_cost… | 🟢 |
@@ -3960,14 +3960,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rezdy.bookSession` | rezdy.com | Books a session as a guest -- product, session, the quantity of each price option, the… | ⚪ |
 | `rezdy.buyGiftCard` | rezdy.com | Buys a gift card or a product as a gift from an operator. | ⚪ |
 | `rezdy.checkVoucher` | rezdy.com | Checks a voucher, coupon, promo or gift-card code against a held cart and returns… | ⚪ |
-| `rezdy.findOperator` | rezdy.com | Finds a Rezdy operator from what a caller actually holds -- its Rezdy alias… | ⚪ |
+| `rezdy.findOperator` | rezdy.com | Finds a Rezdy operator from what a caller actually holds -- its Rezdy alias… | 🟢 |
 | `rezdy.getAvailability` | rezdy.com | Returns a product's sessions over a month: each date and start time, the session id… | ⚪ |
 | `rezdy.getPickupLocations` | rezdy.com | Lists the pickup points and times a product offers (hotel pickups on transfers and day… | ⚪ |
 | `rezdy.getPriceQuote` | rezdy.com | Prices a party for one session: the quantity of each price option given, returning the… | ⚪ |
-| `rezdy.getProduct` | rezdy.com | Returns one product's full page: description, duration, location, the price options… | ⚪ |
+| `rezdy.getProduct` | rezdy.com | Returns one product's full page: description, duration, location, the price options… | 🟢 |
 | `rezdy.joinWaitingList` | rezdy.com | Joins the waiting list for a sold-out session where the operator allows it, as a guest. | ⚪ |
 | `rezdy.listCatalogs` | rezdy.com | Lists the catalogs (the operator's own product groupings, e.g. "Sunrise kayak tours"… | ⚪ |
-| `rezdy.listProducts` | rezdy.com | Lists an operator's bookable products (tours, activities, rentals, transfers, gift… | ⚪ |
+| `rezdy.listProducts` | rezdy.com | Lists an operator's bookable products (tours, activities, rentals, transfers, gift… | 🟢 |
 | `rezdy.sendEnquiry` | rezdy.com | Sends the operator a question through its booking site's contact form (name, email… | ⚪ |
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
 | `rippling.listJobs` | rippling.com | Lists every open job on one company's Rippling job board — title, work location… | 🟢 |
@@ -4044,7 +4044,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsclub.search` | samsclub.com | Searches samsclub.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `samsclub.trackOrder` | samsclub.com | Looks up shipment/delivery status for an order by order number plus the email or zip… | ⚪ |
 | `samsung.checkWarrantyStatus` | samsung.com | A signed-in shopper's registered device's warranty status — active or expired, with… | 🟡 |
-| `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models in the same family —… | 🟡 |
+| `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models — what a shopper… | 🟡 |
 | `samsung.findStore` | samsung.com | Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not… | 🟢 |
 | `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟡 |
 | `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
@@ -4356,7 +4356,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `solidcore.purchasePack` | solidcore.co | Purchases a class pack (needs payment). | ⚪ |
 | `solidcore.searchClasses` | solidcore.co | Searches classes by muscle group, coach, time, or date. | ⚪ |
 | `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟡 |
-| `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟡 |
+| `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟢 |
 | `soulcycle.bookBike` | soul-cycle.com | Books a bike in a class for the signed-in rider, spending one class credit. | ⚪ |
 | `soulcycle.bookmarkClass` | soul-cycle.com | Bookmarks or un-bookmarks a class for the signed-in rider — how a rider marks a class… | ⚪ |
 | `soulcycle.buySeries` | soul-cycle.com | Buys a class pack or Soul Renew membership for the signed-in rider. | ⚪ |
@@ -5167,7 +5167,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `visible.listDeals` | visible.com | Returns the promotions Visible is running right now and what each one is actually… | 🟢 |
 | `visible.listWearables` | visible.com | Returns the smartwatches and connected devices Visible supports and what a line for… | ⚪ |
 | `visible.searchHelp` | visible.com | Searches Visible's support estate and returns the matching articles with their answers… | ⚪ |
-| `visible.searchPhones` | visible.com | Returns the phones Visible currently sells, with the facts a purchase turns on —… | 🟢 |
+| `visible.searchPhones` | visible.com | Returns the phones Visible currently sells, with the facts a purchase turns on —… | 🟡 |
 | `vistaprint.checkOrderDeadline` | vistaprint.com | Checks the order deadline and turnaround time for packaging or product orders at… | ⚪ |
 | `vistaprint.getShippingBoxPrice` | vistaprint.com | Prices Vistaprint's Full-Print Shipping Boxes (product PRD-Y1LEPL3MX) for a given box… | 🟢 |
 | `voluspa.getFragranceQuizIntro` | voluspa.com | Reads the "Find Your Fragrance" quiz suite's entry screen — the two branching paths… | 🔴 |
@@ -5209,7 +5209,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.addToCart` | walmart.com | Puts an item in the cart in the quantity asked for and reports what the cart then holds. | ⚪ |
 | `walmart.addToList` | walmart.com | Adds an item to one of the shopper's saved lists. | ⚪ |
 | `walmart.browseBrand` | walmart.com | Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a… | 🟡 |
-| `walmart.browseCategory` | walmart.com | Lists products under one of the site's own department/category pages (e.g.… | 🟢 |
+| `walmart.browseCategory` | walmart.com | Lists products under one of the site's own department/category pages (e.g.… | 🟡 |
 | `walmart.checkStock` | walmart.com | Answers whether a specific item is actually available right now at a given store or… | ⚪ |
 | `walmart.createList` | walmart.com | Creates a new saved list with a name. | ⚪ |
 | `walmart.findStores` | walmart.com | Finds nearby Walmart stores for a 5-digit US ZIP code — address, phone, hours… | 🔴 |
@@ -5550,16 +5550,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
 | `yahoo_finance.addToWatchlist` | finance.yahoo.com | Adds a ticker to one of the signed-in viewer's watchlists — for a caller who wants to… | 🟢 |
 | `yahoo_finance.getAnalystEstimates` | finance.yahoo.com | Reads Wall Street's own consensus numbers for a ticker — revenue and earnings… | 🟢 |
-| `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | 🟡 |
+| `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | 🟢 |
 | `yahoo_finance.getEarningsDates` | finance.yahoo.com | Reads a ticker's next scheduled earnings date and the analyst consensus EPS/revenue… | 🟢 |
-| `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | 🟡 |
+| `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | 🟢 |
 | `yahoo_finance.getHistoricalPrices` | finance.yahoo.com | Reads a ticker's daily open/high/low/close/volume history over a requested range, the… | 🟢 |
 | `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | 🟢 |
-| `yahoo_finance.getKeyStatistics` | finance.yahoo.com | Reads the fuller valuation and share-statistics sheet the site's own Statistics tab… | 🟡 |
+| `yahoo_finance.getKeyStatistics` | finance.yahoo.com | Reads the fuller valuation and share-statistics sheet the site's own Statistics tab… | 🟢 |
 | `yahoo_finance.getMarketSummary` | finance.yahoo.com | Reads the market-wide overview the site's own Markets home shows — the major indices… | 🟢 |
 | `yahoo_finance.getNews` | finance.yahoo.com | Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —… | 🟢 |
 | `yahoo_finance.getOptionsChain` | finance.yahoo.com | Reads a ticker's options chain — calls and puts by strike and expiration, with… | 🟢 |
-| `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟡 |
+| `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟢 |
 | `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | 🟢 |
 | `yahoo_finance.listCryptoPrices` | finance.yahoo.com | Reads the live crypto leaderboard the way the site's own Crypto markets page does —… | 🟢 |
 | `yahoo_finance.listCurrencyRates` | finance.yahoo.com | Reads live currency-pair rates the way the site's own Currencies markets page does —… | ⚪ |
