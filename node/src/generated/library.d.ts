@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 19fedfd2f42baa39a87c4b35623c7ca4da3305ac650e0553587f91cd6d3c31c3
-// 87 capabilities, 659 providers, 2739 typed functions, 20 refused.
+// Manifest version: 93d6f92474d3cc70435d13828216118aff233defcced80c30406f6f31cc51a02
+// 87 capabilities, 670 providers, 2791 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -458,17 +458,19 @@ type CallOptions = {
      * page, as their real account on the real site, so anything the agent then adds to a cart or
      * saves is really on their account rather than lost inside Bowmark's own browser. Otherwise
      * tell them what it costs and get a yes before you start it. Either way, never end on a manual
-     * workaround without mentioning this option and its cost. **One session = one independent
-     * goal** — never bundle multiple date ranges, SKUs or queries into one session; the agent
-     * silently reuses results across them. Start a separate session for each distinct query. Then
-     * `status(id)` from later runs (each `run()` is capped at 90s; the agent is not — a task
-     * normally takes 1-3 minutes, so do not give up on it before 5); on `needs_input` relay
-     * `question` and `send` the answer; on `idle` read `result` and `stop(id)`. A login persists
-     * for the life of the session, so later `send()` calls into the same session do not need
-     * re-authentication. Always stop sessions when done — idle browsers keep costing money.
-     * Account limit: 3 open sessions, counting ones still starting — start 9 at once and 3 run
-     * while 6 are refused with the limit error, so start at most 3 and `stop()` one before
-     * starting the next.
+     * workaround without mentioning this option and its cost. **Same question, same answer:** for
+     * a lookup your app repeats, put the exact search page's URL in `task`, not just the site — a
+     * site with two ways to search can otherwise be entered differently each run and give two
+     * different answers. **One session = one independent goal** — never bundle multiple date
+     * ranges, SKUs or queries into one session; the agent silently reuses results across them.
+     * Start a separate session for each distinct query. Then `status(id)` from later runs (each
+     * `run()` is capped at 90s; the agent is not — a task normally takes 1-3 minutes, so do not
+     * give up on it before 5); on `needs_input` relay `question` and `send` the answer; on `idle`
+     * read `result` and `stop(id)`. A login persists for the life of the session, so later
+     * `send()` calls into the same session do not need re-authentication. Always stop sessions
+     * when done — idle browsers keep costing money. Account limit: 3 open sessions, counting ones
+     * still starting — start 9 at once and 3 run while 6 are refused with the limit error, so
+     * start at most 3 and `stop()` one before starting the next.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -3741,7 +3743,7 @@ type ReadOptions = {
                              // (and "us-datacenter" if deployed). default uses the rotating
                              // proxy vendor, "static-residential" a dedicated static exit.
                              // Set this when you need a specific exit IP for a domain that
-                             // refuses our default route. "direct" is accepted and read as
+                             // refuses our default route every time. "direct" is accepted and read as
                              // "static-residential": a read never leaves from our own
                              // server's IP. Routes not configured on this deployment are
                              // rejected with a friendly explanation naming available routes.
@@ -3752,6 +3754,10 @@ type ReadOptions = {
                              // That differs from a failure that clears on "static-residential"
                              // alone, which is usually the rotating vendor's own blocklist
                              // rather than the site (measured on several .gov domains).
+                             // An HTTP 403 error page that comes and goes on a url that
+                             // loaded before is the site turning away some requests at
+                             // random, not the route: read.page already asks once more,
+                             // and another egress will not help. Retry the read later.
   headers?: boolean          // default false; true adds ReadResult.headers — the
                              // document's response headers (server, x-powered-by,
                              // set-cookie, cf-ray …), lowercased names. For
@@ -5320,7 +5326,9 @@ type FormOptions = {
   timeoutMs?: number                       // default 30000
   egress?: "default" | "direct" | "us-datacenter" | "static-residential"  // which exit IP to
                                            // use — default is the rotating proxy vendor. Set this
-                                           // for a site that refuses our default route. "direct" is
+                                           // for a site that refuses our default route every time
+                                           // (a refusal that comes and goes is the site, not the
+                                           // route, and another egress will not help). "direct" is
                                            // honoured as "static-residential" (our own address is
                                            // never an exit)
 }
@@ -8713,6 +8721,168 @@ interface AolFavorite {
      * tree (id, name, type folder|link, url, children). Needs the caller signed in to AOL.
      */
     listFavorites(opts?: ConnectionOption): Promise<{ favorites: AolFavorite[] }>;
+  }
+}
+
+declare namespace BowmarkProvider_aol_mail {
+  // ── AOL Mail — the unit's own declarations, verbatim ──
+interface MailboxCredentials {
+  // Your full AOL address, and an APP password made at
+  // https://help.aol.com/articles/Create-and-manage-app-password — never the account's own password.
+  // Pass both as secrets: bowmark.secret("aol_mail_username"),
+  // bowmark.secret("aol_mail_app_password").
+  username: string; // a plain value from typed code; a run/session script passes a bowmark.secret() reference
+  appPassword: string;
+}
+
+interface AolMailFolder {
+  id: string; // pass as folderId; INBOX is "INBOX"
+  name: string;
+  specialUse: string | null; // "\\Sent", "\\Trash", "\\Junk", "\\Drafts", "\\Archive" or null
+  totalCount?: number;
+  unreadCount?: number;
+}
+
+interface AolMailMessageRow {
+  id: string; // "<folder>:<uidValidity>:<uid>" — pass it to getMessage / markAsRead / moveMessage / deleteMessage as-is
+  folder: string;
+  from: string; // "Name <address>"
+  subject: string;
+  snippet: string;
+  receivedAt: string; // ISO 8601
+  unread: boolean;
+  flagged: boolean;
+}
+
+interface AolMailMessage {
+  id: string;
+  folder: string;
+  from: string;
+  to: string[];
+  cc: string[];
+  subject: string;
+  sentAt: string | null; // the message's own Date: header
+  receivedAt: string; // ISO 8601
+  unread: boolean;
+  flagged: boolean;
+  messageId: string | null; // RFC 5322 Message-ID, for threading — not the id other functions take
+  body: string | null; // the text/plain part
+  bodyHtml: string | null;
+  attachments: { filename: string | null; contentType: string; size: number }[];
+}
+
+interface ListFoldersArgs {
+  credentials: MailboxCredentials;
+}
+
+interface ListMessagesArgs {
+  credentials: MailboxCredentials;
+  folderId?: string; // a folder id from listFolders, or "sent" / "trash" / "spam" / "drafts" / "archive"; default INBOX
+  limit?: number; // newest N, 1-100, default 25
+}
+
+interface SearchMessagesArgs {
+  credentials: MailboxCredentials;
+  query: string; // from:, to:, cc:, subject:, is:unread, is:read, is:flagged, and plain words
+  folderId?: string; // omit to search every folder except Trash and Spam
+  limit?: number; // 1-100, default 25
+}
+
+interface GetMessageArgs {
+  credentials: MailboxCredentials;
+  id: string; // a row's id from listMessages / searchMessages
+}
+
+interface MarkAsReadArgs {
+  credentials: MailboxCredentials;
+  messageId: string; // a row's id
+  read?: boolean; // default true; false marks it unread
+}
+
+interface MoveMessageArgs {
+  credentials: MailboxCredentials;
+  messageId: string;
+  folderId: string; // a folder id from listFolders, or a role word like "archive"
+}
+
+interface DeleteMessageArgs {
+  credentials: MailboxCredentials;
+  messageId: string;
+}
+
+interface AolMailReadResult {
+  id: string;
+  read: boolean;
+}
+
+interface AolMailMoveResult {
+  id: string | null; // the message's NEW id in the destination folder (null if the server did not say)
+  folder: string;
+}
+
+interface AolMailDeleteResult {
+  deleted: "to-trash" | "permanently"; // permanently only when it was already in Trash, like the site's own button
+  id: string | null; // its new id in Trash, when moved there
+  folder: string | null;
+}
+
+  /**
+   * Reads and changes mail in the CALLER's own AOL Mail account — folders, the inbox, search,
+   * full messages, mark read, move, delete — over IMAP with the caller's address and an AOL app
+   * password. AOL Mail runs on Yahoo Mail's backend and shares its engine.
+   */
+  interface Unit {
+    /**
+     * Lists the CALLER's own AOL Mail folders — Inbox, Sent, Drafts, Spam, Trash and custom
+     * folders — with message and unread counts. Takes the caller's AOL address and an AOL app
+     * password (made at help.aol.com/articles/Create-and-manage-app-password), passed as secrets.
+     * Each folder's `id` is what the other functions take as `folderId`.
+     */
+    listFolders(args: ListFoldersArgs): Promise<AolMailFolder[]>;
+
+    /**
+     * Lists the newest messages in one of the CALLER's AOL Mail folders (Inbox by default), newest
+     * first — sender, subject, snippet, received time, read and flagged state. Each row's `id`
+     * goes straight into getMessage, markAsRead, moveMessage or deleteMessage. Takes the caller's
+     * address and app password, as secrets.
+     */
+    listMessages(args: ListMessagesArgs): Promise<AolMailMessageRow[]>;
+
+    /**
+     * Searches the CALLER's own AOL Mail — `from:`, `to:`, `subject:`, `is:unread`, `is:flagged`
+     * and plain words — in one folder, or in every folder except Trash and Spam. Returns the same
+     * rows as listMessages, newest first. Takes the caller's address and app password, as secrets.
+     */
+    searchMessages(args: SearchMessagesArgs): Promise<AolMailMessageRow[]>;
+
+    /**
+     * Reads one of the CALLER's own AOL Mail messages in full — sender, recipients, subject,
+     * dates, plain-text and HTML body, and the list of attachments — given a row `id` from
+     * listMessages or searchMessages. Does not mark it read. Takes the caller's address and app
+     * password, as secrets.
+     */
+    getMessage(args: GetMessageArgs): Promise<AolMailMessage>;
+
+    /**
+     * Marks one of the CALLER's own AOL Mail messages read (or unread with `read: false`), given a
+     * row `id` from listMessages or searchMessages. Takes the caller's address and app password,
+     * as secrets.
+     */
+    markAsRead(args: MarkAsReadArgs): Promise<AolMailReadResult>;
+
+    /**
+     * Moves one of the CALLER's own AOL Mail messages to another folder — a folder `id` from
+     * listFolders, or "archive", "spam", "trash" — and returns its new id there. Takes the
+     * caller's address and app password, as secrets.
+     */
+    moveMessage(args: MoveMessageArgs): Promise<AolMailMoveResult>;
+
+    /**
+     * Deletes one of the CALLER's own AOL Mail messages the way the site's own delete button does:
+     * moves it to Trash, or removes it for good when it is already in Trash. Takes the caller's
+     * address and app password, as secrets.
+     */
+    deleteMessage(args: DeleteMessageArgs): Promise<AolMailDeleteResult>;
   }
 }
 
@@ -14893,6 +15063,140 @@ interface PropertyReview {
   }
 }
 
+declare namespace BowmarkProvider_booksy {
+  // ── Booksy — the unit's own declarations, verbatim ──
+interface booksyRow {
+  id: string;
+}
+interface booksyResolveLocationArgs {
+  /** A city, neighbourhood or street address, e.g. "Brooklyn". */
+  query: string;
+  /** Booksy country subdomain, default "us". */
+  country?: string;
+}
+interface booksyLocation {
+  query: string;
+  country: string;
+  matched: boolean;
+  formattedAddress: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  type: string | null;
+  /** `region.id` is the `locationId` searchBusinesses takes. */
+  region: { id: number; name: string | null; fullName: string | null; slug: string | null; type: string | null } | null;
+  /** Street and place completions for a partial query. */
+  suggestions: string[];
+}
+interface booksySearchBusinessesArgs {
+  /** Free text: a treatment, a business name. One of query, categoryId, treatmentId is required. */
+  query?: string;
+  /** Booksy category id, e.g. 6 = Barber. */
+  categoryId?: number;
+  treatmentId?: number;
+  /** Region id from resolveLocation. */
+  locationId?: number;
+  latitude?: number;
+  longitude?: number;
+  openNow?: boolean;
+  hasOnlineServices?: boolean;
+  /** 1-based. */
+  page?: number;
+  /** 1-50, default 20. */
+  limit?: number;
+  country?: string;
+}
+interface booksyServiceSummary {
+  id: number;
+  name: string | null;
+  price: string | null;
+  durationMinutes: number | null;
+}
+interface booksyBusinessCard {
+  /** Pass back as `business`. */
+  id: number;
+  name: string | null;
+  url: string | null;
+  primaryCategoryId: number | null;
+  address: string | null;
+  city: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  rating: number | null;
+  reviewsCount: number | null;
+  imageUrl: string | null;
+  promoted: boolean;
+  acceptsBooksyPay: boolean;
+  services: booksyServiceSummary[];
+}
+interface booksyBusinessPage {
+  country: string;
+  page: number;
+  total: number | null;
+  location: { id: number; name: string | null; type: string | null } | null;
+  businesses: booksyBusinessCard[];
+}
+interface booksyGetBusinessArgs {
+  /** A Booksy business id (110442) or its booksy.com page URL. */
+  business: number | string;
+  country?: string;
+}
+interface booksyVariant {
+  /** The service variant id getAvailability and getBookingQuote take. */
+  id: number;
+  label: string | null;
+  durationMinutes: number | null;
+  price: number | null;
+  priceText: string | null;
+  deposit: number | null;
+  prepayment: number | null;
+  staff: { id: number; name: string | null }[];
+}
+interface booksyBusiness extends booksyBusinessCard {
+  description: string | null;
+  website: string | null;
+  instagram: string | null;
+  facebook: string | null;
+  openingHours: { day: string; open: string | null; close: string | null }[];
+  openingHoursNote: string | null;
+  staff: { id: number; name: string | null; description: string | null; photoUrl: string | null }[];
+  serviceCategories: {
+    name: string | null;
+    services: { id: number; name: string | null; description: string | null; treatment: string | null; bookableOnline: boolean; variants: booksyVariant[] }[];
+  }[];
+  bookingPolicy: string | null;
+  depositPolicy: string | null;
+  waitlistEnabled: boolean;
+  amenities: string[];
+  parking: string | null;
+  wheelchairAccess: string | null;
+}
+
+  /**
+   * Booksy marketplace for barbers, salons, spas and other appointment businesses: search
+   * businesses near a place, a business's services, staff, prices and open times, a booking
+   * quote, and the signed-in customer's own appointments.
+   */
+  interface Unit {
+    /**
+     * Turn a place name or address into Booksy's region id (searchBusinesses' locationId) and
+     * coordinates, plus completions for a partial query.
+     */
+    resolveLocation(args: booksyResolveLocationArgs): Promise<booksyLocation>;
+
+    /**
+     * Search Booksy businesses by text, category or treatment near a region or coordinates: id,
+     * name, address, rating, top services. Paged.
+     */
+    searchBusinesses(args: booksySearchBusinessesArgs): Promise<booksyBusinessPage>;
+
+    /**
+     * One business by id or page URL: hours, staff, full service menu with variant ids, prices,
+     * durations and deposits, and its booking policies.
+     */
+    getBusiness(args: booksyGetBusinessArgs): Promise<booksyBusiness>;
+  }
+}
+
 declare namespace BowmarkProvider_borsheims {
   // ── Borsheims — the unit's own declarations, verbatim ──
 interface BorsheimsSearchResult {
@@ -18757,6 +19061,25 @@ interface ClasspassSearchResult {
   warnings: string[];
 }
 
+/** One studio NAME match, from findStudio. A caller holding only words gets
+ *  this; getStudio(alias) follows up for the full profile. */
+interface ClasspassStudioMatch {
+  id: number;
+  alias: string;
+  name: string;
+  /** The qualifier for a chain branch ("Charlotte"). */
+  subtitle: string | null;
+  neighborhood: string | null;
+  /** ClassPass's own metro-area id, not a human-readable name. */
+  msaId: number | null;
+  latitude: number;
+  longitude: number;
+  /** The site's own unlabelled distance figure from the query point — an
+   *  ordering signal, not a verified unit. */
+  distance: number | null;
+  photo: string | null;
+}
+
   /**
    * ClassPass — fitness, wellness and beauty classes across gyms, studios, spas and salons.
    * `getStudio` reads one studio's whole profile in a single request: what it does, where it is,
@@ -18826,6 +19149,35 @@ interface ClasspassSearchResult {
      * like a quiet day.
      */
     getSchedule(studio: number | string, options?: ClasspassScheduleOptions): Promise<ClasspassSchedule>;
+
+    /**
+     * Finds ClassPass studios by NAME (and matching brand) near a point — the door for a caller
+     * holding only words, since a studio id or alias is not knowable ahead of this or `search`.
+     * `query` is required and non-blank (a studio or brand name, e.g. "Barry's"). `location` is
+     * also required — ClassPass's own autocomplete refuses a call with no point to search near
+     * (measured: 400 "You need to save a recent location for the user or provide a lat and lon
+     * information in the request.") — unlike `search`, which defaults its radius. Each result
+     * carries the venue id and alias (for a `getStudio`/`getSchedule` follow-up), name, subtitle
+     * (a chain's branch qualifier), neighbourhood, ClassPass's own metro-area id, coordinates, a
+     * photo, and the site's own unlabelled `distance` figure from the query point (treat it as an
+     * ordering signal, not a verified unit). Matches by STUDIO/BRAND name only — a query like
+     * "yoga" that matches an ACTIVITY rather than a venue returns an empty list here; that half of
+     * the response is not wired into this function.
+     */
+    findStudio(query: string, location: { lat: number; lon: number }): Promise<ClasspassStudioMatch[]>;
+
+    /**
+     * Checks whether one already-known class slot is still bookable and at what credit price,
+     * without walking the whole day's timetable again — `scheduleId` is the `id` of a session a
+     * prior `getSchedule` call returned. One cheap GET, answered anonymously. Returns the SAME
+     * session shape `getSchedule`'s `sessions` rows carry (name, activities, instructor, an
+     * absolute `startTime` with venue-local `localDate` beside it, duration, credit price, and the
+     * site's own availability word rather than a lossy boolean), resolving `localDate` from the
+     * venue block this endpoint carries alongside the slot — no second request. A stale or made-up
+     * `scheduleId` throws a caller-fixable error naming ClassPass's own 404 rather than a bare
+     * HTTP code.
+     */
+    checkAvailability(scheduleId: number): Promise<ClasspassSession>;
   }
 }
 
@@ -20183,6 +20535,24 @@ interface CoopsStationMetadata {
   products: CoopsStationProductPage[];
 }
 
+type CoopsTideDatum = "MLLW" | "MLW" | "MSL" | "MTL" | "MHW" | "MHHW" | "NAVD" | "STND";
+
+interface GetTidePredictionsArgs {
+  stationId: string;
+  beginDate?: string; // "YYYY-MM-DD"; omit both dates for today
+  endDate?: string; // defaults to beginDate
+  datum?: CoopsTideDatum; // default "MLLW"
+  interval?: "6" | "h" | "hilo"; // default "h"; "hilo" = high/low tides only
+  units?: "english" | "metric"; // default "english" (feet)
+}
+
+interface CoopsTidePredictions {
+  stationId: string;
+  datum: CoopsTideDatum;
+  units: "english" | "metric";
+  predictions: { time: string; height: number; type?: "high" | "low" }[];
+}
+
   /** NOAA's tide, water-level and current predictions, keyless and public. */
   interface Unit {
     /**
@@ -20193,6 +20563,9 @@ interface CoopsStationMetadata {
 
     /** Get a station's location, timezone and the product pages it publishes. */
     getStationMetadata(stationId: string): Promise<CoopsStationMetadata>;
+
+    /** Get tide predictions for a station for specified dates. */
+    getTidePredictions(args: GetTidePredictionsArgs): Promise<CoopsTidePredictions>;
   }
 }
 
@@ -20827,6 +21200,59 @@ interface currency_exchangeRow {
   interface Unit {
     /** Returns the current exchange rate between two currencies */
     getRate(from: string, to: string): Promise<currency_exchangeRow>;
+  }
+}
+
+declare namespace BowmarkProvider_currys {
+  // ── Currys — the unit's own declarations, verbatim ──
+interface CurrysClearanceArgs {
+  productTypes?: string[]; // Currys' own filter values, e.g. ["Laptops", "Air fryers"]; omit for all clearance
+  page?: number;           // 1-based, 20 listings a page
+}
+interface CurrysProduct {
+  id: string;              // Currys product id
+  sku: string | null;
+  brand: string | null;
+  name: string;
+  price: number | null;    // current price, GBP
+  wasPrice: number | null; // pre-reduction price, only when above price
+  currency: string;        // "GBP"
+  stockStatus: string | null; // Currys' own word, e.g. "IN_STOCK"
+  inStock: boolean | null;
+  category: string | null; // e.g. "Windows Laptops and Covertables"
+  url: string;
+  image: string;
+}
+interface CurrysListing {
+  url: string;
+  total: number | null;    // matches across all pages
+  page: number;
+  pageSize: number;
+  products: CurrysProduct[];
+  productTypes: string[];  // every filter value this page offers — valid input to productTypes
+}
+
+  /**
+   * Currys (currys.co.uk), the UK electricals retailer — list its clearance / outlet /
+   * reduced-price deals filtered by product type (laptops, air fryers, small kitchen appliances,
+   * TVs…), or search its catalogue, with current price, was-price, stock status and product link
+   * for each listing.
+   */
+  interface Unit {
+    /**
+     * Lists Currys' clearance / outlet / reduced-price deals (its clearance-all category),
+     * optionally filtered to one or more product types such as Laptops or Air fryers, with each
+     * listing's current price, was-price, stock status and link, plus the full list of
+     * product-type filters available. A real browser load, so expect 15-40 s.
+     */
+    listClearance(args?: CurrysClearanceArgs): Promise<CurrysListing>;
+
+    /**
+     * Searches Currys' catalogue for a shopper's query (e.g. "air fryer") and returns a page of
+     * listings with price, was-price, stock status and link. A real browser load, so expect 15-40
+     * s.
+     */
+    search(args: { query: string; page?: number }): Promise<CurrysListing>;
   }
 }
 
@@ -23119,6 +23545,19 @@ interface DoordashSearchResult {
   etaMinutes: number | null;
 }
 
+interface DoordashStore {
+  storeId: string; menuId: string | null; name: string; url: string;
+  address: { street: string | null; city: string | null; region: string | null; country: string | null };
+  latitude: number | null; longitude: number | null; priceRange: string | null; cuisines: string[];
+  rating: number | null; ratingCount: number | null;
+  reviews: { author: string | null; rating: number | null; text: string }[]; image: string | null;
+}
+
+interface DoordashMenu {
+  storeId: string; menuId: string | null; name: string | null;
+  categories: { name: string; items: { name: string; description: string | null; price: number | null; image: string | null }[] }[];
+}
+
   /**
    * DoorDash's own store search — returns real, currently-listed stores for a free-text query
    * with the delivery fee, rating and ETA DoorDash itself advertises on the results card.
@@ -23129,6 +23568,18 @@ interface DoordashSearchResult {
      * stores with DoorDash's own advertised delivery fee, rating and ETA. Read-only.
      */
     search(args: DoordashSearchArgs): Promise<DoordashSearchResult[]>;
+
+    /**
+     * Returns one DoorDash restaurant by store id or store URL: name, address, coordinates, price
+     * range, cuisines, star rating and count, recent reviews, and its menu id. Read-only.
+     */
+    getStore(args: { store: string }): Promise<DoordashStore>;
+
+    /**
+     * Returns one DoorDash restaurant's full current menu by store id or store URL: categories,
+     * and each item's name, description and price in dollars. Read-only.
+     */
+    getMenu(args: { store: string }): Promise<DoordashMenu>;
   }
 }
 
@@ -25365,6 +25816,19 @@ interface EventbriteOrganizerDetail {
      * Eventbrite (an authFunction).
      */
     getSavedEvents(opts?: ConnectionOption): Promise<{ events: EventbriteEventRow[] }>;
+
+    /**
+     * Saves ('likes') an event to the signed-in caller's Eventbrite account, taking an event url
+     * or its numeric id — needs the caller signed in to Eventbrite (an authFunction, a write).
+     */
+    saveEvent(args: { eventIdOrUrl: string }, opts?: ConnectionOption): Promise<{ eventId: string; saved: true }>;
+
+    /**
+     * Removes a previously saved event from the signed-in caller's Eventbrite account, taking an
+     * event url or its numeric id — needs the caller signed in to Eventbrite (an authFunction, a
+     * write).
+     */
+    unsaveEvent(args: { eventIdOrUrl: string }, opts?: ConnectionOption): Promise<{ eventId: string; saved: false }>;
   }
 }
 
@@ -25575,6 +26039,50 @@ interface FindLocalOfficeResult {
      * the locator form's own redirect handler, not guessed at.
      */
     findLocalOffice(args: ExecutivehomecareFindLocalOfficeArgs): Promise<FindLocalOfficeResult>;
+  }
+}
+
+declare namespace BowmarkProvider_exhalespa {
+  // ── exhale Spa — the unit's own declarations, verbatim ──
+interface ExhaleLocationSummary {
+  slug: string;              // e.g. "midtown-atlanta"
+  name: string;              // e.g. "Midtown Atlanta"
+  url: string;
+  address: string | null;
+  phone: string | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+interface ExhaleLocation extends ExhaleLocationSummary {
+  description: string | null;
+  hours: Record<string, string[]>;  // e.g. { "Spa Hours": ["Monday – Friday: 8:30am – 9:00pm", …] }
+  mindbodyStudioId: string | null;  // null for the Zenoti-booked NYC locations
+  bookingUrl: string | null;
+}
+
+interface GetLocationArgs {
+  location: string;          // a slug, or a name/city like "midtown atlanta"
+}
+
+  /**
+   * exhale spa's real locations (Midtown Atlanta, Boston, NYC, Atlantic City, Beaver Creek) —
+   * address, phone, spa and fitness hours, and the Mindbody studio id or Zenoti page each one
+   * books through. Rung 6, no browser.
+   */
+  interface Unit {
+    /**
+     * Lists every physical exhale spa location — name, address, phone, coordinates — off the
+     * site's own /locations/ map.
+     */
+    listLocations(): Promise<ExhaleLocationSummary[]>;
+
+    /**
+     * Resolves one exhale spa location from a slug or free text ("midtown atlanta") and reads its
+     * page: spa and fitness hours, description, and the Mindbody studio id or Zenoti page it books
+     * through.
+     */
+    getLocation(args: GetLocationArgs): Promise<ExhaleLocation>;
   }
 }
 
@@ -29015,6 +29523,97 @@ interface fredObservations {
   }
 }
 
+declare namespace BowmarkProvider_fresha {
+  // ── Fresha — the unit's own declarations, verbatim ──
+interface freshaRow {
+  id: string;
+}
+
+interface SearchVenuesArgs {
+  /** A city, neighborhood or address, e.g. "Brooklyn, NY". Resolved to
+   * coordinates via Nominatim. Give this OR lat/lng, not both. */
+  near?: string;
+  lat?: number;
+  lng?: number;
+  /** Page size. Fresha's own default when omitted. */
+  limit?: number;
+  /** endCursor from a previous call's result, to fetch the next page. */
+  cursor?: string;
+}
+
+interface FreshaVenueServicePreview {
+  name: string;
+  caption: string;
+  formattedRetailPrice: string | null;
+}
+
+interface FreshaVenueSummary {
+  id: string;
+  slug: string;
+  name: string;
+  distanceMiles: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  businessType: string | null;
+  address: string | null;
+  topServices: FreshaVenueServicePreview[];
+}
+
+interface FreshaSearchVenuesResult {
+  venues: FreshaVenueSummary[];
+  totalCount: number;
+  endCursor: string | null;
+  hasMore: boolean;
+  warnings: string[];
+}
+
+interface FreshaVenueSuggestion {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+}
+
+interface FreshaProfessionalSuggestion {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+}
+
+interface FreshaTreatmentCategorySuggestion {
+  id: string;
+  name: string;
+}
+
+interface FreshaSearchSuggestions {
+  venues: FreshaVenueSuggestion[];
+  professionals: FreshaProfessionalSuggestion[];
+  treatmentCategories: FreshaTreatmentCategorySuggestion[];
+}
+
+  /**
+   * Fresha marketplace for salons, barbers, spas, nail, lash and wellness venues: search venues
+   * near a place, a venue's services, team, prices, hours and reviews, open appointment times
+   * and a price quote, and the signed-in customer's own appointments, waitlists and favourites.
+   */
+  interface Unit {
+    /**
+     * Searches Fresha's marketplace for salons, barbers, spas, nail, lash and wellness venues near
+     * a place or coordinates: id, slug, name, address, distance, rating, review count and the
+     * venue's headline services with prices. Paged by cursor.
+     */
+    searchVenues(args: SearchVenuesArgs): Promise<FreshaSearchVenuesResult>;
+
+    /**
+     * Turns what a caller typed ("balayage", a venue name, a stylist's name) into Fresha's own
+     * suggestions: matching venues with their slugs, professionals with their profile slugs, and
+     * treatment categories.
+     */
+    getSearchSuggestions(query: string): Promise<FreshaSearchSuggestions>;
+  }
+}
+
 declare namespace BowmarkProvider_furniture {
   // ── Furniture.com — the unit's own declarations, verbatim ──
 interface furnitureProduct {
@@ -30363,6 +30962,99 @@ interface GlassesusaSearchResult {
      * listing is prescription/Rx-eligible. Read-only — never adds to cart or checks out.
      */
     getProduct(url: string): Promise<GlassesusaProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_glofox {
+  // ── Glofox — the unit's own declarations, verbatim ──
+interface glofoxRow {
+  id: string;
+}
+/** `studio`: a Glofox namespace ("barazayoga"), a 24-hex branch id, an app.glofox.com/portal/#/branch/<id> link, or the studio's own website. */
+interface glofoxStudioArgs {
+  studio: string;
+}
+interface glofoxStudio {
+  /** 24-hex branch id — pass it back as `studio`. */
+  branchId: string;
+  namespace: string;
+  name: string;
+  city: string | null;
+  country: string | null;
+  timezone: string | null;
+  currency: string | null;
+  website: string | null;
+  portalUrl: string;
+}
+interface glofoxStudioProfile extends glofoxStudio {
+  email: string | null;
+  phone: string | null;
+  address: { street: string | null; postalCode: string | null; state: string | null } | null;
+  latitude: number | null;
+  longitude: number | null;
+  about: string | null;
+  logoUrl: string | null;
+  openingTimes: { day: string; open: boolean; start: string | null; end: string | null }[];
+}
+interface glofoxListClassesArgs {
+  studio: string;
+  /** "YYYY-MM-DD" in the studio's own time zone; default today. */
+  from?: string;
+  /** "YYYY-MM-DD", inclusive; default from + 6 days; at most 31 days. */
+  to?: string;
+  /** 1-based; read `hasMore`. */
+  page?: number;
+  /** 1-100, default 50. */
+  limit?: number;
+}
+interface glofoxClass {
+  id: string;
+  name: string;
+  description: string | null;
+  /** ISO instant. */
+  start: string;
+  durationMinutes: number | null;
+  level: string | null;
+  classTypeId: string | null;
+  trainerIds: string[];
+  roomId: string | null;
+  capacity: number | null;
+  booked: number | null;
+  waiting: number | null;
+  /** Glofox's own state, e.g. AVAILABLE. */
+  status: string | null;
+  online: boolean;
+  imageUrl: string | null;
+}
+interface glofoxClassPage {
+  studio: string;
+  from: string;
+  to: string;
+  page: number;
+  hasMore: boolean;
+  totalCount: number | null;
+  classes: glofoxClass[];
+}
+
+  /**
+   * Glofox gym and studio portals (classes, courses, trainer and facility slots): find a studio,
+   * read its schedule, trainers and memberships, and (signed in) book, waitlist and cancel.
+   */
+  interface Unit {
+    /**
+     * Resolve a Glofox studio from its namespace, branch id, portal link or own website. Returns
+     * the branchId every other function takes.
+     */
+    findStudio(args: glofoxStudioArgs): Promise<glofoxStudio>;
+
+    /** One studio's profile: address, coordinates, time zone, currency, contact and opening hours. */
+    getStudio(args: glofoxStudioArgs): Promise<glofoxStudioProfile>;
+
+    /**
+     * A studio's class schedule for a date range (studio-local dates, max 31 days), paged: start,
+     * length, capacity, booked, waiting, trainers, room.
+     */
+    listClasses(args: glofoxListClassesArgs): Promise<glofoxClassPage>;
   }
 }
 
@@ -38349,6 +39041,51 @@ interface KalshiGetMarketsResult {
   }
 }
 
+declare namespace BowmarkProvider_katzsdelicatessen {
+  // ── Katz's Delicatessen — the unit's own declarations, verbatim ──
+interface katzsdelicatessenProduct {
+  sku: string;
+  name: string;
+  urlKey: string;
+  url: string;
+  price: number | null;
+  regularPrice: number | null;
+  currency: string;
+  inStock: boolean;
+  imageUrl: string | null;
+  summary: string;
+}
+interface katzsdelicatessenVariant {
+  sku: string;
+  name: string;
+  price: number | null;
+}
+interface katzsdelicatessenProductDetail extends katzsdelicatessenProduct {
+  description: string;
+  variants: katzsdelicatessenVariant[];
+}
+
+  /**
+   * Katz's Delicatessen (NYC, since 1888) — search and read its nationwide-shipping store:
+   * pastrami, corned beef, packages and merch, with live price and stock.
+   */
+  interface Unit {
+    /**
+     * Searches Katz's Delicatessen's nationwide-shipping store by free text (e.g. 'pastrami',
+     * 'corned beef', 'hot dogs', 'gift') — each match's name, SKU, price, stock, image, url and
+     * urlKey. The door for getProduct.
+     */
+    searchProducts(query: string): Promise<katzsdelicatessenProduct[]>;
+
+    /**
+     * One Katz's shipping product from its urlKey (from searchProducts) or katzsdelicatessen.com
+     * URL: price, stock, full description, and a package's options each with its own SKU and
+     * price.
+     */
+    getProduct(urlKey: string): Promise<katzsdelicatessenProductDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_kayak {
   // ── Kayak — the unit's own declarations, verbatim ──
 interface KayakQuery {
@@ -39649,6 +40386,14 @@ interface LinkedinMemberProfile extends LinkedinMember {
                fieldOfStudy: string | null; startDate: string | null; endDate: string | null }[];
 }
 
+interface LinkedinMemberSkills {
+  slug: string;
+  profileUrn: string;
+  skills: { name: string; endorsements: number | null }[];
+  certifications: { name: string; issuer: string | null; issued: string | null;  // "2021-06" or "2021"
+                    expires: string | null; credentialId: string | null; url: string | null }[];
+}
+
 interface LinkedinSearchMember {
   id: string | null;
   publicIdentifier: string | null;
@@ -40111,6 +40856,24 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * faster pacing with { pacing: "fast" } as an extra last argument; ask them first.
      */
     getProfileDetails(profile: string, opts?: ConnectionOption): Promise<LinkedinMemberProfile>;
+
+    /**
+     * Returns the skills and the licences and certifications one member lists on their LinkedIn
+     * profile, from a profile URL or slug: each skill by name with its endorsement count, and each
+     * certification with its issuer, issue and expiry month, credential id and link. The read a
+     * recruiter vetting a candidate needs — getProfile and getProfileDetails both leave it out.
+     * Three requests: the profile lookup, then its skills, then its certifications. Full profiles
+     * draw on a per-account reserve of 80 that refills about 3 an hour, and about 7 fit in one
+     * run. To learn where many connections work, read the headline listConnections returns (up to
+     * 100 people per call) and call this only for the rest. Signed in: acts as the caller's own
+     * LinkedIn account; with no saved sign-in the run pauses and hands back a link where they sign
+     * in. Paced per LinkedIn account across runs so it never looks automated — 6 requests a
+     * minute, and a reserve of 400 that refills about 17 an hour — and held 30 minutes after
+     * LinkedIn throttles it; a call over the pace throws LinkedinRateLimited saying when to retry:
+     * wait that long. The account owner may opt into faster pacing with { pacing: "fast" } as an
+     * extra last argument; ask them first.
+     */
+    getProfileSkills(profile: string, opts?: ConnectionOption): Promise<LinkedinMemberSkills>;
 
     /**
      * LinkedIn's own people search, run as the caller: keywords plus optional filters — current
@@ -46254,9 +47017,55 @@ interface BookClassResult {
   message: string;           // the site's own response message, when it sent one
 }
 
+interface CancelBookingArgs {
+  subdomain: string;         // the studio's My Best Studio subdomain, e.g. "ad1mnpsp"
+  bookingId: string;         // read off listMyBookings' bookingId
+}
+
+interface CancelBookingResult {
+  cancelled: boolean;
+  message: string;           // the site's own response message, when it sent one
+}
+
+interface ListMyBookingsArgs {
+  subdomain: string;         // the studio's My Best Studio subdomain, e.g. "ad1mnpsp"
+}
+
+interface MyBestStudioBooking {
+  bookingId: string;         // the id cancelBooking takes — the site's own FutureSignupID
+  date: string;
+  startTime: string;
+  endTime: string;
+  className: string;
+  instructor: string;
+  status: string | null;     // the site's own status word — UNMEASURED beyond its presence — the site's own labels — read the values off a result, never guess one from prose
+}
+
+interface JoinWaitlistArgs {
+  subdomain: string;         // the studio's My Best Studio subdomain, e.g. "ad1mnpsp"
+  dayId: string;             // the same id listClasses/getClass returns for a full class
+  date: string;              // YYYY-MM-DD — the class's own date, from the same row as dayId
+}
+
+interface JoinWaitlistResult {
+  waitlisted: boolean;
+  message: string;           // the site's own response message, when it sent one
+}
+
+interface ListInstructorsArgs {
+  subdomain: string;         // the studio's My Best Studio subdomain, e.g. "ad1mnpsp"
+}
+
+interface MyBestStudioInstructor {
+  instructorId: string;
+  name: string;
+  email: string;             // may be an empty string
+}
+
   /**
-   * Studio class booking platform: listClasses, getClass and bookClass are built; the rest
-   * (cancelBooking, listMyBookings, …) is queued — see BUILD_QUEUE.md.
+   * Studio class booking platform: listClasses, getClass, bookClass, cancelBooking,
+   * listMyBookings, joinWaitlist and listInstructors are built; listLocations is queued — see
+   * BUILD_QUEUE.md.
    */
   interface Unit {
     /**
@@ -46279,6 +47088,29 @@ interface BookClassResult {
      * the caller's own signed-in My Best Studio session.
      */
     bookClass(args: BookClassArgs, opts?: ConnectionOption): Promise<BookClassResult>;
+
+    /**
+     * Cancels the signed-in caller's own booking or waitlist spot. Pass { subdomain: "ad1mnpsp",
+     * bookingId: "98211" } — bookingId read off listMyBookings. Requires the caller's own
+     * signed-in My Best Studio session.
+     */
+    cancelBooking(args: CancelBookingArgs, opts?: ConnectionOption): Promise<CancelBookingResult>;
+
+    /**
+     * Lists the signed-in caller's own future class bookings and waitlist spots. Pass { subdomain:
+     * "ad1mnpsp" }. Requires the caller's own signed-in My Best Studio session.
+     */
+    listMyBookings(args: ListMyBookingsArgs, opts?: ConnectionOption): Promise<MyBestStudioBooking[]>;
+
+    /**
+     * Adds the signed-in caller to the waitlist for one full class. Pass { subdomain: "ad1mnpsp",
+     * dayId: "35135", date: "2026-10-19" } — dayId and date read off the same listClasses/getClass
+     * row. Requires the caller's own signed-in My Best Studio session.
+     */
+    joinWaitlist(args: JoinWaitlistArgs, opts?: ConnectionOption): Promise<JoinWaitlistResult>;
+
+    /** Lists every instructor teaching at one studio. Pass { subdomain: "ad1mnpsp" }. */
+    listInstructors(args: ListInstructorsArgs): Promise<MyBestStudioInstructor[]>;
   }
 }
 
@@ -48670,6 +49502,9 @@ interface NytimesRssFeed {
   url: string;
   group: string; // the site's own nav heading, e.g. "News", "Opinion", "Culture & Lifestyle"
 }
+interface NytimesSavedArticlesResult {
+  articles: NytimesArticleSummary[];
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -48816,6 +49651,12 @@ interface NytimesRssFeed {
      * Weather") is returned once per title.
      */
     listRSSFeeds(): Promise<NytimesRssFeed[]>;
+
+    /**
+     * The signed-in reader's saved articles (Reading List), newest first. Needs the caller's own
+     * NYT sign-in.
+     */
+    listSavedArticles(opts?: ConnectionOption): Promise<NytimesSavedArticlesResult>;
   }
 }
 
@@ -49011,6 +49852,174 @@ interface OliverwineryShippingAvailability {
      * flow enforces.
      */
     checkShippingAvailability(stateCode: string): Promise<OliverwineryShippingAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_olo {
+  // ── Olo — the unit's own declarations, verbatim ──
+interface OloBrand {
+  host: string;
+  channelSlug: string;
+  name: string;
+  handoffModes: string[];
+  advanceOrderDays: number;
+  guestOrdering: boolean;
+  groupOrdering: boolean;
+  curbside: boolean;
+  hasOloAuthProvider: boolean;
+  loginProviderName: string | null;
+}
+interface OloFindBrandArgs {
+  chain: string;
+}
+interface OloRegion {
+  name: string;
+  code: string;
+}
+interface OloLocationSummary {
+  id: number;
+  slug: string;
+  name: string;
+  phoneNumber: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  distanceMiles?: number;
+  isAcceptingOrders: boolean;
+  todaysHours: string;
+  supportedHandoffModes?: string[];
+}
+interface OloSearchLocationsArgs {
+  host: string;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+  regionCode?: string;
+  handoffMode?: string;
+}
+interface OloLocationArgs {
+  host: string;
+  slug: string;
+  handoffMode?: string;
+}
+interface OloLocationDetail {
+  id: number;
+  name: string;
+  phoneNumber: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  latitude: number;
+  longitude: number;
+  isOpen: boolean;
+  isAcceptingOrders: boolean;
+  allowAdvanceOrders: boolean;
+  taxRate: number;
+  supportedHandoffModes: string[];
+  attributes: string[];
+}
+interface OloGetMenuArgs {
+  host: string;
+  slug: string;
+  handoffMode?: string;
+}
+interface OloMenuProduct {
+  id: number;
+  name: string;
+  description: string;
+  price: number | null;
+  pricedByOptions: boolean;
+  optionGroupIds: number[];
+}
+interface OloMenuCategory {
+  id: number;
+  name: string;
+  products: OloMenuProduct[];
+}
+interface OloMenu {
+  categories: OloMenuCategory[];
+}
+interface OloGetProductOptionsArgs {
+  host: string;
+  vendorId: number;
+  optionGroupIds: number[];
+  handoffMode?: string;
+}
+interface OloOptionChoice {
+  id: number;
+  name: string;
+  priceDifference: number;
+  nestedOptionGroupIds: number[];
+}
+interface OloOptionGroup {
+  id: number;
+  name: string;
+  isMandatory: boolean;
+  choices: OloOptionChoice[];
+}
+interface OloListOrderDaysArgs {
+  host: string;
+  vendorId: number;
+  handoffMode?: string;
+}
+
+  /**
+   * Olo-hosted restaurant order sites (order.fazolis.com, order.portillos.com,
+   * order.wingstop.com and every other chain on Olo Serve): find a location, read its menu and
+   * prices, list pickup days and times, and build a guest order up to the payment step.
+   */
+  interface Unit {
+    /**
+     * Finds the Olo order site for a restaurant chain from an order-site link, the chain's own
+     * website, or its name, and returns the order host, channel slug, brand name, handoff modes,
+     * advance-order window, and login provider. Example: `bowmark.providers.olo.findBrand({ chain:
+     * "order.fazolis.com" })`.
+     */
+    findBrand(args: OloFindBrandArgs): Promise<OloBrand>;
+
+    /**
+     * Lists the states where a chain (its order-site host, from findBrand) has Olo-ordering
+     * locations. Example: `bowmark.providers.olo.listRegions("order.fazolis.com")`.
+     */
+    listRegions(host: string): Promise<OloRegion[]>;
+
+    /**
+     * Searches a chain's locations near an address, a lat/lng, or across a whole state, returning
+     * each location's id, slug, address, phone, hours and whether it is accepting online orders
+     * now. Example: `bowmark.providers.olo.searchLocations({ host: "order.fazolis.com", address:
+     * "Abilene, TX" })`.
+     */
+    searchLocations(args: OloSearchLocationsArgs): Promise<OloLocationSummary[]>;
+
+    /**
+     * Returns one location's details: address, coordinates, phone, open-now status, whether it
+     * accepts advance orders, its tax rate and the handoff modes it supports. Example:
+     * `bowmark.providers.olo.getLocation({ host: "order.fazolis.com", slug: "abilene-tx" })`.
+     */
+    getLocation(args: OloLocationArgs): Promise<OloLocationDetail>;
+
+    /**
+     * Returns a location's menu: categories in order, and each product's id, name, description,
+     * price (resolved from its option groups when the chain prices it that way, rather than
+     * reporting 0) and the option-group ids that customise it. Example:
+     * `bowmark.providers.olo.getMenu({ host: "order.fazolis.com", slug: "abilene-tx" })`.
+     */
+    getMenu(args: OloGetMenuArgs): Promise<OloMenu>;
+
+    /**
+     * Returns the customisation tree for a product's option groups -- whether each is mandatory
+     * and each choice's id, name and price difference, with any nested option groups a choice
+     * reveals. Needs a vendor id (from getLocation or getMenu) and option-group ids off a getMenu
+     * product.
+     */
+    getProductOptions(args: OloGetProductOptionsArgs): Promise<OloOptionGroup[]>;
+
+    /**
+     * Lists the days (today through the chain's advance-order window) a location will take an
+     * order for a handoff mode, as ISO dates. Needs a vendor id from getLocation or getMenu.
+     */
+    listOrderDays(args: OloListOrderDaysArgs): Promise<string[]>;
   }
 }
 
@@ -57611,6 +58620,112 @@ interface SerperSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_sevenrooms {
+  // ── SevenRooms — the unit's own declarations, verbatim ──
+interface SevenroomsVenue {
+  id: string;
+  venueGroupId: string | null;
+  urlKey: string;
+  name: string;
+  venueClass: string | null;
+  timezone: string | null;
+  currencyCode: string | null;
+  address: string | null;
+  crossStreet: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
+  phoneNumber: string | null;
+  email: string | null;
+  website: string | null;
+  menuLink: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  policy: string | null;
+  /** When true, only a signed-in SevenRooms account may book here. */
+  requiresAccountToBook: boolean;
+  bookingUrl: string;
+}
+interface SevenroomsSlot {
+  time: string;
+  /** "YYYY-MM-DD HH:mm:ss", the venue's own local wall clock. */
+  timeIso: string;
+  type: string;
+  /** Minutes. */
+  duration: number | null;
+  description: string | null;
+  requireCreditCard: boolean;
+  ccPaymentRule: string | null;
+  cost: number | null;
+  minSpend: number | null;
+  cancellationPolicy: string | null;
+  accessPersistentId: string | null;
+  shiftPersistentId: string | null;
+}
+interface SevenroomsShift {
+  name: string;
+  category: string | null;
+  isClosed: boolean;
+  times: SevenroomsSlot[];
+}
+interface SevenroomsAvailabilityDay {
+  date: string;
+  shifts: SevenroomsShift[];
+}
+interface GetVenueArgs {
+  /** A sevenrooms.com venue slug (e.g. "catchla") or any sevenrooms.com venue url. */
+  venue: string;
+}
+interface GetAvailabilityArgs {
+  venue: string;
+  /** YYYY-MM-DD. */
+  date: string;
+  /** Default 2. */
+  partySize?: number;
+  /** Preferred time, "HH:mm" 24h. Default "19:00". */
+  time?: string;
+  /** Default 1, at most 14. */
+  numDays?: number;
+}
+interface GetAvailableDatesArgs {
+  venue: string;
+  /** YYYY-MM-DD, default today. */
+  startDate?: string;
+  /** Default 30, at most 90. */
+  numDays?: number;
+}
+
+  /**
+   * SevenRooms restaurant reservations (Catch, TAO, Nobu, Dishoom and thousands more): find a
+   * venue, its open tables by date and party size with deposit and card terms, experiences and
+   * add-ons, book, modify or cancel as a guest, submit a request or priority alert, and the
+   * signed-in guest's own reservations and profile.
+   */
+  interface Unit {
+    /**
+     * Reads one SevenRooms venue from its slug or url: name, address, phone, website, timezone,
+     * currency, house policy, and whether it requires a signed-in SevenRooms account to book
+     * (bookReservationSignedIn) rather than guest checkout.
+     */
+    getVenue(args: GetVenueArgs): Promise<SevenroomsVenue>;
+
+    /**
+     * Lists the dates a SevenRooms venue is taking online bookings over a window, so a caller can
+     * pick a date before asking for times.
+     */
+    getAvailableDates(args: GetAvailableDatesArgs): Promise<string[]>;
+
+    /**
+     * A SevenRooms venue's open reservation times for a date, party size and preferred time: per
+     * shift (lunch, dinner), each slot's time, duration, whether it needs a card, a deposit or
+     * prepayment, its cost, minimum spend and cancellation policy. Empty means nothing is open
+     * that day.
+     */
+    getAvailability(args: GetAvailabilityArgs): Promise<SevenroomsAvailabilityDay[]>;
+  }
+}
+
 declare namespace BowmarkProvider_shein {
   // ── Shein — the unit's own declarations, verbatim ──
 interface sheinRow {
@@ -58997,6 +60112,75 @@ interface SpotifySearchResult {
      * album's total track count. Needs your own Spotify developer app key.
      */
     listAlbumTracks(id: string, opts?: SpotifyAlbumTracksOptions): Promise<SpotifyAlbumTracksResult>;
+  }
+}
+
+declare namespace BowmarkProvider_squire {
+  // ── Squire — the unit's own declarations, verbatim ──
+interface SquireAddress { street: string | null; city: string | null; state: string | null; zip: string | null; country: string | null; }
+interface SquireSearchArgs { query: string; limit?: number; }
+interface SquireNearArgs {
+  near?: string;  // a place name, geocoded first — or pass lat and lng
+  lat?: number;
+  lng?: number;
+  limit?: number; // default 20
+}
+interface SquireSearchHit {
+  type: string;          // "shop" | "brand" | "barber" | "address"
+  id: string;
+  shopId: string | null; // the shop a shop/barber hit belongs to
+  name: string;
+  route: string | null;  // what getShop takes
+  address: SquireAddress | null;
+  shops: { id: string; name: string }[]; // a brand's locations
+}
+interface SquireShopSummary {
+  id: string; name: string; route: string; address: SquireAddress | null;
+  lat: number | null; lng: number | null; distanceMiles: number | null;
+  phone: string | null; timezone: string | null; barberCount: number | null;
+  photos: string[]; bookingUrl: string;
+}
+interface SquireOpeningHours { weekDay: number; open: boolean; opens: string; closes: string; } // weekDay 1 = Monday
+interface SquireShop extends SquireShopSummary {
+  brand: { id: string; name: string } | null;
+  instagram: string | null; website: string | null;
+  hours: SquireOpeningHours[]; daysOff: unknown[]; currency: string | null;
+  advanceBookDays: number | null; advanceCancelMins: number | null; canCustomerCancel: boolean | null;
+  requiresPrepayment: boolean | null; requiresPartialDeposits: boolean | null; allowInPersonPayments: boolean | null;
+  klarnaEnabled: boolean | null; afterpayEnabled: boolean | null;
+  customerBookingFeeCents: number | null; // 100 = $1.00
+  waitingListEnabled: boolean | null; giftCardEnabled: boolean | null; walkInOnly: boolean | null;
+}
+
+  /**
+   * Squire barbershop booking: find shops by name or near a place, a shop's services, prices,
+   * barbers, reviews and open appointment times, a price quote, and the signed-in customer's own
+   * appointments, waitlist and walk-in list.
+   */
+  interface Unit {
+    /**
+     * Searches Squire by free text — a shop or brand name, a barber, a city or a street — and
+     * returns Squire's own typed hits (shop, brand, barber, address) with id, shopId, name, route
+     * and address; a brand hit lists its locations. A shop hit's route or id is what getShop
+     * takes.
+     */
+    searchShops(args: SquireSearchArgs): Promise<SquireSearchHit[]>;
+
+    /**
+     * Lists Squire barbershops nearest first around a place name (geocoded) or a lat/lng: name,
+     * route, address, coordinates, distance in miles, phone, timezone, barber count, photos and
+     * the booking URL.
+     */
+    findShopsNear(args: SquireNearArgs): Promise<SquireShopSummary[]>;
+
+    /**
+     * Returns one barbershop from its id, route or getsquire.com URL: address, coordinates, phone,
+     * Instagram, weekly opening hours, days off, the advance-booking and cancellation windows,
+     * whether it needs prepayment or a deposit, takes pay-in-person, Klarna or Afterpay, the
+     * customer booking fee in cents, and whether its waitlist and gift cards are on. An unknown
+     * shop is a caller-fixable error.
+     */
+    getShop(shop: string): Promise<SquireShop>;
   }
 }
 
@@ -67311,6 +68495,32 @@ interface walmartSeller {
   }
 }
 
+declare namespace BowmarkProvider_walmart_ca {
+  // ── Walmart Canada — the unit's own declarations, verbatim ──
+interface SearchArgs {
+  query: string;
+}
+
+interface WalmartCaSearchResult {
+  itemId: string;
+  name: string;
+  brand: string | null;
+  url: string;
+  image: string | null;
+  price: number | null;
+  wasPrice: number | null;
+  inStock: boolean;
+  rating: number | null;
+  reviewCount: number;
+}
+
+  /** Search products and check pricing on Walmart Canada (walmart.ca) */
+  interface Unit {
+    /** Search Walmart Canada (walmart.ca) for products by keywords */
+    search(args: SearchArgs): Promise<WalmartCaSearchResult[]>;
+  }
+}
+
 declare namespace BowmarkProvider_washingtonpost {
   // ── The Washington Post — the unit's own declarations, verbatim ──
 interface WashingtonpostSection {
@@ -67664,6 +68874,19 @@ interface AirQuality {
   pollutants: Pollutant[];
 }
 
+interface HourlyAirQualityHour {
+  validTimeGmt: number | null;
+  index: number | null;
+  category: string | null;
+  primaryPollutant: string | null;
+  pollutants: Pollutant[];
+}
+
+interface HourlyAirQuality {
+  location: WeatherLocation | null;
+  hours: HourlyAirQualityHour[];
+}
+
 interface PollenDaypart {
   time: string;
   name: string;
@@ -67911,6 +69134,15 @@ interface CMSContent {
      * with each one's amount, unit and category.
      */
     getAirQuality(location: Location): Promise<AirQuality>;
+
+    /**
+     * The Weather Channel's 12-hour air quality forecast for a place — e.g.
+     * `getHourlyAirQuality("Toronto")` — on the EPA scale, the same hourly AQI strip weather.com
+     * draws on its Today page. Each hour carries `validTimeGmt` (unix seconds), the overall index
+     * and category, the primary pollutant, and a per-pollutant breakdown (CO, NO2, O3, PM10,
+     * PM2.5, SO2) with amount, unit and category.
+     */
+    getHourlyAirQuality(location: Location): Promise<HourlyAirQuality>;
 
     /**
      * Historical climate normals (5-day) for any location using weather.com's API — e.g.
@@ -70094,33 +71326,49 @@ interface YahooFinanceWatchlists {
 
 declare namespace BowmarkProvider_yahoo_mail {
   // ── Yahoo Mail — the unit's own declarations, verbatim ──
-interface YahooMailMessageRow {
-  id: string;
-  from: string;
-  subject: string;
-  snippet: string;
-  receivedAt: string;
-  unread: boolean;
+interface MailboxCredentials {
+  // Your full Yahoo address, and an APP password made at
+  // https://help.yahoo.com/kb/SLN15241.html — never the account's own password.
+  // Pass both as secrets: bowmark.secret("yahoo_mail_username"),
+  // bowmark.secret("yahoo_mail_app_password").
+  username: string; // a plain value from typed code; a run/session script passes a bowmark.secret() reference
+  appPassword: string;
 }
 
 interface YahooMailFolder {
-  id?: string;
-  name?: string;
-  unreadCount?: number;
+  id: string; // pass as folderId; INBOX is "INBOX"
+  name: string;
+  specialUse: string | null; // "\\Sent", "\\Trash", "\\Junk", "\\Drafts", "\\Archive" or null
   totalCount?: number;
-  raw: Record<string, unknown>;
+  unreadCount?: number;
+}
+
+interface YahooMailMessageRow {
+  id: string; // "<folder>:<uidValidity>:<uid>" — pass it to getMessage / markAsRead / moveMessage / deleteMessage as-is
+  folder: string;
+  from: string; // "Name <address>"
+  subject: string;
+  snippet: string;
+  receivedAt: string; // ISO 8601
+  unread: boolean;
+  flagged: boolean;
 }
 
 interface YahooMailMessage {
-  id?: string;
-  from?: string;
-  to?: string;
-  subject?: string;
-  body?: string;
-  bodyHtml?: string;
-  receivedAt?: string;
-  unread?: boolean;
-  raw: Record<string, unknown>;
+  id: string;
+  folder: string;
+  from: string;
+  to: string[];
+  cc: string[];
+  subject: string;
+  sentAt: string | null; // the message's own Date: header
+  receivedAt: string; // ISO 8601
+  unread: boolean;
+  flagged: boolean;
+  messageId: string | null; // RFC 5322 Message-ID, for threading — not the id other functions take
+  body: string | null; // the text/plain part
+  bodyHtml: string | null;
+  attachments: { filename: string | null; contentType: string; size: number }[];
 }
 
 interface YahooMailSendResult {
@@ -70128,68 +71376,104 @@ interface YahooMailSendResult {
   raw: Record<string, unknown>;
 }
 
-type ListFoldersArgs = Record<string, never>;
-
-interface ListMessagesArgs {
-  folderId?: unknown;
-  limit?: unknown;
+interface ListFoldersArgs {
+  credentials: MailboxCredentials;
 }
 
-interface GetMessageArgs {
-  id: unknown;
+interface ListMessagesArgs {
+  credentials: MailboxCredentials;
+  folderId?: string; // a folder id from listFolders, or "sent" / "trash" / "spam" / "drafts" / "archive"; default INBOX
+  limit?: number; // newest N, 1-100, default 25
 }
 
 interface SearchMessagesArgs {
-  query: unknown;
-  folderId?: unknown;
+  credentials: MailboxCredentials;
+  query: string; // from:, to:, cc:, subject:, is:unread, is:read, is:flagged, and plain words
+  folderId?: string; // omit to search every folder except Trash and Spam
+  limit?: number; // 1-100, default 25
+}
+
+interface GetMessageArgs {
+  credentials: MailboxCredentials;
+  id: string; // a row's id from listMessages / searchMessages
+}
+
+interface MarkAsReadArgs {
+  credentials: MailboxCredentials;
+  messageId: string; // a row's id
+  read?: boolean; // default true; false marks it unread
+}
+
+interface MoveMessageArgs {
+  credentials: MailboxCredentials;
+  messageId: string;
+  folderId: string; // a folder id from listFolders, or a role word like "archive"
+}
+
+interface DeleteMessageArgs {
+  credentials: MailboxCredentials;
+  messageId: string;
+}
+
+interface YahooMailReadResult {
+  id: string;
+  read: boolean;
+}
+
+interface YahooMailMoveResult {
+  id: string | null; // the message's NEW id in the destination folder (null if the server did not say)
+  folder: string;
+}
+
+interface YahooMailDeleteResult {
+  deleted: "to-trash" | "permanently"; // permanently only when it was already in Trash, like the site's own button
+  id: string | null; // its new id in Trash, when moved there
+  folder: string | null;
 }
 
 interface SendMessageArgs {
-  to: unknown;
-  subject: unknown;
-  body: unknown;
-  from?: unknown;
+  to: string;
+  subject: string;
+  body: string;
+  from?: string;
 }
 
   /**
-   * Reads and sends mail in the CALLER's own Yahoo Mail account — inbox, folders, search,
-   * compose — through the auth relay. Every function needs the caller signed in; none of it
-   * works on a fleet persona.
+   * Reads and changes mail in the CALLER's own Yahoo Mail account — folders, the inbox, search,
+   * full messages, mark read, move, delete — over IMAP with the caller's address and a Yahoo app
+   * password, plus compose through the auth relay.
    */
   interface Unit {
     /**
-     * Lists the CALLER's own mail folders — Inbox, Sent, Drafts, Spam, Trash and any custom
-     * folders — the way the sidebar does. The caller signs in through the auth relay; Bowmark
-     * never signs up on this site. Takes no arguments. Field values besides `raw` are read
-     * defensively and may come back undefined until a real signed-in capture measures the success
-     * shape.
+     * Lists the CALLER's own Yahoo Mail folders — Inbox, Sent, Drafts, Spam, Trash and custom
+     * folders — with message and unread counts. Takes the caller's Yahoo address and a Yahoo app
+     * password (made at help.yahoo.com/kb/SLN15241.html), passed as secrets. Each folder's `id` is
+     * what the other functions take as `folderId`.
      */
-    listFolders(args: ListFoldersArgs, opts?: ConnectionOption): Promise<YahooMailFolder[]>;
+    listFolders(args: ListFoldersArgs): Promise<YahooMailFolder[]>;
 
     /**
-     * Lists messages in the CALLER's own mailbox from a chosen folder (Inbox by default), newest
-     * first — sender, subject, snippet, received time and read/unread state, the way the inbox
-     * list view does. The door for `getMessage`. Field values are read defensively and may come
-     * back as empty strings until a real signed-in capture measures the success shape.
+     * Lists the newest messages in one of the CALLER's Yahoo Mail folders (Inbox by default),
+     * newest first — sender, subject, snippet, received time, read and flagged state. Each row's
+     * `id` goes straight into getMessage, markAsRead, moveMessage or deleteMessage. Takes the
+     * caller's address and app password, as secrets.
      */
-    listMessages(args: ListMessagesArgs, opts?: ConnectionOption): Promise<YahooMailMessageRow[]>;
+    listMessages(args: ListMessagesArgs): Promise<YahooMailMessageRow[]>;
 
     /**
-     * Reads one message in full from the CALLER's own mailbox, given the message id `listMessages`
-     * returns. The caller signs in through the auth relay; Bowmark never signs up on this site.
-     * Field values besides `raw` are read defensively and may come back undefined until a real
-     * signed-in capture measures the success shape.
+     * Searches the CALLER's own Yahoo Mail — `from:`, `to:`, `subject:`, `is:unread`, `is:flagged`
+     * and plain words — in one folder, or in every folder except Trash and Spam. Returns the same
+     * rows as listMessages, newest first. Takes the caller's address and app password, as secrets.
      */
-    getMessage(args: GetMessageArgs, opts?: ConnectionOption): Promise<YahooMailMessage>;
+    searchMessages(args: SearchMessagesArgs): Promise<YahooMailMessageRow[]>;
 
     /**
-     * Searches messages in the CALLER's own mailbox by sender, subject or body text — the way
-     * Yahoo Mail's own search bar does. Searches across all folders or one folder if specified.
-     * Returns sender, subject, snippet, received time and read/unread state, the same shape as
-     * `listMessages`. Field values are read defensively and may come back as empty strings until a
-     * real signed-in capture measures the success shape.
+     * Reads one of the CALLER's own Yahoo Mail messages in full — sender, recipients, subject,
+     * dates, plain-text and HTML body, and the list of attachments — given a row `id` from
+     * listMessages or searchMessages. Does not mark it read. Takes the caller's address and app
+     * password, as secrets.
      */
-    searchMessages(args: SearchMessagesArgs, opts?: ConnectionOption): Promise<YahooMailMessageRow[]>;
+    getMessage(args: GetMessageArgs): Promise<YahooMailMessage>;
 
     /**
      * Sends (or possibly only drafts — unconfirmed, see the function's own comment) a message from
@@ -70198,6 +71482,27 @@ interface SendMessageArgs {
      * refusal, not that a recipient received anything.
      */
     sendMessage(args: SendMessageArgs, opts?: ConnectionOption): Promise<YahooMailSendResult>;
+
+    /**
+     * Marks one of the CALLER's own Yahoo Mail messages read (or unread with `read: false`), given
+     * a row `id` from listMessages or searchMessages. Takes the caller's address and app password,
+     * as secrets.
+     */
+    markAsRead(args: MarkAsReadArgs): Promise<YahooMailReadResult>;
+
+    /**
+     * Moves one of the CALLER's own Yahoo Mail messages to another folder — a folder `id` from
+     * listFolders, or "archive", "spam", "trash" — and returns its new id there. Takes the
+     * caller's address and app password, as secrets.
+     */
+    moveMessage(args: MoveMessageArgs): Promise<YahooMailMoveResult>;
+
+    /**
+     * Deletes one of the CALLER's own Yahoo Mail messages the way the site's own delete button
+     * does: moves it to Trash, or removes it for good when it is already in Trash. Takes the
+     * caller's address and app password, as secrets.
+     */
+    deleteMessage(args: DeleteMessageArgs): Promise<YahooMailDeleteResult>;
   }
 }
 
@@ -72972,6 +74277,7 @@ interface BowmarkProviders {
   anthropic_com: BowmarkProvider_anthropic_com.Unit;
   antunes: BowmarkProvider_antunes.Unit;
   aol: BowmarkProvider_aol.Unit;
+  aol_mail: BowmarkProvider_aol_mail.Unit;
   aosom: BowmarkProvider_aosom.Unit;
   app_store: BowmarkProvider_app_store.Unit;
   apple: BowmarkProvider_apple.Unit;
@@ -73037,6 +74343,7 @@ interface BowmarkProviders {
   bollandbranch: BowmarkProvider_bollandbranch.Unit;
   booker: BowmarkProvider_booker.Unit;
   booking_com: BowmarkProvider_booking_com.Unit;
+  booksy: BowmarkProvider_booksy.Unit;
   borsheims: BowmarkProvider_borsheims.Unit;
   boxlunch: BowmarkProvider_boxlunch.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;
@@ -73126,6 +74433,7 @@ interface BowmarkProviders {
   culturefly: BowmarkProvider_culturefly.Unit;
   curiocity: BowmarkProvider_curiocity.Unit;
   currency_exchange: BowmarkProvider_currency_exchange.Unit;
+  currys: BowmarkProvider_currys.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   dahlconsulting: BowmarkProvider_dahlconsulting.Unit;
   dailymotion: BowmarkProvider_dailymotion.Unit;
@@ -73173,6 +74481,7 @@ interface BowmarkProviders {
   evolutionofsmooth: BowmarkProvider_evolutionofsmooth.Unit;
   evolvemedspa: BowmarkProvider_evolvemedspa.Unit;
   executivehomecare: BowmarkProvider_executivehomecare.Unit;
+  exhalespa: BowmarkProvider_exhalespa.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
   facebook: BowmarkProvider_facebook.Unit;
   faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
@@ -73201,6 +74510,7 @@ interface BowmarkProviders {
   foxnews: BowmarkProvider_foxnews.Unit;
   framebridge: BowmarkProvider_framebridge.Unit;
   fred: BowmarkProvider_fred.Unit;
+  fresha: BowmarkProvider_fresha.Unit;
   furniture: BowmarkProvider_furniture.Unit;
   g2: BowmarkProvider_g2.Unit;
   gap: BowmarkProvider_gap.Unit;
@@ -73210,6 +74520,7 @@ interface BowmarkProviders {
   github: BowmarkProvider_github.Unit;
   glama: BowmarkProvider_glama.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
+  glofox: BowmarkProvider_glofox.Unit;
   gobrightwing: BowmarkProvider_gobrightwing.Unit;
   golf_com: BowmarkProvider_golf_com.Unit;
   goloadup: BowmarkProvider_goloadup.Unit;
@@ -73284,6 +74595,7 @@ interface BowmarkProviders {
   justinwine: BowmarkProvider_justinwine.Unit;
   kaleidescape: BowmarkProvider_kaleidescape.Unit;
   kalshi: BowmarkProvider_kalshi.Unit;
+  katzsdelicatessen: BowmarkProvider_katzsdelicatessen.Unit;
   kayak: BowmarkProvider_kayak.Unit;
   kbb: BowmarkProvider_kbb.Unit;
   keepa: BowmarkProvider_keepa.Unit;
@@ -73374,6 +74686,7 @@ interface BowmarkProviders {
   oanda: BowmarkProvider_oanda.Unit;
   old_navy: BowmarkProvider_old_navy.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
+  olo: BowmarkProvider_olo.Unit;
   onthemarket: BowmarkProvider_onthemarket.Unit;
   openai: BowmarkProvider_openai.Unit;
   opentable: BowmarkProvider_opentable.Unit;
@@ -73463,6 +74776,7 @@ interface BowmarkProviders {
   semihandmade: BowmarkProvider_semihandmade.Unit;
   seoulfood: BowmarkProvider_seoulfood.Unit;
   serper: BowmarkProvider_serper.Unit;
+  sevenrooms: BowmarkProvider_sevenrooms.Unit;
   shein: BowmarkProvider_shein.Unit;
   shop_app: BowmarkProvider_shop_app.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
@@ -73481,6 +74795,7 @@ interface BowmarkProviders {
   speedrun: BowmarkProvider_speedrun.Unit;
   spirithalloween: BowmarkProvider_spirithalloween.Unit;
   spotify: BowmarkProvider_spotify.Unit;
+  squire: BowmarkProvider_squire.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   start_gg: BowmarkProvider_start_gg.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
@@ -73558,6 +74873,7 @@ interface BowmarkProviders {
   walkerhughes: BowmarkProvider_walkerhughes.Unit;
   walla: BowmarkProvider_walla.Unit;
   walmart: BowmarkProvider_walmart.Unit;
+  walmart_ca: BowmarkProvider_walmart_ca.Unit;
   washingtonpost: BowmarkProvider_washingtonpost.Unit;
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
   wearehirschfeld: BowmarkProvider_wearehirschfeld.Unit;
