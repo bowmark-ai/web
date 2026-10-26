@@ -646,7 +646,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booksy.cancelAppointment` | booksy.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | ⚪ |
 | `booksy.getAvailability` | booksy.com | Returns the open appointment times for one service at one business over a date range… | ⚪ |
 | `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | ⚪ |
-| `booksy.getBusiness` | booksy.com | Returns one business from its id or its booksy.com page URL: name, description… | ⚪ |
+| `booksy.getBusiness` | booksy.com | Returns one business from its id or its booksy.com page URL: name, description… | 🟢 |
 | `booksy.getBusinessContact` | booksy.com | Returns a business's contact email, which Booksy shows only to a signed-in customer. | ⚪ |
 | `booksy.getBusinessNetwork` | booksy.com | For a business that is part of a chain on Booksy, lists the chain's other locations… | ⚪ |
 | `booksy.getBusinessPhotos` | booksy.com | Lists a business's portfolio and venue photos, and the photos customers attached to… | ⚪ |
@@ -663,8 +663,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booksy.payForAppointment` | booksy.com | Pays an appointment's deposit, prepayment or bill through Booksy Pay. | ⚪ |
 | `booksy.removeFavorite` | booksy.com | Removes a business from the signed-in caller's favourites. | ⚪ |
 | `booksy.rescheduleAppointment` | booksy.com | Moves one of the signed-in caller's appointments to a new time (and optionally a new… | ⚪ |
-| `booksy.resolveLocation` | booksy.com | Resolves a place a caller names ("Brooklyn", a street address) into the Booksy region… | ⚪ |
-| `booksy.searchBusinesses` | booksy.com | Searches Booksy's marketplace for businesses (barbers, salons, spas, nail, massage… | ⚪ |
+| `booksy.resolveLocation` | booksy.com | Resolves a place a caller names ("Brooklyn", a street address) into the Booksy region… | 🟢 |
+| `booksy.searchBusinesses` | booksy.com | Searches Booksy's marketplace for businesses (barbers, salons, spas, nail, massage… | 🟢 |
 | `booksy.sendMessageToBusiness` | booksy.com | Sends a chat message from the signed-in caller to a business, and reads the… | ⚪ |
 | `booksy.updateMyProfile` | booksy.com | Updates the signed-in caller's Booksy profile: name, email, phone or profile photo. | ⚪ |
 | `booksy.writeReview` | booksy.com | Posts the signed-in caller's star rating and review of a business after an… | ⚪ |
@@ -1368,7 +1368,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `decksdirect.priceConfiguration` | decksdirect.com | Resolves a specific configuration (a choice per option group, e.g. { Color: "Havana… | 🟢 |
 | `decksdirect.searchProducts` | decksdirect.com | Searches DecksDirect's decking/railing/hardware catalog by free text and returns each… | 🟢 |
 | `dell.getOrderDetails` | dell.com | Retrieves detailed information about a specific order, including items, pricing, and… | 🟢 |
-| `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟡 |
+| `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟢 |
 | `dell.getProductDrivers` | dell.com | Lists drivers and downloads for a Dell product by its URL slug, optionally narrowed to… | 🟢 |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves details for a specific registered product. | 🟢 |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | 🟢 |
@@ -1524,12 +1524,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `doordash.findAddress` | doordash.com | Turns a street address or place the caller types ("426 Main St Metuchen NJ") into… | ⚪ |
 | `doordash.getCart` | doordash.com | Returns the current cart(s): each item with quantity, options and price, and the cart… | ⚪ |
 | `doordash.getCheckoutTotal` | doordash.com | Opens a cart for a store at a delivery address and reads the itemized fee breakdown… | ⚪ |
-| `doordash.getMenu` | doordash.com | Returns one store's full menu: categories, and for each item its id, name… | ⚪ |
+| `doordash.getMenu` | doordash.com | Returns one store's full menu: categories, and for each item its name, description… | 🟢 |
 | `doordash.getMenuItem` | doordash.com | Returns one menu item's detail: description, price and every option group with its… | ⚪ |
 | `doordash.getMyAccount` | doordash.com | Returns the signed-in customer's own account: name, email, phone, DashPass membership… | ⚪ |
 | `doordash.getOrder` | doordash.com | Returns one order: its items, fees and total, delivery address, and its live status… | ⚪ |
 | `doordash.getRetailStore` | doordash.com | Returns a grocery, convenience or retail store on DoorDash (7-Eleven, CVS, ALDI…) with… | ⚪ |
-| `doordash.getStore` | doordash.com | Returns one restaurant or store by its DoorDash store id or store URL: name, address… | ⚪ |
+| `doordash.getStore` | doordash.com | Returns one restaurant by its DoorDash store id or store URL: name, address… | 🟢 |
 | `doordash.getStoreReviews` | doordash.com | Returns a store's rating summary and its public customer reviews (reviewer display… | ⚪ |
 | `doordash.listCuisines` | doordash.com | Lists the cuisine and category filters DoorDash offers near an address (Thai, Pizza… | ⚪ |
 | `doordash.listDeals` | doordash.com | Lists the deals and promotions running near an address — store offers like '20% off… | ⚪ |
@@ -2872,7 +2872,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.getPost` | linkedin.com | Reads one public LinkedIn post — the author, the written text in full, any attached… | 🟢 |
 | `linkedin.getProfile` | linkedin.com | Returns the public professional record of one person from their profile URL — full… | 🟢 |
 | `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟢 |
-| `linkedin.getProfileSkills` | linkedin.com | Returns the skills and the licences and certifications one member lists on their… | ⚪ |
+| `linkedin.getProfileSkills` | linkedin.com | Returns the skills and the licences and certifications one member lists on their… | 🟢 |
 | `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟢 |
 | `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | 🟢 |
 | `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | 🟢 |
@@ -4791,7 +4791,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listConversations` | tiktok.com | The signed-in caller's own DM inbox — threads, last message, unread state. | ⚪ |
 | `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | 🟢 |
 | `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | 🟢 |
-| `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟡 |
+| `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟢 |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | ⚪ |
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟡 |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id and caption for each — the door from a handle to their… | 🟢 |
@@ -4916,8 +4916,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.listIdeas` | www.tradingview.com | Get the public Ideas feed for a symbol — what traders are saying about it right now. | 🟢 |
 | `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | 🟢 |
 | `travelinsured.getPlanQuote` | travelinsured.com | Prices Travel Insured's Essential/Deluxe/Platinum plans for a trip (destination… | ⚪ |
-| `travelinsured.getZipInfo` | travelinsured.com | Resolves a US ZIP code to its state and country the way the quote flow's… | 🟢 |
-| `travelinsured.searchDestinations` | travelinsured.com | Looks up a destination (country, city, or US state) the way Travel Insured's own… | 🟢 |
+| `travelinsured.getZipInfo` | travelinsured.com | Resolves a US ZIP code to its state and country the way the quote flow's… | 🟡 |
+| `travelinsured.searchDestinations` | travelinsured.com | Looks up a destination (country, city, or US state) the way Travel Insured's own… | 🟡 |
 | `travelocity.getReservation` | travelocity.com | Reads an existing Travelocity trip the way the site's own "Find My Trip" page does —… | ⚪ |
 | `travelocity.search` | travelocity.com | Searches Travelocity's live flight fares the way its own booking widget does — origin… | ⚪ |
 | `travelocity.searchActivities` | travelocity.com | Searches Travelocity's live "Things to Do" activities and tours the way its own… | ⚪ |
