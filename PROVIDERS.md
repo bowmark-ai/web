@@ -1033,8 +1033,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chromium_googlesource_com.searchCode` | chromium.googlesource.com | Full-text search across Chromium source (source.chromium.org's code search). | ⚪ |
 | `circl.getCve` | cve.circl.lu | Fetch one CVE record by id from CIRCL's documented JSON API: description, CVSS score… | 🟢 |
 | `circl.search` | cve.circl.lu | Full-text search of CVE records by keyword, product or phrase through CIRCL's… | 🟢 |
-| `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟡 |
-| `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟡 |
+| `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟢 |
+| `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟢 |
 | `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟢 |
 | `classicrockfab.checkAvailability` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Given an appointmentTypeId from listAppointmentTypes, returns real currently-open time… | 🟢 |
 | `classicrockfab.listAppointmentTypes` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Lists Classic Rock's public design-center appointment types across all four locations… | 🟢 |
@@ -1609,7 +1609,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.listRegions` | duckduckgo.com | List the search regions DuckDuckGo offers ("us-en", "uk-en", "de-de"…) with their… | ⚪ |
 | `duckduckgo.resolveBang` | duckduckgo.com | Turn a !bang query ("!w duck", "!a usb-c cable") into the destination URL DuckDuckGo… | 🟢 |
 | `duckduckgo.searchImages` | duckduckgo.com | Searches DuckDuckGo's Images vertical and returns each result's title, page URL… | 🟡 |
-| `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | 🟡 |
+| `duckduckgo.searchNews` | duckduckgo.com | Search DuckDuckGo News and return each story's headline, the outlet's URL, excerpt… | 🟢 |
 | `duckduckgo.searchPlaces` | duckduckgo.com | Find places on DuckDuckGo Maps by what and where ("coffee in Seattle") — name… | 🟡 |
 | `duckduckgo.searchVideos` | duckduckgo.com | Search DuckDuckGo Videos and return each hit's title, page URL, description, duration… | 🟡 |
 | `duckduckgo.searchWeb` | duckduckgo.com | Search the web the way duckduckgo.com's own search box does and return the ranked… | 🟢 |
@@ -2594,8 +2594,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `idealista.getListing` | idealista.com | Reads one listing's full page — every photo, the full description, features, energy… | ⚪ |
 | `idealista.search` | idealista.com | Searches homes for rent or for sale in Spain from plain words or a location path… | 🟡 |
 | `idealista.searchRooms` | idealista.com | Searches rooms to share (alquiler-habitacion) rather than whole homes. | ⚪ |
-| `identitygroup.getSign` | identitygroup.com | Reads one sign product's full page: every mount-option variant, each with its own real… | 🟡 |
-| `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟡 |
+| `identitygroup.getSign` | identitygroup.com | Reads one sign product's full page: every mount-option variant, each with its own real… | 🟢 |
+| `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟢 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
 | `ikea.addToCart` | ikea.com | Adds an item (by item number and quantity) to an IKEA shopping cart and returns the… | ⚪ |
@@ -4542,7 +4542,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `statefarm.getRentalPropertyQuote` | statefarm.com | Returns a landlord insurance quote for a rented-out property — dwelling coverage plus… | ⚪ |
 | `statefarm.getRentersQuote` | statefarm.com | Returns State Farm's own monthly renters insurance estimate for a US ZIP — a low and a… | 🟢 |
 | `statefarm.getUmbrellaQuote` | statefarm.com | Returns a personal umbrella liability quote — the excess liability layer above the… | ⚪ |
-| `steam.addFriend` | steampowered.com | Sends a friend request to another Steam user by username or ID. | ⚪ |
+| `steam.addFriend` | steampowered.com | Sends a friend request to another Steam user by steamid64, off the friends page's own… | 🟢 |
 | `steam.addToWishlist` | steampowered.com | Adds a game to the signed-in caller's wishlist, off the store's own addtowishlist door. | 🟢 |
 | `steam.editProfile` | steampowered.com | Updates the signed-in caller's own persona name and/or profile summary off the… | 🟢 |
 | `steam.getAchievements` | steampowered.com | Reads a game's achievement list from its public Steam Community page by appid: name… | 🟡 |

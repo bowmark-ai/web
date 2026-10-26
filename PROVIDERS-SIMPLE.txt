@@ -607,7 +607,7 @@ square.site — square_online: nothing callable yet (+19 planned)
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments
 statefarm.com — statefarm: findAgent, getBusinessQuote, getLifeQuote, getRentersQuote (+14 planned)
-steampowered.com — steam: addToWishlist, editProfile, getAchievements, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getNewsItem, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, removeFromWishlist, searchGames, searchNews, viewFriends (+8 planned)
+steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getNewsItem, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, removeFromWishlist, searchGames, searchNews, viewFriends (+7 planned)
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: findEventsToSell, findPerformers, findVenues, getEvent, getEventListings, listCategories, search (+4 planned)
