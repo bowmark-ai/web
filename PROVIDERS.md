@@ -1234,7 +1234,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `coingecko.getPrice` | coingecko.com | Current price of a cryptocurrency, given by symbol or name, in a fiat or crypto quote… | 🟢 |
 | `coingecko.searchCoins` | coingecko.com | Find cryptocurrencies by name or ticker symbol, returning CoinGecko ids and market-cap… | 🟢 |
 | `compass_living.listCommunities` | compass-living.com | Lists up to 10 senior living communities with their contact-form fields and… | 🟢 |
-| `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
+| `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟡 |
 | `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
 | `coops.getCurrentPredictions` | tidesandcurrents.noaa.gov | Get current predictions for a station. | ⚪ |
@@ -2697,8 +2697,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.getDirectMessages` | instagram.com | Lists the signed-in user's direct message threads with preview of the latest message… | 🟢 |
 | `instagram.getHomeFeed` | instagram.com | Reads the signed-in user's home feed — the newest posts from accounts they follow… | 🟢 |
 | `instagram.getNotifications` | instagram.com | Reads the signed-in user's activity feed — likes, comments, follows, and direct… | 🟢 |
-| `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
-| `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, verified/private flags… | 🟡 |
+| `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟢 |
+| `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, verified/private flags… | 🟢 |
 | `instagram.getSavedPosts` | instagram.com | Lists the signed-in user's saved posts with post metadata including media, captions… | 🟢 |
 | `instagram.getStories` | instagram.com | Lists stories from accounts the signed-in user follows, with expiration times. | 🟢 |
 | `instagram.getThreadMessages` | instagram.com | Reads the message history for one direct message thread, including sent and received… | 🟢 |
@@ -2751,7 +2751,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `interiordefine.searchProducts` | interiordefine.com | Searches Interior Define's custom-furniture catalog (sofas, sectionals, chairs) by… | 🟢 |
 | `ipinfo.lookup` | ipinfo.io | Look up an IPv4 or IPv6 address: its autonomous system number (ASN), the ISP / network… | 🟢 |
 | `iproyal_reseller.extendPeriod` | apid.iproyal.com | Extends one order's term (POST /orders/{id}/extend) — spends real money; a new prepaid… | ⚪ |
-| `iproyal_reseller.getAccountBalance` | apid.iproyal.com | Bowmark's own prepaid IPRoyal balance (GET /balance) — used to fence a lease purchase… | 🟡 |
+| `iproyal_reseller.getAccountBalance` | apid.iproyal.com | Bowmark's own prepaid IPRoyal balance (GET /balance) — used to fence a lease purchase… | 🟢 |
 | `iproyal_reseller.getCatalogue` | apid.iproyal.com | Reads IPRoyal's live reseller catalogue for one lease kind (GET /products) —… | 🟢 |
 | `iproyal_reseller.getOrder` | apid.iproyal.com | Reads one order by IPRoyal's own id (GET /orders/{id}) — status, endpoints, expiry… | 🟢 |
 | `iproyal_reseller.listOrders` | apid.iproyal.com | Every order on Bowmark's account for one product line (GET /orders, paged), including… | 🟢 |
@@ -3200,7 +3200,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.listMossyoakProducts` | mossyoak.com | Reads the live Mossy Oak catalogue as the storefront publishes it — every camo-apparel… | 🟢 |
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
 | `msc_fema.getFloodZone` | msc.fema.gov | Looks up the FEMA flood zone for a US street address (geocoded with the US Census… | 🟢 |
-| `msc.trackShipment` | msc.com | Track MSC container and shipment status — get real-time location, current status, and… | 🟡 |
+| `msc.trackShipment` | msc.com | Track MSC container and shipment status — get real-time location, current status, and… | 🟢 |
 | `msccruzeiros.bookCruise` | msccruzeiros.com.br | Reserve a cabin on a sailing and pay for it through the site's booking funnel. | ⚪ |
 | `msccruzeiros.quoteCabins` | msccruzeiros.com.br | Cruise quote for one MSC Cruzeiros sailing: the price of every cabin category (inside… | 🟢 |
 | `msccruzeiros.searchCruises` | msccruzeiros.com.br | Search MSC Cruzeiros (Brazil) cruise sailings by destination, departure port, ship… | 🟢 |
@@ -4728,7 +4728,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | 🟢 |
 | `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | 🟢 |
 | `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | 🟢 |
-| `theguardian_com.listContributors` | theguardian.com | Lists journalists and contributors whose surname starts with one letter, with each… | 🟡 |
+| `theguardian_com.listContributors` | theguardian.com | Lists journalists and contributors whose surname starts with one letter, with each… | 🟢 |
 | `theguardian_com.listFootballMatches` | theguardian.com | Upcoming fixtures or played results for one football competition (or every competition… | 🟢 |
 | `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | 🟢 |
 | `theguardian_com.listNewsletters` | theguardian.com | Every email newsletter The Guardian publishes — name, description, frequency, theme… | 🟢 |
