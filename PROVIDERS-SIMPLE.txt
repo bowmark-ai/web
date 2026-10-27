@@ -157,6 +157,7 @@ cartebtp.fr — cartebtp: verifyCard
 carusohomes.com — carusohomes: assembleTourRequest, getTourAppointmentSchema, searchCommunities, searchFloorPlans
 casadragones.com — casadragones: findNearbyRetailers, getProduct, listProducts (+1 planned)
 cascadiaseniorliving.com — cascadiaseniorliving_com: getSitePage, listSitePages
+castlery.com — castlery: getProduct, search
 catalog.aquaphoenixsci.com — aquaphoenixsci: browseCategory, getProduct
 cb2.com — cb2: searchProducts (+1 planned)
 cbac.com — christianbrothersauto: checkAppointmentAvailability, getShopDetails
@@ -187,7 +188,7 @@ cleanairlawncare.com — cleanairlawncare: checkServiceArea, getAvailableSlots (
 cloudbeds.com — cloudbeds: getAvailabilityCalendar, getProperty, searchRooms (+10 planned)
 cloudflare.com — cloudflare: comparePlans, compareTeamsPlans (+2 planned)
 clubchampion.com — clubchampion: checkAvailability, getFittings, listFitters, listStudios
-clubpilates.com — clubpilates: findStudios, getClass, getStudio, listClassCategories, listClasses, listClassTypes, listPricing (+11 planned)
+clubpilates.com — clubpilates: findStudios, getClass, getStudio, listClassCategories, listClasses, listClassTypes, listInstructors, listPricing (+10 planned)
 clubready.com — clubready: findStudios, getClass, getStudio, listBrands, listClassCategories, listClasses, listClassTypes, listInstructors, listPricing, listServiceTypes (+14 planned)
 cnb.avocat.fr — cnb_avocat_fr: nothing callable yet (+1 planned)
 cnbc.com — cnbc_com: getQuote, listQuotes (+22 planned)
@@ -361,7 +362,7 @@ ibuypower.com — ibuypower: getBenchmark, getSystem, listLaptops, listPrebuilts
 idealista.com — idealista: search (+3 planned)
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
-ikea.com — ikea: findStores, getProduct, getProductAvailability, searchProducts (+24 planned)
+ikea.com — ikea: findStores, getProduct, getProductAvailability, listCategories, listCategoryProducts, searchProducts (+22 planned)
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 inspirecommunities.com — inspirecommunities: searchHomes
@@ -445,7 +446,7 @@ mixbook.com — mixbook: getActivePromotion, getPhotoBookPriceTable, getProductP
 mobygames.com — mobygames: nothing callable yet (+1 planned)
 modernize.com — modernize_com: getQuoteFlow, listProjectTypes
 modularclosets.com — modularclosets: getKitConfigurator, priceKitConfiguration, searchClosetKits
-momence.com — momence: bookSession, getBookingOptions, getCheckoutFields, getLocations, getSessionDetails, getSessionPlans, getSessions, getSessionsByDate, getSessionsByLocation, getSessionsByTeacher, getSessionTiers, getStudio, getTeachers, getUserInfo, joinWaitlist (+7 planned)
+momence.com — momence: bookSession, findStudio, getBookingOptions, getCheckoutFields, getLocations, getSessionDetails, getSessionPlans, getSessions, getSessionsByDate, getSessionsByLocation, getSessionsByTeacher, getSessionTiers, getStudio, getTeachers, getUserInfo, joinWaitlist (+6 planned)
 momondo.com — momondo: getBookingOptions, search, searchCars (+1 planned)
 mossyoak.com — mossyoak: getMossyoakCheckoutLink, getMossyoakProduct, listMossyoakProducts, searchProducts
 msc.com — msc: trackShipment
@@ -507,7 +508,7 @@ perennialsandsutherland.com — perennialsandsutherland: getRugVariant, getTears
 personio.de — personio: listJobs
 pike13.com — pike13: findBusiness, getBusiness, listLocations, listServices (+23 planned)
 pilotprotocol.network — pilotprotocol: getApp, listApps
-pinterest.com — pinterest: getPin, getProduct, getUser, listPinComments, listRelatedPins, listRelatedProducts, listUserBoards, listUserCreatedPins, listUserSavedPins, listVisualObjects, searchBoards, searchPins, searchUsers, searchVideos, suggestSearches (+32 planned)
+pinterest.com — pinterest: getBoard, getPin, getProduct, getUser, listBoardPins, listBoardSectionPins, listBoardSections, listPinComments, listRelatedPins, listRelatedProducts, listUserBoards, listUserCreatedPins, listUserSavedPins, listVisualObjects, searchBoards, searchPins, searchUsers, searchVideos, suggestSearches (+28 planned)
 pirateship.com — pirateship: getRates (+2 planned)
 pitboss-grills.com — dansons: identifyProduct, listRegisterableProducts
 pizzahut.com — pizzahut: findStores, getDeals, getMenu, getMenuItem, priceOrder (+1 planned)
@@ -676,7 +677,7 @@ unsplash.com — unsplash: search
 upkeepstl.com — upkeepstl_com: estimatePlanCost, getPlanBuilder
 ups.com — ups: calculateShippingCost, estimateDeliveryDate, getRate, trackShipment, validateAddress (+2 planned)
 urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
-usatoday.com — usatoday: browseSection, getArticle, getPuzzle, getScores, listHomepageHeadlines, listPuzzles, listSections, listVideos, searchNews (+3 planned)
+usatoday.com — usatoday: browseSection, getArticle, getPuzzle, getScores, getVideo, listHomepageHeadlines, listPuzzles, listSections, listVideos, searchNews (+2 planned)
 usps.com — usps: getRate
 vbt.com — vbt: getTourDepartures, listTours
 verizon.com — verizon: searchPhones (+1 planned)

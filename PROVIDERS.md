@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5760 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5762 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -163,7 +163,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aliexpress.listWishlist` | aliexpress.us | Lists products in the user's wishlist. | ⚪ |
 | `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟡 |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
-| `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟡 |
+| `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
 | `amazon_ca.getProduct` | www.amazon.ca | Get product details from amazon.ca including title, price, availability, and rating… | 🟢 |
 | `amazon_ca.searchProducts` | www.amazon.ca | Search amazon.ca for products by keywords and return matching results with price… | 🟢 |
 | `amazon.addToCart` | www.amazon.com | Put one unit of a product in the anonymous guest cart and report what the cart then… | 🟢 |
@@ -322,7 +322,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `arxiv.getPaper` | arxiv.org | Reads one arXiv paper by its id or abs/pdf url — title, authors, abstract, categories… | 🟢 |
 | `arxiv.search` | arxiv.org | Searches arXiv preprints by keyword, author, title or category through arXiv's own… | 🟢 |
 | `ashby.listJobs` | ashbyhq.com | Lists every listed job on one company's Ashby board (jobs.ashbyhq.com/{name}) — title… | 🟢 |
-| `ashleyfurniture.checkStock` | ashleyfurniture.com | Answers whether a product (by SKU) is available for delivery to a ZIP — the function… | 🟡 |
+| `ashleyfurniture.checkStock` | ashleyfurniture.com | Answers whether a product (by SKU) is available for delivery to a ZIP — the function… | 🟢 |
 | `ashleyfurniture.findStore` | ashleyfurniture.com | Finds nearby Ashley HomeStore locations for a ZIP or address — hours, phone, and… | 🟢 |
 | `ashleyfurniture.getProduct` | ashleyfurniture.com | Reads one product page in full — price, dimensions, fabric/finish/size options… | 🟢 |
 | `ashleyfurniture.search` | ashleyfurniture.com | Searches or browses Ashley's furniture and home-goods catalog by keyword or category… | 🟢 |
@@ -931,6 +931,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `casadragones.listProducts` | casadragones.com | Lists Casa Dragones' real sipping-tequila catalog off their own product listing page… | 🟢 |
 | `cascadiaseniorliving_com.getSitePage` | cascadiaseniorliving.com | Reads one Cascadia Senior Living page (by its url from listSitePages, or by its slug)… | 🟢 |
 | `cascadiaseniorliving_com.listSitePages` | cascadiaseniorliving.com | Lists every page Cascadia Senior Living's own site publishes — title, url, slug and… | 🟢 |
+| `castlery.getProduct` | castlery.com | Reads one castlery.com product page's schema.org Product data — live offer price and… | 🟢 |
+| `castlery.search` | castlery.com | Runs castlery.com's own US furniture search (sofas, sectionals, beds, dining tables… | 🟢 |
 | `cb2.getProduct` | cb2.com | Reads one product page: every size, fabric and finish option with its own price… | ⚪ |
 | `cb2.searchProducts` | cb2.com | Searches CB2's furniture and decor catalog the way its own search box does ("sofas")… | 🟢 |
 | `cbhhomes.assembleInquiry` | cbhhomes.com | Validates a caller's inquiry against the form's live schema and maps it onto the… | 🟢 |
@@ -1157,7 +1159,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubpilates.listClassCategories` | clubpilates.com | Lists the class categories used to filter a schedule (Reformer Flow, Center + Balance… | 🟢 |
 | `clubpilates.listClasses` | clubpilates.com | Lists a studio's class schedule for a date or date range — each class's id, title… | 🟢 |
 | `clubpilates.listClassTypes` | clubpilates.com | Lists every Club Pilates class type the brand runs (Intro Class, Reformer Flow 1… | 🟢 |
-| `clubpilates.listInstructors` | clubpilates.com | Lists the instructors teaching at a studio, by name, drawn from the classes on its… | ⚪ |
+| `clubpilates.listInstructors` | clubpilates.com | Lists the instructors teaching at a studio over a date window, de-duplicated from the… | 🟢 |
 | `clubpilates.listMyBookings` | clubpilates.com | Lists the signed-in member's upcoming and past class bookings and waitlist spots… | ⚪ |
 | `clubpilates.listPricing` | clubpilates.com | Lists what a studio sells — single class, class packs and memberships — with each… | 🟢 |
 | `clubpilates.updateProfile` | clubpilates.com | Edits the signed-in member's own profile fields (name, phone, address, emergency… | ⚪ |
@@ -2616,8 +2618,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.getProductRatings` | ikea.com | Reads a product's customer rating summary — average stars, review count and the… | ⚪ |
 | `ikea.getProfile` | ikea.com | Reads the signed-in caller's IKEA profile — name, email, phone, saved addresses… | ⚪ |
 | `ikea.getPurchase` | ikea.com | Reads one of the signed-in caller's purchases by order number — items, prices… | ⚪ |
-| `ikea.listCategories` | ikea.com | Lists IKEA's product category tree (e.g. Furniture → Bookcases & shelving units) with… | ⚪ |
-| `ikea.listCategoryProducts` | ikea.com | Lists the products in one category with IKEA's own filters (price, colour, material… | ⚪ |
+| `ikea.listCategories` | ikea.com | Lists IKEA's product category tree (e.g. Furniture → Bookcases & shelving units) with… | 🟢 |
+| `ikea.listCategoryProducts` | ikea.com | Lists the products in one category with IKEA's own filters (price, colour, material… | 🟢 |
 | `ikea.listFamilyOffers` | ikea.com | Lists the member-only IKEA Family offers and rewards available to the signed-in caller. | ⚪ |
 | `ikea.listFavorites` | ikea.com | Reads the products on a favorites list. | ⚪ |
 | `ikea.listInspiration` | ikea.com | Lists IKEA's room and idea articles (living room, bedroom, small spaces…) with the… | ⚪ |
@@ -3169,7 +3171,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `modularclosets.searchClosetKits` | modularclosets.com | Searches Modular Closets' real pre-configured kit catalog (closets, wardrobes… | 🟢 |
 | `momence.bookSession` | momence.com | Book a session for the signed-in caller, spending an existing membership or pass… | 🟢 |
 | `momence.cancelBooking` | momence.com | Cancel an existing booking as the signed-in user. | ⚪ |
-| `momence.findStudio` | momence.com | Resolve a studio's public momence.com/u/<slug> page (or bare slug) to its host id and… | ⚪ |
+| `momence.findStudio` | momence.com | Resolve a studio's public momence.com/u/<slug> page (or bare slug) to its host id and… | 🟢 |
 | `momence.getBookingOptions` | momence.com | Get the signed-in caller's available booking options and pricing for one session (the… | 🟢 |
 | `momence.getCheckoutFields` | momence.com | List the custom questions a studio's checkout form asks every guest (e.g. date of… | 🟢 |
 | `momence.getLocations` | momence.com | List all locations within a studio. | 🟢 |
@@ -3561,7 +3563,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `peek.unsaveExperience` | peek.com | Removes an experience from the signed-in traveler's saved list. | ⚪ |
 | `peek.updateProfile` | peek.com | Edits the signed-in traveler's own profile -- name, phone, email or password -- the… | ⚪ |
 | `peek.writeReview` | peek.com | Leaves a star rating and review on an experience the signed-in traveler has booked and… | ⚪ |
-| `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟡 |
+| `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟢 |
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟡 |
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
 | `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |
@@ -3604,7 +3606,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.followBoard` | pinterest.com | Follow a single board rather than everything its owner posts. | ⚪ |
 | `pinterest.followTopic` | pinterest.com | Follow one of Pinterest's idea topics, which is what steers the caller's home feed. | ⚪ |
 | `pinterest.followUser` | pinterest.com | Follow a person or a brand on the caller's behalf. | ⚪ |
-| `pinterest.getBoard` | pinterest.com | Read one board: name, description, owner, pin count, follower count, section count… | ⚪ |
+| `pinterest.getBoard` | pinterest.com | Read one board: name, description, owner, pin count, follower count, section count… | 🟢 |
 | `pinterest.getCurrentUser` | pinterest.com | Who the caller is signed in as — username, display name, counts. | ⚪ |
 | `pinterest.getHomeFeed` | pinterest.com | The caller's own personalised Pinterest home feed — the thing the site is actually for… | ⚪ |
 | `pinterest.getPin` | pinterest.com | Read one pin in full: title, `seo_title`, the description Pinterest renders, the… | 🟢 |
@@ -3612,9 +3614,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.getTopic` | pinterest.com | Read one idea topic: its display name, the description Pinterest wrote for it, its… | ⚪ |
 | `pinterest.getUser` | pinterest.com | Read a person's or a brand's profile: id, full name, username, follower and following… | 🟢 |
 | `pinterest.hidePin` | pinterest.com | Tell Pinterest the caller does not want to see a pin. | ⚪ |
-| `pinterest.listBoardPins` | pinterest.com | Every pin inside a board, in the board's own order, with a `bookmark` for the next… | ⚪ |
-| `pinterest.listBoardSectionPins` | pinterest.com | The pins inside one section of a board, taking the section id `listBoardSections`… | ⚪ |
-| `pinterest.listBoardSections` | pinterest.com | The sections a board is divided into — a 258-pin board is usually 29 sections, and… | ⚪ |
+| `pinterest.listBoardPins` | pinterest.com | Every pin inside a board, in the board's own order, with a `bookmark` for the next… | 🟢 |
+| `pinterest.listBoardSectionPins` | pinterest.com | The pins inside one section of a board, taking the section id `listBoardSections`… | 🟢 |
+| `pinterest.listBoardSections` | pinterest.com | The sections a board is divided into — a 258-pin board is usually 29 sections, and… | 🟢 |
 | `pinterest.listConversations` | pinterest.com | The caller's Pinterest inbox — the conversations people have sent them pins in. | ⚪ |
 | `pinterest.listNotifications` | pinterest.com | The caller's notifications — who saved, commented on or followed them. | ⚪ |
 | `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | 🟡 |
@@ -5122,7 +5124,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟡 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
 | `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟡 |
-| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given the url a listVideos row returns — returning its… | 🔴 |
+| `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given the url a listVideos row returns — returning its… | 🟡 |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
 | `usatoday.listSavedArticles` | usatoday.com | Lists articles the signed-in user has saved. | ⚪ |
