@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5754 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5760 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1925,7 +1925,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fitdegree.cancelPrivateSession` | fitdegree.com | Cancels one of the signed-in member's private sessions, refusing a late cancel with a… | ⚪ |
 | `fitdegree.findStudio` | fitdegree.com | Finds a FitDegree studio by name, city or website, or from the URL of a page that… | 🟢 |
 | `fitdegree.getCancellationPolicy` | fitdegree.com | Returns a studio's cancellation policy for a class — the early and late cancellation… | ⚪ |
-| `fitdegree.getClass` | fitdegree.com | Returns one scheduled class by id: description, start and end time, instructor, room… | ⚪ |
+| `fitdegree.getClass` | fitdegree.com | Returns one scheduled class by id: description, start and end time, instructor, room… | 🟢 |
 | `fitdegree.getClassPricing` | fitdegree.com | Returns what booking one class would cost the signed-in member: the drop-in price, and… | ⚪ |
 | `fitdegree.getInstructor` | fitdegree.com | Returns one instructor's profile by id: name, photo, bio and certifications. | ⚪ |
 | `fitdegree.getMembershipPricing` | fitdegree.com | Returns the prices and billing terms of a studio's memberships and packs as the… | ⚪ |
@@ -1936,9 +1936,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fitdegree.joinWaitlist` | fitdegree.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
 | `fitdegree.leaveWaitlist` | fitdegree.com | Takes the signed-in member off a class waitlist. | ⚪ |
 | `fitdegree.listAnnouncements` | fitdegree.com | Lists a studio's announcements to members (new schedule, closures, promotions) with… | ⚪ |
-| `fitdegree.listClasses` | fitdegree.com | Lists a studio's class schedule for a date range, optionally narrowed to an instructor… | ⚪ |
+| `fitdegree.listClasses` | fitdegree.com | Lists a studio's class schedule for a date range, optionally narrowed to an instructor… | 🟢 |
 | `fitdegree.listEvents` | fitdegree.com | Lists a studio's one-off events and challenges with dates, room, instructor, capacity… | ⚪ |
-| `fitdegree.listInstructors` | fitdegree.com | Lists the instructors at a studio with id, name, photo and bio — the ids listClasses… | ⚪ |
+| `fitdegree.listInstructors` | fitdegree.com | Lists the instructors at a studio with id, name, photo and bio — the ids listClasses… | 🟢 |
 | `fitdegree.listIntroOffers` | fitdegree.com | Lists a studio's intro and promotional offers ("Second Group Class On Us") with title… | ⚪ |
 | `fitdegree.listLocations` | fitdegree.com | Lists the rooms or locations inside a studio ("Reformer Room", "Private Room") with… | ⚪ |
 | `fitdegree.listMemberships` | fitdegree.com | Lists the memberships and class packs a studio sells with name, description, terms and… | ⚪ |
@@ -2812,8 +2812,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kenko.cancelMembership` | gokenko.com | Cancel an active membership for the signed-in member. | ⚪ |
 | `kenko.findStudio` | gokenko.com | Find a studio by name, slug or region ID. | 🟢 |
 | `kenko.getAppointmentAvailability` | gokenko.com | Check availability for appointments on a given date range. | ⚪ |
-| `kenko.getClass` | gokenko.com | Read one class's details (instructors, pricing, capacity). | ⚪ |
-| `kenko.getClassSpots` | gokenko.com | Check live availability for a class on a given date. | ⚪ |
+| `kenko.getClass` | gokenko.com | Read one class's details (instructors, pricing, capacity). | 🟢 |
+| `kenko.getClassSpots` | gokenko.com | Check live availability for a class on a given date. | 🟢 |
 | `kenko.getMyProfile` | gokenko.com | Read the signed-in member's profile (name, contact, preferences). | ⚪ |
 | `kenko.joinWaitlist` | gokenko.com | Join the waitlist for a full class as the signed-in member. | ⚪ |
 | `kenko.listAppointmentTypes` | gokenko.com | List appointment types available (consultations, private sessions). | ⚪ |
@@ -3199,6 +3199,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
 | `msc_fema.getFloodZone` | msc.fema.gov | Looks up the FEMA flood zone for a US street address (geocoded with the US Census… | 🟢 |
 | `msc.trackShipment` | msc.com | Track MSC container and shipment status — get real-time location, current status, and… | 🟡 |
+| `msccruzeiros.bookCruise` | msccruzeiros.com.br | Reserve a cabin on a sailing and pay for it through the site's booking funnel. | ⚪ |
+| `msccruzeiros.quoteCabins` | msccruzeiros.com.br | Cruise quote for one MSC Cruzeiros sailing: the price of every cabin category (inside… | 🟢 |
+| `msccruzeiros.searchCruises` | msccruzeiros.com.br | Search MSC Cruzeiros (Brazil) cruise sailings by destination, departure port, ship… | 🟢 |
 | `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🔴 |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
 | `msn.getSectionFeed` | msn.com | Returns the current top-stories feed the way msn.com/en-us/<section> does for a… | 🟢 |
@@ -3659,6 +3662,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `poshmark.getBulkUploadTemplateGuide` | poshmark.com | Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required… | 🟢 |
 | `poshmark.getZipFileGuide` | poshmark.com | Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how… | 🟢 |
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
+| `postcodes_io.autocomplete` | postcodes.io | Would complete a partial UK postcode, via GET /postcodes/<partial>/autocomplete | ⚪ |
+| `postcodes_io.lookup` | postcodes.io | Look up a UK postcode: its latitude and longitude, OS grid eastings/northings, and the… | 🟢 |
+| `postcodes_io.reverseGeocode` | postcodes.io | Would list the postcodes nearest a latitude/longitude, via GET /postcodes?lon=&lat= | ⚪ |
 | `postiz.createPost` | postiz.com | Create and schedule a new post on one connected channel, by the channel id… | 🟢 |
 | `postiz.listIntegrations` | postiz.com | List the organization's connected social channels with the id createPost takes, the… | 🟢 |
 | `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟢 |

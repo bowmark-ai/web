@@ -281,7 +281,7 @@ ferguson.com — ferguson: findBranches, findProducts (+1 planned)
 fieldstonehomes.com — fieldstonehomes: getAppointmentFormSchema, prepareAppointment, searchQuickMoveIns
 finance.yahoo.com — yahoo_finance: addToWatchlist, getAnalystEstimates, getCompanyProfile, getEarningsDates, getFinancials, getHistoricalPrices, getHolders, getKeyStatistics, getMarketSummary, getNews, getOptionsChain, getQuote, getTrendingTickers, listCryptoPrices, listWatchlists, searchSymbols (+1 planned)
 firstamericahomes.com — firstamericahomes: getCommunity, searchCommunities
-fitdegree.com — fitdegree: findStudio, getStudio (+34 planned)
+fitdegree.com — fitdegree: findStudio, getClass, getStudio, listClasses, listInstructors (+31 planned)
 fitness1440.com — fitness1440: getDayPassRequestInfo, listLocations
 fivebelow.com — fivebelow: search
 fivestarbathsolutions.com — fivestarbathsolutions: getAvailableSlots, listLocations (+1 planned)
@@ -315,7 +315,7 @@ glassesusa.com — glassesusa: getProduct, search
 glofox.com — glofox: findStudio, getStudio, listClasses (+27 planned)
 glossgenius.com — glossgenius: findBusiness, getBusiness, listServices (+28 planned)
 gobrightwing.com — gobrightwing: getJobDetails, searchJobs (+2 planned)
-gokenko.com — kenko: findStudio, listClasses, listInstructors, listScheduleFilters (+23 planned)
+gokenko.com — kenko: findStudio, getClass, getClassSpots, listClasses, listInstructors, listScheduleFilters (+21 planned)
 golf.com — golf_com: findCourses, getCourse
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
 goodreads.com — goodreads: getAuthor, getBook, getBookReviews, getList, getMemberProfile, getMemberShelf, listGenreBooks, searchBooks, searchQuotes (+7 planned)
@@ -450,6 +450,7 @@ momondo.com — momondo: getBookingOptions, search, searchCars (+1 planned)
 mossyoak.com — mossyoak: getMossyoakCheckoutLink, getMossyoakProduct, listMossyoakProducts, searchProducts
 msc.com — msc: trackShipment
 msc.fema.gov — msc_fema: getFloodZone
+msccruzeiros.com.br — msccruzeiros: quoteCabins, searchCruises (+1 planned)
 msn.com — msn: getMarketSummary, getSectionFeed, getStockQuote, getTopStories, getWeatherForecast, searchNews (+3 planned)
 muze.gov.tr — muze_gov_tr: getVisitingHours
 my.auroramedicalspa.com — my_auroramedicalspa_com: getProviders, getServiceCategories, getServices, listLocations
@@ -517,6 +518,7 @@ poly-tex.com — polytex: getProduct, searchProducts
 polymarket.com — polymarket: getMarket, search
 poshmark.com — poshmark: getBulkUploadTemplateGuide, getZipFileGuide
 positivegrid.com — positivegrid: findRetailers
+postcodes.io — postcodes_io: lookup (+2 planned)
 postiz.com — postiz: createPost, listIntegrations, listPosts
 potterybarn.com — potterybarn: searchProducts (+1 planned)
 premierbuildings.us — premierbuildings: findDealers, listBuildingStyles, priceBuilding

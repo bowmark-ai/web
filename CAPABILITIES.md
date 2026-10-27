@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 140 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 141 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -125,6 +125,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `text_to_speech.cloneVoice` | Creates a new voice cloned from one or more audio sample URLs (`options.sampleUrls`) —… | 1 | 🟢 |
 | `text_to_speech.synthesize` | Converts `text` into spoken audio, base64-encoded, in an existing or previously-cloned… | 1 | 🟢 |
 | `theme_park_tickets.search` | Looks up a Six Flags/Cedar Fair theme park by name (`"Cedar Point"`, `"Six Flags Magic… | 1 | 🟢 |
+| `uk_postcode_geocoding.geocode` | Latitude and longitude of a UK postcode ("SW1A 1AA", spacing and case optional), with… | 1 | 🟢 |
 | `used_car_search.search` | Finds used cars for sale near a US ZIP — `bowmark.used_car_search.search("used toyota… | 1 | 🟢 |
 | `vacation_rental.quote` | The total price for a stay at one vacation rental — `id` or `url` from `search`, plus… | 1 | 🟢 |
 | `vacation_rental.search` | Search vacation rentals for a free-text location (e.g. "Austin, Texas"), optional… | 1 | 🟢 |
