@@ -599,7 +599,7 @@ smithery.ai — smithery: search
 snapchat.com — snapchat: getLens, getProfile, getSpotlightVideo, listDiscoverStories, listLenses, listProfileStory, listSpotlightFeed, searchSnapchat (+24 planned)
 solidcore.co — solidcore: getSchedule, getStudio, listStudios (+21 planned)
 solostove.com — solostove: checkBundle, listBundles
-soul-cycle.com — soulcycle: findStudio, listRegions, listStudios (+26 planned)
+soul-cycle.com — soulcycle: findStudio, getClassAvailability, getStudioSchedule, listRegions, listStudios (+24 planned)
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 spacest.com — spacest: nothing callable yet (+1 planned)
 spectrum.com — spectrum: getInternetPlanDetails, listInternetPlans, listMobileDeals, listMobilePlans, listTvAddOns, listTvPlans (+10 planned)

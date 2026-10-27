@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 04a3d80e21d0884e01754780631bb6c347e323acea075bbc7238899da4219b56
-// 88 capabilities, 681 providers, 2839 typed functions, 20 refused.
+// Manifest version: 4fa4dac99aff1ee23cc7d01b26315a17c83ac2495146a070c0c5811b556aad8a
+// 88 capabilities, 690 providers, 2866 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19739,6 +19739,89 @@ interface GetAvailableSlotsResult {
   }
 }
 
+declare namespace BowmarkProvider_cloudbeds {
+  // ── Cloudbeds — the unit's own declarations, verbatim ──
+interface CloudbedsProperty {
+  code: string;            // the 6-character property code every function takes
+  propertyId: string;      // Cloudbeds' numeric id
+  name: string;
+  bookingUrl: string;
+  description: string | null;
+  address: { line1: string | null; line2: string | null; city: string | null; state: string | null; zip: string | null; country: string | null; lat: number | null; lng: number | null; formatted: string | null };
+  phone: string | null; email: string | null; website: string | null;
+  checkInTime: string | null; checkOutTime: string | null;   // "15:00"
+  currency: string | null; language: string | null;
+  taxesIncluded: boolean; feesIncluded: boolean;
+  deposit: { type: string | null; percent: number | null };
+  paymentMethods: { card: boolean; bankTransfer: boolean; paypal: boolean };
+  smartPoliciesEnabled: boolean;
+  amenities: string[]; photos: string[];
+  cancellationPolicy: string | null; terms: string | null;  // plain text
+}
+interface CloudbedsSearchRoomsArgs {
+  property: string;        // property code ("t7OI21") or booking-page URL
+  checkIn: string;         // YYYY-MM-DD
+  checkOut: string;        // YYYY-MM-DD
+  currency?: string;       // ISO code; defaults to the property's own
+  promoCode?: string;
+}
+interface CloudbedsRoomType {
+  roomTypeId: string; rateId: string; packageId: string;
+  name: string; description: string | null;
+  maxGuests: number | null; maxAdults: number | null; maxChildren: number | null;
+  beds: number | null; private: boolean;
+  roomsLeft: number;
+  total: number;                                  // the whole stay
+  nightlyRates: { date: string; rate: number }[];
+  minStay: number | null; maxStay: number | null;
+  photo: string | null; photos: string[];
+}
+interface CloudbedsSearchRoomsResult {
+  propertyCode: string; propertyId: string; checkIn: string; checkOut: string; currency: string;
+  rooms: CloudbedsRoomType[];
+  unavailable: { roomTypeId: string; name: string; description: string | null; maxGuests: number | null; minStay: number | null }[];
+  channelPrices: { roomName: string; direct: number | null; channels: { channel: string; price: number }[] }[];
+}
+interface CloudbedsCalendarArgs {
+  property: string;        // property code or booking-page URL
+  startDate: string;       // YYYY-MM-DD
+  endDate: string;         // YYYY-MM-DD, inclusive
+  promoCode?: string;
+}
+interface CloudbedsCalendarResult {
+  propertyCode: string; propertyId: string;
+  days: { date: string; open: { roomTypeId: string; rateId: string; packageId: string; rate: number; roomsLeft: number; minStay: number | null; maxStay: number | null; closedToArrival: boolean; closedToDeparture: boolean; closed: boolean }[] }[];
+}
+
+  /**
+   * Cloudbeds booking engine used by independent hotels, hostels and inns: find a property's
+   * booking page, its details and policies, which rooms are free on given dates and at what
+   * rate, a priced quote, a hotel group's properties, and booking a room up to the payment step.
+   */
+  interface Unit {
+    /**
+     * One property from its code ("t7OI21") or booking-page URL: name, description, address and
+     * coordinates, contact, check-in/out times, currency, amenities, photos, deposit terms,
+     * accepted payment methods, cancellation policy and terms.
+     */
+    getProperty(property: string): Promise<CloudbedsProperty>;
+
+    /**
+     * Rooms free at a property for a check-in/check-out: per room type its rate id, stay total,
+     * per-night rates, rooms left, occupancy and minimum stay, plus the room types not bookable
+     * for those dates and the same stay's price on other channels where the property publishes it.
+     */
+    searchRooms(args: CloudbedsSearchRoomsArgs): Promise<CloudbedsSearchRoomsResult>;
+
+    /**
+     * For each day in a range, which room types and rates are open at a property, the nightly
+     * rate, rooms left, min/max stay and closed-to-arrival/departure flags. A day with an empty
+     * `open` list has nothing bookable.
+     */
+    getAvailabilityCalendar(args: CloudbedsCalendarArgs): Promise<CloudbedsCalendarResult>;
+  }
+}
+
 declare namespace BowmarkProvider_cloudflare {
   // ── Cloudflare — the unit's own declarations, verbatim ──
 interface CloudflarePlanTier {
@@ -27624,6 +27707,25 @@ interface FareharborSlot {
   bookingUrl: string;
 }
 interface FareharborAvailability { operator: string; itemId: number; date: string; slots: FareharborSlot[]; }
+interface FareharborGetAvailabilitySlotArgs {
+  operator: string;
+  itemId: number;
+  /** Numeric slot id from listAvailability().slots[].id. */
+  availabilityId: number;
+}
+interface FareharborCustomerTypeRate {
+  id: number;
+  /** The bookable ticket type's name, e.g. "Private Section Seating (2-8 guests)". */
+  name: string;
+  note: string | null;
+  minPartySize: number | null;
+  maxPartySize: number | null;
+  capacityRemaining: number | null;
+}
+interface FareharborAvailabilitySlotDetail extends FareharborSlot {
+  bookableCapacity: number | null;
+  customerTypeRates: FareharborCustomerTypeRate[];
+}
 
   /**
    * FareHarbor tour, activity and cruise booking pages: find an operator, list its tours, check
@@ -27648,6 +27750,12 @@ interface FareharborAvailability { operator: string; itemId: number; date: strin
      * UTC), whether it is bookable, sold out or waitlist-only, and its booking url.
      */
     listAvailability(args: FareharborListAvailabilityArgs): Promise<FareharborAvailability>;
+
+    /**
+     * One bookable time slot in full: its remaining capacity and every ticket type (customer type)
+     * it can be booked under, each with its own party-size limits.
+     */
+    getAvailabilitySlot(args: FareharborGetAvailabilitySlotArgs): Promise<FareharborAvailabilitySlotDetail>;
   }
 }
 
@@ -55094,6 +55202,67 @@ interface GetRepairQuoteResult {
   }
 }
 
+declare namespace BowmarkProvider_punchpass {
+  // ── Punchpass — the unit's own declarations, verbatim ──
+interface punchpassRow {
+  id: string;
+}
+/** A studio: its <studio>.punchpass.com subdomain ("myyogacc"), any punchpass url of it, or its numeric org id (15280). */
+type PunchpassStudioArg = string | number;
+interface PunchpassAddress {
+  street: string | null;
+  locality: string | null;
+  region: string | null;
+  postalCode: string | null;
+  country: string | null;
+}
+interface PunchpassStudio {
+  orgId: string;
+  subdomain: string;
+  name: string;
+  website: string | null;
+  scheduleUrl: string;
+  logoUrl: string | null;
+  welcome: string | null;
+  address: PunchpassAddress | null;
+  sections: { passes: boolean; instructors: boolean; appointments: boolean; series: boolean };
+}
+interface PunchpassFilterOption {
+  id: string;
+  name: string;
+}
+interface PunchpassScheduleFilters {
+  orgId: string;
+  subdomain: string;
+  courses: PunchpassFilterOption[];
+  locations: PunchpassFilterOption[];
+  instructors: PunchpassFilterOption[];
+}
+
+  /**
+   * Punchpass studios (yoga, fitness, dance): find a studio, read its class schedule with spots
+   * left, series, appointment slots and passes, and book, cancel or waitlist as the signed-in
+   * customer.
+   */
+  interface Unit {
+    /**
+     * Gets one studio's public profile — name, org id, subdomain, own website, welcome text,
+     * address and which public sections it turns on (instructors page, appointment timeslots,
+     * series) — from its schedule page; takes the studio as its <studio>.punchpass.com subdomain,
+     * a punchpass url, or its numeric org id.
+     */
+    getStudio(studio: PunchpassStudioArg): Promise<PunchpassStudio>;
+
+    /**
+     * Lists what a studio's schedule can be filtered by — its courses (class types, with ids),
+     * locations (e.g. Studio, Online) and instructors (with ids) — the values getSchedule's
+     * filters take; takes the studio as its <studio>.punchpass.com subdomain, a punchpass url, or
+     * its numeric org id.
+     */
+    listScheduleFilters(studio: PunchpassStudioArg): Promise<PunchpassScheduleFilters>;
+  }
+}
+
 declare namespace BowmarkProvider_purevpn {
   // ── PureVPN — the unit's own declarations, verbatim ──
 // PureVPN's OWN shapes — not a capability contract.
@@ -59810,6 +59979,96 @@ interface SerperSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_setmore {
+  // ── Setmore — the unit's own declarations, verbatim ──
+interface SetmoreBusiness {
+  id: string;
+  slug: string;
+  name: string;
+  businessType: string | null;
+  aboutUs: string | null;
+  timeZone: string | null;
+  displayPhoneNumber: string | null;
+  email: string | null;
+  currencyCode: string | null;
+  website: string | null;
+  city: string | null;
+  state: string | null;
+}
+interface SetmoreOpeningHours {
+  day: number; // 0 = Sunday
+  isOpen: boolean;
+  startDisplayTime: string;
+  endDisplayTime: string;
+}
+interface SetmoreBookingConfig {
+  allowCancellation: boolean;
+  allowRescheduling: boolean;
+  slotIntervalMins: number | null;
+}
+interface SetmoreBusinessDetail extends SetmoreBusiness {
+  openingHours: SetmoreOpeningHours[];
+  bookingConfig: SetmoreBookingConfig | null;
+  paymentsConfig: { isEnabled: boolean; isRequired: boolean; currency: string | null } | null;
+  customerAccountsEnabled: boolean;
+}
+interface SetmoreService {
+  id: string;
+  title: string;
+  description: string | null;
+  durationMins: number | null;
+  beforeBufferMins: number | null;
+  afterBufferMins: number | null;
+  price: number | null;
+  imageUrl: string | null;
+  isVideoCall: boolean;
+  isPrivate: boolean;
+  staffIds: string[];
+}
+interface SetmoreServiceCategory {
+  id: string;
+  title: string;
+  type: string;
+  productIds: string[];
+}
+interface SetmoreServiceList {
+  services: SetmoreService[];
+  categories: SetmoreServiceCategory[];
+}
+
+  /**
+   * Setmore booking pages used by salons, clinics, tutors and studios: find a business, read its
+   * services, staff, opening hours and open appointment times, and book or cancel as a guest up
+   * to the payment step.
+   */
+  interface Unit {
+    /**
+     * Finds a Setmore business from its booking-page link (<slug>.setmore.com, or
+     * booking.setmore.com/scheduleappointment/<companyId>/...), its bare slug ("barbershop"), or
+     * its company id, and returns the company id, slug, name, business type and city. This is the
+     * door every other function's business reference comes from. Throws a caller-fixable error for
+     * a reference Setmore does not know.
+     */
+    findBusiness(business: string): Promise<SetmoreBusiness>;
+
+    /**
+     * Returns a business's own profile: name, about text, business type, address, phone, email,
+     * website, time zone, opening hours by weekday, and its booking rules — whether guests can
+     * cancel or reschedule, the slot interval, whether payment is required at booking, and whether
+     * customer accounts are on. Takes the same reference as findBusiness.
+     */
+    getBusiness(business: string): Promise<SetmoreBusinessDetail>;
+
+    /**
+     * Lists the appointments a business offers — each service's id, title, description, duration,
+     * buffer times, price, image, whether it is a video call, and which staff ids can take it —
+     * grouped by the business's own service categories (categories also list private services the
+     * services list leaves out).
+     */
+    listServices(business: string): Promise<SetmoreServiceList>;
+  }
+}
+
 declare namespace BowmarkProvider_sevenrooms {
   // ── SevenRooms — the unit's own declarations, verbatim ──
 interface SevenroomsVenue {
@@ -60185,6 +60444,93 @@ interface SixFlagsTicketsResult {
      * Throws if the slug does not resolve to a real park page on the site.
      */
     getTickets(park: string): Promise<SixFlagsTicketsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_slice {
+  // ── Slice — the unit's own declarations, verbatim ──
+interface SliceLocation {
+  address: string;         // the geocoder's formatted address
+  latitude: number;
+  longitude: number;
+  street: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  precision: string | null; // e.g. "ROOFTOP"
+}
+interface SlicePizzeria {
+  id: string;              // shop uuid
+  shopId: number | null;   // numeric shop id, what getPizzeria and getMenu take
+  name: string;
+  webSlug: string | null;  // "<st>/<city>/<zip>/<slug>", what getHours takes
+  menuUrl: string | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  phone: string | null;
+  cuisineStyle: string | null;
+  cuisines: string[];
+  chain: string | null;
+  rating: number | null;   // out of 5
+  ratingCount: number | null;
+  isOpenForDelivery: boolean;
+  isOpenForPickup: boolean;
+  nextOpeningDelivery: string | null; // ISO instant
+  nextOpeningPickup: string | null;
+  deliversToAddress: boolean | null;  // set by an address search only
+  deliveryFee: number | null;         // dollars
+  deliveryMinimum: number | null;     // dollars
+  deliveryMinutes: { min: number; max: number } | null;
+  pickupMinutes: { min: number; max: number } | null;
+  deliveryProvider: string | null;    // e.g. "uber_direct"; null when the shop drives
+  acceptsScheduledOrders: boolean;
+  timezone: string | null;
+}
+interface SlicePizzeriaPage {
+  pizzerias: SlicePizzeria[];
+  total: number | null;    // every match the site counted, across all pages
+  offset: number;
+}
+interface SearchPizzeriasArgs {
+  address: string;         // a street address, "8658 Mentor Ave, Mentor, OH"
+  mode?: "delivery" | "pickup"; // delivery (default): shops that deliver there; pickup: shops within ~10 miles
+  sort?: "recommended" | "nearby" | "rating" | "delivery_estimate";
+  limit?: number;          // 1-50, default 20
+  offset?: number;
+}
+interface ListPizzeriasInCityArgs {
+  city: string;            // "Brooklyn"
+  state: string;           // two-letter code, "NY"
+  limit?: number;          // 1-50, default 20
+  offset?: number;
+}
+
+  /**
+   * Slice online ordering for independent pizzerias: find the pizzerias that deliver to an
+   * address or sit in a city, a shop's menu, sizes, add-on choices, prices, hours, delivery
+   * check and fees, reviews, a priced cart up to the payment step, order tracking, and the
+   * signed-in customer's own orders, addresses and saved cards.
+   */
+  interface Unit {
+    /**
+     * Turns an address into Slice's own geocode: formatted address, coordinates, city, state and
+     * ZIP.
+     */
+    resolveAddress(address: string): Promise<SliceLocation>;
+
+    /**
+     * Finds the Slice pizzerias that deliver to an address (or are near it, for pickup): rating,
+     * open now, delivery fee, minimum, estimate, and the shop id and menu URL the other functions
+     * take. Paged.
+     */
+    searchPizzerias(args: SearchPizzeriasArgs): Promise<SlicePizzeriaPage & { location: SliceLocation }>;
+
+    /** Lists the Slice pizzerias in a city ("Brooklyn", "NY") with no street address needed. Paged. */
+    listPizzeriasInCity(args: ListPizzeriasInCityArgs): Promise<SlicePizzeriaPage>;
   }
 }
 
@@ -61124,6 +61470,89 @@ interface SpiritHalloweenProduct {
   }
 }
 
+declare namespace BowmarkProvider_spotapps {
+  // ── SpotHopper — the unit's own declarations, verbatim ──
+interface SpotappsFindRestaurantArgs {
+  /** The restaurant's own website, e.g. "barrelhousechicago.com". */
+  url: string;
+}
+interface SpotappsRestaurant {
+  spotId: string | null;
+  name: string | null;
+  /** Set when the site hands its reservations to OpenTable instead of the SpotHopper widget. */
+  openTableRid: string | null;
+  reservationsUrl: string | null;
+}
+interface SpotappsSpotArgs {
+  /** The numeric id findRestaurant().spotId returns, e.g. "61855". */
+  spotId: string;
+}
+interface SpotappsSlot {
+  /** The widget's own time spelling, e.g. "7:00 PM". */
+  time: string;
+  nextDay: boolean;
+}
+interface SpotappsReservationSettings {
+  spotId: string;
+  name: string | null;
+  timeZone: string | null;
+  active: boolean;
+  minPartySize: number | null;
+  maxPartySize: number | null;
+  timeStepMinutes: number | null;
+  autoConfirm: boolean;
+  requiresDeposit: boolean;
+  hasCancelationFee: boolean;
+  instructions: string | null;
+  /** Index 0 = Sunday .. 6 = Saturday, the site's own convention. */
+  weekdaySlots: SpotappsSlot[][];
+  dateSlots: { date: string; slots: SpotappsSlot[] }[];
+  blockedDates: string[];
+}
+interface SpotappsCheckAvailabilityArgs {
+  spotId: string;
+  partySize: number;
+  /** "YYYY-MM-DD". */
+  date: string;
+  /** Exactly as the widget prints it, e.g. "7:00 PM" — read one off getReservationSettings().weekdaySlots or .dateSlots. */
+  time: string;
+}
+interface SpotappsAvailability {
+  spotId: string;
+  date: string;
+  time: string;
+  partySize: number;
+  available: boolean;
+  alternativeTimes: SpotappsSlot[];
+}
+
+  /**
+   * SpotHopper restaurant sites (tmt.spotapps.co): reservations, menus, online ordering, party
+   * and catering inquiries.
+   */
+  interface Unit {
+    /**
+     * Finds a SpotHopper restaurant's spot_id from its own website (e.g. { url:
+     * "barrelhousechicago.com" }), and says when the site hands reservations to OpenTable (with
+     * the rid) instead of the SpotHopper widget.
+     */
+    findRestaurant(args: SpotappsFindRestaurantArgs): Promise<SpotappsRestaurant>;
+
+    /**
+     * Reads one restaurant's reservation widget settings: whether online reservations are on,
+     * party-size limits, time step, auto-confirm, deposit/cancellation-fee policy, time zone, and
+     * the bookable time slots per weekday and per upcoming date.
+     */
+    getReservationSettings(args: SpotappsSpotArgs): Promise<SpotappsReservationSettings>;
+
+    /**
+     * Checks whether a restaurant has a table for a party size at a date and time, and returns the
+     * alternative times it offers when it does not.
+     */
+    checkAvailability(args: SpotappsCheckAvailabilityArgs): Promise<SpotappsAvailability>;
+  }
+}
+
 declare namespace BowmarkProvider_spotify {
   // ── Spotify — the unit's own declarations, verbatim ──
 interface SpotifyTrack {
@@ -61302,6 +61731,199 @@ interface SpotifySearchResult {
      * album's total track count. Needs your own Spotify developer app key.
      */
     listAlbumTracks(id: string, opts?: SpotifyAlbumTracksOptions): Promise<SpotifyAlbumTracksResult>;
+  }
+}
+
+declare namespace BowmarkProvider_square_appointments {
+  // ── Square Appointments — the unit's own declarations, verbatim ──
+interface SquareBusinessRef {
+  widgetId: string;
+  unitToken: string | null;
+  name: string | null;
+  url: string;
+}
+interface SquareBusinessSearch {
+  query: string;
+  businesses: SquareBusinessRef[];
+}
+interface SquareOpenHours {
+  day: number;
+  open: number;
+  close: number;
+}
+interface SquareBusiness {
+  widgetId: string;
+  unitToken: string;
+  name: string;
+  phone: string | null;
+  email: string | null;
+  timezone: string;
+  currency: string;
+  address: { street: string | null; city: string | null; state: string | null; zip: string | null };
+  hours: SquareOpenHours[];
+  websiteUrl: string | null;
+  bookingUrl: string;
+  bookingMode: string;
+  allowCustomerCancel: boolean;
+  cancellationPolicy: string | null;
+  bookingCutoffSeconds: number | null;
+  futureBookingLimitSeconds: number | null;
+  prepaymentMode: string;
+  depositsEnabled: boolean;
+  noShowProtection: boolean;
+  waitlistEnabled: boolean;
+  anyStaffBooking: boolean;
+  giftCardUrl: string | null;
+}
+interface SquareServiceVariation {
+  id: string;
+  name: string;
+  durationMinutes: number | null;
+  priceCents: number | null;
+  priceType: string;
+  priceDescription: string | null;
+  staffIds: string[];
+  depositCents: number | null;
+}
+interface SquareService {
+  id: string;
+  name: string;
+  description: string | null;
+  categoryId: string | null;
+  currency: string;
+  staffIds: string[];
+  variations: SquareServiceVariation[];
+}
+interface SquareServiceList {
+  widgetId: string;
+  unitToken: string;
+  services: SquareService[];
+}
+
+  /**
+   * Square Appointments booking: find a business, its services, staff and open times, book, and
+   * manage the caller's own appointments and classes.
+   */
+  interface Unit {
+    /**
+     * Finds Square Appointments businesses by name, e.g. "Matt The Barber" or "barber Clarion PA"
+     * (a web search of Square's public booking pages), or resolves a booking link the caller holds
+     * (e.g.
+     * "https://book.squareup.com/appointments/7o7ufdywy6ks8m/location/L6SCQ3SAWHBV0/services", no
+     * request sent). Returns each business's `widgetId` and `unitToken`, the ids every other
+     * function takes. A business that sells no online booking will not appear.
+     */
+    findBusiness(query: string): Promise<SquareBusinessSearch>;
+
+    /**
+     * Reads one Square business location: name, phone, email, timezone, address, weekly opening
+     * hours (day 0 = Sunday, seconds after local midnight), and its booking rules — instant or
+     * request booking, whether customers may cancel, cutoff and how far ahead booking opens,
+     * deposits, no-show protection, waitlist. Ids come from `findBusiness`.
+     */
+    getBusiness(widgetId: string, unitToken: string): Promise<SquareBusiness>;
+
+    /**
+     * Lists every service a Square business location books online, each with its variations:
+     * variation id, length in minutes, price in cents and price type, and which staff ids perform
+     * it. A variation's `id` (not the service's) is what open-time lookups take. Ids come from
+     * `findBusiness`.
+     */
+    listServices(widgetId: string, unitToken: string): Promise<SquareServiceList>;
+  }
+}
+
+declare namespace BowmarkProvider_square_online {
+  // ── Square Online — the unit's own declarations, verbatim ──
+interface square_onlineRow {
+  id: string;
+}
+interface SiteArgs {
+  /** A storefront URL ("https://anashawarma.square.site"), its host, or the bare name before .square.site. A restaurant's own domain works when it serves its Square Online site. */
+  site: string;
+}
+interface SquareOnlineSiteInfo {
+  /** The storefront origin every other function accepts as `site`. */
+  url: string;
+  name: string | null;
+  userId: string;
+  siteId: string;
+  /** The Square merchant id (the loyalty and subscription APIs key on it). */
+  merchantId: string | null;
+}
+interface SquareOnlineHours {
+  /** Local time, "HH:MM:SS". */
+  open: string;
+  close: string;
+}
+interface SquareOnlineLocation {
+  /** Pass as `locationId` to the per-location functions. */
+  id: string;
+  name: string;
+  description: string | null;
+  address: { street: string | null; street2: string | null; city: string | null; region: string | null; postalCode: string | null; country: string | null } | null;
+  phone: string | null;
+  email: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  timezone: string | null;
+  pickupEnabled: boolean;
+  deliveryEnabled: boolean;
+  /** Keyed "SUN".."SAT"; a day may have several spans. */
+  pickupHours: Record<string, SquareOnlineHours[]>;
+  deliveryHours: Record<string, SquareOnlineHours[]>;
+  prepTimeMinutes: number | null;
+  schedulePickupEnabled: boolean;
+  schedulePickupMaxDays: number | null;
+  scheduleDeliveryEnabled: boolean;
+  pickupInstructions: string | null;
+  curbsidePickupEnabled: boolean;
+  dineInEnabled: boolean;
+}
+interface SquareOnlineLocationList {
+  site: string;
+  locations: SquareOnlineLocation[];
+}
+interface SquareOnlineCategory {
+  /** Pass as `categoryId` to listMenuItems. */
+  id: string;
+  name: string;
+  parentId: string | null;
+  depth: number;
+  url: string;
+  /** Products in this category and everything under it. */
+  productCount: number | null;
+  type: string | null;
+}
+interface SquareOnlineCategoryList {
+  site: string;
+  /** Depth-first, each parent before its children. */
+  categories: SquareOnlineCategory[];
+}
+
+  /**
+   * Square Online restaurant and shop storefronts (<name>.square.site): menu, locations, hours
+   * and pickup times from a storefront URL.
+   */
+  interface Unit {
+    /**
+     * Resolves a Square Online storefront URL (<name>.square.site or the restaurant's own domain)
+     * to its name, owner user id, site id and Square merchant id.
+     */
+    getSite(args: SiteArgs): Promise<SquareOnlineSiteInfo>;
+
+    /**
+     * Lists a storefront's locations: address, phone, coordinates, time zone, pickup and delivery
+     * hours per weekday, prep time, whether scheduled pickup is on and how many days ahead, and
+     * pickup instructions.
+     */
+    listLocations(args: SiteArgs): Promise<SquareOnlineLocationList>;
+
+    /**
+     * Lists the menu's categories (sections) as a flat depth-first list with ids, parents,
+     * storefront links and product counts.
+     */
+    listCategories(args: SiteArgs): Promise<SquareOnlineCategoryList>;
   }
 }
 
@@ -71762,6 +72384,86 @@ interface WinestylesInventorySearch {
   }
 }
 
+declare namespace BowmarkProvider_wix_bookings {
+  // ── Wix Bookings — the unit's own declarations, verbatim ──
+interface FindSiteArgs { site: string; }
+interface WixSiteInfo {
+  baseUrl: string;
+  metaSiteId: string | null;
+  /** Whether the Wix Bookings app is installed on this site. */
+  bookingsInstalled: boolean;
+}
+interface ListServicesArgs {
+  site: string;
+  /** Max services returned (default 50, max 200). */
+  limit?: number;
+}
+interface WixServicePayment { inPerson: boolean; online: boolean; deposit: boolean; pricingPlan: boolean; }
+interface WixService {
+  id: string;
+  name: string;
+  description: string | null;
+  /** Wix's own kind: "APPOINTMENT", "CLASS" or "COURSE". */
+  type: string;
+  durationMinutes: number | null;
+  price: string | null;
+  currency: string | null;
+  payment: WixServicePayment;
+  onlineBookingEnabled: boolean;
+  staffMemberIds: string[];
+  /** The id getOpenTimes resolves to a schedule — present only on an appointment-type service. */
+  scheduleId: string | null;
+  bookingPageUrl: string | null;
+}
+interface WixServiceList { services: WixService[]; total: number; }
+interface GetOpenTimesArgs {
+  site: string;
+  /** A service id from listServices().services[].id. */
+  serviceId: string;
+  /** "YYYY-MM-DD", inclusive. */
+  fromDate: string;
+  /** "YYYY-MM-DD", exclusive. */
+  toDate: string;
+  /** An IANA zone, e.g. "America/New_York". Defaults to the service's own zone when omitted. */
+  timeZone?: string;
+}
+interface WixOpenSlot {
+  startDate: string;
+  endDate: string;
+  locationId: string | null;
+  locationName: string | null;
+  remainingCapacity: number | null;
+  totalCapacity: number | null;
+  bookable: boolean;
+}
+interface WixOpenTimes { serviceId: string; timeZone: string | null; slots: WixOpenSlot[]; }
+
+  /**
+   * Wix Bookings on any Wix business's website: read its services, staff, locations and open
+   * times, book or cancel as a guest, and manage the caller's own bookings from the site's
+   * Members Area.
+   */
+  interface Unit {
+    /**
+     * Resolves a Wix business's website (e.g. { site: "https://www.example-business.com" }) to its
+     * base url and metaSiteId, and says whether the Bookings app is installed.
+     */
+    findSite(args: FindSiteArgs): Promise<WixSiteInfo>;
+
+    /**
+     * Lists a Wix business's bookable services: name, description, type, price and how it is paid
+     * (in person, online, deposit, pricing plan), duration and whether online booking is on.
+     */
+    listServices(args: ListServicesArgs): Promise<WixServiceList>;
+
+    /**
+     * The open appointment times for one service between two dates, with location and spots left,
+     * so a caller can pick one to book.
+     */
+    getOpenTimes(args: GetOpenTimesArgs): Promise<WixOpenTimes>;
+  }
+}
+
 declare namespace BowmarkProvider_wodify {
   // ── Wodify — the unit's own declarations, verbatim ──
 interface wodifyRow {
@@ -72157,6 +72859,77 @@ interface XPost {
      * starts a new conversation or continues the existing one.
      */
     sendDirectMessage(args: SendDirectMessageArgs, opts?: ConnectionOption): Promise<XDirectMessageResult>;
+  }
+}
+
+declare namespace BowmarkProvider_xola {
+  // ── Xola — the unit's own declarations, verbatim ──
+interface XolaFindSellerArgs {
+  /** An operator's own booking page url, a checkout.xola.app/checkout.xola.com link, or a bare seller id. */
+  site: string;
+}
+interface XolaSeller {
+  id: string;
+  name: string;
+  currency: string | null;
+  website: string | null;
+  city: string | null;
+  country: string | null;
+  countryCode: string | null;
+  phone: string | null;
+  email: string | null;
+}
+interface XolaFindSellerResult { seller: XolaSeller; }
+interface XolaListExperiencesArgs {
+  /** The seller id findSeller returns. */
+  sellerId: string;
+}
+interface XolaExperience {
+  id: string;
+  sellerId: string;
+  name: string;
+  excerpt: string | null;
+  photoUrl: string | null;
+  durationMinutes: number | null;
+  priceFrom: number | null;
+  currency: string | null;
+}
+interface XolaListExperiencesResult { sellerId: string; experiences: XolaExperience[]; }
+interface XolaGetExperienceArgs {
+  /** The experience id listExperiences returns. */
+  experienceId: string;
+}
+interface XolaExperienceDetail extends XolaExperience {
+  description: string | null;
+  meetingLocationName: string | null;
+  meetingAddress: string | null;
+  included: string[];
+  notIncluded: string[];
+  cancellationPolicy: string | null;
+  imageUrls: string[];
+}
+
+  /**
+   * Tours and activities sold by operators on Xola: experiences, availability, quotes and guest
+   * booking.
+   */
+  interface Unit {
+    /**
+     * Finds the Xola seller (tour operator) behind an operator's own booking page, a
+     * checkout.xola.app/checkout.xola.com link, or a seller id, and returns its name, currency,
+     * location and contact details. The door for every other function — Xola has no public
+     * marketplace to search.
+     */
+    findSeller(args: XolaFindSellerArgs): Promise<XolaFindSellerResult>;
+
+    /** Lists one seller's bookable experiences — id, name, excerpt, photo, duration and price from. */
+    listExperiences(args: XolaListExperiencesArgs): Promise<XolaListExperiencesResult>;
+
+    /**
+     * One experience's full listing: description, meeting point, duration, price, what is
+     * included, image gallery and cancellation policy.
+     */
+    getExperience(args: XolaGetExperienceArgs): Promise<XolaExperienceDetail>;
   }
 }
 
@@ -75698,6 +76471,7 @@ interface BowmarkProviders {
   claudemarketplaces_com: BowmarkProvider_claudemarketplaces_com.Unit;
   clboyd: BowmarkProvider_clboyd.Unit;
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
+  cloudbeds: BowmarkProvider_cloudbeds.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
   clubpilates: BowmarkProvider_clubpilates.Unit;
@@ -76028,6 +76802,7 @@ interface BowmarkProviders {
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
   pullandbear: BowmarkProvider_pullandbear.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
+  punchpass: BowmarkProvider_punchpass.Unit;
   purevpn: BowmarkProvider_purevpn.Unit;
   pushpress: BowmarkProvider_pushpress.Unit;
   quickbooks: BowmarkProvider_quickbooks.Unit;
@@ -76074,11 +76849,13 @@ interface BowmarkProviders {
   semihandmade: BowmarkProvider_semihandmade.Unit;
   seoulfood: BowmarkProvider_seoulfood.Unit;
   serper: BowmarkProvider_serper.Unit;
+  setmore: BowmarkProvider_setmore.Unit;
   sevenrooms: BowmarkProvider_sevenrooms.Unit;
   shein: BowmarkProvider_shein.Unit;
   shop_app: BowmarkProvider_shop_app.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
+  slice: BowmarkProvider_slice.Unit;
   slickdeals: BowmarkProvider_slickdeals.Unit;
   smartrecruiters: BowmarkProvider_smartrecruiters.Unit;
   smartsign: BowmarkProvider_smartsign.Unit;
@@ -76092,7 +76869,10 @@ interface BowmarkProviders {
   spectrum: BowmarkProvider_spectrum.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;
   spirithalloween: BowmarkProvider_spirithalloween.Unit;
+  spotapps: BowmarkProvider_spotapps.Unit;
   spotify: BowmarkProvider_spotify.Unit;
+  square_appointments: BowmarkProvider_square_appointments.Unit;
+  square_online: BowmarkProvider_square_online.Unit;
   squire: BowmarkProvider_squire.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   start_gg: BowmarkProvider_start_gg.Unit;
@@ -76188,12 +76968,14 @@ interface BowmarkProviders {
   williams_sonoma: BowmarkProvider_williams_sonoma.Unit;
   windscribe: BowmarkProvider_windscribe.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
+  wix_bookings: BowmarkProvider_wix_bookings.Unit;
   wodify: BowmarkProvider_wodify.Unit;
   workable: BowmarkProvider_workable.Unit;
   workday: BowmarkProvider_workday.Unit;
   wsj: BowmarkProvider_wsj.Unit;
   wunderflats: BowmarkProvider_wunderflats.Unit;
   x: BowmarkProvider_x.Unit;
+  xola: BowmarkProvider_xola.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yahoo_finance: BowmarkProvider_yahoo_finance.Unit;
   yahoo_mail: BowmarkProvider_yahoo_mail.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 04a3d80e21d0884e01754780631bb6c347e323acea075bbc7238899da4219b56
-// 2821 checked, 20 unchecked.
+// Manifest version: 4fa4dac99aff1ee23cc7d01b26315a17c83ac2495146a070c0c5811b556aad8a
+// 2848 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "04a3d80e21d0884e01754780631bb6c347e323acea075bbc7238899da4219b56",
+  "version": "4fa4dac99aff1ee23cc7d01b26315a17c83ac2495146a070c0c5811b556aad8a",
   "units": {
     "address_validation": {
       "defs": {
@@ -20078,6 +20078,114 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.cloudbeds": {
+      "defs": {
+        "CloudbedsCalendarArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "property",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "promoCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CloudbedsSearchRoomsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "property",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "promoCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProperty": [
+          {
+            "name": "property",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchRooms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CloudbedsSearchRoomsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailabilityCalendar": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CloudbedsCalendarArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.cloudflare": {
       "defs": {},
       "functions": {
@@ -28715,6 +28823,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.fareharbor": {
       "defs": {
+        "FareharborGetAvailabilitySlotArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "availabilityId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "FareharborItemArgs": {
           "k": "object",
           "props": [
@@ -28814,6 +28948,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FareharborListAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailabilitySlot": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FareharborGetAvailabilitySlotArgs"
             },
             "optional": false
           }
@@ -63420,6 +63564,43 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.punchpass": {
+      "defs": {
+        "PunchpassStudioArg": {
+          "k": "union",
+          "of": [
+            {
+              "k": "string"
+            },
+            {
+              "k": "number"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getStudio": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "PunchpassStudioArg"
+            },
+            "optional": false
+          }
+        ],
+        "listScheduleFilters": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "PunchpassStudioArg"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.purevpn": {
       "defs": {},
       "functions": {
@@ -70025,6 +70206,38 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.setmore": {
+      "defs": {},
+      "functions": {
+        "findBusiness": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getBusiness": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listServices": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.sevenrooms": {
       "defs": {
         "GetAvailabilityArgs": {
@@ -70347,6 +70560,142 @@ export const VALIDATORS: ValidatorTable = {
             "name": "park",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.slice": {
+      "defs": {
+        "ListPizzeriasInCityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchPizzeriasArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "mode",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "delivery"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pickup"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "recommended"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nearby"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rating"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "delivery_estimate"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "resolveAddress": [
+          {
+            "name": "address",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchPizzerias": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchPizzeriasArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPizzeriasInCity": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPizzeriasInCityArgs"
             },
             "optional": false
           }
@@ -71202,6 +71551,99 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.spotapps": {
+      "defs": {
+        "SpotappsCheckAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spotId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SpotappsFindRestaurantArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SpotappsSpotArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spotId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findRestaurant": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsFindRestaurantArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getReservationSettings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsSpotArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsCheckAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.spotify": {
       "defs": {
         "SpotifyAlbumTracksOptions": {
@@ -71386,6 +71828,100 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SpotifyAlbumTracksOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.square_appointments": {
+      "defs": {},
+      "functions": {
+        "findBusiness": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getBusiness": [
+          {
+            "name": "widgetId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "unitToken",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listServices": [
+          {
+            "name": "widgetId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "unitToken",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.square_online": {
+      "defs": {
+        "SiteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getSite": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SiteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SiteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SiteArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -83331,6 +83867,113 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.wix_bookings": {
+      "defs": {
+        "FindSiteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetOpenTimesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "serviceId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "fromDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "toDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "timeZone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListServicesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findSite": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindSiteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listServices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListServicesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getOpenTimes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetOpenTimesArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.wodify": {
       "defs": {},
       "functions": {
@@ -83855,6 +84498,78 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.xola": {
+      "defs": {
+        "XolaFindSellerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "XolaGetExperienceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "experienceId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "XolaListExperiencesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sellerId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findSeller": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "XolaFindSellerArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listExperiences": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "XolaListExperiencesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getExperience": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "XolaGetExperienceArgs"
+            },
+            "optional": false
           }
         ]
       }

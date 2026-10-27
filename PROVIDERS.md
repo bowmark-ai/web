@@ -4373,13 +4373,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soulcycle.cancelBooking` | soul-cycle.com | Cancels one of the signed-in rider's bookings. | ⚪ |
 | `soulcycle.findStudio` | soul-cycle.com | Finds a studio from what a caller holds — a name ("Union Street"), a studio page URL… | 🟢 |
 | `soulcycle.getBikeMap` | soul-cycle.com | Returns a class's room map: every bike (seat) id with its position and whether it is… | ⚪ |
-| `soulcycle.getClassAvailability` | soul-cycle.com | Returns how many bikes are booked in a class and which bike (seat) ids are taken — a… | ⚪ |
+| `soulcycle.getClassAvailability` | soul-cycle.com | Returns how many bikes are booked in a class and which bike (seat) ids are taken — a… | 🟢 |
 | `soulcycle.getInstructor` | soul-cycle.com | Returns one instructor's profile: full bio, Q&A (music, energy, workout style)… | ⚪ |
 | `soulcycle.getMyCredits` | soul-cycle.com | Returns the signed-in rider's usable class credits and active series (with expiry) —… | ⚪ |
 | `soulcycle.getMyProfile` | soul-cycle.com | Returns the signed-in rider's profile: name, email, phone, birthday, home region and… | ⚪ |
 | `soulcycle.getSoulJourney` | soul-cycle.com | Returns the signed-in rider's ride milestones and totals. | ⚪ |
 | `soulcycle.getStudio` | soul-cycle.com | Returns one studio's page: address, phone, description, amenities and its next classes… | ⚪ |
-| `soulcycle.getStudioSchedule` | soul-cycle.com | Lists a studio's classes for the week containing a date: class id, start time, class… | ⚪ |
+| `soulcycle.getStudioSchedule` | soul-cycle.com | Lists a studio's classes for the week containing a date: class id, start time, class… | 🟢 |
 | `soulcycle.joinWaitlist` | soul-cycle.com | Joins the waitlist for a full class. | ⚪ |
 | `soulcycle.listClassHistory` | soul-cycle.com | Lists the signed-in rider's past classes. | ⚪ |
 | `soulcycle.listInstructors` | soul-cycle.com | Lists the instructors teaching in a region: id, name, short bio, photo, Spotify… | ⚪ |
