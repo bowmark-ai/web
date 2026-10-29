@@ -145,7 +145,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.listRfqProfessions` | alibaba.com | Get list of available industry/profession categories for RFQ. | ⚪ |
 | `alibaba.listRfqs` | alibaba.com | Get list of RFQs (Requests for Quote) created by the user. | ⚪ |
 | `alibaba.listSavedItems` | alibaba.com | Get list of saved/favorited products. | ⚪ |
-| `alibaba.listSupplierProducts` | alibaba.com | Lists the other products a supplier's storefront carries, so a buyer vetting a company… | ⚪ |
+| `alibaba.listSupplierProducts` | alibaba.com | Lists the other products a supplier's storefront carries, so a buyer vetting a company… | 🟢 |
 | `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | 🟡 |
 | `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
 | `alibaba.removeFromCart` | alibaba.com | Remove a product from the shopping cart. | ⚪ |
@@ -214,7 +214,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol_mail.searchMessages` | mail.aol.com | Searches the CALLER's own AOL Mail by sender, recipient, subject, read/flagged state… | 🟢 |
 | `aol_mail.sendMessage` | mail.aol.com | Sends an email from the CALLER's own AOL Mail account. | ⚪ |
 | `aol_mail.updateAccountProfile` | mail.aol.com | Updates the CALLER's own AOL account profile — display name or profile photo — the way… | ⚪ |
-| `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | ⚪ |
+| `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | 🟢 |
 | `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | 🟡 |
 | `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter display name, text, time… | ⚪ |
 | `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | 🟢 |
@@ -229,7 +229,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.listSectionArticles` | aol.com | Lists the articles in one AOL section or sub-section, newest first, page by page —… | 🟢 |
 | `aol.listSections` | aol.com | Lists AOL's sections and sub-sections (News > Politics, Business, Sports > NFL… | 🟢 |
 | `aol.postComment` | aol.com | Posts a comment, or a reply to one, under an AOL article as the signed-in caller. | ⚪ |
-| `aol.removeFavorite` | aol.com | Deletes a saved link or folder from the signed-in caller's AOL Favorites. | ⚪ |
+| `aol.removeFavorite` | aol.com | Deletes a saved link or folder from the signed-in caller's AOL Favorites. | 🟢 |
 | `aol.searchRecipes` | aol.com | Searches AOL Food's recipe collection by keyword — recipe id, title, slug and image. | 🟢 |
 | `aol.searchWeatherLocations` | aol.com | Finds weather locations by place name — city, state, country and the location id… | 🟢 |
 | `aol.subscribeNewsletter` | aol.com | Subscribes an email address to one aol.com newsletter, as the site's own sign-up box… | ⚪ |
@@ -518,7 +518,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getUserFeeds` | bsky.app | The custom feeds a person has made. | 🟢 |
 | `bluesky.getUserLists` | bsky.app | The lists (curation and moderation lists) a person has made. | 🟢 |
 | `bluesky.getUserPosts` | bsky.app | A person's posts, newest first, as their profile tabs show them — posts only, posts… | 🟢 |
-| `bluesky.getUserStarterPacks` | bsky.app | The starter packs a person has made. | ⚪ |
+| `bluesky.getUserStarterPacks` | bsky.app | The starter packs a person has made. | 🟢 |
 | `bluesky.likePost` | bsky.app | Like a post as the caller, or undo the like. | ⚪ |
 | `bluesky.listBlockedUsers` | bsky.app | The accounts the caller has blocked. | ⚪ |
 | `bluesky.listBookmarks` | bsky.app | The posts the caller has saved to Bookmarks. | ⚪ |
@@ -628,12 +628,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | ⚪ |
 | `booking_com.getBooking` | booking.com | Get details of one past or upcoming booking. | ⚪ |
 | `booking_com.getProperty` | booking.com | Fetch detailed property information including amenities, photos and reviews. | 🟢 |
-| `booking_com.getReviewBreakdown` | booking.com | Get overall review score and category breakdown for a property. | ⚪ |
+| `booking_com.getReviewBreakdown` | booking.com | Get the property page's own overall review score and its category breakdown (location… | 🟢 |
 | `booking_com.listAvailability` | booking.com | List available properties for a given search with availability status and pricing. | 🟢 |
 | `booking_com.listBookings` | booking.com | List the caller's past and upcoming bookings. | ⚪ |
 | `booking_com.listFilterOptions` | booking.com | List the checkbox filter options (property rating, facilities, review score, meal… | 🟢 |
 | `booking_com.listMyReviews` | booking.com | List reviews the caller has written. | ⚪ |
-| `booking_com.listPropertyPhotos` | booking.com | List photos and galleries for a property. | ⚪ |
+| `booking_com.listPropertyPhotos` | booking.com | List the property page's own photo gallery — each photo's url and caption, and the… | 🟢 |
 | `booking_com.listPropertyReviews` | booking.com | List guest reviews for a property — the reviewer, their stay, the score, and what they… | 🟢 |
 | `booking_com.listSavedPaymentMethods` | booking.com | List payment methods saved to the caller's account. | ⚪ |
 | `booking_com.listWishlist` | booking.com | List properties the caller has saved to their wishlist. | ⚪ |
@@ -743,9 +743,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | 🟢 |
 | `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | 🟢 |
 | `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | 🟢 |
-| `businessinsider_com.listCryptoCurrencies` | businessinsider.com | List cryptocurrencies with their current prices from the Cryptocurrencies vertical. | ⚪ |
+| `businessinsider_com.listCryptoCurrencies` | businessinsider.com | List cryptocurrencies with their current prices from the Cryptocurrencies vertical. | 🟢 |
 | `businessinsider_com.listGuides` | businessinsider.com | List buying guides and product reviews from the Guides vertical. | 🟢 |
-| `businessinsider_com.listMarketIndices` | businessinsider.com | List major market indices (S&P 500, Dow Jones, Nasdaq, etc) with their current levels. | ⚪ |
+| `businessinsider_com.listMarketIndices` | businessinsider.com | List major market indices (S&P 500, Dow Jones, Nasdaq, etc) with their current levels. | 🟢 |
 | `businessinsider_com.listOpinionPieces` | businessinsider.com | List opinion and analysis pieces from the Opinion section. | 🟢 |
 | `businessinsider_com.listSections` | businessinsider.com | List the site's news sections and verticals. | 🟢 |
 | `businessinsider_com.listTrendingArticles` | businessinsider.com | List the homepage's current most-read/trending articles. | ⚪ |
@@ -1724,8 +1724,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.createFantasyLeague` | espn.com | Creates a new ESPN fantasy league (football, baseball, basketball or hockey) owned by… | ⚪ |
 | `espn.draftPicks` | espn.com | A league's draft by round and pick — team, player, position and college — for the… | ⚪ |
 | `espn.fantasyPlayers` | espn.com | ESPN Fantasy's public player board for fantasy football, baseball, basketball or… | 🟢 |
-| `espn.getArticle` | espn.com | The full text of one ESPN story — headline, byline, published and updated times, body… | ⚪ |
-| `espn.getFantasyLeague` | espn.com | One ESPN fantasy league — settings, scoring, standings, this week's matchups and… | ⚪ |
+| `espn.getArticle` | espn.com | The full text of one ESPN story — headline, byline, published and updated times, body… | 🟢 |
+| `espn.getFantasyLeague` | espn.com | One ESPN fantasy league — settings, standings, this week's matchups and every team… | 🟢 |
 | `espn.getFantasyTeam` | espn.com | One team in an ESPN fantasy league — its roster with each player's slot, projected and… | ⚪ |
 | `espn.getGame` | espn.com | One game in full, with score by period, every player's box-score line, team stats… | 🟢 |
 | `espn.getPlayer` | espn.com | One player's page — team, position, jersey, age, height, weight, college, status and… | 🟢 |
@@ -1738,8 +1738,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.listVideos` | espn.com | ESPN's highlight and analysis video clips for a league, a team or a game — title… | ⚪ |
 | `espn.news` | espn.com | The latest ESPN headlines for a league, optionally narrowed to one team — headline… | 🟢 |
 | `espn.odds` | espn.com | The betting lines ESPN shows for one game — spread, total and moneyline from each… | ⚪ |
-| `espn.playerGameLog` | espn.com | One player's game-by-game log for a season — opponent, result and the full stat line… | ⚪ |
-| `espn.playerStats` | espn.com | One player's full statistics — season by season and career totals in every category… | ⚪ |
+| `espn.playerGameLog` | espn.com | One player's game-by-game log for a season — opponent, result and the full stat line… | 🟢 |
+| `espn.playerStats` | espn.com | One player's full statistics — season by season and career totals in every category… | 🟢 |
 | `espn.proposeFantasyTrade` | espn.com | Proposes a trade from the CALLER's own ESPN fantasy team to another team in the same… | ⚪ |
 | `espn.rankings` | espn.com | College polls — the AP Top 25, the Coaches Poll and the playoff rankings for college… | ⚪ |
 | `espn.removeFavorite` | espn.com | Removes a team, league or player from the CALLER's My ESPN favourites. | ⚪ |
@@ -1878,9 +1878,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.getArticle` | fandom.com | A wiki article in full — title, the body as plain text with wiki markup stripped, the… | 🟢 |
 | `fandom.getCurrentUser` | fandom.com | Who the caller is signed in as on Fandom — username, global user id, and which wikis… | ⚪ |
 | `fandom.getDiscussionPost` | fandom.com | One Discussions post by id, with its full text and its replies. `GET… | ⚪ |
-| `fandom.getImage` | fandom.com | One image file's real details — full-size url, dimensions, MIME type and licensing… | ⚪ |
+| `fandom.getImage` | fandom.com | One image file's real details — full-size url, width, height, MIME type and licensing… | 🟢 |
 | `fandom.getInfobox` | fandom.com | The fact box at the top of an article, as key/value pairs — a character's species and… | 🟢 |
-| `fandom.getRevision` | fandom.com | One specific revision of an article by id, rendered as of that edit. | ⚪ |
+| `fandom.getRevision` | fandom.com | One specific revision of an article by id, rendered as of that edit. | 🟢 |
 | `fandom.getSection` | fandom.com | One named or numbered section of an article, without downloading the rest of the page. | 🟢 |
 | `fandom.getSections` | fandom.com | An article's table of contents — every section with its index, heading and nesting… | 🟢 |
 | `fandom.getSummary` | fandom.com | The lead section of an article and nothing else — the first paragraph, for "what is X"… | 🟢 |
@@ -1894,8 +1894,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.listExternalLinks` | fandom.com | Every link off-wiki from one article — sources and official sites the page cites, as… | 🟢 |
 | `fandom.listImages` | fandom.com | Every image used in an article, by file title, in page order. `GET… | 🟢 |
 | `fandom.listLinks` | fandom.com | Every other article on the same wiki this one links to. `GET… | 🟢 |
-| `fandom.listRecentChanges` | fandom.com | What is being edited on a wiki right now — a live feed of recent edits with page… | ⚪ |
-| `fandom.listRevisions` | fandom.com | An article's edit history on this wiki — each revision with its id, timestamp, editor… | ⚪ |
+| `fandom.listRecentChanges` | fandom.com | What is being edited on a wiki right now — a live feed of recent edits with page… | 🟢 |
+| `fandom.listRevisions` | fandom.com | An article's edit history on this wiki — each revision with its id, timestamp, editor… | 🟢 |
 | `fandom.listUserContributions` | fandom.com | Every edit one named editor has made on this wiki, newest first. `GET… | ⚪ |
 | `fandom.listWatchlist` | fandom.com | The caller's own watchlist on one wiki — the pages they follow and recent changes to… | ⚪ |
 | `fandom.postDiscussionPost` | fandom.com | Post a new message to a wiki's Discussions forum, under the caller's own account.… | ⚪ |
@@ -3325,14 +3325,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.findStations` | npr.org | Find NPR member stations by city, zip code, call letters or coordinates — call sign… | 🟢 |
 | `npr.getAuthorStories` | npr.org | List stories by one NPR correspondent or host, given their name or byline page. | ⚪ |
 | `npr.getLiveStream` | npr.org | Get the live audio stream URL(s) for a member station, given its call letters or org id. | 🟢 |
-| `npr.getPodcast` | npr.org | Read one podcast or show's details — description, hosts, artwork and its RSS feed —… | ⚪ |
+| `npr.getPodcast` | npr.org | Read one podcast or show's details — description, hosts, artwork and its RSS feed —… | 🟢 |
 | `npr.getProgramRundown` | npr.org | List the segments one broadcast program (Morning Edition, All Things Considered… | 🟢 |
 | `npr.getStation` | npr.org | Read one member station's details — brand, frequency, market, homepage, donation page… | 🟢 |
 | `npr.getStory` | npr.org | A complete NPR story — headline, publication date, author, body text and (when… | 🟢 |
-| `npr.getTranscript` | npr.org | Read the broadcast transcript of a story or episode that aired, given its story id. | ⚪ |
+| `npr.getTranscript` | npr.org | Read the broadcast transcript of a story or episode that aired, given its story id. | 🟢 |
 | `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | 🟢 |
 | `npr.listNewsletters` | npr.org | List NPR's email newsletters with what each one covers. | ⚪ |
-| `npr.listPodcastCategories` | npr.org | List the podcast directory's categories with the id each one takes. | ⚪ |
+| `npr.listPodcastCategories` | npr.org | List the podcast directory's categories with the id each one takes. | 🟢 |
 | `npr.listPodcastEpisodes` | npr.org | List a podcast's episodes, newest first, with title, date, duration and audio URL… | 🟢 |
 | `npr.listPodcasts` | npr.org | List NPR's podcasts and shows, optionally filtered to one category (news, technology… | 🟡 |
 | `npr.listSections` | npr.org | List NPR's news sections and topics (news, politics, business, science, health… | 🟢 |
@@ -3959,12 +3959,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟢 |
 | `reuters.followTopic` | www.reuters.com | Follow a Reuters topic or section so it appears in the reader's My News feed. | ⚪ |
 | `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | 🟢 |
-| `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, beat, bio and their latest stories. | ⚪ |
+| `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, bio, photo, social links, how many stories… | 🟢 |
 | `reuters.getCompanyEvents` | www.reuters.com | A company's next scheduled event (typically its next earnings release) and any recent… | 🟢 |
 | `reuters.getCompanyFinancials` | www.reuters.com | A company's income statement, balance sheet and cash-flow statement, annual and… | ⚪ |
 | `reuters.getCompanyKeyMetrics` | www.reuters.com | A company's key ratios on Reuters — valuation, profitability, growth, dividends and… | 🟢 |
 | `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile — description, website, sector, industry, head office… | 🟢 |
-| `reuters.getLiveCoverage` | www.reuters.com | Read one Reuters live-coverage page (/live/…) — the running updates, newest first… | ⚪ |
+| `reuters.getLiveCoverage` | www.reuters.com | Read one Reuters live-coverage page (/live/…) — headline, description, reporters… | 🟢 |
 | `reuters.getMarketOverview` | www.reuters.com | The market tables Reuters shows on its Markets pages — major indices, currencies… | 🟡 |
 | `reuters.getMyNewsFeed` | www.reuters.com | The signed-in reader's My News feed — the latest stories from everything they follow… | ⚪ |
 | `reuters.getPictureGallery` | www.reuters.com | One Reuters photo gallery: every picture with its caption, photographer credit and… | ⚪ |
@@ -4016,8 +4016,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ritani.priceConfiguration` | ritani.com | Prices one exact custom-ring build against Ritani's own live Ring Studio pricing… | 🟢 |
 | `rivian.estimateLeasePayment` | rivian.com | Prices a 36- or 24-month Rivian lease for a 2027-model-year R1T Premium — monthly… | 🟢 |
 | `roblox.getGame` | roblox.com | Get details of a specific game including description, creator, stats, and play… | 🟢 |
-| `roblox.getRecommendations` | roblox.com | Get personalized game recommendations based on the user's play history and preferences. | ⚪ |
-| `roblox.getUsersLibrary` | roblox.com | Get the user's library of played games, saved favorites, and game history. | ⚪ |
+| `roblox.getRecommendations` | roblox.com | Get personalized game recommendations based on the user's play history and preferences. | 🟢 |
+| `roblox.getUsersLibrary` | roblox.com | Get the user's library of played games, saved favorites, and game history. | 🟢 |
 | `roblox.listPopularGames` | roblox.com | List trending and popular games on the platform. | 🟢 |
 | `roblox.searchGames` | roblox.com | Search for games on Roblox by keyword, returning matching games with details. | 🟢 |
 | `roofmaxx.estimateRoofReplacementCost` | roofmaxx.com | Runs Roof Maxx's own Roof Replacement Cost Calculator — given a home's square footage… | 🟢 |
@@ -5415,7 +5415,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.leaveGroup` | whatsapp.com | Leaves a group as the caller. | ⚪ |
 | `whatsapp.listBlogPosts` | whatsapp.com | Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's slug, title… | 🟢 |
 | `whatsapp.listCatalogProducts` | whatsapp.com | Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the… | ⚪ |
-| `whatsapp.listChats` | whatsapp.com | Lists the caller's chats as the WhatsApp Web sidebar shows them — each chat's id… | ⚪ |
+| `whatsapp.listChats` | whatsapp.com | Lists the signed-in caller's chats off WhatsApp Web's own sidebar, newest activity… | 🟢 |
 | `whatsapp.listContacts` | whatsapp.com | Lists the caller's WhatsApp contacts — name, number, chat id and about text — as… | ⚪ |
 | `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows, with each channel's id, name and latest update. | ⚪ |
 | `whatsapp.listStatusUpdates` | whatsapp.com | Lists the Status updates the caller's contacts have posted in the last 24 hours — who… | ⚪ |

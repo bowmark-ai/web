@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 143 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 144 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -109,6 +109,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 2 | 🟢 |
 | `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one… | 3 | 🟢 |
 | `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟢 |
+| `screenshot.take` | Opens the page in a hosted browser and returns an image of it. | 0 | 🟢 |
 | `script_execution.guide` | Returns the loop for doing a task (get_library, then a script, then run), the… | 0 | 🟢 |
 | `search.news` | Searches news coverage and returns stories with the headline, the outlet's own article… | 3 | 🟢 |
 | `search.web` | Searches the web and returns ranked results — title, destination URL, snippet — from… | 3 | 🔴 |

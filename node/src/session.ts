@@ -76,6 +76,36 @@ function isLoginCall(path: readonly string[]): boolean {
   return path.length === 3 && path[0] === "providers" && path[2] === "login";
 }
 
+/** `bowmark.providers.<id>.signup(args)` — the other call whose argument carries a
+ * credential. Only `password` is one: the email and names are plain values the
+ * server reads off the body. */
+function isSignupCall(path: readonly string[]): boolean {
+  return path.length === 3 && path[0] === "providers" && path[2] === "signup";
+}
+
+/** Lift `signup()`'s plaintext `password` into a per-request header under the SAME
+ * name a later `login()` reads (`<provider>_password`), and put the `SecretRef`
+ * placeholder in its place. */
+function liftSignupPassword(
+  providerId: string,
+  args: readonly unknown[],
+): { args: unknown[]; headers: Record<string, string> } {
+  const input = args[0];
+  if (input === null || typeof input !== "object" || Array.isArray(input)) {
+    return { args: [...args], headers: {} };
+  }
+  const password = (input as Record<string, unknown>).password;
+  if (typeof password !== "string") return { args: [...args], headers: {} };
+  const name = `${providerId}_${CREDENTIAL_FIELD_SUFFIX.password}`;
+  return {
+    args: [
+      { ...(input as Record<string, unknown>), password: secretRefPlaceholder(name) },
+      ...args.slice(1),
+    ],
+    headers: { [`${CREDENTIAL_HEADER_PREFIX}${name}`]: password },
+  };
+}
+
 /** The exact shape `bowmark.secret(name)` produces server-side (`SecretRef`,
  * `@bowmark/schema`) — reconstructed here rather than imported, for the same
  * reason every other wire shape in this package is a checked copy. */
@@ -261,6 +291,10 @@ function dispatchThrough(send: Send): Dispatch {
     if (isLoginCall(path)) {
       const providerId = path[1] as string;
       const { args: wireArgs, headers } = liftLoginCredentials(providerId, args);
+      return send(path, wireArgs, headers);
+    }
+    if (isSignupCall(path)) {
+      const { args: wireArgs, headers } = liftSignupPassword(path[1] as string, args);
       return send(path, wireArgs, headers);
     }
     return send(path, args);

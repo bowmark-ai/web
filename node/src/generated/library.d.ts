@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: aeb6077fd853552131e2923853ad95b74e9bf6d134faa585804aa71bde222be7
-// 90 capabilities, 708 providers, 3096 typed functions, 20 refused.
-// 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: d5b24c256696c91c1e969208baf578eed41ece13c16143bbbd130d6b3246c5e3
+// 91 capabilities, 712 providers, 3151 typed functions, 20 refused.
+// 49,871 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -59,6 +59,21 @@ interface LoginInput {
    * id and settings kept; a `logged_out` one is revived. Absent = a new connection. */
   connection?: string;
 }
+
+/** `signup()`'s one argument. `password` is a plain string here; this client's
+ * transport lifts it into a per-request credential header named
+ * `<provider>_password`, so it never rides in the request body. */
+interface SignupInput {
+  email: string;
+  password: string;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+/** `confirmSignup()`'s one argument: exactly one of the emailed or texted code, the
+ * email's verification link, or the person's phone number. */
+type SignupConfirmInput = { code: string } | { link: string } | { phone: string };
 
 /** One saved connection, as `bm.connections.list()` returns it. */
 interface ConnectionSummary {
@@ -337,6 +352,43 @@ type CallOptions = {
      * `organization: null`, so its affiliation shows only in the event text.
      */
     read(url: string, options?: ReadBookingPageOptions): Promise<BookingPage>;
+  }
+}
+
+declare namespace BowmarkCapability_brand {
+  // ── Company brand profile (logo, colors, fonts, socials) — the unit's own declarations, verbatim ──
+
+interface BrandResult {
+  domain: string            // where the homepage finally answered, without "www."
+  url: string
+  title: string | null      // og:site_name, the Organization's name, else <title>
+  description: string | null
+  logos: { url: string, type: "logo" | "icon" | "apple-touch-icon" | "mask-icon" | "og", mode?: "light" | "dark", width?: number, height?: number, format?: string }[]
+  colors: { hex: string, source: "theme-color" | "tile-color" | "mask-icon" | "css" | "logo" | "page", name?: string }[]
+  fonts: { family: string, source: "css" | "google-fonts" | "font-file" }[]
+  socials: { type: "x" | "linkedin" | "github" | "instagram" | "youtube" | "facebook" | "tiktok" | "pinterest" | "threads" | "discord", url: string }[]
+  address: string | null
+  phone: string | null
+  email: string | null
+  warnings: string[]
+}
+
+  /**
+   * A company's brand profile from its own homepage: name, description, logos and icons, brand
+   * colors, font families, social profiles, and the address/phone/email its Organization record
+   * publishes. Takes a domain, a URL or a work email. One request, no browser.
+   */
+  interface Unit {
+    /**
+     * Reads the company's homepage and returns its brand profile. `target` is a domain
+     * ("stripe.com"), any URL on the site, or a work email (the domain part is used; a free-mail
+     * address like gmail.com is refused). Lists are empty, never absent, when the homepage names
+     * nothing of that kind. Colors are what the page declares (theme-color, tile color, mask-icon,
+     * brand/primary/accent CSS variables); when it declares none, the most-used non-grey colours
+     * in its inline styles and SVG, marked `source: "page"`. Never sampled from images. Throws a
+     * clear error for a domain that does not answer or a homepage behind a bot wall.
+     */
+    get(target: string | { domain: string } | { url: string } | { email: string }): Promise<BrandResult>;
   }
 }
 
@@ -3689,11 +3741,11 @@ interface ProductAvailability {
     /**
      * Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and
      * returns one price-sorted list of offers — the same fan-out as `bowmark.retail.search`,
-     * reachable under the name callers guess first. Pass `site` to search one store only — `site:
-     * 'amazon'` searches Amazon, which the fan-out does not cover. `limit` caps the rows. The
-     * answer is `{ results, warnings }`, not a bare array. Rows are each store's own keyword
-     * results, so filter on `title` before reading a price off the top row. `warnings` names any
-     * store that did not answer.
+     * reachable under the name callers guess first. The default fan-out does NOT include Amazon;
+     * to search Amazon, pass `site: 'amazon'` (any `site` searches that one store only). `limit`
+     * caps the rows. The answer is `{ results, warnings }`, not a bare array. Rows are each
+     * store's own keyword results, so filter on `title` before reading a price off the top row.
+     * `warnings` names any store that did not answer.
      */
     search(args: { query: string; site?: 'walmart' | 'target' | 'bestbuy' | 'amazon'; limit?: number }): Promise<ProductSearchResult>;
 
@@ -3863,7 +3915,11 @@ type ReadOptions = {
                              // document's response headers (server, x-powered-by,
                              // set-cookie, cf-ray …), lowercased names. For
                              // fingerprinting a site without a second request
+  images?: boolean           // default false; true adds ReadResult.images — every
+                             // image the page names, off the html already fetched
 }
+
+type PageImage = { url: string; alt: string | null; source: "img" | "srcset" | "meta" }
 
 type ReadResult = {
   url: string                // FINAL url after redirects
@@ -3902,6 +3958,9 @@ type ReadResult = {
   headers?: Record<string, string> // only with options.headers: true — the response
                              // headers of the document that served content, names
                              // lowercased; {} when none were captured
+  images?: PageImage[]       // only with options.images: true on an html page —
+                             // <img>, lazy data-src, srcset and og:image urls,
+                             // absolute, deduped, document order, max 500
   json?: unknown             // only when the body IS JSON (json content-type, or a
                              // body that parses whole): the parsed value, unfenced.
                              // const { json } = await bowmark.read.page(apiUrl)
@@ -3939,9 +3998,47 @@ type UrlsResult = {
                             // JS-rendered start page whose links a fast read cannot see
 }
 
+type ContactsOptions = {
+  country?: string     // ISO-2 for a phone number with no country code;
+                       // default: the site's ccTLD (.de -> DE, .co.uk -> GB), else US
+  timeoutMs?: number   // whole call; default 45000, max 55000
+  strategy?: "auto" | "fetch" | "browser"   // default "auto": the served HTML,
+                       // a full page load only for a bot wall or a script-built page
+}
+
+type ContactEmail = {
+  email: string                                    // lowercased
+  sources: ("mailto" | "cloudflare" | "text")[]
+}
+
+type ContactPhone = {
+  phone: string            // E.164, e.g. "+14155550123"
+  raw: string              // as the page wrote it
+  country?: string         // ISO-2, when the number's own code says
+  sources: ("tel" | "text")[]
+}
+
+type ContactLink = {
+  url: string              // absolute http(s), unique
+  text: string | null      // the link's words, else aria-label, img alt, or title
+}
+
+type ContactsResult = {
+  requestedUrl: string
+  url: string              // final url after redirects
+  ok: boolean              // the page was read (it may publish none of the three)
+  emails: ContactEmail[]
+  phones: ContactPhone[]
+  links: ContactLink[]
+  via: "fetch" | "page"    // "page" = it had to be fully loaded
+  error: string | null     // set when ok is false
+  warnings: string[]
+}
+
   /**
-   * Read any web page as markdown, text or HTML — or extract the text from a PDF url — one page
-   * or many at once, fast when the page allows it and thorough when it needs it.
+   * Read any web page as markdown, text or HTML — or extract the text from a PDF, Word,
+   * PowerPoint or Excel url — one page or many at once, fast when the page allows it and
+   * thorough when it needs it.
    */
   interface Unit {
     /**
@@ -3979,10 +4076,13 @@ type UrlsResult = {
      * end up textually next to a link for a DIFFERENT size/color/variant; the run's `notes` names
      * it when the page carries the structured data to prove it (a note, so the run stays `ok`),
      * but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own item's
-     * markup. RUN-ONLY: because how each page is loaded is decided per call, neither `session()`
-     * nor the bare top-level `bowmark` client (which opens a session internally, even for one
-     * call) can serve this — both are refused with code "rung_undeclared". Call it through `run()`
-     * instead.
+     * markup. For one product page's price and stock, `bowmark.products.getAvailability(url)`
+     * reads the page's own schema.org `Product`/`Offer` JSON-LD for you; to read that markup
+     * yourself, ask for `{ format: "html" }` and parse the `<script type="application/ld+json">`
+     * blocks — most stores publish them, and they name the exact variant, price and stock.
+     * RUN-ONLY: because how each page is loaded is decided per call, neither `session()` nor the
+     * bare top-level `bowmark` client (which opens a session internally, even for one call) can
+     * serve this — both are refused with code "rung_undeclared". Call it through `run()` instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -4003,6 +4103,20 @@ type UrlsResult = {
      * instead.
      */
     pages(urls: string[], options?: ReadOptions): Promise<ReadResult[]>;
+
+    /**
+     * The email addresses, phone numbers and links ONE page publishes — a company's contact page,
+     * a store locator, a footer. Emails come from `mailto:` links, Cloudflare-obfuscated addresses
+     * (decoded) and the visible text; phone numbers from `tel:` links and the visible text,
+     * validated and normalised to E.164 (a number with no country code is read for `country`, else
+     * the site's country-code TLD, else the US); links are every unique absolute http(s) link with
+     * its text (falling back to aria-label, an image's alt or title, else null). Reads the page's
+     * served HTML, and loads the page fully only when that HTML is a bot wall or a page a script
+     * fills in (`via` says which). A page that publishes none of the three is `ok: true` with
+     * empty arrays. One url per call — for a whole site, list its pages with `read.urls` and pick
+     * the contact ones. RUN-ONLY, same as `page`.
+     */
+    contacts(url: string, options?: ContactsOptions): Promise<ContactsResult>;
 
     /**
      * Lists the pages a site has, so you can pick which to `read.page` instead of guessing paths.
@@ -7622,6 +7736,15 @@ interface alibabaProductReviewsArgs {
   pageSize?: number;                 // 1-20, default 10
 }
 
+interface alibabaSupplierProductRow {
+  id: string;
+  title: string;
+  price: string;
+  moq: string | null;
+  imageUrl: string | null;
+  url: string | null;
+}
+
   /**
    * Search and browse products on Alibaba's B2B marketplace; read product details, reviews, and
    * supplier information.
@@ -7657,6 +7780,12 @@ interface alibabaProductReviewsArgs {
      * page load.
      */
     getProductReviews(product: string | number | alibabaProductReviewsArgs): Promise<alibabaProductReviews>;
+
+    /**
+     * List the other products a supplier's storefront carries, from its listSuppliers()
+     * profileUrl.
+     */
+    listSupplierProducts(profileUrl: string): Promise<alibabaSupplierProductRow[]>;
   }
 }
 
@@ -14635,6 +14764,21 @@ interface BlueskyListFeedResult {
   cursor?: string;
 }
 
+interface BlueskyUserStarterPack {
+  uri: string;
+  name: string;
+  description: string | null;
+  list: string | null;
+  joinedAllTimeCount: number;
+  joinedWeekCount: number;
+  creator: BlueskyPostAuthor;
+}
+
+interface BlueskyUserStarterPacksResults {
+  starterPacks: BlueskyUserStarterPack[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -14838,6 +14982,14 @@ interface BlueskyListFeedResult {
      * list the AppView cannot find answers with an empty result rather than an error.
      */
     getListFeed(list: string | { list: string; limit?: number; cursor?: string }): Promise<BlueskyListFeedResult>;
+
+    /**
+     * The starter packs a person has made, page by page, as their profile's Starter Packs tab
+     * shows them. Takes a handle, a DID, or a bsky.app profile URL. Returns each pack's URI, name,
+     * description, the list URI holding its accounts (pass it to `getList`), joined counts and
+     * creator profile. THROWS `blueskyInputError` on an actor the AppView cannot find.
+     */
+    getUserStarterPacks(actor: string | { actor: string; limit?: number; cursor?: string }): Promise<BlueskyUserStarterPacksResults>;
   }
 }
 
@@ -15685,6 +15837,14 @@ interface PropertyDetails {
 interface GetPropertyArgs {
   url: string;
 }
+interface PropertyPhoto {
+  url: string;
+  caption: string | null;
+}
+interface ListPropertyPhotosResult {
+  photos: PropertyPhoto[];
+  totalCount: number | null;  // the site's own gallery size, read off its "+N photos" overlay
+}
 interface AvailableUnit {
   id: string;
   name: string;
@@ -15746,6 +15906,16 @@ interface PropertyReview {
   positiveText: string | null;
   negativeText: string | null;       // null when the guest left none — never ""
 }
+interface ReviewScoreCategory {
+  category: string;  // the site's own label, e.g. "Location", "Value for money"
+  score: number;      // the site's 0-10 scale
+}
+interface ReviewBreakdown {
+  overallScore: number | null;
+  scoreLabel: string | null;   // the site's own band, e.g. "Excellent"
+  reviewCount: number | null;
+  categories: ReviewScoreCategory[];
+}
 
   /**
    * Global online travel reservation service with property search, reviews and booking
@@ -15793,6 +15963,18 @@ interface PropertyReview {
      * search's own sidebar offers, with how many properties each currently narrows to.
      */
     listFilterOptions(args: SearchArgs): Promise<{ filters: FilterOption[] }>;
+
+    /**
+     * List the property page's own photo gallery — each photo's url and caption, and the site's
+     * total gallery count.
+     */
+    listPropertyPhotos(args: GetPropertyArgs): Promise<ListPropertyPhotosResult>;
+
+    /**
+     * Get the property page's own overall review score and its category breakdown (location,
+     * cleanliness, value for money, facilities, comfort, staff, wifi, …).
+     */
+    getReviewBreakdown(args: GetPropertyArgs): Promise<ReviewBreakdown>;
   }
 }
 
@@ -16611,6 +16793,39 @@ interface BusinessInsiderTickerMatch {
   slug: string;
   url: string | null;
 }
+interface ListMarketIndicesArgs {
+  limit?: number;
+}
+interface BusinessInsiderIndexQuote {
+  name: string;
+  slug: string;
+  url: string;
+  region: string;
+  country?: string;
+  currentValue: number;
+  previousClose: number;
+  absoluteChange: number;
+  relativeChangePercent: number;
+  asOf: string | null;
+  ytdChangePercent?: number;
+  oneYearChangePercent?: number;
+}
+interface ListCryptoCurrenciesArgs {
+  limit?: number;
+}
+interface BusinessInsiderCryptoQuote {
+  name: string;
+  slug: string;
+  url: string;
+  quoteCurrency?: string;
+  currentValue: number;
+  absoluteChange: number;
+  relativeChangePercent: number;
+  marketCap?: string;
+  circulatingSupply?: string;
+  volume?: string;
+  asOf: string | null;
+}
 
   /**
    * Reads Business Insider's news, markets and guides verticals — section listings and full
@@ -16688,6 +16903,19 @@ interface BusinessInsiderTickerMatch {
      * the page's own Article + ItemList JSON-LD, given the guide's URL.
      */
     getGuide(args: GetGuideArgs): Promise<BusinessInsiderGuideRecord>;
+
+    /**
+     * Lists major world market indices (S&P 500, Dow Jones, Nasdaq, DAX, etc) with their current
+     * level, change and YTD/1-year return, grouped by the site's own region, off
+     * markets.businessinsider.com/indices.
+     */
+    listMarketIndices(args: ListMarketIndicesArgs): Promise<BusinessInsiderIndexQuote[]>;
+
+    /**
+     * Lists cryptocurrencies ranked by market cap with their current price, change, market cap,
+     * circulating supply and volume, off markets.businessinsider.com/cryptocurrencies.
+     */
+    listCryptoCurrencies(args: ListCryptoCurrenciesArgs): Promise<BusinessInsiderCryptoQuote[]>;
   }
 }
 
@@ -20355,6 +20583,46 @@ interface ClaudeAccount {
   fullName: string;
   organizations: ClaudeOrganization[];
 }
+interface ClaudeConversationSummary {
+  id: string;
+  title: string;
+  model: string | null;
+  createdAt: string;
+  updatedAt: string;
+  starred: boolean;
+  projectId: string | null;
+}
+
+interface ClaudeConversation extends ClaudeConversationSummary {
+  summary: string;
+  messages: ClaudeSharedMessage[];
+}
+
+interface ClaudeUsage {
+  organizationId: string;
+  usage: Record<string, unknown>;
+}
+
+interface ListConversationsArgs {
+  organizationId?: string;
+  limit?: number;
+  offset?: number;
+}
+
+interface SearchConversationsArgs {
+  query: string;
+  organizationId?: string;
+  limit?: number;
+}
+
+interface GetConversationArgs {
+  conversationId: string;
+  organizationId?: string;
+}
+
+interface GetUsageArgs {
+  organizationId?: string;
+}
 
   /**
    * Anthropic's Claude app at claude.ai — read a shared conversation or a published artifact
@@ -20382,6 +20650,31 @@ interface ClaudeAccount {
      * queued after it in BUILD_QUEUE.md.
      */
     getAccount(opts?: ConnectionOption): Promise<ClaudeAccount>;
+
+    /**
+     * Lists the CALLER's Claude chats, newest first — id, title, model, last updated, starred, and
+     * the project each sits in. NEEDS A SIGN-IN (the caller's claude.ai session). The finder for
+     * getConversation.
+     */
+    listConversations(args?: ListConversationsArgs, opts?: ConnectionOption): Promise<ClaudeConversationSummary[]>;
+
+    /**
+     * Searches the CALLER's Claude chat history by keyword, the way the sidebar search does. NEEDS
+     * A SIGN-IN (the caller's claude.ai session).
+     */
+    searchConversations(args: SearchConversationsArgs, opts?: ConnectionOption): Promise<ClaudeConversationSummary[]>;
+
+    /**
+     * Reads one of the CALLER's Claude chats in full — title, summary, model, and every message in
+     * order. NEEDS A SIGN-IN; the id comes from listConversations or searchConversations.
+     */
+    getConversation(args: GetConversationArgs, opts?: ConnectionOption): Promise<ClaudeConversation>;
+
+    /**
+     * Reads the CALLER's Claude usage limits — how much of each usage window is spent and when it
+     * resets, as the app's usage page shows. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    getUsage(args?: GetUsageArgs, opts?: ConnectionOption): Promise<ClaudeUsage>;
   }
 }
 
@@ -21178,6 +21471,17 @@ interface ClubreadyServiceType {
   allowCrossStudioBooking: boolean;
 }
 
+interface ClubreadyServiceSlot {
+  instructor: { id: string; name: string } | null;
+  startsAt: string;
+  endsAt: string;
+  durationId: string;
+  durationMinutes: number;
+  bookingOpensAt: string | null;
+  bookingClosesAt: string | null;
+  freeCancelUntil: string | null;
+}
+
 interface ClubreadyClassType {
   id: string;
   name: string;
@@ -21261,6 +21565,13 @@ interface ClubreadyInstructor {
      * Most class-only studios answer an empty list.
      */
     listServiceTypes(studio: string): Promise<ClubreadyServiceType[]>;
+
+    /**
+     * Lists who can take a one-on-one session at a studio on a date — the flexologists or coaches
+     * and their open start times — for a service type from listServiceTypes. Already filtered to
+     * what the site still lets a caller book.
+     */
+    listServiceAvailability(args: { studio: string, serviceType: string, date: string }): Promise<ClubreadyServiceSlot[]>;
 
     /**
      * Lists every class type a brand runs (CycleBar Classic, Performance, Endurance, …) with its
@@ -22014,8 +22325,23 @@ declare namespace BowmarkProvider_costco {
 interface CostcoSearchSuggestion {
   term: string;
 }
+interface CostcoGiftCard {
+  itemNumber: string;
+  name: string;
+  brand: string | null;
+  price: number | null;
+  currency: string | null;
+  faceValue: number | null;
+  savings: number | null;
+  description: string | null;
+  image: string | null;
+  url: string;
+}
 
-  /** Costco's own search-bar autocomplete suggestions for a typed term. */
+  /**
+   * Costco's own search-bar autocomplete suggestions, and its discounted gift cards with brand,
+   * face value and price.
+   */
   interface Unit {
     /**
      * Costco's own search-bar autocomplete suggestions for a typed term — real phrases Costco's
@@ -22025,6 +22351,13 @@ interface CostcoSearchSuggestion {
      * header for what changed and why.
      */
     search(query: string): Promise<CostcoSearchSuggestion[]>;
+
+    /**
+     * Costco's discounted gift cards and eGift cards (restaurants, movies, games, travel) — each
+     * card's brand, face value, the member price, and the savings. Optional `query` filters by
+     * brand or kind ("restaurant", "fandango"); `limit` defaults to 20.
+     */
+    listGiftCards(options?: { query?: string; limit?: number }): Promise<CostcoGiftCard[]>;
   }
 }
 
@@ -25639,6 +25972,13 @@ interface ListBangsArgs {
   limit?: number;
 }
 
+interface DuckDuckGoRegion {
+  /** The value every search function's `region` argument takes, e.g. "us-en". */
+  code: string;
+  /** DuckDuckGo's own label, e.g. "US (English)". */
+  name: string;
+}
+
 interface DuckDuckGoBang {
   /** The shortcut typed after `!`, e.g. "w" for Wikipedia. */
   trigger: string;
@@ -25752,6 +26092,13 @@ interface DuckDuckGoBangResolution {
      * redirect to, by resolving the trigger against the live !bang directory.
      */
     resolveBang(args: ResolveBangArgs): Promise<DuckDuckGoBangResolution>;
+
+    /**
+     * Lists every search region DuckDuckGo offers — the code ("us-en", "uk-en", "wt-wt" for all
+     * regions…) and its name — so a caller can pick a valid `region` for searchWeb and the other
+     * search functions.
+     */
+    listRegions(): Promise<DuckDuckGoRegion[]>;
   }
 }
 
@@ -26318,6 +26665,10 @@ interface GetAccountResult {
   account: unknown;
 }
 
+interface ListOrdersResult {
+  history: unknown;
+}
+
 interface GetRewardsBalanceResult {
   balance: number;
   balanceCurrency: string;
@@ -26423,6 +26774,13 @@ interface RedeemCodeResult {
      * to one, e.g. "Fortnite".
      */
     getServiceStatus(args?: { component?: string }): Promise<GetServiceStatusResult>;
+
+    /**
+     * The signed-in caller's Epic purchase history, newest first, returned raw (no fleet-held Epic
+     * Games session exists to pin field names). Pass the page token it returns as `pageToken` for
+     * the next page. Needs the caller signed in.
+     */
+    listOrders(opts?: { pageToken?: string }, connectionOpts?: ConnectionOption): Promise<ListOrdersResult>;
 
     /**
      * The signed-in caller's own Epic Games account settings, returned raw (no fleet-held Epic
@@ -27166,6 +27524,134 @@ interface FantasyPlayersResult {
   players: FantasyPlayer[];
 }
 
+interface PlayerStatsArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. Common names resolved by resolveLeague. */
+  league: string;
+  /** ESPN athlete id — from search's or teamRoster's results */
+  athleteId: string;
+}
+
+interface PlayerSeasonStats {
+  season: number;
+  teamId: string | null;
+  stats: Record<string, string>; // keyed by ESPN's own stat name, e.g. "passingYards"
+}
+
+interface PlayerStatCategory {
+  name: string; // ESPN's own category key, e.g. "passing", "rushing"
+  displayName: string;
+  seasons: PlayerSeasonStats[];
+}
+
+interface PlayerSplit {
+  displayName: string; // "All Splits", "Home", "Away", "Wins/Ties", …
+  stats: Record<string, string>;
+}
+
+interface PlayerSplitCategory {
+  name: string;
+  displayName: string;
+  splits: PlayerSplit[];
+}
+
+interface PlayerStatsResult {
+  league: string;
+  athleteId: string;
+  careerCategories: PlayerStatCategory[];
+  currentSeasonSplits: PlayerSplitCategory[];
+}
+
+interface PlayerGameLogArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. Common names resolved by resolveLeague. */
+  league: string;
+  /** ESPN athlete id — from search's or teamRoster's results */
+  athleteId: string;
+}
+
+interface PlayerGameLogEntry {
+  eventId: string; // pass to getGame for full details
+  week: number | null;
+  date: string | null;
+  opponentAbbreviation: string | null;
+  isHome: boolean | null;
+  result: string | null; // "W" or "L", the site's own label
+  score: string | null;
+  stats: Record<string, string>; // keyed by ESPN's own stat name
+}
+
+interface PlayerGameLogResult {
+  league: string;
+  athleteId: string;
+  seasonDisplayName: string | null;
+  games: PlayerGameLogEntry[];
+}
+
+interface GetArticleArgs {
+  /** Article id from news(), or an espn.com story URL carrying /story/_/id/<id>/ */
+  articleId: string;
+}
+
+interface ArticleImage {
+  url: string;
+  caption: string | null;
+}
+
+interface Article {
+  id: string;
+  headline: string;
+  description: string | null;
+  byline: string | null;
+  published: string | null;
+  updated: string | null;
+  paragraphs: string[]; // body paragraphs, HTML markup stripped
+  images: ArticleImage[];
+  teams: string[];
+  players: string[];
+  url: string | null;
+}
+
+interface GetFantasyLeagueArgs {
+  /** "football", "baseball", "basketball" or "hockey" */
+  sport: string;
+  /** The league id from a fantasy.espn.com URL, or the URL itself */
+  leagueId: string | number;
+  /** Season year, e.g. 2026. Defaults to the current calendar year. */
+  season?: number;
+}
+
+interface FantasyLeagueTeam {
+  id: number;
+  name: string;
+  abbreviation: string | null;
+  ownerName: string | null; // the owning member's displayName, when resolvable
+  wins: number;
+  losses: number;
+  ties: number;
+  pointsFor: number;
+  pointsAgainst: number;
+  playoffSeed: number | null;
+}
+
+interface FantasyLeagueMatchup {
+  matchupPeriodId: number;
+  homeTeamId: number | null;
+  homeScore: number | null;
+  awayTeamId: number | null;
+  awayScore: number | null;
+  winner: string | null; // "HOME", "AWAY" or "UNDECIDED", the site's own label
+}
+
+interface FantasyLeagueResult {
+  leagueId: string;
+  season: number;
+  name: string | null;
+  size: number | null;
+  isPublic: boolean | null;
+  currentMatchupPeriod: number | null;
+  teams: FantasyLeagueTeam[];
+  thisWeekMatchups: FantasyLeagueMatchup[];
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -27272,6 +27758,34 @@ interface FantasyPlayersResult {
      * and injury status. What a person reads before a draft or a waiver claim; no league needed.
      */
     fantasyPlayers(args: FantasyPlayersArgs): Promise<FantasyPlayersResult>;
+
+    /**
+     * One player's full statistics — season-by-season career totals in every category, plus this
+     * season's splits (home, away, by outcome, by victory margin, …). Takes an athlete id from
+     * search or teamRoster.
+     */
+    playerStats(args: PlayerStatsArgs): Promise<PlayerStatsResult>;
+
+    /**
+     * One player's game-by-game log for the current season — opponent, home or away, result, score
+     * and the full stat line for every game played, with the event id for getGame. Takes an
+     * athlete id from search or teamRoster.
+     */
+    playerGameLog(args: PlayerGameLogArgs): Promise<PlayerGameLogResult>;
+
+    /**
+     * The full text of one ESPN story — headline, byline, published and updated times, body
+     * paragraphs, images and the teams and players it is tagged with. Takes an article id from
+     * news, or an espn.com story URL.
+     */
+    getArticle(args: GetArticleArgs): Promise<Article>;
+
+    /**
+     * One ESPN fantasy league — settings, standings, this week's matchups and every team with its
+     * owner's display name. Reads a public league logged out; a private league answers 401 without
+     * the caller's own ESPN session. Takes a league id or a fantasy.espn.com league URL.
+     */
+    getFantasyLeague(args: GetFantasyLeagueArgs): Promise<FantasyLeagueResult>;
   }
 }
 
@@ -27843,6 +28357,68 @@ interface GetLocationArgs {
      * through.
      */
     getLocation(args: GetLocationArgs): Promise<ExhaleLocation>;
+  }
+}
+
+declare namespace BowmarkProvider_expedia {
+  // ── Expedia — the unit's own declarations, verbatim ──
+interface ExpediaSearchHotelsArgs {
+  /** Free text, as typed into Expedia's search box: "Paris, France", "Austin". */
+  destination: string;
+  /** YYYY-MM-DD. Defaults to 14 days from today. */
+  checkIn?: string;
+  /** YYYY-MM-DD. Defaults to two nights after checkIn. */
+  checkOut?: string;
+  /** Adults in one room. Defaults to 2. */
+  adults?: number;
+  limit?: number;
+}
+interface ExpediaHotel {
+  propertyId: string;
+  name: string;
+  location: string | null;
+  /** Guest rating out of 10. */
+  rating: number | null;
+  ratingLabel: string | null;
+  reviewCount: number | null;
+  /** Total for the stay with taxes and fees, e.g. "$909". */
+  totalPrice: string | null;
+  totalAmount: number | null;
+  nightlyPrice: string | null;
+  previousPrice: string | null;
+  amenities: string[]; // the site's own labels, e.g. "Spa", "Health club", "Indoor pool"
+  description: string | null;
+  freeCancellation: boolean;
+  sponsored: boolean;
+  vipAccess: boolean;
+  url: string;
+}
+interface ExpediaHotelSearch {
+  destination: string;
+  checkIn: string;
+  checkOut: string;
+  adults: number;
+  totalResults: number | null;
+  hotels: ExpediaHotel[];
+  url: string;
+}
+
+  /**
+   * Expedia hotel search: the hotels Expedia lists for a destination and dates, each with its
+   * total price for the stay, nightly price, guest rating, review count, amenities and Expedia
+   * link.
+   */
+  interface Unit {
+    /**
+     * Runs Expedia's own hotel search — `bowmark.providers.expedia.searchHotels({ destination:
+     * "Paris, France", checkIn: "2026-12-04", checkOut: "2026-12-06", adults: 2 })` — and returns
+     * the hotels its first results page lists, in Expedia's order (paid placements flagged
+     * `sponsored`): name, total price for the stay with taxes, nightly price, guest rating out of
+     * 10, review count, amenities, free cancellation and the property's Expedia link with the
+     * dates. Dates default to two nights starting 14 days out. A real browser load, so expect
+     * 30-60 s.
+     */
+    searchHotels(args: string | ExpediaSearchHotelsArgs): Promise<ExpediaHotelSearch>;
   }
 }
 
@@ -28956,6 +29532,52 @@ interface WikiImage {
   title: string;
 }
 
+interface GetImageArgs {
+  title: string;
+  wiki: string;
+}
+
+interface ImageInfo {
+  title: string;
+  url: string;
+  width: number;
+  height: number;
+  mime: string;
+  extmetadata?: Record<string, string>;
+}
+
+interface ListRevisionsArgs {
+  title: string;
+  wiki?: string;
+}
+
+interface Revision {
+  id: string;
+  timestamp: string;
+  user: string;
+  comment: string;
+  size: number;
+}
+
+interface GetRevisionArgs {
+  wiki: string;
+  revid: string;
+}
+
+interface ListRecentChangesArgs {
+  wiki: string;
+}
+
+interface RecentChange {
+  type: string;
+  title: string;
+  pageid: string;
+  revid: string;
+  timestamp: string;
+  user: string;
+  comment: string;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -29064,6 +29686,33 @@ interface WikiImage {
      * /api.php?action=query&prop=images`.
      */
     listImages(args: ListImagesArgs): Promise<WikiImage[]>;
+
+    /**
+     * One image file's real details — full-size url, width, height, MIME type and licensing
+     * metadata where the wiki records it. Takes a file title, usually from `listImages`. `GET
+     * /api.php?action=query&prop=imageinfo&iiprop=url|size|mime|extmetadata`.
+     */
+    getImage(args: GetImageArgs): Promise<ImageInfo>;
+
+    /**
+     * An article's edit history on this wiki — each revision with its id, timestamp, editor, edit
+     * summary and byte size, newest first. The door to `getRevision`. `GET
+     * /api.php?action=query&prop=revisions&rvprop=ids|timestamp|user|size|comment`.
+     */
+    listRevisions(args: ListRevisionsArgs): Promise<Revision[]>;
+
+    /**
+     * One specific revision of an article by id, rendered as of that edit. Takes the id
+     * `listRevisions` returns. No `rest.php/v1/revision/{id}` exists on Fandom, so this uses `GET
+     * /api.php?action=parse&oldid={id}&prop=text`.
+     */
+    getRevision(args: GetRevisionArgs): Promise<Article>;
+
+    /**
+     * What is being edited on a wiki right now — a live feed of recent edits with page title,
+     * editor, timestamp and edit summary. `GET /api.php?action=query&list=recentchanges`.
+     */
+    listRecentChanges(args: ListRecentChangesArgs): Promise<RecentChange[]>;
   }
 }
 
@@ -34054,9 +34703,9 @@ interface ListReviewsArgs {
   query?: string;
   featureId?: string;
   url?: string;
-  // Logged out Google serves ~5 reviews, most relevant first, and no more.
-  // sort other than "relevant" and paged: true need the caller's own Google
-  // sign-in; limit alone trims the preview (1-1000, paged default 100).
+  // Default: the panel's ~5-review preview, one request. sort, paged, or a limit
+  // past the preview pages the full review feed logged out (limit 1-1000, paged
+  // default 100). No sign-in needed.
   sort?: "relevant" | "newest" | "highest" | "lowest";
   limit?: number;
   paged?: boolean;
@@ -34078,6 +34727,7 @@ interface Review {
   authorIsLocalGuide?: boolean;
   photos?: { url: string; caption?: string }[];
   details?: Record<string, string | number>; // "Food": 5, "Noise level": "Moderate noise"
+  ownerReply?: { text: string; relativeDate?: string }; // the business's own reply (feed only)
 }
 interface ListReviewsResult {
   reviews: Review[];
@@ -34305,19 +34955,15 @@ interface SavePlaceResult {
      * for the whole picture. Takes exactly one of `query` (a resolving query naming one business,
      * as getPlace takes), `featureId` (what searchPlaces/getPlace/resolvePlaceUrl return; skips
      * the resolve hop) or `url` (a Maps place, ?ftid=, ?cid=, maps.app.goo.gl or /maps/search/
-     * link; a search link uses its first result). LOGGED OUT, GOOGLE SERVES ~5 REVIEWS, MOST
-     * RELEVANT FIRST, AND NOTHING MORE — measured 2026-10-27 against every door (listugcposts
-     * answers 403 PERMISSION_DENIED; the web client's own review feed, batchexecute qv9Egd,
-     * answers a logged-out request with its limited-view flag and no continuation token even from
-     * a home IP with the page's own BotGuard header). So `limit` alone trims that preview and
-     * warns when it asked for more than Google served; `sort` ("relevant" default | "newest" |
-     * "highest" | "lowest" — Google offers no "oldest", refused by name) other than relevant, and
-     * `paged: true` (read up to `limit`, default 100, cap 1000), need the CALLER's own signed-in
-     * Google session and drive the place page's own review feed, 10 per page. UNVERIFIED END TO
-     * END under Playwright for the signed-in path: the feed, its page size and its entry shape
-     * were observed in a person's own signed-in Chrome, not by this code with a fleet-held session
-     * (none exists). `reviews` is [] for a place with no reviews; `warnings` names a thin draw. No
-     * owner-reply text was found at any position tried and is left off rather than guessed at.
+     * link; a search link uses its first result). With no sort, paged or limit past it, the answer
+     * is the place panel's own ~5 most-relevant reviews in one request. Anything more pages the
+     * FULL review list, logged out, with no sign-in: `limit` (1-1000) is how many to read, `paged:
+     * true` alone reads 100, and `sort` ("relevant" default | "newest" | "highest" | "lowest" —
+     * Google offers no "oldest", refused by name) is the order. It reads Google Search's own
+     * review feed, ~50 reviews a page (measured 2026-10-28: 1,000 unique reviews of Analog Coffee
+     * in 20 pages, ~17 s), and each review from it also carries the business's own reply as
+     * `ownerReply` when it posted one; a rating-only review comes back with text "". A feed page
+     * lost mid-walk is named in `warnings` and the reviews read before it are returned.
      */
     listReviews(args: ListReviewsArgs): Promise<ListReviewsResult>;
 
@@ -39646,7 +40292,7 @@ interface InstagramProfile {
   profilePicUrl: string;
   followerCount: number;
   followingCount: number | null; // null: not carried by the logged-out door
-  postCount: number | null; // null: the GraphQL door's all_media_count is null logged out
+  postCount: number | null; // read off the profile embed when the GraphQL root carries none; null only when both fail
 }
 interface InstagramProfileDetail extends InstagramProfile {
   bioLinks: { url: string; title: string | null }[];
@@ -39721,7 +40367,7 @@ interface InstagramPlace {
 interface InstagramFeed {
   source: { kind: "hashtag" | "keyword" | "location"; value: string; url: string };
   posts: InstagramMediaPost[];
-  sections: { keyword: string; url: string; posts: InstagramMediaPost[] }[]; // keyword/hashtag hubs
+  sections: { keyword: string; url: string; posts: InstagramMediaPost[] }[]; // always [] since 2026-10-28; relatedKeywords names the related searches
   relatedKeywords: string[];
   location: InstagramPlace | null; // location feeds
   hasNextPage: boolean | null;
@@ -39886,7 +40532,8 @@ interface InstagramSavedPosts {
      * Reads one public Instagram post or reel by URL (/p/, /reel/, /reels/, /tv/) or shortcode,
      * without a login: type, caption, hashtags, mentions, owner, posted time, like and comment
      * counts, video duration and URL, every carousel slide, tagged users, collaborators, location,
-     * and the top public comments with their authors and like counts. viewCount, isPaidPartnership
+     * and the top public comments with their authors and like counts. viewCount is a video's view
+     * count off its post embed (null for images, or when the embed is refused); isPaidPartnership
      * and sponsors are null / [] because the logged-out post door does not serve them. Throws if
      * the post does not exist or is not public.
      */
@@ -39895,11 +40542,12 @@ interface InstagramSavedPosts {
     /**
      * Reads the public posts behind an Instagram hashtag (/explore/tags/<tag>/ or "#tag"), keyword
      * (/popular/<keyword>/) or location (/explore/locations/<id>/<slug>/) URL, without a login, in
-     * the same post shape as getPost. A logged-out hashtag page redirects to the keyword hub, so
-     * both read it: posts grouped by related search, each with shortcode, owner id, image and play
-     * count (the hub serves no caption or like counts). A location returns the place (name,
-     * category, coordinates, post count) and its top posts with captions, like and comment counts
-     * and timestamps.
+     * the same post shape as getPost. A logged-out hashtag page leads to the keyword's
+     * popular-search page, so both read it: the top 24 posts, each with shortcode, owner (id and
+     * username), caption, hashtags, image, video and play count, plus related searches (the page
+     * serves no like or comment counts). A keyword Instagram has no page for throws. A location
+     * returns the place (name, category, coordinates, post count) and its top posts with captions,
+     * like and comment counts and timestamps.
      */
     getFeed(input: string | { url?: string; hashtag?: string; keyword?: string; locationId?: string }): Promise<InstagramFeed>;
 
@@ -42725,6 +43373,52 @@ interface KitchentuneupVisualization {
   }
 }
 
+declare namespace BowmarkProvider_kohls {
+  // ── Kohl's — the unit's own declarations, verbatim ──
+interface KohlsSearchArgs {
+  query: string;   // what a shopper types into Kohl's search, e.g. "bath towels"
+  limit?: number;  // default 48, at most 120 (one results page)
+}
+interface KohlsProduct {
+  webId: string;                   // Kohl's web id, the number in /product/prd-<webId>/
+  title: string;
+  price: number | null;            // current price (sale if on sale), USD, low end of a range
+  regularPrice: number | null;     // "Reg." price, low end of a range
+  yourPrice: number | null;        // Kohl's "Your Price" after its current offer code, low end
+  priceText: string | null;        // as Kohl's prints it, e.g. "$16.99 - $59.99"
+  regularPriceText: string | null;
+  yourPriceText: string | null;
+  onSale: boolean;
+  rating: number | null;           // out of 5
+  reviewCount: number | null;
+  imageUrl: string | null;
+  url: string;                     // the product page
+  colors: string[];
+  shippable: boolean;
+  pickup: boolean;                 // store pickup offered
+  sponsored: boolean;
+}
+interface KohlsSearchResult {
+  query: string;
+  totalResults: number | null;
+  products: KohlsProduct[];
+}
+
+  /**
+   * Search Kohl's (kohls.com) department-store catalog — apparel, shoes, home, bedding, bath,
+   * kitchen, toys — and get each listing's regular, sale and Kohl's "Your Price", rating, review
+   * count, colors and link.
+   */
+  interface Unit {
+    /**
+     * Searches Kohl's product catalog for a shopper's query (e.g. "bath towels") and returns
+     * listings with current, regular and Kohl's "Your Price", sale flag, rating, review count,
+     * colors, image and product link. A real browser load, so expect 15-40 s.
+     */
+    search(args: KohlsSearchArgs): Promise<KohlsSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_kompan {
   // ── KOMPAN Master — the unit's own declarations, verbatim ──
 // KOMPAN Master's OWN shapes — not a capability contract.
@@ -43272,6 +43966,20 @@ interface LetterboxdDiaryEntry {
      * `bm.connections.update(id, …)`.
      */
     login(creds: LoginInput): Promise<{ connection: string; account: string; expiresAt: string; warnings?: string[] }>;
+
+    /**
+     * Makes a NEW Letterboxd account with the person's own email and password, in a session.
+     * Pauses with `needs_code` / `needs_phone` whenever the site wants something only the person
+     * has; continue with `confirmSignup` in the same session. Ends `signed_up` with the login
+     * saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -51397,7 +52105,8 @@ interface nhcForecastAdvisory {
   number: number;
   headline: string;
   maxWinds: string;
-  forecastPoints: Array<{ day: number; lat: number; lon: number; category?: string }>;
+  // day = days after the advisory time (12 h -> 0.5); category = NHC's qualifier ("POST-TROPICAL") or the Saffir-Simpson band ("TS", "CAT 3")
+  forecastPoints: Array<{ day: number; lat: number; lon: number; category?: string; maxWindKt?: number }>;
 }
 
 interface nhcWatchesWarnings {
@@ -51647,6 +52356,21 @@ interface NintendoSearchResult {
   products: NintendoProductSummary[];
   totalHits: number;
 }
+interface NintendoSupportSearchResult {
+  id: string;  // feed into getSupportArticle
+  title: string;
+  question: string | null;
+  snippet: string | null;
+  url: string;
+}
+interface NintendoSupportArticle {
+  id: string;
+  title: string;
+  products: string[];  // which systems/products the article applies to
+  summary: string | null;
+  body: string;
+  url: string;
+}
 
   /**
    * Nintendo's own store catalog, support knowledge base and news — games, hardware and
@@ -51687,6 +52411,19 @@ interface NintendoSearchResult {
      * listing — each product with its regular and sale price. `limit` defaults to 20.
      */
     listDeals(options?: { limit?: number }): Promise<NintendoSearchResult>;
+
+    /**
+     * Searches Nintendo's own support knowledge base by keyword — "switch won't charge", "error
+     * code 2002-0070" — the way the support site's own search box does. Each result's `id` feeds
+     * getSupportArticle.
+     */
+    searchSupport(query: string): Promise<NintendoSupportSearchResult[]>;
+
+    /**
+     * Reads one support article in full — title, which products it applies to, and its body text.
+     * Takes an article id or a support-site url, usually one returned by searchSupport.
+     */
+    getSupportArticle(ref: string): Promise<NintendoSupportArticle>;
   }
 }
 
@@ -51856,6 +52593,48 @@ interface NprStationStreams {
   streams: NprLiveStream[];
 }
 
+interface GetTranscriptArgs {
+  id: string;
+}
+
+interface NprTranscriptParagraph {
+  speaker: string | null;
+  text: string;
+}
+
+interface NprTranscript {
+  id: string;
+  title: string | null;
+  url: string | null;
+  publishedDate: string | null;
+  available: boolean;
+  paragraphs: NprTranscriptParagraph[];
+}
+
+interface NprPodcastCategory {
+  id: string;
+  slug: string;
+  title: string;
+  url: string;
+}
+
+interface GetPodcastArgs {
+  podcastId: string;
+}
+
+interface NprPodcastDetails {
+  id: string;
+  title: string | null;
+  url: string | null;
+  description: string | null;
+  author: string | null;
+  categories: string[];
+  imageUrl: string | null;
+  feedUrl: string;
+  type: string | null;
+  lastUpdated: string | null;
+}
+
   /**
    * NPR (npr.org): news stories, search, transcripts, podcasts and episodes, broadcast program
    * rundowns, and the member-station finder with live streams.
@@ -51927,6 +52706,26 @@ interface NprStationStreams {
      * homepage, logo and streams.
      */
     getStation(args: StationArgs): Promise<NprStation>;
+
+    /**
+     * The broadcast transcript of an NPR story, turn by turn — speaker ("SACHA PFEIFFER, HOST")
+     * and text, stage notes with speaker null. id is the story id ("nx-s1-5936538") or its story
+     * URL; available is false when NPR published no transcript.
+     */
+    getTranscript(args: GetTranscriptArgs): Promise<NprTranscript>;
+
+    /**
+     * The podcast directory's categories (Arts, Business, Comedy, News, Science, Technology, True
+     * Crime…) with the numeric id and slug each one takes.
+     */
+    listPodcastCategories(): Promise<NprPodcastCategory[]>;
+
+    /**
+     * One NPR podcast's details off its own RSS channel — title, npr.org page, description,
+     * author, Apple categories, square cover art, feed URL and type. podcastId is an id from
+     * listPodcasts() ("510318") or the podcast's npr.org URL.
+     */
+    getPodcast(args: GetPodcastArgs): Promise<NprPodcastDetails>;
   }
 }
 
@@ -52659,6 +53458,36 @@ interface NytCookingDeleteRecipeBoxFolderResult {
   deleted: true;
 }
 
+interface NytCookingAddRecipeToFolderArgs {
+  /** The folder's id — listRecipeBoxFolders' own id field. */
+  folderId: number | string;
+  /** The recipe's numeric id — getRecipe's own id field, or a
+   * searchRecipes/getTopic/getCollection/getSeasonalGuide/getRelatedRecipes
+   * row's id. Same argument shape as saveRecipe/unsaveRecipe. */
+  recipeId: number | string;
+}
+
+interface NytCookingAddRecipeToFolderResult {
+  folderId: string;
+  recipeId: number;
+  filed: true;
+}
+
+interface NytCookingRemoveRecipeFromFolderArgs {
+  /** The folder's id — listRecipeBoxFolders' own id field. */
+  folderId: number | string;
+  /** The recipe's numeric id — getRecipe's own id field, or a
+   * searchRecipes/getTopic/getCollection/getSeasonalGuide/getRelatedRecipes
+   * row's id. Same argument shape as saveRecipe/unsaveRecipe. */
+  recipeId: number | string;
+}
+
+interface NytCookingRemoveRecipeFromFolderResult {
+  folderId: string;
+  recipeId: number;
+  removed: true;
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -52811,6 +53640,18 @@ interface NytCookingDeleteRecipeBoxFolderResult {
      * in to NYT — the run pauses for a login the first time this is called.
      */
     deleteRecipeBoxFolder(args: NytCookingDeleteRecipeBoxFolderArgs, opts?: ConnectionOption): Promise<NytCookingDeleteRecipeBoxFolderResult>;
+
+    /**
+     * Files a saved recipe into one of the signed-in reader's Recipe Box folders. Requires the
+     * caller to be signed in to NYT — the run pauses for a login the first time this is called.
+     */
+    addRecipeToFolder(args: NytCookingAddRecipeToFolderArgs, opts?: ConnectionOption): Promise<NytCookingAddRecipeToFolderResult>;
+
+    /**
+     * Removes a saved recipe from one of the signed-in reader's Recipe Box folders. Requires the
+     * caller to be signed in to NYT — the run pauses for a login the first time this is called.
+     */
+    removeRecipeFromFolder(args: NytCookingRemoveRecipeFromFolderArgs, opts?: ConnectionOption): Promise<NytCookingRemoveRecipeFromFolderResult>;
   }
 }
 
@@ -53839,6 +54680,14 @@ interface OpenTableCancellation {
   pageText: string;
 }
 
+interface OpenTableBookingStatus {
+  status: "confirmed" | "canceled";
+  restaurantName: string | null;
+  confirmationNumber: string | null;
+  reservationUrl: string;
+  pageText: string;         // the reservation page's own first lines
+}
+
   /**
    * Restaurant search, real-time table availability and booking on OpenTable: find restaurants
    * by name, cuisine or place, read the open times for a date, time and party size, book one as
@@ -53898,6 +54747,14 @@ interface OpenTableCancellation {
      * reads "Reservation canceled".
      */
     cancelBooking(args: { reservationUrl: string }): Promise<OpenTableCancellation>;
+
+    /**
+     * Reads a reservation back from its OpenTable page (the `reservationUrl` confirmBooking
+     * returned): `status` "confirmed" or "canceled", the restaurant and the confirmation number.
+     * Works from any later session, not only the one that booked, since the page link carries the
+     * reservation's own access. Throws when the link shows no reservation.
+     */
+    getBooking(args: { reservationUrl: string }): Promise<OpenTableBookingStatus>;
   }
 }
 
@@ -56612,6 +57469,122 @@ interface PremierbuildingsDealer {
   }
 }
 
+declare namespace BowmarkProvider_preppednplated {
+  // ── Prepped N Plated — the unit's own declarations, verbatim ──
+interface PreppednplatedNutrition {
+  calories: number | null;
+  protein: number | null;
+  carbs: number | null;
+  fat: number | null;
+}
+
+interface PreppednplatedDish {
+  id: number;
+  name: string;
+  description: string;
+  // USD, e.g. 16.95.
+  price: number | null;
+  imageUrl: string | null;
+  nutrition: PreppednplatedNutrition;
+  // e.g. "Gluten Free", "Dairy Free".
+  dietaryTags: string[];
+  allergens: string | null;
+  reheatInstructions: string | null;
+  // Units left this week when the dish is capped, else null.
+  quantityRemaining: number | null;
+}
+
+interface PreppednplatedMenu {
+  id: number;
+  name: string;
+  // "sunday" or "wednesday" — the site runs two delivery menus a week.
+  menuType: string;
+  deliveryDate: string | null;
+  orderDeadline: string | null;
+  items: PreppednplatedDish[];
+}
+
+interface PreppednplatedSearchArgs {
+  // Words that must all appear in the dish name or description, e.g. "salmon bowl".
+  query?: string;
+  // Exact dietary tag, e.g. "Gluten Free".
+  dietaryTag?: string;
+}
+
+interface PreppednplatedPickupArgs {
+  // Exact city, e.g. "Chicago".
+  city?: string;
+}
+
+interface PreppednplatedPickupWindow {
+  day: string;
+  startTime: string;
+  endTime: string;
+  menuDay: string | null;
+}
+
+interface PreppednplatedPickupLocation {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  phone: string | null;
+  instructions: string | null;
+  windows: PreppednplatedPickupWindow[];
+  servesSunday: boolean;
+  servesWednesday: boolean;
+  sundayFull: boolean;
+  wednesdayFull: boolean;
+}
+
+interface PreppednplatedDeliveryArgs {
+  // 5-digit US ZIP, e.g. "60607".
+  zip: string;
+}
+
+interface PreppednplatedDeliveryCheck {
+  zipCode: string;
+  available: boolean;
+  deliveryFee: number | null;
+  menuTypes: string[];
+  message: string | null;
+}
+
+  /**
+   * Prepped N Plated — Chicago-area weekly prepared-meal delivery and pickup. Read this week's
+   * meal plan menu (dishes, prices, macros, order deadline), search the whole dish catalog, list
+   * pickup locations with their hours, and check whether a ZIP gets delivery and for what fee.
+   */
+  interface Unit {
+    /**
+     * This week's published Prepped N Plated meal plan menu — every dish with price,
+     * calories/protein/carbs/fat, dietary tags and allergens, plus the delivery date and order
+     * deadline.
+     */
+    getCurrentMenu(): Promise<PreppednplatedMenu>;
+
+    /**
+     * Searches the whole Prepped N Plated dish catalog (active dishes) by words in the
+     * name/description and/or a dietary tag. No args returns every active dish.
+     */
+    searchMenuItems(args?: PreppednplatedSearchArgs): Promise<PreppednplatedDish[]>;
+
+    /**
+     * Lists Prepped N Plated pickup locations with address, weekly pickup windows, which menus
+     * each serves and whether it is full this week. Optional exact city filter.
+     */
+    listPickupLocations(args?: PreppednplatedPickupArgs): Promise<PreppednplatedPickupLocation[]>;
+
+    /**
+     * Checks whether Prepped N Plated delivers to a US ZIP, and if so the delivery fee and which
+     * weekly menus (sunday/wednesday) it gets — the site's own ZIP checker.
+     */
+    checkDelivery(args: PreppednplatedDeliveryArgs): Promise<PreppednplatedDeliveryCheck>;
+  }
+}
+
 declare namespace BowmarkProvider_prime_video {
   // ── Prime Video — the unit's own declarations, verbatim ──
 interface PrimeVideoTitle {
@@ -57848,6 +58821,39 @@ interface HairPrescription {
      * product types moved sections between two divergent profiles).
      */
     getHairPrescription(answers: HairConsultationAnswers): Promise<HairPrescription>;
+  }
+}
+
+declare namespace BowmarkProvider_proton_mail {
+  // ── Proton Mail — the unit's own declarations, verbatim ──
+interface ProtonMailMessageRow {
+  id: string;
+  from: string;
+  subject: string;
+  receivedAt: string;
+  unread: boolean;
+}
+
+  /**
+   * Proton Mail, the end-to-end encrypted mail service. The mailbox functions — list, read,
+   * search, folders, send — act on the CALLER's own account and are not built yet, because every
+   * read needs OpenPGP decryption. Bowmark's own agents can already create a Proton Mail account
+   * through Proton's API.
+   */
+  interface Unit {
+    /**
+     * Makes a NEW Proton Mail account with the person's own email and password, in a session.
+     * Pauses with `needs_code` / `needs_phone` whenever the site wants something only the person
+     * has; continue with `confirmSignup` in the same session. Ends `signed_up` with the login
+     * saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -59310,6 +60316,7 @@ interface RedditCommentHit {
 interface RedditCommentSearch {
   query: string;
   sort: "relevance" | "new" | "top";
+  subreddit: string | null;    // the community it was scoped to, or null for site-wide
   comments: RedditCommentHit[];
   nextCursor: string | null;   // pass back as `cursor`
 }
@@ -59582,14 +60589,16 @@ interface RedditProfileText {
     getCommentReplies(args: { post: string; cursor?: string; path?: string; query?: Record<string, string>; parent?: string; subreddit?: string; sort?: "confidence" | "top" | "new" | "controversial" | "old" | "qa" }): Promise<RedditCommentReplies>;
 
     /**
-     * Searches the text of COMMENTS site-wide (not posts) — each match with its body, author,
-     * score, timestamp, a permalink to that exact reply, and `thread`: the post it sits in (id,
-     * title, permalink, score, comment count). The read for evidence: the post asks the question,
-     * the reply holds the answer. `sort` is relevance (default), new or top; a page is up to ~10
-     * comments, and `nextCursor` passed back as `cursor` reads the next. For the conversation
-     * around a hit, call getPost on `thread.id`.
+     * Searches the text of COMMENTS (not posts), site-wide or inside one subreddit — each match
+     * with its body, author, score, timestamp, a permalink to that exact reply, and `thread`: the
+     * post it sits in (id, title, permalink, score, comment count). The read for evidence: the
+     * post asks the question, the reply holds the answer. `subreddit` (`discordapp` or
+     * `r/discordapp`) narrows the search to that one community — use it when a full-sentence
+     * site-wide search comes back off-topic. `sort` is relevance (default), new or top; a page is
+     * up to ~10 comments, and `nextCursor` passed back as `cursor` reads the next. For the
+     * conversation around a hit, call getPost on `thread.id`.
      */
-    searchComments(query: string | { query: string; sort?: "relevance" | "new" | "top"; cursor?: string }): Promise<RedditCommentSearch>;
+    searchComments(query: string | { query: string; sort?: "relevance" | "new" | "top"; subreddit?: string; cursor?: string }): Promise<RedditCommentSearch>;
 
     /**
      * The signed-in caller's own Reddit account: username, karma, account age, avatar, whether
@@ -60168,6 +61177,7 @@ interface ResyVenueRow {
   priceRangeId: number | null;
   rating: { average: number; count: number } | null;
   maxPartySize: number | null;
+  distanceKm: number | null; // from { latitude, longitude } when passed, else null
 }
 
 interface ResySlot {
@@ -60224,6 +61234,25 @@ interface ResyCancellation {
   refunded: boolean | null;
 }
 
+interface ResySignInStarted {
+  status: "code_sent";
+  codeSentTo: string;           // masked, e.g. "***-***-5219"
+}
+
+interface ResySignedIn {
+  status: "signed_in";
+  firstName: string | null;
+}
+
+interface ResyUpcomingBooking {
+  reservationId: number | null;
+  resyToken: string;            // cancelBooking takes it
+  venueId: number | null;
+  day: string | null;           // "YYYY-MM-DD"
+  time: string | null;          // "HH:mm", local
+  partySize: number | null;
+}
+
   /**
    * Restaurant search, real-time table availability and booking on Resy — venue lookup by name,
    * open slots for a date and party size, and booking one for a diner who has a Resy account
@@ -60232,10 +61261,12 @@ interface ResyCancellation {
   interface Unit {
     /**
      * Finds Resy venues matching a restaurant name, e.g. `bowmark.providers.resy.search("Paco
-     * Meralgo")` — ranked by Resy's own relevance, optionally biased toward `{ latitude, longitude
-     * }` when the caller knows roughly where the restaurant is (recommended: a common name ranks
-     * best when biased). Returns each match's numeric `venueId` (what `checkAvailability` keys
-     * on), name, its `urlSlug`/`citySlug` (together the booking-page path),
+     * Meralgo")` — ranked by Resy's own relevance. Pass `{ latitude, longitude }` when you know
+     * roughly where the restaurant is: rows whose name matches then come first, nearest first,
+     * each with its `distanceKm` (so "Carbone" near Miami answers Carbone Miami ahead of the New
+     * York one), and when no name matches the nearest venues lead, which usually means the
+     * restaurant is not on Resy. Returns each match's numeric `venueId` (what `checkAvailability`
+     * keys on), name, its `urlSlug`/`citySlug` (together the booking-page path),
      * locality/region/country, cuisine, price tier and rating.
      */
     search(query: string | { query: string; latitude?: number; longitude?: number }): Promise<ResyVenueRow[]>;
@@ -60274,11 +61305,36 @@ interface ResyCancellation {
     confirmBooking(args: { code: string; email?: string }): Promise<ResyBooking>;
 
     /**
-     * Cancels a reservation booked in THIS Bowmark session (the `resyToken` confirmBooking
-     * returned), using the diner's sign-in from that booking. In a new session it throws; the
-     * diner cancels from Resy's confirmation email instead.
+     * Cancels one of the diner's Resy reservations by its `resyToken` (from confirmBooking, or
+     * from a listBookings row). Needs the diner signed in in this Bowmark session: the booking's
+     * own sign-in, or startSignIn + confirmSignIn in a later session.
      */
     cancelBooking(args: { resyToken: string }): Promise<ResyCancellation>;
+
+    /**
+     * Signs a diner back in to their own Resy account in a NEW Bowmark session, to read or cancel
+     * what they booked earlier: Resy TEXTS A CODE to `phone`. Then call `confirmSignIn({ code })`
+     * in the same session. With the MCP tools: `session_call({ path: ["providers", "resy",
+     * "startSignIn"], args: [{ phone: "604-555-0123" }] })`, ask the diner for the code, then
+     * `session_call({ sessionId, path: ["providers", "resy", "confirmSignIn"], args: [{ code: "…"
+     * }] })`.
+     */
+    startSignIn(args: { phone: string }): Promise<ResySignInStarted>;
+
+    /**
+     * Finishes the sign-in startSignIn began in this session with the texted code. Resy may ask
+     * for the email on the diner's account the first time a number signs in from a new device:
+     * pass `email`, or call again with `{ code, email }` when the error asks. After it,
+     * listBookings and cancelBooking act on the diner's own account for the rest of the session.
+     */
+    confirmSignIn(args: { code: string; email?: string }): Promise<ResySignedIn>;
+
+    /**
+     * Lists the signed-in diner's upcoming Resy reservations (venue id, day, time, party size,
+     * reservation id and the `resyToken` cancelBooking takes). Needs the diner signed in in this
+     * session (confirmBooking, or startSignIn + confirmSignIn). `[]` means nothing upcoming.
+     */
+    listBookings(): Promise<ResyUpcomingBooking[]>;
   }
 }
 
@@ -60548,6 +61604,46 @@ interface ReutersCompanyEvents {
 interface GetCompanyEventsArgs {
   ric: string;                      // a RIC from searchCompanies, e.g. "AAPL.O"
 }
+interface ReutersLiveUpdate {
+  headline: string;
+  publishedAt: string | null;
+  updatedAt: string | null;
+  text: string;
+  url: string | null;               // the update's own permalink
+}
+interface ReutersLiveCoverage {
+  headline: string;
+  url: string;
+  description: string | null;
+  authors: string[];
+  coverageStartedAt: string | null;
+  coverageEndedAt: string | null;   // null while the page is still live
+  updatedAt: string | null;
+  updates: ReutersLiveUpdate[];     // newest first
+}
+interface GetLiveCoverageArgs {
+  url: string;                      // a reuters.com/live/… URL
+}
+interface ReutersAuthorStory {
+  headline: string;
+  url: string;                      // pass to getArticle
+  description: string | null;
+  publishedAt: string | null;
+  label: string | null;             // e.g. "ANALYSIS", "EXCLUSIVE"
+}
+interface ReutersAuthorPage {
+  name: string;
+  url: string;
+  role: string | null;
+  bio: string | null;
+  image: string | null;
+  links: Array<{ site: string; url: string }>; // email, twitter, linkedin…
+  totalStories: number | null;
+  stories: ReutersAuthorStory[];    // newest first, up to 20
+}
+interface GetAuthorArgs {
+  path: string;                     // "/authors/<slug>/" from findAuthor, a full author URL, or a bare slug
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -60684,6 +61780,20 @@ interface GetCompanyEventsArgs {
      * calendar beyond the next event.
      */
     getCompanyEvents(args: GetCompanyEventsArgs): Promise<ReutersCompanyEvents>;
+
+    /**
+     * Read one Reuters live-coverage page (/live/…) — headline, description, reporters, coverage
+     * start and end, and every running update newest first with its time, headline, text and
+     * permalink. Takes a reuters.com/live/ URL.
+     */
+    getLiveCoverage(args: GetLiveCoverageArgs): Promise<ReutersLiveCoverage>;
+
+    /**
+     * One Reuters journalist's page: name, role, bio, photo, social links, how many stories they
+     * have filed and their latest 20 (headline, url, description, time). Takes an author path from
+     * findAuthor.
+     */
+    getAuthor(args: GetAuthorArgs): Promise<ReutersAuthorPage>;
   }
 }
 
@@ -61146,6 +62256,22 @@ interface robloxChart {
   games: robloxGame[];
 }
 
+interface robloxLibrary {
+  userId: number;
+  username: string;
+  favorites: Array<{
+    universeId: number;
+    rootPlaceId: number | null;
+    name: string;
+    description: string | null;
+    creator: { id: number; name: string; type: string } | null;
+    visits: number | null;
+    created: string | null;
+    updated: string | null;
+    url: string | null;
+  }>;
+}
+
   /** Search and discover games on Roblox. */
   interface Unit {
     /**
@@ -61154,7 +62280,7 @@ interface robloxChart {
      * `universeId` on each row is what `getGame` (once built) takes. A query matching nothing
      * returns an empty array.
      */
-    searchGames(query: string, opts?: ConnectionOption): Promise<robloxGame[]>;
+    searchGames(query: string): Promise<robloxGame[]>;
 
     /**
      * One Roblox game's full record by `universeId` (the id `searchGames` and `listPopularGames`
@@ -61162,14 +62288,30 @@ interface robloxChart {
      * created/updated dates and its roblox.com URL. Throws an input error for a universeId Roblox
      * does not know.
      */
-    getGame(universeId: number, opts?: ConnectionOption): Promise<robloxGameDetail>;
+    getGame(universeId: number): Promise<robloxGameDetail>;
 
     /**
      * Roblox's Charts page (apis.roblox.com/explore-api): each chart — Top Trending,
      * Up-and-Coming, Top Playing Now, Fun with Friends, Top Revisited — with its games, live
      * player counts and up/downvotes, in the site's own order. Sponsored entries are dropped.
      */
-    listPopularGames(opts?: ConnectionOption): Promise<robloxChart[]>;
+    listPopularGames(): Promise<robloxChart[]>;
+
+    /**
+     * The signed-in caller's own Roblox home feed
+     * (apis.roblox.com/discovery-api/omni-recommendation — "Recommended For You", "Continue",
+     * friends' games): each row with its games, live player counts and up/downvotes. Needs the
+     * caller signed in to Roblox; sponsored entries are dropped.
+     */
+    getRecommendations(opts?: ConnectionOption): Promise<robloxChart[]>;
+
+    /**
+     * The signed-in caller's Roblox library: their user id and username plus every game they have
+     * favorited (games.roblox.com/v2/users/<id>/favorite/games, all pages), newest first, with
+     * universeId, creator, visits and URL. Needs the caller signed in to Roblox. Play history is
+     * not included — Roblox publishes no endpoint for it.
+     */
+    getUsersLibrary(opts?: ConnectionOption): Promise<robloxLibrary>;
   }
 }
 
@@ -65654,6 +66796,18 @@ interface SquareServiceDetail {
   staffIds: string[];
   variations: SquareServiceVariationDetail[];
   modifierLists: SquareServiceModifierList[];
+}
+interface SquareCategory {
+  id: string;
+  name: string;
+  ordinal: number | null;
+  parentId: string | null;
+  serviceCount: number;
+}
+interface SquareCategoryList {
+  widgetId: string;
+  categories: SquareCategory[];
+  uncategorizedServiceCount: number;
 }
 
   /**
@@ -70273,6 +71427,15 @@ interface tiktokVideo {
   videoUrl?: string;
   region?: string;
   brandOrganicType?: string;
+  /** The place the creator tagged; absent with no location tag. */
+  location?: {
+    id: string;
+    name: string;
+    address?: string;
+    city?: string;
+    category?: string;
+    subcategory?: string;
+  };
   showAigcLabel: boolean;
   isAd?: boolean;
   duetEnabled: boolean;
@@ -70380,6 +71543,22 @@ interface tiktokUserSearchResult {
   signature: string;
   heartCount: number;
 }
+interface ListFollowersArgs {
+  /** A handle ("nasa"), "@nasa", or a tiktok.com/@nasa URL. Give this or secUid. */
+  username?: string;
+  /** The account's secUid (off getProfile or searchUsers); skips the profile page. */
+  secUid?: string;
+  /** 1-200, default 30 (one page). */
+  limit?: number;
+}
+interface ListFollowingArgs {
+  /** A handle ("nasa"), "@nasa", or a tiktok.com/@nasa URL. Give this or secUid. */
+  username?: string;
+  /** The account's secUid (off getProfile or searchUsers); skips the profile page. */
+  secUid?: string;
+  /** 1-200, default 30 (one page). */
+  limit?: number;
+}
 interface SearchUsersArgs {
   query: string;
   /** 1-10, default 10. TikTok's unsigned typeahead surfaces 2-4 accounts per query. */
@@ -70474,7 +71653,8 @@ type DeleteVideoArgs = {
      * One video's own facts, off the watch page's embedded state: url, caption, hashtags,
      * mentions, create time, duration, the stats block (plays, likes, comments, shares, saves),
      * the uploading author (verified, avatar, secUid, follower/heart/video counts), the music
-     * track and its author, cover, playAddr and download address, region, branded-content code and
+     * track and its author, cover, playAddr and download address, region, the tagged location
+     * (name, address, city, category) when the creator added one, branded-content code and
      * AI-label flag. Takes a `/@<handle>/video/<id>` URL or a bare numeric video id. Also
      * duetEnabled/stitchEnabled, isAd, stats.repostCount and music.original. Pass `lite: true` for
      * the phone render at about half the bytes, without those five.
@@ -70537,6 +71717,24 @@ type DeleteVideoArgs = {
      * profile page for its counts. No browser. Takes an optional limit (1-10).
      */
     searchUsers(args: SearchUsersArgs): Promise<tiktokUserSearchResult[]>;
+
+    /**
+     * The accounts that follow a TikTok creator, newest first, each in getProfile's shape (handle,
+     * nickname, bio, secUid, avatar, verified/private flags, exact follower, following, video and
+     * heart counts). Takes a username or a secUid; a username costs one profile page first to find
+     * the secUid. 30 per page, up to 200 with limit. No browser, no login. Throws when the account
+     * is private.
+     */
+    listFollowers(args: ListFollowersArgs): Promise<tiktokProfile[]>;
+
+    /**
+     * The accounts a TikTok creator follows, each in getProfile's shape (handle, nickname, bio,
+     * secUid, avatar, verified/private flags, exact follower, following, video and heart counts).
+     * Takes a username or a secUid; a username costs one profile page first to find the secUid. 30
+     * per page, up to 200 with limit. No browser, no login. Throws when the account is private or
+     * hides its following list, which many large creators do.
+     */
+    listFollowing(args: ListFollowingArgs): Promise<tiktokProfile[]>;
 
     /**
      * A hashtag's facts — view count, description, whether it is currently promoted — off TikTok's
@@ -77609,6 +78807,56 @@ interface SearchArticlesArgs {
   query: string;
 }
 
+interface WsjMarketIndex {
+  name: string; // e.g. "Dow Jones Industrial Average"
+  symbol: string; // e.g. "DJIA"
+  price: number;
+  change: number; // net change, same sign as the site's own display
+  changePercent: number; // e.g. 0.59 for "+0.59%"
+}
+
+interface WsjQuote {
+  symbol: string; // e.g. "AAPL"
+  name: string; // e.g. "Apple Inc."
+  exchange: string | null; // e.g. "U.S.: Nasdaq"
+  price: number;
+  change: number; // net change, same sign as the site's own display
+  changePercent: number; // e.g. 0.93 for "+0.93%"
+  open: number;
+  high: number;
+  low: number;
+  volume: number | null;
+  asOf: string | null; // ISO, off CompositeTrading.Last.Time
+}
+
+interface GetQuoteArgs {
+  symbol: string; // a stock ticker, e.g. "AAPL"
+}
+
+interface WsjQuotesResult {
+  quotes: WsjQuote[];
+  warnings: string[]; // names a symbol the door answered with no instrument, never silently dropped
+}
+
+interface ListQuotesArgs {
+  symbols: string[]; // stock tickers, e.g. ["AAPL", "MSFT", "NVDA"]
+}
+
+interface WsjPodcastSubscribeLink {
+  name: string; // e.g. "Apple Podcasts", "Spotify", "RSS"
+  url: string;
+}
+
+interface WsjPodcast {
+  name: string; // e.g. "What's News"
+  seoName: string; // e.g. "whats-news" — pass to listEpisodes/getPodcast
+  description: string | null;
+  category: string | null; // e.g. "News & Politics"
+  author: string | null;
+  url: string;
+  subscribe: WsjPodcastSubscribeLink[];
+}
+
   /**
    * WSJ news, markets data and articles — a DataDome wall in front, cleared by a browser; most
    * of the site is reachable with no account, full paywalled articles need the caller's own
@@ -77635,6 +78883,32 @@ interface SearchArticlesArgs {
      * byline, a publish timestamp and url.
      */
     searchArticles(args: SearchArticlesArgs): Promise<WsjSearchResult[]>;
+
+    /**
+     * Lists the major indices WSJ's own Markets front ships inline — Dow Jones Industrial Average,
+     * S&P 500, Nasdaq Composite, Russell 2000 and the Dow Jones U.S. Total Stock Market Index —
+     * with price, net change and percent change.
+     */
+    listMarketIndices(): Promise<WsjMarketIndex[]>;
+
+    /**
+     * Gets one US-listed symbol's current quote — price, open, high, low, net change and percent
+     * change — off WSJ's own market-data JSON door.
+     */
+    getQuote(args: GetQuoteArgs): Promise<WsjQuote>;
+
+    /**
+     * Gets quotes for several US-listed symbols in one call — the same fields as getQuote for each
+     * — and names any symbol the door answered with no instrument rather than dropping it
+     * silently.
+     */
+    listQuotes(args: ListQuotesArgs): Promise<WsjQuotesResult>;
+
+    /**
+     * Lists WSJ's own podcasts (What's News, The Journal, Minute Briefing, etc.) off the site's
+     * podcast catalog, with description, category and subscribe links.
+     */
+    listPodcasts(): Promise<WsjPodcast[]>;
   }
 }
 
@@ -81897,6 +83171,7 @@ interface BowmarkProviders {
   evolvemedspa: BowmarkProvider_evolvemedspa.Unit;
   executivehomecare: BowmarkProvider_executivehomecare.Unit;
   exhalespa: BowmarkProvider_exhalespa.Unit;
+  expedia: BowmarkProvider_expedia.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
   facebook: BowmarkProvider_facebook.Unit;
   faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
@@ -82023,6 +83298,7 @@ interface BowmarkProviders {
   kijiji: BowmarkProvider_kijiji.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
+  kohls: BowmarkProvider_kohls.Unit;
   kompan: BowmarkProvider_kompan.Unit;
   kuiu: BowmarkProvider_kuiu.Unit;
   kwworldwide: BowmarkProvider_kwworldwide.Unit;
@@ -82147,11 +83423,13 @@ interface BowmarkProviders {
   potterybarn: BowmarkProvider_potterybarn.Unit;
   powys: BowmarkProvider_powys.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
+  preppednplated: BowmarkProvider_preppednplated.Unit;
   prime_video: BowmarkProvider_prime_video.Unit;
   printful: BowmarkProvider_printful.Unit;
   progressive: BowmarkProvider_progressive.Unit;
   prolook: BowmarkProvider_prolook.Unit;
   prose: BowmarkProvider_prose.Unit;
+  proton_mail: BowmarkProvider_proton_mail.Unit;
   provenwinners: BowmarkProvider_provenwinners.Unit;
   proxmox: BowmarkProvider_proxmox.Unit;
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
@@ -90824,6 +92102,7 @@ interface BowmarkProviders {
   burnttimberart: BowmarkFamily_shopify_store.Unit;
   burnttoastgoods: BowmarkFamily_shopify_store.Unit;
   burrisofficialstore: BowmarkFamily_shopify_store.Unit;
+  burrow: BowmarkFamily_shopify_store.Unit;
   burrowbar: BowmarkFamily_shopify_store.Unit;
   burrowsandhare: BowmarkFamily_shopify_store.Unit;
   burrowstoo: BowmarkFamily_shopify_store.Unit;
@@ -132234,6 +133513,7 @@ interface BowmarkLibrary {
   address_validation: BowmarkCapability_address_validation.Unit;
   bank_transactions: BowmarkCapability_bank_transactions.Unit;
   booking_links: BowmarkCapability_booking_links.Unit;
+  brand: BowmarkCapability_brand.Unit;
   browser_agent: BowmarkCapability_browser_agent.Unit;
   bundles: BowmarkCapability_bundles.Unit;
   business_electricity_quote: BowmarkCapability_business_electricity_quote.Unit;
