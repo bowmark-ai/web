@@ -968,7 +968,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.getGPT` | chatgpt.com | Reads one custom GPT's public page in the GPT Store — name, description, author… | ⚪ |
 | `chatgpt.getMemories` | chatgpt.com | Reads what ChatGPT has saved to the CALLER's memory (Settings → Personalization →… | ⚪ |
 | `chatgpt.getProject` | chatgpt.com | Reads one of the CALLER's projects — its instructions, uploaded files and the… | ⚪ |
-| `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | ⚪ |
+| `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | 🟢 |
 | `chatgpt.listConversations` | chatgpt.com | Lists the CALLER's ChatGPT chat history, newest first — conversation id, title, last… | ⚪ |
 | `chatgpt.listLibraryImages` | chatgpt.com | Lists the images the CALLER has generated, from the Library page, newest first, with… | ⚪ |
 | `chatgpt.listModels` | chatgpt.com | Lists the models the CALLER's plan can pick in the model menu, with their limits. | ⚪ |
@@ -3268,7 +3268,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.browseGenre` | www.netflix.com | Lists the titles in one Netflix genre — the id from listGenres or the number in… | 🟢 |
 | `netflix.findTitles` | www.netflix.com | Finds Netflix titles by name — e.g. findTitles("stranger things") — returning each… | 🟢 |
 | `netflix.getContinueWatching` | www.netflix.com | Gets titles the signed-in caller is currently watching (requires caller to be signed… | ⚪ |
-| `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's My List (requires caller to be signed in). | ⚪ |
+| `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's own Netflix My List — each saved title's id, name… | 🟢 |
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
 | `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10… | 🟡 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads a Tudum article (Netflix's editorial blog). | ⚪ |
@@ -3276,7 +3276,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
 | `netflix.rateTitle` | www.netflix.com | Rates a title on the signed-in caller's account (requires caller to be signed in). | ⚪ |
 | `netflix.removeFromMyList` | www.netflix.com | Removes a title from the signed-in caller's My List (requires caller to be signed in). | ⚪ |
-| `netflix.search` | www.netflix.com | Searches Netflix for titles by query (requires caller to be signed in). | ⚪ |
+| `netflix.search` | www.netflix.com | Searches the whole Netflix catalogue the way the site's own search box does — e.g.… | 🟢 |
 | `netflix.searchTudum` | www.netflix.com | Searches Tudum articles by query. | ⚪ |
 | `newageproducts.getNewageproductsProduct` | newageproducts.com | Reads one NewAge Products garage-storage/outdoor-living product by its URL handle —… | 🟢 |
 | `newageproducts.searchNewageproductsCatalog` | newageproducts.com | Runs NewAge Products' own header-search box for a keyword and returns up to 5 ranked… | 🟢 |
@@ -3287,7 +3287,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟢 |
 | `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟢 |
 | `nhc.getBestTrack` | nhc.noaa.gov | Get a storm's best track: its position, max winds, pressure and status every six hours… | ⚪ |
-| `nhc.getForecastCone` | nhc.noaa.gov | Get a storm's forecast track points and cone of uncertainty as coordinates, for mapping. | ⚪ |
+| `nhc.getForecastCone` | nhc.noaa.gov | Get a storm's forecast track points and cone of uncertainty as coordinates, for mapping. | 🟢 |
 | `nhc.getForecastDiscussion` | nhc.noaa.gov | Get the forecaster's discussion for a storm — the reasoning behind the track and… | 🟢 |
 | `nhc.getLocalStatements` | nhc.noaa.gov | Get the hurricane local statements that NWS forecast offices issued for a storm, with… | ⚪ |
 | `nhc.getMarineForecast` | nhc.noaa.gov | Get NHC's offshore waters or high seas marine forecast for a zone: winds, seas and… | ⚪ |
@@ -3295,7 +3295,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getSatelliteImagery` | nhc.noaa.gov | Get the latest satellite image links for a basin or an active storm. | ⚪ |
 | `nhc.getStormAdvisory` | nhc.noaa.gov | Get a storm's public advisory text — the latest, or a given advisory number — with… | 🟢 |
 | `nhc.getStormForecast` | nhc.noaa.gov | Get a storm's forecast positions and intensities out to five days, with wind radii… | 🟢 |
-| `nhc.getStormGraphics` | nhc.noaa.gov | List a storm's current forecast graphics — cone, current wind field, wind history… | ⚪ |
+| `nhc.getStormGraphics` | nhc.noaa.gov | List a storm's current forecast graphics — cone, current wind field, wind history… | 🟢 |
 | `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | 🟢 |
 | `nhc.getStormNames` | nhc.noaa.gov | Get the rotating list of tropical cyclone names for a basin and year, including which… | 🟢 |
 | `nhc.getStormSurge` | nhc.noaa.gov | Get the storm surge watch/warning area and peak storm surge forecast for a storm… | ⚪ |
@@ -4267,8 +4267,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getShopCash` | shop.app | Reads the caller's Shop Cash balance and its recent activity. | ⚪ |
 | `shop_app.getStore` | shop.app | Reads one store's Shop page — name, logo, description, rating and review count… | 🟢 |
 | `shop_app.getStoreCollection` | shop.app | Lists the products in one of a store's collections ("Best Sellers", "Sugar-Free")… | 🟢 |
-| `shop_app.getStoreContacts` | shop.app | Reads how to reach a store — its support email, phone or contact page as Shop lists… | ⚪ |
-| `shop_app.getStorePolicies` | shop.app | Reads a store's refund and shipping policies as text — the policy sheet on its Shop… | ⚪ |
+| `shop_app.getStoreContacts` | shop.app | Reads how to reach a store — its support email, phone, website, contact page, social… | 🟢 |
+| `shop_app.getStorePolicies` | shop.app | Reads a store's refund, shipping and privacy policies as plain text — the policy sheet… | 🟢 |
 | `shop_app.getStoreReviews` | shop.app | Lists the reviews left across a whole store — rating, text, product, author and date —… | 🟢 |
 | `shop_app.getVariant` | shop.app | Picks one variant of a product by its options (size "M", colour "Leopard") and returns… | ⚪ |
 | `shop_app.listAddresses` | shop.app | Lists the caller's saved shipping addresses on Shop. | ⚪ |
@@ -4360,11 +4360,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.listFriendStories` | snapchat.com | Lists the Stories the signed-in caller's friends have posted, unseen first, with each… | ⚪ |
 | `snapchat.listLenses` | snapchat.com | Reads the Lens Explorer's top lenses at www.snapchat.com/lens — the default 'For You'… | 🟢 |
 | `snapchat.listLocalCities` | snapchat.com | Lists the cities Snapchat publishes local guides for (the city tiles map.snapchat.com… | ⚪ |
-| `snapchat.listProfileHighlights` | snapchat.com | Lists a public profile's saved Story highlights (curated Stories kept on the profile)… | ⚪ |
-| `snapchat.listProfileLenses` | snapchat.com | Lists the Lenses a public profile has published, with lens name, preview image and… | ⚪ |
-| `snapchat.listProfileSpotlights` | snapchat.com | Lists the Spotlight videos a public profile has posted, with title, upload date, view… | ⚪ |
+| `snapchat.listProfileHighlights` | snapchat.com | Lists a public profile's saved Story highlights (curated Stories kept on the profile)… | 🟢 |
+| `snapchat.listProfileLenses` | snapchat.com | Lists the Lenses a public profile has published, with lens name, preview image and… | 🟢 |
+| `snapchat.listProfileSpotlights` | snapchat.com | Lists the Spotlight videos a public profile has posted, with title, upload date, view… | 🟢 |
 | `snapchat.listProfileStory` | snapchat.com | Lists the snaps in a public profile's current Story — media url, preview url, media… | 🟢 |
-| `snapchat.listSpotlightComments` | snapchat.com | Reads the public comments under one Spotlight video — comment text, commenter and time… | ⚪ |
+| `snapchat.listSpotlightComments` | snapchat.com | Reads the public comments under one Spotlight video — comment text, commenter and time… | 🟢 |
 | `snapchat.listSpotlightFeed` | snapchat.com | Reads the Spotlight feed — Snapchat's public short-video feed at… | 🟢 |
 | `snapchat.listTopicSpotlights` | snapchat.com | Lists the Spotlight videos filed under one hashtag topic… | ⚪ |
 | `snapchat.postSpotlightComment` | snapchat.com | Posts a comment under a Spotlight video from the signed-in caller's account. | ⚪ |
@@ -4627,7 +4627,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `stubhub.findEventsToSell` | stubhub.com | The seller side of the marketplace: searches StubHub's own event-finder… | 🟢 |
 | `stubhub.findPerformers` | stubhub.com | Finds a performer, artist or sports team by name and returns its id, display name and… | 🟢 |
 | `stubhub.findVenues` | stubhub.com | Finds a venue by name and returns its id, display name and StubHub's own page url for… | 🟢 |
-| `stubhub.getCheckoutHandoff` | stubhub.com | Given a listing id from `getEventListings`, resolves the price and returns StubHub's… | ⚪ |
+| `stubhub.getCheckoutHandoff` | stubhub.com | Given a listing id from `getEventListings`, resolves StubHub's own checkout URL for… | 🟢 |
 | `stubhub.getEvent` | stubhub.com | Returns one event's details — name, venue with street address, local start time… | 🟢 |
 | `stubhub.getEventListings` | stubhub.com | Returns the resale ticket listings one event page shows first (about ten): section… | 🟢 |
 | `stubhub.listCategories` | stubhub.com | Returns the genre/category taxonomy StubHub organizes events under (concerts by genre… | 🟡 |
@@ -5578,8 +5578,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.likePost` | x.com | Like or unlike a post as the signed-in account — one `like` boolean argument picks the… | ⚪ |
 | `x.listBookmarks` | x.com | The signed-in account's saved bookmarks. | ⚪ |
 | `x.listConversations` | x.com | The signed-in account's direct-message conversation list. | ⚪ |
-| `x.listFollowers` | x.com | A user's followers list. | ⚪ |
-| `x.listFollowing` | x.com | Who a user follows. | ⚪ |
+| `x.listFollowers` | x.com | A user's followers list. | 🟢 |
+| `x.listFollowing` | x.com | Who a user follows. | 🟢 |
 | `x.listHomeFeed` | x.com | The signed-in account's personalized home timeline, in X's own order. | 🟢 |
 | `x.listNotifications` | x.com | The signed-in account's notifications — likes, replies, reposts, follows and mentions. | 🟢 |
 | `x.listTrending` | x.com | The site's current trending topics, the /explore page. | ⚪ |

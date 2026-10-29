@@ -168,7 +168,7 @@ champxpress.com — champxpress: getPlanQuote, listLocations
 chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
 chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
-chatgpt.com — chatgpt: ask (+34 planned)
+chatgpt.com — chatgpt: ask, getSharedConversation (+33 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: findOperator, getAvailabilityCalendar, getItem, getOperator, listItems (+10 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
@@ -470,7 +470,7 @@ newegg.com — newegg: checkStock, getProduct, search
 news.google.com — google_news: followTopic, getForYou, getFullCoverage, getTopicHeadlines, listEditions, listFollowedTopics, listLocalHeadlines, listPublisherHeadlines, listSavedArticles, listStories, listTopicHeadlines, listTopics, resolveArticleUrl, saveArticle, searchNews, topStories (+1 planned)
 news.ycombinator.com — hackernews: getItem, search, searchComments, topStories
 nfa.futures.org — nfa_futures_org: lookupByNfaId, searchFirms, searchIndividuals
-nhc.noaa.gov — nhc: getForecastDiscussion, getStormAdvisory, getStormForecast, getStormInfo, getStormNames, getTropicalOutlook, getTropicalWeatherDiscussion, getWatchesWarnings, getWindSpeedProbabilities, listCurrentStorms, listSeasonStorms, listStormAdvisories, searchStorms (+10 planned)
+nhc.noaa.gov — nhc: getForecastCone, getForecastDiscussion, getStormAdvisory, getStormForecast, getStormGraphics, getStormInfo, getStormNames, getTropicalOutlook, getTropicalWeatherDiscussion, getWatchesWarnings, getWindSpeedProbabilities, listCurrentStorms, listSeasonStorms, listStormAdvisories, searchStorms (+8 planned)
 nike.com — nike: getLaunch, upcomingLaunches
 npmjs.com — npmjs: getDownloads
 npr.org — npr: findStations, getLiveStream, getPodcast, getProgramRundown, getStation, getStory, getTranscript, listHeadlines, listPodcastCategories, listPodcastEpisodes, listPodcasts, listSections, listSectionStories, searchStories (+5 planned)
@@ -590,7 +590,7 @@ services.gst.gov.in — gst_india: lookup
 setmore.com — setmore: findBusiness, getAvailability, getBusiness, getClassSession, listClasses, listServices, listStaff (+12 planned)
 sevenrooms.com — sevenrooms: getAvailability, getAvailableDates, getVenue (+21 planned)
 shein.com — shein: getProduct, listCategories, listProductsByCategory, search (+30 planned)
-shop.app — shop_app: getProduct, getStore, getStoreCollection, getStoreReviews, listStoreProducts, searchStore, suggestSearches (+32 planned)
+shop.app — shop_app: getProduct, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, listStoreProducts, searchStore, suggestSearches (+30 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopify.com (49871 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
@@ -603,7 +603,7 @@ smartrecruiters.com — smartrecruiters: listJobs (+1 planned)
 smartsign.com — smartsign: getTemplate, search
 smartwool.com — smartwool: getSockRecommendation
 smithery.ai — smithery: search
-snapchat.com — snapchat: getLens, getProfile, getSpotlightVideo, listDiscoverStories, listLenses, listProfileStory, listSpotlightFeed, searchSnapchat (+24 planned)
+snapchat.com — snapchat: getLens, getProfile, getSpotlightVideo, listDiscoverStories, listLenses, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, searchSnapchat (+20 planned)
 solidcore.co — solidcore: getClass, getPricing, getSchedule, getStudio, listMuscleGroups, listStudios (+18 planned)
 solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: findStudio, getClassAvailability, getInstructor, getStudioSchedule, listInstructors, listRegions, listSeries, listStudios (+21 planned)
@@ -622,7 +622,7 @@ statefarm.com — statefarm: findAgent, getBusinessQuote, getLifeQuote, getRente
 steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getNewsItem, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, removeFromWishlist, searchGames, searchNews, viewFriends (+7 planned)
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
-stubhub.com — stubhub: findEventsToSell, findPerformers, findVenues, getEvent, getEventListings, listCategories, search (+4 planned)
+stubhub.com — stubhub: findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, search (+3 planned)
 styleseat.com — styleseat: getAvailability, getBookingQuote, getProfessional, getReviews, listServiceCategories, resolveLocation, searchProfessionals (+22 planned)
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
@@ -722,7 +722,7 @@ www.cnn.com — cnn: followTopic, getArticle, getMarketsData, getVideo, listCate
 www.gap.com — gap: getProduct, searchProducts
 www.grammarly.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, humanize (+5 planned)
 www.marks.com — marks: findStores, getProduct, searchProducts
-www.netflix.com — netflix: browseGenre, findTitles, getTitle, getTop10, listGenres (+9 planned)
+www.netflix.com — netflix: browseGenre, findTitles, getMyList, getTitle, getTop10, listGenres, search (+7 planned)
 www.nintendo.com — nintendo: browseCategory, getProduct, getSupportArticle, listCategories, listDeals, searchProducts, searchSupport (+3 planned)
 www.primevideo.com — prime_video: getChannel, getLiveSchedule, getPerson, getTitle, getWatchOptions, listCategories, listCategoryTitles, listChannels, listDeals, listEpisodes, listFreeToWatch, listLiveChannels, listLiveSports, listNewReleases, listRelatedTitles, listSeasons, listTop10, searchTitles, suggestTitles (+4 planned)
 www.reuters.com — reuters: findAuthor, getArticle, getAuthor, getCompanyEvents, getCompanyKeyMetrics, getCompanyProfile, getLiveCoverage, getMarketOverview, getQuote, listArticlesByDate, listCompanyNews, listGraphics, listHeadlines, listLatestNews, listPictureGalleries, listPodcasts, listPressReleases, listSections, listVideos, searchArticles, searchCompanies (+17 planned)
@@ -732,7 +732,7 @@ www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends,
 www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getOpenTimes, listServices, listStaff (+29 planned)
 www.walmart.ca — walmart_ca: search
 www.wixapis.com — wix_bookings: findSite, getOpenTimes, listServices (+18 planned)
-x.com — x: getPostReplies, listHomeFeed, listNotifications, post, profile, search, sendDirectMessage, userTimeline (+16 planned)
+x.com — x: getPostReplies, listFollowers, listFollowing, listHomeFeed, listNotifications, post, profile, search, sendDirectMessage, userTimeline (+14 planned)
 xola.com — xola: findSeller, getExperience, listExperiences (+6 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost (+1 planned)
