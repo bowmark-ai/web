@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 141 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 143 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -14,6 +14,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `booking_links.find` | Finds a person's public booking links from their name. | 5 | 🔴 |
 | `booking_links.read` | Reads a Calendly or Cal.com booking page without booking: who owns it, the events it… | 5 | 🟢 |
 | `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 5 | 🟢 |
+| `brand.get` | Reads the company's homepage and returns its brand profile. `target` is a domain… | 0 | 🟢 |
 | `browser_agent.list` | Lists this account's browser agent sessions (open ones by default) — check how many… | 1 | 🟢 |
 | `browser_agent.send` | Sends the agent a follow-up in the same session: an answer to its question, the… | 1 | 🟡 |
 | `browser_agent.start` | A one-shot live browser for ONE task on a site nothing in the library covers; returns… | 1 | 🟡 |
@@ -101,6 +102,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `products.search` | Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and… | 4 | 🟢 |
 | `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟢 |
 | `prospect_screening.screenCompany` | Fetches the homepage, reads any schema.org employee-count signal and any… | 0 | 🟢 |
+| `read.contacts` | The email addresses, phone numbers and links ONE page publishes — a company's contact… | 0 | 🟢 |
 | `read.page` | Loads one page and returns its content. **On a booking calendar or a… | 0 | 🟢 |
 | `read.pages` | The same read over many urls: requests to the SAME origin are serialized (one at a… | 0 | 🟢 |
 | `read.urls` | Lists the pages a site has, so you can pick which to `read.page` instead of guessing… | 0 | 🟢 |
