@@ -21,7 +21,7 @@ accuweather.com — accuweather: getAirQuality, getCurrentConditions, getDailyFo
 acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
 acqualinaresort.com — acqualinaresort: searchAvailability
-acuityscheduling.com — acuityscheduling: findScheduler, getAppointmentTypeDetails, getBookingForm, getPrice, getSchedulerInfo, listAppointmentTypes, listLocations, listPacks (+9 planned)
+acuityscheduling.com — acuityscheduling: findScheduler, getAppointmentTypeDetails, getBookingForm, getPrice, getSchedulerInfo, listAppointmentTypes, listLocations, listPacks, listScheduleSlots (+8 planned)
 adobe.com — adobe: findHelpArticle, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, searchFonts, searchStockAssets, searchTemplates (+6 planned)
 adorama.com — adorama: listCategories, search (+2 planned)
 agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
@@ -83,7 +83,7 @@ bananarepublic.gap.com — banana_republic: getProduct, searchProducts
 bankmycell.com — bankmycell: getTradeInQuote, searchDevices
 barlettapontoonboats.com — barletta: getConfigurator, priceConfiguration, searchModels
 baublebar.com — baublebar: getBaublebarCheckoutLink, getBaublebarProduct, listBaublebarCollections, listBaublebarProducts, search
-bbc.com — bbc: getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSections, listSports, listTopicStories, listVideos, searchArticles, searchWeatherLocations (+8 planned)
+bbc.com — bbc: getArticle, getCurrentWeather, getFixtures, getForecast, getLivePage, getMatch, getPodcast, getPodcastEpisode, getStandings, getTeam, getVideo, getWeatherWarnings, listCompetitions, listHeadlines, listMostRead, listNewsletters, listPodcasts, listSavedArticles, listSections, listSports, listTopicStories, listVideos, removeSavedArticle, saveArticle, searchArticles, searchWeatherLocations (+5 planned)
 beaconfunding.com — beaconfunding: getApplicationFields
 beatthebomb.com — beatthebomb: checkAvailability, listMissions, priceMission
 bedbathandbeyond.com — bedbathandbeyond: search (+2 planned)
@@ -110,13 +110,13 @@ bodacc.fr — bodacc: search
 boglewinery.com — boglewinery: checkAvailability, listExperiences
 bollandbranch.com — bollandbranch: getBedDesignerFlow, getCategoryOptions, getSwatchDetails (+1 planned)
 book.squareup.com — square_appointments: cancelBooking, checkAvailability, findBusiness, getBusiness, getService, listLocations, listServices, listStaff (+11 planned)
-bookedin.com — bookedin: getAvailability, getAvailableDates, getMerchant, listRegions, listServices, listStaff, searchMerchants (+11 planned)
-bookeo.com — bookeo: nothing callable yet (+12 planned)
+bookedin.com — bookedin: getAvailability, getAvailableDates, getClassDates, getClassSession, getMerchant, listClassSessions, listRegions, listServices, listStaff, searchMerchants (+8 planned)
+bookeo.com — bookeo: findOperator, listProducts (+10 planned)
 booker.com — booker: findLocation, getAvailability, getAvailableDates, getService, getServiceMenu, listStaff (+24 planned)
 booking.andstr.com — andstr: getListing, getQuote, search
 booking.com — booking_com: autocompleteDestination, checkPrice, getProperty, getReviewBreakdown, listAvailability, listFilterOptions, listPropertyPhotos, listPropertyReviews, search (+9 planned)
 booking.mangomint.com — mangomint: findBusiness, getBusinessInfo, listServices (+19 planned)
-booksy.com — booksy: getBusiness, resolveLocation, searchBusinesses (+25 planned)
+booksy.com — booksy: getAvailability, getBookingQuote, getBusiness, getSearchSuggestions, listCategories, resolveLocation, searchBusinesses (+21 planned)
 borsheims.com — borsheims: configureRing, getProduct, searchProducts
 boxlunch.com — boxlunch: search
 boydsleep.com — boydsleep: calibrateSixZoneSupportNumber, calibrateSupportNumber
@@ -144,7 +144,7 @@ camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
-canva.com — canva: getTemplate, searchPhotos, searchTemplates (+50 planned)
+canva.com — canva: getPhoto, getTemplate, searchPhotos, searchTemplates (+49 planned)
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
 careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs
 carepatrol.com — carepatrol: findLocalAdvisor
@@ -170,7 +170,7 @@ chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
 chatgpt.com — chatgpt: ask, getSharedConversation (+33 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
-checkfront.com — checkfront: findOperator, getAvailabilityCalendar, getItem, getOperator, listItems (+10 planned)
+checkfront.com — checkfront: findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getItem, getOperator, listCategories, listGiftCertificates, listItems (+6 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
 chipotle.com — chipotle: getBowlBuilder
 chownow.com — chownow: findRestaurant, getRestaurant, listRestaurants, searchRestaurants (+11 planned)
@@ -179,7 +179,7 @@ christydawn.com — christydawn: search
 chromium.googlesource.com — chromium_googlesource_com: getFile, listDirectory, listRepos (+1 planned)
 classichome.com — classichome: addToCart, getProduct, searchProducts
 classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) — classicrockfab: checkAvailability, listAppointmentTypes
-classpass.com — classpass: checkAvailability, findStudio, getSchedule, getStudio, search (+35 planned)
+classpass.com — classpass: checkAvailability, findLocation, findStudio, getClass, getSchedule, getStudio, getStudioReviews, listStudioClasses, search (+31 planned)
 claude.ai — claude: getAccount, getConversation, getPublishedArtifact, getSharedConversation, getUsage, listConversations, searchConversations (+27 planned)
 claude.com — claude_com: getDoc, listDocPages
 claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
@@ -200,7 +200,7 @@ compass-living.com — compass_living: listCommunities
 completehomewarranty.com — completehomewarranty_com: getPlan, listPlans
 consultnet.com — consultnet: searchJobs
 cooking.nytimes.com — nyt_cooking: addRecipeToFolder, addToGroceryList, clearGroceryList, createRecipeBoxFolder, deleteRecipeBoxFolder, getArticle, getAuthorRecipes, getCollection, getCookedRecipes, getGroceryList, getMyRating, getRecipe, getRecipeNotes, getRelatedRecipes, getSeasonalGuide, getTopic, getTrendingArticles, listFeaturedCollections, listRecipeBoxFolders, listTopics, markRecipeCooked, rateRecipe, removeFromGroceryList, removeRecipeFromFolder, renameRecipeBoxFolder, saveRecipe, searchRecipes, unsaveRecipe (+7 planned)
-corepoweryoga.com — corepoweryoga: getClass, getSchedule, getStudio, listClasses, listClassPackPrices, listMembershipPrices, listSchedules, listStudios (+32 planned)
+corepoweryoga.com — corepoweryoga: getClass, getSchedule, getStudio, getTeacher, listClasses, listClassPackPrices, listMembershipPrices, listSchedules, listStudios, listTeachers (+30 planned)
 costco.com — costco: listGiftCards, search
 countycourt.vic.gov.au — countycourt_vic_gov_au: dailyList
 couponfollow.com — couponfollow: getCodes
@@ -214,7 +214,7 @@ curiocity.com — curiocity: listEvents
 currys.co.uk — currys: listClearance, search (+2 planned)
 cve.circl.lu — circl: getCve, search
 cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuild
-dailymotion.com — dailymotion: getChannel, getPlaylist, getVideo, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listLiveStreams, listPlaylistVideos, listTrendingVideos, searchChannels, searchPlaylists, searchVideos (+23 planned)
+dailymotion.com — dailymotion: getChannel, getPlaylist, getVideo, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listHashtagVideos, listLiveStreams, listPlaylistVideos, listRelatedVideos, listTrendingVideos, searchChannels, searchPlaylists, searchVideos (+21 planned)
 dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
 davidsonhomes.com — davidsonhomes: getCommunity, getHome, getRegion, listRegions
 deangroup.com — deangroup: getRateCalendar, listProperties, searchAvailability
@@ -232,7 +232,7 @@ dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: checkAvailability, findProperty, getProperty, listRoomTypes (+9 planned)
-discord.com — discord: getAnnouncement, getApp, getDocPage, getInvite, getServer, listDocPages, listServerAnnouncements, listServerCategories, listServers, searchApps, searchServers (+39 planned)
+discord.com — discord: getAnnouncement, getApp, getDocPage, getInvite, getServer, listAppCategories, listDocPages, listFeaturedApps, listServerAnnouncements, listServerCategories, listServers, listSimilarApps, searchApps, searchServers (+36 planned)
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
 docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 planned)
@@ -283,7 +283,7 @@ ferguson.com — ferguson: findBranches, findProducts (+1 planned)
 fieldstonehomes.com — fieldstonehomes: getAppointmentFormSchema, prepareAppointment, searchQuickMoveIns
 finance.yahoo.com — yahoo_finance: addToWatchlist, getAnalystEstimates, getCompanyProfile, getEarningsDates, getFinancials, getHistoricalPrices, getHolders, getKeyStatistics, getMarketSummary, getNews, getOptionsChain, getQuote, getTrendingTickers, listCryptoPrices, listWatchlists, searchSymbols (+1 planned)
 firstamericahomes.com — firstamericahomes: getCommunity, searchCommunities
-fitdegree.com — fitdegree: findStudio, getClass, getInstructor, getStudio, listClasses, listInstructors, listLocations, listMemberships, listScheduleDates (+27 planned)
+fitdegree.com — fitdegree: findStudio, getCancellationPolicy, getClass, getInstructor, getStudio, listClasses, listEvents, listInstructors, listIntroOffers, listLocations, listMemberships, listScheduleDates (+24 planned)
 fitness1440.com — fitness1440: getDayPassRequestInfo, listLocations
 fivebelow.com — fivebelow: search
 fivestarbathsolutions.com — fivestarbathsolutions: getAvailableSlots, listLocations (+1 planned)
@@ -315,12 +315,12 @@ github.com — github: createComment, deleteComment, getIssue, getOrganization, 
 glama.ai — glama: search
 glassesusa.com — glassesusa: getProduct, search
 glofox.com — glofox: findStudio, getStudio, listClasses (+27 planned)
-glossgenius.com — glossgenius: findBusiness, getAvailability, getBusiness, listLocations, listReviews, listServices, listTeam (+24 planned)
+glossgenius.com — glossgenius: findBusiness, getAvailability, getBusiness, getGiftCardOptions, listLocations, listMemberships, listPackages, listReviews, listServices, listTeam (+21 planned)
 gobrightwing.com — gobrightwing: getJobDetails, searchJobs (+2 planned)
-gokenko.com — kenko: findStudio, getClass, getClassSpots, listClasses, listGiftCards, listInstructors, listPricing, listScheduleFilters (+19 planned)
+gokenko.com — kenko: findStudio, getAppointmentAvailability, getClass, getClassSpots, listAppointmentTypes, listClasses, listGiftCards, listInstructors, listPricing, listScheduleFilters (+17 planned)
 golf.com — golf_com: findCourses, getCourse
 goloadup.com — goloadup: checkServiceAvailability, getPricingCatalog, getQuote
-goodreads.com — goodreads: addToShelf, getAuthor, getBook, getBookReviews, getList, getMemberProfile, getMemberShelf, getOwnProfile, listGenreBooks, rateBook, removeFromShelf, searchBooks, searchQuotes (+3 planned)
+goodreads.com — goodreads: addToShelf, followUser, getAuthor, getBook, getBookReviews, getList, getMemberProfile, getMemberShelf, getOwnProfile, listGenreBooks, rateBook, removeFromShelf, searchBooks, searchQuotes, writeReview (+1 planned)
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+1 planned)
 google.com/maps — google_maps: geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaces (+3 planned)
@@ -486,7 +486,7 @@ oliverwinery.com — oliverwinery: checkShippingAvailability, getWine, listWines
 olo.com — olo: findBrand, getLocation, getMenu, getProductOptions, listOrderDays, listRegions, searchLocations (+25 planned)
 onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
 onthemarket.com — onthemarket: search
-open.spotify.com — spotify: getAlbum, getArtist, getAvailableMarkets, getEpisode, getOEmbed, getPlaylist, getPodcast, getTrack, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchPlaylists (+16 planned)
+open.spotify.com — spotify: getAlbum, getArtist, getAvailableMarkets, getEpisode, getGenreSeeds, getOEmbed, getPlaylist, getPodcast, getTrack, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchPlaylists (+16 planned)
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, search, startBooking
 originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote
 othership.us — othership: getClassSchedule, getLocations
@@ -537,10 +537,10 @@ proxmox.com — proxmox: getIsoDownloads
 proxy-cheap.com — proxy_cheap: listCoverage, listPlans
 pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
 puls.com — puls_com: getRepairQuote, listApplianceCategories
-punchpass.com — punchpass: getClass, getSchedule, getSeries, getStudio, listPasses, listScheduleFilters, listSeries (+25 planned)
+punchpass.com — punchpass: getCalendarFeed, getClass, getPass, getSchedule, getSeries, getStudio, listAppointmentSlots, listInstructors, listPasses, listScheduleFilters, listSeries (+21 planned)
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
-pushpress.com — pushpress: getClass, getGym, getPlan, listAppointmentTypes, listClasses, listCoaches, listLocations, listPlans (+16 planned)
-quickbooks.intuit.com — quickbooks: calculatePaycheck, getPayrollPlans, getPlans, getServiceStatus, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates (+27 planned)
+pushpress.com — pushpress: getClass, getGym, getMyProfile, getPlan, listAppointmentTypes, listClasses, listCoaches, listLocations, listPlans (+15 planned)
+quickbooks.intuit.com — quickbooks: calculatePaycheck, getEvent, getPayrollPlans, getPlans, getServiceStatus, getThread, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates (+23 planned)
 quince.com — quince: getProduct, searchProducts
 quora.com — quora: getHomeFeed, getProfile, getQuestion, getSpace, getTopic, getTopicFeed, searchQuestions (+7 planned)
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
@@ -569,7 +569,7 @@ ruggable.com — ruggable: getRug, searchRugs
 rvshare.com — rvshare: searchListings
 saatva.com — saatva: listMattresses, recommendMattress
 safetywing.com — safetywing: getQuote
-safeway.com — safeway: findStores, getStore, listAisleProducts, listAisles (+32 planned)
+safeway.com — safeway: findStores, getSearchSuggestions, getStore, listAisleProducts, listAisles (+31 planned)
 saltandstone.com — saltandstone: getScentProducts, listScentFamilies, matchScent
 samsclub.com — samsclub: browseCategory, checkStock, findClubs, getFuelPrices, getInstantSavings, getMembershipPlans, getProduct, search (+2 planned)
 samsung.com — samsung: checkWarrantyStatus, compareProducts, findStore, getOrderStatus, getProduct, getRewardsBalance, getTradeInQuote, listCarrierOffers, listCategories, listCategoryProducts, listDeals, listMyProducts, listOrders, listSupportArticles, search
@@ -587,7 +587,7 @@ semihandmade.com — semihandmade: getPartOptions, priceConfiguration, searchPar
 seoulfood.kotra.or.kr — seoulfood: getBoothQuote, getExhibitorPricing (+1 planned)
 serper.dev — serper: searchGoogle
 services.gst.gov.in — gst_india: lookup
-setmore.com — setmore: findBusiness, getAvailability, getBusiness, getClassSession, listClasses, listServices, listStaff (+12 planned)
+setmore.com — setmore: checkPromoCode, findBusiness, getAvailability, getBookingForm, getBusiness, getClassSession, getReviews, listClasses, listGalleryImages, listServices, listStaff (+8 planned)
 sevenrooms.com — sevenrooms: getAvailability, getAvailableDates, getVenue (+21 planned)
 shein.com — shein: getProduct, listCategories, listProductsByCategory, search (+30 planned)
 shop.app — shop_app: getProduct, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, listStoreProducts, searchStore, suggestSearches (+30 planned)
@@ -606,7 +606,7 @@ smithery.ai — smithery: search
 snapchat.com — snapchat: getLens, getProfile, getSpotlightVideo, listDiscoverStories, listLenses, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, searchSnapchat (+20 planned)
 solidcore.co — solidcore: getClass, getPricing, getSchedule, getStudio, listMuscleGroups, listStudios (+18 planned)
 solostove.com — solostove: checkBundle, listBundles
-soul-cycle.com — soulcycle: findStudio, getClassAvailability, getInstructor, getStudioSchedule, listInstructors, listRegions, listSeries, listStudios (+21 planned)
+soul-cycle.com — soulcycle: findStudio, getClassAvailability, getInstructor, getStudio, getStudioSchedule, listInstructors, listRegions, listSeries, listShopProducts, listStudios (+19 planned)
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 spacest.com — spacest: nothing callable yet (+1 planned)
 spectrum.com — spectrum: getInternetPlanDetails, listInternetPlans, listMobileDeals, listMobilePlans, listTvAddOns, listTvPlans (+10 planned)
@@ -623,7 +623,7 @@ steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievemen
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, search (+3 planned)
-styleseat.com — styleseat: getAvailability, getBookingQuote, getProfessional, getReviews, listServiceCategories, resolveLocation, searchProfessionals (+22 planned)
+styleseat.com — styleseat: getAvailability, getBookingQuote, getGallery, getOffers, getProfessional, getReviews, getSalon, listServiceCategories, resolveLocation, searchProfessionals (+19 planned)
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
 sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches, getSaunaFinderQuestions
@@ -635,7 +635,7 @@ t-mobile.com — tmobile: getUpgradeOffer
 tagtrans.net — tagtrans_net: createShipmentRateEmail, getShipmentRateForm
 tamarackidaho.com — tamarackidaho: searchLodging
 tapfiliate.com — tapfiliate: listAffiliates
-target.com — target: addToCart, checkStock, findStore, getCart, getProduct, getRegistry, listCategories, listDeals, listOrders, listReviews, listWishlists, reviewPhotos, search, writeReview (+2 planned)
+target.com — target: addToCart, checkStock, findStore, getCart, getProduct, getRegistry, listCategories, listCategoryProducts, listDeals, listOrders, listReviews, listWishlists, reviewPhotos, search, writeReview (+2 planned)
 tatcha.com — tatcha: getPersonalizedRitual, getRitualQuizOptions
 teamtailor.com — teamtailor: listJobs
 teladochealth.com — teladoc: getInsurancePricing, getPricing (+2 planned)
@@ -673,7 +673,7 @@ turbotax.intuit.com — turbotax: compareEditions, findLocalExperts, listEdition
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
 twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getFollowStatus, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, unfollowChannel (+1 planned)
-ubereats.com — ubereats: findAddress, getStore, search (+25 planned)
+ubereats.com — ubereats: browseStores, checkDeliveryAvailability, findAddress, getStore, search (+23 planned)
 uhaul.com — uhaul: getRates
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration
 uniqlo.com — uniqlo: getProduct, searchProducts
@@ -694,7 +694,7 @@ visit.barnesfoundation.org — barnesfoundation: getAdmissionCalendar, priceAdmi
 vistaprint.com — vistaprint: getShippingBoxPrice (+1 planned)
 voluspa.com — voluspa: nothing callable yet (+2 planned)
 walkerhughes.com — walkerhughes: findNearestOffice, listOffices, listQuoteProducts (+1 planned)
-walmart.com — walmart: browseBrand, browseCategory, getProduct, getSeller, getStore, listDeals, listDepartments, listReviews, listSellerOffers, search, suggestSearches (+26 planned)
+walmart.com — walmart: browseBrand, browseCategory, getAccountProfile, getProduct, getSeller, getStore, listDeals, listDepartments, listReviews, listSellerOffers, search, suggestSearches (+25 planned)
 washingtonpost.com — washingtonpost: getArticle, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listPodcasts, listSections, listTopics, listTrending (+11 planned)
 waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)
@@ -742,7 +742,7 @@ yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct, search
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)
 youtube.com — youtube: addToPlaylist, createChannel, createPlaylist, deleteComment, deletePlaylist, deleteVideo, findChannel, getChannel, getLiveChat, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listChannelLiveStreams, listChannelPlaylists, listChannelPosts, listChannelShorts, listChannelVideos, listChapters, listCommentReplies, listComments, listHashtagVideos, listHomeFeed, listLikedVideos, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listSubscriptions, listWatchHistory, listWatchLater, postComment, removeFromPlaylist, replyToComment, search, searchWithinChannel, setThumbnail, subscribeToChannel, suggestSearches, updatePlaylist, updateVideo, uploadVideo (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
-zenoti.com — zenoti: findTenant, getAvailableTimes, getService, listCenters, listProviders, listServiceCategories, searchServices (+9 planned)
-zenplanner.com — zen_planner: findStudio, getClassDetails, getPrice, listClasses, listPackages, listScheduleSlots (+9 planned)
+zenoti.com — zenoti: findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listProviders, listServiceCategories, searchServices (+8 planned)
+zenplanner.com — zen_planner: findStudio, getClassDetails, getPrice, listClasses, listPackages, listScheduleSlots, searchSchedule (+8 planned)
 zoom.us — zoom: deleteMeeting, getMarketplaceApp, getMeeting, getMeetingInfo, getMeetingParticipants, getPricing, getRecording, getSystemStatus, getWebinar, joinMeeting, listRecordings, listWebinars, searchHelpArticles, searchMarketplaceApps (+12 planned)
 zoopla.co.uk — zoopla: search (+1 planned)

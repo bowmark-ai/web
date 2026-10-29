@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5792 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5794 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -74,7 +74,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acuityscheduling.listLocations` | acuityscheduling.com | Lists all service locations available for this business. | 🟢 |
 | `acuityscheduling.listMyBookings` | acuityscheduling.com | Lists the signed-in caller's upcoming and past appointments. | ⚪ |
 | `acuityscheduling.listPacks` | acuityscheduling.com | Lists multi-class packages with discounted per-class pricing. | 🟢 |
-| `acuityscheduling.listScheduleSlots` | acuityscheduling.com | Lists available appointment slots for a given type, date range, and location. | ⚪ |
+| `acuityscheduling.listScheduleSlots` | acuityscheduling.com | Lists open start times for one appointment type over a date range, optionally for one… | 🟢 |
 | `acuityscheduling.rescheduleAppointment` | acuityscheduling.com | Reschedules a booking to a different date/time; caller must own the appointment. | ⚪ |
 | `acuityscheduling.searchSchedule` | acuityscheduling.com | Searches available slots by location and date range. | ⚪ |
 | `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
@@ -408,13 +408,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listMostRead` | bbc.com | The "Most read" list the BBC shows on its news front page: rank, headline, summary… | 🟢 |
 | `bbc.listNewsletters` | bbc.com | The BBC newsletters a reader can sign up to: name, description, frequency and… | 🟢 |
 | `bbc.listPodcasts` | bbc.com | The podcasts and audio series featured on BBC Audio (/audio): title, description… | 🟢 |
-| `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
+| `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | 🟢 |
 | `bbc.listSections` | bbc.com | The BBC's own section list, read off the bbc.com top navigation — Home, News (US &… | 🟢 |
 | `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | 🟢 |
 | `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | 🟡 |
 | `bbc.listVideos` | bbc.com | The videos the BBC's video hub shows: title, summary, duration, url, video id, section… | 🟢 |
-| `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
-| `bbc.saveArticle` | bbc.com | Save a BBC article to the signed-in reader's saved list (the page's bookmark button).… | ⚪ |
+| `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | 🟢 |
+| `bbc.saveArticle` | bbc.com | Save a BBC article to the signed-in reader's saved list (the page's bookmark button).… | 🟢 |
 | `bbc.searchArticles` | bbc.com | Search the BBC the way its search box does: headline, summary, url, article id… | 🟢 |
 | `bbc.searchWeatherLocations` | bbc.com | Find BBC Weather locations by place name or postcode: name, region, country and the… | 🟡 |
 | `bbc.subscribeNewsletter` | bbc.com | Sign the signed-in reader up to a BBC newsletter. | ⚪ |
@@ -571,10 +571,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bookedin.getAvailability` | bookedin.com | Returns the open appointment times on one day for a service, optionally narrowed to… | 🟢 |
 | `bookedin.getAvailableDates` | bookedin.com | Returns which days in a date range have open times for a service (and optionally a… | 🟢 |
 | `bookedin.getClassBooking` | bookedin.com | Reads one class registration's status by its registration id. | ⚪ |
-| `bookedin.getClassDates` | bookedin.com | Returns which days in a date range have class sessions at a business that runs classes… | ⚪ |
-| `bookedin.getClassSession` | bookedin.com | Reads one class session's details — description, instructor, capacity and price — by… | ⚪ |
+| `bookedin.getClassDates` | bookedin.com | Lists which days in a date range have open class sessions at a business that runs… | 🟢 |
+| `bookedin.getClassSession` | bookedin.com | Reads one class session's details — class, category, price, description, instructor… | 🟢 |
 | `bookedin.getMerchant` | bookedin.com | Retrieves one business's record from its booking token or its… | 🟢 |
-| `bookedin.listClassSessions` | bookedin.com | Lists the class sessions on one day with their class, instructor, time and spots left. | ⚪ |
+| `bookedin.listClassSessions` | bookedin.com | Lists the class sessions on one day with their class, category, price, instructor… | 🟢 |
 | `bookedin.listRegions` | bookedin.com | Lists the countries Bookedin's public directory covers (AU, CA, GB, IE, NZ, SE, US)… | 🟢 |
 | `bookedin.listServices` | bookedin.com | Lists every appointment service a business offers, grouped by category, with price… | 🟢 |
 | `bookedin.listStaff` | bookedin.com | Lists the staff members (resources) a caller can book with at a business, with names… | 🟢 |
@@ -584,14 +584,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bookeo.buyGiftVoucher` | bookeo.com | Buys a gift voucher from an operator. | ⚪ |
 | `bookeo.cancelBooking` | bookeo.com | Cancels a booking from the cancel link in the operator's confirmation email, reporting… | ⚪ |
 | `bookeo.checkGiftVoucher` | bookeo.com | Checks a gift voucher or promotion code against an operator and returns whether it is… | ⚪ |
-| `bookeo.findOperator` | bookeo.com | Finds a Bookeo operator from what a caller actually holds -- its bookeo.com short name… | ⚪ |
+| `bookeo.findOperator` | bookeo.com | Finds a Bookeo operator from what a caller actually holds -- its bookeo.com short name… | 🟢 |
 | `bookeo.getAvailability` | bookeo.com | Returns a product's bookable dates and time slots over a date range: start/end time… | ⚪ |
 | `bookeo.getPriceQuote` | bookeo.com | Prices a party for one slot: the participant categories the product offers (adults… | ⚪ |
 | `bookeo.getProduct` | bookeo.com | Returns one product's full info page: long description, what to bring, location… | ⚪ |
 | `bookeo.joinWaitingList` | bookeo.com | Puts a party on the waiting list for a sold-out slot where the operator allows it, as… | ⚪ |
 | `bookeo.listGroupOperators` | bookeo.com | Lists the operators under a Bookeo multi-operator portal (one short name fronting… | ⚪ |
 | `bookeo.listMyBookings` | bookeo.com | Lists the caller's upcoming and past bookings with one operator, from that operator's… | ⚪ |
-| `bookeo.listProducts` | bookeo.com | Lists an operator's bookable products (tours, activities, classes, rentals): product… | ⚪ |
+| `bookeo.listProducts` | bookeo.com | Lists an operator's bookable products (tours, activities, classes, rentals): product… | 🟢 |
 | `booker.book` | booker.com | Books an appointment for the signed-in customer: one service (or an itinerary from… | ⚪ |
 | `booker.buyGiftCertificate` | booker.com | Buys a gift certificate from a location's online store. | ⚪ |
 | `booker.buyMembership` | booker.com | Buys a membership from a location's online store. | ⚪ |
@@ -638,14 +638,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.listSavedPaymentMethods` | booking.com | List payment methods saved to the caller's account. | ⚪ |
 | `booking_com.listWishlist` | booking.com | List properties the caller has saved to their wishlist. | ⚪ |
 | `booking_com.removeFromWishlist` | booking.com | Remove a property from the caller's wishlist. | ⚪ |
-| `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | 🟡 |
+| `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | 🟢 |
 | `booking_com.writeReview` | booking.com | Write a review for a property the caller has booked. | ⚪ |
 | `booksy.addFavorite` | booksy.com | Saves a business to the signed-in caller's favourites. | ⚪ |
 | `booksy.bookAppointment` | booksy.com | Books an appointment for the signed-in caller: a service variant at a start time, with… | ⚪ |
 | `booksy.buyGiftCard` | booksy.com | Buys a business's gift card or voucher. | ⚪ |
 | `booksy.cancelAppointment` | booksy.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | ⚪ |
-| `booksy.getAvailability` | booksy.com | Returns the open appointment times for one service at one business over a date range… | ⚪ |
-| `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | ⚪ |
+| `booksy.getAvailability` | booksy.com | Returns the open appointment times for one service at one business over a date range… | 🟢 |
+| `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | 🟢 |
 | `booksy.getBusiness` | booksy.com | Returns one business from its id or its booksy.com page URL: name, description… | 🟢 |
 | `booksy.getBusinessContact` | booksy.com | Returns a business's contact email, which Booksy shows only to a signed-in customer. | ⚪ |
 | `booksy.getBusinessNetwork` | booksy.com | For a business that is part of a chain on Booksy, lists the chain's other locations… | ⚪ |
@@ -653,9 +653,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booksy.getBusinessReviews` | booksy.com | Lists a business's customer reviews, newest first: rating, text, date, the service and… | ⚪ |
 | `booksy.getMyAppointment` | booksy.com | Returns one of the signed-in caller's appointments in full: service, time, staff… | ⚪ |
 | `booksy.getMyProfile` | booksy.com | Returns the signed-in caller's Booksy profile: name, email, phone, photo and… | ⚪ |
-| `booksy.getSearchSuggestions` | booksy.com | Turns what a caller typed ("skin fade", "gel nails", a business name) into Booksy's… | ⚪ |
+| `booksy.getSearchSuggestions` | booksy.com | Turns what a caller typed ("skin fade", "gel nails", a business name) into Booksy's… | 🟢 |
 | `booksy.joinWaitlist` | booksy.com | Puts the signed-in caller on a business's waitlist for a service on a day with no open… | ⚪ |
-| `booksy.listCategories` | booksy.com | Lists Booksy's business categories with their subcategories and treatments (Hair… | ⚪ |
+| `booksy.listCategories` | booksy.com | Lists Booksy's top-level business categories (Hair, Barber, Nails, Skin Care...), the… | 🟢 |
 | `booksy.listFavorites` | booksy.com | Lists the businesses the signed-in caller has saved as favourites. | ⚪ |
 | `booksy.listGiftCardOffers` | booksy.com | Lists the gift cards and vouchers a business sells online: name, value, price… | ⚪ |
 | `booksy.listMyBookings` | booksy.com | Lists the signed-in caller's upcoming and past Booksy appointments: business, service… | ⚪ |
@@ -858,7 +858,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.getDesignContent` | canva.com | Reads the full text and the images on every page (or one page) of one of the caller's… | ⚪ |
 | `canva.getGraphic` | canva.com | Reads one graphic by id or url — title, creator, licence and image urls. | ⚪ |
 | `canva.getMyProfile` | canva.com | Reads the signed-in caller's Canva profile — display name, email, account id, plan… | ⚪ |
-| `canva.getPhoto` | canva.com | Reads one stock photo by id or url — title, creator and their profile, licence (free… | ⚪ |
+| `canva.getPhoto` | canva.com | Reads one stock photo by id or url — title, description, free-or-Pro licence, the… | 🟢 |
 | `canva.getPresenterNotes` | canva.com | Reads the presenter notes on each slide of one of the caller's presentations. | ⚪ |
 | `canva.getPricing` | canva.com | Reads Canva's plans and prices — Free, Pro, Teams/Business and Enterprise — with each… | ⚪ |
 | `canva.getSharedDesign` | canva.com | Reads a Canva design someone shared by view link (canva.com/design/<id>/<token>/view)… | ⚪ |
@@ -931,8 +931,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `casadragones.listProducts` | casadragones.com | Lists Casa Dragones' real sipping-tequila catalog off their own product listing page… | 🟢 |
 | `cascadiaseniorliving_com.getSitePage` | cascadiaseniorliving.com | Reads one Cascadia Senior Living page (by its url from listSitePages, or by its slug)… | 🟢 |
 | `cascadiaseniorliving_com.listSitePages` | cascadiaseniorliving.com | Lists every page Cascadia Senior Living's own site publishes — title, url, slug and… | 🟢 |
-| `castlery.getProduct` | castlery.com | Reads one castlery.com product page's schema.org Product data — live offer price and… | 🟢 |
-| `castlery.search` | castlery.com | Runs castlery.com's own US furniture search (sofas, sectionals, beds, dining tables… | 🟢 |
+| `castlery.getProduct` | castlery.com | Reads one Castlery product page — name, description, price, availability, dimensions… | 🟢 |
+| `castlery.search` | castlery.com | Searches or browses Castlery's furniture and home-goods catalog by keyword, returning… | 🟢 |
 | `cb2.getProduct` | cb2.com | Reads one product page: every size, fabric and finish option with its own price… | ⚪ |
 | `cb2.searchProducts` | cb2.com | Searches CB2's furniture and decor catalog the way its own search box does ("sofas")… | 🟢 |
 | `cbhhomes.assembleInquiry` | cbhhomes.com | Validates a caller's inquiry against the form's live schema and maps it onto the… | 🟢 |
@@ -953,7 +953,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `charterhomes.getScheduleVisitOptions` | charterhomes.com | Reads Charter's live schedule-a-visit page and returns every bookable neighborhood… | 🟢 |
 | `charterhomes.searchHomes` | charterhomes.com | Searches Charter Homes & Neighborhoods' live for-sale home inventory by… | 🟢 |
 | `chatgpt.archiveConversation` | chatgpt.com | Archives (or un-archives) one of the CALLER's conversations. | ⚪ |
-| `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | 🟢 |
+| `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | 🟡 |
 | `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | ⚪ |
 | `chatgpt.createGPT` | chatgpt.com | Creates a custom GPT in the CALLER's account — name, description, instructions… | ⚪ |
 | `chatgpt.createProject` | chatgpt.com | Creates a new project in the CALLER's account with a name and optional instructions. | ⚪ |
@@ -995,15 +995,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `checkfront.bookItems` | checkfront.com | Books a cart for a guest with the details getBookingForm asks for, and completes it… | ⚪ |
 | `checkfront.buyGiftCertificate` | checkfront.com | Buys a gift certificate from an operator. | ⚪ |
 | `checkfront.findOperator` | checkfront.com | Finds a Checkfront operator from what a caller actually holds -- its subdomain… | 🟢 |
-| `checkfront.getAvailability` | checkfront.com | Prices and checks a date (or a date range, and a start/end time for hourly items) for… | ⚪ |
+| `checkfront.getAvailability` | checkfront.com | Prices and checks a date for an operator's items, for a given party (e.g. { adult: 2… | 🟢 |
 | `checkfront.getAvailabilityCalendar` | checkfront.com | Returns which days in a range each item (or one category, or one item) can be booked… | 🟢 |
-| `checkfront.getBookingForm` | checkfront.com | Returns the guest details an operator asks for at checkout -- name, email, phone… | ⚪ |
+| `checkfront.getBookingForm` | checkfront.com | Returns the guest details an operator asks for at checkout -- name, email, phone… | 🟢 |
 | `checkfront.getCart` | checkfront.com | Reads a booking cart back by its id: line items, add-ons, taxes, discount, deposit… | ⚪ |
 | `checkfront.getItem` | checkfront.com | Returns one item in full: description, images, video, unit and length, the guest types… | 🟢 |
 | `checkfront.getMyBookings` | checkfront.com | Lists the signed-in customer's own bookings with one operator: booking id, items… | ⚪ |
 | `checkfront.getOperator` | checkfront.com | Returns an operator's own business card from its booking host: name, address, city… | 🟢 |
-| `checkfront.listCategories` | checkfront.com | Lists an operator's item categories ("Kids Club", "Surf Boards", "General Admission")… | ⚪ |
-| `checkfront.listGiftCertificates` | checkfront.com | Lists the gift certificates an operator sells: id, name, SKU, price and image. | ⚪ |
+| `checkfront.listCategories` | checkfront.com | Lists an operator's item categories ("Kids Club", "Surf Boards", "General Admission")… | 🟢 |
+| `checkfront.listGiftCertificates` | checkfront.com | Lists the gift certificates an operator sells: id, name, SKU, category, price and… | 🟢 |
 | `checkfront.listItems` | checkfront.com | Lists an operator's bookable items (tours, rentals, rooms, tickets, packages, gift… | 🟢 |
 | `checkfront.updateCart` | checkfront.com | Changes a booking cart: set a line's quantity, remove a line, opt in or out of a… | ⚪ |
 | `chesmar.searchQuickMoveInHomes` | chesmar.com | Runs Chesmar Homes' quick-move-in home search against the site's own live inventory… | 🟢 |
@@ -1048,11 +1048,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.changePlan` | classpass.com | Would move the signed-in member to a different plan tier. | ⚪ |
 | `classpass.checkAvailability` | classpass.com | Checks whether one already-known class slot is still bookable and at what credit… | 🟢 |
 | `classpass.checkIn` | classpass.com | Marks one of the signed-in member's reservations as attended (the app's check-in). | ⚪ |
-| `classpass.findLocation` | classpass.com | Turns a place name a caller holds (`Charlotte`, a neighbourhood, an address) into the… | ⚪ |
+| `classpass.findLocation` | classpass.com | Turns a place name a caller holds (`Charlotte`, a neighbourhood, an address) into the… | 🟢 |
 | `classpass.findStudio` | classpass.com | Finds ClassPass studios by NAME (and matching brand) near a point — the door for a… | 🟢 |
 | `classpass.getBillingHistory` | classpass.com | Lists the signed-in member's past charges — plan renewals and credit purchases, with… | ⚪ |
 | `classpass.getBookingQuote` | classpass.com | Returns what booking one specific class slot would cost THIS member — the credit price… | ⚪ |
-| `classpass.getClass` | classpass.com | Returns one class's description at a studio — what it is, how long, what to expect —… | ⚪ |
+| `classpass.getClass` | classpass.com | Returns one class's own description at a studio — what it is, how long, what to expect… | 🟢 |
 | `classpass.getClassReviews` | classpass.com | Reads the reviews members left for one class (not the whole studio). | ⚪ |
 | `classpass.getCreditBalance` | classpass.com | Returns how many credits the signed-in member has left this cycle, what rolls over and… | ⚪ |
 | `classpass.getMyProfile` | classpass.com | Returns the signed-in member's profile: name, email, home market, photo and the… | ⚪ |
@@ -1061,7 +1061,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.getReservation` | classpass.com | Returns one reservation in full — class, studio, spot, credits, cancellation window… | ⚪ |
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
-| `classpass.getStudioReviews` | classpass.com | Reads a studio's member reviews — rating, text, class taken and date — the page a… | ⚪ |
+| `classpass.getStudioReviews` | classpass.com | Reads a studio's member reviews — rating, text, class taken and when — the page a… | 🟢 |
 | `classpass.getVideo` | classpass.com | Returns one on-demand video — title, instructor, length, and the stream a member plays. | ⚪ |
 | `classpass.joinWaitlist` | classpass.com | Puts the signed-in member on a full class's waitlist, or turns on the class's… | ⚪ |
 | `classpass.listCategories` | classpass.com | Lists ClassPass's activity and category vocabulary (Classes & Appointments, Yoga… | ⚪ |
@@ -1071,7 +1071,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.listOnDemandVideos` | classpass.com | Lists the member on-demand workout videos (filters, collections, stacks) included with… | ⚪ |
 | `classpass.listSimilarStudios` | classpass.com | Lists studios ClassPass considers similar to one studio — the 'you might also like'… | ⚪ |
 | `classpass.listStudioBranches` | classpass.com | Lists the other locations of the same brand on ClassPass — every Barry's, say — with… | ⚪ |
-| `classpass.listStudioClasses` | classpass.com | Lists the classes a studio teaches — its class catalogue (name, alias, description… | ⚪ |
+| `classpass.listStudioClasses` | classpass.com | Lists the classes a studio teaches — its class catalogue (name, alias, description)… | 🟢 |
 | `classpass.pauseMembership` | classpass.com | Pauses the signed-in member's plan for a period the site offers, and reports when it… | ⚪ |
 | `classpass.redeemGiftCode` | classpass.com | Redeems a ClassPass gift code onto the signed-in member's account. | ⚪ |
 | `classpass.removeFavorite` | classpass.com | Removes a studio from the signed-in member's favourites. | ⚪ |
@@ -1264,7 +1264,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.getRecommendations` | corepoweryoga.com | Gets personalized class recommendations based on preferences. | ⚪ |
 | `corepoweryoga.getSchedule` | corepoweryoga.com | Gets one studio's class sessions on one date — the same per-session detail… | 🟢 |
 | `corepoweryoga.getStudio` | corepoweryoga.com | Gets one studio's full detail page content — amenities, contact info (email, phone… | 🟢 |
-| `corepoweryoga.getTeacher` | corepoweryoga.com | Gets details about a specific instructor including bio and full teaching schedule. | ⚪ |
+| `corepoweryoga.getTeacher` | corepoweryoga.com | Gets one teacher at a studio with every session they lead in a date range (default the… | 🟢 |
 | `corepoweryoga.getWorkshop` | corepoweryoga.com | Gets details about a specific workshop including schedule, capacity, and teacher. | ⚪ |
 | `corepoweryoga.joinWaitlist` | corepoweryoga.com | Joins the waitlist for a full class. | ⚪ |
 | `corepoweryoga.listChallenges` | corepoweryoga.com | Lists current and upcoming yoga challenges. | ⚪ |
@@ -1282,7 +1282,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.listSavedPayments` | corepoweryoga.com | Lists the caller's saved payment methods. | ⚪ |
 | `corepoweryoga.listSchedules` | corepoweryoga.com | Lists one studio's class sessions across a date range: class name, start/end time… | 🟢 |
 | `corepoweryoga.listStudios` | corepoweryoga.com | Lists every CorePower Yoga studio: id (the Zenoti center GUID), name, slug, address… | 🟢 |
-| `corepoweryoga.listTeachers` | corepoweryoga.com | Lists all CorePower instructors with bio, specialties, and teaching schedule. | ⚪ |
+| `corepoweryoga.listTeachers` | corepoweryoga.com | Lists the teachers leading classes at one studio over a date range (default the next… | 🟢 |
 | `corepoweryoga.listWorkshops` | corepoweryoga.com | Lists upcoming special workshops and events. | ⚪ |
 | `corepoweryoga.rateClass` | corepoweryoga.com | Rates and reviews a class attended. | ⚪ |
 | `corepoweryoga.removeFavoriteTeacher` | corepoweryoga.com | Removes an instructor from the caller's favorites. | ⚪ |
@@ -1337,13 +1337,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listChannelVideos` | dailymotion.com | List the videos one Dailymotion uploader has published, newest first, paged — same… | 🟢 |
 | `dailymotion.listFollowedChannels` | dailymotion.com | List the channels the signed-in caller follows. | ⚪ |
 | `dailymotion.listFollowingFeed` | dailymotion.com | List the newest videos from the channels the signed-in caller follows — the site's… | ⚪ |
-| `dailymotion.listHashtagVideos` | dailymotion.com | List Dailymotion videos carrying one tag or hashtag. | ⚪ |
+| `dailymotion.listHashtagVideos` | dailymotion.com | List Dailymotion videos carrying one tag or hashtag. | 🟢 |
 | `dailymotion.listLiveStreams` | dailymotion.com | List Dailymotion live streams on air right now, optionally matching a keyword or from… | 🟢 |
 | `dailymotion.listMyLikedVideos` | dailymotion.com | List the videos the signed-in caller has liked. | ⚪ |
 | `dailymotion.listMyPlaylists` | dailymotion.com | List the signed-in caller's own playlists, private ones included. | ⚪ |
 | `dailymotion.listMyVideos` | dailymotion.com | List the videos the signed-in caller has uploaded, private and draft ones included. | ⚪ |
 | `dailymotion.listPlaylistVideos` | dailymotion.com | List the videos in one Dailymotion playlist, in playlist order, paged — same fields as… | 🟢 |
-| `dailymotion.listRelatedVideos` | dailymotion.com | List the videos Dailymotion recommends alongside one video. | ⚪ |
+| `dailymotion.listRelatedVideos` | dailymotion.com | List the videos Dailymotion recommends alongside one video. | 🟢 |
 | `dailymotion.listStreamFormats` | dailymotion.com | List the playable streams of one Dailymotion video — the HLS manifest URL and the… | ⚪ |
 | `dailymotion.listTrendingVideos` | dailymotion.com | List the videos trending on Dailymotion right now — optionally for one country ("us"… | 🟢 |
 | `dailymotion.listWatchHistory` | dailymotion.com | List the videos the signed-in caller has watched, newest first. | ⚪ |
@@ -1472,12 +1472,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | ⚪ |
 | `discord.joinServer` | discord.com | Joins a server from an invite code or link as the caller. | ⚪ |
 | `discord.leaveServer` | discord.com | Leaves a server the caller has joined. | ⚪ |
-| `discord.listAppCategories` | discord.com | Lists the App Directory's categories (Games, Entertainment, Moderation and Tools… | ⚪ |
+| `discord.listAppCategories` | discord.com | Lists the App Directory's categories (Games, Entertainment, Moderation and Tools… | 🟢 |
 | `discord.listBlogPosts` | discord.com | Lists Discord's own blog posts (discord.com/blog) — title, link, date and summary… | ⚪ |
 | `discord.listChannels` | discord.com | Lists one joined server's channels the caller can see — id, name, type (text, voice… | ⚪ |
 | `discord.listDirectMessages` | discord.com | Lists the caller's DM and group-DM conversations — channel id, the other people in it… | ⚪ |
 | `discord.listDocPages` | discord.com | Lists every page of Discord's developer documentation (REST resources, Gateway… | 🟢 |
-| `discord.listFeaturedApps` | discord.com | Lists the App Directory's featured collections ('Action Games' and the rest) and the… | ⚪ |
+| `discord.listFeaturedApps` | discord.com | Lists the App Directory's featured collections ("Action Games" and the rest) — each… | 🟢 |
 | `discord.listFriendRequests` | discord.com | Lists the caller's pending incoming and outgoing friend requests. | ⚪ |
 | `discord.listFriends` | discord.com | Lists the caller's friends — user id, username, display name and avatar. | ⚪ |
 | `discord.listMentions` | discord.com | Lists the recent messages that mentioned the caller across their servers — the Inbox's… | ⚪ |
@@ -1489,7 +1489,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.listServerCategories` | discord.com | Lists the public server directory's categories (Gaming, Entertainment, Education… | 🟢 |
 | `discord.listServerEvents` | discord.com | Lists a joined server's scheduled events — name, description, start and end time… | ⚪ |
 | `discord.listServers` | discord.com | Browses Discord's public server directory with no keyword, in the directory's own… | 🟢 |
-| `discord.listSimilarApps` | discord.com | Lists the apps the App Directory shows as similar to one app. | ⚪ |
+| `discord.listSimilarApps` | discord.com | Lists the apps the App Directory shows as similar to one app — the same full shape… | 🟢 |
 | `discord.listThreads` | discord.com | Lists the active threads in a channel, or the posts in a forum channel — title… | ⚪ |
 | `discord.listTrendingGames` | discord.com | Lists the games trending on Discord this week (discord.com/trending-games), overall or… | ⚪ |
 | `discord.removeFriend` | discord.com | Removes a friend, or cancels or declines a pending request. | ⚪ |
@@ -1931,7 +1931,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fitdegree.cancelBooking` | fitdegree.com | Cancels one of the signed-in member's class or event bookings. | ⚪ |
 | `fitdegree.cancelPrivateSession` | fitdegree.com | Cancels one of the signed-in member's private sessions, refusing a late cancel with a… | ⚪ |
 | `fitdegree.findStudio` | fitdegree.com | Finds a FitDegree studio by name, city or website, or from the URL of a page that… | 🟢 |
-| `fitdegree.getCancellationPolicy` | fitdegree.com | Returns a studio's cancellation policy for a class — the early and late cancellation… | ⚪ |
+| `fitdegree.getCancellationPolicy` | fitdegree.com | Returns a studio's cancellation policy for a class — the early and late cancellation… | 🟢 |
 | `fitdegree.getClass` | fitdegree.com | Returns one scheduled class by id: description, start and end time, instructor, room… | 🟢 |
 | `fitdegree.getClassPricing` | fitdegree.com | Returns what booking one class would cost the signed-in member: the drop-in price, and… | ⚪ |
 | `fitdegree.getInstructor` | fitdegree.com | Returns one instructor's profile by id: name, photo, bio and certifications. | 🟢 |
@@ -1944,9 +1944,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fitdegree.leaveWaitlist` | fitdegree.com | Takes the signed-in member off a class waitlist. | ⚪ |
 | `fitdegree.listAnnouncements` | fitdegree.com | Lists a studio's announcements to members (new schedule, closures, promotions) with… | ⚪ |
 | `fitdegree.listClasses` | fitdegree.com | Lists a studio's class schedule for a date range, optionally narrowed to an instructor… | 🟢 |
-| `fitdegree.listEvents` | fitdegree.com | Lists a studio's one-off events and challenges with dates, room, instructor, capacity… | ⚪ |
+| `fitdegree.listEvents` | fitdegree.com | Lists a studio's one-off events and challenges with dates, room, instructor, capacity… | 🟢 |
 | `fitdegree.listInstructors` | fitdegree.com | Lists the instructors at a studio with id, name, photo and bio — the ids listClasses… | 🟢 |
-| `fitdegree.listIntroOffers` | fitdegree.com | Lists a studio's intro and promotional offers ("Second Group Class On Us") with title… | ⚪ |
+| `fitdegree.listIntroOffers` | fitdegree.com | Lists a studio's intro and promotional offers ("Second Group Class On Us") with title… | 🟢 |
 | `fitdegree.listLocations` | fitdegree.com | Lists the rooms or locations inside a studio ("Reformer Room", "Private Room") with… | 🟢 |
 | `fitdegree.listMemberships` | fitdegree.com | Lists the memberships and class packs a studio sells with name, description, terms and… | 🟢 |
 | `fitdegree.listMyBookings` | fitdegree.com | Lists the signed-in member's upcoming and past bookings at a studio — classes, events… | ⚪ |
@@ -2087,7 +2087,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | 🟢 |
 | `forbes.listLists` | forbes.com | List all available Forbes rankings/lists (Forbes 400, Global 2000, Most Powerful… | 🟢 |
 | `forbes.listNews` | forbes.com | List latest news articles. | 🟢 |
-| `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | 🟢 |
+| `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | 🟡 |
 | `forbes.listVideos` | forbes.com | List video content from Forbes Video. | 🟢 |
 | `forbes.searchArticles` | forbes.com | Search articles across Forbes by keyword. | ⚪ |
 | `ford.buildAndPrice` | ford.com | Walks Ford's own build-and-price configurator for a model and year — choosing trim… | ⚪ |
@@ -2310,18 +2310,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glossgenius.getAvailability` | glossgenius.com | Returns the open appointment times for one or more services at a business over a date… | 🟢 |
 | `glossgenius.getBookingRequirements` | glossgenius.com | Says what a business will ask for before it books a given service and time for a given… | ⚪ |
 | `glossgenius.getBusiness` | glossgenius.com | Returns one business's public profile: name, about text, address and coordinates… | 🟢 |
-| `glossgenius.getGiftCardOptions` | glossgenius.com | Returns whether a business sells gift cards online and on what terms: preset amounts… | ⚪ |
+| `glossgenius.getGiftCardOptions` | glossgenius.com | Returns whether a business sells gift cards online, the preset amounts it offers and… | 🟢 |
 | `glossgenius.getMyProfile` | glossgenius.com | Returns the signed-in caller's client profile at a business: name, phone, email… | ⚪ |
 | `glossgenius.getWaitlistEntry` | glossgenius.com | Returns a waitlist entry from its link: services, dates wanted and status, with the… | ⚪ |
 | `glossgenius.getWalkInStatus` | glossgenius.com | Returns a client's place in a business's walk-in queue from the queue link: state… | ⚪ |
 | `glossgenius.joinWaitlist` | glossgenius.com | Puts a client on a business's waitlist for a service and preferred dates when no time… | ⚪ |
 | `glossgenius.leaveReview` | glossgenius.com | Leaves a star rating and review for a past appointment from the review link the… | ⚪ |
 | `glossgenius.listLocations` | glossgenius.com | Lists the locations of a multi-location business with address, hours and phone, and… | 🟢 |
-| `glossgenius.listMemberships` | glossgenius.com | Lists the memberships a business sells: name, description, monthly price, renewal… | ⚪ |
+| `glossgenius.listMemberships` | glossgenius.com | Lists the memberships a business sells: name, description, monthly price, renewal… | 🟢 |
 | `glossgenius.listMyCards` | glossgenius.com | Lists the cards the signed-in caller has saved with a business (brand, last four… | ⚪ |
 | `glossgenius.listMyMemberships` | glossgenius.com | Lists the signed-in caller's memberships and packages at a business, with status… | ⚪ |
 | `glossgenius.listMyOrders` | glossgenius.com | Lists the signed-in caller's past purchases at a business -- gift cards, packages… | ⚪ |
-| `glossgenius.listPackages` | glossgenius.com | Lists the service packages a business sells (a bundle of sessions at one price): name… | ⚪ |
+| `glossgenius.listPackages` | glossgenius.com | Lists the service packages a business sells (a bundle of sessions at one price): name… | 🟢 |
 | `glossgenius.listReviews` | glossgenius.com | Lists a business's client reviews: rating, text, reviewer first name, date, the… | 🟢 |
 | `glossgenius.listServices` | glossgenius.com | Lists a business's bookable services with category, price (or 'varies'/hidden)… | 🟢 |
 | `glossgenius.listTeam` | glossgenius.com | Lists the team members a client can book with at a business: name, bio, avatar… | 🟢 |
@@ -2340,7 +2340,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goloadup.getPricingCatalog` | goloadup.com | Returns LoadUp's full current catalog of pickupable items (couches, mattresses… | 🟢 |
 | `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
 | `goodreads.addToShelf` | goodreads.com | Adds a book to one of the signed-in caller's shelves (want-to-read, currently-reading… | 🟢 |
-| `goodreads.followUser` | goodreads.com | Follows another member as the signed-in caller. | ⚪ |
+| `goodreads.followUser` | goodreads.com | Follows another member as the signed-in caller. | 🟢 |
 | `goodreads.getAuthor` | goodreads.com | Reads one author's bio, genre, influences, website, rating/review/follower stats and a… | 🟢 |
 | `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | 🟢 |
 | `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer name, review text, and creation… | 🟢 |
@@ -2354,7 +2354,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | 🟢 |
 | `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | 🟢 |
 | `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | 🟢 |
-| `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | ⚪ |
+| `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | 🟢 |
 | `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟡 |
 | `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟡 |
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
@@ -2824,12 +2824,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kenko.cancelBooking` | gokenko.com | Cancel a booking for the signed-in member. | ⚪ |
 | `kenko.cancelMembership` | gokenko.com | Cancel an active membership for the signed-in member. | ⚪ |
 | `kenko.findStudio` | gokenko.com | Find a studio by name, slug or region ID. | 🟢 |
-| `kenko.getAppointmentAvailability` | gokenko.com | Check availability for appointments on a given date range. | ⚪ |
+| `kenko.getAppointmentAvailability` | gokenko.com | Live slot availability for one appointment type at one facility, on one day. | 🟢 |
 | `kenko.getClass` | gokenko.com | Read one class's details (instructors, pricing, capacity). | 🟢 |
 | `kenko.getClassSpots` | gokenko.com | Check live availability for a class on a given date. | 🟢 |
 | `kenko.getMyProfile` | gokenko.com | Read the signed-in member's profile (name, contact, preferences). | ⚪ |
 | `kenko.joinWaitlist` | gokenko.com | Join the waitlist for a full class as the signed-in member. | ⚪ |
-| `kenko.listAppointmentTypes` | gokenko.com | List appointment types available (consultations, private sessions). | ⚪ |
+| `kenko.listAppointmentTypes` | gokenko.com | List appointment types available (consultations, private sessions), each with its… | 🟢 |
 | `kenko.listClasses` | gokenko.com | List all classes offered by a studio. | 🟢 |
 | `kenko.listCourses` | gokenko.com | List course/series offerings. | ⚪ |
 | `kenko.listGiftCards` | gokenko.com | List gift card denominations and options. | 🟢 |
@@ -3728,7 +3728,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `progressive.getAtvQuote` | progressive.com | Returns an ATV or UTV insurance quote for the machine and its ZIP — off-road coverage… | ⚪ |
 | `progressive.getAutoQuote` | progressive.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP —… | ⚪ |
 | `progressive.getBoatQuote` | progressive.com | Returns a watercraft insurance quote for a boat's type, length, motor and mooring ZIP… | ⚪ |
-| `progressive.getBusinessQuote` | progressive.com | Returns a small-business insurance quote — business owners policy, general liability… | 🟢 |
+| `progressive.getBusinessQuote` | progressive.com | Returns a small-business insurance quote — business owners policy, general liability… | 🟡 |
 | `progressive.getClassicCarQuote` | progressive.com | Returns a classic or collector car insurance quote for an agreed-value vehicle and its… | ⚪ |
 | `progressive.getCommercialAutoQuote` | progressive.com | Returns a commercial auto insurance quote for a business's vehicles, radius of… | ⚪ |
 | `progressive.getCondoQuote` | progressive.com | Returns a condominium unitowners insurance quote for a ZIP and unit — the coverage… | ⚪ |
@@ -3762,7 +3762,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `provenwinners.getRecipeDetails` | provenwinners.com | Reads one container recipe's own combination page — its season(s), container size and… | 🟢 |
 | `provenwinners.searchContainerRecipes` | provenwinners.com | Runs Proven Winners' own Container Recipe Finder over its 1,074+ published… | 🟢 |
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
-| `proxy_cheap.listCoverage` | proxy-cheap.com | Lists the proxy locations (countries, by region) Proxy-Cheap features on its site. | 🟢 |
+| `proxy_cheap.listCoverage` | proxy-cheap.com | Lists the proxy locations (countries, by region) Proxy-Cheap features on its site. | 🟡 |
 | `proxy_cheap.listPlans` | proxy-cheap.com | Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting… | 🟡 |
 | `pullandbear.getProduct` | pullandbear.com | Reads one Pull&Bear product's colours and sizes with each colour's price, compare-at… | 🟢 |
 | `pullandbear.listCategories` | pullandbear.com | Lists Pull&Bear's US catalog categories (jackets, jeans, t-shirts…), read live off the… | 🟢 |
@@ -3775,19 +3775,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `punchpass.cancelMembership` | punchpass.com | Cancels one of the signed-in caller's memberships where the studio allows customers to… | ⚪ |
 | `punchpass.cancelReservation` | punchpass.com | Cancels one of the signed-in caller's reservations by the id listMyReservations… | ⚪ |
 | `punchpass.findStudio` | punchpass.com | Finds PunchPass studios by name and town and returns each one's subdomain, org id… | ⚪ |
-| `punchpass.getCalendarFeed` | punchpass.com | Returns a studio's subscribable iCal feed url and its parsed events — every class and… | ⚪ |
+| `punchpass.getCalendarFeed` | punchpass.com | Returns a studio's subscribable iCal feed url and its parsed events — every class and… | 🟢 |
 | `punchpass.getClass` | punchpass.com | Gets one class by the id getSchedule returned — title, instructor, date, time… | 🟢 |
 | `punchpass.getMyClassHistory` | punchpass.com | Lists the classes and series the signed-in caller has attended at a studio, with dates. | ⚪ |
 | `punchpass.getMyProfile` | punchpass.com | Gets the signed-in caller's profile at a studio — name, email, phone, emergency… | ⚪ |
-| `punchpass.getPass` | punchpass.com | Gets one pass or membership's full terms by the id listPasses returned — description… | ⚪ |
+| `punchpass.getPass` | punchpass.com | Gets one pass or membership's full terms by the id listPasses returned (kind is found… | 🟢 |
 | `punchpass.getSchedule` | punchpass.com | Lists a studio's upcoming classes from a start date — class id, name, local start (and… | 🟢 |
 | `punchpass.getSeries` | punchpass.com | Gets one series by id — title, instructor, date range, full description, price, spots… | 🟢 |
 | `punchpass.getStudio` | punchpass.com | Gets one studio's public profile — name, org id, subdomain, own website, welcome text… | 🟢 |
 | `punchpass.joinStudio` | punchpass.com | Joins the signed-in caller's existing PunchPass account to a new studio, so they can… | ⚪ |
 | `punchpass.joinWaitlist` | punchpass.com | Puts the signed-in caller on the waitlist for a full class (one getSchedule shows as… | ⚪ |
 | `punchpass.leaveWaitlist` | punchpass.com | Takes the signed-in caller off a class waitlist by the id listMyReservations returned… | ⚪ |
-| `punchpass.listAppointmentSlots` | punchpass.com | Lists a studio's bookable private-session and appointment times — date, time, length… | ⚪ |
-| `punchpass.listInstructors` | punchpass.com | Lists a studio's instructors with credentials, the styles they teach and their bio, on… | ⚪ |
+| `punchpass.listAppointmentSlots` | punchpass.com | Lists a studio's bookable private-session and appointment times — class id, date… | 🟢 |
+| `punchpass.listInstructors` | punchpass.com | Lists a studio's instructors — name, credentials and styles they teach, full bio and… | 🟢 |
 | `punchpass.listMyChildren` | punchpass.com | Lists the children on the signed-in caller's family account at a studio, with the ids… | ⚪ |
 | `punchpass.listMyContentLibrary` | punchpass.com | Lists the recorded classes and files the signed-in caller can watch at a studio, by… | ⚪ |
 | `punchpass.listMyPasses` | punchpass.com | Lists the signed-in caller's passes and memberships at a studio — active, expired and… | ⚪ |
@@ -3812,7 +3812,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pushpress.getAppointmentAvailability` | pushpress.com | Returns open slots for one appointment type on a date, by staff member. | ⚪ |
 | `pushpress.getClass` | pushpress.com | Returns one class or event by id: description, coach, location, capacity and spots… | 🟢 |
 | `pushpress.getGym` | pushpress.com | Resolves a PushPress gym from its subdomain (crossfit7x7) or its own website URL (a… | 🟢 |
-| `pushpress.getMyProfile` | pushpress.com | Returns the signed-in member's profile at this gym: name, email, member status and… | ⚪ |
+| `pushpress.getMyProfile` | pushpress.com | Returns the signed-in member's profile at this gym: name, email, member status and… | 🟢 |
 | `pushpress.getPlan` | pushpress.com | Returns one plan by id with its price, setup fee and billing terms, and a price… | 🟢 |
 | `pushpress.joinWaitlist` | pushpress.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
 | `pushpress.listAppointmentTypes` | pushpress.com | Lists a gym's bookable one-on-one appointment types (personal training, assessments) —… | 🟢 |
@@ -3837,7 +3837,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.getAccountant` | quickbooks.intuit.com | Reads one ProAdvisor's public profile by the searchId findAccountants returns (or the… | ⚪ |
 | `quickbooks.getApp` | quickbooks.intuit.com | Reads one App Store listing by slug or URL: description, developer, pricing plans… | ⚪ |
 | `quickbooks.getDesktopPlans` | quickbooks.intuit.com | Lists the QuickBooks Desktop Enterprise editions with their annual subscription prices… | ⚪ |
-| `quickbooks.getEvent` | quickbooks.intuit.com | Reads one Community event: description, date and time with time zone, host, and how to… | ⚪ |
+| `quickbooks.getEvent` | quickbooks.intuit.com | Reads one Community event's title, start and end time (with the site's own UTC… | 🟢 |
 | `quickbooks.getExpertPlans` | quickbooks.intuit.com | Lists the QuickBooks Live expert bookkeeping and setup-help offers with their monthly… | ⚪ |
 | `quickbooks.getHelpArticle` | quickbooks.intuit.com | Reads one QuickBooks help article as text: title, the steps, which QuickBooks products… | ⚪ |
 | `quickbooks.getPaymentRates` | quickbooks.intuit.com | Returns QuickBooks Payments' published processing rates per method (card swiped, card… | ⚪ |
@@ -3846,13 +3846,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.getResourceArticle` | quickbooks.intuit.com | Reads one Resource Center article (/r/<topic>/<slug>/) as text with its title, author… | ⚪ |
 | `quickbooks.getServiceStatus` | quickbooks.intuit.com | Returns QuickBooks' current service status per region and component (operational… | 🟢 |
 | `quickbooks.getStatePayrollTaxes` | quickbooks.intuit.com | Returns one US state's payroll tax facts as the /payroll/tools/tax-map/ page lists… | ⚪ |
-| `quickbooks.getThread` | quickbooks.intuit.com | Reads one Community thread: the question, every reply with author, date and kudos, and… | ⚪ |
+| `quickbooks.getThread` | quickbooks.intuit.com | Reads one Community thread's question and its accepted (or top suggested) answer, with… | 🟢 |
 | `quickbooks.getTimeTrackingPlans` | quickbooks.intuit.com | Lists the QuickBooks Time plans with base and per-user monthly prices and their… | ⚪ |
 | `quickbooks.listAppCategories` | quickbooks.intuit.com | Lists the App Store's categories (e.g. payments, inventory, time tracking, CRM) with… | ⚪ |
 | `quickbooks.listAppReviews` | quickbooks.intuit.com | Lists the user reviews on one App Store listing, newest first, with rating, text, date… | ⚪ |
 | `quickbooks.listBoardThreads` | quickbooks.intuit.com | Lists the most recent threads on one Community board, with title, URL, author, date… | ⚪ |
-| `quickbooks.listCommunityBoards` | quickbooks.intuit.com | Lists the Community's boards and topic areas with their URLs, so a caller can browse a… | ⚪ |
-| `quickbooks.listEvents` | quickbooks.intuit.com | Lists upcoming QuickBooks Community events and webinars (Accounting 101, Get started… | ⚪ |
+| `quickbooks.listCommunityBoards` | quickbooks.intuit.com | Lists the Community's boards and topic areas with their URLs, so a caller can browse a… | 🟢 |
+| `quickbooks.listEvents` | quickbooks.intuit.com | Lists upcoming QuickBooks Community events and webinars by slug and URL, off the… | 🟢 |
 | `quickbooks.listFeaturedAccountants` | quickbooks.intuit.com | Lists the ProAdvisors QuickBooks features on a state's /find-an-accountant/<state>/… | 🟢 |
 | `quickbooks.listIncidents` | quickbooks.intuit.com | Lists QuickBooks' recent service incidents with their status updates, affected… | 🟢 |
 | `quickbooks.listPaycheckCalculatorStates` | quickbooks.intuit.com | Lists the US states with their own paycheck calculator page… | 🟢 |
@@ -4050,7 +4050,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `safeway.getProductsByUpc` | safeway.com | Looks up Safeway products by UPC barcode at a store. | ⚪ |
 | `safeway.getRecipe` | safeway.com | Returns one recipe: ingredients (with the Safeway products for them), steps, time and… | ⚪ |
 | `safeway.getRewardsBalance` | safeway.com | Returns the signed-in customer's Safeway for U points balance, tier and the rewards… | ⚪ |
-| `safeway.getSearchSuggestions` | safeway.com | Returns Safeway's type-ahead suggestions for a partial query, each with the department… | ⚪ |
+| `safeway.getSearchSuggestions` | safeway.com | Returns Safeway's type-ahead suggestions for a partial query, each with the department… | 🟢 |
 | `safeway.getShoppingList` | safeway.com | Returns the signed-in customer's shopping list. | ⚪ |
 | `safeway.getStore` | safeway.com | Returns one Safeway store by id (from findStores): address, the rewards-program… | 🟢 |
 | `safeway.getWeeklyAd` | safeway.com | Returns a store's current weekly ad: the flyer pages and the items on sale with their… | ⚪ |
@@ -4175,18 +4175,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `setmore.bookAppointment` | setmore.com | Books a service at a business for a guest -- the service, a slot time and staff member… | ⚪ |
 | `setmore.bookClass` | setmore.com | Books a guest into a class session at a business, holding the seat first so it cannot… | ⚪ |
 | `setmore.cancelAppointment` | setmore.com | Cancels a guest's appointment or class booking at a business, from the booking id… | ⚪ |
-| `setmore.checkPromoCode` | setmore.com | Checks whether a promo code is valid at a business for a given order amount and… | ⚪ |
+| `setmore.checkPromoCode` | setmore.com | Checks whether a promo code is valid at a business for a given order amount and… | 🟢 |
 | `setmore.findBusiness` | setmore.com | Finds a Setmore business from what a caller actually holds -- its booking-page link… | 🟢 |
 | `setmore.getAvailability` | setmore.com | Returns the open appointment times for one or more services (ids from listServices) at… | 🟢 |
 | `setmore.getBooking` | setmore.com | Reads a guest's booking back from its confirmation id: service or class, staff member… | ⚪ |
-| `setmore.getBookingForm` | setmore.com | Returns what a business asks a guest for at checkout -- whether email, phone and… | ⚪ |
+| `setmore.getBookingForm` | setmore.com | Returns what a business asks a guest for at checkout -- whether email, phone and… | 🟢 |
 | `setmore.getBusiness` | setmore.com | Returns a business's own profile from its booking page: name, about text, business… | 🟢 |
 | `setmore.getClassSession` | setmore.com | Returns one class session in full: title, start and end time, time zone, cost, seats… | 🟢 |
 | `setmore.getMyBookings` | setmore.com | Lists the signed-in customer's own upcoming and past bookings with one business… | ⚪ |
-| `setmore.getReviews` | setmore.com | Returns a business's customer reviews -- author, date, star rating, text and where it… | ⚪ |
+| `setmore.getReviews` | setmore.com | Returns a business's customer reviews -- author, date, star rating, text and where it… | 🟢 |
 | `setmore.leaveReview` | setmore.com | Posts a star rating and written review of a business under a name and email. | ⚪ |
 | `setmore.listClasses` | setmore.com | Lists the group classes a business runs and every upcoming session across them: each… | 🟢 |
-| `setmore.listGalleryImages` | setmore.com | Lists the photos a business shows on its booking page, from its own gallery and its… | ⚪ |
+| `setmore.listGalleryImages` | setmore.com | Lists the photos a business shows on its own gallery: each image's id, src, width and… | 🟢 |
 | `setmore.listServices` | setmore.com | Lists the appointments a business offers -- each service's id, title, description… | 🟢 |
 | `setmore.listStaff` | setmore.com | Lists the people a customer can book with at a business: staff id, display name, role… | 🟢 |
 | `setmore.rescheduleAppointment` | setmore.com | Moves a guest's appointment to another open time from getAvailability, keeping the… | ⚪ |
@@ -4412,7 +4412,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soulcycle.getMyCredits` | soul-cycle.com | Returns the signed-in rider's usable class credits and active series (with expiry) —… | ⚪ |
 | `soulcycle.getMyProfile` | soul-cycle.com | Returns the signed-in rider's profile: name, email, phone, birthday, home region and… | ⚪ |
 | `soulcycle.getSoulJourney` | soul-cycle.com | Returns the signed-in rider's ride milestones and totals. | ⚪ |
-| `soulcycle.getStudio` | soul-cycle.com | Returns one studio's page: address, phone, description, amenities and its next classes… | ⚪ |
+| `soulcycle.getStudio` | soul-cycle.com | Returns one studio's page: address, phone, email, coordinates, photos, its next 10… | 🟢 |
 | `soulcycle.getStudioSchedule` | soul-cycle.com | Lists a studio's classes for the week containing a date: class id, start time, class… | 🟢 |
 | `soulcycle.joinWaitlist` | soul-cycle.com | Joins the waitlist for a full class. | ⚪ |
 | `soulcycle.listClassHistory` | soul-cycle.com | Lists the signed-in rider's past classes. | ⚪ |
@@ -4422,7 +4422,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soulcycle.listPurchaseHistory` | soul-cycle.com | Lists the signed-in rider's past series and merch purchases. | ⚪ |
 | `soulcycle.listRegions` | soul-cycle.com | Lists SoulCycle's regions (NYC, San Francisco, Bay Area, London …) with the studios in… | 🟢 |
 | `soulcycle.listSeries` | soul-cycle.com | Lists what a region sells and at what price: class packs (new-rider, starter… | 🟢 |
-| `soulcycle.listShopProducts` | soul-cycle.com | Lists the SoulCycle merch store's products (apparel, accessories) with price, variants… | ⚪ |
+| `soulcycle.listShopProducts` | soul-cycle.com | Lists the SoulCycle merch store's products (apparel, accessories) with price, variants… | 🟢 |
 | `soulcycle.listStudios` | soul-cycle.com | Lists the studios in a region (or all regions) with address, phone, coordinates and… | 🟢 |
 | `soulcycle.redeemReferralCredits` | soul-cycle.com | Redeems the free classes the signed-in rider earned by referring friends (Spread the… | ⚪ |
 | `soulcycle.setFavoriteInstructor` | soul-cycle.com | Adds or removes an instructor from the signed-in rider's favorites. | ⚪ |
@@ -4482,6 +4482,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.getDevices` | open.spotify.com | Get the signed-in user's available devices. | ⚪ |
 | `spotify.getEpisode` | open.spotify.com | Get details about a specific podcast episode. | 🟢 |
 | `spotify.getFeaturedPlaylists` | open.spotify.com | Get Spotify's featured playlists. | ⚪ |
+| `spotify.getGenreSeeds` | open.spotify.com | List the genre seed values Spotify's catalog recognizes. | 🟢 |
 | `spotify.getLibraryAlbums` | open.spotify.com | Get the signed-in user's saved albums. | ⚪ |
 | `spotify.getLibraryArtists` | open.spotify.com | Get the signed-in user's followed artists. | ⚪ |
 | `spotify.getLibraryPlaylists` | open.spotify.com | Get the signed-in user's playlists. | ⚪ |
@@ -4642,13 +4643,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `styleseat.getAppointmentByLink` | styleseat.com | Reads an appointment from the manage link StyleSeat sends in its confirmation email or… | ⚪ |
 | `styleseat.getAvailability` | styleseat.com | Lists a pro's open start times for one or more of their services over a date range, as… | 🟢 |
 | `styleseat.getBookingQuote` | styleseat.com | Prices a prospective appointment before booking -- services at a date and start time… | 🟢 |
-| `styleseat.getGallery` | styleseat.com | Lists the photos (and videos) of a pro's or a salon's work, paged. | ⚪ |
+| `styleseat.getGallery` | styleseat.com | Lists the photos of a pro's portfolio, or every pro's photos at a salon, paged 20 per… | 🟢 |
 | `styleseat.getMyAppointment` | styleseat.com | Gets one of the signed-in caller's appointments in full, with its status details… | ⚪ |
 | `styleseat.getMyProfile` | styleseat.com | Reads the signed-in caller's StyleSeat client profile: name, email, phone, photo and… | ⚪ |
-| `styleseat.getOffers` | styleseat.com | Lists what a pro is offering on top of list prices: active promotions and discounts… | ⚪ |
+| `styleseat.getOffers` | styleseat.com | Lists what a pro is offering on top of list prices: active promotions, their… | 🟢 |
 | `styleseat.getProfessional` | styleseat.com | Gets one StyleSeat pro's public profile from a vanity name, profile URL or id: name… | 🟢 |
 | `styleseat.getReviews` | styleseat.com | Lists a pro's client reviews, newest first and paged, with stars, review text, photos… | 🟢 |
-| `styleseat.getSalon` | styleseat.com | Gets a salon page on StyleSeat -- the salon's details plus every pro who works there… | ⚪ |
+| `styleseat.getSalon` | styleseat.com | Gets a salon's details plus every pro who works there, each with their services… | 🟢 |
 | `styleseat.joinWaitlist` | styleseat.com | Puts the signed-in caller on a pro's waitlist for chosen services, with a note, when… | ⚪ |
 | `styleseat.leaveReview` | styleseat.com | Leaves a star rating and review for a pro after the signed-in caller's completed… | ⚪ |
 | `styleseat.listClassTimes` | styleseat.com | Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons)… | ⚪ |
@@ -4707,6 +4708,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.getProduct` | target.com | Reads one product page in full — title, brand, price, long-form description, images… | 🟢 |
 | `target.getRegistry` | target.com | Reads one Target Gift Registry's items once you have the registry's id from… | 🟢 |
 | `target.listCategories` | target.com | Reads Target's own category taxonomy (department → aisle, e.g. Grocery → Snacks) with… | 🟢 |
+| `target.listCategoryProducts` | target.com | Lists the products on one category page (the /c/<slug>/-/N-<id> grid) for a category… | 🟢 |
 | `target.listDeals` | target.com | Reads one store's current Target weekly ad — every priced offer in it with the ad's… | 🟢 |
 | `target.listOrders` | target.com | The CALLER's own signed-in order history on target.com — what they bought, when, for… | 🟢 |
 | `target.listReviews` | target.com | Reads a product's customer reviews (by TCIN) — rating, text, title, verified-purchase… | 🟢 |
@@ -5098,9 +5100,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ubereats.addAddress` | ubereats.com | Saves a new delivery address (with drop-off instructions) to the caller's account. | ⚪ |
 | `ubereats.addToCart` | ubereats.com | Adds a menu item, with its chosen options and quantity, to the caller's Uber Eats cart… | ⚪ |
 | `ubereats.applyPromoCode` | ubereats.com | Applies a promo code to the caller's cart at checkout and reports whether it was… | ⚪ |
-| `ubereats.browseStores` | ubereats.com | Lists the restaurants and stores Uber Eats delivers from to one address — the home… | ⚪ |
+| `ubereats.browseStores` | ubereats.com | Lists the restaurants and stores Uber Eats delivers from to one address — the… | 🟢 |
 | `ubereats.cancelOrder` | ubereats.com | Would cancel one of the caller's active orders. | ⚪ |
-| `ubereats.checkDeliveryAvailability` | ubereats.com | Says whether one store will deliver to one address right now, with the ETA range and… | ⚪ |
+| `ubereats.checkDeliveryAvailability` | ubereats.com | Says whether one store will deliver to one address right now: isWithinDeliveryRange… | 🟢 |
 | `ubereats.clearCart` | ubereats.com | Discards the caller's cart for a store. | ⚪ |
 | `ubereats.findAddress` | ubereats.com | Turns an address the caller types into Uber Eats' own delivery location — formatted… | 🟢 |
 | `ubereats.findChainStore` | ubereats.com | Finds the nearest location of a chain (McDonald's, Chipotle) that delivers to an… | ⚪ |
@@ -5269,7 +5271,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.checkStock` | walmart.com | Answers whether a specific item is actually available right now at a given store or… | ⚪ |
 | `walmart.createList` | walmart.com | Creates a new saved list with a name. | ⚪ |
 | `walmart.findStores` | walmart.com | Finds nearby Walmart stores for a 5-digit US ZIP code — address, phone, hours… | 🔴 |
-| `walmart.getAccountProfile` | walmart.com | Reads the signed-in shopper's profile — name, email, Walmart+ membership status. | ⚪ |
+| `walmart.getAccountProfile` | walmart.com | Reads the signed-in shopper's profile — name, email, Walmart+ membership status. | 🟢 |
 | `walmart.getCart` | walmart.com | Reads what is in the cart — items, quantities, prices and the subtotal. | ⚪ |
 | `walmart.getList` | walmart.com | Reads one saved list's items and prices for a list id `listLists` returned. | ⚪ |
 | `walmart.getOrder` | walmart.com | Reads one of the signed-in shopper's orders in full — items, delivery or pickup… | ⚪ |
@@ -5750,7 +5752,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zen_planner.listPackages` | zenplanner.com | Lists a studio's membership and drop-in pricing options, grouped by category, from its… | 🟢 |
 | `zen_planner.listScheduleSlots` | zenplanner.com | Lists a studio's publicly-viewable class calendar — appointment id, date, time and… | 🟢 |
 | `zen_planner.rescheduleBooking` | zenplanner.com | Reschedules a caller's booking to a different class time. | ⚪ |
-| `zen_planner.searchSchedule` | zenplanner.com | Searches for available classes matching filter criteria like class type, time and day. | ⚪ |
+| `zen_planner.searchSchedule` | zenplanner.com | Searches a studio's public calendar by class name, day of week or an exact date. | 🟢 |
 | `zen_planner.updateMemberInfo` | zenplanner.com | Updates the signed-in member's profile information including name, email and… | ⚪ |
 | `zennioptical.checkStock` | zennioptical.com | Checks live per-SKU inventory (in stock, quantity, backorder/preorder flags) off the… | 🟢 |
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
@@ -5763,7 +5765,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zenoti.getMyProfile` | zenoti.com | Returns the signed-in caller's profile at that business: name, email, phone… | ⚪ |
 | `zenoti.getService` | zenoti.com | Returns one service's full detail -- description, price, duration, add-ons and which… | 🟢 |
 | `zenoti.listCenters` | zenoti.com | Lists a tenant's locations (Zenoti 'centers') with name, address, phone, time zone and… | 🟢 |
-| `zenoti.listClassSessions` | zenoti.com | Lists scheduled group classes (yoga, fitness, workshops) at a center for a date range… | ⚪ |
+| `zenoti.listClassSessions` | zenoti.com | Lists scheduled group classes (yoga, fitness, workshops) at a center for a date range… | 🟢 |
 | `zenoti.listGiftCards` | zenoti.com | Lists a center's gift-card designs and amounts, as the webstore's gift-card page… | ⚪ |
 | `zenoti.listMyAppointments` | zenoti.com | Lists the signed-in caller's upcoming and past appointments at that business. | ⚪ |
 | `zenoti.listPackagesAndMemberships` | zenoti.com | Lists a center's day packages, series packages and memberships with price and what… | ⚪ |
