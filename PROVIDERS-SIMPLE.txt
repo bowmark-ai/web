@@ -34,7 +34,7 @@ airchina.com — airchina: getDealFares (+1 planned)
 airtable.com — airtable: createRecord, getRecord, listBases, listRecords, listTables, updateRecord
 ajmadison.com — ajmadison: search (+1 planned)
 alibaba.com — alibaba: getProduct, getProductReviews, getSuggestions, getSupplier, listCategories, listSupplierProducts, listSuppliers, searchProducts (+24 planned)
-aliexpress.us — aliexpress: getProduct, search (+6 planned)
+aliexpress.us — aliexpress: getProduct, listCart, search (+5 planned)
 allied.com — allied: estimatePackingSupplies
 alphavantage.co — alphavantage: signUp
 americandreamvacations.net — americandreamvacations: listLocations, searchInventory
