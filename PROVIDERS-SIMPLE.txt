@@ -102,6 +102,7 @@ bionicpo.com — bionicpo: getInquiryServiceDetails, listInquiryServices
 bishops.co — bishops: checkAvailability, findLocation, listLocations, listServices
 blackstoneproducts.com — blackstoneproducts: findNearbyDealers
 blenderseyewear.com — blenderseyewear: getRxConfigurator, listRxFrameStyles, priceRxConfiguration
+bls.gov — bls: findSeries, getLatest, getSeries
 bluehaven.com — bluehaven: checkPoolSiteFeasibility, listPoolDesigns (+1 planned)
 blueribbonhomewarranty.com — blueribbonhomewarranty_com: getPage, search
 bluesignal.com — bluesignal: getJob, searchJobs (+1 planned)
@@ -198,6 +199,7 @@ code.visualstudio.com — vscode: getDoc, listDocPages
 coingecko.com — coingecko: getPrice, searchCoins
 compass-living.com — compass_living: listCommunities
 completehomewarranty.com — completehomewarranty_com: getPlan, listPlans
+comptroller.texas.gov — tx_comptroller: franchiseTaxStatus
 consultnet.com — consultnet: searchJobs
 cooking.nytimes.com — nyt_cooking: addRecipeToFolder, addToGroceryList, clearGroceryList, createRecipeBoxFolder, deleteRecipeBoxFolder, getArticle, getAuthorRecipes, getCollection, getCookedRecipes, getGroceryList, getMyRating, getRecipe, getRecipeNotes, getRelatedRecipes, getSeasonalGuide, getTopic, getTrendingArticles, listFeaturedCollections, listRecipeBoxFolders, listTopics, markRecipeCooked, rateRecipe, removeFromGroceryList, removeRecipeFromFolder, renameRecipeBoxFolder, saveRecipe, searchRecipes, unsaveRecipe (+7 planned)
 corepoweryoga.com — corepoweryoga: getClass, getSchedule, getStudio, getTeacher, listClasses, listClassPackPrices, listMembershipPrices, listSchedules, listStudios, listTeachers (+30 planned)
@@ -346,7 +348,7 @@ healthcare.gov — healthcare_gov: checkDrugCoverage, checkEnrollmentEligibility
 heatherwood.com — heatherwood: getFloorplan, listFloorplans
 hellofresh.com — hellofresh: checkDeliveryAvailability, getRecipe, getWeeklyMenu, searchRecipes (+1 planned)
 hellotend.com — hellotend: listMarkets, listServices, listStudios (+2 planned)
-hellowalla.com — walla: findStudio, getClass, listClasses, listInstructors, listLocations, listPricing (+17 planned)
+hellowalla.com — walla: findStudio, getClass, listClassCategories, listClasses, listInstructors, listLocations, listPricing, listPrivateSessions, listWorkshops (+14 planned)
 higgsfield.ai — higgsfield: estimateCost, generateImage, generateVideo, getRequestStatus, listModels
 highlandhomes.org — highlandhomes: search
 hilton.com — hilton: nothing callable yet (+6 planned)
@@ -647,7 +649,7 @@ therabody.com — therabody: getTheragunProduct, listTheragunProducts, recommend
 therowhouse.com — therowhouse: getSchedule, listLocations
 thezebra.com — thezebra: getCarrierRates, getCityRates, getRatesByDriverProfile, getRentersQuotes, getStateRates, getStateRequirements, getVehicleRates (+11 planned)
 thibautdesign.com — thibautdesign: calculateRollsNeeded
-threads.com — threads: getPost, getProfile, getProfilePosts, searchAccounts, searchPosts (+36 planned)
+threads.com — threads: getPost, getProfile, getProfileMedia, getProfilePosts, getProfileReplies, getProfileReposts, searchAccounts, searchPosts (+33 planned)
 ticketmaster.com — ticketmaster: nothing callable yet (+5 planned)
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
@@ -736,7 +738,7 @@ x.com — x: getPostReplies, listFollowers, listFollowing, listHomeFeed, listNot
 xola.com — xola: findSeller, getExperience, listExperiences (+6 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost (+1 planned)
-yelp.com — yelp: getBusiness, search (+28 planned)
+yelp.com — yelp: getBusiness, getReviews, search (+27 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
 yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct, search
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)

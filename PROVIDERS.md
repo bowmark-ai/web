@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5795 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5799 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -475,6 +475,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `blenderseyewear.getRxConfigurator` | blenderseyewear.com | Reads one Rx frame style's real option tree (Prescription Type: Single… | 🟡 |
 | `blenderseyewear.listRxFrameStyles` | blenderseyewear.com | Searches Blenders Eyewear's real prescription (Rx) frame catalog across both the men's… | 🟡 |
 | `blenderseyewear.priceRxConfiguration` | blenderseyewear.com | Resolves one exact Rx build (a frame handle + a chosen prescription type + lens color… | 🟡 |
+| `bls.findSeries` | bls.gov | Turn words (CPI, unemployment rate, job openings) into BLS series ids from BLS's own… | 🟢 |
+| `bls.getLatest` | bls.gov | The most recent published value of a BLS series (CPI, unemployment rate, payrolls… | 🟢 |
+| `bls.getSeries` | bls.gov | The last ~3 years of observations of a BLS series, newest first. | 🟢 |
 | `bluehaven.checkPoolSiteFeasibility` | bluehaven.com | Runs a US street address through Blue Haven's own site-planning tool the way their… | 🟢 |
 | `bluehaven.getPoolPriceEstimate` | bluehaven.com | Prices one of Blue Haven's own pool designs at a specific sited address, the way the… | ⚪ |
 | `bluehaven.listPoolDesigns` | bluehaven.com | Reads Blue Haven's own live inground pool design catalog off their site-planning… | 🟢 |
@@ -4810,10 +4813,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.getPostLikes` | threads.com | Lists the accounts that liked a post, as the CALLER sees it. | ⚪ |
 | `threads.getPostQuotes` | threads.com | Lists the posts that quote a post, and the accounts that reposted it. | ⚪ |
 | `threads.getProfile` | threads.com | Reads a public Threads profile by username — display name, bio, link, follower count… | 🟢 |
-| `threads.getProfileMedia` | threads.com | Lists a profile's posts that carry photos or video (its Media tab). | ⚪ |
+| `threads.getProfileMedia` | threads.com | Lists a profile's posts that carry photos or video (its Media tab). | 🟢 |
 | `threads.getProfilePosts` | threads.com | Lists a profile's own threads, newest first, with text, media, like, reply, repost and… | 🟢 |
-| `threads.getProfileReplies` | threads.com | Lists the replies a profile has posted (its Replies tab), each with the post it… | ⚪ |
-| `threads.getProfileReposts` | threads.com | Lists the posts a profile has reposted (its Reposts tab). | ⚪ |
+| `threads.getProfileReplies` | threads.com | Lists the replies a profile has posted (its Replies tab), each with the post it… | 🟢 |
+| `threads.getProfileReposts` | threads.com | Lists the posts a profile has reposted (its Reposts tab). | 🟢 |
 | `threads.getRelatedPosts` | threads.com | Lists the posts Threads suggests beside one post to a logged-out reader ("related… | ⚪ |
 | `threads.getSavedPosts` | threads.com | Lists the posts the CALLER has saved. | ⚪ |
 | `threads.likePost` | threads.com | Likes a post as the CALLER. | ⚪ |
@@ -5096,6 +5099,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.setChannel` | twitch.tv | Updates the signed-in streamer's channel settings: title, language and game/category… | 🟢 |
 | `twitch.signUp` | twitch.tv | Registers a new developer application on the Twitch console. | ⚪ |
 | `twitch.unfollowChannel` | twitch.tv | Removes a channel from the signed-in user's followed list. | 🟢 |
+| `tx_comptroller.franchiseTaxStatus` | comptroller.texas.gov | Texas franchise-tax account status by entity name (prefix match), taxpayer number or… | 🟢 |
 | `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟢 |
 | `ubereats.addAddress` | ubereats.com | Saves a new delivery address (with drop-off instructions) to the caller's account. | ⚪ |
 | `ubereats.addToCart` | ubereats.com | Adds a menu item, with its chosen options and quantity, to the caller's Uber Eats cart… | ⚪ |
@@ -5249,7 +5253,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walla.getMyProfile` | hellowalla.com | Returns the signed-in client's own profile at a studio: name, email, phone, address… | ⚪ |
 | `walla.getPrivateSessionAvailability` | hellowalla.com | Returns the days, and the start times on a day, that a private session can be booked… | ⚪ |
 | `walla.joinWaitlist` | hellowalla.com | Puts the signed-in client on the waitlist for a full class. | ⚪ |
-| `walla.listClassCategories` | hellowalla.com | Lists the class categories a studio's schedule can be filtered by (yoga style, sound… | ⚪ |
+| `walla.listClassCategories` | hellowalla.com | Lists the class categories a studio's schedule can be filtered by (yoga style, sound… | 🟢 |
 | `walla.listClasses` | hellowalla.com | Lists a studio's class schedule for a date range (default 7 days), optionally narrowed… | 🟢 |
 | `walla.listInstructors` | hellowalla.com | Lists the instructors at a studio with id, name, photo and bio — the ids listClasses… | 🟢 |
 | `walla.listLocations` | hellowalla.com | Lists a studio's locations: id, name, street address, coordinates, phone, email… | 🟢 |
@@ -5258,8 +5262,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walla.listMyPurchases` | hellowalla.com | Lists the signed-in client's purchase history at a studio (what was bought, when, how… | ⚪ |
 | `walla.listOnDemandVideos` | hellowalla.com | Lists a studio's on-demand video offerings and courses, with title, length and whether… | ⚪ |
 | `walla.listPricing` | hellowalla.com | Lists what a studio sells — drop-ins, class packs, intro offers and memberships — with… | 🟢 |
-| `walla.listPrivateSessions` | hellowalla.com | Lists the private sessions (appointments) a studio offers — name, length, price… | ⚪ |
-| `walla.listWorkshops` | hellowalla.com | Lists a studio's workshops, series and trainings (multi-session enrollments): name… | ⚪ |
+| `walla.listPrivateSessions` | hellowalla.com | Lists the private sessions (appointments) a studio offers — name, length, price… | 🟢 |
+| `walla.listWorkshops` | hellowalla.com | Lists a studio's workshops, series and trainings (multi-session enrollments): name… | 🟢 |
 | `walla.requestMembershipCancellation` | hellowalla.com | Sends the studio the signed-in client's request to cancel one of their memberships… | ⚪ |
 | `walla.updateMyProfile` | hellowalla.com | Edits the signed-in client's own profile at a studio (name, phone, address, emergency… | ⚪ |
 | `walmart_ca.search` | www.walmart.ca | Search walmart.ca for products by keywords and return matching results with price… | 🟢 |
@@ -5664,7 +5668,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.getPhotos` | yelp.com | Lists a business's photos from /biz_photos/<alias>, by Yelp's own tabs (all, food… | ⚪ |
 | `yelp.getQuestions` | yelp.com | Reads a business's 'Ask the Community' questions and their answers. | ⚪ |
 | `yelp.getReservationAvailability` | yelp.com | Reads the open reservation slots a restaurant offers through Yelp Reservations for a… | ⚪ |
-| `yelp.getReviews` | yelp.com | Lists a business's reviews, paginated, with Yelp's own sort (Yelp sort, newest… | ⚪ |
+| `yelp.getReviews` | yelp.com | Lists a business's reviews a page at a time with Yelp's own sorts (relevance, newest… | 🟢 |
 | `yelp.getUser` | yelp.com | Reads a public Yelp member profile from /user_details?userid=<id>: name, location… | ⚪ |
 | `yelp.getWaitlist` | yelp.com | Reads a restaurant's current Yelp Waitlist estimate — whether it is taking parties now… | ⚪ |
 | `yelp.joinWaitlist` | yelp.com | Joins a restaurant's Yelp Waitlist remotely for the signed-in caller, or leaves it. | ⚪ |
