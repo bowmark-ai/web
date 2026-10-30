@@ -161,7 +161,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | ⚪ |
 | `aliexpress.listOrders` | aliexpress.us | Lists the user's purchase history and order status. | ⚪ |
 | `aliexpress.listWishlist` | aliexpress.us | Lists products in the user's wishlist. | ⚪ |
-| `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟡 |
+| `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟢 |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
 | `amazon_ca.getProduct` | www.amazon.ca | Get product details from amazon.ca including title, price, availability, and rating… | 🟢 |
@@ -181,7 +181,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | ⚪ |
 | `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | ⚪ |
 | `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together" and… | 🟢 |
-| `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟢 |
+| `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟡 |
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | 🟢 |
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
@@ -821,7 +821,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `califloors.listCategories` | califloors.com | Lists CALI's own flooring and decking category tree — Vinyl, Hardwood, Laminate… | 🟢 |
 | `califloors.searchProducts` | califloors.com | Browses one category (from `listCategories`, e.g. the free-sample category or a… | 🟢 |
 | `camelcamelcamel.getPriceHistory` | camelcamelcamel.com | Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the… | 🟢 |
-| `camelcamelcamel.search` | camelcamelcamel.com | Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title… | 🟡 |
+| `camelcamelcamel.search` | camelcamelcamel.com | Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title… | 🟢 |
 | `campspot.findCampgrounds` | campspot.com | Given a free-text region (a US state, a Canadian province, or one of Campspot's own… | 🟢 |
 | `campspot.getCampground` | campspot.com | Given a campspot.com/park/<slug> url (from findCampgrounds), returns that campground's… | 🟢 |
 | `canadacomputers.checkStoreStock` | canadacomputers.com | Which Canada Computers store has an item on the shelf, per branch. | ⚪ |
@@ -3952,7 +3952,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reserve_with_google.checkAvailability` | google.com/maps/reserve | Returns the open time slots at a Google-hosted merchant for a date and party size (or… | ⚪ |
 | `reserve_with_google.findBookablePlaces` | google.com/maps/reserve | Finds places you can book through Reserve with Google from words — "sushi near Union… | 🟢 |
 | `reserve_with_google.getBooking` | google.com/maps/reserve | Returns one of the caller's bookings by id: venue, time, party size, partner, status… | ⚪ |
-| `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists the booking action one place offers on Google — "Reserve a table", "Book online"… | 🟢 |
+| `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists the booking action one place offers on Google — "Reserve a table", "Book online"… | 🟡 |
 | `reserve_with_google.getMerchant` | google.com/maps/reserve | Reads one Google-hosted booking page by merchant id or its… | 🟢 |
 | `reserve_with_google.getSettings` | google.com/maps/reserve | Reads the caller's Reserve with Google settings: the contact name, phone and email… | ⚪ |
 | `reserve_with_google.joinWaitlist` | google.com/maps/reserve | Adds the caller's name to a restaurant's waitlist through Google, where the venue… | ⚪ |
@@ -5712,7 +5712,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yogatreecollective.sendContactMessage` | yogatreecollective.com | Submits the /contact form (name, email, message) to the collective. | ⚪ |
 | `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page — the exact Add to cart button for this… | 🟡 |
 | `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product page in full — SKU, live price, in-stock/out-of-stock status… | 🟡 |
-| `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —… | 🟡 |
+| `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —… | 🔴 |
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |

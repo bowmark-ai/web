@@ -750,7 +750,7 @@ xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFa
 ycombinator.com — ycombinator: getArticle, getBlogPost (+1 planned)
 yelp.com — yelp: getBusiness, getReviews, search (+27 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
-yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct, search
+yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct (+1 planned)
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)
 youtube.com — youtube: addToPlaylist, createChannel, createPlaylist, deleteComment, deletePlaylist, deleteVideo, findChannel, getChannel, getLiveChat, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listChannelLiveStreams, listChannelPlaylists, listChannelPosts, listChannelShorts, listChannelVideos, listChapters, listCommentReplies, listComments, listHashtagVideos, listHomeFeed, listLikedVideos, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listSubscriptions, listWatchHistory, listWatchLater, postComment, removeFromPlaylist, replyToComment, search, searchWithinChannel, setThumbnail, subscribeToChannel, suggestSearches, updatePlaylist, updateVideo, uploadVideo (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
