@@ -6,6 +6,553 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.28.0 (2026-10-30)
+
+**Capabilities**
+
+- New capability **brand** (1 function): `brand.get`
+- New capability **local_classifieds_search** (1 function): `local_classifieds_search.search`
+- New capability **movie_showtimes** (1 function): `movie_showtimes.search`
+- New capability **screenshot** (1 function): `screenshot.take`
+- New capability **uk_postcode_geocoding** (1 function): `uk_postcode_geocoding.geocode`
+- Added `read.contacts`
+
+**Providers**
+
+- New provider **abt.com** (2 functions): `abt.getProduct`, `abt.search`
+- New provider **adorama.com** (2 functions): `adorama.listCategories`, `adorama.search`
+- New provider **www.amazon.ca** (2 functions): `amazon_ca.getProduct`, `amazon_ca.searchProducts`
+- New provider **mail.aol.com** (7 functions): `aol_mail.deleteMessage`, `aol_mail.getMessage`, `aol_mail.listFolders`, `aol_mail.listMessages`, `aol_mail.markAsRead`, `aol_mail.moveMessage`, `aol_mail.searchMessages`
+- New provider **arxiv.org** (2 functions): `arxiv.getPaper`, `arxiv.search`
+- New provider **bls.gov** (3 functions): `bls.findSeries`, `bls.getLatest`, `bls.getSeries`
+- New provider **bookedin.com** (10 functions): `bookedin.getAvailability`, `bookedin.getAvailableDates`, `bookedin.getClassDates`, `bookedin.getClassSession`, `bookedin.getMerchant`, `bookedin.listClassSessions`, `bookedin.listRegions`, `bookedin.listServices`, and 2 more
+- New provider **bookeo.com** (2 functions): `bookeo.findOperator`, `bookeo.listProducts`
+- New provider **booker.com** (7 functions): `booker.findLocation`, `booker.getAvailability`, `booker.getAvailableDates`, `booker.getBookingPolicies`, `booker.getService`, `booker.getServiceMenu`, `booker.listStaff`
+- New provider **booksy.com** (7 functions): `booksy.getAvailability`, `booksy.getBookingQuote`, `booksy.getBusiness`, `booksy.getSearchSuggestions`, `booksy.listCategories`, `booksy.resolveLocation`, `booksy.searchBusinesses`
+- New provider **joinblvd.com** (3 functions): `boulevard.findBusiness`, `boulevard.getBusiness`, `boulevard.listLocations`
+- New provider **castlery.com** (2 functions): `castlery.getProduct`, `castlery.search`
+- New provider **cb2.com** (1 function): `cb2.searchProducts`
+- New provider **bwt.cbp.gov** (1 function): `cbp.waitTimes`
+- New provider **chatgpt.com** (2 functions): `chatgpt.ask`, `chatgpt.getSharedConversation`
+- New provider **checkfront.com** (9 functions): `checkfront.findOperator`, `checkfront.getAvailability`, `checkfront.getAvailabilityCalendar`, `checkfront.getBookingForm`, `checkfront.getItem`, `checkfront.getOperator`, `checkfront.listCategories`, `checkfront.listGiftCertificates`, and 1 more
+- New provider **chownow.com** (4 functions): `chownow.findRestaurant`, `chownow.getRestaurant`, `chownow.listRestaurants`, `chownow.searchRestaurants`
+- New provider **claude.ai** (7 functions): `claude.getAccount`, `claude.getConversation`, `claude.getPublishedArtifact`, `claude.getSharedConversation`, `claude.getUsage`, `claude.listConversations`, `claude.searchConversations`
+- New provider **cloudbeds.com** (3 functions): `cloudbeds.getAvailabilityCalendar`, `cloudbeds.getProperty`, `cloudbeds.searchRooms`
+- New provider **crutchfield.com** (1 function): `crutchfield.search`
+- New provider **currys.co.uk** (2 functions): `currys.listClearance`, `currys.search`
+- New provider **data.cms.gov** (2 functions): `data_cms.getRows`, `data_cms.searchDatasets`
+- New provider **direct-book.com** (6 functions): `direct_book.checkAvailability`, `direct_book.findProperty`, `direct_book.getProperty`, `direct_book.getReservation`, `direct_book.getRoomRates`, `direct_book.listRoomTypes`
+- New provider **drafthouse.com** (2 functions): `drafthouse.findTheaters`, `drafthouse.getShowtimes`
+- New provider **exhalespa.com** (2 functions): `exhalespa.getLocation`, `exhalespa.listLocations`
+- New provider **expedia.com** (1 function): `expedia.searchHotels`
+- New provider **fareharbor.com** (4 functions): `fareharbor.getAvailabilitySlot`, `fareharbor.getItem`, `fareharbor.listAvailability`, `fareharbor.searchItems`
+- New provider **franklinbbq.com** (2 functions): `franklinbbq_com.getPreorderMenu`, `franklinbbq_com.listPickupSlots`
+- New provider **fresha.com** (3 functions): `fresha.getSearchSuggestions`, `fresha.getVenue`, `fresha.searchVenues`
+- New provider **glofox.com** (7 functions): `glofox.findStudio`, `glofox.getClass`, `glofox.getStudio`, `glofox.listClasses`, `glofox.listClassTypes`, `glofox.listMemberships`, `glofox.listTrainers`
+- New provider **glossgenius.com** (10 functions): `glossgenius.findBusiness`, `glossgenius.getAvailability`, `glossgenius.getBusiness`, `glossgenius.getGiftCardOptions`, `glossgenius.listLocations`, `glossgenius.listMemberships`, `glossgenius.listPackages`, `glossgenius.listReviews`, and 2 more
+- New provider **play.google.com** (2 functions): `google_play.getApp`, `google_play.listReviews`
+- New provider **goteamup.com** (6 functions): `goteamup_classes.findStudio`, `goteamup_classes.getClass`, `goteamup_classes.getStudio`, `goteamup_classes.listClassTypes`, `goteamup_classes.listMemberships`, `goteamup_classes.listSchedule`
+- New provider **grubhub.com** (6 functions): `grubhub.getDeliveryEstimate`, `grubhub.getMenu`, `grubhub.getMenuItem`, `grubhub.getRestaurant`, `grubhub.getRestaurantReviews`, `grubhub.search`
+- New provider **instacart.com** (5 functions): `instacart.compareStores`, `instacart.findLocation`, `instacart.getProduct`, `instacart.getStore`, `instacart.listStores`
+- New provider **katzsdelicatessen.com** (2 functions): `katzsdelicatessen.getProduct`, `katzsdelicatessen.searchProducts`
+- New provider **kijiji.ca** (2 functions): `kijiji.getListing`, `kijiji.search`
+- New provider **kohls.com** (1 function): `kohls.search`
+- New provider **lowes.com** (1 function): `lowes.search`
+- New provider **booking.mangomint.com** (3 functions): `mangomint.findBusiness`, `mangomint.getBusinessInfo`, `mangomint.listServices`
+- New provider **msccruzeiros.com.br** (2 functions): `msccruzeiros.quoteCabins`, `msccruzeiros.searchCruises`
+- New provider **olo.com** (10 functions): `olo.checkOrderAvailability`, `olo.findBrand`, `olo.getLocation`, `olo.getMenu`, `olo.getOrderStatus`, `olo.getProductOptions`, `olo.listOrderDays`, `olo.listRegions`, and 2 more
+- New provider **overstock.com** (1 function): `overstock.search`
+- New provider **peek.com** (3 functions): `peek.getExperience`, `peek.searchExperiences`, `peek.searchRegions`
+- New provider **pike13.com** (4 functions): `pike13.findBusiness`, `pike13.getBusiness`, `pike13.listLocations`, `pike13.listServices`
+- New provider **postcodes.io** (1 function): `postcodes_io.lookup`
+- New provider **preppednplated.com** (4 functions): `preppednplated.checkDelivery`, `preppednplated.getCurrentMenu`, `preppednplated.listPickupLocations`, `preppednplated.searchMenuItems`
+- New provider **punchpass.com** (11 functions): `punchpass.getCalendarFeed`, `punchpass.getClass`, `punchpass.getPass`, `punchpass.getSchedule`, `punchpass.getSeries`, `punchpass.getStudio`, `punchpass.listAppointmentSlots`, `punchpass.listInstructors`, and 3 more
+- New provider **rakuten.com** (2 functions): `rakuten.getStore`, `rakuten.search`
+- New provider **recreation.gov** (2 functions): `recreation_gov.campgroundAvailability`, `recreation_gov.searchCampgrounds`
+- New provider **google.com/maps/reserve** (3 functions): `reserve_with_google.findBookablePlaces`, `reserve_with_google.getBookingOptions`, `reserve_with_google.getMerchant`
+- New provider **rezdy.com** (3 functions): `rezdy.findOperator`, `rezdy.getProduct`, `rezdy.listProducts`
+- New provider **roomandboard.com** (2 functions): `roomandboard.listCategories`, `roomandboard.searchProducts`
+- New provider **ruggable.com** (2 functions): `ruggable.getRug`, `ruggable.searchRugs`
+- New provider **setmore.com** (11 functions): `setmore.checkPromoCode`, `setmore.findBusiness`, `setmore.getAvailability`, `setmore.getBookingForm`, `setmore.getBusiness`, `setmore.getClassSession`, `setmore.getReviews`, `setmore.listClasses`, and 3 more
+- New provider **sevenrooms.com** (4 functions): `sevenrooms.getAvailability`, `sevenrooms.getAvailableDates`, `sevenrooms.getBookingTerms`, `sevenrooms.getVenue`
+- New provider **slicelife.com** (3 functions): `slice.listPizzeriasInCity`, `slice.resolveAddress`, `slice.searchPizzerias`
+- New provider **slickdeals.net** (2 functions): `slickdeals.getFrontpageDeals`, `slickdeals.searchDeals`
+- New provider **spotapps.co** (3 functions): `spotapps.checkAvailability`, `spotapps.findRestaurant`, `spotapps.getReservationSettings`
+- New provider **book.squareup.com** (8 functions): `square_appointments.cancelBooking`, `square_appointments.checkAvailability`, `square_appointments.findBusiness`, `square_appointments.getBusiness`, `square_appointments.getService`, `square_appointments.listLocations`, `square_appointments.listServices`, `square_appointments.listStaff`
+- New provider **square.site** (3 functions): `square_online.getSite`, `square_online.listCategories`, `square_online.listLocations`
+- New provider **getsquire.com** (5 functions): `squire.findShopsNear`, `squire.getShop`, `squire.listBarbers`, `squire.listServices`, `squire.searchShops`
+- New provider **stackoverflow.com** (2 functions): `stackoverflow.getQuestion`, `stackoverflow.searchQuestions`
+- New provider **styleseat.com** (10 functions): `styleseat.getAvailability`, `styleseat.getBookingQuote`, `styleseat.getGallery`, `styleseat.getOffers`, `styleseat.getProfessional`, `styleseat.getReviews`, `styleseat.getSalon`, `styleseat.listServiceCategories`, and 2 more
+- New provider **tdlr.texas.gov** (1 function): `tdlr.licenseLookup`
+- New provider **thefork.com** (1 function): `thefork.search`
+- New provider **threads.com** (8 functions): `threads.getPost`, `threads.getProfile`, `threads.getProfileMedia`, `threads.getProfilePosts`, `threads.getProfileReplies`, `threads.getProfileReposts`, `threads.searchAccounts`, `threads.searchPosts`
+- New provider **toasttab.com** (4 functions): `toast.getRestaurant`, `toast.listCities`, `toast.listCityRestaurants`, `toast.searchRestaurants`
+- New provider **comptroller.texas.gov** (1 function): `tx_comptroller.franchiseTaxStatus`
+- New provider **ubereats.com** (5 functions): `ubereats.browseStores`, `ubereats.checkDeliveryAvailability`, `ubereats.findAddress`, `ubereats.getStore`, `ubereats.search`
+- New provider **www.vagaro.com** (8 functions): `vagaro.findBusiness`, `vagaro.getAvailableDates`, `vagaro.getBusiness`, `vagaro.getOpenTimes`, `vagaro.getService`, `vagaro.listServices`, `vagaro.listStaff`, `vagaro.searchBusinesses`
+- New provider **www.walmart.ca** (1 function): `walmart_ca.search`
+- New provider **wayfair.com** (1 function): `wayfair.search`
+- New provider **www.wixapis.com** (3 functions): `wix_bookings.findSite`, `wix_bookings.getOpenTimes`, `wix_bookings.listServices`
+- New provider **xola.com** (3 functions): `xola.findSeller`, `xola.getExperience`, `xola.listExperiences`
+- New provider **zenplanner.com** (7 functions): `zen_planner.findStudio`, `zen_planner.getClassDetails`, `zen_planner.getPrice`, `zen_planner.listClasses`, `zen_planner.listPackages`, `zen_planner.listScheduleSlots`, `zen_planner.searchSchedule`
+- New provider **zenoti.com** (8 functions): `zenoti.findTenant`, `zenoti.getAvailableTimes`, `zenoti.getService`, `zenoti.listCenters`, `zenoti.listClassSessions`, `zenoti.listProviders`, `zenoti.listServiceCategories`, `zenoti.searchServices`
+- Added `accuweather.getAirQuality`
+- Added `accuweather.getDailyForecast`
+- Added `accuweather.getDayDetails`
+- Added `accuweather.getHourlyForecast`
+- Added `accuweather.getMinuteCast`
+- Added `accuweather.listAlerts`
+- Added `acuityscheduling.getBookingForm`
+- Added `acuityscheduling.getPrice`
+- Added `acuityscheduling.getSchedulerInfo`
+- Added `acuityscheduling.listPacks`
+- Added `acuityscheduling.listScheduleSlots`
+- Added `adobe.getStockAsset`
+- Added `alibaba.listSupplierProducts`
+- Added `aliexpress.getProduct`
+- Added `aliexpress.getStore`
+- Added `aliexpress.listCart`
+- Added `aol.addFavorite`
+- Added `aol.listFavorites`
+- Added `aol.removeFavorite`
+- Added `arketa.getMyProfile`
+- Added `arketa.getPrivateSession`
+- Added `arketa.getPrivateSessionAvailability`
+- Added `arketa.listMyBookings`
+- Added `arketa.listProducts`
+- Added `arketa.listReviews`
+- Added `att.getMonthlyBill`
+- Added `att.getUsage`
+- Added `att.listLines`
+- Added `att.listPlans`
+- Added `att.viewBillHistory`
+- Added `att.viewOrderHistory`
+- Added `bbc.getPodcastEpisode`
+- Added `bbc.listNewsletters`
+- Added `bbc.listSavedArticles`
+- Added `bbc.removeSavedArticle`
+- Added `bbc.saveArticle`
+- Added `bing.suggestQueries`
+- Added `bluesky.getList`
+- Added `bluesky.getListFeed`
+- Added `bluesky.getUserFeeds`
+- Added `bluesky.getUserLists`
+- Added `bluesky.getUserStarterPacks`
+- Added `booking_com.checkPrice`
+- Added `booking_com.getReviewBreakdown`
+- Added `booking_com.listFilterOptions`
+- Added `booking_com.listPropertyPhotos`
+- Added `booking_com.listPropertyReviews`
+- Added `businessinsider_com.findTicker`
+- Added `businessinsider_com.getMarketQuote`
+- Added `businessinsider_com.listCryptoCurrencies`
+- Added `businessinsider_com.listMarketIndices`
+- Added `ca_gov.listNews`
+- Added `ca_gov.listPublicData`
+- Added `ca_gov.searchNews`
+- Added `ca_gov.searchPublicData`
+- Added `canva.getPhoto`
+- Added `canva.getTemplate`
+- Added `canva.searchPhotos`
+- Added `classpass.checkAvailability`
+- Added `classpass.findLocation`
+- Added `classpass.findStudio`
+- Added `classpass.getClass`
+- Added `classpass.getStudioReviews`
+- Added `classpass.listStudioClasses`
+- Added `clubpilates.getMyMembership`
+- Added `clubpilates.getMyProfile`
+- Added `clubpilates.listInstructors`
+- Added `clubpilates.listMyBookings`
+- Added `clubready.getClass`
+- Added `clubready.getMyMembership`
+- Added `clubready.getMyProfile`
+- Added `clubready.getStudio`
+- Added `clubready.getWorkoutStats`
+- Added `clubready.listClassCategories`
+- Added `clubready.listClasses`
+- Added `clubready.listClassTypes`
+- Added `clubready.listInstructors`
+- Added `clubready.listMyBookings`
+- Added `clubready.listPricing`
+- Added `clubready.listServiceAvailability`
+- Added `clubready.listServiceTypes`
+- Added `coops.getCurrentPredictions`
+- Added `coops.getCurrents`
+- Added `coops.getHighLowTides`
+- Added `coops.getTidePredictions`
+- Added `coops.getWaterLevel`
+- Added `corepoweryoga.getTeacher`
+- Added `corepoweryoga.listClassPackPrices`
+- Added `corepoweryoga.listMembershipPrices`
+- Added `corepoweryoga.listTeachers`
+- Added `costco.listGiftCards`
+- Added `dailymotion.listCategories`
+- Added `dailymotion.listCategoryVideos`
+- Added `dailymotion.listHashtagVideos`
+- Added `dailymotion.listLiveStreams`
+- Added `dailymotion.listRelatedVideos`
+- Added `dailymotion.listTrendingVideos`
+- Added `deviantart.browseTag`
+- Added `deviantart.favouriteDeviation`
+- Added `deviantart.getComments`
+- Added `deviantart.getDailyDeviations`
+- Added `deviantart.getRelatedDeviations`
+- Added `deviantart.getUserFavourites`
+- Added `deviantart.getUserPosts`
+- Added `deviantart.listGalleryFolders`
+- Added `deviantart.postComment`
+- Added `deviantart.searchShop`
+- Added `deviantart.suggestTags`
+- Added `deviantart.unfavouriteDeviation`
+- Added `deviantart.watchUser`
+- Added `discord.getAnnouncement`
+- Added `discord.getApp`
+- Added `discord.getServer`
+- Added `discord.listAppCategories`
+- Added `discord.listFeaturedApps`
+- Added `discord.listServerAnnouncements`
+- Added `discord.listServerCategories`
+- Added `discord.listServers`
+- Added `discord.listSimilarApps`
+- Added `discord.searchApps`
+- Added `doordash.findAddress`
+- Added `doordash.getMenu`
+- Added `doordash.getStore`
+- Added `dropbox.listSharedFolder`
+- Added `dropbox.readSharedFile`
+- Added `duckduckgo.getLocalTime`
+- Added `duckduckgo.getWeather`
+- Added `duckduckgo.listBangs`
+- Added `duckduckgo.listRegions`
+- Added `duckduckgo.resolveBang`
+- Added `epicgames.getAchievementProgress`
+- Added `epicgames.listOrders`
+- Added `espn.fantasyPlayers`
+- Added `espn.getArticle`
+- Added `espn.getFantasyLeague`
+- Added `espn.getTeam`
+- Added `espn.playerGameLog`
+- Added `espn.playerStats`
+- Added `espn.statLeaders`
+- Added `espn.teamStats`
+- Added `etsy.getListing`
+- Added `etsy.getShop`
+- Added `etsy.listListingReviews`
+- Added `etsy.listShopListings`
+- Added `etsy.searchShops`
+- Added `eventbrite.followOrganizer`
+- Added `eventbrite.getOrderHistory`
+- Added `eventbrite.getOwnProfile`
+- Added `eventbrite.saveEvent`
+- Added `eventbrite.unsaveEvent`
+- Added `facebook.getBusinessDetails`
+- Added `facebook.getPageReviews`
+- Added `facebook.getPost`
+- Added `facebook.getPostComments`
+- Added `facebook.listPageEvents`
+- Added `facebook.listPageReels`
+- Added `fandom.getImage`
+- Added `fandom.getRevision`
+- Added `fandom.listCategories`
+- Added `fandom.listCategoryMembers`
+- Added `fandom.listExternalLinks`
+- Added `fandom.listImages`
+- Added `fandom.listRecentChanges`
+- Added `fandom.listRevisions`
+- Added `fitdegree.getCancellationPolicy`
+- Added `fitdegree.getClass`
+- Added `fitdegree.getInstructor`
+- Added `fitdegree.listClasses`
+- Added `fitdegree.listEvents`
+- Added `fitdegree.listInstructors`
+- Added `fitdegree.listIntroOffers`
+- Added `fitdegree.listLocations`
+- Added `fitdegree.listMemberships`
+- Added `fitdegree.listScheduleDates`
+- Added `floathelm.getRoom`
+- Added `floathelm.listAvailableSlots`
+- Added `floathelm.listRooms`
+- Added `fomo.getClan`
+- Added `fomo.getFollowingLeaderboard`
+- Added `fomo.getPortfolioHistory`
+- Added `fomo.getPortfolioSnapshot`
+- Added `fomo.getTrade`
+- Added `fomo.getTradeComments`
+- Added `fomo.getTrades`
+- Added `fomo.getUserLeaderboardStanding`
+- Added `fomo.getUserSwaps`
+- Added `fomo.getUserTransfers`
+- Added `fomo.getUserWithdrawals`
+- Added `fomo.searchClans`
+- Added `foxnews.getVideo`
+- Added `foxnews.listVideoPlaylists`
+- Added `foxnews.listVideos`
+- Added `g2.listReviews`
+- Added `goodreads.addToShelf`
+- Added `goodreads.followUser`
+- Added `goodreads.getMemberShelf`
+- Added `goodreads.getOwnProfile`
+- Added `goodreads.rateBook`
+- Added `goodreads.removeFromShelf`
+- Added `goodreads.writeReview`
+- Added `grammarly.countWords`
+- Added `grammarly.detectAI`
+- Added `grammarly.detectPlagiarism`
+- Added `grammarly.humanize`
+- Added `ikea.getProductDocuments`
+- Added `ikea.getProductRatings`
+- Added `ikea.listCategories`
+- Added `ikea.listCategoryProducts`
+- Added `ikea.listInspiration`
+- Added `ikea.listNewProducts`
+- Added `ikea.listOffers`
+- Added `ikea.suggestSearchTerms`
+- Added `instagram.getFeed`
+- Added `instagram.getPost`
+- Added `kenko.getAppointmentAvailability`
+- Added `kenko.getClass`
+- Added `kenko.getClassSpots`
+- Added `kenko.listAppointmentTypes`
+- Added `kenko.listGiftCards`
+- Added `kenko.listPricing`
+- Added `linkedin.acceptInvitation`
+- Added `linkedin.addProfileSkill`
+- Added `linkedin.applyToJob`
+- Added `linkedin.attendEvent`
+- Added `linkedin.createGroupPost`
+- Added `linkedin.getEvent`
+- Added `linkedin.getProfileSkills`
+- Added `linkedin.ignoreInvitation`
+- Added `linkedin.joinGroup`
+- Added `linkedin.leaveGroup`
+- Added `linkedin.removeConnection`
+- Added `linkedin.replyToComment`
+- Added `linkedin.searchEvents`
+- Added `linkedin.searchSchools`
+- Added `linkedin.sendMessage`
+- Added `linkedin.setProfilePhoto`
+- Added `linkedin.subscribeToNewsletter`
+- Added `linkedin.updateProfile`
+- Added `mergify.validateConfig`
+- Added `momence.findStudio`
+- Added `msn.getWeatherForecast`
+- Added `msn.listSavedArticles`
+- Added `msn.saveArticle`
+- Added `my_best_studio.cancelBooking`
+- Added `my_best_studio.joinWaitlist`
+- Added `my_best_studio.listInstructors`
+- Added `my_best_studio.listMyBookings`
+- Added `netflix.getMyList`
+- Added `netflix.search`
+- Added `nhc.getForecastCone`
+- Added `nhc.getStormGraphics`
+- Added `nhc.getStormNames`
+- Added `nhc.getTropicalWeatherDiscussion`
+- Added `nhc.getWindSpeedProbabilities`
+- Added `nintendo.getSupportArticle`
+- Added `nintendo.listDeals`
+- Added `nintendo.searchSupport`
+- Added `npr.findStations`
+- Added `npr.getLiveStream`
+- Added `npr.getPodcast`
+- Added `npr.getProgramRundown`
+- Added `npr.getStation`
+- Added `npr.getTranscript`
+- Added `npr.listPodcastCategories`
+- Added `nws.findStations`
+- Added `nws.findZones`
+- Added `nws.getAlert`
+- Added `nws.getCurrentConditions`
+- Added `nws.getForecastDiscussion`
+- Added `nws.getGridpointData`
+- Added `nws.getObservationHistory`
+- Added `nws.getZoneForecast`
+- Added `nws.listAlertTypes`
+- Added `nyt_cooking.addRecipeToFolder`
+- Added `nyt_cooking.createRecipeBoxFolder`
+- Added `nyt_cooking.deleteRecipeBoxFolder`
+- Added `nyt_cooking.listRecipeBoxFolders`
+- Added `nyt_cooking.removeRecipeFromFolder`
+- Added `nyt_cooking.renameRecipeBoxFolder`
+- Added `nytimes.listSavedArticles`
+- Added `opentable.getBooking`
+- Added `patreon.getCurrentUserFeed`
+- Added `patreon.getPost`
+- Added `patreon.listMemberOnlyPosts`
+- Added `patreon.listPledges`
+- Added `patreon.listPostComments`
+- Added `pausestudio.joinWaitlist`
+- Added `pausestudio.listWaitlistedSlots`
+- Added `pausestudio.modifyBooking`
+- Added `paypal.getPayPalMeProfile`
+- Added `pinterest.getBoard`
+- Added `pinterest.getCurrentUser`
+- Added `pinterest.getTopic`
+- Added `pinterest.listBoardPins`
+- Added `pinterest.listBoardSectionPins`
+- Added `pinterest.listBoardSections`
+- Added `pinterest.listTopicPins`
+- Added `pinterest.listTopics`
+- Added `pushpress.getMyProfile`
+- Added `pushpress.getPlan`
+- Added `pushpress.listAppointmentTypes`
+- Added `pushpress.listCoaches`
+- Added `pushpress.listLocations`
+- Added `quickbooks.calculatePaycheck`
+- Added `quickbooks.getEvent`
+- Added `quickbooks.getThread`
+- Added `quickbooks.listCommunityBoards`
+- Added `quickbooks.listEvents`
+- Added `quickbooks.listFeaturedAccountants`
+- Added `quickbooks.listPaycheckCalculatorStates`
+- Added `quora.getTopicFeed`
+- Added `reddit.searchComments`
+- Added `resy.confirmSignIn`
+- Added `resy.listBookings`
+- Added `resy.startSignIn`
+- Added `reuters.getAuthor`
+- Added `reuters.getCompanyEvents`
+- Added `reuters.getLiveCoverage`
+- Added `roblox.getGame`
+- Added `roblox.getRecommendations`
+- Added `roblox.getUsersLibrary`
+- Added `roblox.listPopularGames`
+- Added `safeway.getSearchSuggestions`
+- Added `safeway.listAisleProducts`
+- Added `scribd.getDocument`
+- Added `scribd.getDocumentText`
+- Added `scribd.getEmbedCode`
+- Added `scribd.getList`
+- Added `scribd.getRelatedDocuments`
+- Added `scribd.getUserProfile`
+- Added `seatgeek.followPerformer`
+- Added `seatgeek.listFollowedPerformers`
+- Added `seatgeek.unfollowPerformer`
+- Added `seatgeek.untrackEvent`
+- Added `shein.getProduct`
+- Added `shop_app.getStoreCollection`
+- Added `shop_app.getStoreContacts`
+- Added `shop_app.getStorePolicies`
+- Added `snapchat.getLens`
+- Added `snapchat.listDiscoverStories`
+- Added `snapchat.listLenses`
+- Added `snapchat.listProfileHighlights`
+- Added `snapchat.listProfileLenses`
+- Added `snapchat.listProfileSpotlights`
+- Added `snapchat.listSpotlightComments`
+- Added `solidcore.getClass`
+- Added `solidcore.getPricing`
+- Added `solidcore.getSchedule`
+- Added `solidcore.listCoaches`
+- Added `solidcore.listMuscleGroups`
+- Added `soulcycle.getClassAvailability`
+- Added `soulcycle.getInstructor`
+- Added `soulcycle.getStudio`
+- Added `soulcycle.getStudioSchedule`
+- Added `soulcycle.listInstructors`
+- Added `soulcycle.listSeries`
+- Added `soulcycle.listShopProducts`
+- Added `spectrum.getInternetPlanDetails`
+- Added `spectrum.listMobileDeals`
+- Added `spectrum.listMobilePlans`
+- Added `spectrum.listTvPlans`
+- Added `spotify.getAvailableMarkets`
+- Added `spotify.getGenreSeeds`
+- Added `spotify.getOEmbed`
+- Added `spotify.listArtistAlbums`
+- Added `spotify.listNewReleases`
+- Added `spotify.listPlaylistTracks`
+- Added `spotify.searchPlaylists`
+- Added `steam.addFriend`
+- Added `steam.viewFriends`
+- Added `stubhub.findEventsToSell`
+- Added `stubhub.getCheckoutHandoff`
+- Added `sweathouz.book`
+- Added `sweathouz.cancel`
+- Added `sweathouz.getPromoCode`
+- Added `sweathouz.listCredits`
+- Added `sweathouz.listPacks`
+- Added `sweathouz.myBookings`
+- Added `target.listCategoryProducts`
+- Added `temu.checkout`
+- Added `temu.viewCart`
+- Added `tiktok.deleteVideo`
+- Added `tiktok.listFollowers`
+- Added `tiktok.listFollowing`
+- Added `tock.getExperience`
+- Added `tock.searchBusinesses`
+- Added `tripadvisor.getAttraction`
+- Added `tripadvisor.getDestination`
+- Added `tripadvisor.getQuestions`
+- Added `tripadvisor.getReview`
+- Added `tripadvisor.getReviews`
+- Added `tumblr.getBlogInfo`
+- Added `tumblr.getBlogPosts`
+- Added `tumblr.getPost`
+- Added `tumblr.searchBlogPosts`
+- Added `tumblr.searchPosts`
+- Added `turbotax.compareEditions`
+- Added `turbotax.findLocalExperts`
+- Added `turbotax.searchArticles`
+- Added `ups.calculateShippingCost`
+- Added `ups.findNearbyLocation`
+- Added `usatoday.getVideo`
+- Added `walla.getClass`
+- Added `walla.listClassCategories`
+- Added `walla.listClasses`
+- Added `walla.listInstructors`
+- Added `walla.listLocations`
+- Added `walla.listPricing`
+- Added `walla.listPrivateSessions`
+- Added `walla.listWorkshops`
+- Added `walmart.getAccountProfile`
+- Added `washingtonpost.getTopicArticles`
+- Added `washingtonpost.listPodcasts`
+- Added `washingtonpost.listTopics`
+- Added `washingtonpost.listTrending`
+- Added `washingtonpost.searchWriters`
+- Added `weather_channel.getHourlyAirQuality`
+- Added `wellnessliving.getClassCapacity`
+- Added `wellnessliving.getClassDetails`
+- Added `wellnessliving.getClassTypes`
+- Added `wellnessliving.getInstructors`
+- Added `wellnessliving.searchClasses`
+- Added `whatsapp.getMyProfile`
+- Added `whatsapp.listChats`
+- Added `wodify.findGym`
+- Added `wodify.listMemberships`
+- Added `wodify.listPrices`
+- Added `wodify.listPrograms`
+- Added `wsj.getArticle`
+- Added `wsj.getQuote`
+- Added `wsj.listMarketIndices`
+- Added `wsj.listPodcasts`
+- Added `wsj.listQuotes`
+- Added `wsj.searchArticles`
+- Added `x.listFollowers`
+- Added `x.listFollowing`
+- Added `x.listNotifications`
+- Added `x.sendDirectMessage`
+- Added `yahoo_mail.deleteMessage`
+- Added `yahoo_mail.markAsRead`
+- Added `yahoo_mail.moveMessage`
+- Added `yahoo_sports.searchPlayers`
+- Added `yelp.getBusiness`
+- Added `yelp.getReviews`
+- Added `yogatreecollective.getEvent`
+- Added `yogatreecollective.getSignUpTarget`
+- Added `yogatreecollective.listEvents`
+- Added `yogatreecollective.searchSite`
+- Added `zoom.downloadRecording`
+- Added `zoom.getProfile`
+- Added `zoom.getRecording`
+- Added `zoom.getWebinar`
+- Added `zoom.listRecordings`
+- Added `zoom.listWebinars`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.27.0 (2026-10-24)
 
 **Capabilities**
