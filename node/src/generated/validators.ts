@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a7ddeb7579571e775a816b9cd77f719faafa63809ba79182df8ebdda81cd5454
-// 3338 checked, 20 unchecked.
+// Manifest version: 9d9f67e0647703e760f2eb2d860efa327eeb09b58222a1094cb4ad1b65d3580c
+// 3413 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a7ddeb7579571e775a816b9cd77f719faafa63809ba79182df8ebdda81cd5454",
+  "version": "9d9f67e0647703e760f2eb2d860efa327eeb09b58222a1094cb4ad1b65d3580c",
   "units": {
     "address_validation": {
       "defs": {
@@ -7754,6 +7754,39 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.acuityscheduling": {
       "defs": {
+        "AcuityScheduleSearchQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "days",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "AcuitySlotQuery": {
           "k": "object",
           "props": [
@@ -7898,11 +7931,65 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "searchSchedule": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AcuityScheduleSearchQuery"
+            },
+            "optional": true
+          }
         ]
       }
     },
     "providers.adobe": {
-      "defs": {},
+      "defs": {
+        "SendForSignatureArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "documentUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "signers",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "message",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "getCreativeCloudPlans": [],
         "findHelpArticle": [
@@ -7967,6 +8054,32 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "sendForSignature": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SendForSignatureArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -8004,6 +8117,58 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCategories": []
+      }
+    },
+    "providers.aetna_directory": {
+      "defs": {},
+      "functions": {
+        "findProviders": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "zip",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "specialty",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "planId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.agakhanhospitals": {
@@ -9396,6 +9561,71 @@ export const VALIDATORS: ValidatorTable = {
                         "k": "string"
                       },
                       "optional": false
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "literal",
+                        "v": 1
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "product",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "object",
+                            "props": [
+                              {
+                                "name": "asin",
+                                "schema": {
+                                  "k": "string"
+                                },
+                                "optional": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "literal",
+                        "v": 1
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "literal",
+                        "v": 1
+                      },
+                      "optional": true
                     }
                   ]
                 }
@@ -10057,6 +10287,31 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "subscribeNewsletter": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "email",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "newsletterId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -12040,6 +12295,31 @@ export const VALIDATORS: ValidatorTable = {
         "listMyBookings": [
           {
             "name": "widgetName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyPasses": [
+          {
+            "name": "studio",
             "schema": {
               "k": "string"
             },
@@ -16268,6 +16548,122 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getStarterPack": [
+          {
+            "name": "starterPack",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "starterPack",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchStarterPacks": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getLabelers": [
+          {
+            "name": "dids",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "string"
+                  }
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "dids",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "array",
+                            "of": {
+                              "k": "string"
+                            }
+                          }
+                        ]
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "detailed",
+                      "schema": {
+                        "k": "boolean"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -16882,6 +17278,44 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BookeoGetAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "shortName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "BookeoGetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "shortName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "BookeoListProductsArgs": {
           "k": "object",
           "props": [
@@ -16912,6 +17346,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BookeoListProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookeoGetAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookeoGetProductArgs"
             },
             "optional": false
           }
@@ -17477,6 +17931,88 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "booksyGetBusinessPhotosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "booksyGetBusinessReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "booksyGetSearchSuggestionsArgs": {
           "k": "object",
           "props": [
@@ -17499,6 +18035,33 @@ export const VALIDATORS: ValidatorTable = {
         "booksyListCategoriesArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "booksyListGiftCardOffersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
             {
               "name": "country",
               "schema": {
@@ -17679,6 +18242,36 @@ export const VALIDATORS: ValidatorTable = {
               "name": "booksyListCategoriesArgs"
             },
             "optional": true
+          }
+        ],
+        "getBusinessReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "booksyGetBusinessReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getBusinessPhotos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "booksyGetBusinessPhotosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listGiftCardOffers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "booksyListGiftCardOffersArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -21394,6 +21987,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getPickupTimes": [
+          {
+            "name": "restaurantId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMenu": [
+          {
+            "name": "restaurantId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "at",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -22056,7 +22674,51 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getClassReviews": [
+          {
+            "name": "classId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "listStudioBranches": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listSimilarStudios": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": []
       }
     },
     "providers.claude": {
@@ -22066,6 +22728,25 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "organizationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetProjectArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "projectId",
               "schema": {
                 "k": "string"
               },
@@ -22092,6 +22773,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListArtifactsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "organizationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListConversationsArgs": {
           "k": "object",
           "props": [
@@ -22113,6 +22813,30 @@ export const VALIDATORS: ValidatorTable = {
               "name": "offset",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListProjectsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "organizationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListSharedLinksArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "organizationId",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -22266,6 +22990,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetUsageArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listProjects": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListProjectsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getProject": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProjectArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listArtifacts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListArtifactsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listSharedLinks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSharedLinksArgs"
             },
             "optional": true
           },
@@ -23587,6 +24415,91 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.concur": {
+      "defs": {
+        "GetReportArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "reportId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "geolocation",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListReportsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "approvalStatusCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "paymentStatusCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "modifiedAfter",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "geolocation",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listReports": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListReportsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getReport": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetReportArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.consultnet": {
       "defs": {
         "ConsultnetJobSearchQuery": {
@@ -24875,6 +25788,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetTranscriptArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListCategoryVideosArgs": {
           "k": "object",
           "props": [
@@ -25299,6 +26231,25 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListRelatedVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCaptionTracks": [
+          {
+            "name": "video",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTranscript": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTranscriptArgs"
             },
             "optional": false
           }
@@ -25742,6 +26693,48 @@ export const VALIDATORS: ValidatorTable = {
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.delaware_corps": {
+      "defs": {
+        "SearchEntityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "fileNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchEntity": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchEntityArgs"
             },
             "optional": false
           }
@@ -28588,7 +29581,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listRegions": []
+        "listRegions": [],
+        "listDuckAiModels": []
       }
     },
     "providers.dumpsters": {
@@ -41705,7 +42699,73 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.grubhub": {
       "defs": {
+        "GrubhubCuisinesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sampleSize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GrubhubDeliveryEstimateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GrubhubPromoOffersArgs": {
           "k": "object",
           "props": [
             {
@@ -41899,6 +42959,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GrubhubReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCuisines": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GrubhubCuisinesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPromoOffers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GrubhubPromoOffersArgs"
             },
             "optional": false
           }
@@ -47838,6 +48918,51 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.kaiser_directory": {
+      "defs": {},
+      "functions": {
+        "findProviders": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "zip",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "specialty",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -61073,6 +62198,62 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listMarineZones": [],
+        "getMarineForecast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "product",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "OFFNT3"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "OFFNT4"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "OFFNT5"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "OFFPZ7"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "OFFPZ8"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "HSFAT2"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "HSFEP2"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "zone",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -61196,6 +62377,25 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "listNews": [],
+        "getMyNintendoRewardsBalance": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -61457,6 +62657,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListSeriesStoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "series",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchStoriesArgs": {
           "k": "object",
           "props": [
@@ -61602,6 +62814,17 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listSeries": [],
+        "listSeriesStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSeriesStoriesArgs"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -61638,6 +62861,30 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "assessHairWellness": [],
+        "computeHairWellness": [
+          {
+            "name": "answers",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              }
+            },
+            "optional": false
+          }
+        ],
+        "getQuizQuestions": [],
         "getQuizOverview": []
       }
     },
@@ -62292,6 +63539,33 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NytCookingCreateRecipeNoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingDeleteRecipeBoxFolderArgs": {
           "k": "object",
           "props": [
@@ -62307,6 +63581,33 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   }
                 ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "NytCookingDeleteRecipeNoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "noteId",
+              "schema": {
+                "k": "string"
               },
               "optional": false
             }
@@ -62343,6 +63644,26 @@ export const VALIDATORS: ValidatorTable = {
               "name": "url",
               "schema": {
                 "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "NytCookingGetMyNotesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
               },
               "optional": false
             }
@@ -62673,6 +63994,40 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   }
                 ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "NytCookingUpdateRecipeNoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recipeId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "noteId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
               },
               "optional": false
             }
@@ -63137,6 +64492,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "NytCookingRemoveRecipeFromFolderArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createRecipeNote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingCreateRecipeNoteArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMyNotes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingGetMyNotesArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateRecipeNote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingUpdateRecipeNoteArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deleteRecipeNote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingDeleteRecipeNoteArgs"
             },
             "optional": false
           },
@@ -66444,6 +67903,13 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": true
+                },
+                {
+                  "name": "children",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -66748,6 +68214,46 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.peek": {
       "defs": {
+        "PeekGetAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "PeekGetExperienceArgs": {
           "k": "object",
           "props": [
@@ -66878,7 +68384,18 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PeekGetAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listTags": []
       }
     },
     "providers.peerspace": {
@@ -71808,6 +73325,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getMyProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -75512,7 +77047,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listPartners": []
       }
     },
     "providers.resy": {
@@ -75847,6 +77383,18 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "ric",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
               "schema": {
                 "k": "string"
               },
@@ -76276,6 +77824,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetAuthorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
             },
             "optional": false
           }
@@ -79852,7 +81410,82 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.shop_app": {
-      "defs": {},
+      "defs": {
+        "ShopAppBrowseCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "after",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ShopAppGetProductReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "first",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "after",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "searchQuery",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ShopAppGetVariantArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "options",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "getProduct": [
           {
@@ -79975,6 +81608,45 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ],
+        "getVariant": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppGetVariantArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "parentId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getProductReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppGetProductReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "browseCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppBrowseCategoryArgs"
+            },
+            "optional": false
           }
         ],
         "getStorePolicies": [
@@ -80368,7 +82040,46 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.snapchat": {
-      "defs": {},
+      "defs": {
+        "SnapchatGetEpisodeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "publisherId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "storyId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SnapchatGetLocalGuideArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "path",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "searchSnapchat": [
           {
@@ -80450,6 +82161,36 @@ export const VALIDATORS: ValidatorTable = {
             "name": "username",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getShow": [
+          {
+            "name": "publisherId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getEpisode": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SnapchatGetEpisodeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLocalCities": [],
+        "getLocalGuide": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SnapchatGetLocalGuideArgs"
             },
             "optional": false
           }
@@ -83776,7 +85517,49 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.stubhub": {
-      "defs": {},
+      "defs": {
+        "stubhubSellMatch": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "group",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "search": [
           {
@@ -84085,6 +85868,99 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "match",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "ref",
+                        "name": "stubhubSellMatch"
+                      },
+                      {
+                        "k": "string"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "price",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFavorites": [
           {
             "name": "opts",
             "schema": {
@@ -87614,6 +89490,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListNotificationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSoundVideosArgs": {
           "k": "object",
           "props": [
@@ -88182,6 +90077,32 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listNotifications": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListNotificationsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -88470,6 +90391,63 @@ export const VALIDATORS: ValidatorTable = {
             "name": "cityName",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.topcashback": {
+      "defs": {
+        "GetStoreRateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStoreRate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStoreRateArgs"
             },
             "optional": false
           }
@@ -92284,8 +94262,49 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.uscis": {
+      "defs": {
+        "CaseStatusArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "receiptNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "caseStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CaseStatusArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.usps": {
-      "defs": {},
+      "defs": {
+        "TrackPackageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "trackingNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "getRate": [
           {
@@ -92336,6 +94355,16 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "trackPackage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TrackPackageArgs"
             },
             "optional": false
           }
@@ -93768,6 +95797,94 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOrder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "orderId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listPurchasedItems": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listLists": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -94856,6 +96973,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listChats": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "findContact": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -96790,6 +98932,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPodcastArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "seoName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetQuoteArgs": {
           "k": "object",
           "props": [
@@ -96811,6 +98965,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListEpisodesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "seoName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -96895,7 +99068,27 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listPodcasts": []
+        "listPodcasts": [],
+        "getPodcast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPodcastArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listEpisodes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListEpisodesArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.wunderflats": {
@@ -96923,6 +99116,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.x": {
       "defs": {
+        "GetConversationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetPostRepliesArgs": {
           "k": "object",
           "props": [
@@ -97252,6 +99464,66 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListFollowersArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listConversations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getConversation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetConversationArgs"
             },
             "optional": false
           },
@@ -98747,6 +101019,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "YelpSuggestArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "prefix",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -98765,6 +101056,16 @@ export const VALIDATORS: ValidatorTable = {
             "name": "ref",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "suggest": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "YelpSuggestArgs"
             },
             "optional": false
           }
