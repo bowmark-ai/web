@@ -179,6 +179,7 @@ chownow.com — chownow: findRestaurant, getRestaurant, listRestaurants, searchR
 chriscraft.com — chriscraft: getConfigurator, priceConfiguration, searchModels
 christydawn.com — christydawn: search
 chromium.googlesource.com — chromium_googlesource_com: getFile, listDirectory, listRepos (+1 planned)
+cigna.com — cigna_directory: findProviders
 classichome.com — classichome: addToCart, getProduct, searchProducts
 classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) — classicrockfab: checkAvailability, listAppointmentTypes
 classpass.com — classpass: checkAvailability, findLocation, findStudio, getClass, getSchedule, getStudio, getStudioReviews, listStudioClasses, search (+31 planned)
@@ -361,6 +362,7 @@ hodjapasha.com — hodjapasha: getAvailability, getShow, listShows
 holidaybuilders.com — holidaybuilders: getHomeDetail, searchAvailableHomes
 hottopic.com — hottopic: search
 huggingface.co — huggingface: getModel, listTrendingModels, searchModels (+2 planned)
+humana.com — humana_directory: findProviders
 hunter.io — hunter: countEmails, findDomain (+9 planned)
 hyatt.com — hyatt: nothing callable yet (+6 planned)
 ibuypower.com — ibuypower: getBenchmark, getSystem, listLaptops, listPrebuilts, listSystems, recommendGamingPc (+1 planned)
@@ -573,6 +575,7 @@ rottentomatoes.com — rottentomatoes: getTitle, search (+4 planned)
 rover.com — rover: searchBoarding
 ruggable.com — ruggable: getRug, searchRugs
 rvshare.com — rvshare: searchListings
+ryanair.com — ryanair: fareCalendar, findAirport, searchFares (+1 planned)
 saatva.com — saatva: listMattresses, recommendMattress
 safetywing.com — safetywing: getQuote
 safeway.com — safeway: findStores, getSearchSuggestions, getStore, listAisleProducts, listAisles (+31 planned)
@@ -682,6 +685,7 @@ twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
 twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getFollowStatus, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, unfollowChannel (+1 planned)
 ubereats.com — ubereats: browseStores, checkDeliveryAvailability, findAddress, getStore, search (+23 planned)
 uhaul.com — uhaul: getRates
+uhc.com — uhc_directory: findProviders
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration
 uniqlo.com — uniqlo: getProduct, searchProducts
 unsplash.com — unsplash: search

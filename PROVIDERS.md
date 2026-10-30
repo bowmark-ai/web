@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5808 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5815 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1037,6 +1037,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chromium_googlesource_com.listDirectory` | chromium.googlesource.com | Lists one directory of a chromium.googlesource.com repository (default chromium/src at… | 🟢 |
 | `chromium_googlesource_com.listRepos` | chromium.googlesource.com | Lists every git repository hosted on chromium.googlesource.com with its clone url and… | 🟢 |
 | `chromium_googlesource_com.searchCode` | chromium.googlesource.com | Full-text search across Chromium source (source.chromium.org's code search). | ⚪ |
+| `cigna_directory.findProviders` | cigna.com | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
 | `circl.getCve` | cve.circl.lu | Fetch one CVE record by id from CIRCL's documented JSON API: description, CVSS score… | 🟢 |
 | `circl.search` | cve.circl.lu | Full-text search of CVE records by keyword, product or phrase through CIRCL's… | 🟢 |
 | `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟢 |
@@ -2588,6 +2589,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `huggingface.listTrendingModels` | huggingface.co | Returns the trending models on the Hugging Face Hub right now, in the Hub's own… | 🟢 |
 | `huggingface.listTrendingSpaces` | huggingface.co | Returns the trending Spaces (hosted demo apps) on the Hub. | ⚪ |
 | `huggingface.searchModels` | huggingface.co | Searches every public Hugging Face model by name, author (org) or task, sorted by… | 🟢 |
+| `humana_directory.findProviders` | humana.com | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
 | `hunter.countEmails` | hunter.io | Returns how many email addresses Hunter holds for a domain, without returning the… | 🟢 |
 | `hunter.discoverCompanies` | hunter.io | Finds companies matching an ideal-customer-profile description or a set of filters —… | ⚪ |
 | `hunter.discoverPeople` | hunter.io | Finds individual people matching a profile — role, seniority, department, plus the… | ⚪ |
@@ -4045,6 +4047,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ruggable.getRug` | ruggable.com | Reads one Ruggable rug by handle or url and returns its price range plus every size ×… | 🟢 |
 | `ruggable.searchRugs` | ruggable.com | Searches Ruggable's whole washable-rug catalog (rugs, runners, doormats, rug pads) by… | 🟢 |
 | `rvshare.searchListings` | rvshare.com | Runs RVshare's own results grid for a US city/state… | 🟢 |
+| `ryanair.fareCalendar` | ryanair.com | The low-fare calendar for one route and month: cheapest one-way price per day. | 🟢 |
+| `ryanair.findAirport` | ryanair.com | Airports Ryanair flies to whose IATA code, name, city or country match the words. | 🟢 |
+| `ryanair.listMyBookings` | ryanair.com | The signed-in customer's upcoming and past Ryanair bookings. | ⚪ |
+| `ryanair.searchFares` | ryanair.com | The lowest one-way fare on a day or over the next 30 days: the cheapest flight on one… | 🟢 |
 | `saatva.listMattresses` | saatva.com | Lists every mattress product line Saatva currently sells with every buyable variant —… | 🟢 |
 | `saatva.recommendMattress` | saatva.com | Runs Saatva's mattress-quiz goal-flow for a stated sleep position, firmness preference… | 🟢 |
 | `safetywing.getQuote` | safetywing.com | Runs SafetyWing's own Nomad Insurance quote calculator — plan (Essential or Complete)… | 🟢 |
@@ -5138,6 +5144,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ubereats.unsaveStore` | ubereats.com | Removes a store from the caller's favorites. | ⚪ |
 | `ubereats.updateCartItem` | ubereats.com | Changes the quantity or options of an item already in the caller's cart. | ⚪ |
 | `uhaul.getRates` | uhaul.com | Gets U-Haul truck or trailer rental rates for a pickup location and date — in-town, or… | 🟢 |
+| `uhc_directory.findProviders` | uhc.com | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
 | `uhc_smallbusiness.getGroupHealthQuote` | smallbusiness.uhc.com | Real level-funded and fully-insured small-group health plan premiums for a ZIP code… | 🟢 |
 | `ulrichlifestyle.getConfigurator` | ulrichlifestyle.com | Reads one model's default configurator: its base price (before delivery/tax) plus… | 🟢 |
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
