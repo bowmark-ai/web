@@ -155,7 +155,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.trackOrder` | alibaba.com | Get shipment tracking information and current delivery status. | ⚪ |
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
-| `aliexpress.addToCart` | aliexpress.us | Adds one variant (productId + skuId from getProduct) to the CALLER's own AliExpress… | 🔴 |
+| `aliexpress.addToCart` | aliexpress.us | Adds one variant (productId + skuId from getProduct) to the CALLER's own AliExpress… | 🟢 |
 | `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including the price of every variant (size… | 🟢 |
 | `aliexpress.getStore` | aliexpress.us | Fetches a seller's store info — name, logo, follower count and open/closed status — by… | 🔴 |
 | `aliexpress.listCart` | aliexpress.us | Lists items in the CALLER's own AliExpress shopping cart — product id, title, price… | 🟢 |
@@ -298,13 +298,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `arketa.bookClass` | arketa.co | Books the signed-in client into a scheduled class using a pack or membership they… | ⚪ |
 | `arketa.bookPrivateSession` | arketa.co | Books the signed-in client into a private session at a time… | ⚪ |
 | `arketa.buyPricingOption` | arketa.co | Would buy a class pack, membership or on-demand subscription at a studio for the… | ⚪ |
-| `arketa.cancelBooking` | arketa.co | Cancels one of the signed-in client's class bookings or waitlist spots. | ⚪ |
+| `arketa.cancelBooking` | arketa.co | Cancels one of the signed-in caller's class reservations or waitlist spots. | 🟢 |
 | `arketa.findStudio` | arketa.co | Finds an Arketa studio by its booking-page name ("thesilhouettemethod"), its… | 🟢 |
 | `arketa.getClass` | arketa.co | Returns one scheduled class by id: description, start and end time, instructor… | 🟢 |
 | `arketa.getMyProfile` | arketa.co | Returns the signed-in client's own profile at a studio: name, email, phone, birthday… | 🟢 |
 | `arketa.getPrivateSession` | arketa.co | Returns one private-session service by id, with the instructors who teach it, the… | 🟢 |
 | `arketa.getPrivateSessionAvailability` | arketa.co | Returns which days a private session can be booked with one instructor at one… | 🟢 |
-| `arketa.joinWaitlist` | arketa.co | Puts the signed-in client on the waitlist for a full class. | ⚪ |
+| `arketa.joinWaitlist` | arketa.co | Puts the signed-in caller on the waitlist for a full class, optionally with named… | 🟢 |
 | `arketa.listClasses` | arketa.co | Lists a studio's class schedule for a date range, optionally narrowed to a location… | 🟢 |
 | `arketa.listInstructors` | arketa.co | Lists the instructors who teach at a studio, with id and name, plus photo and bio for… | 🟢 |
 | `arketa.listLocations` | arketa.co | Lists a studio's physical locations: id, name, full address and coordinates. | 🟢 |
@@ -3472,7 +3472,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listTopics` | nytimes.com | Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently… | 🟢 |
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
 | `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟡 |
-| `nytimes.saveArticle` | nytimes.com | Saves an article to the reader's collection (requires auth). | ⚪ |
+| `nytimes.saveArticle` | nytimes.com | Saves one article to the signed-in reader's Reading List. | 🟢 |
 | `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟡 |
 | `nytimes.searchWriters` | nytimes.com | Searches NYT's own writers by name off its collections sitemap (the site publishes no… | 🟢 |
 | `nytimes.unfollowWriter` | nytimes.com | Unfollows a writer (requires auth). | ⚪ |
@@ -5684,7 +5684,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getStatLeaders` | sports.yahoo.com | Reads the season-to-date individual leaderboard for one category off the site's own… | 🟢 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟢 |
-| `yahoo_sports.searchPlayers` | sports.yahoo.com | Searches for a player by name alone across every league — NFL, NBA, MLB, NHL, college… | 🟢 |
+| `yahoo_sports.searchPlayers` | sports.yahoo.com | Searches for a player by name across every league: NFL, NBA, MLB, NHL, college… | 🟢 |
 | `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |

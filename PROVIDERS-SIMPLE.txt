@@ -35,7 +35,7 @@ airchina.com — airchina: getDealFares (+1 planned)
 airtable.com — airtable: createRecord, getRecord, listBases, listRecords, listTables, updateRecord
 ajmadison.com — ajmadison: search (+1 planned)
 alibaba.com — alibaba: getProduct, getProductReviews, getSuggestions, getSupplier, listCategories, listSupplierProducts, listSuppliers, searchProducts (+24 planned)
-aliexpress.us — aliexpress: getProduct, listCart, listOrders, search (+4 planned)
+aliexpress.us — aliexpress: addToCart, getProduct, listCart, listOrders, search (+3 planned)
 allied.com — allied: estimatePackingSupplies
 alphavantage.co — alphavantage: signUp
 americandreamvacations.net — americandreamvacations: listLocations, searchInventory
@@ -58,7 +58,7 @@ apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCate
 arajet.com — arajet: search
 archipelago.gg — archipelago: getClientRelease, getGameOptions
 archive.org — archive_org: checkLendingAvailability, downloadFile, getItem, getSnapshot, searchItems (+3 planned)
-arketa.co — arketa: findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters (+7 planned)
+arketa.co — arketa: cancelBooking, findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters (+5 planned)
 artpix3d.com — artpix3d: getSizePricing, listPhotoCrystalShapes, listShapes
 arxiv.org — arxiv: getPaper, search
 ashbyhq.com — ashby: listJobs
@@ -489,7 +489,7 @@ nurturelife.com — nurturelife: getMealBundle, getMealPlans
 nutrafol.com — nutrafol: assessHairWellness, computeHairWellness, getQuizOverview, getQuizQuestions
 nutribullet.com — capitalbrands: getBlenderRecommendation, listQuizQuestions
 nvisioncenters.com — nvisioncenters: calculateLasikSavings, checkLasikCandidacy, estimateLasikSavings
-nytimes.com — nytimes: getArticle, getArticleComments, getConnections, getLiveBlog, getNewsletter, getPodcast, getSection, getSpellingBee, getTopicArticles, getTrending, getWordle, getWriter, listArticles, listEpisodes, listNewsletters, listPodcasts, listRSSFeeds, listSavedArticles, listSections, listTopics, listTrending, listWriterArticles, searchArticles, searchWriters (+4 planned)
+nytimes.com — nytimes: getArticle, getArticleComments, getConnections, getLiveBlog, getNewsletter, getPodcast, getSection, getSpellingBee, getTopicArticles, getTrending, getWordle, getWriter, listArticles, listEpisodes, listNewsletters, listPodcasts, listRSSFeeds, listSavedArticles, listSections, listTopics, listTrending, listWriterArticles, saveArticle, searchArticles, searchWriters (+3 planned)
 oanda.com — oanda: convertCurrency
 odfl.com — odfl: nothing callable yet (+1 planned)
 oldnavy.gap.com — old_navy: getProduct, searchProducts
