@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1e506b9b3ea2a86746961a77df2ca07a22185d2f1e2a743876a1e2882fc01492
-// 92 capabilities, 719 providers, 3337 typed functions, 20 refused.
+// Manifest version: a7ddeb7579571e775a816b9cd77f719faafa63809ba79182df8ebdda81cd5454
+// 92 capabilities, 725 providers, 3356 typed functions, 20 refused.
 // 49,871 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3715,7 +3715,7 @@ declare namespace BowmarkCapability_products {
 interface ProductSearchResult {
   results: { store: "walmart" | "target" | "bestbuy" | "amazon"; title: string;
              price: number | null; wasPrice: number | null; url: string | null;
-             inStock: boolean; rating: number | null }[]  // rating: amazon rows only
+             inStock: boolean; rating: number | null; ratingCount: number | null }[]  // rating, ratingCount: amazon rows only
   warnings: string[]   // names any store that did not answer
 }
 interface ProductAvailability {
@@ -4088,17 +4088,18 @@ type ContactsResult = {
 
     /**
      * The same read over many urls: requests to the SAME origin are serialized (one at a time) to
-     * avoid triggering bot defenses on sites that block concurrent connections from one IP, while
-     * requests to DIFFERENT origins run in parallel. Results arrive in the order the urls were
-     * given. One dead url never costs you the others — it comes back with `ok: false` and `error`
-     * set. Serializing costs TIME (`strategy: "browser"`, the always-full-load option, is the
-     * exception and runs them in parallel): a same-origin batch takes the SUM of its reads, so two
-     * slow reads on one site already outlast a chat client that gives up at ~60s. The whole batch
-     * is therefore bounded at 55s, the same ceiling as one read: a url whose turn arrives after
-     * that comes back as its own `ok: false` row naming the batch budget, so you keep every page
-     * that did finish instead of losing the run. Two slow, fully loaded reads in one script is the
-     * shape that hits this — split them, or pass `strategy: "fetch"`. RUN-ONLY: same reason as
-     * `page` — how each page is loaded is decided per call, so `session()` and the top-level
+     * avoid triggering bot defenses on sites that block concurrent connections from one IP, until
+     * one url on that origin needs a full page load; from then on up to 4 urls on that origin are
+     * read at once. Requests to DIFFERENT origins run in parallel. Results arrive in the order the
+     * urls were given. One dead url never costs you the others — it comes back with `ok: false`
+     * and `error` set. Serializing costs TIME (`strategy: "browser"`, the always-full-load option,
+     * is the exception and runs them in parallel): a same-origin batch takes the SUM of its reads,
+     * so two slow reads on one site already outlast a chat client that gives up at ~60s. The whole
+     * batch is therefore bounded at 55s, the same ceiling as one read: a url whose turn arrives
+     * after that comes back as its own `ok: false` row naming the batch budget, so you keep every
+     * page that did finish instead of losing the run. Two slow, fully loaded reads in one script
+     * is the shape that hits this — split them, or pass `strategy: "fetch"`. RUN-ONLY: same reason
+     * as `page` — how each page is loaded is decided per call, so `session()` and the top-level
      * `bowmark` client are both refused with code "rung_undeclared". Call it through `run()`
      * instead.
      */
@@ -8464,7 +8465,7 @@ interface AmazonCart {
      * controllable (measured 2026-09-30: neither the buy-box's own quantity field nor a repeated
      * add changes the line's quantity), so this always adds exactly one unit.
      */
-    addToCart(asinOrUrl: string): Promise<AmazonCart>;
+    addToCart(asinOrUrl: string | { asin: string }): Promise<AmazonCart>;
   }
 }
 
@@ -20803,6 +20804,35 @@ interface chromium_googlesource_comRepo {
      * v8/v8, depot_tools, infra …) with its clone url and description.
      */
     listRepos(): Promise<chromium_googlesource_comRepo[]>;
+  }
+}
+
+declare namespace BowmarkProvider_cigna_directory {
+  // ── Cigna — provider directory — the unit's own declarations, verbatim ──
+interface cigna_directoryProvider {
+  name: string | null;
+  specialty: string | null;
+  address: string | null;
+  phone: string | null;
+  npi: string | null;
+  organization: string | null;
+  acceptingNewPatients: boolean | null;
+}
+interface cigna_directoryProviderSearch {
+  providers: cigna_directoryProvider[];
+  warnings: string[];
+}
+
+  /**
+   * Doctors and other practitioners in Cigna's network near a US ZIP code, from Cigna's public
+   * CMS provider directory: name, specialty, office address, phone and NPI
+   */
+  interface Unit {
+    /**
+     * In-network practitioners at offices in one ZIP code, optionally filtered by specialty words
+     * ("family medicine", "dentist"); limit defaults to 20, max 100
+     */
+    findProviders(query: string | { zip: string; specialty?: string; limit?: number }): Promise<cigna_directoryProviderSearch>;
   }
 }
 
@@ -37916,6 +37946,75 @@ interface GoteamupStudio {
   url: string;
 }
 
+interface GoteamupPrice {
+  decimal: number;
+  currencyCode: string;
+  symbol: string;
+}
+
+interface GoteamupVenue {
+  id: string;
+  name: string;
+  address: string;
+  timezone: string;
+}
+
+interface GoteamupInstructor {
+  id: string;
+  name: string;
+}
+
+interface GoteamupOfferingType {
+  id: string;
+  name: string;
+  description: string;
+  scheduleType: string;
+  allowsDropins: boolean;
+  dropinPrice: GoteamupPrice | null;
+  cancellationNoticeMinutes: number;
+}
+
+interface GoteamupClass {
+  id: string;
+  name: string;
+  description: string;
+  startsAt: string;
+  endsAt: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  attendingCount: number;
+  maxOccupancy: number;
+  isFull: boolean;
+  waitingCount: number;
+  registrationsOpenAt: string | null;
+  registrationsCloseAt: string | null;
+  lateCancelDeadline: string | null;
+  venue: GoteamupVenue | null;
+  instructors: GoteamupInstructor[];
+  offeringType: GoteamupOfferingType | null;
+  /** This class's own page, e.g. "https://goteamup.com/p/3707700-kb-fitness-studio/e/109904116-…/". */
+  url: string;
+}
+
+interface GoteamupScheduleRange {
+  /** ISO date/time, inclusive. Defaults to now. */
+  from?: string;
+  /** ISO date/time, inclusive. Defaults to 14 days after `from`. */
+  to?: string;
+}
+
+interface GoteamupMembership {
+  id: string;
+  name: string;
+  /** "recurring_plan" | "pack" — the site's own membership type. */
+  type: string;
+  description: string;
+  isDropin: boolean;
+  forSale: boolean;
+  allowRepeatPurchases: boolean;
+  newCustomersOnly: boolean;
+  price: GoteamupPrice | null;
+}
+
   /**
    * TeamUp gym and fitness studios: find a studio, read its class timetable, class types,
    * venues, instructors and memberships, and book, cancel or waitlist a class as the signed-in
@@ -37935,6 +38034,30 @@ interface GoteamupStudio {
      * goteamup.com/p/<id>-<slug> url.
      */
     getStudio(studio: string | number): Promise<GoteamupStudio>;
+
+    /**
+     * Lists a studio's classes over a date range (defaults to the next 14 days) — name, time,
+     * venue, instructors, occupancy, waitlist and booking-window deadlines, drop-in price. TeamUp
+     * silently ignores an unrecognised filter name and returns its whole history instead of
+     * refusing, so this throws rather than returning that if the first row falls outside the
+     * requested range.
+     */
+    listSchedule(studio: string | number, range?: GoteamupScheduleRange): Promise<{ classes: GoteamupClass[]; warnings: string[] }>;
+
+    /** Gets one class by the event id listSchedule returned. */
+    getClass(studio: string | number, classId: string | number): Promise<GoteamupClass>;
+
+    /**
+     * Lists a studio's class types (offering types) — description, whether drop-ins are allowed,
+     * drop-in price and cancellation notice.
+     */
+    listClassTypes(studio: string | number): Promise<GoteamupOfferingType[]>;
+
+    /**
+     * Lists the memberships and class packs a studio sells, with type, price and terms. Read-only
+     * — buying one is money and is never offered.
+     */
+    listMemberships(studio: string | number): Promise<GoteamupMembership[]>;
   }
 }
 
@@ -40781,6 +40904,35 @@ interface HuggingFaceSearchArgs {
      * public repo for. Example: getModel("meta-llama/Llama-3.1-8B-Instruct").
      */
     getModel(id: string): Promise<HuggingFaceModel>;
+  }
+}
+
+declare namespace BowmarkProvider_humana_directory {
+  // ── Humana — provider directory — the unit's own declarations, verbatim ──
+interface humana_directoryProvider {
+  name: string | null;
+  specialty: string | null;
+  address: string | null;
+  phone: string | null;
+  npi: string | null;
+  organization: string | null;
+  acceptingNewPatients: boolean | null;
+}
+interface humana_directoryProviderSearch {
+  providers: humana_directoryProvider[];
+  warnings: string[];
+}
+
+  /**
+   * Doctors and other practitioners in Humana's network near a US ZIP code, from Humana's public
+   * CMS provider directory: name, specialty, office address, phone and NPI
+   */
+  interface Unit {
+    /**
+     * In-network practitioners at offices in one ZIP code, optionally filtered by specialty words
+     * ("family medicine", "dentist"); limit defaults to 20, max 100
+     */
+    findProviders(query: string | { zip: string; specialty?: string; limit?: number }): Promise<humana_directoryProviderSearch>;
   }
 }
 
@@ -45781,6 +45933,13 @@ interface LetterboxdDiaryEntry {
   reviewText: string | null;
 }
 
+interface LetterboxdAccount {
+  username: string;
+  role: string;
+  profileUrl: string;
+  signedIn: true;
+}
+
   /**
    * The social network for film. Reads one film's full record including letterboxd's own
    * weighted average rating over millions of members, the films a member has logged, and a
@@ -45796,14 +45955,14 @@ interface LetterboxdDiaryEntry {
      * `ratingCount` and `reviewCount`. That rating is computed over millions of member ratings and
      * is published nowhere else.
      */
-    film(args: { slug: string }, opts?: ConnectionOption): Promise<LetterboxdFilm>;
+    film(args: { slug: string }): Promise<LetterboxdFilm>;
 
     /**
      * Lists the films a member has logged, newest first — { member: "davidehrlich" }, with `limit`
      * capping rows (default 72, max 200). Returns slug, title, year and URL per film, which is
      * what `film` takes to go deeper on any one of them.
      */
-    memberFilms(args: { member: string, limit?: number }, opts?: ConnectionOption): Promise<LetterboxdMemberFilm[]>;
+    memberFilms(args: { member: string, limit?: number }): Promise<LetterboxdMemberFilm[]>;
 
     /**
      * Reads a member's activity feed: every film they logged, with their own star rating, the date
@@ -45811,7 +45970,14 @@ interface LetterboxdDiaryEntry {
      * review they wrote. The review prose is the part no listing page carries. List and like
      * activity is skipped.
      */
-    memberDiary(args: { member: string, limit?: number }, opts?: ConnectionOption): Promise<LetterboxdDiaryEntry[]>;
+    memberDiary(args: { member: string, limit?: number }): Promise<LetterboxdDiaryEntry[]>;
+
+    /**
+     * Reads WHO is signed in on the saved letterboxd login: the account's username, its membership
+     * role and its profile URL. Signed-in only (it pauses the run for a sign-in when there is
+     * none), and a stale session throws rather than returning an empty account.
+     */
+    getOwnAccount(opts?: ConnectionOption): Promise<LetterboxdAccount>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -54354,6 +54520,77 @@ interface NintendoSupportArticle {
   }
 }
 
+declare namespace BowmarkProvider_npi_registry {
+  // ── NPI Registry — the unit's own declarations, verbatim ──
+interface npiAddress {
+  purpose: string;
+  line1: string;
+  line2: string | null;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  phone: string | null;
+  fax: string | null;
+}
+interface npiTaxonomy {
+  code: string;
+  description: string;
+  primary: boolean;
+  state: string | null;
+  license: string | null;
+}
+interface npiProvider {
+  npi: string;
+  kind: "individual" | "organization";
+  name: string;
+  firstName: string | null;
+  lastName: string | null;
+  organizationName: string | null;
+  credential: string | null;
+  status: string | null;
+  enumerationDate: string | null;
+  lastUpdated: string | null;
+  primaryTaxonomy: string | null;
+  taxonomies: npiTaxonomy[];
+  addresses: npiAddress[];
+  practiceLocations: npiAddress[];
+  /** Other names the registry holds (former, professional, doing-business-as).
+   * A name search matches these too, which is why a "Smith" search can return a
+   * row whose current lastName is not SMITH. */
+  otherNames: string[];
+}
+interface NpiSearchArgs {
+  firstName?: string;
+  lastName?: string;
+  organizationName?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  taxonomy?: string;
+  kind?: "individual" | "organization";
+  limit?: number;
+}
+
+  /**
+   * Look up any US clinician or healthcare organization by NPI number, or search the CMS NPI
+   * Registry by name, specialty and place
+   */
+  interface Unit {
+    /**
+     * One clinician or organization by its 10-digit NPI: name, credential, specialties with state
+     * licenses, addresses, practice locations. null when the number is not registered.
+     */
+    lookup(npi: string): Promise<npiProvider | null>;
+
+    /**
+     * Search the registry by name, organization, specialty (taxonomy), city, state or ZIP; up to
+     * 200 rows, no total count. A last-name search also matches other (e.g. former) names.
+     */
+    search(args: NpiSearchArgs): Promise<npiProvider[]>;
+  }
+}
+
 declare namespace BowmarkProvider_npmjs {
   // ── npm — the unit's own declarations, verbatim ──
 interface npmjsDownloads {
@@ -56478,6 +56715,41 @@ interface OloListOrderDaysArgs {
   vendorId: number;
   handoffMode?: string;
 }
+interface OloTimeSlot {
+  utc: string;
+}
+interface OloListTimeSlotsArgs {
+  host: string;
+  vendorId: number;
+  date: string;
+  handoffMode?: string;
+}
+interface OloOrderAvailability {
+  isValid: boolean;
+  failureCategory: string;
+  errorMessage: string | null;
+  nextOpenTime: string | null;
+}
+interface OloCheckOrderAvailabilityArgs {
+  host: string;
+  vendorId: number;
+  handoffMode?: string;
+  timeWantedType?: "Immediate" | "Advance";
+  timeWanted?: string;
+  address?: string;
+}
+interface OloOrderStatus {
+  id: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  items: Array<{ name: string; quantity: number }>;
+  total: number | null;
+  pickupTime: string | null;
+  locationName: string | null;
+}
+interface OloGetOrderStatusArgs {
+  host: string;
+  orderId: string;
+}
 
   /**
    * Olo-hosted restaurant order sites (order.fazolis.com, order.portillos.com,
@@ -56535,6 +56807,27 @@ interface OloListOrderDaysArgs {
      * order for a handoff mode, as ISO dates. Needs a vendor id from getLocation or getMenu.
      */
     listOrderDays(args: OloListOrderDaysArgs): Promise<string[]>;
+
+    /**
+     * Lists the pickup or delivery time slots a location offers on one day, for a handoff mode, as
+     * UTC instants. Needs a vendorId and a date from listOrderDays. Example:
+     * `bowmark.providers.olo.listTimeSlots({ host: "order.fazolis.com", vendorId: 81322, date:
+     * "2026-10-30" })`.
+     */
+    listTimeSlots(args: OloListTimeSlotsArgs): Promise<OloTimeSlot[]>;
+
+    /**
+     * Checks whether a location can take an order right now or at a chosen time for a handoff mode
+     * (and, for delivery, whether it covers an address), and when it next opens if not. Defaults
+     * to checking right now.
+     */
+    checkOrderAvailability(args: OloCheckOrderAvailabilityArgs): Promise<OloOrderAvailability>;
+
+    /**
+     * Returns a placed order's status from its order id (off the confirmation link): status,
+     * items, total and pickup time.
+     */
+    getOrderStatus(args: OloGetOrderStatusArgs): Promise<OloOrderStatus>;
   }
 }
 
@@ -56631,6 +56924,9 @@ interface OpenTableRestaurant {
   longitude: number | null;
 }
 
+// A fast read of a restaurant a search already named carries the SEARCH row's fields:
+// address, cuisine, priceBand, rating, reviewCount and maxPartySize may then be null.
+// slots are always read live.
 interface OpenTableAvailability extends OpenTableRestaurant {
   date: string;
   time: string;
@@ -64947,6 +65243,47 @@ interface RvshareListing {
   }
 }
 
+declare namespace BowmarkProvider_ryanair {
+  // ── Ryanair — fares — the unit's own declarations, verbatim ──
+interface ryanairAirport { code: string; name: string; city: string; country: string; countryCode: string }
+interface ryanairFare {
+  from: ryanairAirport; to: ryanairAirport;
+  departure: string; arrival: string; flightNumber: string;
+  price: number; currency: string;
+}
+interface ryanairCalendarDay {
+  day: string; price: number | null; currency: string | null;
+  departure: string | null; arrival: string | null; soldOut: boolean; unavailable: boolean;
+}
+interface ryanairSearchFaresQuery { from: string; to?: string; date?: string; currency?: string; limit?: number }
+interface ryanairFareCalendarQuery { from: string; to: string; month?: string; currency?: string }
+
+  /**
+   * Ryanair's lowest one-way fares: the cheapest flight on a route for a day, a month's low-fare
+   * calendar, or the cheapest fare to every destination from an airport
+   */
+  interface Unit {
+    /**
+     * Airports Ryanair flies to whose code, name, city or country match the words ("london",
+     * "barcelona", "STN")
+     */
+    findAirport(query: string): Promise<ryanairAirport[]>;
+
+    /**
+     * The lowest one-way Ryanair fare on a day (or, with no `date`, over the next 30 days): with
+     * `to`, the cheapest flight on that route (empty when Ryanair does not fly it); without `to`,
+     * the cheapest fare to each destination from `from`, lowest first
+     */
+    searchFares(query: ryanairSearchFaresQuery): Promise<ryanairFare[]>;
+
+    /**
+     * Ryanair's low-fare calendar for one route and month: the cheapest one-way price per day,
+     * null on days it does not fly or is sold out; [] when it flies the route on no day that month
+     */
+    fareCalendar(query: ryanairFareCalendarQuery): Promise<ryanairCalendarDay[]>;
+  }
+}
+
 declare namespace BowmarkProvider_saatva {
   // ── Saatva — the unit's own declarations, verbatim ──
 // Saatva's OWN shapes — not a capability contract.
@@ -66418,6 +66755,27 @@ interface sec_edgarCompanyFacts {
                              // totalLiabilities, stockholdersEquity, cash, sharesOutstanding, publicFloat
   conceptCount: number;
 }
+interface sec_edgarFilingsArgs {
+  company: string;   // ticker "AAPL", CIK "320193" or name "Apple"
+  forms?: string[];  // e.g. ["10-K", "10-Q"]; "10-K/A" matches only when named
+  limit?: number;    // default 20, max 200
+}
+interface sec_edgarFiling {
+  form: string;
+  filingDate: string;
+  reportDate: string | null;
+  accessionNumber: string;
+  primaryDocument: string | null;
+  description: string | null;
+  url: string;       // the primary document on www.sec.gov
+}
+interface sec_edgarFilings {
+  cik: string;
+  name: string;
+  tickers: string[];
+  filings: sec_edgarFiling[];  // newest first
+  olderFilingsExist: boolean;  // EDGAR has filings older than its ~1,000-row recent window
+}
 
   /**
    * A US public company's own reported facts from its SEC filings (revenue, net income, EPS,
@@ -66436,6 +66794,12 @@ interface sec_edgarCompanyFacts {
      * float; latest and latest full year
      */
     companyFacts(args: sec_edgarFactsArgs): Promise<sec_edgarCompanyFacts>;
+
+    /**
+     * A company's SEC filings newest first, with dates and document links ({ company: "AAPL",
+     * forms: ["10-K"] }) — the latest 10-K, 10-Q, 8-K or proxy statement
+     */
+    listFilings(args: sec_edgarFilingsArgs): Promise<sec_edgarFilings>;
   }
 }
 
@@ -67309,6 +67673,54 @@ interface GetAvailableDatesArgs {
   /** Default 30, at most 90. */
   numDays?: number;
 }
+interface SevenroomsBookingTerms {
+  slot: {
+    time: string;
+    /** "YYYY-MM-DD HH:mm:ss", the venue's own local wall clock. */
+    timeIso: string;
+    accessPersistentId: string | null;
+    shiftPersistentId: string | null;
+    partySize: number | null;
+    /** Minutes. */
+    duration: number | null;
+  };
+  policy: {
+    bookingText: string | null;
+    cancellationText: string | null;
+  };
+  payment: {
+    requireCreditCard: boolean;
+    ccPaymentRule: string | null;
+    /** A card is required once the party reaches this size, independent of requireCreditCard. */
+    ccPartySizeMin: number | null;
+    chargeType: string | null;
+    cost: number | null;
+    applyServiceCharge: boolean;
+    serviceCharge: number | null;
+    serviceChargeType: string | null;
+    defaultServiceCharge: number | null;
+    applyGratuityCharge: boolean;
+    requireGratuityCharge: boolean;
+    gratuityType: string | null;
+    gratuity: number | null;
+    defaultGratuity: number | null;
+    taxRate: number | null;
+    /** Cents charged for a late cancellation or no-show. */
+    computedAutoCancellationChargeCents: number | null;
+  };
+}
+interface GetBookingTermsArgs {
+  venue: string;
+  /** YYYY-MM-DD, the slot's own date. */
+  date: string;
+  /** "HH:mm" 24h, the slot's own timeIso time portion. */
+  time: string;
+  /** From the slot returned by getAvailability — round-trip it verbatim. */
+  accessPersistentId: string;
+  shiftPersistentId: string;
+  /** Default 2. */
+  partySize?: number;
+}
 
   /**
    * SevenRooms restaurant reservations (Catch, TAO, Nobu, Dishoom and thousands more): find a
@@ -67337,6 +67749,14 @@ interface GetAvailableDatesArgs {
      * that day.
      */
     getAvailability(args: GetAvailabilityArgs): Promise<SevenroomsAvailabilityDay[]>;
+
+    /**
+     * Reads the checkout terms of one open slot (from getAvailability) before booking it: the
+     * policy text, whether a card is held or charged and how much, deposits, fees, gratuity and
+     * the cancellation window. Places a brief reservation hold to read the terms, then releases it
+     * immediately — never a real reservation.
+     */
+    getBookingTerms(args: GetBookingTermsArgs): Promise<SevenroomsBookingTerms>;
   }
 }
 
@@ -77522,6 +77942,36 @@ interface UhaulRates {
   }
 }
 
+declare namespace BowmarkProvider_uhc_directory {
+  // ── UnitedHealthcare — provider directory — the unit's own declarations, verbatim ──
+interface uhc_directoryProvider {
+  name: string | null;
+  specialty: string | null;
+  address: string | null;
+  phone: string | null;
+  npi: string | null;
+  organization: string | null;
+  acceptingNewPatients: boolean | null;
+}
+interface uhc_directoryProviderSearch {
+  providers: uhc_directoryProvider[];
+  warnings: string[];
+}
+
+  /**
+   * Doctors and other practitioners in UnitedHealthcare's network near a US ZIP code, from
+   * UnitedHealthcare's public CMS provider directory: name, specialty, office address, phone and
+   * NPI
+   */
+  interface Unit {
+    /**
+     * In-network practitioners at offices in one ZIP code, optionally filtered by specialty words
+     * ("family medicine", "dentist"); limit defaults to 20, max 100
+     */
+    findProviders(query: string | { zip: string; specialty?: string; limit?: number }): Promise<uhc_directoryProviderSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_uhc_smallbusiness {
   // ── UnitedHealthcare Small Business — the unit's own declarations, verbatim ──
 interface UhcSmallbusinessPlan {
@@ -78197,6 +78647,50 @@ interface uspsRateOption {
      * numbers. Needs no API key.
      */
     getRate(args: { fromZip: string; toZip: string; weightOz: number; length?: number; width?: number; height?: number }): Promise<uspsRateOption[]>;
+  }
+}
+
+declare namespace BowmarkProvider_va_gov {
+  // ── VA.gov — find VA facilities — the unit's own declarations, verbatim ──
+interface va_govSearchArgs {
+  zip?: string;        // five-digit US ZIP; or lat + long
+  lat?: number;
+  long?: number;
+  type?: "health" | "benefits" | "cemetery" | "vet_center"; // default "health"
+  radius?: number;     // miles, default 25, max 500
+  limit?: number;      // default 10, max 50
+}
+interface va_govFacility {
+  id: string;                  // "vha_688"
+  name: string;
+  facilityType: string;        // "va_health_facility", "va_benefits_facility", "va_cemetery", "vet_center"
+  classification: string | null; // "VA Medical Center (VAMC)", "Primary Care CBOC"
+  distanceMiles: number | null;
+  address: { street: string; city: string; state: string; zip: string } | null;
+  phone: string | null;
+  hours: Record<string, string>; // { monday: "800AM-430PM", saturday: "Closed" }
+  operatingStatus: string | null; // "NORMAL", "NOTICE", "LIMITED", "CLOSED"
+  website: string | null;
+  lat: number | null;
+  long: number | null;
+}
+interface va_govSearch {
+  origin: { lat: number; long: number; zip: string | null };
+  facilities: va_govFacility[];  // nearest first
+  totalInRadius: number;
+}
+
+  /**
+   * VA medical centers, clinics, benefits offices, Vet Centers and national cemeteries near a
+   * ZIP code, from va.gov's own facility locator: address, phone, hours, distance
+   */
+  interface Unit {
+    /**
+     * VA facilities nearest a ZIP code or coordinates, nearest first ("20420" or { zip: "94107",
+     * type: "benefits" }): medical centers, clinics, benefits offices, Vet Centers, cemeteries,
+     * with address, phone, hours and miles away
+     */
+    findFacilities(args: string | va_govSearchArgs): Promise<va_govSearch>;
   }
 }
 
@@ -84506,9 +85000,12 @@ interface YoutubeStreamFormat {
      * 3-20 minutes, `"long"` is over 20. `sortBy: "popularity"` is the only sort besides relevance
      * the site itself offers today. Rows come back in YouTube's own order otherwise, which is NOT
      * newest first, so sort on `publishedAgeSeconds` (smaller is newer) to find the most recent.
-     * Pass a video's `url` or `videoId` straight to `getTranscript`.
+     * `limit` (1-200) keeps reading the result pages YouTube loads as you scroll until that many
+     * distinct videos are in hand, so `{ query, limit: 100 }` is one call for 100 videos; without
+     * it you get the first page, about 20-30. Pass a video's `url` or `videoId` straight to
+     * `getTranscript`.
      */
-    search(input: { query: string; uploadedWithin?: "today" | "week" | "month" | "year"; type?: "video" | "channel" | "playlist" | "movie" | "shorts"; duration?: "short" | "medium" | "long"; features?: ("live" | "4k" | "hd" | "subtitles" | "creativeCommons" | "360" | "vr180" | "3d" | "hdr" | "location" | "purchased")[]; sortBy?: "popularity" }): Promise<YoutubeSearchVideo[]>;
+    search(input: { query: string; uploadedWithin?: "today" | "week" | "month" | "year"; type?: "video" | "channel" | "playlist" | "movie" | "shorts"; duration?: "short" | "medium" | "long"; features?: ("live" | "4k" | "hd" | "subtitles" | "creativeCommons" | "360" | "vr180" | "3d" | "hdr" | "location" | "purchased")[]; sortBy?: "popularity"; limit?: number }): Promise<YoutubeSearchVideo[]>;
 
     /**
      * YouTube's own autocomplete for a partial query — the dropdown it shows while somebody is
@@ -84523,7 +85020,7 @@ interface YoutubeStreamFormat {
      * any watch/shorts/embed/live/youtu.be URL. `segments` is [] — a real, honest answer — when
      * the video has no caption track at all.
      */
-    getTranscript(input: { video: string }): Promise<YoutubeTranscript>;
+    getTranscript(input: string | { video: string }): Promise<YoutubeTranscript>;
 
     /**
      * Resolves a channel `@handle`, a channel/handle URL, or a plain channel name to its canonical
@@ -86671,6 +87168,7 @@ interface BowmarkProviders {
   christianbrothersauto: BowmarkProvider_christianbrothersauto.Unit;
   christydawn: BowmarkProvider_christydawn.Unit;
   chromium_googlesource_com: BowmarkProvider_chromium_googlesource_com.Unit;
+  cigna_directory: BowmarkProvider_cigna_directory.Unit;
   circl: BowmarkProvider_circl.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classicrockfab: BowmarkProvider_classicrockfab.Unit;
@@ -86849,6 +87347,7 @@ interface BowmarkProviders {
   hottopic: BowmarkProvider_hottopic.Unit;
   hubspot: BowmarkProvider_hubspot.Unit;
   huggingface: BowmarkProvider_huggingface.Unit;
+  humana_directory: BowmarkProvider_humana_directory.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
   idealista: BowmarkProvider_idealista.Unit;
@@ -86960,6 +87459,7 @@ interface BowmarkProviders {
   nhc: BowmarkProvider_nhc.Unit;
   nike: BowmarkProvider_nike.Unit;
   nintendo: BowmarkProvider_nintendo.Unit;
+  npi_registry: BowmarkProvider_npi_registry.Unit;
   npmjs: BowmarkProvider_npmjs.Unit;
   npr: BowmarkProvider_npr.Unit;
   nurturelife: BowmarkProvider_nurturelife.Unit;
@@ -87053,6 +87553,7 @@ interface BowmarkProviders {
   rover: BowmarkProvider_rover.Unit;
   ruggable: BowmarkProvider_ruggable.Unit;
   rvshare: BowmarkProvider_rvshare.Unit;
+  ryanair: BowmarkProvider_ryanair.Unit;
   saatva: BowmarkProvider_saatva.Unit;
   safetywing: BowmarkProvider_safetywing.Unit;
   safeway: BowmarkProvider_safeway.Unit;
@@ -87159,6 +87660,7 @@ interface BowmarkProviders {
   uber: BowmarkProvider_uber.Unit;
   ubereats: BowmarkProvider_ubereats.Unit;
   uhaul: BowmarkProvider_uhaul.Unit;
+  uhc_directory: BowmarkProvider_uhc_directory.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   uniqlo: BowmarkProvider_uniqlo.Unit;
@@ -87167,6 +87669,7 @@ interface BowmarkProviders {
   ups: BowmarkProvider_ups.Unit;
   usatoday: BowmarkProvider_usatoday.Unit;
   usps: BowmarkProvider_usps.Unit;
+  va_gov: BowmarkProvider_va_gov.Unit;
   vagaro: BowmarkProvider_vagaro.Unit;
   vbt: BowmarkProvider_vbt.Unit;
   verizon: BowmarkProvider_verizon.Unit;

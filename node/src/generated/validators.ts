@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1e506b9b3ea2a86746961a77df2ca07a22185d2f1e2a743876a1e2882fc01492
-// 3319 checked, 20 unchecked.
+// Manifest version: a7ddeb7579571e775a816b9cd77f719faafa63809ba79182df8ebdda81cd5454
+// 3338 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1e506b9b3ea2a86746961a77df2ca07a22185d2f1e2a743876a1e2882fc01492",
+  "version": "a7ddeb7579571e775a816b9cd77f719faafa63809ba79182df8ebdda81cd5454",
   "units": {
     "address_validation": {
       "defs": {
@@ -9382,7 +9382,24 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "asinOrUrl",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "asin",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -21638,6 +21655,51 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listRepos": []
+      }
+    },
+    "providers.cigna_directory": {
+      "defs": {},
+      "functions": {
+        "findProviders": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "zip",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "specialty",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.circl": {
@@ -41102,7 +41164,27 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.goteamup_classes": {
-      "defs": {},
+      "defs": {
+        "GoteamupScheduleRange": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "findStudio": [
           {
@@ -41114,6 +41196,97 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getStudio": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listSchedule": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "range",
+            "schema": {
+              "k": "ref",
+              "name": "GoteamupScheduleRange"
+            },
+            "optional": true
+          }
+        ],
+        "getClass": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "classId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listClassTypes": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listMemberships": [
           {
             "name": "studio",
             "schema": {
@@ -43400,6 +43573,51 @@ export const VALIDATORS: ValidatorTable = {
             "name": "id",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.humana_directory": {
+      "defs": {},
+      "functions": {
+        "findProviders": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "zip",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "specialty",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -49270,22 +49488,6 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "memberFilms": [
@@ -49311,22 +49513,6 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "memberDiary": [
@@ -49352,7 +49538,9 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
-          },
+          }
+        ],
+        "getOwnAccount": [
           {
             "name": "opts",
             "schema": {
@@ -61012,6 +61200,109 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.npi_registry": {
+      "defs": {
+        "NpiSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "organizationName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "postalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "taxonomy",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "kind",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "individual"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "organization"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "lookup": [
+          {
+            "name": "npi",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NpiSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.npmjs": {
       "defs": {},
       "functions": {
@@ -64026,6 +64317,63 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.olo": {
       "defs": {
+        "OloCheckOrderAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "host",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "vendorId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "handoffMode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeWantedType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Immediate"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Advance"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "timeWanted",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "OloFindBrandArgs": {
           "k": "object",
           "props": [
@@ -64061,6 +64409,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "OloGetOrderStatusArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "host",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "orderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -64114,6 +64481,39 @@ export const VALIDATORS: ValidatorTable = {
               "name": "vendorId",
               "schema": {
                 "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "handoffMode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "OloListTimeSlotsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "host",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "vendorId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
               },
               "optional": false
             },
@@ -64266,6 +64666,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "OloListOrderDaysArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listTimeSlots": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OloListTimeSlotsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkOrderAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OloCheckOrderAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getOrderStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OloGetOrderStatusArgs"
             },
             "optional": false
           }
@@ -76880,6 +77310,114 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.ryanair": {
+      "defs": {
+        "ryanairFareCalendarQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "month",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ryanairSearchFaresQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findAirport": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchFares": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "ryanairSearchFaresQuery"
+            },
+            "optional": false
+          }
+        ],
+        "fareCalendar": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "ryanairFareCalendarQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.saatva": {
       "defs": {
         "MattressQuizAnswers": {
@@ -78333,6 +78871,35 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "sec_edgarFilingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "company",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "forms",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "sec_edgarFindArgs": {
           "k": "object",
           "props": [
@@ -78370,6 +78937,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "sec_edgarFactsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listFilings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "sec_edgarFilingsArgs"
             },
             "optional": false
           }
@@ -79098,6 +79675,53 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetBookingTermsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "venue",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "accessPersistentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "shiftPersistentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetVenueArgs": {
           "k": "object",
           "props": [
@@ -79138,6 +79762,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getBookingTerms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetBookingTermsArgs"
             },
             "optional": false
           }
@@ -90542,6 +91176,51 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.uhc_directory": {
+      "defs": {},
+      "functions": {
+        "findProviders": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "zip",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "specialty",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.uhc_smallbusiness": {
       "defs": {},
       "functions": {
@@ -91655,6 +92334,95 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.va_gov": {
+      "defs": {
+        "va_govSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "long",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "health"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "benefits"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "cemetery"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "vet_center"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "radius",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findFacilities": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "va_govSearchArgs"
                 }
               ]
             },
@@ -98322,6 +99090,13 @@ export const VALIDATORS: ValidatorTable = {
                     "v": "popularity"
                   },
                   "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -98350,14 +99125,22 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "input",
             "schema": {
-              "k": "object",
-              "props": [
+              "k": "union",
+              "of": [
                 {
-                  "name": "video",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "video",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
                 }
               ]
             },

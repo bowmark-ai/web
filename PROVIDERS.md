@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5816 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5819 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -95,6 +95,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adorama.getProduct` | adorama.com | Reads one product page — typeset title, current price, specs, rating. | ⚪ |
 | `adorama.listCategories` | adorama.com | Lists every Adorama department and sub-category with its full path and url, from its… | 🟢 |
 | `adorama.search` | adorama.com | Finds Adorama products by name, brand, model or SKU across its whole catalog, from… | 🟢 |
+| `aetna_directory.findProviders` | aetna.com | In-network providers near one US ZIP code for one Aetna commercial plan, by specialty… | 🟢 |
 | `agakhanhospitals.getHospitalInfo` | agakhanhospitals.org | Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services… | 🟢 |
 | `agakhanhospitals.listSpecialties` | agakhanhospitals.org | Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics… | 🟢 |
 | `agentstatus.getServer` | agentstatus.dev | Reads one server's entry on the index by slug, including every tool the index probed… | 🟢 |
@@ -2813,6 +2814,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `junkluggers.getServiceTypes` | junkluggers.com | Lists the service types the zip's resolved franchise offers, each flagged isOnline for… | 🟢 |
 | `justinwine.checkTastingAvailability` | justinwine.com | Checks real open reservation slots for a given date and party size at JUSTIN's… | ⚪ |
 | `justinwine.listClubTiers` | justinwine.com | Lists the JUSTIN Wine Society club tiers (Red Wines, Red and White Wines, Isosceles… | 🟢 |
+| `kaiser_directory.findProviders` | kp.org | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
 | `kaleidescape.findDealersNear` | kaleidescape.com | Finds Kaleidescape authorized dealers near a location — pass EITHER a 5-digit US zip… | 🟢 |
 | `kalshi.getMarket` | kalshi.com | Reads one Kalshi market's full detail by its own ticker — title, subtitle, status… | 🟢 |
 | `kalshi.getMarkets` | kalshi.com | Lists Kalshi's own live prediction-market contracts — each market's ticker, title… | 🟢 |
@@ -3324,7 +3326,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nintendo.getMyNintendoRewardsBalance` | www.nintendo.com | Read the signed-in caller's My Nintendo Points balance and reward history — the… | ⚪ |
 | `nintendo.getProduct` | www.nintendo.com | Read one product page the way a shopper reads it: name, platform, current and list… | 🟢 |
 | `nintendo.getSupportArticle` | www.nintendo.com | Read one support article in full — title, which products it applies to, and its body… | 🟢 |
-| `nintendo.listCategories` | www.nintendo.com | List the store's own departments as its Shop menu shows them — Games, Hardware… | 🟡 |
+| `nintendo.listCategories` | www.nintendo.com | List the store's own departments as its Shop menu shows them — Games, Hardware… | 🟢 |
 | `nintendo.listDeals` | www.nintendo.com | Today's discounted games and hardware on the Nintendo store — the read behind "what's… | 🟢 |
 | `nintendo.listNews` | www.nintendo.com | Nintendo's own announcements and news articles — game reveals, updates, events — from… | ⚪ |
 | `nintendo.listOrders` | www.nintendo.com | Read the signed-in caller's Nintendo eShop / store order history. | ⚪ |
@@ -3354,9 +3356,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.subscribeNewsletter` | npr.org | Subscribe an email address the caller owns to one NPR newsletter. | ⚪ |
 | `nurturelife.getMealBundle` | nurturelife.com | Returns Nurture Life's currently-offered curated meal bundles with their real, current… | 🟢 |
 | `nurturelife.getMealPlans` | nurturelife.com | Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's… | 🟢 |
-| `nutrafol.assessHairWellness` | nutrafol.com | Runs Nutrafol's own Hair Wellness Quiz along its default answer path (the site's own… | 🟢 |
-| `nutrafol.computeHairWellness` | nutrafol.com | Would run the quiz with the caller's own answers (age range, shedding pattern, stress… | ⚪ |
+| `nutrafol.assessHairWellness` | nutrafol.com | Scores Nutrafol's own Hair Wellness Quiz along its default answer path (Woman, then… | 🟢 |
+| `nutrafol.computeHairWellness` | nutrafol.com | Scores the caller's own quiz answers (question id -> option id) with the site's own… | 🟢 |
 | `nutrafol.getQuizOverview` | nutrafol.com | Reads the Hair Wellness Quiz's own static intro page — its real description text and… | 🟢 |
+| `nutrafol.getQuizQuestions` | nutrafol.com | Lists every question the Hair Wellness Quiz can ask, with option ids and labels, so a… | 🟢 |
 | `nvisioncenters.calculateLasikSavings` | nvisioncenters.com | Runs NVISION's own LASIK Savings Calculator — age plus glasses/contacts usage and cost… | 🟢 |
 | `nvisioncenters.checkLasikCandidacy` | nvisioncenters.com | Runs NVISION's own LASIK Candidate Quiz disqualification rule — age bracket in, the… | 🟢 |
 | `nvisioncenters.estimateLasikSavings` | nvisioncenters.com | Alias of calculateLasikSavings taking the snake_case argument spelling (glasses_cost… | 🟢 |
@@ -3561,7 +3564,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pausestudio.listServices` | pausestudio.com | Lists available recovery services (float, cryo, sauna, IV drips, etc.) at a location | 🟢 |
 | `pausestudio.listWaitlistedSlots` | pausestudio.com | Lists the caller's own open waitlist requests — requires the caller's own signed-in… | 🟢 |
 | `pausestudio.modifyBooking` | pausestudio.com | Moves one of the caller's own appointments to a new time — requires the caller's own… | 🟢 |
-| `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | 🟢 |
+| `pawsup.checkAvailability` | pawsup.com | Checks which homes and tents Paws Up has for a stay and returns each with its nightly… | 🟢 |
 | `paypal.estimateFee` | paypal.com | Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — an… | 🟢 |
 | `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | 🟢 |
 | `paypal.getCryptoPrices` | paypal.com | Reads the buy and sell prices PayPal itself quotes for the cryptocurrencies it… | ⚪ |
@@ -3789,7 +3792,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `punchpass.getCalendarFeed` | punchpass.com | Returns a studio's subscribable iCal feed url and its parsed events — every class and… | 🟢 |
 | `punchpass.getClass` | punchpass.com | Gets one class by the id getSchedule returned — title, instructor, date, time… | 🟢 |
 | `punchpass.getMyClassHistory` | punchpass.com | Lists the classes and series the signed-in caller has attended at a studio, with dates. | ⚪ |
-| `punchpass.getMyProfile` | punchpass.com | Gets the signed-in caller's profile at a studio — name, email, phone, emergency… | ⚪ |
+| `punchpass.getMyProfile` | punchpass.com | Gets the signed-in caller's own Punchpass account (needs the caller signed in): email… | 🟢 |
 | `punchpass.getPass` | punchpass.com | Gets one pass or membership's full terms by the id listPasses returned (kind is found… | 🟢 |
 | `punchpass.getSchedule` | punchpass.com | Lists a studio's upcoming classes from a start date — class id, name, local start (and… | 🟢 |
 | `punchpass.getSeries` | punchpass.com | Gets one series by id — title, instructor, date range, full description, price, spots… | 🟢 |
@@ -4358,7 +4361,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `smartrecruiters.listJobs` | smartrecruiters.com | Lists a company's public SmartRecruiters postings — title, full location… | 🟢 |
 | `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟢 |
 | `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |
-| `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the computed… | 🟢 |
+| `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the socks it… | 🟢 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
 | `snapchat.addFriend` | snapchat.com | Adds an account as a friend by username from the signed-in caller's account — the Add… | ⚪ |
 | `snapchat.blockUser` | snapchat.com | Blocks an account from contacting the signed-in caller. | ⚪ |

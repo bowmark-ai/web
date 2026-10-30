@@ -24,6 +24,7 @@ acqualinaresort.com — acqualinaresort: searchAvailability
 acuityscheduling.com — acuityscheduling: findScheduler, getAppointmentTypeDetails, getBookingForm, getPrice, getSchedulerInfo, listAppointmentTypes, listLocations, listPacks, listScheduleSlots (+8 planned)
 adobe.com — adobe: findHelpArticle, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, searchFonts, searchStockAssets, searchTemplates (+6 planned)
 adorama.com — adorama: listCategories, search (+2 planned)
+aetna.com — aetna_directory: findProviders
 agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
 agentstatus.dev — agentstatus: getServer, searchServers (+1 planned)
 agoda.com — agoda: findDestinations, searchHotels (+4 planned)
@@ -403,6 +404,7 @@ kingsdown.com — kingsdown: getBedMatchResult
 kitchentuneup.com — kitchentuneup: listCabinetStyles, visualizeKitchen
 kohls.com — kohls: search (+4 planned)
 kompan.com — kompan: getSparePartsDocuments, searchPlaygroundSpareParts, searchProduct
+kp.org — kaiser_directory: findProviders
 kuiu.com — kuiu: findKuiuSize, getKuiuCheckoutLink, getKuiuProduct, listKuiuProducts
 kwworldwide.com — kwworldwide: findContactForm
 labcorp.com — labcorp: getTest, search (+3 planned)
@@ -482,7 +484,7 @@ npiregistry.cms.hhs.gov — npi_registry: lookup, search
 npmjs.com — npmjs: getDownloads
 npr.org — npr: findStations, getLiveStream, getPodcast, getProgramRundown, getStation, getStory, getTranscript, listHeadlines, listPodcastCategories, listPodcastEpisodes, listPodcasts, listSections, listSectionStories, searchStories (+5 planned)
 nurturelife.com — nurturelife: getMealBundle, getMealPlans
-nutrafol.com — nutrafol: assessHairWellness, getQuizOverview (+1 planned)
+nutrafol.com — nutrafol: assessHairWellness, computeHairWellness, getQuizOverview, getQuizQuestions
 nutribullet.com — capitalbrands: getBlenderRecommendation, listQuizQuestions
 nvisioncenters.com — nvisioncenters: calculateLasikSavings, checkLasikCandidacy, estimateLasikSavings
 nytimes.com — nytimes: getArticle, getArticleComments, getConnections, getLiveBlog, getNewsletter, getPodcast, getSection, getSpellingBee, getTopicArticles, getTrending, getWordle, getWriter, listArticles, listEpisodes, listNewsletters, listPodcasts, listRSSFeeds, listSavedArticles, listSections, listTopics, listTrending, listWriterArticles, searchArticles, searchWriters (+4 planned)
@@ -544,7 +546,7 @@ proxmox.com — proxmox: getIsoDownloads
 proxy-cheap.com — proxy_cheap: listCoverage, listPlans
 pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
 puls.com — puls_com: getRepairQuote, listApplianceCategories
-punchpass.com — punchpass: getCalendarFeed, getClass, getPass, getSchedule, getSeries, getStudio, listAppointmentSlots, listInstructors, listPasses, listScheduleFilters, listSeries (+21 planned)
+punchpass.com — punchpass: getCalendarFeed, getClass, getMyProfile, getPass, getSchedule, getSeries, getStudio, listAppointmentSlots, listInstructors, listPasses, listScheduleFilters, listSeries (+20 planned)
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
 pushpress.com — pushpress: getClass, getGym, getMyProfile, getPlan, listAppointmentTypes, listClasses, listCoaches, listLocations, listPlans (+15 planned)
 quickbooks.intuit.com — quickbooks: calculatePaycheck, getEvent, getPayrollPlans, getPlans, getServiceStatus, getThread, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates (+23 planned)
