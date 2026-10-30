@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b41c07f65bb0d9fc10ba336c15dca3d8397d226cb094313236728bd0faed20a3
-// 92 capabilities, 713 providers, 3287 typed functions, 20 refused.
+// Manifest version: 1e506b9b3ea2a86746961a77df2ca07a22185d2f1e2a743876a1e2882fc01492
+// 92 capabilities, 719 providers, 3337 typed functions, 20 refused.
 // 49,871 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14591,6 +14591,50 @@ interface BlendersEyewearPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_bls {
+  // ── U.S. Bureau of Labor Statistics — the unit's own declarations, verbatim ──
+interface blsSeriesRef {
+  seriesId: string;
+  title: string;
+}
+interface blsPoint {
+  year: number;
+  period: string;
+  periodName: string;
+  value: number;
+  latest: boolean;
+  footnotes: string[];
+}
+interface blsLatest extends blsPoint {
+  seriesId: string;
+}
+interface blsSeries {
+  seriesId: string;
+  points: blsPoint[];
+}
+
+  /**
+   * Official US labor and price statistics from BLS: the latest value or recent history of any
+   * series (CPI, unemployment rate, payrolls, wages)
+   */
+  interface Unit {
+    /**
+     * Turn words ("CPI", "unemployment rate", "job openings") into BLS series ids from BLS's own
+     * headline list; the door to getLatest and getSeries
+     */
+    findSeries(query: string): Promise<blsSeriesRef[]>;
+
+    /**
+     * The most recent published value of a BLS series, e.g. "CUUR0000SA0" (CPI-U all items),
+     * "LNS14000000" (unemployment rate), "CES0000000001" (nonfarm payrolls)
+     */
+    getLatest(seriesId: string): Promise<blsLatest>;
+
+    /** The last ~3 years of observations of a BLS series, newest first */
+    getSeries(seriesId: string): Promise<blsSeries>;
+  }
+}
+
 declare namespace BowmarkProvider_bluehaven {
   // ── Blue Haven Pools & Spas — the unit's own declarations, verbatim ──
 interface BluehavenPoolDesign {
@@ -16111,6 +16155,35 @@ interface BookerAvailability {
   /** `start` is an ISO instant in the location's own offset; staffIds are listStaff ids. */
   slots: { start: string; staffIds: number[] }[];
 }
+interface BookerFee {
+  type: string | null;
+  amount: number | null;
+  percentage: number | null;
+}
+interface BookerBookingPolicies {
+  locationId: number;
+  onlineBookingEnabled: boolean | null;
+  cancellation: {
+    active: boolean | null;
+    text: string | null;
+    /** Hours of notice a cancel needs to avoid the fee. */
+    hoursNotice: number | null;
+    appliesTo: string | null;
+    fee: BookerFee;
+    noShowFee: BookerFee;
+    onlineCancelAllowed: boolean | null;
+    reasons: string[];
+  };
+  payment: { cardRequired: boolean | null; preAuthorizeCard: boolean | null; methods: string[] };
+  /** How far ahead the storefront books. */
+  bookAhead: { amount: number | null; unit: "day" | "week" | "month" | null };
+  /** The latest an appointment can be booked before it starts. */
+  minNoticeMinutes: number | null;
+  startTimeIntervalMinutes: number | null;
+  canChooseStaff: boolean | null;
+  multiServiceBooking: boolean | null;
+  groupBooking: boolean | null;
+}
 
   /**
    * Booker (go.booker.com), Mindbody's spa and salon booking storefront: a location's service
@@ -16153,6 +16226,13 @@ interface BookerAvailability {
      * who can take it, plus the service's duration and price.
      */
     getAvailability(args: BookerAvailabilityArgs): Promise<BookerAvailability>;
+
+    /**
+     * A location's booking rules: cancellation policy text, notice hours and fee, no-show fee,
+     * whether a card is required, how far ahead and how late you can book, and whether online
+     * booking is open.
+     */
+    getBookingPolicies(args: BookerLocationArgs): Promise<BookerBookingPolicies>;
   }
 }
 
@@ -19506,6 +19586,46 @@ interface AssembledInquiry {
   }
 }
 
+declare namespace BowmarkProvider_cbp {
+  // ── U.S. Customs and Border Protection — border wait times — the unit's own declarations, verbatim ──
+interface cbpLane {
+  status: string;
+  delayMinutes: number | null;
+  lanesOpen: number | null;
+  updated: string | null;
+}
+interface cbpPort {
+  portNumber: string;
+  portName: string;
+  crossingName: string;
+  border: "canada" | "mexico";
+  status: string;
+  hours: string;
+  reportedAt: string;
+  passenger: { standard: cbpLane | null; nexusSentri: cbpLane | null; ready: cbpLane | null };
+  commercial: { standard: cbpLane | null; fast: cbpLane | null };
+  pedestrian: { standard: cbpLane | null; ready: cbpLane | null };
+  constructionNotice: string | null;
+}
+interface cbpWaitTimesQuery {
+  port?: string;
+  border?: "canada" | "mexico";
+}
+
+  /**
+   * Live wait times at every US land border crossing with Canada and Mexico, from CBP:
+   * passenger, SENTRI/NEXUS, Ready, commercial and pedestrian lanes
+   */
+  interface Unit {
+    /**
+     * Current wait in minutes and lanes open at US land border crossings. No argument returns
+     * every port; a port name or code ("San Ysidro", "Ambassador Bridge", "250401") or { border:
+     * "canada" | "mexico" } narrows it
+     */
+    waitTimes(query?: string | cbpWaitTimesQuery): Promise<cbpPort[]>;
+  }
+}
+
 declare namespace BowmarkProvider_census_api {
   // ── US Census Bureau — the unit's own declarations, verbatim ──
 interface AddressMatch {
@@ -22339,6 +22459,35 @@ interface ClubreadyInstructor {
      * first.
      */
     listInstructors(args: { studio: string, from?: string, to?: string }): Promise<ClubreadyInstructor[]>;
+
+    /**
+     * Returns the signed-in caller's own profile — name, email, phone, home studio. An
+     * authFunction: takes a studio id (any studio of the brand the caller signed into — one login
+     * is one brand's account) to resolve which brand host to call. Returned raw — no fleet-held
+     * ClubReady session exists to pin the signed-in shape.
+     */
+    getMyProfile(studio: string, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Returns the signed-in caller's membership and class-credit summary at one studio of their
+     * own brand (a studio id from findStudios). An authFunction, returned raw for the same reason
+     * as getMyProfile.
+     */
+    getMyMembership(studio: string, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Lists the signed-in caller's upcoming and past class bookings and waitlist spots, across
+     * their brand's studios. Takes a studio id to resolve the brand host. An authFunction,
+     * returned raw for the same reason as getMyProfile.
+     */
+    listMyBookings(studio: string, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Returns the signed-in caller's own workout/performance stats at their brand (CycleBar ride
+     * stats and similar, where the brand records them). Takes a studio id to resolve the brand
+     * host. An authFunction, returned raw for the same reason as getMyProfile.
+     */
+    getWorkoutStats(studio: string, opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -24204,6 +24353,71 @@ interface dansonsRegisterableProduct {
      * number or purchase info.
      */
     identifyProduct(query: string): Promise<dansonsRegisterableProduct[]>;
+  }
+}
+
+declare namespace BowmarkProvider_data_cms {
+  // ── CMS Data (data.cms.gov) — the unit's own declarations, verbatim ──
+interface data_cmsDataset {
+  /** the uuid getRows takes; stable across versions */
+  id: string;
+  title: string;
+  summary: string | null;
+  version: string | null;
+  lastUpdated: string | null;
+  frequency: string | null;
+  rowCount: number | null;
+  columnCount: number | null;
+  url: string | null;
+  dataDictionaryUrl: string | null;
+}
+interface data_cmsSearchResult {
+  datasets: data_cmsDataset[];
+  totalMatches: number | null;
+}
+interface data_cmsRowsResult {
+  datasetId: string;
+  /** rows as CMS publishes them; keys are the dataset's own column headers */
+  rows: Record<string, unknown>[];
+  /** rows matching the filters across the whole dataset */
+  totalMatching: number | null;
+  columns: string[];
+}
+interface SearchDatasetsArgs {
+  /** words to search the catalog for, e.g. "hospital enrollments" */
+  query: string;
+  /** default 10, max 50 */
+  limit?: number;
+}
+interface GetRowsArgs {
+  /** searchDatasets().datasets[].id, or a dataset's exact title */
+  datasetId: string;
+  /** default 25, max 500 */
+  limit?: number;
+  offset?: number;
+  /** exact-match column filters using the dataset's own headers, e.g. { STATE: "TX", CITY: "AUSTIN" } */
+  filters?: Record<string, string | number>;
+  /** free-text match across the row */
+  keyword?: string;
+}
+
+  /**
+   * Search the Centers for Medicare & Medicaid Services' open datasets (provider enrollments,
+   * hospital and nursing-home data, Part D prescribers, …) and read rows from one, filtered by
+   * column.
+   */
+  interface Unit {
+    /**
+     * Search data.cms.gov's dataset catalog by keyword; returns each dataset's id (for getRows),
+     * title, summary, latest version, update frequency and size.
+     */
+    searchDatasets(args: SearchDatasetsArgs): Promise<data_cmsSearchResult>;
+
+    /**
+     * Read rows from one data.cms.gov dataset (its latest version), optionally filtered by exact
+     * column values or a keyword, with the total number of matching rows.
+     */
+    getRows(args: GetRowsArgs): Promise<data_cmsRowsResult>;
   }
 }
 
@@ -27768,6 +27982,21 @@ interface RedeemCodeResult {
   code: string;
 }
 
+interface AchievementProgressEntry {
+  achievementName: string;
+  unlocked: boolean;
+  progress: number;
+  xp: number;
+  unlockDate: string | null;
+  isBase: boolean;
+}
+
+interface GetAchievementProgressResult {
+  totalXP: number;
+  totalUnlocked: number;
+  achievements: AchievementProgressEntry[];
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -27891,6 +28120,12 @@ interface RedeemCodeResult {
      * signed in.
      */
     redeemCode(code: string, opts?: ConnectionOption): Promise<RedeemCodeResult>;
+
+    /**
+     * The signed-in caller's own achievements in one game — which are unlocked, when, their XP and
+     * progress. Takes a product slug or namespace. Needs the caller signed in.
+     */
+    getAchievementProgress(args: { slug?: string; namespace?: string }, opts?: ConnectionOption): Promise<GetAchievementProgressResult>;
   }
 }
 
@@ -28934,6 +29169,25 @@ interface EtsyListingReview {
   date: string | null;
   text: string;
 }
+interface EtsyShop {
+  name: string;
+  tagline: string | null;
+  description: string | null;
+  location: string | null;
+  logo: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  sales: number | null;
+  admirers: number | null;
+  onEtsySince: number | null;
+  url: string;
+}
+interface EtsyShopSearchRow {
+  name: string;
+  tagline: string | null;
+  itemCount: number | null;
+  url: string;
+}
 
   /**
    * Etsy's own documented Open API v3 (openapi.etsy.com) — searches active listings on etsy.com
@@ -28963,6 +29217,25 @@ interface EtsyListingReview {
      * the date and the review text. Takes the same id or URL as `getListing`.
      */
     listListingReviews(idOrUrl: number | string): Promise<EtsyListingReview[]>;
+
+    /**
+     * One Etsy shop by its name or etsy.com/shop URL — tagline, location, logo, star rating and
+     * review count, total sales, admirers and the year it opened on Etsy.
+     */
+    getShop(nameOrUrl: string): Promise<EtsyShop>;
+
+    /**
+     * The items on the first page of an Etsy shop — listing id, title, price, currency and URL
+     * (quantity and tags are `null`/empty, as on the keyless search door). Takes the same name or
+     * URL as `getShop`.
+     */
+    listShopListings(nameOrUrl: string): Promise<etsyListing[]>;
+
+    /**
+     * Etsy shops whose name contains a word — each shop's name, tagline, item count and URL. The
+     * door from a half-remembered shop name to `getShop`.
+     */
+    searchShops(query: string): Promise<EtsyShopSearchRow[]>;
   }
 }
 
@@ -29199,6 +29472,20 @@ interface EventbriteOrganizerDetail {
      * promised.
      */
     getOwnProfile(opts?: ConnectionOption): Promise<Record<string, unknown>>;
+
+    /**
+     * Makes a NEW Eventbrite account with the person's own email and password, in a session.
+     * Pauses with `needs_code` / `needs_phone` whenever the site wants something only the person
+     * has; continue with `confirmSignup` in the same session. Ends `signed_up` with the login
+     * saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -31596,6 +31883,20 @@ interface FloathelmRoomDetail extends FloathelmRoom {
   description: string | null;
   imageUrl: string | null;
 }
+interface FloathelmDate {
+  year: number;
+  /** 1-12, calendar convention — NOT a JS Date 0-11 month. */
+  month: number;
+  day: number;
+}
+interface FloathelmSlot {
+  roomId: number;
+  /** FloatHelm's own event id, what bookAppointment will need. */
+  eventId: string;
+  /** Local wall-clock start time, 24-hour "HH:MM". */
+  time: string;
+  available: boolean;
+}
 
   /** Booking engine for float tanks, cryotherapy, and sauna services. */
   interface Unit {
@@ -31624,6 +31925,13 @@ interface FloathelmRoomDetail extends FloathelmRoom {
      * returns.
      */
     getRoom(roomId: number): Promise<FloathelmRoomDetail>;
+
+    /**
+     * Lists every slot (open or reserved) on the booking calendar for one day, optionally narrowed
+     * to one room/service's room_id from listRooms. Measured against Marina only — FloatHelm's
+     * location switch is not reachable without a browser, so this does not yet vary by location.
+     */
+    listAvailableSlots(date: FloathelmDate, roomId?: number): Promise<FloathelmSlot[]>;
   }
 }
 
@@ -31759,6 +32067,23 @@ interface FomoLeaderboardEntry {
   rank: number;
   user: FomoUser;
   stats: FomoTraderStats;
+}
+
+interface FomoClanRef {
+  id: string;
+  name: string;
+  imageUrl: string | null;
+}
+
+interface FomoClan {
+  id: string;
+  name: string;
+  imageUrl: string | null;
+  description: string | null;
+  memberCount: number | null;
+  rank: number | null;
+  stats: FomoTraderStats | null;
+  url: string;
 }
 
 interface FomoBalance {
@@ -31902,6 +32227,20 @@ interface FomoCandle {
      * weekly) with each one's realized PnL, percentage return, volume, trade count and win rate.
      */
     getLeaderboard(args?: { window?: FomoLeaderboardWindow }, opts?: ConnectionOption): Promise<FomoLeaderboardEntry[]>;
+
+    /**
+     * Returns the same ranking as getLeaderboard, restricted to traders the signed-in user follows
+     * — 'how am I doing against the people I actually watch'. No window argument; the site scopes
+     * this one to all-time server-side.
+     */
+    getFollowingLeaderboard(opts?: ConnectionOption): Promise<FomoLeaderboardEntry[]>;
+
+    /**
+     * Returns one trader's own rank and stats without walking the board — the narrow,
+     * high-frequency read behind 'where am I', for a caller tracking one trader over time rather
+     * than reading the whole leaderboard.
+     */
+    getUserLeaderboardStanding(userId: string, opts?: ConnectionOption): Promise<FomoLeaderboardEntry>;
 
     /**
      * Returns a trader's profile by their user id — display name, bio, avatar, follower and
@@ -32182,6 +32521,20 @@ interface FomoCandle {
      * synthetic id reaches this route.
      */
     getPortfolioSnapshot(userId: string, snapshotId: string, opts?: ConnectionOption): Promise<FomoBalance[]>;
+
+    /**
+     * Searches clans — fomo's team unit — by name, returning the id/name/imageUrl refs that
+     * getClan expands. The entry point to every clan read, since a clanId is not knowable ahead of
+     * it.
+     */
+    searchClans(searchTerm: string, opts?: ConnectionOption): Promise<FomoClanRef[]>;
+
+    /**
+     * Returns one clan in full — name, description, member count, leaderboard rank and window
+     * stats. window is the same daily/weekly/monthly/allTime set getLeaderboard takes (default
+     * weekly); clanId comes from searchClans.
+     */
+    getClan(clanId: string, window?: FomoLeaderboardWindow, opts?: ConnectionOption): Promise<FomoClan>;
   }
 }
 
@@ -33565,6 +33918,74 @@ interface FreshaSearchSuggestions {
   treatmentCategories: FreshaTreatmentCategorySuggestion[];
 }
 
+interface FreshaServiceVariant {
+  /** The id getAvailability / getBookingQuote take. */
+  id: string;
+  name: string;
+  caption: string | null;
+  formattedRetailPrice: string | null;
+}
+
+interface FreshaService {
+  id: string;
+  serviceId: string | null;
+  name: string;
+  description: string | null;
+  caption: string | null;
+  formattedRetailPrice: string | null;
+  price: { currency: string; value: number } | null;
+  priceType: string | null;
+  minMinutes: number | null;
+  maxMinutes: number | null;
+  variants: FreshaServiceVariant[];
+}
+
+interface FreshaServiceCategory {
+  id: string;
+  name: string;
+  services: FreshaService[];
+}
+
+interface FreshaTeamMember {
+  employeeId: string;
+  displayName: string;
+  jobTitle: string | null;
+  rating: number | null;
+  avatarUrl: string | null;
+}
+
+interface FreshaVenue {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  businessType: string | null;
+  contactNumber: string | null;
+  address: {
+    formatted: string | null;
+    street: string | null;
+    city: string | null;
+    region: string | null;
+    postalCode: string | null;
+    countryCode: string | null;
+    latitude: number | null;
+    longitude: number | null;
+  };
+  openNow: { state: string | null; label: string | null };
+  hours: { day: string; isClosed: boolean; isToday: boolean; ranges: string[] }[];
+  rating: number | null;
+  reviewCount: number | null;
+  ratingSummary: string | null;
+  priceRange: { currency: string; min: number | null; max: number | null } | null;
+  isBookable: boolean;
+  serviceCategories: FreshaServiceCategory[];
+  team: FreshaTeamMember[];
+  features: { id: string; label: string }[];
+  links: { website: string | null; instagram: string | null; facebook: string | null };
+  otherLocations: { slug: string; name: string }[];
+  url: string;
+}
+
   /**
    * Fresha marketplace for salons, barbers, spas, nail, lash and wellness venues: search venues
    * near a place, a venue's services, team, prices, hours and reviews, open appointment times
@@ -33584,6 +34005,14 @@ interface FreshaSearchSuggestions {
      * treatment categories.
      */
     getSearchSuggestions(query: string): Promise<FreshaSearchSuggestions>;
+
+    /**
+     * Returns one Fresha venue from its slug or fresha.com/a/... URL: address and coordinates,
+     * phone, weekly hours and open-now state, rating, price range, the full service menu by
+     * category (prices, durations, and the variant ids getAvailability takes), the team with
+     * employee ids, amenities, social links and other branches.
+     */
+    getVenue(slugOrUrl: string): Promise<FreshaVenue>;
   }
 }
 
@@ -52401,6 +52830,15 @@ interface MsnSavedArticles {
   articles: MsnSavedArticle[];
 }
 
+interface MsnSaveArticleArgs {
+  articleId: string;  // the ar-<id> segment of an article URL, or a row's own articleId
+}
+
+interface MsnSaveArticleResult {
+  articleId: string;
+  saved: true;
+}
+
 interface MsnWeatherForecast {
   location: string;
   currentTemperature: number;
@@ -52505,6 +52943,15 @@ interface MsnWeatherForecast {
      * answers a stranger with an empty list.
      */
     listSavedArticles(opts?: ConnectionOption): Promise<MsnSavedArticles>;
+
+    /**
+     * Adds an article to the signed-in caller's MSN reading list — the write half of
+     * listSavedArticles. NEEDS A SIGN-IN: the caller signs in to MSN with their own Microsoft
+     * account through the relay, never a Bowmark one. `articleId` is the `ar-<id>` segment of an
+     * article URL, or the `articleId` a listSavedArticles/getArticle row already carries. Throws a
+     * sign-in error when the saved sign-in no longer carries MSN's session cookie.
+     */
+    saveArticle(args: MsnSaveArticleArgs, opts?: ConnectionOption): Promise<MsnSaveArticleResult>;
   }
 }
 
@@ -55711,6 +56158,20 @@ interface NytimesSavedArticlesResult {
      * NYT sign-in.
      */
     listSavedArticles(opts?: ConnectionOption): Promise<NytimesSavedArticlesResult>;
+
+    /**
+     * Makes a NEW The New York Times account with the person's own email and password, in a
+     * session. Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+     * person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+     * login saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -61679,6 +62140,20 @@ interface QuoraTopicFeed {
      * carries no question feed and is refused.
      */
     getTopicFeed(topic: string, opts?: ConnectionOption): Promise<QuoraTopicFeed>;
+
+    /**
+     * Makes a NEW Quora account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -61784,6 +62259,91 @@ interface RakutenStoreDetail {
      * or url `search` returns.
      */
     getStore(ref: string): Promise<RakutenStoreDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_recreation_gov {
+  // ── Recreation.gov — the unit's own declarations, verbatim ──
+interface recreation_govCampground {
+  /** the id campgroundAvailability takes */
+  campgroundId: string;
+  name: string;
+  parentName: string | null;
+  city: string | null;
+  state: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  reservable: boolean | null;
+  campsiteCount: number | null;
+  operator: string | null;
+  averageRating: number | null;
+  ratingCount: number | null;
+  url: string;
+}
+interface recreation_govNight {
+  /** YYYY-MM-DD */
+  date: string;
+  /** bookable campsites that night; 0 when sold out, never omitted */
+  available: number;
+  reserved: number;
+  closed: number;
+  /** not yet released for booking — not sold out */
+  notYetReleased: number;
+  other: number;
+}
+interface recreation_govCampsite {
+  campsiteId: string;
+  site: string | null;
+  loop: string | null;
+  type: string | null;
+  maxPeople: number | null;
+  availableDates: string[];
+  availableAllNights: boolean;
+}
+interface recreation_govAvailability {
+  campgroundId: string;
+  campgroundName: string | null;
+  startDate: string;
+  endDate: string;
+  nights: recreation_govNight[];
+  /** only campsites with at least one bookable night in the range */
+  campsites: recreation_govCampsite[];
+  totalCampsites: number;
+}
+interface SearchCampgroundsArgs {
+  /** a campground, park or place, e.g. "Upper Pines" or "Yosemite" */
+  query: string;
+  /** default 10, max 50 */
+  limit?: number;
+}
+interface CampgroundAvailabilityArgs {
+  /** searchCampgrounds().campgroundId, e.g. "232447" */
+  campgroundId?: string;
+  /** or the campground's exact name, e.g. "Upper Pines Campground" */
+  campground?: string;
+  /** first night, YYYY-MM-DD */
+  startDate: string;
+  /** last night (inclusive), YYYY-MM-DD; defaults to startDate; at most 186 nights */
+  endDate?: string;
+}
+
+  /**
+   * Find federal campgrounds (national parks, forests, Army Corps lakes) on recreation.gov and
+   * check which campsites are bookable on given nights.
+   */
+  interface Unit {
+    /**
+     * Search recreation.gov for campgrounds by name, park or place; returns each campground's id
+     * (for campgroundAvailability), park, state, location, campsite count and rating.
+     */
+    searchCampgrounds(args: SearchCampgroundsArgs): Promise<recreation_govCampground[]>;
+
+    /**
+     * Campsite availability at one recreation.gov campground for a range of nights: a per-night
+     * count of bookable sites (0 on a sold-out night, never omitted, with not-yet-released nights
+     * told apart), and every campsite bookable on at least one of those nights.
+     */
+    campgroundAvailability(args: CampgroundAvailabilityArgs): Promise<recreation_govAvailability>;
   }
 }
 
@@ -65362,6 +65922,34 @@ interface ScribdRelatedDocument {
   imageUrl?: string;
   type: string;
 }
+interface ScribdList {
+  id: number;
+  name: string;
+  description?: string;
+  isPrivate: boolean;
+  url: string;
+  author?: { name: string; url?: string };
+  documents: Array<{
+    id: number;
+    title: string;
+    url: string;
+    author?: { name: string; url?: string };
+    description?: string;
+    pageCount?: number;
+    imageUrl?: string;
+    type: string;
+  }>;
+}
+interface ScribdEmbedCode {
+  html: string;
+  title: string;
+  authorName?: string;
+  authorUrl?: string;
+  thumbnailUrl?: string;
+  thumbnailWidth?: number;
+  thumbnailHeight?: number;
+  aspectRatio?: number;
+}
 
   /**
    * Scribd, the document-sharing library: search user-uploaded documents, read a document's
@@ -65409,6 +65997,21 @@ interface ScribdRelatedDocument {
      * type.
      */
     getRelatedDocuments(document: string | number): Promise<ScribdRelatedDocument[]>;
+
+    /**
+     * Reads a public Scribd list (a curated collection of documents) from a
+     * scribd.com/lists/<id>/<slug> url or the numeric id: the list's name, description, privacy
+     * flag, owner and every document in it with id, title, url, author, description, page count
+     * and thumbnail.
+     */
+    getList(list: string | number): Promise<ScribdList>;
+
+    /**
+     * Returns Scribd's documented, keyless oEmbed for a public document — the iframe html, aspect
+     * ratio, title, author (name and url) and thumbnail (url and dimensions) — from a
+     * scribd.com/document/<id>/<slug> url or the numeric id, so a caller can place it in a page.
+     */
+    getEmbedCode(document: string | number): Promise<ScribdEmbedCode>;
   }
 }
 
@@ -69139,6 +69742,23 @@ interface SquireShop extends SquireShopSummary {
   customerBookingFeeCents: number | null; // 100 = $1.00
   waitingListEnabled: boolean | null; giftCardEnabled: boolean | null; walkInOnly: boolean | null;
 }
+interface SquireService {
+  id: string; name: string; description: string | null;
+  priceCents: number | null;                            // 4000 = $40.00; the barber's own price when one was given
+  priceRangeCents: { min: number; max: number } | null; // when barbers charge differently
+  durationMins: number | null; categories: string[];
+  requiresPrepaid: boolean | null; requiresDeposit: boolean | null; addonOnly: boolean;
+  addons: { id: string; name: string; priceCents: number | null; durationMins: number | null }[]; // barber lists only
+}
+interface SquireListServicesArgs { shop: string; barber?: string; } // barber = an id from listBarbers
+interface SquireBarberSummary {
+  id: string; name: string; route: string | null; shopId: string | null; photo: string | null; instagram: string | null;
+  nextAvailableTime: string | null; // ISO instant
+  nextAvailableText: string | null; // e.g. "Available today"
+  defaultServiceName: string | null;
+  hours: SquireOpeningHours[];
+  daysOff: { day: string; wholeDay: boolean; from: string | null; to: string | null }[];
+}
 
   /**
    * Squire barbershop booking: find shops by name or near a place, a shop's services, prices,
@@ -69169,6 +69789,23 @@ interface SquireShop extends SquireShopSummary {
      * shop is a caller-fixable error.
      */
     getShop(shop: string): Promise<SquireShop>;
+
+    /**
+     * Lists a shop's bookable services (shop by id, route or getsquire.com URL): name,
+     * description, price in cents, price range across barbers, duration, categories, and whether
+     * it needs prepayment or a deposit. Given a barber id from listBarbers, only that barber's
+     * services at their own prices, with the add-ons offered. A service id is what getAvailability
+     * takes.
+     */
+    listServices(args: SquireListServicesArgs): Promise<SquireService[]>;
+
+    /**
+     * Lists a shop's barbers (shop by id, route or getsquire.com URL): name, route, photo,
+     * Instagram, next available time with Squire's own wording, default service, weekly hours and
+     * upcoming days off. A barber id is what listServices and getAvailability take to narrow to
+     * one barber.
+     */
+    listBarbers(shop: string): Promise<SquireBarberSummary[]>;
   }
 }
 
@@ -71852,6 +72489,52 @@ interface TatchaRitual {
   }
 }
 
+declare namespace BowmarkProvider_tdlr {
+  // ── Texas Department of Licensing and Regulation — the unit's own declarations, verbatim ──
+interface tdlrLicense {
+  licenseType: string;
+  licenseNumber: string;
+  licenseSubtype: string | null;
+  businessName: string | null;
+  ownerName: string | null;
+  businessCounty: string | null;
+  businessAddress: string | null;
+  businessPhone: string | null;
+  /** ISO YYYY-MM-DD */
+  expirationDate: string | null;
+  expired: boolean | null;
+  continuingEducationRequired: boolean | null;
+}
+interface tdlrLicenseLookupResult {
+  licenses: tdlrLicense[];
+  /** more licenses matched than limit allowed back */
+  truncated: boolean;
+}
+interface LicenseLookupArgs {
+  /** exact TDLR license number, e.g. "2716" */
+  licenseNumber?: string;
+  /** part of the licensee's or business's name, matched case-insensitively against both, e.g. "Smith, John" */
+  name?: string;
+  /** narrow to a license type, matched as a substring, e.g. "Electrician" */
+  licenseType?: string;
+  /** default 25, max 200 */
+  limit?: number;
+}
+
+  /**
+   * Look up a Texas TDLR occupational license (electricians, A/C, cosmetology, tow, and every
+   * other TDLR program) by license number or by a person's or business's name.
+   */
+  interface Unit {
+    /**
+     * Look up Texas TDLR licenses by license number or by a licensee's or business's name
+     * (case-insensitive substring), optionally narrowed to a license type. Every match comes back,
+     * capped at `limit`, with `truncated` saying whether more matched.
+     */
+    licenseLookup(args: LicenseLookupArgs): Promise<tdlrLicenseLookupResult>;
+  }
+}
+
 declare namespace BowmarkProvider_teamtailor {
   // ── Teamtailor — the unit's own declarations, verbatim ──
 interface TeamtailorJob {
@@ -73511,6 +74194,24 @@ interface ThreadsPostThread {
     getProfilePosts(args: ThreadsProfilePostsArgs): Promise<ThreadsProfilePosts>;
 
     /**
+     * Lists the replies a public profile has posted (its Replies tab, first page Threads renders),
+     * logged out — each reply comes with the post it answered just before it, flagged `isReply`.
+     */
+    getProfileReplies(args: ThreadsProfilePostsArgs): Promise<ThreadsProfilePosts>;
+
+    /**
+     * Lists a public profile's posts that carry photos or video (its Media tab, first page Threads
+     * renders), logged out, with media URLs and counts.
+     */
+    getProfileMedia(args: ThreadsProfilePostsArgs): Promise<ThreadsProfilePosts>;
+
+    /**
+     * Lists the posts a public profile has reposted (its Reposts tab, first page Threads renders),
+     * logged out, each with its original author.
+     */
+    getProfileReposts(args: ThreadsProfilePostsArgs): Promise<ThreadsProfilePosts>;
+
+    /**
      * Searches public Threads posts by keyword or topic, logged out — the first page of Threads'
      * own top results, each with author, text, media and counts.
      */
@@ -74334,6 +75035,29 @@ interface ToastSearchResult {
   managementSetGuid: string | null; // shared by a restaurant group's sister locations
 }
 
+interface ToastCity {
+  slug: string;              // "richmond-va" — what listCityRestaurants takes
+  name: string;
+  state: string;             // two-letter
+  url: string;
+}
+
+interface ListCityRestaurantsArgs {
+  city: string;              // a slug from listCities, e.g. "richmond-va"
+  cuisine?: string;          // "pizza", "sushi", "middle-eastern"… (toast.app's cuisine pages)
+}
+
+interface ToastCityRestaurant {
+  shortUrl: string;          // the slug getRestaurant takes
+  url: string;
+  name: string;
+  cuisine: string | null;
+  neighborhood: string | null; // the card's place line
+  priceTier: string | null;  // "$" … "$$$$"
+  rating: { average: number; count: number } | null;
+  imageUrl: string | null;
+}
+
   /**
    * Toast, the restaurant platform behind Toast Local (toast.app), Toast online ordering and
    * Toast Tables: find restaurants near a place or in a city, a restaurant's details, menu, item
@@ -74358,6 +75082,20 @@ interface ToastSearchResult {
      * name.
      */
     searchRestaurants(args: SearchRestaurantsArgs): Promise<ToastSearchResult[]>;
+
+    /**
+     * Lists the ~400 US cities Toast's restaurant directory covers (toast.app/cities): name,
+     * two-letter state, and the city slug listCityRestaurants takes.
+     */
+    listCities(): Promise<ToastCity[]>;
+
+    /**
+     * Lists the Toast restaurants in a city ("richmond-va"), optionally by cuisine (pizza, sushi,
+     * thai...), the way toast.app's city pages do: name, cuisine, neighborhood, price tier,
+     * rating, image, and the slug getRestaurant takes. A city or cuisine toast.app has no page for
+     * is a clear error.
+     */
+    listCityRestaurants(args: ListCityRestaurantsArgs): Promise<ToastCityRestaurant[]>;
   }
 }
 
@@ -75384,6 +76122,49 @@ interface SearchAttractionsResult {
   hasMore: boolean;
 }
 
+interface TripadvisorDestinationListing {
+  id: string;
+  name: string;
+  rating?: number;
+  reviewCount?: number;
+  // Restaurants only: the "$$ - $$$ • Cuisine, …" line under the name.
+  detail?: string;
+  url: string;
+}
+
+interface TripadvisorDestination {
+  geoId: string;
+  name: string;
+  // Broader places, outermost first (the page's breadcrumb).
+  parents: { geoId?: string; name: string; url?: string }[];
+  // The site's own total, from "Tripadvisor has N reviews of …".
+  reviewCount?: number;
+  hotels: TripadvisorDestinationListing[];
+  restaurants: TripadvisorDestinationListing[];
+  attractions: TripadvisorDestinationListing[];
+  tours: TripadvisorDestinationListing[];
+  url: string;
+}
+
+// One review read off its own page, with the owner's response when there is one.
+interface TripadvisorReviewDetail extends TripadvisorReview {
+  locationId: string;
+  geoId?: string;
+  listing?: { name: string; url?: string };
+  response?: { author?: string; date?: string; text: string };
+}
+
+// One traveller question from a listing's Q&A.
+interface TripadvisorQuestion {
+  id: string;
+  text: string;
+  language?: string;
+  answerCount: number;
+  submitted?: string;
+  // The asker's opaque member id — not the /Profile handle.
+  memberId?: string;
+}
+
   /**
    * Travel data worldwide — find a city, hotel, restaurant or attraction by name; list and read
    * hotels and restaurants with ratings, review counts, and booking prices.
@@ -75447,6 +76228,27 @@ interface SearchAttractionsResult {
      * type, and an offset to page (10 a page on hotels and attractions, 15 on restaurants).
      */
     getReviews(args: GetReviewsArgs): Promise<TripadvisorReviews>;
+
+    /**
+     * Reads a city or region's overview page: its name, parent places, the site's review total,
+     * and the hotels, restaurants, attractions and tours it features, each with id, name, rating,
+     * review count and url — taking a geo id from search or a /Tourism-g<geoId>- url.
+     */
+    getDestination(args: { geoId?: string; url?: string }): Promise<TripadvisorDestination>;
+
+    /**
+     * Reads one review on its own page — rating, title, full text, date of visit, date written,
+     * author handle and name, the listing it is about, and the owner's response — taking a review
+     * url, or the review id plus locationId and geoId from getReviews.
+     */
+    getReview(args: { url?: string; id?: string; locationId?: string; geoId?: string }): Promise<TripadvisorReviewDetail>;
+
+    /**
+     * Reads a listing's travellers' Q&A questions, newest first — each question's id, text,
+     * language, answer count, date and asker's member id — taking a location id, with offset and
+     * limit (up to 50) to page. The answers themselves are not yet extracted.
+     */
+    getQuestions(args: { locationId: string; offset?: number; limit?: number }): Promise<{ locationId: string; offset: number; questions: TripadvisorQuestion[]; hasMore: boolean }>;
   }
 }
 
@@ -75718,6 +76520,30 @@ interface TumblrPostPage {
   nextCursor: string | null;
 }
 
+interface TumblrSearchPage {
+  posts: TumblrPost[];
+  /** Pass back as cursor for the next page; null on the last page. */
+  nextCursor: string | null;
+}
+
+interface TumblrSearchPostsArgs {
+  query: string;
+  /** 1-20, default 20. */
+  limit?: number;
+  /** A previous page's nextCursor. */
+  cursor?: string;
+}
+
+interface TumblrSearchBlogPostsArgs {
+  /** A blog name or url, as findBlog takes. */
+  name: string;
+  query: string;
+  /** 1-20, default 20. */
+  limit?: number;
+  /** A previous page's nextCursor. */
+  cursor?: string;
+}
+
 interface TumblrBlogPostsArgs {
   /** A blog name or url, as findBlog takes. */
   name: string;
@@ -75763,6 +76589,18 @@ interface TumblrGetPostArgs {
      * who it was reblogged from.
      */
     getPost(args: TumblrGetPostArgs): Promise<TumblrPost>;
+
+    /**
+     * Search the posts of one blog by keyword — each match's text, images, links, tags and note
+     * counts, with a cursor for the next page.
+     */
+    searchBlogPosts(args: TumblrSearchBlogPostsArgs): Promise<TumblrSearchPage>;
+
+    /**
+     * Search posts across all of Tumblr by keyword or phrase — each match's blog, text, images,
+     * tags and note counts, with a cursor for the next page.
+     */
+    searchPosts(args: TumblrSearchPostsArgs): Promise<TumblrSearchPage>;
   }
 }
 
@@ -76457,6 +77295,75 @@ interface TwitchFollowChannelResult {
      * Client-Integrity token as followChannel, reused from _integrity.ts.
      */
     unfollowChannel(args: UnfollowChannelArgs, opts?: ConnectionOption): Promise<TwitchFollowChannelResult>;
+  }
+}
+
+declare namespace BowmarkProvider_tx_comptroller {
+  // ── Texas Comptroller of Public Accounts — the unit's own declarations, verbatim ──
+interface tx_comptrollerMatch {
+  name: string;
+  /** the taxpayer number to pass back as taxpayerId */
+  taxpayerId: string;
+  mailingZip: string | null;
+}
+interface tx_comptrollerOfficer {
+  name: string;
+  title: string | null;
+  year: string | null;
+  address: string | null;
+  source: string | null;
+}
+interface tx_comptrollerAccount {
+  taxpayerId: string;
+  name: string;
+  dbaName: string | null;
+  /** the franchise-tax status: "Right to Transact Business in Texas" — ACTIVE, FORFEITED, … */
+  rightToTransactTX: string | null;
+  sosRegistrationStatus: string | null;
+  /** YYYY-MM-DD */
+  sosRegistrationDate: string | null;
+  sosFileNumber: string | null;
+  stateOfFormation: string | null;
+  feiNumber: string | null;
+  mailingAddress: string | null;
+  registeredAgent: string | null;
+  registeredOfficeAddress: string | null;
+  reportYear: string | null;
+  officers: tx_comptrollerOfficer[];
+  url: string;
+}
+interface tx_comptrollerStatusResult {
+  /** every entity whose name STARTS WITH the query, capped at limit */
+  matches: tx_comptrollerMatch[];
+  totalMatches: number;
+  truncated: boolean;
+  /** present when taxpayerId was given or exactly one entity matched */
+  account: tx_comptrollerAccount | null;
+}
+interface FranchiseTaxStatusArgs {
+  /** the start of the entity's legal name, 2-50 chars, e.g. "Whole Foods Market" */
+  name?: string;
+  /** 9- or 11-digit Texas taxpayer number */
+  taxpayerId?: string;
+  /** Texas Secretary of State file number, 6-10 digits */
+  fileNumber?: string;
+  /** default 25, max 200 */
+  limit?: number;
+}
+
+  /**
+   * Texas franchise-tax account status for a business — whether it holds the right to transact
+   * business in Texas, its Secretary of State status, registered agent and officers — by name,
+   * taxpayer number or SOS file number.
+   */
+  interface Unit {
+    /**
+     * Texas franchise-tax account status by entity name (prefix match), taxpayer number or
+     * Secretary of State file number: every matching entity, capped, and — for a taxpayer number
+     * or a single match — the full status (right to transact business in Texas, SOS status,
+     * registered agent, officers).
+     */
+    franchiseTaxStatus(args: FranchiseTaxStatusArgs): Promise<tx_comptrollerStatusResult>;
   }
 }
 
@@ -78473,6 +79380,70 @@ interface WallaPricingList {
   warnings: string[];
 }
 
+interface ListClassCategoriesArgs {
+  studio: string;
+  windowDays?: number;
+}
+
+interface WallaCategory {
+  id: number;
+  key: string;
+  name: string;
+}
+
+interface WallaCategoryList {
+  categories: WallaCategory[];
+  warnings: string[];
+}
+
+interface ListPrivateSessionsArgs {
+  studio: string;
+}
+
+interface WallaPrivateSession {
+  id: number;
+  name: string;
+  description: string | null;
+  durationMins: number;
+  location: { id: number; name: string } | null;
+  category: WallaCategory | null;
+  memberPrice: number | null;
+  nonMemberPrice: number | null;
+  creditCost: number | null;
+  currency: string | null;
+  instructors: { id: number; name: string }[];
+  maxAttendees: number | null;
+  bookingWindowOpensPriorDays: number | null;
+}
+
+interface WallaPrivateSessionList {
+  sessions: WallaPrivateSession[];
+  warnings: string[];
+}
+
+interface ListWorkshopsArgs {
+  studio: string;
+}
+
+interface WallaWorkshop {
+  id: number;
+  name: string;
+  category: WallaCategory | null;
+  instructor: { id: number; name: string } | null;
+  location: { id: number; name: string } | null;
+  startDate: string | null;
+  endDate: string | null;
+  capacity: number | null;
+  booked: number;
+  waitlisted: number;
+  prices: { type: string; subtype: string; amount: number | null; currency: string | null }[];
+}
+
+interface WallaWorkshopList {
+  workshops: WallaWorkshop[];
+  warnings: string[];
+}
+
   /**
    * Walla studio booking widgets (yoga, pilates, sound baths): find a studio from its website,
    * read its locations, class schedule, pricing, private sessions and workshops, and (signed in)
@@ -78517,6 +79488,26 @@ interface WallaPricingList {
      * one's price, credit count, expiry, auto-renew terms and who may purchase it.
      */
     listPricing(args: ListPricingArgs): Promise<WallaPricingList>;
+
+    /**
+     * Lists the class categories (yoga style, sound bath, workshop) this studio actually
+     * schedules, derived from its own upcoming classes and workshops over a forward window
+     * (default 60 days) — the site's own category taxonomy is shared across every Walla studio and
+     * cannot be scoped by studio.
+     */
+    listClassCategories(args: ListClassCategoriesArgs): Promise<WallaCategoryList>;
+
+    /**
+     * Lists the private sessions (appointments) a studio offers — name, length, price, location
+     * and which instructors run them.
+     */
+    listPrivateSessions(args: ListPrivateSessionsArgs): Promise<WallaPrivateSessionList>;
+
+    /**
+     * Lists a studio's workshops, series and trainings (multi-session enrollments): name, dates,
+     * instructor, location, capacity, enrolled count and price tiers.
+     */
+    listWorkshops(args: ListWorkshopsArgs): Promise<WallaWorkshopList>;
   }
 }
 
@@ -82826,6 +83817,31 @@ interface YelpBusiness {
   videoCount: number;
 }
 
+interface YelpReviewsArgs {
+  business: string;   // /biz/ url or alias, from search
+  sort?: "relevance" | "newest" | "oldest" | "highest" | "lowest" | "elites";
+  stars?: number[];   // only these star ratings, e.g. [1, 2]
+  query?: string;     // Yelp's own "search reviews" box
+  after?: string;     // nextCursor from the previous page
+  limit?: number;     // per page, default 10, clamped to [1, 50]
+}
+
+interface YelpReviewPage {
+  business: { id: string; alias: string; name: string; rating: number | null; reviewCount: number | null };
+  totalCount: number | null;    // reviews matching these filters
+  countsByRating: { 1: number; 2: number; 3: number; 4: number; 5: number } | null;
+  reviews: {
+    id: string; rating: number | null; text: string; language: string | null;
+    date: string | null;        // business-local ISO time
+    author: { id: string | null; name: string | null; location: string | null; reviewCount: number | null;
+              friendCount: number | null; photoCount: number | null; eliteYear: string | null };
+    photos: { url: string; caption: string | null }[];
+    reactions: { type: string; count: number }[];   // HELPFUL, THANKS, LOVE_THIS, OH_NO
+    ownerReply: string | null;
+  }[];
+  nextCursor: string | null;    // pass as after; null on the last page
+}
+
   /**
    * Yelp's own business search — returns real, currently-listed businesses for a search term and
    * location with Yelp's own star rating, review count, price tier and neighborhood.
@@ -82844,6 +83860,15 @@ interface YelpBusiness {
      * Read-only.
      */
     getBusiness(ref: string): Promise<YelpBusiness>;
+
+    /**
+     * Lists a business's reviews a page at a time through Yelp's own review feed, with its sorts
+     * (relevance, newest, oldest, highest, lowest, elites), a star filter and its
+     * search-within-reviews box: each review's text, rating, date, photos, reactions, owner reply
+     * and the reviewer's name, location, counts and Elite year. Page on with nextCursor.
+     * Read-only.
+     */
+    getReviews(args: YelpReviewsArgs): Promise<YelpReviewPage>;
   }
 }
 
@@ -85571,6 +86596,7 @@ interface BowmarkProviders {
   bishops: BowmarkProvider_bishops.Unit;
   blackstoneproducts: BowmarkProvider_blackstoneproducts.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
+  bls: BowmarkProvider_bls.Unit;
   bluehaven: BowmarkProvider_bluehaven.Unit;
   blueribbonhomewarranty_com: BowmarkProvider_blueribbonhomewarranty_com.Unit;
   bluesignal: BowmarkProvider_bluesignal.Unit;
@@ -85627,6 +86653,7 @@ interface BowmarkProviders {
   castlery: BowmarkProvider_castlery.Unit;
   cb2: BowmarkProvider_cb2.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
+  cbp: BowmarkProvider_cbp.Unit;
   census_api: BowmarkProvider_census_api.Unit;
   cerebralvalley: BowmarkProvider_cerebralvalley.Unit;
   cftc: BowmarkProvider_cftc.Unit;
@@ -85686,6 +86713,7 @@ interface BowmarkProviders {
   dailymotion: BowmarkProvider_dailymotion.Unit;
   dangotecement: BowmarkProvider_dangotecement.Unit;
   dansons: BowmarkProvider_dansons.Unit;
+  data_cms: BowmarkProvider_data_cms.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
@@ -86003,6 +87031,7 @@ interface BowmarkProviders {
   quora: BowmarkProvider_quora.Unit;
   raadvanstate_nl: BowmarkProvider_raadvanstate_nl.Unit;
   rakuten: BowmarkProvider_rakuten.Unit;
+  recreation_gov: BowmarkProvider_recreation_gov.Unit;
   recruitee: BowmarkProvider_recruitee.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   rei: BowmarkProvider_rei.Unit;
@@ -86088,6 +87117,7 @@ interface BowmarkProviders {
   tapfiliate: BowmarkProvider_tapfiliate.Unit;
   target: BowmarkProvider_target.Unit;
   tatcha: BowmarkProvider_tatcha.Unit;
+  tdlr: BowmarkProvider_tdlr.Unit;
   teamtailor: BowmarkProvider_teamtailor.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
   temu: BowmarkProvider_temu.Unit;
@@ -86125,6 +87155,7 @@ interface BowmarkProviders {
   tweethunter: BowmarkProvider_tweethunter.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
   twitch: BowmarkProvider_twitch.Unit;
+  tx_comptroller: BowmarkProvider_tx_comptroller.Unit;
   uber: BowmarkProvider_uber.Unit;
   ubereats: BowmarkProvider_ubereats.Unit;
   uhaul: BowmarkProvider_uhaul.Unit;

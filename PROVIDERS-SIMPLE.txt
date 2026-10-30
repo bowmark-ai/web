@@ -411,7 +411,7 @@ landsend.com — landsend: getActivePromo, searchProducts (+2 planned)
 lasikplus.com — lasikplus: findCenters, getAvailability
 learn.chatgpt.com — openai: helpArticle, plans
 legacyhomesal.com — legacyhomesal: getAvailability, listCommunities
-letterboxd.com — letterboxd: film, memberDiary, memberFilms
+letterboxd.com — letterboxd: film, getOwnAccount, memberDiary, memberFilms
 lever.co — lever: listJobs (+1 planned)
 li.me — lime: cityPricing, listCities
 linkedin.com — linkedin: acceptInvitation, addProfileSkill, applyToJob, attendEvent, commentOnPost, createGroupPost, createPost, deleteComment, deletePost, followCompany, followMember, getArticle, getCompany, getConversation, getEvent, getGroup, getHomeFeed, getJob, getLearningCourse, getMyProfile, getPost, getProfile, getProfileDetails, getProfileSkills, getProfileViews, getSchool, ignoreInvitation, joinGroup, leaveGroup, listAppliedJobs, listCompanyEmployees, listCompanyJobs, listCompanyPosts, listConnections, listConversations, listFollowing, listInvitations, listMemberPosts, listMyGroups, listNotifications, listPostComments, listSavedJobs, listSavedPosts, listSentInvitations, listSuggestedConnections, reactToPost, removeConnection, replyToComment, repostPost, saveJob, savePost, searchCompanies, searchEvents, searchGroups, searchJobs, searchLearningCourses, searchMembers, searchPeople, searchPosts, searchSchools, searchServiceProviders, sendConnectionRequest, sendMessage, setProfilePhoto, subscribeToNewsletter, updateProfile, withdrawInvitation

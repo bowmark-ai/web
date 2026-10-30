@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5815 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5816 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2889,6 +2889,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `legacyhomesal.getAvailability` | legacyhomesal.com | Reads a Legacy Homes AL community sales rep's real open tour-appointment slots… | 🟢 |
 | `legacyhomesal.listCommunities` | legacyhomesal.com | Lists every Legacy Homes AL community (name, area, sales status) paired with the rep… | 🟢 |
 | `letterboxd.film` | letterboxd.com | Reads one film's full record off its letterboxd page — title, year, directors, cast… | 🟢 |
+| `letterboxd.getOwnAccount` | letterboxd.com | Reads who is signed in on the saved letterboxd login: username, membership role and… | 🟢 |
 | `letterboxd.memberDiary` | letterboxd.com | Reads a member's activity feed — every film they logged, with their star rating, the… | 🟢 |
 | `letterboxd.memberFilms` | letterboxd.com | Lists the films a letterboxd member has logged, newest first, off their own films page… | 🟢 |
 | `lever.getJob` | lever.co | Reads one posting's full description and lists off GET /v0/postings/{site}/{id}. | ⚪ |
