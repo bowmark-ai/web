@@ -1296,7 +1296,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.removeFavoriteTeacher` | corepoweryoga.com | Removes an instructor from the caller's favorites. | ⚪ |
 | `corepoweryoga.updateProfile` | corepoweryoga.com | Updates the caller's profile information like name, email, phone. | ⚪ |
 | `costco.listGiftCards` | costco.com | Costco's discounted gift cards and eGift cards (restaurants, movies, games, travel) —… | 🟢 |
-| `costco.search` | costco.com | Costco's own search-bar autocomplete suggestions for a typed term — real phrases… | 🟡 |
+| `costco.search` | costco.com | Costco's own search-bar autocomplete suggestions for a typed term — real phrases… | 🟢 |
 | `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
 | `crecipr.searchCredenciados` | crecipr.gov.br | Searches CRECI-PR's accredited brokers registry by name or CRECI registration number. | 🟢 |
