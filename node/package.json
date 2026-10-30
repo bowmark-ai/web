@@ -17,7 +17,9 @@
     "bowmark",
     "agent",
     "capability",
-    "browser-automation",
+    "web-scraping",
+    "web-data",
+    "ai-agent-tools",
     "typescript"
   ],
   "main": "./dist/index.js",

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5805 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5808 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3327,6 +3327,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nintendo.listOrders` | www.nintendo.com | Read the signed-in caller's Nintendo eShop / store order history. | ⚪ |
 | `nintendo.searchProducts` | www.nintendo.com | Search Nintendo's own store catalog by keyword — games, hardware, accessories and… | 🟢 |
 | `nintendo.searchSupport` | www.nintendo.com | Search Nintendo's support knowledge base by keyword — "Switch won't charge", "error… | 🟢 |
+| `npi_registry.lookup` | npiregistry.cms.hhs.gov | One clinician or organization by its 10-digit NPI: name, credential, specialties with… | 🟢 |
+| `npi_registry.search` | npiregistry.cms.hhs.gov | Search the registry by name, organization, specialty, city, state or ZIP, up to 200… | 🟢 |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
 | `npr.findStations` | npr.org | Find NPR member stations by city, zip code, call letters or coordinates — call sign… | 🟢 |
 | `npr.getAuthorStories` | npr.org | List stories by one NPR correspondent or host, given their name or byline page. | ⚪ |
@@ -4162,7 +4164,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sec_edgar.companyFacts` | sec.gov | A public company's own reported XBRL facts from its 10-K / 10-Q filings — revenue, net… | 🟢 |
 | `sec_edgar.findCompany` | sec.gov | Find SEC-registered public companies by ticker, CIK or name from EDGAR's own… | 🟢 |
 | `sec_edgar.fullTextSearch` | sec.gov | Search the text of every EDGAR filing since 2001 for a phrase, via… | ⚪ |
-| `sec_edgar.listFilings` | sec.gov | A company's filing history (10-K, 10-Q, 8-K, proxy statements) with dates and document… | ⚪ |
+| `sec_edgar.listFilings` | sec.gov | A company's filing history (10-K, 10-Q, 8-K, proxy statements) with dates and document… | 🟢 |
 | `secondswing.getQuoteAttributes` | 2ndswing.com | Lists the condition and club-number (loft/iron-number) options the Value Guide asks… | 🟢 |
 | `secondswing.getTradeInValue` | 2ndswing.com | Runs the Value Guide's real quotePreview computation for a SKU + condition/club-number… | 🟢 |
 | `secondswing.searchClubs` | 2ndswing.com | Runs the Value Guide's model quick-search for a make/model query and returns the… | 🟢 |
@@ -5175,6 +5177,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.saveArticle` | usatoday.com | Saves an article to the signed-in user's reading list. | ⚪ |
 | `usatoday.searchNews` | usatoday.com | Searches USA Today's news archive for articles matching a free-text query, returning… | 🟢 |
 | `usps.getRate` | usps.com | Prices a domestic package across USPS's own Mail Services (Priority Mail Express… | 🟢 |
+| `va_gov.findFacilities` | va.gov | VA medical centers, clinics, benefits offices, Vet Centers and national cemeteries… | 🟢 |
 | `vagaro.bookAppointment` | www.vagaro.com | Books an appointment for the signed-in caller: services, add-ons, staff, date and… | ⚪ |
 | `vagaro.bookClass` | www.vagaro.com | Books the signed-in caller into a scheduled class. | ⚪ |
 | `vagaro.cancelAppointment` | www.vagaro.com | Cancels one of the caller's appointments or class bookings, reporting any cancellation… | ⚪ |

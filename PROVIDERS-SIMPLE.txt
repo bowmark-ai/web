@@ -476,6 +476,7 @@ news.ycombinator.com — hackernews: getItem, search, searchComments, topStories
 nfa.futures.org — nfa_futures_org: lookupByNfaId, searchFirms, searchIndividuals
 nhc.noaa.gov — nhc: getForecastCone, getForecastDiscussion, getStormAdvisory, getStormForecast, getStormGraphics, getStormInfo, getStormNames, getTropicalOutlook, getTropicalWeatherDiscussion, getWatchesWarnings, getWindSpeedProbabilities, listCurrentStorms, listSeasonStorms, listStormAdvisories, searchStorms (+8 planned)
 nike.com — nike: getLaunch, upcomingLaunches
+npiregistry.cms.hhs.gov — npi_registry: lookup, search
 npmjs.com — npmjs: getDownloads
 npr.org — npr: findStations, getLiveStream, getPodcast, getProgramRundown, getStation, getStory, getTranscript, listHeadlines, listPodcastCategories, listPodcastEpisodes, listPodcasts, listSections, listSectionStories, searchStories (+5 planned)
 nurturelife.com — nurturelife: getMealBundle, getMealPlans
@@ -583,7 +584,7 @@ scribd.com — scribd: getDocument, getDocumentText, getEmbedCode, getList, getR
 seakeeper.com — seakeeper: findNearestDealers, listAllDealers
 sears.com — sears: checkStock, getProduct, search (+1 planned)
 seatgeek.com — seatgeek: findPerformers, findVenues, followPerformer, getEvent, getPerformer, getVenue, listFollowedPerformers, listTaxonomies, listTrackedEvents, searchEvents, trackEvent, unfollowPerformer, untrackEvent (+5 planned)
-sec.gov — sec_edgar: companyFacts, findCompany (+2 planned)
+sec.gov — sec_edgar: companyFacts, findCompany, listFilings (+1 planned)
 sede.valencia.es — sede_valencia_es: getParkingTariff
 seegarsfence.com — seegarsfence: checkServiceArea (+1 planned)
 selectblinds.com — selectblinds: getConfigurator, listBlindStyles, priceConfiguration
@@ -689,6 +690,7 @@ ups.com — ups: calculateShippingCost, estimateDeliveryDate, findNearbyLocation
 urbanoutfitters.com — urbanoutfitters: nothing callable yet (+10 planned)
 usatoday.com — usatoday: browseSection, getArticle, getPuzzle, getScores, getVideo, listHomepageHeadlines, listPuzzles, listSections, listVideos, searchNews (+2 planned)
 usps.com — usps: getRate
+va.gov — va_gov: findFacilities
 vbt.com — vbt: getTourDepartures, listTours
 verizon.com — verizon: searchPhones (+1 planned)
 vervecoffee.com — vervecoffee: listRoastersChoiceSubscriptions, matchCoffeeSubscription

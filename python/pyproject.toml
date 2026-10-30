@@ -9,7 +9,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "Bowmark AI", email = "christopher@bowmark.ai" }]
-keywords = ["bowmark", "agent", "capability", "browser-automation", "web-automation"]
+keywords = ["bowmark", "agent", "capability", "web-scraping", "web-data", "ai-agent-tools"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
