@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5833 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5872 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -112,6 +112,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
 | `airbnb.getListing` | airbnb.com | Get the nightly rate and availability calendar for a specific Airbnb listing: given a… | 🟢 |
+| `airbnb.listTrips` | airbnb.com | The signed-in guest's own trips from the Trips tab (airbnb.com/trips) — upcoming, past… | 🟢 |
 | `airbnb.search` | airbnb.com | Runs Airbnb's own stays search (airbnb.com/s/<location>/homes) for a free-text… | 🟢 |
 | `airchina.getDealFares` | airchina.com | Reads the cheapest one-way deal fares Air China publishes from one origin city… | 🟢 |
 | `airchina.searchFlights` | airchina.com | Searches Air China's own fares for a route, date, cabin and passenger count, the way… | ⚪ |
@@ -157,7 +158,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
 | `aliexpress.addToCart` | aliexpress.us | Adds one variant (productId + skuId from getProduct) to the CALLER's own AliExpress… | 🟢 |
 | `aliexpress.getProduct` | aliexpress.us | Fetches detailed product information including the price of every variant (size… | 🟢 |
-| `aliexpress.getStore` | aliexpress.us | Fetches a seller's store info — name, logo, follower count and open/closed status — by… | 🔴 |
+| `aliexpress.getStore` | aliexpress.us | Fetches a seller's store info — name, logo, follower count and open/closed status — by… | 🟡 |
 | `aliexpress.listCart` | aliexpress.us | Lists items in the CALLER's own AliExpress shopping cart — product id, title, price… | 🟢 |
 | `aliexpress.listCategories` | aliexpress.us | Lists the top-level product categories available on AliExpress. | ⚪ |
 | `aliexpress.listOrders` | aliexpress.us | Lists the CALLER's own AliExpress orders, 10 a page — order id, status, total, store… | 🟢 |
@@ -634,7 +635,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.getProperty` | booking.com | Fetch detailed property information including amenities, photos and reviews. | 🟢 |
 | `booking_com.getReviewBreakdown` | booking.com | Get the property page's own overall review score and its category breakdown (location… | 🟢 |
 | `booking_com.listAvailability` | booking.com | List available properties for a given search with availability status and pricing. | 🟢 |
-| `booking_com.listBookings` | booking.com | List the caller's past and upcoming bookings. | ⚪ |
+| `booking_com.listBookings` | booking.com | List the caller's own Booking.com trips ("My trips") — upcoming and past, newest… | 🟢 |
 | `booking_com.listFilterOptions` | booking.com | List the checkbox filter options (property rating, facilities, review score, meal… | 🟢 |
 | `booking_com.listMyReviews` | booking.com | List reviews the caller has written. | ⚪ |
 | `booking_com.listPropertyPhotos` | booking.com | List the property page's own photo gallery — each photo's url and caption, and the… | 🟢 |
@@ -935,6 +936,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `casadragones.listProducts` | casadragones.com | Lists Casa Dragones' real sipping-tequila catalog off their own product listing page… | 🟢 |
 | `cascadiaseniorliving_com.getSitePage` | cascadiaseniorliving.com | Reads one Cascadia Senior Living page (by its url from listSitePages, or by its slug)… | 🟢 |
 | `cascadiaseniorliving_com.listSitePages` | cascadiaseniorliving.com | Lists every page Cascadia Senior Living's own site publishes — title, url, slug and… | 🟢 |
+| `cashbackmonitor.getBestRateHistory` | cashbackmonitor.com | Reads a merchant's best-rate history from CashbackMonitor's… | ⚪ |
+| `cashbackmonitor.getStoreRates` | cashbackmonitor.com | Compares every cashback portal's rate for one merchant on CashbackMonitor — cashback… | 🟢 |
+| `cashbackmonitor.searchStores` | cashbackmonitor.com | Searches CashbackMonitor's merchants by name and returns each match's slug, url and… | 🟢 |
 | `castlery.getProduct` | castlery.com | Reads one Castlery product page — name, description, price, availability, dimensions… | 🟢 |
 | `castlery.search` | castlery.com | Searches or browses Castlery's furniture and home-goods catalog by keyword, returning… | 🟢 |
 | `cb2.getProduct` | cb2.com | Reads one product page: every size, fabric and finish option with its own price… | ⚪ |
@@ -1493,7 +1497,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.listFriendRequests` | discord.com | Lists the caller's pending incoming and outgoing friend requests. | ⚪ |
 | `discord.listFriends` | discord.com | Lists the caller's friends — user id, username, display name and avatar. | ⚪ |
 | `discord.listMentions` | discord.com | Lists the recent messages that mentioned the caller across their servers — the Inbox's… | ⚪ |
-| `discord.listMessages` | discord.com | Reads a channel's or DM's recent messages, newest first, paging backwards — author… | ⚪ |
+| `discord.listMessages` | discord.com | Reads a channel's or DM's recent messages, newest first, paging backwards — author… | 🟢 |
 | `discord.listMyServers` | discord.com | Lists the servers the signed-in caller has joined — id, name, icon, whether they own… | ⚪ |
 | `discord.listPinnedMessages` | discord.com | Lists the messages pinned in a channel. | ⚪ |
 | `discord.listQuests` | discord.com | Lists the Quests currently offered to the caller — game, task, reward and expiry — and… | ⚪ |
@@ -2443,17 +2447,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goteamup_classes.checkBookingEligibility` | goteamup.com | Says whether the signed-in caller can book a class and why not — full, no valid… | ⚪ |
 | `goteamup_classes.findStudio` | goteamup.com | Finds TeamUp studios by name (and town) and returns each one's provider id, slug and… | 🟢 |
 | `goteamup_classes.getClass` | goteamup.com | Gets one class by the event id listSchedule returned — description, time, venue… | 🟢 |
-| `goteamup_classes.getMembership` | goteamup.com | Gets one membership's full terms by the id listMemberships returned (GET… | ⚪ |
+| `goteamup_classes.getMembership` | goteamup.com | Gets one membership's full terms by the id listMemberships returned (GET… | 🟢 |
 | `goteamup_classes.getMyProfile` | goteamup.com | Gets the signed-in caller's own customer record at a studio (GET /api/v2/customers/me). | ⚪ |
 | `goteamup_classes.getStudio` | goteamup.com | Gets one studio's profile — name, address, timezone, currency and default booking… | 🟢 |
 | `goteamup_classes.joinWaitlist` | goteamup.com | Puts the signed-in caller on a full class's waitlist (POST… | ⚪ |
 | `goteamup_classes.leaveWaitlist` | goteamup.com | Takes the signed-in caller off a class's waitlist (POST… | ⚪ |
 | `goteamup_classes.listClassTypes` | goteamup.com | Lists a studio's class types (offering types) with description, whether drop-ins are… | 🟢 |
-| `goteamup_classes.listInstructors` | goteamup.com | Lists a studio's instructors with name, picture and bio (GET /api/v2/instructors). | ⚪ |
+| `goteamup_classes.listInstructors` | goteamup.com | Lists a studio's instructors with name, picture and bio (GET /api/v2/instructors). | 🟢 |
 | `goteamup_classes.listMemberships` | goteamup.com | Lists the memberships and class packs a studio sells, with type, price and terms (GET… | 🟢 |
 | `goteamup_classes.listMyBookings` | goteamup.com | Lists the signed-in caller's upcoming bookings at a studio, with class, time and venue… | ⚪ |
 | `goteamup_classes.listSchedule` | goteamup.com | Lists a studio's classes over a date range (defaults to the next 14 days) — name… | 🟢 |
-| `goteamup_classes.listVenues` | goteamup.com | Lists a studio's venues with address (GET /api/v2/venues). | ⚪ |
+| `goteamup_classes.listVenues` | goteamup.com | Lists a studio's venues with address (GET /api/v2/venues). | 🟢 |
 | `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🔴 |
 | `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟢 |
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟢 |
@@ -2829,7 +2833,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kayak.search` | kayak.com | Runs the itinerary search on kayak.com and returns its result rows price-ascending. | 🟢 |
 | `kayak.searchCars` | kayak.com | Runs the car-hire search on kayak.com and returns priced vehicles for a pickup… | 🟢 |
 | `kayak.searchHotels` | kayak.com | Runs the stays search on kayak.com — the site's own second vertical — and returns… | 🟢 |
-| `kbb.getTrimPricing` | kbb.com | Reads kbb.com's own per-trim MSRP and Fair Purchase Price for a make and model, e.g.… | 🟢 |
+| `kbb.getTrimPricing` | kbb.com | Reads kbb.com's own per-trim MSRP and Fair Purchase Price for a make and model, e.g.… | 🟡 |
 | `keepa.getProduct` | keepa.com | Amazon price history for one ASIN. | 🟢 |
 | `keepa.searchProducts` | keepa.com | Searches Keepa's Amazon product index by keyword through its documented Product Search… | ⚪ |
 | `kenko.bookAppointment` | gokenko.com | Book a consultation or private appointment as the signed-in member. | ⚪ |
@@ -3523,6 +3527,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `opentable.checkAvailability` | opentable.com | Reads one restaurant's open reservation times around a time on a date for a party… | 🟢 |
 | `opentable.confirmBooking` | opentable.com | Finishes the booking startBooking began in the same session: enters the texted code… | 🟢 |
 | `opentable.getBooking` | opentable.com | Reads a reservation back from its OpenTable page link, from any later session: whether… | 🟢 |
+| `opentable.listMyReservations` | opentable.com | Lists the signed-in diner's own reservations from the dining dashboard, upcoming and… | 🟢 |
 | `opentable.search` | opentable.com | Finds restaurants on OpenTable for a name, cuisine or dish: a restaurant's name… | 🟢 |
 | `opentable.startBooking` | opentable.com | Starts a guest reservation for one open time: clicks the time on the restaurant's… | 🟢 |
 | `originenergy_com_au.getBusinessElectricityQuote` | originenergy.com.au | Search originenergy.com.au for business electricity quote: returns every business… | 🟢 |
@@ -3954,6 +3959,40 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟢 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
+| `resend.addContactToSegment` | resend.com | Add an existing Resend contact to a segment (audience). | 🟢 |
+| `resend.canCreateSegment` | resend.com | Whether your plan allows creating another segment (plan gating check). | ⚪ |
+| `resend.createContact` | resend.com | Add a contact to Resend, optionally straight into segments and topic subscriptions. | 🟢 |
+| `resend.createSegment` | resend.com | Create a Resend segment (audience / mailing list). | 🟢 |
+| `resend.createSupportChat` | resend.com | Open a Resend support ticket with a subject, message and impact level. | ⚪ |
+| `resend.createTopic` | resend.com | Create a Resend broadcast topic. | 🟢 |
+| `resend.deleteContact` | resend.com | Permanently delete a Resend contact (removes it from every segment). | 🟢 |
+| `resend.deleteDomain` | resend.com | Permanently delete a Resend sending domain. | 🟢 |
+| `resend.deleteSegment` | resend.com | Delete a Resend segment (audience). Its contacts are kept. | 🟢 |
+| `resend.deleteTopic` | resend.com | Permanently delete a Resend topic. | 🟢 |
+| `resend.getActiveTeam` | resend.com | The team the signed-in dashboard session is currently on. | ⚪ |
+| `resend.getSupportChatMessages` | resend.com | Read the messages and status of one Resend support thread. | ⚪ |
+| `resend.listApiKeys` | resend.com | List the API keys on your Resend team (id, name, created_at). | 🟢 |
+| `resend.listContactProperties` | resend.com | List the custom contact properties defined on your Resend team. | 🟢 |
+| `resend.listContacts` | resend.com | List your Resend contacts, optionally only those in one segment. | 🟢 |
+| `resend.listDomains` | resend.com | List your Resend sending domains and their verification status. | 🟢 |
+| `resend.listEmails` | resend.com | List / search the emails your Resend team sent — subject, recipients, last delivery… | 🟢 |
+| `resend.listLogs` | resend.com | List / search your Resend API request logs — endpoint, method, response status, user… | 🟢 |
+| `resend.listSegments` | resend.com | List your Resend segments (the dashboard's audiences / mailing lists) — the door to… | 🟢 |
+| `resend.listSupportChats` | resend.com | List your Resend support threads. | ⚪ |
+| `resend.listTopics` | resend.com | List your Resend broadcast topics — the door to every topic id. | 🟢 |
+| `resend.removeContactFromSegment` | resend.com | Remove a Resend contact from a segment; the contact itself is kept. | 🟢 |
+| `resend.replyToSupportChat` | resend.com | Reply inside an existing Resend support thread. | ⚪ |
+| `resend.searchBlog` | resend.com | Search Resend's public blog posts by keyword. | 🟢 |
+| `resend.searchChangelog` | resend.com | Search Resend's changelog / release notes by keyword. | 🟢 |
+| `resend.searchHandbook` | resend.com | Search Resend's public company handbook by keyword. | 🟢 |
+| `resend.sendFeedback` | resend.com | Send free-text feedback to Resend from the dashboard. | ⚪ |
+| `resend.systemStatus` | resend.com | Resend's live platform status — overall status, each component (API, SMTP, broadcasts… | 🟢 |
+| `resend.updateContact` | resend.com | Edit a Resend contact — email, name, unsubscribed status, custom properties. | 🟢 |
+| `resend.updateContactTopics` | resend.com | Subscribe or unsubscribe a Resend contact to topics (opt_in / opt_out). | 🟢 |
+| `resend.updateSegment` | resend.com | Rename a Resend segment (audience). | 🟢 |
+| `resend.updateTopic` | resend.com | Edit a Resend topic's name, description or visibility. | 🟢 |
+| `resend.upgradePlan` | resend.com | Upgrade or change the Resend billing plan. | ⚪ |
+| `resend.uploadSupportAttachment` | resend.com | Request an upload slot for a support-chat attachment. | ⚪ |
 | `reserve_with_google.bookReservation` | google.com/maps/reserve | Books a slot from checkAvailability on the caller's own Google account, with party… | ⚪ |
 | `reserve_with_google.cancelBooking` | google.com/maps/reserve | Cancels one of the caller's bookings by id and returns the cancellation status. | ⚪ |
 | `reserve_with_google.checkAvailability` | google.com/maps/reserve | Returns the open time slots at a Google-hosted merchant for a date and party size (or… | ⚪ |
@@ -4232,7 +4271,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sevenrooms.joinLoyaltyProgram` | sevenrooms.com | Signs the guest up to a venue's loyalty or rewards programme with their name, email… | ⚪ |
 | `sevenrooms.listExperiences` | sevenrooms.com | Lists a venue's bookable experiences and events — tasting menus, holiday seatings… | ⚪ |
 | `sevenrooms.listMyMemberships` | sevenrooms.com | Lists the venue loyalty and membership programmes the signed-in guest belongs to. | ⚪ |
-| `sevenrooms.listMyReservations` | sevenrooms.com | Lists the signed-in guest's SevenRooms reservations across every venue, split into… | ⚪ |
+| `sevenrooms.listMyReservations` | sevenrooms.com | Lists the signed-in guest's SevenRooms reservations across every venue, split into… | 🟢 |
 | `sevenrooms.listUpgrades` | sevenrooms.com | Lists the add-ons a venue offers with a booking — champagne on arrival, a cake, a… | ⚪ |
 | `sevenrooms.modifyReservation` | sevenrooms.com | Moves an existing reservation to another open slot — a new date, time or party size —… | ⚪ |
 | `sevenrooms.submitRequest` | sevenrooms.com | When no slot fits, submits a booking request to the venue for a date, time window and… | ⚪ |
@@ -4824,7 +4863,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.createPost` | threads.com | Publishes a new thread as the CALLER — text, optional images or video, a topic tag and… | ⚪ |
 | `threads.deletePost` | threads.com | Deletes one of the CALLER's own posts or replies. | ⚪ |
 | `threads.followUser` | threads.com | Follows an account as the CALLER. | ⚪ |
-| `threads.getActivity` | threads.com | Reads the CALLER's activity — new followers, replies, mentions, quotes, reposts and… | ⚪ |
+| `threads.getActivity` | threads.com | Reads the CALLER's activity — new followers, replies, mentions, quotes, reposts and… | 🟢 |
 | `threads.getConversation` | threads.com | Reads the messages in one of the CALLER's direct-message conversations. | ⚪ |
 | `threads.getCustomFeed` | threads.com | Reads the posts in one of the CALLER's custom feeds. | ⚪ |
 | `threads.getFollowers` | threads.com | Lists the accounts following a profile, as the CALLER sees it. | ⚪ |
@@ -5038,7 +5077,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.getDestination` | tripadvisor.com | Reads a city or region's overview page (/Tourism-g<geoId>-…): its name, parent places… | 🟢 |
 | `tripadvisor.getForumThread` | tripadvisor.com | Reads one forum thread — the opening post and every reply, with author, date and text… | ⚪ |
 | `tripadvisor.getForumTopics` | tripadvisor.com | Lists a destination's travel-forum topics — title, author, reply count, last post date… | ⚪ |
-| `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟡 |
+| `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟢 |
 | `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | 🟢 |
 | `tripadvisor.getMemberProfile` | tripadvisor.com | Reads a member's public profile — handle, display name, home town, join date… | ⚪ |
 | `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a given listing, nearest or… | ⚪ |
@@ -5634,7 +5673,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.uploadProfilePicture` | x.com | Change the signed-in account's own profile picture. | ⚪ |
 | `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts, scrolling until `limit`… | 🟢 |
 | `xola.bookExperience` | xola.com | Books a session for a party with the lead traveler's name, email and phone, completing… | ⚪ |
-| `xola.findSeller` | xola.com | Finds the Xola seller (the tour operator) behind an operator's own website or a… | 🟢 |
+| `xola.findSeller` | xola.com | Finds the Xola seller (the tour operator) behind an operator's own website or a… | 🟡 |
 | `xola.getAvailability` | xola.com | Returns an experience's open sessions over a date range: each date and start time… | ⚪ |
 | `xola.getExperience` | xola.com | Returns one experience's full listing: description, what is included, duration… | 🟢 |
 | `xola.getPriceQuote` | xola.com | Prices a party for one session -- how many of each demographic, add-ons and a coupon… | ⚪ |
@@ -5692,7 +5731,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.addToCollection` | yelp.com | Creates a collection for the signed-in caller, or adds a business to one of theirs, or… | ⚪ |
 | `yelp.askQuestion` | yelp.com | Posts a question, or answers one, in a business's 'Ask the Community' from the… | ⚪ |
 | `yelp.followUser` | yelp.com | Follows or unfollows a Yelp member from the signed-in caller's account. | ⚪ |
-| `yelp.getBookmarks` | yelp.com | Lists the businesses the signed-in caller has bookmarked. | ⚪ |
+| `yelp.getBookmarks` | yelp.com | Lists the businesses the signed-in caller has bookmarked on Yelp (their own My… | 🟢 |
 | `yelp.getBusiness` | yelp.com | Reads one business's own schema.org listing off its /biz/<alias> page: name, phone… | 🟢 |
 | `yelp.getCollection` | yelp.com | Reads a public Yelp collection (a member's named list of businesses) from its share… | ⚪ |
 | `yelp.getCollections` | yelp.com | Lists the signed-in caller's own collections and the businesses in each. | ⚪ |
