@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c0f902fd1598de4aaec6c26ee8983aec9868c47f9f9f9d17f6eb0b1622a7b772
-// 92 capabilities, 731 providers, 3525 typed functions, 20 refused.
+// Manifest version: 113160b81ec273c0eab3727224b170fbb710f20fe3801c20796aa444e4421234
+// 92 capabilities, 732 providers, 3560 typed functions, 20 refused.
 // 49,871 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7820,6 +7820,21 @@ interface AirbnbListingAvailability {
   quote: AirbnbQuote | null;
   calendar: AirbnbCalendarDay[];
 }
+interface AirbnbTrip {
+  id: string;                 // the site's global id
+  internalId: string | null;  // the numeric id /trips/v1/<internalId> takes
+  title: string | null;
+  status: string;             // the site's own word: "UPCOMING" | "PAST" | "PENDING" | "CANCELED"
+  cancelled: boolean;
+  upcoming: boolean;
+  startTime: string | null;   // ISO, as the site sends it
+  endTime: string | null;
+  imageUrl: string | null;
+  url: string | null;         // the trip's own page
+}
+interface AirbnbTrips {
+  trips: AirbnbTrip[];        // newest first; [] when the caller has none
+}
 
   /**
    * Airbnb's own stays search — a location, optional dates and guest counts in, priced listing
@@ -7846,6 +7861,16 @@ interface AirbnbListingAvailability {
      * check-in month. `currency` is an ISO code, default USD.
      */
     getListing(args: { url?: string, id?: string, checkin?: string, checkout?: string, adults?: number, months?: number, currency?: string }): Promise<AirbnbListingAvailability>;
+
+    /**
+     * SIGNED IN — the caller's own Airbnb trips from their Trips tab: upcoming, past and
+     * cancelled, newest first, each with the site's status word, `cancelled` and `upcoming` flags,
+     * dates, cover photo and the trip's own page. `limit` caps each of the three lists (1-100,
+     * default 40). Runs through the caller's own Chrome when Bowmark Link is attached, otherwise
+     * from a saved Airbnb sign-in; with neither, the run pauses for the caller to sign in. No
+     * trips is `{ trips: [] }`.
+     */
+    listTrips(args?: { limit?: number }, opts?: ConnectionOption): Promise<AirbnbTrips>;
   }
 }
 
@@ -16871,6 +16896,21 @@ interface ReviewBreakdown {
   reviewCount: number | null;
   categories: ReviewScoreCategory[];
 }
+interface BookingTrip {
+  id: string;
+  title: string | null;
+  status: string | null;   // the site's own TripStatus word, verbatim — the site's own labels — read the values off a result, never guess one from prose
+  cancelled: boolean;
+  upcoming: boolean;
+  startDate: string | null;
+  endDate: string | null;
+  createdAt: string | null;
+  imageUrl: string | null;
+  itemCount: number | null; // bookings (stays, flights, cars…) in the trip
+}
+interface BookingTrips {
+  trips: BookingTrip[];     // newest first; [] when the caller has none
+}
 
   /**
    * Global online travel reservation service with property search, reviews and booking
@@ -16930,6 +16970,16 @@ interface ReviewBreakdown {
      * cleanliness, value for money, facilities, comfort, staff, wifi, …).
      */
     getReviewBreakdown(args: GetPropertyArgs): Promise<ReviewBreakdown>;
+
+    /**
+     * SIGNED IN — the caller's own Booking.com trips ("My trips"), upcoming and past, newest
+     * first: the trip's title, the site's status word, `cancelled` and `upcoming` flags, dates,
+     * cover image and how many bookings it holds. `limit` caps the list (1-200, default 50). Runs
+     * through the caller's own Chrome when Bowmark Link is attached, otherwise from a saved
+     * Booking.com sign-in; with neither, the run pauses for the caller to sign in. No trips is `{
+     * trips: [] }`.
+     */
+    listBookings(args?: { limit?: number }, opts?: ConnectionOption): Promise<BookingTrips>;
   }
 }
 
@@ -27668,6 +27718,23 @@ interface discordAppCollection {
   description: string;
   apps: discordApp[];
 }
+interface discordMessage {
+  id: string;
+  channelId: string;
+  author: { id: string; username: string; globalName: string | null };
+  content: string;
+  timestamp: string;                 // ISO 8601
+  editedTimestamp: string | null;
+  attachments: string[];             // attachment urls
+  embedCount: number;
+  reactions: { emoji: string; count: number; me: boolean }[];
+  referencedMessageId: string | null; // the message this one replies to
+  pinned: boolean;
+}
+interface discordChannelMessages {
+  channelId: string;
+  messages: discordMessage[];        // newest first; [] for an empty channel
+}
 
   /**
    * Discord, chat for communities. Built so far: the public server directory (browse, search,
@@ -27795,6 +27862,16 @@ interface discordAppCollection {
      * directory has no similar apps for it.
      */
     listSimilarApps(id: string): Promise<discordApp[]>;
+
+    /**
+     * Reads a channel's most recent messages AS THE SIGNED-IN USER, newest first — author, text,
+     * attachment urls, embed count, reactions, the message it replies to, and timestamps.
+     * `channelId` is the last number in a discord.com/channels/<server>/<channel> url; `limit` is
+     * 1-100 (default 50). An empty channel returns `messages: []`. Throws when the account is not
+     * a member of that channel or cannot read it. Needs a Discord sign-in made through Bowmark's
+     * sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    listMessages(args: { channelId: string; limit?: number }, opts?: ConnectionOption): Promise<discordChannelMessages>;
   }
 }
 
@@ -39628,6 +39705,15 @@ interface GoteamupMembership {
      * — buying one is money and is never offered.
      */
     listMemberships(studio: string | number): Promise<GoteamupMembership[]>;
+
+    /** Gets one membership's full terms by the id listMemberships returned. */
+    getMembership(studio: string | number, membershipId: string | number): Promise<GoteamupMembership>;
+
+    /** Lists a studio's venues with address. */
+    listVenues(studio: string | number): Promise<GoteamupVenue[]>;
+
+    /** Lists a studio's instructors with name and picture. */
+    listInstructors(studio: string | number): Promise<GoteamupInstructor[]>;
   }
 }
 
@@ -59004,6 +59090,21 @@ interface openaiHelpArticleArgs {
 
 declare namespace BowmarkProvider_opentable {
   // ── OpenTable — the unit's own declarations, verbatim ──
+interface OpenTableMyReservation {
+  confirmationNumber: string | null;
+  restaurantId: number | null;
+  restaurantName: string | null;
+  dateTime: string | null;  // local start time, restaurant's own timezone
+  partySize: number | null;
+  status: string | null;    // OpenTable's own state, verbatim — the site's own labels — read the values off a result, never guess one from prose
+  cancelled: boolean;
+  upcoming: boolean;        // starts after now
+  reservationUrl: string | null; // pass to getBooking / cancelBooking
+}
+interface OpenTableMyReservations {
+  /** Newest first — furthest-out upcoming first, oldest past last. Empty when there are none. */
+  reservations: OpenTableMyReservation[];
+}
 interface OpenTableSlot {
   dateTime: string;      // local start time, "YYYY-MM-DDTHH:mm", restaurant's own timezone
   type: string | null;   // OpenTable's seating type, e.g. "Standard" | "Experience"
@@ -59177,6 +59278,15 @@ interface OpenTableBookingStatus {
      * reservation's own access. Throws when the link shows no reservation.
      */
     getBooking(args: { reservationUrl: string }): Promise<OpenTableBookingStatus>;
+
+    /**
+     * Lists the signed-in diner's own OpenTable reservations, upcoming and past, newest first:
+     * restaurant, date and time, party size, OpenTable's status, a cancelled flag, and the
+     * reservation's page link when OpenTable gives one. Needs the caller signed in to OpenTable
+     * (through Bowmark Link, or a saved sign-in); empty when they have none. One page read, no
+     * browser launched.
+     */
+    listMyReservations(opts?: ConnectionOption): Promise<OpenTableMyReservations>;
   }
 }
 
@@ -66036,6 +66146,115 @@ interface AssembledApplication {
   }
 }
 
+declare namespace BowmarkProvider_resend {
+  // ── Resend — the unit's own declarations, verbatim ──
+interface ResendList<T = Record<string, unknown>> { data: T[]; hasMore: boolean }
+interface ResendSearchHit { title: string; description: string | null; slug: string; url: string; updatedAt: string | null; category: string | null }
+interface ResendSearchResult { results: ResendSearchHit[]; took: number | null }
+interface ResendIncident { name: string; status: string; impact: string | null; createdAt: string | null; resolvedAt: string | null; latestUpdate: string | null }
+interface ResendSystemStatus { status: string; indicator: string; components: Array<{ name: string; status: string }>; recentIncidents: ResendIncident[] }
+// A contact is addressed by contactId OR email.
+type ResendContactRef = { contactId: string } | { email: string };
+type ResendTopicChange = { id: string; subscription: "opt_in" | "opt_out" };
+// Writes return Resend's own acknowledgement, e.g. { object: "contact", id } or { object: "segment", id, deleted: true }.
+type ResendAck = { object: string; id?: string; deleted?: boolean } & Record<string, unknown>;
+
+  /**
+   * Resend, the transactional email API — manage your own account with your Resend API key (API
+   * keys, segments/audiences, contacts, topics, contact properties, domains, sent-email and
+   * request-log search), plus keyless search of Resend's blog, changelog and handbook and its
+   * live system status.
+   */
+  interface Unit {
+    /** Search Resend's public blog posts by keyword. No key needed. */
+    searchBlog(args: { query: string }): Promise<ResendSearchResult>;
+
+    /** Search Resend's changelog / release notes by keyword. No key needed. */
+    searchChangelog(args: { query: string }): Promise<ResendSearchResult>;
+
+    /** Search Resend's public company handbook by keyword. No key needed. */
+    searchHandbook(args: { query: string }): Promise<ResendSearchResult>;
+
+    /**
+     * Resend's live platform status — overall status, each component (API, SMTP, broadcasts,
+     * webhooks, dashboard…) and recent incidents. No key needed.
+     */
+    systemStatus(): Promise<ResendSystemStatus>;
+
+    /** List the API keys on your Resend team (id, name, created_at). */
+    listApiKeys(): Promise<ResendList>;
+
+    /**
+     * List your Resend segments (the dashboard's audiences / mailing lists) — the door to every
+     * segmentId.
+     */
+    listSegments(args?: { limit?: number; after?: string }): Promise<ResendList>;
+
+    /** Create a Resend segment (audience / mailing list). */
+    createSegment(args: { name: string }): Promise<ResendAck>;
+
+    /** Rename a Resend segment (audience). */
+    updateSegment(args: { segmentId: string; name: string }): Promise<ResendAck>;
+
+    /** Delete a Resend segment (audience). Its contacts are kept. */
+    deleteSegment(args: { segmentId: string }): Promise<ResendAck>;
+
+    /** List your Resend contacts, optionally only those in one segment. */
+    listContacts(args?: { segmentId?: string; limit?: number; after?: string }): Promise<ResendList>;
+
+    /** Add a contact to Resend, optionally straight into segments and topic subscriptions. */
+    createContact(args: { email: string; firstName?: string; lastName?: string; unsubscribed?: boolean; segmentIds?: string[]; topics?: ResendTopicChange[]; properties?: Record<string, string> }): Promise<ResendAck>;
+
+    /** Edit a Resend contact — email, name, unsubscribed status, custom properties. */
+    updateContact(args: ResendContactRef & { newEmail?: string; firstName?: string; lastName?: string; unsubscribed?: boolean; properties?: Record<string, string> }): Promise<ResendAck>;
+
+    /** Permanently delete a Resend contact (removes it from every segment). */
+    deleteContact(args: ResendContactRef): Promise<ResendAck>;
+
+    /** Add an existing Resend contact to a segment (audience). */
+    addContactToSegment(args: ResendContactRef & { segmentId: string }): Promise<ResendAck>;
+
+    /** Remove a Resend contact from a segment; the contact itself is kept. */
+    removeContactFromSegment(args: ResendContactRef & { segmentId: string }): Promise<ResendAck>;
+
+    /** Subscribe or unsubscribe a Resend contact to topics (opt_in / opt_out). */
+    updateContactTopics(args: ResendContactRef & { topics: ResendTopicChange[] }): Promise<ResendAck>;
+
+    /** List your Resend broadcast topics — the door to every topic id. */
+    listTopics(): Promise<ResendList>;
+
+    /** Create a Resend broadcast topic. */
+    createTopic(args: { name: string; defaultSubscription?: "opt_in" | "opt_out"; description?: string; visibility?: "public" | "private" }): Promise<ResendAck>;
+
+    /** Edit a Resend topic's name, description or visibility. */
+    updateTopic(args: { topicId: string; name?: string; description?: string; visibility?: "public" | "private" }): Promise<ResendAck>;
+
+    /** Permanently delete a Resend topic. */
+    deleteTopic(args: { topicId: string }): Promise<ResendAck>;
+
+    /** List the custom contact properties defined on your Resend team. */
+    listContactProperties(): Promise<ResendList>;
+
+    /** List your Resend sending domains and their verification status. */
+    listDomains(): Promise<ResendList>;
+
+    /** Permanently delete a Resend sending domain. */
+    deleteDomain(args: { domainId: string }): Promise<ResendAck>;
+
+    /**
+     * List / search the emails your Resend team sent — subject, recipients, last delivery event.
+     * `query` filters the returned page by text.
+     */
+    listEmails(args?: { query?: string; limit?: number; after?: string }): Promise<ResendList>;
+
+    /**
+     * List / search your Resend API request logs — endpoint, method, response status, user agent.
+     * `query` filters the returned page by text.
+     */
+    listLogs(args?: { query?: string; limit?: number; after?: string }): Promise<ResendList>;
+  }
+}
+
 declare namespace BowmarkProvider_reserve_with_google {
   // ── Reserve with Google — the unit's own declarations, verbatim ──
 interface reserve_with_googleRow {
@@ -70080,6 +70299,34 @@ interface SetmorePromoCode {
 
 declare namespace BowmarkProvider_sevenrooms {
   // ── SevenRooms — the unit's own declarations, verbatim ──
+interface SevenroomsMyReservation {
+  id: string | null;
+  venueId: string | null;
+  venueName: string | null;
+  city: string | null;
+  /** Venue-local date, YYYY-MM-DD. */
+  date: string | null;
+  /** Venue-local time as SevenRooms wrote it. */
+  time: string | null;
+  /** ISO instant the reservation starts. */
+  datetimeUtc: string | null;
+  partySize: number | null;
+  /** SevenRooms' own status, verbatim, when it sends one. */
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  cancelled: boolean;
+  /** Starts after now. */
+  upcoming: boolean;
+  imageUrl: string | null;
+  /** Where the guest views or cancels it. */
+  manageUrl: string | null;
+  modifyUrl: string | null;
+  bookAgainUrl: string | null;
+  venueBookable: boolean | null;
+}
+interface SevenroomsMyReservations {
+  /** Newest first — furthest-out upcoming first, oldest past last. Empty when there are none. */
+  reservations: SevenroomsMyReservation[];
+}
 interface SevenroomsVenue {
   id: string;
   venueGroupId: string | null;
@@ -70237,6 +70484,14 @@ interface GetBookingTermsArgs {
      * immediately — never a real reservation.
      */
     getBookingTerms(args: GetBookingTermsArgs): Promise<SevenroomsBookingTerms>;
+
+    /**
+     * Lists the signed-in guest's own SevenRooms reservations across every venue, upcoming and
+     * past, newest first: venue, city, date and time, party size, status, a cancelled flag, and
+     * the manage and modify links. Needs the caller signed in to SevenRooms (through Bowmark Link,
+     * or a saved sign-in); empty when they have none.
+     */
+    listMyReservations(opts?: ConnectionOption): Promise<SevenroomsMyReservations>;
   }
 }
 
@@ -77550,6 +77805,19 @@ interface ThreadsPostThread {
   hasMoreReplies: boolean;
 }
 
+// getActivity: the signed-in caller's own notifications
+interface ThreadsActivityItem {
+  id: string;
+  kind: string | null;       // Meta's own name for the activity kind, as the site spells it
+  text: string | null;       // the line Threads shows, e.g. "liked your thread"
+  at: string;                // ISO time
+  username: string | null;   // the other account, when named
+  postCode: string | null;   // the post it is about: the code getPost takes
+}
+interface ThreadsActivity {
+  notifications: ThreadsActivityItem[];   // newest first; [] when there is none
+}
+
   /**
    * Meta's Threads at threads.com — read public profiles, their posts, replies and media, a post
    * with its whole reply thread, and search posts, accounts and topics logged out; signed in as
@@ -77557,6 +77825,14 @@ interface ThreadsPostThread {
    * repost, follow and edit their profile.
    */
   interface Unit {
+    /**
+     * Reads the signed-in caller's own Threads activity (their notifications): new followers,
+     * replies, mentions, quotes, reposts and likes on their posts, newest first, each with its
+     * kind, text, time, the other account and the post code. [] when there is none. Needs the
+     * caller signed in to Threads; runs through their own Chrome when Bowmark Link is attached.
+     */
+    getActivity(opts?: ConnectionOption): Promise<ThreadsActivity>;
+
     /**
      * Searches Threads accounts by name or username, logged out — the finder that turns a person
      * or brand named in words into the `username` every profile function takes. Rows come in
@@ -87749,6 +88025,16 @@ interface YelpReviewPage {
   nextCursor: string | null;    // pass as after; null on the last page
 }
 
+// getBookmarks: the signed-in caller's own "My Bookmarks"
+interface YelpBookmark {
+  alias: string;   // what getBusiness / getReviews take
+  name: string;
+  url: string;
+}
+interface YelpBookmarks {
+  bookmarks: YelpBookmark[];   // page order; [] when nothing is saved
+}
+
   /**
    * Yelp's own business search — returns real, currently-listed businesses for a search term and
    * location with Yelp's own star rating, review count, price tier and neighborhood.
@@ -87783,6 +88069,14 @@ interface YelpReviewPage {
      * Read-only.
      */
     getReviews(args: YelpReviewsArgs): Promise<YelpReviewPage>;
+
+    /**
+     * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
+     * page): each business's alias, name and url, in the order the page shows them, [] when
+     * nothing is saved. Needs the caller signed in to Yelp; runs through their own Chrome when
+     * Bowmark Link is attached. Read-only.
+     */
+    getBookmarks(opts?: ConnectionOption): Promise<YelpBookmarks>;
   }
 }
 
@@ -90960,6 +91254,7 @@ interface BowmarkProviders {
   reddit: BowmarkProvider_reddit.Unit;
   rei: BowmarkProvider_rei.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
+  resend: BowmarkProvider_resend.Unit;
   reserve_with_google: BowmarkProvider_reserve_with_google.Unit;
   resy: BowmarkProvider_resy.Unit;
   reuters: BowmarkProvider_reuters.Unit;

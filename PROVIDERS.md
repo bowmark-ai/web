@@ -454,7 +454,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bigrentz.listCategories` | bigrentz.com | Lists BigRentz's equipment categories (optionally filtered to children of a parent… | 🟢 |
 | `bigrentz.search` | bigrentz.com | Searches BigRentz's equipment catalog by free-text query (e.g. "boom lift", "40 ft… | 🟢 |
 | `bigyellow.getQuote` | bigyellow.co.uk | Returns a storage unit quote with pricing based on location, unit size and move-in date. | ⚪ |
-| `bing.define` | bing.com | Looks up a word in Bing's own dictionary panel (bing.com/dict/search) and returns its… | 🟢 |
+| `bing.define` | bing.com | Looks up a word in Bing's own dictionary (cn.bing.com/dict, English to Chinese) and… | 🟢 |
 | `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | 🟢 |
 | `bing.listSaves` | bing.com | Lists the pages, searches and images the signed-in caller has saved to Bing… | 🟢 |
 | `bing.saveResult` | bing.com | Adds a page, search or image to the signed-in caller's Bing Collections — the write… | 🟢 |
@@ -1620,9 +1620,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | ⚪ |
 | `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | ⚪ |
 | `duckduckgo.convertCurrency` | duckduckgo.com | Convert an amount between two currencies at DuckDuckGo's current mid-market rate (from… | 🟢 |
-| `duckduckgo.createPrivateDuckAddress` | duckduckgo.com | Generate a new private @duck.com address on the signed-in caller's Email Protection… | ⚪ |
+| `duckduckgo.createPrivateDuckAddress` | duckduckgo.com | Generates a brand new private @duck.com address on the signed-in caller's Email… | 🟢 |
 | `duckduckgo.defineWord` | duckduckgo.com | Look a word up the way DuckDuckGo's dictionary answer does — part of speech… | 🟢 |
-| `duckduckgo.getEmailProtectionAccount` | duckduckgo.com | Read the signed-in caller's DuckDuckGo Email Protection account — their @duck.com… | ⚪ |
+| `duckduckgo.getEmailProtectionAccount` | duckduckgo.com | Reads the signed-in caller's DuckDuckGo Email Protection account — their permanent… | 🟢 |
 | `duckduckgo.getInstantAnswer` | duckduckgo.com | Get DuckDuckGo's Instant Answer for a topic — the abstract and its source, a direct… | 🟢 |
 | `duckduckgo.getLocalTime` | duckduckgo.com | Get the current local time and time zone in a city, the way DuckDuckGo's time answer… | 🟢 |
 | `duckduckgo.getWeather` | duckduckgo.com | Get the current conditions and forecast for a place, the way DuckDuckGo's weather… | 🟢 |
@@ -4935,7 +4935,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟢 |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id, caption, play count, cover and play address for each —… | 🟢 |
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | 🟢 |
-| `tiktok.searchUsers` | tiktok.com | Find creators matching a name and get back handle, nickname, bio, avatar, secUid… | 🟡 |
+| `tiktok.searchUsers` | tiktok.com | Find creators matching a name or a topic and get back handle, nickname, bio, avatar… | 🟡 |
 | `tiktok.searchVideos` | tiktok.com | Search TikTok the way the search box does and get back matching videos — id, caption… | 🟡 |
 | `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller. | ⚪ |
 | `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | 🟢 |
@@ -5834,7 +5834,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zen_planner.updateMemberInfo` | zenplanner.com | Updates the signed-in member's profile information including name, email and… | ⚪ |
 | `zennioptical.checkStock` | zennioptical.com | Checks live per-SKU inventory (in stock, quantity, backorder/preorder flags) off the… | 🟢 |
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
-| `zennioptical.priceLensConfig` | zennioptical.com | Runs a real prescription + usage type through the site's own order-configurator flow… | 🟢 |
+| `zennioptical.priceLensConfig` | zennioptical.com | Sends a real prescription + usage type straight to the site's own lens-pricing… | 🟢 |
 | `zennioptical.searchFrames` | zennioptical.com | Searches Zenni's own storefront catalog for what a shopper would type — "round… | 🟢 |
 | `zenoti.bookAppointment` | zenoti.com | Books one or more services at a center for a chosen open time, as the signed-in caller. | ⚪ |
 | `zenoti.cancelAppointment` | zenoti.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | ⚪ |

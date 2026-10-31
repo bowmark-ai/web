@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c0f902fd1598de4aaec6c26ee8983aec9868c47f9f9f9d17f6eb0b1622a7b772
-# 92 capabilities, 731 providers, 3507 typed functions, 20 refused.
+# Manifest version: 113160b81ec273c0eab3727224b170fbb710f20fe3801c20796aa444e4421234
+# 92 capabilities, 732 providers, 3542 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4485,6 +4485,24 @@ class Prv_airbnb_AirbnbCalendarDay_Out(TypedDict):
     availableForCheckout: bool
     minNights: float | None
     maxNights: float | None
+
+class Prv_airbnb_listTrips_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_airbnb_AirbnbTrips_Out(TypedDict):
+    trips: list[Prv_airbnb_AirbnbTrip_Out]
+
+class Prv_airbnb_AirbnbTrip_Out(TypedDict):
+    id: str
+    internalId: str | None
+    title: str | None
+    status: str
+    cancelled: bool
+    upcoming: bool
+    startTime: str | None
+    endTime: str | None
+    imageUrl: str | None
+    url: str | None
 
 Prv_airchina_AirChinaDealFaresArgs_In = TypedDict(
     "Prv_airchina_AirChinaDealFaresArgs_In",
@@ -9993,6 +10011,24 @@ class Prv_booking_com_ReviewBreakdown_Out(TypedDict):
 class Prv_booking_com_ReviewScoreCategory_Out(TypedDict):
     category: str
     score: float
+
+class Prv_booking_com_listBookings_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_booking_com_BookingTrips_Out(TypedDict):
+    trips: list[Prv_booking_com_BookingTrip_Out]
+
+class Prv_booking_com_BookingTrip_Out(TypedDict):
+    id: str
+    title: str | None
+    status: str | None
+    cancelled: bool
+    upcoming: bool
+    startDate: str | None
+    endDate: str | None
+    createdAt: str | None
+    imageUrl: str | None
+    itemCount: float | None
 
 class Prv_booksy_booksyResolveLocationArgs_In(TypedDict):
     query: str
@@ -16537,6 +16573,37 @@ class Prv_discord_discordAppCollection_Out(TypedDict):
     title: str
     description: str
     apps: list[Prv_discord_discordApp_Out]
+
+class Prv_discord_listMessages_args_In(TypedDict):
+    channelId: str
+    limit: NotRequired[float]
+
+class Prv_discord_discordChannelMessages_Out(TypedDict):
+    channelId: str
+    messages: list[Prv_discord_discordMessage_Out]
+
+class Prv_discord_discordMessage_Out(TypedDict):
+    id: str
+    channelId: str
+    author: Prv_discord_discordMessage_Out_author_Out
+    content: str
+    timestamp: str
+    editedTimestamp: str | None
+    attachments: list[str]
+    embedCount: float
+    reactions: list[Prv_discord_discordMessage_Out_reactions_item_Out]
+    referencedMessageId: str | None
+    pinned: bool
+
+class Prv_discord_discordMessage_Out_author_Out(TypedDict):
+    id: str
+    username: str
+    globalName: str | None
+
+class Prv_discord_discordMessage_Out_reactions_item_Out(TypedDict):
+    emoji: str
+    count: float
+    me: bool
 
 class Prv_discounttire_DiscounttireProduct_Out(TypedDict):
     code: str
@@ -34690,6 +34757,20 @@ class Prv_opentable_OpenTableBookingStatus_Out(TypedDict):
     reservationUrl: str
     pageText: str
 
+class Prv_opentable_OpenTableMyReservations_Out(TypedDict):
+    reservations: list[Prv_opentable_OpenTableMyReservation_Out]
+
+class Prv_opentable_OpenTableMyReservation_Out(TypedDict):
+    confirmationNumber: str | None
+    restaurantId: float | None
+    restaurantName: str | None
+    dateTime: str | None
+    partySize: float | None
+    status: str | None
+    cancelled: bool
+    upcoming: bool
+    reservationUrl: str | None
+
 class Prv_originenergy_com_au_OriginBusinessElectricityQuoteArgs_In(TypedDict):
     postcode: str
 
@@ -39199,6 +39280,111 @@ class Prv_reliancepartners_AssembledApplication_Out(TypedDict):
     formFields: Mapping[str, str]
     summary: str
 
+class Prv_resend_searchBlog_args_In(TypedDict):
+    query: str
+
+class Prv_resend_ResendSearchResult_Out(TypedDict):
+    results: list[Prv_resend_ResendSearchHit_Out]
+    took: float | None
+
+class Prv_resend_ResendSearchHit_Out(TypedDict):
+    title: str
+    description: str | None
+    slug: str
+    url: str
+    updatedAt: str | None
+    category: str | None
+
+class Prv_resend_searchChangelog_args_In(TypedDict):
+    query: str
+
+class Prv_resend_searchHandbook_args_In(TypedDict):
+    query: str
+
+class Prv_resend_ResendSystemStatus_Out(TypedDict):
+    status: str
+    indicator: str
+    components: list[Prv_resend_ResendSystemStatus_Out_components_item_Out]
+    recentIncidents: list[Prv_resend_ResendIncident_Out]
+
+class Prv_resend_ResendSystemStatus_Out_components_item_Out(TypedDict):
+    name: str
+    status: str
+
+class Prv_resend_ResendIncident_Out(TypedDict):
+    name: str
+    status: str
+    impact: str | None
+    createdAt: str | None
+    resolvedAt: str | None
+    latestUpdate: str | None
+
+class Prv_resend_listSegments_args_In(TypedDict):
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_resend_createSegment_args_In(TypedDict):
+    name: str
+
+class Prv_resend_updateSegment_args_In(TypedDict):
+    segmentId: str
+    name: str
+
+class Prv_resend_deleteSegment_args_In(TypedDict):
+    segmentId: str
+
+class Prv_resend_listContacts_args_In(TypedDict):
+    segmentId: NotRequired[str]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_resend_createContact_args_In(TypedDict):
+    email: str
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+    unsubscribed: NotRequired[bool]
+    segmentIds: NotRequired[Sequence[str]]
+    topics: NotRequired[Sequence[Prv_resend_ResendTopicChange_In]]
+    properties: NotRequired[Mapping[str, str]]
+
+class Prv_resend_ResendTopicChange_In(TypedDict):
+    id: str
+    subscription: Literal["opt_in"] | Literal["opt_out"]
+
+class Prv_resend_ResendContactRef_u0_In(TypedDict):
+    contactId: str
+
+class Prv_resend_ResendContactRef_u1_In(TypedDict):
+    email: str
+
+class Prv_resend_createTopic_args_In(TypedDict):
+    name: str
+    defaultSubscription: NotRequired[Literal["opt_in"] | Literal["opt_out"]]
+    description: NotRequired[str]
+    visibility: NotRequired[Literal["public"] | Literal["private"]]
+
+class Prv_resend_updateTopic_args_In(TypedDict):
+    topicId: str
+    name: NotRequired[str]
+    description: NotRequired[str]
+    visibility: NotRequired[Literal["public"] | Literal["private"]]
+
+class Prv_resend_deleteTopic_args_In(TypedDict):
+    topicId: str
+
+class Prv_resend_deleteDomain_args_In(TypedDict):
+    domainId: str
+
+class Prv_resend_listEmails_args_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_resend_listLogs_args_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
 class Prv_reserve_with_google_BookablePlace_Out(TypedDict):
     featureId: str
     name: str
@@ -41902,6 +42088,27 @@ class Prv_sevenrooms_SevenroomsBookingTerms_Out_payment_Out(TypedDict):
     defaultGratuity: float | None
     taxRate: float | None
     computedAutoCancellationChargeCents: float | None
+
+class Prv_sevenrooms_SevenroomsMyReservations_Out(TypedDict):
+    reservations: list[Prv_sevenrooms_SevenroomsMyReservation_Out]
+
+class Prv_sevenrooms_SevenroomsMyReservation_Out(TypedDict):
+    id: str | None
+    venueId: str | None
+    venueName: str | None
+    city: str | None
+    date: str | None
+    time: str | None
+    datetimeUtc: str | None
+    partySize: float | None
+    status: str | None
+    cancelled: bool
+    upcoming: bool
+    imageUrl: str | None
+    manageUrl: str | None
+    modifyUrl: str | None
+    bookAgainUrl: str | None
+    venueBookable: bool | None
 
 class Prv_shein_sheinCategory_Out(TypedDict):
     id: str
@@ -46701,6 +46908,17 @@ class Prv_thibautdesign_ThibautdesignRollCalculationResult_Out(TypedDict):
     wasteMarginAdvice: str
     howToBuyUrl: str
     calculatorUrl: str
+
+class Prv_threads_ThreadsActivity_Out(TypedDict):
+    notifications: list[Prv_threads_ThreadsActivityItem_Out]
+
+class Prv_threads_ThreadsActivityItem_Out(TypedDict):
+    id: str
+    kind: str | None
+    text: str | None
+    at: str
+    username: str | None
+    postCode: str | None
 
 class Prv_threads_ThreadsSearchAccountsArgs_In(TypedDict):
     query: str
@@ -53411,6 +53629,14 @@ class Prv_yelp_YelpReviewPage_Out_reviews_item_Out_reactions_item_Out(TypedDict)
     type: str
     count: float
 
+class Prv_yelp_YelpBookmarks_Out(TypedDict):
+    bookmarks: list[Prv_yelp_YelpBookmark_Out]
+
+class Prv_yelp_YelpBookmark_Out(TypedDict):
+    alias: str
+    name: str
+    url: str
+
 class Prv_yogatreecollective_YogatreecollectiveSchedule_Out(TypedDict):
     classes: list[Prv_yogatreecollective_YtcScheduleClass_Out]
     lastModified: str | None
@@ -57144,6 +57370,15 @@ class Prv_airbnb(Protocol):
         (default 2) from the check-in month. `currency` is an ISO code, default USD.
         """
 
+    async def listTrips(self, args: Prv_airbnb_listTrips_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_airbnb_AirbnbTrips_Out:
+        """SIGNED IN — the caller's own Airbnb trips from their Trips tab: upcoming, past and
+        cancelled, newest first, each with the site's status word, `cancelled` and `upcoming`
+        flags, dates, cover photo and the trip's own page. `limit` caps each of the three lists
+        (1-100, default 40). Runs through the caller's own Chrome when Bowmark Link is attached,
+        otherwise from a saved Airbnb sign-in; with neither, the run pauses for the caller to
+        sign in. No trips is `{ trips: [] }`.
+        """
+
 class Prv_airchina(Protocol):
     """Air China's own published cheapest one-way deal fares from a Chinese city (price in CNY,
     date, destination). Full fare search needs a PhoenixMiles login and is not available.
@@ -60268,6 +60503,15 @@ class Prv_booking_com(Protocol):
     async def getReviewBreakdown(self, args: Prv_booking_com_GetPropertyArgs_In, /) -> Prv_booking_com_ReviewBreakdown_Out:
         """Get the property page's own overall review score and its category breakdown (location,
         cleanliness, value for money, facilities, comfort, staff, wifi, …).
+        """
+
+    async def listBookings(self, args: Prv_booking_com_listBookings_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_booking_com_BookingTrips_Out:
+        """SIGNED IN — the caller's own Booking.com trips ("My trips"), upcoming and past, newest
+        first: the trip's title, the site's status word, `cancelled` and `upcoming` flags,
+        dates, cover image and how many bookings it holds. `limit` caps the list (1-200, default
+        50). Runs through the caller's own Chrome when Bowmark Link is attached, otherwise from
+        a saved Booking.com sign-in; with neither, the run pauses for the caller to sign in. No
+        trips is `{ trips: [] }`.
         """
 
 class Prv_booksy(Protocol):
@@ -63974,6 +64218,16 @@ class Prv_discord(Protocol):
         """Lists the apps the App Directory shows as similar to one app — the same full shape
         getApp returns. `id` is a row's id from searchApps() or getApp(). Returns an empty array
         when the directory has no similar apps for it.
+        """
+
+    async def listMessages(self, args: Prv_discord_listMessages_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordChannelMessages_Out:
+        """Reads a channel's most recent messages AS THE SIGNED-IN USER, newest first — author,
+        text, attachment urls, embed count, reactions, the message it replies to, and
+        timestamps. `channelId` is the last number in a discord.com/channels/<server>/<channel>
+        url; `limit` is 1-100 (default 50). An empty channel returns `messages: []`. Throws when
+        the account is not a member of that channel or cannot read it. Needs a Discord sign-in
+        made through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your
+        own browser yet.
         """
 
 class Prv_discounttire(Protocol):
@@ -68161,6 +68415,15 @@ class Prv_goteamup_classes(Protocol):
         """Lists the memberships and class packs a studio sells, with type, price and terms.
         Read-only — buying one is money and is never offered.
         """
+
+    async def getMembership(self, studio: str | float, membershipId: str | float, /) -> Prv_goteamup_classes_GoteamupMembership_Out:
+        """Gets one membership's full terms by the id listMemberships returned."""
+
+    async def listVenues(self, studio: str | float, /) -> list[Prv_goteamup_classes_GoteamupVenue_Out]:
+        """Lists a studio's venues with address."""
+
+    async def listInstructors(self, studio: str | float, /) -> list[Prv_goteamup_classes_GoteamupInstructor_Out]:
+        """Lists a studio's instructors with name and picture."""
 
 class Prv_grainger(Protocol):
     """Grainger's industrial MRO catalog, product detail, and branch/stock availability —
@@ -75137,6 +75400,14 @@ class Prv_opentable(Protocol):
         carries the reservation's own access. Throws when the link shows no reservation.
         """
 
+    async def listMyReservations(self, opts: ConnectionOption | None = None, /) -> Prv_opentable_OpenTableMyReservations_Out:
+        """Lists the signed-in diner's own OpenTable reservations, upcoming and past, newest first:
+        restaurant, date and time, party size, OpenTable's status, a cancelled flag, and the
+        reservation's page link when OpenTable gives one. Needs the caller signed in to
+        OpenTable (through Bowmark Link, or a saved sign-in); empty when they have none. One
+        page read, no browser launched.
+        """
+
 class Prv_originenergy_com_au(Protocol):
     """originenergy.com.au business electricity quote — every plan Origin Energy offers in a
     postcode's distributor territory, priced at the regulator's standard reference
@@ -77675,6 +77946,96 @@ class Prv_reliancepartners(Protocol):
         human underwriting follow-up, not an instant quote.
         """
 
+class Prv_resend(Protocol):
+    """Resend, the transactional email API — manage your own account with your Resend API key
+    (API keys, segments/audiences, contacts, topics, contact properties, domains, sent-email
+    and request-log search), plus keyless search of Resend's blog, changelog and handbook
+    and its live system status.
+    """
+
+    async def searchBlog(self, args: Prv_resend_searchBlog_args_In, /) -> Prv_resend_ResendSearchResult_Out:
+        """Search Resend's public blog posts by keyword. No key needed."""
+
+    async def searchChangelog(self, args: Prv_resend_searchChangelog_args_In, /) -> Prv_resend_ResendSearchResult_Out:
+        """Search Resend's changelog / release notes by keyword. No key needed."""
+
+    async def searchHandbook(self, args: Prv_resend_searchHandbook_args_In, /) -> Prv_resend_ResendSearchResult_Out:
+        """Search Resend's public company handbook by keyword. No key needed."""
+
+    async def systemStatus(self, /) -> Prv_resend_ResendSystemStatus_Out:
+        """Resend's live platform status — overall status, each component (API, SMTP, broadcasts,
+        webhooks, dashboard…) and recent incidents. No key needed.
+        """
+
+    async def listApiKeys(self, /) -> Any:
+        """List the API keys on your Resend team (id, name, created_at)."""
+
+    async def listSegments(self, args: Prv_resend_listSegments_args_In | None = None, /) -> Any:
+        """List your Resend segments (the dashboard's audiences / mailing lists) — the door to
+        every segmentId.
+        """
+
+    async def createSegment(self, args: Prv_resend_createSegment_args_In, /) -> Any:
+        """Create a Resend segment (audience / mailing list)."""
+
+    async def updateSegment(self, args: Prv_resend_updateSegment_args_In, /) -> Any:
+        """Rename a Resend segment (audience)."""
+
+    async def deleteSegment(self, args: Prv_resend_deleteSegment_args_In, /) -> Any:
+        """Delete a Resend segment (audience). Its contacts are kept."""
+
+    async def listContacts(self, args: Prv_resend_listContacts_args_In | None = None, /) -> Any:
+        """List your Resend contacts, optionally only those in one segment."""
+
+    async def createContact(self, args: Prv_resend_createContact_args_In, /) -> Any:
+        """Add a contact to Resend, optionally straight into segments and topic subscriptions."""
+
+    async def updateContact(self, args: Any, /) -> Any:
+        """Edit a Resend contact — email, name, unsubscribed status, custom properties."""
+
+    async def deleteContact(self, args: Prv_resend_ResendContactRef_u0_In | Prv_resend_ResendContactRef_u1_In, /) -> Any:
+        """Permanently delete a Resend contact (removes it from every segment)."""
+
+    async def addContactToSegment(self, args: Any, /) -> Any:
+        """Add an existing Resend contact to a segment (audience)."""
+
+    async def removeContactFromSegment(self, args: Any, /) -> Any:
+        """Remove a Resend contact from a segment; the contact itself is kept."""
+
+    async def updateContactTopics(self, args: Any, /) -> Any:
+        """Subscribe or unsubscribe a Resend contact to topics (opt_in / opt_out)."""
+
+    async def listTopics(self, /) -> Any:
+        """List your Resend broadcast topics — the door to every topic id."""
+
+    async def createTopic(self, args: Prv_resend_createTopic_args_In, /) -> Any:
+        """Create a Resend broadcast topic."""
+
+    async def updateTopic(self, args: Prv_resend_updateTopic_args_In, /) -> Any:
+        """Edit a Resend topic's name, description or visibility."""
+
+    async def deleteTopic(self, args: Prv_resend_deleteTopic_args_In, /) -> Any:
+        """Permanently delete a Resend topic."""
+
+    async def listContactProperties(self, /) -> Any:
+        """List the custom contact properties defined on your Resend team."""
+
+    async def listDomains(self, /) -> Any:
+        """List your Resend sending domains and their verification status."""
+
+    async def deleteDomain(self, args: Prv_resend_deleteDomain_args_In, /) -> Any:
+        """Permanently delete a Resend sending domain."""
+
+    async def listEmails(self, args: Prv_resend_listEmails_args_In | None = None, /) -> Any:
+        """List / search the emails your Resend team sent — subject, recipients, last delivery
+        event. `query` filters the returned page by text.
+        """
+
+    async def listLogs(self, args: Prv_resend_listLogs_args_In | None = None, /) -> Any:
+        """List / search your Resend API request logs — endpoint, method, response status, user
+        agent. `query` filters the returned page by text.
+        """
+
 class Prv_reserve_with_google(Protocol):
     """Google's own booking layer on Maps and Search: find places that take a booking through
     Google, see which partner takes it, read a Google-hosted restaurant's party sizes and
@@ -79008,6 +79369,13 @@ class Prv_sevenrooms(Protocol):
         policy text, whether a card is held or charged and how much, deposits, fees, gratuity
         and the cancellation window. Places a brief reservation hold to read the terms, then
         releases it immediately — never a real reservation.
+        """
+
+    async def listMyReservations(self, opts: ConnectionOption | None = None, /) -> Prv_sevenrooms_SevenroomsMyReservations_Out:
+        """Lists the signed-in guest's own SevenRooms reservations across every venue, upcoming and
+        past, newest first: venue, city, date and time, party size, status, a cancelled flag,
+        and the manage and modify links. Needs the caller signed in to SevenRooms (through
+        Bowmark Link, or a saved sign-in); empty when they have none.
         """
 
 class Prv_shein(Protocol):
@@ -81376,6 +81744,14 @@ class Prv_threads(Protocol):
     signed in as the CALLER, read their feeds, activity, saved posts and DMs, and post,
     reply, quote, like, repost, follow and edit their profile.
     """
+
+    async def getActivity(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActivity_Out:
+        """Reads the signed-in caller's own Threads activity (their notifications): new followers,
+        replies, mentions, quotes, reposts and likes on their posts, newest first, each with its
+        kind, text, time, the other account and the post code. [] when there is none. Needs the
+        caller signed in to Threads; runs through their own Chrome when Bowmark Link is
+        attached.
+        """
 
     async def searchAccounts(self, args: Prv_threads_ThreadsSearchAccountsArgs_In, /) -> Prv_threads_ThreadsAccountSearch_Out:
         """Searches Threads accounts by name or username, logged out — the finder that turns a
@@ -84891,6 +85267,13 @@ class Prv_yelp(Protocol):
         Read-only.
         """
 
+    async def getBookmarks(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpBookmarks_Out:
+        """Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
+        page): each business's alias, name and url, in the order the page shows them, [] when
+        nothing is saved. Needs the caller signed in to Yelp; runs through their own Chrome when
+        Bowmark Link is attached. Read-only.
+        """
+
 class Prv_yogatreecollective(Protocol):
     """Yoga Tree Collective (San Francisco): the weekly class timetable, teacher directory and
     retreats; each class books on its teacher's own platform.
@@ -86151,6 +86534,7 @@ class BowmarkProviders(Protocol):
     reddit: Prv_reddit
     rei: Prv_rei
     reliancepartners: Prv_reliancepartners
+    resend: Prv_resend
     reserve_with_google: Prv_reserve_with_google
     resy: Prv_resy
     reuters: Prv_reuters
