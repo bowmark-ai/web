@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5892 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5896 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -484,8 +484,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bishops.listServices` | bishops.co | Reads one location's real, live service catalog (name, description, price, duration)… | 🟢 |
 | `blackstoneproducts.findNearbyDealers` | blackstoneproducts.com | Runs Blackstone's own real-time Stockist dealer locator (the widget embedded on… | 🟢 |
 | `blenderseyewear.getRxConfigurator` | blenderseyewear.com | Reads one Rx frame style's real option tree (Prescription Type: Single… | 🟡 |
-| `blenderseyewear.listRxFrameStyles` | blenderseyewear.com | Searches Blenders Eyewear's real prescription (Rx) frame catalog across both the men's… | 🟡 |
-| `blenderseyewear.priceRxConfiguration` | blenderseyewear.com | Resolves one exact Rx build (a frame handle + a chosen prescription type + lens color… | 🟡 |
+| `blenderseyewear.listRxFrameStyles` | blenderseyewear.com | Searches Blenders Eyewear's real prescription (Rx) frame catalog across both the men's… | 🟢 |
+| `blenderseyewear.priceRxConfiguration` | blenderseyewear.com | Resolves one exact Rx build (a frame handle + a chosen prescription type + lens color… | 🟢 |
 | `bls.findSeries` | bls.gov | Turn words (CPI, unemployment rate, job openings) into BLS series ids from BLS's own… | 🟢 |
 | `bls.getLatest` | bls.gov | The most recent published value of a BLS series (CPI, unemployment rate, payrolls… | 🟢 |
 | `bls.getSeries` | bls.gov | The last ~3 years of observations of a BLS series, newest first. | 🟢 |
@@ -2296,6 +2296,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.updatePullRequest` | github.com | Renames a pull request's TITLE, off the same issue-viewer web mutation (PUT… | 🟢 |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
+| `glassdoor.getEmployerReviews` | glassdoor.com | An employer's Glassdoor review summary — overall rating, review count, the scale's… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
 | `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟢 |
 | `glofox.bookClass` | glofox.com | Books the signed-in member into one class, spending a credit or membership they… | ⚪ |
@@ -3303,11 +3304,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.addToMyList` | www.netflix.com | Adds a title to the signed-in caller's My List (requires caller to be signed in). | ⚪ |
 | `netflix.browseGenre` | www.netflix.com | Lists the titles in one Netflix genre — the id from listGenres or the number in… | 🟢 |
 | `netflix.findTitles` | www.netflix.com | Finds Netflix titles by name — e.g. findTitles("stranger things") — returning each… | 🟢 |
-| `netflix.getContinueWatching` | www.netflix.com | Gets titles the signed-in caller is currently watching (requires caller to be signed… | ⚪ |
+| `netflix.getContinueWatching` | www.netflix.com | Reads the signed-in caller's own Netflix Continue Watching row — the titles they are… | 🟢 |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's own Netflix My List — each saved title's id, name… | 🟢 |
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
 | `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10… | 🟡 |
-| `netflix.getTudumArticle` | www.netflix.com | Reads a Tudum article (Netflix's editorial blog). | ⚪ |
+| `netflix.getTudumArticle` | www.netflix.com | Reads one article on Tudum, Netflix's editorial site, by its slug or URL — headline… | 🟢 |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's viewing history (requires caller to be signed in). | ⚪ |
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
 | `netflix.rateTitle` | www.netflix.com | Rates a title on the signed-in caller's account (requires caller to be signed in). | ⚪ |
@@ -3322,7 +3323,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nfa_futures_org.lookupByNfaId` | nfa.futures.org | One firm or individual's current NFA membership status and registration types, by NFA… | 🟢 |
 | `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟢 |
 | `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟢 |
-| `nhc.getBestTrack` | nhc.noaa.gov | Get a storm's best track: its position, max winds, pressure and status every six hours… | ⚪ |
+| `nhc.getBestTrack` | nhc.noaa.gov | Get a FILED storm's best track from HURDAT2: its position, max winds, pressure and… | 🟢 |
 | `nhc.getForecastCone` | nhc.noaa.gov | Get a storm's forecast track points and cone of uncertainty as coordinates, for mapping. | 🟢 |
 | `nhc.getForecastDiscussion` | nhc.noaa.gov | Get the forecaster's discussion for a storm — the reasoning behind the track and… | 🟢 |
 | `nhc.getLocalStatements` | nhc.noaa.gov | Get the hurricane local statements that NWS forecast offices issued for a storm, with… | ⚪ |
@@ -3335,7 +3336,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getStormInfo` | nhc.noaa.gov | Get one storm's current status: position, intensity, pressure, movement… | 🟢 |
 | `nhc.getStormNames` | nhc.noaa.gov | Get the rotating list of tropical cyclone names for a basin and year, including which… | 🟢 |
 | `nhc.getStormSurge` | nhc.noaa.gov | Get the storm surge watch/warning area and peak storm surge forecast for a storm… | ⚪ |
-| `nhc.getTropicalCycloneReport` | nhc.noaa.gov | Get NHC's post-season Tropical Cyclone Report for a storm: the final meteorological… | ⚪ |
+| `nhc.getTropicalCycloneReport` | nhc.noaa.gov | Get the url of NHC's post-season Tropical Cyclone Report PDF for a FILED storm: the… | 🟢 |
 | `nhc.getTropicalOutlook` | nhc.noaa.gov | Get the Tropical Weather Outlook for a basin: each disturbance being watched, where it… | 🟢 |
 | `nhc.getTropicalWeatherDiscussion` | nhc.noaa.gov | Get the Tropical Weather Discussion for the Atlantic or East Pacific: the analysts'… | 🟢 |
 | `nhc.getWatchesWarnings` | nhc.noaa.gov | Get the watches and warnings in effect for a storm from its public advisory —… | 🟢 |
@@ -3978,6 +3979,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟢 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟢 |
+| `renttherunway.browseCategory` | renttherunway.com | Browses one Rent the Runway catalog category ("dress", "CocktailDresses", "Gowns") the… | 🟢 |
+| `renttherunway.browseDesigner` | renttherunway.com | Lists every Rent the Runway rental from one designer by designerId (as search returns… | 🟢 |
+| `renttherunway.search` | renttherunway.com | Free-text search of Rent the Runway's designer clothing rental catalog (e.g. "black… | 🟢 |
 | `resend.addContactToSegment` | resend.com | Add an existing Resend contact to a segment (audience). | 🟢 |
 | `resend.canCreateSegment` | resend.com | Whether your plan allows creating another segment (plan gating check). | ⚪ |
 | `resend.createContact` | resend.com | Add a contact to Resend, optionally straight into segments and topic subscriptions. | 🟢 |
@@ -4341,7 +4345,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getAccount` | shop.app | Reads the caller's Shop profile — name, email and privacy settings. | ⚪ |
 | `shop_app.getCart` | shop.app | Reads the caller's Shop cart — items grouped by store, quantities and totals. | ⚪ |
 | `shop_app.getDeliveryEstimate` | shop.app | Says when a product variant would arrive — the delivery promise Shop shows under the… | ⚪ |
-| `shop_app.getDiscoveryFeed` | shop.app | Reads Shop's home discovery feed — the sections of trending stores and products… | ⚪ |
+| `shop_app.getDiscoveryFeed` | shop.app | Reads Shop's home discovery feed — the sections of trending stores and products… | 🟢 |
 | `shop_app.getOrder` | shop.app | Reads one of the caller's orders — items, totals, the shipping address, the receipt… | ⚪ |
 | `shop_app.getProduct` | shop.app | One product by its numeric id or a shop.app/products/<id>/<slug> url: title… | 🟢 |
 | `shop_app.getProductReviews` | shop.app | A product's reviews, a page at a time — each with its rating, title, text, reviewer… | 🟢 |
@@ -4356,7 +4360,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.listAddresses` | shop.app | Lists the caller's saved shipping addresses on Shop. | ⚪ |
 | `shop_app.listCategories` | shop.app | Lists Shop's product categories (Women, Men, Beauty, Home, Fitness, Baby, Food …) —… | 🟢 |
 | `shop_app.listFollowedStores` | shop.app | Lists the stores the caller follows on Shop. | ⚪ |
-| `shop_app.listOffers` | shop.app | Lists the current Shop offers and promotions — store discounts and Shop Cash rewards —… | ⚪ |
+| `shop_app.listOffers` | shop.app | Lists the current Shop offers and promotions — store discounts and Shop Cash rewards —… | 🟢 |
 | `shop_app.listOrders` | shop.app | Lists the signed-in caller's orders from every store they bought from with Shop —… | ⚪ |
 | `shop_app.listProductLists` | shop.app | Lists the caller's own product lists (wishlists) with each list's items. | ⚪ |
 | `shop_app.listSavedProducts` | shop.app | Lists the products the caller has saved (hearted) on Shop. | ⚪ |
@@ -4431,7 +4435,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.getEpisode` | snapchat.com | Reads one show episode's own page (www.snapchat.com/p/<publisherId>/<storyId>) —… | 🟢 |
 | `snapchat.getLens` | snapchat.com | Reads one Lens's own page (www.snapchat.com/lens/<scannableUuid>) — its name, creator… | 🟢 |
 | `snapchat.getLocalGuide` | snapchat.com | Reads a city's local guide… | 🟢 |
-| `snapchat.getMyProfile` | snapchat.com | Reads the signed-in caller's own Snapchat account — username, display name, Bitmoji… | ⚪ |
+| `snapchat.getMyProfile` | snapchat.com | Reads the signed-in caller's own Snapchat account — user id, username, display name… | 🟢 |
 | `snapchat.getProfile` | snapchat.com | Reads one Snapchat account's public page by username — www.snapchat.com/@<username> —… | 🟡 |
 | `snapchat.getShow` | snapchat.com | Reads one Discover show or publisher page (www.snapchat.com/p/<publisherId>) — name… | 🟢 |
 | `snapchat.getSnapMap` | snapchat.com | Reads the signed-in caller's Snap Map — friends who share their location and the… | ⚪ |
@@ -5492,7 +5496,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `westelm.searchProducts` | westelm.com | Searches the West Elm catalog the way its own search box does ("dresser") and returns… | 🟢 |
 | `whatsapp.addGroupParticipants` | whatsapp.com | Adds people to a group the caller administers, by contact or number, and reports per… | ⚪ |
 | `whatsapp.blockContact` | whatsapp.com | Blocks or unblocks a contact or number as the caller, and lists who the caller has… | ⚪ |
-| `whatsapp.checkNumber` | whatsapp.com | Says whether a phone number has a WhatsApp account, the way WhatsApp Web's… | ⚪ |
+| `whatsapp.checkNumber` | whatsapp.com | Says whether a phone number (international format, digits only) has a WhatsApp… | 🟢 |
 | `whatsapp.createClickToChatLink` | whatsapp.com | Builds WhatsApp's documented click-to-chat link for a phone number in international… | 🟢 |
 | `whatsapp.createGroup` | whatsapp.com | Creates a WhatsApp group as the caller with a name and the starting participants, and… | ⚪ |
 | `whatsapp.deleteMessage` | whatsapp.com | Deletes a message — for the caller only, or for everyone when it is the caller's own… | ⚪ |
@@ -5515,7 +5519,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.listBlogPosts` | whatsapp.com | Lists WhatsApp Blog posts (blog.whatsapp.com) newest first — each post's slug, title… | 🟢 |
 | `whatsapp.listCatalogProducts` | whatsapp.com | Lists the products in a WhatsApp Business catalog (from a wa.me/c/<number> link or the… | ⚪ |
 | `whatsapp.listChats` | whatsapp.com | Lists the signed-in caller's chats off WhatsApp Web's own sidebar, newest activity… | 🟢 |
-| `whatsapp.listContacts` | whatsapp.com | Lists the caller's WhatsApp contacts — name, number, chat id and about text — as… | ⚪ |
+| `whatsapp.listContacts` | whatsapp.com | Lists the caller's contacts off WhatsApp Web's own new-chat panel: each contact's… | 🟢 |
 | `whatsapp.listFollowedChannels` | whatsapp.com | Lists the Channels the caller follows, with each channel's id, name and latest update. | ⚪ |
 | `whatsapp.listStatusUpdates` | whatsapp.com | Lists the Status updates the caller's contacts have posted in the last 24 hours — who… | ⚪ |
 | `whatsapp.postStatus` | whatsapp.com | Posts a text or image Status update as the caller, and deletes one. | ⚪ |
@@ -5669,12 +5673,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.unsaveArticle` | wsj.com | Removes an article from the signed-in reader's own saved list. | ⚪ |
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
 | `x.bookmarkPost` | x.com | Bookmark or un-bookmark a post as the signed-in account. | ⚪ |
-| `x.createPost` | x.com | Post a new tweet as the signed-in account. | ⚪ |
+| `x.createPost` | x.com | Post a new tweet as the signed-in account. | 🟢 |
 | `x.deletePost` | x.com | Delete one of the signed-in account's own posts. | ⚪ |
 | `x.followUser` | x.com | Follow or unfollow a user as the signed-in account — one `follow` boolean argument… | ⚪ |
 | `x.getConversation` | x.com | The messages inside one of the signed-in account's DM conversations. | 🟢 |
 | `x.getPostReplies` | x.com | Reads the reply thread under a single X post — the same status page `post` reads, but… | 🟢 |
-| `x.likePost` | x.com | Like or unlike a post as the signed-in account — one `like` boolean argument picks the… | ⚪ |
+| `x.likePost` | x.com | Like or unlike a post as the signed-in account — one `like` boolean argument picks the… | 🟢 |
 | `x.listBookmarks` | x.com | The signed-in account's saved bookmarks. | ⚪ |
 | `x.listConversations` | x.com | The signed-in account's direct-message conversation list. | 🟢 |
 | `x.listFollowers` | x.com | A user's followers list. | 🟢 |
@@ -5685,8 +5689,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |
 | `x.profile` | x.com | Reads an X (Twitter) profile by handle or profile URL — display name, bio text… | 🟢 |
 | `x.quotePost` | x.com | Quote-repost a post with the signed-in account's own added comment. | ⚪ |
-| `x.replyToPost` | x.com | Reply to another post as the signed-in account. | ⚪ |
-| `x.repost` | x.com | Repost (retweet) or un-repost a post as the signed-in account — one `repost` boolean… | ⚪ |
+| `x.replyToPost` | x.com | Reply to another post as the signed-in account. | 🟢 |
+| `x.repost` | x.com | Repost (retweet) or un-repost a post as the signed-in account — one `repost` boolean… | 🟢 |
 | `x.search` | x.com | Runs the site's own search across posts, scrolling until the limit is met or results… | 🟢 |
 | `x.sendDirectMessage` | x.com | Send a direct message (DM) to an X user by handle as the signed-in account, starting a… | 🟢 |
 | `x.updateProfile` | x.com | Edit the signed-in account's own profile — name, bio, location, website. | ⚪ |

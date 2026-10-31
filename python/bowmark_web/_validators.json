@@ -1,5 +1,5 @@
 {
-  "version": "113160b81ec273c0eab3727224b170fbb710f20fe3801c20796aa444e4421234",
+  "version": "a10c8dac4c2901c3ccd257adeb29c3037cfcd5c6ed6386fc7a60c5afe27d595c",
   "units": {
     "address_validation": {
       "defs": {
@@ -4524,6 +4524,13 @@
             },
             {
               "name": "images",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "pageMarkers",
               "schema": {
                 "k": "boolean"
               },
@@ -9861,7 +9868,24 @@
             "optional": false
           }
         ],
-        "getCart": [],
+        "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "addToCart": [
           {
             "name": "asinOrUrl",
@@ -9880,6 +9904,71 @@
                         "k": "string"
                       },
                       "optional": false
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "literal",
+                        "v": 1
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "product",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "string"
+                          },
+                          {
+                            "k": "object",
+                            "props": [
+                              {
+                                "name": "asin",
+                                "schema": {
+                                  "k": "string"
+                                },
+                                "optional": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "literal",
+                        "v": 1
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "literal",
+                        "v": 1
+                      },
+                      "optional": true
                     }
                   ]
                 }
@@ -15177,6 +15266,63 @@
         ]
       }
     },
+    "providers.befrugal": {
+      "defs": {
+        "GetStoreRateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStoreRate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStoreRateArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.bellwethercoffee": {
       "defs": {
         "BellwethercoffeeCurrency": {
@@ -20359,6 +20505,63 @@
         ]
       }
     },
+    "providers.capitaloneshopping": {
+      "defs": {
+        "GetStoreRateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStoreRate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStoreRateArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.caraway": {
       "defs": {},
       "functions": {
@@ -21141,6 +21344,63 @@
             "name": "pageRef",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.cashbackmonitor": {
+      "defs": {
+        "GetStoreRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStoreRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStoreRatesArgs"
             },
             "optional": false
           }
@@ -23401,6 +23661,25 @@
             }
           ]
         },
+        "GetMemoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "organizationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "projectId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetProjectArgs": {
           "k": "object",
           "props": [
@@ -23451,6 +23730,18 @@
             }
           ]
         },
+        "ListConnectorsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "organizationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListConversationsArgs": {
           "k": "object",
           "props": [
@@ -23472,6 +23763,18 @@
               "name": "offset",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListModelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "organizationId",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -23753,6 +24056,102 @@
             "schema": {
               "k": "ref",
               "name": "ListSharedLinksArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMemory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMemoryArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getPreferences": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listModels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListModelsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listConnectors": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListConnectorsArgs"
             },
             "optional": true
           },
@@ -30660,6 +31059,42 @@
         }
       },
       "functions": {
+        "getEmailProtectionAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createPrivateDuckAddress": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "searchNews": [
           {
             "name": "args",
@@ -42086,6 +42521,24 @@
               ]
             },
             "optional": true
+          }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
           }
         ]
       }
@@ -70578,7 +71031,8 @@
             "optional": false
           }
         ],
-        "listTags": []
+        "listTags": [],
+        "listDestinations": []
       }
     },
     "providers.peerspace": {
@@ -80126,7 +80580,25 @@
             "optional": false
           }
         ],
-        "listPartners": []
+        "listPartners": [],
+        "listMyBookings": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.resy": {

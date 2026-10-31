@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 113160b81ec273c0eab3727224b170fbb710f20fe3801c20796aa444e4421234
-# 92 capabilities, 732 providers, 3542 typed functions, 20 refused.
+# Manifest version: a10c8dac4c2901c3ccd257adeb29c3037cfcd5c6ed6386fc7a60c5afe27d595c
+# 92 capabilities, 735 providers, 3558 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2333,6 +2333,7 @@ class Cap_read_ReadOptions_In(TypedDict):
     egress: NotRequired[str]
     headers: NotRequired[bool]
     images: NotRequired[bool]
+    pageMarkers: NotRequired[bool]
 
 class Cap_read_ReadResult_Out(TypedDict):
     url: str
@@ -4843,6 +4844,7 @@ class Prv_amazon_AmazonProduct_Out(TypedDict):
     rating: float | None
     ratingCount: float | None
     sponsored: bool
+    image: str | None
 
 class Prv_amazon_ListCategoryProductsArgs_In(TypedDict):
     department: str
@@ -4991,6 +4993,9 @@ class Prv_amazon_AmazonSellerOffer_Out(TypedDict):
     sellerRating: float | None
     sellerRatingCount: float | None
 
+class Prv_amazon_getCart_opts_In(TypedDict):
+    connection: NotRequired[str]
+
 class Prv_amazon_AmazonCart_Out(TypedDict):
     itemCount: float
     items: list[Prv_amazon_AmazonCartItem_Out]
@@ -5004,6 +5009,18 @@ class Prv_amazon_AmazonCartItem_Out(TypedDict):
 
 class Prv_amazon_addToCart_asinOrUrl_u1_In(TypedDict):
     asin: str
+    quantity: NotRequired[Literal[1]]
+
+class Prv_amazon_addToCart_asinOrUrl_u2_In(TypedDict):
+    product: str | Prv_amazon_addToCart_asinOrUrl_u2_In_product_u1_In
+    quantity: NotRequired[Literal[1]]
+
+class Prv_amazon_addToCart_asinOrUrl_u2_In_product_u1_In(TypedDict):
+    asin: str
+
+class Prv_amazon_addToCart_asinOrUrl_u3_In(TypedDict):
+    url: str
+    quantity: NotRequired[Literal[1]]
 
 class Prv_amazon_addToCart_opts_In(TypedDict):
     connection: NotRequired[str]
@@ -8185,6 +8202,33 @@ class Prv_bedbathandbeyond_BedBathAndBeyondProduct_Out(TypedDict):
     url: str
     price: float | None
     imageUrl: str | None
+
+class Prv_befrugal_SearchStoresArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_befrugal_BefrugalStore_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+    available: bool
+    rateText: str | None
+    ratePercent: float | None
+    upTo: bool
+
+class Prv_befrugal_GetStoreRateArgs_In(TypedDict):
+    store: str
+
+class Prv_befrugal_BefrugalStoreRate_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+    available: bool
+    rateText: str | None
+    ratePercent: float | None
+    upTo: bool
+    wasText: str | None
+    wasPercent: float | None
 
 class Prv_bellwethercoffee_BellwethercoffeeCalculatorDefaults_Out(TypedDict):
     currencies: list[Literal["USD"] | Literal["CAD"] | Literal["GBP"] | Literal["EUR"]]
@@ -11388,6 +11432,48 @@ class Prv_capitalbrands_CapitalbrandsRecommendedProduct_Out(TypedDict):
     price: str | None
     url: str
 
+class Prv_capitaloneshopping_SearchStoresArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_capitaloneshopping_CapitalOneShoppingStore_Out(TypedDict):
+    name: str
+    domain: str
+    url: str
+    rateText: str | None
+    ratePercent: float | None
+    upTo: bool
+
+class Prv_capitaloneshopping_GetStoreRateArgs_In(TypedDict):
+    store: str
+
+class Prv_capitaloneshopping_CapitalOneShoppingStoreRate_Out(TypedDict):
+    name: str
+    domain: str
+    url: str
+    rewardTitle: str | None
+    rateText: str | None
+    ratePercent: float | None
+    hasReward: bool
+    exclusions: str | None
+    categories: list[str]
+    coupons: list[Prv_capitaloneshopping_CapitalOneShoppingCoupon_Out]
+    deals: list[Prv_capitaloneshopping_CapitalOneShoppingDeal_Out]
+
+class Prv_capitaloneshopping_CapitalOneShoppingCoupon_Out(TypedDict):
+    code: str
+    title: str | None
+    successRate: float | None
+    avgSavings: float | None
+    tries: float | None
+    lastWorkedAt: str | None
+    label: str | None
+
+class Prv_capitaloneshopping_CapitalOneShoppingDeal_Out(TypedDict):
+    title: str
+    url: str | None
+    expiration: str | None
+
 class Prv_caraway_listCarawayProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -11832,6 +11918,35 @@ class Prv_cascadiaseniorliving_com_cascadiaseniorliving_comPageDetail_Out(TypedD
     slug: str
     body: str
     hasContactForm: bool
+
+class Prv_cashbackmonitor_SearchStoresArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_cashbackmonitor_CashbackmonitorStore_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+    best: Mapping[str, str | None]
+
+class Prv_cashbackmonitor_GetStoreRatesArgs_In(TypedDict):
+    store: str
+
+class Prv_cashbackmonitor_CashbackmonitorStoreRates_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+    asOf: str | None
+    rates: list[Prv_cashbackmonitor_CashbackmonitorRate_Out]
+    bestCashback: Prv_cashbackmonitor_CashbackmonitorRate_Out | None
+
+class Prv_cashbackmonitor_CashbackmonitorRate_Out(TypedDict):
+    kind: Literal["cashback"] | Literal["travel"] | Literal["creditCard"] | Literal["other"]
+    portal: str
+    rateText: str
+    ratePercent: float | None
+    upTo: bool
+    portalUrl: str
 
 class Prv_castlery_CastlerySearchArgs_In(TypedDict):
     query: str
@@ -13233,6 +13348,34 @@ class Prv_claude_ClaudeSharedLink_Out(TypedDict):
     id: str
     conversationId: str
     createdAt: str
+
+class Prv_claude_GetMemoryArgs_In(TypedDict):
+    organizationId: NotRequired[str]
+    projectId: NotRequired[str]
+
+class Prv_claude_ClaudeMemory_Out(TypedDict):
+    organizationId: str
+    projectId: str | None
+    memory: Mapping[str, Any]
+
+class Prv_claude_ClaudePreferences_Out(TypedDict):
+    profile: Mapping[str, Any]
+    settings: Mapping[str, Any]
+
+class Prv_claude_ListModelsArgs_In(TypedDict):
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeModelOption_Out(TypedDict):
+    id: str
+    displayName: str
+
+class Prv_claude_ListConnectorsArgs_In(TypedDict):
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeConnector_Out(TypedDict):
+    id: str
+    name: str
+    connected: bool
 
 class Prv_claude_com_claude_comDoc_Out(TypedDict):
     url: str
@@ -16985,6 +17128,14 @@ class Prv_dropbox_DropboxFolderEntry_Out(TypedDict):
     sizeBytes: NotRequired[float]
     modified: NotRequired[str]
     fileId: NotRequired[str]
+
+class Prv_duckduckgo_DuckDuckGoEmailProtectionAccount_Out(TypedDict):
+    address: str
+    forwardingEmail: str | None
+    nextPrivateAddress: str | None
+
+class Prv_duckduckgo_DuckDuckGoCreatedPrivateAddress_Out(TypedDict):
+    address: str
 
 class Prv_duckduckgo_SearchNewsArgs_In(TypedDict):
     query: str
@@ -22715,6 +22866,46 @@ class Prv_goodreads_writeReview_return_Out(TypedDict):
 class Prv_goodreads_followUser_return_Out(TypedDict):
     memberId: str
     following: Literal[True]
+
+class Prv_goodreads_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_goodreads_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_goodreads_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_goodreads_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_goodreads_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_goodreads_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_goodreads_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_goodreads_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_goodway_GoodwayProductSummary_Out(TypedDict):
     sku: str
@@ -35700,6 +35891,16 @@ class Prv_peek_PeekSession_Out_prices_item_Out(TypedDict):
 class Prv_peek_listTags_return_Out(TypedDict):
     tags: list[Prv_peek_PeekFacet_Out]
 
+class Prv_peek_listDestinations_return_Out(TypedDict):
+    destinations: list[Prv_peek_PeekDestination_Out]
+
+class Prv_peek_PeekDestination_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    experienceCount: float | None
+    imageUrl: str | None
+
 class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
     city: str
     state: str
@@ -39433,6 +39634,15 @@ class Prv_reserve_with_google_Partner_Out(TypedDict):
     name: str
     url: str
     logo: str | None
+
+class Prv_reserve_with_google_BookingVenue_Out(TypedDict):
+    name: str
+    address: str
+    phone: str | None
+    timeZone: str
+    featureId: str | None
+    googleMapsUrl: str | None
+    partner: str | None
 
 class Prv_resy_search_query_u1_In(TypedDict):
     query: str
@@ -55994,29 +56204,31 @@ class Cap_read(Protocol):
         the page needs one (a bot wall, an interstitial, or markup carrying no words). Reports a
         failure IN the result rather than throwing. **A PDF url (a datasheet, a price list, a
         filing) comes back as the document's extracted text** in `content`, with a note in the
-        run's `notes` naming the page count; a scanned PDF with no text layer is `ok: false`. A
-        site that refuses automated access comes back `ok: false` with `wall` naming the
-        bot-management vendor and a warning saying so — that is the site's answer, and retrying
-        the same read will not change it; an HTTP 4xx/5xx page is `ok: false` too. TIME:
-        `timeoutMs` is the budget for the WHOLE read, end to end (default 45,000, max 55,000) —
-        deliberately under the ~60s at which a chat client kills a tool call, so a slow page
-        comes back as a real result saying what ran out instead of your client's bare "The
-        operation timed out.". **`strategy: "fetch"` is fast mode, the fast-fail escape** for a
-        page you do not want to wait on: it never waits on a slow page, returns in ~200ms, and
-        still sets `escalationReason` so you learn the page needed more than that. Several urls?
-        Pass them to `read.pages`, not a loop of `page()` calls — a loop's reads add up, and
-        three slow ones outlast the client, while `pages` holds the whole batch to the same 55s.
-        **Hitting a site's own JSON endpoint? Read `result.json`, never `content`** — `const {
-        json } = await bowmark.read.page(apiUrl)` hands back the parsed body directly, unfenced,
-        whenever the response is JSON (a `json` content-type, or a body that parses whole). Do
-        not hand-strip a ``` fence from `content` to `JSON.parse` it yourself; `json` is absent
-        on every non-JSON page and costs nothing otherwise. **A price you need bound to a
-        specific item is the one thing the default `"markdown"` format cannot promise** — it
-        flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
-        size/color/variant; the run's `notes` names it when the page carries the structured data
-        to prove it (a note, so the run stays `ok`), but the safe read is `{ format: "cleanHtml"
-        }`, which keeps the price inside its own item's markup. For one product page's price and
-        stock, `bowmark.products.getAvailability(url)` reads the page's own schema.org
+        run's `notes` naming the page count; a scanned page with no text layer is OCR'd
+        (English) and the note says how many were — a scan that cannot be decoded, or pages past
+        the time budget, are named in `warnings`. A site that refuses automated access comes
+        back `ok: false` with `wall` naming the bot-management vendor and a warning saying so —
+        that is the site's answer, and retrying the same read will not change it; an HTTP
+        4xx/5xx page is `ok: false` too. TIME: `timeoutMs` is the budget for the WHOLE read, end
+        to end (default 45,000, max 55,000) — deliberately under the ~60s at which a chat client
+        kills a tool call, so a slow page comes back as a real result saying what ran out
+        instead of your client's bare "The operation timed out.". **`strategy: "fetch"` is fast
+        mode, the fast-fail escape** for a page you do not want to wait on: it never waits on a
+        slow page, returns in ~200ms, and still sets `escalationReason` so you learn the page
+        needed more than that. Several urls? Pass them to `read.pages`, not a loop of `page()`
+        calls — a loop's reads add up, and three slow ones outlast the client, while `pages`
+        holds the whole batch to the same 55s. **Hitting a site's own JSON endpoint? Read
+        `result.json`, never `content`** — `const { json } = await bowmark.read.page(apiUrl)`
+        hands back the parsed body directly, unfenced, whenever the response is JSON (a `json`
+        content-type, or a body that parses whole). Do not hand-strip a ``` fence from `content`
+        to `JSON.parse` it yourself; `json` is absent on every non-JSON page and costs nothing
+        otherwise. **A price you need bound to a specific item is the one thing the default
+        `"markdown"` format cannot promise** — it flattens the DOM, so a price can end up
+        textually next to a link for a DIFFERENT size/color/variant; the run's `notes` names it
+        when the page carries the structured data to prove it (a note, so the run stays `ok`),
+        but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own
+        item's markup. For one product page's price and stock,
+        `bowmark.products.getAvailability(url)` reads the page's own schema.org
         `Product`/`Offer` JSON-LD for you; to read that markup yourself, ask for `{ format:
         "html" }` and parse the `<script type="application/ld+json">` blocks — most stores
         publish them, and they name the exact variant, price and stock. RUN-ONLY: because how
@@ -57544,16 +57756,16 @@ class Prv_amazon(Protocol):
         (e.g., "48 of 6476 total results") so a caller knows how many results exist and can keep
         paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Returns `{ products,
         totalResultCount }` — the array is `products`, NOT `results` — and each row is `{ asin,
-        title, url, price, listPrice, rating, ratingCount, sponsored }`: `rating` is the 0-5
-        star average and `ratingCount` how many ratings it is over (there is no `reviewCount` or
-        `starRating`), so rank the top-rated on those two and skip `sponsored` rows. Search
-        Amazon's catalogue for what a person would type — "cast iron skillet", "usb c hub" — and
-        get back the result cards as the site ranks them. The page parameter is fully supported:
-        page 2 returns rows 49-96 (a genuinely different set, not page one repeated), page 3
-        returns rows 97-144, and you can continue paging to reach all 6000+ results. The
-        totalResultCount field tells you how many total rows exist so you can page efficiently.
-        Optionally narrowed to a department, a brand, a price range, a sort order. THE
-        provider's door: every function below that takes an ASIN is fed by this one.
+        title, url, price, listPrice, rating, ratingCount, sponsored, image }`: `rating` is the
+        0-5 star average and `ratingCount` how many ratings it is over (there is no
+        `reviewCount` or `starRating`), so rank the top-rated on those two and skip `sponsored`
+        rows. Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb
+        c hub" — and get back the result cards as the site ranks them. The page parameter is
+        fully supported: page 2 returns rows 49-96 (a genuinely different set, not page one
+        repeated), page 3 returns rows 97-144, and you can continue paging to reach all 6000+
+        results. The totalResultCount field tells you how many total rows exist so you can page
+        efficiently. Optionally narrowed to a department, a brand, a price range, a sort order.
+        THE provider's door: every function below that takes an ASIN is fed by this one.
         """
 
     async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:
@@ -57678,14 +57890,16 @@ class Prv_amazon(Protocol):
         not a parse failure.
         """
 
-    async def getCart(self, /) -> Prv_amazon_AmazonCart_Out:
-        """Read what is in the cart — no account needed, since Amazon's guest cart is a real
-        anonymous session. Reads the site's own per-row markup (`data-asin`,
+    async def getCart(self, opts: Prv_amazon_getCart_opts_In | None = None, /) -> Prv_amazon_AmazonCart_Out:
+        """Read what is in the cart — the same cart `addToCart` writes. With the caller's connected
+        Amazon login (the default one, or `{ connection }` naming it) that is the signed-in
+        account's own cart; with none it is this run's anonymous guest cart, which needs no
+        account. `readAs` says which. Reads the site's own per-row markup (`data-asin`,
         `data-producttitle`, `data-quantity`, `data-price`) for a populated cart, and the site's
         own `#sc-empty-cart` block for an empty one.
         """
 
-    async def addToCart(self, asinOrUrl: str | Prv_amazon_addToCart_asinOrUrl_u1_In, opts: Prv_amazon_addToCart_opts_In | None = None, /) -> Prv_amazon_AmazonCart_Out:
+    async def addToCart(self, asinOrUrl: str | Prv_amazon_addToCart_asinOrUrl_u1_In | Prv_amazon_addToCart_asinOrUrl_u2_In | Prv_amazon_addToCart_asinOrUrl_u3_In, opts: Prv_amazon_addToCart_opts_In | None = None, /) -> Prv_amazon_AmazonCart_Out:
         """Put one unit of a product in the cart and report what the cart then holds. With the
         caller's connected Amazon login (the default one, or `{ connection }` naming it) it
         writes the signed-in account's own cart; with none it writes an anonymous guest cart.
@@ -59477,6 +59691,22 @@ class Prv_bedbathandbeyond(Protocol):
         names a price that belongs to a different storefront.
         """
 
+class Prv_befrugal(Protocol):
+    """Read a store's BeFrugal cash back rate (and its previous rate when boosted) and search
+    BeFrugal's stores — no login needed.
+    """
+
+    async def searchStores(self, args: Prv_befrugal_SearchStoresArgs_In, /) -> list[Prv_befrugal_BefrugalStore_Out]:
+        """Searches BeFrugal's cash back stores by name and returns each match's slug, url and cash
+        back rate.
+        """
+
+    async def getStoreRate(self, args: Prv_befrugal_GetStoreRateArgs_In, /) -> Prv_befrugal_BefrugalStoreRate_Out:
+        """Reads one store's BeFrugal cash back rate from its befrugal.com/store/<slug>/ page — the
+        current rate, the 'was' rate when boosted, or that cash back is not available. Takes a
+        slug, a store url or a store name.
+        """
+
 class Prv_bellwethercoffee(Protocol):
     """Bellwether Coffee's own ROI calculator (bellwethercoffee.com/roi-calculator) — real
     monthly/annual savings, retail-bag revenue and profit, payback period, and first-year
@@ -61252,6 +61482,22 @@ class Prv_capitalbrands(Protocol):
         required.
         """
 
+class Prv_capitaloneshopping(Protocol):
+    """Read a store's Capital One Shopping reward rate, coupon codes (with success rates) and
+    deals, and search its stores — no login needed.
+    """
+
+    async def searchStores(self, args: Prv_capitaloneshopping_SearchStoresArgs_In, /) -> list[Prv_capitaloneshopping_CapitalOneShoppingStore_Out]:
+        """Searches Capital One Shopping's stores by name and returns each match's domain and cash
+        back reward.
+        """
+
+    async def getStoreRate(self, args: Prv_capitaloneshopping_GetStoreRateArgs_In, /) -> Prv_capitaloneshopping_CapitalOneShoppingStoreRate_Out:
+        """Reads one store's Capital One Shopping reward rate, coupon codes with success rates,
+        deals and exclusions. Takes a domain, a capitaloneshopping.com/s/<domain>/coupon url, or
+        a store name.
+        """
+
 class Prv_caraway(Protocol):
     """Caraway Home product catalogue — every ceramic cookware piece, its variants, real prices
     and stock — read off the live Shopify storefront, plus the buyer-archetype rail the
@@ -61528,6 +61774,22 @@ class Prv_cascadiaseniorliving_com(Protocol):
         "living-options") and returns its title and body as plain text, plus whether it embeds
         one of the site's own contact/inquiry forms. THROWS if no page matches, or if a url
         names a host other than cascadiaseniorliving.com.
+        """
+
+class Prv_cashbackmonitor(Protocol):
+    """Compare a merchant's cashback rate across every cashback portal (Rakuten, TopCashback,
+    BeFrugal, …) plus miles and points offers, from CashbackMonitor — no login needed.
+    """
+
+    async def searchStores(self, args: Prv_cashbackmonitor_SearchStoresArgs_In, /) -> list[Prv_cashbackmonitor_CashbackmonitorStore_Out]:
+        """Searches CashbackMonitor's merchants by name and returns each match's slug, url and best
+        cashback, miles, card-points and other-reward rate.
+        """
+
+    async def getStoreRates(self, args: Prv_cashbackmonitor_GetStoreRatesArgs_In, /) -> Prv_cashbackmonitor_CashbackmonitorStoreRates_Out:
+        """Compares every cashback portal's rate for one merchant on CashbackMonitor — cashback,
+        travel miles/points, credit card points and other reward points, portal by portal. Takes
+        a merchant slug, store-page url or name.
         """
 
 class Prv_castlery(Protocol):
@@ -62340,6 +62602,27 @@ class Prv_claude(Protocol):
     async def listSharedLinks(self, args: Prv_claude_ListSharedLinksArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_claude_ClaudeSharedLink_Out]:
         """Lists the conversation share links the CALLER has created (Settings → Privacy → Shared
         chats). NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def getMemory(self, args: Prv_claude_GetMemoryArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeMemory_Out:
+        """Reads what Claude remembers about the CALLER (Settings → Capabilities → Memory), across
+        chats or for one project. NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def getPreferences(self, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudePreferences_Out:
+        """Reads the CALLER's personal preferences — what Claude should call them, their work, and
+        the instructions applied to every chat (Settings → Profile). NEEDS A SIGN-IN (the
+        caller's claude.ai session).
+        """
+
+    async def listModels(self, args: Prv_claude_ListModelsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_claude_ClaudeModelOption_Out]:
+        """Lists the Claude models the CALLER's plan can pick in the model selector. NEEDS A
+        SIGN-IN (the caller's claude.ai session). Feeds sendMessage's model choice.
+        """
+
+    async def listConnectors(self, args: Prv_claude_ListConnectorsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_claude_ClaudeConnector_Out]:
+        """Lists the connectors (MCP servers) the CALLER has added to Claude and whether each is
+        connected. NEEDS A SIGN-IN (the caller's claude.ai session).
         """
 
 class Prv_claude_com(Protocol):
@@ -64410,6 +64693,18 @@ class Prv_duckduckgo(Protocol):
     !bangs, and Duck.ai chat; once a caller signs in, their Email Protection @duck.com
     addresses.
     """
+
+    async def getEmailProtectionAccount(self, opts: ConnectionOption | None = None, /) -> Prv_duckduckgo_DuckDuckGoEmailProtectionAccount_Out:
+        """Reads the signed-in caller's DuckDuckGo Email Protection account — their permanent
+        @duck.com address, the inbox it forwards to, and the private address that will be handed
+        out next. NEEDS A SIGN-IN through the relay.
+        """
+
+    async def createPrivateDuckAddress(self, opts: ConnectionOption | None = None, /) -> Prv_duckduckgo_DuckDuckGoCreatedPrivateAddress_Out:
+        """Generates a brand new private @duck.com address on the signed-in caller's Email
+        Protection account, forwarding to their inbox. Not idempotent — each call mints another
+        address, up to DuckDuckGo's own cap of 30 per day. NEEDS A SIGN-IN through the relay.
+        """
 
     async def searchNews(self, args: Prv_duckduckgo_SearchNewsArgs_In, /) -> list[Prv_duckduckgo_DuckDuckGoNewsStory_Out]:
         """Search DuckDuckGo News vertical and returns news stories."""
@@ -67563,6 +67858,18 @@ class Prv_goodreads(Protocol):
     async def followUser(self, idOrUrl: str, opts: ConnectionOption | None = None, /) -> Prv_goodreads_followUser_return_Out:
         """Follows another Goodreads member as the signed-in caller, by numeric id or the full user
         URL. Needs the caller signed in to Goodreads (an authFunction, a write).
+        """
+
+    async def signup(self, args: Any, /) -> Prv_goodreads_signup_return_u0_Out | Prv_goodreads_signup_return_u1_Out | Prv_goodreads_signup_return_u2_Out | Prv_goodreads_signup_return_u3_Out:
+        """Makes a NEW Goodreads account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_goodreads_confirmSignup_return_u0_Out | Prv_goodreads_confirmSignup_return_u1_Out | Prv_goodreads_confirmSignup_return_u2_Out | Prv_goodreads_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_goodway(Protocol):
@@ -75858,6 +76165,12 @@ class Prv_peek(Protocol):
         the tag id searchExperiences' tagId takes.
         """
 
+    async def listDestinations(self, /) -> Prv_peek_listDestinations_return_Out:
+        """Lists Peek's popular destinations as its home page shows them: each place's name, region
+        id (searchExperiences' regionId), URL, image and experience count ("London", r0p3,
+        3858).
+        """
+
 class Prv_peerspace(Protocol):
     """Peerspace's own city listing pages — real hourly rate, guest capacity and instant-book
     status for party, photo-shoot and off-site/production spaces, no signup needed to view.
@@ -78062,6 +78375,12 @@ class Prv_reserve_with_google(Protocol):
     async def listPartners(self, /) -> list[Prv_reserve_with_google_Partner_Out]:
         """Lists every booking provider connected to Reserve with Google (Booksy, OpenTable, Tock…)
         with its site and logo, from Google's own partner directory.
+        """
+
+    async def listMyBookings(self, opts: ConnectionOption | None = None, /) -> list[Prv_reserve_with_google_BookingVenue_Out]:
+        """Lists the venues of the caller's Reserve with Google bookings off their own Bookings
+        page (needs the caller's Google sign-in): name, address, phone, time zone, feature id
+        and fulfilling partner.
         """
 
 class Prv_resy(Protocol):
@@ -81909,11 +82228,12 @@ class Prv_tiktok(Protocol):
         """
 
     async def searchUsers(self, args: Prv_tiktok_SearchUsersArgs_In, /) -> list[Prv_tiktok_tiktokUserSearchResult_Out]:
-        """Find TikTok accounts matching a name — id, handle, nickname, bio, avatar, secUid,
-        verified flag, follower, video and like counts. Reads TikTok's unsigned search typeahead
-        for the matching accounts (usually 2-4 per query, not a full ranked search: the full
-        user search needs a request signature TikTok refuses even a scripted browser), then each
-        account's profile page for its counts. No browser. Takes an optional limit (1-10).
+        """Find TikTok accounts matching a name or a topic — id, handle, nickname, bio, avatar,
+        secUid, verified flag, follower, video and like counts. First the accounts TikTok's
+        search suggestions name (0-5, matched by name, exact counts), then the authors of
+        TikTok's top posts on that topic (counts rounded, e.g. 4300000), up to 10. Not TikTok's
+        own ranked user search, which answers only a signed-in visitor; a note says which rows
+        came from where. No browser. Takes an optional limit (1-10).
         """
 
     async def listFollowers(self, args: Prv_tiktok_ListFollowersArgs_In, /) -> list[Prv_tiktok_tiktokProfile_Out]:
@@ -84661,10 +84981,10 @@ class Prv_wodify(Protocol):
     async def listMemberships(self, args: Prv_wodify_listMemberships_args_In, /) -> list[Prv_wodify_WodifyMembership_Out]:
         """Lists every membership plan, class pack and drop-in a Wodify-powered gym sells online,
         with its "from" price, what it includes (e.g. "Unlimited", "10 Classes") and the
-        programs it covers. No login. `gymHost` + `locationId` come from findGym. Drives the
-        gym's booking embed to its plans step in a browser, so it takes several seconds; the
-        list is the one shown for the gym's next bookable class, which on a typical gym is its
-        whole online price list.
+        programs it covers. No login. `gymHost` + `locationId` come from findGym. No browser: it
+        replays the BOOK step of the gym's first bookable class in the next 7 days, so the list
+        is the one shown for that class's program, which on a typical gym is its whole online
+        price list. A gym with no bookable class that week throws rather than answering [].
         """
 
     async def listPrograms(self, args: Prv_wodify_listPrograms_args_In, /) -> list[Prv_wodify_WodifyProgram_Out]:
@@ -85856,9 +86176,10 @@ class Prv_zennioptical(Protocol):
         """Checks live per-SKU inventory off Zenni's own inventory endpoint."""
 
     async def priceLensConfig(self, skuId: str, rx: Prv_zennioptical_ZenniRx_In, /) -> list[Prv_zennioptical_ZenniLensPriceRow_Out]:
-        """Runs a real prescription through Zenni's own order-configurator wizard (usage type ->
-        manual Rx entry -> confirm) and returns the priced lens-type matrix the site computes
-        for that exact Rx — a completed, priced configuration rather than a base frame price.
+        """Sends a real prescription straight to Zenni's own lens-pricing endpoint and returns the
+        priced lens-type matrix the site computes for that exact Rx — a completed, priced
+        configuration rather than a base frame price. Throws Zenni's own rejection wording for a
+        Rx outside its supported range.
         """
 
 class Prv_zenoti(Protocol):
@@ -86074,6 +86395,7 @@ class BowmarkProviders(Protocol):
     beaconfunding: Prv_beaconfunding
     beatthebomb: Prv_beatthebomb
     bedbathandbeyond: Prv_bedbathandbeyond
+    befrugal: Prv_befrugal
     bellwethercoffee: Prv_bellwethercoffee
     beltservice: Prv_beltservice
     benelliusa: Prv_benelliusa
@@ -86130,6 +86452,7 @@ class BowmarkProviders(Protocol):
     cancer: Prv_cancer
     canva: Prv_canva
     capitalbrands: Prv_capitalbrands
+    capitaloneshopping: Prv_capitaloneshopping
     caraway: Prv_caraway
     cardiff: Prv_cardiff
     carepatrol: Prv_carepatrol
@@ -86142,6 +86465,7 @@ class BowmarkProviders(Protocol):
     carusohomes: Prv_carusohomes
     casadragones: Prv_casadragones
     cascadiaseniorliving_com: Prv_cascadiaseniorliving_com
+    cashbackmonitor: Prv_cashbackmonitor
     castlery: Prv_castlery
     cb2: Prv_cb2
     cbhhomes: Prv_cbhhomes

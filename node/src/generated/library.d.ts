@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 113160b81ec273c0eab3727224b170fbb710f20fe3801c20796aa444e4421234
-// 92 capabilities, 732 providers, 3560 typed functions, 20 refused.
-// 49,871 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: a10c8dac4c2901c3ccd257adeb29c3037cfcd5c6ed6386fc7a60c5afe27d595c
+// 92 capabilities, 735 providers, 3576 typed functions, 20 refused.
+// 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -3939,6 +3939,10 @@ type ReadOptions = {
                              // fingerprinting a site without a second request
   images?: boolean           // default false; true adds ReadResult.images — every
                              // image the page names, off the html already fetched
+  pageMarkers?: boolean      // default false; on a PDF, true starts each page with a
+                             // "<!-- page N -->" line, N = the page's own label
+                             // ("iv", "12") else its 1-based number, so you can cite
+                             // or split by page. Ignored on anything but a PDF
 }
 
 type PageImage = { url: string; alt: string | null; source: "img" | "srcset" | "meta" }
@@ -4077,34 +4081,36 @@ type ContactsResult = {
      * page load only when the response proves the page needs one (a bot wall, an interstitial, or
      * markup carrying no words). Reports a failure IN the result rather than throwing. **A PDF url
      * (a datasheet, a price list, a filing) comes back as the document's extracted text** in
-     * `content`, with a note in the run's `notes` naming the page count; a scanned PDF with no
-     * text layer is `ok: false`. A site that refuses automated access comes back `ok: false` with
-     * `wall` naming the bot-management vendor and a warning saying so — that is the site's answer,
-     * and retrying the same read will not change it; an HTTP 4xx/5xx page is `ok: false` too.
-     * TIME: `timeoutMs` is the budget for the WHOLE read, end to end (default 45,000, max 55,000)
-     * — deliberately under the ~60s at which a chat client kills a tool call, so a slow page comes
-     * back as a real result saying what ran out instead of your client's bare "The operation timed
-     * out.". **`strategy: "fetch"` is fast mode, the fast-fail escape** for a page you do not want
-     * to wait on: it never waits on a slow page, returns in ~200ms, and still sets
-     * `escalationReason` so you learn the page needed more than that. Several urls? Pass them to
-     * `read.pages`, not a loop of `page()` calls — a loop's reads add up, and three slow ones
-     * outlast the client, while `pages` holds the whole batch to the same 55s. **Hitting a site's
-     * own JSON endpoint? Read `result.json`, never `content`** — `const { json } = await
-     * bowmark.read.page(apiUrl)` hands back the parsed body directly, unfenced, whenever the
-     * response is JSON (a `json` content-type, or a body that parses whole). Do not hand-strip a
-     * ``` fence from `content` to `JSON.parse` it yourself; `json` is absent on every non-JSON
-     * page and costs nothing otherwise. **A price you need bound to a specific item is the one
-     * thing the default `"markdown"` format cannot promise** — it flattens the DOM, so a price can
-     * end up textually next to a link for a DIFFERENT size/color/variant; the run's `notes` names
-     * it when the page carries the structured data to prove it (a note, so the run stays `ok`),
-     * but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own item's
-     * markup. For one product page's price and stock, `bowmark.products.getAvailability(url)`
-     * reads the page's own schema.org `Product`/`Offer` JSON-LD for you; to read that markup
-     * yourself, ask for `{ format: "html" }` and parse the `<script type="application/ld+json">`
-     * blocks — most stores publish them, and they name the exact variant, price and stock.
-     * RUN-ONLY: because how each page is loaded is decided per call, neither `session()` nor the
-     * bare top-level `bowmark` client (which opens a session internally, even for one call) can
-     * serve this — both are refused with code "rung_undeclared". Call it through `run()` instead.
+     * `content`, with a note in the run's `notes` naming the page count; a scanned page with no
+     * text layer is OCR'd (English) and the note says how many were — a scan that cannot be
+     * decoded, or pages past the time budget, are named in `warnings`. A site that refuses
+     * automated access comes back `ok: false` with `wall` naming the bot-management vendor and a
+     * warning saying so — that is the site's answer, and retrying the same read will not change
+     * it; an HTTP 4xx/5xx page is `ok: false` too. TIME: `timeoutMs` is the budget for the WHOLE
+     * read, end to end (default 45,000, max 55,000) — deliberately under the ~60s at which a chat
+     * client kills a tool call, so a slow page comes back as a real result saying what ran out
+     * instead of your client's bare "The operation timed out.". **`strategy: "fetch"` is fast
+     * mode, the fast-fail escape** for a page you do not want to wait on: it never waits on a slow
+     * page, returns in ~200ms, and still sets `escalationReason` so you learn the page needed more
+     * than that. Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a loop's
+     * reads add up, and three slow ones outlast the client, while `pages` holds the whole batch to
+     * the same 55s. **Hitting a site's own JSON endpoint? Read `result.json`, never `content`** —
+     * `const { json } = await bowmark.read.page(apiUrl)` hands back the parsed body directly,
+     * unfenced, whenever the response is JSON (a `json` content-type, or a body that parses
+     * whole). Do not hand-strip a ``` fence from `content` to `JSON.parse` it yourself; `json` is
+     * absent on every non-JSON page and costs nothing otherwise. **A price you need bound to a
+     * specific item is the one thing the default `"markdown"` format cannot promise** — it
+     * flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
+     * size/color/variant; the run's `notes` names it when the page carries the structured data to
+     * prove it (a note, so the run stays `ok`), but the safe read is `{ format: "cleanHtml" }`,
+     * which keeps the price inside its own item's markup. For one product page's price and stock,
+     * `bowmark.products.getAvailability(url)` reads the page's own schema.org `Product`/`Offer`
+     * JSON-LD for you; to read that markup yourself, ask for `{ format: "html" }` and parse the
+     * `<script type="application/ld+json">` blocks — most stores publish them, and they name the
+     * exact variant, price and stock. RUN-ONLY: because how each page is loaded is decided per
+     * call, neither `session()` nor the bare top-level `bowmark` client (which opens a session
+     * internally, even for one call) can serve this — both are refused with code
+     * "rung_undeclared". Call it through `run()` instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -8385,6 +8391,7 @@ interface AmazonProduct {
   rating: number | null;
   ratingCount: number | null;
   sponsored: boolean;
+  image: string | null; // the card's thumbnail URL
 }
 interface AmazonSearchResult {
   products: AmazonProduct[];
@@ -8546,7 +8553,7 @@ interface AmazonCartItem {
 interface AmazonCart {
   itemCount: number;
   items: AmazonCartItem[];
-  readAs?: "signed-in" | "guest"; // addToCart only — which cart the add landed in
+  readAs?: "signed-in" | "guest"; // addToCart and getCart — which cart answered
 }
 
   /**
@@ -8567,8 +8574,8 @@ interface AmazonCart {
      * (e.g., "48 of 6476 total results") so a caller knows how many results exist and can keep
      * paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Returns `{ products,
      * totalResultCount }` — the array is `products`, NOT `results` — and each row is `{ asin,
-     * title, url, price, listPrice, rating, ratingCount, sponsored }`: `rating` is the 0-5 star
-     * average and `ratingCount` how many ratings it is over (there is no `reviewCount` or
+     * title, url, price, listPrice, rating, ratingCount, sponsored, image }`: `rating` is the 0-5
+     * star average and `ratingCount` how many ratings it is over (there is no `reviewCount` or
      * `starRating`), so rank the top-rated on those two and skip `sponsored` rows. Search Amazon's
      * catalogue for what a person would type — "cast iron skillet", "usb c hub" — and get back the
      * result cards as the site ranks them. The page parameter is fully supported: page 2 returns
@@ -8715,12 +8722,14 @@ interface AmazonCart {
     listSellerOffers(asinOrUrl: string): Promise<AmazonSellerOffersResult>;
 
     /**
-     * Read what is in the cart — no account needed, since Amazon's guest cart is a real anonymous
-     * session. Reads the site's own per-row markup (`data-asin`, `data-producttitle`,
+     * Read what is in the cart — the same cart `addToCart` writes. With the caller's connected
+     * Amazon login (the default one, or `{ connection }` naming it) that is the signed-in
+     * account's own cart; with none it is this run's anonymous guest cart, which needs no account.
+     * `readAs` says which. Reads the site's own per-row markup (`data-asin`, `data-producttitle`,
      * `data-quantity`, `data-price`) for a populated cart, and the site's own `#sc-empty-cart`
      * block for an empty one.
      */
-    getCart(): Promise<AmazonCart>;
+    getCart(opts?: { connection?: string }): Promise<AmazonCart>;
 
     /**
      * Put one unit of a product in the cart and report what the cart then holds. With the caller's
@@ -8731,7 +8740,7 @@ interface AmazonCart {
      * (measured 2026-09-30: neither the buy-box's own quantity field nor a repeated add changes
      * the line's quantity), so this always adds exactly one unit.
      */
-    addToCart(asinOrUrl: string | { asin: string }, opts?: { connection?: string }): Promise<AmazonCart>;
+    addToCart(asinOrUrl: string | { asin: string; quantity?: 1 } | { product: string | { asin: string }; quantity?: 1 } | { url: string; quantity?: 1 }, opts?: { connection?: string }): Promise<AmazonCart>;
   }
 }
 
@@ -13956,6 +13965,56 @@ interface BedBathAndBeyondSearch {
      * that belongs to a different storefront.
      */
     search(args: BedBathAndBeyondSearchArgs): Promise<BedBathAndBeyondSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_befrugal {
+  // ── BeFrugal — the unit's own declarations, verbatim ──
+interface BefrugalStore {
+  name: string;
+  slug: string;
+  url: string;
+  available: boolean;
+  rateText: string | null;
+  ratePercent: number | null;
+  upTo: boolean;
+}
+interface BefrugalStoreRate {
+  name: string;
+  slug: string;
+  url: string;
+  available: boolean;
+  rateText: string | null;
+  ratePercent: number | null;
+  upTo: boolean;
+  wasText: string | null;
+  wasPercent: number | null;
+}
+interface SearchStoresArgs {
+  query: string;
+  limit?: number;
+}
+interface GetStoreRateArgs {
+  store: string;
+}
+
+  /**
+   * Read a store's BeFrugal cash back rate (and its previous rate when boosted) and search
+   * BeFrugal's stores — no login needed.
+   */
+  interface Unit {
+    /**
+     * Searches BeFrugal's cash back stores by name and returns each match's slug, url and cash
+     * back rate.
+     */
+    searchStores(args: SearchStoresArgs): Promise<BefrugalStore[]>;
+
+    /**
+     * Reads one store's BeFrugal cash back rate from its befrugal.com/store/<slug>/ page — the
+     * current rate, the 'was' rate when boosted, or that cash back is not available. Takes a slug,
+     * a store url or a store name.
+     */
+    getStoreRate(args: GetStoreRateArgs): Promise<BefrugalStoreRate>;
   }
 }
 
@@ -19249,6 +19308,71 @@ interface CapitalbrandsRecommendation {
   }
 }
 
+declare namespace BowmarkProvider_capitaloneshopping {
+  // ── Capital One Shopping — the unit's own declarations, verbatim ──
+interface CapitalOneShoppingStore {
+  name: string;
+  domain: string;
+  url: string;
+  rateText: string | null;
+  ratePercent: number | null;
+  upTo: boolean;
+}
+interface CapitalOneShoppingCoupon {
+  code: string;
+  title: string | null;
+  successRate: number | null;
+  avgSavings: number | null;
+  tries: number | null;
+  lastWorkedAt: string | null;
+  label: string | null;
+}
+interface CapitalOneShoppingDeal {
+  title: string;
+  url: string | null;
+  expiration: string | null;
+}
+interface CapitalOneShoppingStoreRate {
+  name: string;
+  domain: string;
+  url: string;
+  rewardTitle: string | null;
+  rateText: string | null;
+  ratePercent: number | null;
+  hasReward: boolean;
+  exclusions: string | null;
+  categories: string[];
+  coupons: CapitalOneShoppingCoupon[];
+  deals: CapitalOneShoppingDeal[];
+}
+interface SearchStoresArgs {
+  query: string;
+  limit?: number;
+}
+interface GetStoreRateArgs {
+  store: string;
+}
+
+  /**
+   * Read a store's Capital One Shopping reward rate, coupon codes (with success rates) and
+   * deals, and search its stores — no login needed.
+   */
+  interface Unit {
+    /**
+     * Searches Capital One Shopping's stores by name and returns each match's domain and cash back
+     * reward.
+     */
+    searchStores(args: SearchStoresArgs): Promise<CapitalOneShoppingStore[]>;
+
+    /**
+     * Reads one store's Capital One Shopping reward rate, coupon codes with success rates, deals
+     * and exclusions. Takes a domain, a capitaloneshopping.com/s/<domain>/coupon url, or a store
+     * name.
+     */
+    getStoreRate(args: GetStoreRateArgs): Promise<CapitalOneShoppingStoreRate>;
+  }
+}
+
 declare namespace BowmarkProvider_caraway {
   // ── Caraway Home — the unit's own declarations, verbatim ──
 interface CarawayVariant {
@@ -20008,6 +20132,59 @@ interface cascadiaseniorliving_comPageDetail {
      * other than cascadiaseniorliving.com.
      */
     getSitePage(pageRef: string): Promise<cascadiaseniorliving_comPageDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_cashbackmonitor {
+  // ── CashbackMonitor — the unit's own declarations, verbatim ──
+type CashbackmonitorRewardKind = "cashback" | "travel" | "creditCard" | "other";
+interface CashbackmonitorStore {
+  name: string;
+  slug: string;
+  url: string;
+  best: Record<CashbackmonitorRewardKind, string | null>;
+}
+interface CashbackmonitorRate {
+  kind: CashbackmonitorRewardKind;
+  portal: string;
+  rateText: string;
+  ratePercent: number | null;
+  upTo: boolean;
+  portalUrl: string;
+}
+interface CashbackmonitorStoreRates {
+  name: string;
+  slug: string;
+  url: string;
+  asOf: string | null;
+  rates: CashbackmonitorRate[];
+  bestCashback: CashbackmonitorRate | null;
+}
+interface SearchStoresArgs {
+  query: string;
+  limit?: number;
+}
+interface GetStoreRatesArgs {
+  store: string;
+}
+
+  /**
+   * Compare a merchant's cashback rate across every cashback portal (Rakuten, TopCashback,
+   * BeFrugal, …) plus miles and points offers, from CashbackMonitor — no login needed.
+   */
+  interface Unit {
+    /**
+     * Searches CashbackMonitor's merchants by name and returns each match's slug, url and best
+     * cashback, miles, card-points and other-reward rate.
+     */
+    searchStores(args: SearchStoresArgs): Promise<CashbackmonitorStore[]>;
+
+    /**
+     * Compares every cashback portal's rate for one merchant on CashbackMonitor — cashback, travel
+     * miles/points, credit card points and other reward points, portal by portal. Takes a merchant
+     * slug, store-page url or name.
+     */
+    getStoreRates(args: GetStoreRatesArgs): Promise<CashbackmonitorStoreRates>;
   }
 }
 
@@ -22392,6 +22569,41 @@ interface ListSharedLinksArgs {
   organizationId?: string;
 }
 
+interface ClaudeMemory {
+  organizationId: string;
+  projectId: string | null;
+  memory: Record<string, unknown>;
+}
+
+interface GetMemoryArgs {
+  organizationId?: string;
+  projectId?: string;
+}
+
+interface ClaudePreferences {
+  profile: Record<string, unknown>;
+  settings: Record<string, unknown>;
+}
+
+interface ClaudeModelOption {
+  id: string;
+  displayName: string;
+}
+
+interface ListModelsArgs {
+  organizationId?: string;
+}
+
+interface ClaudeConnector {
+  id: string;
+  name: string;
+  connected: boolean;
+}
+
+interface ListConnectorsArgs {
+  organizationId?: string;
+}
+
   /**
    * Anthropic's Claude app at claude.ai — read a shared conversation or a published artifact
    * logged out, and, signed in as the CALLER, read and search their chat history, send messages,
@@ -22467,6 +22679,31 @@ interface ListSharedLinksArgs {
      * chats). NEEDS A SIGN-IN (the caller's claude.ai session).
      */
     listSharedLinks(args?: ListSharedLinksArgs, opts?: ConnectionOption): Promise<ClaudeSharedLink[]>;
+
+    /**
+     * Reads what Claude remembers about the CALLER (Settings → Capabilities → Memory), across
+     * chats or for one project. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    getMemory(args?: GetMemoryArgs, opts?: ConnectionOption): Promise<ClaudeMemory>;
+
+    /**
+     * Reads the CALLER's personal preferences — what Claude should call them, their work, and the
+     * instructions applied to every chat (Settings → Profile). NEEDS A SIGN-IN (the caller's
+     * claude.ai session).
+     */
+    getPreferences(opts?: ConnectionOption): Promise<ClaudePreferences>;
+
+    /**
+     * Lists the Claude models the CALLER's plan can pick in the model selector. NEEDS A SIGN-IN
+     * (the caller's claude.ai session). Feeds sendMessage's model choice.
+     */
+    listModels(args?: ListModelsArgs, opts?: ConnectionOption): Promise<ClaudeModelOption[]>;
+
+    /**
+     * Lists the connectors (MCP servers) the CALLER has added to Claude and whether each is
+     * connected. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    listConnectors(args?: ListConnectorsArgs, opts?: ConnectionOption): Promise<ClaudeConnector[]>;
   }
 }
 
@@ -28393,6 +28630,20 @@ interface DropboxSharedFolder {
 
 declare namespace BowmarkProvider_duckduckgo {
   // ── DuckDuckGo — the unit's own declarations, verbatim ──
+interface DuckDuckGoEmailProtectionAccount {
+  /** The account's permanent @duck.com address, e.g. "jdoe@duck.com". */
+  address: string;
+  /** The real inbox DuckDuckGo forwards to, when the dashboard reports one. */
+  forwardingEmail: string | null;
+  /** The private address the site will hand out next, when one has been minted
+   * since the account was created. */
+  nextPrivateAddress: string | null;
+}
+
+interface DuckDuckGoCreatedPrivateAddress {
+  address: string;
+}
+
 interface DuckDuckGoNewsStory {
   title: string;
   url: string;
@@ -28689,6 +28940,20 @@ interface DuckDuckGoBangResolution {
    * addresses.
    */
   interface Unit {
+    /**
+     * Reads the signed-in caller's DuckDuckGo Email Protection account — their permanent @duck.com
+     * address, the inbox it forwards to, and the private address that will be handed out next.
+     * NEEDS A SIGN-IN through the relay.
+     */
+    getEmailProtectionAccount(opts?: ConnectionOption): Promise<DuckDuckGoEmailProtectionAccount>;
+
+    /**
+     * Generates a brand new private @duck.com address on the signed-in caller's Email Protection
+     * account, forwarding to their inbox. Not idempotent — each call mints another address, up to
+     * DuckDuckGo's own cap of 30 per day. NEEDS A SIGN-IN through the relay.
+     */
+    createPrivateDuckAddress(opts?: ConnectionOption): Promise<DuckDuckGoCreatedPrivateAddress>;
+
     /** Search DuckDuckGo News vertical and returns news stories. */
     searchNews(args: SearchNewsArgs): Promise<DuckDuckGoNewsStory[]>;
 
@@ -37910,6 +38175,20 @@ interface GoodreadsShelfBook {
      * URL. Needs the caller signed in to Goodreads (an authFunction, a write).
      */
     followUser(idOrUrl: string, opts?: ConnectionOption): Promise<{ memberId: string; following: true }>;
+
+    /**
+     * Makes a NEW Goodreads account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -60517,6 +60796,7 @@ declare namespace BowmarkProvider_peek {
 interface PeekSearchRegionsArgs { query: string; limit?: number }
 interface PeekRegion { id: string; name: string; url: string }
 interface PeekFacet { id: string; name: string; count?: number }
+interface PeekDestination { id: string; name: string; url: string; experienceCount: number | null; imageUrl: string | null }
 interface PeekSearchExperiencesArgs {
   /** From searchRegions, e.g. "r0gd" (Seattle). One of regionId / latLng is required. */
   regionId?: string;
@@ -60628,6 +60908,12 @@ interface PeekAvailability {
      * tag id searchExperiences' tagId takes.
      */
     listTags(): Promise<{ tags: PeekFacet[] }>;
+
+    /**
+     * Lists Peek's popular destinations as its home page shows them: each place's name, region id
+     * (searchExperiences' regionId), URL, image and experience count ("London", r0p3, 3858).
+     */
+    listDestinations(): Promise<{ destinations: PeekDestination[] }>;
   }
 }
 
@@ -66314,6 +66600,19 @@ interface Partner {
   logo: string | null;
 }
 
+interface BookingVenue {
+  /** The venue's name as Google shows it on the caller's Bookings page. */
+  name: string;
+  address: string;
+  phone: string | null;
+  /** IANA time zone, e.g. "America/Los_Angeles". */
+  timeZone: string;
+  featureId: string | null;
+  googleMapsUrl: string | null;
+  /** The site fulfilling the booking, e.g. "Tock". */
+  partner: string | null;
+}
+
   /**
    * Google's own booking layer on Maps and Search: find places that take a booking through
    * Google, see which partner takes it, read a Google-hosted restaurant's party sizes and
@@ -66345,6 +66644,13 @@ interface Partner {
      * with its site and logo, from Google's own partner directory.
      */
     listPartners(): Promise<Partner[]>;
+
+    /**
+     * Lists the venues of the caller's Reserve with Google bookings off their own Bookings page
+     * (needs the caller's Google sign-in): name, address, phone, time zone, feature id and
+     * fulfilling partner.
+     */
+    listMyBookings(opts?: ConnectionOption): Promise<BookingVenue[]>;
   }
 }
 
@@ -78197,7 +78503,7 @@ interface ListFollowingArgs {
 }
 interface SearchUsersArgs {
   query: string;
-  /** 1-10, default 10. TikTok's unsigned typeahead surfaces 2-4 accounts per query. */
+  /** 1-10, default 10. Name matches first (0-5), then the top posts' authors on the topic. */
   limit?: number;
 }
 interface tiktokHashtag {
@@ -78354,11 +78660,12 @@ type ListNotificationsArgs = {
     searchVideos(args: SearchVideosArgs): Promise<tiktokSearchResult[]>;
 
     /**
-     * Find TikTok accounts matching a name — id, handle, nickname, bio, avatar, secUid, verified
-     * flag, follower, video and like counts. Reads TikTok's unsigned search typeahead for the
-     * matching accounts (usually 2-4 per query, not a full ranked search: the full user search
-     * needs a request signature TikTok refuses even a scripted browser), then each account's
-     * profile page for its counts. No browser. Takes an optional limit (1-10).
+     * Find TikTok accounts matching a name or a topic — id, handle, nickname, bio, avatar, secUid,
+     * verified flag, follower, video and like counts. First the accounts TikTok's search
+     * suggestions name (0-5, matched by name, exact counts), then the authors of TikTok's top
+     * posts on that topic (counts rounded, e.g. 4300000), up to 10. Not TikTok's own ranked user
+     * search, which answers only a signed-in visitor; a note says which rows came from where. No
+     * browser. Takes an optional limit (1-10).
      */
     searchUsers(args: SearchUsersArgs): Promise<tiktokUserSearchResult[]>;
 
@@ -86180,9 +86487,10 @@ interface WodifyProgram {
     /**
      * Lists every membership plan, class pack and drop-in a Wodify-powered gym sells online, with
      * its "from" price, what it includes (e.g. "Unlimited", "10 Classes") and the programs it
-     * covers. No login. `gymHost` + `locationId` come from findGym. Drives the gym's booking embed
-     * to its plans step in a browser, so it takes several seconds; the list is the one shown for
-     * the gym's next bookable class, which on a typical gym is its whole online price list.
+     * covers. No login. `gymHost` + `locationId` come from findGym. No browser: it replays the
+     * BOOK step of the gym's first bookable class in the next 7 days, so the list is the one shown
+     * for that class's program, which on a typical gym is its whole online price list. A gym with
+     * no bookable class that week throws rather than answering [].
      */
     listMemberships(args: { gymHost: string; locationId: number }): Promise<WodifyMembership[]>;
 
@@ -89368,9 +89676,10 @@ interface ZenniLensPriceRow {
     checkStock(skuId: string): Promise<ZenniStock>;
 
     /**
-     * Runs a real prescription through Zenni's own order-configurator wizard (usage type -> manual
-     * Rx entry -> confirm) and returns the priced lens-type matrix the site computes for that
-     * exact Rx — a completed, priced configuration rather than a base frame price.
+     * Sends a real prescription straight to Zenni's own lens-pricing endpoint and returns the
+     * priced lens-type matrix the site computes for that exact Rx — a completed, priced
+     * configuration rather than a base frame price. Throws Zenni's own rejection wording for a Rx
+     * outside its supported range.
      */
     priceLensConfig(skuId: string, rx: ZenniRx): Promise<ZenniLensPriceRow[]>;
   }
@@ -90794,6 +91103,7 @@ interface BowmarkProviders {
   beaconfunding: BowmarkProvider_beaconfunding.Unit;
   beatthebomb: BowmarkProvider_beatthebomb.Unit;
   bedbathandbeyond: BowmarkProvider_bedbathandbeyond.Unit;
+  befrugal: BowmarkProvider_befrugal.Unit;
   bellwethercoffee: BowmarkProvider_bellwethercoffee.Unit;
   beltservice: BowmarkProvider_beltservice.Unit;
   benelliusa: BowmarkProvider_benelliusa.Unit;
@@ -90850,6 +91160,7 @@ interface BowmarkProviders {
   cancer: BowmarkProvider_cancer.Unit;
   canva: BowmarkProvider_canva.Unit;
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
+  capitaloneshopping: BowmarkProvider_capitaloneshopping.Unit;
   caraway: BowmarkProvider_caraway.Unit;
   cardiff: BowmarkProvider_cardiff.Unit;
   carepatrol: BowmarkProvider_carepatrol.Unit;
@@ -90862,6 +91173,7 @@ interface BowmarkProviders {
   carusohomes: BowmarkProvider_carusohomes.Unit;
   casadragones: BowmarkProvider_casadragones.Unit;
   cascadiaseniorliving_com: BowmarkProvider_cascadiaseniorliving_com.Unit;
+  cashbackmonitor: BowmarkProvider_cashbackmonitor.Unit;
   castlery: BowmarkProvider_castlery.Unit;
   cb2: BowmarkProvider_cb2.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
@@ -138653,6 +138965,7 @@ interface BowmarkProviders {
   wywires: BowmarkFamily_shopify_store.Unit;
   wyxsunltd: BowmarkFamily_shopify_store.Unit;
   wyyxbb: BowmarkFamily_shopify_store.Unit;
+  wyze: BowmarkFamily_shopify_store.Unit;
   wzwy7ake: BowmarkFamily_shopify_store.Unit;
   x0zqpbtd: BowmarkFamily_shopify_store.Unit;
   x1nkvm8c: BowmarkFamily_shopify_store.Unit;
