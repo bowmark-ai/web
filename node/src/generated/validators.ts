@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1b7f4ab48029025481f7339c320d4eadc34fae5d7685b47b33f82b72b8e536c2
-// 3776 checked, 20 unchecked.
+// Manifest version: 614095fc845c7baeb1702691f4150ccd1b49ae3eab243f0d057c6cf20867e97a
+// 3782 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1b7f4ab48029025481f7339c320d4eadc34fae5d7685b47b33f82b72b8e536c2",
+  "version": "614095fc845c7baeb1702691f4150ccd1b49ae3eab243f0d057c6cf20867e97a",
   "units": {
     "address_validation": {
       "defs": {
@@ -8203,6 +8203,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.adobe": {
       "defs": {
+        "SearchTemplatesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "format",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SendForSignatureArgs": {
           "k": "object",
           "props": [
@@ -8276,6 +8288,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "SearchTemplatesOptions"
+            },
+            "optional": true
           }
         ],
         "getTemplate": [
@@ -16521,6 +16541,58 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.blueshieldca_directory": {
+      "defs": {},
+      "functions": {
+        "findProviders": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "zip",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "specialty",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "plan",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -31949,6 +32021,42 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getMyProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyServers": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "listMessages": [
@@ -80914,6 +81022,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "QuickbooksSearchAppsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "QuickbooksSearchCommunityArgs": {
           "k": "object",
           "props": [
@@ -81070,6 +81197,33 @@ export const VALIDATORS: ValidatorTable = {
         "getHelpArticle": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchApps": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "QuickbooksSearchAppsArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getApp": [
+          {
+            "name": "id",
             "schema": {
               "k": "string"
             },
@@ -115280,6 +115434,68 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "bookAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tenant",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "centerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "serviceId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "time",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "providerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           },
           {
             "name": "opts",

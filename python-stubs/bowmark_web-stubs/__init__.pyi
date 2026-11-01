@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1b7f4ab48029025481f7339c320d4eadc34fae5d7685b47b33f82b72b8e536c2
-# 92 capabilities, 749 providers, 3776 typed functions, 20 refused.
+# Manifest version: 614095fc845c7baeb1702691f4150ccd1b49ae3eab243f0d057c6cf20867e97a
+# 92 capabilities, 750 providers, 3782 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4158,12 +4158,16 @@ class Prv_adobe_FontDetail_Out_suggestedPairings_item_Out(TypedDict):
     slug: str
     name: str
 
+class Prv_adobe_SearchTemplatesOptions_In(TypedDict):
+    format: NotRequired[str]
+
 class Prv_adobe_ExpressTemplate_Out(TypedDict):
     id: str
     title: str
     thumbnail: str
     category: str
     isPremium: bool
+    warning: NotRequired[str]
 
 class Prv_adobe_ExpressTemplateDetail_Out(TypedDict):
     id: str
@@ -9024,6 +9028,34 @@ class Prv_blueribbonhomewarranty_com_blueribbonhomewarranty_comPageContent_Out(T
     body: str
     hasApplicationForm: bool
     applicationFormQuestions: list[str]
+
+class Prv_blueshieldca_directory_findProviders_query_u1_In(TypedDict):
+    zip: str
+    specialty: NotRequired[str]
+    limit: NotRequired[float]
+    plan: NotRequired[str]
+
+class Prv_blueshieldca_directory_blueshieldca_directoryProviderSearch_Out(TypedDict):
+    providers: list[Prv_blueshieldca_directory_blueshieldca_directoryProvider_Out]
+    warnings: list[str]
+    plan: Prv_blueshieldca_directory_blueshieldca_directoryProviderSearch_Out_plan_u0_Out | None
+    specialty: str | None
+    total: float | None
+
+class Prv_blueshieldca_directory_blueshieldca_directoryProvider_Out(TypedDict):
+    name: str | None
+    specialty: str | None
+    address: str | None
+    phone: str | None
+    npi: str | None
+    organization: str | None
+    acceptingNewPatients: bool | None
+    distanceMiles: float | None
+
+class Prv_blueshieldca_directory_blueshieldca_directoryProviderSearch_Out_plan_u0_Out(TypedDict):
+    name: str
+    networkIds: list[str]
+    planType: str
 
 class Prv_bluesignal_BlueSignalSearchJobsArgs_In(TypedDict):
     keywords: NotRequired[str]
@@ -17624,6 +17656,26 @@ class Prv_discord_discordAppCollection_Out(TypedDict):
     description: str
     apps: list[Prv_discord_discordApp_Out]
 
+class Prv_discord_discordMyProfile_Out(TypedDict):
+    id: str
+    username: str
+    globalName: str | None
+    avatarUrl: str | None
+    bio: str | None
+    pronouns: str | None
+    verified: bool
+    nitro: Literal["none"] | Literal["classic"] | Literal["nitro"] | Literal["basic"]
+    locale: str | None
+
+class Prv_discord_discordMyServer_Out(TypedDict):
+    id: str
+    name: str
+    iconUrl: str | None
+    owner: bool
+    permissions: str | None
+    memberCount: float | None
+    onlineCount: float | None
+
 class Prv_discord_listMessages_args_In(TypedDict):
     channelId: str
     limit: NotRequired[float]
@@ -18086,6 +18138,7 @@ class Prv_duckduckgo_DuckDuckGoSearchWebResult_Out(TypedDict):
     query: str
     results: list[Prv_duckduckgo_DuckDuckGoWebResult_Out]
     next: str | None
+    substituted: bool
 
 class Prv_duckduckgo_DuckDuckGoWebResult_Out(TypedDict):
     position: float
@@ -40476,6 +40529,42 @@ class Prv_quickbooks_QuickbooksHelpArticle_Out(TypedDict):
     updatedAt: str | None
     url: str
 
+class Prv_quickbooks_QuickbooksSearchAppsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_quickbooks_QuickbooksAppSummary_Out(TypedDict):
+    id: str
+    name: str
+    shortName: str
+    developer: str | None
+    tagline: str | None
+    rating: float
+    reviewCount: float
+    premium: bool
+    logoUrl: str | None
+    supportedEditions: list[str]
+    url: str
+
+class Prv_quickbooks_QuickbooksApp_Out(TypedDict):
+    id: str
+    name: str
+    shortName: str
+    developer: str | None
+    tagline: str | None
+    rating: float
+    reviewCount: float
+    premium: bool
+    logoUrl: str | None
+    supportedEditions: list[str]
+    url: str
+    description: str | None
+    overview: str | None
+    categories: list[str]
+    useCases: list[str]
+    badges: list[str]
+    builtByIntuit: bool
+
 class Prv_quince_QuinceSearchArgs_In(TypedDict):
     query: str
     gender: NotRequired[Literal["men"] | Literal["women"]]
@@ -52225,7 +52314,7 @@ class Prv_uhc_smallbusiness_UhcSmallbusinessPlan_Out(TypedDict):
     planCode: str
     planName: str
     fullName: str
-    planMarketType: Literal["LEVEL_FUNDED"] | Literal["FULLY_INSURED"]
+    planMarketType: Literal["LEVEL_FUNDED"] | Literal["FULLY_INSURED"] | Literal["OXFORD"]
     metalLevel: str | None
     planType: str | None
     legalEntity: str | None
@@ -57802,6 +57891,20 @@ class Prv_zenoti_ZenotiAppointment_Out(TypedDict):
     startTime: str
     status: str | float | None
 
+class Prv_zenoti_bookAppointment_args_In(TypedDict):
+    tenant: str
+    centerId: str
+    serviceId: str
+    time: str
+    providerId: NotRequired[str]
+
+class Prv_zenoti_ZenotiBooking_Out(TypedDict):
+    status: Literal["booked"] | Literal["payment_required"]
+    reservationId: str
+    invoiceId: str | None
+    bookingId: str | None
+    amountDue: float
+
 class Prv_zoom_ZoomPricingResult_Out(TypedDict):
     plans: list[Prv_zoom_ZoomPricingPlan_Out]
 
@@ -59503,15 +59606,16 @@ class Cap_search(Protocol):
     """Find pages on the web when you do not already know the URL — the step before read.page.
     Returns ranked results with title, destination URL and snippet. `news` is the same read
     over news coverage, with real publication dates and the outlet's name. `web` tries Bing
-    first and falls back to Google (through Serper, a metered key charged to your account)
-    when both Bing legs fail or Bing answers a different query; `engine` says which
-    answered. `news` is Bing only. When every engine fails it throws, and never reports an
-    outage as zero results. Two things Bing cannot do, measured on `web`: it never returns
-    an empty list even when nothing matches — including for a long-tail query it has nothing
-    confident to say about, e.g. an obscure company name plus "pricing" — and it ignores
-    search operators like site:. `warnings` now flags the extreme case of the first — every
-    returned row sharing not one word with the query, or every row matching only a generic
-    word like "pricing" while the name you searched for is absent from all of them — but a
+    first, then a free keyless second opinion (DuckDuckGo), and falls back to Google
+    (through Serper, a metered key charged to your account) only when nothing free answered
+    or every free engine answered a different query; `engine` says which answered. `news` is
+    Bing only. When every engine fails it throws, and never reports an outage as zero
+    results. Two things Bing cannot do, measured on `web`: it never returns an empty list
+    even when nothing matches — including for a long-tail query it has nothing confident to
+    say about, e.g. an obscure company name plus "pricing" — and it ignores search operators
+    like site:. `warnings` now flags the extreme case of the first — every returned row
+    sharing not one word with the query, or every row matching only a generic word like
+    "pricing" while the name you searched for is absent from all of them — but a
     partially-relevant substitution is not caught. A THIRD limit, measured 2026-09-11 and
     the one that hits ordinary research: it answers a MULTI-WORD query by reducing it to the
     single most popular word in it and returning that word's results — "React useEffect
@@ -59531,35 +59635,36 @@ class Cap_search(Protocol):
 
     async def web(self, query: str | Cap_search_web_query_u1_In, limit: float | None = None, options: Cap_search_CallOptions_In | None = None, /) -> Cap_search_SearchWebResult_Out:
         """Searches the web and returns ranked results — title, destination URL, snippet — from the
-        first engine in the chain that answers: Bing, then Google through Serper (metered,
-        charged to your account) when Bing is down or answered a different query. `engine` names
+        first engine in the chain that answers: Bing, then a free keyless second opinion from
+        DuckDuckGo, then Google through Serper (metered, charged to your account) only when
+        nothing free answered or every free engine answered a different query. `engine` names
         which one that was, and the run's `notes` names any that were tried and failed first (a
         note, not a warning: the answering engine's results are whole). Feed a result's `url`
         straight to bowmark.read.page to actually read it. THREE THINGS TO KNOW BEFORE YOU TRUST
-        A BING ROW (engine "bing"; a "serper" answer is Google's and honours operators). (1) The
-        engine NEVER returns an empty list, so results are its best offer rather than proof
-        anything matched — a long-tail query (an obscure company name plus "pricing", say) can
-        come back with ten confident rows about something else entirely. (2) It IGNORES
-        operators — a `site:example.com` query is not scoped to that site. (3) MEASURED
-        2026-09-11, AND THE ONE THAT HITS ORDINARY RESEARCH: it answers a MULTI-WORD query by
-        reducing it to the single most popular word in it and returning that word's results.
-        "React useEffect dependency array" comes back as React's own homepage, and a nine-word
-        query naming a company, a job and a protocol came back as the results for the one
-        two-letter acronym in it. Quoting the proper noun, shortening the query and site-scoping
-        it were all tried on the same queries and all returned the identical substituted set, so
-        rewriting the query does not help — search the ONE thing you most need, or read a URL
-        you already know. `warnings` flags five shapes. Four read the words: no row sharing a
-        single word with the query, every row matching only a generic word like "pricing" while
-        the subject you named is absent, or fewer than half the query's subject words appearing
-        anywhere in the results, or a NAME you gave (a place, a person, a brand) that no row
-        carries — "coffee shops in Lisbon" comes back as coffee shops wherever the exit is
-        (measured 2026-10-27). The fifth reads the engine's own behaviour and is the reliable
-        one: the query is asked TWICE down the same exit, and an answer that comes back
-        different the second time is a random decoy rather than a bad ranking — measured
-        2026-09-12, an answerable query repeats identically while an unanswerable one returns a
-        fresh unrelated set every time. A partially-relevant substitution is still not caught.
-        When every engine fails this THROWS rather than returning zero rows, because no engine
-        reached is not the same as nothing found.
+        A BING ROW (engine "bing"; a "duckduckgo" or "serper" answer is a different engine's own
+        ranking and is not measured against these three). (1) The engine NEVER returns an empty
+        list, so results are its best offer rather than proof anything matched — a long-tail
+        query (an obscure company name plus "pricing", say) can come back with ten confident
+        rows about something else entirely. (2) It IGNORES operators — a `site:example.com`
+        query is not scoped to that site. (3) MEASURED 2026-09-11, AND THE ONE THAT HITS
+        ORDINARY RESEARCH: it answers a MULTI-WORD query by reducing it to the single most
+        popular word in it and returning that word's results. "React useEffect dependency array"
+        comes back as React's own homepage, and a nine-word query naming a company, a job and a
+        protocol came back as the results for the one two-letter acronym in it. Quoting the
+        proper noun, shortening the query and site-scoping it were all tried on the same queries
+        and all returned the identical substituted set, so rewriting the query does not help —
+        search the ONE thing you most need, or read a URL you already know. `warnings` flags
+        five shapes. Four read the words: no row sharing a single word with the query, every row
+        matching only a generic word like "pricing" while the subject you named is absent, or
+        fewer than half the query's subject words appearing anywhere in the results, or a NAME
+        you gave (a place, a person, a brand) that no row carries — "coffee shops in Lisbon"
+        comes back as coffee shops wherever the exit is (measured 2026-10-27). The fifth reads
+        the engine's own behaviour and is the reliable one: the query is asked TWICE down the
+        same exit, and an answer that comes back different the second time is a random decoy
+        rather than a bad ranking — measured 2026-09-12, an answerable query repeats identically
+        while an unanswerable one returns a fresh unrelated set every time. A partially-relevant
+        substitution is still not caught. When every engine fails this THROWS rather than
+        returning zero rows, because no engine reached is not the same as nothing found.
         """
 
     async def news(self, query: str | Cap_search_news_query_u1_In, limit: float | None = None, options: Cap_search_CallOptions_In | None = None, /) -> Cap_search_SearchNewsResult_Out:
@@ -60521,16 +60626,19 @@ class Prv_adobe(Protocol):
         never embeds server-side.
         """
 
-    async def searchTemplates(self, query: str, /) -> list[Prv_adobe_ExpressTemplate_Out]:
-        """Searches Adobe Express (new.express.adobe.com) templates by free text and
-        format/category, returning each template's id, title, thumbnail URL, category and
-        whether it is free or Premium.
+    async def searchTemplates(self, query: str, options: Prv_adobe_SearchTemplatesOptions_In | None = None, /) -> list[Prv_adobe_ExpressTemplate_Out]:
+        """Searches Adobe Express (new.express.adobe.com) templates by free text, optionally
+        narrowed to one format/category, returning each template's id, title, thumbnail URL,
+        category (the site's own format name, e.g. "flyer", "instagram-story") and whether it is
+        free or Premium. A row may carry a `warning` when the site likely fell back to generic
+        recommendations instead of a real match.
         """
 
     async def getTemplate(self, id: str, /) -> Prv_adobe_ExpressTemplateDetail_Out:
         """Returns one Adobe Express template's detail — title, category, dimensions, whether it is
         free or Premium, and the editable elements the editor lists — from a template id
-        returned by searchTemplates.
+        returned by searchTemplates. Dimensions are omitted (never fabricated) when neither the
+        document model, a numeric task-size name, nor the row's own preview image answers them.
         """
 
     async def searchStockAssets(self, query: str, /) -> list[Prv_adobe_StockAsset_Out]:
@@ -63356,6 +63464,21 @@ class Prv_blueribbonhomewarranty_com(Protocol):
         site's Gravity Forms application/claim/renewal flows, also returns that form's own
         section headings and top-level question labels. THROWS if the page does not exist (404)
         or names a host other than blueribbonhomewarranty.com.
+        """
+
+class Prv_blueshieldca_directory(Protocol):
+    """In-network doctors near a California ZIP code from Blue Shield of California's public
+    Find a Doctor: name, specialty, nearest office, phone, distance, NPI and whether they
+    take new patients. Read through the CALLER's own browser (the Bowmark Link extension),
+    because Blue Shield's search refuses every client Bowmark runs
+    """
+
+    async def findProviders(self, query: str | Prv_blueshieldca_directory_findProviders_query_u1_In, /) -> Prv_blueshieldca_directory_blueshieldca_directoryProviderSearch_Out:
+        """In-network doctors near one California ZIP for one Blue Shield of California plan ("Blue
+        Shield of California PPO Network" unless plan names another), by specialty words
+        (primary care when omitted), nearest first; limit defaults to 10 and is clamped to 1-60.
+        A ZIP outside California returns no providers and a warning. Needs the caller's own
+        browser (Bowmark Link) and throws naming it when none is connected
         """
 
 class Prv_bluesignal(Protocol):
@@ -67957,6 +68080,20 @@ class Prv_discord(Protocol):
         when the directory has no similar apps for it.
         """
 
+    async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_discord_discordMyProfile_Out:
+        """Reads the SIGNED-IN user's own Discord account — id, username, display name, avatar url,
+        bio, pronouns, email-verified flag, Nitro tier and locale. Needs a Discord sign-in made
+        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        browser yet.
+        """
+
+    async def listMyServers(self, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordMyServer_Out]:
+        """Lists the servers the SIGNED-IN user has joined — id, name, icon url, whether they own
+        it, their permission bitfield, and approximate member and online counts. A row's `id` is
+        the server id other session functions take. An account in no servers returns `[]`. Needs
+        a Discord sign-in made through Bowmark's sign-in link.
+        """
+
     async def listMessages(self, args: Prv_discord_listMessages_args_In, opts: ConnectionOption | None = None, /) -> Prv_discord_discordChannelMessages_Out:
         """Reads a channel's most recent messages AS THE SIGNED-IN USER, newest first — author,
         text, attachment urls, embed count, reactions, the message it replies to, and
@@ -68169,9 +68306,13 @@ class Prv_duckduckgo(Protocol):
     async def searchWeb(self, args: Prv_duckduckgo_DuckDuckGoSearchWebArgs_In, /) -> Prv_duckduckgo_DuckDuckGoSearchWebResult_Out:
         """Searches the web the way duckduckgo.com's own search box does and returns the ranked
         organic results (ads skipped) — title, destination URL, display URL, DuckDuckGo's
-        snippet and a date when it shows one — about ten per page. Optional `region` ("us-en",
-        "uk-en", "wt-wt"…), `safeSearch` and `time` filters; pass the returned `next` back as
-        `cursor` for the following page.
+        snippet and a date when it shows one — about ten per page; a trustworthy first page
+        short of that is topped up with one more free request to this engine's own next page
+        before answering. Optional `region` ("us-en", "uk-en", "wt-wt"…), `safeSearch` and
+        `time` filters; pass the returned `next` back as `cursor` for the following page.
+        `substituted` is true when these rows look like an answer to a different query than the
+        one asked, or no trustworthy answer at all — an empty page, no row sharing a query word,
+        or the query's identity words mostly absent.
         """
 
     async def searchVideos(self, args: Prv_duckduckgo_SearchVideosArgs_In, /) -> Prv_duckduckgo_SearchVideosResult_Out:
@@ -81660,6 +81801,12 @@ class Prv_quickbooks(Protocol):
     async def getHelpArticle(self, url: str, /) -> Prv_quickbooks_QuickbooksHelpArticle_Out:
         """One help article's title, step-by-step text and tagged QuickBooks products"""
 
+    async def searchApps(self, query: str | Prv_quickbooks_QuickbooksSearchAppsArgs_In, /) -> list[Prv_quickbooks_QuickbooksAppSummary_Out]:
+        """App Store listings matching a keyword, with developer, rating and whether premium"""
+
+    async def getApp(self, id: str, /) -> Prv_quickbooks_QuickbooksApp_Out:
+        """One App Store listing's description, categories, use cases and rating"""
+
 class Prv_quince(Protocol):
     """Quince (quince.com) apparel and home store. Searches the live catalog (men's/women's,
     size, in-stock) and reads one product's per-variant size, color, price and live stock.
@@ -90667,6 +90814,13 @@ class Prv_zenoti(Protocol):
         with no sign-in the run pauses for one.
         """
 
+    async def bookAppointment(self, args: Prv_zenoti_bookAppointment_args_In, opts: ConnectionOption | None = None, /) -> Prv_zenoti_ZenotiBooking_Out:
+        """Books one service at a time getAvailableTimes returned, as the signed-in caller at that
+        business. Returns status "booked" with the booking id, or "payment_required" with
+        amountDue when the business wants a deposit or prepayment at booking -- that booking is
+        NOT confirmed and the hold lapses. With no sign-in the run pauses for one.
+        """
+
 class Prv_zoom(Protocol):
     """Video conferencing, meetings, and webinars."""
 
@@ -90854,6 +91008,7 @@ class BowmarkProviders(Protocol):
     bls: Prv_bls
     bluehaven: Prv_bluehaven
     blueribbonhomewarranty_com: Prv_blueribbonhomewarranty_com
+    blueshieldca_directory: Prv_blueshieldca_directory
     bluesignal: Prv_bluesignal
     bluesky: Prv_bluesky
     bmwusa: Prv_bmwusa
