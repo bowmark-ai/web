@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5930 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5931 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -177,7 +177,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listBestSellers` | www.amazon.com | Amazon's hourly-updated top 100 in a department — what is actually selling right now… | 🟢 |
 | `amazon.listCategoryProducts` | www.amazon.com | Browse a whole department with no keyword at all — "what is in Home & Kitchen… | 🟢 |
 | `amazon.listDeals` | www.amazon.com | Today's Deals — what is discounted right now, with the deal price, the price it was… | 🟢 |
-| `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | 🟡 |
+| `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | 🔴 |
 | `amazon.listMoversAndShakers` | www.amazon.com | The biggest sales-rank gainers in a department over the past 24 hours — what is… | ⚪ |
 | `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | 🟢 |
 | `amazon.listOrders` | www.amazon.com | The signed-in customer's own Amazon orders, newest first — order id, date placed… | 🟢 |
@@ -203,6 +203,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `andstr.getQuote` | booking.andstr.com | The real, date-priced quote for one listing — per-night breakdown, service fee… | 🟢 |
 | `andstr.search` | booking.andstr.com | Runs stayAndes's own search-and-book portal (booking.andstr.com) — filters by market… | 🟢 |
 | `angussystems.listAccessRequests` | angus-systems.com | Lists the after-hours access requests for a client's portal, showing the status… | ⚪ |
+| `anthem_directory.findProviders` | anthem.com | In-network doctors near one US ZIP code for one Anthem plan (the state's first… | 🟢 |
 | `anthropic_com.getDoc` | anthropic.com | Reads one page of anthropic.com's engineering blog (/engineering/...) or legal terms… | 🟢 |
 | `anthropic_com.listDocs` | anthropic.com | Lists every engineering-blog and legal-terms page anthropic.com publishes — url… | 🟢 |
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
@@ -1949,7 +1950,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fareharbor.listOperators` | fareharbor.com | List available tour operators that use the FareHarbor platform. | ⚪ |
 | `fareharbor.searchItems` | fareharbor.com | Lists every tour, activity or rental a FareHarbor operator sells, optionally filtered… | 🟢 |
 | `fbsappliance.getProductDetails` | fbsappliance.com | Reads one product's detail page for its full spec sheet, real per-showroom inventory… | ⚪ |
-| `fbsappliance.searchAppliances` | fbsappliance.com | Runs the site's own category grid (e.g. built-in-refrigerators) and returns real… | 🟡 |
+| `fbsappliance.searchAppliances` | fbsappliance.com | Runs the site's own category grid (e.g. built-in-refrigerators) and returns real… | 🔴 |
 | `fedex.getRate` | fedex.com | Prices a domestic package across FedEx's own service levels (Ground, Home Delivery… | 🟢 |
 | `ferguson.findBranches` | ferguson.com | Lists Ferguson branch locations in a US state, optionally narrowed by city and by… | 🟢 |
 | `ferguson.findProducts` | ferguson.com | Finds Ferguson catalog products (plumbing, HVAC, PVF, waterworks, appliances) whose… | 🟢 |
@@ -2642,12 +2643,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hyatt.getHotelDetails` | hyatt.com | Reads one Hyatt property in full — full address, phone number, brand tier, amenities… | ⚪ |
 | `hyatt.getReservation` | hyatt.com | Reads an existing Hyatt reservation the way the site's own "View, Modify or Cancel a… | ⚪ |
 | `hyatt.search` | hyatt.com | Searches Hyatt's live cash room availability the way its own booking widget does — a… | ⚪ |
-| `ibuypower.getBenchmark` | ibuypower.com | Returns iBUYPOWER's own measured 3DMark Time Spy scores and per-game FPS at… | 🟡 |
-| `ibuypower.getSystem` | ibuypower.com | Reads one base system's whole configurator — every component category, every option's… | 🟡 |
+| `ibuypower.getBenchmark` | ibuypower.com | Returns iBUYPOWER's own measured 3DMark Time Spy scores and per-game FPS at… | 🔴 |
+| `ibuypower.getSystem` | ibuypower.com | Reads one base system's whole configurator — every component category, every option's… | 🔴 |
 | `ibuypower.listLaptops` | ibuypower.com | Lists the Chimera gaming laptops with their configurations and prices — a headline nav… | 🔴 |
-| `ibuypower.listPrebuilts` | ibuypower.com | Lists the RDY prebuilt gaming PCs — the ship-now, fixed-configuration SKUs, a… | 🟡 |
-| `ibuypower.listSystems` | ibuypower.com | Lists every base configurator on the PC builder — AMD and Intel — with its slug, name… | 🟡 |
-| `ibuypower.recommendGamingPc` | ibuypower.com | Recommends buildable PCs at or under a budget, drawn from both product lines —… | 🟡 |
+| `ibuypower.listPrebuilts` | ibuypower.com | Lists the RDY prebuilt gaming PCs — the ship-now, fixed-configuration SKUs, a… | 🔴 |
+| `ibuypower.listSystems` | ibuypower.com | Lists every base configurator on the PC builder — AMD and Intel — with its slug, name… | 🔴 |
+| `ibuypower.recommendGamingPc` | ibuypower.com | Recommends buildable PCs at or under a budget, drawn from both product lines —… | 🔴 |
 | `ibuypower.searchGear` | ibuypower.com | Searches the Gear Store — peripherals, components and accessories sold loose rather… | ⚪ |
 | `idealista.contactAdvertiser` | idealista.com | Sends the listing's contact form to the advertiser. | ⚪ |
 | `idealista.getListing` | idealista.com | Reads one listing's full page — every photo, the full description, features, energy… | ⚪ |
@@ -3272,7 +3273,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `msccruzeiros.bookCruise` | msccruzeiros.com.br | Reserve a cabin on a sailing and pay for it through the site's booking funnel. | ⚪ |
 | `msccruzeiros.quoteCabins` | msccruzeiros.com.br | Cruise quote for one MSC Cruzeiros sailing: the price of every cabin category (inside… | 🟢 |
 | `msccruzeiros.searchCruises` | msccruzeiros.com.br | Search MSC Cruzeiros (Brazil) cruise sailings by destination, departure port, ship… | 🟢 |
-| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🔴 |
+| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟡 |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
 | `msn.getSectionFeed` | msn.com | Returns the current top-stories feed the way msn.com/en-us/<section> does for a… | 🟢 |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E… | 🟢 |
@@ -4265,7 +4266,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seatgeek.listTaxonomies` | seatgeek.com | Returns the category taxonomy SeatGeek uses to classify events (e.g. music > rock… | 🟢 |
 | `seatgeek.listTicketForSale` | seatgeek.com | Lists one of the signed-in caller's tickets for resale on SeatGeek. | ⚪ |
 | `seatgeek.listTrackedEvents` | seatgeek.com | The signed-in caller's tracked (saved/followed) events, newest first. | 🟢 |
-| `seatgeek.searchEvents` | seatgeek.com | Searches live events — concerts, sports, comedy, theater and family — by keyword… | 🟡 |
+| `seatgeek.searchEvents` | seatgeek.com | Searches live events — concerts, sports, comedy, theater and family — by keyword… | 🟢 |
 | `seatgeek.trackEvent` | seatgeek.com | Tracks (saves) an event to the signed-in caller's account. | 🟢 |
 | `seatgeek.transferTicket` | seatgeek.com | Transfers a purchased ticket to another person's SeatGeek account. | ⚪ |
 | `seatgeek.unfollowPerformer` | seatgeek.com | Unfollows a performer on the signed-in caller's account. | 🟢 |

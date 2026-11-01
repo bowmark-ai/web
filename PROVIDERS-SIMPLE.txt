@@ -45,6 +45,7 @@ amramp.com — amramp: findNearestLocation
 ancientnutrition.com — ancientnutrition: computeGutType, getGutTypeQuizQuestions
 andersenwindows.com — andersenwindows: findDealers
 angus-systems.com — angussystems: nothing callable yet (+1 planned)
+anthem.com — anthem_directory: findProviders
 anthropic.com — anthropic_com: getDoc, listDocs
 antunes.com — antunes: findServiceAgencies
 aol.com — aol: addFavorite, getArticle, getArticleComments, getDailyHoroscope, getFrontPage, getLocalNews, getMarketSummary, getRecipe, getWeather, listFavorites, listGames, listNewsletters, listSectionArticles, listSections, removeFavorite, searchRecipes, searchWeatherLocations, subscribeNewsletter (+1 planned)
@@ -291,7 +292,7 @@ faceforwardaesthetics.com — faceforwardaesthetics: checkAvailability, listLoca
 facerealityskincare.com — facerealityskincare: searchAcneExperts
 fandom.com — fandom: getArticle, getCurrentUser, getDiscussionPost, getImage, getInfobox, getRevision, getSection, getSections, getSummary, getUser, getWikiInfo, getWikitext, listBacklinks, listCategories, listCategoryMembers, listDiscussionPosts, listExternalLinks, listImages, listLinks, listRecentChanges, listRevisions, listUserContributions, search, suggestTitles (+8 planned)
 fareharbor.com — fareharbor: getAvailabilitySlot, getItem, listAvailability, searchItems (+4 planned)
-fbsappliance.com — fbsappliance: searchAppliances (+1 planned)
+fbsappliance.com — fbsappliance: nothing callable yet (+2 planned)
 fedex.com — fedex: getRate
 ferguson.com — ferguson: findBranches, findProducts (+1 planned)
 fieldstonehomes.com — fieldstonehomes: getAppointmentFormSchema, prepareAppointment, searchQuickMoveIns
@@ -375,7 +376,7 @@ huggingface.co — huggingface: getModel, listTrendingModels, searchModels (+2 p
 humana.com — humana_directory: findProviders
 hunter.io — hunter: countEmails, findDomain (+9 planned)
 hyatt.com — hyatt: nothing callable yet (+6 planned)
-ibuypower.com — ibuypower: getBenchmark, getSystem, listPrebuilts, listSystems, recommendGamingPc (+2 planned)
+ibuypower.com — ibuypower: nothing callable yet (+7 planned)
 icis.corp.delaware.gov — delaware_corps: searchEntity (+1 planned)
 idealista.com — idealista: search (+3 planned)
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
@@ -474,7 +475,7 @@ mossyoak.com — mossyoak: getMossyoakCheckoutLink, getMossyoakProduct, listMoss
 msc.com — msc: trackShipment
 msc.fema.gov — msc_fema: getFloodZone
 msccruzeiros.com.br — msccruzeiros: quoteCabins, searchCruises (+1 planned)
-msn.com — msn: getMarketSummary, getSectionFeed, getStockQuote, getTopStories, getWeatherForecast, listSavedArticles, saveArticle, searchNews (+1 planned)
+msn.com — msn: getArticle, getMarketSummary, getSectionFeed, getStockQuote, getTopStories, getWeatherForecast, listSavedArticles, saveArticle, searchNews
 muze.gov.tr — muze_gov_tr: getVisitingHours
 my.auroramedicalspa.com — my_auroramedicalspa_com: getProviders, getServiceCategories, getServices, listLocations
 mybeststudio.us — my_best_studio: bookClass, cancelBooking, getClass, joinWaitlist, listClasses, listInstructors, listMyBookings (+2 planned)
@@ -752,7 +753,7 @@ workable.com — workable: listJobs
 wsj.com — wsj: getArticle, getAuthor, getNewsletter, getPodcast, getQuote, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSections, listTrending, searchArticles (+7 planned)
 wunderflats.com — wunderflats: search
 www.amazon.ca — amazon_ca: getProduct, searchProducts
-www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listMostWishedFor, listNewReleases, listOrders, listRelatedProducts, listReviews, listSellerOffers, listVariations, searchProducts, suggestKeywords (+4 planned)
+www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listNewReleases, listOrders, listRelatedProducts, listReviews, listSellerOffers, listVariations, searchProducts, suggestKeywords (+5 planned)
 www.bestbuy.ca — bestbuy_ca: getProduct, search
 www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepartments, listNews, listPublicData, listServices, queryPublicData, searchNews, searchPublicData, searchServices
 www.cardiff.gov.uk — cardiff: getApplication, search
