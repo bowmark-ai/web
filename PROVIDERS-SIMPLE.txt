@@ -17,7 +17,7 @@ aa.com — aa: getBaggageAllowance, getFlightStatus, retrieveBooking (+6 planned
 abercrombie.com — abercrombie: checkStock, findStores, getProduct, search (+2 planned)
 abqplumb.com — abqplumb: getAvailability, listServices
 abt.com — abt: getProduct, search
-accuweather.com — accuweather: getActivityForecast, getAirQuality, getAllergyForecast, getCurrentConditions, getDailyForecast, getDayDetails, getHealthForecast, getHourlyForecast, getLocation, getMinuteCast, getMonthlyForecast, listAlerts, listLifestyleIndices, searchLocations (+8 planned)
+accuweather.com — accuweather: getActivityForecast, getAirQuality, getAllergyForecast, getCurrentConditions, getDailyForecast, getDayDetails, getHealthForecast, getHourlyForecast, getLocation, getMinuteCast, getMonthlyForecast, getStorm, getWinterForecast, listActiveStorms, listAlerts, listLifestyleIndices, searchLocations (+5 planned)
 acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
 acqualinaresort.com — acqualinaresort: searchAvailability
@@ -240,7 +240,7 @@ dentalplans.com — dentalplans: getPlan, search
 detailxperts.com — detailxperts: checkServiceArea, getQuote, listVehicleTypes (+1 planned)
 deutschepost.de — deutschepost: getDialogpostRates
 developers.openai.com — developersopenai: getDocPage
-deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getWatchFeed, listGalleryFolders, postComment, searchDeviations, searchShop, suggestTags, unfavouriteDeviation, unwatchUser, watchUser (+5 planned)
+deviantart.com — deviantart: browseTag, favouriteDeviation, getComments, getDailyDeviations, getDeviation, getRelatedDeviations, getUserFavourites, getUserGallery, getUserPosts, getUserProfile, getWatchFeed, listGalleryFolders, postComment, searchDeviations, searchShop, sendNote, suggestTags, unfavouriteDeviation, unwatchUser, watchUser (+4 planned)
 dhl.com — dhl: getQuote
 dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
@@ -635,7 +635,7 @@ smartsign.com — smartsign: getTemplate, search
 smartwool.com — smartwool: getSockRecommendation
 smithery.ai — smithery: search
 snapchat.com — snapchat: getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSpotlightVideo, listDiscoverStories, listFriends, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, searchSnapchat (+14 planned)
-solidcore.co — solidcore: getClass, getCoach, getPricing, getSchedule, getStudio, listCoaches, listMuscleGroups, listStudios, searchClasses (+15 planned)
+solidcore.co — solidcore: checkAvailability, getClass, getCoach, getPricing, getSchedule, getStudio, listCoaches, listMuscleGroups, listStudios, searchClasses (+14 planned)
 solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listInstructors, listMyBookings, listRegions, listSeries, listShopProducts, listStudios (+13 planned)
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
@@ -703,7 +703,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
-tumblr.com — tumblr: findBlog, getBlogInfo, getBlogPosts, getPost, getTagTimeline, searchBlogPosts, searchPosts (+15 planned)
+tumblr.com — tumblr: findBlog, findTag, getBlogInfo, getBlogPosts, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, searchBlogPosts, searchPosts (+11 planned)
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals

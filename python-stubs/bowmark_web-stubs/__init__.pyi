@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c2e46982c765686a95287581dce7cb3f183ebad45045e58f564e7a787023f81e
+# Manifest version: 469f02f3d25089e0119e829abd1855c858ff0ee407586d668bfe1b718bd9c50e
 # 92 capabilities, 750 providers, 3806 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -57808,6 +57808,7 @@ class Prv_youtube_YoutubePlaylistVideo_Out(TypedDict):
     publishedAgeSeconds: float | None
     length: str | None
     thumbnail: str | None
+    percentWatched: NotRequired[float]
 
 class Prv_youtube_listHomeFeed_input_In(TypedDict):
     limit: NotRequired[float]
@@ -90927,9 +90928,10 @@ class Prv_youtube(Protocol):
         """
 
     async def listWatchHistory(self, input: Prv_youtube_listWatchHistory_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
-        """What the signed-in account has watched, newest first, paged like any playlist. NEEDS A
-        SIGN-IN — call the video_library's history capability rather than this directly.
-        Per-account and starts empty.
+        """What the signed-in account has watched, newest first, paged like any playlist, each row
+        with `percentWatched` (0-100, 100 = watched to the end) when YouTube draws its progress
+        bar. NEEDS A SIGN-IN — call the video_library's history capability rather than this
+        directly. Per-account and starts empty.
         """
 
     async def createPlaylist(self, input: Prv_youtube_createPlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeCreatedPlaylist_Out:

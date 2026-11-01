@@ -48,9 +48,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `accuweather.getMinuteCast` | accuweather.com | Minute-by-minute precipitation for the next two hours at a location - the site's own… | 🟢 |
 | `accuweather.getMonthlyForecast` | accuweather.com | The month calendar for a location - every day's high and low (observed for past days… | 🟢 |
 | `accuweather.getRadarMap` | accuweather.com | The weather radar view for a location - the radar image or tile URLs for current and… | ⚪ |
-| `accuweather.getStorm` | accuweather.com | One tropical storm's tracker - position, category, winds, movement and forecast path… | ⚪ |
-| `accuweather.getWinterForecast` | accuweather.com | The winter outlook for a location - expected snowfall and ice accumulation by period… | ⚪ |
-| `accuweather.listActiveStorms` | accuweather.com | Active hurricanes, typhoons and tropical cyclones worldwide - each storm's name… | ⚪ |
+| `accuweather.getStorm` | accuweather.com | One tropical storm's tracker, by a listActiveStorms row's id - basin, current position… | 🟢 |
+| `accuweather.getWinterForecast` | accuweather.com | The Winter Weather (WinterCast) outlook for a location - whether a snow event is… | 🟢 |
+| `accuweather.listActiveStorms` | accuweather.com | Active hurricanes, typhoons and tropical cyclones worldwide, by basin - each storm's… | 🟢 |
 | `accuweather.listAlerts` | accuweather.com | Active weather warnings, watches and advisories for a location, with each alert's… | 🟢 |
 | `accuweather.listLifestyleIndices` | accuweather.com | Today's level for every allergy, health and outdoor-activity index AccuWeather… | 🟢 |
 | `accuweather.listNews` | accuweather.com | Latest AccuWeather weather news headlines, optionally by section (weather forecasts… | ⚪ |
@@ -484,7 +484,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bishops.listLocations` | bishops.co | Reads the live list of every Bishops Cuts/Color location off the site's own sitemap… | 🟢 |
 | `bishops.listServices` | bishops.co | Reads one location's real, live service catalog (name, description, price, duration)… | 🟢 |
 | `blackstoneproducts.findNearbyDealers` | blackstoneproducts.com | Runs Blackstone's own real-time Stockist dealer locator (the widget embedded on… | 🟢 |
-| `blenderseyewear.getRxConfigurator` | blenderseyewear.com | Reads one Rx frame style's real option tree (Prescription Type: Single… | 🟡 |
+| `blenderseyewear.getRxConfigurator` | blenderseyewear.com | Reads one Rx frame style's real option tree (Prescription Type: Single… | 🟢 |
 | `blenderseyewear.listRxFrameStyles` | blenderseyewear.com | Searches Blenders Eyewear's real prescription (Rx) frame catalog across both the men's… | 🟢 |
 | `blenderseyewear.priceRxConfiguration` | blenderseyewear.com | Resolves one exact Rx build (a frame handle + a chosen prescription type + lens color… | 🟢 |
 | `bls.findSeries` | bls.gov | Turn words (CPI, unemployment rate, job openings) into BLS series ids from BLS's own… | 🟢 |
@@ -788,7 +788,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cabinsforyou.getCabinDetail` | cabinsforyou.com | Reads one cabin's own listing page — bedrooms/bathrooms/sleeps/parking, pet policy… | 🟢 |
 | `cabinsforyou.search` | cabinsforyou.com | Runs Cabins For You's own homepage cabin-availability search (Check In / Check Out /… | 🟢 |
 | `cal_com.findProfiles` | cal.com | Finds a person's own Cal.com page from their full name and, optionally, their company… | 🟢 |
-| `cal_com.getAvailability` | cal.com | Returns the real, currently-open time slots for one Cal.com event type — accepts a… | 🟢 |
+| `cal_com.getAvailability` | cal.com | Returns the real, currently-open time slots for one Cal.com event type — accepts a… | 🟡 |
 | `cal_com.getBookingForm` | cal.com | Reads what a Cal.com booking page will ask before anyone books — the event's title… | 🟢 |
 | `cal_com.getEventTypes` | cal.com | Lists every event type a Cal.com username currently publishes — the entry point. | 🟢 |
 | `calendly.addDateOverride` | calendly.com | Sets different hours, or no hours at all, for specific dates on the caller's… | ⚪ |
@@ -1450,7 +1450,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.postComment` | deviantart.com | Posts a comment on a deviation (or a reply to a comment) as the signed-in caller. | 🟢 |
 | `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | 🟢 |
 | `deviantart.searchShop` | deviantart.com | Searches the DeviantArt Shop's exclusives — one-of-a-kind artworks and adoptables sold… | 🟢 |
-| `deviantart.sendNote` | deviantart.com | Sends a private Note (DeviantArt's direct message) from the signed-in caller to… | ⚪ |
+| `deviantart.sendNote` | deviantart.com | Sends a private note (DeviantArt's direct message, now a chat DM) from the signed-in… | 🟢 |
 | `deviantart.submitDeviation` | deviantart.com | Submits a new deviation from the signed-in caller's account — an image with title… | ⚪ |
 | `deviantart.suggestTags` | deviantart.com | Autocompletes a partial tag ("lands" → landscape, landscapephotography… | 🟢 |
 | `deviantart.unfavouriteDeviation` | deviantart.com | Removes a deviation from the signed-in caller's Favourites. | 🟢 |
@@ -2285,7 +2285,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getUserRepositories` | github.com | Lists every public repository a user owns — description, fork/archived flags, default… | 🟢 |
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
 | `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟢 |
-| `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟡 |
+| `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟢 |
 | `github.listNotifications` | github.com | Lists the signed-in caller's GitHub notifications inbox, 25 per page — repository… | 🟢 |
 | `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
@@ -4254,7 +4254,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sears.getProduct` | sears.com | Reads one product in full the way its own product detail page does — given a URL or… | 🟢 |
 | `sears.search` | sears.com | Searches Sears' live catalog by free-text keyword the way the site's own search bar… | 🟢 |
 | `seatgeek.buyTicket` | seatgeek.com | Purchases a listed ticket. | ⚪ |
-| `seatgeek.findPerformers` | seatgeek.com | Finds performers — artists, sports teams, comedians — by name and returns each one's… | 🟡 |
+| `seatgeek.findPerformers` | seatgeek.com | Finds performers — artists, sports teams, comedians — by name and returns each one's… | 🟢 |
 | `seatgeek.findVenues` | seatgeek.com | Finds venues by name or location (city/state or geo) and returns each one's id, name… | 🟢 |
 | `seatgeek.followPerformer` | seatgeek.com | Follows a performer on the signed-in caller's account. | 🟢 |
 | `seatgeek.getEvent` | seatgeek.com | Returns one event in full: venue, performers, date/time, and SeatGeek's own ticket… | 🟢 |
@@ -4498,7 +4498,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `solidcore.bookClass` | solidcore.co | Books a class for the signed-in member. | ⚪ |
 | `solidcore.cancelBooking` | solidcore.co | Cancels a signed-in member's class booking. | ⚪ |
 | `solidcore.cancelWaitlist` | solidcore.co | Removes a signed-in member from a waitlist. | ⚪ |
-| `solidcore.checkAvailability` | solidcore.co | Checks real-time availability for a class (bookable, waitlist, or full). | ⚪ |
+| `solidcore.checkAvailability` | solidcore.co | Checks real-time availability for a class (bookable, waitlist, or full). | 🟢 |
 | `solidcore.getClass` | solidcore.co | Returns one class's full details: name, time, duration, coach, studio, capacity… | 🟢 |
 | `solidcore.getCoach` | solidcore.co | Returns one coach's own trainer page: name, role, the page's own bio blurb, and photo… | 🟢 |
 | `solidcore.getMyProfile` | solidcore.co | Returns the signed-in member's profile: name, email, membership status. | ⚪ |
@@ -5169,15 +5169,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.deletePost` | tumblr.com | Delete a post from the signed-in account's blog. | ⚪ |
 | `tumblr.editPost` | tumblr.com | Edit an existing post on the signed-in account's blog. | ⚪ |
 | `tumblr.findBlog` | tumblr.com | Find a blog by name. | 🟢 |
-| `tumblr.findTag` | tumblr.com | Find posts by searching a tag. | ⚪ |
+| `tumblr.findTag` | tumblr.com | Find posts by searching a tag. | 🟢 |
 | `tumblr.followBlog` | tumblr.com | Follow a blog from the signed-in account. | ⚪ |
 | `tumblr.getBlogInfo` | tumblr.com | Get metadata for a blog: name, title, url, post count, description, last-post time… | 🟢 |
 | `tumblr.getBlogPosts` | tumblr.com | List posts from a blog, newest first. | 🟢 |
 | `tumblr.getPost` | tumblr.com | Get a single post by ID with its content and metadata. | 🟢 |
-| `tumblr.getPostNotes` | tumblr.com | Get notes (likes and reblogs) on a post with the blog names that interacted with it. | ⚪ |
+| `tumblr.getPostNotes` | tumblr.com | Get notes (likes and reblogs) on a post with the blog names that interacted with it. | 🟢 |
 | `tumblr.getTagTimeline` | tumblr.com | Get posts tagged with a specific tag. | 🟢 |
-| `tumblr.getTrendingPosts` | tumblr.com | Get posts that are currently trending on Tumblr. | ⚪ |
-| `tumblr.getTrendingTags` | tumblr.com | Get tags that are currently trending on Tumblr. | ⚪ |
+| `tumblr.getTrendingPosts` | tumblr.com | Get posts that are currently trending on Tumblr. | 🟢 |
+| `tumblr.getTrendingTags` | tumblr.com | Get tags that are currently trending on Tumblr. | 🟢 |
 | `tumblr.likePost` | tumblr.com | Like a post from the signed-in account. | ⚪ |
 | `tumblr.listBlogFollowers` | tumblr.com | List followers of a blog; caller must own the blog. | ⚪ |
 | `tumblr.reblogPost` | tumblr.com | Reblog a post to the signed-in account's blog. | ⚪ |

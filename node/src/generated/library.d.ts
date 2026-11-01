@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c2e46982c765686a95287581dce7cb3f183ebad45045e58f564e7a787023f81e
+// Manifest version: 469f02f3d25089e0119e829abd1855c858ff0ee407586d668bfe1b718bd9c50e
 // 92 capabilities, 750 providers, 3824 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -93573,6 +93573,7 @@ interface YoutubePlaylistVideo {
   publishedAgeSeconds: number | null;
   length: string | null;      // e.g. "1:00:02"; null for a live stream
   thumbnail: string | null;
+  percentWatched?: number;    // watch history: how much of it this account watched, 0-100 (100 = finished)
 }
 
 interface YoutubeCreatedChannel {
@@ -93951,9 +93952,10 @@ interface YoutubePlayableStream {
     listLikedVideos(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
 
     /**
-     * What the signed-in account has watched, newest first, paged like any playlist. NEEDS A
-     * SIGN-IN — call the video_library's history capability rather than this directly. Per-account
-     * and starts empty.
+     * What the signed-in account has watched, newest first, paged like any playlist, each row with
+     * `percentWatched` (0-100, 100 = watched to the end) when YouTube draws its progress bar.
+     * NEEDS A SIGN-IN — call the video_library's history capability rather than this directly.
+     * Per-account and starts empty.
      */
     listWatchHistory(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
 
