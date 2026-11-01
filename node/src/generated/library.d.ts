@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 614095fc845c7baeb1702691f4150ccd1b49ae3eab243f0d057c6cf20867e97a
-// 92 capabilities, 750 providers, 3800 typed functions, 20 refused.
+// Manifest version: c2e46982c765686a95287581dce7cb3f183ebad45045e58f564e7a787023f81e
+// 92 capabilities, 750 providers, 3824 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -24276,6 +24276,23 @@ interface ClubPilatesInstructor {
   nextClassAt: string;
 }
 
+interface BookClassArgs {
+  studio: string;
+  classId: string;
+}
+
+interface JoinWaitlistArgs {
+  studio: string;
+  classId: string;
+}
+
+interface ClubPilatesBookingResult {
+  bookingId: string | null;
+  classId: string;
+  waitlisted: boolean;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+}
+
   /**
    * Club Pilates studios: find a studio, read its class schedule and pricing, and (signed in)
    * book, waitlist and cancel classes.
@@ -24357,6 +24374,21 @@ interface ClubPilatesInstructor {
      * login link when they are not.
      */
     listMyBookings(args?: ListMyBookingsArgs, opts?: ConnectionOption): Promise<ClubPilatesBooking[]>;
+
+    /**
+     * Books the signed-in member into a scheduled class (from listClasses/getClass) using their
+     * existing membership or credits. Never pays: a class the site would charge for is refused
+     * rather than bought. Needs the caller signed in — the run pauses for a login link when they
+     * are not.
+     */
+    bookClass(args: BookClassArgs, opts?: ConnectionOption): Promise<ClubPilatesBookingResult>;
+
+    /**
+     * Puts the signed-in member on the waitlist for a full class — the class must have
+     * `hasWaitlist: true` and be before its `waitlistUntil` (both from getClass). Needs the caller
+     * signed in — the run pauses for a login link when they are not.
+     */
+    joinWaitlist(args: JoinWaitlistArgs, opts?: ConnectionOption): Promise<ClubPilatesBookingResult>;
   }
 }
 
@@ -28650,6 +28682,49 @@ interface PropertyArgs {
   /** The hotel's channel code from findProperty().channelCode, or its direct-book.com/properties/<code> link. */
   property: string;
 }
+interface DirectBookPolicy {
+  /** The policy's kind as the hotel files it, e.g. "termsAndConditions". */
+  type: string;
+  /** The hotel-authored policy, HTML stripped to plain text. */
+  text: string;
+  rules: { type: string | null; key: string | null; args: unknown }[];
+}
+interface DirectBookTax {
+  id: string;
+  name: string;
+  fixedAmountType: string | null;
+}
+interface DirectBookPolicies {
+  channelCode: string;
+  propertyId: number | null;
+  name: string;
+  /** Cancellation, deposit, check-in, child and pet terms, as the hotel wrote them. */
+  policies: DirectBookPolicy[];
+  /** The taxes the hotel adds to a stay. Often empty. */
+  taxes: DirectBookTax[];
+  /** The hotel's own policies page on direct-book.com. */
+  policiesUrl: string;
+}
+interface CheckPromoCodeArgs {
+  /** The hotel's channel code, booking link or own website (as findProperty takes). */
+  property: string;
+  promocode: string;
+  /** YYYY-MM-DD; pass both dates to learn whether the code covers this stay. */
+  checkIn?: string;
+  checkOut?: string;
+}
+interface DirectBookPromoCheck {
+  channelCode: string;
+  promocode: string;
+  /** False when the hotel runs no promotion under this code. */
+  valid: boolean;
+  headline: string | null;
+  description: string | null;
+  applicableFrom: string | null;
+  applicableTo: string | null;
+  /** Whether it covers the checkIn/checkOut passed; null when no dates were passed or the code is invalid. */
+  appliesToStay: boolean | null;
+}
 interface ListRoomTypesArgs {
   /** The hotel's channel code from findProperty().channelCode, or its booking link. */
   property: string;
@@ -28929,6 +29004,13 @@ interface DirectBookCancelledReservation {
     getProperty(args: PropertyArgs): Promise<DirectBookProperty>;
 
     /**
+     * Returns a hotel's booking policies as plain text — cancellation, deposit, check-in and
+     * check-out, child and pet terms, as the hotel wrote them — plus any taxes it adds and a link
+     * to its policies page.
+     */
+    getPolicies(args: PropertyArgs): Promise<DirectBookPolicies>;
+
+    /**
      * Lists a hotel's room types with ids, names, category, beds, size, occupancy, amenities,
      * photos and the rate plans sold on each, optionally only those bookable for given dates.
      */
@@ -28947,6 +29029,13 @@ interface DirectBookCancelledReservation {
      * breakdown — so a caller can choose the roomRateId to book.
      */
     getRoomRates(args: GetRoomRatesArgs): Promise<DirectBookRoomRates>;
+
+    /**
+     * Checks whether a hotel accepts a promo code — valid or not, its headline and description,
+     * the stay dates it covers, and whether it applies to a given check-in and check-out. Pass the
+     * code to checkAvailability or getRoomRates as promocode to see the discounted price.
+     */
+    checkPromoCode(args: CheckPromoCodeArgs): Promise<DirectBookPromoCheck>;
 
     /**
      * Reads a guest's existing booking from the reservation code in their confirmation email —
@@ -32554,6 +32643,14 @@ interface EventbriteOrganizerDetail {
     getOwnProfile(opts?: ConnectionOption): Promise<Record<string, unknown>>;
 
     /**
+     * Registers the signed-in caller for an event on a FREE ticket class (ids from
+     * listTicketClasses), quantity 1-10 — needs the caller signed in to Eventbrite (an
+     * authFunction, a write). A paid, sold-out or unknown ticket class is refused before any order
+     * is created; Bowmark never pays.
+     */
+    registerForEvent(args: { eventIdOrUrl: string; ticketClassId: string; quantity?: number }, opts?: ConnectionOption): Promise<{ eventId: string; ticketClassId: string; quantity: number; orderId: string; registered: true }>;
+
+    /**
      * Reads one event's per-tier ticket breakdown from its checkout page — name, price, fees and
      * sold-out state per tier, each keyed by its own numeric ticket-class id — taking the same
      * Eventbrite event url or numeric id getEvent takes. getEvent only has a min/max price range;
@@ -34827,6 +34924,14 @@ interface FitdegreePrivateSessionType {
   bookableUpToWeeks?: number;  // how far ahead a session can be booked
   isVirtual: boolean; imageUrl?: string;
 }
+interface FitdegreeMyProfile {
+  userId?: string; identityId?: string;
+  firstName?: string; lastName?: string; username?: string; aboutMe?: string; photoUrl?: string;
+  emails: string[]; phones: string[];
+  activePasses: { memberships: number; classPacks: number; privatePacks: number; offers: number; guestPasses: number };
+  upcomingBookings: number;
+  waiversToSign: number;
+}
 
   /**
    * FitDegree studio schedules (pilates, yoga, barre, gyms): find a studio from the FitDegree
@@ -34934,6 +35039,13 @@ interface FitdegreePrivateSessionType {
      * getPrivateSessionAvailability and bookPrivateSession take.
      */
     listPrivateSessionTypes(fitspotId: string): Promise<FitdegreePrivateSessionType[]>;
+
+    /**
+     * Signed in: returns the caller's own fitDEGREE profile at a studio's company — name,
+     * username, photo, emails and phones, how many memberships, class packs, private packs, offers
+     * and guest passes they hold, upcoming bookings, and waivers waiting to be signed.
+     */
+    getMyProfile(fitspotId: string, opts?: ConnectionOption): Promise<FitdegreeMyProfile>;
   }
 }
 
@@ -39134,6 +39246,63 @@ interface glofoxMyProfile {
   imageUrl: string | null;
   membership: { id: string | null; name: string | null; type: string | null } | null;
 }
+interface glofoxMyBookingsArgs {
+  studio: string;
+  /** 1-based page, newest booking first. */
+  page?: number;
+}
+interface glofoxMyBooking {
+  id: string;
+  status: string | null;
+  /** "event" (a class), "course", "appointment" (trainer slot), "facility"… */
+  kind: string | null;
+  /** The booked thing's id — a class id from listClasses for kind "event". */
+  itemId: string | null;
+  name: string | null;
+  startsAt: string | null;
+  endsAt: string | null;
+  guests: number;
+  attended: boolean | null;
+}
+interface glofoxMyBookingPage {
+  studio: string;
+  bookings: glofoxMyBooking[];
+  page: number;
+  hasMore: boolean;
+}
+interface glofoxMyCredit {
+  id: string | null;
+  sessions: number | null;
+  used: number | null;
+  remaining: number | null;
+  /** "programs" (class types), "appointments", "facilities"… */
+  spendsOn: string | null;
+  categoryId: string | null;
+  itemIds: string[];
+  startsAt: string | null;
+  expiresAt: string | null;
+  active: boolean | null;
+}
+interface glofoxMyCredits {
+  studio: string;
+  credits: glofoxMyCredit[];
+}
+interface glofoxMyMembership {
+  /** The member's own membership instance. */
+  id: string | null;
+  /** The studio membership it copies — an id from listMemberships. */
+  membershipId: string | null;
+  name: string | null;
+  planCode: string | null;
+  type: string | null;
+  status: string | null;
+  startsAt: string | null;
+  endsAt: string | null;
+}
+interface glofoxMyMemberships {
+  studio: string;
+  memberships: glofoxMyMembership[];
+}
 interface glofoxGetPriceArgs {
   studio: string;
   /** The class id from listClasses. */
@@ -39273,6 +39442,24 @@ interface glofoxFacilitySlotPage {
      * and current membership. A Glofox login belongs to one studio.
      */
     getMyProfile(args: glofoxStudioArgs, opts?: ConnectionOption): Promise<glofoxMyProfile>;
+
+    /**
+     * Signed in: the member's own bookings at that studio, newest first and paged — classes,
+     * courses, trainer and facility slots, each with its booking id and status.
+     */
+    listMyBookings(args: glofoxMyBookingsArgs, opts?: ConnectionOption): Promise<glofoxMyBookingPage>;
+
+    /**
+     * Signed in: the member's class-credit packs at that studio — sessions, used, remaining, what
+     * they can be spent on and when they expire.
+     */
+    listMyCredits(args: glofoxStudioArgs, opts?: ConnectionOption): Promise<glofoxMyCredits>;
+
+    /**
+     * Signed in: the member's current and stacked memberships at that studio, with status and
+     * start/end dates.
+     */
+    listMyMemberships(args: glofoxStudioArgs, opts?: ConnectionOption): Promise<glofoxMyMemberships>;
   }
 }
 
@@ -49307,6 +49494,9 @@ interface KenkoAppointmentSlotQuery { urlPrefix: string; regionId: number; cente
 interface KenkoAppointmentSlot { slotId: number; date: string; startsAt: string; durationMinutes: number | null; facility: string | null; trainer: string | null; credits: number | null; bookingOpen: boolean; booked: boolean; waitlist: boolean }
 interface KenkoProductVariant { id: number; name: string; price: number | null; compareAtPrice: number | null; sku: string | null; isDefault: boolean; imageUrl: string | null; availableAtCenter: number | null }
 interface KenkoProduct { id: number; name: string; handle: string; description: string | null; brand: string | null; publishedAt: string | null; variants: KenkoProductVariant[] }
+interface KenkoBookingsQuery { urlPrefix: string; regionId: number; type?: "upcoming" | "past"; page?: number }
+interface KenkoMyProfile { id: number | null; firstName: string | null; lastName: string | null; email: string | null; phone: string | null; raw: Record<string, unknown> }
+interface KenkoAccountRow { id: number | null; name: string | null; date: string | null; status: string | null; raw: Record<string, unknown> }
 
   /**
    * Kenko AI / Bookee studio booking widgets (yoga, pilates, aerial): find a studio, read its
@@ -49388,6 +49578,32 @@ interface KenkoProduct { id: number; name: string; handle: string; description: 
      * comes from findStudio's regions[].centers[].id. Loads the products page in a browser.
      */
     listProducts(center: KenkoCenterRef): Promise<KenkoProduct[]>;
+
+    /**
+     * The signed-in member's own profile at a Bookee/Kenko studio (name, email, phone, plus the
+     * site's full record in raw). Needs the caller signed in to the studio's booking page. Takes {
+     * urlPrefix, regionId } from findStudio.
+     */
+    getMyProfile(studio: KenkoStudioRef, opts?: ConnectionOption): Promise<KenkoMyProfile>;
+
+    /**
+     * The signed-in member's own bookings at a studio, type "upcoming" (default) or "past", one
+     * page at a time (page, default 1). Needs the caller signed in. Takes { urlPrefix, regionId }
+     * from findStudio.
+     */
+    listMyBookings(query: KenkoBookingsQuery, opts?: ConnectionOption): Promise<KenkoAccountRow[]>;
+
+    /**
+     * The signed-in member's own memberships and class packs at a studio. Needs the caller signed
+     * in. Takes { urlPrefix, regionId } from findStudio.
+     */
+    listMyMemberships(studio: KenkoStudioRef, opts?: ConnectionOption): Promise<KenkoAccountRow[]>;
+
+    /**
+     * The signed-in member's own purchase/payment history at a studio. Needs the caller signed in.
+     * Takes { urlPrefix, regionId } from findStudio.
+     */
+    listMyPurchases(studio: KenkoStudioRef, opts?: ConnectionOption): Promise<KenkoAccountRow[]>;
   }
 }
 
@@ -60098,6 +60314,55 @@ interface GetTextProductArgs {
   id?: string;
 }
 
+interface ListTextProductsArgs {
+  /** A forecast office id like "BOX". */
+  office: string;
+  /** A product type code like "AFD" — omit to list every type the office issues. */
+  type?: string;
+  /** Issuances to return when type is given, 1-500 (default 10). */
+  limit?: number;
+}
+
+interface NwsTextProductListing {
+  office: string;
+  /** Every type the office issues — filled only when no type was asked. */
+  types: Array<{ productCode: string; productName: string }>;
+  /** Recent issuances of the asked type, newest first — pass an id to getTextProduct. */
+  issuances: Array<{
+    id: string;
+    productCode: string;
+    productName: string;
+    issuingOffice: string;
+    issuanceTime: string;
+  }>;
+}
+
+interface FindRadarStationsArgs {
+  /** A place name, ZIP or "lat,lon" — radars nearest it, nearest first. Or use id. */
+  place?: string;
+  /** One radar site id like "KBOX". */
+  id?: string;
+  /** "WSR-88D" or "TDWR" — the site's own labels. */
+  stationType?: string;
+  /** 1-500, default 5 (ignored with id). */
+  limit?: number;
+}
+
+interface NwsRadarStation {
+  id: string;
+  name: string;
+  stationType: string;
+  lat: number | null;
+  lon: number | null;
+  elevationMeters: number | null;
+  /** True when the radar reports on-line and operating; null when it reports nothing. */
+  up: boolean | null;
+  operability: string | null;
+  mode: string | null;
+  lastReceived: string | null;
+  distanceKm?: number;
+}
+
 interface GetWeatherStoriesArgs {
   /** A forecast office id like "BOX", or a place name / ZIP / "lat,lon" resolved to its office. */
   place: string;
@@ -60278,6 +60543,19 @@ interface NwsOffice {
      * place name.
      */
     getWeatherStories(args: GetWeatherStoriesArgs): Promise<NwsWeatherStory[]>;
+
+    /**
+     * Which text products an office issues ({ office: "BOX" }), or the recent issuances of one
+     * type with ids and issue times ({ office: "BOX", type: "AFD" }) — the finder for
+     * getTextProduct.
+     */
+    listTextProducts(args: ListTextProductsArgs): Promise<NwsTextProductListing>;
+
+    /**
+     * NWS radar sites (WSR-88D and TDWR) with id, name, location and whether each is up right now
+     * — nearest-first for a place, or one by id like KBOX.
+     */
+    findRadarStations(args: FindRadarStationsArgs): Promise<NwsRadarStation[]>;
   }
 }
 
@@ -67507,6 +67785,26 @@ interface PushpressMyProfile {
   linkedAccounts: { userId: string | null; firstName: string | null; lastName: string | null }[]; // family members on the account
 }
 
+interface PushpressMyPlan {
+  id: string | null;
+  status: string | null; // the site's own code — the site's own labels — read the values off a result, never guess one from prose
+  active: boolean | null;
+  startDate: string | null;
+  endDate: string | null;
+  pauseDate: string | null;
+  resumeDate: string | null;
+  amount: number | null;
+  plan: {
+    id: string | null;
+    name: string | null;
+    amount: number | null;
+    recurring: boolean | null;
+    interval: string | null;
+    type: string | null;
+    category: string | null;
+  };
+}
+
   /**
    * PushPress gym-management platform (CrossFit and independent gyms on <gym>.pushpress.com):
    * read any gym's class schedule, class details, locations and membership plans with no login,
@@ -67569,6 +67867,14 @@ interface PushpressMyProfile {
      * gym's PushPress portal.
      */
     getMyProfile(gym: string, opts?: ConnectionOption): Promise<PushpressMyProfile>;
+
+    /**
+     * Lists the signed-in member's subscriptions at this gym — id, status, active,
+     * start/end/pause/resume dates and the plan each is on. Needs the caller signed in to the
+     * gym's PushPress portal. Carries no remaining-credit or session-count field — a class pack's
+     * remaining balance is not in this response.
+     */
+    listMyPlans(gym: string, opts?: ConnectionOption): Promise<PushpressMyPlan[]>;
   }
 }
 
@@ -86470,7 +86776,36 @@ interface VagaroOpenTimesResult {
     /** "12:00 PM"-style times in the business's local time zone. */
     times: string[];
   }[];
-}interface GetStaffMemberArgs extends BusinessArgs {
+}
+interface VagaroPromotionList {
+  businessId: string;
+  slug: string;
+  promotions: {
+    promotionId: string;
+    title: string | null;
+    description: string | null;
+    /** Percent off when discountType is "percent", currency amount otherwise. */
+    discount: number | null;
+    discountType: "percent" | "amount" | null;
+    newCustomersOnly: boolean;
+    /** YYYY-MM-DD; endDate null when open-ended. */
+    startDate: string | null;
+    endDate: string | null;
+    /** serviceIds (from listServices) it applies to. */
+    serviceIds: string[];
+    /** staffIds (from listStaff) it applies to. */
+    staffIds: string[];
+  }[];
+}
+interface VagaroCancellationPolicy {
+  businessId: string;
+  slug: string;
+  /** The business's appointment cancellation / no-show text; null when none is set. */
+  appointmentPolicy: string | null;
+  /** The class cancellation text; null when none is set. */
+  classPolicy: string | null;
+}
+interface GetStaffMemberArgs extends BusinessArgs {
   /** staffId from listStaff. */
   staffId: string;
 }
@@ -86593,6 +86928,18 @@ interface VagaroStaffProfile {
      * reply, plus the 5-to-1-star breakdown.
      */
     listReviews(args: ListReviewsArgs): Promise<VagaroReviewList>;
+
+    /**
+     * Lists a business's current deals: title, discount (percent or amount), whether it is for new
+     * customers only, start and end dates, and the serviceIds and staffIds it applies to.
+     */
+    listPromotions(args: BusinessArgs): Promise<VagaroPromotionList>;
+
+    /**
+     * Returns a business's appointment and class cancellation / no-show policy text (null when the
+     * business set none).
+     */
+    getCancellationPolicy(args: BusinessArgs): Promise<VagaroCancellationPolicy>;
   }
 }
 
@@ -88223,6 +88570,42 @@ interface WashingtonpostNewsletter {
   imageUrl?: string;
 }
 
+interface WashingtonpostPodcast {
+  slug: string;
+  name: string;
+  url: string;
+  tagline?: string;
+  description?: string;
+  author?: string;
+  feedUrl?: string;
+  imageUrl?: string;
+  applePodcastsUrl?: string;
+  inactive: boolean;
+}
+
+interface WashingtonpostLiveUpdate {
+  id: string;
+  publishDate?: string;
+  kind: string;
+  headline?: string;
+  text: string;
+  authors: string[];
+  imageUrl?: string;
+}
+
+interface WashingtonpostLiveBlog {
+  headline: string;
+  url: string;
+  isLive: boolean;
+  summary?: string;
+  coverageStart?: string;
+  coverageEnd?: string;
+  lastUpdated?: string;
+  authors: string[];
+  updateCount: number;
+  updates: WashingtonpostLiveUpdate[];
+}
+
   /**
    * The Washington Post's own sections, articles, writers and podcasts — full article text needs
    * the caller's own subscription.
@@ -88269,6 +88652,24 @@ interface WashingtonpostNewsletter {
 
     /** Lists the site's own recent podcast episodes across every show. */
     listPodcasts(): Promise<WashingtonpostPodcastEpisode[]>;
+
+    /**
+     * Gets one podcast show's own details — name, tagline, description, host credit, RSS feed url
+     * and cover art.
+     */
+    getPodcast(slug: string): Promise<WashingtonpostPodcast>;
+
+    /**
+     * Lists a podcast show's own episodes off its RSS feed, newest first — title, url, date,
+     * duration and audio url.
+     */
+    listEpisodes(slug: string, opts?: { limit?: number }): Promise<WashingtonpostPodcastEpisode[]>;
+
+    /**
+     * Gets a live-coverage page's own running updates (elections, speeches, breaking news), newest
+     * first — each post's time, text, authors and image.
+     */
+    getLiveBlog(url: string, opts?: { limit?: number }): Promise<WashingtonpostLiveBlog>;
 
     /** Lists the site's own newsletters off its newsletter directory. */
     listNewsletters(): Promise<WashingtonpostNewsletter[]>;
@@ -89149,6 +89550,20 @@ interface WellnesslivingSearchClassesArgs {
   locationId?: string;
   date?: string;
 }
+interface WellnesslivingGetLocationScheduleArgs {
+  scheduleUrl: string;
+  /** A location id from `listLocations`. */
+  locationId: string;
+}
+interface WellnesslivingScheduleDay {
+  /** Local date, `YYYY-MM-DD`. */
+  date: string;
+  sessions: WellnesslivingClassSession[];
+}
+interface WellnesslivingLocationSchedule {
+  locationId: string;
+  days: WellnesslivingScheduleDay[];
+}
 interface WellnesslivingClassSession {
   classId: string;
   classPeriodId: string;
@@ -89272,6 +89687,14 @@ interface WellnesslivingClassCapacity {
      * `listScheduleClasses`; at least one filter is required.
      */
     searchClasses(args: WellnesslivingSearchClassesArgs): Promise<WellnesslivingClassSession[]>;
+
+    /**
+     * Reads one studio location's class schedule for the week the business's schedule page opens
+     * on (today onward, ~7 days), grouped by local date in time order — each day's sessions carry
+     * the same fields as `listScheduleClasses`. Pass a `locationId` from `listLocations`; an empty
+     * `days` is a real week with nothing scheduled there.
+     */
+    getLocationSchedule(args: WellnesslivingGetLocationScheduleArgs): Promise<WellnesslivingLocationSchedule>;
 
     /**
      * Lists every staff member on file for a business's schedule page — name, image, position, and
@@ -93240,6 +93663,18 @@ interface YoutubeStreamFormat {
   approxDurationMs: string | null;
 }
 
+interface YoutubePlayableStream {
+  videoId: string;
+  url: string;          // signed googlevideo.com file, video + audio together; set it as a <video> src
+  itag: number;         // 18 = 360p mp4, the one every ordinary upload carries
+  mimeType: string;
+  width: number | null;
+  height: number | null;
+  qualityLabel: string | null;
+  durationMs: number | null;
+  expiresAt: string;    // ISO; the URL stops working then, call again for a fresh one
+}
+
   /**
    * A YouTube video's own caption transcript, read off the site's own Transcript panel —
    * timestamped lines plus the full text as one string. Language selection is not offered yet;
@@ -93363,10 +93798,21 @@ interface YoutubeStreamFormat {
      * The renditions a video is actually available in — resolution, frame rate, codec, bitrate,
      * approximate file size and duration for each video and audio stream YouTube holds. Answers
      * "is this available in 4K" and "how big is it". It returns the CATALOGUE of formats, not a
-     * playable or downloadable link: see the manifest note on why playable URLs are a separate
-     * (rung 14) problem.
+     * playable or downloadable link — `getPlayableStream` is the link.
      */
     listStreamFormats(input: { video: string }): Promise<YoutubeStreamFormat[]>;
+
+    /**
+     * A link a plain HTML `<video>` element can play for one ordinary uploaded video: a signed
+     * googlevideo.com file carrying video and audio together (360p mp4 today), valid until
+     * `expiresAt` (about six hours) and playable from any address. `video` is a bare 11-character
+     * id or any watch/shorts/embed/youtu.be URL, as `getTranscript` takes it. The bytes stream
+     * from YouTube straight to whoever plays the link; the call itself moves about 2 KB. Throws
+     * for a video YouTube will not play to anyone, and when no exit was handed a playable file (a
+     * live stream, an age-gated video): fall back to YouTube's own embed player then. Not for
+     * downloading: the link is the stream, not a file Bowmark saves.
+     */
+    getPlayableStream(input: { video: string }): Promise<YoutubePlayableStream>;
 
     /**
      * The videos on one of YouTube's own hashtag pages (`youtube.com/hashtag/<tag>`) — a topic
@@ -94282,6 +94728,11 @@ interface ZoomRecordingDownload {
   raw: unknown; // the play-info door's own parsed result — signed-in shape is UNMEASURED, see manifest.json
 }
 
+interface ZoomUpdateProfilePictureResult {
+  updated: boolean;
+  bytes: number;
+}
+
 interface ZoomUpdateProfileResult {
   fields: Record<string, string>; // as sent: e.g. { timezone: "America/New_York", job_title: "…" }
   updated: boolean; // the door accepted the request; no verified post-condition — see manifest.json
@@ -94370,6 +94821,12 @@ interface ZoomProfile {
      * needs the caller signed in
      */
     updateProfile(fields: Record<string, string>, opts?: ConnectionOption): Promise<ZoomUpdateProfileResult>;
+
+    /**
+     * Replace the signed-in caller's own profile picture with an image given as a base64 data: URL
+     * (PNG or JPEG) — needs the caller signed in
+     */
+    updateProfilePicture(image: string, opts?: ConnectionOption): Promise<ZoomUpdateProfilePictureResult>;
   }
 }
 

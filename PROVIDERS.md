@@ -79,7 +79,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acuityscheduling.searchSchedule` | acuityscheduling.com | Finds open times across every public class at once, filtered by class text and… | 🟢 |
 | `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
-| `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟡 |
+| `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟢 |
 | `adobe.getCreativeCloudPlans` | adobe.com | Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html… | 🟢 |
 | `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | 🟡 |
 | `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail — title, media type, dimensions, keywords… | 🟢 |
@@ -166,7 +166,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟢 |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
-| `amazon_ca.getProduct` | www.amazon.ca | Get product details from amazon.ca including title, price, availability, and rating… | 🟢 |
+| `amazon_ca.getProduct` | www.amazon.ca | Get product details from amazon.ca including title, price, availability, and rating… | 🟡 |
 | `amazon_ca.searchProducts` | www.amazon.ca | Search amazon.ca for products by keywords and return matching results with price… | 🟢 |
 | `amazon.addToCart` | www.amazon.com | Put one unit of a product in the cart and report what the cart then holds. | 🟢 |
 | `amazon.getCart` | www.amazon.com | Read what is in the cart — line items, quantities, per-item and total price — so an… | 🟢 |
@@ -764,7 +764,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.listOpinionPieces` | businessinsider.com | List opinion and analysis pieces from the Opinion section. | 🟢 |
 | `businessinsider_com.listSections` | businessinsider.com | List the site's news sections and verticals. | 🟢 |
 | `businessinsider_com.listTrendingArticles` | businessinsider.com | List the homepage's current most-read/trending articles. | 🟢 |
-| `businessinsider_com.listVideos` | businessinsider.com | List videos from the Video vertical. | 🟡 |
+| `businessinsider_com.listVideos` | businessinsider.com | List videos from the Video vertical. | 🟢 |
 | `businessinsider_com.postComment` | businessinsider.com | Post a comment on an article as the signed-in caller. | ⚪ |
 | `businessinsider_com.searchArticles` | businessinsider.com | Search articles by keyword. | 🟢 |
 | `bykoket.addToCart` | bykoket.com | Hands back the shopper's own KOKET product page — the exact Add to cart button for… | 🟢 |
@@ -4102,7 +4102,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listVideos` | www.reuters.com | Reuters videos, newest first — title, description, duration, published time, thumbnail… | 🟢 |
 | `reuters.removeSavedArticle` | www.reuters.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `reuters.saveArticle` | www.reuters.com | Save a Reuters article to the signed-in reader's saved list. | ⚪ |
-| `reuters.searchArticles` | www.reuters.com | Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed… | 🟢 |
+| `reuters.searchArticles` | www.reuters.com | Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed… | 🟡 |
 | `reuters.searchCompanies` | www.reuters.com | Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF"… | 🟢 |
 | `reuters.subscribeNewsletter` | www.reuters.com | Sign the signed-in reader up to a Reuters newsletter. | ⚪ |
 | `reuters.unfollowTopic` | www.reuters.com | Stop following a topic in the signed-in reader's My News. | ⚪ |
@@ -5861,7 +5861,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listStreamFormats` | youtube.com | The renditions a video is actually available in — resolution, frame rate, codec… | 🟢 |
 | `youtube.listSubscriptions` | youtube.com | The channels the signed-in account subscribes to — each channel's id, url, handle… | 🟢 |
 | `youtube.listTrending` | youtube.com | YouTube's Trending feed — what is being watched across the site right now, and the… | ⚪ |
-| `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | 🟢 |
+| `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first, with how much of each video was… | 🟢 |
 | `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟢 |
 | `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | 🟢 |
 | `youtube.removeFromPlaylist` | youtube.com | Remove one or more videos from one of the signed-in account's own playlists. | 🟢 |

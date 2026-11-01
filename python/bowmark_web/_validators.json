@@ -1,5 +1,5 @@
 {
-  "version": "614095fc845c7baeb1702691f4150ccd1b49ae3eab243f0d057c6cf20867e97a",
+  "version": "c2e46982c765686a95287581dce7cb3f183ebad45045e58f564e7a787023f81e",
   "units": {
     "address_validation": {
       "defs": {
@@ -25988,6 +25988,25 @@
     },
     "providers.clubpilates": {
       "defs": {
+        "BookClassArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "classId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "FindStudiosArgs": {
           "k": "object",
           "props": [
@@ -26050,6 +26069,25 @@
           "props": [
             {
               "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "JoinWaitlistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "classId",
               "schema": {
                 "k": "string"
               },
@@ -26230,6 +26268,58 @@
               "name": "ListMyBookingsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "bookClass": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookClassArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "joinWaitlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "JoinWaitlistArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -31560,6 +31650,39 @@
             }
           ]
         },
+        "CheckPromoCodeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "property",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "promocode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "FindPropertyArgs": {
           "k": "object",
           "props": [
@@ -31787,6 +31910,16 @@
             "optional": false
           }
         ],
+        "getPolicies": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PropertyArgs"
+            },
+            "optional": false
+          }
+        ],
         "listRoomTypes": [
           {
             "name": "args",
@@ -31813,6 +31946,16 @@
             "schema": {
               "k": "ref",
               "name": "GetRoomRatesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkPromoCode": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckPromoCodeArgs"
             },
             "optional": false
           }
@@ -35488,6 +35631,54 @@
             "optional": true
           }
         ],
+        "registerForEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "eventIdOrUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "ticketClassId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listTicketClasses": [
           {
             "name": "args",
@@ -38883,6 +39074,31 @@
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getMyProfile": [
+          {
+            "name": "fitspotId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -43993,6 +44209,25 @@
             }
           ]
         },
+        "glofoxMyBookingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "glofoxPageArgs": {
           "k": "object",
           "props": [
@@ -44164,6 +44399,84 @@
           }
         ],
         "getMyProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxStudioArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyBookings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxMyBookingsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyCredits": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxStudioArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyMemberships": [
           {
             "name": "args",
             "schema": {
@@ -54823,6 +55136,49 @@
             }
           ]
         },
+        "KenkoBookingsQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "urlPrefix",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "regionId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "upcoming"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "past"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "KenkoCenterRef": {
           "k": "object",
           "props": [
@@ -55043,6 +55399,110 @@
               "name": "KenkoCenterRef"
             },
             "optional": false
+          }
+        ],
+        "getMyProfile": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "KenkoStudioRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyBookings": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "KenkoBookingsQuery"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyMemberships": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "KenkoStudioRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyPurchases": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "KenkoStudioRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -69177,6 +69637,39 @@
     },
     "providers.nws": {
       "defs": {
+        "FindRadarStationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "stationType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "FindStationsArgs": {
           "k": "object",
           "props": [
@@ -69502,6 +69995,32 @@
           "k": "object",
           "props": []
         },
+        "ListTextProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "office",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchAlertsArgs": {
           "k": "object",
           "props": [
@@ -69780,6 +70299,26 @@
             "schema": {
               "k": "ref",
               "name": "GetWeatherStoriesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listTextProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTextProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findRadarStations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindRadarStationsArgs"
             },
             "optional": false
           }
@@ -80823,6 +81362,31 @@
           }
         ],
         "getMyProfile": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyPlans": [
           {
             "name": "gym",
             "schema": {
@@ -105215,6 +105779,26 @@
             },
             "optional": false
           }
+        ],
+        "listPromotions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCancellationPolicy": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BusinessArgs"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -107154,6 +107738,65 @@
         ],
         "listTrending": [],
         "listPodcasts": [],
+        "getPodcast": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listEpisodes": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getLiveBlog": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listNewsletters": [],
         "getNewsletter": [
           {
@@ -107919,6 +108562,25 @@
             }
           ]
         },
+        "WellnesslivingGetLocationScheduleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "scheduleUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "WellnesslivingListLocationsArgs": {
           "k": "object",
           "props": [
@@ -108029,6 +108691,16 @@
             "schema": {
               "k": "ref",
               "name": "WellnesslivingSearchClassesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLocationSchedule": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "WellnesslivingGetLocationScheduleArgs"
             },
             "optional": false
           }
@@ -113380,6 +114052,24 @@
             "optional": false
           }
         ],
+        "getPlayableStream": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listHashtagVideos": [
           {
             "name": "input",
@@ -115830,6 +116520,31 @@
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfilePicture": [
+          {
+            "name": "image",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },
