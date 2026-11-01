@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cd4a7eb69f873a7e47c7d1dc9ee007193115b0d7f028ed6aa744e79932a44fa0
-// 92 capabilities, 744 providers, 3656 typed functions, 20 refused.
-// 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: 662d3a05742895d5f7485d229194f47df3284950d93dc208e5c037c3a367f3f7
+// 92 capabilities, 746 providers, 3767 typed functions, 20 refused.
+// 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -4257,22 +4257,24 @@ type CallOptions = {
   /**
    * General-merchandise retail across Walmart, Target and Best Buy — one keyword search, fanned
    * out in parallel and returned price-sorted, so an agent can answer 'where can I actually buy
-   * this and what does it cost' without querying each store by hand. Rows are the stores' own
-   * keyword results, so accessories and lookalikes come back too and sort above the product;
-   * filter on `title`. Best Buy's leg needs the caller's own Best Buy developer key; without one
-   * the search still returns Walmart + Target with a `warnings` entry naming the drop.
+   * this and what does it cost **and whether it's in stock**' without querying each store by
+   * hand. Every offer includes that store's in-stock signal. Rows are the stores' own keyword
+   * results, so accessories and lookalikes come back too and sort above the product; filter on
+   * `title`. Best Buy's leg needs the caller's own Best Buy developer key; without one the
+   * search still returns Walmart + Target with a `warnings` entry naming the drop.
    */
   interface Unit {
     /**
      * Searches Walmart, Target and Best Buy in parallel for a keyword and returns one price-sorted
-     * list of offers across all stores, each tagged with which store it's from. THE ROWS ARE EACH
-     * STORE'S OWN KEYWORD RESULTS, so a product search also returns that product's accessories and
-     * its lookalikes, and price-sorting puts those FIRST — filter on `title` for the thing you
-     * were actually asked about before reading a price off the top row. Everything you need is in
-     * one call; a store returning accessories is not a reason to go query that store directly.
-     * `warnings` names any store that did not answer — including Best Buy when the caller holds no
-     * Best Buy developer key — so a caller can tell a genuinely cheaper/only offer from one where
-     * a store simply didn't answer.
+     * list of offers across all stores, each tagged with which store it's from AND WHETHER THAT
+     * STORE HAS IT IN STOCK. THE ROWS ARE EACH STORE'S OWN KEYWORD RESULTS, so a product search
+     * also returns that product's accessories and its lookalikes, and price-sorting puts those
+     * FIRST — filter on `title` for the thing you were actually asked about before reading a price
+     * off the top row. Every offer carries `inStock: boolean` so you can report both price and
+     * availability. Everything you need is in one call; a store returning accessories is not a
+     * reason to go query that store directly. `warnings` names any store that did not answer —
+     * including Best Buy when the caller holds no Best Buy developer key — so a caller can tell a
+     * genuinely cheaper/only offer from one where a store simply didn't answer.
      */
     search(args: { query: string }): Promise<RetailSearchResult>;
   }
@@ -6800,11 +6802,34 @@ interface AccuweatherIndexForecast {
   }>;
 }
 
+interface MonthlyForecastArgs {
+  key: string;
+  month: number; // 1-12
+  year?: number; // default: this month this year, else that month's next occurrence
+}
+
+interface AccuweatherMonthlyDay {
+  date: string; // "2026-11-02"
+  inMonth: boolean; // false for the grid's leading/trailing days of neighbouring months
+  isPast: boolean; // true = high/low are what was observed
+  high: number | null;
+  low: number | null;
+  phrase: string | null; // forecast days only
+  forecastDay: number | null; // getDayDetails' day when the site links one
+}
+
   /**
    * AccuWeather forecasts for any place — current conditions, hourly, daily, MinuteCast, alerts,
    * air quality, allergy and activity indices.
    */
   interface Unit {
+    /**
+     * The month calendar for a location — every day's high and low (observed for past days,
+     * forecast out ~45 days ahead) with its conditions phrase, plus the grid's spill-over days
+     * from the neighbouring months flagged inMonth: false.
+     */
+    getMonthlyForecast(args: MonthlyForecastArgs): Promise<AccuweatherMonthlyDay[]>;
+
     /**
      * The 7-day weather-related health outlook at a location for one index — arthritis, sinus,
      * common-cold, flu, migraine or asthma — each day's risk category and the weather factor
@@ -7257,8 +7282,16 @@ interface CreativeCloudPlan {
   name: string;
   description: string;
   monthlyPrice: number;
+  regularMonthlyPrice: number | null;
+  promoEndsAt: string | null;
+  promoDuration: string | null;
   annualPrice: number | null;
   apps: string[];
+}
+
+interface CreativeCloudPlansResult {
+  plans: CreativeCloudPlan[];
+  warnings: string[];
 }
 
 interface HelpArticle {
@@ -7362,12 +7395,13 @@ interface adobeRow {
   interface Unit {
     /**
      * Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html —
-     * each plan's name, monthly price and free-text description (which often names an introductory
-     * offer), the way a visitor reads the default tab of that page. The site does not expose a
-     * separate annual total or a structured included-apps list at this card granularity, so both
-     * are currently always null/empty.
+     * each plan's name, the price shown right now, the undiscounted price and promo end/duration
+     * when a promo is active, and a free-text description, the way a visitor reads the default tab
+     * of that page. `warnings` names any card or description phrase that could not be priced or
+     * rendered. The site does not expose a separate annual total or a structured included-apps
+     * list at this card granularity, so both are currently always null/empty.
      */
-    getCreativeCloudPlans(): Promise<CreativeCloudPlan[]>;
+    getCreativeCloudPlans(): Promise<CreativeCloudPlansResult>;
 
     /**
      * Searches Adobe's help center (helpx.adobe.com) for an article matching free text — e.g. "how
@@ -8267,6 +8301,21 @@ interface aliexpressOrder {
   items: { product_id?: string; title?: string; quantity?: number; image_url?: string }[];
 }
 
+interface ListCategoriesArgs {
+  /** The `id` of a top-level category (from a call with no `tab`) to get
+   *  that category's own second- and third-level subcategories. Omit for the
+   *  24 top-level categories. */
+  tab?: string;
+}
+
+interface aliexpressCategory {
+  id: string;
+  platform_category_id?: string;
+  name: string;
+  icon_url?: string;
+  subcategories?: aliexpressCategory[];
+}
+
   /** AliExpress product search — a keyword in, priced product rows out. */
   interface Unit {
     /**
@@ -8307,6 +8356,12 @@ interface aliexpressOrder {
      * authentication.
      */
     listOrders(args?: ListOrdersArgs, opts?: ConnectionOption): Promise<aliexpressOrder[]>;
+
+    /**
+     * Lists AliExpress's own category navigation menu — the 24 top-level categories with no
+     * argument, or one category's own subcategories by passing its id as tab.
+     */
+    listCategories(args?: ListCategoriesArgs): Promise<aliexpressCategory[]>;
   }
 }
 
@@ -13645,6 +13700,10 @@ interface BbcListFollowedPodcastsResult {
   total: number;
 }
 
+interface BbcNewsletterStatus {
+  newsletterId: string;
+  subscribed: boolean;
+}
 interface BbcFollowStatus {
   id: string;
   following: boolean;
@@ -13852,6 +13911,18 @@ interface BbcFollowStatus {
      * listFollowedPodcasts row's id. NEEDS A SIGN-IN — the caller signs in, not us.
      */
     unfollowPodcast(podcastIdOrUrl: string, opts?: ConnectionOption): Promise<BbcFollowStatus>;
+
+    /**
+     * Signs the signed-in reader up to a BBC newsletter — the /newsletters page's own sign-up.
+     * Takes a newsletterId from listNewsletters. NEEDS A SIGN-IN — the caller signs in, not us.
+     */
+    subscribeNewsletter(newsletterId: string, opts?: ConnectionOption): Promise<BbcNewsletterStatus>;
+
+    /**
+     * Takes the signed-in reader off a BBC newsletter. Takes a newsletterId from listNewsletters.
+     * NEEDS A SIGN-IN — the caller signs in, not us.
+     */
+    unsubscribeNewsletter(newsletterId: string, opts?: ConnectionOption): Promise<BbcNewsletterStatus>;
   }
 }
 
@@ -16545,9 +16616,46 @@ interface BookedinClassSession {
   timeZone: string;
   instructor: string | null;
 }
+interface BookedinBookArgs {
+  merchant: string;
+  /** Service id from listServices. */
+  service: string;
+  /** Staff id from listStaff; omit to take whoever the slot names. */
+  staff?: string;
+  /** A slot's start (ISO UTC instant) from getAvailability. */
+  start: string;
+  /** First and last name. */
+  name: string;
+  email: string;
+  phone: string;
+  note?: string;
+  /** The business's own booking questions, keyed by field name. */
+  answers?: Record<string, string>;
+}
+
+interface BookedinBooking {
+  token: string;
+  service: string;
+  staffId: string;
+  start: string;
+  /** True only when Bookedin said the booking succeeded. */
+  booked: boolean;
+  appointmentId: string | null;
+  message: string | null;
+  /** The business wants its new-client questions answered; re-call with answers. */
+  newClientFieldsRequired: boolean;
+  /** A deposit is due up front; never paid by this function. */
+  paymentRequired: boolean;
+}
 
   /** Appointment scheduling platform for salons, barbershops, and service businesses. */
   interface Unit {
+    /**
+     * Books one open appointment time (a slot from getAvailability) at a Bookedin business as a
+     * guest, with name, email, phone and the business's own questions; never pays a deposit.
+     */
+    bookAppointment(args: BookedinBookArgs): Promise<BookedinBooking>;
+
     /**
      * The countries Bookedin's public directory covers, or — given a country — its state/province
      * codes, which searchMerchants takes.
@@ -16722,6 +16830,17 @@ interface BookeoPriceQuote {
   currency: string;
 }
 
+interface BookeoListGroupOperatorsArgs {
+  /** The group portal's own short name, from findOperator (e.g. "boattours"). */
+  shortName: string;
+}
+
+interface BookeoGroupOperator {
+  /** Pass this to listProducts/getAvailability etc, not the portal's own short name. */
+  shortName: string;
+  name: string;
+}
+
   /**
    * Bookeo booking engine used by tour, activity and class operators: an operator's products,
    * slot availability and guest booking up to the payment step.
@@ -16759,6 +16878,12 @@ interface BookeoPriceQuote {
      * throws, naming the gap.
      */
     getPriceQuote(args: BookeoGetPriceQuoteArgs): Promise<BookeoPriceQuote>;
+
+    /**
+     * Lists the member operators under a Bookeo multi-operator group portal, with each one's name
+     * and the short name to pass to listProducts.
+     */
+    listGroupOperators(args: BookeoListGroupOperatorsArgs): Promise<BookeoGroupOperator[]>;
   }
 }
 
@@ -17145,6 +17270,21 @@ interface BookingTrips {
 interface GetBookingArgs {
   id: string;   // a trip id from listBookings
 }
+interface WishlistProperty {
+  hotelId: string;
+  name: string | null;
+  checkin: string | null;    // dates the caller attached to the save, if any
+  checkout: string | null;
+}
+interface Wishlist {
+  listId: string;
+  name: string | null;
+  propertyCount: number | null;   // the site's own count
+  properties: WishlistProperty[];
+}
+interface Wishlists {
+  wishlists: Wishlist[];   // [] when the caller has saved nothing
+}
 
   /**
    * Global online travel reservation service with property search, reviews and booking
@@ -17222,6 +17362,13 @@ interface GetBookingArgs {
      * not among the caller's trips. Same sign-in rules as listBookings.
      */
     getBooking(args: GetBookingArgs, opts?: ConnectionOption): Promise<{ trip: BookingTrip }>;
+
+    /**
+     * SIGNED IN — the caller's own Booking.com saved lists ("Saved"), each with its name, the
+     * site's property count and the saved properties (hotel id, name, any dates attached). Same
+     * sign-in rules as listBookings. No lists is `{ wishlists: [] }`.
+     */
+    listWishlist(opts?: ConnectionOption): Promise<Wishlists>;
   }
 }
 
@@ -17712,6 +17859,10 @@ interface BoulevardAvailableDates {
   /** "YYYY-MM-DD", the dates within the requested range that have an open slot. */
   dates: string[];
 }
+interface BoulevardAvailableTimes {
+  /** `id` is the bookable time id (e.g. "t_2026-11-02T10:00:00"); `startTime` is ISO with offset. */
+  times: { id: string; startTime: string }[];
+}
 
   /**
    * Boulevard salon and spa booking (Heyday, Chillhouse, Glowbar…): find a business, read its
@@ -17767,6 +17918,13 @@ interface BoulevardAvailableDates {
      * a location. Does not filter by staff member yet.
      */
     getAvailableDates(business: string, locationId: string, serviceId: string, from: string, to: string): Promise<BoulevardAvailableDates>;
+
+    /**
+     * The open appointment start times for a service at a location on one `date` ("YYYY-MM-DD",
+     * from getAvailableDates). `tz` is an IANA zone (default "UTC"; pass the location's tz). Each
+     * time `id` is what staff selection and booking take.
+     */
+    getAvailableTimes(business: string, locationId: string, serviceId: string, date: string, tz?: string): Promise<BoulevardAvailableTimes>;
   }
 }
 
@@ -18245,6 +18403,25 @@ interface ListTrendingArticlesArgs {
 interface GetArticleCommentsArgs {
   url: string;
 }
+interface SearchArticlesArgs {
+  query: string;
+  limit?: number;
+}
+interface BusinessInsiderSearchHit {
+  rank: number;
+  title: string;
+  url: string;
+  score?: number;
+  description?: string;
+  publishedAt?: string;
+  authors: string[];
+  vertical?: string;
+}
+interface BusinessInsiderSearchResults {
+  query: string;
+  simplifiedQuery?: string;
+  hits: BusinessInsiderSearchHit[];
+}
 interface BusinessInsiderComment {
   id: string;
   author: string;
@@ -18393,6 +18570,13 @@ interface BusinessInsiderCryptoQuote {
    * article reads implemented, most other functions still queued.
    */
   interface Unit {
+    /**
+     * Searches businessinsider.com articles by keyword through the site's own Answers search: up
+     * to ten hits ranked by relevance, each with title, URL, description, publish time, authors
+     * and vertical. No paging — the site answers one page of ten.
+     */
+    searchArticles(args: SearchArticlesArgs): Promise<BusinessInsiderSearchResults>;
+
     /**
      * Lists the site's news sections and verticals (tech, markets, opinion, guides, politics,
      * economy, retail, science, health, personal-finance, video, games, community).
@@ -18630,6 +18814,7 @@ interface ca_govRow {
   id: string;
   name: string;
   url: string;
+  departmentId?: string;
 }
 interface ca_govServiceDetail {
   id: string;
@@ -18638,6 +18823,9 @@ interface ca_govServiceDetail {
   description?: string;
   phone?: string;
   departmentUrl?: string;
+  department?: string;
+  launchUrl?: string;
+  serviceType?: string;
 }
 interface ca_govDepartmentContact {
   id: string;
@@ -18650,6 +18838,7 @@ interface ca_govServiceSearchRow {
   id: string;
   name: string;
   url: string;
+  departmentId?: string;
   department?: string;
   description?: string;
 }
@@ -18668,7 +18857,20 @@ interface ca_govDataset {
   organization?: string;
   modified?: string;
   license?: string;
-  resources: { name?: string; format?: string; url: string }[];
+  resources: { id?: string; name?: string; format?: string; url: string; datastoreActive?: boolean }[];
+}
+interface ca_govDataRows {
+  resourceId: string;
+  total: number;
+  fields: { id: string; type: string; label?: string }[];
+  records: Record<string, unknown>[];
+}
+interface ca_govQueryPublicDataArgs {
+  resourceId: string;
+  query?: string;
+  filters?: Record<string, string | number | boolean>;
+  limit?: number;
+  offset?: number;
 }
 interface ca_govListPublicDataArgs {
   limit?: number;
@@ -18686,8 +18888,9 @@ interface ca_govSearchPublicDataArgs {
    */
   interface Unit {
     /**
-     * Lists all California state agencies and departments from CA.gov. An optional filter narrows
-     * to departments whose name contains it (case-insensitive).
+     * Lists all ~236 California state agencies and departments from CA.gov's directory; each `id`
+     * is what getDepartment takes. An optional filter keeps departments whose name contains every
+     * word of it (case-insensitive).
      */
     listDepartments(filter?: string): Promise<ca_govRow[]>;
 
@@ -18701,16 +18904,18 @@ interface ca_govSearchPublicDataArgs {
     getDepartment(departmentId: string): Promise<{id: string; name: string; url?: string; description?: string; phone?: string}>;
 
     /**
-     * Returns detailed information about one CA.gov service — description, contact phone, and the
-     * owning department's URL. Takes the `url` a row from listServices() or searchServices()
-     * returned, not a bare id.
+     * Returns detailed information about one CA.gov service — description, contact phone, the
+     * owning department's name and URL, its type (Online / In Person) and `launchUrl`, the link
+     * that actually starts the service. Takes the `url` a row from listServices() or
+     * searchServices() returned, not a bare id.
      */
     getService(serviceUrl: string): Promise<ca_govServiceDetail>;
 
     /**
      * Searches CA.gov's full service directory for services whose name, department or description
-     * contains the query (case-insensitive). The site's own search box filters client-side, so
-     * this fetches the full listing and filters it the same way.
+     * contain every word of the query (case-insensitive, curly apostrophes folded). Rows carry
+     * `departmentId`. The site's own search box filters client-side, so this fetches the full
+     * listing and filters it the same way.
      */
     searchServices(query: string): Promise<ca_govServiceSearchRow[]>;
 
@@ -18745,6 +18950,14 @@ interface ca_govSearchPublicDataArgs {
      * links.
      */
     searchPublicData(args: ca_govSearchPublicDataArgs): Promise<{count: number; datasets: ca_govDataset[]}>;
+
+    /**
+     * Reads the rows of one data.ca.gov table through CKAN's datastore_search — typed `fields`,
+     * `records` and the `total`. `resourceId` is a resource `id` from
+     * listPublicData()/searchPublicData() whose `datastoreActive` is true; `query` is full-text,
+     * `filters` matches columns exactly, `limit` (default 20, max 100) and `offset` page.
+     */
+    queryPublicData(args: ca_govQueryPublicDataArgs): Promise<ca_govDataRows>;
   }
 }
 
@@ -19583,6 +19796,25 @@ interface CanvaCreator {
   media: CanvaCreatorMedia[];
 }
 
+interface CanvaGraphic extends CanvaPhoto {
+  /** Canva's media type for the row, e.g. "RASTER". */
+  mediaType: string | null;
+}
+
+interface CanvaGraphicDetail {
+  id: string;
+  title: string | null;
+  url: string;
+  description: string | null;
+  /** Canva's category token, e.g. "ICONS". */
+  category: string | null;
+  licence: "free" | "pro";
+  creator: { id: string; name: string; avatarUrl: string | null } | null;
+  /** Hex colours from the page's colour bar, dominant first. */
+  colors: string[];
+  images: CanvaPhotoImage[];
+}
+
   /**
    * Canva, the online design tool: search its templates and stock photos, read plans and prices,
    * and, with the caller signed in, create, export and organise their own designs.
@@ -19623,6 +19855,18 @@ interface CanvaCreator {
      * the templates and media they publish.
      */
     getCreator(handleOrUrl: string): Promise<{ creator: CanvaCreator; warnings: string[] }>;
+
+    /**
+     * Searches Canva's graphics and illustrations library (stickers, icons, illustrations) by
+     * keyword — id, title, free or Pro, image urls.
+     */
+    searchGraphics(query: string): Promise<{ graphics: CanvaGraphic[]; warnings: string[] }>;
+
+    /**
+     * Reads one graphic by id or url — title, description, category, free or Pro, the creator, its
+     * colour palette and image url.
+     */
+    getGraphic(idOrUrl: string): Promise<CanvaGraphicDetail>;
   }
 }
 
@@ -21117,63 +21361,6 @@ interface CharterhomesVisitOption { neighborhood: string; label: string; calendl
   }
 }
 
-declare namespace BowmarkProvider_chatgpt {
-  // ── ChatGPT — the unit's own declarations, verbatim ──
-interface chatgptRow {
-  id: string;
-}
-
-interface ChatGPTAnswer {
-  /** The assistant's reply text. */
-  answer: string;
-  /** The ephemeral chat's own url (chatgpt.com/uc/<id>) — nothing is saved to any account. */
-  conversationUrl: string;
-  warnings: string[];
-}
-
-interface SharedMessage {
-  role: "user" | "assistant";
-  text: string;
-  /** Unix seconds, when the site recorded one. */
-  createTime: number | null;
-  /** The model that wrote an assistant turn, when recorded. */
-  model: string | null;
-}
-
-interface SharedConversation {
-  shareId: string;
-  url: string;
-  title: string;
-  createTime: number | null;
-  updateTime: number | null;
-  model: string | null;
-  /** The visible thread in order — hidden system turns and tool calls left out. */
-  messages: SharedMessage[];
-  warnings: string[];
-}
-
-  /**
-   * OpenAI's ChatGPT at chatgpt.com — read a shared conversation link or a custom GPT's store
-   * page logged out, and, signed in as the CALLER, read and search their chat history, send
-   * messages, generate images and manage projects, memories and GPTs.
-   */
-  interface Unit {
-    /**
-     * Reads a public shared ChatGPT conversation from its share link (chatgpt.com/share/<id>, or
-     * the bare id) — title, every user and assistant message in order, and the model that
-     * answered. No account needed. A deleted link throws a caller-fixable error.
-     */
-    getSharedConversation(url: string): Promise<SharedConversation>;
-
-    /**
-     * Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers any
-     * visitor — and returns the answer text. Nothing is saved to any account. Pass a question the
-     * way a person would type it, e.g. ask("what is the capital of France?").
-     */
-    ask(prompt: string): Promise<ChatGPTAnswer>;
-  }
-}
-
 declare namespace BowmarkProvider_cheapflights {
   // ── Cheapflights — the unit's own declarations, verbatim ──
 interface KayakQuery {
@@ -21499,6 +21686,23 @@ interface CheckfrontUpdateCartArgs {
   alter?: Record<string, number | "remove" | "optin" | "optout">;
   clear?: boolean;
 }
+interface CheckfrontBookItemsArgs {
+  host: string;
+  sessionId: string;
+  form: Record<string, string | number | boolean>;
+}
+interface CheckfrontBooking {
+  bookingId: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  total: string;
+  amountPaid: string;
+  amountDue: string;
+  completed: boolean;
+  paymentUrl: string;
+  customerName: string;
+  customerEmail: string;
+  items: Array<{ itemId: string; name: string; qty: number | null; status: string }>;
+}
 
   /**
    * Checkfront booking hosts used by tour, rental and activity operators: find an operator, list
@@ -21600,6 +21804,15 @@ interface CheckfrontUpdateCartArgs {
      * and a sessionId from addToCart.
      */
     updateCart(args: CheckfrontUpdateCartArgs): Promise<CheckfrontCart>;
+
+    /**
+     * Books a cart from addToCart for a guest, with form answers keyed by getBookingForm's field
+     * ids (customer_name, customer_email, customer_tos_agree: 1, plus the operator's own). Never
+     * pays: when nothing is due the booking is complete; otherwise it is held pending (status PRE,
+     * completed: false) and paymentUrl is the operator's own page where the guest pays amountDue.
+     * A missing field is refused naming it. Public API on only.
+     */
+    bookItems(args: CheckfrontBookItemsArgs): Promise<CheckfrontBooking>;
   }
 }
 
@@ -21777,6 +21990,26 @@ interface ChownowRestaurantDetails {
   websiteUrl: string | null;
 }
 
+interface ChownowHourRange {
+  from: string;
+  to: string;
+  label: string | null;
+}
+
+interface ChownowHourDay {
+  date: string; // YYYY-MM-DD, restaurant-local
+  dow: string;
+  ranges: ChownowHourRange[];
+}
+
+interface ChownowRestaurantHours {
+  restaurantId: string;
+  pickup: ChownowHourDay[] | null;
+  delivery: ChownowHourDay[] | null;
+  curbside: ChownowHourDay[] | null;
+  closures: unknown[]; // shape unmeasured — every restaurant captured so far returned []
+}
+
 interface ChownowSlotDay {
   date: string; // YYYY-MM-DD, restaurant-local
   dow: string;
@@ -21849,6 +22082,36 @@ interface ChownowMenuItemDetail extends ChownowMenuItem {
   modifierGroups: ChownowModifierGroup[]; // resolved from ChownowMenuItem.modifierGroupIds
 }
 
+interface ChownowOrderSummary {
+  orderId: string;
+  restaurantId: string | null;
+  restaurantName: string | null;
+  status: string | null; // ChowNow's own order status string, verbatim — the site's own labels — read the values off a result, never guess one from prose
+  total: number | null;
+  orderedAt: string | null;
+}
+
+interface ChownowOrders {
+  orders: ChownowOrderSummary[];
+}
+
+interface ChownowOrderLineItem {
+  name: string;
+  quantity: number | null;
+  price: number | null;
+}
+
+interface ChownowOrderDetails {
+  orderId: string;
+  restaurantId: string | null;
+  restaurantName: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  total: number | null;
+  orderedAt: string | null;
+  fulfillMethod: string | null;
+  items: ChownowOrderLineItem[];
+}
+
   /**
    * ChowNow commission-free online ordering for independent restaurants: a brand's locations, a
    * restaurant's menu and prices, pickup times, and order pricing up to the payment step.
@@ -21900,6 +22163,14 @@ interface ChownowMenuItemDetail extends ChownowMenuItem {
     getPickupTimes(restaurantId: string): Promise<ChownowPickupTimes>;
 
     /**
+     * Reads a ChowNow restaurant's operating hours for each fulfillment method (pickup, delivery,
+     * curbside) over its coming days — the days/ranges each accepts orders on — plus any announced
+     * closures. A `null` method means the restaurant does not offer it at all. `restaurantId`
+     * comes from `searchRestaurants`, `findRestaurant` or a `listRestaurants` row.
+     */
+    getRestaurantHours(restaurantId: string): Promise<ChownowRestaurantHours>;
+
+    /**
      * Reads a ChowNow restaurant's full menu: categories, each item's name, description and price,
      * size pickers (`isSizePicker` items whose `sizeItemIds` are the priced sizes), and every
      * modifier group ("Bread", "Add-ons") with its min/max picks and each option's price. `at` is
@@ -21928,6 +22199,20 @@ interface ChownowMenuItemDetail extends ChownowMenuItem {
      * returns. `itemId` comes from `getMenu` or `listMenuItems`.
      */
     getMenuItem(restaurantId: string, itemId: string, at?: string): Promise<ChownowMenuItemDetail>;
+
+    /**
+     * Lists the signed-in caller's own ChowNow order history: restaurant, status, total and when
+     * it was placed. The caller signs in through the relay — needs a saved ChowNow sign-in or
+     * pauses the run to get one.
+     */
+    listOrders(opts?: ConnectionOption): Promise<ChownowOrders>;
+
+    /**
+     * Reads one of the signed-in caller's own ChowNow orders in full: restaurant, status, total,
+     * fulfillment method and line items. `orderId` comes from a `listOrders` row. The caller signs
+     * in through the relay.
+     */
+    getOrderDetails(orderId: string, opts?: ConnectionOption): Promise<ChownowOrderDetails>;
   }
 }
 
@@ -23028,6 +23313,17 @@ interface ListConnectorsArgs {
   organizationId?: string;
 }
 
+interface ClaudeSkill {
+  id: string;
+  name: string;
+  enabled: boolean;
+  builtIn: boolean;
+}
+
+interface ListSkillsArgs {
+  organizationId?: string;
+}
+
   /**
    * Anthropic's Claude app at claude.ai — read a shared conversation or a published artifact
    * logged out, and, signed in as the CALLER, read and search their chat history, send messages,
@@ -23128,6 +23424,12 @@ interface ListConnectorsArgs {
      * connected. NEEDS A SIGN-IN (the caller's claude.ai session).
      */
     listConnectors(args?: ListConnectorsArgs, opts?: ConnectionOption): Promise<ClaudeConnector[]>;
+
+    /**
+     * Lists the skills enabled in the CALLER's account, their own and Anthropic's. NEEDS A SIGN-IN
+     * (the caller's claude.ai session).
+     */
+    listSkills(args?: ListSkillsArgs, opts?: ConnectionOption): Promise<ClaudeSkill[]>;
   }
 }
 
@@ -24961,6 +25263,9 @@ interface CorePowerYogaClass {
   order: number | null;
   /** The site leaves this type out of its schedule filters (special events and the like). */
   hiddenFromFilters: boolean;
+  /** The VHX collection id listOnDemandVideos({ classType }) resolves this type
+   * to. Null for a class type with no On Demand library. */
+  vimeoCollectionId: string | null;
 }
 
 interface CorePowerYogaClassDetail extends CorePowerYogaClass {
@@ -25049,6 +25354,37 @@ interface ListWorkshopsArgs {
   /** ISO date; defaults to 29 days after startDate — workshops run far less often
    * than ordinary classes, so the default window is wider than listTeachers'. */
   endDate?: string;
+}
+interface CorePowerYogaOnDemandVideo {
+  /** VHX's own numeric video id; getOnDemandVideo() takes it. */
+  id: number;
+  title: string;
+  /** Extracted from the title's trailing " with <Name>"; the site publishes no
+   * separate instructor field. Null when the title names none. */
+  instructor: string | null;
+  durationSeconds: number;
+  durationFormatted: string;
+  thumbnailUrl: string | null;
+  isFree: boolean;
+  /** The site's own publishing state, e.g. "complete". */
+  status: string;
+  /** The VHX collection (class type) a `{ classType }` listing was scoped to.
+   * Null when read off the unfiltered library. */
+  collectionId: string | null;
+}
+interface CorePowerYogaOnDemandVideoDetail extends CorePowerYogaOnDemandVideo {
+  description: string | null;
+}
+interface ListOnDemandVideosArgs {
+  /** A listClasses() class type's `id`, `name`, `shortCode` or Zenoti class id —
+   * scopes the result to that class type's On Demand library. Omit to list
+   * across the whole site's library instead (572 videos measured 2026-10-31). */
+  classType?: string | number;
+  /** 1-based; only used when `classType` is omitted — a single class type's
+   * library comes back as one page from the site itself. Defaults to 1. */
+  page?: number;
+  /** Only used when `classType` is omitted. Defaults to 50. */
+  pageSize?: number;
 }
 
   /** Lists studio schedules, books classes, and reads booking details for CorePower Yoga. */
@@ -25156,6 +25492,22 @@ interface ListWorkshopsArgs {
      * needed. Throws if no workshop in the date range (default: the next 30 days) matches.
      */
     getWorkshop(args: ListWorkshopsArgs & { workshop: string }): Promise<CorePowerYogaWorkshop>;
+
+    /**
+     * Lists CorePower Yoga's On Demand video library (500+ pre-recorded classes, hosted on Vimeo
+     * OTT) — title, instructor (parsed from the title), duration, thumbnail, whether it's free,
+     * and publishing status. Pass { classType } (a listClasses() class type's id, name, short code
+     * or Zenoti class id) to scope it to that type's own library; omit it to page across the whole
+     * site's library instead. No login needed.
+     */
+    listOnDemandVideos(args?: ListOnDemandVideosArgs): Promise<CorePowerYogaOnDemandVideo[]>;
+
+    /**
+     * Gets one On Demand video's full detail — everything listOnDemandVideos returns for it plus
+     * its description. Takes the numeric `id` a listOnDemandVideos() row returns. No login needed.
+     * Throws if the site has no such video.
+     */
+    getOnDemandVideo(video: number | string): Promise<CorePowerYogaOnDemandVideoDetail>;
   }
 }
 
@@ -25265,6 +25617,59 @@ interface CouponFollowOffer {
      * marks the card as carrying one.
      */
     getCodes(domain: string): Promise<CouponFollowOffer[]>;
+  }
+}
+
+declare namespace BowmarkProvider_crateandbarrel {
+  // ── Crate & Barrel — the unit's own declarations, verbatim ──
+interface CrateAndBarrelSearchArgs {
+  query: string;                 // what Crate & Barrel's own search box takes, e.g. "sofas", "velvet sectional"
+  sort?: "relevance" | "price_ascending" | "price_descending" | "top_rated" | "best_selling" | "newest";
+  page?: number;                 // from 1
+  limit?: number;                // 1-100, default 24
+}
+interface CrateAndBarrelProduct {
+  sku: string;
+  name: string;                  // e.g. 'Lounge 93" Sofa'
+  url: string;                   // the product page on www.crateandbarrel.com
+  price: number | null;          // current price of THIS size/colour, USD
+  regularPrice: number | null;   // its regular (non-sale) price, USD
+  onSale: boolean;               // a sale or clearance markdown
+  priceLabel: string | null;     // the store's own word: "Sale", "Clearance"
+  familyName: string | null;     // the product family, e.g. 'Lounge Sofa'
+  familyPriceMin: number | null; // lowest price across the family's sizes, USD
+  familyPriceMax: number | null;
+  types: string[];               // e.g. ["Sofas"]
+  rating: number | null;         // 0-5
+  reviewCount: number | null;
+  availability: string[];        // e.g. ["InStock"], ["InStock", "Backorder"]
+  isNew: boolean;
+  finalSale: boolean;
+  widthInches: number | null;
+  description: string;
+  imageUrl: string | null;
+}
+interface CrateAndBarrelSearch {
+  products: CrateAndBarrelProduct[];
+  total: number;                 // matches across all pages
+  page: number;
+  // Set when the store maps this term to a category page instead of searching it; the
+  // products then come from the store's own autocomplete and there is no next page.
+  redirect: string | null;
+}
+
+  /**
+   * Crate & Barrel (furniture, kitchenware, home decor and wedding registry). Searches the
+   * catalog — sofas, dining tables, cookware, bedding, decor — with current and regular price,
+   * sale/clearance flag, rating, stock status, width, image and product link.
+   */
+  interface Unit {
+    /**
+     * Searches Crate & Barrel's furniture, kitchen and decor catalog the way its own search box
+     * does ("sofas") and returns products with current and regular price, sale/clearance flag,
+     * family price range, rating, stock status, width, image and product-page link.
+     */
+    searchProducts(args: CrateAndBarrelSearchArgs): Promise<CrateAndBarrelSearch>;
   }
 }
 
@@ -26026,6 +26431,31 @@ interface DailymotionTranscript {
   segments: DailymotionTranscriptSegment[];
   fullText: string;
 }
+interface LikeVideoArgs {
+  video: string;
+  like?: boolean;
+}
+interface DailymotionLikeResult {
+  video: string;
+  liked: boolean;
+}
+interface FollowChannelArgs {
+  channel: string;
+  follow?: boolean;
+}
+interface DailymotionFollowResult {
+  channel: string;
+  following: boolean;
+}
+interface ListMyLikedVideosArgs {
+  limit?: number;
+  page?: number;
+}
+interface DailymotionMyLikedVideosResult {
+  page: number;
+  hasMore: boolean;
+  videos: DailymotionVideo[];
+}
 
   /**
    * Search Dailymotion videos by keyword and read one video's title, channel, duration, views
@@ -26141,6 +26571,30 @@ interface DailymotionTranscript {
      * all, or none in the requested language — a real, honest answer, not a failure.
      */
     getTranscript(args: GetTranscriptArgs): Promise<DailymotionTranscript>;
+
+    /**
+     * Read the signed-in caller's own Dailymotion account — username, display name, avatar and
+     * counts. Needs the caller signed in.
+     */
+    getMyProfile(opts?: ConnectionOption): Promise<DailymotionChannel>;
+
+    /**
+     * Like a Dailymotion video as the signed-in caller, or pass like: false to remove the like.
+     * Needs the caller signed in.
+     */
+    likeVideo(args: LikeVideoArgs, opts?: ConnectionOption): Promise<DailymotionLikeResult>;
+
+    /**
+     * Follow a Dailymotion channel as the signed-in caller, or pass follow: false to unfollow.
+     * Needs the caller signed in.
+     */
+    followChannel(args: FollowChannelArgs, opts?: ConnectionOption): Promise<DailymotionFollowResult>;
+
+    /**
+     * List the videos the signed-in caller has liked, paged — same fields as getVideo. Needs the
+     * caller signed in.
+     */
+    listMyLikedVideos(args?: ListMyLikedVideosArgs, opts?: ConnectionOption): Promise<DailymotionMyLikedVideosResult>;
   }
 }
 
@@ -27354,6 +27808,12 @@ interface DeviantartWatchResult {
   watching: boolean;
 }
 
+interface DeviantartWatchFeedResult {
+  results: DeviantartGalleryItem[];
+  hasMore: boolean;
+  cursor?: string;
+}
+
 interface DeviantartPostedComment {
   commentId: string;
   text: string;
@@ -27487,6 +27947,13 @@ interface DeviantartPostedComment {
      * caller signed in to DeviantArt.
      */
     unwatchUser(args: { username: string }, opts?: ConnectionOption): Promise<DeviantartWatchResult>;
+
+    /**
+     * Reads the signed-in caller's Watch feed — the newest deviations from the artists they watch,
+     * newest first; pass the returned cursor for the next page. Needs a caller signed in to
+     * DeviantArt.
+     */
+    getWatchFeed(args?: { cursor?: string }, opts?: ConnectionOption): Promise<DeviantartWatchFeedResult>;
   }
 }
 
@@ -28153,6 +28620,22 @@ interface DirectBookBookingStart {
   /** Where the guest enters their details and pays. Nothing has been booked. */
   checkoutUrl: string;
 }
+interface CancelReservationArgs {
+  /** The reservation code from the guest's confirmation email. Globally unique — no property is needed. */
+  reservationCode: string;
+}
+interface DirectBookCancelledReservation {
+  reservationCode: string;
+  bookingReferenceId: string | null;
+  active: boolean | null;
+  cancelled: boolean | null;
+  /** Whether the hotel lets the guest cancel this booking themselves. */
+  allowGuestCancellation: boolean | null;
+  grandTotal: number | null;
+  outstandingBalance: number | null;
+  /** The hotel's own refusals of the cancellation (e.g. past a non-refundable cutoff). */
+  errors: { key: string; args: unknown }[];
+}
 
   /**
    * Guest booking widget for SiteMinder partner hotels — check availability, rates and start
@@ -28205,6 +28688,14 @@ interface DirectBookBookingStart {
      * finishes on. Never sends guest or card details and books nothing.
      */
     initiateBooking(args: InitiateBookingArgs): Promise<DirectBookBookingStart>;
+
+    /**
+     * Cancels a guest's booking by its reservation code from the confirmation email — globally
+     * unique, so no property is needed. Returns the updated booking, including whether the hotel
+     * still allows the guest to cancel it and any refusal the hotel attaches (e.g. a
+     * non-refundable rate past its cutoff).
+     */
+    cancelReservation(args: CancelReservationArgs): Promise<DirectBookCancelledReservation>;
   }
 }
 
@@ -28837,6 +29328,17 @@ interface DoordashMenu {
   categories: { name: string; items: { name: string; description: string | null; price: number | null; image: string | null }[] }[];
 }
 
+interface DoordashGetMenuItemArgs {
+  store: string;  // store id or URL, same as getStore/getMenu
+  item: string;   // the item's name exactly as getMenu returned it
+}
+
+interface DoordashMenuItemDetail {
+  name: string; description: string | null;
+  basePrice: number | null;  // null when DoorDash has not settled a price before a required choice is made
+  warnings: string[];        // e.g. "this item has configurable option groups … not yet parsed"
+}
+
   /**
    * DoorDash's own store search — returns real, currently-listed stores for a free-text query
    * with the delivery fee, rating and ETA DoorDash itself advertises on the results card.
@@ -28865,6 +29367,14 @@ interface DoordashMenu {
      * and each item's name, description and price in dollars. Read-only.
      */
     getMenu(args: { store: string }): Promise<DoordashMenu>;
+
+    /**
+     * Opens one menu item's own detail card (name, description, price) by store and item name,
+     * exactly as getMenu returned it. For an item requiring a choice before DoorDash settles a
+     * price, the option groups are not yet parsed — warnings says so rather than guessing.
+     * Read-only.
+     */
+    getMenuItem(args: DoordashGetMenuItemArgs): Promise<DoordashMenuItemDetail>;
   }
 }
 
@@ -29054,20 +29564,6 @@ interface DropboxSharedFolder {
 
 declare namespace BowmarkProvider_duckduckgo {
   // ── DuckDuckGo — the unit's own declarations, verbatim ──
-interface DuckDuckGoEmailProtectionAccount {
-  /** The account's permanent @duck.com address, e.g. "jdoe@duck.com". */
-  address: string;
-  /** The real inbox DuckDuckGo forwards to, when the dashboard reports one. */
-  forwardingEmail: string | null;
-  /** The private address the site will hand out next, when one has been minted
-   * since the account was created. */
-  nextPrivateAddress: string | null;
-}
-
-interface DuckDuckGoCreatedPrivateAddress {
-  address: string;
-}
-
 interface DuckDuckGoNewsStory {
   title: string;
   url: string;
@@ -29364,20 +29860,6 @@ interface DuckDuckGoBangResolution {
    * addresses.
    */
   interface Unit {
-    /**
-     * Reads the signed-in caller's DuckDuckGo Email Protection account — their permanent @duck.com
-     * address, the inbox it forwards to, and the private address that will be handed out next.
-     * NEEDS A SIGN-IN through the relay.
-     */
-    getEmailProtectionAccount(opts?: ConnectionOption): Promise<DuckDuckGoEmailProtectionAccount>;
-
-    /**
-     * Generates a brand new private @duck.com address on the signed-in caller's Email Protection
-     * account, forwarding to their inbox. Not idempotent — each call mints another address, up to
-     * DuckDuckGo's own cap of 30 per day. NEEDS A SIGN-IN through the relay.
-     */
-    createPrivateDuckAddress(opts?: ConnectionOption): Promise<DuckDuckGoCreatedPrivateAddress>;
-
     /** Search DuckDuckGo News vertical and returns news stories. */
     searchNews(args: SearchNewsArgs): Promise<DuckDuckGoNewsStory[]>;
 
@@ -31060,6 +31542,97 @@ interface FantasyTeamSummary {
   teamAbbreviation: string | null;
 }
 
+interface TeamDepthChartArgs {
+  /** League slug: "nfl", "nba", "mlb", etc. */
+  league: string;
+  /** Team abbreviation, name, or nickname */
+  team: string;
+}
+
+interface DepthChartAthlete {
+  id: string;
+  name: string;
+  depth: number; // 1 = starter
+  injuryStatus: string | null; // "Questionable", "Out", "Injured Reserve", or null
+}
+
+interface DepthChartPosition {
+  key: string; // ESPN slot key, e.g. "qb", "wr1", "lde"
+  abbreviation: string;
+  name: string;
+  athletes: DepthChartAthlete[];
+}
+
+interface DepthChartFormation {
+  id: string;
+  name: string; // e.g. "3WR 1TE", "Base 4-3 D", "Special Teams"
+  positions: DepthChartPosition[];
+}
+
+interface TeamDepthChartResult {
+  league: string;
+  team: { id: string; abbreviation: string; name: string };
+  formations: DepthChartFormation[];
+}
+
+interface TransactionsArgs {
+  /** League slug: "nfl", "nba", "mlb", "nhl", etc. */
+  league: string;
+  /** Narrow to one team by abbreviation, name or nickname */
+  team?: string;
+  /** 1-based page, default 1 */
+  page?: number;
+  /** Rows per page, default 25, max 100 */
+  limit?: number;
+}
+
+interface Transaction {
+  date: string;
+  description: string;
+  team: { id: string; abbreviation: string; name: string } | null;
+}
+
+interface TransactionsResult {
+  league: string;
+  season: number | null;
+  total: number;
+  page: number;
+  pageCount: number;
+  transactions: Transaction[];
+}
+
+interface RankingsArgs {
+  /** "college-football" (default) or "mens-college-basketball" */
+  league?: string;
+  /** Narrow to one poll by name or short name, e.g. "AP" */
+  poll?: string;
+}
+
+interface PollRank {
+  rank: number;
+  previous: number | null;
+  trend: string; // "+1", "-2", "-"
+  points: number | null;
+  firstPlaceVotes: number | null;
+  record: string | null;
+  team: { id: string; abbreviation: string; name: string };
+}
+
+interface Poll {
+  id: string;
+  name: string;
+  shortName: string;
+  week: string | null; // e.g. "Week 9"
+  date: string | null;
+  ranks: PollRank[];
+}
+
+interface RankingsResult {
+  league: string;
+  season: number | null;
+  polls: Poll[];
+}
+
 interface ListMyFantasyTeamsResult {
   teams: FantasyTeamSummary[];
 }
@@ -31206,6 +31779,27 @@ interface ListMyFantasyTeamsResult {
      * Needs the caller's own ESPN sign-in.
      */
     listMyFantasyTeams(opts?: ConnectionOption): Promise<ListMyFantasyTeamsResult>;
+
+    /**
+     * One team's depth chart — every formation ESPN publishes (offense, base defense, special
+     * teams), each position with its athletes in depth order (1 = starter) and their latest injury
+     * status.
+     */
+    teamDepthChart(args: TeamDepthChartArgs): Promise<TeamDepthChartResult>;
+
+    /**
+     * A league's recent transactions — signings, releases, trades, waivers and injured-list moves
+     * — newest first, with date, team and the description ESPN prints. Paged; optionally narrowed
+     * to one team.
+     */
+    transactions(args: TransactionsArgs): Promise<TransactionsResult>;
+
+    /**
+     * College polls — the AP Top 25, the Coaches Poll and (in season) the playoff rankings for
+     * college football and men's college basketball, with rank, previous rank, movement, points,
+     * first-place votes and record. Pass poll to narrow to one.
+     */
+    rankings(args: RankingsArgs): Promise<RankingsResult>;
   }
 }
 
@@ -31299,6 +31893,23 @@ interface EtsyShopSearchRow {
   itemCount: number | null;
   url: string;
 }
+interface EtsyShopReview {
+  id: string;
+  reviewer: string | null;
+  reviewerUrl: string | null;
+  date: string | null;
+  rating: number | null;
+  text: string | null;
+  sellerResponse: string | null;
+  listingId: number | null;
+  listingTitle: string | null;
+  listingUrl: string | null;
+}
+interface EtsyShopReviewPage {
+  page: number;
+  hasNextPage: boolean;
+  reviews: EtsyShopReview[];
+}
 
   /**
    * Etsy's own documented Open API v3 (openapi.etsy.com) — searches active listings on etsy.com
@@ -31341,6 +31952,14 @@ interface EtsyShopSearchRow {
      * URL as `getShop`.
      */
     listShopListings(nameOrUrl: string): Promise<etsyListing[]>;
+
+    /**
+     * One page of the reviews an Etsy shop has received across all its listings, newest first —
+     * reviewer, date, stars, review text, the seller's reply and which listing it was for — plus
+     * whether a next page exists. Takes the same name or URL as `getShop`; pass `{ shop, page }`
+     * for later pages.
+     */
+    listShopReviews(nameOrUrl: string | { shop: string; page?: number }): Promise<EtsyShopReviewPage>;
 
     /**
      * Etsy shops whose name contains a word — each shop's name, tagline, item count and URL. The
@@ -31429,6 +32048,15 @@ interface LineStatus {
 
 declare namespace BowmarkProvider_eventbrite {
   // ── Eventbrite — the unit's own declarations, verbatim ──
+interface EventbriteTicketClassRow {
+  id: string;
+  name: string;
+  price: string | null;
+  fees: string | null;
+  soldOut: boolean;
+  availabilityNote: string | null;
+  salesEndNote: string | null;
+}
 interface EventbriteEventRow {
   id: string;
   title: string;
@@ -31583,6 +32211,14 @@ interface EventbriteOrganizerDetail {
      * promised.
      */
     getOwnProfile(opts?: ConnectionOption): Promise<Record<string, unknown>>;
+
+    /**
+     * Reads one event's per-tier ticket breakdown from its checkout page — name, price, fees and
+     * sold-out state per tier, each keyed by its own numeric ticket-class id — taking the same
+     * Eventbrite event url or numeric id getEvent takes. getEvent only has a min/max price range;
+     * this is the per-tier detail.
+     */
+    listTicketClasses(args: { eventIdOrUrl: string }): Promise<EventbriteTicketClassRow[]>;
 
     /**
      * Makes a NEW Eventbrite account with the person's own email and password, in a session.
@@ -33169,6 +33805,15 @@ interface DiscussionPostDetail {
   upvoteCount: number;
 }
 
+interface FandomCurrentUser {
+  id: number;
+  name: string;
+  wiki: string;
+  editCount: number;
+  groups: string[];
+  rights: string[];
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -33331,6 +33976,13 @@ interface DiscussionPostDetail {
      * /wikia.php?controller=DiscussionPost&method=getPost`.
      */
     getDiscussionPost(args: GetDiscussionPostArgs): Promise<DiscussionPostDetail>;
+
+    /**
+     * Who the caller is signed in as on this wiki — username, global user id, edit count and which
+     * rights they hold. The entry point to every other signed-in read here. `GET
+     * /api.php?action=query&meta=userinfo`.
+     */
+    getCurrentUser(wiki: string, opts?: ConnectionOption): Promise<FandomCurrentUser>;
   }
 }
 
@@ -33797,6 +34449,43 @@ interface FitdegreeIntroOffer {
   expiresInDays?: number;  // how long the offer is usable for once bought
   perkTemplateIds: string[]; imageUrl?: string;
 }
+interface FitdegreeSeriesSession {
+  sessionId: string;
+  registrableId: string;  // what registerForEvent and cancelBooking take for this one session
+  start: string; end?: string;  // studio-local "YYYY-MM-DD HH:MM:SS"
+  instructorId?: string; locationId?: string; locationName?: string;
+  capacity?: number; booked: number; priceCents: number;
+  past: boolean; cancelled: boolean;
+}
+interface FitdegreeSeries {
+  seriesId: string;
+  registrableId: string;  // what registerForEvent takes to register for the whole series
+  purchasableId?: string; title: string; description?: string;
+  start?: string; end?: string;  // studio-local first-session start and last-session end
+  requiresPayment: boolean; payAtStudio: boolean;
+  perSessionRegistration: boolean;  // whether a member can register for one session rather than the whole series
+  priceCents?: number; pricingOptionId?: string;
+  capacity?: number; booked: number; cancelled: boolean;
+  waiverIds: string[];
+  sessions: FitdegreeSeriesSession[];
+}
+interface FitdegreeAnnouncement {
+  postId: string; title: string; body: string;
+  postedAt?: string;  // UTC, "YYYY-MM-DD HH:MM:SS"
+  likes: number; views?: number;
+  imageUrls: string[]; attachmentUrls: string[];
+}
+interface FitdegreePrivateSessionType {
+  serviceId: string;  // what getPrivateSessionAvailability and bookPrivateSession take
+  name: string; description?: string;
+  durations: Array<{ durationId: string; minutes: number; priceCents: number }>;
+  locationIds: string[];
+  requiresPayment: boolean; payAtStudio: boolean;
+  taxPercent?: number; cancellationPolicyId?: string;
+  waiverIds: string[];
+  bookableUpToWeeks?: number;  // how far ahead a session can be booked
+  isVirtual: boolean; imageUrl?: string;
+}
 
   /**
    * FitDegree studio schedules (pilates, yoga, barre, gyms): find a studio from the FitDegree
@@ -33884,6 +34573,26 @@ interface FitdegreeIntroOffer {
      * description, price and how many days they last once bought.
      */
     listIntroOffers(fitspotId: string): Promise<FitdegreeIntroOffer[]>;
+
+    /**
+     * Lists a studio's multi-week series and courses with their studio-local dates, price,
+     * capacity and every session inline. registrableId (series or session) is what
+     * registerForEvent takes.
+     */
+    listSeries(fitspotId: string): Promise<FitdegreeSeries[]>;
+
+    /**
+     * Lists a studio's announcements to members (new schedule, closures, parking, promotions) with
+     * title, full body, posted date, likes and images.
+     */
+    listAnnouncements(fitspotId: string): Promise<FitdegreeAnnouncement[]>;
+
+    /**
+     * Lists the private sessions (one-on-ones) a studio offers with each bookable length and its
+     * list price, rooms, tax and cancellation policy. serviceId is what
+     * getPrivateSessionAvailability and bookPrivateSession take.
+     */
+    listPrivateSessionTypes(fitspotId: string): Promise<FitdegreePrivateSessionType[]>;
   }
 }
 
@@ -37733,14 +38442,15 @@ interface GlamaSearchResult {
    */
   interface Unit {
     /**
-     * Searches Glama's MCP server directory. `servers` is Glama's own indexed catalogue (a query
-     * that matches nothing there returns an empty array — a legitimate answer, not a throw);
-     * `remoteServers` is a live federated query against known MCP registries and is where a server
-     * not yet indexed by Glama itself, like a fresh entry in the official MCP registry, shows up
-     * first. `hasMoreServers` is true when `servers` has a further page beyond the ~20 rows
-     * returned. THROWS on a non-2xx response (e.g. rate limiting).
+     * Searches Glama's MCP server directory. Pass the query directly or as `{ query }`; both forms
+     * are equivalent. `servers` is Glama's own indexed catalogue (a query that matches nothing
+     * there returns an empty array — a legitimate answer, not a throw); `remoteServers` is a live
+     * federated query against known MCP registries and is where a server not yet indexed by Glama
+     * itself, like a fresh entry in the official MCP registry, shows up first. `hasMoreServers` is
+     * true when `servers` has a further page beyond the ~20 rows returned. THROWS on a non-2xx
+     * response (e.g. rate limiting).
      */
-    search(query: string): Promise<GlamaSearchResult>;
+    search(query: string | { query: string }): Promise<GlamaSearchResult>;
   }
 }
 
@@ -38072,6 +38782,66 @@ interface glofoxFacilitySlot {
   bookingOpensAt: string | null;
   bookingClosesAt: string | null;
 }
+interface glofoxMyProfile {
+  studio: string;
+  id: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  phone: string | null;
+  birthDate: string | null;
+  imageUrl: string | null;
+  membership: { id: string | null; name: string | null; type: string | null } | null;
+}
+interface glofoxGetPriceArgs {
+  studio: string;
+  /** The class id from listClasses. */
+  classId: string;
+}
+interface glofoxPrice {
+  studio: string;
+  classId: string;
+  /** False when only certain memberships may book it; no drop-in price is quoted then. */
+  openToDropIn: boolean;
+  price: number | null;
+  currency: string | null;
+  credits: number | null;
+}
+interface glofoxCourseSession {
+  start: string | null;
+  end: string | null;
+  weekday: string | null;
+  size: number | null;
+  facilityId: string | null;
+}
+interface glofoxCourseSchedule {
+  /** The schedule id a course booking is made against. */
+  id: string;
+  label: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  size: number | null;
+  booked: number | null;
+  status: string | null;
+  sessions: glofoxCourseSession[];
+}
+interface glofoxCourse {
+  id: string;
+  name: string;
+  description: string | null;
+  facilityId: string | null;
+  facilityName: string | null;
+  trainers: { id: string; name: string }[];
+  pricing: { type: string; name: string | null; price: number | null }[];
+  schedules: glofoxCourseSchedule[];
+}
+interface glofoxCoursePage {
+  studio: string;
+  page: number;
+  hasMore: boolean;
+  totalCount: number | null;
+  courses: glofoxCourse[];
+}
 interface glofoxFacilitySlotPage {
   studio: string;
   from: string;
@@ -38143,6 +38913,25 @@ interface glofoxFacilitySlotPage {
      * optionally narrowed to one facility.
      */
     listFacilitySlots(args: glofoxListFacilitySlotsArgs): Promise<glofoxFacilitySlotPage>;
+
+    /**
+     * A studio's upcoming multi-week courses and workshops, paged: sessions, trainers, room, size,
+     * booked count and pricing — the schedule ids bookCourse takes.
+     */
+    listCourses(args: glofoxPageArgs): Promise<glofoxCoursePage>;
+
+    /**
+     * What one class from listClasses costs a drop-in before booking: price, currency and credits,
+     * or openToDropIn:false when only some memberships may book it. Course prices are on
+     * listCourses.
+     */
+    getPrice(args: glofoxGetPriceArgs): Promise<glofoxPrice>;
+
+    /**
+     * Signed in: the member's own profile at that studio — name, email, phone, birth date, photo
+     * and current membership. A Glofox login belongs to one studio.
+     */
+    getMyProfile(args: glofoxStudioArgs, opts?: ConnectionOption): Promise<glofoxMyProfile>;
   }
 }
 
@@ -38389,6 +39178,31 @@ interface GlossGeniusGiftCardOptions {
   /** card design image URLs */
   designs: string[];
 }
+interface GlossGeniusJoinWaitlistArgs {
+  business: string;
+  /** service guids from listServices().services[].guid */
+  services: string[];
+  /** a team member guid from listTeam().team[].guid -- GlossGenius's waitlist form always asks for one, there is no "any professional" option */
+  provider: string;
+  name: string;
+  email: string;
+  phone: string;
+  /** how many days out the client will take an opening: one of 1, 3, 7, 14, 30 or 90; default 7 */
+  days?: number;
+  notes?: string;
+  /** true to let the business text the client about this entry */
+  agreeToSmsConsent?: boolean;
+  /** a location token from getBusiness().locations, for a multi-location business */
+  location?: string;
+  /** must be `true` -- the client is agreeing to the business's cancellation policy, the same checkbox the waitlist form requires */
+  acknowledgeCancellationPolicy: true;
+}
+interface GlossGeniusWaitlistJoinResult {
+  business: string;
+  joined: true;
+  /** GlossGenius emails or texts the client a link to track or cancel the entry; the create call itself returns no id to read back */
+  note: string;
+}
 
   /**
    * GlossGenius salon, barber and spa booking sites (<slug>.glossgenius.com): services, team,
@@ -38481,6 +39295,16 @@ interface GlossGeniusGiftCardOptions {
      * "ada@example.com" })`.
      */
     getBookingRequirements(args: GlossGeniusBookingRequirementsArgs): Promise<GlossGeniusBookingRequirements>;
+
+    /**
+     * Puts a client on a business's waitlist for one or more services and a preferred team member,
+     * as a guest, when no open time suits. GlossGenius emails or texts the client a link to the
+     * entry rather than returning one. Example: `bowmark.providers.glossgenius.joinWaitlist({
+     * business: "sweettouchskin", services: ["ccd9f9db5c"], provider: "c1ea427fdc", name: "Ada
+     * Client", email: "ada@example.com", phone: "5555550123", acknowledgeCancellationPolicy: true
+     * })`.
+     */
+    joinWaitlist(args: GlossGeniusJoinWaitlistArgs): Promise<GlossGeniusWaitlistJoinResult>;
   }
 }
 
@@ -38606,6 +39430,17 @@ interface GoloadupServiceAvailability {
 
 declare namespace BowmarkProvider_goodreads {
   // ── Goodreads — the unit's own declarations, verbatim ──
+interface GoodreadsUpdate {
+  actorName: string;
+  actorUrl?: string;
+  action: string;
+  bookTitle?: string;
+  bookUrl?: string;
+  bookId?: string;
+  author?: string;
+  url?: string;
+  timestamp?: string;
+}
 interface GoodreadsBookRow {
   legacyId: string;
   title: string;
@@ -38820,6 +39655,14 @@ interface GoodreadsShelfBook {
      * URL. Needs the caller signed in to Goodreads (an authFunction, a write).
      */
     followUser(idOrUrl: string, opts?: ConnectionOption): Promise<{ memberId: string; following: true }>;
+
+    /**
+     * Reads the signed-in caller's friends feed — each row is who did what to which book
+     * (actorName, action like 'rated it' or 'is currently reading', bookTitle, bookId, author,
+     * timestamp), newest first as Goodreads orders it. Needs the caller signed in to Goodreads (an
+     * authFunction).
+     */
+    getNewsFeed(opts?: ConnectionOption): Promise<GoodreadsUpdate[]>;
 
     /**
      * Makes a NEW Goodreads account with the person's own email and password, in a session. Pauses
@@ -40058,6 +40901,72 @@ interface SheetValues {
      * optionally just an A1 range, as a header row plus rows of strings.
      */
     readSheet(args: ReadSheetArgs): Promise<SheetValues>;
+  }
+}
+
+declare namespace BowmarkProvider_google_store {
+  // ── Google Store — the unit's own declarations, verbatim ──
+interface GoogleStoreListArgs {
+  /** Max rows, default 200. */
+  limit?: number;
+}
+interface GoogleStoreSearchArgs {
+  /** Product words, e.g. "pixel 10", "nest cam". */
+  query: string;
+  /** Max rows, default 20, clamped to [1, 200]. */
+  limit?: number;
+}
+interface GoogleStoreGetArgs {
+  /** A store.google.com product url, or its slug ("pixel_10"). */
+  url: string;
+}
+interface GoogleStoreProductRef {
+  slug: string;
+  /** The slug de-underscored, e.g. "pixel 10". */
+  title: string;
+  url: string;
+  lastModified: string | null;
+}
+interface GoogleStoreProduct {
+  slug: string;
+  name: string;
+  url: string;
+  description: string | null;
+  imageUrl: string | null;
+  /** e.g. "From $599"; null when no price is shown (sold out / discontinued). */
+  priceText: string | null;
+  price: number | null;
+  /** Struck-through regular price when on sale, else null. */
+  listPrice: number | null;
+  currency: "USD";
+  financing: string | null;
+}
+
+  /**
+   * Google Store (store.google.com), Google's own hardware shop: list and search its Pixel
+   * phones, Pixel Watch, Pixel Buds, Nest, Fitbit and accessories, and read one product's
+   * current US price, sale/list price, financing and description.
+   */
+  interface Unit {
+    /**
+     * Lists every product page on the US Google Store (Pixel, Pixel Watch, Pixel Buds, Nest,
+     * Fitbit, accessories) from its own sitemap — slug, title and url. No prices; call getProduct
+     * for one.
+     */
+    listProducts(args?: GoogleStoreListArgs): Promise<GoogleStoreProductRef[]>;
+
+    /**
+     * Finds Google Store products by name words (e.g. { query: "pixel 10" }, "nest cam", "pixel
+     * buds") — slug, title and url, tightest match first. Empty array when nothing matches. Pass a
+     * result's url to getProduct for its price.
+     */
+    searchProducts(args: GoogleStoreSearchArgs): Promise<GoogleStoreProductRef[]>;
+
+    /**
+     * Reads one Google Store product page (US) — its name, current 'From' price, struck-through
+     * list price when on sale, monthly financing line, description and image.
+     */
+    getProduct(args: GoogleStoreGetArgs): Promise<GoogleStoreProduct>;
   }
 }
 
@@ -44099,6 +45008,47 @@ interface GetProductAvailabilityArgs {
   /** Only this store's row (a storeId from findStores). */
   storeId?: string;
 }
+interface GetDeliveryOptionsArgs {
+  /** One item number, or several. */
+  itemNos: string | string[];
+  /** Applied to every item; default 1. */
+  quantity?: number;
+  /** A 5-digit US ZIP — checks home-delivery eligibility there. Pass this or storeId, not both. */
+  zip?: string;
+  /** A storeId from findStores — checks click-and-collect and in-store stock there instead. */
+  storeId?: string;
+}
+interface IkeaDeliveryQuantity {
+  available: boolean | null;
+  /** The site's own reason the item cannot go this way, e.g. "OUT_OF_STOCK". */
+  reasonCode: string | null;
+  quantity: number | null;
+}
+interface IkeaCashAndCarry {
+  available: boolean | null;
+  quantity: number | null;
+  stockLevel: string | null;
+  department: string | null;
+}
+interface IkeaItemDeliveryOptions {
+  itemNo: string;
+  homeDelivery: IkeaDeliveryQuantity;
+  clickAndCollect: IkeaDeliveryQuantity;
+  cashAndCarry: IkeaCashAndCarry;
+}
+interface IkeaDeliveryPrice {
+  /** In dollars. Null when IKEA has not computed one yet — usually true until checkout. */
+  current: number | null;
+  original: number | null;
+  discounted: boolean;
+}
+interface IkeaDeliveryOptions {
+  isEligibleForParcelDelivery: boolean;
+  isEligibleForTruckDelivery: boolean;
+  items: IkeaItemDeliveryOptions[];
+  homeDelivery: { price: IkeaDeliveryPrice; leadTimeDays: string | null };
+  clickAndCollect: { price: IkeaDeliveryPrice; leadTimeDays: string | null };
+}
 interface IkeaCategory {
   id: string;
   name: string;
@@ -44259,6 +45209,13 @@ interface RemoveFromCartArgs {
      * quantity, stock band, click-and-collect and the aisle/bin to pick it from.
      */
     getProductAvailability(args: GetProductAvailabilityArgs): Promise<IkeaAvailability[]>;
+
+    /**
+     * Checks home-delivery eligibility for a ZIP, or click-and-collect and in-store stock for a
+     * store, plus the delivery price and lead time IKEA has computed so far — often null until
+     * checkout, which this reports honestly rather than guessing.
+     */
+    getDeliveryOptions(args: GetDeliveryOptionsArgs): Promise<IkeaDeliveryOptions>;
 
     /**
      * Lists IKEA's US product category tree (e.g. Storage & organization → Bookcases & shelving
@@ -44949,6 +45906,19 @@ interface InstacartDepartment {
   name: string;
 }
 
+interface InstacartSuggestSearchesArgs {
+  /** What the shopper has typed so far, e.g. "chee". */
+  query: string;
+  /** A store's shop id, from listStores or getStore. */
+  shopId: string;
+}
+
+interface InstacartSearchSuggestion {
+  term: string;
+  retailerSlug: string | null;
+  url: string | null;
+}
+
 interface InstacartListDepartmentProductsArgs {
   shopId: string;
   slug: string;
@@ -45040,6 +46010,12 @@ interface InstacartDeliveryEstimate {
      * service fees need the caller's own saved address and are not returned.
      */
     getDeliveryEstimate(args: InstacartGetDeliveryEstimateArgs): Promise<InstacartDeliveryEstimate[]>;
+
+    /**
+     * Returns Instacart's search-as-you-type suggestions for a partial query at one store ("chee"
+     * → "cheez its", "cheese", "cheetos").
+     */
+    suggestSearches(args: InstacartSuggestSearchesArgs): Promise<InstacartSearchSuggestion[]>;
   }
 }
 
@@ -51924,6 +52900,45 @@ interface MangomintAvailability {
   days: MangomintAvailabilityDay[];
 }
 
+interface MangomintServiceCategory {
+  id: number;
+  name: string;
+  serviceIds: number[];
+}
+
+interface MangomintServiceCategoryList {
+  business: { companyId: number; name: string };
+  categories: MangomintServiceCategory[];
+}
+
+interface MangomintGetStaffArgs extends MangomintBusinessArgs {
+  /** From listStaff. */
+  staffId: number;
+}
+
+interface MangomintStaffService {
+  serviceId: number;
+  name: string;
+  /** This staff member's own price/duration for it; null means the service's own applies. */
+  customPrice: number | null;
+  customDurationMinutes: number | null;
+}
+
+interface MangomintStaffDetail extends MangomintStaffMember {
+  services: MangomintStaffService[];
+}
+
+interface MangomintValidateSlotArgs extends MangomintBusinessArgs {
+  services: MangomintAvailabilityRequestService[];
+  /** A slot from checkAvailability, e.g. "2026-11-05T10:30:00" (business-local). */
+  startAtLocal: string;
+}
+
+interface MangomintSlotCheck {
+  startAtLocal: string;
+  valid: boolean;
+}
+
   /**
    * Mangomint salon and spa booking: find a business, its services, staff and open times, book,
    * and manage an appointment from its link.
@@ -51964,6 +52979,24 @@ interface MangomintAvailability {
      * morning/afternoon/evening, with any staff member or a named one.
      */
     checkAvailability(args: MangomintCheckAvailabilityArgs): Promise<MangomintAvailability>;
+
+    /**
+     * A business's service categories in menu order, each with the service ids under it — the ids
+     * listServices filters by.
+     */
+    listServiceCategories(args: MangomintBusinessArgs): Promise<MangomintServiceCategoryList>;
+
+    /**
+     * One staff member in full: photo, days worked, and every service they perform with their own
+     * price/duration override.
+     */
+    getStaff(args: MangomintGetStaffArgs): Promise<MangomintStaffDetail>;
+
+    /**
+     * Checks that one appointment time from checkAvailability is still open for these services
+     * right now. No side effect.
+     */
+    validateSlot(args: MangomintValidateSlotArgs): Promise<MangomintSlotCheck>;
   }
 }
 
@@ -53282,16 +54315,16 @@ interface mcpRegistryEntry {
     /**
      * Lists or searches the official MCP server registry (registry.modelcontextprotocol.io) — the
      * community-run directory of published Model Context Protocol servers, the same catalogue the
-     * registry's own web UI browses. `query` substring-matches the registry NAME (e.g. "weather"
-     * matches `ai.smithery/smithery-ai-national-weather-service`); omit it to list the
-     * newest-published entries. Each row carries the registry name, an optional title, its
-     * description, its latest published version, where to install it (`repositoryUrl`) or connect
-     * to it if it's hosted (`remoteUrl`), and the registry's own status (`"active"`,
-     * `"deprecated"`, …). `limit` caps how many rows come back (default 30, registry maximum 100)
-     * — this is a flat list, not a paged walk, since a caller asking "is there an MCP server for
-     * X" wants the top matches, not the whole registry.
+     * registry's own web UI browses. Pass `query` directly or in `{ query, limit }`; omit it to
+     * list the newest-published entries. `query` substring-matches the registry NAME (e.g.
+     * "weather" matches `ai.smithery/smithery-ai-national-weather-service`). Each row carries the
+     * registry name, an optional title, its description, its latest published version, where to
+     * install it (`repositoryUrl`) or connect to it if it's hosted (`remoteUrl`), and the
+     * registry's own status (`"active"`, `"deprecated"`, …). `limit` caps how many rows come back
+     * (default 30, registry maximum 100) — this is a flat list, not a paged walk, since a caller
+     * asking "is there an MCP server for X" wants the top matches, not the whole registry.
      */
-    search(query?: string, limit?: number): Promise<mcpRegistryEntry[]>;
+    search(query?: string | { query?: string; limit?: number }, limit?: number): Promise<mcpRegistryEntry[]>;
   }
 }
 
@@ -53317,16 +54350,17 @@ interface McpSoSearchResult {
    */
   interface Unit {
     /**
-     * Searches the mcp.so directory of published MCP servers. `query` is matched as a
-     * case-insensitive substring against each listing's mcp.so SLUG (e.g. "firecrawl" matches
-     * `mcp.so/servers/firecrawl-firecrawl` and `mcp.so/servers/firecrawl`) — not a full-text
-     * search of descriptions. `limit` caps how many matches are fetched and returned (default 10,
-     * max 25 — each one costs a separate request to that listing's own page). Returns `{ results,
-     * warnings }`: each result carries mcp.so's own name, description, category, publisher and
-     * page url for that listing, read from the page's own structured data; `warnings` names any
-     * sitemap or detail page this call could not reach, and is empty on a fully healthy call.
+     * Searches the mcp.so directory of published MCP servers. Pass `query` directly or in `{
+     * query, limit }`; it is matched as a case-insensitive substring against each listing's mcp.so
+     * SLUG (e.g. "firecrawl" matches `mcp.so/servers/firecrawl-firecrawl` and
+     * `mcp.so/servers/firecrawl`) — not a full-text search of descriptions. `limit` caps how many
+     * matches are fetched and returned (default 10, max 25 — each one costs a separate request to
+     * that listing's own page). Returns `{ results, warnings }`: each result carries mcp.so's own
+     * name, description, category, publisher and page url for that listing, read from the page's
+     * own structured data; `warnings` names any sitemap or detail page this call could not reach,
+     * and is empty on a fully healthy call.
      */
-    search(query: string, limit?: number): Promise<McpSoSearchResult>;
+    search(query: string | { query: string; limit?: number }, limit?: number): Promise<McpSoSearchResult>;
   }
 }
 
@@ -56864,6 +57898,24 @@ interface NetflixTudumArticle {
   body: string;
 }
 
+interface NetflixTudumSearchEntry {
+  title: string;
+  /** The title's season/part, e.g. "Stranger Things 5" — absent when the row is not a season. */
+  seasonTitle?: string;
+  category: "TV" | "Films";
+  language: "English" | "Non-English";
+  /** The Top 10 week this ranking is from, e.g. "2026-10-18". */
+  week: string;
+  rank: number;
+  weeklyViews?: number;
+  weeklyHours?: number;
+}
+
+interface NetflixTudumSearchResult {
+  query: string;
+  matches: NetflixTudumSearchEntry[];
+}
+
   /** Netflix streaming service — browse titles, search, manage My List and view history. */
   interface Unit {
     /**
@@ -56872,6 +57924,13 @@ interface NetflixTudumArticle {
      * authors, lead image and the full article text. No sign-in.
      */
     getTudumArticle(article: string): Promise<NetflixTudumArticle>;
+
+    /**
+     * Searches Netflix's weekly Top 10 history by title — e.g. searchTudum("stranger things") —
+     * returning every week and category the title ranked in, with its rank and views. Empty when
+     * the title has never charted. No sign-in.
+     */
+    searchTudum(query: string): Promise<NetflixTudumSearchResult>;
 
     /**
      * Reads the signed-in caller's own Netflix Continue Watching row — the titles they are
@@ -57296,6 +58355,20 @@ interface nhcTropicalCycloneReport {
   basin: 'Atlantic' | 'Pacific';
   reportUrl: string;
 }
+interface nhcSatelliteImage {
+  region: 'Atlantic' | 'Pacific';
+  sector: string;
+  product: string;
+  imageUrl: string;
+  loopUrl: string;
+  animatedGifUrl: string | null;
+}
+interface nhcReconObservation {
+  basin: 'AL' | 'EP';
+  product: string;
+  title: string;
+  text: string;
+}
 
   /**
    * Current and recent tropical storms and hurricanes from NOAA's Hurricane Center, keyless and
@@ -57425,6 +58498,20 @@ interface nhcTropicalCycloneReport {
      * until the season closes.
      */
     getTropicalCycloneReport(args: { stormId: string }): Promise<nhcTropicalCycloneReport>;
+
+    /**
+     * Get the latest GOES satellite image links for a basin — GeoColor, Visible, Shortwave-IR, IR
+     * and Water Vapor, per sector, each with a still image, a loop and an animated GIF. `AL`
+     * returns the Atlantic sectors; `EP`/`CP` return the Pacific sectors.
+     */
+    getSatelliteImagery(args?: { basin?: 'AL' | 'EP' | 'CP' }): Promise<nhcSatelliteImage[]>;
+
+    /**
+     * Get the latest Hurricane Hunter aircraft reconnaissance reports for the Atlantic (AL) or
+     * East Pacific (EP) basin: vortex data messages, flight-level (HDOB) observations and
+     * dropsonde soundings. NHC flies no Central Pacific missions.
+     */
+    getReconObservations(args: { basin: 'AL' | 'EP' }): Promise<nhcReconObservation[]>;
   }
 }
 
@@ -58605,6 +59692,45 @@ interface NwsAlertCounts {
   zones: Record<string, number>;
 }
 
+interface GetMarineForecastArgs {
+  /** A marine zone id like "ANZ230" (Boston Harbor) — findZones({ type: "marine" }) lists them. */
+  zone: string;
+}
+
+interface NwsMarineForecast {
+  zone: string;
+  zoneName: string;
+  issued: string;
+  headlines: string[];
+  periods: Array<{ name: string; text: string }>;
+  text: string;
+}
+
+interface GetTextProductArgs {
+  /** A product type code like "HWO", "CLI" or "CWF" — with office. */
+  type?: string;
+  /** A forecast office id like "BOX" — with type. */
+  office?: string;
+  /** One specific issuance id — instead of type + office. */
+  id?: string;
+}
+
+interface GetWeatherStoriesArgs {
+  /** A forecast office id like "BOX", or a place name / ZIP / "lat,lon" resolved to its office. */
+  place: string;
+}
+
+interface NwsWeatherStory {
+  title: string;
+  description: string;
+  altText: string;
+  startTime: string;
+  endTime: string;
+  updateTime: string;
+  priority: boolean;
+  imageUrl: string | null;
+}
+
 interface GetOfficeArgs {
   /** A forecast office id like "BOX", or a place name / ZIP / "lat,lon" resolved to its office. */
   place: string;
@@ -58750,6 +59876,25 @@ interface NwsOffice {
      * place name.
      */
     getOffice(args: GetOfficeArgs): Promise<NwsOffice>;
+
+    /**
+     * The coastal-waters forecast for one marine zone — zone name, issue time, any advisory
+     * headline, and winds/waves by period. Takes a marine zone id like ANZ230 (Boston Harbor).
+     */
+    getMarineForecast(args: GetMarineForecastArgs): Promise<NwsMarineForecast>;
+
+    /**
+     * The latest issuance of any NWS text product at an office ({ type: "HWO", office: "BOX" }),
+     * or one issuance by { id }.
+     */
+    getTextProduct(args: GetTextProductArgs): Promise<NwsTextProduct>;
+
+    /**
+     * A forecast office's current weather-story briefing graphics — title, plain-language
+     * description, alt text, valid window and the image URL. Takes an office id like BOX or a
+     * place name.
+     */
+    getWeatherStories(args: GetWeatherStoriesArgs): Promise<NwsWeatherStory[]>;
   }
 }
 
@@ -60255,6 +61400,42 @@ interface OloGetOrderStatusArgs {
   host: string;
   orderId: string;
 }
+interface OloBasketProduct {
+  id: string;
+  productId: number;
+  name: string;
+  quantity: number;
+  unitCost: number;
+  totalCost: number;
+}
+interface OloBasket {
+  guid: string;
+  vendorId: number;
+  handoffMode: string;  // "Unspecified" until the handoff mode and time are set -- not yet built
+  items: OloBasketProduct[];
+  subTotal: number;
+  salesTax: number;
+  total: number;
+  unavailableItems: string[];
+}
+interface OloStartOrderArgs {
+  host: string;
+  vendorId: number;
+}
+interface OloAddToBasketArgs {
+  host: string;
+  guid: string;
+  vendorId: number;
+  vendorProductId: number;
+  quantity: number;
+  choiceIds?: number[];
+  specialInstructions?: string;
+  recipientName?: string;
+}
+interface OloGetBasketArgs {
+  host: string;
+  guid: string;
+}
 
   /**
    * Olo-hosted restaurant order sites (order.fazolis.com, order.portillos.com,
@@ -60327,6 +61508,24 @@ interface OloGetOrderStatusArgs {
      * to checking right now.
      */
     checkOrderAvailability(args: OloCheckOrderAvailabilityArgs): Promise<OloOrderAvailability>;
+
+    /**
+     * Opens a guest basket at a location, returning the basket guid every other basket call
+     * (addToBasket, getBasket) needs. Private to this call -- nothing is charged, and the basket
+     * only exists for the rest of the script. The handoff mode and time wanted are set later, in
+     * startCheckout. Example: `bowmark.providers.olo.startOrder({ host: "order.fazolis.com",
+     * vendorId: 81322 })`.
+     */
+    startOrder(args: OloStartOrderArgs): Promise<OloBasket>;
+
+    /**
+     * Adds a product to a guest basket from startOrder, with a quantity and any option choices,
+     * and returns the updated basket with its running subtotal, tax and total.
+     */
+    addToBasket(args: OloAddToBasketArgs): Promise<OloBasket>;
+
+    /** Returns a guest basket's current items, subtotal, tax and total. */
+    getBasket(args: OloGetBasketArgs): Promise<OloBasket>;
 
     /**
      * Returns a placed order's status from its order id (off the confirmation link): status,
@@ -61285,6 +62484,39 @@ interface ListCreatorPostsResult {
   nextCursor?: string;
 }
 
+interface SearchCreatorPostsArgs {
+  vanity: string;
+  query: string;
+  cursor?: string;
+}
+
+interface SearchCreatorPostsResult {
+  posts: patreonPost[];
+  total?: number;
+  nextCursor?: string;
+}
+
+interface ListCreatorCollectionsArgs {
+  vanity: string;
+  cursor?: string;
+}
+
+interface patreonCollection {
+  id: string;
+  title?: string;
+  description?: string;
+  numPosts?: number;
+  postIds: string[];
+  thumbnailUrl?: string;
+  url: string;
+}
+
+interface ListCreatorCollectionsResult {
+  collections: patreonCollection[];
+  total?: number;
+  nextCursor?: string;
+}
+
 interface GetPostArgs {
   postId: string;
 }
@@ -61386,6 +62618,19 @@ interface GetCurrentUserFeedResult {
      * row says whether the post is public.
      */
     listCreatorPosts(args: ListCreatorPostsArgs): Promise<ListCreatorPostsResult>;
+
+    /**
+     * Search inside one creator's posts — titles and body text — newest first, with the total
+     * match count and the site's own cursor. Member-only matches come back as rows with isPublic
+     * false.
+     */
+    searchCreatorPosts(args: SearchCreatorPostsArgs): Promise<SearchCreatorPostsResult>;
+
+    /**
+     * List a creator's collections (series), each with its title, post count and its posts' ids in
+     * the creator's order, one page at a time with the site's own cursor.
+     */
+    listCreatorCollections(args: ListCreatorCollectionsArgs): Promise<ListCreatorCollectionsResult>;
 
     /**
      * Get one post by id: title, publish date, counts and, when it is public, its body as
@@ -61683,20 +62928,14 @@ interface PaypalCurrencyConversionQuote {
 }
 type PaypalPolicyDocumentKey = "user-agreement" | "seller-protection" | "privacy" | "balance-terms" | "cryptocurrency-terms";
 interface PaypalPolicySection {
-  id: string;
+  id: string;                   // the page's own anchor, e.g. "what-eligible"
   title: string;
-  subsections?: PaypalPolicySubsection[];
-  content?: string;
-}
-interface PaypalPolicySubsection {
-  id: string;
-  title: string;
-  content?: string;
+  content: string;              // the clauses as plain text, one paragraph or list item per line
 }
 interface PaypalPolicyDocument {
   documentKey: PaypalPolicyDocumentKey;
   title: string;
-  lastModified: string;
+  lastModified: string | null;  // PayPal's own "Last updated on …" line, verbatim
   sections: PaypalPolicySection[];
   sourceUrl: string;
 }
@@ -61708,8 +62947,8 @@ interface PaypalPayInFourPlan {
 }
 interface PaypalPayMonthlyTerms {
   name: "Pay Monthly";
-  termLengths: string[];
-  aprRange: string;
+  termLengths: string[];        // e.g. ["3 months", "6 months", "12 months", "24 months"]
+  aprRange: string | null;      // the published fixed-APR range, e.g. "0-35.99%"
   note: string;
 }
 interface PaypalPayLaterPlan {
@@ -61778,10 +63017,11 @@ interface PaypalMeProfile {
   interface Unit {
     /**
      * Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — domestic or
-     * cross-border, by funding source — off PayPal's own published fee schedule, e.g.
-     * estimateFee({ amount: 100, currency: "USD", crossBorder: false, fundingSource: "card" }) ->
-     * { fee: 3.2, net: 96.8, citations: [...] }. Does not (yet) cover goods-and-services/merchant
-     * transactions, a separate page nobody has walked.
+     * cross-border (the domestic fee for the funding source plus the international fee), by
+     * funding source — off PayPal's own published fee schedule, e.g. estimateFee({ amount: 100,
+     * currency: "USD", crossBorder: false, fundingSource: "card" }) -> { fee: 3.2, net: 96.8,
+     * citations: [...] }. Does not (yet) cover goods-and-services/merchant transactions, a
+     * separate page nobody has walked.
      */
     estimateFee(args: PaypalEstimateFeeArgs): Promise<PaypalFeeEstimate>;
 
@@ -61949,6 +63189,31 @@ interface PeekAvailability {
   id: string; title: string | null; quantity: number; startDate: string; endDate: string;
   sessions: PeekSession[];
 }
+interface PeekGetPriceQuoteArgs {
+  /** An experience id such as "a0q5bg3" (or url). */
+  id?: string;
+  url?: string;
+  /** A session id from getAvailability, e.g. "at0drp8ayjr". */
+  sessionId: string;
+  /** Number of travelers. */
+  quantity: number;
+  /** YYYY-MM-DD — the date getAvailability returned this session on. */
+  startDate: string;
+  /** YYYY-MM-DD; defaults to startDate. */
+  endDate?: string;
+}
+interface PeekPriceQuote {
+  id: string; sessionId: string; quantity: number;
+  total: { amount: number; currency: string }; currency: string;
+}
+interface PeekSimilarExperience {
+  id: string; title: string; url: string;
+  price: { amount: number; currency: string } | null;
+  rating: number | null; reviewCount: number | null; region: string | null;
+}
+interface PeekReviewList {
+  id: string; rating: number | null; reviewCount: number | null; reviews: PeekReview[];
+}
 
   /**
    * Peek (peek.com), the tours and activities marketplace: find a region, search experiences by
@@ -61999,6 +63264,28 @@ interface PeekAvailability {
      * (searchExperiences' regionId), URL, image and experience count ("London", r0p3, 3858).
      */
     listDestinations(): Promise<{ destinations: PeekDestination[] }>;
+
+    /**
+     * Prices a party for one session: given a sessionId from getAvailability and a quantity of
+     * travelers, returns the total Peek charges for that party size. Assumes the experience sells
+     * one ticket type, which is what getExperience's tickets list shows for every experience
+     * measured so far.
+     */
+    getPriceQuote(args: PeekGetPriceQuoteArgs): Promise<PeekPriceQuote>;
+
+    /**
+     * The "More activities from this operator" experiences the booking page shows beside one
+     * experience: each one's id, title, url, price, rating, review count and region. Takes { id }
+     * or { url } like getExperience.
+     */
+    listSimilarExperiences(args: PeekGetExperienceArgs): Promise<{ experiences: PeekSimilarExperience[] }>;
+
+    /**
+     * An experience's rating and its most recent reviews (reviewer rating, title, text, date) --
+     * up to 10, Peek's own ceiling on this door; reviewCount is the experience's total and can be
+     * larger than reviews.length. Takes { id } or { url } like getExperience.
+     */
+    listReviews(args: PeekGetExperienceArgs): Promise<PeekReviewList>;
   }
 }
 
@@ -62247,6 +63534,87 @@ interface Pike13PlanProduct {
   product: { id: number; name: string; description: string | null; price_cents: number };
   services: Array<{ id: number; name: string }>;
 }
+interface Pike13ServiceDetail {
+  id: number;
+  name: string;
+  type: string;
+  position: number;
+  description: string | null;
+  description_short: string | null;
+  instructions: string | null;
+  duration_in_minutes: number;
+  enrollment_window_start_minutes: number;
+  enrollment_window_end_minutes: number;
+  free_cancellation_window_in_hours: number;
+  clients_can_book: boolean;
+  members_can_book: boolean;
+  require_cc: boolean;
+  require_plan: boolean;
+  enrollment_window_blackout_minutes: number;
+  calendar_color: number;
+  category_id: number | null;
+  category_name: string | null;
+  pricing: {
+    has_merchandise_price: boolean;
+    number_of_free_visits: number;
+    single_visit: {
+      base_price: { currency_iso: string; price_cents: number; price_string: string };
+      taxes: unknown[];
+      plan_product_id: number | null;
+    } | null;
+  };
+  cancellation: {
+    free_cancellation_window_in_hours: number;
+    cancellation_note: string | null;
+  };
+}
+interface Pike13StaffMember {
+  id: number;
+  name: string;
+  first_name: string;
+  middle_name: string | null;
+  last_name: string;
+  bio: string | null;
+  profile_photo: { x50: string; x100: string; x200: string; x400: string } | null;
+}
+interface Pike13GetScheduleSummaryArgs {
+  from: string;              // ISO 8601 instant
+  to: string;                // ISO 8601 instant
+  locationId?: number | string;
+  serviceId?: number | string;
+  staffMemberId?: number | string;
+}
+type Pike13ScheduleSummary = Record<string, number>; // "YYYY-MM-DD" -> class count
+interface Pike13EventSeriesOccurrence {
+  id: number;
+  rrule?: string;
+  repeat_end: number;
+  day: string[];
+  interval: number | null;
+  rcount: number | null;
+  rule_type: string | null;
+  all_day: boolean | null;
+  location_id: number;
+  start_at: string;
+  end_at: string;
+  organizers: Array<{ id: number; name: string }>;
+  until_at?: string;
+  reified_to?: string;
+}
+interface Pike13EventSeries {
+  id: number;
+  name: string;
+  service_id: number;
+  service_type: string;
+  start_time: string;
+  end_time: string;
+  created_at: string;
+  updated_at: string;
+  instructions: string | null;
+  recurs: boolean;
+  attendees: unknown[];
+  icals: Pike13EventSeriesOccurrence[];
+}
 
   /**
    * Pike13 studios (music schools, gyms, swim schools, yoga): find a studio, read its class
@@ -62306,6 +63674,31 @@ interface Pike13PlanProduct {
      * Read-only — buying one is money and is not offered.
      */
     listPlans(business: string): Promise<Pike13PlanProduct[]>;
+
+    /**
+     * Gets one service's full details by the id listServices returned — duration, booking windows,
+     * pricing and cancellation terms.
+     */
+    getService(business: string, serviceId: string): Promise<Pike13ServiceDetail>;
+
+    /**
+     * Lists a studio's staff members with bio and photo. Takes the business as its Pike13
+     * subdomain, a <business>.pike13.com url, or the studio's own website.
+     */
+    listStaff(business: string): Promise<Pike13StaffMember[]>;
+
+    /**
+     * Counts a studio's classes per day over a date range, for picking a day before listing it
+     * with getSchedule, filterable by location, service and staff member.
+     */
+    getScheduleSummary(business: string, args: Pike13GetScheduleSummaryArgs): Promise<Pike13ScheduleSummary>;
+
+    /**
+     * Lists a studio's recurring class series (events) with their recurrence and service. Takes
+     * the business as its Pike13 subdomain, a <business>.pike13.com url, or the studio's own
+     * website.
+     */
+    listClassSeries(business: string): Promise<Pike13EventSeries[]>;
   }
 }
 
@@ -62504,6 +63897,16 @@ interface PinterestIdeaPin {
   images?: Record<string, { width: number; height: number; url: string }>;
   dominant_color?: string;
   videos?: unknown;
+}
+interface PinterestConversation {
+  id: string;
+  created_at?: string;
+  name?: string;
+  board?: { id: string; name: string };
+  emails?: string[];
+  unread?: number;
+  users?: PinterestUser[];
+  last_message?: { text?: string; created_at?: string };
 }
 
   /**
@@ -62753,6 +64156,15 @@ interface PinterestIdeaPin {
      * session is refused (the run asks for a fresh sign-in).
      */
     listUserFollowing(username: string, options?: { bookmark?: string }, opts?: ConnectionOption): Promise<{ users: PinterestUser[]; bookmark: string | null }>;
+
+    /**
+     * The caller's Pinterest inbox — every thread they are in, with its board (when the thread
+     * shares one), who is on it, whether it is unread, and its last message. `POST/GET
+     * /resource/ConversationsResource/get/` with `{ field_set_key: "default" }` and the caller's
+     * replayed session — does not page, the site answers the whole list in one call. THROWS when
+     * the saved session is refused (the run asks for a fresh sign-in).
+     */
+    listConversations(opts?: ConnectionOption): Promise<{ conversations: PinterestConversation[] }>;
   }
 }
 
@@ -65927,6 +67339,55 @@ interface QuickbooksTemplate {
   url: string;
 }
 
+interface QuickbooksSearchCommunityArgs {
+  query: string;
+  /** 1-based page of results. Default 1. */
+  page?: number;
+  /** How many results to return, 1-10 (default 10). */
+  limit?: number;
+}
+
+/** One Community search result. */
+interface QuickbooksCommunitySearchResult {
+  title: string;
+  snippet: string;
+  url: string;
+  /** The board slug, when the URL is one `getThread` can read. Null on an
+   * older URL shape this provider does not otherwise parse. */
+  board: string | null;
+  /** Whether the thread has an accepted answer. */
+  solved: boolean;
+  createdAt: string | null;
+  updatedAt: string | null;
+}
+
+interface QuickbooksSearchHelpArticlesArgs {
+  query: string;
+  page?: number;
+  /** How many results to return, 1-10 (default 10). */
+  limit?: number;
+}
+
+/** One help-center search result. Call `getHelpArticle` with its `url`. */
+interface QuickbooksHelpArticleSummary {
+  title: string;
+  url: string;
+  snippet: string;
+}
+
+/** One QuickBooks help article's detail. */
+interface QuickbooksHelpArticle {
+  title: string;
+  /** The article's steps and explanatory text, in reading order, with HTML
+   * stripped — one entry per paragraph, heading or list item. */
+  content: string[];
+  /** The QuickBooks products and editions this article is tagged under, in
+   * the site's own words (e.g. "QuickBooks Online Plus"). */
+  products: string[];
+  updatedAt: string | null;
+  url: string;
+}
+
   /**
    * QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators, the
    * ProAdvisor accountant directory, the App Store, Community answers, help articles and service
@@ -65980,6 +67441,15 @@ interface QuickbooksTemplate {
 
     /** QuickBooks' free downloadable invoice and timesheet templates */
     listTemplates(): Promise<QuickbooksTemplate[]>;
+
+    /** Community threads matching a phrase, with board, URL and whether solved */
+    searchCommunity(query: string | QuickbooksSearchCommunityArgs): Promise<QuickbooksCommunitySearchResult[]>;
+
+    /** Help-center articles matching a question, with title, URL and snippet */
+    searchHelpArticles(query: string | QuickbooksSearchHelpArticlesArgs): Promise<QuickbooksHelpArticleSummary[]>;
+
+    /** One help article's title, step-by-step text and tagged QuickBooks products */
+    getHelpArticle(url: string): Promise<QuickbooksHelpArticle>;
   }
 }
 
@@ -66171,6 +67641,24 @@ interface QuoraTopicFeed {
   topicUrl: string;
   questions: Array<{ id: string; title: string; url: string }>;
 }
+interface GetAnswersArgs {
+  url?: string;
+  title?: string;
+  cursor?: string;
+  count?: number;
+}
+interface QuoraAnswersPage {
+  questionId: string;
+  answers: Array<{
+    id: string;
+    author: string;
+    authorUrl: string;
+    content: string;
+    upvotes: number;
+    createdAt?: string;
+  }>;
+  nextCursor: string | null;
+}
 
   /**
    * A question-and-answer site: questions and their answers, member profiles and Spaces, and
@@ -66184,6 +67672,14 @@ interface QuoraTopicFeed {
      * its exact title text.
      */
     getQuestion(args: GetQuestionArgs): Promise<QuoraQuestion>;
+
+    /**
+     * Pages through a question's answers beyond the first page getQuestion embeds, using the
+     * site's own answer-pagination request — taking the SAME url/title getQuestion takes, plus an
+     * optional cursor (from a previous call's nextCursor) and count. Signed out, same as
+     * getQuestion.
+     */
+    getAnswers(args: GetAnswersArgs): Promise<QuoraAnswersPage>;
 
     /**
      * Reads a member's public profile — display name, bio, credential, follower count, answer
@@ -67796,6 +69292,14 @@ interface BookingVenue {
      * fulfilling partner.
      */
     listMyBookings(opts?: ConnectionOption): Promise<BookingVenue[]>;
+
+    /**
+     * Finds one of the caller's bookings on their Bookings page (needs the caller's Google
+     * sign-in) by the venue's feature id — the same id listMyBookings returns — and returns that
+     * venue: name, address, phone, time zone, feature id and fulfilling partner. The Bookings
+     * page's own markup carries no separate booking id, time, party size or status to return.
+     */
+    getBooking(featureId: string, opts?: ConnectionOption): Promise<BookingVenue>;
   }
 }
 
@@ -68034,6 +69538,75 @@ interface ReutersVideo {
   thumbnail: string | null;
   duration: number | null;   // seconds
   publishedAt: string | null;
+}
+interface ReutersGalleryPhoto {
+  id: string | null;
+  url: string;                      // full-size image
+  caption: string | null;           // ends with the REUTERS/<photographer> credit
+  title: string | null;             // the frame's wire headline
+  altText: string | null;
+  photographer: string | null;
+  location: string | null;
+  width: number | null;
+  height: number | null;
+  shareUrl: string | null;
+}
+interface ReutersPictureGalleryDetail {
+  title: string;
+  url: string;
+  description: string | null;
+  publishedAt: string | null;
+  updatedAt: string | null;
+  photoCount: number;
+  photos: ReutersGalleryPhoto[];
+}
+interface GetPictureGalleryArgs {
+  url: string;                      // a reuters.com/pictures/… url from listPictureGalleries
+}
+interface ReutersPressReleaseDetail {
+  title: string;
+  url: string;
+  wire: string | null;              // the distributor, e.g. "EZNewswire"
+  location: string | null;          // dateline, e.g. "CHONGQING, China"
+  publishedAt: string | null;
+  updatedAt: string | null;
+  body: string[];                   // paragraphs, markup stripped; the issuer is named in the first
+  images: Array<{ url: string; caption: string | null }>;
+}
+interface GetPressReleaseArgs {
+  url: string;                      // a reuters.com/press-releases/… url from listPressReleases
+}
+interface ReutersPodcastEpisode {
+  title: string;
+  url: string;
+  description: string | null;
+  publishedAt: string | null;
+  duration: number | null;          // seconds
+  audioUrl: string | null;          // Megaphone mp3; null on a vodcast-only episode
+  videoId: string | null;           // the filmed version, when there is one
+  image: string | null;
+}
+interface ReutersPodcastEpisodes {
+  show: string;
+  url: string;
+  description: string | null;
+  episodes: ReutersPodcastEpisode[]; // newest first
+}
+interface ListPodcastEpisodesArgs {
+  slug: string;                     // from listPodcasts, e.g. "reuters-morning-bid"
+  limit?: number;                   // 1-20, default 20 — the show page carries its latest 20
+}
+interface ReutersNewsletter {
+  name: string;
+  id: string | null;                // the site's own newsletter id, e.g. "morning_bid_us"
+  url: string | null;               // its landing page
+  description: string | null;
+  frequency: string | null;         // e.g. "Every weekday"
+  subscriberOnly: boolean;          // needs a paid Reuters subscription
+  image: string | null;
+}
+interface ListNewslettersArgs {
+  query?: string;                   // every word must appear in the name or description
 }
 interface ReutersVideoDetail extends ReutersVideo {
   streamUrl: string | null;         // HLS master playlist (.m3u8)
@@ -68438,6 +70011,32 @@ interface GetAuthorArgs {
     getAuthor(args: GetAuthorArgs): Promise<ReutersAuthorPage>;
 
     /**
+     * One Reuters photo gallery: title, description, published time and every picture with its
+     * caption, photographer, location, size and image url. Takes a gallery url from
+     * listPictureGalleries.
+     */
+    getPictureGallery(args: GetPictureGalleryArgs): Promise<ReutersPictureGalleryDetail>;
+
+    /**
+     * Read one press release on reuters.com in full: title, the wire that distributed it,
+     * dateline, published time, body paragraphs and images. Takes a url from listPressReleases.
+     */
+    getPressRelease(args: GetPressReleaseArgs): Promise<ReutersPressReleaseDetail>;
+
+    /**
+     * The latest episodes of one Reuters podcast show, newest first: title, description, date,
+     * duration, mp3 audio url and the filmed version's video id. Takes a show slug from
+     * listPodcasts.
+     */
+    listPodcastEpisodes(args: ListPodcastEpisodesArgs): Promise<ReutersPodcastEpisodes>;
+
+    /**
+     * Every Reuters newsletter: name, id, landing page, description, how often it sends and
+     * whether it needs a subscription. Optional query filter.
+     */
+    listNewsletters(args?: ListNewslettersArgs): Promise<ReutersNewsletter[]>;
+
+    /**
      * One Reuters video: title, description, duration, published time, thumbnail and its playable
      * HLS stream url. Takes a video page url from listVideos.
      */
@@ -68655,6 +70254,25 @@ interface RightmoveSearchResult {
      * many more exist.
      */
     search(args: { location: string, type: 'sale' | 'rent', minPrice?: number, maxPrice?: number, minBedrooms?: number, maxBedrooms?: number, page?: number }): Promise<RightmoveSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_ring {
+  // ── Ring — the unit's own declarations, verbatim ──
+interface RingSearchArgs { query: string; }
+interface RingSearchResult { name: string; url: string; price: number | null; wasPrice: number | null; imageUrl: string | null; }
+interface RingProduct { name: string; url: string; price: number | null; wasPrice: number | null; currency: string | null; available: boolean | null; skus: string[]; images: string[]; specs: Record<string, string>; }
+
+  /**
+   * Searches Ring's smart doorbell, camera, alarm and accessory catalog, then reads a product's
+   * live price, availability and technical specifications. No key, no browser.
+   */
+  interface Unit {
+    /** Search Ring products by name or product family. */
+    search(args: RingSearchArgs): Promise<RingSearchResult[]>;
+
+    /** Read a Ring product's live offer and technical specifications. */
+    getProduct(url: string): Promise<RingProduct>;
   }
 }
 
@@ -69526,6 +71144,65 @@ interface ListDealsResult {
   deals: SafewayDeal[];
   warnings: string[];
 }
+interface SafewayRecipePrice {
+  priceCents: number;              // US cents, the ingredient basket at the service's store
+  basePriceCents: number | null;
+  pricePerServingCents: number | null;
+  discountPercentage: number | null;
+}
+interface SafewayRecipeSummary {
+  id: string;
+  slug: string;                    // what getRecipe takes
+  name: string;
+  url: string;
+  imageUrl: string | null;
+  calories: number | null;
+  servings: number | null;
+  cookingMinutes: number | null;
+  course: string | null;
+  isSponsored: boolean;
+  price: SafewayRecipePrice | null;
+}
+interface SearchRecipesArgs {
+  query?: string;                  // ranked by meaning, not exact keyword
+  cookbook?: string;               // a /recipes/cookbook/<slug> slug, e.g. "quick" — pass query OR cookbook
+  storeId?: string;                // from findStores; query only
+  limit?: number;                  // default 20, max 50
+}
+interface SearchRecipesResult {
+  query: string | null;
+  cookbook: string | null;
+  total: number | null;
+  recipes: SafewayRecipeSummary[];
+  warnings: string[];
+}
+interface SafewayRecipeIngredient {
+  name: string;
+  quantity: string | null;         // as printed, e.g. "½ cup"
+  shoppable: boolean;
+  product: { productId: string; upc: string | null; name: string; priceCents: number | null; imageUrl: string | null } | null;
+}
+interface GetRecipeArgs {
+  slug: string;                    // from searchRecipes, or the recipe url
+}
+interface SafewayRecipe {
+  id: string;
+  slug: string;
+  name: string;
+  url: string;
+  imageUrl: string | null;
+  servings: number | null;
+  cookingMinutes: number | null;
+  course: string[];
+  cuisine: string[];
+  diets: string[];
+  cookware: string[];
+  ingredients: SafewayRecipeIngredient[];
+  steps: string[];
+  nutrition: Record<string, number>;  // per serving; energy is kcal
+  storeId: string | null;          // the page's default store the product prices are for
+  warnings: string[];
+}
 
   /**
    * Safeway grocery (US): find a store, browse its aisles, search products with store prices and
@@ -69589,6 +71266,22 @@ interface ListDealsResult {
      * getWeeklyAd. Read through the same Flipp doors; see listDeals.ts's header.
      */
     listDeals(args: { storeId: string; zipcode: string }): Promise<ListDealsResult>;
+
+    /**
+     * Searches Safeway's recipes by meaning (the site's own semantic search, so the nearest
+     * recipes come back even when none literally match) or lists one cookbook by slug. Each row
+     * carries the slug getRecipe takes, time, servings, calories and the ingredient basket's price
+     * in cents. See recipes.ts's header.
+     */
+    searchRecipes(args: SearchRecipesArgs | string): Promise<SearchRecipesResult>;
+
+    /**
+     * Returns one Safeway recipe by slug (from searchRecipes) or url: ingredients with the Safeway
+     * product matched to each (productId, UPC, price in cents), steps, time, servings, diets,
+     * cookware and per-serving nutrition. Product prices are for the recipe page's own default
+     * store, named in storeId.
+     */
+    getRecipe(args: GetRecipeArgs | string): Promise<SafewayRecipe>;
   }
 }
 
@@ -70677,6 +72370,18 @@ interface seatgeekRow {
   id: string;
 }
 
+interface GetOrderArgs {
+  id: number;
+}
+
+interface seatgeekOrder {
+  id: number;
+  event: { id: number; title: string };
+  seats?: string;
+  price?: number;
+  status?: string;  // the site's own labels — read the values off a result, never guess one from prose
+}
+
   /**
    * A ticket marketplace for sports, concerts, comedy and theater — event search,
    * performer/venue lookup and price stats, logged out, via SeatGeek's own public internal API;
@@ -70776,6 +72481,22 @@ interface seatgeekRow {
      * has never been measured signed-in, so the call still throws rather than guess.
      */
     unfollowPerformer(args: PerformerFollowArgs, opts?: ConnectionOption): Promise<void>;
+
+    /**
+     * The signed-in caller's "My Tickets" order history, newest first. NEEDS THE CALLER'S SEATGEEK
+     * SIGN-IN, same door as listTrackedEvents. With one, the sign-in is confirmed, but the
+     * order-history listing has never been measured signed-in, so the call still throws rather
+     * than guess.
+     */
+    listMyOrders(opts?: ConnectionOption): Promise<seatgeekOrder[]>;
+
+    /**
+     * Returns one order in full — event, seats, price paid and delivery/transfer status. NEEDS THE
+     * CALLER'S SEATGEEK SIGN-IN, same door as listTrackedEvents. With one, the sign-in is
+     * confirmed, but the order-detail read has never been measured signed-in, so the call still
+     * throws rather than guess.
+     */
+    getOrder(args: GetOrderArgs, opts?: ConnectionOption): Promise<seatgeekOrder>;
   }
 }
 
@@ -71899,6 +73620,28 @@ interface GetBookingTermsArgs {
   /** Default 2. */
   partySize?: number;
 }
+interface SevenroomsUpgradeCategory {
+  id: string;
+  name: string | null;
+  minQuantityType: string | null;
+  minQuantity: number | null;
+  maxQuantityType: string | null;
+  maxQuantity: number | null;
+}
+interface SevenroomsUpgradeItem {
+  id: string;
+  categoryId: string | null;
+  name: string | null;
+  /** The site's own rich-text HTML. */
+  description: string | null;
+  /** Not meaningful when isPriceHidden is true. */
+  price: number | null;
+  isPriceHidden: boolean;
+}
+interface SevenroomsUpgrades {
+  categories: SevenroomsUpgradeCategory[];
+  items: SevenroomsUpgradeItem[];
+}
 
   /**
    * SevenRooms restaurant reservations (Catch, TAO, Nobu, Dishoom and thousands more): find a
@@ -71935,6 +73678,12 @@ interface GetBookingTermsArgs {
      * immediately — never a real reservation.
      */
     getBookingTerms(args: GetBookingTermsArgs): Promise<SevenroomsBookingTerms>;
+
+    /**
+     * Lists a venue's bookable add-ons — champagne, a cake, a private-dining menu, a bottle — with
+     * their category and price. Empty means the venue publishes none.
+     */
+    listUpgrades(args: GetVenueArgs): Promise<SevenroomsUpgrades>;
 
     /**
      * Lists the signed-in guest's own SevenRooms reservations across every venue, upcoming and
@@ -72725,15 +74474,16 @@ interface SmitherySearchResult {
   interface Unit {
     /**
      * Full-text/semantic search over Smithery's public MCP server registry. Pass a qualified name
-     * (e.g. "lama/demo-mcp"), a slug, or a keyword as `query` — a known qualified name resolves as
-     * the top hit. Each returned server carries `verified` (Smithery's own verification badge),
-     * `isDeployed`, `useCount`, `homepage` and `description`.
+     * (e.g. "lama/demo-mcp"), a slug, or a keyword as `query`, either directly or in one `{ query,
+     * ...options }` object — a known qualified name resolves as the top hit. Each returned server
+     * carries `verified` (Smithery's own verification badge), `isDeployed`, `useCount`, `homepage`
+     * and `description`.
      * `options.verified`/`options.remote`/`options.isDeployed`/`options.namespace` filter the
      * search; `options.page`/`options.pageSize` page through results (Smithery's own default 10,
      * max 100 per page). THROWS on a non-2xx response (e.g. rate limiting); an empty `servers`
      * array is a legitimate answer for a query that matches nothing, not a throw.
      */
-    search(query: string, options?: SmitherySearchOptions): Promise<SmitherySearchResult>;
+    search(query: string | ({ query: string } & SmitherySearchOptions), options?: SmitherySearchOptions): Promise<SmitherySearchResult>;
   }
 }
 
@@ -73007,6 +74757,15 @@ interface SnapchatMyProfile {
   snapProId?: string;
 }
 
+interface SnapchatFriend {
+  userId: string; // the friend's uuid
+  username?: string;
+  displayName?: string;
+  friendLinkType?: number; // 2 friend · 3 pending · 4 following · 5 blocked …
+  addedAt?: number; // unix ms
+  bitmojiAvatarId?: string;
+}
+
   /**
    * Snapchat, the photo and video messaging app: search accounts, lenses, topics, shows and
    * places; read public profiles, their Stories, Spotlight videos and lenses; browse Spotlight,
@@ -73124,6 +74883,12 @@ interface SnapchatMyProfile {
      * whether it is an official or popular account.
      */
     getMyProfile(opts?: ConnectionOption): Promise<SnapchatMyProfile>;
+
+    /**
+     * Lists the signed-in caller's Snapchat friends — user id, username, display name, link type
+     * and when each was added.
+     */
+    listFriends(opts?: ConnectionOption): Promise<SnapchatFriend[]>;
   }
 }
 
@@ -73222,6 +74987,16 @@ interface SolidcoreCoach {
   name: string;
   role: string;          // e.g. "Senior Master Coach" — empty when the page shows none
   photoUrl: string;
+}
+
+interface SearchClassesArgs {
+  locationId: string;      // e.g. "11" for Castro — what listStudios returns
+  coach?: string;          // case-insensitive substring match against the class row's own coach name
+  category?: string;       // case-insensitive substring match against the class row's own category, e.g. "Strength training"
+  muscleGroup?: string;    // case-insensitive substring match against the DAY's chain-wide muscle focus (listMuscleGroups) — not a per-class field
+  availability?: "bookable" | "waitlist" | "full_no_waitlist";
+  startDate?: string;      // "YYYY-MM-DD", defaults to today
+  endDate?: string;        // "YYYY-MM-DD", defaults to startDate + 7 days
 }
 
 interface GetPricingArgs {
@@ -73327,6 +75102,17 @@ interface SolidcorePricing {
      * returns); the site's catalog is filtered to what sells at that studio.
      */
     getPricing(args: GetPricingArgs): Promise<SolidcorePricing>;
+
+    /**
+     * Narrows one [solidcore] studio's class schedule by coach, category, the day's chain-wide
+     * muscle focus, or live availability — the booking backend's own `/class` door takes no such
+     * filter, so this reads getSchedule's rows (and, for a muscleGroup search, listMuscleGroups'
+     * daily calendar) and filters them. Takes { locationId } (required, what listStudios returns)
+     * plus any of { coach, category, muscleGroup } (case-insensitive substring match), {
+     * availability } ("bookable" | "waitlist" | "full_no_waitlist"), and { startDate, endDate } as
+     * "YYYY-MM-DD" (defaults to today through seven days out, same as getSchedule).
+     */
+    searchClasses(args: SearchClassesArgs): Promise<SolidcoreClass[]>;
   }
 }
 
@@ -73528,6 +75314,29 @@ interface SoulcycleBikeMapSeat {
   taken: boolean;
   position?: unknown; // the seat's floor position — UNMEASURED, site shape not yet captured signed in
 }
+interface BookBikeArgs {
+  classId: number; // from getStudioSchedule()
+  seatId: number; // a free seat from getBikeMap()
+}
+interface SoulcycleBookBikeResult {
+  booked: boolean;
+  code: string; // the site's reply code, "booked" | "success"
+  message?: string;
+}
+interface JoinWaitlistArgs {
+  classId: number; // a full class from getStudioSchedule()
+}
+interface CancelBookingArgs {
+  reservationId: string; // from listMyBookings()
+  acceptLateCancel?: boolean; // after 5pm the day before, the only cancel forfeits the credit; refused unless true
+}
+interface SoulcycleActionResult {
+  ok: boolean;
+  message?: string;
+}
+interface SoulcycleCancelResult extends SoulcycleActionResult {
+  late: boolean; // true = the credit-forfeiting late cancel
+}
 interface SoulcycleInstructor extends SoulcycleInstructorSummary {
   bioFull?: string;
   heroImageUrl?: string;
@@ -73638,6 +75447,27 @@ interface SoulcycleInstructor extends SoulcycleInstructorSummary {
      * `bowmark.providers.soulcycle.getBikeMap({ classId: 2421671 })`.
      */
     getBikeMap(args: GetBikeMapArgs, opts?: ConnectionOption): Promise<{ seats: SoulcycleBikeMapSeat[] }>;
+
+    /**
+     * Books one bike (seat) in a class for the signed-in rider, spending one class credit. With no
+     * credit it refuses and books nothing — it never buys a series. Needs the caller signed in.
+     * Example: `bowmark.providers.soulcycle.bookBike({ classId: 2421671, seatId: 12 })`.
+     */
+    bookBike(args: BookBikeArgs, opts?: ConnectionOption): Promise<SoulcycleBookBikeResult>;
+
+    /**
+     * Joins the waitlist for a full class. Needs the caller signed in. Example:
+     * `bowmark.providers.soulcycle.joinWaitlist({ classId: 2421671 })`.
+     */
+    joinWaitlist(args: JoinWaitlistArgs, opts?: ConnectionOption): Promise<SoulcycleActionResult>;
+
+    /**
+     * Cancels one of the signed-in rider's bookings; the credit comes back. After 5pm the day
+     * before the class the only cancel forfeits the credit, and that is refused unless
+     * acceptLateCancel is true. Example: `bowmark.providers.soulcycle.cancelBooking({
+     * reservationId: "123456" })`.
+     */
+    cancelBooking(args: CancelBookingArgs, opts?: ConnectionOption): Promise<SoulcycleCancelResult>;
   }
 }
 
@@ -76375,6 +78205,13 @@ interface StyleseatBookAppointmentArgs {
   note?: string;
 }
 interface StyleseatBookedAppointment { id: number; providerId: number; status: string | null; quote: StyleseatBookingQuote; }
+interface StyleseatCancelledAppointment { id: number; cancelled: boolean; }
+interface StyleseatRescheduleArgs { id: number; pro: string; serviceIds: number[]; date: string; startTime: string; }
+interface StyleseatRescheduledAppointment { id: number; providerId: number; status: string | null; }
+interface StyleseatJoinWaitlistArgs { pro: string; serviceIds: number[]; note?: string; }
+interface StyleseatWaitlistEntry { providerId: number; joined: boolean; }
+interface StyleseatFavorite { providerId: number; name: string | null; vanity: string | null; profession: string | null; }
+interface StyleseatFavorites { favorites: StyleseatFavorite[]; next: boolean; }
 
   /**
    * StyleSeat marketplace for hair stylists, barbers, braiders, nail, lash and brow pros: search
@@ -76472,6 +78309,35 @@ interface StyleseatBookedAppointment { id: number; providerId: number; status: s
      * never pays. Needs the caller signed in — the run pauses for a login link when they are not.
      */
     bookAppointment(args: StyleseatBookAppointmentArgs, opts?: ConnectionOption): Promise<StyleseatBookedAppointment>;
+
+    /**
+     * Cancels one of the signed-in caller's upcoming StyleSeat appointments, by id from
+     * listMyAppointments. A late cancel can forfeit a deposit under the pro's policy —
+     * getProfessional shows it. Needs the caller signed in — the run pauses for a login link when
+     * they are not.
+     */
+    cancelAppointment(args: { id: number }, opts?: ConnectionOption): Promise<StyleseatCancelledAppointment>;
+
+    /**
+     * Moves one of the signed-in caller's appointments to a new date and start time with the same
+     * pro and services — take a free slot from getAvailability first. Needs the caller signed in —
+     * the run pauses for a login link when they are not.
+     */
+    rescheduleAppointment(args: StyleseatRescheduleArgs, opts?: ConnectionOption): Promise<StyleseatRescheduledAppointment>;
+
+    /**
+     * Puts the signed-in caller on a pro's waitlist for chosen services, with a note, when no open
+     * time suits — the pro is notified. Needs the caller signed in — the run pauses for a login
+     * link when they are not.
+     */
+    joinWaitlist(args: StyleseatJoinWaitlistArgs, opts?: ConnectionOption): Promise<StyleseatWaitlistEntry>;
+
+    /**
+     * Lists the pros the signed-in caller has saved as favorites on StyleSeat, with each pro's id
+     * and vanity for getProfessional. Needs the caller signed in — the run pauses for a login link
+     * when they are not.
+     */
+    listFavorites(args?: { page?: number; size?: number }, opts?: ConnectionOption): Promise<StyleseatFavorites>;
   }
 }
 
@@ -79852,10 +81718,11 @@ type ListNotificationsArgs = {
     listCommentReplies(args: ListCommentRepliesArgs): Promise<tiktokCommentReply[]>;
 
     /**
-     * Search for videos on TikTok by keyword. Returns up to 20 results with id, caption, author
-     * (id, handle, nickname), and stats (play count, likes, comments, shares). Uses the browser to
-     * load the search page and intercept the API response, as the signed search endpoint requires
-     * derived request signatures.
+     * Find TikTok videos on a topic. Returns up to 20 of the top posts on TikTok's topic page for
+     * that keyword, in TikTok's ranking, with id, caption, author (id, handle, nickname) and
+     * rounded stats (plays, likes, comments, shares). When TikTok has no topic page for the exact
+     * query, the nearest phrase its search suggestions name is used and a note says which. Not
+     * TikTok's own signed-in search ranking. No browser.
      */
     searchVideos(args: SearchVideosArgs): Promise<tiktokSearchResult[]>;
 
@@ -81689,7 +83556,7 @@ interface TrophysignaturehomesComparison {
 }
 
 declare namespace BowmarkProvider_trueup {
-  // ── TrueUp — the unit's own declarations, verbatim ──
+  // ── TrueUp.io — the unit's own declarations, verbatim ──
 interface TrueupSearchArgs {
   /** A title, skill or company, e.g. "backend engineer". Empty lists everything. */
   query?: string;
@@ -81918,6 +83785,17 @@ interface TumblrSearchBlogPostsArgs {
   cursor?: string;
 }
 
+interface TumblrTagTimelineArgs {
+  /** The tag, with or without a leading #. */
+  tag: string;
+  /** "top" (default) or "recent" — the tag page's own toggle. */
+  sort?: "top" | "recent";
+  /** 1-20, default 20. */
+  limit?: number;
+  /** A previous page's nextCursor. */
+  cursor?: string;
+}
+
 interface TumblrBlogPostsArgs {
   /** A blog name or url, as findBlog takes. */
   name: string;
@@ -81975,6 +83853,12 @@ interface TumblrGetPostArgs {
      * tags and note counts, with a cursor for the next page.
      */
     searchPosts(args: TumblrSearchPostsArgs): Promise<TumblrSearchPage>;
+
+    /**
+     * Posts tagged with one tag, top or most recent first — each post's blog, text, images, tags
+     * and note counts, with a cursor for the next page.
+     */
+    getTagTimeline(args: TumblrTagTimelineArgs): Promise<TumblrSearchPage>;
   }
 }
 
@@ -82902,7 +84786,23 @@ interface UbereatsStore {
   address: { formatted: string | null; street: string | null; city: string | null; region: string | null; country: string | null; postalCode: string | null };
   latitude: number | null; longitude: number | null; categories: string[]; phoneNumber: string | null;
   hours: { dayRange: string; startMinutes: number | null; endMinutes: number | null }[];
-  menu: { name: string; items: { uuid: string; title: string; description: string | null; price: number | null; imageUrl: string | null; isSoldOut: boolean }[] }[];
+  menu: { name: string; items: { uuid: string; title: string; description: string | null; price: number | null; imageUrl: string | null; isSoldOut: boolean; sectionUuid: string; subsectionUuid: string }[] }[];
+}
+
+interface UbereatsGetMenuItemArgs { store: string; sectionUuid: string; subsectionUuid: string; itemUuid: string; } // all four from a getStore() menu item, or a searchStoreProducts() row + its sectionUuid/subsectionUuid
+
+interface UbereatsMenuItemDetail {
+  uuid: string; title: string; description: string | null; price: number | null;
+  imageUrl: string | null; isSoldOut: boolean;
+  customizations: { uuid: string; title: string; minPermitted: number; maxPermitted: number;
+    options: { uuid: string; title: string; price: number; isSoldOut: boolean; defaultQuantity: number }[] }[];
+}
+
+interface UbereatsSearchStoreProductsArgs { store: string; query: string; address: string; } // e.g. "water", "323 Westheimer Rd, Houston, TX"
+
+interface UbereatsStoreProduct {
+  uuid: string; title: string; price: number | null; imageUrl: string | null; isSoldOut: boolean;
+  sectionUuid: string; subsectionUuid: string; // what getMenuItem needs, together with the store's own uuid
 }
 
 interface UbereatsSearchArgs { query: string; } // a dish, cuisine or restaurant name, e.g. "pizza"
@@ -82932,10 +84832,10 @@ interface UbereatsFindChainStoreArgs { chain: string; address: string; } // e.g.
 // returns UbereatsSearchResult[] — the chain's nearest branch(es) to that address
 
   /**
-   * Uber Eats' own address lookup, search suggestions, store/menu reads, the delivery-address
-   * home feed, delivery availability by address and finding the nearest location of a chain —
-   * searchStoreProducts and the signed-in cart/order functions are still queued, see
-   * BUILD_QUEUE.md.
+   * Uber Eats' own address lookup, search suggestions, store/menu reads, menu item detail with
+   * customizations, in-store product search, the delivery-address home feed, delivery
+   * availability by address and finding the nearest location of a chain — the signed-in
+   * cart/order functions are still queued, see BUILD_QUEUE.md.
    */
   interface Unit {
     /**
@@ -82982,6 +84882,21 @@ interface UbereatsFindChainStoreArgs { chain: string; address: string; } // e.g.
      * already serves the same answer). Read-only.
      */
     findChainStore(args: UbereatsFindChainStoreArgs): Promise<UbereatsSearchResult[]>;
+
+    /**
+     * Returns one menu item's full detail — description, price, photo and every customization
+     * group with its options and surcharges — from the (sectionUuid, subsectionUuid, itemUuid) a
+     * getStore() menu item or a searchStoreProducts() row carries. Read-only.
+     */
+    getMenuItem(args: UbereatsGetMenuItemArgs): Promise<UbereatsMenuItemDetail>;
+
+    /**
+     * Searches one store's own catalog for a product name or brand (e.g. 'water', 'Tylenol') — the
+     * in-store search a grocery/retail store's search box runs — and returns matching items with
+     * uuid, title, price, photo and the ids getMenuItem needs. Read-only; resolves the address the
+     * same way findAddress does.
+     */
+    searchStoreProducts(args: UbereatsSearchStoreProductsArgs): Promise<UbereatsStoreProduct[]>;
   }
 }
 
@@ -84005,6 +85920,54 @@ interface VagaroOpenTimesResult {
     /** "12:00 PM"-style times in the business's local time zone. */
     times: string[];
   }[];
+}interface GetStaffMemberArgs extends BusinessArgs {
+  /** staffId from listStaff. */
+  staffId: string;
+}
+interface ListReviewsArgs extends BusinessArgs {
+  /** staffId from listStaff — only that staff member's reviews. */
+  staffId?: string;
+  /** 1-based, 10 reviews a page. */
+  page?: number;
+}
+interface VagaroReview {
+  reviewId: string;
+  reviewer: string | null;
+  /** YYYY-MM-DD. */
+  date: string | null;
+  /** 1-5 overall. */
+  rating: number | null;
+  staffName: string | null;
+  text: string | null;
+  ratings: { venue: number | null; punctuality: number | null; value: number | null; staff: number | null };
+  businessResponse: string | null;
+}
+interface VagaroReviewList {
+  businessId: string;
+  slug: string;
+  staffId: string | null;
+  page: number;
+  /** Total reviews matching (all pages). */
+  total: number | null;
+  hasMore: boolean;
+  /** 5-to-1-star counts for the whole business; empty when filtered by staffId. */
+  breakdown: { stars: number; count: number }[];
+  reviews: VagaroReview[];
+}
+interface VagaroStaffProfile {
+  businessId: string;
+  slug: string;
+  staffId: string;
+  name: string | null;
+  photo: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  acceptsOnlineBooking: boolean;
+  /** Services this person performs, at their own price (null when hidden online). */
+  services: { serviceId: string; name: string; category: string | null; price: number | null; durationMinutes: number | null }[];
+  reviewTotal: number | null;
+  /** Their 10 newest reviews; page further with listReviews({ staffId }). */
+  recentReviews: VagaroReview[];
 }
 
   /**
@@ -84067,6 +86030,19 @@ interface VagaroOpenTimesResult {
      * (null when hidden online), duration and the serviceIds each add-on attaches to.
      */
     listAddOns(args: BusinessArgs): Promise<VagaroAddOnList>;
+
+    /**
+     * Returns one staff member's profile: photo, star rating, review count, the services they
+     * perform at their own price and duration, and their newest reviews.
+     */
+    getStaffMember(args: GetStaffMemberArgs): Promise<VagaroStaffProfile>;
+
+    /**
+     * Lists a business's customer reviews newest first, 10 a page (optionally one staff member's):
+     * reviewer, date, overall and per-dimension ratings, text, staff reviewed, the business's
+     * reply, plus the 5-to-1-star breakdown.
+     */
+    listReviews(args: ListReviewsArgs): Promise<VagaroReviewList>;
   }
 }
 
@@ -85522,6 +87498,27 @@ interface walmartSeller {
      * signed in.
      */
     removeFromList(args: { listId: string; itemId: string }, opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * Reads the signed-in shopper's cart — items, quantities, prices and the subtotal. Needs the
+     * caller signed in.
+     */
+    getCart(opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * Puts an item (an id from `search` or `getProduct`) in the signed-in shopper's cart. Never
+     * checks out. A write. Needs the caller signed in.
+     */
+    addToCart(args: { itemId: string; quantity?: number }, opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * Changes the quantity of an item already in the signed-in shopper's cart (0 removes it). A
+     * write. Needs the caller signed in.
+     */
+    updateCartItem(args: { itemId: string; quantity: number }, opts?: ConnectionOption): Promise<never>;
+
+    /** Takes an item out of the signed-in shopper's cart. A write. Needs the caller signed in. */
+    removeFromCart(args: { itemId: string }, opts?: ConnectionOption): Promise<never>;
   }
 }
 
@@ -87901,6 +89898,16 @@ interface WodifyProgram {
   name: string;
 }
 
+interface WodifyGymInfo {
+  name: string;
+  address: { street: string; street2: string | null; city: string; region: string; regionCode: string; postalCode: string; country: string; countryCode: string };
+  email: string | null;
+  phone: string | null;
+  website: string | null;
+  location: { id: number; name: string; email: string | null; latitude: number | null; longitude: number | null } | null;
+  locations: Array<{ id: number; name: string }>;
+}
+
   /** Wodify gym booking — class schedules, pricing and member functions for Wodify-powered gyms. */
   interface Unit {
     /**
@@ -87958,6 +89965,15 @@ interface WodifyProgram {
      * pricing under.
      */
     listPrices(args: { gymHost: string; locationId: number }): Promise<WodifyMembership[]>;
+
+    /**
+     * Reads a Wodify-powered gym's public contact details — street address, city, region, postal
+     * code, country, email, phone and website — plus the name and latitude/longitude of the
+     * location `locationId` names and the list of every location the gym runs on Wodify. No login;
+     * `gymHost` + `locationId` come from findGym. Opening hours are not published by Wodify's
+     * booking app, so they are not returned. Fields the gym left blank come back null.
+     */
+    getGymInfo(args: { gymHost: string; locationId: number }): Promise<WodifyGymInfo>;
   }
 }
 
@@ -88174,6 +90190,67 @@ interface WsjEpisode {
   episodeNumber: number | null;
 }
 
+interface GetAuthorArgs {
+  seoName: string; // a byline slug, e.g. "marcus-walker", or the author page url
+}
+
+interface WsjAuthor {
+  id: string | null;
+  name: string;
+  seoName: string; // e.g. "marcus-walker" — pass to listArticlesByAuthor
+  title: string | null; // e.g. "South Europe Bureau Chief"
+  bio: string | null; // plain text
+  organization: string | null;
+  email: string | null;
+  twitter: string | null; // handle, no "@"
+  imageUrl: string | null;
+  url: string;
+}
+
+interface ListArticlesByAuthorArgs {
+  seoName: string;
+  page?: number; // 1-based, 50 articles a page; default 1
+}
+
+interface WsjAuthorArticle {
+  headline: string;
+  summary: string | null;
+  section: string | null; // the flashline, e.g. "World"
+  authors: string[];
+  publishedAt: string | null; // ISO
+  isOpinion: boolean;
+  imageUrl: string | null;
+  url: string; // pass to getArticle
+}
+
+interface WsjNewsletter {
+  id: string; // e.g. "401"
+  seoName: string; // e.g. "whats-news" — pass to getNewsletter
+  name: string; // e.g. "What’s News"
+  description: string | null;
+  cadence: string | null; // the site's own words, e.g. "Daily", "Tuesdays, Thursdays"
+  subscribersOnly: boolean; // true when only a paying WSJ subscriber can sign up
+  edition: string; // e.g. "us_gc" (US), "ko" (Korea)
+  latestIssueUrl: string | null; // the site's own preview of a recent issue
+  imageUrl: string | null;
+  authorIds: string[]; // WSJ author ids of the newsletter's writers
+}
+
+interface GetNewsletterArgs {
+  seoName: string; // from listNewsletters, e.g. "whats-news", or its numeric id
+}
+
+interface WsjTrendingArticle {
+  rank: number; // 1-based, within its list
+  list: "news" | "opinion"; // "Most Popular News" or "Most Popular Opinion"
+  headline: string;
+  section: string | null; // the flashline, e.g. "Tech", "Review & Outlook"
+  id: string | null;
+  isBreaking: boolean;
+  imageUrl: string | null;
+  url: string; // pass to getArticle
+}
+
   /**
    * WSJ news, markets data and articles — a DataDome wall in front, cleared by a browser; most
    * of the site is reachable with no account, full paywalled articles need the caller's own
@@ -88238,6 +90315,36 @@ interface WsjEpisode {
      * duration and audio url.
      */
     listEpisodes(args: ListEpisodesArgs): Promise<WsjEpisode[]>;
+
+    /**
+     * Gets a WSJ journalist's own byline page — name, title/beat, bio, email and X handle — by
+     * byline slug.
+     */
+    getAuthor(args: GetAuthorArgs): Promise<WsjAuthor>;
+
+    /**
+     * Lists a journalist's own articles off their byline page, newest first, 50 a page — headline,
+     * summary, section, co-authors, date and url.
+     */
+    listArticlesByAuthor(args: ListArticlesByAuthorArgs): Promise<WsjAuthorArticle[]>;
+
+    /**
+     * Lists WSJ's own email newsletters off its newsletter catalog — name, description, cadence,
+     * whether it is subscriber-only, and a recent issue's url.
+     */
+    listNewsletters(): Promise<WsjNewsletter[]>;
+
+    /**
+     * Gets one WSJ newsletter's own catalog entry by seoName or id — description, cadence,
+     * subscriber-only flag, writers' author ids and a recent issue's url.
+     */
+    getNewsletter(args: GetNewsletterArgs): Promise<WsjNewsletter>;
+
+    /**
+     * Lists WSJ's own Most Popular articles right now — the homepage's top news and top opinion
+     * lists, ranked, with headline, section and url.
+     */
+    listTrending(): Promise<WsjTrendingArticle[]>;
   }
 }
 
@@ -88360,6 +90467,12 @@ interface XPostWriteResult {
 interface XToggleResult {
   postId: string;
   state: boolean; // the state after the call
+  changed: boolean; // false when it was already in that state
+}
+
+interface XFollowResult {
+  handle: string;
+  following: boolean; // true when the caller follows the account after the call
   changed: boolean; // false when it was already in that state
 }
 
@@ -88486,6 +90599,18 @@ interface XPost {
      * signed-in caller — sets the state, never toggles.
      */
     repost(args: { url?: string; id?: string; repost?: boolean }, opts?: ConnectionOption): Promise<XToggleResult>;
+
+    /**
+     * Bookmarks (bookmark: true, the default) or removes the bookmark (bookmark: false) on an X
+     * post as the signed-in caller — sets the state, never toggles.
+     */
+    bookmarkPost(args: { url?: string; id?: string; bookmark?: boolean }, opts?: ConnectionOption): Promise<XToggleResult>;
+
+    /**
+     * Follows (follow: true, the default) or unfollows (follow: false) an X account as the
+     * signed-in caller — sets the state, never toggles.
+     */
+    followUser(args: { handle: string; follow?: boolean }, opts?: ConnectionOption): Promise<XFollowResult>;
   }
 }
 
@@ -91041,6 +93166,22 @@ interface GetPriceArgs {
   query: string;
 }
 
+/** Arguments to `bookClass` — signed in as the member. */
+interface BookClassArgs {
+  /** The class occurrence, from listScheduleSlots' appointmentId. */
+  appointmentId: string;
+  /** The member's own Zen Planner person id. */
+  personId: string;
+  /** A membership the member already holds to spend; omitted lets the site pick. */
+  membershipId?: string;
+}
+
+/** Arguments to `cancelBooking`. */
+interface CancelBookingArgs {
+  /** The reservation id, from listMyBookings. */
+  reservationId: string;
+}
+
   /**
    * Zen Planner is fitness and yoga studio management software for scheduling classes and
    * bookings.
@@ -91088,6 +93229,21 @@ interface GetPriceArgs {
      * monthly package.
      */
     getPrice(args: GetPriceArgs): Promise<ZenPlannerMembershipOption>;
+
+    /**
+     * Lists the signed-in member's own appointments and class reservations, raw from Zen Planner's
+     * member app. Needs the caller signed in.
+     */
+    listMyBookings(opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Reserves a class for the signed-in member, spending a membership they already hold. Takes an
+     * appointmentId from listScheduleSlots. Never buys anything.
+     */
+    bookClass(args: BookClassArgs, opts?: ConnectionOption): Promise<unknown>;
+
+    /** Cancels one of the signed-in member's reservations by its reservation id. */
+    cancelBooking(args: CancelBookingArgs, opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -91256,6 +93412,14 @@ interface ZenotiClassSessionList {
   sessions: ZenotiClassSession[];  // verbatim -- empty is a real answer (no classes scheduled in range, or this tenant sells none)
 }
 
+interface ZenotiAppointment {
+  appointmentId: string;
+  appointmentGroupId: string | null;
+  serviceName: string | null;
+  startTime: string;       // the tenant's own local wall time
+  status: string | number | null;  // Zenoti's own status code, verbatim
+}
+
   /**
    * The Zenoti booking platform behind thousands of salons, spas and med-spas: find a business's
    * webstore, list its locations and services, and check real open appointment times. Rung 11,
@@ -91313,6 +93477,13 @@ interface ZenotiClassSessionList {
      * error. A tenant that requires sign-in to see times throws naming that.
      */
     getAvailableTimes(tenant: string, centerId: string, serviceId: string, date: string): Promise<ZenotiAvailability>;
+
+    /**
+     * Lists the signed-in caller's own upcoming (default) or past appointments at one business.
+     * Accounts are per business: the caller signs in at that tenant's own webstore; with no
+     * sign-in the run pauses for one.
+     */
+    listMyAppointments(tenant: string, when?: "upcoming" | "past", opts?: ConnectionOption): Promise<ZenotiAppointment[]>;
   }
 }
 
@@ -91434,6 +93605,11 @@ interface ZoomRecordingDownload {
   raw: unknown; // the play-info door's own parsed result — signed-in shape is UNMEASURED, see manifest.json
 }
 
+interface ZoomUpdateProfileResult {
+  fields: Record<string, string>; // as sent: e.g. { timezone: "America/New_York", job_title: "…" }
+  updated: boolean; // the door accepted the request; no verified post-condition — see manifest.json
+}
+
 interface ZoomProfile {
   raw: string; // signed-in response shape is UNMEASURED — see manifest.json
 }
@@ -91511,6 +93687,12 @@ interface ZoomProfile {
      * needs the caller signed in
      */
     getProfile(opts?: ConnectionOption): Promise<ZoomProfile>;
+
+    /**
+     * Update the signed-in caller's own profile fields (e.g. timezone, job title, location) —
+     * needs the caller signed in
+     */
+    updateProfile(fields: Record<string, string>, opts?: ConnectionOption): Promise<ZoomUpdateProfileResult>;
   }
 }
 
@@ -92667,7 +94849,6 @@ interface BowmarkProviders {
   chantecaille: BowmarkProvider_chantecaille.Unit;
   chappellet: BowmarkProvider_chappellet.Unit;
   charterhomes: BowmarkProvider_charterhomes.Unit;
-  chatgpt: BowmarkProvider_chatgpt.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   checkfront: BowmarkProvider_checkfront.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
@@ -92707,6 +94888,7 @@ interface BowmarkProviders {
   costco: BowmarkProvider_costco.Unit;
   countycourt_vic_gov_au: BowmarkProvider_countycourt_vic_gov_au.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
+  crateandbarrel: BowmarkProvider_crateandbarrel.Unit;
   crecipr: BowmarkProvider_crecipr.Unit;
   credibly_com: BowmarkProvider_credibly_com.Unit;
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;
@@ -92823,6 +95005,7 @@ interface BowmarkProviders {
   google_news: BowmarkProvider_google_news.Unit;
   google_play: BowmarkProvider_google_play.Unit;
   google_sheets: BowmarkProvider_google_sheets.Unit;
+  google_store: BowmarkProvider_google_store.Unit;
   google_translate: BowmarkProvider_google_translate.Unit;
   goremutual: BowmarkProvider_goremutual.Unit;
   gostoreit: BowmarkProvider_gostoreit.Unit;
@@ -93061,6 +95244,7 @@ interface BowmarkProviders {
   revisionskincare: BowmarkProvider_revisionskincare.Unit;
   rezdy: BowmarkProvider_rezdy.Unit;
   rightmove: BowmarkProvider_rightmove.Unit;
+  ring: BowmarkProvider_ring.Unit;
   rippling: BowmarkProvider_rippling.Unit;
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
@@ -97979,6 +100163,7 @@ interface BowmarkProviders {
   arlingtonjewelers: BowmarkFamily_shopify_store.Unit;
   arliston: BowmarkFamily_shopify_store.Unit;
   arlkdev: BowmarkFamily_shopify_store.Unit;
+  arlo: BowmarkFamily_shopify_store.Unit;
   armadillocandycompany: BowmarkFamily_shopify_store.Unit;
   armadiobydelia: BowmarkFamily_shopify_store.Unit;
   armageddonmint: BowmarkFamily_shopify_store.Unit;
@@ -108590,6 +110775,7 @@ interface BowmarkProviders {
   eucesmta: BowmarkFamily_shopify_store.Unit;
   eucodexbeauty: BowmarkFamily_shopify_store.Unit;
   eucookiebar: BowmarkFamily_shopify_store.Unit;
+  eufy: BowmarkFamily_shopify_store.Unit;
   eugdprcookiebar: BowmarkFamily_shopify_store.Unit;
   eugeasiproduzioni: BowmarkFamily_shopify_store.Unit;
   eugenepermapro: BowmarkFamily_shopify_store.Unit;

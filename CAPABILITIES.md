@@ -23,7 +23,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `browser_agent.watchLink` | Makes a NEW watch link for an open session, for when the one from `start` was lost. | 1 | 🟢 |
 | `bundles.checkAvailability` | Reads every item's product page and returns whether the WHOLE bundle can be built and… | 0 | 🟢 |
 | `business_electricity_quote.getQuote` | Business electricity quote for an Australian 4-digit postcode — every business… | 1 | 🟢 |
-| `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
+| `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟡 |
 | `candy_prices.search` | Search for candy and sweets across Target and Walmart, returning priced, in-stock rows… | 2 | 🟢 |
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 3 | 🟢 |
 | `concert_setlist.search` | Search for concert setlists by artist name, venue, or date. | 0 | 🟢 |
