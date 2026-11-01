@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5916 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5917 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -650,7 +650,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.listPropertyPhotos` | booking.com | List the property page's own photo gallery — each photo's url and caption, and the… | 🟢 |
 | `booking_com.listPropertyReviews` | booking.com | List guest reviews for a property — the reviewer, their stay, the score, and what they… | 🟢 |
 | `booking_com.listSavedPaymentMethods` | booking.com | List payment methods saved to the caller's account. | ⚪ |
-| `booking_com.listWishlist` | booking.com | List properties the caller has saved to their wishlist. | ⚪ |
+| `booking_com.listWishlist` | booking.com | List the caller's own Booking.com saved lists and the properties in each. | 🟢 |
 | `booking_com.removeFromWishlist` | booking.com | Remove a property from the caller's wishlist. | ⚪ |
 | `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | 🟢 |
 | `booking_com.writeReview` | booking.com | Write a review for a property the caller has booked. | ⚪ |
@@ -694,7 +694,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boulevard.findBusiness` | joinblvd.com | Resolves a salon or spa on Boulevard to its business id and profile, from its… | 🟢 |
 | `boulevard.getAppointment` | joinblvd.com | Gets one of the signed-in client's appointments: services, staff, start and end… | ⚪ |
 | `boulevard.getAvailableDates` | joinblvd.com | Lists the dates a service has open appointments at a location within a date range. | 🟢 |
-| `boulevard.getAvailableTimes` | joinblvd.com | Lists the open appointment start times for a service at a location on one date. | ⚪ |
+| `boulevard.getAvailableTimes` | joinblvd.com | Lists the open appointment start times for a service at a location on one date. | 🟢 |
 | `boulevard.getBusiness` | joinblvd.com | Gets a Boulevard business's profile: name, website, phone, time zone, cancellation fee… | 🟢 |
 | `boulevard.getLocation` | joinblvd.com | Gets one location's detail: website, avatar, social links, arrival/cancellation policy… | 🟢 |
 | `boulevard.getMyProfile` | joinblvd.com | Gets the signed-in client's profile at a business: name, email, phone, date of birth… | ⚪ |
@@ -765,7 +765,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.listTrendingArticles` | businessinsider.com | List the homepage's current most-read/trending articles. | 🟢 |
 | `businessinsider_com.listVideos` | businessinsider.com | List videos from the Video vertical. | 🟡 |
 | `businessinsider_com.postComment` | businessinsider.com | Post a comment on an article as the signed-in caller. | ⚪ |
-| `businessinsider_com.searchArticles` | businessinsider.com | Search articles by keyword. | ⚪ |
+| `businessinsider_com.searchArticles` | businessinsider.com | Search articles by keyword. | 🟢 |
 | `bykoket.addToCart` | bykoket.com | Hands back the shopper's own KOKET product page — the exact Add to cart button for… | 🟢 |
 | `bykoket.getProduct` | bykoket.com | Reads one KOKET product's live page — price (list and current, since KOKET runs… | 🟢 |
 | `bykoket.searchProducts` | bykoket.com | Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each… | 🟢 |
@@ -779,6 +779,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ca_gov.listNews` | www.ca.gov | Lists the recent state news CA.gov's home page features in its "In the spotlight"… | 🟢 |
 | `ca_gov.listPublicData` | www.ca.gov | Lists public datasets available through data.ca.gov (California's open data portal)… | 🟢 |
 | `ca_gov.listServices` | www.ca.gov | Lists all state services available through the CA.gov portal — organized by category… | 🟢 |
+| `ca_gov.queryPublicData` | www.ca.gov | Reads the rows of one data.ca.gov table — typed fields, records and the total — with… | 🟢 |
 | `ca_gov.searchNews` | www.ca.gov | Searches the Governor's newsroom (gov.ca.gov), which CA.gov's home page links to for… | 🟢 |
 | `ca_gov.searchPublicData` | www.ca.gov | Searches California's open data portal (data.ca.gov) for public datasets by keyword —… | 🟢 |
 | `ca_gov.searchServices` | www.ca.gov | Searches the State of California's service directory for public services by keyword or… | 🟢 |
@@ -973,7 +974,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `charterhomes.getScheduleVisitOptions` | charterhomes.com | Reads Charter's live schedule-a-visit page and returns every bookable neighborhood… | 🟢 |
 | `charterhomes.searchHomes` | charterhomes.com | Searches Charter Homes & Neighborhoods' live for-sale home inventory by… | 🟢 |
 | `chatgpt.archiveConversation` | chatgpt.com | Archives (or un-archives) one of the CALLER's conversations. | ⚪ |
-| `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | 🟡 |
+| `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | ⚪ |
 | `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | ⚪ |
 | `chatgpt.createGPT` | chatgpt.com | Creates a custom GPT in the CALLER's account — name, description, instructions… | ⚪ |
 | `chatgpt.createProject` | chatgpt.com | Creates a new project in the CALLER's account with a name and optional instructions. | ⚪ |
@@ -988,7 +989,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.getGPT` | chatgpt.com | Reads one custom GPT's page in the GPT Store — name, description, author, conversation… | ⚪ |
 | `chatgpt.getMemories` | chatgpt.com | Reads what ChatGPT has saved to the CALLER's memory (Settings → Personalization →… | ⚪ |
 | `chatgpt.getProject` | chatgpt.com | Reads one of the CALLER's projects — its instructions, uploaded files and the… | ⚪ |
-| `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | 🟢 |
+| `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | ⚪ |
 | `chatgpt.listConversations` | chatgpt.com | Lists the CALLER's ChatGPT chat history, newest first — conversation id, title, last… | ⚪ |
 | `chatgpt.listLibraryImages` | chatgpt.com | Lists the images the CALLER has generated, from the Library page, newest first, with… | ⚪ |
 | `chatgpt.listModels` | chatgpt.com | Lists the models the CALLER's plan can pick in the model menu, with their limits. | ⚪ |
@@ -1031,14 +1032,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chownow.findRestaurant` | chownow.com | Resolves a ChowNow ordering URL (www/order/direct/eat subdomain, or the bare apex)… | 🟢 |
 | `chownow.getMenu` | chownow.com | Reads one restaurant's complete menu: categories with items, descriptions, prices… | 🟢 |
 | `chownow.getMenuItem` | chownow.com | Reads details for one menu item: name, description, price, and its modifier groups… | 🟢 |
-| `chownow.getOrderDetails` | chownow.com | Reads one order's full details: items ordered, customizations, prices, fees, status… | ⚪ |
+| `chownow.getOrderDetails` | chownow.com | Reads one order's full details: items ordered, customizations, prices, fees, status… | 🟢 |
 | `chownow.getPickupTimes` | chownow.com | Lists the order-ahead time slots a restaurant offers over its coming days, per… | 🟢 |
 | `chownow.getRestaurant` | chownow.com | Reads one restaurant location's own details: name, phone, address, whether it is… | 🟢 |
-| `chownow.getRestaurantHours` | chownow.com | Reads a restaurant's operating hours and closures — the schedule when it accepts… | ⚪ |
+| `chownow.getRestaurantHours` | chownow.com | Reads a restaurant's operating hours and closures — the schedule when it accepts… | 🟢 |
 | `chownow.getRewardsBalance` | chownow.com | Reads the signed-in customer's loyalty rewards points balance and any active… | ⚪ |
 | `chownow.listMenuCategories` | chownow.com | Lists the menu categories for a restaurant without fetching the full menu — the… | 🟢 |
 | `chownow.listMenuItems` | chownow.com | Lists all menu items for a restaurant in a flattened view, independent of category… | 🟢 |
-| `chownow.listOrders` | chownow.com | Lists the signed-in customer's order history with status, total price, order date, and… | ⚪ |
+| `chownow.listOrders` | chownow.com | Lists the signed-in customer's order history with status, total price, order date, and… | 🟢 |
 | `chownow.listRestaurants` | chownow.com | Lists all restaurants under a company (e.g. a franchise group), with location id… | 🟢 |
 | `chownow.listSavedPaymentMethods` | chownow.com | Lists the signed-in customer's saved cards and payment methods. | ⚪ |
 | `chownow.searchRestaurants` | chownow.com | Searches ChowNow restaurants by free text (a cuisine, a dish or a restaurant name)… | 🟢 |
@@ -1770,7 +1771,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.playerGameLog` | espn.com | One player's game-by-game log for a season — opponent, result and the full stat line… | 🟢 |
 | `espn.playerStats` | espn.com | One player's full statistics — season by season and career totals in every category… | 🟢 |
 | `espn.proposeFantasyTrade` | espn.com | Proposes a trade from the CALLER's own ESPN fantasy team to another team in the same… | ⚪ |
-| `espn.rankings` | espn.com | College polls — the AP Top 25, the Coaches Poll and the playoff rankings for college… | ⚪ |
+| `espn.rankings` | espn.com | College polls — the AP Top 25, the Coaches Poll and (in season) the playoff rankings… | 🟢 |
 | `espn.removeFavorite` | espn.com | Removes a team, league or player from the CALLER's My ESPN favourites. | ⚪ |
 | `espn.scoreboard` | espn.com | A league's games for today, a date, a date range or a football week — teams, live or… | 🟢 |
 | `espn.search` | espn.com | ESPN's own site search — players, teams, leagues and articles matching free text, each… | 🟢 |
@@ -1778,11 +1779,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.standings` | espn.com | A league's current standings by conference and division — wins, losses, ties, win… | 🟢 |
 | `espn.statLeaders` | espn.com | A league's season leaderboard — every stat category (passing yards, points per game… | 🟢 |
 | `espn.submitPicks` | espn.com | Enters the CALLER's picks in one of ESPN's free prediction games — Pigskin Pick'em… | ⚪ |
-| `espn.teamDepthChart` | espn.com | One team's depth chart — the starter and backups at every position, in order. | ⚪ |
+| `espn.teamDepthChart` | espn.com | One team's depth chart — every formation ESPN publishes (offense, base defense… | 🟢 |
 | `espn.teamRoster` | espn.com | One team's current roster — every player with jersey number, position, age, height… | 🟢 |
 | `espn.teamSchedule` | espn.com | One team's full season schedule — every game with date, opponent, home or away, TV… | 🟢 |
 | `espn.teamStats` | espn.com | One team's season statistics, team totals and per-game, with its league rank in each… | 🟢 |
-| `espn.transactions` | espn.com | A league's recent transactions — signings, releases, trades, injured-list moves and… | ⚪ |
+| `espn.transactions` | espn.com | A league's recent transactions — signings, releases, trades, waivers and injured-list… | 🟢 |
 | `estes_express.estimateFreightQuote` | estes-express.com | Gets LTL (less than truckload) freight shipping rate quotes for an origin/destination… | 🟢 |
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.addToCart` | etsy.com | Adds a listing to the signed-in caller's cart with the chosen variation and quantity. | ⚪ |
@@ -1908,7 +1909,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.editPage` | fandom.com | Change an article — replace a page or one of its sections with new wikitext, under the… | ⚪ |
 | `fandom.findWiki` | fandom.com | Find which Fandom wiki covers a topic — hand it "star wars" or "minecraft" and get… | ⚪ |
 | `fandom.getArticle` | fandom.com | A wiki article in full — title, the body as plain text with wiki markup stripped, the… | 🟢 |
-| `fandom.getCurrentUser` | fandom.com | Who the caller is signed in as on Fandom — username, global user id, and which wikis… | ⚪ |
+| `fandom.getCurrentUser` | fandom.com | Who the caller is signed in as on this wiki — username, global user id, edit count and… | 🟢 |
 | `fandom.getDiscussionPost` | fandom.com | One Discussions post by id, with its full text, author and the thread it belongs to. | 🟢 |
 | `fandom.getImage` | fandom.com | One image file's real details — full-size url, width, height, MIME type and licensing… | 🟢 |
 | `fandom.getInfobox` | fandom.com | The fact box at the top of an article, as key/value pairs — a character's species and… | 🟢 |
@@ -2368,7 +2369,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gobrightwing.listWorkTypes` | gobrightwing.com | List all available work type options (Full-time, Contract, etc.). | ⚪ |
 | `gobrightwing.searchJobs` | gobrightwing.com | Search Brightwing's live job listings by keyword, location, and work type. | 🟢 |
 | `golf_com.findCourses` | golf.com | Searches GOLF.com's Course Finder by course name, city or ZIP and returns actual… | 🟡 |
-| `golf_com.getCourse` | golf.com | Reads one Course Finder record: address, phone and the course's own tee-time/trip… | 🟡 |
+| `golf_com.getCourse` | golf.com | Reads one Course Finder record: address, phone and the course's own tee-time/trip… | 🔴 |
 | `goloadup.checkServiceAvailability` | goloadup.com | Checks whether and how LoadUp serves one ZIP code — in service, same-day allowed… | 🟢 |
 | `goloadup.getPricingCatalog` | goloadup.com | Returns LoadUp's full current catalog of pickupable items (couches, mattresses… | 🟢 |
 | `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
@@ -4067,8 +4068,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getLiveCoverage` | www.reuters.com | Read one Reuters live-coverage page (/live/…) — headline, description, reporters… | 🟢 |
 | `reuters.getMarketOverview` | www.reuters.com | The market tables Reuters shows on its Markets pages — major indices, currencies… | 🟡 |
 | `reuters.getMyNewsFeed` | www.reuters.com | The signed-in reader's My News feed — the latest stories from everything they follow… | ⚪ |
-| `reuters.getPictureGallery` | www.reuters.com | One Reuters photo gallery: every picture with its caption, photographer credit and… | ⚪ |
-| `reuters.getPressRelease` | www.reuters.com | Read one press release on reuters.com in full: title, issuer, date and body. | ⚪ |
+| `reuters.getPictureGallery` | www.reuters.com | One Reuters photo gallery: every picture with its caption, photographer, location… | 🟢 |
+| `reuters.getPressRelease` | www.reuters.com | Read one press release on reuters.com in full: title, distributing wire, dateline… | 🟢 |
 | `reuters.getQuote` | www.reuters.com | The current Reuters quote for one instrument by RIC — a stock, index, currency pair or… | 🟢 |
 | `reuters.getVideo` | www.reuters.com | One Reuters video: title, description, duration, published time, thumbnail and its… | 🟢 |
 | `reuters.listArticlesByDate` | www.reuters.com | Every Reuters story published on one calendar day — headline, url and time — from the… | 🟢 |
@@ -4078,10 +4079,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listHeadlines` | www.reuters.com | The stories a Reuters section front shows right now, in the page's own order… | 🟡 |
 | `reuters.listLatestNews` | www.reuters.com | The newest Reuters stories across the whole site, newest first — headline, url… | 🟡 |
 | `reuters.listMostRead` | www.reuters.com | The "most read" stories Reuters shows beside its articles: rank, headline and url. | ⚪ |
-| `reuters.listNewsletters` | www.reuters.com | The Reuters newsletters a reader can sign up to — name, description and how often it… | ⚪ |
+| `reuters.listNewsletters` | www.reuters.com | Every Reuters newsletter: name, id, landing page, description, frequency and whether… | 🟢 |
 | `reuters.listNewsletterSubscriptions` | www.reuters.com | The newsletters the signed-in reader is subscribed to. | ⚪ |
 | `reuters.listPictureGalleries` | www.reuters.com | Reuters photo galleries ("Pictures"), newest first: title, url, published time and… | 🟢 |
-| `reuters.listPodcastEpisodes` | www.reuters.com | The episodes of one Reuters podcast show, newest first: title, description, date… | ⚪ |
+| `reuters.listPodcastEpisodes` | www.reuters.com | The latest episodes of one Reuters podcast show, newest first: title, description… | 🟢 |
 | `reuters.listPodcasts` | www.reuters.com | The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On… | 🟢 |
 | `reuters.listPressReleases` | www.reuters.com | Press releases distributed on reuters.com, newest first: title, url and date. | 🟡 |
 | `reuters.listSavedArticles` | www.reuters.com | The signed-in reader's saved Reuters articles: headline, url and when saved. | ⚪ |
@@ -5672,13 +5673,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.addToWatchlist` | wsj.com | Adds a symbol to the signed-in reader's own watchlist. | ⚪ |
 | `wsj.getArticle` | wsj.com | Gets one article's own headline, byline, dek, section, publish date and body. | 🟢 |
 | `wsj.getArticleFullText` | wsj.com | Gets the full text of a subscriber-only article using the CALLER's own WSJ… | ⚪ |
-| `wsj.getAuthor` | wsj.com | Gets a WSJ journalist's own byline page — name, title/beat and bio. | ⚪ |
+| `wsj.getAuthor` | wsj.com | Gets a WSJ journalist's own byline page (/news/author/<slug>) — name, title/beat, bio… | 🟢 |
 | `wsj.getNewsletter` | wsj.com | Gets one newsletter's own catalog entry (title, description, frequency). | ⚪ |
 | `wsj.getPodcast` | wsj.com | Gets one podcast's own catalog record by seoName — name, description, category… | 🟢 |
 | `wsj.getQuote` | wsj.com | Gets one US-listed symbol's current quote — price, open, high, low, net change and… | 🟢 |
 | `wsj.getWatchlist` | wsj.com | Gets the signed-in reader's own saved stock watchlist off WSJ's Markets section (My… | ⚪ |
 | `wsj.listArticles` | wsj.com | Lists a section front's own article grid, newest first, with headline, byline, teaser… | 🟢 |
-| `wsj.listArticlesByAuthor` | wsj.com | Lists a journalist's own most recent articles off their byline page. | ⚪ |
+| `wsj.listArticlesByAuthor` | wsj.com | Lists a journalist's own articles off their byline page, newest first, 50 a page via… | 🟢 |
 | `wsj.listEpisodes` | wsj.com | Lists a podcast's own episodes, newest first, off the show's RSS feed on Dow Jones'… | 🟢 |
 | `wsj.listMarketIndices` | wsj.com | Lists the major indices WSJ's own Markets front ships inline — Dow Jones Industrial… | 🟢 |
 | `wsj.listNewsletters` | wsj.com | Lists WSJ's own email newsletters off the site's newsletter catalog page. | ⚪ |
