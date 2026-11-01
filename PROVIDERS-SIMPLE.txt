@@ -108,13 +108,14 @@ blenderseyewear.com — blenderseyewear: getRxConfigurator, listRxFrameStyles, p
 bls.gov — bls: findSeries, getLatest, getSeries
 bluehaven.com — bluehaven: checkPoolSiteFeasibility, listPoolDesigns (+1 planned)
 blueribbonhomewarranty.com — blueribbonhomewarranty_com: getPage, search
+blueshieldca.com — blueshieldca_directory: findProviders
 bluesignal.com — bluesignal: getJob, searchJobs (+1 planned)
 bmwusa.com — bmwusa: buildVehicle, getModel, listModels, listOffers, searchCertifiedPreOwned (+7 planned)
 bodacc.fr — bodacc: search
 boglewinery.com — boglewinery: checkAvailability, listExperiences
 bollandbranch.com — bollandbranch: getBedDesignerFlow, getCategoryOptions, getSwatchDetails (+1 planned)
 book.squareup.com — square_appointments: cancelBooking, cancelClassBooking, checkAvailability, findBusiness, getBusiness, getService, listCategories, listClasses, listLocations, listServices, listStaff (+8 planned)
-bookedin.com — bookedin: bookAppointment, getAvailability, getAvailableDates, getClassDates, getClassSession, getMerchant, listClassSessions, listRegions, listServices, listStaff, searchMerchants (+7 planned)
+bookedin.com — bookedin: bookAppointment, cancelAppointment, confirmAppointment, getAvailability, getAvailableDates, getClassDates, getClassSession, getMerchant, listClassSessions, listRegions, listServices, listStaff, searchMerchants (+5 planned)
 bookeo.com — bookeo: findOperator, getAvailability, getPriceQuote, getProduct, listGroupOperators, listProducts (+6 planned)
 booker.com — booker: findLocation, getAvailability, getAvailableDates, getBookingPolicies, getLocationHours, getService, getServiceMenu, listBrandLocations, listStaff, searchLocations (+20 planned)
 booking.andstr.com — andstr: getListing, getQuote, search
@@ -244,7 +245,7 @@ dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, findProperty, getProperty, getReservation, getRoomRates, initiateBooking, listRoomTypes (+5 planned)
-discord.com — discord: getAnnouncement, getApp, getDocPage, getGame, getInvite, getServer, listAppCategories, listBlogPosts, listDocPages, listFeaturedApps, listMessages, listServerAnnouncements, listServerCategories, listServers, listSimilarApps, listTrendingGames, searchApps, searchServers (+32 planned)
+discord.com — discord: getAnnouncement, getApp, getDocPage, getGame, getInvite, getMyProfile, getServer, listAppCategories, listBlogPosts, listDocPages, listFeaturedApps, listMessages, listMyServers, listServerAnnouncements, listServerCategories, listServers, listSimilarApps, listTrendingGames, searchApps, searchServers (+30 planned)
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
 docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 planned)
@@ -564,7 +565,7 @@ puls.com — puls_com: getRepairQuote, listApplianceCategories
 punchpass.com — punchpass: getCalendarFeed, getClass, getMyProfile, getPass, getSchedule, getSeries, getStudio, listAppointmentSlots, listInstructors, listPasses, listScheduleFilters, listSeries (+20 planned)
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
 pushpress.com — pushpress: getClass, getGym, getMyProfile, getPlan, listAppointmentTypes, listClasses, listCoaches, listLocations, listPlans (+15 planned)
-quickbooks.intuit.com — quickbooks: calculatePaycheck, getEvent, getHelpArticle, getPayrollPlans, getPlans, getServiceStatus, getStatePayrollTaxes, getThread, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listTemplates, searchCommunity, searchHelpArticles (+18 planned)
+quickbooks.intuit.com — quickbooks: calculatePaycheck, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getServiceStatus, getStatePayrollTaxes, getThread, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listTemplates, searchApps, searchCommunity, searchHelpArticles (+16 planned)
 quince.com — quince: getProduct, searchProducts
 quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfile, getQuestion, getSpace, getTopic, getTopicFeed, searchQuestions (+5 planned)
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
@@ -751,7 +752,7 @@ workable.com — workable: listJobs
 wsj.com — wsj: getArticle, getAuthor, getNewsletter, getPodcast, getQuote, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSections, listTrending, searchArticles (+7 planned)
 wunderflats.com — wunderflats: search
 www.amazon.ca — amazon_ca: getProduct, searchProducts
-www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listMostWishedFor, listNewReleases, listRelatedProducts, listReviews, listSellerOffers, listVariations, searchProducts, suggestKeywords (+5 planned)
+www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listMostWishedFor, listNewReleases, listOrders, listRelatedProducts, listReviews, listSellerOffers, listVariations, searchProducts, suggestKeywords (+4 planned)
 www.bestbuy.ca — bestbuy_ca: getProduct, search
 www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepartments, listNews, listPublicData, listServices, queryPublicData, searchNews, searchPublicData, searchServices
 www.cardiff.gov.uk — cardiff: getApplication, search
@@ -775,11 +776,11 @@ xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFa
 ycombinator.com — ycombinator: getArticle, getBlogPost (+1 planned)
 yelp.com — yelp: getBookmarks, getBusiness, getReviews, search, suggest (+25 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
-yorkwallcoverings.com — yorkwallcoverings: addToCart, getProduct (+1 planned)
+yorkwallcoverings.com — yorkwallcoverings: addToCart (+2 planned)
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)
 youtube.com — youtube: addToPlaylist, createChannel, createPlaylist, deleteComment, deletePlaylist, deleteVideo, findChannel, getChannel, getLiveChat, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listChannelLiveStreams, listChannelPlaylists, listChannelPosts, listChannelShorts, listChannelVideos, listChapters, listCommentReplies, listComments, listHashtagVideos, listHomeFeed, listLikedVideos, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listSubscriptions, listWatchHistory, listWatchLater, postComment, removeFromPlaylist, replyToComment, search, searchWithinChannel, setThumbnail, subscribeToChannel, suggestSearches, updatePlaylist, updateVideo, uploadVideo (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
-zenoti.com — zenoti: findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, searchServices (+7 planned)
+zenoti.com — zenoti: bookAppointment, findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, searchServices (+6 planned)
 zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDetails, getMemberInfo, getMembershipStatus, getPrice, listClasses, listMyBookings, listPackages, listScheduleSlots, searchSchedule, updateMemberInfo (+2 planned)
 zoom.us — zoom: deleteMeeting, downloadRecording, getMarketplaceApp, getMeeting, getMeetingInfo, getMeetingParticipants, getPricing, getProfile, getRecording, getSystemStatus, getWebinar, joinMeeting, listRecordings, listWebinars, searchHelpArticles, searchMarketplaceApps, updateProfile (+9 planned)
 zoopla.co.uk — zoopla: search (+1 planned)

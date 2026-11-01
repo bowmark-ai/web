@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5926 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5927 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -89,7 +89,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an Adobe Stock asset, an Express template, or an exported Acrobat document into… | ⚪ |
 | `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟡 |
 | `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟡 |
-| `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text and, where… | 🟡 |
+| `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text, optionally… | 🟡 |
 | `adobe.sendForSignature` | adobe.com | Sends a PDF out for e-signature from the caller's own Adobe account through Acrobat… | 🟢 |
 | `adorama.checkStock` | adorama.com | Answers whether one product is in stock and its availability wording. | ⚪ |
 | `adorama.getProduct` | adorama.com | Reads one product page — typeset title, current price, specs, rating. | ⚪ |
@@ -180,7 +180,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | 🟡 |
 | `amazon.listMoversAndShakers` | www.amazon.com | The biggest sales-rank gainers in a department over the past 24 hours — what is… | ⚪ |
 | `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | 🟢 |
-| `amazon.listOrders` | www.amazon.com | The signed-in customer's own Amazon orders, newest first — order id, date placed… | 🔴 |
+| `amazon.listOrders` | www.amazon.com | The signed-in customer's own Amazon orders, newest first — order id, date placed… | 🟢 |
 | `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | ⚪ |
 | `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together" and… | 🟢 |
 | `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟡 |
@@ -494,6 +494,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluehaven.listPoolDesigns` | bluehaven.com | Reads Blue Haven's own live inground pool design catalog off their site-planning… | 🟢 |
 | `blueribbonhomewarranty_com.getPage` | blueribbonhomewarranty.com | Reads one Blue Ribbon Home Warranty page (found via search) and returns its title… | 🟢 |
 | `blueribbonhomewarranty_com.search` | blueribbonhomewarranty.com | Finds Blue Ribbon Home Warranty's own public pages — the apply/quote flows, the claim… | 🟢 |
+| `blueshieldca_directory.findProviders` | blueshieldca.com | In-network doctors near one California ZIP code for one Blue Shield of California plan… | 🟢 |
 | `bluesignal.applyToJob` | bluesignal.com | Would submit a job application (name/email/phone/resume) to the site's own per-job… | ⚪ |
 | `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟢 |
 | `bluesignal.searchJobs` | bluesignal.com | Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by a… | 🟢 |
@@ -578,9 +579,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bollandbranch.renderBedPreview` | bollandbranch.com | Would render the Designer's own live combination preview (the stacked-bed visual for a… | ⚪ |
 | `bookedin.bookAppointment` | bookedin.com | Books an appointment as a guest with name, email and phone at a chosen service, staff… | 🟢 |
 | `bookedin.bookClass` | bookedin.com | Registers a guest for a class session with name, email and phone. | ⚪ |
-| `bookedin.cancelAppointment` | bookedin.com | Cancels an appointment from the cancel link in its Bookedin confirmation email (or its… | ⚪ |
+| `bookedin.cancelAppointment` | bookedin.com | Cancels an appointment from the cancel link in its Bookedin confirmation email (or its… | 🟢 |
 | `bookedin.cancelClassBooking` | bookedin.com | Cancels a class registration from the cancel link in its confirmation email. | ⚪ |
-| `bookedin.confirmAppointment` | bookedin.com | Confirms an appointment from the confirm link in a Bookedin reminder email. | ⚪ |
+| `bookedin.confirmAppointment` | bookedin.com | Confirms an appointment from the confirm link in a Bookedin reminder email. | 🟢 |
 | `bookedin.getAppointment` | bookedin.com | Reads one booked appointment's status and details by its appointment id. | ⚪ |
 | `bookedin.getAvailability` | bookedin.com | Returns the open appointment times on one day for a service, optionally narrowed to… | 🟢 |
 | `bookedin.getAvailableDates` | bookedin.com | Returns which days in a date range have open times for a service (and optionally a… | 🟢 |
@@ -1498,7 +1499,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.getDocPage` | discord.com | Reads one Discord developer docs page by url or path (e.g.… | 🟢 |
 | `discord.getGame` | discord.com | Reads one game's page on Discord (discord.com/game/<slug>-<id>) — name, description… | 🟢 |
 | `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | 🟡 |
-| `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | ⚪ |
+| `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | 🟢 |
 | `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | 🟢 |
 | `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | ⚪ |
 | `discord.joinServer` | discord.com | Joins a server from an invite code or link as the caller. | ⚪ |
@@ -1513,7 +1514,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.listFriends` | discord.com | Lists the caller's friends — user id, username, display name and avatar. | ⚪ |
 | `discord.listMentions` | discord.com | Lists the recent messages that mentioned the caller across their servers — the Inbox's… | ⚪ |
 | `discord.listMessages` | discord.com | Reads a channel's or DM's recent messages, newest first, paging backwards — author… | 🟢 |
-| `discord.listMyServers` | discord.com | Lists the servers the signed-in caller has joined — id, name, icon, whether they own… | ⚪ |
+| `discord.listMyServers` | discord.com | Lists the servers the signed-in caller has joined — id, name, icon, whether they own… | 🟢 |
 | `discord.listPinnedMessages` | discord.com | Lists the messages pinned in a channel. | ⚪ |
 | `discord.listQuests` | discord.com | Lists the Quests currently offered to the caller — game, task, reward and expiry — and… | ⚪ |
 | `discord.listServerAnnouncements` | discord.com | Lists the posts a server publishes to its public announcements page… | 🟢 |
@@ -3906,7 +3907,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.findAccountants` | quickbooks.intuit.com | Searches the QuickBooks ProAdvisor directory for certified accountants and bookkeepers… | ⚪ |
 | `quickbooks.generateInvoice` | quickbooks.intuit.com | Fills in QuickBooks' free invoice generator (/payments/invoicing/generator/) with a… | ⚪ |
 | `quickbooks.getAccountant` | quickbooks.intuit.com | Reads one ProAdvisor's public profile by the searchId findAccountants returns (or the… | ⚪ |
-| `quickbooks.getApp` | quickbooks.intuit.com | Reads one App Store listing by slug or URL: description, developer, pricing plans… | ⚪ |
+| `quickbooks.getApp` | quickbooks.intuit.com | Reads one App Store listing by the id a searchApps result returns: full description… | 🟢 |
 | `quickbooks.getDesktopPlans` | quickbooks.intuit.com | Lists the QuickBooks Desktop Enterprise editions with their annual subscription prices… | ⚪ |
 | `quickbooks.getEvent` | quickbooks.intuit.com | Reads one Community event's title, start and end time (with the site's own UTC… | 🟢 |
 | `quickbooks.getExpertPlans` | quickbooks.intuit.com | Lists the QuickBooks Live expert bookkeeping and setup-help offers with their monthly… | ⚪ |
@@ -3929,7 +3930,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.listPaycheckCalculatorStates` | quickbooks.intuit.com | Lists the US states with their own paycheck calculator page… | 🟢 |
 | `quickbooks.listResourceArticles` | quickbooks.intuit.com | Lists articles in the QuickBooks Resource Center (/r/) for a topic (taxes, payroll… | ⚪ |
 | `quickbooks.listTemplates` | quickbooks.intuit.com | Lists QuickBooks' free downloadable invoice and timesheet templates (Word, Excel and… | 🟢 |
-| `quickbooks.searchApps` | quickbooks.intuit.com | Searches the QuickBooks App Store for apps that connect to QuickBooks, by keyword and… | ⚪ |
+| `quickbooks.searchApps` | quickbooks.intuit.com | Searches the QuickBooks App Store for apps that connect to QuickBooks, by keyword… | 🟢 |
 | `quickbooks.searchCommunity` | quickbooks.intuit.com | Searches QuickBooks Community (the Intuit-run user forum) for questions matching a… | 🟢 |
 | `quickbooks.searchHelpArticles` | quickbooks.intuit.com | Searches the QuickBooks help center (/learn-support/en-us/) for articles matching a… | 🟢 |
 | `quince.getProduct` | quince.com | Reads one Quince product's variant-level sizes and colors, price, traditional-retail… | 🟢 |
@@ -5821,7 +5822,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yogatreecollective.searchSite` | yogatreecollective.com | Searches the site's own Squarespace index (/api/search/GeneralSearch) for teachers… | 🟢 |
 | `yogatreecollective.sendContactMessage` | yogatreecollective.com | Submits the /contact form (name, email, message) to the collective. | ⚪ |
 | `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page — the exact Add to cart button for this… | 🟡 |
-| `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product page in full — SKU, live price, in-stock/out-of-stock status… | 🟡 |
+| `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product page in full — SKU, live price, in-stock/out-of-stock status… | 🔴 |
 | `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —… | 🔴 |
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
@@ -5890,7 +5891,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
 | `zennioptical.priceLensConfig` | zennioptical.com | Sends a real prescription + usage type straight to the site's own lens-pricing… | 🟢 |
 | `zennioptical.searchFrames` | zennioptical.com | Searches Zenni's own storefront catalog for what a shopper would type — "round… | 🟢 |
-| `zenoti.bookAppointment` | zenoti.com | Books one or more services at a center for a chosen open time, as the signed-in caller. | ⚪ |
+| `zenoti.bookAppointment` | zenoti.com | Books one or more services at a center for a chosen open time, as the signed-in caller. | 🟢 |
 | `zenoti.cancelAppointment` | zenoti.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | ⚪ |
 | `zenoti.findTenant` | zenoti.com | Finds the Zenoti webstore behind a salon, spa or clinic -- from its own website, a… | 🟢 |
 | `zenoti.getAvailableTimes` | zenoti.com | Returns open appointment times for one or more services at a center on a date… | 🟢 |
