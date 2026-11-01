@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 144 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 145 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -138,6 +138,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟢 |
 | `video_library.deletePlaylist` | PERMANENTLY deletes one of the caller's own playlists, with its entire contents —… | 1 | 🟢 |
 | `video_library.deleteVideo` | PERMANENTLY deletes one of the caller's own videos, with its views and comments —… | 1 | 🟢 |
+| `video_library.history` | What the caller has WATCHED, newest first, each video with `percentWatched` (0-100… | 1 | 🟢 |
 | `video_library.homeFeed` | The videos on the caller's OWN YouTube home page — the personalized recommendation… | 1 | 🟢 |
 | `video_library.liked` | The videos the caller has liked, newest first. | 1 | 🟢 |
 | `video_library.myVideos` | The videos on the caller's OWN channel, newest first, including private and unlisted… | 1 | 🟢 |
