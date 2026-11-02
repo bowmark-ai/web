@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5942 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5955 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -33,11 +33,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `abqplumb.listServices` | abqplumb.com | Lists ABQ Plumb's public booking-widget services and their issue types — the entry… | 🟢 |
 | `abt.getProduct` | abt.com | Reads one abt.com product page's schema.org Product data — live offer price and… | 🟢 |
 | `abt.search` | abt.com | Runs abt.com's own keyword search (appliances, refrigerators, TVs, electronics) and… | 🟢 |
-| `accuweather.browseLocations` | accuweather.com | Walks AccuWeather's location directory - regions, countries, states or provinces, and… | ⚪ |
+| `accuweather.browseLocations` | accuweather.com | Walks AccuWeather's location directory - continents, countries, states or provinces… | 🟢 |
 | `accuweather.getActivityForecast` | accuweather.com | Outdoor activity outlook for a location by activity - running, hiking, biking, golf… | 🟢 |
 | `accuweather.getAirQuality` | accuweather.com | Current air quality for a location - the AQI value and category, health message, and… | 🟢 |
 | `accuweather.getAllergyForecast` | accuweather.com | Pollen and allergen outlook for a location over the coming days - tree, grass and… | 🟢 |
-| `accuweather.getArticle` | accuweather.com | Reads one AccuWeather news article by url - headline, author, published time and body… | ⚪ |
+| `accuweather.getArticle` | accuweather.com | Reads one AccuWeather news article by url - headline, author, published/modified time… | 🟢 |
 | `accuweather.getCurrentConditions` | accuweather.com | Current conditions for a location - temperature, RealFeel, conditions phrase, wind and… | 🟢 |
 | `accuweather.getDailyForecast` | accuweather.com | The 10-day daily forecast for a location - high/low, precipitation chance, daytime… | 🟢 |
 | `accuweather.getDayDetails` | accuweather.com | Full day and night detail for one of getDailyForecast's 15 days - RealFeel, RealFeel… | 🟢 |
@@ -47,13 +47,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `accuweather.getLocation` | accuweather.com | Resolves a place name, autocomplete key or lat/lon to AccuWeather's numeric location… | 🟢 |
 | `accuweather.getMinuteCast` | accuweather.com | Minute-by-minute precipitation for the next two hours at a location - the site's own… | 🟢 |
 | `accuweather.getMonthlyForecast` | accuweather.com | The month calendar for a location - every day's high and low (observed for past days… | 🟢 |
-| `accuweather.getRadarMap` | accuweather.com | The weather radar view for a location - the radar image or tile URLs for current and… | ⚪ |
+| `accuweather.getRadarMap` | accuweather.com | The weather radar view for a location - observed and forecast precipitation tile… | 🟢 |
 | `accuweather.getStorm` | accuweather.com | One tropical storm's tracker, by a listActiveStorms row's id - basin, current position… | 🟢 |
 | `accuweather.getWinterForecast` | accuweather.com | The Winter Weather (WinterCast) outlook for a location - whether a snow event is… | 🟢 |
 | `accuweather.listActiveStorms` | accuweather.com | Active hurricanes, typhoons and tropical cyclones worldwide, by basin - each storm's… | 🟢 |
 | `accuweather.listAlerts` | accuweather.com | Active weather warnings, watches and advisories for a location, with each alert's… | 🟢 |
 | `accuweather.listLifestyleIndices` | accuweather.com | Today's level for every allergy, health and outdoor-activity index AccuWeather… | 🟢 |
-| `accuweather.listNews` | accuweather.com | Latest AccuWeather weather news headlines, optionally by section (weather forecasts… | ⚪ |
+| `accuweather.listNews` | accuweather.com | Latest AccuWeather news headlines - omit section for Top Stories, or pass a section's… | 🟢 |
 | `accuweather.searchLocations` | accuweather.com | Finds places by name, ZIP or postal code via the site's own search box autocomplete -… | 🟢 |
 | `acerentacar.searchAvailability` | acerentacar.com | Returns ACE's live vehicle availability and rate totals for a public pickup location… | 🟡 |
 | `acerentacar.searchLocations` | acerentacar.com | Matches a free-text city, airport or state against ACE's public location catalog and… | 🟢 |
@@ -1151,13 +1151,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cloudbeds.bookRoom` | cloudbeds.com | Books rooms at a property for the caller as a guest checkout (no Cloudbeds account)… | ⚪ |
 | `cloudbeds.findProperty` | cloudbeds.com | Finds a property's Cloudbeds booking page from what a caller has: a hotel name and… | ⚪ |
 | `cloudbeds.getAvailabilityCalendar` | cloudbeds.com | Returns, for each day in a date range, which room types and rates are open at a… | 🟢 |
-| `cloudbeds.getBookingQuote` | cloudbeds.com | Prices a stay before booking it: the chosen rooms and guests, nightly and total price… | ⚪ |
+| `cloudbeds.getBookingQuote` | cloudbeds.com | Prices a stay before booking it, from the rate ids searchRooms returned: nightly and… | 🟢 |
 | `cloudbeds.getOrganization` | cloudbeds.com | Returns a hotel group that books through one Cloudbeds page (a chain, a hostel… | ⚪ |
-| `cloudbeds.getPolicies` | cloudbeds.com | Returns a property's cancellation, no-show, guarantee and payment-schedule terms in… | ⚪ |
+| `cloudbeds.getPolicies` | cloudbeds.com | A property's cancellation, deposit and payment terms in plain language, plus its house… | 🟢 |
 | `cloudbeds.getProperty` | cloudbeds.com | Returns one property from its code or booking-page URL: name, description, address and… | 🟢 |
 | `cloudbeds.getReservation` | cloudbeds.com | Reads a reservation the caller made through a property's Cloudbeds booking page, from… | ⚪ |
-| `cloudbeds.getRoomType` | cloudbeds.com | Returns one room type's full detail at a property: description, photos, bed layout… | ⚪ |
-| `cloudbeds.listAddons` | cloudbeds.com | Lists the extras a property sells with a chosen room and stay (breakfast, transfers… | ⚪ |
+| `cloudbeds.getRoomType` | cloudbeds.com | One room type's full detail at a property — description, photos, bed layout, occupancy… | 🟢 |
+| `cloudbeds.listAddons` | cloudbeds.com | The extras a property sells with a chosen room and stay (breakfast, transfers… | 🟢 |
 | `cloudbeds.payDeposit` | cloudbeds.com | Pays a reservation's deposit or balance by card through the property's payment gateway. | ⚪ |
 | `cloudbeds.searchOrganizationAvailability` | cloudbeds.com | For a hotel group and a check-in and check-out date, lists which of its properties… | ⚪ |
 | `cloudbeds.searchRooms` | cloudbeds.com | Lists the rooms a property has free for a check-in and check-out date and a number of… | 🟢 |
@@ -1642,9 +1642,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | ⚪ |
 | `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | ⚪ |
 | `duckduckgo.convertCurrency` | duckduckgo.com | Convert an amount between two currencies at DuckDuckGo's current mid-market rate (from… | 🟢 |
-| `duckduckgo.createPrivateDuckAddress` | duckduckgo.com | Generates a brand new private @duck.com address on the signed-in caller's Email… | 🔴 |
+| `duckduckgo.createPrivateDuckAddress` | duckduckgo.com | Generates a brand new private @duck.com address on the signed-in caller's Email… | 🟢 |
 | `duckduckgo.defineWord` | duckduckgo.com | Look a word up the way DuckDuckGo's dictionary answer does — part of speech… | 🟢 |
-| `duckduckgo.getEmailProtectionAccount` | duckduckgo.com | Reads the signed-in caller's DuckDuckGo Email Protection account — their permanent… | 🔴 |
+| `duckduckgo.getEmailProtectionAccount` | duckduckgo.com | Reads the signed-in caller's DuckDuckGo Email Protection account — their permanent… | 🟢 |
 | `duckduckgo.getInstantAnswer` | duckduckgo.com | Get DuckDuckGo's Instant Answer for a topic — the abstract and its source, a direct… | 🟢 |
 | `duckduckgo.getLocalTime` | duckduckgo.com | Get the current local time and time zone in a city, the way DuckDuckGo's time answer… | 🟢 |
 | `duckduckgo.getWeather` | duckduckgo.com | Get the current conditions and forecast for a place, the way DuckDuckGo's weather… | 🟢 |
@@ -2304,11 +2304,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
 | `github.starRepository` | github.com | Adds a repository to the signed-in caller's starred list. | ⚪ |
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list. | ⚪ |
-| `github.unwatchRepository` | github.com | Removes a repository from the signed-in caller's watched list. | ⚪ |
+| `github.unwatchRepository` | github.com | Stops watching a repository for the signed-in caller, returning it to GitHub's default… | 🔴 |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🟢 |
 | `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🟢 |
 | `github.updatePullRequest` | github.com | Renames a pull request's TITLE, off the same issue-viewer web mutation (PUT… | 🟢 |
-| `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
+| `github.watchRepository` | github.com | Watches a repository (all activity) for the signed-in caller, off github.com's own… | 🔴 |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassdoor.getEmployerReviews` | glassdoor.com | An employer's Glassdoor review summary — overall rating, review count, the scale's… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
@@ -2496,16 +2496,25 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟢 |
 | `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟢 |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
+| `grammarly.addToDictionary` | www.grammarly.com | Adds a word or phrase to the signed-in account's personal dictionary so the checker… | ⚪ |
 | `grammarly.checkGrammar` | www.grammarly.com | Checks text for grammar, spelling and punctuation problems and returns each alert with… | 🟢 |
 | `grammarly.countWords` | www.grammarly.com | Returns word/character/sentence/paragraph counts, reading and speaking time, and a… | 🟢 |
+| `grammarly.createDocument` | www.grammarly.com | Saves a new document (title and text) in the signed-in account, the way… | ⚪ |
+| `grammarly.deleteDocument` | www.grammarly.com | Deletes one saved document from the signed-in account, by the id listDocuments returns. | ⚪ |
 | `grammarly.detectAI` | www.grammarly.com | Scores 0-100 how much of a text Grammarly's AI detector judges AI-written, with the… | 🟢 |
 | `grammarly.detectPlagiarism` | www.grammarly.com | Counts how many passages of a text Grammarly's free scan matches against web and… | 🟢 |
 | `grammarly.detectTone` | www.grammarly.com | Identifies the tone and sentiment of written text. | ⚪ |
+| `grammarly.getAccount` | www.grammarly.com | Returns the signed-in account's profile: name, email, plan (Free or Premium) and… | ⚪ |
+| `grammarly.getDocument` | www.grammarly.com | Returns one saved document's title and full text from the signed-in account, by the id… | ⚪ |
 | `grammarly.getPersonalDictionary` | www.grammarly.com | Retrieves custom words and phrases saved in the account's personal dictionary. | ⚪ |
 | `grammarly.humanize` | www.grammarly.com | Rewrites AI-sounding text to read more naturally with Grammarly's free AI humanizer. | 🟢 |
 | `grammarly.listDocuments` | www.grammarly.com | Lists saved documents in a signed-in account. | ⚪ |
 | `grammarly.listGoals` | www.grammarly.com | Lists writing goals (audience, tone, formality, domain) for the account. | ⚪ |
+| `grammarly.listPlans` | www.grammarly.com | Lists Grammarly's subscription plans with their prices for the visitor's country. | ⚪ |
 | `grammarly.paraphrase` | www.grammarly.com | Rewrites text in different styles and tones while maintaining meaning. | ⚪ |
+| `grammarly.removeFromDictionary` | www.grammarly.com | Removes a word or phrase from the signed-in account's personal dictionary. | ⚪ |
+| `grammarly.setGoals` | www.grammarly.com | Sets the writing goals (audience, formality, domain, intent) the checker tunes its… | ⚪ |
+| `grammarly.updateProfile` | www.grammarly.com | Changes the signed-in account's display name. | ⚪ |
 | `grandwelcome.getRentalDetail` | grandwelcome.com | Reads one rental's own detail page in full — name, description, photos and the site's… | 🟢 |
 | `grandwelcome.getRentalQuote` | grandwelcome.com | Runs the site's own real-time date-specific pricing engine for one property — rent… | 🟢 |
 | `grandwelcome.listGrandwelcomeDestinations` | grandwelcome.com | The entry door: reads the site's own /sitemap.xml for every published destination page… | 🟢 |
@@ -2856,6 +2865,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `justinwine.checkTastingAvailability` | justinwine.com | Checks real open reservation slots for a given date and party size at JUSTIN's… | ⚪ |
 | `justinwine.listClubTiers` | justinwine.com | Lists the JUSTIN Wine Society club tiers (Red Wines, Red and White Wines, Isosceles… | 🟢 |
 | `kaiser_directory.findProviders` | kp.org | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
+| `kaiser_permanente.getServiceArea` | healthy.kaiserpermanente.org | Says whether a ZIP is inside a Kaiser Permanente plan service area, using the 2026… | 🟢 |
+| `kaiser_permanente.listSearchSuggestions` | healthy.kaiserpermanente.org | Reads the plan-shopping page's own ZIP / county / state suggestion dataset, filtered… | 🟢 |
+| `kaiser_permanente.searchFacilitiesByZip` | healthy.kaiserpermanente.org | Runs Kaiser Permanente's own find-a-facility search for a US ZIP and returns… | 🟢 |
+| `kaiser_permanente.searchQna` | healthy.kaiserpermanente.org | Searches Kaiser Permanente's public health question-and-answer content for a term, the… | 🟢 |
 | `kaleidescape.findDealersNear` | kaleidescape.com | Finds Kaleidescape authorized dealers near a location — pass EITHER a 5-digit US zip… | 🟢 |
 | `kalshi.getMarket` | kalshi.com | Reads one Kalshi market's full detail by its own ticker — title, subtitle, status… | 🟢 |
 | `kalshi.getMarkets` | kalshi.com | Lists Kalshi's own live prediction-market contracts — each market's ticker, title… | 🟢 |
@@ -4123,12 +4136,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rezdy.buyGiftCard` | rezdy.com | Buys a gift card or a product as a gift from an operator. | ⚪ |
 | `rezdy.checkVoucher` | rezdy.com | Checks a voucher, coupon, promo or gift-card code against a held cart and returns… | ⚪ |
 | `rezdy.findOperator` | rezdy.com | Finds a Rezdy operator from what a caller actually holds -- its Rezdy alias… | 🟢 |
-| `rezdy.getAvailability` | rezdy.com | Returns a product's sessions over a month: each date and start time, the session id… | ⚪ |
+| `rezdy.getAvailability` | rezdy.com | Returns a product's sessions over a month: each date and start time, the session id… | 🟢 |
 | `rezdy.getPickupLocations` | rezdy.com | Lists the pickup points and times a product offers (hotel pickups on transfers and day… | ⚪ |
-| `rezdy.getPriceQuote` | rezdy.com | Prices a party for one session: the quantity of each price option given, returning the… | ⚪ |
+| `rezdy.getPriceQuote` | rezdy.com | Prices a party for one session: the quantity of each price option given, returning the… | 🟢 |
 | `rezdy.getProduct` | rezdy.com | Returns one product's full page: description, duration, location, the price options… | 🟢 |
 | `rezdy.joinWaitingList` | rezdy.com | Joins the waiting list for a sold-out session where the operator allows it, as a guest. | ⚪ |
-| `rezdy.listCatalogs` | rezdy.com | Lists the catalogs (the operator's own product groupings, e.g. "Sunrise kayak tours"… | ⚪ |
+| `rezdy.listCatalogs` | rezdy.com | Lists the catalogs (the operator's own product groupings, e.g. "Sunrise kayak tours"… | 🟢 |
 | `rezdy.listProducts` | rezdy.com | Lists an operator's bookable products (tours, activities, rentals, transfers, gift… | 🟢 |
 | `rezdy.sendEnquiry` | rezdy.com | Sends the operator a question through its booking site's contact form (name, email… | ⚪ |
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
@@ -4438,14 +4451,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `slice.addPaymentMethod` | slicelife.com | Saves a new card or PayPal account to the caller's Slice account. | ⚪ |
 | `slice.checkDelivery` | slicelife.com | Checks whether a pizzeria delivers to an address and, if it does, the delivery fee… | ⚪ |
 | `slice.getDeliveryEstimate` | slicelife.com | Gets the delivery time and fee a third-party courier (DoorDash Drive and similar)… | ⚪ |
-| `slice.getHours` | slicelife.com | Gets when a pizzeria takes delivery and pickup orders over the coming days, as… | ⚪ |
+| `slice.getHours` | slicelife.com | Gets when a pizzeria takes delivery and pickup orders over the coming days, as… | 🟢 |
 | `slice.getLoyaltyProgram` | slicelife.com | Gets a pizzeria's Slice rewards program, if it runs one: points per dollar and the… | ⚪ |
-| `slice.getMenu` | slicelife.com | Gets a pizzeria's full menu: categories, items with descriptions, photos and… | ⚪ |
-| `slice.getMenuItemOptions` | slicelife.com | Gets the choices for one menu item and size: required and optional add-on groups… | ⚪ |
+| `slice.getMenu` | slicelife.com | Gets a pizzeria's full menu: categories, items with descriptions, photos and… | 🟢 |
+| `slice.getMenuItemOptions` | slicelife.com | Gets the choices for one menu item and size: required and optional add-on groups… | 🟢 |
 | `slice.getMyAccount` | slicelife.com | Gets the signed-in caller's Slice profile: name, email, phone, marketing preferences… | ⚪ |
 | `slice.getMyLoyaltyPoints` | slicelife.com | Gets the signed-in caller's rewards points and progress at one pizzeria. | ⚪ |
 | `slice.getMyOrder` | slicelife.com | Gets one of the signed-in caller's orders in full: items with choices, receipt… | ⚪ |
-| `slice.getPizzeria` | slicelife.com | Gets one pizzeria's details from its Slice URL, web slug or shop id: name, address and… | ⚪ |
+| `slice.getPizzeria` | slicelife.com | Gets one pizzeria's details from its Slice menu URL, web slug or shop id: name… | 🟢 |
 | `slice.getRecommendedAddOns` | slicelife.com | Gets the add-ons a pizzeria suggests for what is already in the cart ("add garlic… | ⚪ |
 | `slice.getReviews` | slicelife.com | Lists a pizzeria's customer reviews, newest first and paged -- star rating, text, date… | ⚪ |
 | `slice.listMyAddresses` | slicelife.com | Lists the signed-in caller's saved delivery addresses, with the address id the other… | ⚪ |
@@ -4563,7 +4576,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
 | `spacest.search` | spacest.com | Searches furnished apartments and corporate rentals by city and optional dates… | ⚪ |
-| `spectrum.checkMobileCoverage` | spectrum.com | Spectrum Mobile's network coverage at an address or area, off… | ⚪ |
+| `spectrum.checkMobileCoverage` | spectrum.com | Spectrum Mobile's network coverage at an address, city or ZIP, off the raster overlay… | 🟢 |
 | `spectrum.checkServiceAvailability` | spectrum.com | What Spectrum offers at a residential street address — which internet/TV/mobile plans… | ⚪ |
 | `spectrum.getAccountBalance` | spectrum.com | The signed-in caller's current Spectrum account balance: amount due, due date and… | ⚪ |
 | `spectrum.getBillingHistory` | spectrum.com | The signed-in caller's past Spectrum bills: period, amount and payment status. | ⚪ |
@@ -4591,8 +4604,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotapps.checkAvailability` | spotapps.co | Checks whether a restaurant has a table for a party size at a date and time, and… | 🟢 |
 | `spotapps.findRestaurant` | spotapps.co | Finds a SpotHopper restaurant's spot_id from its own website URL or name, by reading… | 🟢 |
 | `spotapps.getCateringOptions` | spotapps.co | Reads a restaurant's catering inquiry form and options. | ⚪ |
-| `spotapps.getMenu` | spotapps.co | Reads a restaurant's menu as its contactless-menu page shows it: sections, items… | ⚪ |
-| `spotapps.getOnlineOrderMenu` | spotapps.co | Reads a restaurant's online-ordering menu: items, modifiers, prices, pickup/delivery… | ⚪ |
+| `spotapps.getMenu` | spotapps.co | Reads a restaurant's menu as its contactless-menu page shows it: sections, items… | 🟢 |
+| `spotapps.getOnlineOrderMenu` | spotapps.co | Reads a restaurant's online-ordering menu: items, modifiers, prices, pickup/delivery… | 🟢 |
 | `spotapps.getPrivatePartyOptions` | spotapps.co | Reads a restaurant's private-party / event inquiry form: spaces, capacities, required… | ⚪ |
 | `spotapps.getReservationSettings` | spotapps.co | Reads one restaurant's reservation widget settings: whether online reservations are… | 🟢 |
 | `spotapps.joinMailingList` | spotapps.co | Signs an email or phone up for a restaurant's mailing list or texting list. | ⚪ |
@@ -4638,16 +4651,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `square_appointments.cancelClassBooking` | book.squareup.com | Cancels one of the signed-in caller's Square class bookings. | 🟢 |
 | `square_appointments.checkAvailability` | book.squareup.com | Returns the open appointment times for one or more services at a location between two… | 🟢 |
 | `square_appointments.findBusiness` | book.squareup.com | Finds Square Appointments businesses by name (a web search of Square's public booking… | 🟢 |
-| `square_appointments.getBooking` | book.squareup.com | Returns one of the caller's appointments: services, staff, time, location, price and… | ⚪ |
+| `square_appointments.getBooking` | book.squareup.com | Returns one of the caller's appointments: services, staff, time, location, price and… | 🟢 |
 | `square_appointments.getBusiness` | book.squareup.com | Returns one business's profile and booking rules: name, locations and addresses… | 🟢 |
 | `square_appointments.getService` | book.squareup.com | Returns one service with its variations, add-on modifiers, deposit and no-show fee… | 🟢 |
 | `square_appointments.joinWaitlist` | book.squareup.com | Puts the caller on a business's waitlist for a service and time window when nothing is… | ⚪ |
 | `square_appointments.listCategories` | book.squareup.com | Lists the service categories a business groups its menu under, with how many services… | 🟢 |
 | `square_appointments.listClasses` | book.squareup.com | Lists a business's scheduled classes (group sessions) by date, each joined with its… | 🟢 |
-| `square_appointments.listCreditPacks` | book.squareup.com | Lists the class credit packs the signed-in caller holds at a business. | ⚪ |
+| `square_appointments.listCreditPacks` | book.squareup.com | Lists the class credit packs the signed-in caller holds at a business. | 🟢 |
 | `square_appointments.listLocations` | book.squareup.com | Lists a business's active locations with address, map position and unit token, so a… | 🟢 |
-| `square_appointments.listMyBookings` | book.squareup.com | Lists the signed-in caller's upcoming or past appointments at a business. | ⚪ |
-| `square_appointments.listMyClassBookings` | book.squareup.com | Lists the signed-in caller's class bookings at a business. | ⚪ |
+| `square_appointments.listMyBookings` | book.squareup.com | Lists the signed-in caller's upcoming or past appointments at a business. | 🟢 |
+| `square_appointments.listMyClassBookings` | book.squareup.com | Lists the signed-in caller's class bookings at a business. | 🟢 |
 | `square_appointments.listServices` | book.squareup.com | Lists a business's bookable services at a location: name, description, category… | 🟢 |
 | `square_appointments.listStaff` | book.squareup.com | Lists the staff a customer can book at a location, with name, short bio and the… | 🟢 |
 | `square_appointments.rescheduleBooking` | book.squareup.com | Moves one of the caller's appointments to another open time. | ⚪ |
@@ -4657,13 +4670,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `square_online.getItemAvailability` | square.site | Says which menu items are in stock or sold out at one location, by item ids or for a… | ⚪ |
 | `square_online.getLoyaltyBalance` | square.site | Looks up the caller's own loyalty points at a store by their phone number. | ⚪ |
 | `square_online.getLoyaltyProgram` | square.site | Returns a store's loyalty program: whether it is active, and each reward tier's points… | ⚪ |
-| `square_online.getMenuItem` | square.site | Returns one menu item in full: variations (SKUs) with prices, modifier groups and… | ⚪ |
+| `square_online.getMenuItem` | square.site | Returns one menu item in full: its sellable variations (SKUs) with price, sold-out… | 🟢 |
 | `square_online.getMyAccount` | square.site | Returns the signed-in buyer's Square Online account: name, phone, email, saved… | ⚪ |
-| `square_online.getPickupTimes` | square.site | Returns the earliest pickup time and the available pickup slots per day at one… | ⚪ |
+| `square_online.getPickupTimes` | square.site | Returns the earliest pickup time and the available pickup slots at one location over a… | 🟢 |
 | `square_online.getSite` | square.site | Resolves a Square Online storefront from a URL the caller has (<name>.square.site or… | 🟢 |
 | `square_online.listCategories` | square.site | Lists the menu's categories (sections) with their ids, names and storefront links. | 🟢 |
 | `square_online.listLocations` | square.site | Lists a storefront's locations: address, phone, description, pickup and delivery hours… | 🟢 |
-| `square_online.listMenuItems` | square.site | Lists or searches a storefront's menu items with name, description, price range… | ⚪ |
+| `square_online.listMenuItems` | square.site | Lists or searches a storefront's menu items with name, description, price range, image… | 🟢 |
 | `square_online.listMyOrders` | square.site | Lists the signed-in buyer's past orders at this store, for reordering. | ⚪ |
 | `square_online.listMySubscriptions` | square.site | Lists the signed-in buyer's subscriptions at this store and their invoices. | ⚪ |
 | `square_online.listSubscriptionPlans` | square.site | Lists the subscription plans a store sells (e.g. a weekly meal plan). | ⚪ |
@@ -4744,7 +4757,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.listGameTags` | steampowered.com | Lists every tag users can apply to games on the Steam store, in the site's own… | 🟢 |
 | `steam.listNews` | steampowered.com | Lists a game's news and updates by appid, from both official announcements and… | 🟢 |
 | `steam.postComment` | steampowered.com | Posts a comment or discussion in a game's community hub. | ⚪ |
-| `steam.removeFriend` | steampowered.com | Removes a user from the caller's friends list. | ⚪ |
+| `steam.removeFriend` | steampowered.com | Removes a user from the signed-in caller's Steam friends list by steamid64, off the… | 🟢 |
 | `steam.removeFromWishlist` | steampowered.com | Removes a game from the signed-in caller's wishlist by appid, off the store's own… | 🟢 |
 | `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | 🟢 |
 | `steam.searchNews` | steampowered.com | Searches a game's recent news items by keyword and/or date range. | 🟢 |
@@ -5296,7 +5309,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `usatoday.browseSection` | usatoday.com | Lists articles in one USA Today section, paginated, showing headline, summary, URL… | 🟢 |
 | `usatoday.getArticle` | usatoday.com | Reads the full text of one USA Today article, returning headline, byline, body text… | 🟡 |
 | `usatoday.getPuzzle` | usatoday.com | Reads one USA Today puzzle puzzle — given a puzzle ID — returning the puzzle data… | 🟢 |
-| `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟡 |
+| `usatoday.getScores` | usatoday.com | Reads sports scores from USA Today's scores section — given a sport like NFL, NBA… | 🟢 |
 | `usatoday.getVideo` | usatoday.com | Reads one USA Today video — given the url a listVideos row returns — returning its… | 🟡 |
 | `usatoday.listHomepageHeadlines` | usatoday.com | Reads the USA Today homepage and returns the top headlines currently displayed — the… | 🟢 |
 | `usatoday.listPuzzles` | usatoday.com | Lists the puzzles on USA Today's puzzles hub (crossword, Sudoku, KenKen, word games… | 🟢 |
@@ -5638,18 +5651,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wix_bookings.getBookingForm` | www.wixapis.com | Returns the details a business asks for when booking a service (name, email, phone… | ⚪ |
 | `wix_bookings.getMyProfile` | www.wixapis.com | Returns the caller's member profile on one Wix site: name, email, phone, photo. | ⚪ |
 | `wix_bookings.getOpenTimes` | www.wixapis.com | Returns the open appointment times for a service between two dates, with location… | 🟢 |
-| `wix_bookings.getService` | www.wixapis.com | Returns one service in full: description, price and payment options, duration, staff… | ⚪ |
-| `wix_bookings.listCategories` | www.wixapis.com | Lists the categories a business groups its services into. | ⚪ |
+| `wix_bookings.getService` | www.wixapis.com | Returns one service in full: description, price and payment options, duration, staff… | 🟢 |
+| `wix_bookings.listCategories` | www.wixapis.com | Lists the categories a business groups its services into. | 🟢 |
 | `wix_bookings.listClassSessions` | www.wixapis.com | Lists the scheduled sessions of a business's classes and courses between two dates… | ⚪ |
 | `wix_bookings.listLocations` | www.wixapis.com | Lists a business's locations with address, phone, email and time zone. | ⚪ |
 | `wix_bookings.listMyBookings` | www.wixapis.com | Lists the caller's upcoming and past bookings on one Wix site from its Members Area… | ⚪ |
 | `wix_bookings.listMyPlans` | www.wixapis.com | Lists the memberships and class packs the caller holds on one Wix site, with sessions… | ⚪ |
 | `wix_bookings.listPricingPlans` | www.wixapis.com | Lists the memberships and class packs a business sells for its services, with price… | ⚪ |
 | `wix_bookings.listServices` | www.wixapis.com | Lists a Wix business's bookable services: name, description, type (appointment, class… | 🟢 |
-| `wix_bookings.listStaff` | www.wixapis.com | Lists the staff a customer can book with at a business, with name, photo and the… | ⚪ |
+| `wix_bookings.listStaff` | www.wixapis.com | Lists the staff a customer can book with at a business, with name, photo and the… | 🟢 |
 | `wix_bookings.rescheduleBooking` | www.wixapis.com | Moves a guest booking to another open time from the manage-booking link. | ⚪ |
 | `wix_bookings.rescheduleMyBooking` | www.wixapis.com | Moves one of the caller's bookings to another open time from the Members Area. | ⚪ |
-| `wix_bookings.searchServices` | www.wixapis.com | Finds a business's services by words, e.g. 'consultation' or 'beard trim'. | ⚪ |
+| `wix_bookings.searchServices` | www.wixapis.com | Finds a business's services by words, e.g. 'consultation' or 'beard trim'. | 🟢 |
 | `wix_bookings.updateMyProfile` | www.wixapis.com | Edits the caller's member profile on one Wix site, including the profile picture. | ⚪ |
 | `wodify.bookClass` | wodify.com | Book a member into an available class. | ⚪ |
 | `wodify.bookDropIn` | wodify.com | Book a single drop-in class without membership. | ⚪ |
@@ -5741,7 +5754,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts, scrolling until `limit`… | 🟢 |
 | `xola.bookExperience` | xola.com | Books a session for a party with the lead traveler's name, email and phone, completing… | ⚪ |
 | `xola.findSeller` | xola.com | Finds the Xola seller (the tour operator) behind an operator's own website or a… | 🟡 |
-| `xola.getAvailability` | xola.com | Returns an experience's open sessions over a date range: each date and start time… | ⚪ |
+| `xola.getAvailability` | xola.com | An experience's open sessions over roughly the next 30 days -- each date and start… | 🟢 |
 | `xola.getExperience` | xola.com | Returns one experience's full listing: description, what is included, duration… | 🟢 |
 | `xola.getPriceQuote` | xola.com | Prices a party for one session -- how many of each demographic, add-ons and a coupon… | ⚪ |
 | `xola.joinWaitlist` | xola.com | Adds a traveler to the waitlist for a sold-out session. | ⚪ |
