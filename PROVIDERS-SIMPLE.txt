@@ -273,7 +273,7 @@ erieinsurance.com — erieinsurance: findAgent (+18 planned)
 espn.com — espn: fantasyPlayers, getArticle, getFantasyLeague, getGame, getPlayer, getTeam, injuries, listLeagues, listMyFantasyTeams, listTeams, news, playerGameLog, playerStats, rankings, scoreboard, search, standings, statLeaders, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions (+12 planned)
 estes-express.com — estes_express: estimateFreightQuote
 ethos.com — ethos: nothing callable yet (+1 planned)
-etsy.com — etsy: getListing, getShop, listListingReviews, listShopListings, listShopReviews, search, searchShops (+28 planned)
+etsy.com — etsy: getListing, getShop, listCategories, listListingReviews, listShopListings, listShopReviews, search, searchShops (+27 planned)
 evag.de — evag: listDepartures, listDisruptions, searchStop
 eventbrite.com — eventbrite: followOrganizer, getEvent, getOrderHistory, getOrganizer, getOwnProfile, getSavedEvents, getVenue, listTicketClasses, registerForEvent, saveEvent, searchEvents, unsaveEvent
 eventim.com — eventim: search (+1 planned)
@@ -524,7 +524,7 @@ pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
 packlane.com — packlane: getQuote
 pallet2ship.co.uk — pallet2ship: getQuote
 partiful.com — partiful: discoverEvents, getEvent
-patreon.com — patreon: getCreator, getCurrentUserFeed, getPost, listCreatorCollections, listCreatorPosts, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators
+patreon.com — patreon: commentOnPost, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators
 pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, searchHelp, searchShoppingOffers (+2 planned)

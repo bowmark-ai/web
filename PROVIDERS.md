@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5931 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5933 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1805,7 +1805,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.getShop` | etsy.com | One Etsy shop by its name or etsy.com/shop URL — tagline, location, logo, star rating… | 🟢 |
 | `etsy.getUserProfile` | etsy.com | A member's public Etsy profile by username or etsy.com/people URL — display name… | ⚪ |
 | `etsy.leaveReview` | etsy.com | Leaves a star rating and written review on an item the caller bought and received. | ⚪ |
-| `etsy.listCategories` | etsy.com | Etsy's category tree — top-level departments and their subcategories with their /c/… | ⚪ |
+| `etsy.listCategories` | etsy.com | Etsy's category tree — top-level departments and their subcategories with their /c/… | 🟢 |
 | `etsy.listCollections` | etsy.com | The signed-in caller's collections (the named lists they save favorites into) and what… | ⚪ |
 | `etsy.listConversations` | etsy.com | The signed-in caller's Etsy message threads with shops, newest first, with the last… | ⚪ |
 | `etsy.listEditorsPicks` | etsy.com | Etsy's Editors' Picks — the curated collections on /featured, each with its title… | ⚪ |
@@ -3602,9 +3602,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pallet2ship.getQuote` | pallet2ship.co.uk | Live pallet freight quotes between two UK-mainland postcodes for one or more pallets… | 🟢 |
 | `partiful.discoverEvents` | partiful.com | Lists the public events Partiful's explore page shows for one region (sf, nyc, la… | 🟢 |
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
+| `patreon.commentOnPost` | patreon.com | Leave a comment on a post as the signed-in caller; returns the comment as Patreon… | 🟢 |
 | `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | 🟢 |
 | `patreon.getCurrentUserFeed` | patreon.com | Read the signed-in caller's Patreon home feed — recent posts from the creators they… | 🟢 |
 | `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | 🟢 |
+| `patreon.likePost` | patreon.com | Like a post as the signed-in caller. | 🟢 |
 | `patreon.listCreatorCollections` | patreon.com | List a creator's collections (series), each with its title, post count and its posts'… | 🟢 |
 | `patreon.listCreatorPosts` | patreon.com | List a creator's posts, newest first, one page at a time with the site's own cursor. | 🟢 |
 | `patreon.listCreatorTiers` | patreon.com | List all membership tiers offered by a creator with pricing. | 🟢 |
