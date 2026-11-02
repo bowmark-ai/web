@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b77414791f65997ecc76a40f73f6036eb89a5c71a97db0c5d375b6b73e0e5d7c
-// 93 capabilities, 756 providers, 3953 typed functions, 20 refused.
+// Manifest version: 4f888ca3d0a838631d95f525cb0d7c9f8a3eb1f7e18ba43790c97643f0d9f9e1
+// 93 capabilities, 756 providers, 3954 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -75763,6 +75763,40 @@ interface SetmorePromoCode {
 
 declare namespace BowmarkProvider_sevenrooms {
   // ── SevenRooms — the unit's own declarations, verbatim ──
+interface BookReservationArgs {
+  venue: string;
+  /** "YYYY-MM-DD", the slot's own date. */
+  date: string;
+  /** "HH:mm" 24h, the slot's own timeIso time portion. */
+  time: string;
+  /** Round-trip both straight from a getAvailability slot. */
+  accessPersistentId: string;
+  shiftPersistentId: string;
+  partySize?: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  /** Digits, national format. */
+  phone: string;
+  /** Default "1". */
+  phoneDialCode?: string;
+  /** ISO alpha-2, default "us". */
+  phoneCountryCode?: string;
+  /** A note to the venue. */
+  notes?: string;
+}
+interface SevenroomsBooking {
+  /** False when the slot needs a card or payment — nothing was booked; read paymentTerms. */
+  booked: boolean;
+  stoppedAt: "payment" | null;
+  reservationId: string | null;
+  apiReservationId: string | null;
+  /** Pass to cancelReservation / getReservation. */
+  manageToken: string | null;
+  manageUrl: string | null;
+  paymentTerms: { requireCreditCard: boolean; ccPartySizeMin: number | null; cost: number | null; computedAutoCancellationChargeCents: number | null } | null;
+  raw: unknown;
+}
 interface SevenroomsMyReservation {
   id: string | null;
   venueId: string | null;
@@ -76015,6 +76049,15 @@ type SevenroomsPromoValidation =
      * e.g. a code that does not exist or has been exhausted). Applies nothing.
      */
     validatePromoCode(args: ValidatePromoCodeArgs): Promise<SevenroomsPromoValidation>;
+
+    /**
+     * Books an open slot (from getAvailability) as a guest with the caller's name, email and phone
+     * — holding the table, then confirming it — and returns the reservation id and its manage
+     * token. A slot that holds or charges a card stops before payment and returns booked: false
+     * with the terms, never paying. A venue that only takes SevenRooms accounts is refused with a
+     * pointer to bookReservationSignedIn.
+     */
+    bookReservation(args: BookReservationArgs): Promise<SevenroomsBooking>;
   }
 }
 

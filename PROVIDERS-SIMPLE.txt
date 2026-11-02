@@ -330,7 +330,7 @@ gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getRentersQuote, listDiscounts, listPartnerCompanies (+33 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
 getsquire.com — squire: findShopsNear, getAvailability, getShop, listBarbers, listServices, searchShops (+22 planned)
-github.com — github: createComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listIssues, listMarketplaceActions, listNotifications, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, searchCode, searchRepositories, updateComment, updateIssue, updatePullRequest (+10 planned)
+github.com — github: createComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listIssues, listMarketplaceActions, listNotifications, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, searchCode, searchRepositories, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository (+8 planned)
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
 glassesusa.com — glassesusa: getProduct, search
@@ -624,7 +624,7 @@ seoulfood.kotra.or.kr — seoulfood: getBoothQuote, getExhibitorPricing (+1 plan
 serper.dev — serper: searchGoogle
 services.gst.gov.in — gst_india: lookup
 setmore.com — setmore: bookAppointment, bookClass, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, updateMyDetails (+3 planned)
-sevenrooms.com — sevenrooms: getAvailability, getAvailableDates, getBookingTerms, getVenue, listMyReservations, listUpgrades, validatePromoCode (+17 planned)
+sevenrooms.com — sevenrooms: bookReservation, getAvailability, getAvailableDates, getBookingTerms, getVenue, listMyReservations, listUpgrades, validatePromoCode (+16 planned)
 shein.com — shein: getProduct, listCategories, listProductsByCategory, search (+30 planned)
 shop.app — shop_app: browseCategory, getDiscoveryFeed, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listOffers, listStoreProducts, searchStore, suggestSearches (+24 planned)
 shop.formax.com — formax: getCartLink, search

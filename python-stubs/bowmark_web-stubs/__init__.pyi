@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b77414791f65997ecc76a40f73f6036eb89a5c71a97db0c5d375b6b73e0e5d7c
-# 93 capabilities, 756 providers, 3935 typed functions, 20 refused.
+# Manifest version: 4f888ca3d0a838631d95f525cb0d7c9f8a3eb1f7e18ba43790c97643f0d9f9e1
+# 93 capabilities, 756 providers, 3936 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -46103,6 +46103,37 @@ class Prv_sevenrooms_SevenroomsPromoValidation_u1_Out(TypedDict):
     status: Literal["INVALID"]
     reason: str
 
+class Prv_sevenrooms_BookReservationArgs_In(TypedDict):
+    venue: str
+    date: str
+    time: str
+    accessPersistentId: str
+    shiftPersistentId: str
+    partySize: NotRequired[float]
+    firstName: str
+    lastName: str
+    email: str
+    phone: str
+    phoneDialCode: NotRequired[str]
+    phoneCountryCode: NotRequired[str]
+    notes: NotRequired[str]
+
+class Prv_sevenrooms_SevenroomsBooking_Out(TypedDict):
+    booked: bool
+    stoppedAt: Literal["payment"] | None
+    reservationId: str | None
+    apiReservationId: str | None
+    manageToken: str | None
+    manageUrl: str | None
+    paymentTerms: Prv_sevenrooms_SevenroomsBooking_Out_paymentTerms_u0_Out | None
+    raw: Any
+
+class Prv_sevenrooms_SevenroomsBooking_Out_paymentTerms_u0_Out(TypedDict):
+    requireCreditCard: bool
+    ccPartySizeMin: float | None
+    cost: float | None
+    computedAutoCancellationChargeCents: float | None
+
 class Prv_shein_sheinCategory_Out(TypedDict):
     id: str
     name: str
@@ -86531,6 +86562,14 @@ class Prv_sevenrooms(Protocol):
         """Checks whether a promo code is valid at a venue for a date, time and party size before
         booking: the discount it would apply (VALID), or the site's own refusal reason (INVALID,
         e.g. a code that does not exist or has been exhausted). Applies nothing.
+        """
+
+    async def bookReservation(self, args: Prv_sevenrooms_BookReservationArgs_In, /) -> Prv_sevenrooms_SevenroomsBooking_Out:
+        """Books an open slot (from getAvailability) as a guest with the caller's name, email and
+        phone — holding the table, then confirming it — and returns the reservation id and its
+        manage token. A slot that holds or charges a card stops before payment and returns
+        booked: false with the terms, never paying. A venue that only takes SevenRooms accounts
+        is refused with a pointer to bookReservationSignedIn.
         """
 
 class Prv_shein(Protocol):

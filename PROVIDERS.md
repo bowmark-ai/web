@@ -1939,7 +1939,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.listExternalLinks` | fandom.com | Every link off-wiki from one article — sources and official sites the page cites, as… | 🟢 |
 | `fandom.listImages` | fandom.com | Every image used in an article, by file title, in page order. `GET… | 🟢 |
 | `fandom.listLinks` | fandom.com | Every other article on the same wiki this one links to. `GET… | 🟢 |
-| `fandom.listRecentChanges` | fandom.com | What is being edited on a wiki right now — a live feed of recent edits with page… | 🟢 |
+| `fandom.listRecentChanges` | fandom.com | What is being edited on a wiki right now — a live feed of recent edits with page… | 🟡 |
 | `fandom.listRevisions` | fandom.com | An article's edit history on this wiki — each revision with its id, timestamp, editor… | 🟢 |
 | `fandom.listUserContributions` | fandom.com | Every edit one named editor has made on this wiki, newest first. `GET… | 🟢 |
 | `fandom.listWatchlist` | fandom.com | The caller's own watchlist on one wiki — the pages they follow and recent changes to… | ⚪ |
@@ -2307,11 +2307,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
 | `github.starRepository` | github.com | Adds a repository to the signed-in caller's starred list. | ⚪ |
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list. | ⚪ |
-| `github.unwatchRepository` | github.com | Stops watching a repository for the signed-in caller, returning it to GitHub's default… | 🔴 |
+| `github.unwatchRepository` | github.com | Stops watching a repository for the signed-in caller, returning it to GitHub's default… | 🟢 |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🟢 |
 | `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🟢 |
 | `github.updatePullRequest` | github.com | Renames a pull request's TITLE, off the same issue-viewer web mutation (PUT… | 🟢 |
-| `github.watchRepository` | github.com | Watches a repository (all activity) for the signed-in caller, off github.com's own… | 🔴 |
+| `github.watchRepository` | github.com | Watches a repository (all activity) for the signed-in caller, off github.com's own… | 🟢 |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassdoor.getEmployerReviews` | glassdoor.com | An employer's Glassdoor review summary — overall rating, review count, the scale's… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
@@ -4336,7 +4336,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `setmore.listStaff` | setmore.com | Lists the people a customer can book with at a business: staff id, display name, role… | 🟢 |
 | `setmore.rescheduleAppointment` | setmore.com | Moves a guest's appointment to another open time from getAvailability, keeping the… | ⚪ |
 | `setmore.updateMyDetails` | setmore.com | Signed in as the caller (their customer account at one business), changes their own… | 🟢 |
-| `sevenrooms.bookReservation` | sevenrooms.com | Books an open slot as a guest with the caller's name, email and phone — holding the… | ⚪ |
+| `sevenrooms.bookReservation` | sevenrooms.com | Books an open slot (from getAvailability) as a guest with the caller's name, email and… | 🟢 |
 | `sevenrooms.bookReservationSignedIn` | sevenrooms.com | Books an open slot as the signed-in SevenRooms guest, using their saved profile — the… | ⚪ |
 | `sevenrooms.cancelRequest` | sevenrooms.com | Withdraws a booking request or turns off a priority alert from its id. | ⚪ |
 | `sevenrooms.cancelReservation` | sevenrooms.com | Cancels a reservation from its manage token, returning the cancelled status and any… | ⚪ |

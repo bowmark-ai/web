@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b77414791f65997ecc76a40f73f6036eb89a5c71a97db0c5d375b6b73e0e5d7c
-// 3935 checked, 20 unchecked.
+// Manifest version: 4f888ca3d0a838631d95f525cb0d7c9f8a3eb1f7e18ba43790c97643f0d9f9e1
+// 3936 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b77414791f65997ecc76a40f73f6036eb89a5c71a97db0c5d375b6b73e0e5d7c",
+  "version": "4f888ca3d0a838631d95f525cb0d7c9f8a3eb1f7e18ba43790c97643f0d9f9e1",
   "units": {
     "address_validation": {
       "defs": {
@@ -93396,6 +93396,102 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.sevenrooms": {
       "defs": {
+        "BookReservationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "venue",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "accessPersistentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "shiftPersistentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phoneDialCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "phoneCountryCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "notes",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetAvailabilityArgs": {
           "k": "object",
           "props": [
@@ -93637,6 +93733,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ValidatePromoCodeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "bookReservation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookReservationArgs"
             },
             "optional": false
           }
