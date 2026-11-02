@@ -190,7 +190,7 @@ chromium.googlesource.com — chromium_googlesource_com: getFile, listDirectory,
 cigna.com — cigna_directory: findProviders
 classichome.com — classichome: addToCart, getProduct, searchProducts
 classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) — classicrockfab: checkAvailability, listAppointmentTypes
-classpass.com — classpass: checkAvailability, findLocation, findStudio, getBookingQuote, getClass, getClassReviews, getCreditBalance, getMyProfile, getSchedule, getStudio, getStudioReviews, listCategories, listMarkets, listMyReservations, listSimilarStudios, listStudioBranches, listStudioClasses, search (+22 planned)
+classpass.com — classpass: checkAvailability, findLocation, findStudio, getBillingHistory, getBookingQuote, getClass, getClassReviews, getCreditBalance, getMyProfile, getMySubscription, getReservation, getSchedule, getStudio, getStudioReviews, listCategories, listFavorites, listMarkets, listMyReservations, listSimilarStudios, listStudioBranches, listStudioClasses, search (+18 planned)
 claude.ai — claude: getAccount, getConversation, getMemory, getPreferences, getProject, getPublishedArtifact, getSharedConversation, getUsage, listArtifacts, listConnectors, listConversations, listModels, listProjects, listSharedLinks, listSkills, searchConversations (+18 planned)
 claude.com — claude_com: getDoc, listDocPages
 claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
@@ -747,7 +747,7 @@ webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+20 planned)
 westelm.com — westelm: searchProducts (+1 planned)
-whatsapp.com — whatsapp: checkNumber, createClickToChatLink, findContact, getBlogPost, getChannel, getChatMessages, getHelpArticle, getMyProfile, listBlogPosts, listChats, listContacts, previewBusinessCatalog, previewGroupInvite, searchHelpCenter, searchMessages (+29 planned)
+whatsapp.com — whatsapp: checkNumber, createClickToChatLink, downloadMedia, findContact, getBlogPost, getChannel, getChatMessages, getHelpArticle, getMyProfile, listBlogPosts, listChats, listContacts, previewBusinessCatalog, previewGroupInvite, searchHelpCenter, searchMessages (+28 planned)
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
 wikipedia.org — wikipedia: compareRevisions, createPage, editPage, getArticle, getArticleHtml, getCurrentUser, getFeaturedContent, getImage, getInfobox, getOnThisDay, getPageviews, getRandomArticle, getRevision, getSection, getSections, getSummary, getUser, getWikitext, listBacklinks, listCategories, listCategoryMembers, listExternalLinks, listImages, listLanguages, listLinks, listMostViewed, listNotifications, listRecentChanges, listRelated, listRevisions, listUserContributions, listWatchlist, postTalkMessage, search, searchNearby, suggestTitles, thankUser, undoRevision, unwatchPage, watchPage
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)

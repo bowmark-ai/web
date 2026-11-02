@@ -1077,22 +1077,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.checkIn` | classpass.com | Marks one of the signed-in member's reservations as attended (the app's check-in). | ⚪ |
 | `classpass.findLocation` | classpass.com | Turns a place name a caller holds (`Charlotte`, a neighbourhood, an address) into the… | 🟢 |
 | `classpass.findStudio` | classpass.com | Finds ClassPass studios by NAME (and matching brand) near a point — the door for a… | 🟢 |
-| `classpass.getBillingHistory` | classpass.com | Lists the signed-in member's past charges — plan renewals and credit purchases, with… | ⚪ |
+| `classpass.getBillingHistory` | classpass.com | Lists the signed-in member's past charges — plan renewals and credit purchases, with… | 🟢 |
 | `classpass.getBookingQuote` | classpass.com | Returns what booking one specific class slot would cost THIS member — the credit price… | 🟢 |
 | `classpass.getClass` | classpass.com | Returns one class's own description at a studio — what it is, how long, what to expect… | 🟢 |
 | `classpass.getClassReviews` | classpass.com | Reads the reviews members left for one class (not the whole studio), keyed by the… | 🟢 |
 | `classpass.getCreditBalance` | classpass.com | Returns how many credits the signed-in member has left this cycle, what rolls over and… | 🟢 |
 | `classpass.getMyProfile` | classpass.com | Returns the signed-in member's profile: name, email, home market, photo and the… | 🟢 |
-| `classpass.getMySubscription` | classpass.com | Returns the signed-in member's plan: tier, monthly credits, price, renewal date, and… | ⚪ |
+| `classpass.getMySubscription` | classpass.com | Returns the signed-in member's plan: tier, monthly credits, price, renewal date, and… | 🟢 |
 | `classpass.getPricing` | classpass.com | Returns ClassPass's own membership/credit-plan pricing for a market — the monthly… | ⚪ |
-| `classpass.getReservation` | classpass.com | Returns one reservation in full — class, studio, spot, credits, cancellation window… | ⚪ |
+| `classpass.getReservation` | classpass.com | Returns one reservation in full — class, studio, spot, credits, cancellation window… | 🟢 |
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
 | `classpass.getStudioReviews` | classpass.com | Reads a studio's member reviews — rating, text, class taken and when — the page a… | 🟢 |
 | `classpass.getVideo` | classpass.com | Returns one on-demand video — title, instructor, length, and the stream a member plays. | ⚪ |
 | `classpass.joinWaitlist` | classpass.com | Puts the signed-in member on a full class's waitlist, or turns on the class's… | ⚪ |
 | `classpass.listCategories` | classpass.com | Lists ClassPass's activity and category vocabulary (Classes & Appointments, Yoga… | 🟢 |
-| `classpass.listFavorites` | classpass.com | Lists the studios the signed-in member has saved as favourites. | ⚪ |
+| `classpass.listFavorites` | classpass.com | Lists the studios the signed-in member has saved as favourites. | 🟢 |
 | `classpass.listMarkets` | classpass.com | Lists the cities and metro areas ClassPass operates in, with each market's id, alias… | 🟢 |
 | `classpass.listMyReservations` | classpass.com | Lists the signed-in member's upcoming and past reservations — class, studio, time… | 🟢 |
 | `classpass.listOnDemandVideos` | classpass.com | Lists the member on-demand workout videos (filters, collections, stacks) included with… | ⚪ |
@@ -5560,7 +5560,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.createClickToChatLink` | whatsapp.com | Builds WhatsApp's documented click-to-chat link for a phone number in international… | 🟢 |
 | `whatsapp.createGroup` | whatsapp.com | Creates a WhatsApp group as the caller with a name and the starting participants, and… | ⚪ |
 | `whatsapp.deleteMessage` | whatsapp.com | Deletes a message — for the caller only, or for everyone when it is the caller's own… | ⚪ |
-| `whatsapp.downloadMedia` | whatsapp.com | Downloads the attachment on one message (image, video, voice note, document, sticker)… | ⚪ |
+| `whatsapp.downloadMedia` | whatsapp.com | Downloads the attachment on one message (image, video, voice note, sticker or… | 🟢 |
 | `whatsapp.editMessage` | whatsapp.com | Edits the text of a message the caller sent, inside the window WhatsApp allows edits. | ⚪ |
 | `whatsapp.findContact` | whatsapp.com | Finds people and chats in the caller's WhatsApp by name, phone number or username, the… | 🟢 |
 | `whatsapp.followChannel` | whatsapp.com | Follows a Channel as the caller. | ⚪ |
