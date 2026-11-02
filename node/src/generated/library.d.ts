@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a47c8642c34cf1deadab6fa7a73789c0d7c55c1d37f855fb13dc56ec9dad2297
-// 93 capabilities, 756 providers, 3962 typed functions, 20 refused.
+// Manifest version: 84bcd6e1ec7b39716f33dd75442dd0315ac3993a19116780a61a4509c041a585
+// 93 capabilities, 756 providers, 3963 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -64731,6 +64731,17 @@ interface ModifiedBooking {
   bookingId: string; // the site's id for the rescheduling booking it confirmed
   time: string;
 }
+interface ListMyMembershipsArgs {
+  locationId: string; // any location id listLocations() returns — used to open the booking session
+}
+interface MyMembership {
+  id: string | null;
+  name: string | null;
+  creditBalance: number | null; // remaining service credits
+  startDate: string | null;
+  expirationDate: string | null;
+  status: string | number | null;
+}
 interface ListWaitlistedSlotsArgs {
   locationId: string; // any location id listLocations() returns — used to open the booking session
 }
@@ -64797,6 +64808,12 @@ interface WaitlistedSlot {
 
     /** Lists the caller's own open waitlist requests — requires the caller's own signed-in session */
     listWaitlistedSlots(args: ListWaitlistedSlotsArgs, opts?: ConnectionOption): Promise<WaitlistedSlot[]>;
+
+    /**
+     * Lists the caller's own memberships and remaining service credits, so they can check their
+     * balance before booking — requires the caller's own signed-in session
+     */
+    listMyMemberships(args: ListMyMembershipsArgs, opts?: ConnectionOption): Promise<MyMembership[]>;
   }
 }
 

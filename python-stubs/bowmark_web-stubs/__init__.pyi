@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a47c8642c34cf1deadab6fa7a73789c0d7c55c1d37f855fb13dc56ec9dad2297
-# 93 capabilities, 756 providers, 3944 typed functions, 20 refused.
+# Manifest version: 84bcd6e1ec7b39716f33dd75442dd0315ac3993a19116780a61a4509c041a585
+# 93 capabilities, 756 providers, 3945 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -38637,6 +38637,17 @@ class Prv_pausestudio_WaitlistedSlot_Out_dateRanges_item_Out(TypedDict):
     endDate: str | None
     startTime: str | None
     endTime: str | None
+
+class Prv_pausestudio_ListMyMembershipsArgs_In(TypedDict):
+    locationId: str
+
+class Prv_pausestudio_MyMembership_Out(TypedDict):
+    id: str | None
+    name: str | None
+    creditBalance: float | None
+    startDate: str | None
+    expirationDate: str | None
+    status: str | float | None
 
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
@@ -82711,6 +82722,11 @@ class Prv_pausestudio(Protocol):
     async def listWaitlistedSlots(self, args: Prv_pausestudio_ListWaitlistedSlotsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_pausestudio_WaitlistedSlot_Out]:
         """Lists the caller's own open waitlist requests — requires the caller's own signed-in
         session
+        """
+
+    async def listMyMemberships(self, args: Prv_pausestudio_ListMyMembershipsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_pausestudio_MyMembership_Out]:
+        """Lists the caller's own memberships and remaining service credits, so they can check
+        their balance before booking — requires the caller's own signed-in session
         """
 
 class Prv_pawsup(Protocol):
