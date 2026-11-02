@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5959 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5962 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3313,11 +3313,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `my_best_studio._client` | mybeststudio.us | Shared studio client: subdomain to account bootstrap, public and signed-in session… | ⚪ |
 | `my_best_studio.bookClass` | mybeststudio.us | Books a signed-in member into one class. | 🟢 |
 | `my_best_studio.cancelBooking` | mybeststudio.us | Cancels a signed-in member's booking or waitlist spot by its FutureSignupID. | 🟢 |
+| `my_best_studio.findStudio` | mybeststudio.us | Finds the My Best Studio studios a studio's own website embeds (public): each one's… | 🟢 |
 | `my_best_studio.getClass` | mybeststudio.us | Returns the detail of one class — time, instructor, capacity, booking-button label —… | 🟢 |
 | `my_best_studio.joinWaitlist` | mybeststudio.us | Adds a signed-in member to the waitlist for a full class — the same booking door as… | 🟢 |
 | `my_best_studio.listClasses` | mybeststudio.us | Reads one studio's class schedule (public, no login): time, class name, instructor… | 🟢 |
 | `my_best_studio.listInstructors` | mybeststudio.us | Lists every instructor teaching at one studio: id, name and email. | 🟢 |
 | `my_best_studio.listLocations` | mybeststudio.us | Lists all studio locations and their details (name, address, timezone). | ⚪ |
+| `my_best_studio.listMemberships` | mybeststudio.us | Lists every membership and class pack one studio sells (public, no login): name… | 🟢 |
 | `my_best_studio.listMyBookings` | mybeststudio.us | Lists a signed-in member's future class bookings and waitlist spots. | 🟢 |
 | `myollie.getMealPlan` | myollie.com | Computes Ollie's personalized fresh-food meal plan and REAL weekly price for a dog… | 🟢 |
 | `naic.getCompanyProfile` | naic.org | Reads one insurer's CIS financial report — the holding group that owns it, the state… | 🟢 |
@@ -3645,6 +3647,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pausestudio.listAvailableSlots` | pausestudio.com | Lists available appointment times by service, date and location — requires the… | 🟢 |
 | `pausestudio.listLocations` | pausestudio.com | Lists all Pause Studio recovery/wellness locations | 🟢 |
 | `pausestudio.listMyBookings` | pausestudio.com | Lists the caller's own upcoming or past appointments — requires the caller's own… | 🟢 |
+| `pausestudio.listMyMemberships` | pausestudio.com | Lists the caller's own memberships and remaining service credits — requires the… | 🟢 |
 | `pausestudio.listServices` | pausestudio.com | Lists available recovery services (float, cryo, sauna, IV drips, etc.) at a location | 🟢 |
 | `pausestudio.listWaitlistedSlots` | pausestudio.com | Lists the caller's own open waitlist requests — requires the caller's own signed-in… | 🟢 |
 | `pausestudio.modifyBooking` | pausestudio.com | Moves one of the caller's own appointments to a new time — requires the caller's own… | 🟢 |

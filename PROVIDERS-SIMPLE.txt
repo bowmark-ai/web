@@ -483,7 +483,7 @@ msccruzeiros.com.br — msccruzeiros: quoteCabins, searchCruises (+1 planned)
 msn.com — msn: getArticle, getMarketSummary, getSectionFeed, getStockQuote, getTopStories, getWeatherForecast, listSavedArticles, saveArticle, searchNews
 muze.gov.tr — muze_gov_tr: getVisitingHours
 my.auroramedicalspa.com — my_auroramedicalspa_com: getProviders, getServiceCategories, getServices, listLocations
-mybeststudio.us — my_best_studio: bookClass, cancelBooking, getClass, joinWaitlist, listClasses, listInstructors, listMyBookings (+2 planned)
+mybeststudio.us — my_best_studio: bookClass, cancelBooking, findStudio, getClass, joinWaitlist, listClasses, listInstructors, listMemberships, listMyBookings (+2 planned)
 mybobs.com — bobs: searchProducts
 myollie.com — myollie: getMealPlan
 myworkdayjobs.com — workday: listJobs (+1 planned)
@@ -530,7 +530,7 @@ packlane.com — packlane: getQuote
 pallet2ship.co.uk — pallet2ship: getQuote
 partiful.com — partiful: discoverEvents, getEvent
 patreon.com — patreon: commentOnPost, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators
-pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listServices, listWaitlistedSlots, modifyBooking
+pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listMyMemberships, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, searchHelp, searchShoppingOffers (+2 planned)
 peek.com — peek: getAvailability, getExperience, getPriceQuote, listDestinations, listReviews, listSimilarExperiences, listTags, searchExperiences, searchRegions (+10 planned)
