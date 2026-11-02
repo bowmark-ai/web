@@ -395,6 +395,7 @@ instagram.com — instagram: blockUser, commentOnPost, followUser, getDirectMess
 insurify.com — insurify: getAutoQuotes, getCarrierReview, getCarrierUserReviews, getCityRates, getHomeQuotes, getRentersQuotes, getStateRates, getVehicleRates, listInsightsReports, rankCarriers (+19 planned)
 intactinsurance.com — intactinsurance: getSolution, listSolutions (+1 planned)
 interiordefine.com — interiordefine: addToCart, getConfigurator, priceConfiguration, searchProducts
+intro.co — intro_co: expert, search (+1 planned)
 ipinfo.io — ipinfo: lookup
 iproyal.com — iproyal: getPlans
 islllc.com — islllc: searchCommunities
@@ -640,7 +641,7 @@ smartsign.com — smartsign: getTemplate, search
 smartwool.com — smartwool: getSockRecommendation
 smithery.ai — smithery: search
 snapchat.com — snapchat: getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSpotlightVideo, listDiscoverStories, listFriends, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, searchSnapchat (+14 planned)
-solidcore.co — solidcore: checkAvailability, getClass, getCoach, getPack, getPricing, getSchedule, getStudio, listCoaches, listMuscleGroups, listStudios, searchClasses (+13 planned)
+solidcore.co — solidcore: checkAvailability, getClass, getCoach, getPack, getPricing, getSchedule, getStudio, listClassCategories, listCoaches, listMuscleGroups, listStudios, searchClasses (+12 planned)
 solostove.com — solostove: checkBundle, listBundles
 soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, setFavoriteInstructor, setFavoriteStudio (+9 planned)
 soundcloud.com — soundcloud: getPlaylist, getTrack, search

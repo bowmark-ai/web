@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3c474f769be5ef2bfdd10eea802b1f8266e6eec5666e87f901ee86e35b261e51
+// Manifest version: 4ee1784edbfedcd30be01f9fe7b1038061aa2bea114422e3f14c197a51731bda
 // 93 capabilities, 756 providers, 3963 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -25947,7 +25947,7 @@ interface GetMeteorologicalObservationsArgs {
   product: CoopsMetProduct;
   beginDate?: string; // "YYYY-MM-DD"; omit both dates for the latest reading
   endDate?: string; // defaults to beginDate
-  units?: "english" | "metric"; // default "english"; ignored by humidity
+  units?: "english" | "metric"; // default "english"; ignored by humidity AND by air_pressure (always millibars)
 }
 
 interface CoopsMeteorologicalObservations {
@@ -60788,11 +60788,13 @@ interface NprSearchResult {
   title: string;
   id?: string;
   publishedDate?: string;
+  publishedAt?: string;
   bylines?: string[];
   teaser?: string;
   show?: string;
   topics?: string[];
-  audioUrl?: string;
+  hasAudio: boolean;
+  audioDurationSeconds?: number;
 }
 
 interface NprPodcast {
@@ -60999,12 +61001,13 @@ interface NprSeriesStories {
     listSectionStories(args: ListSectionStoriesArgs): Promise<NprHeadline[]>;
 
     /**
-     * Search NPR's story archive by keyword via Algolia. Returns headlines with publication date,
-     * author, teaser and (when available) audio URL. Defaults to 10 results; max 250.
+     * Search NPR's story archive by keyword via Algolia. Returns absolute npr.org links with story
+     * id (for getStory), publication date, bylines, teaser, show and whether it has audio.
+     * Defaults to 10 results; max 250.
      */
     searchStories(args: SearchStoriesArgs): Promise<NprSearchResult[]>;
 
-    /** NPR's complete podcast directory (51 podcasts) with id, title and URL for each. */
+    /** NPR's complete podcast directory with id, title and URL for each. */
     listPodcasts(): Promise<NprPodcast[]>;
 
     /**

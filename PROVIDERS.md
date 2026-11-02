@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5962 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5965 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2822,6 +2822,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `interiordefine.getConfigurator` | interiordefine.com | Reads one product's whole customizer: every option category (fabric color, leg finish… | 🟢 |
 | `interiordefine.priceConfiguration` | interiordefine.com | Prices a specific configuration (a choice per option category) against… | 🟢 |
 | `interiordefine.searchProducts` | interiordefine.com | Searches Interior Define's custom-furniture catalog (sofas, sectionals, chairs) by… | 🟢 |
+| `intro_co.bookCall` | intro.co | Books a paid video call with an expert at a chosen length and time slot, the way the… | ⚪ |
+| `intro_co.expert` | intro.co | Reads one intro.co expert's profile by handle or profile URL — bio, every bookable… | 🟢 |
+| `intro_co.search` | intro.co | Searches intro.co's expert marketplace by keyword (a topic, skill or name —… | 🟢 |
 | `ipinfo.lookup` | ipinfo.io | Look up an IPv4 or IPv6 address: its autonomous system number (ASN), the ISP / network… | 🟢 |
 | `iproyal_reseller.extendPeriod` | apid.iproyal.com | Extends one order's term (POST /orders/{id}/extend) — spends real money; a new prepaid… | ⚪ |
 | `iproyal_reseller.getAccountBalance` | apid.iproyal.com | Bowmark's own prepaid IPRoyal balance (GET /balance) — used to fence a lease purchase… | 🟢 |
@@ -4537,7 +4540,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `solidcore.getStudio` | solidcore.co | Returns one studio's own record off the same registry listStudios reads: name, full… | 🟡 |
 | `solidcore.getStudioHours` | solidcore.co | Returns a studio's operating hours. | ⚪ |
 | `solidcore.joinWaitlist` | solidcore.co | Joins the waitlist for a full class. | ⚪ |
-| `solidcore.listClassCategories` | solidcore.co | Lists class types offered (strength, cardio, endurance, etc.). | ⚪ |
+| `solidcore.listClassCategories` | solidcore.co | Lists the class formats [solidcore] offers chain-wide (e.g. "Signature50", "Power30"… | 🟢 |
 | `solidcore.listCoaches` | solidcore.co | Lists the coaches shown on one studio's own page: name, trainer slug, role, and photo… | 🟢 |
 | `solidcore.listMuscleGroups` | solidcore.co | Returns the chain-wide daily muscle-focus calendar — a primary and secondary muscle… | 🟢 |
 | `solidcore.listMyBookings` | solidcore.co | Lists the signed-in member's upcoming class bookings. | ⚪ |

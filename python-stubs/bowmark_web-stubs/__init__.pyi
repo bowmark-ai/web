@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3c474f769be5ef2bfdd10eea802b1f8266e6eec5666e87f901ee86e35b261e51
+# Manifest version: 4ee1784edbfedcd30be01f9fe7b1038061aa2bea114422e3f14c197a51731bda
 # 93 capabilities, 756 providers, 3945 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -36119,11 +36119,13 @@ class Prv_npr_NprSearchResult_Out(TypedDict):
     title: str
     id: NotRequired[str]
     publishedDate: NotRequired[str]
+    publishedAt: NotRequired[str]
     bylines: NotRequired[list[str]]
     teaser: NotRequired[str]
     show: NotRequired[str]
     topics: NotRequired[list[str]]
-    audioUrl: NotRequired[str]
+    hasAudio: bool
+    audioDurationSeconds: NotRequired[float]
 
 class Prv_npr_NprPodcast_Out(TypedDict):
     id: str
@@ -81430,12 +81432,13 @@ class Prv_npr(Protocol):
         """
 
     async def searchStories(self, args: Prv_npr_SearchStoriesArgs_In, /) -> list[Prv_npr_NprSearchResult_Out]:
-        """Search NPR's story archive by keyword via Algolia. Returns headlines with publication
-        date, author, teaser and (when available) audio URL. Defaults to 10 results; max 250.
+        """Search NPR's story archive by keyword via Algolia. Returns absolute npr.org links with
+        story id (for getStory), publication date, bylines, teaser, show and whether it has
+        audio. Defaults to 10 results; max 250.
         """
 
     async def listPodcasts(self, /) -> list[Prv_npr_NprPodcast_Out]:
-        """NPR's complete podcast directory (51 podcasts) with id, title and URL for each."""
+        """NPR's complete podcast directory with id, title and URL for each."""
 
     async def listPodcastEpisodes(self, args: Prv_npr_ListPodcastEpisodesArgs_In, /) -> list[Prv_npr_NprPodcastEpisode_Out]:
         """A podcast's episodes, newest first, off its own RSS feed — title, story URL, publish
