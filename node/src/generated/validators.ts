@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cbf9798db502b1604ddcf52bddd829a4a2ed84875a8a0e7ecb02bafe74cbfefc
-// 3897 checked, 20 unchecked.
+// Manifest version: b77414791f65997ecc76a40f73f6036eb89a5c71a97db0c5d375b6b73e0e5d7c
+// 3935 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cbf9798db502b1604ddcf52bddd829a4a2ed84875a8a0e7ecb02bafe74cbfefc",
+  "version": "b77414791f65997ecc76a40f73f6036eb89a5c71a97db0c5d375b6b73e0e5d7c",
   "units": {
     "address_validation": {
       "defs": {
@@ -4793,6 +4793,69 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "retirement_ira_comparison": {
+      "defs": {
+        "CompareIraArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "annualContribution",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "age",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "years",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "annualReturnRate",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "currentMarginalTaxRate",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "retirementMarginalTaxRate",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "compare": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CompareIraArgs"
             },
             "optional": false
           }
@@ -10424,6 +10487,51 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.americashealthrankings": {
+      "defs": {
+        "GetMeasureDataArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "measureId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listReports": [],
+        "searchMeasures": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMeasureData": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMeasureDataArgs"
             },
             "optional": false
           }
@@ -19051,6 +19159,35 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "BookerServiceListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "serviceIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -19150,6 +19287,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMultiServiceAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerServiceListArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getGroupAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerServiceListArgs"
             },
             "optional": false
           }
@@ -30387,6 +30544,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listStreamFormats": [
+          {
+            "name": "video",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getMyProfile": [
           {
             "name": "opts",
@@ -33605,6 +33771,39 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "DoordashSearchDishesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -33713,6 +33912,16 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "searchDishes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DoordashSearchDishesArgs"
             },
             "optional": false
           }
@@ -33935,6 +34144,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.duckduckgo": {
       "defs": {
+        "ChangeForwardingAddressArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "newEmail",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "otp",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "hash",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ConvertCurrencyArgs": {
           "k": "object",
           "props": [
@@ -34286,6 +34521,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SetPrivateDuckAddressActiveArgs"
             },
             "optional": false
+          }
+        ],
+        "changeForwardingAddress": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ChangeForwardingAddressArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "searchNews": [
@@ -36435,7 +36696,89 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listCategories": []
+        "listCategories": [],
+        "browseCategory": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "path",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "minPrice",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "maxPrice",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "sort",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "most_relevant"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "price_asc"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "price_desc"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "date_desc"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "suggestSearches": [
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listTrendingSearches": []
       }
     },
     "providers.evag": {
@@ -74613,6 +74956,40 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "OloApplyCouponArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "host",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "code",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "OloCheckOrderAvailabilityArgs": {
           "k": "object",
           "props": [
@@ -75167,6 +75544,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "OloRemoveBasketItemArgs"
+            },
+            "optional": false
+          }
+        ],
+        "applyCoupon": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OloApplyCouponArgs"
             },
             "optional": false
           }
@@ -83490,6 +83877,38 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "bookClass": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "classId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -90612,6 +91031,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -92511,6 +92948,40 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SetmoreBookClassArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guest",
+              "schema": {
+                "k": "ref",
+                "name": "SetmoreBookAppointmentGuest"
+              },
+              "optional": false
+            },
+            {
+              "name": "notes",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SetmoreBookingFormArgs": {
           "k": "object",
           "props": [
@@ -92791,6 +93262,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "bookClass": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetmoreBookClassArgs"
+            },
+            "optional": false
+          }
+        ],
         "listClasses": [
           {
             "name": "business",
@@ -93039,6 +93520,46 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "ValidatePromoCodeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "venue",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "promoCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -93108,6 +93629,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "validatePromoCode": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ValidatePromoCodeArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -93660,6 +94191,81 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListPizzeriasInCityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPizzeria": [
+          {
+            "name": "pizzeria",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getMenu": [
+          {
+            "name": "pizzeria",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getMenuItemOptions": [
+          {
+            "name": "pizzeria",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "sizeId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "getHours": [
+          {
+            "name": "pizzeria",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
             },
             "optional": false
           }
@@ -94708,6 +95314,44 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SetFavoriteInstructorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "instructorId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "enabled",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SetFavoriteStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studioId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "enabled",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -94958,6 +95602,58 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CancelBookingArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setFavoriteStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetFavoriteStudioArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setFavoriteInstructor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetFavoriteInstructorArgs"
             },
             "optional": false
           },
@@ -95271,7 +95967,16 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listTvPlans": [],
         "listMobilePlans": [],
-        "listMobileDeals": []
+        "listMobileDeals": [],
+        "checkMobileCoverage": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.speedrun": {
@@ -95481,6 +96186,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SpotappsCheckAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMenu": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsSpotArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getOnlineOrderMenu": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsSpotArgs"
             },
             "optional": false
           }
@@ -96414,6 +97139,98 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.square_online": {
       "defs": {
+        "MenuItemArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MenuItemsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "PickupTimesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SiteArgs": {
           "k": "object",
           "props": [
@@ -96454,6 +97271,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SiteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listMenuItems": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MenuItemsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMenuItem": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MenuItemArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPickupTimes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PickupTimesArgs"
             },
             "optional": false
           }
@@ -100544,6 +101391,48 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listQuestions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tcin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortBy",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "most_recent"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "most_helpful"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listOrders": [
           {
             "name": "opts",
@@ -102312,6 +103201,24 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getMe": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getActivity": [
           {
             "name": "opts",
@@ -108153,6 +109060,59 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "schedulePickup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "addressLine",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "pickupDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "residential",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -111273,6 +112233,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getObservations": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          }
+        ],
         "getFifteenMinuteForecast": [
           {
             "name": "location",
@@ -113623,11 +114593,56 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetServiceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "serviceId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListServicesArgs": {
           "k": "object",
           "props": [
             {
               "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchServicesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
               "schema": {
                 "k": "string"
               },
@@ -113660,6 +114675,46 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListServicesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchServices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchServicesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getService": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetServiceArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindSiteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listStaff": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindSiteArgs"
             },
             "optional": false
           }
@@ -114942,6 +115997,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "XolaGetAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "experienceId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "XolaGetExperienceArgs": {
           "k": "object",
           "props": [
@@ -114994,6 +116061,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "XolaGetExperienceArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "XolaGetAvailabilityArgs"
             },
             "optional": false
           }

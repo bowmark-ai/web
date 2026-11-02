@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cbf9798db502b1604ddcf52bddd829a4a2ed84875a8a0e7ecb02bafe74cbfefc
-# 92 capabilities, 755 providers, 3897 typed functions, 20 refused.
+# Manifest version: b77414791f65997ecc76a40f73f6036eb89a5c71a97db0c5d375b6b73e0e5d7c
+# 93 capabilities, 756 providers, 3935 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2463,6 +2463,34 @@ class Cap_retail_RetailOffer_Out(TypedDict):
     wasPrice: float | None
     url: str | None
     inStock: bool
+
+class Cap_retirement_ira_comparison_CompareIraArgs_In(TypedDict):
+    annualContribution: NotRequired[float]
+    age: NotRequired[float]
+    years: NotRequired[float]
+    annualReturnRate: NotRequired[float]
+    currentMarginalTaxRate: float
+    retirementMarginalTaxRate: float
+
+class Cap_retirement_ira_comparison_retirement_ira_comparisonResult_Out(TypedDict):
+    annualContribution: float
+    contributionLimit: float
+    years: float
+    annualReturnRate: float
+    traditional: Cap_retirement_ira_comparison_retirement_ira_comparisonResult_Out_traditional_Out
+    roth: Cap_retirement_ira_comparison_retirement_ira_comparisonResult_Out_roth_Out
+    traditionalTaxSavingsIfInvested: float
+    traditionalTotalIfTaxSavingsInvested: float
+    differenceTraditionalMinusRoth: float
+    warnings: list[str]
+
+class Cap_retirement_ira_comparison_retirement_ira_comparisonResult_Out_traditional_Out(TypedDict):
+    accountBalance: float
+    afterTaxValue: float
+
+class Cap_retirement_ira_comparison_retirement_ira_comparisonResult_Out_roth_Out(TypedDict):
+    accountBalance: float
+    afterTaxValue: float
 
 class Cap_school_shopping_basket_priceList_args_In(TypedDict):
     items: Sequence[str]
@@ -5258,6 +5286,35 @@ class Prv_americanvisionwindows_AmericanVisionWindowsAvailability_Out(TypedDict)
 class Prv_americanvisionwindows_AmericanVisionWindowsSlotDay_Out(TypedDict):
     date: str
     windows: list[str]
+
+class Prv_americashealthrankings_AmericasHealthRankingsReport_Out(TypedDict):
+    editionId: float
+    name: str
+    year: float
+    reportType: Literal["annual"] | Literal["senior"] | Literal["womenAndChildren"] | Literal["other"]
+
+class Prv_americashealthrankings_AmericasHealthRankingsMeasure_Out(TypedDict):
+    id: float
+    name: str
+    slug: str
+    description: str | None
+
+class Prv_americashealthrankings_GetMeasureDataArgs_In(TypedDict):
+    measureId: float
+    state: str
+
+class Prv_americashealthrankings_AmericasHealthRankingsMeasureData_Out(TypedDict):
+    measure: Prv_americashealthrankings_AmericasHealthRankingsMeasure_Out
+    unit: str | None
+    data: list[Prv_americashealthrankings_AmericasHealthRankingsDataPoint_Out]
+
+class Prv_americashealthrankings_AmericasHealthRankingsDataPoint_Out(TypedDict):
+    state: str
+    stateCode: str
+    year: str | None
+    value: float | None
+    displayValue: str | None
+    rank: float | None
 
 class Prv_amramp_findNearestLocation_input_In(TypedDict):
     zip: str
@@ -10363,6 +10420,41 @@ class Prv_booker_BookerDayHours_Out(TypedDict):
     opens: str | None
     closes: str | None
     closedReason: str | None
+
+class Prv_booker_BookerServiceListArgs_In(TypedDict):
+    location: str
+    serviceIds: Sequence[float]
+    date: NotRequired[str]
+
+class Prv_booker_BookerMultiServiceAvailability_Out(TypedDict):
+    serviceIds: list[float]
+    date: str
+    visits: list[Prv_booker_BookerMultiServiceAvailability_Out_visits_item_Out]
+
+class Prv_booker_BookerMultiServiceAvailability_Out_visits_item_Out(TypedDict):
+    start: str
+    items: list[Prv_booker_BookerVisitItem_Out]
+
+class Prv_booker_BookerVisitItem_Out(TypedDict):
+    serviceId: float
+    start: str
+    durationMinutes: float | None
+    staffId: float | None
+
+class Prv_booker_BookerGroupAvailability_Out(TypedDict):
+    serviceIds: list[float]
+    date: str
+    slots: list[Prv_booker_BookerGroupAvailability_Out_slots_item_Out]
+
+class Prv_booker_BookerGroupAvailability_Out_slots_item_Out(TypedDict):
+    start: str
+    options: list[Prv_booker_BookerGroupGuestOption_Out]
+
+class Prv_booker_BookerGroupGuestOption_Out(TypedDict):
+    serviceId: float
+    staffId: float | None
+    durationMinutes: float | None
+    price: float | None
 
 class Prv_booking_com_AutocompleteDestinationArgs_In(TypedDict):
     query: str
@@ -16431,6 +16523,20 @@ class Prv_dailymotion_DailymotionTranscriptSegment_Out(TypedDict):
     endSeconds: float
     text: str
 
+class Prv_dailymotion_DailymotionStreamFormatsResult_Out(TypedDict):
+    video: str
+    manifestUrl: str
+    formats: list[Prv_dailymotion_DailymotionStreamFormat_Out]
+
+class Prv_dailymotion_DailymotionStreamFormat_Out(TypedDict):
+    name: str
+    width: float | None
+    height: float | None
+    bandwidth: float | None
+    codecs: list[str]
+    frameRate: float | None
+    url: str
+
 class Prv_dailymotion_LikeVideoArgs_In(TypedDict):
     video: str
     like: NotRequired[bool]
@@ -18392,6 +18498,21 @@ class Prv_doordash_DoordashCuisine_Out(TypedDict):
     name: str
     url: str
 
+class Prv_doordash_DoordashSearchDishesArgs_In(TypedDict):
+    query: str
+    lat: float
+    lng: float
+    limit: NotRequired[float]
+
+class Prv_doordash_DoordashDishResult_Out(TypedDict):
+    item: str
+    description: str | None
+    price: float | None
+    storeId: str
+    storeName: str | None
+    storeUrl: str | None
+    image: str | None
+
 class Prv_doordash_listOrders_args_In(TypedDict):
     limit: NotRequired[float]
     cursor: NotRequired[str]
@@ -18563,6 +18684,16 @@ class Prv_duckduckgo_SetPrivateDuckAddressActiveArgs_In(TypedDict):
 class Prv_duckduckgo_DuckDuckGoPrivateAddressState_Out(TypedDict):
     address: str
     active: bool
+
+class Prv_duckduckgo_ChangeForwardingAddressArgs_In(TypedDict):
+    newEmail: str
+    otp: NotRequired[str]
+    hash: NotRequired[str]
+
+class Prv_duckduckgo_DuckDuckGoForwardingChangeResult_Out(TypedDict):
+    newEmail: str
+    status: Literal["confirmation_sent"] | Literal["confirmed"]
+    hash: str | None
 
 class Prv_duckduckgo_SearchNewsArgs_In(TypedDict):
     query: str
@@ -20132,6 +20263,37 @@ class Prv_etsy_EtsyCategory_Out_subcategories_item_Out(TypedDict):
     name: str
     path: str
     url: str
+
+class Prv_etsy_browseCategory_path_u1_In(TypedDict):
+    path: str
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    sort: NotRequired[Literal["most_relevant"] | Literal["price_asc"] | Literal["price_desc"] | Literal["date_desc"]]
+    page: NotRequired[float]
+
+class Prv_etsy_EtsyCategoryPage_Out(TypedDict):
+    name: str
+    path: str
+    url: str
+    page: float
+    listings: list[Prv_etsy_etsyListing_Out]
+    subcategories: list[Prv_etsy_EtsyCategoryPage_Out_subcategories_item_Out]
+
+class Prv_etsy_EtsyCategoryPage_Out_subcategories_item_Out(TypedDict):
+    name: str
+    path: str
+    url: str
+
+class Prv_etsy_EtsySearchSuggestion_Out(TypedDict):
+    query: str
+    kind: Literal["search"] | Literal["shop"]
+    url: str
+
+class Prv_etsy_EtsyTrendingSearch_Out(TypedDict):
+    query: str
+    url: str
+    image: str | None
+    module: str | None
 
 class Prv_evag_listDisruptions_options_In(TypedDict):
     line: NotRequired[str]
@@ -37556,6 +37718,7 @@ class Prv_olo_OloBasket_Out(TypedDict):
     salesTax: float
     total: float
     unavailableItems: list[str]
+    couponDiscount: float
 
 class Prv_olo_OloBasketProduct_Out(TypedDict):
     id: str
@@ -37594,6 +37757,11 @@ class Prv_olo_OloRemoveBasketItemArgs_In(TypedDict):
     host: str
     guid: str
     basketProductId: str
+
+class Prv_olo_OloApplyCouponArgs_In(TypedDict):
+    host: str
+    guid: str
+    code: NotRequired[str | None]
 
 class Prv_olo_OloGetOrderStatusArgs_In(TypedDict):
     host: str
@@ -41274,6 +41442,11 @@ class Prv_pushpress_PushpressMyBooking_Out(TypedDict):
     end: str
     active: bool
 
+class Prv_pushpress_PushpressBookingResult_Out(TypedDict):
+    registrationId: str | None
+    classId: str
+    subscriptionId: str
+
 class Prv_quickbooks_QuickbooksCalculatePaycheckArgs_In(TypedDict):
     state: str
     grossPay: float
@@ -44328,6 +44501,18 @@ class Prv_safeway_SafewayAccount_Out(TypedDict):
     preferredStoreId: str | None
     loyaltyId: str | None
 
+class Prv_safeway_SafewayCart_Out(TypedDict):
+    cartId: str | None
+    storeId: str | None
+    items: list[Prv_safeway_SafewayCartItem_Out]
+    subtotal: float | None
+
+class Prv_safeway_SafewayCartItem_Out(TypedDict):
+    productId: str | None
+    name: str | None
+    quantity: float | None
+    price: float | None
+
 class Prv_saltandstone_ScentFamily_Out(TypedDict):
     handle: str
     name: str
@@ -45567,6 +45752,12 @@ class Prv_setmore_SetmorePaymentRequired_Out(TypedDict):
     currency: str | None
     message: str
 
+class Prv_setmore_SetmoreBookClassArgs_In(TypedDict):
+    business: str
+    sessionId: str
+    guest: Prv_setmore_SetmoreBookAppointmentGuest_In
+    notes: NotRequired[str]
+
 class Prv_setmore_SetmoreClassList_Out(TypedDict):
     companyId: str
     classes: list[Prv_setmore_SetmoreClass_Out]
@@ -45887,6 +46078,30 @@ class Prv_sevenrooms_SevenroomsMyReservation_Out(TypedDict):
     modifyUrl: str | None
     bookAgainUrl: str | None
     venueBookable: bool | None
+
+class Prv_sevenrooms_ValidatePromoCodeArgs_In(TypedDict):
+    venue: str
+    promoCode: str
+    date: str
+    time: str
+    partySize: NotRequired[float]
+
+class Prv_sevenrooms_SevenroomsPromoValidation_u0_Out(TypedDict):
+    status: Literal["VALID"]
+    promoCode: Prv_sevenrooms_SevenroomsPromoCode_Out
+
+class Prv_sevenrooms_SevenroomsPromoCode_Out(TypedDict):
+    id: str
+    name: str
+    promoType: str | None
+    promoValue: float | None
+    minSubtotal: float | None
+    promoValueCap: float | None
+    status: Literal["UPCOMING"] | Literal["ACTIVE"] | Literal["INACTIVE"]
+
+class Prv_sevenrooms_SevenroomsPromoValidation_u1_Out(TypedDict):
+    status: Literal["INVALID"]
+    reason: str
 
 class Prv_shein_sheinCategory_Out(TypedDict):
     id: str
@@ -46320,6 +46535,97 @@ class Prv_slice_SlicePizzeriaPage_Out(TypedDict):
     pizzerias: list[Prv_slice_SlicePizzeria_Out]
     total: float | None
     offset: float
+
+class Prv_slice_SlicePizzeriaDetail_Out(TypedDict):
+    id: str
+    shopId: float
+    name: str
+    webSlug: str | None
+    menuUrl: str | None
+    address: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    latitude: float | None
+    longitude: float | None
+    phone: str | None
+    isOpenForDelivery: bool
+    isOpenForPickup: bool
+    nextOpeningDelivery: str | None
+    nextOpeningPickup: str | None
+    deliveryMinutes: Prv_slice_SlicePizzeriaDetail_Out_deliveryMinutes_u0_Out | None
+    pickupMinutes: Prv_slice_SlicePizzeriaDetail_Out_pickupMinutes_u0_Out | None
+    deliveryMinimum: float | None
+    pickupMinimum: float | None
+    deliveryProvider: str | None
+    serviceFeeFlat: float | None
+    serviceFeePercent: float | None
+    acceptsCash: bool
+    acceptsCards: bool
+    cuisines: list[str]
+    holidays: Any
+    timezone: str | None
+
+class Prv_slice_SlicePizzeriaDetail_Out_deliveryMinutes_u0_Out(TypedDict):
+    min: float
+    max: float
+
+class Prv_slice_SlicePizzeriaDetail_Out_pickupMinutes_u0_Out(TypedDict):
+    min: float
+    max: float
+
+class Prv_slice_SliceMenu_Out(TypedDict):
+    shopId: float | None
+    categories: list[Prv_slice_SliceMenuCategory_Out]
+
+class Prv_slice_SliceMenuCategory_Out(TypedDict):
+    id: float
+    name: str
+    items: list[Prv_slice_SliceMenuItem_Out]
+
+class Prv_slice_SliceMenuItem_Out(TypedDict):
+    id: float
+    name: str
+    description: str | None
+    image: str | None
+    isBestSeller: bool
+    sizes: list[Prv_slice_SliceMenuSize_Out]
+
+class Prv_slice_SliceMenuSize_Out(TypedDict):
+    id: float
+    name: str
+    price: float
+
+class Prv_slice_SliceAddonGroup_Out(TypedDict):
+    id: float
+    name: str
+    required: bool
+    limit: float | None
+    selections: list[Prv_slice_SliceAddonSelection_Out]
+
+class Prv_slice_SliceAddonSelection_Out(TypedDict):
+    id: float
+    name: str
+    prices: list[Prv_slice_SliceAddonPrice_Out]
+
+class Prv_slice_SliceAddonPrice_Out(TypedDict):
+    id: float
+    price: float
+
+class Prv_slice_SliceSchedule_Out(TypedDict):
+    delivery: list[Prv_slice_SliceScheduleWindow_Out]
+    pickup: list[Prv_slice_SliceScheduleWindow_Out]
+    pausedForDelivery: list[Prv_slice_SliceScheduleWindow_Out]
+    pausedForPickup: list[Prv_slice_SliceScheduleWindow_Out]
+    timezone: str | None
+
+Prv_slice_SliceScheduleWindow_Out = TypedDict(
+    "Prv_slice_SliceScheduleWindow_Out",
+    {
+    "from": str,
+    "to": str,
+    },
+)
 
 class Prv_slickdeals_SlickdealsDeal_Out(TypedDict):
     id: str
@@ -47169,6 +47475,14 @@ class Prv_soulcycle_SoulcycleCancelResult_Out(TypedDict):
     message: NotRequired[str]
     late: bool
 
+class Prv_soulcycle_SetFavoriteStudioArgs_In(TypedDict):
+    studioId: float
+    enabled: bool
+
+class Prv_soulcycle_SetFavoriteInstructorArgs_In(TypedDict):
+    instructorId: float
+    enabled: bool
+
 class Prv_soundcloud_ScTrack_Out(TypedDict):
     id: float
     title: str
@@ -47275,6 +47589,14 @@ class Prv_spectrum_SpectrumMobileDeal_Out(TypedDict):
     device: str
     requirement: str
     discountAmount: float | None
+    sourceUrl: str
+
+class Prv_spectrum_SpectrumMobileCoverage_Out(TypedDict):
+    location: str
+    lat: float
+    lng: float
+    covered: bool
+    rasterAlpha: float
     sourceUrl: str
 
 class Prv_speedrun_FindGameArgs_In(TypedDict):
@@ -47440,6 +47762,36 @@ class Prv_spotapps_SpotappsAvailability_Out(TypedDict):
     partySize: float
     available: bool
     alternativeTimes: list[Prv_spotapps_SpotappsSlot_Out]
+
+class Prv_spotapps_SpotappsMenuResult_Out(TypedDict):
+    spotId: str
+    name: str | None
+    timeZone: str | None
+    menus: list[Any]
+
+class Prv_spotapps_SpotappsOnlineOrderMenu_Out(TypedDict):
+    spotId: str
+    name: str | None
+    timeZone: str | None
+    cartActive: bool
+    paymentActive: bool
+    hasPickup: bool
+    hasDelivery: bool
+    openNowPickup: bool
+    openNowDelivery: bool
+    pickupFeeCents: float | None
+    deliveryFeeCents: float | None
+    minimumTurnaroundMinutes: Prv_spotapps_SpotappsOnlineOrderMenu_Out_minimumTurnaroundMinutes_Out
+    pickupTimeOptions: list[str]
+    deliveryTimeOptions: list[str]
+    pickupWeekdaySlots: list[list[Prv_spotapps_SpotappsSlot_Out]]
+    deliveryWeekdaySlots: list[list[Prv_spotapps_SpotappsSlot_Out]]
+    instructions: str | None
+    menus: list[Any]
+
+class Prv_spotapps_SpotappsOnlineOrderMenu_Out_minimumTurnaroundMinutes_Out(TypedDict):
+    pickup: float | None
+    delivery: float | None
 
 class Prv_spotify_SpotifySearchOptions_In(TypedDict):
     types: NotRequired[Sequence[Literal["track"] | Literal["album"] | Literal["artist"] | Literal["playlist"] | Literal["show"] | Literal["episode"]]]
@@ -48041,6 +48393,98 @@ class Prv_square_online_SquareOnlineCategory_Out(TypedDict):
     url: str
     productCount: float | None
     type: str | None
+
+class Prv_square_online_MenuItemsArgs_In(TypedDict):
+    site: str
+    query: NotRequired[str]
+    categoryId: NotRequired[str]
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+
+class Prv_square_online_SquareOnlineMenuItemList_Out(TypedDict):
+    site: str
+    items: list[Prv_square_online_SquareOnlineMenuItemSummary_Out]
+    page: float
+    perPage: float
+    totalPages: float
+    total: float
+
+class Prv_square_online_SquareOnlineMenuItemSummary_Out(TypedDict):
+    id: str
+    name: str
+    shortDescription: str | None
+    priceLow: float | None
+    priceHigh: float | None
+    priceFormatted: str | None
+    imageUrl: str | None
+    soldOut: bool
+    visible: bool
+    url: str
+
+class Prv_square_online_MenuItemArgs_In(TypedDict):
+    site: str
+    itemId: str
+
+class Prv_square_online_SquareOnlineMenuItem_Out(TypedDict):
+    id: str
+    name: str
+    shortDescription: str | None
+    priceLow: float | None
+    priceHigh: float | None
+    priceFormatted: str | None
+    imageUrl: str | None
+    soldOut: bool
+    visible: bool
+    url: str
+    variations: list[Prv_square_online_SquareOnlineMenuItemVariation_Out]
+
+class Prv_square_online_SquareOnlineMenuItemVariation_Out(TypedDict):
+    id: str
+    name: str
+    price: float | None
+    priceFormatted: str | None
+    soldOut: bool
+    fulfillment: Prv_square_online_SquareOnlineMenuItemVariation_Out_fulfillment_Out
+    optionChoices: list[Mapping[str, Any]]
+
+class Prv_square_online_SquareOnlineMenuItemVariation_Out_fulfillment_Out(TypedDict):
+    pickup: bool
+    delivery: bool
+    shipping: bool
+    dineIn: bool
+
+Prv_square_online_PickupTimesArgs_In = TypedDict(
+    "Prv_square_online_PickupTimesArgs_In",
+    {
+    "site": str,
+    "locationId": str,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    },
+)
+
+class Prv_square_online_SquareOnlinePickupTimes_Out(TypedDict):
+    site: str
+    locationId: str
+    outsideSchedulingWindow: bool
+    earliest: Prv_square_online_SquareOnlinePickupTimes_Out_earliest_u0_Out | None
+    dates: list[Prv_square_online_SquareOnlinePickupDate_Out]
+    warnings: list[str]
+
+class Prv_square_online_SquareOnlinePickupTimes_Out_earliest_u0_Out(TypedDict):
+    timeIso: str
+    label: str
+    prepMinutes: float | None
+
+class Prv_square_online_SquareOnlinePickupDate_Out(TypedDict):
+    date: str
+    label: str | None
+    times: list[Prv_square_online_SquareOnlinePickupSlot_Out] | None
+
+class Prv_square_online_SquareOnlinePickupSlot_Out(TypedDict):
+    timeIso: str
+    label: str
+    prepMinutes: float | None
 
 class Prv_squire_SquireSearchArgs_In(TypedDict):
     query: str
@@ -49980,6 +50424,31 @@ class Prv_target_TargetReview_Out(TypedDict):
     submittedAt: str | None
     authorNickname: str | None
 
+class Prv_target_listQuestions_args_In(TypedDict):
+    tcin: str
+    limit: NotRequired[float]
+    sortBy: NotRequired[Literal["most_recent"] | Literal["most_helpful"]]
+
+class Prv_target_TargetQuestions_Out(TypedDict):
+    tcin: str
+    questions: list[Prv_target_TargetQuestion_Out]
+    totalQuestions: float | None
+    warnings: list[str]
+
+class Prv_target_TargetQuestion_Out(TypedDict):
+    id: str
+    text: str | None
+    authorNickname: str | None
+    submittedAt: str | None
+    answers: list[Prv_target_TargetAnswer_Out]
+
+class Prv_target_TargetAnswer_Out(TypedDict):
+    id: str
+    text: str | None
+    authorNickname: str | None
+    isBrandExpert: bool
+    submittedAt: str | None
+
 class Prv_target_TargetOrdersHistory_Out(TypedDict):
     orders: list[Prv_target_TargetOrder_Out]
     totalOrders: float
@@ -50979,6 +51448,15 @@ class Prv_thibautdesign_ThibautdesignRollCalculationResult_Out(TypedDict):
     wasteMarginAdvice: str
     howToBuyUrl: str
     calculatorUrl: str
+
+class Prv_threads_ThreadsMe_Out(TypedDict):
+    id: str
+    username: str
+    fullName: str | None
+    profilePicUrl: str | None
+    isVerified: bool
+    followerCount: float | None
+    url: str
 
 class Prv_threads_ThreadsActivity_Out(TypedDict):
     notifications: list[Prv_threads_ThreadsActivityItem_Out]
@@ -53885,6 +54363,25 @@ class Prv_ups_UpsNearbyLocation_Out(TypedDict):
     latestGroundDropOffTime: str | None
     latestAirDropOffTime: str | None
 
+class Prv_ups_schedulePickup_args_In(TypedDict):
+    addressLine: str
+    city: str
+    state: str
+    zip: str
+    pickupDate: NotRequired[str]
+    residential: NotRequired[bool]
+
+class Prv_ups_UpsPickupQuote_Out(TypedDict):
+    booked: Literal[False]
+    pickupDate: str
+    hasCharges: bool
+    baseCharge: float | None
+    surcharges: Mapping[str, float]
+    totalTax: float | None
+    grandTotal: float | None
+    currency: str
+    bookUrl: str
+
 class Prv_usatoday_usatodaySection_Out(TypedDict):
     id: str
     name: str
@@ -55726,6 +56223,28 @@ class Prv_weather_channel_AlertDetail_Out(TypedDict):
     expires: str | None
     source: str | None
 
+class Prv_weather_channel_NearbyStationsResult_Out(TypedDict):
+    stations: list[Prv_weather_channel_NearbyStation_Out]
+
+class Prv_weather_channel_NearbyStation_Out(TypedDict):
+    stationId: str
+    neighborhood: str | None
+    latitude: float
+    longitude: float
+    observedAt: str
+    temperatureF: float | None
+    dewPointF: float | None
+    humidityPct: float | None
+    windSpeedMph: float | None
+    windGustMph: float | None
+    windDirectionDeg: float | None
+    pressureInHg: float | None
+    rainLastHourIn: float | None
+    dailyRainIn: float | None
+    solarRadiation: float | None
+    uvIndex: float | None
+    elevationFt: float | None
+
 class Prv_weather_channel_FifteenMinuteForecastResult_Out(TypedDict):
     location: Prv_weather_channel_WeatherLocation_Out | None
     units: Literal["metric"] | Literal["imperial"]
@@ -56970,12 +57489,76 @@ class Prv_wix_bookings_WixService_Out(TypedDict):
     staffMemberIds: list[str]
     scheduleId: str | None
     bookingPageUrl: str | None
+    categoryId: str | None
+    categoryName: str | None
 
 class Prv_wix_bookings_WixServicePayment_Out(TypedDict):
     inPerson: bool
     online: bool
     deposit: bool
     pricingPlan: bool
+
+class Prv_wix_bookings_SearchServicesArgs_In(TypedDict):
+    site: str
+    query: str
+    limit: NotRequired[float]
+
+class Prv_wix_bookings_GetServiceArgs_In(TypedDict):
+    site: str
+    serviceId: str
+
+class Prv_wix_bookings_WixServiceDetail_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    type: str
+    durationMinutes: float | None
+    price: str | None
+    currency: str | None
+    payment: Prv_wix_bookings_WixServicePayment_Out
+    onlineBookingEnabled: bool
+    staffMemberIds: list[str]
+    scheduleId: str | None
+    bookingPageUrl: str | None
+    categoryId: str | None
+    categoryName: str | None
+    locations: list[Prv_wix_bookings_WixServiceLocation_Out]
+    bookingPolicy: Prv_wix_bookings_WixBookingPolicy_Out | None
+    formId: str | None
+    servicePageUrl: str | None
+
+class Prv_wix_bookings_WixServiceLocation_Out(TypedDict):
+    id: str
+    type: str
+    formattedAddress: str | None
+
+class Prv_wix_bookings_WixBookingPolicy_Out(TypedDict):
+    description: str | None
+    cancellationAllowed: bool
+    latestCancellationMinutes: float | None
+    rescheduleAllowed: bool
+    latestRescheduleMinutes: float | None
+    latestBookingMinutes: float | None
+    earliestBookingMinutes: float | None
+    maxParticipantsPerBooking: float | None
+
+class Prv_wix_bookings_ListCategoriesResult_Out(TypedDict):
+    categories: list[Prv_wix_bookings_WixCategory_Out]
+
+class Prv_wix_bookings_WixCategory_Out(TypedDict):
+    id: str
+    name: str
+    sortOrder: float | None
+
+class Prv_wix_bookings_ListStaffResult_Out(TypedDict):
+    staff: list[Prv_wix_bookings_WixStaffMember_Out]
+
+class Prv_wix_bookings_WixStaffMember_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    photoUrl: str | None
+    serviceIds: list[str]
 
 class Prv_wix_bookings_GetOpenTimesArgs_In(TypedDict):
     site: str
@@ -57571,6 +58154,24 @@ class Prv_xola_XolaExperienceDetail_Out(TypedDict):
     notIncluded: list[str]
     cancellationPolicy: str | None
     imageUrls: list[str]
+
+class Prv_xola_XolaGetAvailabilityArgs_In(TypedDict):
+    experienceId: str
+
+class Prv_xola_XolaAvailability_Out(TypedDict):
+    experienceId: str
+    sessions: list[Prv_xola_XolaSession_Out]
+    pricing: list[Prv_xola_XolaDemographicPrice_Out]
+
+class Prv_xola_XolaSession_Out(TypedDict):
+    date: str
+    time: str
+    seatsLeft: float
+
+class Prv_xola_XolaDemographicPrice_Out(TypedDict):
+    demographicId: str
+    label: str
+    price: float | None
 
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
     facilityId: str
@@ -60923,6 +61524,16 @@ class Cap_retail(Protocol):
         store simply didn't answer.
         """
 
+class Cap_retirement_ira_comparison(Protocol):
+    """Compare projected after-tax traditional and Roth IRA values using your contribution,
+    return, and current and retirement tax-rate assumptions.
+    """
+
+    async def compare(self, args: Cap_retirement_ira_comparison_CompareIraArgs_In, /) -> Cap_retirement_ira_comparison_retirement_ira_comparisonResult_Out:
+        """Projects traditional and Roth IRA after-tax values under stated return and tax-rate
+        assumptions, including the result if each traditional-IRA tax saving is invested.
+        """
+
 class Cap_school_shopping_basket(Protocol):
     """Given a list of item queries (a school supply list), fans out to Target and Walmart
     search, picks the cheapest in-stock match per item per retailer, and returns each
@@ -62414,20 +63025,22 @@ class Prv_amazon(Protocol):
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
         """Paginate through Amazon search results by keyword using the page parameter to reach rows
-        49+, 97+, and beyond. searchProducts({keywords, page}) returns a full result total count
-        (e.g., "48 of 6476 total results") so a caller knows how many results exist and can keep
-        paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Returns `{ products,
-        totalResultCount }` — the array is `products`, NOT `results` — and each row is `{ asin,
-        title, url, price, listPrice, rating, ratingCount, sponsored, image }`: `rating` is the
-        0-5 star average and `ratingCount` how many ratings it is over (there is no
-        `reviewCount` or `starRating`), so rank the top-rated on those two and skip `sponsored`
-        rows. Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb
-        c hub" — and get back the result cards as the site ranks them. The page parameter is
-        fully supported: page 2 returns rows 49-96 (a genuinely different set, not page one
-        repeated), page 3 returns rows 97-144, and you can continue paging to reach all 6000+
-        results. The totalResultCount field tells you how many total rows exist so you can page
-        efficiently. Optionally narrowed to a department, a brand, a price range, a sort order.
-        THE provider's door: every function below that takes an ASIN is fed by this one.
+        49+, 97+, and beyond. Takes `{ keywords: string }` — `query` is accepted as an alias for
+        `keywords`, since that is the name most other search tools use.
+        searchProducts({keywords, page}) returns a full result total count (e.g., "48 of 6476
+        total results") so a caller knows how many results exist and can keep paging. Pass page
+        2 to get rows 49-96, page 3 for rows 97-144, etc. Returns `{ products, totalResultCount
+        }` — the array is `products`, NOT `results` — and each row is `{ asin, title, url,
+        price, listPrice, rating, ratingCount, sponsored, image }`: `rating` is the 0-5 star
+        average and `ratingCount` how many ratings it is over (there is no `reviewCount` or
+        `starRating`), so rank the top-rated on those two and skip `sponsored` rows. Search
+        Amazon's catalogue for what a person would type — "cast iron skillet", "usb c hub" — and
+        get back the result cards as the site ranks them. The page parameter is fully supported:
+        page 2 returns rows 49-96 (a genuinely different set, not page one repeated), page 3
+        returns rows 97-144, and you can continue paging to reach all 6000+ results. The
+        totalResultCount field tells you how many total rows exist so you can page efficiently.
+        Optionally narrowed to a department, a brand, a price range, a sort order. THE
+        provider's door: every function below that takes an ASIN is fed by this one.
         """
 
     async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:
@@ -62582,7 +63195,9 @@ class Prv_amazon_ca(Protocol):
     """Search products and check pricing on Amazon Canada (amazon.ca)"""
 
     async def searchProducts(self, args: Prv_amazon_ca_SearchProductsArgs_In, /) -> Prv_amazon_ca_AmazonCaSearchResult_Out:
-        """Search Amazon Canada for products by keywords"""
+        """Search Amazon Canada for products by keywords. Takes { keywords: string }; `query` is
+        accepted as an alias.
+        """
 
     async def getProduct(self, args: Prv_amazon_ca_GetProductArgs_In, /) -> Prv_amazon_ca_AmazonCaProductDetail_Out:
         """Get product details from Amazon Canada by ASIN"""
@@ -62632,6 +63247,24 @@ class Prv_americanvisionwindows(Protocol):
         free-consultation booking flow, reachable before any name/email/phone is collected.
         Returns the matched service territory and a real per-day list of open date/time windows,
         or `inTerritory: false` for a ZIP outside AVW's California territories.
+        """
+
+class Prv_americashealthrankings(Protocol):
+    """Public U.S. health-ranking report editions, measures, and state-level measure history
+    from America's Health Rankings.
+    """
+
+    async def listReports(self, /) -> list[Prv_americashealthrankings_AmericasHealthRankingsReport_Out]:
+        """Lists America's Health Rankings report editions, their year, and report type."""
+
+    async def searchMeasures(self, query: str, /) -> list[Prv_americashealthrankings_AmericasHealthRankingsMeasure_Out]:
+        """Finds public health measures by name, returning ids needed to retrieve a state's
+        history.
+        """
+
+    async def getMeasureData(self, args: Prv_americashealthrankings_GetMeasureDataArgs_In, /) -> Prv_americashealthrankings_AmericasHealthRankingsMeasureData_Out:
+        """Returns a measure's published history and rank for one two-letter U.S. state code, e.g.
+        { measureId: 173, state: "CA" }.
         """
 
 class Prv_amramp(Protocol):
@@ -65477,6 +66110,18 @@ class Prv_booker(Protocol):
         """A location's RECURRING weekly hours, one row per weekday, in local time — the
         storefront's own door takes no date and always answers this weekly pattern. Combine with
         findLocation's closedDates for exceptions.
+        """
+
+    async def getMultiServiceAvailability(self, args: Prv_booker_BookerServiceListArgs_In, /) -> Prv_booker_BookerMultiServiceAvailability_Out:
+        """Open times for several services booked as ONE visit, back to back — each option gives
+        every service's own start time and staff id. Defaults to the next local date the whole
+        visit fits.
+        """
+
+    async def getGroupAvailability(self, args: Prv_booker_BookerServiceListArgs_In, /) -> Prv_booker_BookerGroupAvailability_Out:
+        """Start times when several guests can each begin a service together (a couples' booking;
+        one serviceId per guest), with the staff, duration and price options for each. Defaults
+        to the next local date the group fits.
         """
 
 class Prv_booking_com(Protocol):
@@ -68839,6 +69484,13 @@ class Prv_dailymotion(Protocol):
         at all, or none in the requested language — a real, honest answer, not a failure.
         """
 
+    async def listStreamFormats(self, video: str, /) -> Prv_dailymotion_DailymotionStreamFormatsResult_Out:
+        """List the stream qualities one Dailymotion video is encoded in — quality label ("380",
+        "720", "1080"), resolution, bitrate and codecs — read off its HLS manifest. The manifest
+        and rendition URLs are signed and only open from the address that read them, so treat
+        them as evidence, not as links to hand on.
+        """
+
     async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionChannel_Out:
         """Read the signed-in caller's own Dailymotion account — username, display name, avatar and
         counts. Needs the caller signed in.
@@ -69856,6 +70508,12 @@ class Prv_doordash(Protocol):
         browseStores takes as `cuisine`. Read-only.
         """
 
+    async def searchDishes(self, args: Prv_doordash_DoordashSearchDishesArgs_In, /) -> list[Prv_doordash_DoordashDishResult_Out]:
+        """Searches for a DISH rather than a restaurant ("pizza", "pad thai") near a location and
+        returns matching menu items across nearby stores, each with item name, description,
+        price and the store's own name, id and URL. Read-only.
+        """
+
     async def listOrders(self, args: Prv_doordash_listOrders_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_doordash_SignedInOrderPage_Out:
         """The signed-in customer's own DoorDash orders, newest first — order id, when, the store,
         status (Cancelled / Delivered / In progress), total, item count and the order's page.
@@ -69948,6 +70606,13 @@ class Prv_duckduckgo(Protocol):
         deactivate/reactivate link at the foot of a mail DuckDuckGo forwarded — pass the `link`,
         or its `address` and `addressToken`, plus `active`. No sign-in needed; the link's
         one-time token is the authorization.
+        """
+
+    async def changeForwardingAddress(self, args: Prv_duckduckgo_ChangeForwardingAddressArgs_In, opts: ConnectionOption | None = None, /) -> Prv_duckduckgo_DuckDuckGoForwardingChangeResult_Out:
+        """Changes the signed-in caller's @duck.com forwarding address — a two-step flow. Call with
+        just `newEmail` to start it (DuckDuckGo emails a one-time code); call again with the
+        same `newEmail` plus that `otp` and the `hash` the first call returned to confirm it.
+        NEEDS A SIGN-IN through the relay.
         """
 
     async def searchNews(self, args: Prv_duckduckgo_SearchNewsArgs_In, /) -> list[Prv_duckduckgo_DuckDuckGoNewsStory_Out]:
@@ -70614,6 +71279,24 @@ class Prv_etsy(Protocol):
         """Etsy's category tree from its own /categories page — each top-level department
         (Accessories, Home & Living, …) with its subcategories, every one carrying its name, its
         `/c/` path and URL. The `path` is what `browseCategory` takes.
+        """
+
+    async def browseCategory(self, path: str | Prv_etsy_browseCategory_path_u1_In, /) -> Prv_etsy_EtsyCategoryPage_Out:
+        """One page of the listings in an Etsy category (a `listCategories` path like
+        `jewelry/necklaces`, or its etsy.com/c/ URL) — each listing's id, title, price, currency
+        and URL, the category's name, and the narrower subcategories it links to. Filter by
+        price in the site's currency, sort by relevance, price or newest, and page through.
+        """
+
+    async def suggestSearches(self, text: str, /) -> list[Prv_etsy_EtsySearchSuggestion_Out]:
+        """What Etsy's search box suggests for text a person has typed so far — each suggested
+        search with its etsy.com/search URL, plus the 'find shop names containing …' row (`kind:
+        "shop"`, URL to the shop search).
+        """
+
+    async def listTrendingSearches(self, /) -> list[Prv_etsy_EtsyTrendingSearch_Out]:
+        """What people are searching for on Etsy right now — the 'Popular right now' list its empty
+        search box shows, each with its search URL and thumbnail.
         """
 
 class Prv_evag(Protocol):
@@ -77146,26 +77829,27 @@ class Prv_linkedin(Protocol):
         """Searches LinkedIn's public job board and returns matching postings — title, employer and
         employer page, location, and a real ISO posting date — each with the `id` that `getJob`
         takes, so a search feeds straight into reading the postings in full. Takes `{keywords,
-        location, geoId, postedWithin, limit}`, or a bare string as the keywords. Pages
-        automatically to `limit` (default 10, capped at 1000, which is the deepest this surface
-        serves). THREE THINGS IT DELIBERATELY DOES NOT PRETEND, each measured on the live
-        surface rather than assumed. (1) It is a SAMPLE, not a ranking: LinkedIn rotates which
-        slice it serves, and two identical requests seconds apart returned ten postings each
-        with no id in common — so there is no stable "top 10" here and calling twice
-        legitimately returns different jobs. (2) Keywords BROADEN when nothing matches exactly:
-        a search for terms with no matches returns real postings in the right location that
-        match none of the terms, because LinkedIn relevance-ranks rather than filters, and
-        nothing in its response says so — treat every row as "LinkedIn's answer to this search",
-        not as a guaranteed keyword match. (3) The only result filter offered is `postedWithin`
-        ("24h" | "week" | "month"), because it is the only one that works: LinkedIn's
-        experience-level and job-type parameters are accepted and then IGNORED — two mutually
-        exclusive job-type values returned the same ten postings, whose own published employment
-        type contradicted both — and remote/on-site is not offered because no LinkedIn surface
-        publishes a workplace-type field that could confirm it. Salary is not returned: the
-        search card carries none, and `getJob` is where an employer-published range lives.
-        Throws rather than returning an empty list when the surface fails, and re-asks an empty
-        page before believing it, because this endpoint returns empty bodies for pages that do
-        have results.
+        location, geoId, postedWithin, limit}`, or a bare string as the keywords, or no argument
+        at all — a bare `searchJobs()` defaults `location` to "Worldwide" rather than throwing,
+        since a caller's first call is often exactly this. Pages automatically to `limit`
+        (default 10, capped at 1000, which is the deepest this surface serves). THREE THINGS IT
+        DELIBERATELY DOES NOT PRETEND, each measured on the live surface rather than assumed.
+        (1) It is a SAMPLE, not a ranking: LinkedIn rotates which slice it serves, and two
+        identical requests seconds apart returned ten postings each with no id in common — so
+        there is no stable "top 10" here and calling twice legitimately returns different jobs.
+        (2) Keywords BROADEN when nothing matches exactly: a search for terms with no matches
+        returns real postings in the right location that match none of the terms, because
+        LinkedIn relevance-ranks rather than filters, and nothing in its response says so —
+        treat every row as "LinkedIn's answer to this search", not as a guaranteed keyword
+        match. (3) The only result filter offered is `postedWithin` ("24h" | "week" | "month"),
+        because it is the only one that works: LinkedIn's experience-level and job-type
+        parameters are accepted and then IGNORED — two mutually exclusive job-type values
+        returned the same ten postings, whose own published employment type contradicted both —
+        and remote/on-site is not offered because no LinkedIn surface publishes a workplace-type
+        field that could confirm it. Salary is not returned: the search card carries none, and
+        `getJob` is where an employer-published range lives. Throws rather than returning an
+        empty list when the surface fails, and re-asks an empty page before believing it,
+        because this endpoint returns empty bodies for pages that do have results.
         """
 
     async def listCompanyJobs(self, companyUrlOrHandle: str, query: Prv_linkedin_LinkedinJobSearchQuery_In | None = None, /) -> list[Prv_linkedin_LinkedinJobSearchResult_Out]:
@@ -81465,6 +82149,11 @@ class Prv_olo(Protocol):
         basket that is left.
         """
 
+    async def applyCoupon(self, args: Prv_olo_OloApplyCouponArgs_In, /) -> Prv_olo_OloBasket_Out:
+        """Applies a coupon or promo code to a guest basket, or removes it by omitting the code,
+        and returns the updated basket with its couponDiscount.
+        """
+
     async def getOrderStatus(self, args: Prv_olo_OloGetOrderStatusArgs_In, /) -> Prv_olo_OloOrderStatus_Out:
         """Returns a placed order's status from its order id (off the confirmation link): status,
         items, total and pickup time.
@@ -83594,6 +84283,12 @@ class Prv_pushpress(Protocol):
         not carry waitlist state on this item.
         """
 
+    async def bookClass(self, gym: str, classId: str, opts: ConnectionOption | None = None, /) -> Prv_pushpress_PushpressBookingResult_Out:
+        """Reserves a class for the signed-in member, spending one of their existing active plans.
+        Needs the caller signed in. Refuses with no active plan rather than starting a drop-in
+        purchase.
+        """
+
 class Prv_quickbooks(Protocol):
     """QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators,
     the ProAdvisor accountant directory, the App Store, Community answers, help articles and
@@ -85048,6 +85743,12 @@ class Prv_safeway(Protocol):
         for the door and its measured refusal.
         """
 
+    async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_safeway_SafewayCart_Out:
+        """Returns the signed-in caller's own Safeway cart (needs the caller signed in): cart id,
+        store, subtotal and each item's product id, name, quantity and price. See getCart.ts's
+        header for the door and its measured refusal.
+        """
+
 class Prv_saltandstone(Protocol):
     """Salt & Stone's own Scent Quiz, reimplemented over its real six named scent families:
     list every family's real fragrance notes, compute a real ranked match against a
@@ -85711,6 +86412,14 @@ class Prv_setmore(Protocol):
         confirmation id.
         """
 
+    async def bookClass(self, args: Prv_setmore_SetmoreBookClassArgs_In, /) -> Prv_setmore_SetmoreBookingConfirmation_Out | Prv_setmore_SetmorePaymentRequired_Out:
+        """Books a guest into a class session at a business, from a sessionId taken off listClasses
+        and the guest's name, email or phone — the class, staff member and time all come off the
+        session itself. When the business takes payment at booking, stops before paying and
+        returns the amount due instead of a confirmation. Otherwise holds the seat with a lease,
+        creates the guest, confirms the booking, and returns the confirmation id.
+        """
+
     async def listClasses(self, business: str, /) -> Prv_setmore_SetmoreClassList_Out:
         """Lists the group classes a business runs and their upcoming sessions: each class's id,
         title, description, duration, buffers, price, image, staff ids and whether it is a video
@@ -85816,6 +86525,12 @@ class Prv_sevenrooms(Protocol):
         past, newest first: venue, city, date and time, party size, status, a cancelled flag,
         and the manage and modify links. Needs the caller signed in to SevenRooms (through
         Bowmark Link, or a saved sign-in); empty when they have none.
+        """
+
+    async def validatePromoCode(self, args: Prv_sevenrooms_ValidatePromoCodeArgs_In, /) -> Prv_sevenrooms_SevenroomsPromoValidation_u0_Out | Prv_sevenrooms_SevenroomsPromoValidation_u1_Out:
+        """Checks whether a promo code is valid at a venue for a date, time and party size before
+        booking: the discount it would apply (VALID), or the site's own refusal reason (INVALID,
+        e.g. a code that does not exist or has been exhausted). Applies nothing.
         """
 
 class Prv_shein(Protocol):
@@ -85984,6 +86699,30 @@ class Prv_slice(Protocol):
     async def listPizzeriasInCity(self, args: Prv_slice_ListPizzeriasInCityArgs_In, /) -> Prv_slice_SlicePizzeriaPage_Out:
         """Lists the Slice pizzerias in a city ("Brooklyn", "NY") with no street address needed.
         Paged.
+        """
+
+    async def getPizzeria(self, pizzeria: str | float, /) -> Prv_slice_SlicePizzeriaDetail_Out:
+        """Gets one pizzeria's details from its Slice menu URL, web slug or shop id: name, address
+        and coordinates, phone, open now for delivery and pickup, delivery and pickup estimates,
+        minimum orders, delivery provider, service fee, whether it accepts cash and cards,
+        cuisines and holidays.
+        """
+
+    async def getMenu(self, pizzeria: str | float, /) -> Prv_slice_SliceMenu_Out:
+        """Gets a pizzeria's full menu: categories, items with descriptions, photos and best-seller
+        flags, and every size with its price -- the door for the item and size ids
+        getMenuItemOptions and priceCart take.
+        """
+
+    async def getMenuItemOptions(self, pizzeria: str | float, sizeId: float, /) -> list[Prv_slice_SliceAddonGroup_Out]:
+        """Gets the choices for one menu item and size: required and optional add-on groups (sauce,
+        cheese, toppings) with each option's price and the min/max a group allows -- what a
+        caller must pick before priceCart accepts the item.
+        """
+
+    async def getHours(self, pizzeria: str | float, /) -> Prv_slice_SliceSchedule_Out:
+        """Gets when a pizzeria takes delivery and pickup orders over the coming days, as
+        open/close windows, plus any pause it is in right now.
         """
 
 class Prv_slickdeals(Protocol):
@@ -86409,6 +87148,18 @@ class Prv_soulcycle(Protocol):
         reservationId: "123456" })`.
         """
 
+    async def setFavoriteStudio(self, args: Prv_soulcycle_SetFavoriteStudioArgs_In, opts: ConnectionOption | None = None, /) -> Prv_soulcycle_SoulcycleActionResult_Out:
+        """Adds or removes a studio from the signed-in rider's favorites. Needs the caller signed
+        in. Example: `bowmark.providers.soulcycle.setFavoriteStudio({ studioId: 25, enabled:
+        true })`.
+        """
+
+    async def setFavoriteInstructor(self, args: Prv_soulcycle_SetFavoriteInstructorArgs_In, opts: ConnectionOption | None = None, /) -> Prv_soulcycle_SoulcycleActionResult_Out:
+        """Adds or removes an instructor from the signed-in rider's favorites. Needs the caller
+        signed in. Example: `bowmark.providers.soulcycle.setFavoriteInstructor({ instructorId:
+        10693, enabled: true })`.
+        """
+
 class Prv_soundcloud(Protocol):
     """SoundCloud (soundcloud.com) — live track search over SoundCloud's own catalogue, reading
     one track URL back to its full detail (artwork, description, genre, release date,
@@ -86496,6 +87247,17 @@ class Prv_spectrum(Protocol):
         device, discount and the line/plan requirement to qualify.
         """
 
+    async def checkMobileCoverage(self, location: str, /) -> Prv_spectrum_SpectrumMobileCoverage_Out:
+        """Spectrum Mobile's network coverage at an address, city or ZIP, off the raster overlay
+        spectrum.com/mobile/coverage-map renders (a third-party Cellmaps/GCellmap widget,
+        embedded in the page's own Angular SSR state). Geocodes `location` with Nominatim, then
+        reads the single pixel of the widget's own 'Mobile Coverage' coverage tile at that point
+        — `covered` is true when the tile's alpha there is >= 128; `rasterAlpha` is the raw
+        [0,255] value for a caller who wants to judge how close a point sits to a coverage
+        boundary. Takes the same free text a geocoder accepts: a street address, "City, ST", or
+        a ZIP.
+        """
+
 class Prv_speedrun(Protocol):
     """Submit speedruns and search game metadata on speedrun.com"""
 
@@ -86562,6 +87324,17 @@ class Prv_spotapps(Protocol):
     async def checkAvailability(self, args: Prv_spotapps_SpotappsCheckAvailabilityArgs_In, /) -> Prv_spotapps_SpotappsAvailability_Out:
         """Checks whether a restaurant has a table for a party size at a date and time, and returns
         the alternative times it offers when it does not.
+        """
+
+    async def getMenu(self, args: Prv_spotapps_SpotappsSpotArgs_In, /) -> Prv_spotapps_SpotappsMenuResult_Out:
+        """Reads a restaurant's menu as its contactless-menu page shows it: food and drink menus,
+        sections, items, descriptions, stock and prices per size.
+        """
+
+    async def getOnlineOrderMenu(self, args: Prv_spotapps_SpotappsSpotArgs_In, /) -> Prv_spotapps_SpotappsOnlineOrderMenu_Out:
+        """Reads a restaurant's online-ordering menu: orderable items with per-size ids and prices,
+        modifiers, pickup/delivery availability, fees, lead times and pickup/delivery hours per
+        weekday.
         """
 
 class Prv_spotify(Protocol):
@@ -86798,6 +87571,21 @@ class Prv_square_online(Protocol):
     async def listCategories(self, args: Prv_square_online_SiteArgs_In, /) -> Prv_square_online_SquareOnlineCategoryList_Out:
         """Lists the menu's categories (sections) as a flat depth-first list with ids, parents,
         storefront links and product counts.
+        """
+
+    async def listMenuItems(self, args: Prv_square_online_MenuItemsArgs_In, /) -> Prv_square_online_SquareOnlineMenuItemList_Out:
+        """Lists or searches a storefront's menu items with name, description, price range, image
+        and sold-out state, paged; takes an optional text query and category id.
+        """
+
+    async def getMenuItem(self, args: Prv_square_online_MenuItemArgs_In, /) -> Prv_square_online_SquareOnlineMenuItem_Out:
+        """Returns one menu item in full: its sellable variations (SKUs) with price, sold-out
+        state, which fulfillment methods they support, and any modifier/option choices.
+        """
+
+    async def getPickupTimes(self, args: Prv_square_online_PickupTimesArgs_In, /) -> Prv_square_online_SquareOnlinePickupTimes_Out:
+        """Returns the earliest pickup time and the available pickup slots at one location over a
+        date range (default: the next 24 hours).
         """
 
 class Prv_squire(Protocol):
@@ -87723,6 +88511,14 @@ class Prv_target(Protocol):
         "most_recent".
         """
 
+    async def listQuestions(self, args: Prv_target_listQuestions_args_In, /) -> Prv_target_TargetQuestions_Out:
+        """Reads the customer Q&A on a product page — the questions shoppers asked ("does it fit…",
+        "is it dishwasher safe") with every answer, each marked whether it came from a brand
+        expert or another shopper — which `listReviews`/`reviewPhotos` do not cover. Takes a
+        TCIN from `search`. `limit` defaults to 10, max 100; `sortBy` defaults to the site's own
+        newest-first order.
+        """
+
     async def listOrders(self, opts: ConnectionOption | None = None, /) -> Prv_target_TargetOrdersHistory_Out:
         """Reads the CALLER's own Target order history — each order's id, date, status, items and
         totals. This is the signed-in person's complete order list. Needs the caller signed in.
@@ -88354,6 +89150,12 @@ class Prv_threads(Protocol):
     signed in as the CALLER, read their feeds, activity, saved posts and DMs, and post,
     reply, quote, like, repost, follow and edit their profile.
     """
+
+    async def getMe(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsMe_Out:
+        """Reads the signed-in caller's own Threads account — id, username, name, profile picture,
+        verified flag — the handle to pass to getProfile and the rest. Needs the caller signed
+        in to Threads; runs through their own Chrome when Bowmark Link is attached.
+        """
 
     async def getActivity(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActivity_Out:
         """Reads the signed-in caller's own Threads activity (their notifications): new followers,
@@ -89856,6 +90658,14 @@ class Prv_ups(Protocol):
         locator widget uses) then calls ups.com's locator backend directly.
         """
 
+    async def schedulePickup(self, args: Prv_ups_schedulePickup_args_In, /) -> Prv_ups_UpsPickupQuote_Out:
+        """Quotes UPS's one-time pickup fee for a US address on a date (`pickupDate` YYYY-MM-DD,
+        default tomorrow), from the guest Schedule a Pickup wizard's own pricing call — no
+        account. Returns the base charge, any surcharges and the total. It NEVER books:
+        confirming a pickup dispatches a real driver and takes payment, so the result is a quote
+        plus `bookUrl` where a person finishes it. Runs in a headless browser.
+        """
+
 class Prv_usatoday(Protocol):
     """USA Today news site — articles, sections, search, sports scores and puzzles."""
 
@@ -90792,6 +91602,16 @@ class Prv_weather_channel(Protocol):
         Returns null if the alert ID is not found or the alert has expired.
         """
 
+    async def getObservations(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_NearbyStationsResult_Out:
+        """Live readings from personal weather stations near a place — e.g.
+        `getObservations("Toronto")` — the same "Weather Stations Near <city>" widget the site
+        shows, measured off the interactive radar map's own Personal Weather Stations overlay.
+        Each station carries its id, neighborhood, coordinates, when it last reported, and
+        temperature, dew point, humidity, wind speed/gust/direction, pressure, rain (last hour
+        and today), solar radiation, UV index and elevation, all in the units the station itself
+        reports (imperial). `stations` can be empty where no PWS network covers the area.
+        """
+
     async def getFifteenMinuteForecast(self, location: str | Prv_weather_channel_Location_u1_In, options: Prv_weather_channel_ForecastOptions_In | None = None, /) -> Prv_weather_channel_FifteenMinuteForecastResult_Out:
         """Sub-hourly precipitation forecast for a place — e.g.
         `getFifteenMinuteForecast("Seattle")` — the same "next hour" minute-cast weather.com
@@ -91470,6 +92290,22 @@ class Prv_wix_bookings(Protocol):
         on.
         """
 
+    async def searchServices(self, args: Prv_wix_bookings_SearchServicesArgs_In, /) -> Prv_wix_bookings_WixServiceList_Out:
+        """Finds a business's services by words, e.g. 'consultation' or 'beard trim'."""
+
+    async def getService(self, args: Prv_wix_bookings_GetServiceArgs_In, /) -> Prv_wix_bookings_WixServiceDetail_Out:
+        """One service in full: description, price and payment options, duration, staff, location,
+        booking policy and any intake form id.
+        """
+
+    async def listCategories(self, args: Prv_wix_bookings_FindSiteArgs_In, /) -> Prv_wix_bookings_ListCategoriesResult_Out:
+        """The categories a business groups its services into."""
+
+    async def listStaff(self, args: Prv_wix_bookings_FindSiteArgs_In, /) -> Prv_wix_bookings_ListStaffResult_Out:
+        """The staff a customer can book with at a business, with name, photo and the services they
+        perform.
+        """
+
     async def getOpenTimes(self, args: Prv_wix_bookings_GetOpenTimesArgs_In, /) -> Prv_wix_bookings_WixOpenTimes_Out:
         """The open appointment times for one service between two dates, with location and spots
         left, so a caller can pick one to book.
@@ -91774,6 +92610,12 @@ class Prv_xola(Protocol):
     async def getExperience(self, args: Prv_xola_XolaGetExperienceArgs_In, /) -> Prv_xola_XolaExperienceDetail_Out:
         """One experience's full listing: description, meeting point, duration, price, what is
         included, image gallery and cancellation policy.
+        """
+
+    async def getAvailability(self, args: Prv_xola_XolaGetAvailabilityArgs_In, /) -> Prv_xola_XolaAvailability_Out:
+        """An experience's open sessions over roughly the next 30 days — each date and start time
+        with seats left — plus the per-person price each demographic (Adult, Child...) pays
+        before add-ons, tax or fees.
         """
 
 class Prv_xpresswellnessurgentcare(Protocol):
@@ -93027,6 +93869,7 @@ class BowmarkProviders(Protocol):
     americandreamvacations: Prv_americandreamvacations
     americanstandard: Prv_americanstandard
     americanvisionwindows: Prv_americanvisionwindows
+    americashealthrankings: Prv_americashealthrankings
     amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows
@@ -93826,6 +94669,7 @@ class Bowmark(Protocol):
     read: Cap_read
     restaurant_booking: Cap_restaurant_booking
     retail: Cap_retail
+    retirement_ira_comparison: Cap_retirement_ira_comparison
     school_shopping_basket: Cap_school_shopping_basket
     screenshot: Cap_screenshot
     script_execution: Cap_script_execution

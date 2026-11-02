@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cbf9798db502b1604ddcf52bddd829a4a2ed84875a8a0e7ecb02bafe74cbfefc
-// 92 capabilities, 755 providers, 3915 typed functions, 20 refused.
+// Manifest version: b77414791f65997ecc76a40f73f6036eb89a5c71a97db0c5d375b6b73e0e5d7c
+// 93 capabilities, 756 providers, 3953 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4285,6 +4285,43 @@ type CallOptions = {
      * genuinely cheaper/only offer from one where a store simply didn't answer.
      */
     search(args: { query: string }): Promise<RetailSearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_retirement_ira_comparison {
+  // ── Traditional vs. Roth IRA Calculator — the unit's own declarations, verbatim ──
+interface CompareIraArgs {
+  annualContribution?: number; // USD; defaults to the 2026 limit for age
+  age?: number; // defaults to 30; age 50+ gets the $8,600 limit
+  years?: number; // defaults to 30
+  annualReturnRate?: number; // decimal, e.g. 0.07; defaults to 0.07
+  currentMarginalTaxRate: number; // decimal, e.g. 0.24
+  retirementMarginalTaxRate: number; // decimal, e.g. 0.22
+}
+
+interface retirement_ira_comparisonResult {
+  annualContribution: number;
+  contributionLimit: number;
+  years: number;
+  annualReturnRate: number;
+  traditional: { accountBalance: number; afterTaxValue: number };
+  roth: { accountBalance: number; afterTaxValue: number };
+  traditionalTaxSavingsIfInvested: number;
+  traditionalTotalIfTaxSavingsInvested: number;
+  differenceTraditionalMinusRoth: number;
+  warnings: string[];
+}
+
+  /**
+   * Compare projected after-tax traditional and Roth IRA values using your contribution, return,
+   * and current and retirement tax-rate assumptions.
+   */
+  interface Unit {
+    /**
+     * Projects traditional and Roth IRA after-tax values under stated return and tax-rate
+     * assumptions, including the result if each traditional-IRA tax saving is invested.
+     */
+    compare(args: CompareIraArgs): Promise<retirement_ira_comparisonResult>;
   }
 }
 
@@ -8829,20 +8866,21 @@ interface SignedInOrderPage {
   interface Unit {
     /**
      * Paginate through Amazon search results by keyword using the page parameter to reach rows
-     * 49+, 97+, and beyond. searchProducts({keywords, page}) returns a full result total count
-     * (e.g., "48 of 6476 total results") so a caller knows how many results exist and can keep
-     * paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Returns `{ products,
-     * totalResultCount }` — the array is `products`, NOT `results` — and each row is `{ asin,
-     * title, url, price, listPrice, rating, ratingCount, sponsored, image }`: `rating` is the 0-5
-     * star average and `ratingCount` how many ratings it is over (there is no `reviewCount` or
-     * `starRating`), so rank the top-rated on those two and skip `sponsored` rows. Search Amazon's
-     * catalogue for what a person would type — "cast iron skillet", "usb c hub" — and get back the
-     * result cards as the site ranks them. The page parameter is fully supported: page 2 returns
-     * rows 49-96 (a genuinely different set, not page one repeated), page 3 returns rows 97-144,
-     * and you can continue paging to reach all 6000+ results. The totalResultCount field tells you
-     * how many total rows exist so you can page efficiently. Optionally narrowed to a department,
-     * a brand, a price range, a sort order. THE provider's door: every function below that takes
-     * an ASIN is fed by this one.
+     * 49+, 97+, and beyond. Takes `{ keywords: string }` — `query` is accepted as an alias for
+     * `keywords`, since that is the name most other search tools use. searchProducts({keywords,
+     * page}) returns a full result total count (e.g., "48 of 6476 total results") so a caller
+     * knows how many results exist and can keep paging. Pass page 2 to get rows 49-96, page 3 for
+     * rows 97-144, etc. Returns `{ products, totalResultCount }` — the array is `products`, NOT
+     * `results` — and each row is `{ asin, title, url, price, listPrice, rating, ratingCount,
+     * sponsored, image }`: `rating` is the 0-5 star average and `ratingCount` how many ratings it
+     * is over (there is no `reviewCount` or `starRating`), so rank the top-rated on those two and
+     * skip `sponsored` rows. Search Amazon's catalogue for what a person would type — "cast iron
+     * skillet", "usb c hub" — and get back the result cards as the site ranks them. The page
+     * parameter is fully supported: page 2 returns rows 49-96 (a genuinely different set, not page
+     * one repeated), page 3 returns rows 97-144, and you can continue paging to reach all 6000+
+     * results. The totalResultCount field tells you how many total rows exist so you can page
+     * efficiently. Optionally narrowed to a department, a brand, a price range, a sort order. THE
+     * provider's door: every function below that takes an ASIN is fed by this one.
      */
     searchProducts(args: SearchProductsArgs): Promise<AmazonSearchResult>;
 
@@ -9049,7 +9087,10 @@ interface AmazonCaProductDetail {
 
   /** Search products and check pricing on Amazon Canada (amazon.ca) */
   interface Unit {
-    /** Search Amazon Canada for products by keywords */
+    /**
+     * Search Amazon Canada for products by keywords. Takes { keywords: string }; `query` is
+     * accepted as an alias.
+     */
     searchProducts(args: SearchProductsArgs): Promise<AmazonCaSearchResult>;
 
     /** Get product details from Amazon Canada by ASIN */
@@ -9167,6 +9208,33 @@ interface AmericanVisionWindowsAvailability {
      * `inTerritory: false` for a ZIP outside AVW's California territories.
      */
     checkAvailability(args: { zip: string; service: "Windows" | "Bath" }): Promise<AmericanVisionWindowsAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_americashealthrankings {
+  // ── America's Health Rankings — the unit's own declarations, verbatim ──
+interface AmericasHealthRankingsReport { editionId: number; name: string; year: number; reportType: "annual" | "senior" | "womenAndChildren" | "other"; }
+interface AmericasHealthRankingsMeasure { id: number; name: string; slug: string; description: string | null; }
+interface AmericasHealthRankingsDataPoint { state: string; stateCode: string; year: string | null; value: number | null; displayValue: string | null; rank: number | null; }
+interface AmericasHealthRankingsMeasureData { measure: AmericasHealthRankingsMeasure; unit: string | null; data: AmericasHealthRankingsDataPoint[]; }
+interface GetMeasureDataArgs { measureId: number; state: string; }
+
+  /**
+   * Public U.S. health-ranking report editions, measures, and state-level measure history from
+   * America's Health Rankings.
+   */
+  interface Unit {
+    /** Lists America's Health Rankings report editions, their year, and report type. */
+    listReports(): Promise<AmericasHealthRankingsReport[]>;
+
+    /** Finds public health measures by name, returning ids needed to retrieve a state's history. */
+    searchMeasures(query: string): Promise<AmericasHealthRankingsMeasure[]>;
+
+    /**
+     * Returns a measure's published history and rank for one two-letter U.S. state code, e.g. {
+     * measureId: 173, state: "CA" }.
+     */
+    getMeasureData(args: GetMeasureDataArgs): Promise<AmericasHealthRankingsMeasureData>;
   }
 }
 
@@ -17394,6 +17462,39 @@ interface BookerDayHours {
   closes: string | null;
   closedReason: string | null;
 }
+interface BookerServiceListArgs {
+  /** A location slug (`kabuki`) or a go.booker.com/location/<slug> URL. */
+  location: string;
+  /** Two to six numeric serviceIds from getServiceMenu. */
+  serviceIds: number[];
+  /** YYYY-MM-DD, the location's local date. Defaults to the next date that fits. */
+  date?: string;
+}
+interface BookerVisitItem {
+  serviceId: number;
+  /** ISO instant in the location's own offset. */
+  start: string;
+  durationMinutes: number | null;
+  staffId: number | null;
+}
+interface BookerMultiServiceAvailability {
+  serviceIds: number[];
+  /** Empty when nothing fits in the next 30 days. */
+  date: string;
+  visits: { start: string; items: BookerVisitItem[] }[];
+}
+interface BookerGroupGuestOption {
+  serviceId: number;
+  staffId: number | null;
+  durationMinutes: number | null;
+  price: number | null;
+}
+interface BookerGroupAvailability {
+  serviceIds: number[];
+  /** Empty when nothing fits in the next 30 days. */
+  date: string;
+  slots: { start: string; options: BookerGroupGuestOption[] }[];
+}
 
   /**
    * Booker (go.booker.com), Mindbody's spa and salon booking storefront: a location's service
@@ -17463,6 +17564,19 @@ interface BookerDayHours {
      * closedDates for exceptions.
      */
     getLocationHours(args: BookerLocationArgs): Promise<BookerDayHours[]>;
+
+    /**
+     * Open times for several services booked as ONE visit, back to back — each option gives every
+     * service's own start time and staff id. Defaults to the next local date the whole visit fits.
+     */
+    getMultiServiceAvailability(args: BookerServiceListArgs): Promise<BookerMultiServiceAvailability>;
+
+    /**
+     * Start times when several guests can each begin a service together (a couples' booking; one
+     * serviceId per guest), with the staff, duration and price options for each. Defaults to the
+     * next local date the group fits.
+     */
+    getGroupAvailability(args: BookerServiceListArgs): Promise<BookerGroupAvailability>;
   }
 }
 
@@ -27175,6 +27289,20 @@ interface DailymotionCaptionTracksResult {
   video: string;
   tracks: DailymotionCaptionTrack[];
 }
+interface DailymotionStreamFormat {
+  name: string; // Dailymotion's quality label: "380", "480", "720", "1080"
+  width: number | null;
+  height: number | null;
+  bandwidth: number | null; // peak bits per second
+  codecs: string[]; // e.g. ["mp4a.40.2", "avc1.64001f"]
+  frameRate: number | null;
+  url: string; // this rendition's media playlist — signed, bound to the exit that read it
+}
+interface DailymotionStreamFormatsResult {
+  video: string;
+  manifestUrl: string; // HLS master manifest — signed, bound to the exit that read it
+  formats: DailymotionStreamFormat[];
+}
 interface GetTranscriptArgs {
   video: string;
   language?: string;
@@ -27331,6 +27459,14 @@ interface DailymotionMyLikedVideosResult {
      * all, or none in the requested language — a real, honest answer, not a failure.
      */
     getTranscript(args: GetTranscriptArgs): Promise<DailymotionTranscript>;
+
+    /**
+     * List the stream qualities one Dailymotion video is encoded in — quality label ("380", "720",
+     * "1080"), resolution, bitrate and codecs — read off its HLS manifest. The manifest and
+     * rendition URLs are signed and only open from the address that read them, so treat them as
+     * evidence, not as links to hand on.
+     */
+    listStreamFormats(video: string): Promise<DailymotionStreamFormatsResult>;
 
     /**
      * Read the signed-in caller's own Dailymotion account — username, display name, avatar and
@@ -30259,6 +30395,18 @@ interface DoordashCuisine {
   name: string; url: string;
 }
 
+interface DoordashSearchDishesArgs {
+  query: string;  // a dish/cuisine term, e.g. "pad thai" — DoorDash resolves it against item names
+  lat: number; lng: number;  // required — findAddress returns these for an address
+  limit?: number;  // default 20, clamped to [1, 50]
+}
+
+interface DoordashDishResult {
+  item: string; description: string | null;
+  price: number | null;  // dollars; null when the card shows no settled price
+  storeId: string; storeName: string | null; storeUrl: string | null; image: string | null;
+}
+
   /**
    * DoorDash's own store search — returns real, currently-listed stores for a free-text query
    * with the delivery fee, rating and ETA DoorDash itself advertises on the results card.
@@ -30309,6 +30457,13 @@ interface DoordashCuisine {
      * takes as `cuisine`. Read-only.
      */
     listCuisines(args: { city: string }): Promise<DoordashCuisine[]>;
+
+    /**
+     * Searches for a DISH rather than a restaurant ("pizza", "pad thai") near a location and
+     * returns matching menu items across nearby stores, each with item name, description, price
+     * and the store's own name, id and URL. Read-only.
+     */
+    searchDishes(args: DoordashSearchDishesArgs): Promise<DoordashDishResult[]>;
 
     /**
      * The signed-in customer's own DoorDash orders, newest first — order id, when, the store,
@@ -30536,6 +30691,23 @@ interface SetPrivateDuckAddressActiveArgs {
 interface DuckDuckGoPrivateAddressState {
   address: string;
   active: boolean;
+}
+
+interface ChangeForwardingAddressArgs {
+  /** The new inbox DuckDuckGo should forward @duck.com mail to. */
+  newEmail: string;
+  /** Omit to START the change (sends a confirmation email). Pass the code
+   * from that email, together with `hash`, to CONFIRM it. */
+  otp?: string;
+  /** The `hash` the start call returned — required together with `otp`. */
+  hash?: string;
+}
+
+interface DuckDuckGoForwardingChangeResult {
+  newEmail: string;
+  status: "confirmation_sent" | "confirmed";
+  /** Pass this back as `hash` with the OTP to confirm. Null once confirmed. */
+  hash: string | null;
 }
 
 interface DuckDuckGoNewsStory {
@@ -30859,6 +31031,14 @@ interface DuckDuckGoBangResolution {
      * token is the authorization.
      */
     setPrivateDuckAddressActive(args: SetPrivateDuckAddressActiveArgs): Promise<DuckDuckGoPrivateAddressState>;
+
+    /**
+     * Changes the signed-in caller's @duck.com forwarding address — a two-step flow. Call with
+     * just `newEmail` to start it (DuckDuckGo emails a one-time code); call again with the same
+     * `newEmail` plus that `otp` and the `hash` the first call returned to confirm it. NEEDS A
+     * SIGN-IN through the relay.
+     */
+    changeForwardingAddress(args: ChangeForwardingAddressArgs, opts?: ConnectionOption): Promise<DuckDuckGoForwardingChangeResult>;
 
     /** Search DuckDuckGo News vertical and returns news stories. */
     searchNews(args: SearchNewsArgs): Promise<DuckDuckGoNewsStory[]>;
@@ -32919,6 +33099,25 @@ interface EtsyCategory {
   url: string;
   subcategories: { name: string; path: string; url: string }[];
 }
+interface EtsyCategoryPage {
+  name: string;
+  path: string;
+  url: string;
+  page: number;
+  listings: etsyListing[];
+  subcategories: { name: string; path: string; url: string }[];
+}
+interface EtsySearchSuggestion {
+  query: string;
+  kind: "search" | "shop";
+  url: string;
+}
+interface EtsyTrendingSearch {
+  query: string;
+  url: string;
+  image: string | null;
+  module: string | null;
+}
 
   /**
    * Etsy's own documented Open API v3 (openapi.etsy.com) — searches active listings on etsy.com
@@ -32982,6 +33181,27 @@ interface EtsyCategory {
      * URL. The `path` is what `browseCategory` takes.
      */
     listCategories(): Promise<EtsyCategory[]>;
+
+    /**
+     * One page of the listings in an Etsy category (a `listCategories` path like
+     * `jewelry/necklaces`, or its etsy.com/c/ URL) — each listing's id, title, price, currency and
+     * URL, the category's name, and the narrower subcategories it links to. Filter by price in the
+     * site's currency, sort by relevance, price or newest, and page through.
+     */
+    browseCategory(path: string | { path: string; minPrice?: number; maxPrice?: number; sort?: "most_relevant" | "price_asc" | "price_desc" | "date_desc"; page?: number }): Promise<EtsyCategoryPage>;
+
+    /**
+     * What Etsy's search box suggests for text a person has typed so far — each suggested search
+     * with its etsy.com/search URL, plus the 'find shop names containing …' row (`kind: "shop"`,
+     * URL to the shop search).
+     */
+    suggestSearches(text: string): Promise<EtsySearchSuggestion[]>;
+
+    /**
+     * What people are searching for on Etsy right now — the 'Popular right now' list its empty
+     * search box shows, each with its search URL and thumbnail.
+     */
+    listTrendingSearches(): Promise<EtsyTrendingSearch[]>;
   }
 }
 
@@ -51804,25 +52024,26 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * Searches LinkedIn's public job board and returns matching postings — title, employer and
      * employer page, location, and a real ISO posting date — each with the `id` that `getJob`
      * takes, so a search feeds straight into reading the postings in full. Takes `{keywords,
-     * location, geoId, postedWithin, limit}`, or a bare string as the keywords. Pages
-     * automatically to `limit` (default 10, capped at 1000, which is the deepest this surface
-     * serves). THREE THINGS IT DELIBERATELY DOES NOT PRETEND, each measured on the live surface
-     * rather than assumed. (1) It is a SAMPLE, not a ranking: LinkedIn rotates which slice it
-     * serves, and two identical requests seconds apart returned ten postings each with no id in
-     * common — so there is no stable "top 10" here and calling twice legitimately returns
-     * different jobs. (2) Keywords BROADEN when nothing matches exactly: a search for terms with
-     * no matches returns real postings in the right location that match none of the terms, because
-     * LinkedIn relevance-ranks rather than filters, and nothing in its response says so — treat
-     * every row as "LinkedIn's answer to this search", not as a guaranteed keyword match. (3) The
-     * only result filter offered is `postedWithin` ("24h" | "week" | "month"), because it is the
-     * only one that works: LinkedIn's experience-level and job-type parameters are accepted and
-     * then IGNORED — two mutually exclusive job-type values returned the same ten postings, whose
-     * own published employment type contradicted both — and remote/on-site is not offered because
-     * no LinkedIn surface publishes a workplace-type field that could confirm it. Salary is not
-     * returned: the search card carries none, and `getJob` is where an employer-published range
-     * lives. Throws rather than returning an empty list when the surface fails, and re-asks an
-     * empty page before believing it, because this endpoint returns empty bodies for pages that do
-     * have results.
+     * location, geoId, postedWithin, limit}`, or a bare string as the keywords, or no argument at
+     * all — a bare `searchJobs()` defaults `location` to "Worldwide" rather than throwing, since a
+     * caller's first call is often exactly this. Pages automatically to `limit` (default 10,
+     * capped at 1000, which is the deepest this surface serves). THREE THINGS IT DELIBERATELY DOES
+     * NOT PRETEND, each measured on the live surface rather than assumed. (1) It is a SAMPLE, not
+     * a ranking: LinkedIn rotates which slice it serves, and two identical requests seconds apart
+     * returned ten postings each with no id in common — so there is no stable "top 10" here and
+     * calling twice legitimately returns different jobs. (2) Keywords BROADEN when nothing matches
+     * exactly: a search for terms with no matches returns real postings in the right location that
+     * match none of the terms, because LinkedIn relevance-ranks rather than filters, and nothing
+     * in its response says so — treat every row as "LinkedIn's answer to this search", not as a
+     * guaranteed keyword match. (3) The only result filter offered is `postedWithin` ("24h" |
+     * "week" | "month"), because it is the only one that works: LinkedIn's experience-level and
+     * job-type parameters are accepted and then IGNORED — two mutually exclusive job-type values
+     * returned the same ten postings, whose own published employment type contradicted both — and
+     * remote/on-site is not offered because no LinkedIn surface publishes a workplace-type field
+     * that could confirm it. Salary is not returned: the search card carries none, and `getJob` is
+     * where an employer-published range lives. Throws rather than returning an empty list when the
+     * surface fails, and re-asks an empty page before believing it, because this endpoint returns
+     * empty bodies for pages that do have results.
      */
     searchJobs(query: LinkedinJobSearchQuery | string): Promise<LinkedinJobSearchResult[]>;
 
@@ -63041,6 +63262,7 @@ interface OloBasket {
   salesTax: number;
   total: number;
   unavailableItems: string[];
+  couponDiscount: number;  // 0 when no coupon is applied
 }
 interface OloStartOrderArgs {
   host: string;
@@ -63075,6 +63297,11 @@ interface OloRemoveBasketItemArgs {
   host: string;
   guid: string;
   basketProductId: string;  // an item's id off getBasket / addToBasket
+}
+interface OloApplyCouponArgs {
+  host: string;
+  guid: string;
+  code?: string | null;  // omitted or null removes whatever coupon is applied
 }
 
   /**
@@ -63178,6 +63405,12 @@ interface OloRemoveBasketItemArgs {
      * that is left.
      */
     removeBasketItem(args: OloRemoveBasketItemArgs): Promise<OloBasket>;
+
+    /**
+     * Applies a coupon or promo code to a guest basket, or removes it by omitting the code, and
+     * returns the updated basket with its couponDiscount.
+     */
+    applyCoupon(args: OloApplyCouponArgs): Promise<OloBasket>;
 
     /**
      * Returns a placed order's status from its order id (off the confirmation link): status,
@@ -68864,6 +69097,12 @@ interface PushpressMyBooking {
   active: boolean;         // ACTIVE reservations only — waitlist spots are not in this list
 }
 
+interface PushpressBookingResult {
+  registrationId: string | null; // the site's new registration id, when it answers one
+  classId: string;
+  subscriptionId: string;        // the plan this booking spent
+}
+
   /**
    * PushPress gym-management platform (CrossFit and independent gyms on <gym>.pushpress.com):
    * read any gym's class schedule, class details, locations and membership plans with no login,
@@ -68942,6 +69181,13 @@ interface PushpressMyBooking {
      * waitlist state on this item.
      */
     listMyBookings(gym: string, date: string, endDate?: string, opts?: ConnectionOption): Promise<PushpressMyBooking[]>;
+
+    /**
+     * Reserves a class for the signed-in member, spending one of their existing active plans.
+     * Needs the caller signed in. Refuses with no active plan rather than starting a drop-in
+     * purchase.
+     */
+    bookClass(gym: string, classId: string, opts?: ConnectionOption): Promise<PushpressBookingResult>;
   }
 }
 
@@ -73153,6 +73399,18 @@ interface SafewayAccount {
   preferredStoreId: string | null;
   loyaltyId: string | null;
 }
+interface SafewayCartItem {
+  productId: string | null;
+  name: string | null;
+  quantity: number | null;
+  price: number | null;
+}
+interface SafewayCart {
+  cartId: string | null;
+  storeId: string | null;
+  items: SafewayCartItem[];
+  subtotal: number | null;
+}
 interface SafewayRecipe {
   id: string;
   slug: string;
@@ -73257,6 +73515,13 @@ interface SafewayRecipe {
      * the door and its measured refusal.
      */
     getMyAccount(opts?: ConnectionOption): Promise<SafewayAccount>;
+
+    /**
+     * Returns the signed-in caller's own Safeway cart (needs the caller signed in): cart id,
+     * store, subtotal and each item's product id, name, quantity and price. See getCart.ts's
+     * header for the door and its measured refusal.
+     */
+    getCart(opts?: ConnectionOption): Promise<SafewayCart>;
   }
 }
 
@@ -75219,6 +75484,12 @@ interface SetmoreBookAppointmentArgs {
   guest: SetmoreBookAppointmentGuest;
   notes?: string;
 }
+interface SetmoreBookClassArgs {
+  business: string;
+  sessionId: string; // from listClasses — the class, staff and time all come off it
+  guest: SetmoreBookAppointmentGuest;
+  notes?: string;
+}
 interface SetmoreBookingConfirmation {
   companyId: string;
   confirmationId: string | null;
@@ -75408,6 +75679,15 @@ interface SetmorePromoCode {
      * confirmation. Otherwise creates the guest and the booking, and returns the confirmation id.
      */
     bookAppointment(args: SetmoreBookAppointmentArgs): Promise<SetmoreBookingConfirmation | SetmorePaymentRequired>;
+
+    /**
+     * Books a guest into a class session at a business, from a sessionId taken off listClasses and
+     * the guest's name, email or phone — the class, staff member and time all come off the session
+     * itself. When the business takes payment at booking, stops before paying and returns the
+     * amount due instead of a confirmation. Otherwise holds the seat with a lease, creates the
+     * guest, confirms the booking, and returns the confirmation id.
+     */
+    bookClass(args: SetmoreBookClassArgs): Promise<SetmoreBookingConfirmation | SetmorePaymentRequired>;
 
     /**
      * Lists the group classes a business runs and their upcoming sessions: each class's id, title,
@@ -75654,6 +75934,30 @@ interface SevenroomsUpgrades {
   categories: SevenroomsUpgradeCategory[];
   items: SevenroomsUpgradeItem[];
 }
+interface ValidatePromoCodeArgs {
+  venue: string;
+  promoCode: string;
+  /** YYYY-MM-DD, the slot's own date. */
+  date: string;
+  /** "HH:mm" 24h, the slot's own timeIso time portion. */
+  time: string;
+  /** Default 2. */
+  partySize?: number;
+}
+interface SevenroomsPromoCode {
+  id: string;
+  name: string;
+  /** "DOLLAR_DISCOUNT" or "PERCENTAGE_DISCOUNT", as the site sends it. */
+  promoType: string | null;
+  /** In the venue's currency when DOLLAR_DISCOUNT; a bare percentage otherwise. */
+  promoValue: number | null;
+  minSubtotal: number | null;
+  promoValueCap: number | null;
+  status: "UPCOMING" | "ACTIVE" | "INACTIVE";
+}
+type SevenroomsPromoValidation =
+  | { status: "VALID"; promoCode: SevenroomsPromoCode }
+  | { status: "INVALID"; reason: string };
 
   /**
    * SevenRooms restaurant reservations (Catch, TAO, Nobu, Dishoom and thousands more): find a
@@ -75704,6 +76008,13 @@ interface SevenroomsUpgrades {
      * or a saved sign-in); empty when they have none.
      */
     listMyReservations(opts?: ConnectionOption): Promise<SevenroomsMyReservations>;
+
+    /**
+     * Checks whether a promo code is valid at a venue for a date, time and party size before
+     * booking: the discount it would apply (VALID), or the site's own refusal reason (INVALID,
+     * e.g. a code that does not exist or has been exhausted). Applies nothing.
+     */
+    validatePromoCode(args: ValidatePromoCodeArgs): Promise<SevenroomsPromoValidation>;
   }
 }
 
@@ -76247,6 +76558,88 @@ interface ListPizzeriasInCityArgs {
   limit?: number;          // 1-50, default 20
   offset?: number;
 }
+// getPizzeria, getMenu, getMenuItemOptions and getHours all take "pizzeria": a
+// Slice menu URL, the full web slug, or a numeric shop id -- whatever
+// searchPizzerias/listPizzeriasInCity returned.
+interface SlicePizzeriaDetail {
+  id: string;               // shop uuid
+  shopId: number;
+  name: string;
+  webSlug: string | null;
+  menuUrl: string | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  phone: string | null;
+  isOpenForDelivery: boolean;
+  isOpenForPickup: boolean;
+  nextOpeningDelivery: string | null; // ISO instant
+  nextOpeningPickup: string | null;
+  deliveryMinutes: { min: number; max: number } | null;
+  pickupMinutes: { min: number; max: number } | null;
+  deliveryMinimum: number | null;     // dollars
+  pickupMinimum: number | null;       // dollars
+  deliveryProvider: string | null;    // e.g. "uber_direct"; null when the shop drives
+  serviceFeeFlat: number | null;      // dollars
+  serviceFeePercent: number | null;
+  acceptsCash: boolean;
+  acceptsCards: boolean;
+  cuisines: string[];
+  holidays: unknown;        // the site's own shape; null on every shop measured so far
+  timezone: string | null;
+}
+interface SliceMenuSize {
+  id: number;                // what getMenuItemOptions takes as sizeId
+  name: string;               // e.g. "12""
+  price: number;               // dollars
+}
+interface SliceMenuItem {
+  id: number;
+  name: string;
+  description: string | null;
+  image: string | null;
+  isBestSeller: boolean;
+  sizes: SliceMenuSize[];
+}
+interface SliceMenuCategory {
+  id: number;
+  name: string;
+  items: SliceMenuItem[];
+}
+interface SliceMenu {
+  shopId: number | null;
+  categories: SliceMenuCategory[]; // hidden "Non Display Products" categories dropped
+}
+interface SliceAddonPrice {
+  id: number;                // what priceCart takes as a selection id
+  price: number;               // dollars
+}
+interface SliceAddonSelection {
+  id: number;
+  name: string;
+  prices: SliceAddonPrice[];  // >1 entry means the site prices this choice by coverage
+}
+interface SliceAddonGroup {
+  id: number;
+  name: string;                // e.g. "Choose Sauce Option"
+  required: boolean;
+  limit: number | null;        // how many selections this group allows
+  selections: SliceAddonSelection[];
+}
+interface SliceScheduleWindow {
+  from: string;                // ISO instant, UTC
+  to: string;                  // ISO instant, UTC
+}
+interface SliceSchedule {
+  delivery: SliceScheduleWindow[];
+  pickup: SliceScheduleWindow[];
+  pausedForDelivery: SliceScheduleWindow[];
+  pausedForPickup: SliceScheduleWindow[];
+  timezone: string | null;
+}
 
   /**
    * Slice online ordering for independent pizzerias: find the pizzerias that deliver to an
@@ -76270,6 +76663,34 @@ interface ListPizzeriasInCityArgs {
 
     /** Lists the Slice pizzerias in a city ("Brooklyn", "NY") with no street address needed. Paged. */
     listPizzeriasInCity(args: ListPizzeriasInCityArgs): Promise<SlicePizzeriaPage>;
+
+    /**
+     * Gets one pizzeria's details from its Slice menu URL, web slug or shop id: name, address and
+     * coordinates, phone, open now for delivery and pickup, delivery and pickup estimates, minimum
+     * orders, delivery provider, service fee, whether it accepts cash and cards, cuisines and
+     * holidays.
+     */
+    getPizzeria(pizzeria: string | number): Promise<SlicePizzeriaDetail>;
+
+    /**
+     * Gets a pizzeria's full menu: categories, items with descriptions, photos and best-seller
+     * flags, and every size with its price -- the door for the item and size ids
+     * getMenuItemOptions and priceCart take.
+     */
+    getMenu(pizzeria: string | number): Promise<SliceMenu>;
+
+    /**
+     * Gets the choices for one menu item and size: required and optional add-on groups (sauce,
+     * cheese, toppings) with each option's price and the min/max a group allows -- what a caller
+     * must pick before priceCart accepts the item.
+     */
+    getMenuItemOptions(pizzeria: string | number, sizeId: number): Promise<SliceAddonGroup[]>;
+
+    /**
+     * Gets when a pizzeria takes delivery and pickup orders over the coming days, as open/close
+     * windows, plus any pause it is in right now.
+     */
+    getHours(pizzeria: string | number): Promise<SliceSchedule>;
   }
 }
 
@@ -77388,6 +77809,14 @@ interface SoulcycleActionResult {
 interface SoulcycleCancelResult extends SoulcycleActionResult {
   late: boolean; // true = the credit-forfeiting late cancel
 }
+interface SetFavoriteStudioArgs {
+  studioId: number; // from listStudios() or findStudio()
+  enabled: boolean;
+}
+interface SetFavoriteInstructorArgs {
+  instructorId: number; // from listInstructors() or getInstructor()
+  enabled: boolean;
+}
 interface SoulcycleInstructor extends SoulcycleInstructorSummary {
   bioFull?: string;
   heroImageUrl?: string;
@@ -77531,6 +77960,19 @@ interface SoulcycleInstructor extends SoulcycleInstructorSummary {
      * reservationId: "123456" })`.
      */
     cancelBooking(args: CancelBookingArgs, opts?: ConnectionOption): Promise<SoulcycleCancelResult>;
+
+    /**
+     * Adds or removes a studio from the signed-in rider's favorites. Needs the caller signed in.
+     * Example: `bowmark.providers.soulcycle.setFavoriteStudio({ studioId: 25, enabled: true })`.
+     */
+    setFavoriteStudio(args: SetFavoriteStudioArgs, opts?: ConnectionOption): Promise<SoulcycleActionResult>;
+
+    /**
+     * Adds or removes an instructor from the signed-in rider's favorites. Needs the caller signed
+     * in. Example: `bowmark.providers.soulcycle.setFavoriteInstructor({ instructorId: 10693,
+     * enabled: true })`.
+     */
+    setFavoriteInstructor(args: SetFavoriteInstructorArgs, opts?: ConnectionOption): Promise<SoulcycleActionResult>;
   }
 }
 
@@ -77662,6 +78104,14 @@ interface SpectrumMobileDeal {
   discountAmount: number | null;
   sourceUrl: string;
 }
+interface SpectrumMobileCoverage {
+  location: string;
+  lat: number;
+  lng: number;
+  covered: boolean;
+  rasterAlpha: number;  // the site's own [0,255] raster alpha at the point — 0 is "No Coverage", 255 fully inside; see covered
+  sourceUrl: string;
+}
 
   /**
    * Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check address
@@ -77718,6 +78168,17 @@ interface SpectrumMobileDeal {
      * device, discount and the line/plan requirement to qualify.
      */
     listMobileDeals(): Promise<SpectrumMobileDeal[]>;
+
+    /**
+     * Spectrum Mobile's network coverage at an address, city or ZIP, off the raster overlay
+     * spectrum.com/mobile/coverage-map renders (a third-party Cellmaps/GCellmap widget, embedded
+     * in the page's own Angular SSR state). Geocodes `location` with Nominatim, then reads the
+     * single pixel of the widget's own 'Mobile Coverage' coverage tile at that point — `covered`
+     * is true when the tile's alpha there is >= 128; `rasterAlpha` is the raw [0,255] value for a
+     * caller who wants to judge how close a point sits to a coverage boundary. Takes the same free
+     * text a geocoder accepts: a street address, "City, ST", or a ZIP.
+     */
+    checkMobileCoverage(location: string): Promise<SpectrumMobileCoverage>;
   }
 }
 
@@ -77914,6 +78375,68 @@ interface SpotappsAvailability {
   available: boolean;
   alternativeTimes: SpotappsSlot[];
 }
+interface SpotappsMenuItem {
+  id: string;
+  name: string;
+  description: string | null;
+  inStock: boolean;
+  /** One per size; size is "" when the menu prints a single price column. */
+  prices: { size: string; cents: number }[];
+  labels: string[];
+  imageUrls: string[];
+}
+interface SpotappsMenu<I = SpotappsMenuItem> {
+  id: string;
+  name: string;
+  /** "food" | "drink". */
+  menuType: string;
+  description: string | null;
+  sections: { id: string; name: string; description: string | null; items: I[] }[];
+}
+interface SpotappsMenuResult {
+  spotId: string;
+  name: string | null;
+  timeZone: string | null;
+  menus: SpotappsMenu[];
+}
+interface SpotappsOrderItem {
+  id: string;
+  /** Per-size id, e.g. "206510-189520" — what a cart line names. */
+  uniqueId: string;
+  name: string;
+  description: string | null;
+  size: string;
+  cents: number | null;
+  inStock: boolean;
+  availableForPickup: boolean;
+  availableForDelivery: boolean;
+  labels: string[];
+  imageUrls: string[];
+  /** The site's own modifier groups, passed through; null when none. */
+  customizations: unknown;
+}
+interface SpotappsOnlineOrderMenu {
+  spotId: string;
+  name: string | null;
+  timeZone: string | null;
+  /** False when the widget takes no cart orders (the menu may still be listed). */
+  cartActive: boolean;
+  paymentActive: boolean;
+  hasPickup: boolean;
+  hasDelivery: boolean;
+  openNowPickup: boolean;
+  openNowDelivery: boolean;
+  pickupFeeCents: number | null;
+  deliveryFeeCents: number | null;
+  minimumTurnaroundMinutes: { pickup: number | null; delivery: number | null };
+  pickupTimeOptions: string[];
+  deliveryTimeOptions: string[];
+  /** Index 0 = Sunday .. 6 = Saturday. */
+  pickupWeekdaySlots: SpotappsSlot[][];
+  deliveryWeekdaySlots: SpotappsSlot[][];
+  instructions: string | null;
+  menus: SpotappsMenu<SpotappsOrderItem>[];
+}
 
   /**
    * SpotHopper restaurant sites (tmt.spotapps.co): reservations, menus, online ordering, party
@@ -77939,6 +78462,19 @@ interface SpotappsAvailability {
      * alternative times it offers when it does not.
      */
     checkAvailability(args: SpotappsCheckAvailabilityArgs): Promise<SpotappsAvailability>;
+
+    /**
+     * Reads a restaurant's menu as its contactless-menu page shows it: food and drink menus,
+     * sections, items, descriptions, stock and prices per size.
+     */
+    getMenu(args: SpotappsSpotArgs): Promise<SpotappsMenuResult>;
+
+    /**
+     * Reads a restaurant's online-ordering menu: orderable items with per-size ids and prices,
+     * modifiers, pickup/delivery availability, fees, lead times and pickup/delivery hours per
+     * weekday.
+     */
+    getOnlineOrderMenu(args: SpotappsSpotArgs): Promise<SpotappsOnlineOrderMenu>;
   }
 }
 
@@ -78658,6 +79194,93 @@ interface SquareOnlineCategoryList {
   /** Depth-first, each parent before its children. */
   categories: SquareOnlineCategory[];
 }
+interface MenuItemsArgs {
+  site: string;
+  /** Filters to items whose name/description matches, same search the menu page runs. */
+  query?: string;
+  /** From listCategories()/listMenuItems() — limits to one section. */
+  categoryId?: string;
+  page?: number;
+  /** Default 25. */
+  perPage?: number;
+}
+interface SquareOnlineMenuItemSummary {
+  /** Pass as `itemId` to getMenuItem. */
+  id: string;
+  name: string;
+  shortDescription: string | null;
+  priceLow: number | null;
+  priceHigh: number | null;
+  priceFormatted: string | null;
+  imageUrl: string | null;
+  soldOut: boolean;
+  visible: boolean;
+  url: string;
+}
+interface SquareOnlineMenuItemList {
+  site: string;
+  items: SquareOnlineMenuItemSummary[];
+  page: number;
+  perPage: number;
+  totalPages: number;
+  total: number;
+}
+interface MenuItemArgs {
+  site: string;
+  /** From listMenuItems() or listCategories(). */
+  itemId: string;
+}
+interface SquareOnlineMenuItemVariation {
+  id: string;
+  name: string;
+  price: number | null;
+  priceFormatted: string | null;
+  soldOut: boolean;
+  fulfillment: { pickup: boolean; delivery: boolean; shipping: boolean; dineIn: boolean };
+  /** Empty on every store observed so far; kept honestly rather than invented. */
+  optionChoices: Array<Record<string, unknown>>;
+}
+interface SquareOnlineMenuItem {
+  id: string;
+  name: string;
+  shortDescription: string | null;
+  priceLow: number | null;
+  priceHigh: number | null;
+  priceFormatted: string | null;
+  imageUrl: string | null;
+  soldOut: boolean;
+  visible: boolean;
+  url: string;
+  variations: SquareOnlineMenuItemVariation[];
+}
+interface PickupTimesArgs {
+  site: string;
+  /** From listLocations(). */
+  locationId: string;
+  /** ISO instant; default now. */
+  from?: string;
+  /** ISO instant; default one day after `from`. */
+  to?: string;
+}
+interface SquareOnlinePickupSlot {
+  timeIso: string;
+  label: string;
+  prepMinutes: number | null;
+}
+interface SquareOnlinePickupDate {
+  date: string;
+  label: string | null;
+  /** null when the window was wider than one day and the site never inlined this date's slots. */
+  times: SquareOnlinePickupSlot[] | null;
+}
+interface SquareOnlinePickupTimes {
+  site: string;
+  locationId: string;
+  outsideSchedulingWindow: boolean;
+  earliest: { timeIso: string; label: string; prepMinutes: number | null } | null;
+  dates: SquareOnlinePickupDate[];
+  warnings: string[];
+}
 
   /**
    * Square Online restaurant and shop storefronts (<name>.square.site): menu, locations, hours
@@ -78682,6 +79305,24 @@ interface SquareOnlineCategoryList {
      * storefront links and product counts.
      */
     listCategories(args: SiteArgs): Promise<SquareOnlineCategoryList>;
+
+    /**
+     * Lists or searches a storefront's menu items with name, description, price range, image and
+     * sold-out state, paged; takes an optional text query and category id.
+     */
+    listMenuItems(args: MenuItemsArgs): Promise<SquareOnlineMenuItemList>;
+
+    /**
+     * Returns one menu item in full: its sellable variations (SKUs) with price, sold-out state,
+     * which fulfillment methods they support, and any modifier/option choices.
+     */
+    getMenuItem(args: MenuItemArgs): Promise<SquareOnlineMenuItem>;
+
+    /**
+     * Returns the earliest pickup time and the available pickup slots at one location over a date
+     * range (default: the next 24 hours).
+     */
+    getPickupTimes(args: PickupTimesArgs): Promise<SquareOnlinePickupTimes>;
   }
 }
 
@@ -81387,6 +82028,29 @@ interface TargetDealsResult {
   warnings: string[];
 }
 
+interface TargetAnswer {
+  id: string;
+  text: string | null;
+  authorNickname: string | null;
+  isBrandExpert: boolean;  // true when badges mark the author a brand expert, not another shopper
+  submittedAt: string | null;  // ISO timestamp
+}
+
+interface TargetQuestion {
+  id: string;
+  text: string | null;
+  authorNickname: string | null;
+  submittedAt: string | null;  // ISO timestamp
+  answers: TargetAnswer[];
+}
+
+interface TargetQuestions {
+  tcin: string;
+  questions: TargetQuestion[];
+  totalQuestions: number | null;
+  warnings: string[];
+}
+
 interface TargetReview {
   id: string;
   rating: number | null;
@@ -81593,6 +82257,15 @@ interface TargetWishlistsHistory {
      * "most_recent".
      */
     listReviews(args: { tcin: string; limit?: number; sortBy?: "most_recent" | "most_helpful" }): Promise<TargetReviews>;
+
+    /**
+     * Reads the customer Q&A on a product page — the questions shoppers asked ("does it fit…", "is
+     * it dishwasher safe") with every answer, each marked whether it came from a brand expert or
+     * another shopper — which `listReviews`/`reviewPhotos` do not cover. Takes a TCIN from
+     * `search`. `limit` defaults to 10, max 100; `sortBy` defaults to the site's own newest-first
+     * order.
+     */
+    listQuestions(args: { tcin: string; limit?: number; sortBy?: "most_recent" | "most_helpful" }): Promise<TargetQuestions>;
 
     /**
      * Reads the CALLER's own Target order history — each order's id, date, status, items and
@@ -83389,6 +84062,16 @@ interface ThreadsPostThread {
   hasMoreReplies: boolean;
 }
 
+// getMe: the signed-in caller's own account
+interface ThreadsMe {
+  id: string;
+  username: string;          // the handle every profile function takes
+  fullName: string | null;
+  profilePicUrl: string | null;
+  isVerified: boolean;
+  followerCount: number | null;
+  url: string;
+}
 // getActivity: the signed-in caller's own notifications
 interface ThreadsActivityItem {
   id: string;
@@ -83409,6 +84092,13 @@ interface ThreadsActivity {
    * repost, follow and edit their profile.
    */
   interface Unit {
+    /**
+     * Reads the signed-in caller's own Threads account — id, username, name, profile picture,
+     * verified flag — the handle to pass to getProfile and the rest. Needs the caller signed in to
+     * Threads; runs through their own Chrome when Bowmark Link is attached.
+     */
+    getMe(opts?: ConnectionOption): Promise<ThreadsMe>;
+
     /**
      * Reads the signed-in caller's own Threads activity (their notifications): new followers,
      * replies, mentions, quotes, reposts and likes on their posts, newest first, each with its
@@ -87751,6 +88441,18 @@ interface UpsNearbyLocation {
   latestAirDropOffTime: string | null;
 }
 
+interface UpsPickupQuote {
+  booked: false;  // always false: this quotes the pickup fee and never books a driver
+  pickupDate: string;  // YYYY-MM-DD
+  hasCharges: boolean;
+  baseCharge: number | null;
+  surcharges: Record<string, number>;  // only the non-zero ones UPS itemized
+  totalTax: number | null;
+  grandTotal: number | null;
+  currency: string;
+  bookUrl: string;  // the wizard a person finishes the booking in
+}
+
   /**
    * UPS's own documented Rating API (onlinetools.ups.com) — prices a domestic shipment across
    * UPS's service levels for a ZIP-to-ZIP move, weight and optional dimensions, the same rate
@@ -87816,6 +88518,15 @@ interface UpsNearbyLocation {
      * locator backend directly.
      */
     findNearbyLocation(args: { address: string; maxResults?: number; locationTypes?: Array<"customerCenter" | "upsStore" | "dropBox" | "authorizedOutlet" | "mailBoxesEtc" | "retailChain" | "authorizedServiceProvider" | "accessPoint">; units?: "MI" | "KM" }): Promise<UpsNearbyLocation[]>;
+
+    /**
+     * Quotes UPS's one-time pickup fee for a US address on a date (`pickupDate` YYYY-MM-DD,
+     * default tomorrow), from the guest Schedule a Pickup wizard's own pricing call — no account.
+     * Returns the base charge, any surcharges and the total. It NEVER books: confirming a pickup
+     * dispatches a real driver and takes payment, so the result is a quote plus `bookUrl` where a
+     * person finishes it. Runs in a headless browser.
+     */
+    schedulePickup(args: { addressLine: string; city: string; state: string; zip: string; pickupDate?: string; residential?: boolean }): Promise<UpsPickupQuote>;
   }
 }
 
@@ -90477,6 +91188,30 @@ interface AlertDetail {
   source: string | null;
 }
 
+interface NearbyStation {
+  stationId: string;
+  neighborhood: string | null;
+  latitude: number;
+  longitude: number;
+  observedAt: string;
+  temperatureF: number | null;
+  dewPointF: number | null;
+  humidityPct: number | null;
+  windSpeedMph: number | null;
+  windGustMph: number | null;
+  windDirectionDeg: number | null;
+  pressureInHg: number | null;
+  rainLastHourIn: number | null;
+  dailyRainIn: number | null;
+  solarRadiation: number | null;
+  uvIndex: number | null;
+  elevationFt: number | null;
+}
+
+interface NearbyStationsResult {
+  stations: NearbyStation[];
+}
+
 interface FifteenMinuteForecast {
   time: string;
   precipitation: number | null;
@@ -90755,6 +91490,17 @@ interface CMSContent {
      * if the alert ID is not found or the alert has expired.
      */
     getAlertDetails(alertId: string): Promise<AlertDetail | null>;
+
+    /**
+     * Live readings from personal weather stations near a place — e.g.
+     * `getObservations("Toronto")` — the same "Weather Stations Near <city>" widget the site
+     * shows, measured off the interactive radar map's own Personal Weather Stations overlay. Each
+     * station carries its id, neighborhood, coordinates, when it last reported, and temperature,
+     * dew point, humidity, wind speed/gust/direction, pressure, rain (last hour and today), solar
+     * radiation, UV index and elevation, all in the units the station itself reports (imperial).
+     * `stations` can be empty where no PWS network covers the area.
+     */
+    getObservations(location: Location): Promise<NearbyStationsResult>;
 
     /**
      * Sub-hourly precipitation forecast for a place — e.g. `getFifteenMinuteForecast("Seattle")` —
@@ -92369,8 +93115,51 @@ interface WixService {
   /** The id getOpenTimes resolves to a schedule — present only on an appointment-type service. */
   scheduleId: string | null;
   bookingPageUrl: string | null;
+  /** This same id comes back from listCategories. */
+  categoryId: string | null;
+  categoryName: string | null;
 }
 interface WixServiceList { services: WixService[]; total: number; }
+interface SearchServicesArgs {
+  site: string;
+  /** Words to match, e.g. "consultation" or "beard trim". Matches the service name. */
+  query: string;
+  /** Max services returned (default 50, max 200). */
+  limit?: number;
+}
+interface WixServiceLocation { id: string; type: string; formattedAddress: string | null; }
+interface WixBookingPolicy {
+  description: string | null;
+  cancellationAllowed: boolean;
+  latestCancellationMinutes: number | null;
+  rescheduleAllowed: boolean;
+  latestRescheduleMinutes: number | null;
+  latestBookingMinutes: number | null;
+  earliestBookingMinutes: number | null;
+  maxParticipantsPerBooking: number | null;
+}
+interface GetServiceArgs {
+  site: string;
+  /** A service id from listServices().services[].id or searchServices. */
+  serviceId: string;
+}
+interface WixServiceDetail extends WixService {
+  locations: WixServiceLocation[];
+  bookingPolicy: WixBookingPolicy | null;
+  formId: string | null;
+  servicePageUrl: string | null;
+}
+interface WixCategory { id: string; name: string; sortOrder: number | null; }
+interface ListCategoriesResult { categories: WixCategory[]; }
+interface WixStaffMember {
+  id: string;
+  name: string;
+  description: string | null;
+  photoUrl: string | null;
+  /** Ids of listServices().services[] this staff member performs. */
+  serviceIds: string[];
+}
+interface ListStaffResult { staff: WixStaffMember[]; }
 interface GetOpenTimesArgs {
   site: string;
   /** A service id from listServices().services[].id. */
@@ -92410,6 +93199,24 @@ interface WixOpenTimes { serviceId: string; timeZone: string | null; slots: WixO
      * (in person, online, deposit, pricing plan), duration and whether online booking is on.
      */
     listServices(args: ListServicesArgs): Promise<WixServiceList>;
+
+    /** Finds a business's services by words, e.g. 'consultation' or 'beard trim'. */
+    searchServices(args: SearchServicesArgs): Promise<WixServiceList>;
+
+    /**
+     * One service in full: description, price and payment options, duration, staff, location,
+     * booking policy and any intake form id.
+     */
+    getService(args: GetServiceArgs): Promise<WixServiceDetail>;
+
+    /** The categories a business groups its services into. */
+    listCategories(args: FindSiteArgs): Promise<ListCategoriesResult>;
+
+    /**
+     * The staff a customer can book with at a business, with name, photo and the services they
+     * perform.
+     */
+    listStaff(args: FindSiteArgs): Promise<ListStaffResult>;
 
     /**
      * The open appointment times for one service between two dates, with location and spots left,
@@ -93249,6 +94056,30 @@ interface XolaExperienceDetail extends XolaExperience {
   cancellationPolicy: string | null;
   imageUrls: string[];
 }
+interface XolaGetAvailabilityArgs {
+  /** The experience id listExperiences returns. */
+  experienceId: string;
+}
+interface XolaSession {
+  /** "YYYY-MM-DD". */
+  date: string;
+  /** Xola's own "HHMM" string, e.g. "1000". */
+  time: string;
+  seatsLeft: number;
+}
+interface XolaDemographicPrice {
+  demographicId: string;
+  label: string;
+  /** Per-person price before add-ons, tax or fees. Null if the experience's
+   * base price scheme could not be read. */
+  price: number | null;
+}
+interface XolaAvailability {
+  experienceId: string;
+  /** Roughly the next 30 days — Xola's own window, not a date range we pass. */
+  sessions: XolaSession[];
+  pricing: XolaDemographicPrice[];
+}
 
   /**
    * Tours and activities sold by operators on Xola: experiences, availability, quotes and guest
@@ -93271,6 +94102,13 @@ interface XolaExperienceDetail extends XolaExperience {
      * included, image gallery and cancellation policy.
      */
     getExperience(args: XolaGetExperienceArgs): Promise<XolaExperienceDetail>;
+
+    /**
+     * An experience's open sessions over roughly the next 30 days — each date and start time with
+     * seats left — plus the per-person price each demographic (Adult, Child...) pays before
+     * add-ons, tax or fees.
+     */
+    getAvailability(args: XolaGetAvailabilityArgs): Promise<XolaAvailability>;
   }
 }
 
@@ -97444,6 +98282,7 @@ interface BowmarkProviders {
   americandreamvacations: BowmarkProvider_americandreamvacations.Unit;
   americanstandard: BowmarkProvider_americanstandard.Unit;
   americanvisionwindows: BowmarkProvider_americanvisionwindows.Unit;
+  americashealthrankings: BowmarkProvider_americashealthrankings.Unit;
   amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
@@ -148116,6 +148955,7 @@ interface BowmarkLibrary {
   read: BowmarkCapability_read.Unit;
   restaurant_booking: BowmarkCapability_restaurant_booking.Unit;
   retail: BowmarkCapability_retail.Unit;
+  retirement_ira_comparison: BowmarkCapability_retirement_ira_comparison.Unit;
   school_shopping_basket: BowmarkCapability_school_shopping_basket.Unit;
   screenshot: BowmarkCapability_screenshot.Unit;
   script_execution: BowmarkCapability_script_execution.Unit;
