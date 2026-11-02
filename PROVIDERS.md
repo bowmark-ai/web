@@ -3297,7 +3297,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `msccruzeiros.searchCruises` | msccruzeiros.com.br | Search MSC Cruzeiros (Brazil) cruise sailings by destination, departure port, ship… | 🟢 |
 | `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟡 |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
-| `msn.getSectionFeed` | msn.com | Returns the current top-stories feed the way msn.com/en-us/<section> does for a… | 🟢 |
+| `msn.getSectionFeed` | msn.com | Returns a top-stories feed scoped to one of six sections — sports, entertainment… | 🟢 |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E… | 🟢 |
 | `msn.getTopStories` | msn.com | Returns the top stories the MSN front page is showing right now, the way www.msn.com… | 🟢 |
 | `msn.getWeatherForecast` | msn.com | Reads the 10-day forecast for a named city off MSN Weather the way… | 🟢 |
