@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 469f02f3d25089e0119e829abd1855c858ff0ee407586d668bfe1b718bd9c50e
-// 92 capabilities, 750 providers, 3824 typed functions, 20 refused.
+// Manifest version: fa3de74eeb07bbe1d1cf3730c8dd76c2374d01ef176d7ec35ed3e8cc79d0ff12
+// 92 capabilities, 751 providers, 3835 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5314,6 +5314,7 @@ interface LibraryVideo {
   channel: string | null
   views: string | null    // the site's own text, e.g. "1.2M views" — never a parsed number
   length: string | null   // e.g. "22:28"; null for a live stream
+  percentWatched?: number // history: how much of it the caller watched, 0-100 (100 = finished)
 }
 interface LibraryPage {
   videos: LibraryVideo[]
@@ -5467,6 +5468,13 @@ type CallOptions = {
 
     /** The videos the caller has liked, newest first. Needs a YouTube sign-in. */
     liked(options?: { continuation?: string }): Promise<LibraryPage>;
+
+    /**
+     * What the caller has WATCHED, newest first, each video with `percentWatched` (0-100, 100 =
+     * watched to the end) from YouTube's own progress bar: which videos they finish and which they
+     * abandon. Not in YouTube's public API. Needs a YouTube sign-in.
+     */
+    history(options?: { continuation?: string }): Promise<LibraryPage>;
 
     /**
      * Creates an empty playlist on the caller's own account and returns its id and URL. Defaults
@@ -6819,6 +6827,55 @@ interface AccuweatherMonthlyDay {
   forecastDay: number | null; // getDayDetails' day when the site links one
 }
 
+interface AccuweatherSchoolClosureDay {
+  label: string; // "Closures Tomorrow, 11/2"
+  displayDate: string | null; // "11/2"
+  chancePercent: number; // 0-100
+}
+
+interface AccuweatherWinterForecast {
+  summary: string; // the page's own headline sentence
+  hasActiveSnowEvent: boolean;
+  schoolClosureForecast: AccuweatherSchoolClosureDay[];
+}
+
+interface AccuweatherActiveStorm {
+  id: string; // pass VERBATIM to getStorm, e.g. "west-pacific/in-fa-2026"
+  name: string;
+  basin: string; // "Western Pacific"
+  category: string | null; // "Very Strong Typhoon"
+  location: string | null; // "Approximately 187 mi from iwo to"
+  started: string | null; // "Active since 1 week ago"
+  lastUpdated: string | null; // "Updated 14 hours ago"
+}
+
+interface GetStormArgs {
+  id: string; // a listActiveStorms row's id verbatim
+}
+
+interface AccuweatherStormPosition {
+  dateTimeLabel: string; // "Oct 31, 12:00 PM CST"
+  latitude: number;
+  longitude: number;
+  maximumSustainedWind: string | null; // "115 mph"
+  maximumWindGust: string | null; // "145 mph"
+  status: string | null; // "VeryStrongTyphoon"
+  localizedStatus: string | null; // "Very Strong Typhoon"
+  isHistorical: boolean;
+  isCurrent: boolean;
+}
+
+interface AccuweatherStorm {
+  name: string;
+  basin: string; // "NP"
+  basinSlug: string; // "west-pacific"
+  isActive: boolean;
+  current: AccuweatherStormPosition;
+  track: AccuweatherStormPosition[]; // oldest first, forecast included
+  start: string; // ISO
+  end: string; // ISO
+}
+
   /**
    * AccuWeather forecasts for any place — current conditions, hourly, daily, MinuteCast, alerts,
    * air quality, allergy and activity indices.
@@ -6830,6 +6887,26 @@ interface AccuweatherMonthlyDay {
      * from the neighbouring months flagged inMonth: false.
      */
     getMonthlyForecast(args: MonthlyForecastArgs): Promise<AccuweatherMonthlyDay[]>;
+
+    /**
+     * The Winter Weather (WinterCast) outlook for a location — whether a snow event is active
+     * right now, and the Snow Day Forecast widget's school-closure likelihood for the next couple
+     * of days.
+     */
+    getWinterForecast(args: LocationArgs): Promise<AccuweatherWinterForecast>;
+
+    /**
+     * Active hurricanes, typhoons and tropical cyclones worldwide, by basin — name, category, how
+     * far from the nearest landmark, and when each last updated. Each row's id goes straight into
+     * getStorm.
+     */
+    listActiveStorms(): Promise<AccuweatherActiveStorm[]>;
+
+    /**
+     * One tropical storm's tracker, by a listActiveStorms row's id — its basin, current position
+     * and strength, and its full track (past observations plus the forecast path) in one call.
+     */
+    getStorm(args: GetStormArgs): Promise<AccuweatherStorm>;
 
     /**
      * The 7-day weather-related health outlook at a location for one index — arthritis, sinus,
@@ -9216,6 +9293,48 @@ interface AndstrQuote {
      * reason a stay isn't bookable.
      */
     getQuote(listingId: string, checkIn: string, checkOut: string, guests: number): Promise<AndstrQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_anthem_directory {
+  // ── Anthem — find care (provider directory) — the unit's own declarations, verbatim ──
+interface anthem_directoryProvider {
+  name: string | null;              // "John Steven Chorba"
+  titles: string[];                 // ["MD"]
+  specialties: string[];            // taxonomy names: ["Internal Medicine Physician", …]
+  npi: string | null;
+  address: { line1: string | null; city: string | null; state: string | null; postalCode: string | null };
+  phone: string | null;             // digits as Anthem lists them
+  distanceMiles: number | null;     // from the ZIP, as Anthem computes it
+  inNetwork: boolean;               // in network for the plan searched
+  acceptingNewPatients?: boolean;   // only when Anthem's record says
+}
+interface anthem_directoryProviderSearch {
+  providers: anthem_directoryProvider[];   // nearest first, at most 20
+  total: number;                    // Anthem's count in its fixed 20-mile radius, BEFORE distanceMiles and limit
+  plan: { identifier: string; name: string };
+  specialty: string;                // "Primary Care" when none was named
+  state: string;                    // the plan list searched, e.g. "CA"
+}
+
+  /**
+   * In-network doctors near a US ZIP code for one Anthem plan from Anthem's public find-care
+   * directory: name, titles, specialties, NPI, office address, phone, distance and network
+   * status. Read through the CALLER's own browser (the Bowmark Link extension), because only
+   * Anthem's own app can make its search
+   */
+  interface Unit {
+    /**
+     * In-network doctors near one US ZIP for one Anthem plan (the ZIP's state's first
+     * employer-sponsored PPO/EPO plan unless plan names another, by name or identifier), nearest
+     * first, from Anthem's public find-care. specialty is "primary care" (default), a NUCC
+     * taxonomy code, or a common word like "cardiology". One page: limit defaults to 10 and is
+     * clamped to 1-20; Anthem searches a fixed 20-mile radius and distanceMiles only narrows the
+     * returned rows; total is Anthem's count for the full radius, before distanceMiles and limit.
+     * A California HMO plan is refused (Anthem never searches one). Needs the caller's own browser
+     * (Bowmark Link) and throws naming it when none is connected
+     */
+    findProviders(query: string | { zip: string; specialty?: string; state?: string; plan?: string; distanceMiles?: number; limit?: number }): Promise<anthem_directoryProviderSearch>;
   }
 }
 
@@ -28113,6 +28232,12 @@ interface DeviantartWatchResult {
   watching: boolean;
 }
 
+interface DeviantartSentNote {
+  username: string;
+  roomId: string | null;
+  sent: boolean;
+}
+
 interface DeviantartWatchFeedResult {
   results: DeviantartGalleryItem[];
   hasMore: boolean;
@@ -28259,6 +28384,13 @@ interface DeviantartPostedComment {
      * DeviantArt.
      */
     getWatchFeed(args?: { cursor?: string }, opts?: ConnectionOption): Promise<DeviantartWatchFeedResult>;
+
+    /**
+     * Sends a private note (DeviantArt's direct message, now a chat DM) from the signed-in caller
+     * to another user, taking their username and the message text. Needs a caller signed in to
+     * DeviantArt.
+     */
+    sendNote(args: { username: string; text: string }, opts?: ConnectionOption): Promise<DeviantartSentNote>;
   }
 }
 
@@ -75752,12 +75884,21 @@ interface SolidcoreClass {
   isCanceled: boolean;
 }
 
+interface SolidcoreClassAvailability {
+  id: number; locationId: string; className: string; startTime: string;
+  capacity: number; openings: number; waitlistSize: number;
+  availability: "bookable" | "waitlist" | "full_no_waitlist";
+  isCanceled: boolean;
+}
+
 interface GetClassArgs {
   id: number;             // a class id, e.g. from a getSchedule row
   locationId: string;     // the studio the class belongs to — also off a getSchedule row
   startDate?: string;     // "YYYY-MM-DD", defaults to today — widen if the class falls outside it
   endDate?: string;       // "YYYY-MM-DD", defaults to startDate + 7 days
 }
+
+type CheckAvailabilityArgs = GetClassArgs;   // same { id, locationId } off a getSchedule row
 
 interface GetCoachArgs {
   slug: string;   // the coach's /trainer/<slug> identifier — a listCoaches row's own slug
@@ -75919,6 +76060,14 @@ interface SolidcorePricing {
      * "YYYY-MM-DD" (defaults to today through seven days out, same as getSchedule).
      */
     searchClasses(args: SearchClassesArgs): Promise<SolidcoreClass[]>;
+
+    /**
+     * Checks one [solidcore] class's live availability right now — "bookable" | "waitlist" |
+     * "full_no_waitlist", plus capacity, open spots, waitlist size and whether it was canceled.
+     * Takes { id, locationId } (both off a getSchedule row) and optional { startDate, endDate } to
+     * widen the search window beyond the default seven days.
+     */
+    checkAvailability(args: CheckAvailabilityArgs): Promise<SolidcoreClassAvailability>;
   }
 }
 
@@ -84619,6 +84768,65 @@ interface TumblrGetPostArgs {
   url?: string;
 }
 
+interface TumblrTrendingPostsArgs {
+  /** 1-20, default 20. */
+  limit?: number;
+  /** A previous page's nextCursor. */
+  cursor?: string;
+}
+
+interface TumblrFindTagArgs {
+  /** The tag, with or without a leading #. */
+  tag: string;
+  /** 1-20, default 20. */
+  limit?: number;
+  /** A previous page's nextCursor (a unix timestamp, as a number or a string). */
+  before?: number | string;
+}
+
+interface TumblrPostNote {
+  type: string;
+  blogName: string;
+  blogUrl: string;
+  /** ISO timestamp of the interaction. */
+  timestamp: string | null;
+  /** The reply's own text — present only when type is "reply". */
+  replyText: string | null;
+  /** The blog this reblog is from — present only when type is "reblog". */
+  reblogParentBlogName: string | null;
+}
+
+interface TumblrNotesPage {
+  notes: TumblrPostNote[];
+  totalNotes: number;
+  totalLikes: number;
+  totalReblogs: number;
+  totalReplies: number;
+  /** Pass back as cursor for the next page; null on the last page. */
+  nextCursor: string | null;
+}
+
+interface TumblrGetPostNotesArgs {
+  /** The blog name, with id; or omit both and pass url. */
+  name?: string;
+  id?: string;
+  /** A post url, e.g. https://staff.tumblr.com/post/822057428507049984. */
+  url?: string;
+  /** A previous page's nextCursor. */
+  cursor?: string;
+}
+
+interface TumblrTrendingTag {
+  tag: string;
+  followerCount: number;
+  recentPostCount: number;
+  relatedTags: string[];
+}
+
+interface TumblrTrendingTagsPage {
+  tags: TumblrTrendingTag[];
+}
+
   /**
    * Tumblr's public API — blog info, posts, tag timelines, trending, and site-wide or
    * blog-scoped search.
@@ -84665,6 +84873,30 @@ interface TumblrGetPostArgs {
      * and note counts, with a cursor for the next page.
      */
     getTagTimeline(args: TumblrTagTimelineArgs): Promise<TumblrSearchPage>;
+
+    /**
+     * Posts currently trending on Tumblr — each post's blog, text, images, tags and note counts,
+     * with a cursor for the next page.
+     */
+    getTrendingPosts(args?: TumblrTrendingPostsArgs): Promise<TumblrSearchPage>;
+
+    /**
+     * Posts for a tag, newest first, off the site's classic chronological tag feed — each post's
+     * blog, text, images, tags and note counts, with a timestamp cursor for the next page.
+     */
+    findTag(args: TumblrFindTagArgs): Promise<TumblrSearchPage>;
+
+    /**
+     * Who liked, reblogged or replied to one post — each note's blog and type, plus the site's own
+     * like/reblog/reply totals, with a cursor for the next page.
+     */
+    getPostNotes(args: TumblrGetPostNotesArgs): Promise<TumblrNotesPage>;
+
+    /**
+     * The site's trending-topics rail — each trending tag's follower count, recent post count and
+     * related tags.
+     */
+    getTrendingTags(): Promise<TumblrTrendingTagsPage>;
   }
 }
 
@@ -93954,8 +94186,8 @@ interface YoutubePlayableStream {
     /**
      * What the signed-in account has watched, newest first, paged like any playlist, each row with
      * `percentWatched` (0-100, 100 = watched to the end) when YouTube draws its progress bar.
-     * NEEDS A SIGN-IN — call the video_library's history capability rather than this directly.
-     * Per-account and starts empty.
+     * NEEDS A SIGN-IN — `bowmark.video_library.history()` is the capability over it. Per-account
+     * and starts empty.
      */
     listWatchHistory(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
 
@@ -95858,6 +96090,7 @@ interface BowmarkProviders {
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
   andstr: BowmarkProvider_andstr.Unit;
+  anthem_directory: BowmarkProvider_anthem_directory.Unit;
   anthropic_com: BowmarkProvider_anthropic_com.Unit;
   antunes: BowmarkProvider_antunes.Unit;
   aol: BowmarkProvider_aol.Unit;

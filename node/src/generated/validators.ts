@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 469f02f3d25089e0119e829abd1855c858ff0ee407586d668bfe1b718bd9c50e
-// 3806 checked, 20 unchecked.
+// Manifest version: fa3de74eeb07bbe1d1cf3730c8dd76c2374d01ef176d7ec35ed3e8cc79d0ff12
+// 3817 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "469f02f3d25089e0119e829abd1855c858ff0ee407586d668bfe1b718bd9c50e",
+  "version": "fa3de74eeb07bbe1d1cf3730c8dd76c2374d01ef176d7ec35ed3e8cc79d0ff12",
   "units": {
     "address_validation": {
       "defs": {
@@ -6533,6 +6533,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "history": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "continuation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "createPlaylist": [
           {
             "name": "options",
@@ -7604,6 +7622,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetStormArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "HealthForecastArgs": {
           "k": "object",
           "props": [
@@ -7707,6 +7737,27 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "MonthlyForecastArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getWinterForecast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listActiveStorms": [],
+        "getStorm": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStormArgs"
             },
             "optional": false
           }
@@ -10491,6 +10542,72 @@ export const VALIDATORS: ValidatorTable = {
             "name": "guests",
             "schema": {
               "k": "number"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.anthem_directory": {
+      "defs": {},
+      "functions": {
+        "findProviders": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "zip",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "specialty",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "state",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "plan",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "distanceMiles",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -31230,6 +31347,47 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendNote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -91758,6 +91916,10 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.solidcore": {
       "defs": {
+        "CheckAvailabilityArgs": {
+          "k": "ref",
+          "name": "GetClassArgs"
+        },
         "GetClassArgs": {
           "k": "object",
           "props": [
@@ -92080,6 +92242,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchClassesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckAvailabilityArgs"
             },
             "optional": false
           }
@@ -102375,6 +102547,40 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "TumblrFindTagArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "tag",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "before",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "TumblrGetPostArgs": {
           "k": "object",
           "props": [
@@ -102394,6 +102600,39 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TumblrGetPostNotesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
               "schema": {
                 "k": "string"
               },
@@ -102502,6 +102741,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "TumblrTrendingPostsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -102590,7 +102848,38 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getTrendingPosts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrTrendingPostsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "findTag": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrFindTagArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPostNotes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrGetPostNotesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTrendingTags": []
       }
     },
     "providers.turbotax": {

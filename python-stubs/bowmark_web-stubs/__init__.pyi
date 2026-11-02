@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 469f02f3d25089e0119e829abd1855c858ff0ee407586d668bfe1b718bd9c50e
-# 92 capabilities, 750 providers, 3806 typed functions, 20 refused.
+# Manifest version: fa3de74eeb07bbe1d1cf3730c8dd76c2374d01ef176d7ec35ed3e8cc79d0ff12
+# 92 capabilities, 751 providers, 3817 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2998,11 +2998,15 @@ class Cap_video_library_LibraryVideo_Out(TypedDict):
     channel: str | None
     views: str | None
     length: str | None
+    percentWatched: NotRequired[float]
 
 class Cap_video_library_watchLater_options_In(TypedDict):
     continuation: NotRequired[str]
 
 class Cap_video_library_liked_options_In(TypedDict):
+    continuation: NotRequired[str]
+
+class Cap_video_library_history_options_In(TypedDict):
     continuation: NotRequired[str]
 
 class Cap_video_library_CreatePlaylistOptions_In(TypedDict):
@@ -3681,6 +3685,52 @@ class Prv_accuweather_AccuweatherMonthlyDay_Out(TypedDict):
     phrase: str | None
     forecastDay: float | None
 
+class Prv_accuweather_LocationArgs_In(TypedDict):
+    key: str
+
+class Prv_accuweather_AccuweatherWinterForecast_Out(TypedDict):
+    summary: str
+    hasActiveSnowEvent: bool
+    schoolClosureForecast: list[Prv_accuweather_AccuweatherSchoolClosureDay_Out]
+
+class Prv_accuweather_AccuweatherSchoolClosureDay_Out(TypedDict):
+    label: str
+    displayDate: str | None
+    chancePercent: float
+
+class Prv_accuweather_AccuweatherActiveStorm_Out(TypedDict):
+    id: str
+    name: str
+    basin: str
+    category: str | None
+    location: str | None
+    started: str | None
+    lastUpdated: str | None
+
+class Prv_accuweather_GetStormArgs_In(TypedDict):
+    id: str
+
+class Prv_accuweather_AccuweatherStorm_Out(TypedDict):
+    name: str
+    basin: str
+    basinSlug: str
+    isActive: bool
+    current: Prv_accuweather_AccuweatherStormPosition_Out
+    track: list[Prv_accuweather_AccuweatherStormPosition_Out]
+    start: str
+    end: str
+
+class Prv_accuweather_AccuweatherStormPosition_Out(TypedDict):
+    dateTimeLabel: str
+    latitude: float
+    longitude: float
+    maximumSustainedWind: str | None
+    maximumWindGust: str | None
+    status: str | None
+    localizedStatus: str | None
+    isHistorical: bool
+    isCurrent: bool
+
 class Prv_accuweather_HealthForecastArgs_In(TypedDict):
     key: str
     index: Literal["arthritis"] | Literal["sinus"] | Literal["common-cold"] | Literal["flu"] | Literal["migraine"] | Literal["asthma"]
@@ -3707,9 +3757,6 @@ class Prv_accuweather_AccuweatherIndexForecast_Out_days_item_Out(TypedDict):
 class Prv_accuweather_ActivityForecastArgs_In(TypedDict):
     key: str
     activity: Literal["fishing"] | Literal["running"] | Literal["golf"] | Literal["biking"] | Literal["sun-sand"] | Literal["astronomy"] | Literal["hiking"] | Literal["air-travel"] | Literal["driving"] | Literal["lawn-mowing"] | Literal["composting"] | Literal["outdoor-entertaining"] | Literal["mosquito-activity"] | Literal["indoor-pests"] | Literal["outdoor-pests"]
-
-class Prv_accuweather_LocationArgs_In(TypedDict):
-    key: str
 
 class Prv_accuweather_AccuweatherLifestyleIndex_Out(TypedDict):
     slug: str
@@ -5278,6 +5325,42 @@ class Prv_andstr_AndstrQuote_Out(TypedDict):
 class Prv_andstr_AndstrQuote_Out_fees_item_Out(TypedDict):
     name: str
     amount: float
+
+class Prv_anthem_directory_findProviders_query_u1_In(TypedDict):
+    zip: str
+    specialty: NotRequired[str]
+    state: NotRequired[str]
+    plan: NotRequired[str]
+    distanceMiles: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_anthem_directory_anthem_directoryProviderSearch_Out(TypedDict):
+    providers: list[Prv_anthem_directory_anthem_directoryProvider_Out]
+    total: float
+    plan: Prv_anthem_directory_anthem_directoryProviderSearch_Out_plan_Out
+    specialty: str
+    state: str
+
+class Prv_anthem_directory_anthem_directoryProvider_Out(TypedDict):
+    name: str | None
+    titles: list[str]
+    specialties: list[str]
+    npi: str | None
+    address: Prv_anthem_directory_anthem_directoryProvider_Out_address_Out
+    phone: str | None
+    distanceMiles: float | None
+    inNetwork: bool
+    acceptingNewPatients: NotRequired[bool]
+
+class Prv_anthem_directory_anthem_directoryProvider_Out_address_Out(TypedDict):
+    line1: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+
+class Prv_anthem_directory_anthem_directoryProviderSearch_Out_plan_Out(TypedDict):
+    identifier: str
+    name: str
 
 class Prv_anthropic_com_AnthropicComDoc_Out(TypedDict):
     url: str
@@ -17013,6 +17096,15 @@ class Prv_deviantart_DeviantartWatchFeedResult_Out(TypedDict):
     results: list[Prv_deviantart_DeviantartGalleryItem_Out]
     hasMore: bool
     cursor: NotRequired[str]
+
+class Prv_deviantart_sendNote_args_In(TypedDict):
+    username: str
+    text: str
+
+class Prv_deviantart_DeviantartSentNote_Out(TypedDict):
+    username: str
+    roomId: str | None
+    sent: bool
 
 class Prv_dhl_dhlQuoteArgs_In(TypedDict):
     originCountry: str
@@ -46024,6 +46116,17 @@ class Prv_solidcore_SearchClassesArgs_In(TypedDict):
     startDate: NotRequired[str]
     endDate: NotRequired[str]
 
+class Prv_solidcore_SolidcoreClassAvailability_Out(TypedDict):
+    id: float
+    locationId: str
+    className: str
+    startTime: str
+    capacity: float
+    openings: float
+    waitlistSize: float
+    availability: Literal["bookable"] | Literal["waitlist"] | Literal["full_no_waitlist"]
+    isCanceled: bool
+
 class Prv_solostove_SolostoveBundleSearch_Out(TypedDict):
     query: str
     bundles: list[Prv_solostove_SolostoveBundleSummary_Out]
@@ -51831,6 +51934,46 @@ class Prv_tumblr_TumblrTagTimelineArgs_In(TypedDict):
     sort: NotRequired[Literal["top"] | Literal["recent"]]
     limit: NotRequired[float]
     cursor: NotRequired[str]
+
+class Prv_tumblr_TumblrTrendingPostsArgs_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_tumblr_TumblrFindTagArgs_In(TypedDict):
+    tag: str
+    limit: NotRequired[float]
+    before: NotRequired[float | str]
+
+class Prv_tumblr_TumblrGetPostNotesArgs_In(TypedDict):
+    name: NotRequired[str]
+    id: NotRequired[str]
+    url: NotRequired[str]
+    cursor: NotRequired[str]
+
+class Prv_tumblr_TumblrNotesPage_Out(TypedDict):
+    notes: list[Prv_tumblr_TumblrPostNote_Out]
+    totalNotes: float
+    totalLikes: float
+    totalReblogs: float
+    totalReplies: float
+    nextCursor: str | None
+
+class Prv_tumblr_TumblrPostNote_Out(TypedDict):
+    type: str
+    blogName: str
+    blogUrl: str
+    timestamp: str | None
+    replyText: str | None
+    reblogParentBlogName: str | None
+
+class Prv_tumblr_TumblrTrendingTagsPage_Out(TypedDict):
+    tags: list[Prv_tumblr_TumblrTrendingTag_Out]
+
+class Prv_tumblr_TumblrTrendingTag_Out(TypedDict):
+    tag: str
+    followerCount: float
+    recentPostCount: float
+    relatedTags: list[str]
 
 class Prv_turbotax_TurboTaxEdition_Out(TypedDict):
     id: str
@@ -60274,6 +60417,12 @@ class Cap_video_library(Protocol):
     async def liked(self, options: Cap_video_library_liked_options_In | None = None, /) -> Cap_video_library_LibraryPage_Out:
         """The videos the caller has liked, newest first. Needs a YouTube sign-in."""
 
+    async def history(self, options: Cap_video_library_history_options_In | None = None, /) -> Cap_video_library_LibraryPage_Out:
+        """What the caller has WATCHED, newest first, each video with `percentWatched` (0-100, 100
+        = watched to the end) from YouTube's own progress bar: which videos they finish and
+        which they abandon. Not in YouTube's public API. Needs a YouTube sign-in.
+        """
+
     async def createPlaylist(self, options: Cap_video_library_CreatePlaylistOptions_In, /) -> Cap_video_library_CreatedPlaylist_Out:
         """Creates an empty playlist on the caller's own account and returns its id and URL.
         Defaults to "private". A "public" or "unlisted" playlist also needs the account to have
@@ -60707,6 +60856,24 @@ class Prv_accuweather(Protocol):
         """The month calendar for a location — every day's high and low (observed for past days,
         forecast out ~45 days ahead) with its conditions phrase, plus the grid's spill-over days
         from the neighbouring months flagged inMonth: false.
+        """
+
+    async def getWinterForecast(self, args: Prv_accuweather_LocationArgs_In, /) -> Prv_accuweather_AccuweatherWinterForecast_Out:
+        """The Winter Weather (WinterCast) outlook for a location — whether a snow event is active
+        right now, and the Snow Day Forecast widget's school-closure likelihood for the next
+        couple of days.
+        """
+
+    async def listActiveStorms(self, /) -> list[Prv_accuweather_AccuweatherActiveStorm_Out]:
+        """Active hurricanes, typhoons and tropical cyclones worldwide, by basin — name, category,
+        how far from the nearest landmark, and when each last updated. Each row's id goes
+        straight into getStorm.
+        """
+
+    async def getStorm(self, args: Prv_accuweather_GetStormArgs_In, /) -> Prv_accuweather_AccuweatherStorm_Out:
+        """One tropical storm's tracker, by a listActiveStorms row's id — its basin, current
+        position and strength, and its full track (past observations plus the forecast path) in
+        one call.
         """
 
     async def getHealthForecast(self, args: Prv_accuweather_HealthForecastArgs_In, /) -> Prv_accuweather_AccuweatherIndexForecast_Out:
@@ -61590,6 +61757,25 @@ class Prv_andstr(Protocol):
         """The real date-priced quote for one listing — nightly total, service + cleaning fees,
         total before taxes, average per night, and a direct checkout handoff URL — or the site's
         own reason a stay isn't bookable.
+        """
+
+class Prv_anthem_directory(Protocol):
+    """In-network doctors near a US ZIP code for one Anthem plan from Anthem's public find-care
+    directory: name, titles, specialties, NPI, office address, phone, distance and network
+    status. Read through the CALLER's own browser (the Bowmark Link extension), because only
+    Anthem's own app can make its search
+    """
+
+    async def findProviders(self, query: str | Prv_anthem_directory_findProviders_query_u1_In, /) -> Prv_anthem_directory_anthem_directoryProviderSearch_Out:
+        """In-network doctors near one US ZIP for one Anthem plan (the ZIP's state's first
+        employer-sponsored PPO/EPO plan unless plan names another, by name or identifier),
+        nearest first, from Anthem's public find-care. specialty is "primary care" (default), a
+        NUCC taxonomy code, or a common word like "cardiology". One page: limit defaults to 10
+        and is clamped to 1-20; Anthem searches a fixed 20-mile radius and distanceMiles only
+        narrows the returned rows; total is Anthem's count for the full radius, before
+        distanceMiles and limit. A California HMO plan is refused (Anthem never searches one).
+        Needs the caller's own browser (Bowmark Link) and throws naming it when none is
+        connected
         """
 
 class Prv_anthropic_com(Protocol):
@@ -68095,6 +68281,12 @@ class Prv_deviantart(Protocol):
         """Reads the signed-in caller's Watch feed — the newest deviations from the artists they
         watch, newest first; pass the returned cursor for the next page. Needs a caller signed
         in to DeviantArt.
+        """
+
+    async def sendNote(self, args: Prv_deviantart_sendNote_args_In, opts: ConnectionOption | None = None, /) -> Prv_deviantart_DeviantartSentNote_Out:
+        """Sends a private note (DeviantArt's direct message, now a chat DM) from the signed-in
+        caller to another user, taking their username and the message text. Needs a caller
+        signed in to DeviantArt.
         """
 
 class Prv_dhl(Protocol):
@@ -84775,6 +84967,13 @@ class Prv_solidcore(Protocol):
         getSchedule).
         """
 
+    async def checkAvailability(self, args: Prv_solidcore_GetClassArgs_In, /) -> Prv_solidcore_SolidcoreClassAvailability_Out:
+        """Checks one [solidcore] class's live availability right now — "bookable" | "waitlist" |
+        "full_no_waitlist", plus capacity, open spots, waitlist size and whether it was
+        canceled. Takes { id, locationId } (both off a getSchedule row) and optional {
+        startDate, endDate } to widen the search window beyond the default seven days.
+        """
+
 class Prv_solostove(Protocol):
     """Solo Stove's bundle-builder check flow — search bundles by what a shopper would type
     (e.g. "pizza bundle"), then check one bundle's own product id (fire pit + accessories,
@@ -87705,6 +87904,27 @@ class Prv_tumblr(Protocol):
     async def getTagTimeline(self, args: Prv_tumblr_TumblrTagTimelineArgs_In, /) -> Prv_tumblr_TumblrSearchPage_Out:
         """Posts tagged with one tag, top or most recent first — each post's blog, text, images,
         tags and note counts, with a cursor for the next page.
+        """
+
+    async def getTrendingPosts(self, args: Prv_tumblr_TumblrTrendingPostsArgs_In | None = None, /) -> Prv_tumblr_TumblrSearchPage_Out:
+        """Posts currently trending on Tumblr — each post's blog, text, images, tags and note
+        counts, with a cursor for the next page.
+        """
+
+    async def findTag(self, args: Prv_tumblr_TumblrFindTagArgs_In, /) -> Prv_tumblr_TumblrSearchPage_Out:
+        """Posts for a tag, newest first, off the site's classic chronological tag feed — each
+        post's blog, text, images, tags and note counts, with a timestamp cursor for the next
+        page.
+        """
+
+    async def getPostNotes(self, args: Prv_tumblr_TumblrGetPostNotesArgs_In, /) -> Prv_tumblr_TumblrNotesPage_Out:
+        """Who liked, reblogged or replied to one post — each note's blog and type, plus the site's
+        own like/reblog/reply totals, with a cursor for the next page.
+        """
+
+    async def getTrendingTags(self, /) -> Prv_tumblr_TumblrTrendingTagsPage_Out:
+        """The site's trending-topics rail — each trending tag's follower count, recent post count
+        and related tags.
         """
 
 class Prv_turbotax(Protocol):
@@ -90930,8 +91150,8 @@ class Prv_youtube(Protocol):
     async def listWatchHistory(self, input: Prv_youtube_listWatchHistory_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
         """What the signed-in account has watched, newest first, paged like any playlist, each row
         with `percentWatched` (0-100, 100 = watched to the end) when YouTube draws its progress
-        bar. NEEDS A SIGN-IN — call the video_library's history capability rather than this
-        directly. Per-account and starts empty.
+        bar. NEEDS A SIGN-IN — `bowmark.video_library.history()` is the capability over it.
+        Per-account and starts empty.
         """
 
     async def createPlaylist(self, input: Prv_youtube_createPlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeCreatedPlaylist_Out:
@@ -91399,6 +91619,7 @@ class BowmarkProviders(Protocol):
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows
     andstr: Prv_andstr
+    anthem_directory: Prv_anthem_directory
     anthropic_com: Prv_anthropic_com
     antunes: Prv_antunes
     aol: Prv_aol
