@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4f888ca3d0a838631d95f525cb0d7c9f8a3eb1f7e18ba43790c97643f0d9f9e1
-# 93 capabilities, 756 providers, 3936 typed functions, 20 refused.
+# Manifest version: 3eab154d90644d7ed94e0df58204e55e0d1ef5fb5dc9007d3be3372272110d6d
+# 93 capabilities, 756 providers, 3941 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -25078,6 +25078,18 @@ class Prv_google_flights_GoogleFlight_Out(TypedDict):
     currency: str
     tripType: Literal["round trip"] | Literal["one way"]
     airlines: list[str]
+    stops: float
+    depart: str
+    arrive: str
+    durationMinutes: float | None
+    url: NotRequired[str]
+
+class Prv_google_flights_GoogleFlight_In(TypedDict):
+    id: str
+    price: float | None
+    currency: str
+    tripType: Literal["round trip"] | Literal["one way"]
+    airlines: Sequence[str]
     stops: float
     depart: str
     arrive: str
@@ -56724,6 +56736,14 @@ class Prv_whatsapp_WhatsappMessage_Out(TypedDict):
     quoted: str | None
     reactions: list[str]
 
+class Prv_whatsapp_WhatsappMedia_Out(TypedDict):
+    messageId: str
+    type: Literal["image"] | Literal["video"] | Literal["voice"] | Literal["sticker"] | Literal["document"]
+    mimeType: str
+    sizeBytes: float
+    fileName: str | None
+    dataBase64: str
+
 class Prv_whatsapp_WhatsappGroupInvite_Out(TypedDict):
     code: str
     name: str
@@ -67984,10 +68004,11 @@ class Prv_classpass(Protocol):
     is, its rating, amenities, photos, contact routes and the practical booking prose.
     `getSchedule` reads that studio's bookable timetable for a day or a week: every session
     with its start time, instructor, duration, credit price and whether it is still open.
-    `search` finds every studio inside a radius of a point. The first four signed-in
-    authFunctions are built — `getMyProfile`, `getCreditBalance`, `listMyReservations`,
-    `getBookingQuote` — each reached and refused through the caller's own session; booking,
-    cancelling, waitlisting and membership pricing are declared but not built yet.
+    `search` finds every studio inside a radius of a point. The signed-in reads are built —
+    `getMyProfile`, `getCreditBalance`, `listMyReservations`, `getReservation`,
+    `getBookingQuote`, `getMySubscription`, `getBillingHistory`, `listFavorites` — each
+    reached and refused through the caller's own session; booking, cancelling, waitlisting
+    and membership pricing are declared but not built yet.
     """
 
     async def search(self, query: Prv_classpass_ClasspassSearchQuery_In, /) -> Prv_classpass_ClasspassSearchResult_Out:
@@ -68194,6 +68215,32 @@ class Prv_classpass(Protocol):
         anything. An authFunction, returned raw for the same reason as getMyProfile. Anonymously
         403 `{"code":403,"message":"HTTP 403 Forbidden"}` WITH the site's Origin/Referer, a JSON
         refusal rather than Cloudflare's challenge, measured 2026-10-23.
+        """
+
+    async def getReservation(self, reservationKey: str, opts: ConnectionOption | None = None, /) -> Any:
+        """Returns one of the signed-in member's reservations in full — class, studio, spot,
+        credits, cancellation window and status — by the `reservationKey` a prior
+        listMyReservations call gave. An authFunction, returned raw for the same reason as
+        getMyProfile. Anonymously an unknown key answers 404 `There is no reservation with key:
+        …`, measured 2026-11-02, so a mistyped key reads as not-found rather than a dead login.
+        """
+
+    async def getMySubscription(self, opts: ConnectionOption | None = None, /) -> Any:
+        """Returns the signed-in member's plan — tier, monthly credits, price, renewal date and any
+        pending pause or cancellation. An authFunction, returned raw for the same reason as
+        getMyProfile. Anonymously 401 `Missing or Invalid Identity`, measured 2026-11-02.
+        """
+
+    async def getBillingHistory(self, opts: ConnectionOption | None = None, /) -> Any:
+        """Lists the signed-in member's past charges — plan renewals and credit purchases, with
+        dates and amounts. An authFunction, returned raw for the same reason as getMyProfile.
+        Anonymously 401 `Unauthorized`, measured 2026-11-02.
+        """
+
+    async def listFavorites(self, opts: ConnectionOption | None = None, /) -> Any:
+        """Lists the studios the signed-in member has saved as favourites. An authFunction,
+        returned raw for the same reason as getMyProfile. Anonymously 500 naming a null identity
+        parameter, measured 2026-11-02.
         """
 
 class Prv_claude(Protocol):
@@ -74088,7 +74135,7 @@ class Prv_google_flights(Protocol):
         static HTML.
         """
 
-    async def getBookingOptions(self, query: Prv_google_flights_GoogleFlightQuery_In, flightId: str, /) -> list[Prv_google_flights_GoogleBookingOption_Out]:
+    async def getBookingOptions(self, row: Prv_google_flights_GoogleFlight_In, /) -> list[Prv_google_flights_GoogleBookingOption_Out]:
         """Selects one result from the same search and reads its booking panel — who actually sells
         the fare, at what fare type and price. This is a second interaction (click into the
         row), not a field on the search result.
@@ -91906,6 +91953,12 @@ class Prv_whatsapp(Protocol):
         opened by its exact displayed name (from listChats or findContact): each message's id,
         sender, timestamp, text, type, quoted message and reactions, oldest to newest. No
         scroll-back paging this pass. Needs the caller signed in.
+        """
+
+    async def downloadMedia(self, chatName: str, messageId: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMedia_Out:
+        """Downloads the attachment on one message (image, video, voice note, sticker or document)
+        as base64 with its type, MIME type and size; the chat by its exact displayed name and
+        the message by the id getChatMessages returned. Needs the caller signed in.
         """
 
     async def previewGroupInvite(self, codeOrUrl: str, /) -> Prv_whatsapp_WhatsappGroupInvite_Out:

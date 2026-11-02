@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4f888ca3d0a838631d95f525cb0d7c9f8a3eb1f7e18ba43790c97643f0d9f9e1
-// 93 capabilities, 756 providers, 3954 typed functions, 20 refused.
+// Manifest version: 3eab154d90644d7ed94e0df58204e55e0d1ef5fb5dc9007d3be3372272110d6d
+// 93 capabilities, 756 providers, 3959 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -23511,10 +23511,11 @@ interface ClasspassCategory {
    * its rating, amenities, photos, contact routes and the practical booking prose. `getSchedule`
    * reads that studio's bookable timetable for a day or a week: every session with its start
    * time, instructor, duration, credit price and whether it is still open. `search` finds every
-   * studio inside a radius of a point. The first four signed-in authFunctions are built —
-   * `getMyProfile`, `getCreditBalance`, `listMyReservations`, `getBookingQuote` — each reached
-   * and refused through the caller's own session; booking, cancelling, waitlisting and
-   * membership pricing are declared but not built yet.
+   * studio inside a radius of a point. The signed-in reads are built — `getMyProfile`,
+   * `getCreditBalance`, `listMyReservations`, `getReservation`, `getBookingQuote`,
+   * `getMySubscription`, `getBillingHistory`, `listFavorites` — each reached and refused through
+   * the caller's own session; booking, cancelling, waitlisting and membership pricing are
+   * declared but not built yet.
    */
   interface Unit {
     /**
@@ -23734,6 +23735,36 @@ interface ClasspassCategory {
      * rather than Cloudflare's challenge, measured 2026-10-23.
      */
     getBookingQuote(scheduleId: number, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Returns one of the signed-in member's reservations in full — class, studio, spot, credits,
+     * cancellation window and status — by the `reservationKey` a prior listMyReservations call
+     * gave. An authFunction, returned raw for the same reason as getMyProfile. Anonymously an
+     * unknown key answers 404 `There is no reservation with key: …`, measured 2026-11-02, so a
+     * mistyped key reads as not-found rather than a dead login.
+     */
+    getReservation(reservationKey: string, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Returns the signed-in member's plan — tier, monthly credits, price, renewal date and any
+     * pending pause or cancellation. An authFunction, returned raw for the same reason as
+     * getMyProfile. Anonymously 401 `Missing or Invalid Identity`, measured 2026-11-02.
+     */
+    getMySubscription(opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Lists the signed-in member's past charges — plan renewals and credit purchases, with dates
+     * and amounts. An authFunction, returned raw for the same reason as getMyProfile. Anonymously
+     * 401 `Unauthorized`, measured 2026-11-02.
+     */
+    getBillingHistory(opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Lists the studios the signed-in member has saved as favourites. An authFunction, returned
+     * raw for the same reason as getMyProfile. Anonymously 500 naming a null identity parameter,
+     * measured 2026-11-02.
+     */
+    listFavorites(opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -41185,7 +41216,7 @@ interface GooglePriceGraph {
      * fare, at what fare type and price. This is a second interaction (click into the row), not a
      * field on the search result.
      */
-    getBookingOptions(query: GoogleFlightQuery, flightId: string): Promise<GoogleBookingOption[]>;
+    getBookingOptions(row: GoogleFlight): Promise<GoogleBookingOption[]>;
 
     /**
      * Answers 'when is this route cheapest' in ONE call: the price for every departure date across
@@ -92153,6 +92184,14 @@ interface WhatsappMessage {
   quoted: string | null;
   reactions: string[];
 }
+interface WhatsappMedia {
+  messageId: string;
+  type: "image" | "video" | "voice" | "sticker" | "document";
+  mimeType: string;
+  sizeBytes: number;
+  fileName: string | null;
+  dataBase64: string;
+}
 interface WhatsappBlogPost {
   slug: string;
   title: string;
@@ -92219,6 +92258,13 @@ interface WhatsappBlogPost {
      * scroll-back paging this pass. Needs the caller signed in.
      */
     getChatMessages(chatName: string, opts?: ConnectionOption): Promise<WhatsappMessage[]>;
+
+    /**
+     * Downloads the attachment on one message (image, video, voice note, sticker or document) as
+     * base64 with its type, MIME type and size; the chat by its exact displayed name and the
+     * message by the id getChatMessages returned. Needs the caller signed in.
+     */
+    downloadMedia(chatName: string, messageId: string, opts?: ConnectionOption): Promise<WhatsappMedia>;
 
     /**
      * Previews a WhatsApp group invite link (chat.whatsapp.com/<code>) logged out, without

@@ -5700,7 +5700,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wodify.listMemberships` | wodify.com | List the membership plans, class packs and drop-ins a gym sells online, with prices. | 🟢 |
 | `wodify.listPrices` | wodify.com | Get pricing information for memberships and drop-in classes. | 🟢 |
 | `wodify.listPrograms` | wodify.com | List all available fitness programs and training paths offered at the gym. | 🟢 |
-| `wodify.readTerms` | wodify.com | Read terms of service and policies. | ⚪ |
+| `wodify.readTerms` | wodify.com | Read a scheduled class's booking, cancellation and waitlist policy. | 🟢 |
 | `wodify.renewMembership` | wodify.com | Renew or upgrade the member's membership. | ⚪ |
 | `wodify.searchGymsByLocation` | wodify.com | Search for Wodify gyms by geographic location or city. | ⚪ |
 | `wodify.signWaiver` | wodify.com | Sign health and liability waiver for membership. | ⚪ |

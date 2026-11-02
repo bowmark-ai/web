@@ -753,7 +753,7 @@ wikipedia.org — wikipedia: compareRevisions, createPage, editPage, getArticle,
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)
 windscribe.com — windscribe: getDedicatedIp (+1 planned)
 winestyles.com — winestyles: listStores, searchStoreInventory
-wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, listGymSchedule, listMemberships, listPrices, listPrograms (+30 planned)
+wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, listGymSchedule, listMemberships, listPrices, listPrograms, readTerms (+29 planned)
 workable.com — workable: listJobs
 wsj.com — wsj: getArticle, getAuthor, getNewsletter, getPodcast, getQuote, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSections, listTrending, searchArticles (+7 planned)
 wunderflats.com — wunderflats: search
