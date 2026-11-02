@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3eab154d90644d7ed94e0df58204e55e0d1ef5fb5dc9007d3be3372272110d6d
-// 3941 checked, 20 unchecked.
+// Manifest version: a47c8642c34cf1deadab6fa7a73789c0d7c55c1d37f855fb13dc56ec9dad2297
+// 3944 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3eab154d90644d7ed94e0df58204e55e0d1ef5fb5dc9007d3be3372272110d6d",
+  "version": "a47c8642c34cf1deadab6fa7a73789c0d7c55c1d37f855fb13dc56ec9dad2297",
   "units": {
     "address_validation": {
       "defs": {
@@ -69432,6 +69432,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "FindStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetClassArgs": {
           "k": "object",
           "props": [
@@ -69565,6 +69577,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListMembershipsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "subdomain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListMyBookingsArgs": {
           "k": "object",
           "props": [
@@ -69579,6 +69603,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "findStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindStudioArgs"
+            },
+            "optional": false
+          }
+        ],
         "listClasses": [
           {
             "name": "args",
@@ -69709,6 +69743,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListInstructorsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listMemberships": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListMembershipsArgs"
             },
             "optional": false
           }
@@ -115261,6 +115305,45 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "days",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "readTerms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "gymHost",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "locationId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "classId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "date",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": true
                 }

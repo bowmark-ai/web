@@ -1,5 +1,5 @@
 {
-  "version": "3eab154d90644d7ed94e0df58204e55e0d1ef5fb5dc9007d3be3372272110d6d",
+  "version": "a47c8642c34cf1deadab6fa7a73789c0d7c55c1d37f855fb13dc56ec9dad2297",
   "units": {
     "address_validation": {
       "defs": {
@@ -69420,6 +69420,18 @@
             }
           ]
         },
+        "FindStudioArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetClassArgs": {
           "k": "object",
           "props": [
@@ -69553,6 +69565,18 @@
             }
           ]
         },
+        "ListMembershipsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "subdomain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListMyBookingsArgs": {
           "k": "object",
           "props": [
@@ -69567,6 +69591,16 @@
         }
       },
       "functions": {
+        "findStudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindStudioArgs"
+            },
+            "optional": false
+          }
+        ],
         "listClasses": [
           {
             "name": "args",
@@ -69697,6 +69731,16 @@
             "schema": {
               "k": "ref",
               "name": "ListInstructorsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listMemberships": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListMembershipsArgs"
             },
             "optional": false
           }
@@ -115249,6 +115293,45 @@
                   "name": "days",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "readTerms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "gymHost",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "locationId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "classId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "date",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": true
                 }

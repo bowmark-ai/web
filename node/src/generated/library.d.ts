@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3eab154d90644d7ed94e0df58204e55e0d1ef5fb5dc9007d3be3372272110d6d
-// 93 capabilities, 756 providers, 3959 typed functions, 20 refused.
+// Manifest version: a47c8642c34cf1deadab6fa7a73789c0d7c55c1d37f855fb13dc56ec9dad2297
+// 93 capabilities, 756 providers, 3962 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -59136,12 +59136,49 @@ interface MyBestStudioInstructor {
   email: string;             // may be an empty string
 }
 
+interface FindStudioArgs {
+  url: string;               // the studio's own website (any page), or a *.mybeststudio.us link
+}
+
+interface MyBestStudioStudio {
+  subdomain: string;         // pass this as `subdomain` to every other function
+  accountId: number;
+  name: string;              // e.g. "Precision Sculpt Pilates Old Bridge"
+  phone: string | null;
+}
+
+interface FindStudioResult {
+  studios: MyBestStudioStudio[];
+  pagesRead: string[];
+  warnings: string[];
+}
+
+interface ListMembershipsArgs {
+  subdomain: string;         // the studio's My Best Studio subdomain, e.g. "ad1mnpsp"
+}
+
+interface MyBestStudioMembership {
+  membershipId: string;
+  name: string;              // e.g. "10 Class Package"
+  expires: string | null;    // the site's own wording, e.g. "Expires in Quarter"
+  priceText: string;         // as shown, e.g. "$420.00"
+  price: number | null;      // the same price as a number
+  description: string;       // the studio's own policy / contract text
+}
+
   /**
-   * Studio class booking platform: listClasses, getClass, bookClass, cancelBooking,
-   * listMyBookings, joinWaitlist and listInstructors are built; listLocations is queued — see
-   * BUILD_QUEUE.md.
+   * Studio class booking platform: findStudio, listClasses, getClass, bookClass, cancelBooking,
+   * listMyBookings, joinWaitlist, listInstructors and listMemberships are built; listLocations
+   * is queued — see BUILD_QUEUE.md.
    */
   interface Unit {
+    /**
+     * Start here: turns a studio's own website into the My Best Studio studios it books through,
+     * each with the `subdomain` every other function takes. Pass { url:
+     * "precision-sculpt-pilates.com" }.
+     */
+    findStudio(args: FindStudioArgs): Promise<FindStudioResult>;
+
     /**
      * Reads one studio's class schedule (public, no login): time, class name, instructor,
      * capacity, review score, and the site's own booking-button label ("Book"/"Waitlist"/neither).
@@ -59185,6 +59222,12 @@ interface MyBestStudioInstructor {
 
     /** Lists every instructor teaching at one studio. Pass { subdomain: "ad1mnpsp" }. */
     listInstructors(args: ListInstructorsArgs): Promise<MyBestStudioInstructor[]>;
+
+    /**
+     * Lists the memberships and class packs one studio sells, with price, expiry and policy text
+     * (public, no login; never buys). Pass { subdomain: "ad1mnpsp" }.
+     */
+    listMemberships(args: ListMembershipsArgs): Promise<MyBestStudioMembership[]>;
   }
 }
 
@@ -93384,6 +93427,15 @@ interface WodifyGymInfo {
   locations: Array<{ id: number; name: string }>;
 }
 
+interface WodifyBookingPolicy {
+  classId: number;
+  bookingOpensMinutesBefore: number | null;
+  bookingClosesMinutesBefore: number | null;
+  cancellationWindowMinutesBefore: number | null;
+  allowsWaitlist: boolean;
+  autoCancelsIfEmpty: boolean;
+}
+
   /** Wodify gym booking — class schedules, pricing and member functions for Wodify-powered gyms. */
   interface Unit {
     /**
@@ -93459,6 +93511,18 @@ interface WodifyGymInfo {
      * online trial, which is common — many gyms run trials by enquiry instead.
      */
     checkFreeTrial(args: { gymHost: string; locationId: number; days?: number }): Promise<WodifyFreeTrial>;
+
+    /**
+     * Reads one scheduled class's booking, cancellation and waitlist policy — how long before it
+     * starts online booking opens and closes, the cancellation window, whether a full class takes
+     * a waitlist, and whether the gym auto-cancels it if nobody reserves a spot. No login. There
+     * is no separate terms/policy door on this site: the policy lives on the same schedule row
+     * getClassDetails reads, so `classId` (off a `listGymSchedule` row's `id`) is matched against
+     * that day's schedule exactly as getClassDetails does — `date` must be the same day the class
+     * was listed on (ISO yyyy-mm-dd, defaults to today). A duration comes back null when the gym
+     * set no limit.
+     */
+    readTerms(args: { gymHost: string; locationId: number; classId: number; date?: string }): Promise<WodifyBookingPolicy>;
   }
 }
 

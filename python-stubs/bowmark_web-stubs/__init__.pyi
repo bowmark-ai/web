@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3eab154d90644d7ed94e0df58204e55e0d1ef5fb5dc9007d3be3372272110d6d
-# 93 capabilities, 756 providers, 3941 typed functions, 20 refused.
+# Manifest version: a47c8642c34cf1deadab6fa7a73789c0d7c55c1d37f855fb13dc56ec9dad2297
+# 93 capabilities, 756 providers, 3944 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -35119,6 +35119,20 @@ class Prv_my_auroramedicalspa_com_AuroraProvider_Out(TypedDict):
     name: str
     title: str | None
 
+class Prv_my_best_studio_FindStudioArgs_In(TypedDict):
+    url: str
+
+class Prv_my_best_studio_FindStudioResult_Out(TypedDict):
+    studios: list[Prv_my_best_studio_MyBestStudioStudio_Out]
+    pagesRead: list[str]
+    warnings: list[str]
+
+class Prv_my_best_studio_MyBestStudioStudio_Out(TypedDict):
+    subdomain: str
+    accountId: float
+    name: str
+    phone: str | None
+
 class Prv_my_best_studio_ListClassesArgs_In(TypedDict):
     subdomain: str
     date: NotRequired[str]
@@ -35187,6 +35201,17 @@ class Prv_my_best_studio_MyBestStudioInstructor_Out(TypedDict):
     instructorId: str
     name: str
     email: str
+
+class Prv_my_best_studio_ListMembershipsArgs_In(TypedDict):
+    subdomain: str
+
+class Prv_my_best_studio_MyBestStudioMembership_Out(TypedDict):
+    membershipId: str
+    name: str
+    expires: str | None
+    priceText: str
+    price: float | None
+    description: str
 
 class Prv_myollie_MyollieGetMealPlanArgs_In(TypedDict):
     weightLbs: float
@@ -57763,6 +57788,20 @@ class Prv_wodify_WodifyTrialClass_Out(TypedDict):
     startTime: str
     trialLimit: float | None
     isTrialFull: bool
+
+class Prv_wodify_readTerms_args_In(TypedDict):
+    gymHost: str
+    locationId: float
+    classId: float
+    date: NotRequired[str]
+
+class Prv_wodify_WodifyBookingPolicy_Out(TypedDict):
+    classId: float
+    bookingOpensMinutesBefore: float | None
+    bookingClosesMinutesBefore: float | None
+    cancellationWindowMinutesBefore: float | None
+    allowsWaitlist: bool
+    autoCancelsIfEmpty: bool
 
 class Prv_workable_WorkableAccount_Out(TypedDict):
     account: str
@@ -80693,10 +80732,16 @@ class Prv_my_auroramedicalspa_com(Protocol):
         """
 
 class Prv_my_best_studio(Protocol):
-    """Studio class booking platform: listClasses, getClass, bookClass, cancelBooking,
-    listMyBookings, joinWaitlist and listInstructors are built; listLocations is queued —
-    see BUILD_QUEUE.md.
+    """Studio class booking platform: findStudio, listClasses, getClass, bookClass,
+    cancelBooking, listMyBookings, joinWaitlist, listInstructors and listMemberships are
+    built; listLocations is queued — see BUILD_QUEUE.md.
     """
+
+    async def findStudio(self, args: Prv_my_best_studio_FindStudioArgs_In, /) -> Prv_my_best_studio_FindStudioResult_Out:
+        """Start here: turns a studio's own website into the My Best Studio studios it books
+        through, each with the `subdomain` every other function takes. Pass { url:
+        "precision-sculpt-pilates.com" }.
+        """
 
     async def listClasses(self, args: Prv_my_best_studio_ListClassesArgs_In, /) -> list[Prv_my_best_studio_MyBestStudioClass_Out]:
         """Reads one studio's class schedule (public, no login): time, class name, instructor,
@@ -80736,6 +80781,11 @@ class Prv_my_best_studio(Protocol):
 
     async def listInstructors(self, args: Prv_my_best_studio_ListInstructorsArgs_In, /) -> list[Prv_my_best_studio_MyBestStudioInstructor_Out]:
         """Lists every instructor teaching at one studio. Pass { subdomain: "ad1mnpsp" }."""
+
+    async def listMemberships(self, args: Prv_my_best_studio_ListMembershipsArgs_In, /) -> list[Prv_my_best_studio_MyBestStudioMembership_Out]:
+        """Lists the memberships and class packs one studio sells, with price, expiry and policy
+        text (public, no login; never buys). Pass { subdomain: "ad1mnpsp" }.
+        """
 
 class Prv_myollie(Protocol):
     """Fresh dog food subscription. getMealPlan is live — the same
@@ -92476,6 +92526,17 @@ class Prv_wodify(Protocol):
         with the trial-spot cap (null when uncapped) and whether it is full. No login; `gymHost`
         + `locationId` come from findGym. `offered: false` means no class in the window takes an
         online trial, which is common — many gyms run trials by enquiry instead.
+        """
+
+    async def readTerms(self, args: Prv_wodify_readTerms_args_In, /) -> Prv_wodify_WodifyBookingPolicy_Out:
+        """Reads one scheduled class's booking, cancellation and waitlist policy — how long before
+        it starts online booking opens and closes, the cancellation window, whether a full class
+        takes a waitlist, and whether the gym auto-cancels it if nobody reserves a spot. No
+        login. There is no separate terms/policy door on this site: the policy lives on the same
+        schedule row getClassDetails reads, so `classId` (off a `listGymSchedule` row's `id`) is
+        matched against that day's schedule exactly as getClassDetails does — `date` must be the
+        same day the class was listed on (ISO yyyy-mm-dd, defaults to today). A duration comes
+        back null when the gym set no limit.
         """
 
 class Prv_workable(Protocol):
