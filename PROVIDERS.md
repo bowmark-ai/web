@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5955 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5959 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -58,7 +58,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acerentacar.searchAvailability` | acerentacar.com | Returns ACE's live vehicle availability and rate totals for a public pickup location… | 🟡 |
 | `acerentacar.searchLocations` | acerentacar.com | Matches a free-text city, airport or state against ACE's public location catalog and… | 🟢 |
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |
-| `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟢 |
+| `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟡 |
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
 | `acuityscheduling.bookAppointment` | acuityscheduling.com | Books an appointment; accepts guest checkout with email and phone. | ⚪ |
 | `acuityscheduling.cancelAppointment` | acuityscheduling.com | Cancels a booking; caller must own the appointment. | ⚪ |
@@ -195,6 +195,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `americanstandard.getSystemCostEstimate` | americanstandardair.com | Reads American Standard's own published cost guide for one system type ("Air… | 🟢 |
 | `americanvisionwindows.bookAppointment` | americanvisionwindows.com | Would submit the final booking (name/phone/email/street/city + the chosen date and… | ⚪ |
 | `americanvisionwindows.checkAvailability` | americanvisionwindows.com | Checks real, currently-open in-home consultation appointment slots for a US ZIP code… | 🟢 |
+| `americashealthrankings.getMeasureData` | americashealthrankings.org | Reads one public measure's time series and rank for a U.S. state. | 🟢 |
+| `americashealthrankings.listReports` | americashealthrankings.org | Lists the public report editions and their release years. | 🟢 |
+| `americashealthrankings.searchMeasures` | americashealthrankings.org | Searches the site's public health measures by name. | 🟢 |
 | `amramp.findNearestLocation` | amramp.com | Runs Amramp's own ZIP/postal-code locator — the same… | 🟢 |
 | `ancientnutrition.computeGutType` | ancientnutrition.com | Runs Ancient Nutrition's real Gut Type Quiz with the caller's own answers (keyed by… | 🟢 |
 | `ancientnutrition.getGutTypeQuizQuestions` | ancientnutrition.com | Walks Ancient Nutrition's real Gut Type Quiz along its default path (first option for… | 🟢 |
@@ -619,9 +622,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booker.getAvailability` | booker.com | Returns the open appointment start times for a service on one local date at a… | 🟢 |
 | `booker.getAvailableDates` | booker.com | Returns the local dates a service has at least one open appointment at a location over… | 🟢 |
 | `booker.getBookingPolicies` | booker.com | Returns a location's booking rules: its cancellation policy text and fee window, how… | 🟢 |
-| `booker.getGroupAvailability` | booker.com | Finds open times for the same visit for several guests at once (a couples' booking)… | ⚪ |
+| `booker.getGroupAvailability` | booker.com | Finds start times when several guests can each begin a service together (a couples'… | 🟢 |
 | `booker.getLocationHours` | booker.com | Returns a location's recurring weekly opening hours, one row per weekday. | 🟢 |
-| `booker.getMultiServiceAvailability` | booker.com | Finds back-to-back open times for several services booked as one visit (for example a… | ⚪ |
+| `booker.getMultiServiceAvailability` | booker.com | Finds open times for several services booked as one visit, back to back (for example a… | 🟢 |
 | `booker.getMyProfile` | booker.com | Returns the signed-in customer's profile at a location: name, email, phone, address… | ⚪ |
 | `booker.getService` | booker.com | Returns one service's full detail: description, category, duration, price and whether… | 🟢 |
 | `booker.getServiceMenu` | booker.com | Returns a location's online menu in the order the storefront shows it: each section… | 🟢 |
@@ -960,7 +963,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbhhomes.assembleInquiry` | cbhhomes.com | Validates a caller's inquiry against the form's live schema and maps it onto the… | 🟢 |
 | `cbhhomes.getInquiryFormSchema` | cbhhomes.com | Reads the site's own live 'get in touch about a home' Gravity Forms inquiry form… | 🟢 |
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
-| `cbp.waitTimes` | bwt.cbp.gov | Current wait in minutes and lanes open at US land border crossings with Canada and… | 🟢 |
+| `cbp.waitTimes` | cbp.gov | Current wait in minutes and lanes open at US land border crossings with Canada and… | 🟢 |
 | `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | ⚪ |
 | `census_api.validateAddress` | api.census.gov | Validates and standardizes a US street address against the Census Geocoder… | 🟢 |
 | `cerebralvalley.getEvent` | cerebralvalley.ai | Reads one cerebralvalley.ai event page (/e/<slug>) and returns its name, date and time… | 🟢 |
@@ -1376,7 +1379,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listMyVideos` | dailymotion.com | List the videos the signed-in caller has uploaded, private and draft ones included. | ⚪ |
 | `dailymotion.listPlaylistVideos` | dailymotion.com | List the videos in one Dailymotion playlist, in playlist order, paged — same fields as… | 🟢 |
 | `dailymotion.listRelatedVideos` | dailymotion.com | List the videos Dailymotion recommends alongside one video. | 🟢 |
-| `dailymotion.listStreamFormats` | dailymotion.com | List the playable streams of one Dailymotion video — the HLS manifest URL and the… | ⚪ |
+| `dailymotion.listStreamFormats` | dailymotion.com | List the stream qualities one Dailymotion video is encoded in — quality label… | 🟢 |
 | `dailymotion.listTrendingVideos` | dailymotion.com | List the videos trending on Dailymotion right now — optionally for one country ("us"… | 🟢 |
 | `dailymotion.listWatchHistory` | dailymotion.com | List the videos the signed-in caller has watched, newest first. | ⚪ |
 | `dailymotion.listWatchLater` | dailymotion.com | List the signed-in caller's Watch Later videos. | ⚪ |
@@ -1588,7 +1591,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `doordash.removeFromCart` | doordash.com | Removes one item from the cart. | ⚪ |
 | `doordash.saveStore` | doordash.com | Saves a store to, or removes it from, the signed-in customer's saved stores. | ⚪ |
 | `doordash.search` | doordash.com | Runs DoorDash's own store search for a free-text query and returns the real… | 🟡 |
-| `doordash.searchDishes` | doordash.com | Searches for a DISH rather than a restaurant ("pizza", "pad thai") near a location and… | ⚪ |
+| `doordash.searchDishes` | doordash.com | Searches for a DISH rather than a restaurant ("pizza", "pad thai") near a location and… | 🟢 |
 | `doordash.searchStoreProducts` | doordash.com | Searches for products inside one grocery, convenience or retail store ("milk" at a… | ⚪ |
 | `doordash.setDefaultAddress` | doordash.com | Makes one saved address the signed-in customer's default delivery address. | ⚪ |
 | `doordash.updateAddress` | doordash.com | Edits one of the signed-in customer's saved addresses — apartment, building, entry… | ⚪ |
@@ -1639,7 +1642,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.updateProfileName` | dropbox.com | Changes the signed-in caller's display name (first and last name) in their Dropbox… | ⚪ |
 | `dropbox.uploadFile` | dropbox.com | Uploads a file into a folder in the caller's Dropbox. | ⚪ |
 | `dropbox.uploadToFileRequest` | dropbox.com | Uploads a file into a Dropbox file request link (www.dropbox.com/request/<id>) — the… | ⚪ |
-| `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | ⚪ |
+| `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | 🟢 |
 | `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | ⚪ |
 | `duckduckgo.convertCurrency` | duckduckgo.com | Convert an amount between two currencies at DuckDuckGo's current mid-market rate (from… | 🟢 |
 | `duckduckgo.createPrivateDuckAddress` | duckduckgo.com | Generates a brand new private @duck.com address on the signed-in caller's Email… | 🟢 |
@@ -1796,7 +1799,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.addToCart` | etsy.com | Adds a listing to the signed-in caller's cart with the chosen variation and quantity. | ⚪ |
 | `etsy.addToCollection` | etsy.com | Saves a listing into one of the caller's collections, creating the collection by name… | ⚪ |
-| `etsy.browseCategory` | etsy.com | The listings in one Etsy category (e.g. jewelry/necklaces), with the category's own… | ⚪ |
+| `etsy.browseCategory` | etsy.com | The listings in one Etsy category (e.g. jewelry/necklaces), with the category's own… | 🟢 |
 | `etsy.estimateShipping` | etsy.com | When a listing would arrive and what shipping costs to a given ZIP or country — the… | ⚪ |
 | `etsy.favoriteListing` | etsy.com | Hearts a listing for the signed-in caller, or un-hearts it. | ⚪ |
 | `etsy.favoriteShop` | etsy.com | Favorites (follows) a shop for the signed-in caller, or unfollows it. | ⚪ |
@@ -1821,12 +1824,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.listShopListings` | etsy.com | The items on the first page of an Etsy shop, from the shop page's own `ItemList`… | 🟢 |
 | `etsy.listShopReviews` | etsy.com | One page of the reviews an Etsy shop has received across all its listings, newest… | 🟢 |
 | `etsy.listShopSoldItems` | etsy.com | The items a shop has already sold, newest first — what actually sells there, with… | ⚪ |
-| `etsy.listTrendingSearches` | etsy.com | What people are searching for on Etsy this week — the 'Top searches this week' list… | ⚪ |
+| `etsy.listTrendingSearches` | etsy.com | What people are searching for on Etsy this week — the 'Top searches this week' list… | 🟢 |
 | `etsy.removeFromCart` | etsy.com | Removes an item from the caller's cart. | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword and returns each matching… | 🟡 |
 | `etsy.searchShops` | etsy.com | Finds Etsy shops whose name contains a word — the door from a shop name a person… | 🟢 |
 | `etsy.sendMessage` | etsy.com | Sends a message from the signed-in caller to a shop — a new question about an item, or… | ⚪ |
-| `etsy.suggestSearches` | etsy.com | Etsy's search-box suggestions for what a person has typed so far, including 'find shop… | ⚪ |
+| `etsy.suggestSearches` | etsy.com | Etsy's search-box suggestions for what a person has typed so far, including 'find shop… | 🟢 |
 | `etsy.updateCartItem` | etsy.com | Changes the quantity or variation of an item already in the caller's cart. | ⚪ |
 | `etsy.updateProfile` | etsy.com | Edits the signed-in caller's public profile — display name, about/bio, location, and… | ⚪ |
 | `evag.listDepartures` | evag.de | Real-time transit departure information and schedules for Essen public transportation… | 🟢 |
@@ -3555,7 +3558,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `oliverwinery.getWine` | oliverwinery.com | Reads one wine's full Commerce7 product record by its storefront slug (e.g.… | 🟢 |
 | `oliverwinery.listWines` | oliverwinery.com | Lists Oliver Winery's own Commerce7 shop catalog — real bottle titles, USD prices and… | 🟢 |
 | `olo.addToBasket` | olo.com | Adds a product to a guest basket from startOrder, with a quantity and any option… | 🟢 |
-| `olo.applyCoupon` | olo.com | Applies a coupon or promo code to the basket and reports the discount, or removes one. | ⚪ |
+| `olo.applyCoupon` | olo.com | Applies a coupon or promo code to the basket and reports the discount, or removes one. | 🟢 |
 | `olo.applyReward` | olo.com | Applies one of the caller's loyalty rewards to the basket, or removes it. | ⚪ |
 | `olo.cancelOrder` | olo.com | Cancels a placed order that the chain still allows cancelling (typically an advance… | ⚪ |
 | `olo.checkInOrder` | olo.com | Tells the restaurant the caller has arrived for a curbside or pickup order ('I'm here'). | ⚪ |
@@ -3901,7 +3904,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `purevpn.getDedicatedIp` | purevpn.com | Reads PureVPN's own dedicated / static IP page and returns every country and city it… | 🟢 |
 | `purevpn.getPlans` | purevpn.com | PureVPN's standard VPN subscription plans and prices. | ⚪ |
 | `pushpress.bookAppointment` | pushpress.com | Books a one-on-one appointment slot for the signed-in member with appointment credits… | ⚪ |
-| `pushpress.bookClass` | pushpress.com | Reserves a class for the signed-in member using one of their plans; stops before any… | ⚪ |
+| `pushpress.bookClass` | pushpress.com | Reserves a class for the signed-in member using one of their plans; stops before any… | 🟢 |
 | `pushpress.buyAppointmentPackage` | pushpress.com | Buys a package of one-on-one appointment credits. | ⚪ |
 | `pushpress.buyEventTicket` | pushpress.com | Buys a ticket to a paid gym event. | ⚪ |
 | `pushpress.buyPlan` | pushpress.com | Buys a membership, class pack or drop-in pass. | ⚪ |
@@ -4185,7 +4188,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `safeway.checkout` | safeway.com | Would place the signed-in customer's order and pay for it. | ⚪ |
 | `safeway.clipCoupon` | safeway.com | Clips a digital coupon to the signed-in customer's card. | ⚪ |
 | `safeway.findStores` | safeway.com | Finds Safeway stores near a ZIP code: store id, address, distance, timezone and… | 🟢 |
-| `safeway.getCart` | safeway.com | Returns the signed-in customer's cart at their store: items, quantities, prices… | ⚪ |
+| `safeway.getCart` | safeway.com | Returns the signed-in customer's cart at their store: items, quantities, prices… | 🟢 |
 | `safeway.getMyAccount` | safeway.com | Returns the signed-in customer's profile: name, email, phone, preferred store and… | 🟢 |
 | `safeway.getMyOrder` | safeway.com | Returns one of the signed-in customer's orders: items, substitutions, window, driver… | ⚪ |
 | `safeway.getProduct` | safeway.com | Returns one Safeway product at a store: title, brand, size, price, member price, unit… | ⚪ |
@@ -4315,7 +4318,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |
 | `serper.searchGoogle` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
 | `setmore.bookAppointment` | setmore.com | Books a service at a business for a guest -- the service, a slot time and staff member… | 🟢 |
-| `setmore.bookClass` | setmore.com | Books a guest into a class session at a business, holding the seat first so it cannot… | ⚪ |
+| `setmore.bookClass` | setmore.com | Books a guest into a class session at a business -- only the sessionId from… | 🟢 |
 | `setmore.cancelAppointment` | setmore.com | Cancels a guest's appointment or class booking at a business, from the booking id… | ⚪ |
 | `setmore.checkPromoCode` | setmore.com | Checks whether a promo code is valid at a business for a given order amount and… | 🟢 |
 | `setmore.findBusiness` | setmore.com | Finds a Setmore business from what a caller actually holds -- its booking-page link… | 🟢 |
@@ -4356,7 +4359,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sevenrooms.submitRequest` | sevenrooms.com | When no slot fits, submits a booking request to the venue for a date, time window and… | ⚪ |
 | `sevenrooms.updateMyProfile` | sevenrooms.com | Edits the signed-in guest's SevenRooms profile: name and contact details, profile… | ⚪ |
 | `sevenrooms.updateReservationPreferences` | sevenrooms.com | Updates the guest-side details of a reservation from its manage token: dietary… | ⚪ |
-| `sevenrooms.validatePromoCode` | sevenrooms.com | Checks whether a promo code is valid at a venue for a date and time before booking… | ⚪ |
+| `sevenrooms.validatePromoCode` | sevenrooms.com | Checks whether a promo code is valid at a venue for a date, time and party size before… | 🟢 |
 | `shein.addAddress` | shein.com | Adds a shipping address to the signed-in caller's address book. | ⚪ |
 | `shein.addToCart` | shein.com | Adds a product in a chosen size and colour to the signed-in caller's bag. | ⚪ |
 | `shein.addToWishlist` | shein.com | Saves a product to the signed-in caller's wishlist (the heart on a product). | ⚪ |
@@ -4567,8 +4570,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soulcycle.listShopProducts` | soul-cycle.com | Lists the SoulCycle merch store's products (apparel, accessories) with price, variants… | 🟢 |
 | `soulcycle.listStudios` | soul-cycle.com | Lists the studios in a region (or all regions) with address, phone, coordinates and… | 🟢 |
 | `soulcycle.redeemReferralCredits` | soul-cycle.com | Redeems the free classes the signed-in rider earned by referring friends (Spread the… | ⚪ |
-| `soulcycle.setFavoriteInstructor` | soul-cycle.com | Adds or removes an instructor from the signed-in rider's favorites. | ⚪ |
-| `soulcycle.setFavoriteStudio` | soul-cycle.com | Adds or removes a studio from the signed-in rider's favorites. | ⚪ |
+| `soulcycle.setFavoriteInstructor` | soul-cycle.com | Adds or removes an instructor from the signed-in rider's favorites. | 🟢 |
+| `soulcycle.setFavoriteStudio` | soul-cycle.com | Adds or removes a studio from the signed-in rider's favorites. | 🟢 |
 | `soulcycle.setSeriesTransfer` | soul-cycle.com | Turns on or off letting the signed-in rider's series be used in another region. | ⚪ |
 | `soulcycle.updateMyProfile` | soul-cycle.com | Edits the signed-in rider's profile details (name, phone, birthday, bike settings such… | ⚪ |
 | `soulcycle.updatePreferences` | soul-cycle.com | Changes the signed-in rider's preferences tab (communication and class preferences). | ⚪ |
@@ -4853,6 +4856,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.listCategoryProducts` | target.com | Lists the products on one category page (the /c/<slug>/-/N-<id> grid) for a category… | 🟢 |
 | `target.listDeals` | target.com | Reads one store's current Target weekly ad — every priced offer in it with the ad's… | 🟢 |
 | `target.listOrders` | target.com | The CALLER's own signed-in order history on target.com — what they bought, when, for… | 🟢 |
+| `target.listQuestions` | target.com | Reads the customer Q&A on a product page (by TCIN) — the questions shoppers asked and… | 🟢 |
 | `target.listReviews` | target.com | Reads a product's customer reviews (by TCIN) — rating, text, title, verified-purchase… | 🟢 |
 | `target.listWishlists` | target.com | The CALLER's own saved lists on target.com (their "Lists" — Target's wishlist feature)… | 🟢 |
 | `target.reviewPhotos` | target.com | Returns the photos shoppers attached to their reviews of one product (by TCIN) —… | 🟢 |
@@ -4948,7 +4952,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.getFollowers` | threads.com | Lists the accounts following a profile, as the CALLER sees it. | ⚪ |
 | `threads.getFollowing` | threads.com | Lists the accounts a profile follows, as the CALLER sees it. | ⚪ |
 | `threads.getHomeFeed` | threads.com | Reads the CALLER's home feed, either For You or Following. | ⚪ |
-| `threads.getMe` | threads.com | Reads the CALLER's own Threads account — username, name, follower count — the door for… | ⚪ |
+| `threads.getMe` | threads.com | Reads the CALLER's own Threads account — username, name, follower count — the door for… | 🟢 |
 | `threads.getPost` | threads.com | Reads one Threads post from its URL or username and code — text, media, author, counts… | 🟢 |
 | `threads.getPostLikes` | threads.com | Lists the accounts that liked a post, as the CALLER sees it. | ⚪ |
 | `threads.getPostQuotes` | threads.com | Lists the posts that quote a post, and the accounts that reposted it. | ⚪ |
@@ -5293,7 +5297,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ups.estimateDeliveryDate` | ups.com | Estimates delivery date and timeframe for shipment between two locations with a… | 🟢 |
 | `ups.findNearbyLocation` | ups.com | Finds UPS drop-off/pickup locations near a ZIP Code or street/city address — UPS… | 🟢 |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
-| `ups.schedulePickup` | ups.com | Schedules a package pickup at an address for a specified date and time. | ⚪ |
+| `ups.schedulePickup` | ups.com | Quotes UPS's one-time pickup fee for a US address and date, through the guest Schedule… | 🟢 |
 | `ups.trackShipment` | ups.com | Tracks a shipment by tracking number and returns status, delivery date, and current… | 🟢 |
 | `ups.validateAddress` | ups.com | Validates and standardizes a US shipping address against UPS's Address Validation API… | 🟢 |
 | `urbanoutfitters.browseCategory` | urbanoutfitters.com | Lists the products under one of Urban Outfitters' own department pages — the site's… | ⚪ |
@@ -5500,7 +5504,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
 | `weather_channel.getLocation` | weather.com | Gets location details by place name, postal code, or coordinates — returns full… | 🟢 |
 | `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-level precipitation data — highly granular rainfall/snowfall timing and… | ⚪ |
-| `weather_channel.getObservations` | weather.com | Current observations from weather stations — actual measured conditions from the field. | ⚪ |
+| `weather_channel.getObservations` | weather.com | Live readings from personal weather stations near a place — the site's own 'Weather… | 🟢 |
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
 | `weather_channel.getPollenHealth` | weather.com | Cognitive/health indices related to pollen and air quality — allergy forecasts, cold &… | ⚪ |
 | `weather_channel.getRadarTiles` | weather.com | Radar imagery tiles for map overlays — precipitation radar mosaic for a region. | ⚪ |
