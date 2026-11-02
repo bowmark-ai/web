@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 84bcd6e1ec7b39716f33dd75442dd0315ac3993a19116780a61a4509c041a585
+// Manifest version: 3c474f769be5ef2bfdd10eea802b1f8266e6eec5666e87f901ee86e35b261e51
 // 93 capabilities, 756 providers, 3963 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -58823,13 +58823,14 @@ interface MsnWeatherForecast {
      * for a visitor with no account: each story's headline, its own outlet's byline, the outlet
      * name, a summary, publish time and a thumbnail. This is the general 'what's happening' read —
      * the entry point for anything that starts with the portal's own front-page mix rather than a
-     * specific query. `type` is `article` or `video`; a video card carries no `readTimeMin`.
-     * `limit` slices the answer client-side — the feed door itself has no page-size parameter, so
-     * a lower limit costs the same one request. `nextPageUrl` is the site's own pagination cursor
-     * — pass it to a plain GET against the same door to walk further, `null` when the site reports
-     * no further page.
+     * specific query. `type` is `article` or `video`; a video card carries no `readTimeMin`. A
+     * bare number is `limit`, which slices the answer client-side — the feed door itself has no
+     * page-size parameter, so a lower limit costs the same one request. `nextPageUrl` is the
+     * site's own pagination cursor — a run script has no `fetch` of its own, so pass it back as `{
+     * cursor }` to THIS SAME function to read the next ten, never to a plain GET. `null` when the
+     * site reports no further page.
      */
-    getTopStories(limit?: number): Promise<MsnTopStories>;
+    getTopStories(limitOrOptions?: number | { limit?: number; cursor?: string }): Promise<MsnTopStories>;
 
     /**
      * Searches MSN's own aggregated news index the way its front-page search does and returns
@@ -58837,23 +58838,25 @@ interface MsnWeatherForecast {
      * time, thumbnail. Distinct from a general web search: MSN only returns coverage it has
      * actually aggregated from its publisher network, never the wider web. There is no separate
      * search route — `query` steers the same feed door getTopStories reads, so the result set is
-     * whatever that door currently returns for the term.
+     * whatever that door currently returns for the term. `nextPageUrl` from a prior call passed
+     * back as `{ cursor }` reads the next ten — `query` is still required but ignored once a
+     * cursor is given, since the site's own cursor already carries it.
      */
-    searchNews(query: string): Promise<MsnTopStories>;
+    searchNews(query: string, options?: { cursor?: string }): Promise<MsnTopStories>;
 
     /**
-     * Returns the current top-stories feed the way msn.com/en-us/<section> does for a visitor with
-     * no account, for one of six sections: sports, entertainment, health, lifestyle, travel,
-     * autos. Measured live 2026-09-23: MSN itself does not filter this content by section for a
-     * logged-out visitor — every one of those six pages requests the identical house feed
-     * (confirmed byte-for-byte across five of them, and the sixth's distinctly-tagged request
-     * returns the same generic mix) — so this returns the same stories as getTopStories, honestly,
-     * rather than fabricating a per-section split the site does not make. "money" and "weather"
-     * are not article-feed sections at all (their pages are server-rendered quote/forecast data) —
-     * use getMarketSummary, getStockQuote or getWeatherForecast. "video" fires its own dedicated
-     * feed door and is not yet built.
+     * Returns a top-stories feed scoped to one of six sections — sports, entertainment, health,
+     * lifestyle, travel, autos — by using the section name as a search term against the same feed
+     * door searchNews reads. Measured 2026-09-23: the site's OWN section pages fire an identical,
+     * unscoped request for all six, so there is no section-specific door to call; measured
+     * 2026-11-01: steering that door's own `query` parameter with the section name works instead
+     * (e.g. `query=sports` returns NFL/F1/NBA coverage), the way `searchNews("sports")` would.
+     * "money" and "weather" are not article-feed sections at all (their pages are server-rendered
+     * quote/forecast data) — use getMarketSummary, getStockQuote or getWeatherForecast. "video"
+     * fires its own dedicated feed door and is not yet built. `nextPageUrl` from a prior call
+     * passed back as `{ cursor }` reads the next ten.
      */
-    getSectionFeed(section: "sports" | "entertainment" | "health" | "lifestyle" | "travel" | "autos"): Promise<MsnTopStories>;
+    getSectionFeed(section: "sports" | "entertainment" | "health" | "lifestyle" | "travel" | "autos", options?: { cursor?: string }): Promise<MsnTopStories>;
 
     /**
      * Reads one MSN article's full text, byline, publish time and images off its own article URL —

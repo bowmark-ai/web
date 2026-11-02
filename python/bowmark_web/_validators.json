@@ -1,5 +1,5 @@
 {
-  "version": "84bcd6e1ec7b39716f33dd75442dd0315ac3993a19116780a61a4509c041a585",
+  "version": "3c474f769be5ef2bfdd10eea802b1f8266e6eec5666e87f901ee86e35b261e51",
   "units": {
     "address_validation": {
       "defs": {
@@ -69144,9 +69144,33 @@
       "functions": {
         "getTopStories": [
           {
-            "name": "limit",
+            "name": "limitOrOptions",
             "schema": {
-              "k": "number"
+              "k": "union",
+              "of": [
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": true
           }
@@ -69158,6 +69182,22 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getSectionFeed": [
@@ -69193,6 +69233,22 @@
               ]
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getArticle": [

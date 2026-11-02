@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 84bcd6e1ec7b39716f33dd75442dd0315ac3993a19116780a61a4509c041a585
+// Manifest version: 3c474f769be5ef2bfdd10eea802b1f8266e6eec5666e87f901ee86e35b261e51
 // 3945 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "84bcd6e1ec7b39716f33dd75442dd0315ac3993a19116780a61a4509c041a585",
+  "version": "3c474f769be5ef2bfdd10eea802b1f8266e6eec5666e87f901ee86e35b261e51",
   "units": {
     "address_validation": {
       "defs": {
@@ -69156,9 +69156,33 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getTopStories": [
           {
-            "name": "limit",
+            "name": "limitOrOptions",
             "schema": {
-              "k": "number"
+              "k": "union",
+              "of": [
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": true
           }
@@ -69170,6 +69194,22 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getSectionFeed": [
@@ -69205,6 +69245,22 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getArticle": [
