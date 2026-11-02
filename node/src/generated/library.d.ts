@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fa3de74eeb07bbe1d1cf3730c8dd76c2374d01ef176d7ec35ed3e8cc79d0ff12
-// 92 capabilities, 751 providers, 3835 typed functions, 20 refused.
+// Manifest version: 22bcdd862a5153796e3bf82bbc4a20d4c798c05e92fb25332c6703538653a133
+// 92 capabilities, 753 providers, 3861 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8408,6 +8408,19 @@ interface aliexpressCategory {
   subcategories?: aliexpressCategory[];
 }
 
+interface ListWishlistArgs {
+  /** 1-based page of the caller's wishlist. Default 1. */
+  page?: number;
+}
+
+interface aliexpressWishlistItem {
+  product_id: string;
+  title?: string;
+  price?: number;
+  currency?: string;
+  image_url?: string;
+}
+
   /** AliExpress product search — a keyword in, priced product rows out. */
   interface Unit {
     /**
@@ -8454,6 +8467,12 @@ interface aliexpressCategory {
      * argument, or one category's own subcategories by passing its id as tab.
      */
     listCategories(args?: ListCategoriesArgs): Promise<aliexpressCategory[]>;
+
+    /**
+     * Lists products in the CALLER's own AliExpress wishlist. Needs the caller signed in; the
+     * relay at aliexpress.com handles authentication.
+     */
+    listWishlist(args?: ListWishlistArgs, opts?: ConnectionOption): Promise<aliexpressWishlistItem[]>;
   }
 }
 
@@ -25304,6 +25323,38 @@ interface ConsultnetJobSearchQuery {
   }
 }
 
+declare namespace BowmarkProvider_context_dev {
+  // ── Context.dev — the unit's own declarations, verbatim ──
+interface ContextDevSearchArgs { query: string; numResults?: number }
+interface ContextDevCrawlArgs { url: string; maxPages?: number }
+interface ContextDevBrand { domain: string }
+type ContextDevResponse = Record<string, unknown>;
+
+  /**
+   * Context.dev's documented API for live web search, rendered website crawls, and company brand
+   * profiles. Requires the caller's Context.dev API key.
+   */
+  interface Unit {
+    /**
+     * Searches the live web through Context.dev and returns its ranked results; numResults
+     * defaults to 10 and is capped at 20.
+     */
+    search(args: ContextDevSearchArgs): Promise<ContextDevResponse>;
+
+    /**
+     * Crawls a public website and returns Context.dev's markdown page results; maxPages defaults
+     * to 10 and is capped at 50.
+     */
+    crawl(args: ContextDevCrawlArgs): Promise<ContextDevResponse>;
+
+    /**
+     * Retrieves Context.dev's company and brand profile for a domain, including its available
+     * logo, color, company, and social fields.
+     */
+    retrieveBrand(args: ContextDevBrand): Promise<ContextDevResponse>;
+  }
+}
+
 declare namespace BowmarkProvider_coops {
   // ── NOAA CO-OPS — the unit's own declarations, verbatim ──
 type CoopsStationProductType =
@@ -30119,6 +30170,37 @@ interface DropboxSharedFolder {
 
 declare namespace BowmarkProvider_duckduckgo {
   // ── DuckDuckGo — the unit's own declarations, verbatim ──
+interface DuckDuckGoEmailProtectionAccount {
+  /** The account's permanent @duck.com address, e.g. "jdoe@duck.com". */
+  address: string;
+  /** The real inbox DuckDuckGo forwards to, when the dashboard reports one. */
+  forwardingEmail: string | null;
+  /** The private address the site will hand out next, when one has been minted
+   * since the account was created. */
+  nextPrivateAddress: string | null;
+}
+
+interface DuckDuckGoCreatedPrivateAddress {
+  address: string;
+}
+
+interface SetPrivateDuckAddressActiveArgs {
+  /** The deactivate/reactivate link at the foot of a mail DuckDuckGo forwarded
+   * — carries address and address_token. Or pass those two instead. */
+  link?: string;
+  /** The private address, "abc123" or "abc123@duck.com". */
+  address?: string;
+  /** The link's `address_token` query value. */
+  addressToken?: string;
+  /** false stops forwarding, true resumes it. Defaults to the link's own `active`. */
+  active?: boolean;
+}
+
+interface DuckDuckGoPrivateAddressState {
+  address: string;
+  active: boolean;
+}
+
 interface DuckDuckGoNewsStory {
   title: string;
   url: string;
@@ -30419,6 +30501,28 @@ interface DuckDuckGoBangResolution {
    * addresses.
    */
   interface Unit {
+    /**
+     * Reads the signed-in caller's DuckDuckGo Email Protection account — their permanent @duck.com
+     * address, the inbox it forwards to, and the private address that will be handed out next.
+     * NEEDS A SIGN-IN through the relay.
+     */
+    getEmailProtectionAccount(opts?: ConnectionOption): Promise<DuckDuckGoEmailProtectionAccount>;
+
+    /**
+     * Generates a brand new private @duck.com address on the signed-in caller's Email Protection
+     * account, forwarding to their inbox. Not idempotent — each call mints another address, up to
+     * DuckDuckGo's own cap of 30 per day. NEEDS A SIGN-IN through the relay.
+     */
+    createPrivateDuckAddress(opts?: ConnectionOption): Promise<DuckDuckGoCreatedPrivateAddress>;
+
+    /**
+     * Turns one private @duck.com address off (stop forwarding) or back on, using the
+     * deactivate/reactivate link at the foot of a mail DuckDuckGo forwarded — pass the `link`, or
+     * its `address` and `addressToken`, plus `active`. No sign-in needed; the link's one-time
+     * token is the authorization.
+     */
+    setPrivateDuckAddressActive(args: SetPrivateDuckAddressActiveArgs): Promise<DuckDuckGoPrivateAddressState>;
+
     /** Search DuckDuckGo News vertical and returns news stories. */
     searchNews(args: SearchNewsArgs): Promise<DuckDuckGoNewsStory[]>;
 
@@ -32472,6 +32576,12 @@ interface EtsyShopReviewPage {
   hasNextPage: boolean;
   reviews: EtsyShopReview[];
 }
+interface EtsyCategory {
+  name: string;
+  path: string;
+  url: string;
+  subcategories: { name: string; path: string; url: string }[];
+}
 
   /**
    * Etsy's own documented Open API v3 (openapi.etsy.com) — searches active listings on etsy.com
@@ -32528,6 +32638,13 @@ interface EtsyShopReviewPage {
      * door from a half-remembered shop name to `getShop`.
      */
     searchShops(query: string): Promise<EtsyShopSearchRow[]>;
+
+    /**
+     * Etsy's category tree from its own /categories page — each top-level department (Accessories,
+     * Home & Living, …) with its subcategories, every one carrying its name, its `/c/` path and
+     * URL. The `path` is what `browseCategory` takes.
+     */
+    listCategories(): Promise<EtsyCategory[]>;
   }
 }
 
@@ -34810,6 +34927,20 @@ interface FieldstonehomesPreparedAppointment { valid: boolean; errors: string[];
      * handoff values. Never submits the POST.
      */
     prepareAppointment(args: FieldstonehomesPrepareAppointmentArgs): Promise<FieldstonehomesPreparedAppointment>;
+  }
+}
+
+declare namespace BowmarkProvider_findmcp_app {
+  // ── FindMCP — the unit's own declarations, verbatim ──
+interface FindMcpServer { name: string; description: string; category: string | null; url: string; }
+
+  /** Search FindMCP's public directory of MCP servers by keyword. */
+  interface Unit {
+    /**
+     * Searches FindMCP's public MCP-server directory by keyword. Omit query to browse its current
+     * server cards; each result has the displayed name, description, category and detail-page URL.
+     */
+    search(query?: string | { query?: string }): Promise<FindMcpServer[]>;
   }
 }
 
@@ -42890,6 +43021,42 @@ interface GrubhubPromoOffers {
   /** The promo badge Grubhub shows next to the delivery fee in search, e.g. "$0 delivery". */
   deliveryFeeBadge: string | null;
 }
+interface GrubhubCartLine {
+  /** The id removeFromCart/updateCartItem take. */
+  lineId: string;
+  itemId: string;
+  restaurantId: string;
+  name: string;
+  quantity: number;
+  /** One unit, in cents, before options. */
+  unitPriceCents: number;
+  /** This line's total in cents, options and quantity included. */
+  totalCents: number;
+  specialInstructions: string;
+  /** Chosen option ids, as getMenuItem().choices[].options[].id. */
+  optionIds: string[];
+}
+interface GrubhubCart {
+  /** Pass to the cart functions in a LATER run to reach this same cart; within one run they find it on their own. null while no cart exists. */
+  cartKey: string | null;
+  cartId: string | null;
+  items: GrubhubCartLine[];
+  itemCount: number;
+  subtotalCents: number;
+  currency: string;
+  restaurantIds: string[];
+}
+interface GrubhubAddToCartArgs {
+  restaurantId: string;
+  itemId: string;
+  /** 1-50, default 1. */
+  quantity?: number;
+  /** Option ids from getMenuItem().choices[].options[].id. */
+  optionIds?: string[];
+  instructions?: string;
+  /** A cart from an earlier run; omit to use (or start) this run's cart. */
+  cartKey?: string;
+}
 
   /**
    * Grubhub food delivery — search restaurants delivering to an address (by cuisine, dish or
@@ -42952,6 +43119,30 @@ interface GrubhubPromoOffers {
      * endpoint, so this searches near the point and reads them off the matching row.
      */
     getPromoOffers(args: GrubhubPromoOffersArgs): Promise<GrubhubPromoOffers>;
+
+    /**
+     * What is in the Grubhub cart: line items (lineId, item, quantity, price in cents, options),
+     * item count and subtotal. No account — reads this run's cart, or an earlier run's by the
+     * cartKey it returned; an empty cart when none exists yet.
+     */
+    getCart(cartKey?: string): Promise<GrubhubCart>;
+
+    /**
+     * Adds a menu item (ids from getMenu()/getMenuItem(), with optional option ids, quantity and
+     * instructions) to an anonymous Grubhub cart and returns the cart, including a cartKey for
+     * later runs — `{ restaurantId: "469121", itemId: "24017014" }`. No account; checkout itself
+     * needs a login.
+     */
+    addToCart(args: GrubhubAddToCartArgs): Promise<GrubhubCart>;
+
+    /** Removes one line (getCart().items[].lineId) from the Grubhub cart and returns what is left. */
+    removeFromCart(args: { lineId: string; cartKey?: string }): Promise<GrubhubCart>;
+
+    /**
+     * Sets the quantity (1-50) of one Grubhub cart line (getCart().items[].lineId), keeping its
+     * options, and returns the cart.
+     */
+    updateCartItem(args: { lineId: string; quantity: number; cartKey?: string }): Promise<GrubhubCart>;
   }
 }
 
@@ -53670,6 +53861,37 @@ interface MangomintSlotCheck {
   valid: boolean;
 }
 
+interface MangomintBookAppointmentClient {
+  firstName: string;
+  lastName: string;
+  /** Any format — the site's own form takes free text, e.g. "(201) 555-0147". */
+  phone: string;
+  email: string;
+}
+
+interface MangomintBookAppointmentArgs extends MangomintBusinessArgs {
+  services: MangomintAvailabilityRequestService[];
+  /** A slot from checkAvailability/validateSlot, e.g. "2026-11-05T10:30:00" (business-local). */
+  startAtLocal: string;
+  client: MangomintBookAppointmentClient;
+  /** Shown to the business with the appointment. */
+  notes?: string;
+}
+
+interface MangomintBookingFormLink {
+  url: string;
+}
+
+interface MangomintBookingConfirmation {
+  business: { companyId: number; name: string };
+  appointmentId: number;
+  clientId: number;
+  startAtLocal: string;
+  price: { minPrice: number | null; maxPrice: number | null; isPriceRange: boolean };
+  /** Intake forms the business wants filled before the appointment, if any. */
+  formLinks: MangomintBookingFormLink[];
+}
+
   /**
    * Mangomint salon and spa booking: find a business, its services, staff and open times, book,
    * and manage an appointment from its link.
@@ -53728,6 +53950,13 @@ interface MangomintSlotCheck {
      * right now. No side effect.
      */
     validateSlot(args: MangomintValidateSlotArgs): Promise<MangomintSlotCheck>;
+
+    /**
+     * Books a slot from checkAvailability for the caller — no Mangomint account, just a name,
+     * phone and email. Refuses a service that needs a card on file or prepayment; Bowmark never
+     * completes a payment.
+     */
+    bookAppointment(args: MangomintBookAppointmentArgs): Promise<MangomintBookingConfirmation>;
   }
 }
 
@@ -62229,6 +62458,22 @@ interface OloGetBasketArgs {
   host: string;
   guid: string;
 }
+interface OloUpdateBasketItemArgs {
+  host: string;
+  guid: string;
+  basketProductId: string;  // an item's id off getBasket / addToBasket, not the product id
+  vendorId: number;
+  vendorProductId: number;  // the same product the item already is
+  quantity: number;
+  choiceIds?: number[];     // the FULL choice list the item should end with
+  specialInstructions?: string;
+  recipientName?: string;
+}
+interface OloRemoveBasketItemArgs {
+  host: string;
+  guid: string;
+  basketProductId: string;  // an item's id off getBasket / addToBasket
+}
 
   /**
    * Olo-hosted restaurant order sites (order.fazolis.com, order.portillos.com,
@@ -62319,6 +62564,18 @@ interface OloGetBasketArgs {
 
     /** Returns a guest basket's current items, subtotal, tax and total. */
     getBasket(args: OloGetBasketArgs): Promise<OloBasket>;
+
+    /**
+     * Changes a basket item's quantity, options or instructions, by the item's id off getBasket,
+     * and returns the updated basket with its new subtotal, tax and total.
+     */
+    updateBasketItem(args: OloUpdateBasketItemArgs): Promise<OloBasket>;
+
+    /**
+     * Removes an item from a guest basket, by the item's id off getBasket, and returns the basket
+     * that is left.
+     */
+    removeBasketItem(args: OloRemoveBasketItemArgs): Promise<OloBasket>;
 
     /**
      * Returns a placed order's status from its order id (off the confirmation link): status,
@@ -63392,6 +63649,20 @@ interface GetCurrentUserFeedResult {
   nextCursor?: string;
 }
 
+interface LikePostArgs {
+  postId: string;
+}
+
+interface LikePostResult {
+  postId: string;
+  liked: boolean;
+}
+
+interface CommentOnPostArgs {
+  postId: string;
+  body: string;
+}
+
   /**
    * Reads a Patreon creator's page, tiers, and public posts and comments — logged out. With the
    * caller signed in: their memberships, their home feed, and a creator's member-only posts.
@@ -63454,6 +63725,18 @@ interface GetCurrentUserFeedResult {
      * or back, with the site's own cursor. Needs the caller signed in.
      */
     getCurrentUserFeed(args?: GetCurrentUserFeedArgs, opts?: ConnectionOption): Promise<GetCurrentUserFeedResult>;
+
+    /**
+     * Like a post as the signed-in caller. A public write on the creator's post. Needs the caller
+     * signed in.
+     */
+    likePost(args: LikePostArgs, opts?: ConnectionOption): Promise<LikePostResult>;
+
+    /**
+     * Leave a comment on a post as the signed-in caller; returns the comment as Patreon saved it.
+     * A public write the creator and their members see. Needs the caller signed in.
+     */
+    commentOnPost(args: CommentOnPostArgs, opts?: ConnectionOption): Promise<patreonComment>;
   }
 }
 
@@ -64433,6 +64716,47 @@ interface Pike13EventSeries {
   attendees: unknown[];
   icals: Pike13EventSeriesOccurrence[];
 }
+interface Pike13GetAppointmentAvailabilitySummaryArgs {
+  from: string;              // ISO 8601 instant
+  to: string;                // ISO 8601 instant, up to 90 days after from
+  locationId?: number | string;
+  staffMemberId?: number | string;
+}
+type Pike13AppointmentAvailabilitySummary = Record<string, number>; // "YYYY-MM-DD" -> share of capacity still open, 0 to 1
+interface Pike13PlanDetail {
+  id: number;
+  count: number | null;
+  type: string;
+  commitment_length: number | null;
+  location_id: number | null;
+  terms: string | null;
+  group_rack_service_id: number | null;
+  client_cancel_allowed: boolean;
+  term_renewal_type: string | null;
+  renewal_term_length: number | null;
+  signup_fee_cents: number | null;
+  signup_fee_tax_exempt: boolean;
+  terms_acceptance_required: boolean;
+  description_long: string | null;
+  rollover_count: number | null;
+  position: number | null;
+  commitment_unit: string | null;
+  terms_acceptance_type: string | null;
+  product: { id: number; name: string; description: string | null; price_cents: number };
+  services: Array<{ id: number; name: string }>;
+  billing: {
+    interval_unit: string | null;
+    interval_count: number | null;
+    days: unknown[];
+    days_of_month: number[] | null;
+    months_of_year: number[];
+  };
+}
+interface Pike13WaitlistEligibility {
+  can_waitlist: boolean;
+  anonymous_allowed?: boolean;
+  restrictions: Array<{ code: string; description: string }>;
+}
 
   /**
    * Pike13 studios (music schools, gyms, swim schools, yoga): find a studio, read its class
@@ -64517,6 +64841,22 @@ interface Pike13EventSeries {
      * website.
      */
     listClassSeries(business: string): Promise<Pike13EventSeries[]>;
+
+    /**
+     * Gives, per day over a date range, the share of an appointment service's capacity still open
+     * — for finding a day with room.
+     */
+    getAppointmentAvailabilitySummary(business: string, serviceId: string, args: Pike13GetAppointmentAvailabilitySummaryArgs): Promise<Pike13AppointmentAvailabilitySummary>;
+
+    /** Gets one membership or pass product's full terms by the id listPlans returned. */
+    getPlan(business: string, planId: string): Promise<Pike13PlanDetail>;
+
+    /**
+     * Says whether a full class takes a waitlist and what it requires (anonymous_allowed,
+     * can_waitlist, restrictions such as plan_required) for the occurrence id getSchedule
+     * returned. Answers logged out, and per person once signed in.
+     */
+    getWaitlistEligibility(business: string, occurrenceId: string): Promise<Pike13WaitlistEligibility>;
   }
 }
 
@@ -77011,6 +77351,23 @@ interface SpotifyOEmbed {
 interface SpotifyGenreSeeds {
   genres: string[];
 }
+interface SpotifyUserProfile {
+  id: string;
+  displayName: string | null;
+  country: string | null;
+  product: string | null; // "premium" | "free" …
+  followers: number;
+  images: { url: string }[];
+  url: string;
+  uri: string;
+}
+interface SpotifyTopOptions {
+  timeRange?: "short_term" | "medium_term" | "long_term"; // default "medium_term"
+  limit?: number;  // 1-50, default 20
+  offset?: number;
+}
+interface SpotifyTopTracks { tracks: SpotifyTrack[]; total: number }
+interface SpotifyTopArtists { artists: SpotifyArtist[]; total: number }
 
   /**
    * Search Spotify's catalog — tracks, albums, artists, playlists, podcasts — through Spotify's
@@ -77119,6 +77476,24 @@ interface SpotifyGenreSeeds {
      * app key.
      */
     getGenreSeeds(): Promise<SpotifyGenreSeeds>;
+
+    /**
+     * Reads the signed-in caller's own Spotify profile — id, display name, country, plan
+     * (premium/free), follower count and profile url. Needs the caller signed in to Spotify.
+     */
+    getUserProfile(): Promise<SpotifyUserProfile>;
+
+    /**
+     * The signed-in caller's most-played tracks over the last ~4 weeks, ~6 months or all time.
+     * Needs the caller signed in to Spotify.
+     */
+    getTopTracks(opts?: SpotifyTopOptions): Promise<SpotifyTopTracks>;
+
+    /**
+     * The signed-in caller's most-played artists over the last ~4 weeks, ~6 months or all time.
+     * Needs the caller signed in to Spotify.
+     */
+    getTopArtists(opts?: SpotifyTopOptions): Promise<SpotifyTopArtists>;
   }
 }
 
@@ -92492,6 +92867,33 @@ interface MarkAsReadArgs {
   read?: boolean; // default true; false marks it unread
 }
 
+interface GetAttachmentArgs {
+  credentials: MailboxCredentials;
+  id: string; // a row's id
+  index: number; // the attachment's position in getMessage's attachments list, from 0
+}
+
+interface YahooMailAttachment {
+  id: string;
+  index: number;
+  filename: string | null;
+  contentType: string;
+  sizeBytes: number; // decoded
+  file?: { id: string; name: string; contentType: string; bytes: number; url: string; expiresAt: string }; // saved to the run's files; absent when the run has no account
+  warnings: string[];
+}
+
+interface FlagMessageArgs {
+  credentials: MailboxCredentials;
+  messageId: string; // a row's id
+  flagged?: boolean; // default true (stars it); false unstars it
+}
+
+interface YahooMailFlagResult {
+  id: string;
+  flagged: boolean;
+}
+
 interface MoveMessageArgs {
   credentials: MailboxCredentials;
   messageId: string;
@@ -92528,8 +92930,8 @@ interface SendMessageArgs {
 
   /**
    * Reads and changes mail in the CALLER's own Yahoo Mail account — folders, the inbox, search,
-   * full messages, mark read, move, delete — over IMAP with the caller's address and a Yahoo app
-   * password, plus compose through the auth relay.
+   * full messages, attachments, mark read, star, move, delete — over IMAP with the caller's
+   * address and a Yahoo app password, plus compose through the auth relay.
    */
   interface Unit {
     /**
@@ -92577,6 +92979,23 @@ interface SendMessageArgs {
      * as secrets.
      */
     markAsRead(args: MarkAsReadArgs): Promise<YahooMailReadResult>;
+
+    /**
+     * Saves one attachment of the CALLER's own Yahoo Mail message — a PDF statement, a photo — to
+     * the run's files, given the message's row `id` and the attachment's position in getMessage's
+     * `attachments` list. Returns the saved `file` (name, type, size, a signed url), not inline
+     * bytes. Does not mark the message read. Takes the caller's address and app password, as
+     * secrets.
+     */
+    getAttachment(args: GetAttachmentArgs): Promise<YahooMailAttachment>;
+
+    /**
+     * Stars (flags) one of the CALLER's own Yahoo Mail messages, or unstars it with `flagged:
+     * false`, given a row `id` from listMessages or searchMessages. Rows report the result as
+     * `flagged`, and searchMessages finds them with `is:flagged`. Takes the caller's address and
+     * app password, as secrets.
+     */
+    flagMessage(args: FlagMessageArgs): Promise<YahooMailFlagResult>;
 
     /**
      * Moves one of the CALLER's own Yahoo Mail messages to another folder — a folder `id` from
@@ -96253,6 +96672,7 @@ interface BowmarkProviders {
   completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
   concur: BowmarkProvider_concur.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
+  context_dev: BowmarkProvider_context_dev.Unit;
   coops: BowmarkProvider_coops.Unit;
   corepoweryoga: BowmarkProvider_corepoweryoga.Unit;
   costco: BowmarkProvider_costco.Unit;
@@ -96332,6 +96752,7 @@ interface BowmarkProviders {
   fedex: BowmarkProvider_fedex.Unit;
   ferguson: BowmarkProvider_ferguson.Unit;
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
+  findmcp_app: BowmarkProvider_findmcp_app.Unit;
   firstamericahomes: BowmarkProvider_firstamericahomes.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
   fitdegree: BowmarkProvider_fitdegree.Unit;
