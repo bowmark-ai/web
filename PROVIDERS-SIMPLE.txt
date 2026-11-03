@@ -54,6 +54,7 @@ aosom.com — aosom: getProduct, searchProducts
 api.census.gov — census_api: validateAddress (+1 planned)
 api.weather.gov — nws: findRadarStations, findStations, findZones, getActiveAlerts, getAlert, getAlertCounts, getCurrentConditions, getForecast, getForecastDiscussion, getGridpointData, getHourlyForecast, getMarineForecast, getObservationHistory, getOffice, getPoint, getTextProduct, getWeatherStories, getZoneForecast, listAlertTypes, listTextProducts, searchAlerts, searchLocation (+7 planned)
 apid.iproyal.com — iproyal_reseller: getAccountBalance, getCatalogue, getOrder, listOrders, quotePrice (+3 planned)
+apify.com — apify: store
 app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchDeals (+2 planned)
 apple.com — apple: addToBag, bookGeniusBarAppointment, checkCoverage, compareModels, findStoresNear, getBag, getConfigurationOptions, getDeliveryEstimate, getNewsroomPost, getOrderStatus, getPickupAvailability, getProduct, getProductByPartNumber, getPurchaseOptions, getRepairPricing, getStore, getSupportArticle, getSystemStatus, getTradeInEstimate, listAccessories, listFamilyModels, listNewsroomPosts, listOrders, listRefurbished, listStores, listTodaySessions, listTradeInValues, removeFromBag, resolveLocation, search, searchSupport, suggestSearches
 apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCategories, listDeveloperApps, listReviews, listSimilarApps, listTodayStories, listTopCharts, searchApps (+3 planned)
@@ -651,7 +652,7 @@ spectrum.com — spectrum: checkMobileCoverage, getInternetPlanDetails, listInte
 speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, listTeams, searchPlayers (+1 planned)
-spotapps.co — spotapps: checkAvailability, findRestaurant, getMenu, getOnlineOrderMenu, getReservationSettings (+10 planned)
+spotapps.co — spotapps: bookReservation, checkAvailability, findRestaurant, getCateringOptions, getMenu, getOnlineOrderMenu, getPrivatePartyOptions, getReservationSettings, listJobs (+6 planned)
 square.site — square_online: getMenuItem, getPickupTimes, getSite, listCategories, listLocations, listMenuItems (+13 planned)
 stackoverflow.com — stackoverflow: getQuestion, searchQuestions
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros

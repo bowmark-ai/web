@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5971 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5972 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -244,6 +244,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.subscribeNewsletter` | aol.com | Subscribes an email address to one aol.com newsletter, as the site's own sign-up box… | 🟢 |
 | `aosom.getProduct` | aosom.com | Reads one product's live price and the site's own buyability flag straight off its… | 🟢 |
 | `aosom.searchProducts` | aosom.com | Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query… | 🟢 |
+| `apify.store` | apify.com | Search Apify Store actors by what they scrape or automate. | 🟢 |
 | `app_store.getApp` | apps.apple.com | Read one app the way its store listing reads: name, developer and seller, price… | 🟢 |
 | `app_store.getAppDetails` | apps.apple.com | Everything the store page shows that the API does not: the five-star histogram behind… | 🟢 |
 | `app_store.getApps` | apps.apple.com | Read up to fifty apps in ONE request, for when an agent already holds a list of ids —… | 🟢 |
@@ -4614,17 +4615,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spirithalloween.getProduct` | spirithalloween.com | Reads one product page's full live variant matrix — every real color/size combination… | 🟢 |
 | `spirithalloween.search` | spirithalloween.com | Browses Spirit Halloween's category listing for a query resolved against a small… | 🟢 |
 | `spotapps.applyForJob` | spotapps.co | Submits a job application to a restaurant, with a resume upload. | ⚪ |
-| `spotapps.bookReservation` | spotapps.co | Sends a guest reservation request (name, email, phone, party size, date, time, notes)… | ⚪ |
+| `spotapps.bookReservation` | spotapps.co | Sends a guest reservation request (name, email, phone, party size, date, time, notes)… | 🟢 |
 | `spotapps.cancelReservation` | spotapps.co | Cancels a guest reservation made through the widget. | ⚪ |
 | `spotapps.checkAvailability` | spotapps.co | Checks whether a restaurant has a table for a party size at a date and time, and… | 🟢 |
 | `spotapps.findRestaurant` | spotapps.co | Finds a SpotHopper restaurant's spot_id from its own website URL or name, by reading… | 🟢 |
-| `spotapps.getCateringOptions` | spotapps.co | Reads a restaurant's catering inquiry form and options. | ⚪ |
+| `spotapps.getCateringOptions` | spotapps.co | Reads a restaurant's catering inquiry form: whether it's open, party-size limits… | 🟢 |
 | `spotapps.getMenu` | spotapps.co | Reads a restaurant's menu as its contactless-menu page shows it: sections, items… | 🟢 |
 | `spotapps.getOnlineOrderMenu` | spotapps.co | Reads a restaurant's online-ordering menu: items, modifiers, prices, pickup/delivery… | 🟢 |
-| `spotapps.getPrivatePartyOptions` | spotapps.co | Reads a restaurant's private-party / event inquiry form: spaces, capacities, required… | ⚪ |
+| `spotapps.getPrivatePartyOptions` | spotapps.co | Reads a restaurant's private-party / event inquiry form: whether it's open, party-size… | 🟢 |
 | `spotapps.getReservationSettings` | spotapps.co | Reads one restaurant's reservation widget settings: whether online reservations are… | 🟢 |
 | `spotapps.joinMailingList` | spotapps.co | Signs an email or phone up for a restaurant's mailing list or texting list. | ⚪ |
-| `spotapps.listJobs` | spotapps.co | Lists a restaurant's open job listings. | ⚪ |
+| `spotapps.listJobs` | spotapps.co | Reads a restaurant's job-application form: whether it's hiring, the position titles… | 🟢 |
 | `spotapps.requestCatering` | spotapps.co | Sends a catering inquiry to the restaurant. | ⚪ |
 | `spotapps.requestPrivateParty` | spotapps.co | Sends a private-party inquiry to the restaurant. | ⚪ |
 | `spotapps.startOnlineOrder` | spotapps.co | Builds an online pickup or delivery order up to the payment step and stops there. | ⚪ |
@@ -4945,7 +4946,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `thezebra.getInsuranceStatistics` | thezebra.com | Returns the figures from The Zebra's annual State of Insurance report — the national… | ⚪ |
 | `thezebra.getLifeQuotes` | thezebra.com | Returns term and whole life insurance rates for an applicant's age, sex, health tier… | ⚪ |
 | `thezebra.getPetQuotes` | thezebra.com | Returns pet insurance rates for a pet's species, breed, age and ZIP, with each plan's… | ⚪ |
-| `thezebra.getRatesByDriverProfile` | thezebra.com | Returns how a driver's own circumstances move their premium — what an at-fault… | 🟢 |
+| `thezebra.getRatesByDriverProfile` | thezebra.com | Returns how a driver's own circumstances move their premium — what an at-fault… | 🟡 |
 | `thezebra.getRentersQuotes` | thezebra.com | Returns REAL renters insurance quotes for one address — each carrier's own monthly… | 🟢 |
 | `thezebra.getRentersRates` | thezebra.com | Returns what renters insurance actually costs, as The Zebra's own published figures… | ⚪ |
 | `thezebra.getStateRates` | thezebra.com | Returns what car insurance costs in a US state — the state's average premium for… | 🟢 |
@@ -5501,7 +5502,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wayfair.search` | wayfair.com | Searches Wayfair's catalog the way the site's own search box does ("queen bed frame"… | 🟢 |
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
-| `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟡 |
+| `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
 | `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟡 |
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟡 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | 🟢 |
