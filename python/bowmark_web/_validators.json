@@ -1,5 +1,5 @@
 {
-  "version": "d06d1f61462028cbf775cdeeb3cac3f04f73733f0ae8642a6d9a98fe87da4350",
+  "version": "38727b00caacc3ff93cd12d06c9177accc7ba0742ff0fbedc0e0b751552781e0",
   "units": {
     "address_validation": {
       "defs": {
@@ -115595,6 +115595,16 @@
             "schema": {
               "k": "ref",
               "name": "GetOpenTimesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindSiteArgs"
             },
             "optional": false
           }

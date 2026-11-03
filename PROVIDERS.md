@@ -1828,7 +1828,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.listFavoriteShops` | etsy.com | The shops the signed-in caller has favorited. | ⚪ |
 | `etsy.listListingReviews` | etsy.com | The reviews on one Etsy listing, as the listing page's own `Product` structured data… | 🟢 |
 | `etsy.listPurchases` | etsy.com | The signed-in caller's Etsy orders, newest first — shop, items, total, order date and… | ⚪ |
-| `etsy.listShopListings` | etsy.com | The items on the first page of an Etsy shop, from the shop page's own `ItemList`… | 🟢 |
+| `etsy.listShopListings` | etsy.com | The items on the first page of an Etsy shop, from the shop page's own `ItemList`… | 🟡 |
 | `etsy.listShopReviews` | etsy.com | One page of the reviews an Etsy shop has received across all its listings, newest… | 🟢 |
 | `etsy.listShopSoldItems` | etsy.com | The items a shop has already sold, newest first — what actually sells there, with… | ⚪ |
 | `etsy.listTrendingSearches` | etsy.com | What people are searching for on Etsy this week — the 'Top searches this week' list… | 🟢 |
@@ -2041,7 +2041,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `floathelm.getMyProfile` | reboot.floathelm.com | Get the signed-in user's profile information. | ⚪ |
 | `floathelm.getRoom` | reboot.floathelm.com | Reads one room's own detail popup — its description and photo — by the room_id… | 🟢 |
 | `floathelm.joinWaitlist` | reboot.floathelm.com | Join the waitlist for a fully booked time slot. | ⚪ |
-| `floathelm.listAvailableSlots` | reboot.floathelm.com | Lists every slot (open or reserved) on the booking calendar for one day, optionally… | 🟢 |
+| `floathelm.listAvailableSlots` | reboot.floathelm.com | Lists every slot (open or reserved) on the booking calendar for one day, optionally… | 🟡 |
 | `floathelm.listGiftCards` | reboot.floathelm.com | Lists every gift-card denomination and prepaid-service card the gift-card store sells… | 🟢 |
 | `floathelm.listLocations` | reboot.floathelm.com | List all available studio locations. | 🟢 |
 | `floathelm.listMyBookings` | reboot.floathelm.com | List all bookings for the signed-in user. | ⚪ |

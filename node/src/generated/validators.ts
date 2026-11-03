@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d06d1f61462028cbf775cdeeb3cac3f04f73733f0ae8642a6d9a98fe87da4350
-// 3959 checked, 20 unchecked.
+// Manifest version: 38727b00caacc3ff93cd12d06c9177accc7ba0742ff0fbedc0e0b751552781e0
+// 3960 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d06d1f61462028cbf775cdeeb3cac3f04f73733f0ae8642a6d9a98fe87da4350",
+  "version": "38727b00caacc3ff93cd12d06c9177accc7ba0742ff0fbedc0e0b751552781e0",
   "units": {
     "address_validation": {
       "defs": {
@@ -115607,6 +115607,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetOpenTimesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindSiteArgs"
             },
             "optional": false
           }

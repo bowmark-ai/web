@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d06d1f61462028cbf775cdeeb3cac3f04f73733f0ae8642a6d9a98fe87da4350
-# 93 capabilities, 759 providers, 3959 typed functions, 20 refused.
+# Manifest version: 38727b00caacc3ff93cd12d06c9177accc7ba0742ff0fbedc0e0b751552781e0
+# 93 capabilities, 759 providers, 3960 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -57953,6 +57953,27 @@ class Prv_wix_bookings_WixOpenSlot_Out(TypedDict):
     totalCapacity: float | None
     bookable: bool
 
+class Prv_wix_bookings_ListLocationsResult_Out(TypedDict):
+    locations: list[Prv_wix_bookings_WixLocation_Out]
+
+class Prv_wix_bookings_WixLocation_Out(TypedDict):
+    id: str
+    name: str
+    default: bool
+    status: str
+    timeZone: str | None
+    email: str | None
+    phone: str | None
+    address: Prv_wix_bookings_WixLocationAddress_Out | None
+
+class Prv_wix_bookings_WixLocationAddress_Out(TypedDict):
+    formattedAddress: str | None
+    city: str | None
+    subdivision: str | None
+    country: str | None
+    postalCode: str | None
+    hint: str | None
+
 class Prv_wodify_findGym_args_In(TypedDict):
     url: str
 
@@ -63662,7 +63683,8 @@ class Prv_americanvisionwindows(Protocol):
 
 class Prv_americashealthrankings(Protocol):
     """Public U.S. health-ranking report editions, measures, and state-level measure history
-    from America's Health Rankings.
+    from America's Health Rankings. For a bare site request, start with the current report
+    editions.
     """
 
     async def listReports(self, /) -> list[Prv_americashealthrankings_AmericasHealthRankingsReport_Out]:
@@ -92870,6 +92892,9 @@ class Prv_wix_bookings(Protocol):
         """The open appointment times for one service between two dates, with location and spots
         left, so a caller can pick one to book.
         """
+
+    async def listLocations(self, args: Prv_wix_bookings_FindSiteArgs_In, /) -> Prv_wix_bookings_ListLocationsResult_Out:
+        """A business's locations with address, phone, email and time zone."""
 
 class Prv_wodify(Protocol):
     """Wodify gym booking — class schedules, pricing and member functions for Wodify-powered

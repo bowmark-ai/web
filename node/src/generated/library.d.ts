@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d06d1f61462028cbf775cdeeb3cac3f04f73733f0ae8642a6d9a98fe87da4350
-// 93 capabilities, 759 providers, 3977 typed functions, 20 refused.
+// Manifest version: 38727b00caacc3ff93cd12d06c9177accc7ba0742ff0fbedc0e0b751552781e0
+// 93 capabilities, 759 providers, 3978 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9280,7 +9280,7 @@ interface GetMeasureDataArgs { measureId: number; state: string; }
 
   /**
    * Public U.S. health-ranking report editions, measures, and state-level measure history from
-   * America's Health Rankings.
+   * America's Health Rankings. For a bare site request, start with the current report editions.
    */
   interface Unit {
     /** Lists America's Health Rankings report editions, their year, and report type. */
@@ -93703,6 +93703,26 @@ interface WixOpenSlot {
   bookable: boolean;
 }
 interface WixOpenTimes { serviceId: string; timeZone: string | null; slots: WixOpenSlot[]; }
+interface WixLocationAddress {
+  formattedAddress: string | null;
+  city: string | null;
+  subdivision: string | null;
+  country: string | null;
+  postalCode: string | null;
+  hint: string | null;
+}
+interface WixLocation {
+  id: string;
+  name: string;
+  default: boolean;
+  /** The site's own label, e.g. "ACTIVE" — read the value off a result, never guess one from prose. */
+  status: string;
+  timeZone: string | null;
+  email: string | null;
+  phone: string | null;
+  address: WixLocationAddress | null;
+}
+interface ListLocationsResult { locations: WixLocation[]; }
 
   /**
    * Wix Bookings on any Wix business's website: read its services, staff, locations and open
@@ -93745,6 +93765,9 @@ interface WixOpenTimes { serviceId: string; timeZone: string | null; slots: WixO
      * so a caller can pick one to book.
      */
     getOpenTimes(args: GetOpenTimesArgs): Promise<WixOpenTimes>;
+
+    /** A business's locations with address, phone, email and time zone. */
+    listLocations(args: FindSiteArgs): Promise<ListLocationsResult>;
   }
 }
 
