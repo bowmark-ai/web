@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5967 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5969 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -166,6 +166,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aliexpress.search` | aliexpress.us | Searches AliExpress's product catalog by keyword, returning matching products with… | 🟢 |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
+| `amazon_br.getProduct` | www.amazon.com.br | Get an amazon.com.br product's title, BRL price, rating and stock text by ASIN or… | 🟢 |
+| `amazon_br.searchProducts` | www.amazon.com.br | Search amazon.com.br for products by keywords (or a pasted /s?k= URL) with BRL price… | 🟢 |
 | `amazon_ca.getProduct` | www.amazon.ca | Get product details from amazon.ca including title, price, availability, and rating… | 🟡 |
 | `amazon_ca.searchProducts` | www.amazon.ca | Search amazon.ca for products by keywords and return matching results with price… | 🟢 |
 | `amazon.addToCart` | www.amazon.com | Put one unit of a product in the cart and report what the cart then holds. | 🟢 |
@@ -664,7 +666,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booksy.buyGiftCard` | booksy.com | Buys a business's gift card or voucher. | ⚪ |
 | `booksy.cancelAppointment` | booksy.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | 🟢 |
 | `booksy.getAvailability` | booksy.com | Returns the open appointment times for one service at one business over a date range… | 🟢 |
-| `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | 🟢 |
+| `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | 🟡 |
 | `booksy.getBusiness` | booksy.com | Returns one business from its id or its booksy.com page URL: name, description… | 🟢 |
 | `booksy.getBusinessContact` | booksy.com | Returns a business's contact email, which Booksy shows only to a signed-in customer. | ⚪ |
 | `booksy.getBusinessNetwork` | booksy.com | Names the Booksy network a business belongs to (a chain or curated group) and lists… | 🟢 |
@@ -755,7 +757,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bungalow.listMarkets` | bungalow.com | Lists every market Bungalow currently operates in — city, region and country, plus the… | 🟢 |
 | `bungalow.searchListings` | bungalow.com | Searches Bungalow's live, priced room and whole-home rental inventory in one market —… | 🟢 |
 | `businessinsider_com.findTicker` | businessinsider.com | Resolve a company or asset name to its market symbol and markets.businessinsider.com… | 🟢 |
-| `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | 🟢 |
+| `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | 🟡 |
 | `businessinsider_com.getArticleComments` | businessinsider.com | Read the public comments/discussion thread under one article. | 🟢 |
 | `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | 🟢 |
 | `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟢 |
@@ -4148,7 +4150,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rezdy.checkVoucher` | rezdy.com | Checks a voucher, coupon, promo or gift-card code against a held cart and returns… | ⚪ |
 | `rezdy.findOperator` | rezdy.com | Finds a Rezdy operator from what a caller actually holds -- its Rezdy alias… | 🟢 |
 | `rezdy.getAvailability` | rezdy.com | Returns a product's sessions over a month: each date and start time, the session id… | 🟢 |
-| `rezdy.getPickupLocations` | rezdy.com | Lists the pickup points and times a product offers (hotel pickups on transfers and day… | ⚪ |
+| `rezdy.getPickupLocations` | rezdy.com | Lists the pickup points a product offers for a session (hotel pickups on day tours and… | 🟢 |
 | `rezdy.getPriceQuote` | rezdy.com | Prices a party for one session: the quantity of each price option given, returning the… | 🟢 |
 | `rezdy.getProduct` | rezdy.com | Returns one product's full page: description, duration, location, the price options… | 🟢 |
 | `rezdy.joinWaitingList` | rezdy.com | Joins the waiting list for a sold-out session where the operator allows it, as a guest. | ⚪ |
@@ -5938,7 +5940,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zenoti.getMyProfile` | zenoti.com | Returns the signed-in caller's profile at that business: name, email, phone… | ⚪ |
 | `zenoti.getService` | zenoti.com | Returns one service's full detail -- description, price, duration, add-ons and which… | 🟢 |
 | `zenoti.listCenters` | zenoti.com | Lists a tenant's locations (Zenoti 'centers') with name, address, phone, time zone and… | 🟢 |
-| `zenoti.listClassSessions` | zenoti.com | Lists scheduled group classes (yoga, fitness, workshops) at a center for a date range… | 🟢 |
+| `zenoti.listClassSessions` | zenoti.com | Lists scheduled group classes (yoga, fitness, workshops) at a center for a date range… | 🟡 |
 | `zenoti.listGiftCards` | zenoti.com | Lists a center's gift-card designs and amounts, as the webstore's gift-card page… | ⚪ |
 | `zenoti.listMyAppointments` | zenoti.com | Lists the signed-in caller's own upcoming (default) or past appointments at one… | 🟢 |
 | `zenoti.listPackagesAndMemberships` | zenoti.com | Lists a center's day packages, series packages and memberships with price and what… | ⚪ |

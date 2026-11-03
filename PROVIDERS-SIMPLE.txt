@@ -589,7 +589,7 @@ renttherunway.com — renttherunway: browseCategory, browseDesigner, search
 resend.com — resend: addContactToSegment, createContact, createSegment, createTopic, deleteContact, deleteDomain, deleteSegment, deleteTopic, listApiKeys, listContactProperties, listContacts, listDomains, listEmails, listLogs, listSegments, listTopics, removeContactFromSegment, searchBlog, searchChangelog, searchHandbook, systemStatus, updateContact, updateContactTopics, updateSegment, updateTopic (+9 planned)
 resy.com — resy: cancelBooking, checkAvailability, confirmBooking, confirmSignIn, listBookings, search, startBooking, startSignIn
 revisionskincare.com — revisionskincare: getSkincareQuizQuestions, takeSkincareQuiz
-rezdy.com — rezdy: findOperator, getAvailability, getPriceQuote, getProduct, listCatalogs, listProducts (+6 planned)
+rezdy.com — rezdy: findOperator, getAvailability, getPickupLocations, getPriceQuote, getProduct, listCatalogs, listProducts (+5 planned)
 rightmove.co.uk — rightmove: search
 ring.com — ring: getProduct, search
 rippling.com — rippling: listJobs
@@ -761,6 +761,7 @@ wsj.com — wsj: getArticle, getAuthor, getNewsletter, getPodcast, getQuote, lis
 wunderflats.com — wunderflats: search
 www.amazon.ca — amazon_ca: getProduct, searchProducts
 www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listNewReleases, listOrders, listRelatedProducts, listReviews, listSellerOffers, listVariations, searchProducts, suggestKeywords (+5 planned)
+www.amazon.com.br — amazon_br: getProduct, searchProducts
 www.bestbuy.ca — bestbuy_ca: getProduct, search
 www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepartments, listNews, listPublicData, listServices, queryPublicData, searchNews, searchPublicData, searchServices
 www.cardiff.gov.uk — cardiff: getApplication, search
