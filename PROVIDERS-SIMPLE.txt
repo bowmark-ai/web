@@ -153,7 +153,7 @@ camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
-canva.com — canva: getCreator, getGraphic, getPhoto, getTemplate, listTemplateCategories, searchGraphics, searchPhotos, searchTemplates (+45 planned)
+canva.com — canva: getCreator, getGraphic, getPhoto, getPricing, getTemplate, listTemplateCategories, searchGraphics, searchPhotos, searchTemplates (+44 planned)
 capitaloneshopping.com — capitaloneshopping: getStoreRate, searchStores
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
 careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs
@@ -333,7 +333,7 @@ gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getRentersQuote, listDiscounts, listPartnerCompanies (+33 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
 getsquire.com — squire: findShopsNear, getAvailability, getBrand, getReviews, getShop, listBarbers, listServices, searchShops (+20 planned)
-github.com — github: createComment, createIssue, createPullRequest, createReview, createReviewComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listIssues, listMarketplaceActions, listNotifications, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, mergePullRequest, searchCode, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository (+1 planned)
+github.com — github: createComment, createIssue, createPullRequest, createReview, createReviewComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getReadme, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listContributors, listIssues, listMarketplaceActions, listNotifications, listOrganizationRepositories, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, mergePullRequest, searchCode, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
 glassesusa.com — glassesusa: getProduct, search
@@ -408,7 +408,7 @@ iyc.com — iyc: checkCharterAvailability, searchCharterYachts
 jasminedilucci.com — jasmine_dilucci: getApplicationFormSchema
 jcrew.com — jcrew: browseCategory, checkVariantStock, findStores, getCategory, getProduct, getProducts, listCategories, listProductReviews, listSearchRefinements, listSortOptions, searchProducts, suggestSearchTerms (+2 planned)
 jennikayne.com — jennikayne: buildGiftCardLink, getGiftCardOptions
-joinblvd.com — boulevard: findBusiness, getAvailableDates, getAvailableTimes, getBusiness, getLocation, getServiceDetails, listLocations, listServices (+29 planned)
+joinblvd.com — boulevard: findBusiness, getAvailableDates, getAvailableTimes, getBusiness, getLocation, getServiceDetails, listLocations, listServices, listStaffForTime (+28 planned)
 joybird.com — joybird: getConfigurator, listConfigurators, priceConfigurator
 joycefactorydirect.com — joycefactorydirect: getBathCalculatorOptions, getWindowCalculatorOptions (+1 planned)
 junkluggers.com — junkluggers: findFranchise, getAvailability, getServiceTypes (+1 planned)

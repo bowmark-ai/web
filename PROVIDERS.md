@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5980 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5982 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -726,7 +726,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boulevard.listMyVouchers` | joinblvd.com | Lists the signed-in client's vouchers, gift cards and prepaid service credits at a… | ⚪ |
 | `boulevard.listPackagesAndMemberships` | joinblvd.com | Lists the memberships, packages and products a location sells online, with price. | ⚪ |
 | `boulevard.listServices` | joinblvd.com | Lists the services a location books online, grouped by category, with price range and… | 🟢 |
-| `boulevard.listStaffForTime` | joinblvd.com | Lists the staff members (and any per-staff price or duration variant) who can perform… | ⚪ |
+| `boulevard.listStaffForTime` | joinblvd.com | Lists the staff members (and any per-staff price or duration variant) who can perform… | 🟢 |
 | `boulevard.pauseMembership` | joinblvd.com | Pauses or unpauses one of the signed-in client's memberships where the business allows… | ⚪ |
 | `boulevard.payInvoice` | joinblvd.com | Pays one of the signed-in client's unpaid invoices with a card on file. | ⚪ |
 | `boulevard.rateAppointment` | joinblvd.com | Leaves a rating and comment on one of the signed-in client's past appointments. | ⚪ |
@@ -890,7 +890,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.getMyProfile` | canva.com | Reads the signed-in caller's Canva profile — display name, email, account id, plan… | ⚪ |
 | `canva.getPhoto` | canva.com | Reads one stock photo by id or url — title, description, free-or-Pro licence, the… | 🟢 |
 | `canva.getPresenterNotes` | canva.com | Reads the presenter notes on each slide of one of the caller's presentations. | ⚪ |
-| `canva.getPricing` | canva.com | Reads Canva's plans and prices — Free, Pro, Teams/Business and Enterprise — with each… | ⚪ |
+| `canva.getPricing` | canva.com | Reads Canva's paid plans (Pro, Business) with each one's monthly and yearly price… | 🟢 |
 | `canva.getSharedDesign` | canva.com | Reads a Canva design someone shared by view link (canva.com/design/<id>/<token>/view)… | ⚪ |
 | `canva.getTemplate` | canva.com | Reads one template by id or url — title, description, design type and page previews… | 🟢 |
 | `canva.importDesign` | canva.com | Imports a file at a url (PDF, PowerPoint, Word, Keynote) into the caller's account as… | ⚪ |
@@ -2300,15 +2300,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
 | `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, state, merge… | 🟢 |
+| `github.getReadme` | github.com | Returns a public repository's README decoded to text, whatever its filename — plus… | 🟢 |
 | `github.getRepo` | github.com | Returns a public repository's own metadata — description, default branch… | 🟢 |
 | `github.getSponsorPage` | github.com | Returns a person's public GitHub Sponsors page — display name, bio, location, current… | 🟢 |
 | `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | 🟢 |
 | `github.getUserRepositories` | github.com | Lists every public repository a user owns — description, fork/archived flags, default… | 🟢 |
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
+| `github.listContributors` | github.com | Lists who has contributed to a public repository, most commits first — login, account… | 🟢 |
 | `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟢 |
 | `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟢 |
 | `github.listNotifications` | github.com | Lists the signed-in caller's GitHub notifications inbox, 25 per page — repository… | 🟢 |
-| `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
+| `github.listOrganizationRepositories` | github.com | Lists an organization's public repositories — description, fork/archived flags… | 🟢 |
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
 | `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in caller has starred — name, full name, description… | 🟢 |
