@@ -778,7 +778,7 @@ www.temu.com — temu: checkout, listCategories, viewCart (+10 planned)
 www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends, getEarnings, getEconomicCalendar, getFinancials, getMarketOverview, getNews, getOptionChain, getQuote, getScreenerResults, getTechnicalAnalysis, listIdeas, searchSymbols
 www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getCancellationPolicy, getOpenTimes, getService, getStaffMember, listAddOns, listPromotions, listReviews, listServices, listStaff, searchBusinesses (+22 planned)
 www.walmart.ca — walmart_ca: search
-www.wixapis.com — wix_bookings: findSite, getOpenTimes, getService, listCategories, listServices, listStaff, searchServices (+14 planned)
+www.wixapis.com — wix_bookings: findSite, getOpenTimes, getService, listCategories, listLocations, listServices, listStaff, searchServices (+13 planned)
 x.com — x: bookmarkPost, createPost, followUser, getConversation, getPostReplies, likePost, listConversations, listFollowers, listFollowing, listHomeFeed, listNotifications, post, profile, replyToPost, repost, search, sendDirectMessage, userTimeline (+6 planned)
 xola.com — xola: findSeller, getAvailability, getExperience, listExperiences (+5 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities

@@ -3355,7 +3355,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.getContinueWatching` | www.netflix.com | Reads the signed-in caller's own Netflix Continue Watching row — the titles they are… | 🟢 |
 | `netflix.getMyList` | www.netflix.com | Reads the signed-in caller's own Netflix My List — each saved title's id, name… | 🟢 |
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
-| `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10… | 🟡 |
+| `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10… | 🟢 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads one article on Tudum, Netflix's editorial site, by its slug or URL — headline… | 🟢 |
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's viewing history (requires caller to be signed in). | ⚪ |
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
@@ -5670,7 +5670,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wix_bookings.getService` | www.wixapis.com | Returns one service in full: description, price and payment options, duration, staff… | 🟢 |
 | `wix_bookings.listCategories` | www.wixapis.com | Lists the categories a business groups its services into. | 🟢 |
 | `wix_bookings.listClassSessions` | www.wixapis.com | Lists the scheduled sessions of a business's classes and courses between two dates… | ⚪ |
-| `wix_bookings.listLocations` | www.wixapis.com | Lists a business's locations with address, phone, email and time zone. | ⚪ |
+| `wix_bookings.listLocations` | www.wixapis.com | Lists a business's locations with address, phone, email and time zone. | 🟢 |
 | `wix_bookings.listMyBookings` | www.wixapis.com | Lists the caller's upcoming and past bookings on one Wix site from its Members Area… | ⚪ |
 | `wix_bookings.listMyPlans` | www.wixapis.com | Lists the memberships and class packs the caller holds on one Wix site, with sessions… | ⚪ |
 | `wix_bookings.listPricingPlans` | www.wixapis.com | Lists the memberships and class packs a business sells for its services, with price… | ⚪ |
