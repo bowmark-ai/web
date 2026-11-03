@@ -1823,7 +1823,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.getPurchase` | etsy.com | One of the caller's orders — items, receipt total, shipping address and the carrier… | ⚪ |
 | `etsy.getRegistry` | etsy.com | One Etsy gift registry by id or URL — the registrants, the event date, and the items… | ⚪ |
 | `etsy.getShop` | etsy.com | One Etsy shop by its name or etsy.com/shop URL — tagline, location, logo, star rating… | 🟢 |
-| `etsy.getUserProfile` | etsy.com | A member's public Etsy profile by username or etsy.com/people URL — display name… | ⚪ |
+| `etsy.getUserProfile` | etsy.com | A member's public Etsy profile by username or etsy.com/people URL — display name… | 🟢 |
 | `etsy.leaveReview` | etsy.com | Leaves a star rating and written review on an item the caller bought and received. | ⚪ |
 | `etsy.listCategories` | etsy.com | Etsy's category tree — top-level departments and their subcategories with their /c/… | 🟢 |
 | `etsy.listCollections` | etsy.com | The signed-in caller's collections (the named lists they save favorites into) and what… | ⚪ |
