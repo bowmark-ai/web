@@ -18,7 +18,8 @@ lmstudio://add_mcp?name=bowmark&config=eyJ1cmwiOiJodHRwczovL2FwaS5ib3dtYXJrLmFpL
 npm i @bowmark/web
 ```
 
-**You need an API key.** Sign up at https://bowmark.ai/sign-up, create a key at
+**You need an API key.** Sign up at https://bowmark.ai/sign-up (new accounts start
+with a free $10), create a key at
 https://bowmark.ai/dashboard/keys, and pass it in:
 
 ```ts

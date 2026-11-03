@@ -70,7 +70,7 @@ asppoolco.com — asppoolco: findLocationByZip, listLocations
 astoundgroup.com — astoundgroup: getContactForm, listPages
 atlasoceanvoyages.com — atlasoceanvoyages: getVoyage, searchVoyages
 atlasseniorliving.com — atlasseniorliving: searchCommunities
-att.com — att: findDevices, getAccountBalance, getDevicePricing, getMonthlyBill, getUsage, listLines, listPlans, viewBillHistory, viewOrderHistory (+4 planned)
+att.com — att: findDevices, getAccountBalance, getDevicePricing, getMonthlyBill, getUsage, listLines, listPlans, listPrepaidPlans, viewBillHistory, viewOrderHistory (+4 planned)
 audibel.com — audibel: findClinics
 autocamp.com — autocamp: listProperties, searchAvailability
 avalonmalibu.com — avalonmalibu_com: getInsuranceForm
@@ -657,7 +657,7 @@ stackoverflow.com — stackoverflow: getQuestion, searchQuestions
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments
 statefarm.com — statefarm: findAgent, getBusinessQuote, getLifeQuote, getRentersQuote (+14 planned)
-steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getNewsItem, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, removeFriend, removeFromWishlist, searchGames, searchNews, viewFriends (+6 planned)
+steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getNewsItem, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, removeFriend, removeFromWishlist, searchGames, searchNews, viewFriends, viewInventory (+5 planned)
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
@@ -760,7 +760,7 @@ workable.com — workable: listJobs
 wsj.com — wsj: getArticle, getAuthor, getNewsletter, getPodcast, getQuote, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSections, listTrending, searchArticles (+7 planned)
 wunderflats.com — wunderflats: search
 www.amazon.ca — amazon_ca: getProduct, searchProducts
-www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listNewReleases, listOrders, listRelatedProducts, listReviews, listSellerOffers, listVariations, searchProducts, suggestKeywords (+5 planned)
+www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listNewReleases, listOrders, listRelatedProducts, listReviews, listSellerOffers, listVariations, searchProducts, searchWholeFoods, suggestKeywords (+5 planned)
 www.amazon.com.br — amazon_br: getProduct, searchProducts
 www.bestbuy.ca — bestbuy_ca: getProduct, search
 www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepartments, listNews, listPublicData, listServices, queryPublicData, searchNews, searchPublicData, searchServices

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5969 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5971 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -190,6 +190,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
 | `amazon.searchProducts` | www.amazon.com | Paginate through all Amazon search results by keywords, reaching every row from 1 to… | 🟢 |
+| `amazon.searchWholeFoods` | www.amazon.com | Search Whole Foods Market groceries on amazon.com by keyword and get product cards… | 🟢 |
 | `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | 🟢 |
 | `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | ⚪ |
 | `americandreamvacations.listLocations` | americandreamvacations.net | Returns American Dream Vacations' own list of rental store locations (city, state and… | 🟢 |
@@ -356,6 +357,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `att.getUsage` | att.com | Data and voice usage on a line: current month's data used (MB/GB), talk minutes used… | 🟢 |
 | `att.listLines` | att.com | Every line on the caller's AT&T account: phone number, device, plan name, upgrade… | 🟢 |
 | `att.listPlans` | att.com | Every unlimited wireless plan on AT&T's own plan-picker page… | 🟢 |
+| `att.listPrepaidPlans` | att.com | Every AT&T Prepaid plan on AT&T's own prepaid plans page (att.com/prepaid/plans/)… | 🟢 |
 | `att.payBill` | att.com | Pay a portion or all of the caller's AT&T bill using a saved payment method or… | ⚪ |
 | `att.viewBillHistory` | att.com | The caller's past 12 months of bills: month, amount due, amount paid, payment date. | 🟢 |
 | `att.viewOrderHistory` | att.com | The caller's past device and accessory orders from AT&T: order date, items, tracking… | 🟢 |
@@ -4775,7 +4777,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | 🟢 |
 | `steam.searchNews` | steampowered.com | Searches a game's recent news items by keyword and/or date range. | 🟢 |
 | `steam.viewFriends` | steampowered.com | Lists the signed-in caller's Steam friends — name, profile url, avatar, and… | 🟢 |
-| `steam.viewInventory` | steampowered.com | Displays the caller's inventory including trading cards, profile items, and gift… | ⚪ |
+| `steam.viewInventory` | steampowered.com | Reads a PUBLIC Steam profile's inventory by steamid64, appid and context — no sign-in… | 🟢 |
 | `steam.viewMarketHistory` | steampowered.com | Shows the caller's Steam Community Market transaction history including listings… | ⚪ |
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
