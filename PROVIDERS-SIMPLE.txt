@@ -333,7 +333,7 @@ gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getRentersQuote, listDiscounts, listPartnerCompanies (+33 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
 getsquire.com — squire: findShopsNear, getAvailability, getBrand, getReviews, getShop, listBarbers, listServices, searchShops (+20 planned)
-github.com — github: createComment, createIssue, createReview, createReviewComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listIssues, listMarketplaceActions, listNotifications, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, mergePullRequest, searchCode, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository (+2 planned)
+github.com — github: createComment, createIssue, createPullRequest, createReview, createReviewComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listIssues, listMarketplaceActions, listNotifications, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, mergePullRequest, searchCode, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository (+1 planned)
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
 glassesusa.com — glassesusa: getProduct, search

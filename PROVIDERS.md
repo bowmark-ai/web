@@ -933,7 +933,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `carlsgolfland.addToCart` | carlsgolfland.com | Hands the shopper the entry-point link for a priced configuration plus the exact… | 🟢 |
 | `carlsgolfland.checkout` | carlsgolfland.com | Would place a priced configuration into Carl's Golfland's cart and return a checkout… | ⚪ |
 | `carlsgolfland.getProduct` | carlsgolfland.com | Reads one product's full configurable-option set (e.g. Hand, Driver Loft, Shaft) with… | 🟢 |
-| `carlsgolfland.priceConfiguration` | carlsgolfland.com | Resolves a specific configuration (a choice per option group, e.g. { Hand: "Right"… | 🟡 |
+| `carlsgolfland.priceConfiguration` | carlsgolfland.com | Resolves a specific configuration (a choice per option group, e.g. { Hand: "Right"… | 🟢 |
 | `carlsgolfland.searchProducts` | carlsgolfland.com | Searches Carl's Golfland's golf-equipment catalog by free text and returns each… | 🟢 |
 | `carmelrealtycompany.getListing` | carmelrealtycompany.com | Fetches one listing detail page by slug and returns address, sold/active status… | 🟢 |
 | `carmelrealtycompany.searchListings` | carmelrealtycompany.com | Runs one of Carmel Realty Company's own regional listing-search pages and returns… | 🟢 |
@@ -2292,7 +2292,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
 | `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
 | `github.createIssue` | github.com | Opens a new issue on a repository, off github.com's own issue-creation mutation (POST… | 🟢 |
-| `github.createPullRequest` | github.com | Opens a pull request from head into base for the signed-in caller, off github.com's… | 🔴 |
+| `github.createPullRequest` | github.com | Opens a pull request from head into base for the signed-in caller, off github.com's… | 🟢 |
 | `github.createReview` | github.com | Submits a review on a pull request for the signed-in caller (approve, request changes… | 🟢 |
 | `github.createReviewComment` | github.com | Adds an inline comment to a line, a line range or a whole file in a pull request's… | 🟢 |
 | `github.deleteComment` | github.com | Deletes a comment on an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
@@ -4251,18 +4251,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsclub.getProduct` | samsclub.com | Reads one product's full page — member price (and non-member price where the site… | 🟢 |
 | `samsclub.search` | samsclub.com | Searches samsclub.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `samsclub.trackOrder` | samsclub.com | Looks up shipment/delivery status for an order by order number plus the email or zip… | ⚪ |
-| `samsung.checkWarrantyStatus` | samsung.com | A signed-in shopper's registered device's warranty status — active or expired, with… | 🟡 |
+| `samsung.checkWarrantyStatus` | samsung.com | A signed-in shopper's registered device's warranty status — active or expired, with… | 🟢 |
 | `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models — what a shopper… | 🟡 |
 | `samsung.findStore` | samsung.com | Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not… | 🟢 |
-| `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟡 |
+| `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟢 |
 | `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
-| `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | 🟡 |
+| `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | 🟢 |
 | `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | 🟢 |
 | `samsung.listCarrierOffers` | samsung.com | Samsung's own "save up to $X with eligible trade-in on this carrier" promotions — one… | 🟢 |
 | `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | 🟢 |
 | `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | 🟢 |
 | `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | 🟢 |
-| `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | 🟡 |
+| `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | 🟢 |
 | `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | 🟢 |
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | 🟢 |
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟢 |
@@ -5507,7 +5507,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wayfair.addToCart` | wayfair.com | Adds a product option to the visitor's Wayfair cart. | ⚪ |
 | `wayfair.getProduct` | wayfair.com | Reads one Wayfair product page: full description, every size/colour option with price… | ⚪ |
 | `wayfair.listReviews` | wayfair.com | Reads the customer reviews on one Wayfair product, with rating, text and photos. | ⚪ |
-| `wayfair.search` | wayfair.com | Searches Wayfair's catalog the way the site's own search box does ("queen bed frame"… | 🟢 |
+| `wayfair.search` | wayfair.com | Searches Wayfair's catalog the way the site's own search box does ("queen bed frame"… | 🟡 |
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
 | `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
