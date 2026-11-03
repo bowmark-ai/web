@@ -1159,14 +1159,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cloudbeds.findProperty` | cloudbeds.com | Finds a property's Cloudbeds booking page from what a caller has: a hotel name and… | ⚪ |
 | `cloudbeds.getAvailabilityCalendar` | cloudbeds.com | Returns, for each day in a date range, which room types and rates are open at a… | 🟢 |
 | `cloudbeds.getBookingQuote` | cloudbeds.com | Prices a stay before booking it, from the rate ids searchRooms returned: nightly and… | 🟢 |
-| `cloudbeds.getOrganization` | cloudbeds.com | Returns a hotel group that books through one Cloudbeds page (a chain, a hostel… | ⚪ |
+| `cloudbeds.getOrganization` | cloudbeds.com | Returns a hotel group that books through one Cloudbeds page (a chain, a hostel… | 🟢 |
 | `cloudbeds.getPolicies` | cloudbeds.com | A property's cancellation, deposit and payment terms in plain language, plus its house… | 🟢 |
 | `cloudbeds.getProperty` | cloudbeds.com | Returns one property from its code or booking-page URL: name, description, address and… | 🟢 |
 | `cloudbeds.getReservation` | cloudbeds.com | Reads a reservation the caller made through a property's Cloudbeds booking page, from… | ⚪ |
 | `cloudbeds.getRoomType` | cloudbeds.com | One room type's full detail at a property — description, photos, bed layout, occupancy… | 🟢 |
 | `cloudbeds.listAddons` | cloudbeds.com | The extras a property sells with a chosen room and stay (breakfast, transfers… | 🟢 |
 | `cloudbeds.payDeposit` | cloudbeds.com | Pays a reservation's deposit or balance by card through the property's payment gateway. | ⚪ |
-| `cloudbeds.searchOrganizationAvailability` | cloudbeds.com | For a hotel group and a check-in and check-out date, lists which of its properties… | ⚪ |
+| `cloudbeds.searchOrganizationAvailability` | cloudbeds.com | For a hotel group and a check-in and check-out date, lists which of its properties… | 🟢 |
 | `cloudbeds.searchRooms` | cloudbeds.com | Lists the rooms a property has free for a check-in and check-out date and a number of… | 🟢 |
 | `cloudflare.comparePlans` | cloudflare.com | Compares Cloudflare's website/application plan tiers — Free, Pro, Business and… | 🟢 |
 | `cloudflare.compareTeamsPlans` | cloudflare.com | Compares Cloudflare's Zero Trust / Cloudflare One team plans — Free (up to 50 users)… | 🟢 |
