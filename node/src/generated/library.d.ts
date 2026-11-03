@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 11206c240a816b91a2b634346f199c09585c0a062fc7b22aae45210a658aa976
-// 93 capabilities, 760 providers, 3983 typed functions, 20 refused.
+// Manifest version: c208a2a796a3815381bf74ca4b307fed418b9f50c69bc183f297ed85169e15b6
+// 93 capabilities, 760 providers, 3984 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -63674,6 +63674,18 @@ interface OloApplyCouponArgs {
   guid: string;
   code?: string | null;  // omitted or null removes whatever coupon is applied
 }
+interface OloSetHandoffArgs {
+  host: string;
+  guid: string;  // from startOrder
+  vendorId: number;  // the same vendorId startOrder took
+  handoffMode?: string;  // "CounterPickup" (default), "DriveThru", "CurbsidePickup", "Dispatch"
+  timeWantedType?: "Immediate" | "Advance";  // default "Immediate" (ASAP)
+  timeWanted?: string;  // a UTC instant from listTimeSlots, when "Advance"
+  address?: string;  // delivery address, for "Dispatch"
+}
+interface OloHandoffResult extends OloBasket {
+  readyForCheckout: boolean;  // the site's own checkout validation passed
+}
 
   /**
    * Olo-hosted restaurant order sites (order.fazolis.com, order.portillos.com,
@@ -63750,8 +63762,8 @@ interface OloApplyCouponArgs {
     /**
      * Opens a guest basket at a location, returning the basket guid every other basket call
      * (addToBasket, getBasket) needs. Private to this call -- nothing is charged, and the basket
-     * only exists for the rest of the script. The handoff mode and time wanted are set later, in
-     * startCheckout. Example: `bowmark.providers.olo.startOrder({ host: "order.fazolis.com",
+     * only exists for the rest of the script. The handoff mode and time wanted are set later, with
+     * setHandoff. Example: `bowmark.providers.olo.startOrder({ host: "order.fazolis.com",
      * vendorId: 81322 })`.
      */
     startOrder(args: OloStartOrderArgs): Promise<OloBasket>;
@@ -63782,6 +63794,13 @@ interface OloApplyCouponArgs {
      * returns the updated basket with its couponDiscount.
      */
     applyCoupon(args: OloApplyCouponArgs): Promise<OloBasket>;
+
+    /**
+     * Sets how and when a guest basket is picked up (carryout, drive-thru, curbside, delivery;
+     * ASAP or a time slot), then runs the site's own checkout validation and returns the basket
+     * with readyForCheckout.
+     */
+    setHandoff(args: OloSetHandoffArgs): Promise<OloHandoffResult>;
 
     /**
      * Returns a placed order's status from its order id (off the confirmation link): status,

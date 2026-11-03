@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 11206c240a816b91a2b634346f199c09585c0a062fc7b22aae45210a658aa976
-# 93 capabilities, 760 providers, 3965 typed functions, 20 refused.
+# Manifest version: c208a2a796a3815381bf74ca4b307fed418b9f50c69bc183f297ed85169e15b6
+# 93 capabilities, 760 providers, 3966 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -38043,6 +38043,27 @@ class Prv_olo_OloApplyCouponArgs_In(TypedDict):
     host: str
     guid: str
     code: NotRequired[str | None]
+
+class Prv_olo_OloSetHandoffArgs_In(TypedDict):
+    host: str
+    guid: str
+    vendorId: float
+    handoffMode: NotRequired[str]
+    timeWantedType: NotRequired[Literal["Immediate"] | Literal["Advance"]]
+    timeWanted: NotRequired[str]
+    address: NotRequired[str]
+
+class Prv_olo_OloHandoffResult_Out(TypedDict):
+    guid: str
+    vendorId: float
+    handoffMode: str
+    items: list[Prv_olo_OloBasketProduct_Out]
+    subTotal: float
+    salesTax: float
+    total: float
+    unavailableItems: list[str]
+    couponDiscount: float
+    readyForCheckout: bool
 
 class Prv_olo_OloGetOrderStatusArgs_In(TypedDict):
     host: str
@@ -82773,7 +82794,7 @@ class Prv_olo(Protocol):
         """Opens a guest basket at a location, returning the basket guid every other basket call
         (addToBasket, getBasket) needs. Private to this call -- nothing is charged, and the
         basket only exists for the rest of the script. The handoff mode and time wanted are set
-        later, in startCheckout. Example: `bowmark.providers.olo.startOrder({ host:
+        later, with setHandoff. Example: `bowmark.providers.olo.startOrder({ host:
         "order.fazolis.com", vendorId: 81322 })`.
         """
 
@@ -82798,6 +82819,12 @@ class Prv_olo(Protocol):
     async def applyCoupon(self, args: Prv_olo_OloApplyCouponArgs_In, /) -> Prv_olo_OloBasket_Out:
         """Applies a coupon or promo code to a guest basket, or removes it by omitting the code,
         and returns the updated basket with its couponDiscount.
+        """
+
+    async def setHandoff(self, args: Prv_olo_OloSetHandoffArgs_In, /) -> Prv_olo_OloHandoffResult_Out:
+        """Sets how and when a guest basket is picked up (carryout, drive-thru, curbside, delivery;
+        ASAP or a time slot), then runs the site's own checkout validation and returns the
+        basket with readyForCheckout.
         """
 
     async def getOrderStatus(self, args: Prv_olo_OloGetOrderStatusArgs_In, /) -> Prv_olo_OloOrderStatus_Out:

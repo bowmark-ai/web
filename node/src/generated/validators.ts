@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 11206c240a816b91a2b634346f199c09585c0a062fc7b22aae45210a658aa976
-// 3965 checked, 20 unchecked.
+// Manifest version: c208a2a796a3815381bf74ca4b307fed418b9f50c69bc183f297ed85169e15b6
+// 3966 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "11206c240a816b91a2b634346f199c09585c0a062fc7b22aae45210a658aa976",
+  "version": "c208a2a796a3815381bf74ca4b307fed418b9f50c69bc183f297ed85169e15b6",
   "units": {
     "address_validation": {
       "defs": {
@@ -75947,6 +75947,70 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "OloSetHandoffArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "host",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "vendorId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "handoffMode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeWantedType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Immediate"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Advance"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "timeWanted",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "OloStartOrderArgs": {
           "k": "object",
           "props": [
@@ -76184,6 +76248,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "OloApplyCouponArgs"
+            },
+            "optional": false
+          }
+        ],
+        "setHandoff": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OloSetHandoffArgs"
             },
             "optional": false
           }

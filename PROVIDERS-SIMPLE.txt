@@ -388,7 +388,7 @@ icis.corp.delaware.gov — delaware_corps: searchEntity (+1 planned)
 idealista.com — idealista: search (+3 planned)
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
-ikea.com — ikea: addToCart, findStores, getCart, getDeliveryOptions, getProduct, getProductAvailability, getProductDocuments, getProductRatings, listCategories, listCategoryProducts, listInspiration, listNewProducts, listOffers, lookupOrder, removeFromCart, searchProducts, suggestSearchTerms, updateCartItem (+10 planned)
+ikea.com — ikea: addToCart, addToFavorites, findStores, getCart, getDeliveryOptions, getProduct, getProductAvailability, getProductDocuments, getProductRatings, listCategories, listCategoryProducts, listFavorites, listInspiration, listNewProducts, listOffers, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem (+7 planned)
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 inspirecommunities.com — inspirecommunities: searchHomes

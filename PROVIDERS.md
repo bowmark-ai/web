@@ -2684,7 +2684,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
 | `ikea.addToCart` | ikea.com | Adds an item (by item number and quantity) to an IKEA shopping cart and returns the… | 🟢 |
-| `ikea.addToFavorites` | ikea.com | Saves a product to an IKEA favorites list (IKEA's shopping list), creating the list… | ⚪ |
+| `ikea.addToFavorites` | ikea.com | Saves a product to an IKEA favorites list (IKEA's shopping list) by item number and… | 🟢 |
 | `ikea.bookPlanningAppointment` | ikea.com | Books a planning appointment (kitchen, bedroom, office…) at a store or online for the… | ⚪ |
 | `ikea.findStores` | ikea.com | Lists IKEA's US stores, optionally near a ZIP code or in a state, with address… | 🟢 |
 | `ikea.getCart` | ikea.com | Reads a cart's items, quantities, line prices and total. | 🟢 |
@@ -2699,14 +2699,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.listCategories` | ikea.com | Lists IKEA's product category tree (e.g. Furniture → Bookcases & shelving units) with… | 🟢 |
 | `ikea.listCategoryProducts` | ikea.com | Lists the products in one category with IKEA's own filters (price, colour, material… | 🟢 |
 | `ikea.listFamilyOffers` | ikea.com | Lists the member-only IKEA Family offers and rewards available to the signed-in caller. | ⚪ |
-| `ikea.listFavorites` | ikea.com | Reads the products on a favorites list. | ⚪ |
+| `ikea.listFavorites` | ikea.com | Reads every favorites list on an identity — a fresh, empty one if favoritesToken is… | 🟢 |
 | `ikea.listInspiration` | ikea.com | Lists one room's idea content — photographed room galleries, how-to articles, product… | 🟢 |
 | `ikea.listNewProducts` | ikea.com | Lists IKEA US products marked as new arrivals, with the same filters, sort orders and… | 🟢 |
 | `ikea.listOffers` | ikea.com | Lists IKEA US products on offer — IKEA Family prices by default, or last-chance… | 🟢 |
 | `ikea.listPurchases` | ikea.com | Lists the signed-in caller's IKEA purchases, online and in store, newest first, with… | ⚪ |
 | `ikea.lookupOrder` | ikea.com | Looks up one order as a guest — no account needed — by order number plus the email or… | 🟢 |
 | `ikea.removeFromCart` | ikea.com | Removes an item from a cart. | 🟢 |
-| `ikea.removeFromFavorites` | ikea.com | Removes a product from a favorites list. | ⚪ |
+| `ikea.removeFromFavorites` | ikea.com | Removes a product from a favorites list. | 🟢 |
 | `ikea.searchProducts` | ikea.com | Searches IKEA's US catalogue by keyword and returns each product's item number, name… | 🟢 |
 | `ikea.suggestSearchTerms` | ikea.com | Returns IKEA's own search-as-you-type suggestions for a partial query (e.g. 'sof' →… | 🟢 |
 | `ikea.updateCartItem` | ikea.com | Changes the quantity of an item already in a cart. | 🟢 |
