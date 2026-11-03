@@ -215,6 +215,7 @@ consultnet.com — consultnet: searchJobs
 context.dev — context_dev: crawl, retrieveBrand, search
 cooking.nytimes.com — nyt_cooking: addRecipeToFolder, addToGroceryList, clearGroceryList, createRecipeBoxFolder, createRecipeNote, deleteRecipeBoxFolder, deleteRecipeNote, getAccountProfile, getArticle, getAuthorRecipes, getCollection, getCookedRecipes, getGroceryList, getMyNotes, getMyRating, getRecipe, getRecipeNotes, getRelatedRecipes, getSavedRecipes, getSeasonalGuide, getTopic, getTrendingArticles, listFeaturedCollections, listRecipeBoxFolders, listTopics, markRecipeCooked, rateRecipe, removeFromGroceryList, removeRecipeFromFolder, renameRecipeBoxFolder, saveRecipe, searchMyRecipeBox, searchRecipes, unsaveRecipe, updateRecipeNote
 corepoweryoga.com — corepoweryoga: getChallenge, getClass, getOnDemandVideo, getProfile, getSchedule, getStudio, getTeacher, getWorkshop, listChallenges, listClasses, listClassPackPrices, listMembershipPrices, listMyBookings, listOnDemandVideos, listSchedules, listStudios, listTeachers, listWorkshops (+22 planned)
+cosign.co — cosign: job, searchJobs
 costco.com — costco: listGiftCards, search (+1 planned)
 countycourt.vic.gov.au — countycourt_vic_gov_au: dailyList
 couponfollow.com — couponfollow: getCodes

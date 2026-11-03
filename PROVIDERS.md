@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5965 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5967 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1319,6 +1319,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.rateClass` | corepoweryoga.com | Rates and reviews a class attended. | ⚪ |
 | `corepoweryoga.removeFavoriteTeacher` | corepoweryoga.com | Removes an instructor from the caller's favorites. | ⚪ |
 | `corepoweryoga.updateProfile` | corepoweryoga.com | Updates the caller's profile information like name, email, phone. | ⚪ |
+| `cosign.job` | cosign.co | Reads one cosign.co job posting by postingId — the full description, location, team… | 🟢 |
+| `cosign.searchJobs` | cosign.co | Lists open roles on the cosign.co jobs board (a16z's startup network), newest first… | 🟢 |
 | `costco.listGiftCards` | costco.com | Costco's discounted gift cards and eGift cards (restaurants, movies, games, travel) —… | 🟢 |
 | `costco.listOrders` | costco.com | The signed-in member's own Costco.com orders, newest first — order number, date… | ⚪ |
 | `costco.search` | costco.com | Costco's own search-bar autocomplete suggestions for a typed term — real phrases… | 🟢 |
