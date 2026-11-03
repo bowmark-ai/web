@@ -276,7 +276,7 @@ epromos.com — epromos: getProductConfiguration, listCategoryProducts, quoteBul
 eq3.com — eq3: getSofaConfiguration, listSofas (+1 planned)
 equinox-hotels.com — equinox_hotels: listRooms, searchRates
 erieinsurance.com — erieinsurance: findAgent (+18 planned)
-espn.com — espn: fantasyPlayers, getArticle, getFantasyLeague, getGame, getPlayer, getTeam, injuries, listLeagues, listMyFantasyTeams, listTeams, news, playerGameLog, playerStats, rankings, scoreboard, search, standings, statLeaders, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions (+12 planned)
+espn.com — espn: draftPicks, fantasyPlayers, getArticle, getFantasyLeague, getGame, getPlayer, getTeam, injuries, listLeagues, listMyFantasyTeams, listTeams, news, odds, playerGameLog, playerStats, rankings, scoreboard, search, standings, statLeaders, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions (+10 planned)
 estes-express.com — estes_express: estimateFreightQuote
 ethos.com — ethos: nothing callable yet (+1 planned)
 etsy.com — etsy: browseCategory, estimateShipping, getListing, getShop, getUserProfile, listCategories, listListingReviews, listShopListings, listShopReviews, listTrendingSearches, search, searchShops, suggestSearches (+22 planned)

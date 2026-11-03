@@ -1775,7 +1775,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.addDropFantasyPlayer` | espn.com | Adds a free agent to the CALLER's own ESPN fantasy team, dropping one of theirs if the… | ⚪ |
 | `espn.addFavorite` | espn.com | Adds a team, league or player to the CALLER's My ESPN favourites. | ⚪ |
 | `espn.createFantasyLeague` | espn.com | Creates a new ESPN fantasy league (football, baseball, basketball or hockey) owned by… | ⚪ |
-| `espn.draftPicks` | espn.com | A league's draft by round and pick — team, player, position and college — for the… | ⚪ |
+| `espn.draftPicks` | espn.com | A league's draft pick by pick — round, pick, overall number, drafting team, the player… | 🟢 |
 | `espn.fantasyPlayers` | espn.com | ESPN Fantasy's public player board for fantasy football, baseball, basketball or… | 🟢 |
 | `espn.getArticle` | espn.com | The full text of one ESPN story — headline, byline, published and updated times, body… | 🟢 |
 | `espn.getFantasyLeague` | espn.com | One ESPN fantasy league — settings, standings, this week's matchups and every team… | 🟢 |
@@ -1790,7 +1790,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.listTeams` | espn.com | Every team in a league with its ESPN id, abbreviation, name, location, colours and… | 🟢 |
 | `espn.listVideos` | espn.com | ESPN's highlight and analysis video clips for a league, a team or a game — title… | ⚪ |
 | `espn.news` | espn.com | The latest ESPN headlines for a league, optionally narrowed to one team — headline… | 🟢 |
-| `espn.odds` | espn.com | The betting lines ESPN shows for one game — spread, total and moneyline from each… | ⚪ |
+| `espn.odds` | espn.com | The betting lines ESPN shows for a league's games — spread, total and moneyline from… | 🟢 |
 | `espn.playerGameLog` | espn.com | One player's game-by-game log for a season — opponent, result and the full stat line… | 🟢 |
 | `espn.playerStats` | espn.com | One player's full statistics — season by season and career totals in every category… | 🟢 |
 | `espn.proposeFantasyTrade` | espn.com | Proposes a trade from the CALLER's own ESPN fantasy team to another team in the same… | ⚪ |

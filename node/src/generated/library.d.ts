@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 54a8cc4d16c51b87648847793263a9d9799b2983a283650fceaf830e2375bd1d
-// 93 capabilities, 762 providers, 4083 typed functions, 20 refused.
+// Manifest version: f09f56971a672fe7d2f8bb50698220f0a3ba3fb6d030be645828ecaff47f1321
+// 93 capabilities, 762 providers, 4088 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16608,6 +16608,28 @@ interface BlueskyKnownFollowers {
      * has expired.
      */
     getMyLikes(opts?: { limit?: number; cursor?: string }, connectionOpts?: ConnectionOption): Promise<BlueskySignedInPostPage>;
+
+    /**
+     * The accounts the signed-in caller has muted, page by page. Needs the caller signed in to
+     * bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError` when
+     * the saved sign-in has expired; sign in again.
+     */
+    listMutedUsers(opts?: { limit?: number; cursor?: string }, connectionOpts?: ConnectionOption): Promise<BlueskySignedInUserPage>;
+
+    /**
+     * The accounts the signed-in caller has blocked, page by page. Needs the caller signed in to
+     * bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError` when
+     * the saved sign-in has expired; sign in again.
+     */
+    listBlockedUsers(opts?: { limit?: number; cursor?: string }, connectionOpts?: ConnectionOption): Promise<BlueskySignedInUserPage>;
+
+    /**
+     * Which of the signed-in caller's own follows also follow `actor` (a handle, DID or bsky.app
+     * profile URL) — the 'Followed by' line on a profile. Needs the caller signed in to bsky.app —
+     * the run pauses for a sign-in link when they are not. THROWS `blueskyInputError` for an
+     * unknown actor, `blueskyError` when the saved sign-in has expired.
+     */
+    getKnownFollowers(actor: string | { actor: string; limit?: number; cursor?: string }, opts?: ConnectionOption): Promise<BlueskyKnownFollowers>;
   }
 }
 
@@ -79013,6 +79035,13 @@ interface SnapchatFriend {
   bitmojiAvatarId?: string;
 }
 
+interface SnapchatFriendActionResult {
+  userId: string;
+  added: boolean; // Snapchat accepted the add
+  failureReason?: number; // Snapchat's own refusal enum, when it refused
+  message?: string;
+}
+
   /**
    * Snapchat, the photo and video messaging app: search accounts, lenses, topics, shows and
    * places; read public profiles, their Stories, Spotlight videos and lenses; browse Spotlight,
@@ -79136,6 +79165,13 @@ interface SnapchatFriend {
      * and when each was added.
      */
     listFriends(opts?: ConnectionOption): Promise<SnapchatFriend[]>;
+
+    /**
+     * Sends a friend add from the signed-in caller's account to one Snapchat user, by their user
+     * id (a uuid, e.g. off listFriends). Snapchat for Web's username search is not reachable yet,
+     * so a bare username is refused. NEEDS A SIGN-IN.
+     */
+    addFriend(input: { userId: string }, opts?: ConnectionOption): Promise<SnapchatFriendActionResult>;
   }
 }
 
@@ -96317,6 +96353,12 @@ interface XPost {
      * `limit` is met.
      */
     listHomeFeed(args?: { limit?: number }, opts?: ConnectionOption): Promise<XTweet[]>;
+
+    /**
+     * Reads the signed-in caller's saved bookmarks, newest saved first, scrolling until `limit` is
+     * met.
+     */
+    listBookmarks(args?: { limit?: number }, opts?: ConnectionOption): Promise<XTweet[]>;
 
     /**
      * Reads the signed-in caller's notifications — likes, reposts, follows, replies, mentions and

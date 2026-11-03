@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 54a8cc4d16c51b87648847793263a9d9799b2983a283650fceaf830e2375bd1d
-# 93 capabilities, 762 providers, 4065 typed functions, 20 refused.
+# Manifest version: f09f56971a672fe7d2f8bb50698220f0a3ba3fb6d030be645828ecaff47f1321
+# 93 capabilities, 762 providers, 4070 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9834,6 +9834,28 @@ class Prv_bluesky_BlueskySignedInPostPage_Out(TypedDict):
 
 class Prv_bluesky_getMyLikes_opts_In(TypedDict):
     limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_listMutedUsers_opts_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskySignedInUserPage_Out(TypedDict):
+    users: list[Prv_bluesky_BlueskyPostAuthor_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_listBlockedUsers_opts_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_getKnownFollowers_actor_u1_In(TypedDict):
+    actor: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyKnownFollowers_Out(TypedDict):
+    followers: list[Prv_bluesky_BlueskyPostAuthor_Out]
+    subject: Prv_bluesky_BlueskyPostAuthor_Out
     cursor: NotRequired[str]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
@@ -48231,6 +48253,15 @@ class Prv_snapchat_SnapchatFriend_Out(TypedDict):
     addedAt: NotRequired[float]
     bitmojiAvatarId: NotRequired[str]
 
+class Prv_snapchat_addFriend_input_In(TypedDict):
+    userId: str
+
+class Prv_snapchat_SnapchatFriendActionResult_Out(TypedDict):
+    userId: str
+    added: bool
+    failureReason: NotRequired[float]
+    message: NotRequired[str]
+
 class Prv_solidcore_ListStudiosArgs_In(TypedDict):
     state: NotRequired[str]
 
@@ -59739,6 +59770,9 @@ class Prv_x_SearchArgs_In(TypedDict):
 class Prv_x_listHomeFeed_args_In(TypedDict):
     limit: NotRequired[float]
 
+class Prv_x_listBookmarks_args_In(TypedDict):
+    limit: NotRequired[float]
+
 class Prv_x_listNotifications_args_In(TypedDict):
     limit: NotRequired[float]
 
@@ -67647,6 +67681,26 @@ class Prv_bluesky(Protocol):
         shows an account's likes only to its owner. Needs the caller signed in to bsky.app — the
         run pauses for a sign-in link when they are not. THROWS `blueskyError` when the saved
         sign-in has expired.
+        """
+
+    async def listMutedUsers(self, opts: Prv_bluesky_listMutedUsers_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskySignedInUserPage_Out:
+        """The accounts the signed-in caller has muted, page by page. Needs the caller signed in to
+        bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError`
+        when the saved sign-in has expired; sign in again.
+        """
+
+    async def listBlockedUsers(self, opts: Prv_bluesky_listBlockedUsers_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskySignedInUserPage_Out:
+        """The accounts the signed-in caller has blocked, page by page. Needs the caller signed in
+        to bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError`
+        when the saved sign-in has expired; sign in again.
+        """
+
+    async def getKnownFollowers(self, actor: str | Prv_bluesky_getKnownFollowers_actor_u1_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyKnownFollowers_Out:
+        """Which of the signed-in caller's own follows also follow `actor` (a handle, DID or
+        bsky.app profile URL) — the 'Followed by' line on a profile. Needs the caller signed in
+        to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+        `blueskyInputError` for an unknown actor, `blueskyError` when the saved sign-in has
+        expired.
         """
 
 class Prv_bmwusa(Protocol):
@@ -89289,6 +89343,12 @@ class Prv_snapchat(Protocol):
         type and when each was added.
         """
 
+    async def addFriend(self, input: Prv_snapchat_addFriend_input_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatFriendActionResult_Out:
+        """Sends a friend add from the signed-in caller's account to one Snapchat user, by their
+        user id (a uuid, e.g. off listFriends). Snapchat for Web's username search is not
+        reachable yet, so a bare username is refused. NEEDS A SIGN-IN.
+        """
+
 class Prv_solidcore(Protocol):
     """solidcore.co — the [solidcore] boutique fitness studio chain (Pilates-based strength
     classes). listStudios and getStudio are built; everything else is queued — see
@@ -95128,6 +95188,11 @@ class Prv_x(Protocol):
     async def listHomeFeed(self, args: Prv_x_listHomeFeed_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XTweet_Out]:
         """Reads the signed-in caller's personalized home timeline, in X's own order, scrolling
         until `limit` is met.
+        """
+
+    async def listBookmarks(self, args: Prv_x_listBookmarks_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XTweet_Out]:
+        """Reads the signed-in caller's saved bookmarks, newest saved first, scrolling until
+        `limit` is met.
         """
 
     async def listNotifications(self, args: Prv_x_listNotifications_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XNotification_Out]:
