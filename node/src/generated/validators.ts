@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f098101dd25b21cfdad77600f3a52ef17d69936e92f5fc81aee8ac29e6e13fbb
-// 3951 checked, 20 unchecked.
+// Manifest version: d06d1f61462028cbf775cdeeb3cac3f04f73733f0ae8642a6d9a98fe87da4350
+// 3959 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f098101dd25b21cfdad77600f3a52ef17d69936e92f5fc81aee8ac29e6e13fbb",
+  "version": "d06d1f61462028cbf775cdeeb3cac3f04f73733f0ae8642a6d9a98fe87da4350",
   "units": {
     "address_validation": {
       "defs": {
@@ -10031,6 +10031,32 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SearchWholeFoodsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "keywords",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -10040,6 +10066,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchWholeFoods": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchWholeFoodsArgs"
             },
             "optional": false
           }
@@ -10338,6 +10374,75 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.amazon_br": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "keywords",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "asin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -13789,6 +13894,7 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listPlans": [],
+        "listPrepaidPlans": [],
         "getAccountBalance": [
           {
             "name": "opts",
@@ -26759,6 +26865,63 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "checkInDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getOrganization": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "organization",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchOrganizationAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "organization",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkIn",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkOut",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "currency",
                   "schema": {
                     "k": "string"
                   },
@@ -50032,6 +50195,31 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "quantity",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "cartKey",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "applyPromoCode": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "code",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": false
                 },
@@ -99250,6 +99438,63 @@ export const VALIDATORS: ValidatorTable = {
         "ViewFriendsArgs": {
           "k": "object",
           "props": []
+        },
+        "ViewInventoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "steamId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "appId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "contextId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -99599,6 +99844,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "viewInventory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ViewInventoryArgs"
+            },
+            "optional": false
           }
         ]
       }

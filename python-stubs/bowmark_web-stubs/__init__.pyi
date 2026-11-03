@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f098101dd25b21cfdad77600f3a52ef17d69936e92f5fc81aee8ac29e6e13fbb
-# 93 capabilities, 758 providers, 3951 typed functions, 20 refused.
+# Manifest version: d06d1f61462028cbf775cdeeb3cac3f04f73733f0ae8642a6d9a98fe87da4350
+# 93 capabilities, 759 providers, 3959 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5009,6 +5009,11 @@ class Prv_amazon_AmazonProduct_Out(TypedDict):
     sponsored: bool
     image: str | None
 
+class Prv_amazon_SearchWholeFoodsArgs_In(TypedDict):
+    keywords: str
+    sort: NotRequired[str]
+    page: NotRequired[float]
+
 class Prv_amazon_ListCategoryProductsArgs_In(TypedDict):
     department: str
     sort: NotRequired[str]
@@ -5205,6 +5210,40 @@ class Prv_amazon_SignedInOrder_Out(TypedDict):
     merchant: str | None
     itemCount: float | None
     url: str
+
+class Prv_amazon_br_searchProducts_args_In(TypedDict):
+    keywords: NotRequired[str]
+    query: NotRequired[str]
+    url: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_amazon_br_AmazonBrSearchResult_Out(TypedDict):
+    products: list[Prv_amazon_br_AmazonBrProduct_Out]
+    totalResultCount: float
+
+class Prv_amazon_br_AmazonBrProduct_Out(TypedDict):
+    asin: str
+    title: str
+    url: str
+    price: float | None
+    rating: float | None
+    ratingCount: float | None
+    sponsored: bool
+
+class Prv_amazon_br_getProduct_args_In(TypedDict):
+    asin: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_amazon_br_AmazonBrProductDetail_Out(TypedDict):
+    asin: str
+    title: str
+    url: str
+    price: float | None
+    currency: Literal["BRL"]
+    rating: float | None
+    ratingCount: float | None
+    availability: str | None
+    inStock: bool
 
 class Prv_amazon_ca_SearchProductsArgs_In(TypedDict):
     keywords: str
@@ -7290,6 +7329,14 @@ class Prv_att_AttPlanLinePrice_Out(TypedDict):
 class Prv_att_AttPlan_Out_international_Out(TypedDict):
     included: bool
     note: str | None
+
+class Prv_att_AttPrepaidPlan_Out(TypedDict):
+    name: str
+    monthlyUsd: float | None
+    pricesUsd: list[float]
+    priceNote: str | None
+    features: list[str]
+    shopUrl: str | None
 
 class Prv_att_AttAccountBalance_Out(TypedDict):
     amountDueUsd: float | None
@@ -14753,6 +14800,60 @@ class Prv_cloudbeds_CloudbedsPolicies_Out(TypedDict):
 class Prv_cloudbeds_CloudbedsPolicies_Out_deposit_Out(TypedDict):
     type: str | None
     percent: float | None
+
+class Prv_cloudbeds_getOrganization_args_In(TypedDict):
+    organization: str
+
+class Prv_cloudbeds_CloudbedsOrganization_Out(TypedDict):
+    organizationId: str
+    name: str
+    slug: str | None
+    logo: str | None
+    properties: list[Prv_cloudbeds_CloudbedsOrganization_Out_properties_item_Out]
+
+class Prv_cloudbeds_CloudbedsOrganization_Out_properties_item_Out(TypedDict):
+    propertyId: str
+    code: str
+    name: str
+    bookingUrl: str
+    currency: str | None
+    timeZone: str | None
+    city: str | None
+    state: str | None
+    country: str | None
+    lat: float | None
+    lng: float | None
+    website: str | None
+    checkInTime: str | None
+    checkOutTime: str | None
+
+class Prv_cloudbeds_searchOrganizationAvailability_args_In(TypedDict):
+    organization: str
+    checkIn: str
+    checkOut: str
+    currency: NotRequired[str]
+
+class Prv_cloudbeds_CloudbedsOrganizationAvailability_Out(TypedDict):
+    organizationId: str
+    checkIn: str
+    checkOut: str
+    properties: list[Prv_cloudbeds_CloudbedsOrganizationAvailability_Out_properties_item_Out]
+
+class Prv_cloudbeds_CloudbedsOrganizationAvailability_Out_properties_item_Out(TypedDict):
+    propertyId: str
+    code: str | None
+    name: str | None
+    hasAvailability: bool
+    minNightlyRate: Prv_cloudbeds_CloudbedsOrganizationAvailability_Out_properties_item_Out_minNightlyRate_u0_Out | None
+    minTotalPrice: Prv_cloudbeds_CloudbedsOrganizationAvailability_Out_properties_item_Out_minTotalPrice_u0_Out | None
+
+class Prv_cloudbeds_CloudbedsOrganizationAvailability_Out_properties_item_Out_minNightlyRate_u0_Out(TypedDict):
+    amount: str
+    currency: str
+
+class Prv_cloudbeds_CloudbedsOrganizationAvailability_Out_properties_item_Out_minTotalPrice_u0_Out(TypedDict):
+    amount: str
+    currency: str
 
 class Prv_cloudflare_CloudflareComparePlansResult_Out(TypedDict):
     tiers: list[Prv_cloudflare_CloudflarePlanTier_Out]
@@ -24995,16 +25096,15 @@ class Prv_goodreads_GoodreadsMemberProfile_Out(TypedDict):
     private: bool
 
 class Prv_goodreads_GoodreadsShelfBook_Out(TypedDict):
-    legacyId: str
+    legacyId: NotRequired[str]
     title: str
     url: str
+    reviewUrl: NotRequired[str]
     authorName: NotRequired[str]
-    isbn: NotRequired[str]
-    pageCount: NotRequired[float]
-    averageRating: NotRequired[float]
+    authorUrl: NotRequired[str]
+    coverUrl: NotRequired[str]
     userRating: float
-    userReadAt: NotRequired[str]
-    userDateAdded: NotRequired[str]
+    reviewSnippet: NotRequired[str]
     shelves: list[str]
 
 class Prv_goodreads_rateBook_return_Out(TypedDict):
@@ -26698,6 +26798,17 @@ class Prv_grubhub_updateCartItem_args_In(TypedDict):
     lineId: str
     quantity: float
     cartKey: NotRequired[str]
+
+class Prv_grubhub_applyPromoCode_args_In(TypedDict):
+    code: str
+    cartKey: NotRequired[str]
+
+class Prv_grubhub_GrubhubPromoResult_Out(TypedDict):
+    code: str
+    applied: bool
+    description: str | None
+    reason: str | None
+    cart: Prv_grubhub_GrubhubCart_Out
 
 class Prv_gst_india_gst_indiaRow_Out(TypedDict):
     gstin: str
@@ -49496,6 +49607,33 @@ class Prv_steam_RemoveFriendResult_Out(TypedDict):
     steamId: str
     removed: Literal[True]
 
+class Prv_steam_ViewInventoryArgs_In(TypedDict):
+    steamId: str | float
+    appId: NotRequired[str | float]
+    contextId: NotRequired[str | float]
+    count: NotRequired[float]
+
+class Prv_steam_ViewInventoryResponse_Out(TypedDict):
+    steamId: str
+    appId: str
+    contextId: str
+    items: list[Prv_steam_SteamInventoryItem_Out]
+    totalCount: float
+    private: bool
+    hasMore: bool
+
+class Prv_steam_SteamInventoryItem_Out(TypedDict):
+    assetId: str
+    classId: str
+    instanceId: str
+    amount: float
+    name: str | None
+    marketHashName: str | None
+    type: str | None
+    iconUrl: str | None
+    tradable: bool
+    marketable: bool
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -63265,10 +63403,11 @@ class Prv_amazon(Protocol):
     the listing sells, when it would arrive at a given ZIP — plus the rankings (best
     sellers, new releases, movers and shakers, most wished for), today's deals, a
     marketplace seller's feedback and the anonymous guest cart, which a caller can now add
-    to. searchProducts, suggestKeywords, listBestSellerCategories, getProduct,
-    listVariations, listReviews, listRelatedProducts, listBestSellers, listNewReleases,
-    listMostWishedFor, listDeals, getSeller, getDeliveryEstimate, listSellerOffers, getCart
-    and addToCart are built; everything else is still a declared stub.
+    to. searchProducts, searchWholeFoods, suggestKeywords, listBestSellerCategories,
+    getProduct, listVariations, listReviews, listRelatedProducts, listBestSellers,
+    listNewReleases, listMostWishedFor, listDeals, getSeller, getDeliveryEstimate,
+    listSellerOffers, getCart and addToCart are built; everything else is still a declared
+    stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
@@ -63289,6 +63428,16 @@ class Prv_amazon(Protocol):
         totalResultCount field tells you how many total rows exist so you can page efficiently.
         Optionally narrowed to a department, a brand, a price range, a sort order. THE
         provider's door: every function below that takes an ASIN is fed by this one.
+        """
+
+    async def searchWholeFoods(self, args: Prv_amazon_SearchWholeFoodsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
+        """Search Whole Foods Market groceries sold on amazon.com — "organic bananas", "sourdough
+        bread" — and get the product cards with their current price and list price. Same return
+        shape as searchProducts: `{ products, totalResultCount }`, each row `{ asin, title, url,
+        price, listPrice, rating, ratingCount, sponsored, image }`; feed an `asin` to getProduct
+        for detail. Optional `sort` (e.g. "price-asc-rank") and `page`. Prices are Amazon's
+        national Whole Foods prices, not one store's: picking a store needs a signed-in Prime
+        address. Never places an order.
         """
 
     async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:
@@ -63437,6 +63586,20 @@ class Prv_amazon(Protocol):
         Amazon's own status words (a cancelled or refunded order keeps them), total, item count
         and the order's page. Pages with `nextCursor`. Reads Your Orders through the caller's
         own browser via Bowmark Link; with no sign-in the run pauses for one, never answers [].
+        """
+
+class Prv_amazon_br(Protocol):
+    """Search products and check prices (BRL) on Amazon Brazil (amazon.com.br)"""
+
+    async def searchProducts(self, args: Prv_amazon_br_searchProducts_args_In, /) -> Prv_amazon_br_AmazonBrSearchResult_Out:
+        """Search Amazon Brazil (amazon.com.br) for products by keywords, with BRL prices and
+        ratings. Takes { keywords: string, page?: number }; `query` is accepted as an alias, and
+        an amazon.com.br/s?k=… URL as `url`.
+        """
+
+    async def getProduct(self, args: Prv_amazon_br_getProduct_args_In, /) -> Prv_amazon_br_AmazonBrProductDetail_Out:
+        """Get an amazon.com.br product's title, BRL price, rating and stock by ASIN or product
+        URL.
         """
 
 class Prv_amazon_ca(Protocol):
@@ -64632,6 +64795,14 @@ class Prv_att(Protocol):
         family/multi-line discount ladder), and whether an international calling/data feature is
         included. Covers the postpaid unlimited lineup this page sells; AT&T Prepaid runs on a
         separate site section not covered here.
+        """
+
+    async def listPrepaidPlans(self, /) -> list[Prv_att_AttPrepaidPlan_Out]:
+        """Every AT&T Prepaid plan on AT&T's own prepaid plans page (att.com/prepaid/plans/): name,
+        monthly price (with any prepay condition, e.g. the 12-month plan's "When you prepay
+        $240"), every price the card shows, and the card's feature list in AT&T's own words
+        (hotspot data, 5G, international texting, price lock). The prepaid lineup only;
+        listPlans covers postpaid unlimited.
         """
 
     async def getAccountBalance(self, opts: ConnectionOption | None = None, /) -> Prv_att_AttAccountBalance_Out:
@@ -68685,6 +68856,20 @@ class Prv_cloudbeds(Protocol):
         terms, privacy text and bank-transfer instructions where it takes transfers. Reads
         smart-policy text when the property has that feature enabled, otherwise its
         property_info terms.
+        """
+
+    async def getOrganization(self, args: Prv_cloudbeds_getOrganization_args_In, /) -> Prv_cloudbeds_CloudbedsOrganization_Out:
+        """A hotel group that books through one Cloudbeds page (a hostel network, a small chain),
+        from its numeric id ("1") or its slug ("higroup"): its name and every property in it
+        with code, name, city, country, currency, coordinates and check-in/out times. Pass a
+        property `code` to any other function.
+        """
+
+    async def searchOrganizationAvailability(self, args: Prv_cloudbeds_searchOrganizationAvailability_args_In, /) -> Prv_cloudbeds_CloudbedsOrganizationAvailability_Out:
+        """For a hotel group and a stay, which of its properties have a room free and each one's
+        cheapest nightly rate and stay total, so a caller can compare the whole group before
+        picking one. Amounts are passed through exactly as Cloudbeds returns them, with their
+        currency.
         """
 
 class Prv_cloudflare(Protocol):
@@ -74264,12 +74449,12 @@ class Prv_goodreads(Protocol):
         """
 
     async def getMemberShelf(self, idOrUrl: str, shelf: str | None = None, pageNumber: float | None = None, /) -> list[Prv_goodreads_GoodreadsShelfBook_Out]:
-        """Reads the books on one of a member's shelves — title, author, isbn, page count, the
-        member's own rating and date read/added, and every shelf the book sits on. Takes the
-        numeric id or the full user URL, the shelf's slug (from getMemberProfile's shelfCounts,
-        e.g. 'read', 'currently-reading', 'to-read' — omit for every shelved book) and an
-        optional 1-indexed page (100 per page). Public — no sign-in needed, even for a member
-        whose profile page is privacy-restricted.
+        """Reads the newest 100 books on one of a member's shelves — title, book id, author, cover,
+        the member's own rating, review snippet and tags. Takes the numeric id or the full user
+        URL and the shelf's slug (from getMemberProfile's shelfCounts, e.g. 'read',
+        'currently-reading', 'to-read' — omit for every shelved book). Only page 1 exists: the
+        public door serves the newest 100 and nothing older. Public — no sign-in needed, even
+        for a member whose profile page is privacy-restricted.
         """
 
     async def rateBook(self, idOrUrl: str, rating: Literal[1] | Literal[2] | Literal[3] | Literal[4] | Literal[5], opts: ConnectionOption | None = None, /) -> Prv_goodreads_rateBook_return_Out:
@@ -75467,6 +75652,12 @@ class Prv_grubhub(Protocol):
     async def updateCartItem(self, args: Prv_grubhub_updateCartItem_args_In, /) -> Prv_grubhub_GrubhubCart_Out:
         """Sets the quantity (1-50) of one Grubhub cart line (getCart().items[].lineId), keeping
         its options, and returns the cart.
+        """
+
+    async def applyPromoCode(self, args: Prv_grubhub_applyPromoCode_args_In, /) -> Prv_grubhub_GrubhubPromoResult_Out:
+        """Applies a Grubhub promo code to the cart (add something first) — `{ code: "WELCOME" }`.
+        Answers whether it applied, what the code is for, and Grubhub's own reason when it did
+        not (expired, unknown, wrong order type) rather than throwing. No account.
         """
 
 class Prv_gst_india(Protocol):
@@ -88292,6 +88483,13 @@ class Prv_steam(Protocol):
         friends page's own RemoveFriendAjax door. NEEDS A SIGN-IN — the caller signs in, not us.
         """
 
+    async def viewInventory(self, args: Prv_steam_ViewInventoryArgs_In, /) -> Prv_steam_ViewInventoryResponse_Out:
+        """Reads a PUBLIC Steam profile's inventory by steamid64, appid and context — no sign-in
+        needed, the same anonymous read a browser does on a public inventory tab. appId defaults
+        to CS2 (730), contextId to 2. Reports private:true rather than throwing when the
+        inventory is private.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -94238,6 +94436,7 @@ class BowmarkProviders(Protocol):
     allied: Prv_allied
     alphavantage: Prv_alphavantage
     amazon: Prv_amazon
+    amazon_br: Prv_amazon_br
     amazon_ca: Prv_amazon_ca
     americandreamvacations: Prv_americandreamvacations
     americanstandard: Prv_americanstandard

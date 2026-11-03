@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f098101dd25b21cfdad77600f3a52ef17d69936e92f5fc81aee8ac29e6e13fbb
-// 93 capabilities, 758 providers, 3969 typed functions, 20 refused.
+// Manifest version: d06d1f61462028cbf775cdeeb3cac3f04f73733f0ae8642a6d9a98fe87da4350
+// 93 capabilities, 759 providers, 3977 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8686,6 +8686,11 @@ interface SearchProductsArgs {
   brand?: string;
   page?: number;
 }
+interface SearchWholeFoodsArgs {
+  keywords: string;
+  sort?: string;
+  page?: number;
+}
 interface ListCategoryProductsArgs {
   department: string;
   sort?: string;
@@ -8857,11 +8862,11 @@ interface SignedInOrderPage {
    * the customer reviews, the other products it recommends, every size and colour the listing
    * sells, when it would arrive at a given ZIP — plus the rankings (best sellers, new releases,
    * movers and shakers, most wished for), today's deals, a marketplace seller's feedback and the
-   * anonymous guest cart, which a caller can now add to. searchProducts, suggestKeywords,
-   * listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts,
-   * listBestSellers, listNewReleases, listMostWishedFor, listDeals, getSeller,
-   * getDeliveryEstimate, listSellerOffers, getCart and addToCart are built; everything else is
-   * still a declared stub.
+   * anonymous guest cart, which a caller can now add to. searchProducts, searchWholeFoods,
+   * suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
+   * listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor, listDeals,
+   * getSeller, getDeliveryEstimate, listSellerOffers, getCart and addToCart are built;
+   * everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -8883,6 +8888,17 @@ interface SignedInOrderPage {
      * provider's door: every function below that takes an ASIN is fed by this one.
      */
     searchProducts(args: SearchProductsArgs): Promise<AmazonSearchResult>;
+
+    /**
+     * Search Whole Foods Market groceries sold on amazon.com — "organic bananas", "sourdough
+     * bread" — and get the product cards with their current price and list price. Same return
+     * shape as searchProducts: `{ products, totalResultCount }`, each row `{ asin, title, url,
+     * price, listPrice, rating, ratingCount, sponsored, image }`; feed an `asin` to getProduct for
+     * detail. Optional `sort` (e.g. "price-asc-rank") and `page`. Prices are Amazon's national
+     * Whole Foods prices, not one store's: picking a store needs a signed-in Prime address. Never
+     * places an order.
+     */
+    searchWholeFoods(args: SearchWholeFoodsArgs): Promise<AmazonSearchResult>;
 
     /**
      * Browse a whole department with no keyword at all — "what is in Home & Kitchen, best-reviewed
@@ -9046,6 +9062,49 @@ interface SignedInOrderPage {
      * via Bowmark Link; with no sign-in the run pauses for one, never answers [].
      */
     listOrders(args?: { limit?: number; cursor?: string }, opts?: ConnectionOption): Promise<SignedInOrderPage>;
+  }
+}
+
+declare namespace BowmarkProvider_amazon_br {
+  // ── Amazon Brazil — the unit's own declarations, verbatim ──
+interface AmazonBrProduct {
+  asin: string;
+  title: string;
+  url: string;
+  price: number | null; // BRL
+  rating: number | null;
+  ratingCount: number | null;
+  sponsored: boolean;
+}
+
+interface AmazonBrSearchResult {
+  products: AmazonBrProduct[];
+  totalResultCount: number; // Amazon's "mais de N resultados" floor
+}
+
+interface AmazonBrProductDetail {
+  asin: string;
+  title: string;
+  url: string;
+  price: number | null; // BRL
+  currency: "BRL";
+  rating: number | null;
+  ratingCount: number | null;
+  availability: string | null; // Amazon's own labels — read the value off a result, never guess one from prose.
+  inStock: boolean;
+}
+
+  /** Search products and check prices (BRL) on Amazon Brazil (amazon.com.br) */
+  interface Unit {
+    /**
+     * Search Amazon Brazil (amazon.com.br) for products by keywords, with BRL prices and ratings.
+     * Takes { keywords: string, page?: number }; `query` is accepted as an alias, and an
+     * amazon.com.br/s?k=… URL as `url`.
+     */
+    searchProducts(args: { keywords?: string; query?: string; url?: string; page?: number }): Promise<AmazonBrSearchResult>;
+
+    /** Get an amazon.com.br product's title, BRL price, rating and stock by ASIN or product URL. */
+    getProduct(args: { asin?: string; url?: string }): Promise<AmazonBrProductDetail>;
   }
 }
 
@@ -12370,6 +12429,14 @@ interface AttPlan {
   pricePerLineUsd: AttPlanLinePrice[];  // ascending by line count
   international: { included: boolean; note: string | null };
 }
+interface AttPrepaidPlan {
+  name: string;                  // "Unlimited Saver"
+  monthlyUsd: number | null;     // the headline monthly price
+  pricesUsd: number[];           // every price the card shows, in AT&T's order
+  priceNote: string | null;      // a condition on the price: "When you prepay $240"
+  features: string[];            // the card's feature list, AT&T's own words — the site's own labels — read the values off a result, never guess one from prose
+  shopUrl: string | null;
+}
 interface AttPlanTotal {
   planId: string;
   lineCount: number;
@@ -12438,6 +12505,15 @@ interface AttMonthlyBill {
      * covered here.
      */
     listPlans(): Promise<AttPlan[]>;
+
+    /**
+     * Every AT&T Prepaid plan on AT&T's own prepaid plans page (att.com/prepaid/plans/): name,
+     * monthly price (with any prepay condition, e.g. the 12-month plan's "When you prepay $240"),
+     * every price the card shows, and the card's feature list in AT&T's own words (hotspot data,
+     * 5G, international texting, price lock). The prepaid lineup only; listPlans covers postpaid
+     * unlimited.
+     */
+    listPrepaidPlans(): Promise<AttPrepaidPlan[]>;
 
     /**
      * The signed-in caller's current AT&T account balance — amount due, due date and account
@@ -24382,6 +24458,18 @@ interface CloudbedsPolicies {
   privacyPolicy: string | null; bankTransferInstructions: string | null;
   deposit: { type: string | null; percent: number | null };
 }
+interface CloudbedsOrganization {
+  organizationId: string; name: string; slug: string | null; logo: string | null;
+  properties: { propertyId: string; code: string; name: string; bookingUrl: string; currency: string | null; timeZone: string | null;
+    city: string | null; state: string | null; country: string | null; lat: number | null; lng: number | null;
+    website: string | null; checkInTime: string | null; checkOutTime: string | null }[];
+}
+interface CloudbedsOrganizationAvailability {
+  organizationId: string; checkIn: string; checkOut: string;
+  properties: { propertyId: string; code: string | null; name: string | null; hasAvailability: boolean;
+    minNightlyRate: { amount: string; currency: string } | null;   // amount exactly as Cloudbeds returns it
+    minTotalPrice: { amount: string; currency: string } | null }[];
+}
 
   /**
    * Cloudbeds booking engine used by independent hotels, hostels and inns: find a property's
@@ -24439,6 +24527,21 @@ interface CloudbedsPolicies {
      * terms.
      */
     getPolicies(args: { property: string; checkInDate?: string }): Promise<CloudbedsPolicies>;
+
+    /**
+     * A hotel group that books through one Cloudbeds page (a hostel network, a small chain), from
+     * its numeric id ("1") or its slug ("higroup"): its name and every property in it with code,
+     * name, city, country, currency, coordinates and check-in/out times. Pass a property `code` to
+     * any other function.
+     */
+    getOrganization(args: { organization: string }): Promise<CloudbedsOrganization>;
+
+    /**
+     * For a hotel group and a stay, which of its properties have a room free and each one's
+     * cheapest nightly rate and stay total, so a caller can compare the whole group before picking
+     * one. Amounts are passed through exactly as Cloudbeds returns them, with their currency.
+     */
+    searchOrganizationAvailability(args: { organization: string; checkIn: string; checkOut: string; currency?: string }): Promise<CloudbedsOrganizationAvailability>;
   }
 }
 
@@ -41039,17 +41142,16 @@ interface GoodreadsMemberProfile {
   private: boolean;
 }
 interface GoodreadsShelfBook {
-  legacyId: string;
+  legacyId?: string; // absent only when the book has no cover
   title: string;
   url: string;
+  reviewUrl?: string;
   authorName?: string;
-  isbn?: string;
-  pageCount?: number;
-  averageRating?: number;
+  authorUrl?: string;
+  coverUrl?: string;
   // the member's own 1-5 rating on this shelf; 0 means not rated
   userRating: number;
-  userReadAt?: string;
-  userDateAdded?: string;
+  reviewSnippet?: string;
   shelves: string[];
 }
 
@@ -41112,12 +41214,12 @@ interface GoodreadsShelfBook {
     getMemberProfile(idOrUrl: string): Promise<GoodreadsMemberProfile>;
 
     /**
-     * Reads the books on one of a member's shelves — title, author, isbn, page count, the member's
-     * own rating and date read/added, and every shelf the book sits on. Takes the numeric id or
-     * the full user URL, the shelf's slug (from getMemberProfile's shelfCounts, e.g. 'read',
-     * 'currently-reading', 'to-read' — omit for every shelved book) and an optional 1-indexed page
-     * (100 per page). Public — no sign-in needed, even for a member whose profile page is
-     * privacy-restricted.
+     * Reads the newest 100 books on one of a member's shelves — title, book id, author, cover, the
+     * member's own rating, review snippet and tags. Takes the numeric id or the full user URL and
+     * the shelf's slug (from getMemberProfile's shelfCounts, e.g. 'read', 'currently-reading',
+     * 'to-read' — omit for every shelved book). Only page 1 exists: the public door serves the
+     * newest 100 and nothing older. Public — no sign-in needed, even for a member whose profile
+     * page is privacy-restricted.
      */
     getMemberShelf(idOrUrl: string, shelf?: string, pageNumber?: number): Promise<GoodreadsShelfBook[]>;
 
@@ -43759,6 +43861,17 @@ interface GrubhubCart {
   currency: string;
   restaurantIds: string[];
 }
+interface GrubhubPromoResult {
+  /** The code as Grubhub knows it (its own casing). */
+  code: string;
+  /** true only when Grubhub attached it to the cart. */
+  applied: boolean;
+  /** What the code is for, e.g. "Get $2 off your first order"; null when Grubhub has no such code. */
+  description: string | null;
+  /** Why it was not applied — Grubhub's own reason ("This promo code has expired", "CODE_NOT_AVAILABLE_TO_ORDER_TYPE"); null when applied. */
+  reason: string | null;
+  cart: GrubhubCart;
+}
 interface GrubhubAddToCartArgs {
   restaurantId: string;
   itemId: string;
@@ -43856,6 +43969,13 @@ interface GrubhubAddToCartArgs {
      * options, and returns the cart.
      */
     updateCartItem(args: { lineId: string; quantity: number; cartKey?: string }): Promise<GrubhubCart>;
+
+    /**
+     * Applies a Grubhub promo code to the cart (add something first) — `{ code: "WELCOME" }`.
+     * Answers whether it applied, what the code is for, and Grubhub's own reason when it did not
+     * (expired, unknown, wrong order type) rather than throwing. No account.
+     */
+    applyPromoCode(args: { code: string; cartKey?: string }): Promise<GrubhubPromoResult>;
   }
 }
 
@@ -80754,6 +80874,36 @@ interface RemoveFriendResult {
   removed: true;
 }
 
+interface ViewInventoryArgs {
+  steamId: string | number;
+  appId?: string | number;
+  contextId?: string | number;
+  count?: number;
+}
+
+interface SteamInventoryItem {
+  assetId: string;
+  classId: string;
+  instanceId: string;
+  amount: number;
+  name: string | null;
+  marketHashName: string | null;
+  type: string | null;
+  iconUrl: string | null;
+  tradable: boolean;
+  marketable: boolean;
+}
+
+interface ViewInventoryResponse {
+  steamId: string;
+  appId: string;
+  contextId: string;
+  items: SteamInventoryItem[];
+  totalCount: number;
+  private: boolean;
+  hasMore: boolean;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -80898,6 +81048,14 @@ interface RemoveFriendResult {
      * page's own RemoveFriendAjax door. NEEDS A SIGN-IN — the caller signs in, not us.
      */
     removeFriend(args: RemoveFriendArgs, opts?: ConnectionOption): Promise<RemoveFriendResult>;
+
+    /**
+     * Reads a PUBLIC Steam profile's inventory by steamid64, appid and context — no sign-in
+     * needed, the same anonymous read a browser does on a public inventory tab. appId defaults to
+     * CS2 (730), contextId to 2. Reports private:true rather than throwing when the inventory is
+     * private.
+     */
+    viewInventory(args: ViewInventoryArgs): Promise<ViewInventoryResponse>;
   }
 }
 
@@ -98663,6 +98821,7 @@ interface BowmarkProviders {
   allied: BowmarkProvider_allied.Unit;
   alphavantage: BowmarkProvider_alphavantage.Unit;
   amazon: BowmarkProvider_amazon.Unit;
+  amazon_br: BowmarkProvider_amazon_br.Unit;
   amazon_ca: BowmarkProvider_amazon_ca.Unit;
   americandreamvacations: BowmarkProvider_americandreamvacations.Unit;
   americanstandard: BowmarkProvider_americanstandard.Unit;
