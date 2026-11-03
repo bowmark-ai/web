@@ -741,7 +741,7 @@ visit.barnesfoundation.org — barnesfoundation: getAdmissionCalendar, priceAdmi
 vistaprint.com — vistaprint: getShippingBoxPrice (+1 planned)
 voluspa.com — voluspa: nothing callable yet (+2 planned)
 walkerhughes.com — walkerhughes: findNearestOffice, listOffices, listQuoteProducts (+1 planned)
-walmart.com — walmart: addToCart, addToList, browseBrand, browseCategory, createList, getAccountProfile, getCart, getList, getOrder, getProduct, getSeller, getStore, listDeals, listDepartments, listLists, listOrders, listPurchasedItems, listReviews, listSellerOffers, removeFromCart, removeFromList, search, suggestSearches, updateCartItem (+13 planned)
+walmart.com — walmart: addToCart, addToList, browseBrand, browseCategory, createList, getAccountProfile, getCart, getList, getOrder, getPickupDeliverySlots, getProduct, getSeller, getStore, listAddresses, listDeals, listDepartments, listLists, listOrders, listPurchasedItems, listReviews, listSellerOffers, removeFromCart, removeFromList, search, setPreferredStore, suggestSearches, updateCartItem, updateProfile (+9 planned)
 washingtonpost.com — washingtonpost: getArticle, getLiveBlog, getNewsletter, getPodcast, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listEpisodes, listNewsletters, listPodcasts, listSections, listTopics, listTrending, searchWriters (+5 planned)
 waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)

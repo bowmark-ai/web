@@ -5463,13 +5463,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getCart` | walmart.com | Reads what is in the cart — items, quantities, prices and the subtotal. | 🟢 |
 | `walmart.getList` | walmart.com | Reads one saved list's items and prices for a list id `listLists` returned. | 🟢 |
 | `walmart.getOrder` | walmart.com | Reads one of the signed-in shopper's orders in full — items, delivery or pickup… | 🟢 |
-| `walmart.getPickupDeliverySlots` | walmart.com | Reads the available pickup or delivery time windows for a store/zip — the scheduling… | ⚪ |
+| `walmart.getPickupDeliverySlots` | walmart.com | Reads the available pickup or delivery time windows for a store/zip — the scheduling… | 🟢 |
 | `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | 🟢 |
 | `walmart.getRegistry` | walmart.com | Reads one public registry — the items on it, how many are wanted and how many were… | ⚪ |
 | `walmart.getSeller` | walmart.com | Reads a Marketplace seller's page — name, rating, review count — for the… | 🟢 |
 | `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | 🟡 |
 | `walmart.getWeeklyAd` | walmart.com | Reads the current local weekly ad / rollback & clearance circular for a store or zip —… | ⚪ |
-| `walmart.listAddresses` | walmart.com | Lists the delivery addresses saved on the signed-in account. | ⚪ |
+| `walmart.listAddresses` | walmart.com | Lists the delivery addresses saved on the signed-in account. | 🟢 |
 | `walmart.listDeals` | walmart.com | Lists what is on sale right now — Rollbacks, clearance and the site's current deal… | 🟢 |
 | `walmart.listDepartments` | walmart.com | Lists Walmart's departments and their sub-categories with the browse id each one opens… | 🟡 |
 | `walmart.listLists` | walmart.com | Lists the signed-in shopper's saved lists — the door `getList` needs. | 🟢 |
@@ -5482,12 +5482,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.removeFromList` | walmart.com | Removes an item from one of the shopper's saved lists. | 🟢 |
 | `walmart.search` | walmart.com | Searches walmart.com's catalog for a keyword and returns matching products — item id… | 🟢 |
 | `walmart.searchRegistries` | walmart.com | Finds a public wedding or baby registry by the registrant's name — the door… | ⚪ |
-| `walmart.setPreferredStore` | walmart.com | Sets the shopper's store, so stock, prices and pickup slots answer for that store. | ⚪ |
+| `walmart.setPreferredStore` | walmart.com | Sets the shopper's store, so stock, prices and pickup slots answer for that store. | 🟢 |
 | `walmart.startReturn` | walmart.com | Starts a return for an item in a delivered order. | ⚪ |
 | `walmart.suggestSearches` | walmart.com | Autocomplete for the search bar — what the site suggests as you type a partial word… | 🟢 |
 | `walmart.trackOrder` | walmart.com | Looks up shipment/delivery status for a guest order by order number plus the email… | ⚪ |
 | `walmart.updateCartItem` | walmart.com | Changes the quantity of an item already in the cart. | 🟢 |
-| `walmart.updateProfile` | walmart.com | Edits the signed-in shopper's profile name. | ⚪ |
+| `walmart.updateProfile` | walmart.com | Edits the signed-in shopper's profile name. | 🟢 |
 | `washingtonpost.getArticle` | washingtonpost.com | Gets one article's own headline, byline, publish date, section and lede. | 🟢 |
 | `washingtonpost.getArticleFullText` | washingtonpost.com | Gets the full text of a subscriber-only article using the CALLER's own Washington Post… | ⚪ |
 | `washingtonpost.getLiveBlog` | washingtonpost.com | Gets a live-coverage page's own running updates (elections, speeches, breaking news)… | 🟢 |
