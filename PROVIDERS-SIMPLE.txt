@@ -324,7 +324,7 @@ franklinbbq.com — franklinbbq_com: getPreorderMenu, listPickupSlots
 fred.stlouisfed.org — fred: browseCategory, getSeriesInfo, getSeriesObservations, listReleases, listSources, searchSeries (+1 planned)
 fredericton.ca, dieppe.ca — municipal_recreation_fees_fetcher: getFeeSchedule
 freightliner.com — freightliner: nothing callable yet (+1 planned)
-fresha.com — fresha: getAvailability, getSearchSuggestions, getVenue, searchVenues (+29 planned)
+fresha.com — fresha: getAvailability, getBookingQuote, getSearchSuggestions, getVenue, searchVenues (+28 planned)
 furniture.com — furniture: listCategories, listFilterOptions, searchProducts
 g2.com — g2: getProduct, listReviews, search
 games.nytimes.com — nyt_games: getConnections, getCrosswordArchive, getCrosswordDaily, getCrosswordMidi, getCrosswordMini, getLetterBoxed, getPips, getSpellingBee, getSportsConnections, getStrands, getSudoku, getTiles, getWordle, listBonusPuzzles, listCrosswordPuzzles, saveWordleGame (+2 planned)
@@ -664,7 +664,7 @@ stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
-styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+5 planned)
+styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+4 planned)
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
 sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches, getSaunaFinderQuestions

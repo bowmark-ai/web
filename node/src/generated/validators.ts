@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5f41c689aeabc1c4b34cc1fa3467e749d0a3b500d06946dc6656e6de027f9ce4
-// 4023 checked, 20 unchecked.
+// Manifest version: c152cf2d1b78f2c98615c2a42a833889fdb8ecdf1c1971f758f473acb7e6be38
+// 4029 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5f41c689aeabc1c4b34cc1fa3467e749d0a3b500d06946dc6656e6de027f9ce4",
+  "version": "c152cf2d1b78f2c98615c2a42a833889fdb8ecdf1c1971f758f473acb7e6be38",
   "units": {
     "address_validation": {
       "defs": {
@@ -43075,6 +43075,106 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getWatchlist": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToWatchlist": [
+          {
+            "name": "address",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "chain",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "FomoChainSlug"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromWatchlist": [
+          {
+            "name": "address",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "chain",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "FomoChainSlug"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -46208,6 +46308,213 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createReview": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pullNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "review",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "event",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "approve"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "request_changes"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "comment"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "body",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "headSha",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createReviewComment": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pullNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "comment",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "body",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "line",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "side",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "left"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "right"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "startLine",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "startSide",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "left"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "right"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "headSha",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "baseSha",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -108342,6 +108649,59 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getNearby": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "kind",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "hotels"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "restaurants"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "attractions"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "locationId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "geoId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
                 }
               ]
             },

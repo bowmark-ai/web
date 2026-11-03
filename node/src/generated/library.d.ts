@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5f41c689aeabc1c4b34cc1fa3467e749d0a3b500d06946dc6656e6de027f9ce4
-// 93 capabilities, 761 providers, 4041 typed functions, 20 refused.
+// Manifest version: c152cf2d1b78f2c98615c2a42a833889fdb8ecdf1c1971f758f473acb7e6be38
+// 93 capabilities, 761 providers, 4047 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36740,6 +36740,20 @@ interface FomoClanHolding {
   valueUsd: number | null;
 }
 
+interface FomoWatchlistEntry {
+  networkId: number;
+  tokenAddress: string;
+  createdAt: string | null;
+  assetType?: string;
+  assetId?: string;
+}
+
+interface FomoWatchlistChange {
+  watching: boolean;
+  tokenAddress: string;
+  networkId: number;
+}
+
 interface FomoBalance {
   token: FomoToken;
   amount: DecimalString;
@@ -37220,6 +37234,22 @@ interface FomoCandle {
      * no statically-linked chunk names this route's fields.
      */
     getClanHoldingsBreakdown(clanId: string, address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<unknown[]>;
+
+    /**
+     * Returns every token the signed-in trader is watching, newest first, one row per (networkId,
+     * tokenAddress) pair — feed a row to getToken for its price. Walks fomo's nextPageKey pages
+     * itself, the way the site does, so the list is complete.
+     */
+    getWatchlist(opts?: ConnectionOption): Promise<FomoWatchlistEntry[]>;
+
+    /**
+     * Adds a token to the signed-in trader's own watchlist. Private to the caller and undone by
+     * removeFromWatchlist. The pair comes from searchTokens or getToken.
+     */
+    addToWatchlist(address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<FomoWatchlistChange>;
+
+    /** Removes a token from the signed-in trader's own watchlist — the undo for addToWatchlist. */
+    removeFromWatchlist(address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<FomoWatchlistChange>;
   }
 }
 
@@ -39847,6 +39877,19 @@ interface GithubMergeResult {
   mergeMethod: "MERGE" | "SQUASH" | "REBASE";
   merged: true;
 }
+interface GithubReviewResult {
+  repository: string;
+  pullNumber: number;
+  event: "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
+  submitted: true;
+}
+interface GithubReviewCommentResult {
+  repository: string;
+  pullNumber: number;
+  path: string;
+  line: number | null; // null for a comment on the whole file
+  comment: unknown; // GitHub's own comment payload when the reply carried one, else null
+}
 interface GithubStarResult {
   repository: string;
   starred: boolean;
@@ -40189,6 +40232,28 @@ interface GithubCommentResult {
      * the pull request cannot be merged (conflicts, failing required checks, no write access).
      */
     mergePullRequest(owner: string, repo: string, pullNumber: number, options?: { mergeMethod?: 'merge' | 'squash' | 'rebase'; commitTitle?: string; commitMessage?: string }, opts?: ConnectionOption): Promise<GithubMergeResult>;
+
+    /**
+     * Submits a review on a pull request for the signed-in caller, off github.com's own review box
+     * (`PUT /{owner}/{repo}/pull/{number}/page_data/submit_review`). `body` is required for
+     * 'request_changes' and 'comment'. `headSha` defaults to the pull request's current head, read
+     * from GitHub's public API; pass it for a private repository. NEEDS THE CALLER SIGNED IN.
+     * THROWS when signed out, the session is stale, or GitHub refuses the review (your own pull
+     * request, a moved head).
+     */
+    createReview(owner: string, repo: string, pullNumber: number, review: { event: 'approve' | 'request_changes' | 'comment'; body?: string; headSha?: string }, opts?: ConnectionOption): Promise<GithubReviewResult>;
+
+    /**
+     * Adds an inline comment to a pull request's diff for the signed-in caller, off github.com's
+     * own Files-changed comment box (`POST
+     * /{owner}/{repo}/pull/{number}/page_data/create_review_comment`). `line` is a line number in
+     * the file (right side = the new version, the default; 'left' = the old one); add `startLine`
+     * for a multi-line range; omit `line` to comment on the whole file. Posted immediately, not
+     * into a pending review. `headSha`/`baseSha` default to the pull request's own, read from
+     * GitHub's public API; pass both for a private repository. NEEDS THE CALLER SIGNED IN. THROWS
+     * when signed out, the session is stale, or the line is not in the diff.
+     */
+    createReviewComment(owner: string, repo: string, pullNumber: number, comment: { body: string; path: string; line?: number; side?: 'left' | 'right'; startLine?: number; startSide?: 'left' | 'right'; headSha?: string; baseSha?: string }, opts?: ConnectionOption): Promise<GithubReviewCommentResult>;
   }
 }
 
@@ -87724,6 +87789,17 @@ interface TripadvisorPhoto {
   urlTemplate?: string;
   album: string;
 }
+interface TripadvisorNearbyListing {
+  id: string;
+  name: string;
+  rank?: number;
+  rating?: number;
+  reviewCount?: number;
+  distance?: string;
+  address?: string;
+  sponsored?: boolean;
+  url: string;
+}
 
   /**
    * Travel data worldwide — find a city, hotel, restaurant or attraction by name; list and read
@@ -87816,6 +87892,13 @@ interface TripadvisorPhoto {
      * resizable url template — taking a location id.
      */
     getPhotos(args: { locationId: string }): Promise<{ locationId: string; totalCount: number; albums: TripadvisorPhotoAlbum[]; photos: TripadvisorPhoto[] }>;
+
+    /**
+     * Lists the hotels, restaurants or attractions near a listing — each with id, name, the page's
+     * rank, rating, review count, distance, address (hotels and attractions), a sponsored flag and
+     * url — taking kind plus a listing url, or its locationId and geoId.
+     */
+    getNearby(args: { kind: "hotels" | "restaurants" | "attractions"; url?: string; locationId?: string; geoId?: string }): Promise<{ locationId: string; geoId: string; kind: string; listings: TripadvisorNearbyListing[]; url: string }>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5f41c689aeabc1c4b34cc1fa3467e749d0a3b500d06946dc6656e6de027f9ce4
-# 93 capabilities, 761 providers, 4023 typed functions, 20 refused.
+# Manifest version: c152cf2d1b78f2c98615c2a42a833889fdb8ecdf1c1971f758f473acb7e6be38
+# 93 capabilities, 761 providers, 4029 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22738,6 +22738,18 @@ class Prv_fomo_FomoClanHolding_Out(TypedDict):
     holderCount: float | None
     valueUsd: float | None
 
+class Prv_fomo_FomoWatchlistEntry_Out(TypedDict):
+    networkId: float
+    tokenAddress: str
+    createdAt: str | None
+    assetType: NotRequired[str]
+    assetId: NotRequired[str]
+
+class Prv_fomo_FomoWatchlistChange_Out(TypedDict):
+    watching: bool
+    tokenAddress: str
+    networkId: float
+
 class Prv_forbes_ForbesNewsList_Out(TypedDict):
     articles: list[Prv_forbes_ForbesArticle_Out]
 
@@ -24395,6 +24407,34 @@ class Prv_github_GithubMergeResult_Out(TypedDict):
     pullNumber: float
     mergeMethod: Literal["MERGE"] | Literal["SQUASH"] | Literal["REBASE"]
     merged: Literal[True]
+
+class Prv_github_createReview_review_In(TypedDict):
+    event: Literal["approve"] | Literal["request_changes"] | Literal["comment"]
+    body: NotRequired[str]
+    headSha: NotRequired[str]
+
+class Prv_github_GithubReviewResult_Out(TypedDict):
+    repository: str
+    pullNumber: float
+    event: Literal["APPROVE"] | Literal["REQUEST_CHANGES"] | Literal["COMMENT"]
+    submitted: Literal[True]
+
+class Prv_github_createReviewComment_comment_In(TypedDict):
+    body: str
+    path: str
+    line: NotRequired[float]
+    side: NotRequired[Literal["left"] | Literal["right"]]
+    startLine: NotRequired[float]
+    startSide: NotRequired[Literal["left"] | Literal["right"]]
+    headSha: NotRequired[str]
+    baseSha: NotRequired[str]
+
+class Prv_github_GithubReviewCommentResult_Out(TypedDict):
+    repository: str
+    pullNumber: float
+    path: str
+    line: float | None
+    comment: Any
 
 class Prv_glama_search_query_u1_In(TypedDict):
     query: str
@@ -54098,6 +54138,30 @@ class Prv_tripadvisor_TripadvisorPhoto_Out(TypedDict):
     urlTemplate: NotRequired[str]
     album: str
 
+class Prv_tripadvisor_getNearby_args_In(TypedDict):
+    kind: Literal["hotels"] | Literal["restaurants"] | Literal["attractions"]
+    url: NotRequired[str]
+    locationId: NotRequired[str]
+    geoId: NotRequired[str]
+
+class Prv_tripadvisor_getNearby_return_Out(TypedDict):
+    locationId: str
+    geoId: str
+    kind: str
+    listings: list[Prv_tripadvisor_TripadvisorNearbyListing_Out]
+    url: str
+
+class Prv_tripadvisor_TripadvisorNearbyListing_Out(TypedDict):
+    id: str
+    name: str
+    rank: NotRequired[float]
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+    distance: NotRequired[str]
+    address: NotRequired[str]
+    sponsored: NotRequired[bool]
+    url: str
+
 class Prv_trojanstorage_TrojanstorageFacilitySearchFilters_In(TypedDict):
     state: NotRequired[str]
     city: NotRequired[str]
@@ -74004,6 +74068,20 @@ class Prv_fomo(Protocol):
         route's fields.
         """
 
+    async def getWatchlist(self, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoWatchlistEntry_Out]:
+        """Returns every token the signed-in trader is watching, newest first, one row per
+        (networkId, tokenAddress) pair — feed a row to getToken for its price. Walks fomo's
+        nextPageKey pages itself, the way the site does, so the list is complete.
+        """
+
+    async def addToWatchlist(self, address: str, chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float, opts: ConnectionOption | None = None, /) -> Prv_fomo_FomoWatchlistChange_Out:
+        """Adds a token to the signed-in trader's own watchlist. Private to the caller and undone
+        by removeFromWatchlist. The pair comes from searchTokens or getToken.
+        """
+
+    async def removeFromWatchlist(self, address: str, chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float, opts: ConnectionOption | None = None, /) -> Prv_fomo_FomoWatchlistChange_Out:
+        """Removes a token from the signed-in trader's own watchlist — the undo for addToWatchlist."""
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -75041,6 +75119,27 @@ class Prv_github(Protocol):
         IN with write access to the repository. THROWS when signed out, the saved session is
         stale, or the pull request cannot be merged (conflicts, failing required checks, no
         write access).
+        """
+
+    async def createReview(self, owner: str, repo: str, pullNumber: float, review: Prv_github_createReview_review_In, opts: ConnectionOption | None = None, /) -> Prv_github_GithubReviewResult_Out:
+        """Submits a review on a pull request for the signed-in caller, off github.com's own review
+        box (`PUT /{owner}/{repo}/pull/{number}/page_data/submit_review`). `body` is required
+        for 'request_changes' and 'comment'. `headSha` defaults to the pull request's current
+        head, read from GitHub's public API; pass it for a private repository. NEEDS THE CALLER
+        SIGNED IN. THROWS when signed out, the session is stale, or GitHub refuses the review
+        (your own pull request, a moved head).
+        """
+
+    async def createReviewComment(self, owner: str, repo: str, pullNumber: float, comment: Prv_github_createReviewComment_comment_In, opts: ConnectionOption | None = None, /) -> Prv_github_GithubReviewCommentResult_Out:
+        """Adds an inline comment to a pull request's diff for the signed-in caller, off
+        github.com's own Files-changed comment box (`POST
+        /{owner}/{repo}/pull/{number}/page_data/create_review_comment`). `line` is a line number
+        in the file (right side = the new version, the default; 'left' = the old one); add
+        `startLine` for a multi-line range; omit `line` to comment on the whole file. Posted
+        immediately, not into a pending review. `headSha`/`baseSha` default to the pull
+        request's own, read from GitHub's public API; pass both for a private repository. NEEDS
+        THE CALLER SIGNED IN. THROWS when signed out, the session is stale, or the line is not
+        in the diff.
         """
 
 class Prv_glama(Protocol):
@@ -91673,6 +91772,12 @@ class Prv_tripadvisor(Protocol):
         """Lists a listing's photos — the gallery's albums (all photos, traveller, dining, rooms…)
         with their photo counts, and the first page of photos with caption, a sized image url
         and a resizable url template — taking a location id.
+        """
+
+    async def getNearby(self, args: Prv_tripadvisor_getNearby_args_In, /) -> Prv_tripadvisor_getNearby_return_Out:
+        """Lists the hotels, restaurants or attractions near a listing — each with id, name, the
+        page's rank, rating, review count, distance, address (hotels and attractions), a
+        sponsored flag and url — taking kind plus a listing url, or its locationId and geoId.
         """
 
 class Prv_trojanstorage(Protocol):

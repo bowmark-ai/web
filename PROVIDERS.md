@@ -2215,7 +2215,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fresha.buyPackageOrMembership` | fresha.com | Buys a venue's service package or membership. | ⚪ |
 | `fresha.cancelAppointment` | fresha.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | ⚪ |
 | `fresha.getAvailability` | fresha.com | Returns the open appointment times at one venue for one or more services, optionally… | 🟢 |
-| `fresha.getBookingQuote` | fresha.com | Prices an appointment before booking it: the services, the date and time range, the… | ⚪ |
+| `fresha.getBookingQuote` | fresha.com | Prices an appointment before booking it: the services, the date and time range, the… | 🟢 |
 | `fresha.getMyAppointment` | fresha.com | Returns one of the signed-in caller's appointments in full: venue, services, time… | ⚪ |
 | `fresha.getMyProfile` | fresha.com | Returns the signed-in caller's Fresha profile: name, email, phone, avatar, addresses… | ⚪ |
 | `fresha.getProfessional` | fresha.com | Returns one professional's public profile from their slug or fresha.com/p/... URL… | ⚪ |
@@ -2291,7 +2291,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
 | `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
-| `github.createIssue` | github.com | Creates a new issue on a repository. | ⚪ |
+| `github.createIssue` | github.com | Opens a new issue on a repository, off github.com's own issue-creation mutation (POST… | 🔴 |
 | `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | ⚪ |
 | `github.createReview` | github.com | Submits a review on a pull request for the signed-in caller (approve, request changes… | 🔴 |
 | `github.createReviewComment` | github.com | Adds an inline comment to a line, a line range or a whole file in a pull request's… | 🟢 |
@@ -4816,7 +4816,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `styleseat.getSalon` | styleseat.com | Gets a salon's details plus every pro who works there, each with their services… | 🟢 |
 | `styleseat.joinWaitlist` | styleseat.com | Puts the signed-in caller on a pro's waitlist for chosen services, with a note, when… | 🟢 |
 | `styleseat.leaveReview` | styleseat.com | Leaves a star rating and review for a pro, from the feedback token in StyleSeat's… | 🟢 |
-| `styleseat.listClassTimes` | styleseat.com | Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons)… | ⚪ |
+| `styleseat.listClassTimes` | styleseat.com | Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons)… | 🟢 |
 | `styleseat.listFavorites` | styleseat.com | Lists the pros the signed-in caller has saved as favorites. | 🟢 |
 | `styleseat.listMyAppointments` | styleseat.com | Lists the signed-in caller's upcoming and past StyleSeat appointments: pro, services… | 🟢 |
 | `styleseat.listMyDiscounts` | styleseat.com | Lists the discount codes saved on the signed-in caller's account. | 🟢 |
