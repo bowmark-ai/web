@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dbe75b03603eae79b93580a01f64cdaf8019f7f200ea9d6823721f7627f286e7
-# 93 capabilities, 761 providers, 4032 typed functions, 20 refused.
+# Manifest version: 2161fb1c509fecfeccb8d129e611ac4b352c10a1130d83d738f199807263516a
+# 93 capabilities, 762 providers, 4044 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4230,6 +4230,15 @@ class Prv_acuityscheduling_AcuityScheduleSearch_Out_slots_item_Out(TypedDict):
     calendarName: str | None
     bookingUrl: str
 
+class Prv_acuityscheduling_AcuityMyBookings_Out(TypedDict):
+    ownerId: str
+    business: str
+    bookings: list[Prv_acuityscheduling_AcuityMyBookings_Out_bookings_item_Out]
+
+class Prv_acuityscheduling_AcuityMyBookings_Out_bookings_item_Out(TypedDict):
+    appointmentId: str
+    manageUrl: str
+
 class Prv_adobe_CreativeCloudPlansResult_Out(TypedDict):
     plans: list[Prv_adobe_CreativeCloudPlan_Out]
     warnings: list[str]
@@ -6947,6 +6956,28 @@ class Prv_arketa_JoinWaitlistArgs_In(TypedDict):
 class Prv_arketa_ArketaActionResult_Out(TypedDict):
     success: bool
     message: str | None
+
+class Prv_arketa_BookClassArgs_In(TypedDict):
+    studio: str
+    classId: str
+    offeringId: NotRequired[str]
+
+class Prv_arketa_ArketaBookingResult_Out(TypedDict):
+    booked: bool
+    reservationId: str | None
+    orderId: str | None
+    totalCents: float
+    waitlisted: bool
+    message: str | None
+
+class Prv_arketa_BookPrivateSessionArgs_In(TypedDict):
+    studio: str
+    serviceId: str
+    isoTime: str
+    instructorId: NotRequired[str]
+    locationId: NotRequired[str]
+    roomId: NotRequired[str]
+    offeringId: NotRequired[str]
 
 class Prv_arketa_CancelBookingArgs_In(TypedDict):
     reservationId: str
@@ -13347,6 +13378,28 @@ class Prv_charterhomes_CharterhomesVisitOption_Out(TypedDict):
     neighborhood: str
     label: str
     calendlyUrl: str
+
+class Prv_chatgpt_SharedConversation_Out(TypedDict):
+    shareId: str
+    url: str
+    title: str
+    createTime: float | None
+    updateTime: float | None
+    model: str | None
+    messages: list[Prv_chatgpt_SharedMessage_Out]
+    warnings: list[str]
+
+class Prv_chatgpt_SharedMessage_Out(TypedDict):
+    role: Literal["user"] | Literal["assistant"]
+    text: str
+    createTime: float | None
+    model: str | None
+
+class Prv_chatgpt_ChatGPTAccount_Out(TypedDict):
+    id: str | None
+    email: str | None
+    name: str | None
+    plan: str | None
 
 Prv_cheapflights_KayakQuery_In = TypedDict(
     "Prv_cheapflights_KayakQuery_In",
@@ -24418,6 +24471,14 @@ class Prv_github_createIssue_options_In(TypedDict):
 class Prv_github_GithubCreateIssueResult_Out(TypedDict):
     issue: Mapping[str, Any]
 
+class Prv_github_createPullRequest_options_In(TypedDict):
+    body: NotRequired[str]
+    draft: NotRequired[bool]
+
+class Prv_github_GithubPullRequestCreated_Out(TypedDict):
+    number: float
+    url: str
+
 class Prv_github_GithubCommentResult_Out(TypedDict):
     comment: Mapping[str, Any]
 
@@ -26473,6 +26534,27 @@ class Prv_goteamup_classes_GoteamupMembership_Out(TypedDict):
     allowRepeatPurchases: bool
     newCustomersOnly: bool
     price: Prv_goteamup_classes_GoteamupPrice_Out | None
+
+class Prv_goteamup_classes_listMyBookings_return_Out(TypedDict):
+    bookings: list[Prv_goteamup_classes_GoteamupBooking_Out]
+    warnings: list[str]
+
+Prv_goteamup_classes_GoteamupBooking_Out = TypedDict(
+    "Prv_goteamup_classes_GoteamupBooking_Out",
+    {
+    "id": str,
+    "status": str,
+    "class": Prv_goteamup_classes_GoteamupClass_Out | None,
+    },
+)
+
+class Prv_goteamup_classes_GoteamupMyProfile_Out(TypedDict):
+    id: str
+    firstName: str | None
+    lastName: str | None
+    name: str | None
+    email: str | None
+    phone: str | None
 
 class Prv_grainger_GraingerSearchArgs_In(TypedDict):
     query: str
@@ -49702,6 +49784,40 @@ class Prv_squire_SquireOpenSlot_Out(TypedDict):
     barberIds: list[str] | None
     barberRoutes: list[str] | None
 
+class Prv_squire_SquireReviewsArgs_In(TypedDict):
+    shop: NotRequired[str]
+    barber: NotRequired[str]
+    limit: NotRequired[float]
+    skip: NotRequired[float]
+
+class Prv_squire_SquireReviews_Out(TypedDict):
+    averageRating: float | None
+    ratingCount: float | None
+    summary: str | None
+    reviews: list[Prv_squire_SquireReview_Out]
+
+class Prv_squire_SquireReview_Out(TypedDict):
+    id: str
+    rating: float | None
+    text: str | None
+    createdAt: str | None
+    barber: Prv_squire_SquireReview_Out_barber_u0_Out | None
+    customerName: str | None
+
+class Prv_squire_SquireReview_Out_barber_u0_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_squire_SquireBrand_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    website: str | None
+    instagram: str | None
+    message: str | None
+    shopCount: float | None
+    shops: list[Prv_squire_SquireShopSummary_Out]
+
 class Prv_stackoverflow_StackOverflowSearchArgs_In(TypedDict):
     query: str
     tagged: NotRequired[str]
@@ -53110,6 +53226,46 @@ class Prv_tiktok_listNotifications_return_Out_notifications_item_Out_fromUser_Ou
     uniqueId: NotRequired[str]
     nickname: NotRequired[str]
     userId: NotRequired[str]
+
+class Prv_tiktok_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_tiktok_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_tiktok_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_tiktok_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_tiktok_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_tiktok_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_tiktok_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_tiktok_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
@@ -63950,6 +64106,13 @@ class Prv_acuityscheduling(Protocol):
         when filtered, places left and the booking link.
         """
 
+    async def listMyBookings(self, query: str, opts: ConnectionOption | None = None, /) -> Prv_acuityscheduling_AcuityMyBookings_Out:
+        """Lists the signed-in caller's appointments at one business (Acuity client accounts are
+        per business), each with its unique id and the link to view, cancel or reschedule it.
+        `query` is anything findScheduler takes. Needs the caller signed in to that business's
+        Acuity client login.
+        """
+
 class Prv_adobe(Protocol):
     """Adobe Stock, Fonts and Express search, Creative Cloud plans, Acrobat's free PDF tools,
     and Adobe's help center — all reachable logged out.
@@ -65526,6 +65689,20 @@ class Prv_arketa(Protocol):
     async def joinWaitlist(self, args: Prv_arketa_JoinWaitlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_arketa_ArketaActionResult_Out:
         """Puts the signed-in caller on the waitlist for a full class (classId from listClasses),
         optionally with named guests. Needs the caller signed in to Arketa.
+        """
+
+    async def bookClass(self, args: Prv_arketa_BookClassArgs_In, opts: ConnectionOption | None = None, /) -> Prv_arketa_ArketaBookingResult_Out:
+        """Books the signed-in caller into a class (classId from listClasses) with a pass they
+        already own (offeringId from listMyPasses). Only finishes when Arketa prices it at 0;
+        otherwise returns booked:false with the price and never pays. Needs the caller signed in
+        to Arketa.
+        """
+
+    async def bookPrivateSession(self, args: Prv_arketa_BookPrivateSessionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_arketa_ArketaBookingResult_Out:
+        """Books the signed-in caller into a private session at a time
+        getPrivateSessionAvailability returned, with a pass they already own. Only finishes when
+        Arketa prices it at 0; otherwise returns booked:false with the price and never pays.
+        Needs the caller signed in to Arketa.
         """
 
     async def cancelBooking(self, args: Prv_arketa_CancelBookingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_arketa_ArketaActionResult_Out:
@@ -68946,6 +69123,24 @@ class Prv_charterhomes(Protocol):
     async def getScheduleVisitOptions(self, /) -> list[Prv_charterhomes_CharterhomesVisitOption_Out]:
         """Reads Charter's live schedule-a-visit page and returns every neighborhood with its real
         Calendly tour-booking URL. Never books anything.
+        """
+
+class Prv_chatgpt(Protocol):
+    """OpenAI's ChatGPT at chatgpt.com — read a shared conversation link logged out, and,
+    signed in as the CALLER through the relay, read their own account. The rest of the
+    declared surface awaits a caller-reachable implementation.
+    """
+
+    async def getSharedConversation(self, url: str, /) -> Prv_chatgpt_SharedConversation_Out:
+        """Reads a public shared ChatGPT conversation from its share link (chatgpt.com/share/<id>,
+        or the bare id) — title, every user and assistant message in order, and the model that
+        answered. No account needed. A deleted link throws a caller-fixable error.
+        """
+
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_ChatGPTAccount_Out:
+        """The caller's own ChatGPT account — id, email, name and plan. Needs the caller signed in
+        to chatgpt.com through the relay; the run pauses for a sign-in link when they are not.
+        THROWS `ChatGPTSessionError` when the saved sign-in has expired; sign in again.
         """
 
 class Prv_cheapflights(Protocol):
@@ -75118,6 +75313,17 @@ class Prv_github(Protocol):
         disabled.
         """
 
+    async def createPullRequest(self, owner: str, repo: str, title: str, head: str, base: str, options: Prv_github_createPullRequest_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubPullRequestCreated_Out:
+        """Opens a pull request from `head` into `base` for the signed-in caller, off github.com's
+        own compare page: it loads `/{owner}/{repo}/compare/{base}...{head}`, reads that page's
+        "Create pull request" form (action and CSRF token) and posts it back with the title and
+        optional markdown body. NEEDS THE CALLER SIGNED IN — logged out, the compare page
+        carries no form at all. Same-repository branches only (`head` is a branch name). Returns
+        the new pull request's number and URL. THROWS when signed out, the saved session is
+        stale, the branches have nothing to compare, or a pull request between them is already
+        open.
+        """
+
     async def createComment(self, owner: str, repo: str, issueNumber: float, body: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentResult_Out:
         """Adds a comment to an issue or pull request, off github.com's own issue-viewer web
         mutation (`POST /{owner}/{repo}/issues/{number}/comments.json?queryId=...`, the
@@ -76498,6 +76704,16 @@ class Prv_goteamup_classes(Protocol):
 
     async def listInstructors(self, studio: str | float, /) -> list[Prv_goteamup_classes_GoteamupInstructor_Out]:
         """Lists a studio's instructors with name and picture."""
+
+    async def listMyBookings(self, studio: str | float, opts: ConnectionOption | None = None, /) -> Prv_goteamup_classes_listMyBookings_return_Out:
+        """Signed in: the caller's own class bookings at one studio, each with its status and the
+        booked class. Pauses the run for the caller to sign in at goteamup.com.
+        """
+
+    async def getMyProfile(self, studio: str | float, opts: ConnectionOption | None = None, /) -> Prv_goteamup_classes_GoteamupMyProfile_Out:
+        """Signed in: the caller's own customer profile at one studio — name, email, phone. Pauses
+        the run for the caller to sign in at goteamup.com.
+        """
 
 class Prv_grainger(Protocol):
     """Grainger's industrial MRO catalog, product detail, and branch/stock availability —
@@ -89477,6 +89693,19 @@ class Prv_squire(Protocol):
         window.
         """
 
+    async def getReviews(self, args: Prv_squire_SquireReviewsArgs_In, /) -> Prv_squire_SquireReviews_Out:
+        """Returns a shop's reviews (shop by id, route or URL), or one barber's (id from
+        listBarbers): the average rating, rating count, Squire's own written summary, and
+        newest-first reviews with rating, text, date, the barber reviewed and the customer's
+        first name. Page with limit and skip.
+        """
+
+    async def getBrand(self, brand: str, /) -> Prv_squire_SquireBrand_Out:
+        """Returns a Squire brand (a multi-location barbershop group) from its id — a brand hit
+        from searchShops — or a getsquire.com/booking/brands/ URL: name, description, website,
+        Instagram, and every location as a shop summary with route and booking URL.
+        """
+
 class Prv_stackoverflow(Protocol):
     """Stack Overflow programming questions and answers — search questions, then read one
     question with its accepted and top-voted answers — through the official Stack Exchange
@@ -91358,6 +91587,18 @@ class Prv_tiktok(Protocol):
         page's cursor). Reads GET /api/notice/multi/ with the caller's session cookies, no
         browser. The caller signs in through the auth relay; Bowmark never signs up on this
         site.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_tiktok_signup_return_u0_Out | Prv_tiktok_signup_return_u1_Out | Prv_tiktok_signup_return_u2_Out | Prv_tiktok_signup_return_u3_Out:
+        """Makes a NEW TikTok account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_tiktok_confirmSignup_return_u0_Out | Prv_tiktok_confirmSignup_return_u1_Out | Prv_tiktok_confirmSignup_return_u2_Out | Prv_tiktok_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_tilsonhomes(Protocol):
@@ -95967,6 +96208,7 @@ class BowmarkProviders(Protocol):
     chantecaille: Prv_chantecaille
     chappellet: Prv_chappellet
     charterhomes: Prv_charterhomes
+    chatgpt: Prv_chatgpt
     cheapflights: Prv_cheapflights
     checkfront: Prv_checkfront
     chesmar: Prv_chesmar

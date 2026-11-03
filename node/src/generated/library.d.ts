@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dbe75b03603eae79b93580a01f64cdaf8019f7f200ea9d6823721f7627f286e7
-// 93 capabilities, 761 providers, 4050 typed functions, 20 refused.
+// Manifest version: 2161fb1c509fecfeccb8d129e611ac4b352c10a1130d83d738f199807263516a
+// 93 capabilities, 762 providers, 4062 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7377,6 +7377,13 @@ interface AcuitySchedule {
   bookingUrl: string;
 }
 
+interface AcuityMyBookings {
+  ownerId: string;
+  business: string;
+  /** Each appointment's unique id and the link Acuity gives a client to view, cancel or reschedule it. */
+  bookings: { appointmentId: string; manageUrl: string }[];
+}
+
 interface AcuityPrice {
   appointmentTypeId: number;
   name: string;
@@ -7462,6 +7469,14 @@ interface AcuityPrice {
      * filtered, places left and the booking link.
      */
     searchSchedule(query: string, options?: AcuityScheduleSearchQuery): Promise<AcuityScheduleSearch>;
+
+    /**
+     * Lists the signed-in caller's appointments at one business (Acuity client accounts are per
+     * business), each with its unique id and the link to view, cancel or reschedule it. `query` is
+     * anything findScheduler takes. Needs the caller signed in to that business's Acuity client
+     * login.
+     */
+    listMyBookings(query: string, opts?: ConnectionOption): Promise<AcuityMyBookings>;
   }
 }
 
@@ -11795,6 +11810,31 @@ interface ArketaActionResult {
   message: string | null;
 }
 
+interface BookClassArgs {
+  studio: string;
+  classId: string;
+  offeringId?: string;
+}
+
+interface BookPrivateSessionArgs {
+  studio: string;
+  serviceId: string;
+  isoTime: string;
+  instructorId?: string;
+  locationId?: string;
+  roomId?: string;
+  offeringId?: string;
+}
+
+interface ArketaBookingResult {
+  booked: boolean;
+  reservationId: string | null;
+  orderId: string | null;
+  totalCents: number;
+  waitlisted: boolean;
+  message: string | null;
+}
+
   /**
    * Arketa studio booking pages (yoga, pilates, barre): find a studio, read its class schedule,
    * pricing, private sessions and on-demand library, and (signed in) book, waitlist and cancel
@@ -11901,6 +11941,20 @@ interface ArketaActionResult {
      * optionally with named guests. Needs the caller signed in to Arketa.
      */
     joinWaitlist(args: JoinWaitlistArgs, opts?: ConnectionOption): Promise<ArketaActionResult>;
+
+    /**
+     * Books the signed-in caller into a class (classId from listClasses) with a pass they already
+     * own (offeringId from listMyPasses). Only finishes when Arketa prices it at 0; otherwise
+     * returns booked:false with the price and never pays. Needs the caller signed in to Arketa.
+     */
+    bookClass(args: BookClassArgs, opts?: ConnectionOption): Promise<ArketaBookingResult>;
+
+    /**
+     * Books the signed-in caller into a private session at a time getPrivateSessionAvailability
+     * returned, with a pass they already own. Only finishes when Arketa prices it at 0; otherwise
+     * returns booked:false with the price and never pays. Needs the caller signed in to Arketa.
+     */
+    bookPrivateSession(args: BookPrivateSessionArgs, opts?: ConnectionOption): Promise<ArketaBookingResult>;
 
     /**
      * Cancels one of the signed-in caller's class reservations or waitlist spots (reservationId
@@ -22119,6 +22173,58 @@ interface CharterhomesVisitOption { neighborhood: string; label: string; calendl
      * Calendly tour-booking URL. Never books anything.
      */
     getScheduleVisitOptions(): Promise<CharterhomesVisitOption[]>;
+  }
+}
+
+declare namespace BowmarkProvider_chatgpt {
+  // ── ChatGPT — the unit's own declarations, verbatim ──
+interface ChatGPTAccount {
+  id: string | null;
+  email: string | null;
+  name: string | null;
+  plan: string | null;
+}
+
+interface SharedMessage {
+  role: "user" | "assistant";
+  text: string;
+  /** Unix seconds, when the site recorded one. */
+  createTime: number | null;
+  /** The model that wrote an assistant turn, when recorded. */
+  model: string | null;
+}
+
+interface SharedConversation {
+  shareId: string;
+  url: string;
+  title: string;
+  createTime: number | null;
+  updateTime: number | null;
+  model: string | null;
+  /** The visible thread in order — hidden system turns and tool calls left out. */
+  messages: SharedMessage[];
+  warnings: string[];
+}
+
+  /**
+   * OpenAI's ChatGPT at chatgpt.com — read a shared conversation link logged out, and, signed in
+   * as the CALLER through the relay, read their own account. The rest of the declared surface
+   * awaits a caller-reachable implementation.
+   */
+  interface Unit {
+    /**
+     * Reads a public shared ChatGPT conversation from its share link (chatgpt.com/share/<id>, or
+     * the bare id) — title, every user and assistant message in order, and the model that
+     * answered. No account needed. A deleted link throws a caller-fixable error.
+     */
+    getSharedConversation(url: string): Promise<SharedConversation>;
+
+    /**
+     * The caller's own ChatGPT account — id, email, name and plan. Needs the caller signed in to
+     * chatgpt.com through the relay; the run pauses for a sign-in link when they are not. THROWS
+     * `ChatGPTSessionError` when the saved sign-in has expired; sign in again.
+     */
+    getAccount(opts?: ConnectionOption): Promise<ChatGPTAccount>;
   }
 }
 
@@ -39946,6 +40052,10 @@ interface GithubCommentResult {
 interface GithubCreateIssueResult {
   issue: { number?: number; title?: string; [key: string]: unknown };
 }
+interface GithubPullRequestCreated {
+  number: number;
+  url: string;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -40204,6 +40314,17 @@ interface GithubCreateIssueResult {
      * disabled.
      */
     createIssue(owner: string, repo: string, title: string, options?: { body?: string; repositoryId?: string }, opts?: ConnectionOption): Promise<GithubCreateIssueResult>;
+
+    /**
+     * Opens a pull request from `head` into `base` for the signed-in caller, off github.com's own
+     * compare page: it loads `/{owner}/{repo}/compare/{base}...{head}`, reads that page's "Create
+     * pull request" form (action and CSRF token) and posts it back with the title and optional
+     * markdown body. NEEDS THE CALLER SIGNED IN — logged out, the compare page carries no form at
+     * all. Same-repository branches only (`head` is a branch name). Returns the new pull request's
+     * number and URL. THROWS when signed out, the saved session is stale, the branches have
+     * nothing to compare, or a pull request between them is already open.
+     */
+    createPullRequest(owner: string, repo: string, title: string, head: string, base: string, options?: { body?: string; draft?: boolean }, opts?: ConnectionOption): Promise<GithubPullRequestCreated>;
 
     /**
      * Adds a comment to an issue or pull request, off github.com's own issue-viewer web mutation
@@ -43477,6 +43598,23 @@ interface GoteamupMembership {
   price: GoteamupPrice | null;
 }
 
+interface GoteamupMyProfile {
+  id: string;
+  firstName: string | null;
+  lastName: string | null;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+}
+
+interface GoteamupBooking {
+  id: string;
+  /** The site's own attendance status label, verbatim. */
+  status: string;
+  /** The booked class. */
+  class: GoteamupClass | null;
+}
+
   /**
    * TeamUp gym and fitness studios: find a studio, read its class timetable, class types,
    * venues, instructors and memberships, and book, cancel or waitlist a class as the signed-in
@@ -43529,6 +43667,18 @@ interface GoteamupMembership {
 
     /** Lists a studio's instructors with name and picture. */
     listInstructors(studio: string | number): Promise<GoteamupInstructor[]>;
+
+    /**
+     * Signed in: the caller's own class bookings at one studio, each with its status and the
+     * booked class. Pauses the run for the caller to sign in at goteamup.com.
+     */
+    listMyBookings(studio: string | number, opts?: ConnectionOption): Promise<{ bookings: GoteamupBooking[]; warnings: string[] }>;
+
+    /**
+     * Signed in: the caller's own customer profile at one studio — name, email, phone. Pauses the
+     * run for the caller to sign in at goteamup.com.
+     */
+    getMyProfile(studio: string | number, opts?: ConnectionOption): Promise<GoteamupMyProfile>;
   }
 }
 
@@ -80853,6 +81003,16 @@ interface SquireAvailabilityArgs {
   durationMins?: number; // only with barber; default 30
   from?: string; to?: string; // ISO dates; default today .. +4 days
 }
+interface SquireReviewsArgs { shop?: string; barber?: string; limit?: number; skip?: number; } // shop OR barber (id from listBarbers); limit default 20
+interface SquireReview {
+  id: string; rating: number | null; text: string | null; createdAt: string | null;
+  barber: { id: string; name: string } | null; customerName: string | null;
+}
+interface SquireReviews { averageRating: number | null; ratingCount: number | null; summary: string | null; reviews: SquireReview[]; }
+interface SquireBrand {
+  id: string; name: string; description: string | null; website: string | null; instagram: string | null;
+  message: string | null; shopCount: number | null; shops: SquireShopSummary[];
+}
 
   /**
    * Squire barbershop booking: find shops by name or near a place, a shop's services, prices,
@@ -80908,6 +81068,21 @@ interface SquireAvailabilityArgs {
      * service. Defaults to today through 4 days out — the booking app's own window.
      */
     getAvailability(args: SquireAvailabilityArgs): Promise<SquireDayAvailability[]>;
+
+    /**
+     * Returns a shop's reviews (shop by id, route or URL), or one barber's (id from listBarbers):
+     * the average rating, rating count, Squire's own written summary, and newest-first reviews
+     * with rating, text, date, the barber reviewed and the customer's first name. Page with limit
+     * and skip.
+     */
+    getReviews(args: SquireReviewsArgs): Promise<SquireReviews>;
+
+    /**
+     * Returns a Squire brand (a multi-location barbershop group) from its id — a brand hit from
+     * searchShops — or a getsquire.com/booking/brands/ URL: name, description, website, Instagram,
+     * and every location as a shop summary with route and booking URL.
+     */
+    getBrand(brand: string): Promise<SquireBrand>;
   }
 }
 
@@ -86378,6 +86553,20 @@ type ListNotificationsArgs = {
      * caller signs in through the auth relay; Bowmark never signs up on this site.
      */
     listNotifications(args: ListNotificationsArgs, opts?: ConnectionOption): Promise<{ notifications: Array<{ id?: string; type?: number; createTime?: number; text?: string; fromUser?: { uniqueId?: string; nickname?: string; userId?: string }; videoId?: string }>; hasMore: boolean; cursor?: number }>;
+
+    /**
+     * Makes a NEW TikTok account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -100167,6 +100356,7 @@ interface BowmarkProviders {
   chantecaille: BowmarkProvider_chantecaille.Unit;
   chappellet: BowmarkProvider_chappellet.Unit;
   charterhomes: BowmarkProvider_charterhomes.Unit;
+  chatgpt: BowmarkProvider_chatgpt.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   checkfront: BowmarkProvider_checkfront.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
