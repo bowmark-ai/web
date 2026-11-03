@@ -1715,7 +1715,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | ⚪ |
 | `epicgames.addToCart` | epicgames.com | Put a game or add-on in the signed-in caller's cart. | ⚪ |
 | `epicgames.addToWishlist` | epicgames.com | Add a game to the signed-in caller's wishlist. | ⚪ |
-| `epicgames.claimFreeGame` | epicgames.com | Claim one of this week's free games into the signed-in caller's library — the $0… | ⚪ |
+| `epicgames.claimFreeGame` | epicgames.com | Claim one of this week's free games into the signed-in caller's library — the $0… | 🟢 |
 | `epicgames.getAccount` | epicgames.com | The signed-in caller's own Epic Games account settings, returned raw — no fleet-held… | 🟢 |
 | `epicgames.getAchievementProgress` | epicgames.com | The signed-in caller's own achievements in one game — which are unlocked, when, their… | 🟢 |
 | `epicgames.getAchievements` | epicgames.com | A game's achievement list as the store shows it — name, description, icon, XP, and the… | ⚪ |
@@ -5064,7 +5064,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `toast.getEvent` | toasttab.com | Reads one ticketed event or experience: description, showings on a date, ticket types… | ⚪ |
 | `toast.getGiftCardBalance` | toasttab.com | Checks the balance on a restaurant gift card the caller holds, by card number. | ⚪ |
 | `toast.getLoyaltyProgram` | toasttab.com | Reads a restaurant's loyalty program as a guest sees it before joining: how points are… | ⚪ |
-| `toast.getMenu` | toasttab.com | Reads a restaurant's online-ordering menu: menus, groups, and items with name… | ⚪ |
+| `toast.getMenu` | toasttab.com | Reads a restaurant's online-ordering menu: menus, groups, and items with name… | 🟢 |
 | `toast.getMenuItem` | toasttab.com | Reads one menu item with everything ordering it needs: sizes, modifier groups… | ⚪ |
 | `toast.getMyAccount` | toasttab.com | Reads the signed-in guest's own Toast profile: name, email, phone and saved delivery… | ⚪ |
 | `toast.getMyOrder` | toasttab.com | Reads one of the signed-in guest's past orders in full: items, choices, totals… | ⚪ |
