@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ba120b927b88257ed32b516e8c53fc7d406ba5a2b3174be452be6d8fe642e634
-# 93 capabilities, 761 providers, 4016 typed functions, 20 refused.
+# Manifest version: aa425501a0914c0f1ec6020e0bc94838c717bb60c2f95bc37daacf7b60ab9100
+# 93 capabilities, 761 providers, 4018 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24367,6 +24367,10 @@ class Prv_github_updatePullRequest_updates_In(TypedDict):
 class Prv_github_GithubSubscriptionResult_Out(TypedDict):
     repository: str
     subscription: Literal["subscribed"] | Literal["included"]
+
+class Prv_github_GithubStarResult_Out(TypedDict):
+    repository: str
+    starred: bool
 
 class Prv_glama_search_query_u1_In(TypedDict):
     query: str
@@ -74931,6 +74935,18 @@ class Prv_github(Protocol):
         signed out, the saved session is stale, or the repository does not exist.
         """
 
+    async def starRepository(self, owner: str, repo: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubStarResult_Out:
+        """Stars a repository for the signed-in caller, off github.com's own star form (`POST
+        /{owner}/{repo}/star`). NEEDS THE CALLER SIGNED IN. THROWS when signed out, the saved
+        session is stale, or the repository does not exist.
+        """
+
+    async def unstarRepository(self, owner: str, repo: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubStarResult_Out:
+        """Removes a repository from the signed-in caller's stars, off github.com's own unstar form
+        (`POST /{owner}/{repo}/unstar`). NEEDS THE CALLER SIGNED IN. THROWS when signed out, the
+        saved session is stale, or the repository does not exist.
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -92355,7 +92371,8 @@ class Prv_uscis(Protocol):
         ten digits, from the I-797 notice): the form, USCIS's headline status and its full
         sentence. `found: false` when USCIS does not recognise the number. A malformed number is
         refused before any request. Reaches egov.uscis.gov through the CALLER's own browser (the
-        Bowmark Link extension) and throws naming the extension when none is connected.
+        Bowmark Link extension), calling the Case Status page's own Next.js server action, and
+        throws naming the extension when none is connected.
         """
 
 class Prv_usps(Protocol):

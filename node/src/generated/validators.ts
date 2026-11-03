@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ba120b927b88257ed32b516e8c53fc7d406ba5a2b3174be452be6d8fe642e634
-// 4016 checked, 20 unchecked.
+// Manifest version: aa425501a0914c0f1ec6020e0bc94838c717bb60c2f95bc37daacf7b60ab9100
+// 4018 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ba120b927b88257ed32b516e8c53fc7d406ba5a2b3174be452be6d8fe642e634",
+  "version": "aa425501a0914c0f1ec6020e0bc94838c717bb60c2f95bc37daacf7b60ab9100",
   "units": {
     "address_validation": {
       "defs": {
@@ -46000,6 +46000,70 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "unwatchRepository": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "starRepository": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unstarRepository": [
           {
             "name": "owner",
             "schema": {

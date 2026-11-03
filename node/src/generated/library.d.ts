@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ba120b927b88257ed32b516e8c53fc7d406ba5a2b3174be452be6d8fe642e634
-// 93 capabilities, 761 providers, 4034 typed functions, 20 refused.
+// Manifest version: aa425501a0914c0f1ec6020e0bc94838c717bb60c2f95bc37daacf7b60ab9100
+// 93 capabilities, 761 providers, 4036 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39823,6 +39823,10 @@ interface GithubListStarredRepositoriesResult {
   repositories: GithubStarredRepository[];
   warnings: string[];
 }
+interface GithubStarResult {
+  repository: string;
+  starred: boolean;
+}
 interface GithubSubscriptionResult {
   repository: string;
   subscription: "subscribed" | "included";
@@ -40137,6 +40141,20 @@ interface GithubCommentResult {
      * out, the saved session is stale, or the repository does not exist.
      */
     unwatchRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubSubscriptionResult>;
+
+    /**
+     * Stars a repository for the signed-in caller, off github.com's own star form (`POST
+     * /{owner}/{repo}/star`). NEEDS THE CALLER SIGNED IN. THROWS when signed out, the saved
+     * session is stale, or the repository does not exist.
+     */
+    starRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubStarResult>;
+
+    /**
+     * Removes a repository from the signed-in caller's stars, off github.com's own unstar form
+     * (`POST /{owner}/{repo}/unstar`). NEEDS THE CALLER SIGNED IN. THROWS when signed out, the
+     * saved session is stale, or the repository does not exist.
+     */
+    unstarRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubStarResult>;
   }
 }
 
@@ -90140,8 +90158,8 @@ interface uscisCaseStatus {
   formNumber: string | null;           // e.g. "I-765"
   formTitle: string | null;
   status: string | null;               // USCIS's headline, e.g. "Case Was Approved"
-  description: string | null;          // USCIS's full sentence, with the date
-  raw: unknown;                        // the body as USCIS returned it
+  description: string | null;          // USCIS's full sentence, with the date (HTML stripped)
+  raw: unknown;                        // the CaseStatusResponse object as USCIS returned it
   source: "callerBrowser";
 }
 
@@ -90157,7 +90175,8 @@ interface uscisCaseStatus {
      * digits, from the I-797 notice): the form, USCIS's headline status and its full sentence.
      * `found: false` when USCIS does not recognise the number. A malformed number is refused
      * before any request. Reaches egov.uscis.gov through the CALLER's own browser (the Bowmark
-     * Link extension) and throws naming the extension when none is connected.
+     * Link extension), calling the Case Status page's own Next.js server action, and throws naming
+     * the extension when none is connected.
      */
     caseStatus(args: CaseStatusArgs): Promise<uscisCaseStatus>;
   }
