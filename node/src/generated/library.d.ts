@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f72466cccccd2b3f9fa9f6b7dbc24c1ebbce236a65de03e4cb9c7a16119a02ed
-// 93 capabilities, 761 providers, 4020 typed functions, 20 refused.
+// Manifest version: a169c9b93eb727061ed95034526908ae6bb926c02543b54ce74269a54995b153
+// 93 capabilities, 761 providers, 4030 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12456,6 +12456,42 @@ interface AttPrepaidPlan {
   features: string[];            // the card's feature list, AT&T's own words — the site's own labels — read the values off a result, never guess one from prose
   shopUrl: string | null;
 }
+interface AttInternetPlan {
+  name: string; // "AT&T Internet 1000"
+  speed: string; // AT&T's words: "Up to 1 GIG speed"
+  speedMbps: number | null;
+  monthlyUsd: number | null; // offer price on its own
+  regularMonthlyUsd: number | null; // the struck-through price
+  withWirelessMonthlyUsd: number | null; // offer price bundled with an AT&T wireless plan
+  perks: string[]; // "$100 reward card", "3 months of YouTube TV on us"
+  features: string[]; // "Level up your gaming with low lag.", "Support your smart home devices."
+  shopUrl: string | null;
+}
+interface AttStore {
+  id: string;
+  name: string;
+  address: string;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  phone: string | null;
+  url: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  distanceMiles: number | null;
+  companyOwned: boolean; // false = an authorized retailer
+  hours: Record<
+    "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday",
+    string | null
+  >; // "09:00-20:00"
+}
+interface AttDeal {
+  section: string; // "featured" | "top" | "bundles" | "accessories"
+  audience: string | null; // "New & existing customers"
+  title: string;
+  description: string | null;
+  url: string | null;
+}
 interface AttPlanTotal {
   planId: string;
   lineCount: number;
@@ -12533,6 +12569,32 @@ interface AttMonthlyBill {
      * unlimited.
      */
     listPrepaidPlans(): Promise<AttPrepaidPlan[]>;
+
+    /**
+     * Every AT&T Fiber home-internet speed tier on AT&T's own fiber page
+     * (att.com/internet/fiber/): tier name ("AT&T Internet 1000"), speed in AT&T's words and in
+     * Mbps, the monthly offer price on its own, the regular (struck-through) price, the lower
+     * price when bundled with an AT&T wireless plan, perks (reward card, YouTube TV months) and
+     * the feature list. National list prices; whether a tier reaches a given address is a separate
+     * question.
+     */
+    listInternetPlans(): Promise<AttInternetPlan[]>;
+
+    /**
+     * AT&T stores near a US ZIP or "city, state", nearest first, off AT&T's own store locator:
+     * name, address, phone, store page URL, distance in miles, whether AT&T owns the store (false
+     * = an authorized retailer) and opening hours per weekday ("09:00-20:00"). limit defaults to
+     * 10 (max 50), radiusMiles to 25 (max 100). An empty array means no store within the radius.
+     */
+    findStores(location: string, options?: { limit?: number; radiusMiles?: number }): Promise<AttStore[]>;
+
+    /**
+     * The current offers on AT&T's own deals page (att.com/deals/): each card's headline in AT&T's
+     * words ("Get iPhone 18 Pro Max for up to $1,200 off"), who it is for ("New & existing
+     * customers"), the short condition line, the shop URL, and which row of the page it sits in
+     * (featured, top, bundles, accessories). The fine print stays on AT&T's page behind each URL.
+     */
+    listDeals(): Promise<AttDeal[]>;
 
     /**
      * The signed-in caller's current AT&T account balance — amount due, due date and account
@@ -15990,6 +16052,7 @@ interface BlueskySuggestedUser {
 
 interface BlueskySuggestUsersResults {
   users: BlueskySuggestedUser[];
+  count: number; // users.length
 }
 
 interface BlueskyPostLike {
@@ -33365,6 +33428,13 @@ interface EtsyShop {
   onEtsySince: number | null;
   url: string;
 }
+interface EtsyUserProfile {
+  username: string;
+  displayName: string;
+  collections: { name: string; itemCount: number | null; url: string }[];
+  followedShops: { name: string; avatar: string | null; rating: number | null; reviewCount: number | null; url: string }[];
+  url: string;
+}
 interface EtsyShopSearchRow {
   name: string;
   tagline: string | null;
@@ -33478,6 +33548,13 @@ interface EtsyShippingEstimate {
      * door from a half-remembered shop name to `getShop`.
      */
     searchShops(query: string): Promise<EtsyShopSearchRow[]>;
+
+    /**
+     * A member's public Etsy profile by username or etsy.com/people URL — display name, their
+     * public favorites collections (name, item count, URL) and the shops they follow (name,
+     * avatar, star rating, review count, URL).
+     */
+    getUserProfile(usernameOrUrl: string): Promise<EtsyUserProfile>;
 
     /**
      * Etsy's category tree from its own /categories page — each top-level department (Accessories,
@@ -38070,6 +38147,13 @@ interface GetLiveBlogArgs {
   url: string;
 }
 
+interface FoxnewsNewsletter {
+  id: string;
+  listId: string;
+  name: string;
+  description?: string;
+}
+
 interface FoxnewsPodcast {
   name: string;
   url: string;
@@ -38203,6 +38287,12 @@ interface FoxnewsPodcastEpisode {
      * duration and the audio url — taking a show's url from listPodcasts.
      */
     listPodcastEpisodes(args: ListPodcastEpisodesArgs): Promise<{ episodes: FoxnewsPodcastEpisode[] }>;
+
+    /**
+     * Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics, Breaking
+     * News Alerts, Health, AI…) with each one's name, description and list id.
+     */
+    listNewsletters(): Promise<{ newsletters: FoxnewsNewsletter[] }>;
   }
 }
 
@@ -46874,6 +46964,54 @@ interface LookupOrderArgs {
   /** The email or phone number used when placing the order. */
   liteId: string;
 }
+interface IkeaPurchaseArticle {
+  itemNo: string | null;
+  name: string | null;
+  description: string | null;
+  quantity: number | null;
+  imageUrl: string | null;
+}
+interface IkeaPurchase {
+  /** The order or receipt number — pass an order's to getPurchase. */
+  id: string;
+  /** e.g. "ORDER", "RECEIPT", "RETURN". */
+  type: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  date: string | null;
+  storeName: string | null;
+  total: { currency: string | null; value: number | null; formatted: string | null } | null;
+  articleCount: number | null;
+  articles: IkeaPurchaseArticle[];
+}
+interface IkeaPurchaseHistory {
+  totalPurchases: number | null;
+  purchases: IkeaPurchase[];
+}
+interface ListPurchasesArgs {
+  /** 1-100, default 20. */
+  limit?: number;
+  /** Skip this many purchases, default 0. */
+  offset?: number;
+}
+interface IkeaProfile {
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  mobile: string | null;
+  emailVerified: boolean | null;
+  phoneVerified: boolean | null;
+  /** The IKEA Family / loyalty member number, when the caller has one. */
+  memberId: string | null;
+  /** e.g. "FAMILY" — the loyalty programme the account is enrolled in. */
+  loyaltyProgramCode: string | null;
+  /** The preferred store's id. */
+  preferredStore: string | null;
+  zipCode: string | null;
+}
+interface GetPurchaseArgs {
+  /** 9-10 digits — an online order's number, as listPurchases returns it. */
+  orderNumber: string;
+}
 interface IkeaDeliveryQuantity {
   available: boolean | null;
   /** The site's own reason the item cannot go this way, e.g. "OUT_OF_STOCK". */
@@ -47121,6 +47259,25 @@ interface RemoveFromFavoritesArgs {
      * placing it. Returns the order's status and each delivery method's status, tense and dates.
      */
     lookupOrder(args: LookupOrderArgs): Promise<IkeaOrderLookup>;
+
+    /**
+     * Reads the signed-in caller's IKEA profile — name, email, mobile, verification flags, IKEA
+     * Family member number, preferred store and ZIP. Needs the caller signed in to IKEA.
+     */
+    getProfile(opts?: ConnectionOption): Promise<IkeaProfile>;
+
+    /**
+     * Lists the signed-in caller's IKEA purchases — online orders, store receipts and returns —
+     * with number, type, status, date, store, total and the first few items. Needs the caller
+     * signed in to IKEA.
+     */
+    listPurchases(args: ListPurchasesArgs, opts?: ConnectionOption): Promise<IkeaPurchaseHistory>;
+
+    /**
+     * Reads one of the signed-in caller's orders by order number — its status and each delivery
+     * method's status and dates. Needs the caller signed in to IKEA.
+     */
+    getPurchase(args: GetPurchaseArgs, opts?: ConnectionOption): Promise<IkeaOrderLookup>;
 
     /**
      * Lists IKEA's US product category tree (e.g. Storage & organization → Bookcases & shelving
@@ -76204,6 +76361,7 @@ interface SetmoreBookingLookup {
   companyId: string;
   confirmationId: string;
   bookings: SetmoreBooking[]; // empty when the business has no booking under that id
+  count: number; // bookings.length
 }
 interface SetmoreGetMyBookingsArgs {
   business: string; // a business with customer accounts on (getBusiness → customerAuth)
@@ -82121,6 +82279,20 @@ interface StyleseatFavoriteChange { providerId: number; favorite: boolean; }
 interface StyleseatUpdateProfileArgs { firstName?: string; lastName?: string; phone?: string; }
 interface StyleseatDiscount { code: string | null; description: string | null; amount: string | null; expires: string | null; }
 interface StyleseatMyDiscounts { discounts: StyleseatDiscount[]; }
+interface StyleseatConversation { providerId: number; opened: boolean; }
+interface StyleseatLeaveReviewArgs {
+  /** A pro's vanity, numeric id or profile url. */
+  pro: string;
+  /** The feedback token from StyleSeat's "leave a review" email/text link. */
+  feedbackToken: string;
+  /** 1-5. */
+  numStars: number;
+  /** The review text. */
+  reviewText: string;
+  firstName?: string;
+  lastName?: string;
+}
+interface StyleseatLeftReview { providerId: number; submitted: boolean; }
 
   /**
    * StyleSeat marketplace for hair stylists, barbers, braiders, nail, lash and brow pros: search
@@ -82272,6 +82444,19 @@ interface StyleseatMyDiscounts { discounts: StyleseatDiscount[]; }
      * signed in — the run pauses for a login link when they are not.
      */
     listMyDiscounts(opts?: ConnectionOption): Promise<StyleseatMyDiscounts>;
+
+    /**
+     * Opens a chat conversation with a pro (the door StyleSeat's own messaging goes through).
+     * Needs the caller signed in — the run pauses for a login link when they are not.
+     */
+    sendMessageToProfessional(args: { pro: string; message: string }, opts?: ConnectionOption): Promise<StyleseatConversation>;
+
+    /**
+     * Leaves a star rating and review for a pro, from the feedback token in StyleSeat's
+     * review-request email or text. Needs the caller signed in — the run pauses for a login link
+     * when they are not.
+     */
+    leaveReview(args: StyleseatLeaveReviewArgs, opts?: ConnectionOption): Promise<StyleseatLeftReview>;
   }
 }
 

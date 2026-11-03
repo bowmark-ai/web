@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f72466cccccd2b3f9fa9f6b7dbc24c1ebbce236a65de03e4cb9c7a16119a02ed
-# 93 capabilities, 761 providers, 4002 typed functions, 20 refused.
+# Manifest version: a169c9b93eb727061ed95034526908ae6bb926c02543b54ce74269a54995b153
+# 93 capabilities, 761 providers, 4012 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7354,6 +7354,43 @@ class Prv_att_AttPrepaidPlan_Out(TypedDict):
     features: list[str]
     shopUrl: str | None
 
+class Prv_att_AttInternetPlan_Out(TypedDict):
+    name: str
+    speed: str
+    speedMbps: float | None
+    monthlyUsd: float | None
+    regularMonthlyUsd: float | None
+    withWirelessMonthlyUsd: float | None
+    perks: list[str]
+    features: list[str]
+    shopUrl: str | None
+
+class Prv_att_findStores_options_In(TypedDict):
+    limit: NotRequired[float]
+    radiusMiles: NotRequired[float]
+
+class Prv_att_AttStore_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    phone: str | None
+    url: str | None
+    latitude: float | None
+    longitude: float | None
+    distanceMiles: float | None
+    companyOwned: bool
+    hours: Mapping[str, str | None]
+
+class Prv_att_AttDeal_Out(TypedDict):
+    section: str
+    audience: str | None
+    title: str
+    description: str | None
+    url: str | None
+
 class Prv_att_AttAccountBalance_Out(TypedDict):
     amountDueUsd: float | None
     dueDate: str | None
@@ -9497,6 +9534,7 @@ class Prv_bluesky_suggestUsers_query_u1_In(TypedDict):
 
 class Prv_bluesky_BlueskySuggestUsersResults_Out(TypedDict):
     users: list[Prv_bluesky_BlueskySuggestedUser_Out]
+    count: float
 
 class Prv_bluesky_BlueskySuggestedUser_Out(TypedDict):
     did: str
@@ -20466,6 +20504,25 @@ class Prv_etsy_EtsyShopSearchRow_Out(TypedDict):
     itemCount: float | None
     url: str
 
+class Prv_etsy_EtsyUserProfile_Out(TypedDict):
+    username: str
+    displayName: str
+    collections: list[Prv_etsy_EtsyUserProfile_Out_collections_item_Out]
+    followedShops: list[Prv_etsy_EtsyUserProfile_Out_followedShops_item_Out]
+    url: str
+
+class Prv_etsy_EtsyUserProfile_Out_collections_item_Out(TypedDict):
+    name: str
+    itemCount: float | None
+    url: str
+
+class Prv_etsy_EtsyUserProfile_Out_followedShops_item_Out(TypedDict):
+    name: str
+    avatar: str | None
+    rating: float | None
+    reviewCount: float | None
+    url: str
+
 class Prv_etsy_EtsyCategory_Out(TypedDict):
     name: str
     path: str
@@ -23224,6 +23281,15 @@ class Prv_foxnews_FoxnewsPodcastEpisode_Out(TypedDict):
     publicationDate: str | None
     duration: NotRequired[str]
     audioUrl: NotRequired[str]
+
+class Prv_foxnews_listNewsletters_return_Out(TypedDict):
+    newsletters: list[Prv_foxnews_FoxnewsNewsletter_Out]
+
+class Prv_foxnews_FoxnewsNewsletter_Out(TypedDict):
+    id: str
+    listId: str
+    name: str
+    description: NotRequired[str]
 
 class Prv_framebridge_FramebridgeFrameStyle_Out(TypedDict):
     productId: str
@@ -28263,6 +28329,51 @@ class Prv_ikea_IkeaOrderDeliveryDate_Out(TypedDict):
     date: str | None
     formattedShortDate: str | None
     formattedLongDate: str | None
+
+class Prv_ikea_IkeaProfile_Out(TypedDict):
+    firstName: str | None
+    lastName: str | None
+    email: str | None
+    mobile: str | None
+    emailVerified: bool | None
+    phoneVerified: bool | None
+    memberId: str | None
+    loyaltyProgramCode: str | None
+    preferredStore: str | None
+    zipCode: str | None
+
+class Prv_ikea_ListPurchasesArgs_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_ikea_IkeaPurchaseHistory_Out(TypedDict):
+    totalPurchases: float | None
+    purchases: list[Prv_ikea_IkeaPurchase_Out]
+
+class Prv_ikea_IkeaPurchase_Out(TypedDict):
+    id: str
+    type: str | None
+    status: str | None
+    date: str | None
+    storeName: str | None
+    total: Prv_ikea_IkeaPurchase_Out_total_u0_Out | None
+    articleCount: float | None
+    articles: list[Prv_ikea_IkeaPurchaseArticle_Out]
+
+class Prv_ikea_IkeaPurchase_Out_total_u0_Out(TypedDict):
+    currency: str | None
+    value: float | None
+    formatted: str | None
+
+class Prv_ikea_IkeaPurchaseArticle_Out(TypedDict):
+    itemNo: str | None
+    name: str | None
+    description: str | None
+    quantity: float | None
+    imageUrl: str | None
+
+class Prv_ikea_GetPurchaseArgs_In(TypedDict):
+    orderNumber: str
 
 class Prv_ikea_ListCategoriesArgs_In(TypedDict):
     parentId: NotRequired[str]
@@ -46312,6 +46423,7 @@ class Prv_setmore_SetmoreBookingLookup_Out(TypedDict):
     companyId: str
     confirmationId: str
     bookings: list[Prv_setmore_SetmoreBooking_Out]
+    count: float
 
 class Prv_setmore_SetmoreGetMyBookingsArgs_In(TypedDict):
     business: str
@@ -50641,6 +50753,26 @@ class Prv_styleseat_StyleseatDiscount_Out(TypedDict):
     description: str | None
     amount: str | None
     expires: str | None
+
+class Prv_styleseat_sendMessageToProfessional_args_In(TypedDict):
+    pro: str
+    message: str
+
+class Prv_styleseat_StyleseatConversation_Out(TypedDict):
+    providerId: float
+    opened: bool
+
+class Prv_styleseat_StyleseatLeaveReviewArgs_In(TypedDict):
+    pro: str
+    feedbackToken: str
+    numStars: float
+    reviewText: str
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+
+class Prv_styleseat_StyleseatLeftReview_Out(TypedDict):
+    providerId: float
+    submitted: bool
 
 class Prv_suitsupply_SuitsupplyListArgs_In(TypedDict):
     cursor: NotRequired[str]
@@ -65387,6 +65519,31 @@ class Prv_att(Protocol):
         listPlans covers postpaid unlimited.
         """
 
+    async def listInternetPlans(self, /) -> list[Prv_att_AttInternetPlan_Out]:
+        """Every AT&T Fiber home-internet speed tier on AT&T's own fiber page
+        (att.com/internet/fiber/): tier name ("AT&T Internet 1000"), speed in AT&T's words and
+        in Mbps, the monthly offer price on its own, the regular (struck-through) price, the
+        lower price when bundled with an AT&T wireless plan, perks (reward card, YouTube TV
+        months) and the feature list. National list prices; whether a tier reaches a given
+        address is a separate question.
+        """
+
+    async def findStores(self, location: str, options: Prv_att_findStores_options_In | None = None, /) -> list[Prv_att_AttStore_Out]:
+        """AT&T stores near a US ZIP or "city, state", nearest first, off AT&T's own store locator:
+        name, address, phone, store page URL, distance in miles, whether AT&T owns the store
+        (false = an authorized retailer) and opening hours per weekday ("09:00-20:00"). limit
+        defaults to 10 (max 50), radiusMiles to 25 (max 100). An empty array means no store
+        within the radius.
+        """
+
+    async def listDeals(self, /) -> list[Prv_att_AttDeal_Out]:
+        """The current offers on AT&T's own deals page (att.com/deals/): each card's headline in
+        AT&T's words ("Get iPhone 18 Pro Max for up to $1,200 off"), who it is for ("New &
+        existing customers"), the short condition line, the shop URL, and which row of the page
+        it sits in (featured, top, bundles, accessories). The fine print stays on AT&T's page
+        behind each URL.
+        """
+
     async def getAccountBalance(self, opts: ConnectionOption | None = None, /) -> Prv_att_AttAccountBalance_Out:
         """The signed-in caller's current AT&T account balance — amount due, due date and account
         status — off myatt.com's account overview. CALLER-login function, declared in
@@ -72359,6 +72516,12 @@ class Prv_etsy(Protocol):
         The door from a half-remembered shop name to `getShop`.
         """
 
+    async def getUserProfile(self, usernameOrUrl: str, /) -> Prv_etsy_EtsyUserProfile_Out:
+        """A member's public Etsy profile by username or etsy.com/people URL — display name, their
+        public favorites collections (name, item count, URL) and the shops they follow (name,
+        avatar, star rating, review count, URL).
+        """
+
     async def listCategories(self, /) -> list[Prv_etsy_EtsyCategory_Out]:
         """Etsy's category tree from its own /categories page — each top-level department
         (Accessories, Home & Living, …) with its subcategories, every one carrying its name, its
@@ -74027,6 +74190,11 @@ class Prv_foxnews(Protocol):
     async def listPodcastEpisodes(self, args: Prv_foxnews_ListPodcastEpisodesArgs_In, /) -> Prv_foxnews_listPodcastEpisodes_return_Out:
         """Lists one Fox News podcast's episodes, newest first — title, description, publication
         date, duration and the audio url — taking a show's url from listPodcasts.
+        """
+
+    async def listNewsletters(self, /) -> Prv_foxnews_listNewsletters_return_Out:
+        """Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics,
+        Breaking News Alerts, Health, AI…) with each one's name, description and list id.
         """
 
 class Prv_framebridge(Protocol):
@@ -77181,6 +77349,22 @@ class Prv_ikea(Protocol):
         the site offers signed-out visitors — by order number plus the email or phone number
         used when placing it. Returns the order's status and each delivery method's status,
         tense and dates.
+        """
+
+    async def getProfile(self, opts: ConnectionOption | None = None, /) -> Prv_ikea_IkeaProfile_Out:
+        """Reads the signed-in caller's IKEA profile — name, email, mobile, verification flags,
+        IKEA Family member number, preferred store and ZIP. Needs the caller signed in to IKEA.
+        """
+
+    async def listPurchases(self, args: Prv_ikea_ListPurchasesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_ikea_IkeaPurchaseHistory_Out:
+        """Lists the signed-in caller's IKEA purchases — online orders, store receipts and returns
+        — with number, type, status, date, store, total and the first few items. Needs the
+        caller signed in to IKEA.
+        """
+
+    async def getPurchase(self, args: Prv_ikea_GetPurchaseArgs_In, opts: ConnectionOption | None = None, /) -> Prv_ikea_IkeaOrderLookup_Out:
+        """Reads one of the signed-in caller's orders by order number — its status and each
+        delivery method's status and dates. Needs the caller signed in to IKEA.
         """
 
     async def listCategories(self, args: Prv_ikea_ListCategoriesArgs_In, /) -> list[Prv_ikea_IkeaCategory_Out]:
@@ -89489,6 +89673,17 @@ class Prv_styleseat(Protocol):
     async def listMyDiscounts(self, opts: ConnectionOption | None = None, /) -> Prv_styleseat_StyleseatMyDiscounts_Out:
         """Lists the discount codes saved on the signed-in caller's StyleSeat account. Needs the
         caller signed in — the run pauses for a login link when they are not.
+        """
+
+    async def sendMessageToProfessional(self, args: Prv_styleseat_sendMessageToProfessional_args_In, opts: ConnectionOption | None = None, /) -> Prv_styleseat_StyleseatConversation_Out:
+        """Opens a chat conversation with a pro (the door StyleSeat's own messaging goes through).
+        Needs the caller signed in — the run pauses for a login link when they are not.
+        """
+
+    async def leaveReview(self, args: Prv_styleseat_StyleseatLeaveReviewArgs_In, opts: ConnectionOption | None = None, /) -> Prv_styleseat_StyleseatLeftReview_Out:
+        """Leaves a star rating and review for a pro, from the feedback token in StyleSeat's
+        review-request email or text. Needs the caller signed in — the run pauses for a login
+        link when they are not.
         """
 
 class Prv_suitsupply(Protocol):

@@ -389,7 +389,7 @@ icis.corp.delaware.gov — delaware_corps: searchEntity (+1 planned)
 idealista.com — idealista: search (+3 planned)
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
-ikea.com — ikea: addToCart, addToFavorites, findStores, getCart, getDeliveryOptions, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getPurchase, listCategories, listCategoryProducts, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem (+5 planned)
+ikea.com — ikea: addToCart, addToFavorites, findStores, getCart, getDeliveryOptions, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getProfile, getPurchase, listCategories, listCategoryProducts, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem (+4 planned)
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 inspirecommunities.com — inspirecommunities: searchHomes
@@ -542,7 +542,7 @@ peerspace.com — peerspace: searchVenues
 perennialsandsutherland.com — perennialsandsutherland: getRugVariant, getTearsheetUrl, searchRugs
 personio.de — personio: listJobs
 pexels.com — pexels: search
-pike13.com — pike13: findBusiness, getAppointmentAvailability, getAppointmentAvailabilitySummary, getBusiness, getClass, getPlan, getSchedule, getScheduleSummary, getService, getWaitlistEligibility, listClassSeries, listLocations, listPlans, listServices, listStaff (+12 planned)
+pike13.com — pike13: checkEnrollmentEligibility, findBusiness, getAppointmentAvailability, getAppointmentAvailabilitySummary, getBusiness, getClass, getMyProfile, getPlan, getSchedule, getScheduleSummary, getService, getWaitlistEligibility, listClassSeries, listLocations, listMyBusinesses, listMyVisits, listPlans, listServices, listStaff (+8 planned)
 pilotprotocol.network — pilotprotocol: getApp, listApps
 pinterest.com — pinterest: getBoard, getCurrentUser, getHomeFeed, getPin, getProduct, getTopic, getUser, listBoardPins, listBoardSectionPins, listBoardSections, listConversations, listTopicPins, listTopics, listUserBoards, listUserCreatedPins, listUserFollowing, listUserSavedPins, listVisualObjects, searchBoards, searchMyPins, searchPins, searchUsers, searchVideos, suggestSearches (+23 planned)
 pirateship.com — pirateship: getRates (+2 planned)

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f72466cccccd2b3f9fa9f6b7dbc24c1ebbce236a65de03e4cb9c7a16119a02ed
-// 4002 checked, 20 unchecked.
+// Manifest version: a169c9b93eb727061ed95034526908ae6bb926c02543b54ce74269a54995b153
+// 4012 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f72466cccccd2b3f9fa9f6b7dbc24c1ebbce236a65de03e4cb9c7a16119a02ed",
+  "version": "a169c9b93eb727061ed95034526908ae6bb926c02543b54ce74269a54995b153",
   "units": {
     "address_validation": {
       "defs": {
@@ -13930,6 +13930,40 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listPlans": [],
         "listPrepaidPlans": [],
+        "listInternetPlans": [],
+        "findStores": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "radiusMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listDeals": [],
         "getAccountBalance": [
           {
             "name": "opts",
@@ -37094,6 +37128,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getUserProfile": [
+          {
+            "name": "usernameOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listCategories": [],
         "browseCategory": [
           {
@@ -43675,7 +43718,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listNewsletters": []
       }
     },
     "providers.framebridge": {
@@ -52629,6 +52673,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPurchaseArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "orderNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListCategoriesArgs": {
           "k": "object",
           "props": [
@@ -52784,6 +52840,25 @@ export const VALIDATORS: ValidatorTable = {
               },
               "optional": true
             },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListPurchasesArgs": {
+          "k": "object",
+          "props": [
             {
               "name": "limit",
               "schema": {
@@ -53011,6 +53086,76 @@ export const VALIDATORS: ValidatorTable = {
               "name": "LookupOrderArgs"
             },
             "optional": false
+          }
+        ],
+        "getProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listPurchases": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPurchasesArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getPurchase": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPurchaseArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "listCategories": [
@@ -101495,6 +101640,53 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "StyleseatLeaveReviewArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "pro",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "feedbackToken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "numStars",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "reviewText",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "StyleseatMyAppointmentsArgs": {
           "k": "object",
           "props": [
@@ -102058,6 +102250,73 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listMyDiscounts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendMessageToProfessional": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "pro",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "message",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "leaveReview": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StyleseatLeaveReviewArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {

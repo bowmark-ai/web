@@ -2699,7 +2699,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.getProductAvailability` | ikea.com | Checks whether an item is in stock at each US IKEA store and for home delivery… | 🟢 |
 | `ikea.getProductDocuments` | ikea.com | Lists a product's documents — assembly instructions, care manuals, declarations and… | 🟢 |
 | `ikea.getProductRatings` | ikea.com | Reads a product's customer rating summary — average stars, rating count, the per-star… | 🟢 |
-| `ikea.getProfile` | ikea.com | Reads the signed-in caller's IKEA profile — name, email, phone, saved addresses… | ⚪ |
+| `ikea.getProfile` | ikea.com | Reads the signed-in caller's IKEA profile — name, email, mobile, IKEA Family member… | 🟢 |
 | `ikea.getPurchase` | ikea.com | Reads one of the signed-in caller's purchases by order number — items, prices… | 🟢 |
 | `ikea.listCategories` | ikea.com | Lists IKEA's product category tree (e.g. Furniture → Bookcases & shelving units) with… | 🟢 |
 | `ikea.listCategoryProducts` | ikea.com | Lists the products in one category with IKEA's own filters (price, colour, material… | 🟢 |
@@ -3707,13 +3707,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pike13.bookAppointment` | pike13.com | Books the signed-in caller into an open appointment slot getAppointmentAvailability… | ⚪ |
 | `pike13.bookClass` | pike13.com | Books the signed-in caller (or a dependent) into a class by occurrence id (POST… | ⚪ |
 | `pike13.cancelVisit` | pike13.com | Cancels one of the signed-in caller's bookings — a class or an appointment — by the… | ⚪ |
-| `pike13.checkEnrollmentEligibility` | pike13.com | Says whether the signed-in caller (and each dependent) can book a class and why not —… | ⚪ |
+| `pike13.checkEnrollmentEligibility` | pike13.com | Says whether the signed-in caller (and each dependent) can book a class and why not —… | 🟢 |
 | `pike13.findBusiness` | pike13.com | Finds Pike13 studios by name and town and returns each one's subdomain and confirmed… | 🟢 |
 | `pike13.getAppointmentAvailability` | pike13.com | Lists the open times for one bookable appointment service over a date range (up to 90… | 🟢 |
 | `pike13.getAppointmentAvailabilitySummary` | pike13.com | Gives, per day over a date range, the share of an appointment service's capacity still… | 🟢 |
 | `pike13.getBusiness` | pike13.com | Gets one studio's profile — name, subdomain, website, phone, currency, social links… | 🟢 |
 | `pike13.getClass` | pike13.com | Gets one scheduled class by the occurrence id getSchedule returned — description… | 🟢 |
-| `pike13.getMyProfile` | pike13.com | Gets the signed-in caller's own client record at a studio, with dependents (GET… | ⚪ |
+| `pike13.getMyProfile` | pike13.com | Gets the signed-in caller's own client record at a studio, with dependents (GET… | 🟢 |
 | `pike13.getPlan` | pike13.com | Gets one membership or pass product's full terms by the id listPlans returned (GET… | 🟢 |
 | `pike13.getSchedule` | pike13.com | Lists a studio's scheduled classes and courses for a date range — name, start/end… | 🟢 |
 | `pike13.getScheduleSummary` | pike13.com | Counts a studio's classes per day over a date range, for picking a day before listing… | 🟢 |
@@ -3723,9 +3723,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pike13.leaveWaitlist` | pike13.com | Removes the signed-in caller from a class waitlist by the entry id… | ⚪ |
 | `pike13.listClassSeries` | pike13.com | Lists a studio's recurring class series (events) with their recurrence and service… | 🟢 |
 | `pike13.listLocations` | pike13.com | Lists a studio's locations with address, coordinates, phone and timezone (GET… | 🟢 |
-| `pike13.listMyBusinesses` | pike13.com | Lists the studios the signed-in caller has a Pike13 client account with (GET… | ⚪ |
+| `pike13.listMyBusinesses` | pike13.com | Lists the studios the signed-in caller has a Pike13 client account with (GET… | 🟢 |
 | `pike13.listMyPlans` | pike13.com | Lists the signed-in caller's memberships and passes at a studio — remaining visits… | ⚪ |
-| `pike13.listMyVisits` | pike13.com | Lists the signed-in caller's bookings at a studio — upcoming and past classes and… | ⚪ |
+| `pike13.listMyVisits` | pike13.com | Lists the signed-in caller's bookings at a studio — upcoming and past classes and… | 🟢 |
 | `pike13.listMyWaitlistEntries` | pike13.com | Lists the signed-in caller's waitlist entries and their state (pending, waiting… | ⚪ |
 | `pike13.listMyWaivers` | pike13.com | Lists the waivers the signed-in caller has signed at a studio, and whether any are… | ⚪ |
 | `pike13.listPlans` | pike13.com | Lists the memberships, class packs and passes a studio sells, with price, visit count… | 🟢 |
