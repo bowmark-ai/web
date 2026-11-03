@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c152cf2d1b78f2c98615c2a42a833889fdb8ecdf1c1971f758f473acb7e6be38
-// 93 capabilities, 761 providers, 4047 typed functions, 20 refused.
+// Manifest version: dbe75b03603eae79b93580a01f64cdaf8019f7f200ea9d6823721f7627f286e7
+// 93 capabilities, 761 providers, 4050 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -38825,6 +38825,36 @@ interface FreshaAvailability {
   warnings: string[];
 }
 
+interface GetBookingQuoteArgs {
+  venue: string;
+  serviceVariantIds: string[];
+  employeeId?: string;
+  /** "YYYY-MM-DD", a day getAvailability reported available. */
+  date: string;
+  /** A start time from getAvailability: "9:00 AM", "14:30", or its startSeconds. */
+  time: string | number;
+}
+
+interface FreshaBookingQuote {
+  venueSlug: string;
+  venueName: string | null;
+  address: string | null;
+  date: string;
+  startSeconds: number;
+  dateFormatted: string | null;
+  /** e.g. "4:45-5:00 PM (15 min duration)" */
+  timeRangeFormatted: string | null;
+  items: { name: string; price: string | null; detail: string | null }[];
+  total: string | null;
+  /** "FIXED", or "FROM" when the total is a starting price. */
+  priceType: string | null;
+  tax: string | null;
+  /** Set when the venue takes money up front (deposit or prepayment). */
+  payNow: string | null;
+  payAtVenue: string | null;
+  warnings: string[];
+}
+
   /**
    * Fresha marketplace for salons, barbers, spas, nail, lash and wellness venues: search venues
    * near a place, a venue's services, team, prices, hours and reviews, open appointment times
@@ -38859,6 +38889,14 @@ interface FreshaAvailability {
      * bookable, and every start time on the requested or first open day. Books nothing.
      */
     getAvailability(args: GetAvailabilityArgs): Promise<FreshaAvailability>;
+
+    /**
+     * Prices one Fresha appointment before booking it, for a date and start time from
+     * getAvailability: the line items with prices, the date and time range with duration, the
+     * total, tax, and any pay-now deposit vs pay-at-venue split. Holds a cart in a logged-out
+     * session and books nothing.
+     */
+    getBookingQuote(args: GetBookingQuoteArgs): Promise<FreshaBookingQuote>;
   }
 }
 
@@ -39905,6 +39943,9 @@ interface GithubUpdateIssueTitleResult {
 interface GithubCommentResult {
   comment: { body: string; [key: string]: unknown };
 }
+interface GithubCreateIssueResult {
+  issue: { number?: number; title?: string; [key: string]: unknown };
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -40151,6 +40192,18 @@ interface GithubCommentResult {
      * session is stale, or the issue does not exist.
      */
     updateIssue(owner: string, repo: string, issueNumber: number, updates: { title: string }, opts?: ConnectionOption): Promise<GithubUpdateIssueTitleResult>;
+
+    /**
+     * Opens a new issue on a repository, off github.com's own issue-creation mutation (`POST
+     * /_ghui/issues?queryId=...`, the persisted-GraphQL door the "Create" button on /issues/new
+     * calls) — NEEDS THE CALLER SIGNED IN: the route answers UNAUTHENTICATED ("The `createIssue`
+     * mutation cannot be run anonymously") to a signed-out request. Takes a title and optional
+     * markdown body; the repository id is read off GitHub's public API unless
+     * `options.repositoryId` is given (needed for a private repo). Returns GitHub's own
+     * created-issue object. THROWS when signed out, the saved session is stale, or issues are
+     * disabled.
+     */
+    createIssue(owner: string, repo: string, title: string, options?: { body?: string; repositoryId?: string }, opts?: ConnectionOption): Promise<GithubCreateIssueResult>;
 
     /**
      * Adds a comment to an issue or pull request, off github.com's own issue-viewer web mutation
@@ -82440,6 +82493,9 @@ interface StyleseatServicePackageOffer {
   id: number; serviceId: number; serviceName: string; numVisits: number | null;
   discountPercent: number | null; serviceCost: number | null; bookingFee: number | null;
 }
+interface StyleseatClassTimesArgs { pro: string; serviceId?: string | number; offset?: number; }
+interface StyleseatClassTime { id: number; start: string | null; end: string | null; serviceId: number | null; serviceName: string | null; spotsLeft: number | null; isFull: boolean; bookedByMe: boolean; }
+interface StyleseatClassTimes { classTimes: StyleseatClassTime[]; nextOffset: number | null; }
 interface StyleseatOffers {
   providerId: number; promotions: StyleseatPromotion[]; loyaltyReward: StyleseatLoyaltyReward | null;
   servicePackages: StyleseatServicePackageOffer[];
@@ -82562,6 +82618,13 @@ interface StyleseatLeftReview { providerId: number; submitted: boolean; }
      * reward (e.g. 20% off after 6 visits) when one is on, and prepaid service packages for sale.
      */
     getOffers(pro: string): Promise<StyleseatOffers>;
+
+    /**
+     * Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons): each
+     * time's start, end, class service, spots left and whether it is full. Empty for pros who
+     * teach none.
+     */
+    listClassTimes(args: StyleseatClassTimesArgs): Promise<StyleseatClassTimes>;
 
     /**
      * Reads the signed-in caller's StyleSeat client profile: name, email, phone, photo and the

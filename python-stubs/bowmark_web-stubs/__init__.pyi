@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c152cf2d1b78f2c98615c2a42a833889fdb8ecdf1c1971f758f473acb7e6be38
-# 93 capabilities, 761 providers, 4029 typed functions, 20 refused.
+# Manifest version: dbe75b03603eae79b93580a01f64cdaf8019f7f200ea9d6823721f7627f286e7
+# 93 capabilities, 761 providers, 4032 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23665,6 +23665,34 @@ class Prv_fresha_FreshaTimeslot_Out(TypedDict):
     startSeconds: float | None
     price: str | None
 
+class Prv_fresha_GetBookingQuoteArgs_In(TypedDict):
+    venue: str
+    serviceVariantIds: Sequence[str]
+    employeeId: NotRequired[str]
+    date: str
+    time: str | float
+
+class Prv_fresha_FreshaBookingQuote_Out(TypedDict):
+    venueSlug: str
+    venueName: str | None
+    address: str | None
+    date: str
+    startSeconds: float
+    dateFormatted: str | None
+    timeRangeFormatted: str | None
+    items: list[Prv_fresha_FreshaBookingQuote_Out_items_item_Out]
+    total: str | None
+    priceType: str | None
+    tax: str | None
+    payNow: str | None
+    payAtVenue: str | None
+    warnings: list[str]
+
+class Prv_fresha_FreshaBookingQuote_Out_items_item_Out(TypedDict):
+    name: str
+    price: str | None
+    detail: str | None
+
 class Prv_furniture_searchProducts_args_In(TypedDict):
     query: str
     zipCode: str
@@ -24381,6 +24409,13 @@ class Prv_github_updateIssue_updates_In(TypedDict):
     title: str
 
 class Prv_github_GithubUpdateIssueTitleResult_Out(TypedDict):
+    issue: Mapping[str, Any]
+
+class Prv_github_createIssue_options_In(TypedDict):
+    body: NotRequired[str]
+    repositoryId: NotRequired[str]
+
+class Prv_github_GithubCreateIssueResult_Out(TypedDict):
     issue: Mapping[str, Any]
 
 class Prv_github_GithubCommentResult_Out(TypedDict):
@@ -50779,6 +50814,25 @@ class Prv_styleseat_StyleseatServicePackageOffer_Out(TypedDict):
     serviceCost: float | None
     bookingFee: float | None
 
+class Prv_styleseat_StyleseatClassTimesArgs_In(TypedDict):
+    pro: str
+    serviceId: NotRequired[str | float]
+    offset: NotRequired[float]
+
+class Prv_styleseat_StyleseatClassTimes_Out(TypedDict):
+    classTimes: list[Prv_styleseat_StyleseatClassTime_Out]
+    nextOffset: float | None
+
+class Prv_styleseat_StyleseatClassTime_Out(TypedDict):
+    id: float
+    start: str | None
+    end: str | None
+    serviceId: float | None
+    serviceName: str | None
+    spotsLeft: float | None
+    isFull: bool
+    bookedByMe: bool
+
 class Prv_styleseat_StyleseatMyProfile_Out(TypedDict):
     userId: float
     firstName: str | None
@@ -74565,6 +74619,13 @@ class Prv_fresha(Protocol):
         are bookable, and every start time on the requested or first open day. Books nothing.
         """
 
+    async def getBookingQuote(self, args: Prv_fresha_GetBookingQuoteArgs_In, /) -> Prv_fresha_FreshaBookingQuote_Out:
+        """Prices one Fresha appointment before booking it, for a date and start time from
+        getAvailability: the line items with prices, the date and time range with duration, the
+        total, tax, and any pay-now deposit vs pay-at-venue split. Holds a cart in a logged-out
+        session and books nothing.
+        """
+
 class Prv_furniture(Protocol):
     """Searches furniture.com's live catalog (faceted room/type/size/brand/comfort/color/sale
     filters) with real prices and stock/lead-time status for a shopper's delivery ZIP, plus
@@ -75044,6 +75105,17 @@ class Prv_github(Protocol):
         (open/closed), assignees, labels and milestone are real mutations on this same issue
         viewer but not yet built (see packages/providers/github/BUILD_QUEUE.md). THROWS when
         signed out, the saved session is stale, or the issue does not exist.
+        """
+
+    async def createIssue(self, owner: str, repo: str, title: str, options: Prv_github_createIssue_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCreateIssueResult_Out:
+        """Opens a new issue on a repository, off github.com's own issue-creation mutation (`POST
+        /_ghui/issues?queryId=...`, the persisted-GraphQL door the "Create" button on
+        /issues/new calls) — NEEDS THE CALLER SIGNED IN: the route answers UNAUTHENTICATED ("The
+        `createIssue` mutation cannot be run anonymously") to a signed-out request. Takes a
+        title and optional markdown body; the repository id is read off GitHub's public API
+        unless `options.repositoryId` is given (needed for a private repo). Returns GitHub's own
+        created-issue object. THROWS when signed out, the saved session is stale, or issues are
+        disabled.
         """
 
     async def createComment(self, owner: str, repo: str, issueNumber: float, body: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentResult_Out:
@@ -89888,6 +89960,12 @@ class Prv_styleseat(Protocol):
         """Lists what a pro is offering on top of list prices: active promotions, their
         loyalty-program reward (e.g. 20% off after 6 visits) when one is on, and prepaid service
         packages for sale.
+        """
+
+    async def listClassTimes(self, args: Prv_styleseat_StyleseatClassTimesArgs_In, /) -> Prv_styleseat_StyleseatClassTimes_Out:
+        """Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons): each
+        time's start, end, class service, spots left and whether it is full. Empty for pros who
+        teach none.
         """
 
     async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_styleseat_StyleseatMyProfile_Out:

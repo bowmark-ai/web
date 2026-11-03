@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c152cf2d1b78f2c98615c2a42a833889fdb8ecdf1c1971f758f473acb7e6be38
-// 4029 checked, 20 unchecked.
+// Manifest version: dbe75b03603eae79b93580a01f64cdaf8019f7f200ea9d6823721f7627f286e7
+// 4032 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c152cf2d1b78f2c98615c2a42a833889fdb8ecdf1c1971f758f473acb7e6be38",
+  "version": "dbe75b03603eae79b93580a01f64cdaf8019f7f200ea9d6823721f7627f286e7",
   "units": {
     "address_validation": {
       "defs": {
@@ -44179,6 +44179,57 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetBookingQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "venue",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "serviceVariantIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "employeeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchVenuesArgs": {
           "k": "object",
           "props": [
@@ -44255,6 +44306,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getBookingQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetBookingQuoteArgs"
             },
             "optional": false
           }
@@ -45897,6 +45958,68 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createIssue": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "title",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "body",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "repositoryId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -102189,6 +102312,40 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "StyleseatClassTimesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "pro",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "serviceId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "StyleseatGalleryArgs": {
           "k": "object",
           "props": [
@@ -102532,6 +102689,16 @@ export const VALIDATORS: ValidatorTable = {
             "name": "pro",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listClassTimes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StyleseatClassTimesArgs"
             },
             "optional": false
           }

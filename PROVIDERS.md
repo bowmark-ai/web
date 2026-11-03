@@ -304,8 +304,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🔴 |
 | `archive_org.searchItems` | archive.org | Search the Internet Archive's library of books, films, audio, software and more using… | 🟢 |
 | `archive_org.searchScholar` | archive.org | Search scholar.archive.org for scholarly articles, papers, and academic texts —… | ⚪ |
-| `arketa.bookClass` | arketa.co | Books the signed-in client into a scheduled class using a pack or membership they… | ⚪ |
-| `arketa.bookPrivateSession` | arketa.co | Books the signed-in client into a private session at a time… | ⚪ |
+| `arketa.bookClass` | arketa.co | Books the signed-in client into a scheduled class using a pack or membership they… | 🟢 |
+| `arketa.bookPrivateSession` | arketa.co | Books the signed-in client into a private session at a time… | 🟢 |
 | `arketa.buyPricingOption` | arketa.co | Would buy a class pack, membership or on-demand subscription at a studio for the… | ⚪ |
 | `arketa.cancelBooking` | arketa.co | Cancels one of the signed-in caller's class reservations or waitlist spots. | 🟢 |
 | `arketa.findStudio` | arketa.co | Finds an Arketa studio by its booking-page name ("thesilhouettemethod"), its… | 🟢 |
@@ -998,13 +998,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.deleteScheduledTask` | chatgpt.com | Deletes (or pauses) one of the CALLER's scheduled tasks. | ⚪ |
 | `chatgpt.deleteSharedLink` | chatgpt.com | Deletes one of the CALLER's public share links so the url stops working. | ⚪ |
 | `chatgpt.generateImage` | chatgpt.com | Asks ChatGPT to create an image from a prompt as the CALLER and returns the image… | ⚪ |
-| `chatgpt.getAccount` | chatgpt.com | Reads the CALLER's account — name, email, plan (Free, Plus, Pro, Business) and the… | ⚪ |
+| `chatgpt.getAccount` | chatgpt.com | Reads the CALLER's account — name, email, plan (Free, Plus, Pro, Business) and the… | 🟢 |
 | `chatgpt.getConversation` | chatgpt.com | Reads one of the CALLER's conversations in full — every message in order, which model… | ⚪ |
 | `chatgpt.getCustomInstructions` | chatgpt.com | Reads the CALLER's personalization — what ChatGPT should call them, their occupation… | ⚪ |
 | `chatgpt.getGPT` | chatgpt.com | Reads one custom GPT's page in the GPT Store — name, description, author, conversation… | ⚪ |
 | `chatgpt.getMemories` | chatgpt.com | Reads what ChatGPT has saved to the CALLER's memory (Settings → Personalization →… | ⚪ |
 | `chatgpt.getProject` | chatgpt.com | Reads one of the CALLER's projects — its instructions, uploaded files and the… | ⚪ |
-| `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | ⚪ |
+| `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | 🟢 |
 | `chatgpt.listConversations` | chatgpt.com | Lists the CALLER's ChatGPT chat history, newest first — conversation id, title, last… | ⚪ |
 | `chatgpt.listLibraryImages` | chatgpt.com | Lists the images the CALLER has generated, from the Library page, newest first, with… | ⚪ |
 | `chatgpt.listModels` | chatgpt.com | Lists the models the CALLER's plan can pick in the model menu, with their limits. | ⚪ |
@@ -2291,9 +2291,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
 | `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
-| `github.createIssue` | github.com | Opens a new issue on a repository, off github.com's own issue-creation mutation (POST… | 🔴 |
+| `github.createIssue` | github.com | Opens a new issue on a repository, off github.com's own issue-creation mutation (POST… | 🟢 |
 | `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | ⚪ |
-| `github.createReview` | github.com | Submits a review on a pull request for the signed-in caller (approve, request changes… | 🔴 |
+| `github.createReview` | github.com | Submits a review on a pull request for the signed-in caller (approve, request changes… | 🟢 |
 | `github.createReviewComment` | github.com | Adds an inline comment to a line, a line range or a whole file in a pull request's… | 🟢 |
 | `github.deleteComment` | github.com | Deletes a comment on an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
@@ -2314,11 +2314,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in caller has starred — name, full name, description… | 🟢 |
 | `github.listTopics` | github.com | Lists topics from GitHub's public topics page — topic name and its github.com/topics… | 🟢 |
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
-| `github.mergePullRequest` | github.com | Merges a pull request into its base branch for the signed-in caller, off github.com's… | 🔴 |
+| `github.mergePullRequest` | github.com | Merges a pull request into its base branch for the signed-in caller, off github.com's… | 🟢 |
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
-| `github.starRepository` | github.com | Stars a repository for the signed-in caller, off github.com's own star form (POST… | 🔴 |
-| `github.unstarRepository` | github.com | Unstars a repository for the signed-in caller, off github.com's own unstar form (POST… | 🔴 |
+| `github.starRepository` | github.com | Stars a repository for the signed-in caller, off github.com's own star form (POST… | 🟢 |
+| `github.unstarRepository` | github.com | Unstars a repository for the signed-in caller, off github.com's own unstar form (POST… | 🟢 |
 | `github.unwatchRepository` | github.com | Stops watching a repository for the signed-in caller, returning it to GitHub's default… | 🟢 |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🟢 |
 | `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🟢 |
