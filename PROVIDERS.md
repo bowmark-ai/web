@@ -5073,7 +5073,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `toast.getWaitlistEstimate` | toasttab.com | Reads a restaurant's current waitlist: whether it is taking names and the estimated… | ⚪ |
 | `toast.joinWaitlist` | toasttab.com | Puts the signed-in guest on a restaurant's waitlist for a party size. | ⚪ |
 | `toast.listCities` | toasttab.com | Lists the ~400 US cities Toast's restaurant directory covers (toast.app/cities): name… | 🟢 |
-| `toast.listCityRestaurants` | toasttab.com | Lists the Toast restaurants in a city ("richmond-va"), optionally by cuisine (pizza… | 🟢 |
+| `toast.listCityRestaurants` | toasttab.com | Lists the Toast restaurants in a city ("richmond-va"), optionally by cuisine (pizza… | 🟡 |
 | `toast.listEvents` | toasttab.com | Lists the ticketed events and special experiences restaurants near a place (or one… | ⚪ |
 | `toast.listMyBookings` | toasttab.com | Lists the signed-in guest's reservations and ticket bookings, upcoming and past, with… | ⚪ |
 | `toast.listMyOrders` | toasttab.com | Lists the signed-in guest's past Toast orders across every restaurant, newest first… | ⚪ |
