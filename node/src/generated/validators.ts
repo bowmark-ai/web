@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3631a7cc4e605f0086c88787c808ca8fa4d7301447b139fda5df5d768f6f612e
-// 4045 checked, 20 unchecked.
+// Manifest version: 9a55963b914dca1601059037a58b14320ad923dc95ff40c95127905cbf040ac4
+// 4054 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3631a7cc4e605f0086c88787c808ca8fa4d7301447b139fda5df5d768f6f612e",
+  "version": "9a55963b914dca1601059037a58b14320ad923dc95ff40c95127905cbf040ac4",
   "units": {
     "address_validation": {
       "defs": {
@@ -21027,6 +21027,36 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listStaffForTime": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "serviceId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "timeId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -22650,7 +22680,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getPricing": []
       }
     },
     "providers.capitalbrands": {
@@ -25306,6 +25337,42 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listSavedPaymentMethods": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getRewardsBalance": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -26375,6 +26442,46 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SendMessageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "message",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "projectId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "organizationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -26726,6 +26833,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListSkillsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SendMessageArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -45588,6 +45721,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GithubListContributorsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubListIssuesOptions": {
           "k": "object",
           "props": [
@@ -45689,6 +45841,96 @@ export const VALIDATORS: ValidatorTable = {
               "name": "after",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GithubListOrganizationRepositoriesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "public"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sources"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "forks"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "member"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "created"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "updated"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pushed"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "full_name"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "direction",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -45878,6 +46120,46 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listContributors": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListContributorsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getReadme": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getRepo": [
           {
             "name": "owner",
@@ -45933,6 +46215,23 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GithubGetUserRepositoriesOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listOrganizationRepositories": [
+          {
+            "name": "org",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListOrganizationRepositoriesOptions"
             },
             "optional": true
           }
@@ -76493,6 +76792,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "saveArticle": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unsaveArticle": [
           {
             "name": "path",
             "schema": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3631a7cc4e605f0086c88787c808ca8fa4d7301447b139fda5df5d768f6f612e
-# 93 capabilities, 762 providers, 4045 typed functions, 20 refused.
+# Manifest version: 9a55963b914dca1601059037a58b14320ad923dc95ff40c95127905cbf040ac4
+# 93 capabilities, 762 providers, 4054 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11382,6 +11382,21 @@ class Prv_boulevard_BoulevardAvailableTimes_Out_times_item_Out(TypedDict):
     id: str
     startTime: str
 
+class Prv_boulevard_BoulevardStaffForTime_Out(TypedDict):
+    staff: list[Prv_boulevard_BoulevardStaffForTime_Out_staff_item_Out]
+
+class Prv_boulevard_BoulevardStaffForTime_Out_staff_item_Out(TypedDict):
+    variantId: str
+    staffId: str
+    name: str
+    firstName: str
+    lastName: str
+    role: str | None
+    bio: str | None
+    avatar: str | None
+    durationMinutes: float
+    priceCents: float
+
 class Prv_bowmark_BowmarkOverview_Out(TypedDict):
     name: str
     description: str
@@ -12513,6 +12528,24 @@ class Prv_canva_CanvaGraphicDetail_Out_creator_u0_Out(TypedDict):
     id: str
     name: str
     avatarUrl: str | None
+
+class Prv_canva_getPricing_return_Out(TypedDict):
+    plans: list[Prv_canva_CanvaPlan_Out]
+    url: str
+    warnings: list[str]
+
+class Prv_canva_CanvaPlan_Out(TypedDict):
+    name: str | None
+    planId: str
+    trialDays: float | None
+    prices: list[Prv_canva_CanvaPrice_Out]
+
+class Prv_canva_CanvaPrice_Out(TypedDict):
+    id: str
+    interval: Literal["month"] | Literal["year"]
+    currency: str
+    amount: float
+    perPerson: bool
 
 class Prv_capitalbrands_CapitalbrandsQuizQuestions_Out(TypedDict):
     questions: list[Prv_capitalbrands_CapitalbrandsQuizQuestion_Out]
@@ -13993,6 +14026,26 @@ class Prv_chownow_ChownowOrderLineItem_Out(TypedDict):
     quantity: float | None
     price: float | None
 
+class Prv_chownow_ChownowSavedPaymentMethods_Out(TypedDict):
+    paymentMethods: list[Prv_chownow_ChownowSavedPaymentMethod_Out]
+
+class Prv_chownow_ChownowSavedPaymentMethod_Out(TypedDict):
+    paymentMethodId: str
+    brand: str | None
+    last4: str | None
+    expiryMonth: float | None
+    expiryYear: float | None
+    isDefault: bool | None
+
+class Prv_chownow_ChownowRewardsBalance_Out(TypedDict):
+    pointsBalance: float | None
+    creditBalance: float | None
+    promotions: list[Prv_chownow_ChownowRewardsPromotion_Out]
+
+class Prv_chownow_ChownowRewardsPromotion_Out(TypedDict):
+    name: str
+    description: str | None
+
 class Prv_chriscraft_ChriscraftModelSummary_Out(TypedDict):
     modelId: str
     boatType: Literal["STERNDRIVE"] | Literal["OUTBOARD"] | Literal["SURF"]
@@ -14631,6 +14684,19 @@ class Prv_claude_ClaudeSkill_Out(TypedDict):
     name: str
     enabled: bool
     builtIn: bool
+
+class Prv_claude_SendMessageArgs_In(TypedDict):
+    message: str
+    conversationId: NotRequired[str]
+    projectId: NotRequired[str]
+    model: NotRequired[str]
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeReply_Out(TypedDict):
+    conversationId: str
+    reply: str
+    stopReason: str | None
+    model: str | None
 
 class Prv_claude_com_claude_comDoc_Out(TypedDict):
     url: str
@@ -24162,6 +24228,30 @@ class Prv_github_GithubRelease_Out(TypedDict):
     notes: str
     url: str
 
+class Prv_github_GithubListContributorsOptions_In(TypedDict):
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListContributorsResult_Out(TypedDict):
+    contributors: list[Prv_github_GithubContributor_Out]
+    warnings: list[str]
+
+class Prv_github_GithubContributor_Out(TypedDict):
+    login: str
+    id: float
+    type: str
+    contributions: float
+    avatarUrl: str
+    profileUrl: str
+
+class Prv_github_GithubReadme_Out(TypedDict):
+    name: str
+    path: str
+    size: float
+    content: str
+    url: str
+    downloadUrl: str | None
+
 class Prv_github_GithubRepository_Out(TypedDict):
     name: str
     description: str | None
@@ -24232,6 +24322,13 @@ class Prv_github_GithubUserRepository_Out(TypedDict):
     url: str
     updatedAt: str
     pushedAt: str | None
+
+class Prv_github_GithubListOrganizationRepositoriesOptions_In(TypedDict):
+    type: NotRequired[Literal["all"] | Literal["public"] | Literal["sources"] | Literal["forks"] | Literal["member"]]
+    sort: NotRequired[Literal["created"] | Literal["updated"] | Literal["pushed"] | Literal["full_name"]]
+    direction: NotRequired[Literal["asc"] | Literal["desc"]]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
 
 class Prv_github_GithubUser_Out(TypedDict):
     login: str
@@ -38157,6 +38254,10 @@ class Prv_nytimes_NytimesSavedArticlesResult_Out(TypedDict):
 class Prv_nytimes_NytimesSaveArticleResult_Out(TypedDict):
     url: str
     saved: Literal[True]
+
+class Prv_nytimes_NytimesUnsaveArticleResult_Out(TypedDict):
+    url: str
+    saved: Literal[False]
 
 class Prv_nytimes_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -67958,6 +68059,11 @@ class Prv_boulevard(Protocol):
         location's tz). Each time `id` is what staff selection and booking take.
         """
 
+    async def listStaffForTime(self, business: str, locationId: str, serviceId: str, timeId: str, /) -> Prv_boulevard_BoulevardStaffForTime_Out:
+        """The staff members who can perform a service at one open time, each with their own price
+        (cents) and duration variant. `timeId` is getAvailableTimes().times[].id.
+        """
+
 class Prv_bowmark(Protocol):
     """Bowmark AI's public product overview, API and MCP endpoints, pricing, and searchable
     library.
@@ -68629,6 +68735,11 @@ class Prv_canva(Protocol):
     async def getGraphic(self, idOrUrl: str, /) -> Prv_canva_CanvaGraphicDetail_Out:
         """Reads one graphic by id or url — title, description, category, free or Pro, the creator,
         its colour palette and image url.
+        """
+
+    async def getPricing(self, /) -> Prv_canva_getPricing_return_Out:
+        """Reads Canva's paid plans (Pro, Business) with each one's monthly and yearly price,
+        currency, whether it is per person, and the free-trial length.
         """
 
 class Prv_capitalbrands(Protocol):
@@ -69417,6 +69528,16 @@ class Prv_chownow(Protocol):
         caller signs in through the relay.
         """
 
+    async def listSavedPaymentMethods(self, opts: ConnectionOption | None = None, /) -> Prv_chownow_ChownowSavedPaymentMethods_Out:
+        """Lists the signed-in caller's own saved ChowNow cards: brand, last four digits and
+        expiry. Reads only; never charges. The caller signs in through the relay.
+        """
+
+    async def getRewardsBalance(self, opts: ConnectionOption | None = None, /) -> Prv_chownow_ChownowRewardsBalance_Out:
+        """Reads the signed-in caller's own ChowNow loyalty rewards points balance, any credit, and
+        active promotions. The caller signs in through the relay.
+        """
+
 class Prv_chriscraft(Protocol):
     """Chris-Craft's runabout 'Build Your Own' product builder — list every current model and
     boat type, read one build's full option tree (edition, engine, hull/stripe/vinyl colors,
@@ -69916,6 +70037,12 @@ class Prv_claude(Protocol):
     async def listSkills(self, args: Prv_claude_ListSkillsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_claude_ClaudeSkill_Out]:
         """Lists the skills enabled in the CALLER's account, their own and Anthropic's. NEEDS A
         SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def sendMessage(self, args: Prv_claude_SendMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeReply_Out:
+        """Sends a message to Claude as the CALLER — a new chat, or `conversationId` to continue
+        one; `projectId` and `model` (from listModels) optional — and returns Claude's finished
+        reply. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
         """
 
 class Prv_claude_com(Protocol):
@@ -75122,6 +75249,22 @@ class Prv_github(Protocol):
         (403/429); a repo with no releases yet returns `releases: []`, not a throw.
         """
 
+    async def listContributors(self, owner: str, repo: str, options: Prv_github_GithubListContributorsOptions_In | None = None, /) -> Prv_github_GithubListContributorsResult_Out:
+        """Lists who has contributed to a public repository, most commits first — each
+        contributor's login, account type (User/Bot), contribution count, avatar and profile
+        URL. Off GitHub's own unauthenticated REST contributors endpoint. `options.per_page`
+        (1-100, default 30) and `options.page` page through. Shares the 60 requests/hour per IP
+        ceiling. THROWS on an unknown owner/repo (404) or a rate limit (403/429); an empty repo
+        returns `contributors: []`.
+        """
+
+    async def getReadme(self, owner: str, repo: str, /) -> Prv_github_GithubReadme_Out:
+        """Returns a public repository's README, decoded to text, whatever its filename (README.md,
+        README.rst, readme.txt…) — plus its path, size and github.com URL. Off GitHub's own
+        unauthenticated REST readme endpoint. Shares the 60 requests/hour per IP ceiling. THROWS
+        on a repo with no README or an unknown owner/repo (404), or a rate limit (403/429).
+        """
+
     async def getRepo(self, owner: str, repo: str, /) -> Prv_github_GithubRepository_Out:
         """Returns a public repository's own metadata — its full name, description, default branch,
         star/fork/open-issue counts, primary language, license (if declared), homepage URL (if
@@ -75164,6 +75307,15 @@ class Prv_github(Protocol):
         requests/hour per IP unauthenticated ceiling as `listCommits`/`listReleases`/`getRepo`.
         THROWS on an unknown username (404) or a rate limit (403/429); a user who owns no public
         repos returns `repositories: []`, not a throw.
+        """
+
+    async def listOrganizationRepositories(self, org: str, options: Prv_github_GithubListOrganizationRepositoriesOptions_In | None = None, /) -> Prv_github_GithubGetUserRepositoriesResult_Out:
+        """Lists an organization's public repositories off GitHub's own unauthenticated REST
+        endpoint — same row shape as `getUserRepositories` (name, description, fork/archived
+        flags, default branch, stars, forks, language, URL, timestamps). `options.type`
+        (`all`/`public`/`sources`/`forks`/`member`), `sort`, `direction`, `per_page` (1-100) and
+        `page`. Shares the 60 requests/hour per IP ceiling. THROWS on an unknown organization
+        (404) or a rate limit (403/429).
         """
 
     async def getUser(self, username: str, /) -> Prv_github_GithubUser_Out:
@@ -83900,6 +84052,12 @@ class Prv_nytimes(Protocol):
     async def saveArticle(self, path: str, opts: ConnectionOption | None = None, /) -> Prv_nytimes_NytimesSaveArticleResult_Out:
         """Saves one article (path like "/2026/10/28/world/africa/slug.html", or its url) to the
         signed-in reader's Reading List. Needs the caller's own NYT sign-in.
+        """
+
+    async def unsaveArticle(self, path: str, opts: ConnectionOption | None = None, /) -> Prv_nytimes_NytimesUnsaveArticleResult_Out:
+        """Removes one article (path like "/2026/10/28/world/africa/slug.html", or its url) from
+        the signed-in reader's Reading List, by driving the same save button saveArticle does.
+        Needs the caller's own NYT sign-in.
         """
 
     async def signup(self, args: Any, /) -> Prv_nytimes_signup_return_u0_Out | Prv_nytimes_signup_return_u1_Out | Prv_nytimes_signup_return_u2_Out | Prv_nytimes_signup_return_u3_Out:

@@ -81,7 +81,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
 | `adobe.findHelpArticle` | adobe.com | Searches Adobe's help center (helpx.adobe.com) for an article matching free text —… | 🟢 |
 | `adobe.getCreativeCloudPlans` | adobe.com | Returns the Individual plans Adobe publishes on www.adobe.com/creativecloud/plans.html… | 🟢 |
-| `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | 🟡 |
+| `adobe.getFont` | adobe.com | Returns one Adobe Fonts family's detail page — every weight/style in the family, the… | 🟢 |
 | `adobe.getStockAsset` | adobe.com | Returns one Adobe Stock asset's detail — title, media type, dimensions, keywords… | 🟢 |
 | `adobe.getTemplate` | adobe.com | Returns one Adobe Express template's detail — title, category, dimensions, whether it… | 🟡 |
 | `adobe.licenseStockAsset` | adobe.com | Buys a license for an Adobe Stock asset on the signed-in caller's own account — the… | ⚪ |
@@ -1051,12 +1051,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chownow.getPickupTimes` | chownow.com | Lists the order-ahead time slots a restaurant offers over its coming days, per… | 🟢 |
 | `chownow.getRestaurant` | chownow.com | Reads one restaurant location's own details: name, phone, address, whether it is… | 🟢 |
 | `chownow.getRestaurantHours` | chownow.com | Reads a restaurant's operating hours and closures — the schedule when it accepts… | 🟢 |
-| `chownow.getRewardsBalance` | chownow.com | Reads the signed-in customer's loyalty rewards points balance and any active… | ⚪ |
+| `chownow.getRewardsBalance` | chownow.com | Reads the signed-in customer's loyalty rewards points balance and any active… | 🟢 |
 | `chownow.listMenuCategories` | chownow.com | Lists the menu categories for a restaurant without fetching the full menu — the… | 🟢 |
 | `chownow.listMenuItems` | chownow.com | Lists all menu items for a restaurant in a flattened view, independent of category… | 🟢 |
 | `chownow.listOrders` | chownow.com | Lists the signed-in customer's order history with status, total price, order date, and… | 🟢 |
 | `chownow.listRestaurants` | chownow.com | Lists all restaurants under a company (e.g. a franchise group), with location id… | 🟢 |
-| `chownow.listSavedPaymentMethods` | chownow.com | Lists the signed-in customer's saved cards and payment methods. | ⚪ |
+| `chownow.listSavedPaymentMethods` | chownow.com | Lists the signed-in customer's saved cards and payment methods. | 🟢 |
 | `chownow.searchRestaurants` | chownow.com | Searches ChowNow restaurants by free text (a cuisine, a dish or a restaurant name)… | 🟢 |
 | `chownow.validateOrder` | chownow.com | Validates an order before payment: checks fulfillment method availability, item… | ⚪ |
 | `chriscraft.getConfigurator` | chriscraft.com | Reads one model+boat-type's whole builder off build.chriscraft.com: every option group… | 🟢 |
@@ -4104,7 +4104,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reserve_with_google.getSettings` | google.com/maps/reserve | Reads the caller's Reserve with Google settings: the contact name, phone and email… | ⚪ |
 | `reserve_with_google.joinWaitlist` | google.com/maps/reserve | Adds the caller's name to a restaurant's waitlist through Google, where the venue… | ⚪ |
 | `reserve_with_google.listMyBookings` | google.com/maps/reserve | Lists the venues of the caller's Reserve with Google bookings off their own Bookings… | 🟢 |
-| `reserve_with_google.listMyPacks` | google.com/maps/reserve | Lists the class packs and memberships the caller bought through Reserve with Google… | ⚪ |
+| `reserve_with_google.listMyPacks` | google.com/maps/reserve | Lists the venues the caller holds class packs or memberships at, off their own Reserve… | 🟢 |
 | `reserve_with_google.listPartners` | google.com/maps/reserve | Lists every booking provider connected to Reserve with Google (Booksy, OpenTable… | 🟢 |
 | `reserve_with_google.modifyBooking` | google.com/maps/reserve | Changes the time or party size of one of the caller's bookings, where the partner… | ⚪ |
 | `reserve_with_google.updateSettings` | google.com/maps/reserve | Updates the caller's Reserve with Google contact details or notification preferences. | ⚪ |

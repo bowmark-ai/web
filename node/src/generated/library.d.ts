@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3631a7cc4e605f0086c88787c808ca8fa4d7301447b139fda5df5d768f6f612e
-// 93 capabilities, 762 providers, 4063 typed functions, 20 refused.
+// Manifest version: 9a55963b914dca1601059037a58b14320ad923dc95ff40c95127905cbf040ac4
+// 93 capabilities, 762 providers, 4072 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16317,6 +16317,17 @@ interface BlueskySignedInPostPage {
   cursor?: string;
 }
 
+interface BlueskySignedInUserPage {
+  users: BlueskyPostAuthor[];
+  cursor?: string;
+}
+
+interface BlueskyKnownFollowers {
+  followers: BlueskyPostAuthor[];
+  subject: BlueskyPostAuthor;
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -18682,6 +18693,21 @@ interface BoulevardAvailableTimes {
   /** `id` is the bookable time id (e.g. "t_2026-11-02T10:00:00"); `startTime` is ISO with offset. */
   times: { id: string; startTime: string }[];
 }
+interface BoulevardStaffForTime {
+  /** Who can perform the service at that time; `priceCents` / `durationMinutes` are that staff member's variant. */
+  staff: {
+    variantId: string;
+    staffId: string;
+    name: string;
+    firstName: string;
+    lastName: string;
+    role: string | null;
+    bio: string | null;
+    avatar: string | null;
+    durationMinutes: number;
+    priceCents: number;
+  }[];
+}
 
   /**
    * Boulevard salon and spa booking (Heyday, Chillhouse, Glowbar…): find a business, read its
@@ -18744,6 +18770,12 @@ interface BoulevardAvailableTimes {
      * time `id` is what staff selection and booking take.
      */
     getAvailableTimes(business: string, locationId: string, serviceId: string, date: string, tz?: string): Promise<BoulevardAvailableTimes>;
+
+    /**
+     * The staff members who can perform a service at one open time, each with their own price
+     * (cents) and duration variant. `timeId` is getAvailableTimes().times[].id.
+     */
+    listStaffForTime(business: string, locationId: string, serviceId: string, timeId: string): Promise<BoulevardStaffForTime>;
   }
 }
 
@@ -20655,6 +20687,24 @@ interface CanvaGraphicDetail {
   images: CanvaPhotoImage[];
 }
 
+interface CanvaPrice {
+  id: string;
+  interval: "month" | "year";
+  currency: string;
+  /** Major units, e.g. 18 (dollars). */
+  amount: number;
+  /** True for a per-person price (Business). */
+  perPerson: boolean;
+}
+
+interface CanvaPlan {
+  /** "Canva Pro" | "Canva Business"; null when the pricing model is unrecognised. */
+  name: string | null;
+  planId: string;
+  trialDays: number | null;
+  prices: CanvaPrice[];
+}
+
   /**
    * Canva, the online design tool: search its templates and stock photos, read plans and prices,
    * and, with the caller signed in, create, export and organise their own designs.
@@ -20707,6 +20757,12 @@ interface CanvaGraphicDetail {
      * colour palette and image url.
      */
     getGraphic(idOrUrl: string): Promise<CanvaGraphicDetail>;
+
+    /**
+     * Reads Canva's paid plans (Pro, Business) with each one's monthly and yearly price, currency,
+     * whether it is per person, and the free-trial length.
+     */
+    getPricing(): Promise<{ plans: CanvaPlan[]; url: string; warnings: string[] }>;
   }
 }
 
@@ -23035,6 +23091,30 @@ interface ChownowOrderDetails {
   items: ChownowOrderLineItem[];
 }
 
+interface ChownowSavedPaymentMethod {
+  paymentMethodId: string;
+  brand: string | null; // e.g. "Visa" — the site's own label, verbatim
+  last4: string | null;
+  expiryMonth: number | null;
+  expiryYear: number | null;
+  isDefault: boolean | null;
+}
+
+interface ChownowSavedPaymentMethods {
+  paymentMethods: ChownowSavedPaymentMethod[];
+}
+
+interface ChownowRewardsPromotion {
+  name: string;
+  description: string | null;
+}
+
+interface ChownowRewardsBalance {
+  pointsBalance: number | null;
+  creditBalance: number | null;
+  promotions: ChownowRewardsPromotion[];
+}
+
   /**
    * ChowNow commission-free online ordering for independent restaurants: a brand's locations, a
    * restaurant's menu and prices, pickup times, and order pricing up to the payment step.
@@ -23136,6 +23216,18 @@ interface ChownowOrderDetails {
      * in through the relay.
      */
     getOrderDetails(orderId: string, opts?: ConnectionOption): Promise<ChownowOrderDetails>;
+
+    /**
+     * Lists the signed-in caller's own saved ChowNow cards: brand, last four digits and expiry.
+     * Reads only; never charges. The caller signs in through the relay.
+     */
+    listSavedPaymentMethods(opts?: ConnectionOption): Promise<ChownowSavedPaymentMethods>;
+
+    /**
+     * Reads the signed-in caller's own ChowNow loyalty rewards points balance, any credit, and
+     * active promotions. The caller signs in through the relay.
+     */
+    getRewardsBalance(opts?: ConnectionOption): Promise<ChownowRewardsBalance>;
   }
 }
 
@@ -24314,6 +24406,19 @@ interface ClaudeSkill {
 interface ListSkillsArgs {
   organizationId?: string;
 }
+interface SendMessageArgs {
+  message: string;
+  conversationId?: string;
+  projectId?: string;
+  model?: string;
+  organizationId?: string;
+}
+interface ClaudeReply {
+  conversationId: string;
+  reply: string;
+  stopReason: string | null;
+  model: string | null;
+}
 
   /**
    * Anthropic's Claude app at claude.ai — read a shared conversation or a published artifact
@@ -24421,6 +24526,13 @@ interface ListSkillsArgs {
      * (the caller's claude.ai session).
      */
     listSkills(args?: ListSkillsArgs, opts?: ConnectionOption): Promise<ClaudeSkill[]>;
+
+    /**
+     * Sends a message to Claude as the CALLER — a new chat, or `conversationId` to continue one;
+     * `projectId` and `model` (from listModels) optional — and returns Claude's finished reply.
+     * WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    sendMessage(args: SendMessageArgs, opts?: ConnectionOption): Promise<ClaudeReply>;
   }
 }
 
@@ -39826,6 +39938,37 @@ interface GithubGetUserRepositoriesResult {
   repositories: GithubUserRepository[];
   warnings: string[];
 }
+interface GithubContributor {
+  login: string;
+  id: number;
+  type: string;
+  contributions: number;
+  avatarUrl: string;
+  profileUrl: string;
+}
+interface GithubListContributorsOptions {
+  per_page?: number;
+  page?: number;
+}
+interface GithubListContributorsResult {
+  contributors: GithubContributor[];
+  warnings: string[];
+}
+interface GithubReadme {
+  name: string;
+  path: string;
+  size: number;
+  content: string;
+  url: string;
+  downloadUrl: string | null;
+}
+interface GithubListOrganizationRepositoriesOptions {
+  type?: "all" | "public" | "sources" | "forks" | "member";
+  sort?: "created" | "updated" | "pushed" | "full_name";
+  direction?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
 interface GithubUser {
   login: string;
   id: number;
@@ -40118,6 +40261,24 @@ interface GithubPullRequestCreated {
     listReleases(owner: string, repo: string, options?: GithubListReleasesOptions): Promise<GithubListReleasesResult>;
 
     /**
+     * Lists who has contributed to a public repository, most commits first — each contributor's
+     * login, account type (User/Bot), contribution count, avatar and profile URL. Off GitHub's own
+     * unauthenticated REST contributors endpoint. `options.per_page` (1-100, default 30) and
+     * `options.page` page through. Shares the 60 requests/hour per IP ceiling. THROWS on an
+     * unknown owner/repo (404) or a rate limit (403/429); an empty repo returns `contributors:
+     * []`.
+     */
+    listContributors(owner: string, repo: string, options?: GithubListContributorsOptions): Promise<GithubListContributorsResult>;
+
+    /**
+     * Returns a public repository's README, decoded to text, whatever its filename (README.md,
+     * README.rst, readme.txt…) — plus its path, size and github.com URL. Off GitHub's own
+     * unauthenticated REST readme endpoint. Shares the 60 requests/hour per IP ceiling. THROWS on
+     * a repo with no README or an unknown owner/repo (404), or a rate limit (403/429).
+     */
+    getReadme(owner: string, repo: string): Promise<GithubReadme>;
+
+    /**
      * Returns a public repository's own metadata — its full name, description, default branch,
      * star/fork/open-issue counts, primary language, license (if declared), homepage URL (if
      * declared), and creation/update timestamps. Off GitHub's own documented unauthenticated REST
@@ -40163,6 +40324,16 @@ interface GithubPullRequestCreated {
      * throw.
      */
     getUserRepositories(username: string, options?: GithubGetUserRepositoriesOptions): Promise<GithubGetUserRepositoriesResult>;
+
+    /**
+     * Lists an organization's public repositories off GitHub's own unauthenticated REST endpoint —
+     * same row shape as `getUserRepositories` (name, description, fork/archived flags, default
+     * branch, stars, forks, language, URL, timestamps). `options.type`
+     * (`all`/`public`/`sources`/`forks`/`member`), `sort`, `direction`, `per_page` (1-100) and
+     * `page`. Shares the 60 requests/hour per IP ceiling. THROWS on an unknown organization (404)
+     * or a rate limit (403/429).
+     */
+    listOrganizationRepositories(org: string, options?: GithubListOrganizationRepositoriesOptions): Promise<GithubGetUserRepositoriesResult>;
 
     /**
      * Returns a person's public GitHub profile metadata off GitHub's own unauthenticated REST
@@ -63864,6 +64035,10 @@ interface NytimesSaveArticleResult {
   url: string; // the article that was saved
   saved: true;
 }
+interface NytimesUnsaveArticleResult {
+  url: string; // the article that was unsaved
+  saved: false;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -64022,6 +64197,13 @@ interface NytimesSaveArticleResult {
      * signed-in reader's Reading List. Needs the caller's own NYT sign-in.
      */
     saveArticle(path: string, opts?: ConnectionOption): Promise<NytimesSaveArticleResult>;
+
+    /**
+     * Removes one article (path like "/2026/10/28/world/africa/slug.html", or its url) from the
+     * signed-in reader's Reading List, by driving the same save button saveArticle does. Needs the
+     * caller's own NYT sign-in.
+     */
+    unsaveArticle(path: string, opts?: ConnectionOption): Promise<NytimesUnsaveArticleResult>;
 
     /**
      * Makes a NEW The New York Times account with the person's own email and password, in a

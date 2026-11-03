@@ -185,7 +185,7 @@ cheapflights.com — cheapflights: getBookingOptions, search, searchCars, search
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
 chipotle.com — chipotle: getBowlBuilder
-chownow.com — chownow: findRestaurant, getMenu, getMenuItem, getOrderDetails, getPickupTimes, getRestaurant, getRestaurantHours, listMenuCategories, listMenuItems, listOrders, listRestaurants, searchRestaurants (+3 planned)
+chownow.com — chownow: findRestaurant, getMenu, getMenuItem, getOrderDetails, getPickupTimes, getRestaurant, getRestaurantHours, getRewardsBalance, listMenuCategories, listMenuItems, listOrders, listRestaurants, listSavedPaymentMethods, searchRestaurants (+1 planned)
 chriscraft.com — chriscraft: getConfigurator, priceConfiguration, searchModels
 christydawn.com — christydawn: search
 chromium.googlesource.com — chromium_googlesource_com: getFile, listDirectory, listRepos (+1 planned)
@@ -347,7 +347,7 @@ goodreads.com — goodreads: addToShelf, followUser, getAuthor, getBook, getBook
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaces (+3 planned)
-google.com/maps/reserve — reserve_with_google: findBookablePlaces, getBooking, getBookingOptions, getMerchant, listMyBookings, listPartners (+8 planned)
+google.com/maps/reserve — reserve_with_google: findBookablePlaces, getBooking, getBookingOptions, getMerchant, listMyBookings, listMyPacks, listPartners (+7 planned)
 goremutual.ca — goremutual: getProductOverview
 gostoreit.com — gostoreit: findFacilities, getFacilityUnits
 gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
