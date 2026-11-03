@@ -4466,7 +4466,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
 | `slice.addMyAddress` | slicelife.com | Saves a new delivery address to the signed-in caller's Slice account. | ⚪ |
 | `slice.addPaymentMethod` | slicelife.com | Saves a new card or PayPal account to the caller's Slice account. | ⚪ |
-| `slice.checkDelivery` | slicelife.com | Checks whether a pizzeria delivers to an address and, if it does, the delivery fee… | ⚪ |
+| `slice.checkDelivery` | slicelife.com | Checks whether a pizzeria delivers to an address and, if it does, the delivery fee… | 🟢 |
 | `slice.getDeliveryEstimate` | slicelife.com | Gets the delivery time and fee a third-party courier (DoorDash Drive and similar)… | ⚪ |
 | `slice.getHours` | slicelife.com | Gets when a pizzeria takes delivery and pickup orders over the coming days, as… | 🟢 |
 | `slice.getLoyaltyProgram` | slicelife.com | Gets a pizzeria's Slice rewards program, if it runs one: points per dollar and the… | ⚪ |
@@ -4477,14 +4477,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `slice.getMyOrder` | slicelife.com | Gets one of the signed-in caller's orders in full: items with choices, receipt… | ⚪ |
 | `slice.getPizzeria` | slicelife.com | Gets one pizzeria's details from its Slice menu URL, web slug or shop id: name… | 🟢 |
 | `slice.getRecommendedAddOns` | slicelife.com | Gets the add-ons a pizzeria suggests for what is already in the cart ("add garlic… | ⚪ |
-| `slice.getReviews` | slicelife.com | Lists a pizzeria's customer reviews, newest first and paged -- star rating, text, date… | ⚪ |
+| `slice.getReviews` | slicelife.com | Lists a pizzeria's customer reviews, newest first -- star rating, text, date and the… | 🟢 |
 | `slice.listMyAddresses` | slicelife.com | Lists the signed-in caller's saved delivery addresses, with the address id the other… | ⚪ |
 | `slice.listMyOrders` | slicelife.com | Lists the signed-in caller's past Slice orders, newest first, optionally for one… | ⚪ |
 | `slice.listMyPaymentMethods` | slicelife.com | Lists the cards and wallets saved on the signed-in caller's Slice account (brand, last… | ⚪ |
 | `slice.listPizzeriasInCity` | slicelife.com | Lists the Slice pizzerias in a city ("Brooklyn, NY"), the site's city pages: name… | 🟢 |
 | `slice.listRecentlyOrderedItems` | slicelife.com | Lists the items the signed-in caller has ordered before from one pizzeria, for a quick… | ⚪ |
 | `slice.placeOrder` | slicelife.com | Places an order with a pizzeria for delivery or pickup. | ⚪ |
-| `slice.priceCart` | slicelife.com | Prices an order before checkout -- items with sizes and add-on choices, delivery or… | ⚪ |
+| `slice.priceCart` | slicelife.com | Prices an order before checkout -- items with sizes and add-on choices, delivery or… | 🟢 |
 | `slice.removeMyAddress` | slicelife.com | Deletes one of the signed-in caller's saved delivery addresses. | ⚪ |
 | `slice.removeMyPaymentMethod` | slicelife.com | Removes a saved card from the signed-in caller's Slice account. | ⚪ |
 | `slice.resolveAddress` | slicelife.com | Turns an address a caller typed ("8658 Mentor Ave, Mentor, OH") into Slice's own… | 🟢 |
@@ -4492,7 +4492,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `slice.trackOrder` | slicelife.com | Tracks an order from the order id in its confirmation link: status (received, being… | ⚪ |
 | `slice.updateMyProfile` | slicelife.com | Updates the signed-in caller's name or phone number on their Slice account. | ⚪ |
 | `slice.updateNotificationPreferences` | slicelife.com | Turns the signed-in caller's Slice marketing email and text messages on or off. | ⚪ |
-| `slice.validatePromoCode` | slicelife.com | Checks whether a promo code works at a pizzeria for a given order, and what it takes… | ⚪ |
+| `slice.validatePromoCode` | slicelife.com | Checks whether a promo code works at a pizzeria for a given order, and what it takes… | 🟢 |
 | `slickdeals.getDeal` | slickdeals.net | Reads one deal thread in full — the post body, expiry, coupon code and the comment… | ⚪ |
 | `slickdeals.getFrontpageDeals` | slickdeals.net | Reads the deals currently on the Slickdeals frontpage — the community-voted hot deals… | 🟢 |
 | `slickdeals.searchDeals` | slickdeals.net | Searches Slickdeals deal threads by keyword, e.g. "laptop" or "airpods", newest first… | 🟢 |
@@ -4642,10 +4642,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `spotify.getEpisode` | open.spotify.com | Get details about a specific podcast episode. | 🟢 |
 | `spotify.getFeaturedPlaylists` | open.spotify.com | Get Spotify's featured playlists. | ⚪ |
 | `spotify.getGenreSeeds` | open.spotify.com | List the genre seed values Spotify's catalog recognizes. | 🟢 |
-| `spotify.getLibraryAlbums` | open.spotify.com | Get the signed-in user's saved albums. | ⚪ |
-| `spotify.getLibraryArtists` | open.spotify.com | Get the signed-in user's followed artists. | ⚪ |
-| `spotify.getLibraryPlaylists` | open.spotify.com | Get the signed-in user's playlists. | ⚪ |
-| `spotify.getLibraryTracks` | open.spotify.com | Get the signed-in user's saved tracks. | ⚪ |
+| `spotify.getLibraryAlbums` | open.spotify.com | Get the signed-in user's saved albums. | 🟢 |
+| `spotify.getLibraryArtists` | open.spotify.com | Get the signed-in user's followed artists. | 🟢 |
+| `spotify.getLibraryPlaylists` | open.spotify.com | Get the signed-in user's playlists. | 🟢 |
+| `spotify.getLibraryTracks` | open.spotify.com | Get the signed-in user's saved tracks. | 🟢 |
 | `spotify.getOEmbed` | open.spotify.com | Get oEmbed metadata (title, thumbnail, embeddable player) for a track, album, artist… | 🟢 |
 | `spotify.getPlaylist` | open.spotify.com | Get details about a specific playlist. | 🟢 |
 | `spotify.getPodcast` | open.spotify.com | Get details about a specific podcast show. | 🟢 |

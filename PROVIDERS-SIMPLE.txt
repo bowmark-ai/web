@@ -517,7 +517,7 @@ oliverwinery.com — oliverwinery: checkShippingAvailability, getWine, listWines
 olo.com — olo: addToBasket, applyCoupon, checkOrderAvailability, findBrand, getBasket, getLocation, getMenu, getOrderStatus, getProductOptions, listOrderDays, listRegions, listTimeSlots, removeBasketItem, searchLocations, setHandoff, startOrder, updateBasketItem (+16 planned)
 onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
 onthemarket.com — onthemarket: search
-open.spotify.com — spotify: getAlbum, getArtist, getAvailableMarkets, getEpisode, getGenreSeeds, getOEmbed, getPlaylist, getPodcast, getTopArtists, getTopTracks, getTrack, getUserProfile, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchPlaylists (+13 planned)
+open.spotify.com — spotify: getAlbum, getArtist, getAvailableMarkets, getEpisode, getGenreSeeds, getLibraryAlbums, getLibraryArtists, getLibraryPlaylists, getLibraryTracks, getOEmbed, getPlaylist, getPodcast, getTopArtists, getTopTracks, getTrack, getUserProfile, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchPlaylists (+9 planned)
 openai.com — openai_com: listPosts, readPost
 opentable.com — opentable: cancelBooking, checkAvailability, confirmBooking, getBooking, listMyReservations, search, startBooking
 originenergy.com.au — originenergy_com_au: getBusinessElectricityQuote
@@ -635,7 +635,7 @@ shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts,
 shopify.com (49874 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
 sitmeanssit.com — sitmeanssit: findNearestLocations
 sixflags.com — sixflags: getTickets
-slicelife.com — slice: getHours, getMenu, getMenuItemOptions, getPizzeria, listPizzeriasInCity, resolveAddress, searchPizzerias (+22 planned)
+slicelife.com — slice: checkDelivery, getHours, getMenu, getMenuItemOptions, getPizzeria, getReviews, listPizzeriasInCity, priceCart, resolveAddress, searchPizzerias, validatePromoCode (+18 planned)
 slickdeals.net — slickdeals: getFrontpageDeals, searchDeals (+1 planned)
 smallbusiness.uhc.com — uhc_smallbusiness: getGroupHealthQuote
 smartrecruiters.com — smartrecruiters: listJobs (+1 planned)
