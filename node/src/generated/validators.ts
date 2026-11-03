@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c208a2a796a3815381bf74ca4b307fed418b9f50c69bc183f297ed85169e15b6
-// 3966 checked, 20 unchecked.
+// Manifest version: 22dd06583192a8f03b9c60f4d0e9a65ff27e87048dbd93287c818cf9fac679cf
+// 3971 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c208a2a796a3815381bf74ca4b307fed418b9f50c69bc183f297ed85169e15b6",
+  "version": "22dd06583192a8f03b9c60f4d0e9a65ff27e87048dbd93287c818cf9fac679cf",
   "units": {
     "address_validation": {
       "defs": {
@@ -19329,6 +19329,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "BookerSpecialArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "code",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -19428,6 +19447,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listGiftCertificates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSpecial": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerSpecialArgs"
             },
             "optional": false
           }
@@ -52282,6 +52321,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "AddToFavoritesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemNo",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "listId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "favoritesToken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "FindStoresArgs": {
           "k": "object",
           "props": [
@@ -52504,6 +52576,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListFavoritesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "favoritesToken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListInspirationArgs": {
           "k": "object",
           "props": [
@@ -52624,6 +52708,32 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "RemoveFromFavoritesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemNo",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "favoritesToken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "listId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -52862,6 +52972,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "RemoveFromCartArgs"
+            },
+            "optional": false
+          }
+        ],
+        "addToFavorites": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AddToFavoritesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listFavorites": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFavoritesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "removeFromFavorites": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RemoveFromFavoritesArgs"
             },
             "optional": false
           }

@@ -1,5 +1,5 @@
 {
-  "version": "c208a2a796a3815381bf74ca4b307fed418b9f50c69bc183f297ed85169e15b6",
+  "version": "22dd06583192a8f03b9c60f4d0e9a65ff27e87048dbd93287c818cf9fac679cf",
   "units": {
     "address_validation": {
       "defs": {
@@ -19317,6 +19317,25 @@
               "optional": true
             }
           ]
+        },
+        "BookerSpecialArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "code",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -19416,6 +19435,26 @@
             "schema": {
               "k": "ref",
               "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listGiftCertificates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSpecial": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerSpecialArgs"
             },
             "optional": false
           }
@@ -52270,6 +52309,39 @@
             }
           ]
         },
+        "AddToFavoritesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemNo",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "listId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "favoritesToken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "FindStoresArgs": {
           "k": "object",
           "props": [
@@ -52492,6 +52564,18 @@
             }
           ]
         },
+        "ListFavoritesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "favoritesToken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListInspirationArgs": {
           "k": "object",
           "props": [
@@ -52612,6 +52696,32 @@
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "RemoveFromFavoritesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemNo",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "favoritesToken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "listId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -52850,6 +52960,36 @@
             "schema": {
               "k": "ref",
               "name": "RemoveFromCartArgs"
+            },
+            "optional": false
+          }
+        ],
+        "addToFavorites": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AddToFavoritesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listFavorites": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFavoritesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "removeFromFavorites": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RemoveFromFavoritesArgs"
             },
             "optional": false
           }

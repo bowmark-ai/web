@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c208a2a796a3815381bf74ca4b307fed418b9f50c69bc183f297ed85169e15b6
-// 93 capabilities, 760 providers, 3984 typed functions, 20 refused.
+// Manifest version: 22dd06583192a8f03b9c60f4d0e9a65ff27e87048dbd93287c818cf9fac679cf
+// 93 capabilities, 760 providers, 3989 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17557,6 +17557,40 @@ interface BookerDayHours {
   closes: string | null;
   closedReason: string | null;
 }
+interface BookerGiftCertificateDesign {
+  id: number;
+  name: string;
+  /** The card art's image URL. */
+  imageUrl: string | null;
+}
+interface BookerGiftCertificates {
+  locationId: number;
+  designs: BookerGiftCertificateDesign[];
+}
+interface BookerSpecialArgs {
+  /** A location slug (`kabuki`) or a go.booker.com/location/<slug> URL. */
+  location: string;
+  /** The promo / coupon code to look up. */
+  code: string;
+}
+interface BookerSpecial {
+  id: number;
+  name: string | null;
+  description: string | null;
+  discountAmount: number | null;
+  discountType: unknown;
+  bookingStartDate: string | null;
+  bookingEndDate: string | null;
+  maxRedemptions: number | null;
+  availableRedemptions: number | null;
+}
+interface BookerSpecialLookup {
+  code: string;
+  /** False when the location does not recognise the code. */
+  found: boolean;
+  reason: string | null;
+  special: BookerSpecial | null;
+}
 interface BookerServiceListArgs {
   /** A location slug (`kabuki`) or a go.booker.com/location/<slug> URL. */
   location: string;
@@ -17659,6 +17693,19 @@ interface BookerGroupAvailability {
      * closedDates for exceptions.
      */
     getLocationHours(args: BookerLocationArgs): Promise<BookerDayHours[]>;
+
+    /**
+     * The gift certificate designs (card art: id, name, image) a location sells online. The amount
+     * is chosen at purchase, so no price list comes back.
+     */
+    listGiftCertificates(args: BookerLocationArgs): Promise<BookerGiftCertificates>;
+
+    /**
+     * Looks up a promo code at a location: whether it is valid there and, when it is, its name,
+     * discount and booking window. An unknown code comes back found:false with Booker's reason,
+     * not an error.
+     */
+    getSpecial(args: BookerSpecialArgs): Promise<BookerSpecialLookup>;
 
     /**
      * Open times for several services booked as ONE visit, back to back — each option gives every
@@ -46887,6 +46934,48 @@ interface RemoveFromCartArgs {
   /** The cartToken the cart was created or last read with. */
   cartToken: string;
 }
+interface IkeaFavoritesItem {
+  itemNo: string;
+  quantity: number;
+  /** Null whenever IKEA's favorites service does not resolve a name for this item
+   * (measured true for every item tried, 2026-11-01). */
+  name: string | null;
+}
+interface IkeaFavoritesList {
+  /** Pass this back as `favoritesToken` to listFavorites/removeFromFavorites to
+   * keep reading THIS identity's lists — omitting it always starts a fresh,
+   * empty identity, exactly like getCart's cartToken. */
+  favoritesToken: string;
+  /** Pass this back as `listId` to removeFromFavorites to target THIS list —
+   * omitting it always targets the identity's one selected list. */
+  listId: string;
+  name: string | null;
+  isSelected: boolean;
+  quantity: number;
+  updatedAt: string | null;
+  items: IkeaFavoritesItem[];
+}
+interface AddToFavoritesArgs {
+  /** An itemNo from searchProducts, e.g. "20522046". */
+  itemNo: string;
+  quantity?: number;
+  /** A listId a prior favorites call returned. Omit for the identity's one selected list. */
+  listId?: string;
+  /** Omit to start a fresh identity's list; pass one a prior favorites call returned to add to it. */
+  favoritesToken?: string;
+}
+interface ListFavoritesArgs {
+  /** The favoritesToken a prior favorites call returned. Omit to read a brand-new empty identity. */
+  favoritesToken?: string;
+}
+interface RemoveFromFavoritesArgs {
+  /** An itemNo already on the list. */
+  itemNo: string;
+  /** The favoritesToken the list was created or last read with. */
+  favoritesToken: string;
+  /** A listId a prior favorites call returned. Omit for the identity's selected list. */
+  listId?: string;
+}
 
   /**
    * IKEA's US store: search the catalogue, read a product's price, dimensions and assembly PDFs,
@@ -46998,6 +47087,18 @@ interface RemoveFromCartArgs {
 
     /** Removes an item from a cart. */
     removeFromCart(args: RemoveFromCartArgs): Promise<IkeaCart>;
+
+    /**
+     * Saves a product to an IKEA favorites list (IKEA's shopping list) by item number and
+     * quantity, starting a fresh identity's list when favoritesToken is omitted.
+     */
+    addToFavorites(args: AddToFavoritesArgs): Promise<IkeaFavoritesList>;
+
+    /** Reads every favorites list on an identity — a fresh, empty one if favoritesToken is omitted. */
+    listFavorites(args: ListFavoritesArgs): Promise<IkeaFavoritesList[]>;
+
+    /** Removes a product from a favorites list. */
+    removeFromFavorites(args: RemoveFromFavoritesArgs): Promise<IkeaFavoritesList>;
   }
 }
 

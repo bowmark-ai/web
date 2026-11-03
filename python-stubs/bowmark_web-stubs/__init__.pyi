@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c208a2a796a3815381bf74ca4b307fed418b9f50c69bc183f297ed85169e15b6
-# 93 capabilities, 760 providers, 3966 typed functions, 20 refused.
+# Manifest version: 22dd06583192a8f03b9c60f4d0e9a65ff27e87048dbd93287c818cf9fac679cf
+# 93 capabilities, 760 providers, 3971 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10483,6 +10483,36 @@ class Prv_booker_BookerDayHours_Out(TypedDict):
     opens: str | None
     closes: str | None
     closedReason: str | None
+
+class Prv_booker_BookerGiftCertificates_Out(TypedDict):
+    locationId: float
+    designs: list[Prv_booker_BookerGiftCertificateDesign_Out]
+
+class Prv_booker_BookerGiftCertificateDesign_Out(TypedDict):
+    id: float
+    name: str
+    imageUrl: str | None
+
+class Prv_booker_BookerSpecialArgs_In(TypedDict):
+    location: str
+    code: str
+
+class Prv_booker_BookerSpecialLookup_Out(TypedDict):
+    code: str
+    found: bool
+    reason: str | None
+    special: Prv_booker_BookerSpecial_Out | None
+
+class Prv_booker_BookerSpecial_Out(TypedDict):
+    id: float
+    name: str | None
+    description: str | None
+    discountAmount: float | None
+    discountType: Any
+    bookingStartDate: str | None
+    bookingEndDate: str | None
+    maxRedemptions: float | None
+    availableRedemptions: float | None
 
 class Prv_booker_BookerServiceListArgs_In(TypedDict):
     location: str
@@ -28271,6 +28301,34 @@ class Prv_ikea_UpdateCartItemArgs_In(TypedDict):
 class Prv_ikea_RemoveFromCartArgs_In(TypedDict):
     itemNo: str
     cartToken: str
+
+class Prv_ikea_AddToFavoritesArgs_In(TypedDict):
+    itemNo: str
+    quantity: NotRequired[float]
+    listId: NotRequired[str]
+    favoritesToken: NotRequired[str]
+
+class Prv_ikea_IkeaFavoritesList_Out(TypedDict):
+    favoritesToken: str
+    listId: str
+    name: str | None
+    isSelected: bool
+    quantity: float
+    updatedAt: str | None
+    items: list[Prv_ikea_IkeaFavoritesItem_Out]
+
+class Prv_ikea_IkeaFavoritesItem_Out(TypedDict):
+    itemNo: str
+    quantity: float
+    name: str | None
+
+class Prv_ikea_ListFavoritesArgs_In(TypedDict):
+    favoritesToken: NotRequired[str]
+
+class Prv_ikea_RemoveFromFavoritesArgs_In(TypedDict):
+    itemNo: str
+    favoritesToken: str
+    listId: NotRequired[str]
 
 class Prv_imdb_ImdbSearchArgs_In(TypedDict):
     query: str
@@ -66679,6 +66737,17 @@ class Prv_booker(Protocol):
         findLocation's closedDates for exceptions.
         """
 
+    async def listGiftCertificates(self, args: Prv_booker_BookerLocationArgs_In, /) -> Prv_booker_BookerGiftCertificates_Out:
+        """The gift certificate designs (card art: id, name, image) a location sells online. The
+        amount is chosen at purchase, so no price list comes back.
+        """
+
+    async def getSpecial(self, args: Prv_booker_BookerSpecialArgs_In, /) -> Prv_booker_BookerSpecialLookup_Out:
+        """Looks up a promo code at a location: whether it is valid there and, when it is, its
+        name, discount and booking window. An unknown code comes back found:false with Booker's
+        reason, not an error.
+        """
+
     async def getMultiServiceAvailability(self, args: Prv_booker_BookerServiceListArgs_In, /) -> Prv_booker_BookerMultiServiceAvailability_Out:
         """Open times for several services booked as ONE visit, back to back — each option gives
         every service's own start time and staff id. Defaults to the next local date the whole
@@ -76743,6 +76812,19 @@ class Prv_ikea(Protocol):
 
     async def removeFromCart(self, args: Prv_ikea_RemoveFromCartArgs_In, /) -> Prv_ikea_IkeaCart_Out:
         """Removes an item from a cart."""
+
+    async def addToFavorites(self, args: Prv_ikea_AddToFavoritesArgs_In, /) -> Prv_ikea_IkeaFavoritesList_Out:
+        """Saves a product to an IKEA favorites list (IKEA's shopping list) by item number and
+        quantity, starting a fresh identity's list when favoritesToken is omitted.
+        """
+
+    async def listFavorites(self, args: Prv_ikea_ListFavoritesArgs_In, /) -> list[Prv_ikea_IkeaFavoritesList_Out]:
+        """Reads every favorites list on an identity — a fresh, empty one if favoritesToken is
+        omitted.
+        """
+
+    async def removeFromFavorites(self, args: Prv_ikea_RemoveFromFavoritesArgs_In, /) -> Prv_ikea_IkeaFavoritesList_Out:
+        """Removes a product from a favorites list."""
 
 class Prv_imdb(Protocol):
     """IMDb — the movie and TV database. Search films, shows and people; read a title's rating,
