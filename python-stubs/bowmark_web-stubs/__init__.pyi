@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2161fb1c509fecfeccb8d129e611ac4b352c10a1130d83d738f199807263516a
-# 93 capabilities, 762 providers, 4044 typed functions, 20 refused.
+# Manifest version: 3631a7cc4e605f0086c88787c808ca8fa4d7301447b139fda5df5d768f6f612e
+# 93 capabilities, 762 providers, 4045 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4326,6 +4326,17 @@ class Prv_adobe_StockAssetDetail_Out(TypedDict):
 class Prv_adobe_StockAssetDetail_Out_licensing_item_Out(TypedDict):
     name: str
     price: str
+
+class Prv_adobe_SaveToCreativeCloudArgs_In(TypedDict):
+    assetUrl: str
+    name: NotRequired[str]
+    libraryId: NotRequired[str]
+
+class Prv_adobe_SavedCreativeCloudAsset_Out(TypedDict):
+    libraryId: str
+    libraryName: str
+    elementId: str
+    name: str
 
 class Prv_adobe_SendForSignatureArgs_In(TypedDict):
     documentUrl: str
@@ -64176,6 +64187,13 @@ class Prv_adobe(Protocol):
         contributor name and every licensing tier's price — from the asset id or stock.adobe.com
         URL searchStockAssets returns. The site's own description meta is a templated
         restatement of the title, so it is not carried as a separate field.
+        """
+
+    async def saveAssetToCreativeCloud(self, args: Prv_adobe_SaveToCreativeCloudArgs_In, opts: ConnectionOption | None = None, /) -> Prv_adobe_SavedCreativeCloudAsset_Out:
+        """Saves an image (by public https URL, under 5 MB) into the signed-in caller's own
+        Creative Cloud Libraries, the same store Adobe Express's "Save to library" writes to.
+        Goes to "My Library" unless a libraryId is given. Returns the library and new element
+        id. Needs the caller signed in to their own Adobe ID.
         """
 
     async def sendForSignature(self, args: Prv_adobe_SendForSignatureArgs_In, opts: ConnectionOption | None = None, /) -> Prv_adobe_SignatureRequest_Out:

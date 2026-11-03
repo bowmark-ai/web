@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2161fb1c509fecfeccb8d129e611ac4b352c10a1130d83d738f199807263516a
-// 4044 checked, 20 unchecked.
+// Manifest version: 3631a7cc4e605f0086c88787c808ca8fa4d7301447b139fda5df5d768f6f612e
+// 4045 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2161fb1c509fecfeccb8d129e611ac4b352c10a1130d83d738f199807263516a",
+  "version": "3631a7cc4e605f0086c88787c808ca8fa4d7301447b139fda5df5d768f6f612e",
   "units": {
     "address_validation": {
       "defs": {
@@ -8406,6 +8406,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.adobe": {
       "defs": {
+        "SaveToCreativeCloudArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "assetUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "libraryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchTemplatesOptions": {
           "k": "object",
           "props": [
@@ -8526,6 +8552,32 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "saveAssetToCreativeCloud": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SaveToCreativeCloudArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "sendForSignature": [

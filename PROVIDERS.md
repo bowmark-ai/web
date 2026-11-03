@@ -86,7 +86,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `adobe.getTemplate` | adobe.com | Returns one Adobe Express template's detail — title, category, dimensions, whether it… | 🟡 |
 | `adobe.licenseStockAsset` | adobe.com | Buys a license for an Adobe Stock asset on the signed-in caller's own account — the… | ⚪ |
 | `adobe.mergePdfs` | adobe.com | Runs Adobe Acrobat's free online "Merge PDF" tool on two or more caller-supplied PDFs… | ⚪ |
-| `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an Adobe Stock asset, an Express template, or an exported Acrobat document into… | ⚪ |
+| `adobe.saveAssetToCreativeCloud` | adobe.com | Saves an image (public https URL, under 5 MB) into the signed-in caller's own Creative… | 🟢 |
 | `adobe.searchFonts` | adobe.com | Searches Adobe Fonts (fonts.adobe.com) by family name, returning each matching font… | 🟡 |
 | `adobe.searchStockAssets` | adobe.com | Searches Adobe Stock (stock.adobe.com) for photos, vectors, illustrations, templates… | 🟡 |
 | `adobe.searchTemplates` | adobe.com | Searches Adobe Express (new.express.adobe.com) templates by free text, optionally… | 🟡 |
@@ -537,7 +537,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getStarterPack` | bsky.app | One starter pack: its creator, description, the accounts and feeds it bundles, and how… | 🟢 |
 | `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | 🟢 |
 | `bluesky.getSuggestedFollows` | bsky.app | Accounts Bluesky suggests alongside a given person — its 'similar accounts' list on a… | 🟢 |
-| `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, as shown on the Discover and Explore pages. | 🟢 |
+| `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, as shown on the Discover and Explore pages. | 🟡 |
 | `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | 🟡 |
 | `bluesky.getTimeline` | bsky.app | The caller's home Following feed, newest first, page by page. | 🟢 |
 | `bluesky.getTrendingTopics` | bsky.app | What is trending on Bluesky right now: the topics and the links to their search or… | 🟢 |
@@ -1147,7 +1147,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude.rateResponse` | claude.ai | Gives a thumbs up or thumbs down, with an optional comment, on one of Claude's replies… | ⚪ |
 | `claude.renameConversation` | claude.ai | Renames one of the CALLER's Claude chats. | ⚪ |
 | `claude.searchConversations` | claude.ai | Searches the CALLER's Claude chat history by keyword, the way the sidebar search does… | 🟢 |
-| `claude.sendMessage` | claude.ai | Sends a message to Claude as the CALLER — into a new chat or an existing one… | ⚪ |
+| `claude.sendMessage` | claude.ai | Sends a message to Claude as the CALLER — into a new chat or an existing one… | 🟢 |
 | `claude.shareConversation` | claude.ai | Creates a public share link for one of the CALLER's chats and returns the… | ⚪ |
 | `claude.starConversation` | claude.ai | Stars or unstars one of the CALLER's Claude chats, which pins it at the top of the… | ⚪ |
 | `claude.updateMemory` | claude.ai | Turns Claude's memory on or off for the CALLER, or tells it to forget everything… | ⚪ |
@@ -1431,7 +1431,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.getProductDrivers` | dell.com | Lists drivers and downloads for a Dell product by its URL slug, optionally narrowed to… | 🟢 |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves details for a specific registered product. | 🟢 |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | 🟢 |
-| `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag, returning… | 🟢 |
+| `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag, returning… | 🟡 |
 | `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | 🟡 |
 | `dell.listMyOrders` | dell.com | Retrieves the signed-in user's order history with order numbers, dates, and status. | 🟢 |
 | `dell.listMyRegisteredProducts` | dell.com | Retrieves the signed-in user's registered Dell products and devices. | 🟢 |
@@ -3566,7 +3566,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟡 |
 | `nytimes.searchWriters` | nytimes.com | Searches NYT's own writers by name off its collections sitemap (the site publishes no… | 🟢 |
 | `nytimes.unfollowWriter` | nytimes.com | Unfollows a writer (requires auth). | ⚪ |
-| `nytimes.unsaveArticle` | nytimes.com | Removes an article from the reader's collection (requires auth). | ⚪ |
+| `nytimes.unsaveArticle` | nytimes.com | Removes an article from the signed-in reader's Reading List, by driving the same save… | 🟢 |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
 | `odfl.estimateFreightQuote` | odfl.com | Generates a shipping rate quote for an LTL freight shipment from ODFL. | ⚪ |
 | `old_navy.getProduct` | oldnavy.gap.com | Reads one Old Navy product's variant-level sizes, colors and fits with each SKU's sale… | 🟢 |
@@ -3989,7 +3989,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary off /settings. | 🟢 |
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | 🟡 |
 | `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟡 |
-| `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟡 |
+| `quora.getSpace` | quora.com | Reads one Space — its name, description, member count, and its most recent questions —… | 🟢 |
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name, follower count, photo and most-viewed authors —… | 🟢 |
 | `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | 🟢 |
 | `quora.postComment` | quora.com | Posts a comment on an answer as the signed-in caller. | ⚪ |
@@ -5968,7 +5968,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | 🟢 |
 | `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | 🟢 |
 | `zoom.getMeetingParticipants` | zoom.us | Reads participants of one in-progress meeting from the signed-in caller's meeting page. | 🟢 |
-| `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | 🟡 |
+| `zoom.getPricing` | zoom.us | Returns Zoom Workplace plans and their features. | 🟢 |
 | `zoom.getProfile` | zoom.us | The signed-in caller's user profile. | 🟢 |
 | `zoom.getRecording` | zoom.us | Returns metadata and access info for one recording. | 🟢 |
 | `zoom.getRecordingTranscript` | zoom.us | Returns the transcript text for a recording. | ⚪ |
