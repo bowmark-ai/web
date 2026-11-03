@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9a55963b914dca1601059037a58b14320ad923dc95ff40c95127905cbf040ac4
-// 4054 checked, 20 unchecked.
+// Manifest version: 54a8cc4d16c51b87648847793263a9d9799b2983a283650fceaf830e2375bd1d
+// 4065 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9a55963b914dca1601059037a58b14320ad923dc95ff40c95127905cbf040ac4",
+  "version": "54a8cc4d16c51b87648847793263a9d9799b2983a283650fceaf830e2375bd1d",
   "units": {
     "address_validation": {
       "defs": {
@@ -11556,6 +11556,39 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SendMessageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "subject",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "body",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -11627,6 +11660,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "DeleteMessageArgs"
             },
             "optional": false
+          }
+        ],
+        "sendMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SendMessageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -20070,6 +20129,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getAccountProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -21653,6 +21730,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "PostCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "parentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArticlesArgs": {
           "k": "object",
           "props": [
@@ -21832,6 +21935,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetArticleCommentsArgs"
             },
             "optional": false
+          }
+        ],
+        "postComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -40684,6 +40813,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listWatchlist": [
+          {
+            "name": "wiki",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -45620,6 +45774,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.github": {
       "defs": {
+        "GithubGetFileContentsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ref",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubGetUserRepositoriesOptions": {
           "k": "object",
           "props": [
@@ -45724,6 +45890,32 @@ export const VALIDATORS: ValidatorTable = {
         "GithubListContributorsOptions": {
           "k": "object",
           "props": [
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GithubListIssueCommentsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "since",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
             {
               "name": "per_page",
               "schema": {
@@ -45936,6 +46128,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GithubListPullRequestFilesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubListPullRequestsOptions": {
           "k": "object",
           "props": [
@@ -45993,6 +46204,67 @@ export const VALIDATORS: ValidatorTable = {
         "GithubListReleasesOptions": {
           "k": "object",
           "props": [
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GithubSearchIssuesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "comments"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "reactions"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "created"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "updated"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "order",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
             {
               "name": "per_page",
               "schema": {
@@ -46140,6 +46412,116 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GithubListContributorsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getFileContents": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubGetFileContentsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listIssueComments": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "issueNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListIssueCommentsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listPullRequestFiles": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pullNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListPullRequestFilesOptions"
+            },
+            "optional": true
+          }
+        ],
+        "searchIssues": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubSearchIssuesOptions"
             },
             "optional": true
           }
@@ -80635,6 +81017,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getMyProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -90992,6 +91392,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listMyPacks": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getBooking": [
           {
             "name": "featureId",
@@ -91549,6 +91967,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListSavedArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSectionsArgs": {
           "k": "object",
           "props": [
@@ -91899,6 +92343,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetVideoArgs"
             },
             "optional": false
+          }
+        ],
+        "listSavedArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSavedArticlesArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

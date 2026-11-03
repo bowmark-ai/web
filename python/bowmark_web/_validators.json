@@ -1,5 +1,5 @@
 {
-  "version": "9a55963b914dca1601059037a58b14320ad923dc95ff40c95127905cbf040ac4",
+  "version": "54a8cc4d16c51b87648847793263a9d9799b2983a283650fceaf830e2375bd1d",
   "units": {
     "address_validation": {
       "defs": {
@@ -11544,6 +11544,39 @@
               "optional": true
             }
           ]
+        },
+        "SendMessageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "subject",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "body",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -11615,6 +11648,32 @@
               "name": "DeleteMessageArgs"
             },
             "optional": false
+          }
+        ],
+        "sendMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SendMessageArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -20058,6 +20117,24 @@
             },
             "optional": true
           }
+        ],
+        "getAccountProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -21641,6 +21718,32 @@
             }
           ]
         },
+        "PostCommentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "parentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArticlesArgs": {
           "k": "object",
           "props": [
@@ -21820,6 +21923,32 @@
               "name": "GetArticleCommentsArgs"
             },
             "optional": false
+          }
+        ],
+        "postComment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PostCommentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -40672,6 +40801,31 @@
             },
             "optional": true
           }
+        ],
+        "listWatchlist": [
+          {
+            "name": "wiki",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -45608,6 +45762,18 @@
     },
     "providers.github": {
       "defs": {
+        "GithubGetFileContentsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ref",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubGetUserRepositoriesOptions": {
           "k": "object",
           "props": [
@@ -45712,6 +45878,32 @@
         "GithubListContributorsOptions": {
           "k": "object",
           "props": [
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GithubListIssueCommentsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "since",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
             {
               "name": "per_page",
               "schema": {
@@ -45924,6 +46116,25 @@
             }
           ]
         },
+        "GithubListPullRequestFilesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubListPullRequestsOptions": {
           "k": "object",
           "props": [
@@ -45981,6 +46192,67 @@
         "GithubListReleasesOptions": {
           "k": "object",
           "props": [
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GithubSearchIssuesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "comments"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "reactions"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "created"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "updated"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "order",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
             {
               "name": "per_page",
               "schema": {
@@ -46128,6 +46400,116 @@
             "schema": {
               "k": "ref",
               "name": "GithubListContributorsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getFileContents": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubGetFileContentsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listIssueComments": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "issueNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListIssueCommentsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listPullRequestFiles": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pullNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListPullRequestFilesOptions"
+            },
+            "optional": true
+          }
+        ],
+        "searchIssues": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubSearchIssuesOptions"
             },
             "optional": true
           }
@@ -80623,6 +81005,24 @@
             },
             "optional": false
           }
+        ],
+        "getMyProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -90980,6 +91380,24 @@
             "optional": true
           }
         ],
+        "listMyPacks": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getBooking": [
           {
             "name": "featureId",
@@ -91537,6 +91955,32 @@
             }
           ]
         },
+        "ListSavedArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSectionsArgs": {
           "k": "object",
           "props": [
@@ -91887,6 +92331,32 @@
               "name": "GetVideoArgs"
             },
             "optional": false
+          }
+        ],
+        "listSavedArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSavedArticlesArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

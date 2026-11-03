@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9a55963b914dca1601059037a58b14320ad923dc95ff40c95127905cbf040ac4
-# 93 capabilities, 762 providers, 4054 typed functions, 20 refused.
+# Manifest version: 54a8cc4d16c51b87648847793263a9d9799b2983a283650fceaf830e2375bd1d
+# 93 capabilities, 762 providers, 4065 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5879,6 +5879,20 @@ class Prv_aol_mail_AolMailDeleteResult_Out(TypedDict):
     id: str | None
     folder: str | None
 
+Prv_aol_mail_SendMessageArgs_In = TypedDict(
+    "Prv_aol_mail_SendMessageArgs_In",
+    {
+    "to": str,
+    "subject": str,
+    "body": str,
+    "from": NotRequired[str],
+    },
+)
+
+class Prv_aol_mail_AolMailSendResult_Out(TypedDict):
+    accepted: bool
+    raw: Any
+
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
     sku: str
@@ -10813,6 +10827,18 @@ class Prv_booking_com_WishlistProperty_Out(TypedDict):
     checkin: str | None
     checkout: str | None
 
+class Prv_booking_com_getAccountProfile_return_Out(TypedDict):
+    profile: Prv_booking_com_AccountProfile_Out
+
+class Prv_booking_com_AccountProfile_Out(TypedDict):
+    displayName: str | None
+    firstName: str | None
+    lastName: str | None
+    initials: str | None
+    geniusLevel: float | None
+    geniusLabel: str | None
+    avatarUrl: str | None
+
 class Prv_booksy_booksyResolveLocationArgs_In(TypedDict):
     query: str
     country: NotRequired[str]
@@ -11841,6 +11867,18 @@ class Prv_businessinsider_com_BusinessInsiderComment_Out(TypedDict):
     replyCount: float
     reactionCount: float
     replies: list[Prv_businessinsider_com_BusinessInsiderComment_Out]
+
+class Prv_businessinsider_com_PostCommentArgs_In(TypedDict):
+    url: str
+    text: str
+    parentId: NotRequired[str]
+
+class Prv_businessinsider_com_BusinessInsiderPostedComment_Out(TypedDict):
+    storyId: str
+    id: str
+    status: NotRequired[str]
+    createdAt: NotRequired[str]
+    parentId: NotRequired[str]
 
 class Prv_bykoket_KoketProductSummary_Out(TypedDict):
     id: str
@@ -24243,6 +24281,86 @@ class Prv_github_GithubContributor_Out(TypedDict):
     contributions: float
     avatarUrl: str
     profileUrl: str
+
+class Prv_github_GithubGetFileContentsOptions_In(TypedDict):
+    ref: NotRequired[str]
+
+class Prv_github_GithubFileContents_Out(TypedDict):
+    kind: Literal["file"] | Literal["directory"]
+    path: str
+    content: str | None
+    size: float
+    url: str
+    downloadUrl: str | None
+    entries: list[Prv_github_GithubDirectoryEntry_Out]
+
+class Prv_github_GithubDirectoryEntry_Out(TypedDict):
+    name: str
+    path: str
+    type: str
+    size: float
+    url: str
+
+class Prv_github_GithubListIssueCommentsOptions_In(TypedDict):
+    since: NotRequired[str]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListIssueCommentsResult_Out(TypedDict):
+    comments: list[Prv_github_GithubIssueComment_Out]
+    warnings: list[str]
+
+class Prv_github_GithubIssueComment_Out(TypedDict):
+    id: float
+    author: str | None
+    body: str
+    createdAt: str
+    updatedAt: str
+    authorAssociation: str
+    url: str
+
+class Prv_github_GithubListPullRequestFilesOptions_In(TypedDict):
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListPullRequestFilesResult_Out(TypedDict):
+    files: list[Prv_github_GithubPullRequestFile_Out]
+    warnings: list[str]
+
+class Prv_github_GithubPullRequestFile_Out(TypedDict):
+    filename: str
+    status: str
+    additions: float
+    deletions: float
+    changes: float
+    patch: str | None
+    previousFilename: str | None
+    url: str
+
+class Prv_github_GithubSearchIssuesOptions_In(TypedDict):
+    sort: NotRequired[Literal["comments"] | Literal["reactions"] | Literal["created"] | Literal["updated"]]
+    order: NotRequired[Literal["asc"] | Literal["desc"]]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubSearchIssuesResult_Out(TypedDict):
+    totalCount: float
+    issues: list[Prv_github_GithubIssueSearchHit_Out]
+    warnings: list[str]
+
+class Prv_github_GithubIssueSearchHit_Out(TypedDict):
+    number: float
+    title: str
+    state: str
+    isPullRequest: bool
+    author: str | None
+    labels: list[str]
+    comments: float
+    createdAt: str
+    updatedAt: str
+    closedAt: str | None
+    repository: str
+    url: str
 
 class Prv_github_GithubReadme_Out(TypedDict):
     name: str
@@ -39881,6 +39999,10 @@ class Prv_peek_PeekReviewList_Out(TypedDict):
     reviewCount: float | None
     reviews: list[Prv_peek_PeekReview_Out]
 
+class Prv_peek_PeekProfile_Out(TypedDict):
+    email: str | None
+    fields: Mapping[str, str]
+
 class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
     city: str
     state: str
@@ -44520,6 +44642,20 @@ class Prv_reuters_ReutersVideoDetail_Out(TypedDict):
     duration: float | None
     publishedAt: str | None
     streamUrl: str | None
+
+class Prv_reuters_ListSavedArticlesArgs_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+    cursor: NotRequired[float]
+
+class Prv_reuters_ReutersSavedArticle_Out(TypedDict):
+    id: str
+    headline: str
+    url: str
+    description: str | None
+    section: str | None
+    publishedAt: str | None
+    category: str | None
 
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
@@ -65191,6 +65327,13 @@ class Prv_aol_mail(Protocol):
         caller's address and app password, as secrets.
         """
 
+    async def sendMessage(self, args: Prv_aol_mail_SendMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_aol_mail_AolMailSendResult_Out:
+        """Sends an email from the CALLER's own AOL Mail account, through the signed-in relay
+        session (not IMAP/SMTP — outbound mail ports are blocked from every Bowmark exit).
+        Whether this truly sends or only saves a draft is UNMEASURED; check listMessages on
+        Drafts/Sent to confirm.
+        """
+
 class Prv_aosom(Protocol):
     """Reads Aosom's live catalog — search results and one product's real price/stock —
     straight off aosom.com's own search API and product page, no key, no browser.
@@ -67899,6 +68042,12 @@ class Prv_booking_com(Protocol):
         Same sign-in rules as listBookings. No lists is `{ wishlists: [] }`.
         """
 
+    async def getAccountProfile(self, opts: ConnectionOption | None = None, /) -> Prv_booking_com_getAccountProfile_return_Out:
+        """SIGNED IN — the caller's own Booking.com account header: display name, first and last
+        name, initials, Genius loyalty level and label, and avatar URL. Booking.com does not
+        expose the email or phone on this door. Same sign-in rules as listBookings.
+        """
+
 class Prv_booksy(Protocol):
     """Booksy marketplace for barbers, salons, spas and other appointment businesses: search
     businesses near a place, a business's services, staff, prices and open times, a booking
@@ -68313,6 +68462,11 @@ class Prv_businessinsider_com(Protocol):
     async def getArticleComments(self, args: Prv_businessinsider_com_GetArticleCommentsArgs_In, /) -> Prv_businessinsider_com_BusinessInsiderCommentThread_Out:
         """Reads an article's newest reader comments (up to 10) with their replies and the featured
         comments; hasMore says the thread is longer.
+        """
+
+    async def postComment(self, args: Prv_businessinsider_com_PostCommentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_businessinsider_com_BusinessInsiderPostedComment_Out:
+        """Posts a comment, or a reply to parentId, on an article as the signed-in caller (needs
+        the caller's Business Insider sign-in).
         """
 
 class Prv_bykoket(Protocol):
@@ -73776,6 +73930,12 @@ class Prv_fandom(Protocol):
         /api.php?action=query&meta=userinfo`.
         """
 
+    async def listWatchlist(self, wiki: str, opts: ConnectionOption | None = None, /) -> list[Prv_fandom_RecentChange_Out]:
+        """The caller's own watchlist on one wiki — recent edits to the pages they follow, newest
+        first, in the same row shape as `listRecentChanges`. `GET
+        /api.php?action=query&list=watchlist`.
+        """
+
 class Prv_fareharbor(Protocol):
     """FareHarbor tour, activity and cruise booking pages: find an operator, list its tours,
     check live availability by date, and book or cancel a reservation.
@@ -75256,6 +75416,45 @@ class Prv_github(Protocol):
         (1-100, default 30) and `options.page` page through. Shares the 60 requests/hour per IP
         ceiling. THROWS on an unknown owner/repo (404) or a rate limit (403/429); an empty repo
         returns `contributors: []`.
+        """
+
+    async def getFileContents(self, owner: str, repo: str, path: str, options: Prv_github_GithubGetFileContentsOptions_In | None = None, /) -> Prv_github_GithubFileContents_Out:
+        """Reads any file in a public repository, decoded to text — `package.json`, `LICENSE`, a
+        docs page — or lists a directory (`kind: "directory"`, with `entries`; pass `""` for the
+        repo root). `options.ref` reads a branch, tag or commit other than the default branch.
+        Off GitHub's own unauthenticated REST contents endpoint; shares the 60 requests/hour per
+        IP ceiling. A file over 1 MB comes back with `content: null` — use `downloadUrl`. THROWS
+        on a path, ref or repo that does not exist (404) or a rate limit (403/429).
+        """
+
+    async def listIssueComments(self, owner: str, repo: str, issueNumber: float, options: Prv_github_GithubListIssueCommentsOptions_In | None = None, /) -> Prv_github_GithubListIssueCommentsResult_Out:
+        """Reads the comment thread on an issue or pull request, oldest first — each comment's
+        author, body, dates, the author's association with the repo
+        (OWNER/MEMBER/CONTRIBUTOR/NONE) and URL. `getIssue` gives only the count; this is the
+        conversation. `options.since` (ISO 8601) keeps only comments updated after it;
+        `options.per_page` (1-100, default 30) and `options.page` page through. Shares the 60
+        requests/hour per IP ceiling. THROWS on an unknown issue or repo (404) or a rate limit
+        (403/429).
+        """
+
+    async def listPullRequestFiles(self, owner: str, repo: str, pullNumber: float, options: Prv_github_GithubListPullRequestFilesOptions_In | None = None, /) -> Prv_github_GithubListPullRequestFilesResult_Out:
+        """Lists what a pull request changes — each file's name, status
+        (added/modified/removed/renamed), additions, deletions and its unified diff (`patch`,
+        null for binary or huge files). `options.per_page` (1-100, default 30) and
+        `options.page` page through; GitHub caps the list at 3,000 files. Shares the 60
+        requests/hour per IP ceiling. THROWS on an unknown pull request or repo (404) or a rate
+        limit (403/429).
+        """
+
+    async def searchIssues(self, query: str, options: Prv_github_GithubSearchIssuesOptions_In | None = None, /) -> Prv_github_GithubSearchIssuesResult_Out:
+        """Free-text search over issues and pull requests across GitHub — "has anyone reported X?".
+        `query` is GitHub's own search syntax, e.g. `"repo:microsoft/vscode is:issue is:open
+        terminal crash"`; add `is:issue` or `is:pr` to narrow. Returns `totalCount` and each
+        hit's number, title, state, whether it is a PR, author, labels, comment count, dates,
+        repository (`owner/name`) and URL. `options.sort`
+        (`comments`/`reactions`/`created`/`updated`, default relevance), `options.order`,
+        `options.per_page` (1-100) and `options.page`. Uses the stricter search ceiling: 10
+        requests/minute per IP. THROWS on an invalid query (422) or a rate limit (403/429).
         """
 
     async def getReadme(self, owner: str, repo: str, /) -> Prv_github_GithubReadme_Out:
@@ -84852,6 +85051,11 @@ class Prv_peek(Protocol):
         can be larger than reviews.length. Takes { id } or { url } like getExperience.
         """
 
+    async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_peek_PeekProfile_Out:
+        """The signed-in caller's own Peek account as its settings page shows it: email plus every
+        visible account field (name, phone, …). Needs the caller signed in to Peek.
+        """
+
 class Prv_peerspace(Protocol):
     """Peerspace's own city listing pages — real hourly rate, guest capacity and instant-book
     status for party, photo-shoot and off-site/production spaces, no signup needed to view.
@@ -87203,6 +87407,13 @@ class Prv_reserve_with_google(Protocol):
         and fulfilling partner.
         """
 
+    async def listMyPacks(self, opts: ConnectionOption | None = None, /) -> list[Prv_reserve_with_google_BookingVenue_Out]:
+        """Lists the venues the caller holds class packs or memberships at, off their own Reserve
+        with Google Packs page (needs the caller's Google sign-in): name, address, phone, time
+        zone, feature id and fulfilling partner. Remaining credits and expiry are not read — the
+        signed-in Packs page has never been captured.
+        """
+
     async def getBooking(self, featureId: str, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_BookingVenue_Out:
         """Finds one of the caller's bookings on their Bookings page (needs the caller's Google
         sign-in) by the venue's feature id — the same id listMyBookings returns — and returns
@@ -87445,6 +87656,11 @@ class Prv_reuters(Protocol):
     async def getVideo(self, args: Prv_reuters_GetVideoArgs_In, /) -> Prv_reuters_ReutersVideoDetail_Out:
         """One Reuters video: title, description, duration, published time, thumbnail and its
         playable HLS stream url. Takes a video page url from listVideos.
+        """
+
+    async def listSavedArticles(self, args: Prv_reuters_ListSavedArticlesArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_reuters_ReutersSavedArticle_Out]:
+        """The signed-in reader's saved Reuters articles: headline, url, description, section,
+        published time and category. Optional search-within-saved query.
         """
 
 class Prv_revisionskincare(Protocol):

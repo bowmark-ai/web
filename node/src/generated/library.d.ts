@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9a55963b914dca1601059037a58b14320ad923dc95ff40c95127905cbf040ac4
-// 93 capabilities, 762 providers, 4072 typed functions, 20 refused.
+// Manifest version: 54a8cc4d16c51b87648847793263a9d9799b2983a283650fceaf830e2375bd1d
+// 93 capabilities, 762 providers, 4083 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10119,6 +10119,18 @@ interface AolMailDeleteResult {
   folder: string | null;
 }
 
+interface SendMessageArgs {
+  to: string;
+  subject: string;
+  body: string;
+  from?: string;
+}
+
+interface AolMailSendResult {
+  accepted: boolean; // the gateway returned 2xx; does NOT confirm the recipient received anything — "Save" vs "Send" is unconfirmed, see sendMessage's own doc comment
+  raw: object; // the door's own decoded JSON response, since the exact meaning of a 2xx is unmeasured
+}
+
   /**
    * Reads and changes mail in the CALLER's own AOL Mail account — folders, the inbox, search,
    * full messages, mark read, move, delete — over IMAP with the caller's address and an AOL app
@@ -10176,6 +10188,14 @@ interface AolMailDeleteResult {
      * address and app password, as secrets.
      */
     deleteMessage(args: DeleteMessageArgs): Promise<AolMailDeleteResult>;
+
+    /**
+     * Sends an email from the CALLER's own AOL Mail account, through the signed-in relay session
+     * (not IMAP/SMTP — outbound mail ports are blocked from every Bowmark exit). Whether this
+     * truly sends or only saves a draft is UNMEASURED; check listMessages on Drafts/Sent to
+     * confirm.
+     */
+    sendMessage(args: SendMessageArgs, opts?: ConnectionOption): Promise<AolMailSendResult>;
   }
 }
 
@@ -18036,6 +18056,15 @@ interface Wishlist {
 interface Wishlists {
   wishlists: Wishlist[];   // [] when the caller has saved nothing
 }
+interface AccountProfile {
+  displayName: string | null;   // the name in the site's own header
+  firstName: string | null;
+  lastName: string | null;
+  initials: string | null;
+  geniusLevel: number | null;   // Genius loyalty level, null when none
+  geniusLabel: string | null;   // e.g. "Genius Level 2"
+  avatarUrl: string | null;
+}
 
   /**
    * Global online travel reservation service with property search, reviews and booking
@@ -18120,6 +18149,13 @@ interface Wishlists {
      * sign-in rules as listBookings. No lists is `{ wishlists: [] }`.
      */
     listWishlist(opts?: ConnectionOption): Promise<Wishlists>;
+
+    /**
+     * SIGNED IN — the caller's own Booking.com account header: display name, first and last name,
+     * initials, Genius loyalty level and label, and avatar URL. Booking.com does not expose the
+     * email or phone on this door. Same sign-in rules as listBookings.
+     */
+    getAccountProfile(opts?: ConnectionOption): Promise<{ profile: AccountProfile }>;
   }
 }
 
@@ -19306,6 +19342,22 @@ interface BusinessInsiderComment {
   reactionCount: number;
   replies: BusinessInsiderComment[];
 }
+interface PostCommentArgs {
+  /** The article's URL on www.businessinsider.com. */
+  url: string;
+  /** The comment text. */
+  text: string;
+  /** Reply to this comment id (from getArticleComments) instead of the article. */
+  parentId?: string;
+}
+interface BusinessInsiderPostedComment {
+  storyId: string;
+  id: string;
+  /** Coral's moderation status, e.g. "NONE" (live) or "PREMOD" (held for review). */
+  status?: string;
+  createdAt?: string;
+  parentId?: string;
+}
 interface BusinessInsiderCommentThread {
   storyId: string;
   totalPublished: number;
@@ -19545,6 +19597,12 @@ interface BusinessInsiderCryptoQuote {
      * comments; hasMore says the thread is longer.
      */
     getArticleComments(args: GetArticleCommentsArgs): Promise<BusinessInsiderCommentThread>;
+
+    /**
+     * Posts a comment, or a reply to parentId, on an article as the signed-in caller (needs the
+     * caller's Business Insider sign-in).
+     */
+    postComment(args: PostCommentArgs, opts?: ConnectionOption): Promise<BusinessInsiderPostedComment>;
   }
 }
 
@@ -35877,6 +35935,13 @@ interface FandomCurrentUser {
      * /api.php?action=query&meta=userinfo`.
      */
     getCurrentUser(wiki: string, opts?: ConnectionOption): Promise<FandomCurrentUser>;
+
+    /**
+     * The caller's own watchlist on one wiki — recent edits to the pages they follow, newest
+     * first, in the same row shape as `listRecentChanges`. `GET
+     * /api.php?action=query&list=watchlist`.
+     */
+    listWatchlist(wiki: string, opts?: ConnectionOption): Promise<RecentChange[]>;
   }
 }
 
@@ -39954,6 +40019,87 @@ interface GithubListContributorsResult {
   contributors: GithubContributor[];
   warnings: string[];
 }
+interface GithubDirectoryEntry {
+  name: string;
+  path: string;
+  type: string;
+  size: number;
+  url: string;
+}
+interface GithubFileContents {
+  kind: "file" | "directory";
+  path: string;
+  content: string | null;
+  size: number;
+  url: string;
+  downloadUrl: string | null;
+  entries: GithubDirectoryEntry[];
+}
+interface GithubGetFileContentsOptions {
+  ref?: string;
+}
+interface GithubIssueComment {
+  id: number;
+  author: string | null;
+  body: string;
+  createdAt: string;
+  updatedAt: string;
+  authorAssociation: string;
+  url: string;
+}
+interface GithubListIssueCommentsOptions {
+  since?: string;
+  per_page?: number;
+  page?: number;
+}
+interface GithubListIssueCommentsResult {
+  comments: GithubIssueComment[];
+  warnings: string[];
+}
+interface GithubPullRequestFile {
+  filename: string;
+  /** GitHub's own file status: "added", "modified", "removed", "renamed" (also "copied", "changed", "unchanged"). */
+  status: string;
+  additions: number;
+  deletions: number;
+  changes: number;
+  patch: string | null;
+  previousFilename: string | null;
+  url: string;
+}
+interface GithubListPullRequestFilesOptions {
+  per_page?: number;
+  page?: number;
+}
+interface GithubListPullRequestFilesResult {
+  files: GithubPullRequestFile[];
+  warnings: string[];
+}
+interface GithubIssueSearchHit {
+  number: number;
+  title: string;
+  state: string;
+  isPullRequest: boolean;
+  author: string | null;
+  labels: string[];
+  comments: number;
+  createdAt: string;
+  updatedAt: string;
+  closedAt: string | null;
+  repository: string;
+  url: string;
+}
+interface GithubSearchIssuesOptions {
+  sort?: "comments" | "reactions" | "created" | "updated";
+  order?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
+interface GithubSearchIssuesResult {
+  totalCount: number;
+  issues: GithubIssueSearchHit[];
+  warnings: string[];
+}
 interface GithubReadme {
   name: string;
   path: string;
@@ -40269,6 +40415,47 @@ interface GithubPullRequestCreated {
      * []`.
      */
     listContributors(owner: string, repo: string, options?: GithubListContributorsOptions): Promise<GithubListContributorsResult>;
+
+    /**
+     * Reads any file in a public repository, decoded to text — `package.json`, `LICENSE`, a docs
+     * page — or lists a directory (`kind: "directory"`, with `entries`; pass `""` for the repo
+     * root). `options.ref` reads a branch, tag or commit other than the default branch. Off
+     * GitHub's own unauthenticated REST contents endpoint; shares the 60 requests/hour per IP
+     * ceiling. A file over 1 MB comes back with `content: null` — use `downloadUrl`. THROWS on a
+     * path, ref or repo that does not exist (404) or a rate limit (403/429).
+     */
+    getFileContents(owner: string, repo: string, path: string, options?: GithubGetFileContentsOptions): Promise<GithubFileContents>;
+
+    /**
+     * Reads the comment thread on an issue or pull request, oldest first — each comment's author,
+     * body, dates, the author's association with the repo (OWNER/MEMBER/CONTRIBUTOR/NONE) and URL.
+     * `getIssue` gives only the count; this is the conversation. `options.since` (ISO 8601) keeps
+     * only comments updated after it; `options.per_page` (1-100, default 30) and `options.page`
+     * page through. Shares the 60 requests/hour per IP ceiling. THROWS on an unknown issue or repo
+     * (404) or a rate limit (403/429).
+     */
+    listIssueComments(owner: string, repo: string, issueNumber: number, options?: GithubListIssueCommentsOptions): Promise<GithubListIssueCommentsResult>;
+
+    /**
+     * Lists what a pull request changes — each file's name, status
+     * (added/modified/removed/renamed), additions, deletions and its unified diff (`patch`, null
+     * for binary or huge files). `options.per_page` (1-100, default 30) and `options.page` page
+     * through; GitHub caps the list at 3,000 files. Shares the 60 requests/hour per IP ceiling.
+     * THROWS on an unknown pull request or repo (404) or a rate limit (403/429).
+     */
+    listPullRequestFiles(owner: string, repo: string, pullNumber: number, options?: GithubListPullRequestFilesOptions): Promise<GithubListPullRequestFilesResult>;
+
+    /**
+     * Free-text search over issues and pull requests across GitHub — "has anyone reported X?".
+     * `query` is GitHub's own search syntax, e.g. `"repo:microsoft/vscode is:issue is:open
+     * terminal crash"`; add `is:issue` or `is:pr` to narrow. Returns `totalCount` and each hit's
+     * number, title, state, whether it is a PR, author, labels, comment count, dates, repository
+     * (`owner/name`) and URL. `options.sort` (`comments`/`reactions`/`created`/`updated`, default
+     * relevance), `options.order`, `options.per_page` (1-100) and `options.page`. Uses the
+     * stricter search ceiling: 10 requests/minute per IP. THROWS on an invalid query (422) or a
+     * rate limit (403/429).
+     */
+    searchIssues(query: string, options?: GithubSearchIssuesOptions): Promise<GithubSearchIssuesResult>;
 
     /**
      * Returns a public repository's README, decoded to text, whatever its filename (README.md,
@@ -66472,6 +66659,11 @@ interface PeekSimilarExperience {
   price: { amount: number; currency: string } | null;
   rating: number | null; reviewCount: number | null; region: string | null;
 }
+interface PeekProfile {
+  email: string | null;
+  /** Every visible user[...] field on the signed-in settings page, keyed by its own name. */
+  fields: Record<string, string>;
+}
 interface PeekReviewList {
   id: string; rating: number | null; reviewCount: number | null; reviews: PeekReview[];
 }
@@ -66547,6 +66739,12 @@ interface PeekReviewList {
      * larger than reviews.length. Takes { id } or { url } like getExperience.
      */
     listReviews(args: PeekGetExperienceArgs): Promise<PeekReviewList>;
+
+    /**
+     * The signed-in caller's own Peek account as its settings page shows it: email plus every
+     * visible account field (name, phone, …). Needs the caller signed in to Peek.
+     */
+    getMyProfile(opts?: ConnectionOption): Promise<PeekProfile>;
   }
 }
 
@@ -72799,6 +72997,14 @@ interface BookingVenue {
     listMyBookings(opts?: ConnectionOption): Promise<BookingVenue[]>;
 
     /**
+     * Lists the venues the caller holds class packs or memberships at, off their own Reserve with
+     * Google Packs page (needs the caller's Google sign-in): name, address, phone, time zone,
+     * feature id and fulfilling partner. Remaining credits and expiry are not read — the signed-in
+     * Packs page has never been captured.
+     */
+    listMyPacks(opts?: ConnectionOption): Promise<BookingVenue[]>;
+
+    /**
      * Finds one of the caller's bookings on their Bookings page (needs the caller's Google
      * sign-in) by the venue's feature id — the same id listMyBookings returns — and returns that
      * venue: name, address, phone, time zone, feature id and fulfilling partner. The Bookings
@@ -73364,6 +73570,20 @@ interface ReutersAuthorPage {
 interface GetAuthorArgs {
   path: string;                     // "/authors/<slug>/" from findAuthor, a full author URL, or a bare slug
 }
+interface ReutersSavedArticle {
+  id: string;
+  headline: string;
+  url: string;
+  description: string | null;
+  section: string | null;
+  publishedAt: string | null;
+  category: string | null;
+}
+interface ListSavedArticlesArgs {
+  query?: string;             // reuters.com's own search-within-saved filter
+  limit?: number;             // 1-100, default 20
+  cursor?: number;            // pagination offset into the saved list, default 0
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -73546,6 +73766,12 @@ interface GetAuthorArgs {
      * HLS stream url. Takes a video page url from listVideos.
      */
     getVideo(args: GetVideoArgs): Promise<ReutersVideoDetail>;
+
+    /**
+     * The signed-in reader's saved Reuters articles: headline, url, description, section,
+     * published time and category. Optional search-within-saved query.
+     */
+    listSavedArticles(args?: ListSavedArticlesArgs, opts?: ConnectionOption): Promise<ReutersSavedArticle[]>;
   }
 }
 
