@@ -653,7 +653,7 @@ speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, listTeams, searchPlayers (+1 planned)
 spotapps.co — spotapps: bookReservation, checkAvailability, findRestaurant, getCateringOptions, getMenu, getOnlineOrderMenu, getPrivatePartyOptions, getReservationSettings, listJobs (+6 planned)
-square.site — square_online: getMenuItem, getPickupTimes, getSite, listCategories, listLocations, listMenuItems (+13 planned)
+square.site — square_online: getItemAvailability, getLoyaltyProgram, getMenuItem, getPickupTimes, getSite, listCategories, listLocations, listMenuItems, listSubscriptionPlans (+10 planned)
 stackoverflow.com — stackoverflow: getQuestion, searchQuestions
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments

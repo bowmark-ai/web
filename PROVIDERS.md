@@ -4684,9 +4684,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `square_online.addToCart` | square.site | Creates a guest cart (or adds to one) with menu items, variations, modifiers and… | ⚪ |
 | `square_online.getCheckoutTotal` | square.site | Opens checkout for a cart and returns the order total, taxes, fees and tip options… | ⚪ |
 | `square_online.getDeliveryTimes` | square.site | Returns the earliest delivery time and delivery slots per day at one location, where… | ⚪ |
-| `square_online.getItemAvailability` | square.site | Says which menu items are in stock or sold out at one location, by item ids or for a… | ⚪ |
+| `square_online.getItemAvailability` | square.site | Says which menu items are in stock or sold out at one location, by item ids or for a… | 🟢 |
 | `square_online.getLoyaltyBalance` | square.site | Looks up the caller's own loyalty points at a store by their phone number. | ⚪ |
-| `square_online.getLoyaltyProgram` | square.site | Returns a store's loyalty program: whether it is active, and each reward tier's points… | ⚪ |
+| `square_online.getLoyaltyProgram` | square.site | Returns a store's loyalty program: whether it is active, and each reward tier's points… | 🟢 |
 | `square_online.getMenuItem` | square.site | Returns one menu item in full: its sellable variations (SKUs) with price, sold-out… | 🟢 |
 | `square_online.getMyAccount` | square.site | Returns the signed-in buyer's Square Online account: name, phone, email, saved… | ⚪ |
 | `square_online.getPickupTimes` | square.site | Returns the earliest pickup time and the available pickup slots at one location over a… | 🟢 |
@@ -4696,7 +4696,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `square_online.listMenuItems` | square.site | Lists or searches a storefront's menu items with name, description, price range, image… | 🟢 |
 | `square_online.listMyOrders` | square.site | Lists the signed-in buyer's past orders at this store, for reordering. | ⚪ |
 | `square_online.listMySubscriptions` | square.site | Lists the signed-in buyer's subscriptions at this store and their invoices. | ⚪ |
-| `square_online.listSubscriptionPlans` | square.site | Lists the subscription plans a store sells (e.g. a weekly meal plan). | ⚪ |
+| `square_online.listSubscriptionPlans` | square.site | Lists the subscription plans a store sells (e.g. a weekly meal plan). | 🟢 |
 | `square_online.placeOrder` | square.site | Pays for and places an order. | ⚪ |
 | `square_online.setPickupTime` | square.site | Sets or validates the pickup (or delivery) time on a cart before checkout. | ⚪ |
 | `square_online.submitContactForm` | square.site | Sends a message through a storefront's contact form. | ⚪ |
