@@ -21,7 +21,7 @@ accuweather.com — accuweather: browseLocations, getActivityForecast, getAirQua
 acerentacar.com — acerentacar: searchAvailability, searchLocations
 achosahw.com — achosahw: getQuote, listStates
 acqualinaresort.com — acqualinaresort: searchAvailability
-acuityscheduling.com — acuityscheduling: findScheduler, getAppointmentTypeDetails, getBookingForm, getPrice, getSchedulerInfo, listAppointmentTypes, listLocations, listPacks, listScheduleSlots, searchSchedule (+7 planned)
+acuityscheduling.com — acuityscheduling: findScheduler, getAppointmentTypeDetails, getBookingForm, getPrice, getSchedulerInfo, listAppointmentTypes, listLocations, listMyBookings, listPacks, listScheduleSlots, searchSchedule (+6 planned)
 adobe.com — adobe: findHelpArticle, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, searchFonts, searchStockAssets, searchTemplates, sendForSignature (+5 planned)
 adorama.com — adorama: listCategories, search (+2 planned)
 aetna.com — aetna_directory: findProviders
@@ -332,7 +332,7 @@ gasbuddy.com — gasbuddy: findCheapestNearby
 gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getRentersQuote, listDiscounts, listPartnerCompanies (+33 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
-getsquire.com — squire: findShopsNear, getAvailability, getShop, listBarbers, listServices, searchShops (+22 planned)
+getsquire.com — squire: findShopsNear, getAvailability, getBrand, getReviews, getShop, listBarbers, listServices, searchShops (+20 planned)
 github.com — github: createComment, createIssue, createReview, createReviewComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listIssues, listMarketplaceActions, listNotifications, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, mergePullRequest, searchCode, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository (+2 planned)
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
@@ -351,7 +351,7 @@ google.com/maps/reserve — reserve_with_google: findBookablePlaces, getBooking,
 goremutual.ca — goremutual: getProductOverview
 gostoreit.com — gostoreit: findFacilities, getFacilityUnits
 gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
-goteamup.com — goteamup_classes: findStudio, getClass, getMembership, getStudio, listClassTypes, listInstructors, listMemberships, listSchedule, listVenues (+7 planned)
+goteamup.com — goteamup_classes: findStudio, getClass, getMembership, getMyProfile, getStudio, listClassTypes, listInstructors, listMemberships, listMyBookings, listSchedule, listVenues (+5 planned)
 grainger.com — grainger: findBranch, getProduct, search (+2 planned)
 grandwelcome.com — grandwelcome: getRentalDetail, getRentalQuote, listGrandwelcomeDestinations, searchRentals
 greatlakesdentaltech.com — greatlakesdentaltech: getProduct, search

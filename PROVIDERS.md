@@ -72,7 +72,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acuityscheduling.leaveWaitlist` | acuityscheduling.com | Removes the caller from a waitlist. | ⚪ |
 | `acuityscheduling.listAppointmentTypes` | acuityscheduling.com | Lists all appointment types (classes, services) offered by the business. | 🟢 |
 | `acuityscheduling.listLocations` | acuityscheduling.com | Lists all service locations available for this business. | 🟢 |
-| `acuityscheduling.listMyBookings` | acuityscheduling.com | Lists the signed-in caller's upcoming and past appointments. | ⚪ |
+| `acuityscheduling.listMyBookings` | acuityscheduling.com | Lists the signed-in caller's appointments at one business, each with the link Acuity… | 🟢 |
 | `acuityscheduling.listPacks` | acuityscheduling.com | Lists multi-class packages with discounted per-class pricing. | 🟢 |
 | `acuityscheduling.listScheduleSlots` | acuityscheduling.com | Lists open start times for one appointment type over a date range, optionally for one… | 🟢 |
 | `acuityscheduling.rescheduleAppointment` | acuityscheduling.com | Reschedules a booking to a different date/time; caller must own the appointment. | ⚪ |
@@ -2292,7 +2292,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
 | `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
 | `github.createIssue` | github.com | Opens a new issue on a repository, off github.com's own issue-creation mutation (POST… | 🟢 |
-| `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | ⚪ |
+| `github.createPullRequest` | github.com | Opens a pull request from head into base for the signed-in caller, off github.com's… | 🔴 |
 | `github.createReview` | github.com | Submits a review on a pull request for the signed-in caller (approve, request changes… | 🟢 |
 | `github.createReviewComment` | github.com | Adds an inline comment to a line, a line range or a whole file in a pull request's… | 🟢 |
 | `github.deleteComment` | github.com | Deletes a comment on an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
@@ -2496,14 +2496,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goteamup_classes.findStudio` | goteamup.com | Finds TeamUp studios by name (and town) and returns each one's provider id, slug and… | 🟢 |
 | `goteamup_classes.getClass` | goteamup.com | Gets one class by the event id listSchedule returned — description, time, venue… | 🟢 |
 | `goteamup_classes.getMembership` | goteamup.com | Gets one membership's full terms by the id listMemberships returned (GET… | 🟢 |
-| `goteamup_classes.getMyProfile` | goteamup.com | Gets the signed-in caller's own customer record at a studio (GET /api/v2/customers/me). | ⚪ |
+| `goteamup_classes.getMyProfile` | goteamup.com | Gets the signed-in caller's own customer record at a studio (GET /api/v2/customers/me). | 🟢 |
 | `goteamup_classes.getStudio` | goteamup.com | Gets one studio's profile — name, address, timezone, currency and default booking… | 🟢 |
 | `goteamup_classes.joinWaitlist` | goteamup.com | Puts the signed-in caller on a full class's waitlist (POST… | ⚪ |
 | `goteamup_classes.leaveWaitlist` | goteamup.com | Takes the signed-in caller off a class's waitlist (POST… | ⚪ |
 | `goteamup_classes.listClassTypes` | goteamup.com | Lists a studio's class types (offering types) with description, whether drop-ins are… | 🟢 |
 | `goteamup_classes.listInstructors` | goteamup.com | Lists a studio's instructors with name, picture and bio (GET /api/v2/instructors). | 🟢 |
 | `goteamup_classes.listMemberships` | goteamup.com | Lists the memberships and class packs a studio sells, with type, price and terms (GET… | 🟢 |
-| `goteamup_classes.listMyBookings` | goteamup.com | Lists the signed-in caller's upcoming bookings at a studio, with class, time and venue… | ⚪ |
+| `goteamup_classes.listMyBookings` | goteamup.com | Lists the signed-in caller's bookings (TeamUp attendances) at a studio, each with its… | 🟢 |
 | `goteamup_classes.listSchedule` | goteamup.com | Lists a studio's classes over a date range (defaults to the next 14 days) — name… | 🟢 |
 | `goteamup_classes.listVenues` | goteamup.com | Lists a studio's venues with address (GET /api/v2/venues). | 🟢 |
 | `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🔴 |
@@ -4714,10 +4714,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `squire.getAvailability` | getsquire.com | Returns the open appointment times for a service at a shop over a date range -- per… | 🟢 |
 | `squire.getBarber` | getsquire.com | Returns one barber's profile: name, bio, photos and portfolio, rating, the shop they… | ⚪ |
 | `squire.getBookingQuote` | getsquire.com | Prices an appointment before booking it -- service, barber, time and add-ons --… | ⚪ |
-| `squire.getBrand` | getsquire.com | Returns a multi-location brand and its shops, so a caller can pick the branch nearest… | ⚪ |
+| `squire.getBrand` | getsquire.com | Returns a multi-location brand and its shops, so a caller can pick the branch nearest… | 🟢 |
 | `squire.getMyProfile` | getsquire.com | Returns the signed-in caller's Squire profile: name, phone, email, photo and… | ⚪ |
 | `squire.getMyWalkInEntry` | getsquire.com | Returns the caller's place on a shop's walk-in list: position, estimated wait and… | ⚪ |
-| `squire.getReviews` | getsquire.com | Lists the customer reviews of a shop or of one barber, with the average rating, the… | ⚪ |
+| `squire.getReviews` | getsquire.com | Lists the customer reviews of a shop or of one barber, with the average rating, the… | 🟢 |
 | `squire.getShop` | getsquire.com | Returns one barbershop from its id, its route or a getsquire.com URL: name, address… | 🟢 |
 | `squire.getWaitlistOffers` | getsquire.com | Lists the slot times Squire is offering the caller from a waitlist entry, so the… | ⚪ |
 | `squire.getWalkInStatus` | getsquire.com | Says whether a shop is taking walk-ins or a same-day standby list right now, and which… | ⚪ |
