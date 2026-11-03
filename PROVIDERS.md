@@ -2314,7 +2314,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in caller has starred — name, full name, description… | 🟢 |
 | `github.listTopics` | github.com | Lists topics from GitHub's public topics page — topic name and its github.com/topics… | 🟢 |
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
-| `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
+| `github.mergePullRequest` | github.com | Merges a pull request into its base branch for the signed-in caller, off github.com's… | 🔴 |
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
 | `github.starRepository` | github.com | Stars a repository for the signed-in caller, off github.com's own star form (POST… | 🔴 |
@@ -4277,9 +4277,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `scribd.getEmbedCode` | scribd.com | Returns Scribd's documented, keyless oEmbed for a public document — the iframe html… | 🟢 |
 | `scribd.getList` | scribd.com | Reads a public Scribd list (a curated collection of documents) from a… | 🟢 |
 | `scribd.getRelatedDocuments` | scribd.com | Lists the documents Scribd recommends alongside one document ("more like this" and… | 🟢 |
-| `scribd.getTrendingDocuments` | scribd.com | Lists the documents trending on Scribd right now, overall or in one category, plus the… | ⚪ |
+| `scribd.getTrendingDocuments` | scribd.com | Lists the documents trending on Scribd right now, overall or in one category, plus the… | 🟢 |
 | `scribd.getUserProfile` | scribd.com | Reads a Scribd uploader's public profile — display name, avatar and their upload… | 🟢 |
-| `scribd.listCategories` | scribd.com | Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money… | ⚪ |
+| `scribd.listCategories` | scribd.com | Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money… | 🟢 |
 | `scribd.listMyLists` | scribd.com | Lists the signed-in caller's own lists (collections), with each list's id, name… | ⚪ |
 | `scribd.listSavedDocuments` | scribd.com | Lists the documents in the signed-in caller's library — saved and finished — with id… | ⚪ |
 | `scribd.listUserUploads` | scribd.com | Lists every document one uploader has published, newest first, a page at a time — each… | ⚪ |
