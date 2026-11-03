@@ -4911,7 +4911,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
 | `thefork.book` | thefork.com | Books a table at a restaurant for a slot, date and party size. | ⚪ |
 | `thefork.checkAvailability` | thefork.com | Reads the open reservation slots for one restaurant on a date and party size. | ⚪ |
-| `thefork.search` | thefork.com | Finds restaurants on TheFork by name, optionally near a city — a Barcelona tapas bar… | 🟢 |
+| `thefork.search` | thefork.com | Finds restaurants on TheFork by name, optionally near a city — a Barcelona tapas bar… | 🟡 |
 | `theguardian_com.getArticle` | theguardian.com | Read the full text of one article given its URL or ID. | 🟢 |
 | `theguardian_com.getArticleComments` | theguardian.com | Reader comments on one Guardian article — author, body, publish time and recommend… | 🟢 |
 | `theguardian_com.getContributorArticles` | theguardian.com | List articles written by a specific journalist or contributor. | 🟢 |

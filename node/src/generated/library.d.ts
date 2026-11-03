@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a169c9b93eb727061ed95034526908ae6bb926c02543b54ce74269a54995b153
-// 93 capabilities, 761 providers, 4030 typed functions, 20 refused.
+// Manifest version: ba120b927b88257ed32b516e8c53fc7d406ba5a2b3174be452be6d8fe642e634
+// 93 capabilities, 761 providers, 4034 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -48287,6 +48287,13 @@ interface InstagramDirectMessageThread {
   lastMessageText: string | null;
   lastMessageTimestamp: string | null;
   isSpamThread: boolean;
+  title?: string | null; // group name, else the participants' usernames
+  participants?: { id: string; username: string; fullName: string | null }[];
+  isGroup?: boolean;
+  isUnread?: boolean | null;
+  isPinned?: boolean;
+  lastActivityAt?: string | null;
+  url?: string | null; // https://www.instagram.com/direct/t/<thread_key>/
 }
 interface InstagramDirectMessage {
   id: string;
@@ -48473,8 +48480,9 @@ interface InstagramSavedPosts {
     getSavedPosts(opts?: ConnectionOption): Promise<InstagramSavedPosts>;
 
     /**
-     * Lists the signed-in user's direct message threads with the most recent message preview in
-     * each thread. Requires the caller to be signed in through the relay.
+     * Lists the signed-in user's direct message threads, pinned first: the thread title and
+     * participants, the most recent message preview and its time, whether it is unread, and a link
+     * to open it. Returns up to 50 threads. Requires the caller to be signed in through the relay.
      */
     getDirectMessages(opts?: ConnectionOption): Promise<InstagramDirectMessageThread[]>;
 
@@ -66407,6 +66415,16 @@ interface Pike13WaitlistEligibility {
   anonymous_allowed?: boolean;
   restrictions: Array<{ code: string; description: string }>;
 }
+interface Pike13EnrollmentEligibility {
+  can_enroll: boolean;
+  person_id?: number;   // present once signed in: one row per caller and dependent
+  restrictions: Array<{ code: string; description: string }>;  // e.g. plan_required, full
+}
+// The signed-in records below are returned as Pike13 sends them (developer.pike13.com
+// /docs/api/v2); their fields beyond id are not yet measured on a real sign-in.
+interface Pike13Person { id: number; first_name?: string; last_name?: string; email?: string; dependents?: Pike13Person[]; [k: string]: unknown }
+interface Pike13Visit { id: number; state?: string; event_occurrence_id?: number; [k: string]: unknown }
+interface Pike13AccountBusiness { id: number; name?: string; subdomain?: string; [k: string]: unknown }
 
   /**
    * Pike13 studios (music schools, gyms, swim schools, yoga): find a studio, read its class
@@ -66507,6 +66525,32 @@ interface Pike13WaitlistEligibility {
      * returned. Answers logged out, and per person once signed in.
      */
     getWaitlistEligibility(business: string, occurrenceId: string): Promise<Pike13WaitlistEligibility>;
+
+    /**
+     * Says whether the signed-in caller (and each dependent) can book a class and why not — full,
+     * plan_required, already_enrolled, booking window closed, credit card required — for the
+     * occurrence id getSchedule returned. Needs the caller signed in to Pike13.
+     */
+    checkEnrollmentEligibility(business: string, occurrenceId: string, opts?: ConnectionOption): Promise<Pike13EnrollmentEligibility[]>;
+
+    /**
+     * Gets the signed-in caller's own client record at a studio, with dependents. Needs the caller
+     * signed in to Pike13.
+     */
+    getMyProfile(business: string, opts?: ConnectionOption): Promise<Pike13Person>;
+
+    /**
+     * Lists the studios the signed-in caller has a Pike13 client account with — each carries the
+     * subdomain every other function takes. Needs the caller signed in to Pike13.
+     */
+    listMyBusinesses(opts?: ConnectionOption): Promise<Pike13AccountBusiness[]>;
+
+    /**
+     * Lists the signed-in caller's bookings at a studio — upcoming and past classes and
+     * appointments, with state (reserved, registered, completed, noshowed, late_canceled). Needs
+     * the caller signed in to Pike13.
+     */
+    listMyVisits(business: string, opts?: ConnectionOption): Promise<Pike13Visit[]>;
   }
 }
 
@@ -78858,7 +78902,7 @@ interface SoulcycleInstructor extends SoulcycleInstructorSummary {
      * Lists one studio's classes for the week containing a date (or the current week): class id,
      * start time, class type, instructor, and state (open, full, expired, or supersoul for the
      * SuperSoul-only booking window). Example: `bowmark.providers.soulcycle.getStudioSchedule({
-     * studioId: 25 })`.
+     * studioId: 1 })`.
      */
     getStudioSchedule(args: GetStudioScheduleArgs): Promise<{ sessions: SoulcycleClassSession[] }>;
 

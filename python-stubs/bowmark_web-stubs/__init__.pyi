@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a169c9b93eb727061ed95034526908ae6bb926c02543b54ce74269a54995b153
-# 93 capabilities, 761 providers, 4012 typed functions, 20 refused.
+# Manifest version: ba120b927b88257ed32b516e8c53fc7d406ba5a2b3174be452be6d8fe642e634
+# 93 capabilities, 761 providers, 4016 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -29302,6 +29302,18 @@ class Prv_instagram_InstagramDirectMessageThread_Out(TypedDict):
     lastMessageText: str | None
     lastMessageTimestamp: str | None
     isSpamThread: bool
+    title: NotRequired[str | None]
+    participants: NotRequired[list[Prv_instagram_InstagramDirectMessageThread_Out_participants_item_Out]]
+    isGroup: NotRequired[bool]
+    isUnread: NotRequired[bool | None]
+    isPinned: NotRequired[bool]
+    lastActivityAt: NotRequired[str | None]
+    url: NotRequired[str | None]
+
+class Prv_instagram_InstagramDirectMessageThread_Out_participants_item_Out(TypedDict):
+    id: str
+    username: str
+    fullName: str | None
 
 class Prv_instagram_InstagramDirectMessage_Out(TypedDict):
     id: str
@@ -39956,6 +39968,32 @@ class Prv_pike13_Pike13WaitlistEligibility_Out(TypedDict):
 class Prv_pike13_Pike13WaitlistEligibility_Out_restrictions_item_Out(TypedDict):
     code: str
     description: str
+
+class Prv_pike13_Pike13EnrollmentEligibility_Out(TypedDict):
+    can_enroll: bool
+    person_id: NotRequired[float]
+    restrictions: list[Prv_pike13_Pike13EnrollmentEligibility_Out_restrictions_item_Out]
+
+class Prv_pike13_Pike13EnrollmentEligibility_Out_restrictions_item_Out(TypedDict):
+    code: str
+    description: str
+
+class Prv_pike13_Pike13Person_Out(TypedDict):
+    id: float
+    first_name: NotRequired[str]
+    last_name: NotRequired[str]
+    email: NotRequired[str]
+    dependents: NotRequired[list[Prv_pike13_Pike13Person_Out]]
+
+class Prv_pike13_Pike13AccountBusiness_Out(TypedDict):
+    id: float
+    name: NotRequired[str]
+    subdomain: NotRequired[str]
+
+class Prv_pike13_Pike13Visit_Out(TypedDict):
+    id: float
+    state: NotRequired[str]
+    event_occurrence_id: NotRequired[float]
 
 class Prv_pilotprotocol_PilotprotocolAppSummary_Out(TypedDict):
     id: str
@@ -77680,8 +77718,10 @@ class Prv_instagram(Protocol):
         """
 
     async def getDirectMessages(self, opts: ConnectionOption | None = None, /) -> list[Prv_instagram_InstagramDirectMessageThread_Out]:
-        """Lists the signed-in user's direct message threads with the most recent message preview
-        in each thread. Requires the caller to be signed in through the relay.
+        """Lists the signed-in user's direct message threads, pinned first: the thread title and
+        participants, the most recent message preview and its time, whether it is unread, and a
+        link to open it. Returns up to 50 threads. Requires the caller to be signed in through
+        the relay.
         """
 
     async def getThreadMessages(self, threadId: str, opts: ConnectionOption | None = None, /) -> list[Prv_instagram_InstagramDirectMessage_Out]:
@@ -84283,6 +84323,28 @@ class Prv_pike13(Protocol):
         returned. Answers logged out, and per person once signed in.
         """
 
+    async def checkEnrollmentEligibility(self, business: str, occurrenceId: str, opts: ConnectionOption | None = None, /) -> list[Prv_pike13_Pike13EnrollmentEligibility_Out]:
+        """Says whether the signed-in caller (and each dependent) can book a class and why not —
+        full, plan_required, already_enrolled, booking window closed, credit card required — for
+        the occurrence id getSchedule returned. Needs the caller signed in to Pike13.
+        """
+
+    async def getMyProfile(self, business: str, opts: ConnectionOption | None = None, /) -> Prv_pike13_Pike13Person_Out:
+        """Gets the signed-in caller's own client record at a studio, with dependents. Needs the
+        caller signed in to Pike13.
+        """
+
+    async def listMyBusinesses(self, opts: ConnectionOption | None = None, /) -> list[Prv_pike13_Pike13AccountBusiness_Out]:
+        """Lists the studios the signed-in caller has a Pike13 client account with — each carries
+        the subdomain every other function takes. Needs the caller signed in to Pike13.
+        """
+
+    async def listMyVisits(self, business: str, opts: ConnectionOption | None = None, /) -> list[Prv_pike13_Pike13Visit_Out]:
+        """Lists the signed-in caller's bookings at a studio — upcoming and past classes and
+        appointments, with state (reserved, registered, completed, noshowed, late_canceled).
+        Needs the caller signed in to Pike13.
+        """
+
 class Prv_pilotprotocol(Protocol):
     """Pilot Protocol's own app store — a directory of installable agent capabilities (30+
     apps: databases, comms, browser automation, payments, …). listApps returns the whole
@@ -88477,7 +88539,7 @@ class Prv_soulcycle(Protocol):
         """Lists one studio's classes for the week containing a date (or the current week): class
         id, start time, class type, instructor, and state (open, full, expired, or supersoul for
         the SuperSoul-only booking window). Example:
-        `bowmark.providers.soulcycle.getStudioSchedule({ studioId: 25 })`.
+        `bowmark.providers.soulcycle.getStudioSchedule({ studioId: 1 })`.
         """
 
     async def getClassAvailability(self, args: Prv_soulcycle_GetClassAvailabilityArgs_In, /) -> Prv_soulcycle_getClassAvailability_return_Out:
