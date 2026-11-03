@@ -2317,8 +2317,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
-| `github.starRepository` | github.com | Adds a repository to the signed-in caller's starred list. | ⚪ |
-| `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list. | ⚪ |
+| `github.starRepository` | github.com | Stars a repository for the signed-in caller, off github.com's own star form (POST… | 🔴 |
+| `github.unstarRepository` | github.com | Unstars a repository for the signed-in caller, off github.com's own unstar form (POST… | 🔴 |
 | `github.unwatchRepository` | github.com | Stops watching a repository for the signed-in caller, returning it to GitHub's default… | 🟢 |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request, off github.com's own… | 🟢 |
 | `github.updateIssue` | github.com | Renames an issue's TITLE off github.com's own issue-viewer web mutation (PUT… | 🟢 |
