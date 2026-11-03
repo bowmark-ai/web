@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1b39f27f09b272a223eba922af579b09c975cad04f25b07852e752a7129fbdc0
-// 93 capabilities, 762 providers, 4093 typed functions, 20 refused.
+// Manifest version: 3aa059efcd9dd59a70258858aceff58aab9da39ffec438de529b2bb486838231
+// 94 capabilities, 762 providers, 4100 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3020,6 +3020,49 @@ interface LawyerRecord {
      * specialties, languages, firm, swearing-in date and contact details.
      */
     getLawyer(id: string): Promise<LawyerRecord>;
+  }
+}
+
+declare namespace BowmarkCapability_llm {
+  // ── Ask a model, from inside a jig page — the unit's own declarations, verbatim ──
+interface LlmUsage { model: string; inputTokens: number; outputTokens: number; costUsd: number }
+
+interface LlmCompleteArgs {
+  prompt: string
+  system?: string
+  items?: unknown[]              // untrusted data, wrapped and never followed as instructions
+  schema?: Record<string, "string" | "number" | "boolean">
+  maxOutputTokens?: number
+}
+interface LlmCompleteResult { answer: unknown; usage: LlmUsage; warnings: string[] }
+
+interface LlmJudgeArgs {
+  question: string
+  items: Array<{ id: string } & Record<string, unknown>>
+  maxOutputTokens?: number
+}
+interface LlmJudgeVerdict { id: string; about: string; hide: boolean; reason?: string }
+interface LlmJudgeResult { verdicts: LlmJudgeVerdict[]; usage: LlmUsage; warnings: string[] }
+
+  /**
+   * Calls a model and returns its answer, metered to this run's account — for a jig page that
+   * must judge live content on every load rather than wait for the chat model to curate it. Not
+   * a site wrapper.
+   */
+  interface Unit {
+    /**
+     * One model completion. Plain text by default; pass `schema` for a structured object instead.
+     * `items` is untrusted data (never instructions) wrapped in a delimited block. Metered to this
+     * run's account; refused for an anonymous caller.
+     */
+    complete(args: LlmCompleteArgs): Promise<LlmCompleteResult>;
+
+    /**
+     * Judges a batch of items in ONE call: a one-line `about` and a `hide` boolean per item, for
+     * the given `question` (e.g. hide reaction/commentary videos). `items` is untrusted data.
+     * Empty `items` costs nothing. Metered to this run's account.
+     */
+    judge(args: LlmJudgeArgs): Promise<LlmJudgeResult>;
   }
 }
 
@@ -28025,6 +28068,41 @@ interface DailymotionMyLikedVideosResult {
   hasMore: boolean;
   videos: DailymotionVideo[];
 }
+interface ListFollowedChannelsArgs {
+  limit?: number;
+  page?: number;
+}
+interface DailymotionListFollowedChannelsResult {
+  page: number;
+  hasMore: boolean;
+  channels: DailymotionChannel[];
+}
+interface AddToWatchLaterArgs {
+  video: string;
+  add?: boolean;
+}
+interface DailymotionWatchLaterResult {
+  video: string;
+  saved: boolean;
+}
+interface ListWatchLaterArgs {
+  limit?: number;
+  page?: number;
+}
+interface DailymotionListWatchLaterResult {
+  page: number;
+  hasMore: boolean;
+  videos: DailymotionVideo[];
+}
+interface ListWatchHistoryArgs {
+  limit?: number;
+  page?: number;
+}
+interface DailymotionListWatchHistoryResult {
+  page: number;
+  hasMore: boolean;
+  videos: DailymotionVideo[];
+}
 
   /**
    * Search Dailymotion videos by keyword and read one video's title, channel, duration, views
@@ -28172,6 +28250,30 @@ interface DailymotionMyLikedVideosResult {
      * caller signed in.
      */
     listMyLikedVideos(args?: ListMyLikedVideosArgs, opts?: ConnectionOption): Promise<DailymotionMyLikedVideosResult>;
+
+    /**
+     * List the channels the signed-in caller follows, paged — same fields as getChannel. Needs the
+     * caller signed in.
+     */
+    listFollowedChannels(args?: ListFollowedChannelsArgs, opts?: ConnectionOption): Promise<DailymotionListFollowedChannelsResult>;
+
+    /**
+     * Save a video to the signed-in caller's Watch Later, or pass add: false to remove it. Needs
+     * the caller signed in.
+     */
+    addToWatchLater(args: AddToWatchLaterArgs, opts?: ConnectionOption): Promise<DailymotionWatchLaterResult>;
+
+    /**
+     * List the videos saved to the signed-in caller's Watch Later, paged — same fields as
+     * getVideo. Needs the caller signed in.
+     */
+    listWatchLater(args?: ListWatchLaterArgs, opts?: ConnectionOption): Promise<DailymotionListWatchLaterResult>;
+
+    /**
+     * List the signed-in caller's watch history, paged — same fields as getVideo. Needs the caller
+     * signed in.
+     */
+    listWatchHistory(args?: ListWatchHistoryArgs, opts?: ConnectionOption): Promise<DailymotionListWatchHistoryResult>;
   }
 }
 
@@ -44386,6 +44488,15 @@ interface PlagiarismCheck {
 interface Humanized {
   text: string;
 }
+interface GrammarlyAccount {
+  /** The signed-in account's email. */
+  email: string;
+  /** The account's display name, or "" when none is set. */
+  name: string;
+  /** The site's own plan name — "Free" or "Premium". */
+  plan: string;
+  confirmed: boolean;
+}
 
   /**
    * Grammarly's free writing tools, logged out: grammar alerts with fixes, AI detection, a
@@ -44436,6 +44547,12 @@ interface Humanized {
      * spelling dialect can change.
      */
     humanize(args: TextArgs): Promise<Humanized>;
+
+    /**
+     * Returns the signed-in account's profile: `email`, `name` ("" when unset), `plan` ("Free" or
+     * "Premium") and whether the email is `confirmed`. Needs the caller's own Grammarly sign-in.
+     */
+    getAccount(opts?: ConnectionOption): Promise<GrammarlyAccount>;
 
     /**
      * Makes a NEW Grammarly account with the person's own email and password, in a session. Pauses
@@ -151467,6 +151584,7 @@ interface BowmarkLibrary {
   job_search: BowmarkCapability_job_search.Unit;
   kenya_fuel_prices: BowmarkCapability_kenya_fuel_prices.Unit;
   lawyer_directory: BowmarkCapability_lawyer_directory.Unit;
+  llm: BowmarkCapability_llm.Unit;
   local_classifieds_search: BowmarkCapability_local_classifieds_search.Unit;
   local_database_gui: BowmarkCapability_local_database_gui.Unit;
   local_html_preview: BowmarkCapability_local_html_preview.Unit;

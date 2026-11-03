@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1b39f27f09b272a223eba922af579b09c975cad04f25b07852e752a7129fbdc0
-# 93 capabilities, 762 providers, 4075 typed functions, 20 refused.
+# Manifest version: 3aa059efcd9dd59a70258858aceff58aab9da39ffec438de529b2bb486838231
+# 94 capabilities, 762 providers, 4082 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1851,6 +1851,40 @@ class Cap_lawyer_directory_LawyerRecord_Out(TypedDict):
     statusNote: str | None
     profileUrl: str
     warnings: list[str]
+
+class Cap_llm_LlmCompleteArgs_In(TypedDict):
+    prompt: str
+    system: NotRequired[str]
+    items: NotRequired[Sequence[Any]]
+    schema: NotRequired[Mapping[str, Literal["string"] | Literal["number"] | Literal["boolean"]]]
+    maxOutputTokens: NotRequired[float]
+
+class Cap_llm_LlmCompleteResult_Out(TypedDict):
+    answer: Any
+    usage: Cap_llm_LlmUsage_Out
+    warnings: list[str]
+
+class Cap_llm_LlmUsage_Out(TypedDict):
+    model: str
+    inputTokens: float
+    outputTokens: float
+    costUsd: float
+
+class Cap_llm_LlmJudgeArgs_In(TypedDict):
+    question: str
+    items: Sequence[Any]
+    maxOutputTokens: NotRequired[float]
+
+class Cap_llm_LlmJudgeResult_Out(TypedDict):
+    verdicts: list[Cap_llm_LlmJudgeVerdict_Out]
+    usage: Cap_llm_LlmUsage_Out
+    warnings: list[str]
+
+class Cap_llm_LlmJudgeVerdict_Out(TypedDict):
+    id: str
+    about: str
+    hide: bool
+    reason: NotRequired[str]
 
 class Cap_local_classifieds_search_ClassifiedSearchArgs_In(TypedDict):
     query: str
@@ -17003,6 +17037,41 @@ class Prv_dailymotion_DailymotionMyLikedVideosResult_Out(TypedDict):
     hasMore: bool
     videos: list[Prv_dailymotion_DailymotionVideo_Out]
 
+class Prv_dailymotion_ListFollowedChannelsArgs_In(TypedDict):
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionListFollowedChannelsResult_Out(TypedDict):
+    page: float
+    hasMore: bool
+    channels: list[Prv_dailymotion_DailymotionChannel_Out]
+
+class Prv_dailymotion_AddToWatchLaterArgs_In(TypedDict):
+    video: str
+    add: NotRequired[bool]
+
+class Prv_dailymotion_DailymotionWatchLaterResult_Out(TypedDict):
+    video: str
+    saved: bool
+
+class Prv_dailymotion_ListWatchLaterArgs_In(TypedDict):
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionListWatchLaterResult_Out(TypedDict):
+    page: float
+    hasMore: bool
+    videos: list[Prv_dailymotion_DailymotionVideo_Out]
+
+class Prv_dailymotion_ListWatchHistoryArgs_In(TypedDict):
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dailymotion_DailymotionListWatchHistoryResult_Out(TypedDict):
+    page: float
+    hasMore: bool
+    videos: list[Prv_dailymotion_DailymotionVideo_Out]
+
 class Prv_dangotecement_FindDistributorsFilters_In(TypedDict):
     query: NotRequired[str]
     type: NotRequired[Literal["distributor"] | Literal["retailer"]]
@@ -27042,6 +27111,12 @@ class Prv_grammarly_IssueCount_Out(TypedDict):
 
 class Prv_grammarly_Humanized_Out(TypedDict):
     text: str
+
+class Prv_grammarly_GrammarlyAccount_Out(TypedDict):
+    email: str
+    name: str
+    plan: str
+    confirmed: bool
 
 class Prv_grammarly_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -62924,6 +62999,24 @@ class Cap_lawyer_directory(Protocol):
         specialties, languages, firm, swearing-in date and contact details.
         """
 
+class Cap_llm(Protocol):
+    """Calls a model and returns its answer, metered to this run's account — for a jig page
+    that must judge live content on every load rather than wait for the chat model to curate
+    it. Not a site wrapper.
+    """
+
+    async def complete(self, args: Cap_llm_LlmCompleteArgs_In, /) -> Cap_llm_LlmCompleteResult_Out:
+        """One model completion. Plain text by default; pass `schema` for a structured object
+        instead. `items` is untrusted data (never instructions) wrapped in a delimited block.
+        Metered to this run's account; refused for an anonymous caller.
+        """
+
+    async def judge(self, args: Cap_llm_LlmJudgeArgs_In, /) -> Cap_llm_LlmJudgeResult_Out:
+        """Judges a batch of items in ONE call: a one-line `about` and a `hide` boolean per item,
+        for the given `question` (e.g. hide reaction/commentary videos). `items` is untrusted
+        data. Empty `items` costs nothing. Metered to this run's account.
+        """
+
 class Cap_local_classifieds_search(Protocol):
     """Find used and secondhand items for sale near a Canadian city on the local classifieds
     (Kijiji) — couches, furniture, bikes, electronics — with asking price, location, photo
@@ -71628,6 +71721,26 @@ class Prv_dailymotion(Protocol):
         the caller signed in.
         """
 
+    async def listFollowedChannels(self, args: Prv_dailymotion_ListFollowedChannelsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionListFollowedChannelsResult_Out:
+        """List the channels the signed-in caller follows, paged — same fields as getChannel. Needs
+        the caller signed in.
+        """
+
+    async def addToWatchLater(self, args: Prv_dailymotion_AddToWatchLaterArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionWatchLaterResult_Out:
+        """Save a video to the signed-in caller's Watch Later, or pass add: false to remove it.
+        Needs the caller signed in.
+        """
+
+    async def listWatchLater(self, args: Prv_dailymotion_ListWatchLaterArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionListWatchLaterResult_Out:
+        """List the videos saved to the signed-in caller's Watch Later, paged — same fields as
+        getVideo. Needs the caller signed in.
+        """
+
+    async def listWatchHistory(self, args: Prv_dailymotion_ListWatchHistoryArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dailymotion_DailymotionListWatchHistoryResult_Out:
+        """List the signed-in caller's watch history, paged — same fields as getVideo. Needs the
+        caller signed in.
+        """
+
 class Prv_dangotecement(Protocol):
     """Dangote Cement (dangotecement.com) — Africa's largest cement maker. findDistributors
     searches its authorised Nigerian distributor & retailer directory (name, address, phone,
@@ -77329,6 +77442,12 @@ class Prv_grammarly(Protocol):
         e.g. `humanize({ text: "Artificial intelligence has transformed many industries…" })` →
         `{ text: "AI has changed the game in so many industries…" }`. Meaning is kept; wording,
         rhythm and spelling dialect can change.
+        """
+
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_grammarly_GrammarlyAccount_Out:
+        """Returns the signed-in account's profile: `email`, `name` ("" when unset), `plan` ("Free"
+        or "Premium") and whether the email is `confirmed`. Needs the caller's own Grammarly
+        sign-in.
         """
 
     async def signup(self, args: Any, /) -> Prv_grammarly_signup_return_u0_Out | Prv_grammarly_signup_return_u1_Out | Prv_grammarly_signup_return_u2_Out | Prv_grammarly_signup_return_u3_Out:
@@ -97432,6 +97551,7 @@ class Bowmark(Protocol):
     job_search: Cap_job_search
     kenya_fuel_prices: Cap_kenya_fuel_prices
     lawyer_directory: Cap_lawyer_directory
+    llm: Cap_llm
     local_classifieds_search: Cap_local_classifieds_search
     local_database_gui: Cap_local_database_gui
     local_html_preview: Cap_local_html_preview

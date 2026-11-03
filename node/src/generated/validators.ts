@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1b39f27f09b272a223eba922af579b09c975cad04f25b07852e752a7129fbdc0
-// 4075 checked, 20 unchecked.
+// Manifest version: 3aa059efcd9dd59a70258858aceff58aab9da39ffec438de529b2bb486838231
+// 4082 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1b39f27f09b272a223eba922af579b09c975cad04f25b07852e752a7129fbdc0",
+  "version": "3aa059efcd9dd59a70258858aceff58aab9da39ffec438de529b2bb486838231",
   "units": {
     "address_validation": {
       "defs": {
@@ -3330,6 +3330,121 @@ export const VALIDATORS: ValidatorTable = {
             "name": "id",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "llm": {
+      "defs": {
+        "LlmCompleteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "prompt",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "system",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "items",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "any"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "schema",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "union",
+                  "of": [
+                    {
+                      "k": "literal",
+                      "v": "string"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "number"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "boolean"
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "maxOutputTokens",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "LlmJudgeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "question",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "items",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "any"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "maxOutputTokens",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "complete": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LlmCompleteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "judge": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LlmJudgeArgs"
             },
             "optional": false
           }
@@ -31069,6 +31184,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.dailymotion": {
       "defs": {
+        "AddToWatchLaterArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "add",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "DailymotionSort": {
           "k": "union",
           "of": [
@@ -31250,6 +31384,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListFollowedChannelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListHashtagVideosArgs": {
           "k": "object",
           "props": [
@@ -31390,6 +31543,44 @@ export const VALIDATORS: ValidatorTable = {
               },
               "optional": true
             },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListWatchHistoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListWatchLaterArgs": {
+          "k": "object",
+          "props": [
             {
               "name": "limit",
               "schema": {
@@ -31702,6 +31893,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListMyLikedVideosArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowedChannels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFollowedChannelsArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToWatchLater": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AddToWatchLaterArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWatchLater": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListWatchLaterArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWatchHistory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListWatchHistoryArgs"
             },
             "optional": true
           },
@@ -51732,6 +52027,24 @@ export const VALIDATORS: ValidatorTable = {
               "name": "TextArgs"
             },
             "optional": false
+          }
+        ],
+        "getAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "signup": [
