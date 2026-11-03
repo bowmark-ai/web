@@ -633,9 +633,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booker.getMyProfile` | booker.com | Returns the signed-in customer's profile at a location: name, email, phone, address… | ⚪ |
 | `booker.getService` | booker.com | Returns one service's full detail: description, category, duration, price and whether… | 🟢 |
 | `booker.getServiceMenu` | booker.com | Returns a location's online menu in the order the storefront shows it: each section… | 🟢 |
-| `booker.getSpecial` | booker.com | Looks up a promo or special by code at a location and returns what it discounts and… | ⚪ |
+| `booker.getSpecial` | booker.com | Looks up a promo or special by code at a location and returns whether it is valid… | 🟢 |
 | `booker.listBrandLocations` | booker.com | Lists every location of a multi-location Booker brand, with each location's slug, id… | 🟢 |
-| `booker.listGiftCertificates` | booker.com | Lists the gift certificate designs and amounts a location sells online. | ⚪ |
+| `booker.listGiftCertificates` | booker.com | Lists the gift certificate designs (card art) a location sells online. | 🟢 |
 | `booker.listMemberships` | booker.com | Lists the membership programs a location sells online, with price, billing period and… | ⚪ |
 | `booker.listMyAppointments` | booker.com | Lists the signed-in customer's upcoming and past appointments at a location: service… | ⚪ |
 | `booker.listMyMemberships` | booker.com | Lists the signed-in customer's memberships at a location with status, renewal date and… | ⚪ |
@@ -4965,7 +4965,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.getCustomFeed` | threads.com | Reads the posts in one of the CALLER's custom feeds. | ⚪ |
 | `threads.getFollowers` | threads.com | Lists the accounts following a profile, as the CALLER sees it. | ⚪ |
 | `threads.getFollowing` | threads.com | Lists the accounts a profile follows, as the CALLER sees it. | ⚪ |
-| `threads.getHomeFeed` | threads.com | Reads the CALLER's home feed, either For You or Following. | ⚪ |
+| `threads.getHomeFeed` | threads.com | Reads the CALLER's home feed, either For You or Following. | 🟢 |
 | `threads.getMe` | threads.com | Reads the CALLER's own Threads account — username, name, follower count — the door for… | 🟢 |
 | `threads.getPost` | threads.com | Reads one Threads post from its URL or username and code — text, media, author, counts… | 🟢 |
 | `threads.getPostLikes` | threads.com | Lists the accounts that liked a post, as the CALLER sees it. | ⚪ |
@@ -4976,7 +4976,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `threads.getProfileReplies` | threads.com | Lists the replies a profile has posted (its Replies tab), each with the post it… | 🟢 |
 | `threads.getProfileReposts` | threads.com | Lists the posts a profile has reposted (its Reposts tab). | 🟢 |
 | `threads.getRelatedPosts` | threads.com | Lists the posts Threads suggests beside one post to a logged-out reader ("related… | 🟢 |
-| `threads.getSavedPosts` | threads.com | Lists the posts the CALLER has saved. | ⚪ |
+| `threads.getSavedPosts` | threads.com | Lists the posts the CALLER has saved. | 🟢 |
 | `threads.likePost` | threads.com | Likes a post as the CALLER. | ⚪ |
 | `threads.listConversations` | threads.com | Lists the CALLER's Threads direct-message conversations, newest first, with their ids… | ⚪ |
 | `threads.listCustomFeeds` | threads.com | Lists the custom feeds the CALLER has built or pinned, with their ids — the finder for… | ⚪ |
