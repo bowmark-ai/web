@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4ee1784edbfedcd30be01f9fe7b1038061aa2bea114422e3f14c197a51731bda
-// 93 capabilities, 756 providers, 3963 typed functions, 20 refused.
+// Manifest version: 653d96e34e1f61996d0b01418384d217f92850046f51a55f782b9d4977a3c9eb
+// 93 capabilities, 757 providers, 3966 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -49069,6 +49069,84 @@ interface InteriorDefineCartHandoff {
   }
 }
 
+declare namespace BowmarkProvider_intro_co {
+  // ── Intro — the unit's own declarations, verbatim ──
+interface IntroCoSearchArgs {
+  /** A topic, skill or name, e.g. "fundraising". */
+  query: string;
+  /** 1-100, default 20. */
+  limit?: number;
+}
+
+interface IntroCoExpertArgs {
+  /** The profile handle, e.g. "sophiaamoruso" — or pass url instead. */
+  handle?: string;
+  /** A profile URL, e.g. "https://intro.co/sophiaamoruso". */
+  url?: string;
+}
+
+interface IntroCoExpertSummary {
+  id: number;
+  name: string;
+  /** Pass to expert({ handle }). */
+  handle: string | null;
+  title: string;
+  shortDescription: string;
+  avatar: string | null;
+  url: string;
+  /** USD, for the default call length. */
+  sessionPrice: number | null;
+  sessionMinutes: number | null;
+  rating: number | null;
+  ratingCount: number;
+  verified: boolean;
+}
+
+interface IntroCoSearchResult {
+  /** Total matches the site reports; experts holds at most limit of them. */
+  total: number;
+  experts: IntroCoExpertSummary[];
+}
+
+interface IntroCoCallOption {
+  minutes: number;
+  /** USD. */
+  price: number;
+  /** intro.co's raw Discount value for this length; unit not confirmed. */
+  discountRaw: number;
+  active: boolean;
+}
+
+interface IntroCoExpert extends IntroCoExpertSummary {
+  description: string;
+  callOptions: IntroCoCallOption[];
+  sessionTopics: string[];
+  exampleQuestions: string[];
+  socials: { instagram: string | null; twitter: string | null; linkedin: string | null };
+}
+
+  /**
+   * intro.co — the marketplace for booking paid 1:1 video calls with experts (founders,
+   * investors, coaches, creators). Search experts by topic or name, then read a profile's call
+   * prices, lengths and topics.
+   */
+  interface Unit {
+    /**
+     * Searches intro.co's expert marketplace by keyword (a topic, skill or name — 'fundraising',
+     * 'astrology', 'Sahil Bloom') through the marketplace's own search API and returns matching
+     * experts, most popular first, with title, call price and length, rating and profile handle.
+     */
+    search(args: IntroCoSearchArgs): Promise<IntroCoSearchResult>;
+
+    /**
+     * Reads one intro.co expert's profile by handle or profile URL — bio, every bookable
+     * video-call length with its price, session topics, example questions, rating and social
+     * handles — off the profile page's own server-rendered data.
+     */
+    expert(args: IntroCoExpertArgs): Promise<IntroCoExpert>;
+  }
+}
+
 declare namespace BowmarkProvider_ipinfo {
   // ── IPinfo — the unit's own declarations, verbatim ──
 interface ipinfoLookup {
@@ -77581,6 +77659,14 @@ interface SearchClassesArgs {
   endDate?: string;        // "YYYY-MM-DD", defaults to startDate + 7 days
 }
 
+interface SolidcoreClassCategory {
+  classType: string;       // the site's own short format name, e.g. "Signature50"
+  classTypeId: number;
+  category: string;        // the site's one chain-wide top-level category — always "Strength training"
+  categoryId: number;
+  descriptions: string[];  // usually one description; Power30 carries two distinct ones
+}
+
 interface GetPricingArgs {
   locationId: string;     // e.g. "11" for Castro — what listStudios returns
 }
@@ -77706,6 +77792,15 @@ interface SolidcorePack extends SolidcorePass {
      * getPricing pass. No sign-in needed.
      */
     getPack(args: GetPackArgs): Promise<SolidcorePack>;
+
+    /**
+     * Lists the class FORMATS [solidcore] offers chain-wide — e.g. "Signature50", "Power30",
+     * "Starter50" — each with its own description. The booking backend has no separate category
+     * door and the site's own top-level `category` field is one chain-wide value ("Strength
+     * training") for every class, so this samples one studio's 90-day schedule and groups rows by
+     * their own `classTypeId`.
+     */
+    listClassCategories(): Promise<SolidcoreClassCategory[]>;
 
     /**
      * Narrows one [solidcore] studio's class schedule by coach, category, the day's chain-wide
@@ -98804,6 +98899,7 @@ interface BowmarkProviders {
   insurify: BowmarkProvider_insurify.Unit;
   intactinsurance: BowmarkProvider_intactinsurance.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
+  intro_co: BowmarkProvider_intro_co.Unit;
   ipinfo: BowmarkProvider_ipinfo.Unit;
   iproyal: BowmarkProvider_iproyal.Unit;
   islllc: BowmarkProvider_islllc.Unit;

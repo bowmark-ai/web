@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4ee1784edbfedcd30be01f9fe7b1038061aa2bea114422e3f14c197a51731bda
-# 93 capabilities, 756 providers, 3945 typed functions, 20 refused.
+# Manifest version: 653d96e34e1f61996d0b01418384d217f92850046f51a55f782b9d4977a3c9eb
+# 93 capabilities, 757 providers, 3948 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -29514,6 +29514,62 @@ class Prv_interiordefine_InteriorDefineCartHandoff_Out(TypedDict):
     missingRequired: list[str]
     unmatched: list[str]
 
+class Prv_intro_co_IntroCoSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_intro_co_IntroCoSearchResult_Out(TypedDict):
+    total: float
+    experts: list[Prv_intro_co_IntroCoExpertSummary_Out]
+
+class Prv_intro_co_IntroCoExpertSummary_Out(TypedDict):
+    id: float
+    name: str
+    handle: str | None
+    title: str
+    shortDescription: str
+    avatar: str | None
+    url: str
+    sessionPrice: float | None
+    sessionMinutes: float | None
+    rating: float | None
+    ratingCount: float
+    verified: bool
+
+class Prv_intro_co_IntroCoExpertArgs_In(TypedDict):
+    handle: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_intro_co_IntroCoExpert_Out(TypedDict):
+    id: float
+    name: str
+    handle: str | None
+    title: str
+    shortDescription: str
+    avatar: str | None
+    url: str
+    sessionPrice: float | None
+    sessionMinutes: float | None
+    rating: float | None
+    ratingCount: float
+    verified: bool
+    description: str
+    callOptions: list[Prv_intro_co_IntroCoCallOption_Out]
+    sessionTopics: list[str]
+    exampleQuestions: list[str]
+    socials: Prv_intro_co_IntroCoExpert_Out_socials_Out
+
+class Prv_intro_co_IntroCoCallOption_Out(TypedDict):
+    minutes: float
+    price: float
+    discountRaw: float
+    active: bool
+
+class Prv_intro_co_IntroCoExpert_Out_socials_Out(TypedDict):
+    instagram: str | None
+    twitter: str | None
+    linkedin: str | None
+
 class Prv_ipinfo_ipinfoLookup_Out(TypedDict):
     ip: str
     bogon: bool
@@ -47242,6 +47298,13 @@ class Prv_solidcore_SolidcorePack_Out(TypedDict):
     sellOnline: bool
     onlinePrice: float
     useAtLocationIds: list[float]
+
+class Prv_solidcore_SolidcoreClassCategory_Out(TypedDict):
+    classType: str
+    classTypeId: float
+    category: str
+    categoryId: float
+    descriptions: list[str]
 
 class Prv_solidcore_SearchClassesArgs_In(TypedDict):
     locationId: str
@@ -77042,6 +77105,25 @@ class Prv_interiordefine(Protocol):
         silently mispricing it.
         """
 
+class Prv_intro_co(Protocol):
+    """intro.co — the marketplace for booking paid 1:1 video calls with experts (founders,
+    investors, coaches, creators). Search experts by topic or name, then read a profile's
+    call prices, lengths and topics.
+    """
+
+    async def search(self, args: Prv_intro_co_IntroCoSearchArgs_In, /) -> Prv_intro_co_IntroCoSearchResult_Out:
+        """Searches intro.co's expert marketplace by keyword (a topic, skill or name —
+        'fundraising', 'astrology', 'Sahil Bloom') through the marketplace's own search API and
+        returns matching experts, most popular first, with title, call price and length, rating
+        and profile handle.
+        """
+
+    async def expert(self, args: Prv_intro_co_IntroCoExpertArgs_In, /) -> Prv_intro_co_IntroCoExpert_Out:
+        """Reads one intro.co expert's profile by handle or profile URL — bio, every bookable
+        video-call length with its price, session topics, example questions, rating and social
+        handles — off the profile page's own server-rendered data.
+        """
+
 class Prv_ipinfo(Protocol):
     """Look up an IP address's ASN, ISP, hostname and approximate location, from IPinfo"""
 
@@ -87157,6 +87239,14 @@ class Prv_solidcore(Protocol):
         the id off a getPricing pass. No sign-in needed.
         """
 
+    async def listClassCategories(self, /) -> list[Prv_solidcore_SolidcoreClassCategory_Out]:
+        """Lists the class FORMATS [solidcore] offers chain-wide — e.g. "Signature50", "Power30",
+        "Starter50" — each with its own description. The booking backend has no separate
+        category door and the site's own top-level `category` field is one chain-wide value
+        ("Strength training") for every class, so this samples one studio's 90-day schedule and
+        groups rows by their own `classTypeId`.
+        """
+
     async def searchClasses(self, args: Prv_solidcore_SearchClassesArgs_In, /) -> list[Prv_solidcore_SolidcoreClass_Out]:
         """Narrows one [solidcore] studio's class schedule by coach, category, the day's chain-wide
         muscle focus, or live availability — the booking backend's own `/class` door takes no
@@ -94401,6 +94491,7 @@ class BowmarkProviders(Protocol):
     insurify: Prv_insurify
     intactinsurance: Prv_intactinsurance
     interiordefine: Prv_interiordefine
+    intro_co: Prv_intro_co
     ipinfo: Prv_ipinfo
     iproyal: Prv_iproyal
     islllc: Prv_islllc

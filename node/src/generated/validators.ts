@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4ee1784edbfedcd30be01f9fe7b1038061aa2bea114422e3f14c197a51731bda
-// 3945 checked, 20 unchecked.
+// Manifest version: 653d96e34e1f61996d0b01418384d217f92850046f51a55f782b9d4977a3c9eb
+// 3948 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4ee1784edbfedcd30be01f9fe7b1038061aa2bea114422e3f14c197a51731bda",
+  "version": "653d96e34e1f61996d0b01418384d217f92850046f51a55f782b9d4977a3c9eb",
   "units": {
     "address_validation": {
       "defs": {
@@ -55400,6 +55400,70 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.intro_co": {
+      "defs": {
+        "IntroCoExpertArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "IntroCoSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "IntroCoSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "expert": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "IntroCoExpertArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.ipinfo": {
       "defs": {},
       "functions": {
@@ -95495,6 +95559,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listClassCategories": [],
         "searchClasses": [
           {
             "name": "args",
