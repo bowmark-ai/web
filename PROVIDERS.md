@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5977 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5980 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -351,11 +351,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `att.addLine` | att.com | Add a new line to the caller's existing AT&T family plan. | ⚪ |
 | `att.changePlan` | att.com | Switch a line to a different AT&T wireless plan. | ⚪ |
 | `att.findDevices` | att.com | Every phone on AT&T's own phones listing (att.com/buy/phones/) - name, brand, product… | 🟢 |
+| `att.findStores` | att.com | AT&T stores near a US ZIP or "city, state", nearest first, off AT&T's own store… | 🟢 |
 | `att.getAccountBalance` | att.com | The signed-in caller's current AT&T account balance — amount due, due date and account… | 🟢 |
 | `att.getDevicePricing` | att.com | AT&T's current device price and financing for a phone (e.g. iPhone 16 Pro): full… | 🟢 |
 | `att.getMonthlyBill` | att.com | A specific month's bill: total due, due date, and auto-pay status. | 🟢 |
 | `att.getPlanTotal` | att.com | Walks AT&T's new-line plan-builder / order flow (att.com/plans/unlimited-data-plans/ →… | ⚪ |
 | `att.getUsage` | att.com | Data and voice usage on a line: current month's data used (MB/GB), talk minutes used… | 🟢 |
+| `att.listDeals` | att.com | The current offers on AT&T's own deals page (att.com/deals/): headline, audience… | 🟢 |
+| `att.listInternetPlans` | att.com | Every AT&T Fiber home-internet speed tier on AT&T's own fiber page… | 🟢 |
 | `att.listLines` | att.com | Every line on the caller's AT&T account: phone number, device, plan name, upgrade… | 🟢 |
 | `att.listPlans` | att.com | Every unlimited wireless plan on AT&T's own plan-picker page… | 🟢 |
 | `att.listPrepaidPlans` | att.com | Every AT&T Prepaid plan on AT&T's own prepaid plans page (att.com/prepaid/plans/)… | 🟢 |
@@ -1809,7 +1812,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.addToCart` | etsy.com | Adds a listing to the signed-in caller's cart with the chosen variation and quantity. | ⚪ |
 | `etsy.addToCollection` | etsy.com | Saves a listing into one of the caller's collections, creating the collection by name… | ⚪ |
 | `etsy.browseCategory` | etsy.com | The listings in one Etsy category (e.g. jewelry/necklaces), with the category's own… | 🟢 |
-| `etsy.estimateShipping` | etsy.com | When a listing would arrive and what shipping costs to a given ZIP or country — the… | ⚪ |
+| `etsy.estimateShipping` | etsy.com | What one Etsy listing costs to ship and when it would arrive at a destination — a US… | 🟢 |
 | `etsy.favoriteListing` | etsy.com | Hearts a listing for the signed-in caller, or un-hearts it. | ⚪ |
 | `etsy.favoriteShop` | etsy.com | Favorites (follows) a shop for the signed-in caller, or unfollows it. | ⚪ |
 | `etsy.findRegistry` | etsy.com | Finds an Etsy gift registry (wedding, baby, other) by the registrant's name, returning… | ⚪ |
@@ -2174,7 +2177,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.getShow` | foxnews.com | Reads one Fox News Channel show — description, hosts, genre and its latest clips —… | 🟢 |
 | `foxnews.getTopStories` | foxnews.com | Returns what Fox News is leading with right now — the homepage's lead story and the… | 🟢 |
 | `foxnews.getVideo` | foxnews.com | Reads one Fox News video clip — title, description, duration, upload date, thumbnail… | 🟢 |
-| `foxnews.listAuthorArticles` | foxnews.com | Lists every story by one Fox News author, newest first with paging, past the handful… | ⚪ |
+| `foxnews.listAuthorArticles` | foxnews.com | Lists every story by one Fox News author, newest first with paging, past the handful… | 🟢 |
 | `foxnews.listElectionRaces` | foxnews.com | Lists the races Fox News's Elections Center covers for an election (Senate, House… | ⚪ |
 | `foxnews.listLatest` | foxnews.com | Lists the newest stories and clips published anywhere on Fox News, newest first, with… | 🟢 |
 | `foxnews.listLiveBlogs` | foxnews.com | Lists Fox News's live-coverage pages (rolling blogs for wars, elections, trials… | 🟢 |
