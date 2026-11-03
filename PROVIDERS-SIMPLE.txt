@@ -354,7 +354,7 @@ grainger.com — grainger: findBranch, getProduct, search (+2 planned)
 grandwelcome.com — grandwelcome: getRentalDetail, getRentalQuote, listGrandwelcomeDestinations, searchRentals
 greatlakesdentaltech.com — greatlakesdentaltech: getProduct, search
 greenhouse.io — greenhouse: listJobs (+1 planned)
-grubhub.com — grubhub: addToCart, getCart, getDeliveryEstimate, getMenu, getMenuItem, getPromoOffers, getRestaurant, getRestaurantReviews, listCuisines, removeFromCart, search, updateCartItem (+10 planned)
+grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate, getMenu, getMenuItem, getPromoOffers, getRestaurant, getRestaurantReviews, listCuisines, removeFromCart, search, updateCartItem (+9 planned)
 hamptonwaterwine.com — hamptonwaterwine: findNearbyRetailers
 handypro.com — handypro: checkServiceArea, searchServiceCategories (+2 planned)
 hansons.com — hansons: checkAvailability (+1 planned)

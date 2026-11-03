@@ -2533,7 +2533,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `greenhouse.getJob` | greenhouse.io | Reads one posting's full description, pay-transparency ranges and application… | ⚪ |
 | `greenhouse.listJobs` | greenhouse.io | Lists every open job on one company's Greenhouse job board — title, location… | 🟢 |
 | `grubhub.addToCart` | grubhub.com | Adds a menu item with options, quantity and instructions to an anonymous Grubhub cart… | 🟢 |
-| `grubhub.applyPromoCode` | grubhub.com | Applies a promotional code to the current cart for discount. | ⚪ |
+| `grubhub.applyPromoCode` | grubhub.com | Applies a promo code to the anonymous Grubhub cart and says whether it applied, and… | 🟢 |
 | `grubhub.getCart` | grubhub.com | Reads what is in the Grubhub cart — line items, quantities, prices in cents, subtotal… | 🟢 |
 | `grubhub.getDeliveryEstimate` | grubhub.com | Whether a Grubhub restaurant delivers to a place and at what fee, order minimum, ETA… | 🟢 |
 | `grubhub.getFavoriteRestaurants` | grubhub.com | Retrieves the user's list of saved favorite restaurants. | ⚪ |
