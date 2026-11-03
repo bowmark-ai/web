@@ -4363,7 +4363,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sevenrooms.findVenue` | sevenrooms.com | Finds the SevenRooms venue slug for a restaurant from its name and city, its own… | ⚪ |
 | `sevenrooms.getAvailability` | sevenrooms.com | Returns a venue's open reservation times for a date range, party size and preferred… | 🟢 |
 | `sevenrooms.getAvailableDates` | sevenrooms.com | Lists the dates a venue is taking online bookings over a window, so a caller can pick… | 🟢 |
-| `sevenrooms.getBookingTerms` | sevenrooms.com | Reads the checkout terms of one open slot (from getAvailability) before booking it… | 🟢 |
+| `sevenrooms.getBookingTerms` | sevenrooms.com | Reads the checkout terms of one open slot (from getAvailability) before booking it… | 🟡 |
 | `sevenrooms.getExperience` | sevenrooms.com | Returns one experience or event at a venue: title, description, photos, price per… | ⚪ |
 | `sevenrooms.getMyProfile` | sevenrooms.com | Returns the signed-in guest's SevenRooms profile: name, contact details, profile… | ⚪ |
 | `sevenrooms.getRequest` | sevenrooms.com | Reads a submitted booking request or priority alert from its id: venue, date, time… | ⚪ |
