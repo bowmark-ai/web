@@ -2539,7 +2539,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grubhub.applyPromoCode` | grubhub.com | Applies a promo code to the anonymous Grubhub cart and says whether it applied, and… | 🟢 |
 | `grubhub.getCart` | grubhub.com | Reads what is in the Grubhub cart — line items, quantities, prices in cents, subtotal… | 🟢 |
 | `grubhub.getDeliveryEstimate` | grubhub.com | Whether a Grubhub restaurant delivers to a place and at what fee, order minimum, ETA… | 🟢 |
-| `grubhub.getFavoriteRestaurants` | grubhub.com | Retrieves the user's list of saved favorite restaurants. | ⚪ |
+| `grubhub.getFavoriteRestaurants` | grubhub.com | The signed-in diner's favourite Grubhub restaurants, with ids getRestaurant() and… | 🟢 |
 | `grubhub.getMenu` | grubhub.com | The menu of one Grubhub restaurant by search()'s id: categories → items with price… | 🟢 |
 | `grubhub.getMenuItem` | grubhub.com | One Grubhub menu item (ids from getMenu()) with every customization group and option… | 🟢 |
 | `grubhub.getOrderHistory` | grubhub.com | Lists past orders for the signed-in user with dates, restaurants, and amounts. | ⚪ |
@@ -2548,7 +2548,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grubhub.getPromoOffers` | grubhub.com | Active promo codes, spend-based thresholds and the delivery-fee badge Grubhub shows… | 🟢 |
 | `grubhub.getRestaurant` | grubhub.com | Reads one Grubhub restaurant by search()'s id: address, cuisines, rating, price level… | 🟢 |
 | `grubhub.getRestaurantReviews` | grubhub.com | A page of diner reviews for one Grubhub restaurant: stars, text, date, sentiment and… | 🟢 |
-| `grubhub.getSavedAddresses` | grubhub.com | Returns the list of saved delivery addresses for the signed-in user. | ⚪ |
+| `grubhub.getSavedAddresses` | grubhub.com | The signed-in diner's saved Grubhub delivery addresses: label, street, unit, city… | 🟢 |
 | `grubhub.listCuisines` | grubhub.com | Cuisine tags carried by restaurants delivering near a place, most common first with a… | 🟢 |
 | `grubhub.listRestaurants` | grubhub.com | Lists restaurants available for delivery to a given address, paginated with… | ⚪ |
 | `grubhub.placeOrder` | grubhub.com | Completes the checkout and places an order with delivery address and payment. | ⚪ |
@@ -3109,10 +3109,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mangomint.getService` | booking.mangomint.com | Returns one service with its full description, its add-on options, which staff perform… | 🟢 |
 | `mangomint.getStaff` | booking.mangomint.com | Returns one staff member with their bio, photo, the services they perform at their own… | 🟢 |
 | `mangomint.joinWaitlist` | booking.mangomint.com | Puts the caller on a business's waitlist for a service and date range when… | ⚪ |
-| `mangomint.listLocations` | booking.mangomint.com | Lists a multi-location business's locations with their ids and addresses, so a booking… | ⚪ |
-| `mangomint.listMemberships` | booking.mangomint.com | Lists the memberships a business sells online with price, billing period and what each… | ⚪ |
+| `mangomint.listLocations` | booking.mangomint.com | Lists a multi-location business's locations with their ids and booking links, so a… | 🟢 |
+| `mangomint.listMemberships` | booking.mangomint.com | Lists the memberships a business sells online with price, billing period and what each… | 🟢 |
 | `mangomint.listMyAppointments` | booking.mangomint.com | Lists the caller's upcoming appointments at one business, from the manage link in… | ⚪ |
-| `mangomint.listPackages` | booking.mangomint.com | Lists the prepaid service packages a business sells online (e.g. six red-light… | ⚪ |
+| `mangomint.listPackages` | booking.mangomint.com | Lists the prepaid service packages a business sells online (e.g. six red-light… | 🟢 |
 | `mangomint.listPastServices` | booking.mangomint.com | Lists the services the signed-in caller has had at a business before, so they can… | ⚪ |
 | `mangomint.listServiceCategories` | booking.mangomint.com | Lists a business's service categories (waxing, facials, massage…) with the services in… | 🟢 |
 | `mangomint.listServices` | booking.mangomint.com | Lists a business's bookable services, optionally within one category: id, name… | 🟢 |
@@ -5269,12 +5269,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tx_comptroller.franchiseTaxStatus` | comptroller.texas.gov | Texas franchise-tax account status by entity name (prefix match), taxpayer number or… | 🟢 |
 | `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟢 |
 | `ubereats.addAddress` | ubereats.com | Saves a new delivery address (with drop-off instructions) to the caller's account. | ⚪ |
-| `ubereats.addToCart` | ubereats.com | Adds a menu item, with its chosen options and quantity, to the caller's Uber Eats cart… | ⚪ |
+| `ubereats.addToCart` | ubereats.com | Adds one menu item (from getStore()'s menu or getMenuItem()) to a NEW Uber Eats cart… | 🟢 |
 | `ubereats.applyPromoCode` | ubereats.com | Applies a promo code to the caller's cart at checkout and reports whether it was… | ⚪ |
 | `ubereats.browseStores` | ubereats.com | Lists the restaurants and stores Uber Eats delivers from to one address — the… | 🟢 |
 | `ubereats.cancelOrder` | ubereats.com | Would cancel one of the caller's active orders. | ⚪ |
 | `ubereats.checkDeliveryAvailability` | ubereats.com | Says whether one store will deliver to one address right now: isWithinDeliveryRange… | 🟢 |
-| `ubereats.clearCart` | ubereats.com | Discards the caller's cart for a store. | ⚪ |
+| `ubereats.clearCart` | ubereats.com | Empties a cart by removing every item passed in shoppingCartItemUuids — Uber Eats has… | 🟢 |
 | `ubereats.findAddress` | ubereats.com | Turns an address the caller types into Uber Eats' own delivery location — formatted… | 🟢 |
 | `ubereats.findChainStore` | ubereats.com | Finds the nearest location of a chain (e.g. McDonald's, Chipotle) that delivers to an… | 🟢 |
 | `ubereats.getBalances` | ubereats.com | Returns the caller's Uber Cash / gift-card balance and available promotions. | ⚪ |
@@ -5290,12 +5290,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ubereats.listMyAddresses` | ubereats.com | Lists the delivery addresses saved on the caller's account. | ⚪ |
 | `ubereats.listOrders` | ubereats.com | The signed-in eater's own past Uber Eats orders, newest first — order id, when, the… | 🟢 |
 | `ubereats.placeOrder` | ubereats.com | Would place the order in the caller's cart and charge their payment method. | ⚪ |
-| `ubereats.removeFromCart` | ubereats.com | Removes an item from the caller's cart. | ⚪ |
+| `ubereats.removeFromCart` | ubereats.com | Removes one or more items from a cart by their shoppingCartItemUuid — all three ids… | 🟢 |
 | `ubereats.saveStore` | ubereats.com | Adds a store to the caller's favorites. | ⚪ |
 | `ubereats.search` | ubereats.com | Runs Uber Eats' own search suggestions for a free-text query (a dish, cuisine or… | 🟢 |
 | `ubereats.searchStoreProducts` | ubereats.com | Searches the products inside one grocery or convenience store on Uber Eats (e.g.… | 🟢 |
 | `ubereats.unsaveStore` | ubereats.com | Removes a store from the caller's favorites. | ⚪ |
-| `ubereats.updateCartItem` | ubereats.com | Changes the quantity or options of an item already in the caller's cart. | ⚪ |
+| `ubereats.updateCartItem` | ubereats.com | Changes the quantity of one cart item — pass the exact object addToCart() returned… | 🟢 |
 | `uhaul.getRates` | uhaul.com | Gets U-Haul truck or trailer rental rates for a pickup location and date — in-town, or… | 🟢 |
 | `uhc_directory.findProviders` | uhc.com | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
 | `uhc_smallbusiness.getGroupHealthQuote` | smallbusiness.uhc.com | Real level-funded and fully-insured small-group health plan premiums for a ZIP code… | 🟢 |

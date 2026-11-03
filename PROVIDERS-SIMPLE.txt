@@ -123,7 +123,7 @@ bookeo.com — bookeo: findOperator, getAvailability, getPriceQuote, getProduct,
 booker.com — booker: findLocation, getAvailability, getAvailableDates, getBookingPolicies, getGroupAvailability, getLocationHours, getMultiServiceAvailability, getService, getServiceMenu, getSpecial, listBrandLocations, listGiftCertificates, listStaff, searchLocations (+16 planned)
 booking.andstr.com — andstr: getListing, getQuote, search
 booking.com — booking_com: autocompleteDestination, checkPrice, getBooking, getProperty, getReviewBreakdown, listAvailability, listBookings, listFilterOptions, listPropertyPhotos, listPropertyReviews, listWishlist, search (+6 planned)
-booking.mangomint.com — mangomint: bookAppointment, checkAvailability, findBusiness, getBusinessInfo, getService, getStaff, listServiceCategories, listServices, listStaff, validateSlot (+12 planned)
+booking.mangomint.com — mangomint: bookAppointment, checkAvailability, findBusiness, getBusinessInfo, getService, getStaff, listLocations, listMemberships, listPackages, listServiceCategories, listServices, listStaff, validateSlot (+9 planned)
 booksy.com — booksy: bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getBusiness, getBusinessNetwork, getBusinessPhotos, getBusinessReviews, getMyAppointment, getSearchSuggestions, listCategories, listGiftCardOffers, listMyBookings, resolveLocation, searchBusinesses (+13 planned)
 borsheims.com — borsheims: configureRing, getProduct, searchProducts
 boxlunch.com — boxlunch: search
@@ -355,7 +355,7 @@ grainger.com — grainger: findBranch, getProduct, search (+2 planned)
 grandwelcome.com — grandwelcome: getRentalDetail, getRentalQuote, listGrandwelcomeDestinations, searchRentals
 greatlakesdentaltech.com — greatlakesdentaltech: getProduct, search
 greenhouse.io — greenhouse: listJobs (+1 planned)
-grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate, getMenu, getMenuItem, getPromoOffers, getRestaurant, getRestaurantReviews, listCuisines, removeFromCart, search, updateCartItem (+9 planned)
+grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate, getFavoriteRestaurants, getMenu, getMenuItem, getPromoOffers, getRestaurant, getRestaurantReviews, getSavedAddresses, listCuisines, removeFromCart, search, updateCartItem (+7 planned)
 hamptonwaterwine.com — hamptonwaterwine: findNearbyRetailers
 handypro.com — handypro: checkServiceArea, searchServiceCategories (+2 planned)
 hansons.com — hansons: checkAvailability (+1 planned)
@@ -716,7 +716,7 @@ turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfE
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
 twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getFollowStatus, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, unfollowChannel (+1 planned)
-ubereats.com — ubereats: browseStores, checkDeliveryAvailability, findAddress, findChainStore, getCart, getMenuItem, getMyAccount, getStore, listOrders, search, searchStoreProducts (+17 planned)
+ubereats.com — ubereats: addToCart, browseStores, checkDeliveryAvailability, clearCart, findAddress, findChainStore, getCart, getMenuItem, getMyAccount, getStore, listOrders, removeFromCart, search, searchStoreProducts, updateCartItem (+13 planned)
 uhaul.com — uhaul: getRates
 uhc.com — uhc_directory: findProviders
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration

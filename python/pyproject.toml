@@ -1,7 +1,7 @@
 [project]
 name = "bowmark-web"
 version = "0.0.0"
-description = "The Python client for the Bowmark capability library — the whole bowmark.* surface, with no Bowmark source on your disk. ZERO runtime dependencies, deliberately and permanently."
+description = "The Python client for the Bowmark capability library: the whole bowmark.* surface, with no Bowmark source on your disk. ZERO runtime dependencies, deliberately and permanently."
 readme = "README.md"
 # 3.11 is the floor because the generated stubs use `typing.NotRequired`, which
 # landed there. 3.10 went EOL in October 2026; targeting `typing_extensions` instead

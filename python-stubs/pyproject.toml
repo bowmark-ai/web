@@ -4,7 +4,7 @@
 # here is permanent.
 name = "bowmark-web-stubs"
 version = "0.0.0"
-description = "PEP 561 type stubs for bowmark-web — the full typed Bowmark capability surface, generated from the same library manifest as the TypeScript declarations."
+description = "PEP 561 type stubs for bowmark-web: the full typed Bowmark capability surface, generated from the same library manifest as the TypeScript declarations."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
