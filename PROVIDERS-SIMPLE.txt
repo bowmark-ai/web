@@ -197,7 +197,7 @@ claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
 clboyd.com — clboyd: searchUsedEquipment
 cleanairlawncare.com — cleanairlawncare: checkServiceArea, getAvailableSlots (+1 planned)
 cloudbeds.com — cloudbeds: getAvailabilityCalendar, getBookingQuote, getPolicies, getProperty, getRoomType, listAddons, searchRooms (+6 planned)
-cloudflare.com — cloudflare: comparePlans, compareTeamsPlans (+2 planned)
+cloudflare.com — cloudflare: comparePlans, compareTeamsPlans, searchDomainAvailability (+1 planned)
 clubchampion.com — clubchampion: checkAvailability, getFittings, listFitters, listStudios
 clubpilates.com — clubpilates: bookClass, cancelBooking, favoriteInstructor, findStudios, getClass, getClassPoints, getMyMembership, getMyProfile, getStudio, joinWaitlist, listClassCategories, listClasses, listClassTypes, listInstructors, listMyBookings, listPricing, updateProfile (+1 planned)
 clubready.com — clubready: bookClass, bookService, cancelBooking, findStudios, getClass, getMyMembership, getMyProfile, getStudio, getWorkoutStats, joinWaitlist, listBrands, listClassCategories, listClasses, listClassTypes, listInstructors, listMyBookings, listPricing, listServiceAvailability, listServiceTypes (+5 planned)

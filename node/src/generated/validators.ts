@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 653d96e34e1f61996d0b01418384d217f92850046f51a55f782b9d4977a3c9eb
-// 3948 checked, 20 unchecked.
+// Manifest version: f098101dd25b21cfdad77600f3a52ef17d69936e92f5fc81aee8ac29e6e13fbb
+// 3951 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "653d96e34e1f61996d0b01418384d217f92850046f51a55f782b9d4977a3c9eb",
+  "version": "f098101dd25b21cfdad77600f3a52ef17d69936e92f5fc81aee8ac29e6e13fbb",
   "units": {
     "address_validation": {
       "defs": {
@@ -29456,6 +29456,73 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.cosign": {
+      "defs": {
+        "CosignSearchJobsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "role",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchJobs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CosignSearchJobsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "job": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "postingId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -89785,6 +89852,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPickupLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetPriceQuoteArgs": {
           "k": "object",
           "props": [
@@ -89949,6 +90049,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetPriceQuoteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPickupLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPickupLocationsArgs"
             },
             "optional": false
           }

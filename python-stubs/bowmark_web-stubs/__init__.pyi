@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 653d96e34e1f61996d0b01418384d217f92850046f51a55f782b9d4977a3c9eb
-# 93 capabilities, 757 providers, 3948 typed functions, 20 refused.
+# Manifest version: f098101dd25b21cfdad77600f3a52ef17d69936e92f5fc81aee8ac29e6e13fbb
+# 93 capabilities, 758 providers, 3951 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15910,6 +15910,55 @@ class Prv_corepoweryoga_CorePowerYogaBooking_Out(TypedDict):
     status: str | None
     checkInTime: str | None
     cancelledTime: str | None
+
+class Prv_cosign_CosignSearchJobsArgs_In(TypedDict):
+    role: NotRequired[str]
+    url: NotRequired[str]
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_cosign_CosignSearchResult_Out(TypedDict):
+    total: float | None
+    jobs: list[Prv_cosign_CosignJobSummary_Out]
+    nextCursor: str | None
+
+class Prv_cosign_CosignJobSummary_Out(TypedDict):
+    postingId: str
+    title: str
+    company: str
+    companyUrl: str | None
+    companyLogo: str | None
+    cities: list[str]
+    remote: bool | None
+    compensation: str | None
+    employmentType: str | None
+    postedAt: str | None
+    closed: bool
+    url: str
+
+class Prv_cosign_job_args_In(TypedDict):
+    postingId: str
+
+class Prv_cosign_CosignJob_Out(TypedDict):
+    postingId: str
+    title: str
+    company: str
+    companyUrl: str | None
+    companyLogo: str | None
+    cities: list[str]
+    remote: bool | None
+    compensation: str | None
+    employmentType: str | None
+    postedAt: str | None
+    closed: bool
+    url: str
+    roleType: str | None
+    location: str | None
+    team: str | None
+    salaryMinUsd: float | None
+    salaryMaxUsd: float | None
+    description: str
+    applyUrl: str | None
 
 class Prv_costco_CostcoSearchSuggestion_Out(TypedDict):
     term: str
@@ -43872,6 +43921,29 @@ class Prv_rezdy_RezdyQuoteSession_Out(TypedDict):
     total: float | None
     pricePerOption: Mapping[str, float | None]
 
+class Prv_rezdy_GetPickupLocationsArgs_In(TypedDict):
+    operator: str
+    productId: str
+    date: NotRequired[str]
+    sessionId: NotRequired[str]
+
+class Prv_rezdy_RezdyPickupList_Out(TypedDict):
+    operator: str
+    productId: str
+    sessionId: str
+    date: str
+    time: str | None
+    pickups: list[Prv_rezdy_RezdyPickupLocation_Out]
+
+class Prv_rezdy_RezdyPickupLocation_Out(TypedDict):
+    id: str
+    name: str
+    address: str | None
+    instructions: str | None
+    minutesPrior: float | None
+    pickupTime: str | None
+    price: float | None
+
 class Prv_rightmove_search_args_In(TypedDict):
     location: str
     type: Literal["sale"] | Literal["rent"]
@@ -69308,6 +69380,24 @@ class Prv_corepoweryoga(Protocol):
         rather than thrown if the site's shape differs from expected.
         """
 
+class Prv_cosign(Protocol):
+    """cosign.co — a16z's public reputation network for startups. Its jobs board aggregates
+    open roles across startups and larger companies; search it by job function and read a
+    posting's description and apply link.
+    """
+
+    async def searchJobs(self, args: Prv_cosign_CosignSearchJobsArgs_In | None = None, /) -> Prv_cosign_CosignSearchResult_Out:
+        """Lists open roles on the cosign.co jobs board (a16z's startup network), newest first,
+        optionally filtered by job function ('engineering', 'design', 'product', 'sales', …) —
+        title, company, cities, compensation, employment type and posted time — through the
+        board's own search backend, with a cursor for the next page.
+        """
+
+    async def job(self, args: Prv_cosign_job_args_In, /) -> Prv_cosign_CosignJob_Out:
+        """Reads one cosign.co job posting by postingId — the full description, location, team,
+        salary range and the employer's own apply link.
+        """
+
 class Prv_costco(Protocol):
     """Costco's own search-bar autocomplete suggestions, and its discounted gift cards with
     brand, face value and price.
@@ -85635,6 +85725,13 @@ class Prv_rezdy(Protocol):
         shows before any customer details.
         """
 
+    async def getPickupLocations(self, args: Prv_rezdy_GetPickupLocationsArgs_In, /) -> Prv_rezdy_RezdyPickupList_Out:
+        """Lists the pickup points a product offers for a session (hotel pickups on day tours and
+        transfers): each point's id, name, address, instructions, minutes before the start and
+        pickup time, and any extra charge. Read off the booking form's order-review step;
+        nothing is booked.
+        """
+
 class Prv_rightmove(Protocol):
     """Search for properties for sale or rent on Rightmove."""
 
@@ -94316,6 +94413,7 @@ class BowmarkProviders(Protocol):
     context_dev: Prv_context_dev
     coops: Prv_coops
     corepoweryoga: Prv_corepoweryoga
+    cosign: Prv_cosign
     costco: Prv_costco
     countycourt_vic_gov_au: Prv_countycourt_vic_gov_au
     couponfollow: Prv_couponfollow

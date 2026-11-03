@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 653d96e34e1f61996d0b01418384d217f92850046f51a55f782b9d4977a3c9eb
-// 93 capabilities, 757 providers, 3966 typed functions, 20 refused.
+// Manifest version: f098101dd25b21cfdad77600f3a52ef17d69936e92f5fc81aee8ac29e6e13fbb
+// 93 capabilities, 758 providers, 3969 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26413,6 +26413,80 @@ interface CorePowerYogaBooking {
      * than thrown if the site's shape differs from expected.
      */
     listMyBookings(opts?: ConnectionOption): Promise<CorePowerYogaBooking[]>;
+  }
+}
+
+declare namespace BowmarkProvider_cosign {
+  // ── Cosign — the unit's own declarations, verbatim ──
+interface CosignSearchJobsArgs {
+  /** Job function: engineering, design, product, data, research, security, sales, marketing,
+   *  operations, finance, legal, customer_success, talent, education, healthcare, other.
+   *  Omit for every role. A https://cosign.co/jobs?role=… URL is accepted as { url }. */
+  role?: string;
+  url?: string;
+  /** 1-100, default 30. */
+  limit?: number;
+  /** nextCursor from a previous call. */
+  cursor?: string;
+}
+
+interface CosignJobSummary {
+  /** Pass to job({ postingId }). */
+  postingId: string;
+  title: string;
+  company: string;
+  companyUrl: string | null;
+  companyLogo: string | null;
+  cities: string[];
+  remote: boolean | null;
+  /** The site's own text, e.g. "USD 95,000–120,000 / year". Often null. */
+  compensation: string | null;
+  /** e.g. "FullTime", "PartTime", "Intern". */
+  employmentType: string | null;
+  /** ISO timestamp. */
+  postedAt: string | null;
+  closed: boolean;
+  /** The cosign.co page for this role. */
+  url: string;
+}
+
+interface CosignSearchResult {
+  total: number | null;
+  jobs: CosignJobSummary[];
+  /** Pass back as cursor for the next page; null when done. */
+  nextCursor: string | null;
+}
+
+interface CosignJob extends CosignJobSummary {
+  roleType: string | null;
+  location: string | null;
+  team: string | null;
+  salaryMinUsd: number | null;
+  salaryMaxUsd: number | null;
+  description: string;
+  /** Apply on the employer's own site. */
+  applyUrl: string | null;
+}
+
+  /**
+   * cosign.co — a16z's public reputation network for startups. Its jobs board aggregates open
+   * roles across startups and larger companies; search it by job function and read a posting's
+   * description and apply link.
+   */
+  interface Unit {
+    /**
+     * Lists open roles on the cosign.co jobs board (a16z's startup network), newest first,
+     * optionally filtered by job function ('engineering', 'design', 'product', 'sales', …) —
+     * title, company, cities, compensation, employment type and posted time — through the board's
+     * own search backend, with a cursor for the next page.
+     */
+    searchJobs(args?: CosignSearchJobsArgs): Promise<CosignSearchResult>;
+
+    /**
+     * Reads one cosign.co job posting by postingId — the full description, location, team, salary
+     * range and the employer's own apply link.
+     */
+    job(args: { postingId: string }): Promise<CosignJob>;
   }
 }
 
@@ -72547,6 +72621,38 @@ interface RezdyQuoteSession {
   /** priceOptionId → unit price. */
   pricePerOption: Record<string, number | null>;
 }
+interface GetPickupLocationsArgs {
+  operator: string;
+  /** A product id from listProducts().products[].id. */
+  productId: string;
+  /** YYYY-MM-DD; the first session with seats that day (or that month) is used. Defaults to this month. */
+  date?: string;
+  /** A session id from getAvailability().sessions[].sessionId; pass its date with it. */
+  sessionId?: string;
+}
+interface RezdyPickupLocation {
+  /** The pickup location id the booking form submits. */
+  id: string;
+  name: string;
+  address: string | null;
+  instructions: string | null;
+  /** Pickup is this many minutes before the session starts. */
+  minutesPrior: number | null;
+  /** "09:06", the session time less minutesPrior. */
+  pickupTime: string | null;
+  /** Extra charge for this pickup, when the operator sets one. */
+  price: number | null;
+}
+interface RezdyPickupList {
+  operator: string;
+  productId: string;
+  /** The session the pickups were read for. */
+  sessionId: string;
+  date: string;
+  time: string | null;
+  /** Empty when the product offers no pickup list. */
+  pickups: RezdyPickupLocation[];
+}
 interface RezdyPriceQuote {
   operator: string;
   productId: string;
@@ -72597,6 +72703,14 @@ interface RezdyPriceQuote {
      * before any customer details.
      */
     getPriceQuote(args: GetPriceQuoteArgs): Promise<RezdyPriceQuote>;
+
+    /**
+     * Lists the pickup points a product offers for a session (hotel pickups on day tours and
+     * transfers): each point's id, name, address, instructions, minutes before the start and
+     * pickup time, and any extra charge. Read off the booking form's order-review step; nothing is
+     * booked.
+     */
+    getPickupLocations(args: GetPickupLocationsArgs): Promise<RezdyPickupList>;
   }
 }
 
@@ -98724,6 +98838,7 @@ interface BowmarkProviders {
   context_dev: BowmarkProvider_context_dev.Unit;
   coops: BowmarkProvider_coops.Unit;
   corepoweryoga: BowmarkProvider_corepoweryoga.Unit;
+  cosign: BowmarkProvider_cosign.Unit;
   costco: BowmarkProvider_costco.Unit;
   countycourt_vic_gov_au: BowmarkProvider_countycourt_vic_gov_au.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
