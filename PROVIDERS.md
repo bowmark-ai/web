@@ -4447,21 +4447,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.trackPackage` | shop.app | Adds a package to the caller's Shop by its tracking number and carrier, so Shop tracks… | ⚪ |
 | `shop_app.updatePrivacySettings` | shop.app | Changes the caller's Shop privacy settings (personalised recommendations, data sharing). | ⚪ |
 | `shop_app.writeReview` | shop.app | Leaves a star rating and review on a product the caller bought through Shop. | ⚪ |
-| `shopify.addToCart` | shopify.com (49874 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
-| `shopify.getCart` | shopify.com (49874 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
-| `shopify.getCollection` | shopify.com (49874 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
-| `shopify.getProduct` | shopify.com (49874 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
-| `shopify.getProducts` | shopify.com (49874 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
-| `shopify.getSetEvidence` | shopify.com (49874 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
-| `shopify.getShippingRates` | shopify.com (49874 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
-| `shopify.getStyleDetails` | shopify.com (49874 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |
-| `shopify.listCollections` | shopify.com (49874 stores) | Lists EVERY one of the store's own merchandised collections, walked page by page… | 🟢 |
-| `shopify.listProducts` | shopify.com (49874 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
-| `shopify.removeFromCart` | shopify.com (49874 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
-| `shopify.resolveProductUrl` | shopify.com (49874 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
-| `shopify.search` | shopify.com (49874 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
-| `shopify.searchPolicies` | shopify.com (49874 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
-| `shopify.searchProducts` | shopify.com (49874 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
+| `shopify.addToCart` | shopify.com (49875 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
+| `shopify.getCart` | shopify.com (49875 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
+| `shopify.getCollection` | shopify.com (49875 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
+| `shopify.getProduct` | shopify.com (49875 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
+| `shopify.getProducts` | shopify.com (49875 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
+| `shopify.getSetEvidence` | shopify.com (49875 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
+| `shopify.getShippingRates` | shopify.com (49875 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
+| `shopify.getStyleDetails` | shopify.com (49875 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |
+| `shopify.listCollections` | shopify.com (49875 stores) | Lists EVERY one of the store's own merchandised collections, walked page by page… | 🟢 |
+| `shopify.listProducts` | shopify.com (49875 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
+| `shopify.removeFromCart` | shopify.com (49875 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
+| `shopify.resolveProductUrl` | shopify.com (49875 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
+| `shopify.search` | shopify.com (49875 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
+| `shopify.searchPolicies` | shopify.com (49875 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
+| `shopify.searchProducts` | shopify.com (49875 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
 | `slice.addMyAddress` | slicelife.com | Saves a new delivery address to the signed-in caller's Slice account. | ⚪ |
@@ -5270,7 +5270,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟢 |
 | `ubereats.addAddress` | ubereats.com | Saves a new delivery address (with drop-off instructions) to the caller's account. | ⚪ |
 | `ubereats.addToCart` | ubereats.com | Adds one menu item (from getStore()'s menu or getMenuItem()) to a NEW Uber Eats cart… | 🟢 |
-| `ubereats.applyPromoCode` | ubereats.com | Applies a promo code to the caller's cart at checkout and reports whether it was… | ⚪ |
+| `ubereats.applyPromoCode` | ubereats.com | Applies a promo code to the caller's cart at checkout and reports whether it was… | 🟢 |
 | `ubereats.browseStores` | ubereats.com | Lists the restaurants and stores Uber Eats delivers from to one address — the… | 🟢 |
 | `ubereats.cancelOrder` | ubereats.com | Would cancel one of the caller's active orders. | ⚪ |
 | `ubereats.checkDeliveryAvailability` | ubereats.com | Says whether one store will deliver to one address right now: isWithinDeliveryRange… | 🟢 |
@@ -5279,7 +5279,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ubereats.findChainStore` | ubereats.com | Finds the nearest location of a chain (e.g. McDonald's, Chipotle) that delivers to an… | 🟢 |
 | `ubereats.getBalances` | ubereats.com | Returns the caller's Uber Cash / gift-card balance and available promotions. | ⚪ |
 | `ubereats.getCart` | ubereats.com | Reads the caller's current Uber Eats cart(s): store, item count and subtotal for each… | 🟢 |
-| `ubereats.getCheckoutTotal` | ubereats.com | Reads the itemized total at the last screen before payment — subtotal, delivery fee… | ⚪ |
+| `ubereats.getCheckoutTotal` | ubereats.com | Reads the itemized total at the last screen before payment — subtotal, delivery fee… | 🟢 |
 | `ubereats.getMenuItem` | ubereats.com | Returns one menu item with its description, price, photo and every customization group… | 🟢 |
 | `ubereats.getMyAccount` | ubereats.com | Returns the caller's Uber Eats profile: name, email, phone. | 🟢 |
 | `ubereats.getOrder` | ubereats.com | Returns one past or active order in full — items, fees, status, courier progress. | ⚪ |

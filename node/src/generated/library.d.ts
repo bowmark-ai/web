@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 22dd06583192a8f03b9c60f4d0e9a65ff27e87048dbd93287c818cf9fac679cf
-// 93 capabilities, 760 providers, 3989 typed functions, 20 refused.
+// Manifest version: d35d64458bf2950a2811974287566344278cd83e45adc7a9bdf40750f5b9bb99
+// 93 capabilities, 760 providers, 4007 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -43927,6 +43927,24 @@ interface GrubhubCart {
   currency: string;
   restaurantIds: string[];
 }
+interface GrubhubSavedAddress {
+  id: string | null;
+  label: string | null;
+  street: string | null;
+  unit: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  lat: number | null;
+  lng: number | null;
+  instructions: string | null;
+}
+interface GrubhubFavorite {
+  /** What getRestaurant()/getMenu() take. */
+  id: string | null;
+  name: string | null;
+  url: string | null;
+}
 interface GrubhubPromoResult {
   /** The code as Grubhub knows it (its own casing). */
   code: string;
@@ -44042,6 +44060,19 @@ interface GrubhubAddToCartArgs {
      * (expired, unknown, wrong order type) rather than throwing. No account.
      */
     applyPromoCode(args: { code: string; cartKey?: string }): Promise<GrubhubPromoResult>;
+
+    /**
+     * The signed-in diner's saved Grubhub delivery addresses (label, street, unit, city, state,
+     * ZIP, lat/lng, instructions). Needs the caller signed in to grubhub.com; pauses for sign-in
+     * otherwise.
+     */
+    getSavedAddresses(opts?: ConnectionOption): Promise<GrubhubSavedAddress[]>;
+
+    /**
+     * The signed-in diner's favourite Grubhub restaurants — id (what getRestaurant/getMenu take),
+     * name and url. Needs the caller signed in to grubhub.com.
+     */
+    getFavoriteRestaurants(opts?: ConnectionOption): Promise<GrubhubFavorite[]>;
   }
 }
 
@@ -55123,6 +55154,56 @@ interface MangomintBookingConfirmation {
   formLinks: MangomintBookingFormLink[];
 }
 
+interface MangomintLocation {
+  id: number;
+  name: string;
+  /** Pass this as `locationId` to any other function on this business. */
+  locationId: number;
+  bookingUrl: string;
+  groupBookingEnabled: boolean;
+}
+
+interface MangomintLocationList {
+  business: { companyId: number; name: string };
+  locations: MangomintLocation[];
+}
+
+interface MangomintPackageItem {
+  serviceId: number;
+  quantity: number;
+}
+
+interface MangomintPackage {
+  id: number;
+  name: string;
+  shortDescription: string | null;
+  totalPrice: number | null;
+  items: MangomintPackageItem[];
+  expires: boolean;
+  expirationValue: number | null;
+  expirationUnit: string | null;
+}
+
+interface MangomintPackageList {
+  business: { companyId: number; name: string };
+  packages: MangomintPackage[];
+}
+
+interface MangomintMembership {
+  id: number;
+  name: string;
+  shortDescription: string | null;
+  priceInterval: number | null;
+  repeatType: string | null;
+  productDiscountPct: number | null;
+  serviceDiscountPct: number | null;
+}
+
+interface MangomintMembershipList {
+  business: { companyId: number; name: string };
+  memberships: MangomintMembership[];
+}
+
   /**
    * Mangomint salon and spa booking: find a business, its services, staff and open times, book,
    * and manage an appointment from its link.
@@ -55175,6 +55256,25 @@ interface MangomintBookingConfirmation {
      * price/duration override.
      */
     getStaff(args: MangomintGetStaffArgs): Promise<MangomintStaffDetail>;
+
+    /**
+     * A multi-location business's locations with their own booking link, so a call can be pointed
+     * at the right one. A single-location business answers with its own one location.
+     */
+    listLocations(args: MangomintBusinessArgs): Promise<MangomintLocationList>;
+
+    /**
+     * The prepaid service packages a business sells online (e.g. six red-light sessions), with
+     * price and the services each covers. Read only; buying one is a write this provider does not
+     * implement.
+     */
+    listPackages(args: MangomintBusinessArgs): Promise<MangomintPackageList>;
+
+    /**
+     * The memberships a business sells online, with their recurring price and what they discount.
+     * Read only; joining one is a write this provider does not implement.
+     */
+    listMemberships(args: MangomintBusinessArgs): Promise<MangomintMembershipList>;
 
     /**
      * Checks that one appointment time from checkAvailability is still open for these services
@@ -79501,6 +79601,30 @@ interface SpotifyTopArtists { artists: SpotifyArtist[]; total: number }
      * Needs the caller signed in to Spotify.
      */
     getTopArtists(opts?: SpotifyTopOptions): Promise<SpotifyTopArtists>;
+
+    /**
+     * The signed-in caller's Liked Songs, newest first, paged (limit 1-50). Needs the caller
+     * signed in to Spotify.
+     */
+    getLibraryTracks(opts?: { limit?: number; offset?: number }): Promise<{ tracks: { addedAt: string | null; track: SpotifyTrack }[]; total: number }>;
+
+    /**
+     * Albums the signed-in caller saved to their library, paged. Needs the caller signed in to
+     * Spotify.
+     */
+    getLibraryAlbums(opts?: { limit?: number; offset?: number }): Promise<{ albums: { addedAt: string | null; album: SpotifyAlbum }[]; total: number }>;
+
+    /**
+     * Artists the signed-in caller follows; pass the returned `after` cursor for the next page.
+     * Needs the caller signed in to Spotify.
+     */
+    getLibraryArtists(opts?: { limit?: number; after?: string }): Promise<{ artists: SpotifyArtist[]; total: number; after: string | null }>;
+
+    /**
+     * Playlists the signed-in caller owns or follows, paged. Needs the caller signed in to
+     * Spotify.
+     */
+    getLibraryPlaylists(opts?: { limit?: number; offset?: number }): Promise<{ playlists: SpotifyPlaylist[]; total: number }>;
   }
 }
 
@@ -79910,6 +80034,8 @@ interface MenuItemsArgs {
 interface SquareOnlineMenuItemSummary {
   /** Pass as `itemId` to getMenuItem. */
   id: string;
+  /** The store's numeric product id — pass in `itemIds` to getItemAvailability. */
+  siteProductId: string | null;
   name: string;
   shortDescription: string | null;
   priceLow: number | null;
@@ -79945,6 +80071,7 @@ interface SquareOnlineMenuItemVariation {
 }
 interface SquareOnlineMenuItem {
   id: string;
+  siteProductId: string | null;
   name: string;
   shortDescription: string | null;
   priceLow: number | null;
@@ -79983,6 +80110,63 @@ interface SquareOnlinePickupTimes {
   earliest: { timeIso: string; label: string; prepMinutes: number | null } | null;
   dates: SquareOnlinePickupDate[];
   warnings: string[];
+}
+interface ItemAvailabilityArgs {
+  site: string;
+  /** From listLocations(). */
+  locationId: string;
+  /** siteProductId values off listMenuItems() — numeric strings, not the item id. Give these or categoryId. */
+  itemIds?: string[];
+  /** From listCategories() — every item in that section. */
+  categoryId?: string;
+  /** ISO instant the order would be ready; default now. */
+  at?: string;
+}
+interface SquareOnlineMethodAvailability {
+  available: boolean;
+  /** The site's own reason codes, e.g. "item.not_setup_for_delivery". */
+  reasons: string[];
+}
+interface SquareOnlineItemAvailability {
+  siteProductId: string;
+  pickup: SquareOnlineMethodAvailability;
+  delivery: SquareOnlineMethodAvailability;
+  dineIn: SquareOnlineMethodAvailability;
+  shipping: SquareOnlineMethodAvailability;
+}
+interface SquareOnlineAvailability {
+  site: string;
+  locationId: string;
+  at: string;
+  items: SquareOnlineItemAvailability[];
+}
+interface SquareOnlineRewardTier {
+  id: string;
+  name: string;
+  points: number | null;
+  scope: string | null;
+  discountType: string | null;
+  percentageDiscount: number | null;
+  /** Minor units (cents). */
+  fixedDiscountAmount: number | null;
+  maxDiscountAmount: number | null;
+  currency: string | null;
+}
+interface SquareOnlineLoyaltyProgram {
+  id: string;
+  /** false when the owner set one up but switched it off. */
+  active: boolean;
+  status: string | null;
+  rewardTiers: SquareOnlineRewardTier[];
+}
+interface SquareOnlineLoyalty {
+  site: string;
+  programs: SquareOnlineLoyaltyProgram[];
+}
+interface SquareOnlineSubscriptionPlans {
+  site: string;
+  /** The site's own plan rows, passed through unchanged; empty when the store sells none. */
+  plans: Array<Record<string, unknown>>;
 }
 
   /**
@@ -80026,6 +80210,25 @@ interface SquareOnlinePickupTimes {
      * range (default: the next 24 hours).
      */
     getPickupTimes(args: PickupTimesArgs): Promise<SquareOnlinePickupTimes>;
+
+    /**
+     * Says, per menu item at one location and ready time, whether it can be ordered for pickup,
+     * delivery, dine-in or shipping, with the site's reason codes when not; by siteProductId list
+     * or a whole category.
+     */
+    getItemAvailability(args: ItemAvailabilityArgs): Promise<SquareOnlineAvailability>;
+
+    /**
+     * Returns a store's loyalty program: whether it is active, and each reward tier's points and
+     * discount.
+     */
+    getLoyaltyProgram(args: SiteArgs): Promise<SquareOnlineLoyalty>;
+
+    /**
+     * Lists the subscription plans a store sells (e.g. a weekly meal plan); empty when it sells
+     * none.
+     */
+    listSubscriptionPlans(args: SiteArgs): Promise<SquareOnlineSubscriptionPlans>;
   }
 }
 
@@ -84813,6 +85016,18 @@ interface ThreadsMe {
   followerCount: number | null;
   url: string;
 }
+// getHomeFeed: the signed-in caller's own home feed
+interface GetHomeFeedArgs {
+  feed?: "for_you" | "following";   // default "for_you"
+}
+interface ThreadsHomeFeed {
+  feed: "for_you" | "following";
+  posts: ThreadsPost[];      // first server-rendered page, in feed order
+}
+// getSavedPosts: the signed-in caller's own saved posts
+interface ThreadsSavedPosts {
+  posts: ThreadsPost[];      // first server-rendered page, as /saved lists them
+}
 // getActivity: the signed-in caller's own notifications
 interface ThreadsActivityItem {
   id: string;
@@ -84839,6 +85054,20 @@ interface ThreadsActivity {
      * Threads; runs through their own Chrome when Bowmark Link is attached.
      */
     getMe(opts?: ConnectionOption): Promise<ThreadsMe>;
+
+    /**
+     * Reads the signed-in caller's own Threads home feed — For You (default) or Following — first
+     * page of posts with author, text, media and counts. Needs the caller signed in to Threads;
+     * runs through their own Chrome when Bowmark Link is attached.
+     */
+    getHomeFeed(args?: GetHomeFeedArgs, opts?: ConnectionOption): Promise<ThreadsHomeFeed>;
+
+    /**
+     * Reads the posts the signed-in caller has saved on Threads (first page) — author, text, media
+     * and counts. Needs the caller signed in to Threads; runs through their own Chrome when
+     * Bowmark Link is attached.
+     */
+    getSavedPosts(opts?: ConnectionOption): Promise<ThreadsSavedPosts>;
 
     /**
      * Reads the signed-in caller's own Threads activity (their notifications): new followers,
@@ -88602,6 +88831,18 @@ interface SignedInOrderPage {
 // getCart() and getMyAccount() need the caller's own Uber Eats sign-in (see authFunctions)
 interface UbereatsCartOrder { draftOrderUuid: string | null; storeUuid: string | null; storeTitle: string | null; itemCount: number | null; subtotal: number | null; }
 interface UbereatsAccount { uuid: string | null; firstName: string | null; lastName: string | null; email: string | null; mobileNumber: string | null; }
+// addToCart/updateCartItem/removeFromCart/clearCart are anonymous — Uber Eats'
+// own guest cart, no sign-in needed (measured 2026-11-02); sign-in is only
+// needed to place the order.
+// addToCart returns this; round-trip it verbatim into updateCartItem, and its
+// draftOrderUuid/cartUuid/shoppingCartItemUuid into removeFromCart/clearCart.
+interface UbereatsCartItemRef { draftOrderUuid: string; cartUuid: string; shoppingCartItemUuid: string; storeUuid: string; sectionUuid: string; subsectionUuid: string; uuid: string; title: string; price: number; quantity: number; imageURL: string; specialInstructions: string; customizations: Record<string, unknown[]>; }
+
+interface UbereatsAddToCartArgs {
+  store: string; sectionUuid: string; subsectionUuid: string; itemUuid: string; quantity?: number;
+  // chosen option uuid(s) per customization group uuid — both from getMenuItem()'s customizations
+  customizations?: Record<string, string[]>;
+}
 
   /**
    * Uber Eats' own address lookup, search suggestions, store/menu reads, menu item detail with
@@ -88690,6 +88931,37 @@ interface UbereatsAccount { uuid: string | null; firstName: string | null; lastN
      * Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
      */
     getMyAccount(opts?: ConnectionOption): Promise<UbereatsAccount>;
+
+    /**
+     * Adds one menu item (from getStore()'s menu or getMenuItem()) to a NEW Uber Eats cart for
+     * that store, with quantity and chosen customization options, and returns the cart item
+     * reference updateCartItem/removeFromCart/clearCart take back. Anonymous — Uber Eats' own
+     * guest cart, no sign-in needed (measured 2026-11-02); sign-in is only needed to place the
+     * order.
+     */
+    addToCart(args: UbereatsAddToCartArgs): Promise<UbereatsCartItemRef>;
+
+    /**
+     * Changes the quantity of one cart item — pass the exact object addToCart() returned, with a
+     * new quantity (at least 1; use removeFromCart to take it out entirely). Anonymous, same as
+     * addToCart (measured 2026-11-02).
+     */
+    updateCartItem(args: { item: UbereatsCartItemRef; quantity: number }): Promise<UbereatsCartItemRef>;
+
+    /**
+     * Removes one or more items from a cart by their shoppingCartItemUuid — all three ids come off
+     * addToCart()'s own return. Anonymous, same as addToCart (measured 2026-11-02).
+     */
+    removeFromCart(args: { draftOrderUuid: string; cartUuid: string; shoppingCartItemUuids: string[] }): Promise<{ draftOrderUuid: string }>;
+
+    /**
+     * Empties a cart by removing every item passed in shoppingCartItemUuids — Uber Eats has no
+     * dedicated 'clear cart' endpoint (measured 2026-11-02:
+     * clearDraftOrderV2/discardDraftOrderV2/cancelDraftOrderV2/deleteDraftOrderV2/emptyCartV2 all
+     * answer ERR_MISSING_HANDLER), so the caller passes every item id to remove at once.
+     * Anonymous, same as addToCart (measured 2026-11-02).
+     */
+    clearCart(args: { draftOrderUuid: string; cartUuid: string; shoppingCartItemUuids: string[] }): Promise<{ draftOrderUuid: string }>;
   }
 }
 

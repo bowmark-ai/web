@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 22dd06583192a8f03b9c60f4d0e9a65ff27e87048dbd93287c818cf9fac679cf
-# 93 capabilities, 760 providers, 3971 typed functions, 20 refused.
+# Manifest version: d35d64458bf2950a2811974287566344278cd83e45adc7a9bdf40750f5b9bb99
+# 93 capabilities, 760 providers, 3989 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -26856,6 +26856,23 @@ class Prv_grubhub_GrubhubPromoResult_Out(TypedDict):
     reason: str | None
     cart: Prv_grubhub_GrubhubCart_Out
 
+class Prv_grubhub_GrubhubSavedAddress_Out(TypedDict):
+    id: str | None
+    label: str | None
+    street: str | None
+    unit: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    lat: float | None
+    lng: float | None
+    instructions: str | None
+
+class Prv_grubhub_GrubhubFavorite_Out(TypedDict):
+    id: str | None
+    name: str | None
+    url: str | None
+
 class Prv_gst_india_gst_indiaRow_Out(TypedDict):
     gstin: str
     name: str
@@ -33195,6 +33212,60 @@ class Prv_mangomint_MangomintStaffService_Out(TypedDict):
     name: str
     customPrice: float | None
     customDurationMinutes: float | None
+
+class Prv_mangomint_MangomintLocationList_Out(TypedDict):
+    business: Prv_mangomint_MangomintLocationList_Out_business_Out
+    locations: list[Prv_mangomint_MangomintLocation_Out]
+
+class Prv_mangomint_MangomintLocationList_Out_business_Out(TypedDict):
+    companyId: float
+    name: str
+
+class Prv_mangomint_MangomintLocation_Out(TypedDict):
+    id: float
+    name: str
+    locationId: float
+    bookingUrl: str
+    groupBookingEnabled: bool
+
+class Prv_mangomint_MangomintPackageList_Out(TypedDict):
+    business: Prv_mangomint_MangomintPackageList_Out_business_Out
+    packages: list[Prv_mangomint_MangomintPackage_Out]
+
+class Prv_mangomint_MangomintPackageList_Out_business_Out(TypedDict):
+    companyId: float
+    name: str
+
+class Prv_mangomint_MangomintPackage_Out(TypedDict):
+    id: float
+    name: str
+    shortDescription: str | None
+    totalPrice: float | None
+    items: list[Prv_mangomint_MangomintPackageItem_Out]
+    expires: bool
+    expirationValue: float | None
+    expirationUnit: str | None
+
+class Prv_mangomint_MangomintPackageItem_Out(TypedDict):
+    serviceId: float
+    quantity: float
+
+class Prv_mangomint_MangomintMembershipList_Out(TypedDict):
+    business: Prv_mangomint_MangomintMembershipList_Out_business_Out
+    memberships: list[Prv_mangomint_MangomintMembership_Out]
+
+class Prv_mangomint_MangomintMembershipList_Out_business_Out(TypedDict):
+    companyId: float
+    name: str
+
+class Prv_mangomint_MangomintMembership_Out(TypedDict):
+    id: float
+    name: str
+    shortDescription: str | None
+    priceInterval: float | None
+    repeatType: str | None
+    productDiscountPct: float | None
+    serviceDiscountPct: float | None
 
 class Prv_mangomint_MangomintValidateSlotArgs_In(TypedDict):
     business: str
@@ -48592,6 +48663,47 @@ class Prv_spotify_SpotifyTopArtists_Out(TypedDict):
     artists: list[Prv_spotify_SpotifyArtist_Out]
     total: float
 
+class Prv_spotify_getLibraryTracks_opts_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_spotify_getLibraryTracks_return_Out(TypedDict):
+    tracks: list[Prv_spotify_getLibraryTracks_return_Out_tracks_item_Out]
+    total: float
+
+class Prv_spotify_getLibraryTracks_return_Out_tracks_item_Out(TypedDict):
+    addedAt: str | None
+    track: Prv_spotify_SpotifyTrack_Out
+
+class Prv_spotify_getLibraryAlbums_opts_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_spotify_getLibraryAlbums_return_Out(TypedDict):
+    albums: list[Prv_spotify_getLibraryAlbums_return_Out_albums_item_Out]
+    total: float
+
+class Prv_spotify_getLibraryAlbums_return_Out_albums_item_Out(TypedDict):
+    addedAt: str | None
+    album: Prv_spotify_SpotifyAlbum_Out
+
+class Prv_spotify_getLibraryArtists_opts_In(TypedDict):
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_spotify_getLibraryArtists_return_Out(TypedDict):
+    artists: list[Prv_spotify_SpotifyArtist_Out]
+    total: float
+    after: str | None
+
+class Prv_spotify_getLibraryPlaylists_opts_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_spotify_getLibraryPlaylists_return_Out(TypedDict):
+    playlists: list[Prv_spotify_SpotifyPlaylist_Out]
+    total: float
+
 class Prv_square_appointments_SquareBusinessSearch_Out(TypedDict):
     query: str
     businesses: list[Prv_square_appointments_SquareBusinessRef_Out]
@@ -48922,6 +49034,7 @@ class Prv_square_online_SquareOnlineMenuItemList_Out(TypedDict):
 
 class Prv_square_online_SquareOnlineMenuItemSummary_Out(TypedDict):
     id: str
+    siteProductId: str | None
     name: str
     shortDescription: str | None
     priceLow: float | None
@@ -48938,6 +49051,7 @@ class Prv_square_online_MenuItemArgs_In(TypedDict):
 
 class Prv_square_online_SquareOnlineMenuItem_Out(TypedDict):
     id: str
+    siteProductId: str | None
     name: str
     shortDescription: str | None
     priceLow: float | None
@@ -48996,6 +49110,55 @@ class Prv_square_online_SquareOnlinePickupSlot_Out(TypedDict):
     timeIso: str
     label: str
     prepMinutes: float | None
+
+class Prv_square_online_ItemAvailabilityArgs_In(TypedDict):
+    site: str
+    locationId: str
+    itemIds: NotRequired[Sequence[str]]
+    categoryId: NotRequired[str]
+    at: NotRequired[str]
+
+class Prv_square_online_SquareOnlineAvailability_Out(TypedDict):
+    site: str
+    locationId: str
+    at: str
+    items: list[Prv_square_online_SquareOnlineItemAvailability_Out]
+
+class Prv_square_online_SquareOnlineItemAvailability_Out(TypedDict):
+    siteProductId: str
+    pickup: Prv_square_online_SquareOnlineMethodAvailability_Out
+    delivery: Prv_square_online_SquareOnlineMethodAvailability_Out
+    dineIn: Prv_square_online_SquareOnlineMethodAvailability_Out
+    shipping: Prv_square_online_SquareOnlineMethodAvailability_Out
+
+class Prv_square_online_SquareOnlineMethodAvailability_Out(TypedDict):
+    available: bool
+    reasons: list[str]
+
+class Prv_square_online_SquareOnlineLoyalty_Out(TypedDict):
+    site: str
+    programs: list[Prv_square_online_SquareOnlineLoyaltyProgram_Out]
+
+class Prv_square_online_SquareOnlineLoyaltyProgram_Out(TypedDict):
+    id: str
+    active: bool
+    status: str | None
+    rewardTiers: list[Prv_square_online_SquareOnlineRewardTier_Out]
+
+class Prv_square_online_SquareOnlineRewardTier_Out(TypedDict):
+    id: str
+    name: str
+    points: float | None
+    scope: str | None
+    discountType: str | None
+    percentageDiscount: float | None
+    fixedDiscountAmount: float | None
+    maxDiscountAmount: float | None
+    currency: str | None
+
+class Prv_square_online_SquareOnlineSubscriptionPlans_Out(TypedDict):
+    site: str
+    plans: list[Mapping[str, Any]]
 
 class Prv_squire_SquireSearchArgs_In(TypedDict):
     query: str
@@ -51996,6 +52159,35 @@ class Prv_threads_ThreadsMe_Out(TypedDict):
     followerCount: float | None
     url: str
 
+class Prv_threads_GetHomeFeedArgs_In(TypedDict):
+    feed: NotRequired[Literal["for_you"] | Literal["following"]]
+
+class Prv_threads_ThreadsHomeFeed_Out(TypedDict):
+    feed: Literal["for_you"] | Literal["following"]
+    posts: list[Prv_threads_ThreadsPost_Out]
+
+class Prv_threads_ThreadsPost_Out(TypedDict):
+    id: str
+    code: str
+    url: str
+    username: str
+    isVerified: bool
+    text: str | None
+    postedAt: str | None
+    likeCount: float | None
+    replyCount: float | None
+    repostCount: float | None
+    quoteCount: float | None
+    media: list[Prv_threads_ThreadsPost_Out_media_item_Out]
+    isReply: bool
+
+class Prv_threads_ThreadsPost_Out_media_item_Out(TypedDict):
+    type: Literal["image"] | Literal["video"]
+    url: str
+
+class Prv_threads_ThreadsSavedPosts_Out(TypedDict):
+    posts: list[Prv_threads_ThreadsPost_Out]
+
 class Prv_threads_ThreadsActivity_Out(TypedDict):
     notifications: list[Prv_threads_ThreadsActivityItem_Out]
 
@@ -52051,25 +52243,6 @@ class Prv_threads_ThreadsProfilePosts_Out(TypedDict):
     username: str
     posts: list[Prv_threads_ThreadsPost_Out]
     hasMore: bool
-
-class Prv_threads_ThreadsPost_Out(TypedDict):
-    id: str
-    code: str
-    url: str
-    username: str
-    isVerified: bool
-    text: str | None
-    postedAt: str | None
-    likeCount: float | None
-    replyCount: float | None
-    repostCount: float | None
-    quoteCount: float | None
-    media: list[Prv_threads_ThreadsPost_Out_media_item_Out]
-    isReply: bool
-
-class Prv_threads_ThreadsPost_Out_media_item_Out(TypedDict):
-    type: Literal["image"] | Literal["video"]
-    url: str
 
 class Prv_threads_ThreadsSearchPostsArgs_In(TypedDict):
     query: str
@@ -54496,6 +54669,64 @@ class Prv_ubereats_UbereatsAccount_Out(TypedDict):
     lastName: str | None
     email: str | None
     mobileNumber: str | None
+
+class Prv_ubereats_UbereatsAddToCartArgs_In(TypedDict):
+    store: str
+    sectionUuid: str
+    subsectionUuid: str
+    itemUuid: str
+    quantity: NotRequired[float]
+    customizations: NotRequired[Mapping[str, Sequence[str]]]
+
+class Prv_ubereats_UbereatsCartItemRef_Out(TypedDict):
+    draftOrderUuid: str
+    cartUuid: str
+    shoppingCartItemUuid: str
+    storeUuid: str
+    sectionUuid: str
+    subsectionUuid: str
+    uuid: str
+    title: str
+    price: float
+    quantity: float
+    imageURL: str
+    specialInstructions: str
+    customizations: Mapping[str, list[Any]]
+
+class Prv_ubereats_updateCartItem_args_In(TypedDict):
+    item: Prv_ubereats_UbereatsCartItemRef_In
+    quantity: float
+
+class Prv_ubereats_UbereatsCartItemRef_In(TypedDict):
+    draftOrderUuid: str
+    cartUuid: str
+    shoppingCartItemUuid: str
+    storeUuid: str
+    sectionUuid: str
+    subsectionUuid: str
+    uuid: str
+    title: str
+    price: float
+    quantity: float
+    imageURL: str
+    specialInstructions: str
+    customizations: Mapping[str, Sequence[Any]]
+
+class Prv_ubereats_removeFromCart_args_In(TypedDict):
+    draftOrderUuid: str
+    cartUuid: str
+    shoppingCartItemUuids: Sequence[str]
+
+class Prv_ubereats_removeFromCart_return_Out(TypedDict):
+    draftOrderUuid: str
+
+class Prv_ubereats_clearCart_args_In(TypedDict):
+    draftOrderUuid: str
+    cartUuid: str
+    shoppingCartItemUuids: Sequence[str]
+
+class Prv_ubereats_clearCart_return_Out(TypedDict):
+    draftOrderUuid: str
 
 class Prv_uhaul_UhaulRatesArgs_In(TypedDict):
     pickup: str
@@ -75877,6 +76108,17 @@ class Prv_grubhub(Protocol):
         not (expired, unknown, wrong order type) rather than throwing. No account.
         """
 
+    async def getSavedAddresses(self, opts: ConnectionOption | None = None, /) -> list[Prv_grubhub_GrubhubSavedAddress_Out]:
+        """The signed-in diner's saved Grubhub delivery addresses (label, street, unit, city,
+        state, ZIP, lat/lng, instructions). Needs the caller signed in to grubhub.com; pauses
+        for sign-in otherwise.
+        """
+
+    async def getFavoriteRestaurants(self, opts: ConnectionOption | None = None, /) -> list[Prv_grubhub_GrubhubFavorite_Out]:
+        """The signed-in diner's favourite Grubhub restaurants — id (what getRestaurant/getMenu
+        take), name and url. Needs the caller signed in to grubhub.com.
+        """
+
 class Prv_gst_india(Protocol):
     """Search India's GST registry for registrant details by GSTIN."""
 
@@ -80011,6 +80253,22 @@ class Prv_mangomint(Protocol):
     async def getStaff(self, args: Prv_mangomint_MangomintGetStaffArgs_In, /) -> Prv_mangomint_MangomintStaffDetail_Out:
         """One staff member in full: photo, days worked, and every service they perform with their
         own price/duration override.
+        """
+
+    async def listLocations(self, args: Prv_mangomint_MangomintBusinessArgs_In, /) -> Prv_mangomint_MangomintLocationList_Out:
+        """A multi-location business's locations with their own booking link, so a call can be
+        pointed at the right one. A single-location business answers with its own one location.
+        """
+
+    async def listPackages(self, args: Prv_mangomint_MangomintBusinessArgs_In, /) -> Prv_mangomint_MangomintPackageList_Out:
+        """The prepaid service packages a business sells online (e.g. six red-light sessions), with
+        price and the services each covers. Read only; buying one is a write this provider does
+        not implement.
+        """
+
+    async def listMemberships(self, args: Prv_mangomint_MangomintBusinessArgs_In, /) -> Prv_mangomint_MangomintMembershipList_Out:
+        """The memberships a business sells online, with their recurring price and what they
+        discount. Read only; joining one is a write this provider does not implement.
         """
 
     async def validateSlot(self, args: Prv_mangomint_MangomintValidateSlotArgs_In, /) -> Prv_mangomint_MangomintSlotCheck_Out:
@@ -88255,6 +88513,26 @@ class Prv_spotify(Protocol):
         time. Needs the caller signed in to Spotify.
         """
 
+    async def getLibraryTracks(self, opts: Prv_spotify_getLibraryTracks_opts_In | None = None, /) -> Prv_spotify_getLibraryTracks_return_Out:
+        """The signed-in caller's Liked Songs, newest first, paged (limit 1-50). Needs the caller
+        signed in to Spotify.
+        """
+
+    async def getLibraryAlbums(self, opts: Prv_spotify_getLibraryAlbums_opts_In | None = None, /) -> Prv_spotify_getLibraryAlbums_return_Out:
+        """Albums the signed-in caller saved to their library, paged. Needs the caller signed in to
+        Spotify.
+        """
+
+    async def getLibraryArtists(self, opts: Prv_spotify_getLibraryArtists_opts_In | None = None, /) -> Prv_spotify_getLibraryArtists_return_Out:
+        """Artists the signed-in caller follows; pass the returned `after` cursor for the next
+        page. Needs the caller signed in to Spotify.
+        """
+
+    async def getLibraryPlaylists(self, opts: Prv_spotify_getLibraryPlaylists_opts_In | None = None, /) -> Prv_spotify_getLibraryPlaylists_return_Out:
+        """Playlists the signed-in caller owns or follows, paged. Needs the caller signed in to
+        Spotify.
+        """
+
 class Prv_square_appointments(Protocol):
     """Square Appointments booking: find a business, its services, staff and open times, book,
     and manage the caller's own appointments and classes.
@@ -88393,6 +88671,22 @@ class Prv_square_online(Protocol):
     async def getPickupTimes(self, args: Prv_square_online_PickupTimesArgs_In, /) -> Prv_square_online_SquareOnlinePickupTimes_Out:
         """Returns the earliest pickup time and the available pickup slots at one location over a
         date range (default: the next 24 hours).
+        """
+
+    async def getItemAvailability(self, args: Prv_square_online_ItemAvailabilityArgs_In, /) -> Prv_square_online_SquareOnlineAvailability_Out:
+        """Says, per menu item at one location and ready time, whether it can be ordered for
+        pickup, delivery, dine-in or shipping, with the site's reason codes when not; by
+        siteProductId list or a whole category.
+        """
+
+    async def getLoyaltyProgram(self, args: Prv_square_online_SiteArgs_In, /) -> Prv_square_online_SquareOnlineLoyalty_Out:
+        """Returns a store's loyalty program: whether it is active, and each reward tier's points
+        and discount.
+        """
+
+    async def listSubscriptionPlans(self, args: Prv_square_online_SiteArgs_In, /) -> Prv_square_online_SquareOnlineSubscriptionPlans_Out:
+        """Lists the subscription plans a store sells (e.g. a weekly meal plan); empty when it
+        sells none.
         """
 
 class Prv_squire(Protocol):
@@ -89971,6 +90265,18 @@ class Prv_threads(Protocol):
         in to Threads; runs through their own Chrome when Bowmark Link is attached.
         """
 
+    async def getHomeFeed(self, args: Prv_threads_GetHomeFeedArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsHomeFeed_Out:
+        """Reads the signed-in caller's own Threads home feed — For You (default) or Following —
+        first page of posts with author, text, media and counts. Needs the caller signed in to
+        Threads; runs through their own Chrome when Bowmark Link is attached.
+        """
+
+    async def getSavedPosts(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsSavedPosts_Out:
+        """Reads the posts the signed-in caller has saved on Threads (first page) — author, text,
+        media and counts. Needs the caller signed in to Threads; runs through their own Chrome
+        when Bowmark Link is attached.
+        """
+
     async def getActivity(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActivity_Out:
         """Reads the signed-in caller's own Threads activity (their notifications): new followers,
         replies, mentions, quotes, reposts and likes on their posts, newest first, each with its
@@ -91284,6 +91590,33 @@ class Prv_ubereats(Protocol):
     async def getMyAccount(self, opts: ConnectionOption | None = None, /) -> Prv_ubereats_UbereatsAccount_Out:
         """Returns the caller's Uber Eats profile — name, email, phone. Needs the caller's own Uber
         Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
+        """
+
+    async def addToCart(self, args: Prv_ubereats_UbereatsAddToCartArgs_In, /) -> Prv_ubereats_UbereatsCartItemRef_Out:
+        """Adds one menu item (from getStore()'s menu or getMenuItem()) to a NEW Uber Eats cart for
+        that store, with quantity and chosen customization options, and returns the cart item
+        reference updateCartItem/removeFromCart/clearCart take back. Anonymous — Uber Eats' own
+        guest cart, no sign-in needed (measured 2026-11-02); sign-in is only needed to place the
+        order.
+        """
+
+    async def updateCartItem(self, args: Prv_ubereats_updateCartItem_args_In, /) -> Prv_ubereats_UbereatsCartItemRef_Out:
+        """Changes the quantity of one cart item — pass the exact object addToCart() returned, with
+        a new quantity (at least 1; use removeFromCart to take it out entirely). Anonymous, same
+        as addToCart (measured 2026-11-02).
+        """
+
+    async def removeFromCart(self, args: Prv_ubereats_removeFromCart_args_In, /) -> Prv_ubereats_removeFromCart_return_Out:
+        """Removes one or more items from a cart by their shoppingCartItemUuid — all three ids come
+        off addToCart()'s own return. Anonymous, same as addToCart (measured 2026-11-02).
+        """
+
+    async def clearCart(self, args: Prv_ubereats_clearCart_args_In, /) -> Prv_ubereats_clearCart_return_Out:
+        """Empties a cart by removing every item passed in shoppingCartItemUuids — Uber Eats has no
+        dedicated 'clear cart' endpoint (measured 2026-11-02:
+        clearDraftOrderV2/discardDraftOrderV2/cancelDraftOrderV2/deleteDraftOrderV2/emptyCartV2
+        all answer ERR_MISSING_HANDLER), so the caller passes every item id to remove at once.
+        Anonymous, same as addToCart (measured 2026-11-02).
         """
 
 class Prv_uhaul(Protocol):

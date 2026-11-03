@@ -632,7 +632,7 @@ shein.com — shein: getProduct, listCategories, listProductsByCategory, search 
 shop.app — shop_app: browseCategory, getDiscoveryFeed, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listOffers, listStoreProducts, searchStore, suggestSearches (+24 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
-shopify.com (49874 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
+shopify.com (49875 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
 sitmeanssit.com — sitmeanssit: findNearestLocations
 sixflags.com — sixflags: getTickets
 slicelife.com — slice: checkDelivery, getHours, getMenu, getMenuItemOptions, getPizzeria, getReviews, listPizzeriasInCity, priceCart, resolveAddress, searchPizzerias, validatePromoCode (+18 planned)
@@ -716,7 +716,7 @@ turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfE
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
 twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getFollowStatus, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, unfollowChannel (+1 planned)
-ubereats.com — ubereats: addToCart, browseStores, checkDeliveryAvailability, clearCart, findAddress, findChainStore, getCart, getMenuItem, getMyAccount, getStore, listOrders, removeFromCart, search, searchStoreProducts, updateCartItem (+13 planned)
+ubereats.com — ubereats: addToCart, applyPromoCode, browseStores, checkDeliveryAvailability, clearCart, findAddress, findChainStore, getCart, getCheckoutTotal, getMenuItem, getMyAccount, getStore, listOrders, removeFromCart, search, searchStoreProducts, updateCartItem (+11 planned)
 uhaul.com — uhaul: getRates
 uhc.com — uhc_directory: findProviders
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration

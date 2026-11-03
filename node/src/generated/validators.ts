@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 22dd06583192a8f03b9c60f4d0e9a65ff27e87048dbd93287c818cf9fac679cf
-// 3971 checked, 20 unchecked.
+// Manifest version: d35d64458bf2950a2811974287566344278cd83e45adc7a9bdf40750f5b9bb99
+// 3989 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "22dd06583192a8f03b9c60f4d0e9a65ff27e87048dbd93287c818cf9fac679cf",
+  "version": "d35d64458bf2950a2811974287566344278cd83e45adc7a9bdf40750f5b9bb99",
   "units": {
     "address_validation": {
       "defs": {
@@ -50308,6 +50308,42 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getSavedAddresses": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getFavoriteRestaurants": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -63815,6 +63851,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "MangomintGetStaffArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MangomintBusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPackages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MangomintBusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listMemberships": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MangomintBusinessArgs"
             },
             "optional": false
           }
@@ -97842,6 +97908,106 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getLibraryTracks": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getLibraryAlbums": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getLibraryArtists": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "after",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getLibraryPlaylists": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -98293,6 +98459,49 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.square_online": {
       "defs": {
+        "ItemAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "locationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "itemIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "at",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "MenuItemArgs": {
           "k": "object",
           "props": [
@@ -98455,6 +98664,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "PickupTimesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getItemAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ItemAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getLoyaltyProgram": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SiteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSubscriptionPlans": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SiteArgs"
             },
             "optional": false
           }
@@ -104299,6 +104538,28 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.threads": {
       "defs": {
+        "GetHomeFeedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "feed",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "for_you"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "following"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "ThreadsGetPostArgs": {
           "k": "object",
           "props": [
@@ -104423,6 +104684,50 @@ export const VALIDATORS: ValidatorTable = {
       },
       "functions": {
         "getMe": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getHomeFeed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHomeFeedArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSavedPosts": [
           {
             "name": "opts",
             "schema": {
@@ -108964,6 +109269,59 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.ubereats": {
       "defs": {
+        "UbereatsAddToCartArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "store",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sectionUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "subsectionUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "itemUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "customizations",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "array",
+                  "of": {
+                    "k": "string"
+                  }
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
         "UbereatsBrowseStoresArgs": {
           "k": "object",
           "props": [
@@ -108990,6 +109348,108 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": true
+            }
+          ]
+        },
+        "UbereatsCartItemRef": {
+          "k": "object",
+          "props": [
+            {
+              "name": "draftOrderUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cartUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "shoppingCartItemUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "storeUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sectionUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "subsectionUuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "uuid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "price",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "imageURL",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "specialInstructions",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "customizations",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "array",
+                  "of": {
+                    "k": "any"
+                  }
+                }
+              },
+              "optional": false
             }
           ]
         },
@@ -109279,6 +109739,112 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UbereatsAddToCartArgs"
+            },
+            "optional": false
+          }
+        ],
+        "updateCartItem": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "item",
+                  "schema": {
+                    "k": "ref",
+                    "name": "UbereatsCartItemRef"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "removeFromCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "draftOrderUuid",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "cartUuid",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "shoppingCartItemUuids",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "clearCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "draftOrderUuid",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "cartUuid",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "shoppingCartItemUuids",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
