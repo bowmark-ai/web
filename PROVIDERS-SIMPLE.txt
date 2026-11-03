@@ -232,7 +232,7 @@ curiocity.com — curiocity: listEvents
 currys.co.uk — currys: listClearance, search (+2 planned)
 cve.circl.lu — circl: getCve, search
 cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuild
-dailymotion.com — dailymotion: followChannel, getChannel, getMyProfile, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listHashtagVideos, listLiveStreams, listMyLikedVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listTrendingVideos, searchChannels, searchPlaylists, searchVideos (+14 planned)
+dailymotion.com — dailymotion: addToWatchLater, followChannel, getChannel, getMyProfile, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listFollowedChannels, listHashtagVideos, listLiveStreams, listMyLikedVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listTrendingVideos, listWatchHistory, listWatchLater, searchChannels, searchPlaylists, searchVideos (+10 planned)
 dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
 data.cms.gov — data_cms: getRows, searchDatasets
 davidsonhomes.com — davidsonhomes: getCommunity, getHome, getRegion, listRegions

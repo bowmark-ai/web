@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2bdb59cc504ff711d3e3de8b269ab123d3d42cced957d5f0964ef9419a6389c9
-// 4073 checked, 20 unchecked.
+// Manifest version: 1b39f27f09b272a223eba922af579b09c975cad04f25b07852e752a7129fbdc0
+// 4075 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2bdb59cc504ff711d3e3de8b269ab123d3d42cced957d5f0964ef9419a6389c9",
+  "version": "1b39f27f09b272a223eba922af579b09c975cad04f25b07852e752a7129fbdc0",
   "units": {
     "address_validation": {
       "defs": {
@@ -72786,6 +72786,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getViewingHistory": [
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getContinueWatching": [
           {
             "name": "opts",
@@ -97434,6 +97459,46 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "pageSize",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "after",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
           }
         ],
         "listOffers": [

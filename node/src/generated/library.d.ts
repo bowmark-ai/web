@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2bdb59cc504ff711d3e3de8b269ab123d3d42cced957d5f0964ef9419a6389c9
-// 93 capabilities, 762 providers, 4091 typed functions, 20 refused.
+// Manifest version: 1b39f27f09b272a223eba922af579b09c975cad04f25b07852e752a7129fbdc0
+// 93 capabilities, 762 providers, 4093 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -61292,6 +61292,13 @@ interface NetflixTudumSearchResult {
     searchTudum(query: string): Promise<NetflixTudumSearchResult>;
 
     /**
+     * Reads the signed-in caller's own Netflix viewing history, most recent first, 100 per page
+     * (page 0, 1, …) — each title's id, name, series name, date watched and URL, for getTitle.
+     * Needs the caller signed in to their own Netflix account.
+     */
+    getViewingHistory(page?: number, opts?: ConnectionOption): Promise<NetflixViewingHistoryEntry[]>;
+
+    /**
      * Reads the signed-in caller's own Netflix Continue Watching row — the titles they are
      * part-way through, each with id, name, series/movie and URL, for getTitle. Empty when nothing
      * is in progress. Needs the caller signed in to their own Netflix account.
@@ -78131,6 +78138,14 @@ interface ShopAppOffer {
   shopCashMinimumOrder: { amount: number | null; currency: string | null } | null;
   products: ShopAppDiscoveryProduct[];
 }
+interface ShopAppProductSearch {
+  query: string;
+  /** Products from every Shopify store on Shop, Shop's own relevance order. */
+  products: ShopAppDiscoveryProduct[];
+  hasNextPage: boolean;
+  /** Pass as `after` for the next page. */
+  cursor: string | null;
+}
 interface ShopAppOffers {
   offers: ShopAppOffer[];
   hasNextPage: boolean;
@@ -78245,6 +78260,13 @@ interface ShopAppStoreContacts {
      * store — a page of sections at a time with a cursor for more.
      */
     getDiscoveryFeed(args?: { pageSize?: number; after?: string }): Promise<ShopAppDiscoveryFeed>;
+
+    /**
+     * Searches every Shopify store on Shop for products matching free text ("trail running shoes")
+     * — each product's id (for getProduct), title, store, price, image and rating, a page at a
+     * time with a cursor for more.
+     */
+    searchProducts(args: string | { query: string; pageSize?: number; after?: string }): Promise<ShopAppProductSearch>;
 
     /**
      * Lists the stores running offers on Shop right now — each store's offer line, the minimum

@@ -1366,7 +1366,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dahlconsulting.getJob` | careers.dahlconsulting.com | Reads one job posting's full detail — the complete description, industry… | 🟢 |
 | `dahlconsulting.searchJobs` | careers.dahlconsulting.com | Searches Dahl Consulting's live job board — every open role at… | 🟢 |
 | `dailymotion.addToPlaylist` | dailymotion.com | Add a video to one of the signed-in caller's playlists, or remove it. | ⚪ |
-| `dailymotion.addToWatchLater` | dailymotion.com | Add a video to the signed-in caller's Watch Later, or take it off. | ⚪ |
+| `dailymotion.addToWatchLater` | dailymotion.com | Save a Dailymotion video to the signed-in caller's Watch Later, or pass add: false to… | 🟢 |
 | `dailymotion.createPlaylist` | dailymotion.com | Create a playlist on the signed-in caller's account — name, description, private or… | ⚪ |
 | `dailymotion.deletePlaylist` | dailymotion.com | Delete one of the signed-in caller's playlists. | ⚪ |
 | `dailymotion.deleteVideo` | dailymotion.com | Delete one of the signed-in caller's videos. | ⚪ |
@@ -1382,7 +1382,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listCategoryVideos` | dailymotion.com | List the videos in one Dailymotion category ("news", "sport") — newest first, or most… | 🟢 |
 | `dailymotion.listChannelPlaylists` | dailymotion.com | List the playlists one Dailymotion channel has published — id, name, description… | 🟢 |
 | `dailymotion.listChannelVideos` | dailymotion.com | List the videos one Dailymotion uploader has published, newest first, paged — same… | 🟢 |
-| `dailymotion.listFollowedChannels` | dailymotion.com | List the channels the signed-in caller follows. | ⚪ |
+| `dailymotion.listFollowedChannels` | dailymotion.com | List the channels the signed-in caller follows, paged. | 🟢 |
 | `dailymotion.listFollowingFeed` | dailymotion.com | List the newest videos from the channels the signed-in caller follows — the site's… | ⚪ |
 | `dailymotion.listHashtagVideos` | dailymotion.com | List Dailymotion videos carrying one tag or hashtag. | 🟢 |
 | `dailymotion.listLiveStreams` | dailymotion.com | List Dailymotion live streams on air right now, optionally matching a keyword or from… | 🟢 |
@@ -1393,8 +1393,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dailymotion.listRelatedVideos` | dailymotion.com | List the videos Dailymotion recommends alongside one video. | 🟢 |
 | `dailymotion.listStreamFormats` | dailymotion.com | List the stream qualities one Dailymotion video is encoded in — quality label… | 🟢 |
 | `dailymotion.listTrendingVideos` | dailymotion.com | List the videos trending on Dailymotion right now — optionally for one country ("us"… | 🟢 |
-| `dailymotion.listWatchHistory` | dailymotion.com | List the videos the signed-in caller has watched, newest first. | ⚪ |
-| `dailymotion.listWatchLater` | dailymotion.com | List the signed-in caller's Watch Later videos. | ⚪ |
+| `dailymotion.listWatchHistory` | dailymotion.com | List the videos the signed-in caller has watched, most recent first, paged. | 🟢 |
+| `dailymotion.listWatchLater` | dailymotion.com | List the videos in the signed-in caller's Watch Later, paged. | 🟢 |
 | `dailymotion.searchChannels` | dailymotion.com | Search Dailymotion channels (uploaders) by name — id, username, display name, follower… | 🟢 |
 | `dailymotion.searchPlaylists` | dailymotion.com | Search Dailymotion playlists by keyword ("cats", "music"), as the site's own search… | 🟢 |
 | `dailymotion.searchVideos` | dailymotion.com | Search Dailymotion videos by keyword — title, uploader, duration, views, publish date… | 🟢 |

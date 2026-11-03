@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2bdb59cc504ff711d3e3de8b269ab123d3d42cced957d5f0964ef9419a6389c9
-# 93 capabilities, 762 providers, 4073 typed functions, 20 refused.
+# Manifest version: 1b39f27f09b272a223eba922af579b09c975cad04f25b07852e752a7129fbdc0
+# 93 capabilities, 762 providers, 4075 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -36472,6 +36472,11 @@ class Prv_netflix_NetflixTudumSearchEntry_Out(TypedDict):
     weeklyViews: NotRequired[float]
     weeklyHours: NotRequired[float]
 
+class Prv_netflix_NetflixViewingHistoryEntry_Out(TypedDict):
+    titleId: str
+    title: str
+    lastWatchedDate: NotRequired[str]
+
 class Prv_netflix_NetflixTitleMatch_Out(TypedDict):
     id: str
     title: str
@@ -47625,6 +47630,17 @@ class Prv_shop_app_ShopAppFeedSection_Out_stores_item_Out(TypedDict):
     name: str | None
     handle: str | None
     rating: float | None
+
+class Prv_shop_app_searchProducts_args_u1_In(TypedDict):
+    query: str
+    pageSize: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_shop_app_ShopAppProductSearch_Out(TypedDict):
+    query: str
+    products: list[Prv_shop_app_ShopAppDiscoveryProduct_Out]
+    hasNextPage: bool
+    cursor: str | None
 
 class Prv_shop_app_listOffers_args_In(TypedDict):
     pageSize: NotRequired[float]
@@ -83247,6 +83263,12 @@ class Prv_netflix(Protocol):
         when the title has never charted. No sign-in.
         """
 
+    async def getViewingHistory(self, page: float | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_netflix_NetflixViewingHistoryEntry_Out]:
+        """Reads the signed-in caller's own Netflix viewing history, most recent first, 100 per
+        page (page 0, 1, …) — each title's id, name, series name, date watched and URL, for
+        getTitle. Needs the caller signed in to their own Netflix account.
+        """
+
     async def getContinueWatching(self, opts: ConnectionOption | None = None, /) -> list[Prv_netflix_NetflixTitleMatch_Out]:
         """Reads the signed-in caller's own Netflix Continue Watching row — the titles they are
         part-way through, each with id, name, series/movie and URL, for getTitle. Empty when
@@ -89125,6 +89147,12 @@ class Prv_shop_app(Protocol):
         """Reads Shop's home discovery feed as a logged-out visitor sees it — shelves of trending
         stores, deals and each category's trending products, every product with price, rating
         and store — a page of sections at a time with a cursor for more.
+        """
+
+    async def searchProducts(self, args: str | Prv_shop_app_searchProducts_args_u1_In, /) -> Prv_shop_app_ShopAppProductSearch_Out:
+        """Searches every Shopify store on Shop for products matching free text ("trail running
+        shoes") — each product's id (for getProduct), title, store, price, image and rating, a
+        page at a time with a cursor for more.
         """
 
     async def listOffers(self, args: Prv_shop_app_listOffers_args_In | None = None, /) -> Prv_shop_app_ShopAppOffers_Out:
