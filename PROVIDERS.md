@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5973 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5977 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -732,6 +732,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boulevard.sendMessage` | joinblvd.com | Sends a secure message from the signed-in client to a business location, starting a… | ⚪ |
 | `boulevard.submitForm` | joinblvd.com | Fills in and submits one of the signed-in client's pending intake or consent forms. | ⚪ |
 | `boulevard.updateMyProfile` | joinblvd.com | Updates the signed-in client's name, email, phone or communication preferences at a… | ⚪ |
+| `bowmark.getOverview` | bowmark.ai | Reads Bowmark AI's public product overview, API and MCP endpoints, and published… | 🟢 |
+| `bowmark.searchLibrary` | bowmark.ai | Searches Bowmark AI's public library documentation by query. | 🟢 |
 | `boxlunch.search` | boxlunch.com | Searches boxlunch.com's own storefront for a keyword and returns the real, priced… | 🟢 |
 | `boydsleep.calibrateSixZoneSupportNumber` | boydsleep.com | Runs Boyd's own '6-Zone Smart Support Number' calibration for the 6-zone Nautica Home… | 🟢 |
 | `boydsleep.calibrateSupportNumber` | boydsleep.com | Runs Boyd's own '2-Zone Smart Support Number' calibration — sleep position, gender… | 🟢 |
@@ -4683,7 +4685,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `square_appointments.rescheduleBooking` | book.squareup.com | Moves one of the caller's appointments to another open time. | ⚪ |
 | `square_online.addToCart` | square.site | Creates a guest cart (or adds to one) with menu items, variations, modifiers and… | ⚪ |
 | `square_online.getCheckoutTotal` | square.site | Opens checkout for a cart and returns the order total, taxes, fees and tip options… | ⚪ |
-| `square_online.getDeliveryTimes` | square.site | Returns the earliest delivery time and delivery slots per day at one location, where… | ⚪ |
+| `square_online.getDeliveryTimes` | square.site | Returns the earliest delivery time and delivery slots (each with its arrival window)… | 🟢 |
 | `square_online.getItemAvailability` | square.site | Says which menu items are in stock or sold out at one location, by item ids or for a… | 🟢 |
 | `square_online.getLoyaltyBalance` | square.site | Looks up the caller's own loyalty points at a store by their phone number. | ⚪ |
 | `square_online.getLoyaltyProgram` | square.site | Returns a store's loyalty program: whether it is active, and each reward tier's points… | 🟢 |
@@ -4860,6 +4862,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
 | `tapfiliate.listAffiliates` | tapfiliate.com | Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by… | 🟢 |
 | `target.addToCart` | target.com | Adds one product (by TCIN) to the CALLER's own Target cart. | 🟢 |
+| `target.addToList` | target.com | Saves one product (by TCIN, optionally with a quantity) to one of the CALLER's own… | 🟢 |
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | 🟡 |
 | `target.findRegistry` | target.com | Finds a Target Gift Registry by the registrant's name, event date or registry id — the… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
@@ -4873,6 +4876,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.listQuestions` | target.com | Reads the customer Q&A on a product page (by TCIN) — the questions shoppers asked and… | 🟢 |
 | `target.listReviews` | target.com | Reads a product's customer reviews (by TCIN) — rating, text, title, verified-purchase… | 🟢 |
 | `target.listWishlists` | target.com | The CALLER's own saved lists on target.com (their "Lists" — Target's wishlist feature)… | 🟢 |
+| `target.removeFromCart` | target.com | Removes one line from the CALLER's own Target cart, by that line's own cartItemId… | 🟢 |
 | `target.reviewPhotos` | target.com | Returns the photos shoppers attached to their reviews of one product (by TCIN) —… | 🟢 |
 | `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟢 |
 | `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |

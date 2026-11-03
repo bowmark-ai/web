@@ -126,6 +126,7 @@ booking.com — booking_com: autocompleteDestination, checkPrice, getBooking, ge
 booking.mangomint.com — mangomint: bookAppointment, checkAvailability, findBusiness, getBusinessInfo, getService, getStaff, listLocations, listMemberships, listPackages, listServiceCategories, listServices, listStaff, validateSlot (+9 planned)
 booksy.com — booksy: bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getBusiness, getBusinessNetwork, getBusinessPhotos, getBusinessReviews, getMyAppointment, getSearchSuggestions, listCategories, listGiftCardOffers, listMyBookings, resolveLocation, searchBusinesses (+13 planned)
 borsheims.com — borsheims: configureRing, getProduct, searchProducts
+bowmark.ai — bowmark: getOverview, searchLibrary
 boxlunch.com — boxlunch: search
 boydsleep.com — boydsleep: calibrateSixZoneSupportNumber, calibrateSupportNumber
 bravabraces.com — brius: findProviders
@@ -653,7 +654,7 @@ speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, listTeams, searchPlayers (+1 planned)
 spotapps.co — spotapps: bookReservation, checkAvailability, findRestaurant, getCateringOptions, getMenu, getOnlineOrderMenu, getPrivatePartyOptions, getReservationSettings, listJobs (+6 planned)
-square.site — square_online: getItemAvailability, getLoyaltyProgram, getMenuItem, getPickupTimes, getSite, listCategories, listLocations, listMenuItems, listSubscriptionPlans (+10 planned)
+square.site — square_online: getDeliveryTimes, getItemAvailability, getLoyaltyProgram, getMenuItem, getPickupTimes, getSite, listCategories, listLocations, listMenuItems, listSubscriptionPlans (+9 planned)
 stackoverflow.com — stackoverflow: getQuestion, searchQuestions
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments
@@ -675,7 +676,7 @@ t-mobile.com — tmobile: getUpgradeOffer
 tagtrans.net — tagtrans_net: createShipmentRateEmail, getShipmentRateForm
 tamarackidaho.com — tamarackidaho: searchLodging
 tapfiliate.com — tapfiliate: listAffiliates
-target.com — target: addToCart, checkStock, findStore, getCart, getProduct, getRegistry, listCategories, listCategoryProducts, listDeals, listOrders, listQuestions, listReviews, listWishlists, reviewPhotos, search, writeReview (+2 planned)
+target.com — target: addToCart, addToList, checkStock, findStore, getCart, getProduct, getRegistry, listCategories, listCategoryProducts, listDeals, listOrders, listQuestions, listReviews, listWishlists, removeFromCart, reviewPhotos, search, writeReview (+2 planned)
 tatcha.com — tatcha: getPersonalizedRitual, getRitualQuizOptions
 tdlr.texas.gov — tdlr: licenseLookup
 teamtailor.com — teamtailor: listJobs
