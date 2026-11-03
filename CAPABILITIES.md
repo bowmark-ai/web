@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 146 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 148 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -80,6 +80,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `kenya_fuel_prices.search` | Returns current Kenya pump prices for diesel, petrol, or kerosene. | 0 | 🟢 |
 | `lawyer_directory.getLawyer` | Reads one lawyer's full bar record by the `id` search returned — practice areas… | 1 | 🟢 |
 | `lawyer_directory.search` | Searches a bar association's official lawyer directory (Paris bar — annuaire des… | 1 | 🟢 |
+| `llm.complete` | One model completion. | 0 | 🟢 |
+| `llm.judge` | Judges a batch of items in ONE call: a one-line `about` and a `hide` boolean per item… | 0 | 🟢 |
 | `local_classifieds_search.search` | Finds used items for sale on Kijiji near a Canadian city —… | 1 | 🟢 |
 | `local_database_gui.browse` | Parses the HTML of a local database GUI page (e.g. the caller's own agent read it off… | 0 | 🟢 |
 | `local_html_preview.render` | Parses supplied HTML (a local file's contents, or a fragment) and returns a structured… | 0 | 🟢 |

@@ -2525,7 +2525,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grammarly.detectAI` | www.grammarly.com | Scores 0-100 how much of a text Grammarly's AI detector judges AI-written, with the… | 🟢 |
 | `grammarly.detectPlagiarism` | www.grammarly.com | Counts how many passages of a text Grammarly's free scan matches against web and… | 🟢 |
 | `grammarly.detectTone` | www.grammarly.com | Identifies the tone and sentiment of written text. | ⚪ |
-| `grammarly.getAccount` | www.grammarly.com | Returns the signed-in account's profile: name, email, plan (Free or Premium) and… | ⚪ |
+| `grammarly.getAccount` | www.grammarly.com | Returns the signed-in account's profile: name, email, plan (Free or Premium) and… | 🟢 |
 | `grammarly.getDocument` | www.grammarly.com | Returns one saved document's title and full text from the signed-in account, by the id… | ⚪ |
 | `grammarly.getPersonalDictionary` | www.grammarly.com | Retrieves custom words and phrases saved in the account's personal dictionary. | ⚪ |
 | `grammarly.humanize` | www.grammarly.com | Rewrites AI-sounding text to read more naturally with Grammarly's free AI humanizer. | 🟢 |

@@ -769,7 +769,7 @@ www.ca.gov — ca_gov: getDepartment, getDepartmentContact, getService, listDepa
 www.cardiff.gov.uk — cardiff: getApplication, search
 www.cnn.com — cnn: followTopic, getArticle, getMarketsData, getVideo, listCategories, listHeadlines, listMyNews, listNewsletters, listSectionHeadlines, listTrendingTopics, listVideos, searchArticles, subscribeToNewsletter, unfollowTopic (+1 planned)
 www.gap.com — gap: getProduct, searchProducts
-www.grammarly.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, humanize (+14 planned)
+www.grammarly.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, getAccount, humanize (+13 planned)
 www.marks.com — marks: findStores, getProduct, searchProducts
 www.netflix.com — netflix: browseGenre, findTitles, getContinueWatching, getMyList, getTitle, getTop10, getTudumArticle, getViewingHistory, listGenres, search, searchTudum (+3 planned)
 www.nintendo.com — nintendo: browseCategory, getMyNintendoRewardsBalance, getProduct, getSupportArticle, listCategories, listDeals, listNews, searchProducts, searchSupport (+1 planned)
