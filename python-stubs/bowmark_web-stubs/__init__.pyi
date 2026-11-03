@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 38727b00caacc3ff93cd12d06c9177accc7ba0742ff0fbedc0e0b751552781e0
-# 93 capabilities, 759 providers, 3960 typed functions, 20 refused.
+# Manifest version: 11206c240a816b91a2b634346f199c09585c0a062fc7b22aae45210a658aa976
+# 93 capabilities, 760 providers, 3965 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5882,6 +5882,22 @@ class Prv_aosom_AosomProduct_Out(TypedDict):
     price: float
     originalPrice: float | None
     inStock: bool
+    url: str
+
+class Prv_apify_StoreArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_apify_ApifyStoreResult_Out(TypedDict):
+    actors: list[Prv_apify_ApifyActor_Out]
+
+class Prv_apify_ApifyActor_Out(TypedDict):
+    id: str
+    name: str
+    title: str
+    username: str
+    users: float | None
+    description: str | None
     url: str
 
 class Prv_app_store_SearchAppsArgs_In(TypedDict):
@@ -48130,6 +48146,85 @@ class Prv_spotapps_SpotappsOnlineOrderMenu_Out_minimumTurnaroundMinutes_Out(Type
     pickup: float | None
     delivery: float | None
 
+class Prv_spotapps_SpotappsPrivatePartyOptions_Out(TypedDict):
+    spotId: str
+    name: str | None
+    timeZone: str | None
+    active: bool
+    minPartySize: float | None
+    maxPartySize: float | None
+    timeStepMinutes: float | None
+    instructions: str | None
+    contactPhone: str | None
+    occasions: list[str]
+    recommendedBudget: float | None
+    showBudget: bool
+    textingPermissionsActive: bool
+    textingPermissionLabel: str | None
+    weekdaySlots: list[list[Prv_spotapps_SpotappsSlot_Out]]
+    dateSlots: list[Prv_spotapps_SpotappsPrivatePartyOptions_Out_dateSlots_item_Out]
+    blockedDates: list[str]
+    eventSpaces: list[str] | None
+
+class Prv_spotapps_SpotappsPrivatePartyOptions_Out_dateSlots_item_Out(TypedDict):
+    date: str
+    slots: list[Prv_spotapps_SpotappsSlot_Out]
+
+class Prv_spotapps_SpotappsCateringOptions_Out(TypedDict):
+    spotId: str
+    name: str | None
+    timeZone: str | None
+    active: bool
+    minPartySize: float | None
+    maxPartySize: float | None
+    timeStepMinutes: float | None
+    instructions: str | None
+    contactPhone: str | None
+    occasions: list[str]
+    recommendedBudget: float | None
+    showBudget: bool
+    textingPermissionsActive: bool
+    textingPermissionLabel: str | None
+    weekdaySlots: list[list[Prv_spotapps_SpotappsSlot_Out]]
+    dateSlots: list[Prv_spotapps_SpotappsCateringOptions_Out_dateSlots_item_Out]
+    blockedDates: list[str]
+    cateringTypes: list[str]
+
+class Prv_spotapps_SpotappsCateringOptions_Out_dateSlots_item_Out(TypedDict):
+    date: str
+    slots: list[Prv_spotapps_SpotappsSlot_Out]
+
+class Prv_spotapps_SpotappsBookReservationArgs_In(TypedDict):
+    spotId: str
+    date: str
+    time: str
+    partySize: float
+    firstName: str
+    lastName: str
+    email: str
+    phone: str
+    instructions: NotRequired[str]
+    space: NotRequired[str]
+    textingPermission: NotRequired[bool]
+
+class Prv_spotapps_SpotappsReservationRequest_Out(TypedDict):
+    spotId: str
+    date: str
+    time: str
+    partySize: float
+    accepted: bool
+    inquiryId: str | None
+    autoConfirmed: bool
+
+class Prv_spotapps_SpotappsJobListing_Out(TypedDict):
+    spotId: str
+    name: str | None
+    hiring: bool
+    instructions: str | None
+    contactPhone: str | None
+    positions: list[str]
+    allowPhotoUpload: bool
+
 class Prv_spotify_SpotifySearchOptions_In(TypedDict):
     types: NotRequired[Sequence[Literal["track"] | Literal["album"] | Literal["artist"] | Literal["playlist"] | Literal["show"] | Literal["episode"]]]
     limit: NotRequired[float]
@@ -64008,6 +64103,16 @@ class Prv_aosom(Protocol):
         URL (searchProducts' `url` field). THROWS rather than guessing when the page's own
         product-data block is missing or unparseable — never silently returns a stale or wrong
         variant.
+        """
+
+class Prv_apify(Protocol):
+    """Search the public Apify Store for actors by what they scrape or automate, including each
+    actor's publisher and total user count.
+    """
+
+    async def store(self, args: Prv_apify_StoreArgs_In, /) -> Prv_apify_ApifyStoreResult_Out:
+        """Search Apify Store actors by what they scrape or automate. Returns the actor's
+        publisher, description, Store URL, and total user count.
         """
 
 class Prv_app_store(Protocol):
@@ -87906,6 +88011,30 @@ class Prv_spotapps(Protocol):
         weekday.
         """
 
+    async def getPrivatePartyOptions(self, args: Prv_spotapps_SpotappsSpotArgs_In, /) -> Prv_spotapps_SpotappsPrivatePartyOptions_Out:
+        """Reads a restaurant's private-party / event inquiry form: whether it's open, party-size
+        limits, occasions, event spaces, and the bookable time slots per weekday and per
+        upcoming date.
+        """
+
+    async def getCateringOptions(self, args: Prv_spotapps_SpotappsSpotArgs_In, /) -> Prv_spotapps_SpotappsCateringOptions_Out:
+        """Reads a restaurant's catering inquiry form: whether it's open, party-size limits,
+        fulfilment types (pick-up, delivery, fully staffed), occasions, and the bookable time
+        slots per weekday and per upcoming date.
+        """
+
+    async def bookReservation(self, args: Prv_spotapps_SpotappsBookReservationArgs_In, /) -> Prv_spotapps_SpotappsReservationRequest_Out:
+        """Sends a guest reservation request (name, email, phone, party size, date, time, notes)
+        through the restaurant's widget; refuses to submit when the spot requires a deposit or
+        cancellation-fee card, since Bowmark does not take payment details.
+        """
+
+    async def listJobs(self, args: Prv_spotapps_SpotappsSpotArgs_In, /) -> Prv_spotapps_SpotappsJobListing_Out:
+        """Reads a restaurant's job-application form: whether it's hiring, the position titles the
+        form lets a candidate choose, and the application instructions — SpotHopper publishes no
+        per-posting detail beyond this category list.
+        """
+
 class Prv_spotify(Protocol):
     """Search Spotify's catalog — tracks, albums, artists, playlists, podcasts — through
     Spotify's Web API with your own developer app key.
@@ -94477,6 +94606,7 @@ class BowmarkProviders(Protocol):
     aol: Prv_aol
     aol_mail: Prv_aol_mail
     aosom: Prv_aosom
+    apify: Prv_apify
     app_store: Prv_app_store
     apple: Prv_apple
     aquaphoenixsci: Prv_aquaphoenixsci

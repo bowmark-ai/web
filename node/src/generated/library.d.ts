@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 38727b00caacc3ff93cd12d06c9177accc7ba0742ff0fbedc0e0b751552781e0
-// 93 capabilities, 759 providers, 3978 typed functions, 20 refused.
+// Manifest version: 11206c240a816b91a2b634346f199c09585c0a062fc7b22aae45210a658aa976
+// 93 capabilities, 760 providers, 3983 typed functions, 20 refused.
 // 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10188,6 +10188,25 @@ interface AosomProduct {
      * block is missing or unparseable — never silently returns a stale or wrong variant.
      */
     getProduct(url: string): Promise<AosomProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_apify {
+  // ── Apify — the unit's own declarations, verbatim ──
+interface ApifyActor { id: string; name: string; title: string; username: string; users: number | null; description: string | null; url: string; }
+interface ApifyStoreResult { actors: ApifyActor[]; }
+interface StoreArgs { query: string; limit?: number; }
+
+  /**
+   * Search the public Apify Store for actors by what they scrape or automate, including each
+   * actor's publisher and total user count.
+   */
+  interface Unit {
+    /**
+     * Search Apify Store actors by what they scrape or automate. Returns the actor's publisher,
+     * description, Store URL, and total user count.
+     */
+    store(args: StoreArgs): Promise<ApifyStoreResult>;
   }
 }
 
@@ -78906,6 +78925,73 @@ interface SpotappsOnlineOrderMenu {
   instructions: string | null;
   menus: SpotappsMenu<SpotappsOrderItem>[];
 }
+interface SpotappsInquirySettings {
+  spotId: string;
+  name: string | null;
+  timeZone: string | null;
+  active: boolean;
+  minPartySize: number | null;
+  maxPartySize: number | null;
+  timeStepMinutes: number | null;
+  instructions: string | null;
+  contactPhone: string | null;
+  occasions: string[];
+  recommendedBudget: number | null;
+  showBudget: boolean;
+  textingPermissionsActive: boolean;
+  textingPermissionLabel: string | null;
+  /** Index 0 = Sunday .. 6 = Saturday, the site's own convention. */
+  weekdaySlots: SpotappsSlot[][];
+  dateSlots: { date: string; slots: SpotappsSlot[] }[];
+  blockedDates: string[];
+}
+interface SpotappsPrivatePartyOptions extends SpotappsInquirySettings {
+  /** The site's own named event spaces, when it lists any; null when it does not. */
+  eventSpaces: string[] | null;
+}
+interface SpotappsCateringOptions extends SpotappsInquirySettings {
+  /** The fulfilment modes the catering form offers, e.g. "Pick-up", "Delivery", "Fully Staffed". */
+  cateringTypes: string[];
+}
+interface SpotappsBookReservationArgs {
+  spotId: string;
+  /** "YYYY-MM-DD". */
+  date: string;
+  /** Exactly as the widget prints it — read one off getReservationSettings() or checkAvailability(). */
+  time: string;
+  partySize: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  instructions?: string;
+  /** Only meaningful when getReservationSettings().active spots offer space selection. */
+  space?: string;
+  textingPermission?: boolean;
+}
+interface SpotappsReservationRequest {
+  spotId: string;
+  date: string;
+  time: string;
+  partySize: number;
+  /** The widget's own verdict on the submit — true means the request was accepted. */
+  accepted: boolean;
+  inquiryId: string | null;
+  /** From the spot's own settings: true means auto-confirmed, false means the restaurant still has to approve it. */
+  autoConfirmed: boolean;
+}
+interface SpotappsJobListing {
+  spotId: string;
+  name: string | null;
+  /** True when the restaurant is accepting job applications right now. */
+  hiring: boolean;
+  instructions: string | null;
+  contactPhone: string | null;
+  /** The position titles the application form lets a candidate choose — SpotHopper
+   * publishes no per-posting description or open-count here, only this category list. */
+  positions: string[];
+  allowPhotoUpload: boolean;
+}
 
   /**
    * SpotHopper restaurant sites (tmt.spotapps.co): reservations, menus, online ordering, party
@@ -78944,6 +79030,34 @@ interface SpotappsOnlineOrderMenu {
      * weekday.
      */
     getOnlineOrderMenu(args: SpotappsSpotArgs): Promise<SpotappsOnlineOrderMenu>;
+
+    /**
+     * Reads a restaurant's private-party / event inquiry form: whether it's open, party-size
+     * limits, occasions, event spaces, and the bookable time slots per weekday and per upcoming
+     * date.
+     */
+    getPrivatePartyOptions(args: SpotappsSpotArgs): Promise<SpotappsPrivatePartyOptions>;
+
+    /**
+     * Reads a restaurant's catering inquiry form: whether it's open, party-size limits, fulfilment
+     * types (pick-up, delivery, fully staffed), occasions, and the bookable time slots per weekday
+     * and per upcoming date.
+     */
+    getCateringOptions(args: SpotappsSpotArgs): Promise<SpotappsCateringOptions>;
+
+    /**
+     * Sends a guest reservation request (name, email, phone, party size, date, time, notes)
+     * through the restaurant's widget; refuses to submit when the spot requires a deposit or
+     * cancellation-fee card, since Bowmark does not take payment details.
+     */
+    bookReservation(args: SpotappsBookReservationArgs): Promise<SpotappsReservationRequest>;
+
+    /**
+     * Reads a restaurant's job-application form: whether it's hiring, the position titles the form
+     * lets a candidate choose, and the application instructions — SpotHopper publishes no
+     * per-posting detail beyond this category list.
+     */
+    listJobs(args: SpotappsSpotArgs): Promise<SpotappsJobListing>;
   }
 }
 
@@ -98860,6 +98974,7 @@ interface BowmarkProviders {
   aol: BowmarkProvider_aol.Unit;
   aol_mail: BowmarkProvider_aol_mail.Unit;
   aosom: BowmarkProvider_aosom.Unit;
+  apify: BowmarkProvider_apify.Unit;
   app_store: BowmarkProvider_app_store.Unit;
   apple: BowmarkProvider_apple.Unit;
   aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;

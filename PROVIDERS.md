@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5972 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5973 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3595,6 +3595,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `olo.reorder` | olo.com | Rebuilds a basket from one of the caller's past orders. | ⚪ |
 | `olo.saveFavoriteOrder` | olo.com | Saves a basket or past order as a named favourite. | ⚪ |
 | `olo.searchLocations` | olo.com | Searches a chain's locations near an address, a lat/lng, or in a state, optionally for… | 🟢 |
+| `olo.setHandoff` | olo.com | Sets how and when a guest basket is picked up (carryout, drive-thru, curbside… | 🟢 |
 | `olo.startCheckout` | olo.com | Takes a guest basket to checkout: validates it, fills the guest's name, email and… | ⚪ |
 | `olo.startGroupOrder` | olo.com | Starts a group order at a location on chains that allow it and returns the invite link… | ⚪ |
 | `olo.startOrder` | olo.com | Opens a guest basket at a location, returning the basket guid every other basket call… | 🟢 |

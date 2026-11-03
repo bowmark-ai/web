@@ -514,7 +514,7 @@ oanda.com — oanda: convertCurrency
 odfl.com — odfl: nothing callable yet (+1 planned)
 oldnavy.gap.com — old_navy: getProduct, searchProducts
 oliverwinery.com — oliverwinery: checkShippingAvailability, getWine, listWines
-olo.com — olo: addToBasket, applyCoupon, checkOrderAvailability, findBrand, getBasket, getLocation, getMenu, getOrderStatus, getProductOptions, listOrderDays, listRegions, listTimeSlots, removeBasketItem, searchLocations, startOrder, updateBasketItem (+16 planned)
+olo.com — olo: addToBasket, applyCoupon, checkOrderAvailability, findBrand, getBasket, getLocation, getMenu, getOrderStatus, getProductOptions, listOrderDays, listRegions, listTimeSlots, removeBasketItem, searchLocations, setHandoff, startOrder, updateBasketItem (+16 planned)
 onedrive.live.com — microsoft_onedrive: createFolder, deleteFile, getFile, listFiles, listFolders, shareFile, uploadFile
 onthemarket.com — onthemarket: search
 open.spotify.com — spotify: getAlbum, getArtist, getAvailableMarkets, getEpisode, getGenreSeeds, getOEmbed, getPlaylist, getPodcast, getTopArtists, getTopTracks, getTrack, getUserProfile, listAlbumTracks, listArtistAlbums, listArtistTracks, listNewReleases, listPlaylistTracks, search, searchPlaylists (+13 planned)

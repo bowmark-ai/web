@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 38727b00caacc3ff93cd12d06c9177accc7ba0742ff0fbedc0e0b751552781e0
-// 3960 checked, 20 unchecked.
+// Manifest version: 11206c240a816b91a2b634346f199c09585c0a062fc7b22aae45210a658aa976
+// 3965 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "38727b00caacc3ff93cd12d06c9177accc7ba0742ff0fbedc0e0b751552781e0",
+  "version": "11206c240a816b91a2b634346f199c09585c0a062fc7b22aae45210a658aa976",
   "units": {
     "address_validation": {
       "defs": {
@@ -11571,6 +11571,41 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.apify": {
+      "defs": {
+        "StoreArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "store": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StoreArgs"
             },
             "optional": false
           }
@@ -96884,6 +96919,88 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.spotapps": {
       "defs": {
+        "SpotappsBookReservationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spotId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "instructions",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "space",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "textingPermission",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SpotappsCheckAvailabilityArgs": {
           "k": "object",
           "props": [
@@ -96984,6 +97101,46 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getOnlineOrderMenu": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsSpotArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPrivatePartyOptions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsSpotArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCateringOptions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsSpotArgs"
+            },
+            "optional": false
+          }
+        ],
+        "bookReservation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsBookReservationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listJobs": [
           {
             "name": "args",
             "schema": {
