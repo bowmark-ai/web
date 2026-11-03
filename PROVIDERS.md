@@ -3401,7 +3401,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nhc.getTropicalWeatherDiscussion` | nhc.noaa.gov | Get the Tropical Weather Discussion for the Atlantic or East Pacific: the analysts'… | 🟢 |
 | `nhc.getWatchesWarnings` | nhc.noaa.gov | Get the watches and warnings in effect for a storm from its public advisory —… | 🟢 |
 | `nhc.getWindSpeedProbabilities` | nhc.noaa.gov | Get the probability of tropical-storm-force (34 kt), 50 kt and hurricane-force (64 kt)… | 🟢 |
-| `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | 🟢 |
+| `nhc.listCurrentStorms` | nhc.noaa.gov | List every active tropical storm and hurricane across the Atlantic, East Pacific and… | 🟡 |
 | `nhc.listMarineZones` | nhc.noaa.gov | List the offshore waters and high seas forecast areas NHC covers, with the zone code… | 🟢 |
 | `nhc.listSeasonStorms` | nhc.noaa.gov | List every storm of one hurricane season in a basin, with id, name and classification. | 🟢 |
 | `nhc.listStormAdvisories` | nhc.noaa.gov | List every forecast advisory, public advisory, discussion and wind probability product… | 🟡 |
@@ -5738,7 +5738,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `workday.listJobs` | myworkdayjobs.com | Lists open jobs on one company's Workday careers site… | 🟢 |
 | `wsj.addToWatchlist` | wsj.com | Adds a symbol to the signed-in reader's own watchlist. | ⚪ |
 | `wsj.getArticle` | wsj.com | Gets one article's own headline, byline, dek, section, publish date and body. | 🟢 |
-| `wsj.getArticleFullText` | wsj.com | Gets the full text of a subscriber-only article using the CALLER's own WSJ… | ⚪ |
+| `wsj.getArticleFullText` | wsj.com | Gets the full text of a subscriber-only article using the CALLER's own WSJ… | 🟢 |
 | `wsj.getAuthor` | wsj.com | Gets a WSJ journalist's own byline page (/news/author/<slug>) — name, title/beat, bio… | 🟢 |
 | `wsj.getNewsletter` | wsj.com | Gets one WSJ newsletter's own catalog entry by seoName or id — description, cadence… | 🟢 |
 | `wsj.getPodcast` | wsj.com | Gets one podcast's own catalog record by seoName — name, description, category… | 🟢 |
