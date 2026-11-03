@@ -318,7 +318,7 @@ ford.com — ford: findDealers, getOffers, getRecalls, getVehicle, listNameplate
 forms.hubspot.com — forms_hubspot_com: findForms, getFormDefinition
 fortressbp.com — fortressbp: listProductTypes, recommendProduct
 fourseasonsyachts.com — fourseasonsyachts: getVoyage, getVoyageSailing, searchVoyages
-foxnews.com — foxnews: findAuthor, getArticle, getAuthor, getLiveBlog, getShow, getTopStories, getVideo, listAuthorArticles, listLatest, listLiveBlogs, listPodcastEpisodes, listPodcasts, listSectionArticles, listSections, listShows, listVideoPlaylists, listVideos, searchArticles (+12 planned)
+foxnews.com — foxnews: findAuthor, getArticle, getAuthor, getLiveBlog, getShow, getTopStories, getVideo, listAuthorArticles, listLatest, listLiveBlogs, listNewsletters, listPodcastEpisodes, listPodcasts, listSectionArticles, listSections, listShows, listVideoPlaylists, listVideos, searchArticles (+11 planned)
 framebridge.com — framebridge: getConfigurator, listFrameStyles, priceConfiguration
 franklinbbq.com — franklinbbq_com: getPreorderMenu, listPickupSlots
 fred.stlouisfed.org — fred: browseCategory, getSeriesInfo, getSeriesObservations, listReleases, listSources, searchSeries (+1 planned)
@@ -389,7 +389,7 @@ icis.corp.delaware.gov — delaware_corps: searchEntity (+1 planned)
 idealista.com — idealista: search (+3 planned)
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
-ikea.com — ikea: addToCart, addToFavorites, findStores, getCart, getDeliveryOptions, getProduct, getProductAvailability, getProductDocuments, getProductRatings, listCategories, listCategoryProducts, listFavorites, listInspiration, listNewProducts, listOffers, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem (+7 planned)
+ikea.com — ikea: addToCart, addToFavorites, findStores, getCart, getDeliveryOptions, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getPurchase, listCategories, listCategoryProducts, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem (+5 planned)
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 inspirecommunities.com — inspirecommunities: searchHomes
@@ -664,7 +664,7 @@ stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
-styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, updateMyProfile (+7 planned)
+styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+5 planned)
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
 sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches, getSaunaFinderQuestions

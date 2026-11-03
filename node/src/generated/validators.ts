@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d35d64458bf2950a2811974287566344278cd83e45adc7a9bdf40750f5b9bb99
-// 3989 checked, 20 unchecked.
+// Manifest version: f72466cccccd2b3f9fa9f6b7dbc24c1ebbce236a65de03e4cb9c7a16119a02ed
+// 4002 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d35d64458bf2950a2811974287566344278cd83e45adc7a9bdf40750f5b9bb99",
+  "version": "f72466cccccd2b3f9fa9f6b7dbc24c1ebbce236a65de03e4cb9c7a16119a02ed",
   "units": {
     "address_validation": {
       "defs": {
@@ -20787,6 +20787,21 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.bowmark": {
+      "defs": {},
+      "functions": {
+        "getOverview": [],
+        "searchLibrary": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.boxlunch": {
       "defs": {},
       "functions": {
@@ -37161,7 +37176,47 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listTrendingSearches": []
+        "listTrendingSearches": [],
+        "estimateShipping": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "listing",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "number"
+                      },
+                      {
+                        "k": "string"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.evag": {
@@ -43343,6 +43398,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListAuthorArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListLatestArgs": {
           "k": "object",
           "props": [
@@ -43526,6 +43607,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetAuthorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listAuthorArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListAuthorArticlesArgs"
             },
             "optional": false
           }
@@ -95193,6 +95284,75 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "PriceCartArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "pizzeria",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "shippingType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "delivery"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pickup"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "items",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "SliceCartItem"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "deliveryAddress",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "tipAmount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "promoCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchPizzeriasArgs": {
           "k": "object",
           "props": [
@@ -95256,6 +95416,35 @@ export const VALIDATORS: ValidatorTable = {
               "name": "offset",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SliceCartItem": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sizeId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "selectionIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
               },
               "optional": true
             }
@@ -95351,6 +95540,109 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getHours": [
+          {
+            "name": "pizzeria",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "checkDelivery": [
+          {
+            "name": "pizzeria",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "address",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "priceCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PriceCartArgs"
+            },
+            "optional": false
+          }
+        ],
+        "validatePromoCode": [
+          {
+            "name": "pizzeria",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "promoCode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "items",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "ref",
+                "name": "SliceCartItem"
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "shippingType",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "delivery"
+                },
+                {
+                  "k": "literal",
+                  "v": "pickup"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getReviews": [
           {
             "name": "pizzeria",
             "schema": {
@@ -98659,6 +98951,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getPickupTimes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PickupTimesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDeliveryTimes": [
           {
             "name": "args",
             "schema": {
@@ -102971,6 +103273,88 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "object",
               "props": [
+                {
+                  "name": "tcin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "cartItemId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "listId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
                 {
                   "name": "tcin",
                   "schema": {
@@ -109706,6 +110090,81 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCheckoutTotal": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "draftOrderUuid",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "applyPromoCode": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "code",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "draftOrderUuid",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {

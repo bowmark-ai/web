@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d35d64458bf2950a2811974287566344278cd83e45adc7a9bdf40750f5b9bb99
-// 93 capabilities, 760 providers, 4007 typed functions, 20 refused.
-// 49,874 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: f72466cccccd2b3f9fa9f6b7dbc24c1ebbce236a65de03e4cb9c7a16119a02ed
+// 93 capabilities, 761 providers, 4020 typed functions, 20 refused.
+// 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -18605,6 +18605,27 @@ interface BoulevardAvailableTimes {
   }
 }
 
+declare namespace BowmarkProvider_bowmark {
+  // ── Bowmark AI — the unit's own declarations, verbatim ──
+interface BowmarkOverview { name: string; description: string; website: string; apiUrl: string | null; mcpUrl: string | null; pricing: { price: string; currency: string; description: string } | null; }
+interface BowmarkLibrarySearch { query: string; document: string; }
+
+  /**
+   * Bowmark AI's public product overview, API and MCP endpoints, pricing, and searchable
+   * library.
+   */
+  interface Unit {
+    /**
+     * Reads Bowmark AI's public homepage and returns its published product description, API and
+     * MCP endpoints, and pricing summary.
+     */
+    getOverview(): Promise<BowmarkOverview>;
+
+    /** Searches Bowmark AI's public library and returns the matching documentation. */
+    searchLibrary(query: string): Promise<BowmarkLibrarySearch>;
+  }
+}
+
 declare namespace BowmarkProvider_boxlunch {
   // ── BoxLunch — the unit's own declarations, verbatim ──
 interface BoxlunchOffer {
@@ -33392,6 +33413,15 @@ interface EtsyTrendingSearch {
   image: string | null;
   module: string | null;
 }
+interface EtsyShippingEstimate {
+  listingId: number;
+  destination: string | null;
+  deliveryWindow: string | null;
+  shippingCost: number | null;
+  costText: string | null;
+  shipsFrom: string | null;
+  url: string;
+}
 
   /**
    * Etsy's own documented Open API v3 (openapi.etsy.com) — searches active listings on etsy.com
@@ -33476,6 +33506,14 @@ interface EtsyTrendingSearch {
      * search box shows, each with its search URL and thumbnail.
      */
     listTrendingSearches(): Promise<EtsyTrendingSearch[]>;
+
+    /**
+     * What one Etsy listing costs to ship and when it would arrive at a destination — a US ZIP, or
+     * a country the listing ships to (its own name, e.g. "Canada") with an optional postal code.
+     * Returns Etsy's delivery window ("Nov 7-12"), the cost (0 when free), the cost line as Etsy
+     * wrote it, the destination it used and where the item ships from.
+     */
+    estimateShipping(args: { listing: number | string; zip?: string; country?: string }): Promise<EtsyShippingEstimate>;
   }
 }
 
@@ -37926,6 +37964,12 @@ interface GetAuthorArgs {
   url: string;
 }
 
+interface ListAuthorArticlesArgs {
+  url: string;
+  limit?: number;
+  offset?: number;
+}
+
 interface FoxnewsTopStory {
   headline: string;
   url: string;
@@ -38092,6 +38136,12 @@ interface FoxnewsPodcastEpisode {
      * recent stories — taking a /person/<letter>/<slug> url.
      */
     getAuthor(args: GetAuthorArgs): Promise<FoxnewsAuthor>;
+
+    /**
+     * Lists every story by one Fox News author, newest first with paging, past the handful the
+     * profile page shows — takes the /person/<letter>/<slug> url findAuthor returns.
+     */
+    listAuthorArticles(args: ListAuthorArticlesArgs): Promise<{ total: number; articles: FoxnewsArticleRow[] }>;
 
     /**
      * Returns what Fox News is leading with right now — the homepage's lead story and the
@@ -77331,6 +77381,64 @@ interface SliceSchedule {
   pausedForPickup: SliceScheduleWindow[];
   timezone: string | null;
 }
+interface SliceDeliveryCheck {
+  deliversTo: boolean;         // false means the address is outside the delivery zone
+  availableNow: boolean;       // only meaningful when deliversTo -- the shop may be closed
+  minimumOrder: number | null; // dollars; null outside the zone
+  deliveryFeeFlat: number | null;    // dollars; null outside the zone or priced by percent
+  deliveryFeePercent: number | null;
+}
+interface SliceCartItem {
+  sizeId: number;              // from getMenu's item.sizes[].id
+  quantity?: number;           // default 1
+  selectionIds?: number[];     // add-on selection ids from getMenuItemOptions
+}
+interface PriceCartArgs {
+  pizzeria: string | number;
+  shippingType: "delivery" | "pickup";
+  items: SliceCartItem[];
+  deliveryAddress?: string;    // required when shippingType is "delivery"
+  tipAmount?: number;          // dollars
+  promoCode?: string;          // silently has no effect if invalid -- check with validatePromoCode first
+}
+interface SliceCartReceipt {
+  subtotal: number;
+  tax: number;
+  deliveryFee: number;
+  serviceFeeAmount: number;
+  serviceFeePercent: number | null;
+  shopDiscount: number;
+  couponDiscount: number;
+  promoCodeDiscount: number;
+  tipAmount: number;
+  total: number;
+}
+interface SliceCartValidationIssue {
+  code: string;                // e.g. "menu_item_addon_required", "shipping_type_unavailable"
+  message: string;             // the site's own sentence
+}
+interface SliceCartPrice {
+  receipt: SliceCartReceipt | null;
+  issues: SliceCartValidationIssue[]; // empty means the order is placeable as priced
+}
+interface SlicePromoCodeResult {
+  valid: boolean;
+  reason: string | null;       // the site's own words, when valid is false
+  flatAmount: number | null;   // dollars, when the code takes a flat amount off
+  percent: number | null;      // when the code takes a percentage off
+}
+interface SliceReview {
+  id: number;
+  rating: number;
+  body: string | null;
+  reviewerFirstName: string | null; // never the reviewer's email or last name
+  orderedItemNames: string[];
+  createdAt: string | null;    // ISO instant
+}
+interface SliceRatingSummary {
+  rating: number | null;       // null when the shop has too few reviews to show one
+  ratingCount: number | null;
+}
 
   /**
    * Slice online ordering for independent pizzerias: find the pizzerias that deliver to an
@@ -77382,6 +77490,27 @@ interface SliceSchedule {
      * windows, plus any pause it is in right now.
      */
     getHours(pizzeria: string | number): Promise<SliceSchedule>;
+
+    /**
+     * Checks whether a pizzeria delivers to an address and, if it does, the delivery fee, minimum
+     * order and whether delivery is available right now.
+     */
+    checkDelivery(pizzeria: string | number, address: string): Promise<SliceDeliveryCheck>;
+
+    /**
+     * Prices an order before checkout and returns the receipt plus every issue stopping it from
+     * being placed as it stands. Creates nothing and charges nothing.
+     */
+    priceCart(args: PriceCartArgs): Promise<SliceCartPrice>;
+
+    /** Checks whether a promo code works at a pizzeria for a given order, and what it takes off. */
+    validatePromoCode(pizzeria: string | number, promoCode: string, items: SliceCartItem[], shippingType: "delivery" | "pickup"): Promise<SlicePromoCodeResult>;
+
+    /**
+     * Lists a pizzeria's customer reviews, newest first, with the overall rating and count. Never
+     * the reviewer's email or last name.
+     */
+    getReviews(pizzeria: string | number): Promise<{ reviews: SliceReview[] } & SliceRatingSummary>;
   }
 }
 
@@ -80096,6 +80225,8 @@ interface SquareOnlinePickupSlot {
   timeIso: string;
   label: string;
   prepMinutes: number | null;
+  /** getDeliveryTimes only: the window the order arrives in. */
+  deliveryWindow?: { startIso: string; endIso: string } | null;
 }
 interface SquareOnlinePickupDate {
   date: string;
@@ -80107,7 +80238,7 @@ interface SquareOnlinePickupTimes {
   site: string;
   locationId: string;
   outsideSchedulingWindow: boolean;
-  earliest: { timeIso: string; label: string; prepMinutes: number | null } | null;
+  earliest: SquareOnlinePickupSlot | null;
   dates: SquareOnlinePickupDate[];
   warnings: string[];
 }
@@ -80210,6 +80341,12 @@ interface SquareOnlineSubscriptionPlans {
      * range (default: the next 24 hours).
      */
     getPickupTimes(args: PickupTimesArgs): Promise<SquareOnlinePickupTimes>;
+
+    /**
+     * Returns the earliest delivery time and delivery slots (each with its arrival window) at one
+     * location, where the store delivers; same window rules as getPickupTimes.
+     */
+    getDeliveryTimes(args: PickupTimesArgs): Promise<SquareOnlinePickupTimes>;
 
     /**
      * Says, per menu item at one location and ready time, whether it can be ordered for pickup,
@@ -83118,6 +83255,20 @@ interface TargetWishlistsHistory {
   warnings: string[];
 }
 
+interface TargetRemoveFromCartResult {
+  cartItemId: string;
+  removed: boolean;
+  warnings: string[];
+}
+
+interface TargetAddToListResult {
+  listId: string;
+  tcin: string;
+  quantity: number;
+  added: boolean;
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
@@ -83243,6 +83394,20 @@ interface TargetWishlistsHistory {
      * will never place an order or reach a payment step. Needs the caller signed in.
      */
     addToCart(args: { tcin: string; quantity?: number }, opts?: ConnectionOption): Promise<TargetAddToCartResult>;
+
+    /**
+     * Removes one line from the CALLER's own Target cart, by that line's own `cartItemId` (from
+     * `getCart`'s `cartItems`, never the product's TCIN — a cart can hold the same TCIN on two
+     * lines). Needs the caller signed in.
+     */
+    removeFromCart(args: { cartItemId: string }, opts?: ConnectionOption): Promise<TargetRemoveFromCartResult>;
+
+    /**
+     * Saves one product (by TCIN and optional quantity, defaulting to 1) to one of the CALLER's
+     * own Target Lists, by that list's `listId` (from `listWishlists`). Needs the caller signed
+     * in.
+     */
+    addToList(args: { listId: string; tcin: string; quantity?: number }, opts?: ConnectionOption): Promise<TargetAddToListResult>;
 
     /**
      * Submits a customer review for one product, as the CALLER's own signed-in identity — a public
@@ -88830,6 +88995,9 @@ interface SignedInOrderPage {
 
 // getCart() and getMyAccount() need the caller's own Uber Eats sign-in (see authFunctions)
 interface UbereatsCartOrder { draftOrderUuid: string | null; storeUuid: string | null; storeTitle: string | null; itemCount: number | null; subtotal: number | null; }
+interface UbereatsCheckoutLine { label: string; amount: number | null; display: string | null; }
+interface UbereatsCheckoutTotal { draftOrderUuid: string; lines: UbereatsCheckoutLine[]; subtotal: number | null; total: number | null; totalDisplay: string | null; currency: string | null; }
+interface UbereatsPromoResult { code: string; accepted: boolean; message: string | null; discount: number | null; }
 interface UbereatsAccount { uuid: string | null; firstName: string | null; lastName: string | null; email: string | null; mobileNumber: string | null; }
 // addToCart/updateCartItem/removeFromCart/clearCart are anonymous — Uber Eats'
 // own guest cart, no sign-in needed (measured 2026-11-02); sign-in is only
@@ -88925,6 +89093,21 @@ interface UbereatsAddToCartArgs {
      * manifest.json.
      */
     getCart(opts?: ConnectionOption): Promise<UbereatsCartOrder[]>;
+
+    /**
+     * Reads the itemized total at the last screen before payment — each fare line (subtotal,
+     * delivery fee, service fee, taxes) and the total — for one of the caller's carts
+     * (draftOrderUuid from addToCart() or getCart()). Stops before payment. Needs the caller's own
+     * Uber Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
+     */
+    getCheckoutTotal(args: { draftOrderUuid: string }, opts?: ConnectionOption): Promise<UbereatsCheckoutTotal>;
+
+    /**
+     * Applies a promo code to the caller's Uber Eats account/cart and reports whether it was
+     * accepted, the site's message, and the discount when it names one. Needs the caller's own
+     * Uber Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
+     */
+    applyPromoCode(args: { code: string; draftOrderUuid?: string }, opts?: ConnectionOption): Promise<UbereatsPromoResult>;
 
     /**
      * Returns the caller's Uber Eats profile — name, email, phone. Needs the caller's own Uber
@@ -99441,6 +99624,7 @@ interface BowmarkProviders {
   booksy: BowmarkProvider_booksy.Unit;
   borsheims: BowmarkProvider_borsheims.Unit;
   boulevard: BowmarkProvider_boulevard.Unit;
+  bowmark: BowmarkProvider_bowmark.Unit;
   boxlunch: BowmarkProvider_boxlunch.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;
   breezyhq: BowmarkProvider_breezyhq.Unit;
@@ -136808,6 +136992,7 @@ interface BowmarkProviders {
   scholztautz: BowmarkFamily_shopify_store.Unit;
   schoolcraftshop: BowmarkFamily_shopify_store.Unit;
   schoolgirlstyle: BowmarkFamily_shopify_store.Unit;
+  schoolhouse: BowmarkFamily_shopify_store.Unit;
   schoolquipcom: BowmarkFamily_shopify_store.Unit;
   schoolshoppe: BowmarkFamily_shopify_store.Unit;
   schoolsportvictoriaapparel: BowmarkFamily_shopify_store.Unit;

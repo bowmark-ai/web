@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d35d64458bf2950a2811974287566344278cd83e45adc7a9bdf40750f5b9bb99
-# 93 capabilities, 760 providers, 3989 typed functions, 20 refused.
+# Manifest version: f72466cccccd2b3f9fa9f6b7dbc24c1ebbce236a65de03e4cb9c7a16119a02ed
+# 93 capabilities, 761 providers, 4002 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11302,6 +11302,23 @@ class Prv_boulevard_BoulevardAvailableTimes_Out_times_item_Out(TypedDict):
     id: str
     startTime: str
 
+class Prv_bowmark_BowmarkOverview_Out(TypedDict):
+    name: str
+    description: str
+    website: str
+    apiUrl: str | None
+    mcpUrl: str | None
+    pricing: Prv_bowmark_BowmarkOverview_Out_pricing_u0_Out | None
+
+class Prv_bowmark_BowmarkOverview_Out_pricing_u0_Out(TypedDict):
+    price: str
+    currency: str
+    description: str
+
+class Prv_bowmark_BowmarkLibrarySearch_Out(TypedDict):
+    query: str
+    document: str
+
 class Prv_boxlunch_search_arg_In(TypedDict):
     query: str
 
@@ -20491,6 +20508,20 @@ class Prv_etsy_EtsyTrendingSearch_Out(TypedDict):
     image: str | None
     module: str | None
 
+class Prv_etsy_estimateShipping_args_In(TypedDict):
+    listing: float | str
+    zip: NotRequired[str]
+    country: NotRequired[str]
+
+class Prv_etsy_EtsyShippingEstimate_Out(TypedDict):
+    listingId: float
+    destination: str | None
+    deliveryWindow: str | None
+    shippingCost: float | None
+    costText: str | None
+    shipsFrom: str | None
+    url: str
+
 class Prv_evag_listDisruptions_options_In(TypedDict):
     line: NotRequired[str]
     category: NotRequired[Literal["short-notice"] | Literal["planned"]]
@@ -23062,6 +23093,15 @@ class Prv_foxnews_FoxnewsAuthorStory_Out(TypedDict):
     title: str
     url: str
     datePublished: str | None
+
+class Prv_foxnews_ListAuthorArticlesArgs_In(TypedDict):
+    url: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_foxnews_listAuthorArticles_return_Out(TypedDict):
+    total: float
+    articles: list[Prv_foxnews_FoxnewsArticleRow_Out]
 
 class Prv_foxnews_getTopStories_return_Out(TypedDict):
     topStories: list[Prv_foxnews_FoxnewsTopStory_Out]
@@ -47123,6 +47163,65 @@ Prv_slice_SliceScheduleWindow_Out = TypedDict(
     },
 )
 
+class Prv_slice_SliceDeliveryCheck_Out(TypedDict):
+    deliversTo: bool
+    availableNow: bool
+    minimumOrder: float | None
+    deliveryFeeFlat: float | None
+    deliveryFeePercent: float | None
+
+class Prv_slice_PriceCartArgs_In(TypedDict):
+    pizzeria: str | float
+    shippingType: Literal["delivery"] | Literal["pickup"]
+    items: Sequence[Prv_slice_SliceCartItem_In]
+    deliveryAddress: NotRequired[str]
+    tipAmount: NotRequired[float]
+    promoCode: NotRequired[str]
+
+class Prv_slice_SliceCartItem_In(TypedDict):
+    sizeId: float
+    quantity: NotRequired[float]
+    selectionIds: NotRequired[Sequence[float]]
+
+class Prv_slice_SliceCartPrice_Out(TypedDict):
+    receipt: Prv_slice_SliceCartReceipt_Out | None
+    issues: list[Prv_slice_SliceCartValidationIssue_Out]
+
+class Prv_slice_SliceCartReceipt_Out(TypedDict):
+    subtotal: float
+    tax: float
+    deliveryFee: float
+    serviceFeeAmount: float
+    serviceFeePercent: float | None
+    shopDiscount: float
+    couponDiscount: float
+    promoCodeDiscount: float
+    tipAmount: float
+    total: float
+
+class Prv_slice_SliceCartValidationIssue_Out(TypedDict):
+    code: str
+    message: str
+
+class Prv_slice_SlicePromoCodeResult_Out(TypedDict):
+    valid: bool
+    reason: str | None
+    flatAmount: float | None
+    percent: float | None
+
+class Prv_slice_getReviews_return_Out(TypedDict):
+    reviews: list[Prv_slice_SliceReview_Out]
+    rating: float | None
+    ratingCount: float | None
+
+class Prv_slice_SliceReview_Out(TypedDict):
+    id: float
+    rating: float
+    body: str | None
+    reviewerFirstName: str | None
+    orderedItemNames: list[str]
+    createdAt: str | None
+
 class Prv_slickdeals_SlickdealsDeal_Out(TypedDict):
     id: str
     title: str
@@ -49092,24 +49191,24 @@ class Prv_square_online_SquareOnlinePickupTimes_Out(TypedDict):
     site: str
     locationId: str
     outsideSchedulingWindow: bool
-    earliest: Prv_square_online_SquareOnlinePickupTimes_Out_earliest_u0_Out | None
+    earliest: Prv_square_online_SquareOnlinePickupSlot_Out | None
     dates: list[Prv_square_online_SquareOnlinePickupDate_Out]
     warnings: list[str]
-
-class Prv_square_online_SquareOnlinePickupTimes_Out_earliest_u0_Out(TypedDict):
-    timeIso: str
-    label: str
-    prepMinutes: float | None
-
-class Prv_square_online_SquareOnlinePickupDate_Out(TypedDict):
-    date: str
-    label: str | None
-    times: list[Prv_square_online_SquareOnlinePickupSlot_Out] | None
 
 class Prv_square_online_SquareOnlinePickupSlot_Out(TypedDict):
     timeIso: str
     label: str
     prepMinutes: float | None
+    deliveryWindow: NotRequired[Prv_square_online_SquareOnlinePickupSlot_Out_deliveryWindow_u0_Out | None]
+
+class Prv_square_online_SquareOnlinePickupSlot_Out_deliveryWindow_u0_Out(TypedDict):
+    startIso: str
+    endIso: str
+
+class Prv_square_online_SquareOnlinePickupDate_Out(TypedDict):
+    date: str
+    label: str | None
+    times: list[Prv_square_online_SquareOnlinePickupSlot_Out] | None
 
 class Prv_square_online_ItemAvailabilityArgs_In(TypedDict):
     site: str
@@ -51237,6 +51336,26 @@ class Prv_target_addToCart_args_In(TypedDict):
 
 class Prv_target_TargetAddToCartResult_Out(TypedDict):
     itemId: str
+    tcin: str
+    quantity: float
+    added: bool
+    warnings: list[str]
+
+class Prv_target_removeFromCart_args_In(TypedDict):
+    cartItemId: str
+
+class Prv_target_TargetRemoveFromCartResult_Out(TypedDict):
+    cartItemId: str
+    removed: bool
+    warnings: list[str]
+
+class Prv_target_addToList_args_In(TypedDict):
+    listId: str
+    tcin: str
+    quantity: NotRequired[float]
+
+class Prv_target_TargetAddToListResult_Out(TypedDict):
+    listId: str
     tcin: str
     quantity: float
     added: bool
@@ -54662,6 +54781,32 @@ class Prv_ubereats_UbereatsCartOrder_Out(TypedDict):
     storeTitle: str | None
     itemCount: float | None
     subtotal: float | None
+
+class Prv_ubereats_getCheckoutTotal_args_In(TypedDict):
+    draftOrderUuid: str
+
+class Prv_ubereats_UbereatsCheckoutTotal_Out(TypedDict):
+    draftOrderUuid: str
+    lines: list[Prv_ubereats_UbereatsCheckoutLine_Out]
+    subtotal: float | None
+    total: float | None
+    totalDisplay: str | None
+    currency: str | None
+
+class Prv_ubereats_UbereatsCheckoutLine_Out(TypedDict):
+    label: str
+    amount: float | None
+    display: str | None
+
+class Prv_ubereats_applyPromoCode_args_In(TypedDict):
+    code: str
+    draftOrderUuid: NotRequired[str]
+
+class Prv_ubereats_UbereatsPromoResult_Out(TypedDict):
+    code: str
+    accepted: bool
+    message: str | None
+    discount: float | None
 
 class Prv_ubereats_UbereatsAccount_Out(TypedDict):
     uuid: str | None
@@ -67223,6 +67368,19 @@ class Prv_boulevard(Protocol):
         location's tz). Each time `id` is what staff selection and booking take.
         """
 
+class Prv_bowmark(Protocol):
+    """Bowmark AI's public product overview, API and MCP endpoints, pricing, and searchable
+    library.
+    """
+
+    async def getOverview(self, /) -> Prv_bowmark_BowmarkOverview_Out:
+        """Reads Bowmark AI's public homepage and returns its published product description, API
+        and MCP endpoints, and pricing summary.
+        """
+
+    async def searchLibrary(self, query: str, /) -> Prv_bowmark_BowmarkLibrarySearch_Out:
+        """Searches Bowmark AI's public library and returns the matching documentation."""
+
 class Prv_boxlunch(Protocol):
     """BoxLunch's own storefront search (boxlunch.com) — licensed pop-culture and entertainment
     merch (apparel, figures, accessories, home goods) across every property the store
@@ -72225,6 +72383,13 @@ class Prv_etsy(Protocol):
         search box shows, each with its search URL and thumbnail.
         """
 
+    async def estimateShipping(self, args: Prv_etsy_estimateShipping_args_In, /) -> Prv_etsy_EtsyShippingEstimate_Out:
+        """What one Etsy listing costs to ship and when it would arrive at a destination — a US
+        ZIP, or a country the listing ships to (its own name, e.g. "Canada") with an optional
+        postal code. Returns Etsy's delivery window ("Nov 7-12"), the cost (0 when free), the
+        cost line as Etsy wrote it, the destination it used and where the item ships from.
+        """
+
 class Prv_evag(Protocol):
     """Real-time public transit departure information and schedules for Essen, Germany via EVAG
     (Essener Verkehrs-AG) / Ruhrbahn, read straight from ifa.ruhrbahn.de's own JSON backend
@@ -73805,6 +73970,11 @@ class Prv_foxnews(Protocol):
     async def getAuthor(self, args: Prv_foxnews_GetAuthorArgs_In, /) -> Prv_foxnews_FoxnewsAuthor_Out:
         """Reads one Fox News person's profile — name, job title, bio, social links and their most
         recent stories — taking a /person/<letter>/<slug> url.
+        """
+
+    async def listAuthorArticles(self, args: Prv_foxnews_ListAuthorArticlesArgs_In, /) -> Prv_foxnews_listAuthorArticles_return_Out:
+        """Lists every story by one Fox News author, newest first with paging, past the handful the
+        profile page shows — takes the /person/<letter>/<slug> url findAuthor returns.
         """
 
     async def getTopStories(self, /) -> Prv_foxnews_getTopStories_return_Out:
@@ -87758,6 +87928,26 @@ class Prv_slice(Protocol):
         open/close windows, plus any pause it is in right now.
         """
 
+    async def checkDelivery(self, pizzeria: str | float, address: str, /) -> Prv_slice_SliceDeliveryCheck_Out:
+        """Checks whether a pizzeria delivers to an address and, if it does, the delivery fee,
+        minimum order and whether delivery is available right now.
+        """
+
+    async def priceCart(self, args: Prv_slice_PriceCartArgs_In, /) -> Prv_slice_SliceCartPrice_Out:
+        """Prices an order before checkout and returns the receipt plus every issue stopping it
+        from being placed as it stands. Creates nothing and charges nothing.
+        """
+
+    async def validatePromoCode(self, pizzeria: str | float, promoCode: str, items: Sequence[Prv_slice_SliceCartItem_In], shippingType: Literal["delivery"] | Literal["pickup"], /) -> Prv_slice_SlicePromoCodeResult_Out:
+        """Checks whether a promo code works at a pizzeria for a given order, and what it takes
+        off.
+        """
+
+    async def getReviews(self, pizzeria: str | float, /) -> Prv_slice_getReviews_return_Out:
+        """Lists a pizzeria's customer reviews, newest first, with the overall rating and count.
+        Never the reviewer's email or last name.
+        """
+
 class Prv_slickdeals(Protocol):
     """Slickdeals deals: today's frontpage hot deals, or search deals by keyword — price, store
     and community thumb score.
@@ -88671,6 +88861,11 @@ class Prv_square_online(Protocol):
     async def getPickupTimes(self, args: Prv_square_online_PickupTimesArgs_In, /) -> Prv_square_online_SquareOnlinePickupTimes_Out:
         """Returns the earliest pickup time and the available pickup slots at one location over a
         date range (default: the next 24 hours).
+        """
+
+    async def getDeliveryTimes(self, args: Prv_square_online_PickupTimesArgs_In, /) -> Prv_square_online_SquareOnlinePickupTimes_Out:
+        """Returns the earliest delivery time and delivery slots (each with its arrival window) at
+        one location, where the store delivers; same window rules as getPickupTimes.
         """
 
     async def getItemAvailability(self, args: Prv_square_online_ItemAvailabilityArgs_In, /) -> Prv_square_online_SquareOnlineAvailability_Out:
@@ -89655,6 +89850,18 @@ class Prv_target(Protocol):
         Target cart. The last step this provider may take on a buying flow — it stops there;
         this provider will never place an order or reach a payment step. Needs the caller signed
         in.
+        """
+
+    async def removeFromCart(self, args: Prv_target_removeFromCart_args_In, opts: ConnectionOption | None = None, /) -> Prv_target_TargetRemoveFromCartResult_Out:
+        """Removes one line from the CALLER's own Target cart, by that line's own `cartItemId`
+        (from `getCart`'s `cartItems`, never the product's TCIN — a cart can hold the same TCIN
+        on two lines). Needs the caller signed in.
+        """
+
+    async def addToList(self, args: Prv_target_addToList_args_In, opts: ConnectionOption | None = None, /) -> Prv_target_TargetAddToListResult_Out:
+        """Saves one product (by TCIN and optional quantity, defaulting to 1) to one of the
+        CALLER's own Target Lists, by that list's `listId` (from `listWishlists`). Needs the
+        caller signed in.
         """
 
     async def writeReview(self, args: Prv_target_writeReview_args_In, opts: ConnectionOption | None = None, /) -> Prv_target_TargetWriteReviewResult_Out:
@@ -91585,6 +91792,19 @@ class Prv_ubereats(Protocol):
         """Reads the caller's current Uber Eats cart(s) — store, item count and subtotal for each
         draft order. Needs the caller's own Uber Eats sign-in (authFunctions); signedIn is
         UNMEASURED, see manifest.json.
+        """
+
+    async def getCheckoutTotal(self, args: Prv_ubereats_getCheckoutTotal_args_In, opts: ConnectionOption | None = None, /) -> Prv_ubereats_UbereatsCheckoutTotal_Out:
+        """Reads the itemized total at the last screen before payment — each fare line (subtotal,
+        delivery fee, service fee, taxes) and the total — for one of the caller's carts
+        (draftOrderUuid from addToCart() or getCart()). Stops before payment. Needs the caller's
+        own Uber Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
+        """
+
+    async def applyPromoCode(self, args: Prv_ubereats_applyPromoCode_args_In, opts: ConnectionOption | None = None, /) -> Prv_ubereats_UbereatsPromoResult_Out:
+        """Applies a promo code to the caller's Uber Eats account/cart and reports whether it was
+        accepted, the site's message, and the discount when it names one. Needs the caller's own
+        Uber Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
         """
 
     async def getMyAccount(self, opts: ConnectionOption | None = None, /) -> Prv_ubereats_UbereatsAccount_Out:
@@ -95123,6 +95343,7 @@ class BowmarkProviders(Protocol):
     booksy: Prv_booksy
     borsheims: Prv_borsheims
     boulevard: Prv_boulevard
+    bowmark: Prv_bowmark
     boxlunch: Prv_boxlunch
     boydsleep: Prv_boydsleep
     breezyhq: Prv_breezyhq

@@ -2181,7 +2181,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.listElectionRaces` | foxnews.com | Lists the races Fox News's Elections Center covers for an election (Senate, House… | ⚪ |
 | `foxnews.listLatest` | foxnews.com | Lists the newest stories and clips published anywhere on Fox News, newest first, with… | 🟢 |
 | `foxnews.listLiveBlogs` | foxnews.com | Lists Fox News's live-coverage pages (rolling blogs for wars, elections, trials… | 🟢 |
-| `foxnews.listNewsletters` | foxnews.com | Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics… | ⚪ |
+| `foxnews.listNewsletters` | foxnews.com | Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics… | 🟢 |
 | `foxnews.listPodcastEpisodes` | foxnews.com | Lists one Fox News podcast's episodes, newest first — title, description, publication… | 🟢 |
 | `foxnews.listPodcasts` | foxnews.com | Lists the Fox News podcasts (Fox News Talk, Perino on Politics, The Brian Kilmeade… | 🟢 |
 | `foxnews.listSectionArticles` | foxnews.com | Lists the latest stories in one Fox News section or topic ("politics"… | 🟢 |
@@ -2700,7 +2700,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.getProductDocuments` | ikea.com | Lists a product's documents — assembly instructions, care manuals, declarations and… | 🟢 |
 | `ikea.getProductRatings` | ikea.com | Reads a product's customer rating summary — average stars, rating count, the per-star… | 🟢 |
 | `ikea.getProfile` | ikea.com | Reads the signed-in caller's IKEA profile — name, email, phone, saved addresses… | ⚪ |
-| `ikea.getPurchase` | ikea.com | Reads one of the signed-in caller's purchases by order number — items, prices… | ⚪ |
+| `ikea.getPurchase` | ikea.com | Reads one of the signed-in caller's purchases by order number — items, prices… | 🟢 |
 | `ikea.listCategories` | ikea.com | Lists IKEA's product category tree (e.g. Furniture → Bookcases & shelving units) with… | 🟢 |
 | `ikea.listCategoryProducts` | ikea.com | Lists the products in one category with IKEA's own filters (price, colour, material… | 🟢 |
 | `ikea.listFamilyOffers` | ikea.com | Lists the member-only IKEA Family offers and rewards available to the signed-in caller. | ⚪ |
@@ -2708,7 +2708,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.listInspiration` | ikea.com | Lists one room's idea content — photographed room galleries, how-to articles, product… | 🟢 |
 | `ikea.listNewProducts` | ikea.com | Lists IKEA US products marked as new arrivals, with the same filters, sort orders and… | 🟢 |
 | `ikea.listOffers` | ikea.com | Lists IKEA US products on offer — IKEA Family prices by default, or last-chance… | 🟢 |
-| `ikea.listPurchases` | ikea.com | Lists the signed-in caller's IKEA purchases, online and in store, newest first, with… | ⚪ |
+| `ikea.listPurchases` | ikea.com | Lists the signed-in caller's IKEA purchases, online and in store, newest first, with… | 🟢 |
 | `ikea.lookupOrder` | ikea.com | Looks up one order as a guest — no account needed — by order number plus the email or… | 🟢 |
 | `ikea.removeFromCart` | ikea.com | Removes an item from a cart. | 🟢 |
 | `ikea.removeFromFavorites` | ikea.com | Removes a product from a favorites list. | 🟢 |
@@ -4815,7 +4815,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `styleseat.getReviews` | styleseat.com | Lists a pro's client reviews, newest first and paged, with stars, review text, photos… | 🟢 |
 | `styleseat.getSalon` | styleseat.com | Gets a salon's details plus every pro who works there, each with their services… | 🟢 |
 | `styleseat.joinWaitlist` | styleseat.com | Puts the signed-in caller on a pro's waitlist for chosen services, with a note, when… | 🟢 |
-| `styleseat.leaveReview` | styleseat.com | Leaves a star rating and review for a pro after the signed-in caller's completed… | ⚪ |
+| `styleseat.leaveReview` | styleseat.com | Leaves a star rating and review for a pro after the signed-in caller's completed… | 🟢 |
 | `styleseat.listClassTimes` | styleseat.com | Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons)… | ⚪ |
 | `styleseat.listFavorites` | styleseat.com | Lists the pros the signed-in caller has saved as favorites. | 🟢 |
 | `styleseat.listMyAppointments` | styleseat.com | Lists the signed-in caller's upcoming and past StyleSeat appointments: pro, services… | 🟢 |
@@ -4826,7 +4826,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `styleseat.rescheduleAppointment` | styleseat.com | Moves one of the signed-in caller's appointments to a new date and start time with the… | 🟢 |
 | `styleseat.resolveLocation` | styleseat.com | Turns a place a caller typed ("Brooklyn, NY", a ZIP code, an address) into the… | 🟢 |
 | `styleseat.searchProfessionals` | styleseat.com | Searches StyleSeat for hair stylists, barbers, braiders, nail techs, lash and brow… | 🟢 |
-| `styleseat.sendMessageToProfessional` | styleseat.com | Opens a chat with a pro and sends the signed-in caller's message (a question about a… | ⚪ |
+| `styleseat.sendMessageToProfessional` | styleseat.com | Opens a chat with a pro and sends the signed-in caller's message (a question about a… | 🟢 |
 | `styleseat.updateMyProfile` | styleseat.com | Changes the signed-in caller's profile details: first name, last name, phone. | 🟢 |
 | `suitsupply.getProduct` | suitsupply.com | Reads one product page's stock check: every size variant with in-stock flag, max… | 🟢 |
 | `suitsupply.listCategory` | suitsupply.com | Lists one men's category grid (suits, jackets, coats, knitwear, shirts, trousers… | 🟢 |
