@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: aa425501a0914c0f1ec6020e0bc94838c717bb60c2f95bc37daacf7b60ab9100
-// 93 capabilities, 761 providers, 4036 typed functions, 20 refused.
+// Manifest version: 5f41c689aeabc1c4b34cc1fa3467e749d0a3b500d06946dc6656e6de027f9ce4
+// 93 capabilities, 761 providers, 4041 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32094,6 +32094,15 @@ interface RedeemCodeResult {
   code: string;
 }
 
+interface ClaimFreeGameResult {
+  claimed: boolean;
+  alreadyOwned: boolean;
+  status: string; // the site's own labels — read the values off a result, never guess one from prose
+  offerId: string;
+  namespace: string;
+  checkoutUrl: string | null;
+}
+
 interface AchievementProgressEntry {
   achievementName: string;
   unlocked: boolean;
@@ -32232,6 +32241,15 @@ interface GetAchievementProgressResult {
      * signed in.
      */
     redeemCode(code: string, opts?: ConnectionOption): Promise<RedeemCodeResult>;
+
+    /**
+     * Claim a free ($0) Epic offer into the signed-in caller's library — take offerId and
+     * namespace from listFreeGames. Refuses any offer whose current price is not zero and never
+     * reaches a payment step. Epic forces its captcha'd web checkout for the weekly free base
+     * game: then claimed is false, status is CHECKOUT and checkoutUrl is where a human finishes
+     * it. Needs the caller signed in.
+     */
+    claimFreeGame(args: { offerId: string; namespace: string; country?: string }, opts?: ConnectionOption): Promise<ClaimFreeGameResult>;
 
     /**
      * The signed-in caller's own achievements in one game — which are unlocked, when, their XP and
@@ -39823,6 +39841,12 @@ interface GithubListStarredRepositoriesResult {
   repositories: GithubStarredRepository[];
   warnings: string[];
 }
+interface GithubMergeResult {
+  repository: string;
+  pullNumber: number;
+  mergeMethod: "MERGE" | "SQUASH" | "REBASE";
+  merged: true;
+}
 interface GithubStarResult {
   repository: string;
   starred: boolean;
@@ -40155,6 +40179,16 @@ interface GithubCommentResult {
      * saved session is stale, or the repository does not exist.
      */
     unstarRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubStarResult>;
+
+    /**
+     * Merges a pull request into its base branch for the signed-in caller, off github.com's own
+     * merge box (`POST /{owner}/{repo}/pull/{number}/page_data/merge`). `mergeMethod` defaults to
+     * 'merge'; 'squash' and 'rebase' match the merge box's own options, and
+     * `commitTitle`/`commitMessage` override the merge commit's text. NEEDS THE CALLER SIGNED IN
+     * with write access to the repository. THROWS when signed out, the saved session is stale, or
+     * the pull request cannot be merged (conflicts, failing required checks, no write access).
+     */
+    mergePullRequest(owner: string, repo: string, pullNumber: number, options?: { mergeMethod?: 'merge' | 'squash' | 'rebase'; commitTitle?: string; commitMessage?: string }, opts?: ConnectionOption): Promise<GithubMergeResult>;
   }
 }
 
@@ -75201,6 +75235,29 @@ interface ScribdEmbedCode {
   thumbnailHeight?: number;
   aspectRatio?: number;
 }
+interface ScribdCategory {
+  name: string;
+  slug: string;
+  url: string;
+}
+interface ScribdTrendingDocument {
+  id: number;
+  title: string;
+  url: string;
+  author?: { name: string; url?: string };
+  pageCount?: number;
+  views?: string;
+  upvoteCount: number;
+  downvoteCount: number;
+  imageUrl?: string;
+  type: string;
+}
+interface ScribdTrendingModule {
+  title: string;
+  category?: string;
+  url?: string;
+  documents: ScribdTrendingDocument[];
+}
 
   /**
    * Scribd, the document-sharing library: search user-uploaded documents, read a document's
@@ -75263,6 +75320,22 @@ interface ScribdEmbedCode {
      * scribd.com/document/<id>/<slug> url or the numeric id, so a caller can place it in a page.
      */
     getEmbedCode(document: string | number): Promise<ScribdEmbedCode>;
+
+    /**
+     * Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
+     * Management, Law, Science & Mathematics, Teaching Methods & Materials, Technology &
+     * Engineering, Wellness) with each one's name, url slug and url, for a caller holding only a
+     * subject's name.
+     */
+    listCategories(): Promise<ScribdCategory[]>;
+
+    /**
+     * With no argument, every "Trending in <Category>" module (9, 30 documents each) plus Scribd's
+     * editorial lists ("Business Templates" …), each with its documents (id, title, url, author,
+     * page count, votes, thumbnail). With a category name or part of one, only the matching
+     * module(s).
+     */
+    getTrendingDocuments(category?: string): Promise<ScribdTrendingModule[]>;
   }
 }
 
@@ -86441,6 +86514,25 @@ interface ToastDiningOption {
   futureTimes: Array<{ date: string; times: string[] }>; // the pickup/delivery slots on offer
 }
 
+interface ToastMenu {
+  restaurantGuid: string;
+  menus: Array<{ guid: string; name: string; description: string | null; groups: ToastMenuGroup[] }>;
+}
+
+interface ToastMenuGroup { guid: string; name: string; description: string | null; items: ToastMenuItemSummary[]; }
+
+interface ToastMenuItemSummary {
+  guid: string;              // what getMenuItem and addToCart take
+  groupGuid: string;
+  name: string;
+  description: string | null;
+  price: number | null;      // dollars, the lowest when there are several
+  prices: number[];
+  outOfStock: boolean;
+  hasModifiers: boolean;     // true = sizes or add-ons; getMenuItem lists them
+  imageUrl: string | null;
+}
+
   /**
    * Toast, the restaurant platform behind Toast Local (toast.app), Toast online ordering and
    * Toast Tables: find restaurants near a place or in a city, a restaurant's details, menu, item
@@ -86487,6 +86579,13 @@ interface ToastDiningOption {
      * (default 3, max 14), and the ordering schedule by day.
      */
     getOrderingOptions(ref: ToastRestaurantRef, daysAhead?: number): Promise<ToastOrderingOptions>;
+
+    /**
+     * Reads a restaurant's online-ordering menu by toast.app URL, slug or guid: each menu, its
+     * groups, and every item with name, description, price in dollars, whether it is out of stock
+     * or has sizes and add-ons, an image, and the item guid getMenuItem and addToCart take.
+     */
+    getMenu(ref: ToastRestaurantRef): Promise<ToastMenu>;
   }
 }
 

@@ -312,7 +312,7 @@ fivestarbathsolutions.com — fivestarbathsolutions: getAvailableSlots, listLoca
 flightradar24.com — flightradar24: getAirline, getAirportArrivals (+10 planned)
 flights.google.com — google_flights: getBookingOptions, getPriceGraph, search
 fluencecorp.com — fluencecorp: calculateEnergyConsumption
-fomo.family — fomo: filterTokens, getBalances, getCandles, getClan, getClanFeed, getClanHoldings, getClanHoldingsBreakdown, getClanThesis, getCurrentUser, getDevHolders, getFeed, getFollowers, getFollowing, getFollowingIds, getFollowingLeaderboard, getFriendHolders, getGraduatedTokens, getLeaderboard, getMajorTokens, getMostHeldTokens, getMutuals, getPortfolioHistory, getPortfolioSnapshot, getRecommendedUsers, getToken, getTokenAllowlist, getTokenAllowlistDetailed, getTokenFeed, getTokenThesis, getTokenWarnings, getTopHolders, getTrade, getTradeComments, getTrades, getTradingActivityFeed, getTrendingTokens, getUser, getUserByHandle, getUserLeaderboardStanding, getUserSpotlight, getUserSwaps, getUserTransfers, getUserWithdrawals, getVerifiedTokens, searchClans, searchTokens, searchUsers (+32 planned)
+fomo.family — fomo: addToWatchlist, filterTokens, getBalances, getCandles, getClan, getClanFeed, getClanHoldings, getClanHoldingsBreakdown, getClanThesis, getCurrentUser, getDevHolders, getFeed, getFollowers, getFollowing, getFollowingIds, getFollowingLeaderboard, getFriendHolders, getGraduatedTokens, getLeaderboard, getMajorTokens, getMostHeldTokens, getMutuals, getPortfolioHistory, getPortfolioSnapshot, getRecommendedUsers, getToken, getTokenAllowlist, getTokenAllowlistDetailed, getTokenFeed, getTokenThesis, getTokenWarnings, getTopHolders, getTrade, getTradeComments, getTrades, getTradingActivityFeed, getTrendingTokens, getUser, getUserByHandle, getUserLeaderboardStanding, getUserSpotlight, getUserSwaps, getUserTransfers, getUserWithdrawals, getVerifiedTokens, getWatchlist, removeFromWatchlist, searchClans, searchTokens, searchUsers (+29 planned)
 forbes.com — forbes: getArticle, getContributor, getList, getPerson, getVideo, listArticlesByTopic, listBillionaires, listContributors, listLists, listNews, listTopics, listVideos (+1 planned)
 ford.com — ford: findDealers, getOffers, getRecalls, getVehicle, listNameplates (+4 planned)
 forms.hubspot.com — forms_hubspot_com: findForms, getFormDefinition
@@ -333,7 +333,7 @@ gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getRentersQuote, listDiscounts, listPartnerCompanies (+33 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
 getsquire.com — squire: findShopsNear, getAvailability, getShop, listBarbers, listServices, searchShops (+22 planned)
-github.com — github: createComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listIssues, listMarketplaceActions, listNotifications, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, searchCode, searchRepositories, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository (+8 planned)
+github.com — github: createComment, createReviewComment, deleteComment, getIssue, getOrganization, getProfileReadme, getPullRequest, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listIssues, listMarketplaceActions, listNotifications, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, searchCode, searchRepositories, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository (+7 planned)
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
 glassesusa.com — glassesusa: getProduct, search
@@ -706,7 +706,7 @@ travelinsured.com — travelinsured: getZipInfo, searchDestinations (+1 planned)
 travelocity.com — travelocity: nothing callable yet (+7 planned)
 trawickinternational.com — trawickinternational: getPlanPremium, getQuote
 trektravel.com — trektravel: getDeparturePricing, searchTours
-tripadvisor.com — tripadvisor: getAttraction, getDestination, getHotel, getHotelPrices, getPhotos, getQuestions, getRestaurant, getReview, getReviews, search, searchAttractions, searchHotels, searchRestaurants (+14 planned)
+tripadvisor.com — tripadvisor: getAttraction, getDestination, getHotel, getHotelPrices, getNearby, getPhotos, getQuestions, getRestaurant, getReview, getReviews, search, searchAttractions, searchHotels, searchRestaurants (+13 planned)
 trojanstorage.com — trojanstorage: getFacilityUnits, listFacilities
 trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, searchHomes (+1 planned)
 trueup.io — trueup: searchJobs

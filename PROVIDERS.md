@@ -2056,7 +2056,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `floathelm.rescheduleBooking` | reboot.floathelm.com | Reschedule an existing booking to a different date/time. | ⚪ |
 | `floathelm.updateMyProfile` | reboot.floathelm.com | Update the signed-in user's profile information. | ⚪ |
 | `fluencecorp.calculateEnergyConsumption` | fluencecorp.com | Computes Normalized Energy Consumption (`NEC`, kWh/kg) for a wastewater treatment… | 🟢 |
-| `fomo.addToWatchlist` | fomo.family | Adds a token to the signed-in trader's watchlist. `POST /watchlist`. | ⚪ |
+| `fomo.addToWatchlist` | fomo.family | Adds a token to the signed-in trader's watchlist. `POST /watchlist`. | 🟢 |
 | `fomo.claimCreatorFees` | fomo.family | Claims the creator fees a token's deployer has accrued, moving them into the signed-in… | ⚪ |
 | `fomo.commentOnTrade` | fomo.family | Posts a comment on a trade, and reacts to or unreacts from an existing comment. `POST… | ⚪ |
 | `fomo.deleteAccount` | fomo.family | Deletes the signed-in trader's fomo account. `DELETE /v2/users/:userId`. | ⚪ |
@@ -2118,13 +2118,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getUserTransfers` | fomo.family | Pages one trader's token transfers in and out — distinct from getUserSwaps, which are… | 🟢 |
 | `fomo.getUserWithdrawals` | fomo.family | Returns one trader's withdrawals off the platform for a given chain. `GET… | 🟢 |
 | `fomo.getVerifiedTokens` | fomo.family | Returns the tokens fomo has verified — its own trust list, as distinct from the… | 🟢 |
-| `fomo.getWatchlist` | fomo.family | Returns the tokens the signed-in trader is watching, and adds or removes one. | ⚪ |
+| `fomo.getWatchlist` | fomo.family | Returns every token the signed-in trader is watching, newest first. `GET /watchlist`… | 🟢 |
 | `fomo.postTokenThesis` | fomo.family | Publishes the signed-in trader's written thesis on a token. | ⚪ |
 | `fomo.quoteSwap` | fomo.family | Prices a swap without executing it — input token, output token, amounts, price impact… | ⚪ |
 | `fomo.quoteUsdcSwap` | fomo.family | Prices a swap denominated in USDC — the stablecoin path fomo's own buy flow uses… | ⚪ |
 | `fomo.reactToComment` | fomo.family | Reacts to a comment under a trade. `POST /trades/comment/react`. | ⚪ |
 | `fomo.reactToPost` | fomo.family | Reacts to, or removes a reaction from, a feed post. `POST /feed/react` and `POST… | ⚪ |
-| `fomo.removeFromWatchlist` | fomo.family | Removes a token from the signed-in trader's watchlist. `DELETE /watchlist`. | ⚪ |
+| `fomo.removeFromWatchlist` | fomo.family | Removes a token from the signed-in trader's watchlist. `DELETE /watchlist`. | 🟢 |
 | `fomo.searchClans` | fomo.family | Searches clans by name. | 🟢 |
 | `fomo.searchTokens` | fomo.family | Searches tokens by name, symbol or contract address and returns matching rows with… | 🟢 |
 | `fomo.searchUsers` | fomo.family | Fuzzy-searches traders by handle or display name and returns matching profiles. | 🟢 |
@@ -2293,8 +2293,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
 | `github.createIssue` | github.com | Creates a new issue on a repository. | ⚪ |
 | `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | ⚪ |
-| `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
-| `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
+| `github.createReview` | github.com | Submits a review on a pull request for the signed-in caller (approve, request changes… | 🔴 |
+| `github.createReviewComment` | github.com | Adds an inline comment to a line, a line range or a whole file in a pull request's… | 🟢 |
 | `github.deleteComment` | github.com | Deletes a comment on an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
@@ -4815,7 +4815,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `styleseat.getReviews` | styleseat.com | Lists a pro's client reviews, newest first and paged, with stars, review text, photos… | 🟢 |
 | `styleseat.getSalon` | styleseat.com | Gets a salon's details plus every pro who works there, each with their services… | 🟢 |
 | `styleseat.joinWaitlist` | styleseat.com | Puts the signed-in caller on a pro's waitlist for chosen services, with a note, when… | 🟢 |
-| `styleseat.leaveReview` | styleseat.com | Leaves a star rating and review for a pro after the signed-in caller's completed… | 🟢 |
+| `styleseat.leaveReview` | styleseat.com | Leaves a star rating and review for a pro, from the feedback token in StyleSeat's… | 🟢 |
 | `styleseat.listClassTimes` | styleseat.com | Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons)… | ⚪ |
 | `styleseat.listFavorites` | styleseat.com | Lists the pros the signed-in caller has saved as favorites. | 🟢 |
 | `styleseat.listMyAppointments` | styleseat.com | Lists the signed-in caller's upcoming and past StyleSeat appointments: pro, services… | 🟢 |
@@ -4826,7 +4826,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `styleseat.rescheduleAppointment` | styleseat.com | Moves one of the signed-in caller's appointments to a new date and start time with the… | 🟢 |
 | `styleseat.resolveLocation` | styleseat.com | Turns a place a caller typed ("Brooklyn, NY", a ZIP code, an address) into the… | 🟢 |
 | `styleseat.searchProfessionals` | styleseat.com | Searches StyleSeat for hair stylists, barbers, braiders, nail techs, lash and brow… | 🟢 |
-| `styleseat.sendMessageToProfessional` | styleseat.com | Opens a chat with a pro and sends the signed-in caller's message (a question about a… | 🟢 |
+| `styleseat.sendMessageToProfessional` | styleseat.com | Opens a chat conversation with a pro (the door StyleSeat's own messaging goes through). | 🟢 |
 | `styleseat.updateMyProfile` | styleseat.com | Changes the signed-in caller's profile details: first name, last name, phone. | 🟢 |
 | `suitsupply.getProduct` | suitsupply.com | Reads one product page's stock check: every size variant with in-stock flag, max… | 🟢 |
 | `suitsupply.listCategory` | suitsupply.com | Lists one men's category grid (suits, jackets, coats, knitwear, shirts, trousers… | 🟢 |
@@ -5184,7 +5184,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | 🟢 |
 | `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | 🟢 |
 | `tripadvisor.getMemberProfile` | tripadvisor.com | Reads a member's public profile — handle, display name, home town, join date… | ⚪ |
-| `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a given listing, nearest or… | ⚪ |
+| `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a listing (/HotelsNear-… | 🟢 |
 | `tripadvisor.getOwnProfile` | tripadvisor.com | Reads the signed-in caller's own profile — handle, display name, home town… | ⚪ |
 | `tripadvisor.getPhotos` | tripadvisor.com | Lists a listing's photos — the gallery's albums (all photos, traveller, dining… | 🟢 |
 | `tripadvisor.getQuestions` | tripadvisor.com | Reads a listing's travellers' Q&A questions, newest first — each question's id, text… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: aa425501a0914c0f1ec6020e0bc94838c717bb60c2f95bc37daacf7b60ab9100
-// 4018 checked, 20 unchecked.
+// Manifest version: 5f41c689aeabc1c4b34cc1fa3467e749d0a3b500d06946dc6656e6de027f9ce4
+// 4023 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "aa425501a0914c0f1ec6020e0bc94838c717bb60c2f95bc37daacf7b60ab9100",
+  "version": "5f41c689aeabc1c4b34cc1fa3467e749d0a3b500d06946dc6656e6de027f9ce4",
   "units": {
     "address_validation": {
       "defs": {
@@ -36002,6 +36002,54 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "claimFreeGame": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "offerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "namespace",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getAchievementProgress": [
           {
             "name": "args",
@@ -46077,6 +46125,89 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "mergePullRequest": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pullNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "mergeMethod",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "merge"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "squash"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "rebase"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "commitTitle",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "commitMessage",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -93063,6 +93194,16 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listCategories": [],
+        "getTrendingDocuments": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -106893,6 +107034,16 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ],
+        "getMenu": [
+          {
+            "name": "ref",
+            "schema": {
+              "k": "ref",
+              "name": "ToastRestaurantRef"
+            },
+            "optional": false
           }
         ]
       }

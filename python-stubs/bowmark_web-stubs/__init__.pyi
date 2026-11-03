@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: aa425501a0914c0f1ec6020e0bc94838c717bb60c2f95bc37daacf7b60ab9100
-# 93 capabilities, 761 providers, 4018 typed functions, 20 refused.
+# Manifest version: 5f41c689aeabc1c4b34cc1fa3467e749d0a3b500d06946dc6656e6de027f9ce4
+# 93 capabilities, 761 providers, 4023 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19670,6 +19670,19 @@ class Prv_epicgames_RedeemCodeResult_Out(TypedDict):
     redeemed: bool
     code: str
 
+class Prv_epicgames_claimFreeGame_args_In(TypedDict):
+    offerId: str
+    namespace: str
+    country: NotRequired[str]
+
+class Prv_epicgames_ClaimFreeGameResult_Out(TypedDict):
+    claimed: bool
+    alreadyOwned: bool
+    status: str
+    offerId: str
+    namespace: str
+    checkoutUrl: str | None
+
 class Prv_epicgames_getAchievementProgress_args_In(TypedDict):
     slug: NotRequired[str]
     namespace: NotRequired[str]
@@ -24371,6 +24384,17 @@ class Prv_github_GithubSubscriptionResult_Out(TypedDict):
 class Prv_github_GithubStarResult_Out(TypedDict):
     repository: str
     starred: bool
+
+class Prv_github_mergePullRequest_options_In(TypedDict):
+    mergeMethod: NotRequired[Literal["merge"] | Literal["squash"] | Literal["rebase"]]
+    commitTitle: NotRequired[str]
+    commitMessage: NotRequired[str]
+
+class Prv_github_GithubMergeResult_Out(TypedDict):
+    repository: str
+    pullNumber: float
+    mergeMethod: Literal["MERGE"] | Literal["SQUASH"] | Literal["REBASE"]
+    merged: Literal[True]
 
 class Prv_glama_search_query_u1_In(TypedDict):
     query: str
@@ -45682,6 +45706,33 @@ class Prv_scribd_ScribdEmbedCode_Out(TypedDict):
     thumbnailHeight: NotRequired[float]
     aspectRatio: NotRequired[float]
 
+class Prv_scribd_ScribdCategory_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+
+class Prv_scribd_ScribdTrendingModule_Out(TypedDict):
+    title: str
+    category: NotRequired[str]
+    url: NotRequired[str]
+    documents: list[Prv_scribd_ScribdTrendingDocument_Out]
+
+class Prv_scribd_ScribdTrendingDocument_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    author: NotRequired[Prv_scribd_ScribdTrendingDocument_Out_author_Out]
+    pageCount: NotRequired[float]
+    views: NotRequired[str]
+    upvoteCount: float
+    downvoteCount: float
+    imageUrl: NotRequired[str]
+    type: str
+
+class Prv_scribd_ScribdTrendingDocument_Out_author_Out(TypedDict):
+    name: str
+    url: NotRequired[str]
+
 class Prv_seakeeper_SeakeeperDealer_Out(TypedDict):
     name: str
     address: str
@@ -53185,6 +53236,33 @@ class Prv_toast_ToastOrderingOptions_Out_schedule_item_Out_days_item_Out(TypedDi
     date: str
     note: str | None
     periods: list[Prv_toast_ToastServicePeriod_Out]
+
+class Prv_toast_ToastMenu_Out(TypedDict):
+    restaurantGuid: str
+    menus: list[Prv_toast_ToastMenu_Out_menus_item_Out]
+
+class Prv_toast_ToastMenu_Out_menus_item_Out(TypedDict):
+    guid: str
+    name: str
+    description: str | None
+    groups: list[Prv_toast_ToastMenuGroup_Out]
+
+class Prv_toast_ToastMenuGroup_Out(TypedDict):
+    guid: str
+    name: str
+    description: str | None
+    items: list[Prv_toast_ToastMenuItemSummary_Out]
+
+class Prv_toast_ToastMenuItemSummary_Out(TypedDict):
+    guid: str
+    groupGuid: str
+    name: str
+    description: str | None
+    price: float | None
+    prices: list[float]
+    outOfStock: bool
+    hasModifiers: bool
+    imageUrl: str | None
 
 class Prv_tock_TockBusinessSuggestion_Out(TypedDict):
     slug: str
@@ -72265,6 +72343,14 @@ class Prv_epicgames(Protocol):
         caller signed in.
         """
 
+    async def claimFreeGame(self, args: Prv_epicgames_claimFreeGame_args_In, opts: ConnectionOption | None = None, /) -> Prv_epicgames_ClaimFreeGameResult_Out:
+        """Claim a free ($0) Epic offer into the signed-in caller's library — take offerId and
+        namespace from listFreeGames. Refuses any offer whose current price is not zero and
+        never reaches a payment step. Epic forces its captcha'd web checkout for the weekly free
+        base game: then claimed is false, status is CHECKOUT and checkoutUrl is where a human
+        finishes it. Needs the caller signed in.
+        """
+
     async def getAchievementProgress(self, args: Prv_epicgames_getAchievementProgress_args_In, opts: ConnectionOption | None = None, /) -> Prv_epicgames_GetAchievementProgressResult_Out:
         """The signed-in caller's own achievements in one game — which are unlocked, when, their XP
         and progress. Takes a product slug or namespace. Needs the caller signed in.
@@ -74945,6 +75031,16 @@ class Prv_github(Protocol):
         """Removes a repository from the signed-in caller's stars, off github.com's own unstar form
         (`POST /{owner}/{repo}/unstar`). NEEDS THE CALLER SIGNED IN. THROWS when signed out, the
         saved session is stale, or the repository does not exist.
+        """
+
+    async def mergePullRequest(self, owner: str, repo: str, pullNumber: float, options: Prv_github_mergePullRequest_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubMergeResult_Out:
+        """Merges a pull request into its base branch for the signed-in caller, off github.com's
+        own merge box (`POST /{owner}/{repo}/pull/{number}/page_data/merge`). `mergeMethod`
+        defaults to 'merge'; 'squash' and 'rebase' match the merge box's own options, and
+        `commitTitle`/`commitMessage` override the merge commit's text. NEEDS THE CALLER SIGNED
+        IN with write access to the repository. THROWS when signed out, the saved session is
+        stale, or the pull request cannot be merged (conflicts, failing required checks, no
+        write access).
         """
 
 class Prv_glama(Protocol):
@@ -87479,6 +87575,20 @@ class Prv_scribd(Protocol):
         page.
         """
 
+    async def listCategories(self, /) -> list[Prv_scribd_ScribdCategory_Out]:
+        """Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
+        Management, Law, Science & Mathematics, Teaching Methods & Materials, Technology &
+        Engineering, Wellness) with each one's name, url slug and url, for a caller holding only
+        a subject's name.
+        """
+
+    async def getTrendingDocuments(self, category: str | None = None, /) -> list[Prv_scribd_ScribdTrendingModule_Out]:
+        """With no argument, every "Trending in <Category>" module (9, 30 documents each) plus
+        Scribd's editorial lists ("Business Templates" …), each with its documents (id, title,
+        url, author, page count, votes, thumbnail). With a category name or part of one, only
+        the matching module(s).
+        """
+
 class Prv_seakeeper(Protocol):
     """Reads Seakeeper's own real-time Dealer / Elite Dealer Locator directly (the same
     admin-ajax endpoint the site's map runs) — every real gyro-stabilizer dealer worldwide,
@@ -91159,6 +91269,13 @@ class Prv_toast(Protocol):
         delivery are on, ASAP takeout and delivery, today's hours, each dining option (takeout,
         delivery…) with its guid and the future pickup or delivery times on offer for the next
         few days (default 3, max 14), and the ordering schedule by day.
+        """
+
+    async def getMenu(self, ref: str, /) -> Prv_toast_ToastMenu_Out:
+        """Reads a restaurant's online-ordering menu by toast.app URL, slug or guid: each menu, its
+        groups, and every item with name, description, price in dollars, whether it is out of
+        stock or has sizes and add-ons, an image, and the item guid getMenuItem and addToCart
+        take.
         """
 
 class Prv_tock(Protocol):
