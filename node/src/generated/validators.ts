@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f09f56971a672fe7d2f8bb50698220f0a3ba3fb6d030be645828ecaff47f1321
-// 4070 checked, 20 unchecked.
+// Manifest version: 2bdb59cc504ff711d3e3de8b269ab123d3d42cced957d5f0964ef9419a6389c9
+// 4073 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f09f56971a672fe7d2f8bb50698220f0a3ba3fb6d030be645828ecaff47f1321",
+  "version": "2bdb59cc504ff711d3e3de8b269ab123d3d42cced957d5f0964ef9419a6389c9",
   "units": {
     "address_validation": {
       "defs": {
@@ -36891,6 +36891,39 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.espn": {
       "defs": {
+        "DraftPicksArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "round",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "FantasyPlayersArgs": {
           "k": "object",
           "props": [
@@ -37097,6 +37130,25 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "OddsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "gameId",
               "schema": {
                 "k": "string"
               },
@@ -37614,6 +37666,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "TransactionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "odds": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OddsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "draftPicks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DraftPicksArgs"
             },
             "optional": false
           }
@@ -119874,6 +119946,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetArticleFullTextArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetAuthorArgs": {
           "k": "object",
           "props": [
@@ -120020,6 +120104,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetArticleArgs"
             },
             "optional": false
+          }
+        ],
+        "getArticleFullText": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleFullTextArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "searchArticles": [

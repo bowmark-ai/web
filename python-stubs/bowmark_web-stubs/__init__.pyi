@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f09f56971a672fe7d2f8bb50698220f0a3ba3fb6d030be645828ecaff47f1321
-# 93 capabilities, 762 providers, 4070 typed functions, 20 refused.
+# Manifest version: 2bdb59cc504ff711d3e3de8b269ab123d3d42cced957d5f0964ef9419a6389c9
+# 93 capabilities, 762 providers, 4073 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20582,6 +20582,77 @@ class Prv_espn_Transaction_Out_team_u0_Out(TypedDict):
     id: str
     abbreviation: str
     name: str
+
+class Prv_espn_OddsArgs_In(TypedDict):
+    league: str
+    gameId: NotRequired[str]
+
+class Prv_espn_OddsResult_Out(TypedDict):
+    league: str
+    games: list[Prv_espn_GameOdds_Out]
+
+class Prv_espn_GameOdds_Out(TypedDict):
+    gameId: str
+    name: str | None
+    date: str | None
+    lines: list[Prv_espn_OddsLine_Out]
+
+class Prv_espn_OddsLine_Out(TypedDict):
+    provider: str
+    details: str | None
+    spread: float | None
+    overUnder: float | None
+    overOdds: float | None
+    underOdds: float | None
+    away: Prv_espn_OddsLine_Out_away_Out
+    home: Prv_espn_OddsLine_Out_home_Out
+
+class Prv_espn_OddsLine_Out_away_Out(TypedDict):
+    moneyLine: float | None
+    spreadOdds: float | None
+    favorite: bool
+
+class Prv_espn_OddsLine_Out_home_Out(TypedDict):
+    moneyLine: float | None
+    spreadOdds: float | None
+    favorite: bool
+
+class Prv_espn_DraftPicksArgs_In(TypedDict):
+    league: str
+    season: NotRequired[float]
+    round: NotRequired[float]
+    team: NotRequired[str]
+
+class Prv_espn_DraftPicksResult_Out(TypedDict):
+    league: str
+    season: float | None
+    name: str | None
+    status: str | None
+    picks: list[Prv_espn_DraftPick_Out]
+
+class Prv_espn_DraftPick_Out(TypedDict):
+    round: float
+    pick: float
+    overall: float
+    status: str
+    traded: bool
+    tradeNote: str | None
+    team: Prv_espn_DraftPick_Out_team_u0_Out | None
+    athlete: Prv_espn_DraftPick_Out_athlete_u0_Out | None
+
+class Prv_espn_DraftPick_Out_team_u0_Out(TypedDict):
+    id: str
+    abbreviation: str
+    name: str
+
+class Prv_espn_DraftPick_Out_athlete_u0_Out(TypedDict):
+    id: str
+    name: str
+    position: str | None
+    school: str | None
+    height: str | None
+    weight: str | None
+    url: str | None
 
 class Prv_espn_RankingsArgs_In(TypedDict):
     league: NotRequired[str]
@@ -59544,6 +59615,9 @@ class Prv_wsj_WsjArticle_Out(TypedDict):
     paywalled: bool
     url: str
 
+class Prv_wsj_GetArticleFullTextArgs_In(TypedDict):
+    url: str
+
 class Prv_wsj_SearchArticlesArgs_In(TypedDict):
     query: str
 
@@ -73239,6 +73313,18 @@ class Prv_espn(Protocol):
         """A league's recent transactions — signings, releases, trades, waivers and injured-list
         moves — newest first, with date, team and the description ESPN prints. Paged; optionally
         narrowed to one team.
+        """
+
+    async def odds(self, args: Prv_espn_OddsArgs_In, /) -> Prv_espn_OddsResult_Out:
+        """The betting lines ESPN shows for a league's games — spread, total and moneyline from
+        each sportsbook it lists. Pass gameId for one game, or omit it for every game on the
+        current scoreboard. Read only; nothing is wagered.
+        """
+
+    async def draftPicks(self, args: Prv_espn_DraftPicksArgs_In, /) -> Prv_espn_DraftPicksResult_Out:
+        """A league's draft pick by pick — round, pick, overall number, drafting team, the player
+        with position, school, height and weight, and any trade note. Pass season for a past
+        year, round or team to narrow.
         """
 
     async def rankings(self, args: Prv_espn_RankingsArgs_In, /) -> Prv_espn_RankingsResult_Out:
@@ -95087,6 +95173,11 @@ class Prv_wsj(Protocol):
     async def getArticle(self, args: Prv_wsj_GetArticleArgs_In, /) -> Prv_wsj_WsjArticle_Out:
         """Gets one article's own headline, byline, dek, section, publish date and body — the free
         preview when the article is paywalled, the full text otherwise.
+        """
+
+    async def getArticleFullText(self, args: Prv_wsj_GetArticleFullTextArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wsj_WsjArticle_Out:
+        """Gets a subscriber-only article's whole text through the caller's own signed-in WSJ
+        subscription — same fields as getArticle, with paywalled always false.
         """
 
     async def searchArticles(self, args: Prv_wsj_SearchArticlesArgs_In, /) -> list[Prv_wsj_WsjSearchResult_Out]:

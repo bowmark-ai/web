@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f09f56971a672fe7d2f8bb50698220f0a3ba3fb6d030be645828ecaff47f1321
-// 93 capabilities, 762 providers, 4088 typed functions, 20 refused.
+// Manifest version: 2bdb59cc504ff711d3e3de8b269ab123d3d42cced957d5f0964ef9419a6389c9
+// 93 capabilities, 762 providers, 4091 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -33483,6 +33483,74 @@ interface TransactionsResult {
   transactions: Transaction[];
 }
 
+interface OddsArgs {
+  /** League slug: "nfl", "nba", "mlb", "nhl", etc. */
+  league: string;
+  /** One game's ESPN id (from scoreboard). Omitted → every game on the current scoreboard. */
+  gameId?: string;
+}
+
+interface OddsLine {
+  provider: string;
+  details: string | null;
+  spread: number | null;
+  overUnder: number | null;
+  overOdds: number | null;
+  underOdds: number | null;
+  away: { moneyLine: number | null; spreadOdds: number | null; favorite: boolean };
+  home: { moneyLine: number | null; spreadOdds: number | null; favorite: boolean };
+}
+
+interface GameOdds {
+  gameId: string;
+  name: string | null;
+  date: string | null;
+  lines: OddsLine[];
+}
+
+interface OddsResult {
+  league: string;
+  games: GameOdds[];
+}
+
+interface DraftPicksArgs {
+  /** League slug: "nfl", "nba", "mlb", "nhl" */
+  league: string;
+  /** Draft year; default ESPN's current draft */
+  season?: number;
+  /** Only this round */
+  round?: number;
+  /** Only this team's picks, by abbreviation, name or nickname */
+  team?: string;
+}
+
+interface DraftPick {
+  round: number;
+  pick: number;
+  overall: number;
+  status: string; // the site's own labels, e.g. "SELECTION_MADE" — read the values off a result, never guess one from prose
+  traded: boolean;
+  tradeNote: string | null;
+  team: { id: string; abbreviation: string; name: string } | null;
+  athlete: {
+    id: string;
+    name: string;
+    position: string | null;
+    school: string | null;
+    height: string | null;
+    weight: string | null;
+    url: string | null;
+  } | null;
+}
+
+interface DraftPicksResult {
+  league: string;
+  season: number | null;
+  name: string | null;
+  status: string | null; // the site's own labels — read the values off a result, never guess one from prose
+  picks: DraftPick[];
+}
+
 interface RankingsArgs {
   /** "college-football" (default) or "mens-college-basketball" */
   league?: string;
@@ -33675,6 +33743,20 @@ interface ListMyFantasyTeamsResult {
      * to one team.
      */
     transactions(args: TransactionsArgs): Promise<TransactionsResult>;
+
+    /**
+     * The betting lines ESPN shows for a league's games — spread, total and moneyline from each
+     * sportsbook it lists. Pass gameId for one game, or omit it for every game on the current
+     * scoreboard. Read only; nothing is wagered.
+     */
+    odds(args: OddsArgs): Promise<OddsResult>;
+
+    /**
+     * A league's draft pick by pick — round, pick, overall number, drafting team, the player with
+     * position, school, height and weight, and any trade note. Pass season for a past year, round
+     * or team to narrow.
+     */
+    draftPicks(args: DraftPicksArgs): Promise<DraftPicksResult>;
 
     /**
      * College polls — the AP Top 25, the Coaches Poll and (in season) the playoff rankings for
@@ -95900,6 +95982,10 @@ interface WsjArticle {
   url: string;
 }
 
+interface GetArticleFullTextArgs {
+  url: string; // a www.wsj.com article url; needs the caller's own WSJ subscription
+}
+
 interface GetArticleArgs {
   url: string; // a url from listArticles or listSections
 }
@@ -96073,6 +96159,12 @@ interface WsjTrendingArticle {
      * preview when the article is paywalled, the full text otherwise.
      */
     getArticle(args: GetArticleArgs): Promise<WsjArticle>;
+
+    /**
+     * Gets a subscriber-only article's whole text through the caller's own signed-in WSJ
+     * subscription — same fields as getArticle, with paywalled always false.
+     */
+    getArticleFullText(args: GetArticleFullTextArgs, opts?: ConnectionOption): Promise<WsjArticle>;
 
     /**
      * Searches WSJ's own site search for a keyword and returns matching articles with headline,

@@ -1,5 +1,5 @@
 {
-  "version": "f09f56971a672fe7d2f8bb50698220f0a3ba3fb6d030be645828ecaff47f1321",
+  "version": "2bdb59cc504ff711d3e3de8b269ab123d3d42cced957d5f0964ef9419a6389c9",
   "units": {
     "address_validation": {
       "defs": {
@@ -36879,6 +36879,39 @@
     },
     "providers.espn": {
       "defs": {
+        "DraftPicksArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "round",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "FantasyPlayersArgs": {
           "k": "object",
           "props": [
@@ -37085,6 +37118,25 @@
             },
             {
               "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "OddsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "gameId",
               "schema": {
                 "k": "string"
               },
@@ -37602,6 +37654,26 @@
             "schema": {
               "k": "ref",
               "name": "TransactionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "odds": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OddsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "draftPicks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DraftPicksArgs"
             },
             "optional": false
           }
@@ -119862,6 +119934,18 @@
             }
           ]
         },
+        "GetArticleFullTextArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetAuthorArgs": {
           "k": "object",
           "props": [
@@ -120008,6 +120092,32 @@
               "name": "GetArticleArgs"
             },
             "optional": false
+          }
+        ],
+        "getArticleFullText": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleFullTextArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "searchArticles": [
