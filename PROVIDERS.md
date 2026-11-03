@@ -631,7 +631,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booker.getAvailableDates` | booker.com | Returns the local dates a service has at least one open appointment at a location over… | 🟢 |
 | `booker.getBookingPolicies` | booker.com | Returns a location's booking rules: its cancellation policy text and fee window, how… | 🟢 |
 | `booker.getGroupAvailability` | booker.com | Finds start times when several guests can each begin a service together (a couples'… | 🟢 |
-| `booker.getLocationHours` | booker.com | Returns a location's recurring weekly opening hours, one row per weekday. | 🟢 |
+| `booker.getLocationHours` | booker.com | Returns a location's recurring weekly opening hours, one row per weekday. | 🟡 |
 | `booker.getMultiServiceAvailability` | booker.com | Finds open times for several services booked as one visit, back to back (for example a… | 🟢 |
 | `booker.getMyProfile` | booker.com | Returns the signed-in customer's profile at a location: name, email, phone, address… | ⚪ |
 | `booker.getService` | booker.com | Returns one service's full detail: description, category, duration, price and whether… | 🟢 |
@@ -2766,7 +2766,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instacart.listDeals` | instacart.com | Lists what is on sale at a store right now — the store's Sales collection — with each… | 🟢 |
 | `instacart.listDeliveryWindows` | instacart.com | Lists the delivery or pickup time slots the signed-in customer can choose for a cart… | ⚪ |
 | `instacart.listDepartmentProducts` | instacart.com | Lists the products in one store department or aisle by its slug, each with price and… | 🟢 |
-| `instacart.listDepartments` | instacart.com | Lists a store's top-level departments and aisles (Produce, Dairy & Eggs, Sales…) with… | 🟢 |
+| `instacart.listDepartments` | instacart.com | Lists a store's top-level departments and aisles (Produce, Dairy & Eggs, Sales…) with… | 🟡 |
 | `instacart.listFavorites` | instacart.com | Lists the products the signed-in customer has saved as favorites. | ⚪ |
 | `instacart.listMyAddresses` | instacart.com | Lists the signed-in customer's saved delivery addresses with their ids, which cart… | ⚪ |
 | `instacart.listMyLists` | instacart.com | Lists the signed-in customer's shopping lists with name and item count. | ⚪ |
@@ -3369,7 +3369,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.getTitle` | www.netflix.com | Reads a public Netflix title page by its numeric id (the number in… | 🟢 |
 | `netflix.getTop10` | www.netflix.com | Gets Netflix's current Top 10 list for the week — TV and Films, each ranked 1-10… | 🟢 |
 | `netflix.getTudumArticle` | www.netflix.com | Reads one article on Tudum, Netflix's editorial site, by its slug or URL — headline… | 🟢 |
-| `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's viewing history (requires caller to be signed in). | ⚪ |
+| `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's own Netflix viewing history, most recent first, 100 per… | 🟢 |
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
 | `netflix.rateTitle` | www.netflix.com | Rates a title on the signed-in caller's account (requires caller to be signed in). | ⚪ |
 | `netflix.removeFromMyList` | www.netflix.com | Removes a title from the signed-in caller's My List (requires caller to be signed in). | ⚪ |
@@ -4451,7 +4451,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | 🟡 |
 | `shop_app.markOrderDelivered` | shop.app | Marks one of the caller's orders as delivered, or un-marks it. | ⚪ |
 | `shop_app.saveProduct` | shop.app | Saves a product to the caller's Shop favourites, or removes it (saved: false). | ⚪ |
-| `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | ⚪ |
+| `shop_app.searchProducts` | shop.app | Searches every Shopify store on Shop for products matching free text ("trail running… | 🟢 |
 | `shop_app.searchStore` | shop.app | Searches inside one store for products matching free text ("strawberry" in Liquid… | 🟢 |
 | `shop_app.startCheckout` | shop.app | Opens a checkout for the caller's cart at one store and returns the checkout url for… | ⚪ |
 | `shop_app.suggestSearches` | shop.app | Autocompletes a partial search ("running sh") into Shop's own query suggestions plus… | 🟢 |
@@ -5655,7 +5655,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listLinks` | wikipedia.org | Every other Wikipedia article this one links to, by title and url. | 🟢 |
 | `wikipedia.listMostViewed` | wikipedia.org | What Wikipedia's readers looked at most — the day's or the edition's top articles with… | 🟡 |
 | `wikipedia.listNotifications` | wikipedia.org | The caller's Wikipedia notifications — replies to them, thanks they were sent… | 🟢 |
-| `wikipedia.listRecentChanges` | wikipedia.org | What is being edited on Wikipedia right now — a live feed of recent edits with page… | 🟡 |
+| `wikipedia.listRecentChanges` | wikipedia.org | What is being edited on Wikipedia right now — a live feed of recent edits with page… | 🟢 |
 | `wikipedia.listRelated` | wikipedia.org | Articles about things like this one — Wikipedia's own "more like this", for a caller… | 🟢 |
 | `wikipedia.listRevisions` | wikipedia.org | An article's edit history — each revision with its id, timestamp, editor, edit… | 🟢 |
 | `wikipedia.listUserContributions` | wikipedia.org | Every edit one named editor has made, newest first — page, timestamp, edit summary and… | 🟢 |

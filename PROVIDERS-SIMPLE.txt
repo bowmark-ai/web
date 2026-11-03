@@ -630,7 +630,7 @@ services.gst.gov.in — gst_india: lookup
 setmore.com — setmore: bookAppointment, bookClass, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, updateMyDetails (+3 planned)
 sevenrooms.com — sevenrooms: bookReservation, getAvailability, getAvailableDates, getBookingTerms, getVenue, listMyReservations, listUpgrades, validatePromoCode (+16 planned)
 shein.com — shein: getProduct, listCategories, listProductsByCategory, search (+30 planned)
-shop.app — shop_app: browseCategory, getDiscoveryFeed, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listOffers, listStoreProducts, searchStore, suggestSearches (+24 planned)
+shop.app — shop_app: browseCategory, getDiscoveryFeed, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listOffers, listStoreProducts, searchProducts, searchStore, suggestSearches (+23 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopify.com (49875 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
@@ -771,7 +771,7 @@ www.cnn.com — cnn: followTopic, getArticle, getMarketsData, getVideo, listCate
 www.gap.com — gap: getProduct, searchProducts
 www.grammarly.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, humanize (+14 planned)
 www.marks.com — marks: findStores, getProduct, searchProducts
-www.netflix.com — netflix: browseGenre, findTitles, getContinueWatching, getMyList, getTitle, getTop10, getTudumArticle, listGenres, search, searchTudum (+4 planned)
+www.netflix.com — netflix: browseGenre, findTitles, getContinueWatching, getMyList, getTitle, getTop10, getTudumArticle, getViewingHistory, listGenres, search, searchTudum (+3 planned)
 www.nintendo.com — nintendo: browseCategory, getMyNintendoRewardsBalance, getProduct, getSupportArticle, listCategories, listDeals, listNews, searchProducts, searchSupport (+1 planned)
 www.primevideo.com — prime_video: getChannel, getLiveSchedule, getPerson, getTitle, getWatchOptions, listCategories, listCategoryTitles, listChannels, listDeals, listEpisodes, listFreeToWatch, listLiveChannels, listLiveSports, listNewReleases, listRelatedTitles, listSeasons, listTop10, searchTitles, suggestTitles (+4 planned)
 www.reuters.com — reuters: findAuthor, getArticle, getAuthor, getCompanyEvents, getCompanyKeyMetrics, getCompanyProfile, getLiveCoverage, getMarketOverview, getPictureGallery, getPressRelease, getQuote, getVideo, listArticlesByDate, listCompanyNews, listGraphics, listHeadlines, listLatestNews, listNewsletters, listPictureGalleries, listPodcastEpisodes, listPodcasts, listPressReleases, listSavedArticles, listSections, listVideos, searchArticles, searchCompanies (+11 planned)
