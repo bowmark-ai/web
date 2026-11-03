@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5982 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5986 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -221,7 +221,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol_mail.markAsRead` | mail.aol.com | Marks one of the CALLER's own AOL Mail messages read or unread, given a row id from… | 🟢 |
 | `aol_mail.moveMessage` | mail.aol.com | Moves one of the CALLER's own AOL Mail messages to another folder (archive, spam… | 🟢 |
 | `aol_mail.searchMessages` | mail.aol.com | Searches the CALLER's own AOL Mail by sender, recipient, subject, read/flagged state… | 🟢 |
-| `aol_mail.sendMessage` | mail.aol.com | Sends an email from the CALLER's own AOL Mail account. | ⚪ |
+| `aol_mail.sendMessage` | mail.aol.com | Sends an email from the CALLER's own AOL Mail account. | 🟢 |
 | `aol_mail.updateAccountProfile` | mail.aol.com | Updates the CALLER's own AOL account profile — display name or profile photo — the way… | ⚪ |
 | `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | 🟢 |
 | `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | 🟢 |
@@ -522,7 +522,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getFeedInfo` | bsky.app | One custom feed's details: name, creator, description, avatar, like count and whether… | 🟢 |
 | `bluesky.getFollowers` | bsky.app | Who follows a person, page by page. | 🟢 |
 | `bluesky.getFollows` | bsky.app | Who a person follows, page by page. | 🟢 |
-| `bluesky.getKnownFollowers` | bsky.app | Which of the caller's own follows also follow a given person — the 'Followed by' line… | ⚪ |
+| `bluesky.getKnownFollowers` | bsky.app | Which of the caller's own follows also follow a given person — the 'Followed by' line… | 🟢 |
 | `bluesky.getLabelers` | bsky.app | A moderation service's (labeler's) details and the labels it applies. | 🟢 |
 | `bluesky.getList` | bsky.app | A list's details and members, page by page. | 🟢 |
 | `bluesky.getListFeed` | bsky.app | The posts from everyone on a curation list, as the list's own feed tab shows them. | 🟢 |
@@ -547,10 +547,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getUserPosts` | bsky.app | A person's posts, newest first, as their profile tabs show them — posts only, posts… | 🟢 |
 | `bluesky.getUserStarterPacks` | bsky.app | The starter packs a person has made. | 🟢 |
 | `bluesky.likePost` | bsky.app | Like a post as the caller, or undo the like. | ⚪ |
-| `bluesky.listBlockedUsers` | bsky.app | The accounts the caller has blocked. | ⚪ |
+| `bluesky.listBlockedUsers` | bsky.app | The accounts the caller has blocked. | 🟢 |
 | `bluesky.listBookmarks` | bsky.app | The posts the caller has saved to Bookmarks. | ⚪ |
 | `bluesky.listConversations` | bsky.app | The caller's direct-message conversations, most recent first, with the last message… | ⚪ |
-| `bluesky.listMutedUsers` | bsky.app | The accounts the caller has muted. | ⚪ |
+| `bluesky.listMutedUsers` | bsky.app | The accounts the caller has muted. | 🟢 |
 | `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | ⚪ |
 | `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | ⚪ |
 | `bluesky.muteUser` | bsky.app | Mute a person for the caller, or unmute them. | ⚪ |
@@ -652,7 +652,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.addToWishlist` | booking.com | Add a property to the caller's wishlist. | ⚪ |
 | `booking_com.autocompleteDestination` | booking.com | Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text… | 🟡 |
 | `booking_com.checkPrice` | booking.com | Check a specific property's own room rate table for given dates — every room offered… | 🟢 |
-| `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | ⚪ |
+| `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | 🟢 |
 | `booking_com.getBooking` | booking.com | Get one of the caller's own Booking.com trips by the id listBookings returns. | 🟢 |
 | `booking_com.getProperty` | booking.com | Fetch detailed property information including amenities, photos and reviews. | 🟢 |
 | `booking_com.getReviewBreakdown` | booking.com | Get the property page's own overall review score and its category breakdown (location… | 🟢 |
@@ -779,7 +779,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.listSections` | businessinsider.com | List the site's news sections and verticals. | 🟢 |
 | `businessinsider_com.listTrendingArticles` | businessinsider.com | List the homepage's current most-read/trending articles. | 🟢 |
 | `businessinsider_com.listVideos` | businessinsider.com | List videos from the Video vertical. | 🟢 |
-| `businessinsider_com.postComment` | businessinsider.com | Post a comment on an article as the signed-in caller. | ⚪ |
+| `businessinsider_com.postComment` | businessinsider.com | Post a comment (or a reply) on an article as the signed-in caller. | 🟢 |
 | `businessinsider_com.searchArticles` | businessinsider.com | Search articles by keyword. | 🟢 |
 | `bykoket.addToCart` | bykoket.com | Hands back the shopper's own KOKET product page — the exact Add to cart button for… | 🟢 |
 | `bykoket.getProduct` | bykoket.com | Reads one KOKET product's live page — price (list and current, since KOKET runs… | 🟢 |
@@ -1954,7 +1954,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.listRecentChanges` | fandom.com | What is being edited on a wiki right now — a live feed of recent edits with page… | 🟡 |
 | `fandom.listRevisions` | fandom.com | An article's edit history on this wiki — each revision with its id, timestamp, editor… | 🟢 |
 | `fandom.listUserContributions` | fandom.com | Every edit one named editor has made on this wiki, newest first. `GET… | 🟢 |
-| `fandom.listWatchlist` | fandom.com | The caller's own watchlist on one wiki — the pages they follow and recent changes to… | ⚪ |
+| `fandom.listWatchlist` | fandom.com | The caller's own watchlist on one wiki — recent edits to the pages they follow, newest… | 🟢 |
 | `fandom.postDiscussionPost` | fandom.com | Post a new message to a wiki's Discussions forum, under the caller's own account.… | ⚪ |
 | `fandom.search` | fandom.com | Search one wiki the way a person types into its search box — hand it a `wiki`… | 🟢 |
 | `fandom.suggestTitles` | fandom.com | Autocomplete a partial title within one wiki, the way its search box does as you type.… | 🟢 |
@@ -2296,6 +2296,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.createReview` | github.com | Submits a review on a pull request for the signed-in caller (approve, request changes… | 🟢 |
 | `github.createReviewComment` | github.com | Adds an inline comment to a line, a line range or a whole file in a pull request's… | 🟢 |
 | `github.deleteComment` | github.com | Deletes a comment on an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
+| `github.getFileContents` | github.com | Reads any file in a public repository decoded to text, or lists a directory. | 🟢 |
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
@@ -2307,10 +2308,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getUserRepositories` | github.com | Lists every public repository a user owns — description, fork/archived flags, default… | 🟢 |
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
 | `github.listContributors` | github.com | Lists who has contributed to a public repository, most commits first — login, account… | 🟢 |
+| `github.listIssueComments` | github.com | Reads the comment thread on an issue or pull request — author, body, dates, association. | 🟢 |
 | `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟢 |
 | `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟢 |
 | `github.listNotifications` | github.com | Lists the signed-in caller's GitHub notifications inbox, 25 per page — repository… | 🟢 |
 | `github.listOrganizationRepositories` | github.com | Lists an organization's public repositories — description, fork/archived flags… | 🟢 |
+| `github.listPullRequestFiles` | github.com | Lists what a pull request changes — each file's status, additions, deletions and diff. | 🟢 |
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
 | `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in caller has starred — name, full name, description… | 🟢 |
@@ -2318,6 +2321,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
 | `github.mergePullRequest` | github.com | Merges a pull request into its base branch for the signed-in caller, off github.com's… | 🟢 |
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
+| `github.searchIssues` | github.com | Free-text search over issues and pull requests across GitHub. | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
 | `github.starRepository` | github.com | Stars a repository for the signed-in caller, off github.com's own star form (POST… | 🟢 |
 | `github.unstarRepository` | github.com | Unstars a repository for the signed-in caller, off github.com's own unstar form (POST… | 🟢 |
@@ -2552,7 +2556,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grubhub.getOrderHistory` | grubhub.com | Lists past orders for the signed-in user with dates, restaurants, and amounts. | ⚪ |
 | `grubhub.getOrderStatus` | grubhub.com | Fetches the current status of an order including estimated delivery time. | ⚪ |
 | `grubhub.getPaymentMethods` | grubhub.com | Retrieves saved payment methods for the signed-in user. | ⚪ |
-| `grubhub.getPromoOffers` | grubhub.com | Active promo codes, spend-based thresholds and the delivery-fee badge Grubhub shows… | 🟢 |
+| `grubhub.getPromoOffers` | grubhub.com | Active promo codes, spend-based thresholds and the delivery-fee badge Grubhub shows… | 🟡 |
 | `grubhub.getRestaurant` | grubhub.com | Reads one Grubhub restaurant by search()'s id: address, cuisines, rating, price level… | 🟢 |
 | `grubhub.getRestaurantReviews` | grubhub.com | A page of diner reviews for one Grubhub restaurant: stars, text, date, sentiment and… | 🟢 |
 | `grubhub.getSavedAddresses` | grubhub.com | The signed-in diner's saved Grubhub delivery addresses: label, street, unit, city… | 🟢 |
@@ -3686,7 +3690,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `peek.getAccountCredits` | peek.com | Returns the signed-in traveler's Peek credit balance and any activity discounts on the… | ⚪ |
 | `peek.getAvailability` | peek.com | Returns an experience's bookable sessions for a party size over a date range: each… | 🟢 |
 | `peek.getExperience` | peek.com | Returns one experience's full listing: title, tier, description, highlights, what is… | 🟢 |
-| `peek.getMyProfile` | peek.com | Returns the signed-in traveler's own profile: name, email and phone. | ⚪ |
+| `peek.getMyProfile` | peek.com | Returns the signed-in traveler's own profile: name, email and phone. | 🟢 |
 | `peek.getPriceQuote` | peek.com | Prices a party for one session: given a sessionId from getAvailability and a quantity… | 🟢 |
 | `peek.listDestinations` | peek.com | Lists Peek's popular destinations as the home page shows them -- each place's name… | 🟢 |
 | `peek.listMyTickets` | peek.com | Lists the signed-in traveler's Peek tickets -- upcoming and past bookings with… | ⚪ |
@@ -4144,7 +4148,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listPodcastEpisodes` | www.reuters.com | The latest episodes of one Reuters podcast show, newest first: title, description… | 🟢 |
 | `reuters.listPodcasts` | www.reuters.com | The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On… | 🟢 |
 | `reuters.listPressReleases` | www.reuters.com | Press releases distributed on reuters.com, newest first: title, url and date. | 🟡 |
-| `reuters.listSavedArticles` | www.reuters.com | The signed-in reader's saved Reuters articles: headline, url and when saved. | ⚪ |
+| `reuters.listSavedArticles` | www.reuters.com | The signed-in reader's saved Reuters articles: headline, url, description, section… | 🟢 |
 | `reuters.listSections` | www.reuters.com | Reuters' own section and topic list — World, Business, Markets, Sustainability, Legal… | 🟢 |
 | `reuters.listVideos` | www.reuters.com | Reuters videos, newest first — title, description, duration, published time, thumbnail… | 🟢 |
 | `reuters.removeSavedArticle` | www.reuters.com | Remove an article from the signed-in reader's saved list. | ⚪ |
@@ -4509,7 +4513,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |
 | `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the socks it… | 🟢 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
-| `snapchat.addFriend` | snapchat.com | Adds an account as a friend by username from the signed-in caller's account — the Add… | ⚪ |
+| `snapchat.addFriend` | snapchat.com | Sends a friend add from the signed-in caller's account to one Snapchat user by their… | 🟢 |
 | `snapchat.blockUser` | snapchat.com | Blocks an account from contacting the signed-in caller. | ⚪ |
 | `snapchat.getChatMessages` | snapchat.com | Reads the messages in one of the signed-in caller's conversations — sender, time… | ⚪ |
 | `snapchat.getEpisode` | snapchat.com | Reads one show episode's own page (www.snapchat.com/p/<publisherId>/<storyId>) —… | 🟢 |
