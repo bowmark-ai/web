@@ -2376,7 +2376,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glossgenius.getBookingRequirements` | glossgenius.com | Says what a business will ask a given client for before it books given services at a… | 🟢 |
 | `glossgenius.getBusiness` | glossgenius.com | Returns one business's public profile: name, about text, address and coordinates… | 🟢 |
 | `glossgenius.getGiftCardOptions` | glossgenius.com | Returns whether a business sells gift cards online, the preset amounts it offers and… | 🟢 |
-| `glossgenius.getMyProfile` | glossgenius.com | Returns the signed-in caller's client profile at a business: name, phone, email… | ⚪ |
+| `glossgenius.getMyProfile` | glossgenius.com | Signed in: returns the caller's own client profile at one GlossGenius business --… | 🟢 |
 | `glossgenius.getWaitlistEntry` | glossgenius.com | Returns a waitlist entry from its link: services, dates wanted and status, with the… | ⚪ |
 | `glossgenius.getWalkInStatus` | glossgenius.com | Returns a client's place in a business's walk-in queue from the queue link: state… | ⚪ |
 | `glossgenius.joinWaitlist` | glossgenius.com | Puts a client on a business's waitlist for one or more services and a preferred team… | 🟢 |
@@ -2384,8 +2384,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glossgenius.listLocations` | glossgenius.com | Lists the locations of a multi-location business with address, hours and phone, and… | 🟢 |
 | `glossgenius.listMemberships` | glossgenius.com | Lists the memberships a business sells: name, description, monthly price, renewal… | 🟢 |
 | `glossgenius.listMyCards` | glossgenius.com | Lists the cards the signed-in caller has saved with a business (brand, last four… | ⚪ |
-| `glossgenius.listMyMemberships` | glossgenius.com | Lists the signed-in caller's memberships and packages at a business, with status… | ⚪ |
-| `glossgenius.listMyOrders` | glossgenius.com | Lists the signed-in caller's past purchases at a business -- gift cards, packages… | ⚪ |
+| `glossgenius.listMyMemberships` | glossgenius.com | Signed in: lists the memberships the caller holds at one GlossGenius business, as… | 🟢 |
+| `glossgenius.listMyOrders` | glossgenius.com | Signed in: lists the caller's orders at one GlossGenius business, OPEN by default, or… | 🟢 |
 | `glossgenius.listPackages` | glossgenius.com | Lists the service packages a business sells (a bundle of sessions at one price): name… | 🟢 |
 | `glossgenius.listReviews` | glossgenius.com | Lists a business's client reviews: rating, text, reviewer first name, date, the… | 🟢 |
 | `glossgenius.listServices` | glossgenius.com | Lists a business's bookable services with category, price (or 'varies'/hidden)… | 🟢 |
