@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 45f50fb5287edd97294f7d6f00cb551436f3f092a92c7a10f1495575bc453a82
-// 4101 checked, 20 unchecked.
+// Manifest version: 6a29cc3383a7e09ad7f065bb91d5f0b0c0f5aaf19891afa13ca54cfae8d5551a
+// 4112 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "45f50fb5287edd97294f7d6f00cb551436f3f092a92c7a10f1495575bc453a82",
+  "version": "6a29cc3383a7e09ad7f065bb91d5f0b0c0f5aaf19891afa13ca54cfae8d5551a",
   "units": {
     "address_validation": {
       "defs": {
@@ -10106,6 +10106,52 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.amazon": {
       "defs": {
+        "AmazonMarket": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "com"
+            },
+            {
+              "k": "literal",
+              "v": "in"
+            },
+            {
+              "k": "literal",
+              "v": "com.br"
+            },
+            {
+              "k": "literal",
+              "v": "ca"
+            },
+            {
+              "k": "literal",
+              "v": "co.uk"
+            },
+            {
+              "k": "literal",
+              "v": "de"
+            },
+            {
+              "k": "literal",
+              "v": "com.mx"
+            }
+          ]
+        },
+        "AmazonMarketOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "market",
+              "schema": {
+                "k": "ref",
+                "name": "AmazonMarket"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetDeliveryEstimateArgs": {
           "k": "object",
           "props": [
@@ -10136,6 +10182,14 @@ export const VALIDATORS: ValidatorTable = {
           "k": "object",
           "props": [
             {
+              "name": "market",
+              "schema": {
+                "k": "ref",
+                "name": "AmazonMarket"
+              },
+              "optional": true
+            },
+            {
               "name": "department",
               "schema": {
                 "k": "string"
@@ -10154,6 +10208,14 @@ export const VALIDATORS: ValidatorTable = {
         "ListCategoryProductsArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "market",
+              "schema": {
+                "k": "ref",
+                "name": "AmazonMarket"
+              },
+              "optional": true
+            },
             {
               "name": "department",
               "schema": {
@@ -10183,6 +10245,14 @@ export const VALIDATORS: ValidatorTable = {
             {
               "k": "object",
               "props": [
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "AmazonMarket"
+                  },
+                  "optional": true
+                },
                 {
                   "name": "keywords",
                   "schema": {
@@ -10237,6 +10307,14 @@ export const VALIDATORS: ValidatorTable = {
             {
               "k": "object",
               "props": [
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "AmazonMarket"
+                  },
+                  "optional": true
+                },
                 {
                   "name": "query",
                   "schema": {
@@ -10355,9 +10433,26 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
-        "listBestSellerCategories": [],
+        "listBestSellerCategories": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
+          }
+        ],
         "getProduct": [
           {
             "name": "asinOrUrl",
@@ -10365,6 +10460,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listVariations": [
@@ -10374,6 +10477,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listReviews": [
@@ -10383,6 +10494,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listRelatedProducts": [
@@ -10392,6 +10511,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listBestSellers": [
@@ -10410,6 +10537,14 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listNewReleases": [
@@ -10428,6 +10563,14 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listMostWishedFor": [
@@ -10437,9 +10580,26 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
-        "listDeals": [],
+        "listDeals": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
+          }
+        ],
         "getSeller": [
           {
             "name": "sellerId",
@@ -10447,6 +10607,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "getDeliveryEstimate": [
@@ -10466,6 +10634,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "getCart": [
@@ -35264,6 +35440,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listChannels": [
+          {
+            "name": "guildId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -42659,6 +42860,56 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listMyBookings": [
+          {
+            "name": "fitspotId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyPasses": [
+          {
+            "name": "fitspotId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -48805,6 +49056,58 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.glofox": {
       "defs": {
+        "glofoxBookClassArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "classId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guests",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "glofoxCancelBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "bookingId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "confirmLateCancel",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "glofoxGetClassArgs": {
           "k": "object",
           "props": [
@@ -49040,6 +49343,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "glofoxTransactionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -49257,6 +49579,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "glofoxStudioArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyTransactions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxTransactionsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "bookClass": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxBookClassArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "joinWaitlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxBookClassArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxCancelBookingArgs"
             },
             "optional": false
           },
@@ -60917,6 +61343,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "KenkoCancelBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "urlPrefix",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "regionId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "eventId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "bookingId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "KenkoCenterRef": {
           "k": "object",
           "props": [
@@ -60969,6 +61428,67 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "KenkoProfileUpdate": {
+          "k": "object",
+          "props": [
+            {
+              "name": "urlPrefix",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "regionId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "centerId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "phonePrefix",
               "schema": {
                 "k": "string"
               },
@@ -61145,6 +61665,58 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KenkoStudioRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateMyProfile": [
+          {
+            "name": "changes",
+            "schema": {
+              "k": "ref",
+              "name": "KenkoProfileUpdate"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelBooking": [
+          {
+            "name": "booking",
+            "schema": {
+              "k": "ref",
+              "name": "KenkoCancelBookingArgs"
             },
             "optional": false
           },
@@ -88300,6 +88872,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -88491,7 +89070,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listAppCategories": []
       }
     },
     "providers.quince": {
@@ -126578,6 +127158,54 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "providerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tenant",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "appointmentId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "reason",
                   "schema": {
                     "k": "string"
                   },

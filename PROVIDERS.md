@@ -2334,12 +2334,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glassdoor.getEmployerReviews` | glassdoor.com | An employer's Glassdoor review summary — overall rating, review count, the scale's… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
 | `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟢 |
-| `glofox.bookClass` | glofox.com | Books the signed-in member into one class, spending a credit or membership they… | ⚪ |
+| `glofox.bookClass` | glofox.com | Books the signed-in member into one class, spending a credit or membership they… | 🟢 |
 | `glofox.bookCourse` | glofox.com | Books the signed-in member onto a course from listCourses; stops at the payment step. | ⚪ |
 | `glofox.bookFacilitySlot` | glofox.com | Books the signed-in member into one room or space slot from listFacilitySlots; stops… | ⚪ |
 | `glofox.bookTrainerSlot` | glofox.com | Books the signed-in member into one trainer appointment slot from listTrainerSlots… | ⚪ |
 | `glofox.buyMembership` | glofox.com | Buys a membership or class pack from listMemberships on the signed-in member's card. | ⚪ |
-| `glofox.cancelBooking` | glofox.com | Cancels one of the signed-in member's bookings by id (from listMyBookings), after… | ⚪ |
+| `glofox.cancelBooking` | glofox.com | Cancels one of the signed-in member's bookings by id (from listMyBookings), refusing… | 🟢 |
 | `glofox.cancelMembership` | glofox.com | Sends the studio a cancellation request for one of the signed-in member's memberships… | ⚪ |
 | `glofox.changePassword` | glofox.com | Changes the signed-in member's password at that studio. | ⚪ |
 | `glofox.findStudio` | glofox.com | Finds a Glofox studio (a 'branch') from what a caller has: its Glofox namespace… | 🟢 |
@@ -2347,7 +2347,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glofox.getMyProfile` | glofox.com | Returns the signed-in member's own profile at that studio: name, email, phone, birth… | 🟢 |
 | `glofox.getPrice` | glofox.com | Returns what one class costs a drop-in before booking — price, currency and the… | 🟢 |
 | `glofox.getStudio` | glofox.com | Returns one studio's profile: name, address and coordinates, time zone, currency… | 🟢 |
-| `glofox.joinWaitlist` | glofox.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
+| `glofox.joinWaitlist` | glofox.com | Puts the signed-in member on a full class's waitlist. | 🟢 |
 | `glofox.listAppointmentTypes` | glofox.com | Lists the one-to-one appointments a studio sells (personal training, consultations)… | 🟢 |
 | `glofox.listClasses` | glofox.com | Lists a studio's class schedule for a date range, optionally narrowed to a class type… | 🟢 |
 | `glofox.listClassTypes` | glofox.com | Lists a studio's class types ('programs') with their description and pricing… | 🟢 |
@@ -2359,7 +2359,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `glofox.listMyBookings` | glofox.com | Lists the signed-in member's bookings at that studio — classes, courses, trainer and… | 🟢 |
 | `glofox.listMyCredits` | glofox.com | Lists the signed-in member's remaining class credits and what each can be spent on. | 🟢 |
 | `glofox.listMyMemberships` | glofox.com | Lists the signed-in member's active, paused and stacked memberships, with renewal dates. | 🟢 |
-| `glofox.listMyTransactions` | glofox.com | Lists the signed-in member's charges and invoices at that studio. | ⚪ |
+| `glofox.listMyTransactions` | glofox.com | Lists the signed-in member's charges at that studio, newest first, with amount… | 🟢 |
 | `glofox.listTrainers` | glofox.com | Lists a studio's trainers with id, name, photo and bio — the ids listClasses and… | 🟢 |
 | `glofox.listTrainerSlots` | glofox.com | Lists the open appointment slots for a studio's trainers over a date range, optionally… | 🟢 |
 | `glofox.pauseMembership` | glofox.com | Pauses one of the signed-in member's memberships, after showing what the studio would… | ⚪ |

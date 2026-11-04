@@ -1,5 +1,5 @@
 {
-  "version": "45f50fb5287edd97294f7d6f00cb551436f3f092a92c7a10f1495575bc453a82",
+  "version": "6a29cc3383a7e09ad7f065bb91d5f0b0c0f5aaf19891afa13ca54cfae8d5551a",
   "units": {
     "address_validation": {
       "defs": {
@@ -10094,6 +10094,52 @@
     },
     "providers.amazon": {
       "defs": {
+        "AmazonMarket": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "com"
+            },
+            {
+              "k": "literal",
+              "v": "in"
+            },
+            {
+              "k": "literal",
+              "v": "com.br"
+            },
+            {
+              "k": "literal",
+              "v": "ca"
+            },
+            {
+              "k": "literal",
+              "v": "co.uk"
+            },
+            {
+              "k": "literal",
+              "v": "de"
+            },
+            {
+              "k": "literal",
+              "v": "com.mx"
+            }
+          ]
+        },
+        "AmazonMarketOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "market",
+              "schema": {
+                "k": "ref",
+                "name": "AmazonMarket"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetDeliveryEstimateArgs": {
           "k": "object",
           "props": [
@@ -10124,6 +10170,14 @@
           "k": "object",
           "props": [
             {
+              "name": "market",
+              "schema": {
+                "k": "ref",
+                "name": "AmazonMarket"
+              },
+              "optional": true
+            },
+            {
               "name": "department",
               "schema": {
                 "k": "string"
@@ -10142,6 +10196,14 @@
         "ListCategoryProductsArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "market",
+              "schema": {
+                "k": "ref",
+                "name": "AmazonMarket"
+              },
+              "optional": true
+            },
             {
               "name": "department",
               "schema": {
@@ -10171,6 +10233,14 @@
             {
               "k": "object",
               "props": [
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "AmazonMarket"
+                  },
+                  "optional": true
+                },
                 {
                   "name": "keywords",
                   "schema": {
@@ -10225,6 +10295,14 @@
             {
               "k": "object",
               "props": [
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "AmazonMarket"
+                  },
+                  "optional": true
+                },
                 {
                   "name": "query",
                   "schema": {
@@ -10343,9 +10421,26 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
-        "listBestSellerCategories": [],
+        "listBestSellerCategories": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
+          }
+        ],
         "getProduct": [
           {
             "name": "asinOrUrl",
@@ -10353,6 +10448,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listVariations": [
@@ -10362,6 +10465,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listReviews": [
@@ -10371,6 +10482,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listRelatedProducts": [
@@ -10380,6 +10499,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listBestSellers": [
@@ -10398,6 +10525,14 @@
               ]
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listNewReleases": [
@@ -10416,6 +10551,14 @@
               ]
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "listMostWishedFor": [
@@ -10425,9 +10568,26 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
-        "listDeals": [],
+        "listDeals": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
+          }
+        ],
         "getSeller": [
           {
             "name": "sellerId",
@@ -10435,6 +10595,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "getDeliveryEstimate": [
@@ -10454,6 +10622,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AmazonMarketOptions"
+            },
+            "optional": true
           }
         ],
         "getCart": [
@@ -35252,6 +35428,31 @@
             },
             "optional": true
           }
+        ],
+        "listChannels": [
+          {
+            "name": "guildId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -42647,6 +42848,56 @@
             },
             "optional": true
           }
+        ],
+        "listMyBookings": [
+          {
+            "name": "fitspotId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyPasses": [
+          {
+            "name": "fitspotId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -48793,6 +49044,58 @@
     },
     "providers.glofox": {
       "defs": {
+        "glofoxBookClassArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "classId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guests",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "glofoxCancelBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "bookingId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "confirmLateCancel",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "glofoxGetClassArgs": {
           "k": "object",
           "props": [
@@ -49028,6 +49331,25 @@
               "optional": false
             }
           ]
+        },
+        "glofoxTransactionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -49245,6 +49567,110 @@
             "schema": {
               "k": "ref",
               "name": "glofoxStudioArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyTransactions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxTransactionsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "bookClass": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxBookClassArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "joinWaitlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxBookClassArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "glofoxCancelBookingArgs"
             },
             "optional": false
           },
@@ -60905,6 +61331,39 @@
             }
           ]
         },
+        "KenkoCancelBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "urlPrefix",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "regionId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "eventId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "bookingId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "KenkoCenterRef": {
           "k": "object",
           "props": [
@@ -60957,6 +61416,67 @@
             },
             {
               "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "KenkoProfileUpdate": {
+          "k": "object",
+          "props": [
+            {
+              "name": "urlPrefix",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "regionId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "centerId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "phonePrefix",
               "schema": {
                 "k": "string"
               },
@@ -61133,6 +61653,58 @@
             "schema": {
               "k": "ref",
               "name": "KenkoStudioRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateMyProfile": [
+          {
+            "name": "changes",
+            "schema": {
+              "k": "ref",
+              "name": "KenkoProfileUpdate"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelBooking": [
+          {
+            "name": "booking",
+            "schema": {
+              "k": "ref",
+              "name": "KenkoCancelBookingArgs"
             },
             "optional": false
           },
@@ -88288,6 +88860,13 @@
                 "k": "number"
               },
               "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -88479,7 +89058,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listAppCategories": []
       }
     },
     "providers.quince": {
@@ -126566,6 +127146,54 @@
                 },
                 {
                   "name": "providerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tenant",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "appointmentId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "reason",
                   "schema": {
                     "k": "string"
                   },

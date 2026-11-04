@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 45f50fb5287edd97294f7d6f00cb551436f3f092a92c7a10f1495575bc453a82
-# 94 capabilities, 762 providers, 4101 typed functions, 20 refused.
+# Manifest version: 6a29cc3383a7e09ad7f065bb91d5f0b0c0f5aaf19891afa13ca54cfae8d5551a
+# 94 capabilities, 762 providers, 4112 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5040,6 +5040,7 @@ class Prv_alphavantage_AlphavantageSignUpResult_Out(TypedDict):
     message: str
 
 class Prv_amazon_SearchProductsArgs_u0_In(TypedDict):
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
     keywords: str
     department: NotRequired[str]
     sort: NotRequired[str]
@@ -5049,6 +5050,7 @@ class Prv_amazon_SearchProductsArgs_u0_In(TypedDict):
     page: NotRequired[float]
 
 class Prv_amazon_SearchProductsArgs_u1_In(TypedDict):
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
     query: str
     department: NotRequired[str]
     sort: NotRequired[str]
@@ -5067,6 +5069,7 @@ class Prv_amazon_AmazonProduct_Out(TypedDict):
     url: str
     price: float | None
     listPrice: float | None
+    currency: str
     rating: float | None
     ratingCount: float | None
     sponsored: bool
@@ -5078,6 +5081,7 @@ class Prv_amazon_SearchWholeFoodsArgs_In(TypedDict):
     page: NotRequired[float]
 
 class Prv_amazon_ListCategoryProductsArgs_In(TypedDict):
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
     department: str
     sort: NotRequired[str]
     page: NotRequired[float]
@@ -5086,6 +5090,9 @@ class Prv_amazon_AmazonCategoryListing_Out(TypedDict):
     department: str
     departmentAlias: str
     products: list[Prv_amazon_AmazonProduct_Out]
+
+class Prv_amazon_AmazonMarketOptions_In(TypedDict):
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
 
 class Prv_amazon_AmazonKeywordSuggestion_Out(TypedDict):
     value: str
@@ -5101,6 +5108,7 @@ class Prv_amazon_AmazonProductDetail_Out(TypedDict):
     brand: str | None
     price: float | None
     listPrice: float | None
+    currency: str
     inStock: bool
     availabilityText: str | None
     rating: float | None
@@ -5143,10 +5151,12 @@ class Prv_amazon_AmazonRelatedProduct_Out(TypedDict):
     title: str
     url: str
     price: float | None
+    currency: str
     rating: float | None
     ratingCount: float | None
 
 class Prv_amazon_ListBestSellersArgs_In(TypedDict):
+    market: NotRequired[Literal["com"] | Literal["in"] | Literal["com.br"] | Literal["ca"] | Literal["co.uk"] | Literal["de"] | Literal["com.mx"]]
     department: str
     page: NotRequired[float]
 
@@ -5156,6 +5166,7 @@ class Prv_amazon_AmazonBestSellerEntry_Out(TypedDict):
     title: str
     url: str
     price: float | None
+    currency: str
     rating: float | None
     ratingCount: float | None
 
@@ -5165,6 +5176,7 @@ class Prv_amazon_AmazonDeal_Out(TypedDict):
     url: str
     dealPrice: float
     listPrice: float | None
+    currency: str
     percentOff: float | None
     limitedTimeText: str | None
 
@@ -5217,6 +5229,7 @@ class Prv_amazon_AmazonSellerOffersResult_Out(TypedDict):
 class Prv_amazon_AmazonSellerOffer_Out(TypedDict):
     condition: str
     price: float | None
+    currency: str
     shippingCost: float | None
     shippingLabel: str | None
     deliveryEstimate: str | None
@@ -18850,6 +18863,13 @@ class Prv_discord_discordMessage_Out_reactions_item_Out(TypedDict):
     count: float
     me: bool
 
+class Prv_discord_discordChannel_Out(TypedDict):
+    id: str
+    name: str
+    type: Literal["text"] | Literal["voice"] | Literal["announcement"] | Literal["stage"] | Literal["forum"]
+    topic: str | None
+    category: str | None
+
 class Prv_discounttire_DiscounttireProduct_Out(TypedDict):
     code: str
     name: str | None
@@ -22878,6 +22898,28 @@ class Prv_fitdegree_FitdegreeMyProfile_Out_activePasses_Out(TypedDict):
     offers: float
     guestPasses: float
 
+Prv_fitdegree_FitdegreeMyBooking_Out = TypedDict(
+    "Prv_fitdegree_FitdegreeMyBooking_Out",
+    {
+    "registrationId": NotRequired[str],
+    "classId": str,
+    "status": NotRequired[str],
+    "bookedAt": NotRequired[str],
+    "checkedIn": bool,
+    "class": NotRequired[Prv_fitdegree_FitdegreeClass_Out],
+    },
+)
+
+class Prv_fitdegree_FitdegreeMyPass_Out(TypedDict):
+    passId: NotRequired[str]
+    kind: Literal["membership"] | Literal["classPack"] | Literal["privatePack"] | Literal["offer"] | Literal["guestPass"]
+    name: NotRequired[str]
+    startsAt: NotRequired[str]
+    expiresAt: NotRequired[str]
+    purchasedAt: NotRequired[str]
+    remaining: float | None
+    total: NotRequired[float]
+
 class Prv_fitness1440_Fitness1440ListLocationsArgs_In(TypedDict):
     state: NotRequired[str]
 
@@ -25509,6 +25551,53 @@ class Prv_glofox_glofoxMyMembership_Out(TypedDict):
     status: str | None
     startsAt: str | None
     endsAt: str | None
+
+class Prv_glofox_glofoxTransactionsArgs_In(TypedDict):
+    studio: str
+    page: NotRequired[float]
+
+class Prv_glofox_glofoxTransactionPage_Out(TypedDict):
+    studio: str
+    transactions: list[Prv_glofox_glofoxTransaction_Out]
+    page: float
+    hasMore: bool
+
+class Prv_glofox_glofoxTransaction_Out(TypedDict):
+    id: str
+    amount: float | None
+    currency: str | None
+    status: str | None
+    description: str | None
+    createdAt: str | None
+    invoiceId: str | None
+
+class Prv_glofox_glofoxBookClassArgs_In(TypedDict):
+    studio: str
+    classId: str
+    guests: NotRequired[float]
+
+class Prv_glofox_glofoxBookingResult_Out(TypedDict):
+    studio: str
+    classId: str
+    booked: bool
+    bookingId: str | None
+    status: str | None
+    waitlisted: bool
+    paymentRequired: bool
+    message: str | None
+
+class Prv_glofox_glofoxCancelBookingArgs_In(TypedDict):
+    studio: str
+    bookingId: str
+    confirmLateCancel: NotRequired[bool]
+
+class Prv_glofox_glofoxCancelResult_Out(TypedDict):
+    studio: str
+    bookingId: str
+    cancelled: bool
+    lateCancel: bool
+    cancelWindowHours: float | None
+    message: str | None
 
 class Prv_glossgenius_GlossGeniusFindBusinessArgs_In(TypedDict):
     business: str
@@ -31817,6 +31906,26 @@ class Prv_kenko_KenkoMyProfile_Out(TypedDict):
     email: str | None
     phone: str | None
     raw: Mapping[str, Any]
+
+class Prv_kenko_KenkoProfileUpdate_In(TypedDict):
+    urlPrefix: str
+    regionId: float
+    centerId: float
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+    email: NotRequired[str]
+    phone: NotRequired[str]
+    phonePrefix: NotRequired[str]
+
+class Prv_kenko_KenkoCancelBookingArgs_In(TypedDict):
+    urlPrefix: str
+    regionId: float
+    eventId: float
+    bookingId: float
+
+class Prv_kenko_KenkoWriteResult_Out(TypedDict):
+    ok: Literal[True]
+    raw: Any
 
 class Prv_kenko_KenkoBookingsQuery_In(TypedDict):
     urlPrefix: str
@@ -43030,6 +43139,7 @@ class Prv_quickbooks_QuickbooksHelpArticle_Out(TypedDict):
 class Prv_quickbooks_QuickbooksSearchAppsArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
+    category: NotRequired[str]
 
 class Prv_quickbooks_QuickbooksAppSummary_Out(TypedDict):
     id: str
@@ -43062,6 +43172,11 @@ class Prv_quickbooks_QuickbooksApp_Out(TypedDict):
     useCases: list[str]
     badges: list[str]
     builtByIntuit: bool
+
+class Prv_quickbooks_QuickbooksAppCategory_Out(TypedDict):
+    slug: str
+    label: str
+    appCount: float
 
 class Prv_quince_QuinceSearchArgs_In(TypedDict):
     query: str
@@ -62011,6 +62126,17 @@ class Prv_zenoti_ZenotiBooking_Out(TypedDict):
     bookingId: str | None
     amountDue: float
 
+class Prv_zenoti_cancelAppointment_args_In(TypedDict):
+    tenant: str
+    appointmentId: str
+    reason: NotRequired[str]
+
+class Prv_zenoti_ZenotiCancellation_Out(TypedDict):
+    status: Literal["cancelled"] | Literal["fee_required"]
+    appointmentId: str
+    cancellationCharges: float
+    depositRefunded: bool
+
 class Prv_zoom_ZoomPricingResult_Out(TypedDict):
     plans: list[Prv_zoom_ZoomPricingPlan_Out]
 
@@ -65188,7 +65314,9 @@ class Prv_amazon(Protocol):
     getProduct, listVariations, listReviews, listRelatedProducts, listBestSellers,
     listNewReleases, listMostWishedFor, listDeals, getSeller, getDeliveryEstimate,
     listSellerOffers, getCart and addToCart are built; everything else is still a declared
-    stub.
+    stub. Also answers for Amazon's country stores: pass `market` ('in', 'com.br', 'ca',
+    'co.uk', 'de', 'com.mx') or a URL on that store, and prices come back in its own
+    currency.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_u0_In | Prv_amazon_SearchProductsArgs_u1_In, /) -> Prv_amazon_AmazonSearchResult_Out:
@@ -65230,13 +65358,13 @@ class Prv_amazon(Protocol):
         a category rather than a product in mind.
         """
 
-    async def suggestKeywords(self, prefix: str, /) -> list[Prv_amazon_AmazonKeywordSuggestion_Out]:
+    async def suggestKeywords(self, prefix: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonKeywordSuggestion_Out]:
         """Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes
         back as "cast iron skillets", "cast iron", "cast iron dutch oven". What an agent holding
         a vague noun calls before it commits to a search, and the cheapest call in the provider.
         """
 
-    async def listBestSellerCategories(self, /) -> list[Prv_amazon_AmazonBestSellerCategory_Out]:
+    async def listBestSellerCategories(self, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonBestSellerCategory_Out]:
         """List the departments Amazon publishes Best Sellers rankings for — Electronics, Kitchen &
         Dining, Books, roughly forty of them — each with the slug ("electronics", "kitchen",
         "books") that listBestSellers, listNewReleases, listMostWishedFor and
@@ -65244,14 +65372,14 @@ class Prv_amazon(Protocol):
         word "kitchen" cannot reach a ranking without this.
         """
 
-    async def getProduct(self, asinOrUrl: str, /) -> Prv_amazon_AmazonProductDetail_Out:
+    async def getProduct(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonProductDetail_Out:
         """Read one product page the way a shopper reads it: title, brand, ASIN, current price and
         list price, whether it is in stock, the star rating and how many ratings it has, the
         bullet-point features, the specification table, the images, its category breadcrumb, its
         Best Sellers Rank, and who it is sold by. The single most-wanted read on the whole site.
         """
 
-    async def listVariations(self, asinOrUrl: str, /) -> list[Prv_amazon_AmazonVariation_Out]:
+    async def listVariations(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonVariation_Out]:
         """List every version of a product that is really the same listing — the 8-inch,
         10.25-inch, 12-inch and 15-inch skillet; the colours; the pack sizes — each with the
         ASIN that buys it. What an agent needs when the person said "the 12 inch one" and the
@@ -65259,7 +65387,7 @@ class Prv_amazon(Protocol):
         variations — a real answer, not a parse failure.
         """
 
-    async def listReviews(self, asinOrUrl: str, /) -> list[Prv_amazon_AmazonReview_Out]:
+    async def listReviews(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonReview_Out]:
         """Read what customers actually wrote about a product — reviewer name, star rating,
         headline, date, the variant they bought, whether the purchase was Verified, the review
         body, and how many people found it helpful. Amazon shows a logged-out visitor its top
@@ -65268,7 +65396,7 @@ class Prv_amazon(Protocol):
         answer "is this any good" rather than "what does it cost".
         """
 
-    async def listRelatedProducts(self, asinOrUrl: str, /) -> Prv_amazon_AmazonRelatedProducts_Out:
+    async def listRelatedProducts(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonRelatedProducts_Out:
         """The other products Amazon puts next to this one — "Frequently bought together" and
         "Customers who viewed this item also viewed" — each with its ASIN, title, price and
         rating, kept in separate arrays so a caller can tell a complement from a substitute.
@@ -65277,7 +65405,7 @@ class Prv_amazon(Protocol):
         new search query.
         """
 
-    async def listBestSellers(self, args: str | Prv_amazon_ListBestSellersArgs_In, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
+    async def listBestSellers(self, args: str | Prv_amazon_ListBestSellersArgs_In, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
         """Amazon's hourly-updated top sellers in one department (the slug listBestSellerCategories
         returns, e.g. "kitchen") — each row's ASIN, rank, title, price and rating, in rank
         order. What is actually selling right now, as opposed to searchProducts' relevance
@@ -65286,7 +65414,7 @@ class Prv_amazon(Protocol):
         never rendered on either page. Only these two pages are available on the site.
         """
 
-    async def listNewReleases(self, args: str | Prv_amazon_ListBestSellersArgs_In, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
+    async def listNewReleases(self, args: str | Prv_amazon_ListBestSellersArgs_In, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
         """What is newly out in a department (the slug listBestSellerCategories returns, e.g.
         "kitchen"), in Amazon's own hot-new-releases order — each row's ASIN, rank, title, price
         and rating. The ranking a caller wants when "best seller" would only ever return the
@@ -65295,7 +65423,7 @@ class Prv_amazon(Protocol):
         carries and for the same reason.
         """
 
-    async def listMostWishedFor(self, department: str, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
+    async def listMostWishedFor(self, department: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
         """What people in a department (the slug listBestSellerCategories returns, e.g. "kitchen")
         are adding to wish lists and registries most — each row's ASIN, rank, title, price and
         rating. Demand that has not turned into a purchase yet, which is a different signal from
@@ -65303,7 +65431,7 @@ class Prv_amazon(Protocol):
         rankings carry.
         """
 
-    async def listDeals(self, /) -> list[Prv_amazon_AmazonDeal_Out]:
+    async def listDeals(self, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonDeal_Out]:
         """Today's Deals — what is discounted right now: ASIN, title, the deal price, the price it
         was, the percentage off, and any "limited time" wording (a plain label, or, for a
         countdown deal, the fragment plus its ISO deadline). Read off the page's own widget JSON
@@ -65312,7 +65440,7 @@ class Prv_amazon(Protocol):
         found this pass.
         """
 
-    async def getSeller(self, sellerId: str, /) -> Prv_amazon_AmazonSeller_Out:
+    async def getSeller(self, sellerId: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonSeller_Out:
         """Read a marketplace seller's storefront — their name, feedback across four windows (30
         days, 90 days, the last 12 months and lifetime), the one positive-percentage figure
         Amazon publishes (last 12 months only), their registered business name and address, and
@@ -65332,7 +65460,7 @@ class Prv_amazon(Protocol):
         than the caller's ZIP, on an invalid ZIP.
         """
 
-    async def listSellerOffers(self, asinOrUrl: str, /) -> Prv_amazon_AmazonSellerOffersResult_Out:
+    async def listSellerOffers(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonSellerOffersResult_Out:
         """Every seller offering the same listing side by side — condition (new, used, its grade),
         price, shipping cost and estimate, and the seller's own name, id and star rating — read
         off the site's "All Offers Display" modal rather than the buy-box winner alone. What
@@ -72879,6 +73007,14 @@ class Prv_discord(Protocol):
         own browser yet.
         """
 
+    async def listChannels(self, guildId: str, opts: ConnectionOption | None = None, /) -> list[Prv_discord_discordChannel_Out]:
+        """Lists one joined server's channels AS THE SIGNED-IN USER — id, name, type (text, voice,
+        announcement, stage, forum), topic and the category it sits under. `guildId` is a row's
+        id from listMyServers(). Pass a row's id to listMessages. Needs a Discord sign-in made
+        through Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own
+        browser yet.
+        """
+
 class Prv_discounttire(Protocol):
     """America's largest independent tire and wheel retailer — which tires and wheels actually
     fit a given vehicle, what they cost, whether they are in stock near a ZIP, when a store
@@ -74715,6 +74851,18 @@ class Prv_fitdegree(Protocol):
         offers and guest passes they hold, upcoming bookings, and waivers waiting to be signed.
         """
 
+    async def listMyBookings(self, fitspotId: str, opts: ConnectionOption | None = None, /) -> list[Prv_fitdegree_FitdegreeMyBooking_Out]:
+        """Signed in: lists the caller's own bookings at a studio's company — each with its
+        classId, status (registered, waitlisted, …), when it was booked, check-in, and the class
+        itself — sorted by class start.
+        """
+
+    async def listMyPasses(self, fitspotId: str, opts: ConnectionOption | None = None, /) -> list[Prv_fitdegree_FitdegreeMyPass_Out]:
+        """Signed in: lists the caller's active memberships, class packs, private-session packs,
+        offers and guest passes at a studio's company, with uses left (null = unlimited), start
+        and expiry.
+        """
+
 class Prv_fitness1440(Protocol):
     """FITNESS:1440's own live day-pass request form (/request-day-pass/) — the real state →
     city cascade of clubs currently taking free day-pass requests, off the site's own
@@ -76476,6 +76624,25 @@ class Prv_glofox(Protocol):
     async def listMyMemberships(self, args: Prv_glofox_glofoxStudioArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glofox_glofoxMyMemberships_Out:
         """Signed in: the member's current and stacked memberships at that studio, with status and
         start/end dates.
+        """
+
+    async def listMyTransactions(self, args: Prv_glofox_glofoxTransactionsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glofox_glofoxTransactionPage_Out:
+        """Signed in: the member's own charges at that studio, newest first and paged — amount,
+        currency, status, what it was for and its invoice id.
+        """
+
+    async def bookClass(self, args: Prv_glofox_glofoxBookClassArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glofox_glofoxBookingResult_Out:
+        """Signed in: book the member into a class from listClasses, spending a credit or
+        membership they hold. A class that would charge a card comes back paymentRequired:true
+        and unbooked — Bowmark never pays.
+        """
+
+    async def joinWaitlist(self, args: Prv_glofox_glofoxBookClassArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glofox_glofoxBookingResult_Out:
+        """Signed in: put the member on a full class's waitlist. Same shape as bookClass."""
+
+    async def cancelBooking(self, args: Prv_glofox_glofoxCancelBookingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glofox_glofoxCancelResult_Out:
+        """Signed in: cancel one of the member's bookings (id from listMyBookings). Inside the
+        studio's late-cancel window it refuses unless confirmLateCancel:true.
         """
 
 class Prv_glossgenius(Protocol):
@@ -80265,6 +80432,18 @@ class Prv_kenko(Protocol):
         """The signed-in member's own profile at a Bookee/Kenko studio (name, email, phone, plus
         the site's full record in raw). Needs the caller signed in to the studio's booking page.
         Takes { urlPrefix, regionId } from findStudio.
+        """
+
+    async def updateMyProfile(self, changes: Prv_kenko_KenkoProfileUpdate_In, opts: ConnectionOption | None = None, /) -> Prv_kenko_KenkoMyProfile_Out:
+        """Changes the signed-in member's own name, email or phone at a Bookee/Kenko studio and
+        returns the saved profile. Pass only the fields to change. Needs the caller signed in.
+        Takes { urlPrefix, regionId, centerId } from findStudio.
+        """
+
+    async def cancelBooking(self, booking: Prv_kenko_KenkoCancelBookingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_kenko_KenkoWriteResult_Out:
+        """Cancels one of the signed-in member's class bookings (eventId and bookingId from
+        listMyBookings' raw record). The studio's own late-cancel policy applies. Needs the
+        caller signed in. Takes { urlPrefix, regionId } from findStudio.
         """
 
     async def listMyBookings(self, query: Prv_kenko_KenkoBookingsQuery_In, opts: ConnectionOption | None = None, /) -> list[Prv_kenko_KenkoAccountRow_Out]:
@@ -87245,6 +87424,9 @@ class Prv_quickbooks(Protocol):
     async def getApp(self, id: str, /) -> Prv_quickbooks_QuickbooksApp_Out:
         """One App Store listing's description, categories, use cases and rating"""
 
+    async def listAppCategories(self, /) -> list[Prv_quickbooks_QuickbooksAppCategory_Out]:
+        """The App Store's categories, with the slug searchApps filters on and each one's app count"""
+
 class Prv_quince(Protocol):
     """Quince (quince.com) apparel and home store. Searches the live catalog (men's/women's,
     size, in-stock) and reads one product's per-variant size, color, price and live stock.
@@ -89762,6 +89944,9 @@ class Prv_smithery(Protocol):
         search; `options.page`/`options.pageSize` page through results (Smithery's own default
         10, max 100 per page). THROWS on a non-2xx response (e.g. rate limiting); an empty
         `servers` array is a legitimate answer for a query that matches nothing, not a throw.
+        While Smithery's own search answers HTTP 500 (since 2026-11-02), results are matched
+        client-side against the ~500 most-used servers its unfiltered list still exposes, and
+        `warnings` says so.
         """
 
 class Prv_snapchat(Protocol):
@@ -96962,6 +97147,13 @@ class Prv_zenoti(Protocol):
         business. Returns status "booked" with the booking id, or "payment_required" with
         amountDue when the business wants a deposit or prepayment at booking -- that booking is
         NOT confirmed and the hold lapses. With no sign-in the run pauses for one.
+        """
+
+    async def cancelAppointment(self, args: Prv_zenoti_cancelAppointment_args_In, opts: ConnectionOption | None = None, /) -> Prv_zenoti_ZenotiCancellation_Out:
+        """Cancels one of the signed-in caller's upcoming appointments at a business (appointmentId
+        from listMyAppointments). Returns status "cancelled", or "fee_required" with
+        cancellationCharges when the business would charge a late-cancellation fee -- that
+        appointment is NOT cancelled. With no sign-in the run pauses for one.
         """
 
 class Prv_zoom(Protocol):

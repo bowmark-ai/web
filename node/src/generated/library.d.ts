@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 45f50fb5287edd97294f7d6f00cb551436f3f092a92c7a10f1495575bc453a82
-// 94 capabilities, 762 providers, 4119 typed functions, 20 refused.
+// Manifest version: 6a29cc3383a7e09ad7f065bb91d5f0b0c0f5aaf19891afa13ca54cfae8d5551a
+// 94 capabilities, 762 providers, 4130 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8745,12 +8745,17 @@ interface AlphavantageSignUpResult {
 
 declare namespace BowmarkProvider_amazon {
   // ── Amazon — the unit's own declarations, verbatim ──
+type AmazonMarket = "com" | "in" | "com.br" | "ca" | "co.uk" | "de" | "com.mx";
+interface AmazonMarketOptions {
+  market?: AmazonMarket; // which Amazon store to ask; amazon.com when omitted. A product URL on another store's host selects it by itself
+}
 interface AmazonProduct {
   asin: string;
   title: string;
   url: string;
   price: number | null;
   listPrice: number | null;
+  currency: string; // ISO 4217 of the prices on this row: the call's market ("USD" on amazon.com, "INR" on amazon.in)
   rating: number | null;
   ratingCount: number | null;
   sponsored: boolean;
@@ -8761,15 +8766,17 @@ interface AmazonSearchResult {
   totalResultCount: number;
 }
 // `query` is the same field as `keywords`: the runtime reads either, so the type admits either.
+// `market` picks which Amazon store: "com" (default), "in", "com.br", "ca", "co.uk", "de", "com.mx".
 type SearchProductsArgs =
-  | { keywords: string; department?: string; sort?: string; priceMin?: number; priceMax?: number; brand?: string; page?: number }
-  | { query: string; department?: string; sort?: string; priceMin?: number; priceMax?: number; brand?: string; page?: number };
+  | { market?: AmazonMarket; keywords: string; department?: string; sort?: string; priceMin?: number; priceMax?: number; brand?: string; page?: number }
+  | { market?: AmazonMarket; query: string; department?: string; sort?: string; priceMin?: number; priceMax?: number; brand?: string; page?: number };
 interface SearchWholeFoodsArgs {
   keywords: string;
   sort?: string;
   page?: number;
 }
 interface ListCategoryProductsArgs {
+  market?: AmazonMarket; // which Amazon store: "com" (default), "in", "com.br", "ca", "co.uk", "de", "com.mx"
   department: string;
   sort?: string;
   page?: number;
@@ -8787,6 +8794,7 @@ interface AmazonBestSellerCategory {
   slug: string;
 }
 interface ListBestSellersArgs {
+  market?: AmazonMarket; // which Amazon store: "com" (default), "in", "com.br", "ca", "co.uk", "de", "com.mx"
   department: string;
   page?: number;
 }
@@ -8796,6 +8804,7 @@ interface AmazonBestSellerEntry {
   title: string;
   url: string;
   price: number | null;
+  currency: string; // ISO 4217 of the prices on this row: the call's market ("USD" on amazon.com, "INR" on amazon.in)
   rating: number | null;
   ratingCount: number | null;
 }
@@ -8810,6 +8819,7 @@ interface AmazonProductDetail {
   brand: string | null;
   price: number | null;
   listPrice: number | null;
+  currency: string; // ISO 4217 of the prices on this row: the call's market ("USD" on amazon.com, "INR" on amazon.in)
   inStock: boolean;
   availabilityText: string | null;
   rating: number | null;
@@ -8843,6 +8853,7 @@ interface AmazonRelatedProduct {
   title: string;
   url: string;
   price: number | null;
+  currency: string; // ISO 4217 of the prices on this row: the call's market ("USD" on amazon.com, "INR" on amazon.in)
   rating: number | null; // null on a "Frequently bought together" row — that rail never shows one
   ratingCount: number | null;
 }
@@ -8857,6 +8868,7 @@ interface AmazonDeal {
   url: string;
   dealPrice: number;
   listPrice: number | null;
+  currency: string; // ISO 4217 of the prices on this row: the call's market ("USD" on amazon.com, "INR" on amazon.in)
   percentOff: number | null;
   limitedTimeText: string | null; // e.g. "Limited time deal", or "Ends in 2026-09-16T06:59:59.000Z" for a countdown deal
 }
@@ -8895,6 +8907,7 @@ interface AmazonDeliveryEstimate {
 interface AmazonSellerOffer {
   condition: string; // e.g. "New", "Used - Good", "Used - Acceptable" — read the values off a result, never guess one from prose
   price: number | null;
+  currency: string; // ISO 4217 of the prices on this row: the call's market ("USD" on amazon.com, "INR" on amazon.in)
   shippingCost: number | null; // derived from shippingLabel ("FREE" -> 0)
   shippingLabel: string | null; // the site's own delivery-price label, e.g. "FREE" or "$3.99"
   deliveryEstimate: string | null; // e.g. "September 24 - 29"
@@ -8945,7 +8958,9 @@ interface SignedInOrderPage {
    * suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
    * listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor, listDeals,
    * getSeller, getDeliveryEstimate, listSellerOffers, getCart and addToCart are built;
-   * everything else is still a declared stub.
+   * everything else is still a declared stub. Also answers for Amazon's country stores: pass
+   * `market` ('in', 'com.br', 'ca', 'co.uk', 'de', 'com.mx') or a URL on that store, and prices
+   * come back in its own currency.
    */
   interface Unit {
     /**
@@ -8994,7 +9009,7 @@ interface SignedInOrderPage {
      * as "cast iron skillets", "cast iron", "cast iron dutch oven". What an agent holding a vague
      * noun calls before it commits to a search, and the cheapest call in the provider.
      */
-    suggestKeywords(prefix: string): Promise<AmazonKeywordSuggestion[]>;
+    suggestKeywords(prefix: string, options?: AmazonMarketOptions): Promise<AmazonKeywordSuggestion[]>;
 
     /**
      * List the departments Amazon publishes Best Sellers rankings for — Electronics, Kitchen &
@@ -9003,7 +9018,7 @@ interface SignedInOrderPage {
      * take. The door for all four ranking functions: a caller holding the word "kitchen" cannot
      * reach a ranking without this.
      */
-    listBestSellerCategories(): Promise<AmazonBestSellerCategory[]>;
+    listBestSellerCategories(options?: AmazonMarketOptions): Promise<AmazonBestSellerCategory[]>;
 
     /**
      * Read one product page the way a shopper reads it: title, brand, ASIN, current price and list
@@ -9011,7 +9026,7 @@ interface SignedInOrderPage {
      * features, the specification table, the images, its category breadcrumb, its Best Sellers
      * Rank, and who it is sold by. The single most-wanted read on the whole site.
      */
-    getProduct(asinOrUrl: string): Promise<AmazonProductDetail>;
+    getProduct(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonProductDetail>;
 
     /**
      * List every version of a product that is really the same listing — the 8-inch, 10.25-inch,
@@ -9020,7 +9035,7 @@ interface SignedInOrderPage {
      * size Amazon ranked first. Empty when the listing has no variations — a real answer, not a
      * parse failure.
      */
-    listVariations(asinOrUrl: string): Promise<AmazonVariation[]>;
+    listVariations(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonVariation[]>;
 
     /**
      * Read what customers actually wrote about a product — reviewer name, star rating, headline,
@@ -9030,7 +9045,7 @@ interface SignedInOrderPage {
      * which sign-up has not shipped for yet. The read an agent needs to answer "is this any good"
      * rather than "what does it cost".
      */
-    listReviews(asinOrUrl: string): Promise<AmazonReview[]>;
+    listReviews(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonReview[]>;
 
     /**
      * The other products Amazon puts next to this one — "Frequently bought together" and
@@ -9040,7 +9055,7 @@ interface SignedInOrderPage {
      * How an agent moves from one product to the alternatives without inventing a new search
      * query.
      */
-    listRelatedProducts(asinOrUrl: string): Promise<AmazonRelatedProducts>;
+    listRelatedProducts(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonRelatedProducts>;
 
     /**
      * Amazon's hourly-updated top sellers in one department (the slug listBestSellerCategories
@@ -9050,7 +9065,7 @@ interface SignedInOrderPage {
      * NOT contiguous with page 1's 1-30 — ranks 31-50 and 81-100 are never rendered on either
      * page. Only these two pages are available on the site.
      */
-    listBestSellers(args: string | ListBestSellersArgs): Promise<AmazonBestSellerEntry[]>;
+    listBestSellers(args: string | ListBestSellersArgs, options?: AmazonMarketOptions): Promise<AmazonBestSellerEntry[]>;
 
     /**
      * What is newly out in a department (the slug listBestSellerCategories returns, e.g.
@@ -9060,7 +9075,7 @@ interface SignedInOrderPage {
      * page: page 2 returns ranks 51-80, the same non-contiguous window listBestSellers carries and
      * for the same reason.
      */
-    listNewReleases(args: string | ListBestSellersArgs): Promise<AmazonBestSellerEntry[]>;
+    listNewReleases(args: string | ListBestSellersArgs, options?: AmazonMarketOptions): Promise<AmazonBestSellerEntry[]>;
 
     /**
      * What people in a department (the slug listBestSellerCategories returns, e.g. "kitchen") are
@@ -9069,7 +9084,7 @@ interface SignedInOrderPage {
      * listBestSellers' sales rank. Page one only (up to 30 rows), the same limit the other
      * rankings carry.
      */
-    listMostWishedFor(department: string): Promise<AmazonBestSellerEntry[]>;
+    listMostWishedFor(department: string, options?: AmazonMarketOptions): Promise<AmazonBestSellerEntry[]>;
 
     /**
      * Today's Deals — what is discounted right now: ASIN, title, the deal price, the price it was,
@@ -9078,7 +9093,7 @@ interface SignedInOrderPage {
      * from a card, so the discount is a published field rather than something to compute. Page one
      * only (30 deals) — the site's own paging control was not found this pass.
      */
-    listDeals(): Promise<AmazonDeal[]>;
+    listDeals(options?: AmazonMarketOptions): Promise<AmazonDeal[]>;
 
     /**
      * Read a marketplace seller's storefront — their name, feedback across four windows (30 days,
@@ -9088,7 +9103,7 @@ interface SignedInOrderPage {
      * from a shop with 86,000 ratings or one with thirty. The door is getProduct's sellerId field
      * — a listing Amazon sells itself has none.
      */
-    getSeller(sellerId: string): Promise<AmazonSeller>;
+    getSeller(sellerId: string, options?: AmazonMarketOptions): Promise<AmazonSeller>;
 
     /**
      * When a product would actually arrive at a given US ZIP, and what it costs to get it there —
@@ -9111,7 +9126,7 @@ interface SignedInOrderPage {
      * full count) — no paging control was found in the modal's static markup this pass. Empty
      * `offers` on a listing with no other sellers is a real answer, not a parse failure.
      */
-    listSellerOffers(asinOrUrl: string): Promise<AmazonSellerOffersResult>;
+    listSellerOffers(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonSellerOffersResult>;
 
     /**
      * Read what is in the cart — the same cart `addToCart` writes. With the caller's connected
@@ -30859,6 +30874,13 @@ interface discordMyServer {
   memberCount: number | null;        // approximate
   onlineCount: number | null;        // approximate
 }
+interface discordChannel {
+  id: string;
+  name: string;
+  type: "text" | "voice" | "announcement" | "stage" | "forum";
+  topic: string | null;
+  category: string | null;           // the category channel this one sits under, or null
+}
 
   /**
    * Discord, chat for communities. Built so far: the public server directory (browse, search,
@@ -31012,6 +31034,14 @@ interface discordMyServer {
      * sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
      */
     listMessages(args: { channelId: string; limit?: number }, opts?: ConnectionOption): Promise<discordChannelMessages>;
+
+    /**
+     * Lists one joined server's channels AS THE SIGNED-IN USER — id, name, type (text, voice,
+     * announcement, stage, forum), topic and the category it sits under. `guildId` is a row's id
+     * from listMyServers(). Pass a row's id to listMessages. Needs a Discord sign-in made through
+     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    listChannels(guildId: string, opts?: ConnectionOption): Promise<discordChannel[]>;
   }
 }
 
@@ -36850,6 +36880,20 @@ interface FitdegreeMyProfile {
   upcomingBookings: number;
   waiversToSign: number;
 }
+interface FitdegreeMyBooking {
+  registrationId?: string;
+  classId: string;             // getClass / cancelBooking take this
+  status?: string;             // the site's own word: "registered", "waitlisted", …
+  bookedAt?: string; checkedIn: boolean;
+  class?: FitdegreeClass;      // when the site sent the class row alongside
+}
+type FitdegreePassKind = "membership" | "classPack" | "privatePack" | "offer" | "guestPass";
+interface FitdegreeMyPass {
+  passId?: string; kind: FitdegreePassKind; name?: string;
+  startsAt?: string; expiresAt?: string; purchasedAt?: string;
+  remaining: number | null;    // uses left; null = unlimited
+  total?: number;
+}
 
   /**
    * FitDegree studio schedules (pilates, yoga, barre, gyms): find a studio from the FitDegree
@@ -36964,6 +37008,19 @@ interface FitdegreeMyProfile {
      * and guest passes they hold, upcoming bookings, and waivers waiting to be signed.
      */
     getMyProfile(fitspotId: string, opts?: ConnectionOption): Promise<FitdegreeMyProfile>;
+
+    /**
+     * Signed in: lists the caller's own bookings at a studio's company — each with its classId,
+     * status (registered, waitlisted, …), when it was booked, check-in, and the class itself —
+     * sorted by class start.
+     */
+    listMyBookings(fitspotId: string, opts?: ConnectionOption): Promise<FitdegreeMyBooking[]>;
+
+    /**
+     * Signed in: lists the caller's active memberships, class packs, private-session packs, offers
+     * and guest passes at a studio's company, with uses left (null = unlimited), start and expiry.
+     */
+    listMyPasses(fitspotId: string, opts?: ConnectionOption): Promise<FitdegreeMyPass[]>;
   }
 }
 
@@ -41650,6 +41707,61 @@ interface glofoxMyMemberships {
   studio: string;
   memberships: glofoxMyMembership[];
 }
+interface glofoxBookClassArgs {
+  studio: string;
+  /** The class id from listClasses. */
+  classId: string;
+  /** Guests booked alongside the member; default 0. */
+  guests?: number;
+}
+interface glofoxBookingResult {
+  studio: string;
+  classId: string;
+  /** True when the studio confirmed the booking (or the waitlist place). */
+  booked: boolean;
+  /** The new booking's id — what cancelBooking takes. */
+  bookingId: string | null;
+  status: string | null;
+  waitlisted: boolean;
+  /** The class would charge a card; Bowmark stopped before paying and nothing was booked. */
+  paymentRequired: boolean;
+  message: string | null;
+}
+interface glofoxCancelBookingArgs {
+  studio: string;
+  /** A booking id from listMyBookings. */
+  bookingId: string;
+  /** Required to cancel inside the studio's late-cancel window (may forfeit the credit or charge a fee). */
+  confirmLateCancel?: boolean;
+}
+interface glofoxCancelResult {
+  studio: string;
+  bookingId: string;
+  cancelled: boolean;
+  lateCancel: boolean;
+  /** Hours before the start inside which a cancel is late. */
+  cancelWindowHours: number | null;
+  message: string | null;
+}
+interface glofoxTransactionsArgs {
+  studio: string;
+  page?: number;
+}
+interface glofoxTransaction {
+  id: string;
+  amount: number | null;
+  currency: string | null;
+  status: string | null;
+  description: string | null;
+  createdAt: string | null;
+  invoiceId: string | null;
+}
+interface glofoxTransactionPage {
+  studio: string;
+  transactions: glofoxTransaction[];
+  page: number;
+  hasMore: boolean;
+}
 interface glofoxGetPriceArgs {
   studio: string;
   /** The class id from listClasses. */
@@ -41807,6 +41919,28 @@ interface glofoxFacilitySlotPage {
      * start/end dates.
      */
     listMyMemberships(args: glofoxStudioArgs, opts?: ConnectionOption): Promise<glofoxMyMemberships>;
+
+    /**
+     * Signed in: the member's own charges at that studio, newest first and paged — amount,
+     * currency, status, what it was for and its invoice id.
+     */
+    listMyTransactions(args: glofoxTransactionsArgs, opts?: ConnectionOption): Promise<glofoxTransactionPage>;
+
+    /**
+     * Signed in: book the member into a class from listClasses, spending a credit or membership
+     * they hold. A class that would charge a card comes back paymentRequired:true and unbooked —
+     * Bowmark never pays.
+     */
+    bookClass(args: glofoxBookClassArgs, opts?: ConnectionOption): Promise<glofoxBookingResult>;
+
+    /** Signed in: put the member on a full class's waitlist. Same shape as bookClass. */
+    joinWaitlist(args: glofoxBookClassArgs, opts?: ConnectionOption): Promise<glofoxBookingResult>;
+
+    /**
+     * Signed in: cancel one of the member's bookings (id from listMyBookings). Inside the studio's
+     * late-cancel window it refuses unless confirmLateCancel:true.
+     */
+    cancelBooking(args: glofoxCancelBookingArgs, opts?: ConnectionOption): Promise<glofoxCancelResult>;
   }
 }
 
@@ -52418,6 +52552,9 @@ interface KenkoProduct { id: number; name: string; handle: string; description: 
 interface KenkoBookingsQuery { urlPrefix: string; regionId: number; type?: "upcoming" | "past"; page?: number }
 interface KenkoMyProfile { id: number | null; firstName: string | null; lastName: string | null; email: string | null; phone: string | null; raw: Record<string, unknown> }
 interface KenkoAccountRow { id: number | null; name: string | null; date: string | null; status: string | null; raw: Record<string, unknown> }
+interface KenkoProfileUpdate { urlPrefix: string; regionId: number; centerId: number; firstName?: string; lastName?: string; email?: string; phone?: string; phonePrefix?: string }
+interface KenkoCancelBookingArgs { urlPrefix: string; regionId: number; eventId: number; bookingId: number }
+interface KenkoWriteResult { ok: true; raw: unknown }
 
   /**
    * Kenko AI / Bookee studio booking widgets (yoga, pilates, aerial): find a studio, read its
@@ -52506,6 +52643,20 @@ interface KenkoAccountRow { id: number | null; name: string | null; date: string
      * urlPrefix, regionId } from findStudio.
      */
     getMyProfile(studio: KenkoStudioRef, opts?: ConnectionOption): Promise<KenkoMyProfile>;
+
+    /**
+     * Changes the signed-in member's own name, email or phone at a Bookee/Kenko studio and returns
+     * the saved profile. Pass only the fields to change. Needs the caller signed in. Takes {
+     * urlPrefix, regionId, centerId } from findStudio.
+     */
+    updateMyProfile(changes: KenkoProfileUpdate, opts?: ConnectionOption): Promise<KenkoMyProfile>;
+
+    /**
+     * Cancels one of the signed-in member's class bookings (eventId and bookingId from
+     * listMyBookings' raw record). The studio's own late-cancel policy applies. Needs the caller
+     * signed in. Takes { urlPrefix, regionId } from findStudio.
+     */
+    cancelBooking(booking: KenkoCancelBookingArgs, opts?: ConnectionOption): Promise<KenkoWriteResult>;
 
     /**
      * The signed-in member's own bookings at a studio, type "upcoming" (default) or "past", one
@@ -71493,9 +71644,20 @@ interface QuickbooksHelpArticle {
 }
 
 interface QuickbooksSearchAppsArgs {
+  /** Keyword, narrowed by `category` when one is given. */
   query: string;
   /** How many results to return, 1-75 (default 20). */
   limit?: number;
+  /** A `slug` listAppCategories returns, e.g. "INVENTORY". */
+  category?: string;
+}
+
+/** One App Store category. */
+interface QuickbooksAppCategory {
+  /** Pass to searchApps({ category }). */
+  slug: string; // "INVOICING_AND_PAYMENTS"
+  label: string; // "Invoicing and Payments"
+  appCount: number;
 }
 
 /** One App Store listing as the search index returns it. Call `getApp` with its `id`. */
@@ -71599,6 +71761,9 @@ interface QuickbooksApp extends QuickbooksAppSummary {
 
     /** One App Store listing's description, categories, use cases and rating */
     getApp(id: string): Promise<QuickbooksApp>;
+
+    /** The App Store's categories, with the slug searchApps filters on and each one's app count */
+    listAppCategories(): Promise<QuickbooksAppCategory[]>;
   }
 }
 
@@ -79203,7 +79368,9 @@ interface SmitherySearchResult {
      * `options.verified`/`options.remote`/`options.isDeployed`/`options.namespace` filter the
      * search; `options.page`/`options.pageSize` page through results (Smithery's own default 10,
      * max 100 per page). THROWS on a non-2xx response (e.g. rate limiting); an empty `servers`
-     * array is a legitimate answer for a query that matches nothing, not a throw.
+     * array is a legitimate answer for a query that matches nothing, not a throw. While Smithery's
+     * own search answers HTTP 500 (since 2026-11-02), results are matched client-side against the
+     * ~500 most-used servers its unfiltered list still exposes, and `warnings` says so.
      */
     search(query: string | ({ query: string } & SmitherySearchOptions), options?: SmitherySearchOptions): Promise<SmitherySearchResult>;
   }
@@ -99887,6 +100054,13 @@ interface ZenotiBooking {
   amountDue: number;       // what the business wants paid at booking; 0 when booked
 }
 
+interface ZenotiCancellation {
+  status: "cancelled" | "fee_required";  // fee_required = NOT cancelled; the appointment stands
+  appointmentId: string;
+  cancellationCharges: number;  // the fee the business states; 0 when cancelled free
+  depositRefunded: boolean;
+}
+
   /**
    * The Zenoti booking platform behind thousands of salons, spas and med-spas: find a business's
    * webstore, list its locations and services, and check real open appointment times. Rung 11,
@@ -99959,6 +100133,14 @@ interface ZenotiBooking {
      * and the hold lapses. With no sign-in the run pauses for one.
      */
     bookAppointment(args: { tenant: string, centerId: string, serviceId: string, time: string, providerId?: string }, opts?: ConnectionOption): Promise<ZenotiBooking>;
+
+    /**
+     * Cancels one of the signed-in caller's upcoming appointments at a business (appointmentId
+     * from listMyAppointments). Returns status "cancelled", or "fee_required" with
+     * cancellationCharges when the business would charge a late-cancellation fee -- that
+     * appointment is NOT cancelled. With no sign-in the run pauses for one.
+     */
+    cancelAppointment(args: { tenant: string, appointmentId: string, reason?: string }, opts?: ConnectionOption): Promise<ZenotiCancellation>;
   }
 }
 

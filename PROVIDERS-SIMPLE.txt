@@ -337,7 +337,7 @@ github.com — github: createComment, createIssue, createPullRequest, createRevi
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
 glassesusa.com — glassesusa: getProduct, search
-glofox.com — glofox: findStudio, getClass, getMyProfile, getPrice, getStudio, listAppointmentTypes, listClasses, listClassTypes, listCourses, listFacilities, listFacilitySlots, listMemberships, listMyBookings, listMyCredits, listMyMemberships, listTrainers, listTrainerSlots (+13 planned)
+glofox.com — glofox: bookClass, cancelBooking, findStudio, getClass, getMyProfile, getPrice, getStudio, joinWaitlist, listAppointmentTypes, listClasses, listClassTypes, listCourses, listFacilities, listFacilitySlots, listMemberships, listMyBookings, listMyCredits, listMyMemberships, listMyTransactions, listTrainers, listTrainerSlots (+9 planned)
 glossgenius.com — glossgenius: findBusiness, getAvailability, getBookingRequirements, getBusiness, getGiftCardOptions, joinWaitlist, listLocations, listMemberships, listPackages, listReviews, listServices, listTeam (+19 planned)
 gobrightwing.com — gobrightwing: getJobDetails, searchJobs (+2 planned)
 gokenko.com — kenko: cancelBooking, findStudio, getAppointmentAvailability, getClass, getClassSpots, getMyProfile, listAppointmentTypes, listClasses, listGiftCards, listInstructors, listMyBookings, listMyMemberships, listMyPurchases, listPricing, listProducts, listScheduleFilters, updateMyProfile (+10 planned)
