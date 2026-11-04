@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6a29cc3383a7e09ad7f065bb91d5f0b0c0f5aaf19891afa13ca54cfae8d5551a
-// 94 capabilities, 762 providers, 4130 typed functions, 20 refused.
+// Manifest version: de7af1c733bce82a7460743435f15ab7d9a92ccf6e7d8a279e122a52b21d4efa
+// 94 capabilities, 761 providers, 4135 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30589,6 +30589,23 @@ interface DirectBookCancelledReservation {
   /** The hotel's own refusals of the cancellation (e.g. past a non-refundable cutoff). */
   errors: { key: string; args: unknown }[];
 }
+interface SendEnquiryArgs {
+  /** The hotel's channel code, booking link or own website. */
+  property: string;
+  name: string;
+  email: string;
+  message: string;
+  phone?: string;
+}
+interface DirectBookEnquiryResult {
+  channelCode: string;
+  /** The site's own verdict — e.g. "FAILED". This provider holds no reCAPTCHA v3
+   * solve for this door, so a real message has never been delivered through it. */
+  status: string;
+  message: string | null;
+  /** True only once a non-FAILED status has actually been observed; false today. */
+  sent: boolean;
+}
 
   /**
    * Guest booking widget for SiteMinder partner hotels — check availability, rates and start
@@ -30663,6 +30680,14 @@ interface DirectBookCancelledReservation {
      * non-refundable rate past its cutoff).
      */
     cancelReservation(args: CancelReservationArgs): Promise<DirectBookCancelledReservation>;
+
+    /**
+     * Sends a question to a hotel through its booking page's contact form. The site guards this
+     * form with an invisible reCAPTCHA v3 check this provider cannot pass, so it returns the
+     * site's own refusal (status/message) rather than a delivered enquiry — reached and refused,
+     * not a working send yet.
+     */
+    sendEnquiry(args: SendEnquiryArgs): Promise<DirectBookEnquiryResult>;
   }
 }
 
@@ -41946,6 +41971,44 @@ interface glofoxFacilitySlotPage {
 
 declare namespace BowmarkProvider_glossgenius {
   // ── GlossGenius — the unit's own declarations, verbatim ──
+interface GlossGeniusMyProfileArgs {
+  /** the business the caller signed in to: its slug ("sweettouchskin") or booking-site link -- a GlossGenius sign-in belongs to one business */
+  business: string;
+}
+interface GlossGeniusMyProfile {
+  business: string;
+  /** the client's token at this business, when the sign-in recorded one */
+  clientToken: string | null;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+  /** the user record exactly as GlossGenius returns it (its field list is not yet observed signed in) */
+  user: Record<string, unknown>;
+}
+interface GlossGeniusMyMembershipsArgs {
+  /** the business the caller signed in to (slug or booking-site link) */
+  business: string;
+  /** optional client-membership states to keep, as GlossGenius names them */
+  states?: string[];
+}
+interface GlossGeniusMyMemberships {
+  business: string;
+  /** client_memberships as GlossGenius returns them (field list not yet observed signed in) */
+  memberships: Record<string, unknown>[];
+  count: number;
+}
+interface GlossGeniusMyOrdersArgs {
+  /** the business the caller signed in to (slug or booking-site link) */
+  business: string;
+  /** "OPEN" (default), "PAID", "VOID" or "CANCELED" */
+  state?: string;
+}
+interface GlossGeniusMyOrders {
+  business: string;
+  /** orders as GlossGenius returns them, with payment account and pay-later methods (field list not yet observed signed in) */
+  orders: Record<string, unknown>[];
+  count: number;
+}
 interface GlossGeniusFindBusinessArgs {
   /** a booking-site slug ("sweettouchskin"), a <slug>.glossgenius.com link, or the business's own website / Instagram link that points at one */
   business: string;
@@ -42218,6 +42281,28 @@ interface GlossGeniusWaitlistJoinResult {
    * open times, reviews; book, reschedule and cancel an appointment as a guest.
    */
   interface Unit {
+    /**
+     * Signed in: lists the memberships the caller holds at one GlossGenius business, as
+     * GlossGenius returns them. Example: `bowmark.providers.glossgenius.listMyMemberships({
+     * business: "sweettouchskin" })`.
+     */
+    listMyMemberships(args: GlossGeniusMyMembershipsArgs, opts?: ConnectionOption): Promise<GlossGeniusMyMemberships>;
+
+    /**
+     * Signed in: lists the caller's orders (gift cards, packages, memberships bought) at one
+     * GlossGenius business, OPEN by default, or PAID, VOID or CANCELED. Example:
+     * `bowmark.providers.glossgenius.listMyOrders({ business: "sweettouchskin", state: "PAID" })`.
+     */
+    listMyOrders(args: GlossGeniusMyOrdersArgs, opts?: ConnectionOption): Promise<GlossGeniusMyOrders>;
+
+    /**
+     * Signed in: returns the caller's own client profile at one GlossGenius business -- name,
+     * email, phone, the client token, and the user record as GlossGenius sends it. A GlossGenius
+     * sign-in belongs to one business, so the caller signs in on that business's booking site.
+     * Example: `bowmark.providers.glossgenius.getMyProfile({ business: "sweettouchskin" })`.
+     */
+    getMyProfile(args: GlossGeniusMyProfileArgs, opts?: ConnectionOption): Promise<GlossGeniusMyProfile>;
+
     /**
      * Finds a GlossGenius business from its booking-site slug, a <slug>.glossgenius.com link, or
      * the business's own website or Instagram link that points at one, and returns the slug every
@@ -63635,6 +63720,20 @@ interface NwsWeatherStory {
   imageUrl: string | null;
 }
 
+interface GetOfficeHeadlinesArgs {
+  /** A forecast office id like "OKX", or a place name / ZIP / "lat,lon" resolved to its office. */
+  place: string;
+}
+
+interface NwsOfficeHeadline {
+  id: string;
+  title: string;
+  link: string | null;
+  summary: string | null;
+  important: boolean;
+  issuanceTime: string;
+}
+
 interface GetOfficeArgs {
   /** A forecast office id like "BOX", or a place name / ZIP / "lat,lon" resolved to its office. */
   place: string;
@@ -63799,6 +63898,13 @@ interface NwsOffice {
      * place name.
      */
     getWeatherStories(args: GetWeatherStoriesArgs): Promise<NwsWeatherStory[]>;
+
+    /**
+     * The headlines a forecast office has posted — event notices, outreach and announcements —
+     * with title, link, important flag and issue time, newest first. Empty when the office has
+     * posted none. Takes an office id like OKX or a place name.
+     */
+    getOfficeHeadlines(args: GetOfficeHeadlinesArgs): Promise<NwsOfficeHeadline[]>;
 
     /**
      * Which text products an office issues ({ office: "BOX" }), or the recent issuances of one
@@ -69044,33 +69150,6 @@ interface WsgcSearch {
      * description, image and product-page link.
      */
     searchProducts(args: WsgcSearchArgs): Promise<WsgcSearch>;
-  }
-}
-
-declare namespace BowmarkProvider_powys {
-  // ── Powys planning applications — the unit's own declarations, verbatim ──
-interface powysApplication {
-  reference: string;
-  description: string;
-  address: string;
-  applicant: string;
-  dateSubmitted: string;
-  status: string;  // the site's own labels — read the values off a result, never guess one from prose
-  decision?: string;
-}
-
-interface powysSearchResult {
-  results: powysApplication[];
-}
-
-  /** Search Powys County Council planning applications by reference, address, or description. */
-  interface Unit {
-    /**
-     * Searches Powys County Council planning applications. Takes a required search term or
-     * reference (e.g., 'P/2024/0123' for a reference or 'Main Street' for an address) and returns
-     * matching applications with their status and decision details.
-     */
-    search(query: string): Promise<powysSearchResult>;
   }
 }
 
@@ -91993,6 +92072,24 @@ interface VagaroCancellationPolicy {
   /** The class cancellation text; null when none is set. */
   classPolicy: string | null;
 }
+interface VagaroPhoto {
+  photoId: string;
+  title: string | null;
+  description: string | null;
+  imageUrl: string | null;
+  likeCount: number | null;
+  /** serviceId from listServices, when this photo illustrates one. */
+  serviceId: string | null;
+  serviceName: string | null;
+  /** staffId from listStaff, when this photo is attributed to one. */
+  staffId: string | null;
+  staffName: string | null;
+}
+interface VagaroPhotoList {
+  businessId: string;
+  slug: string;
+  photos: VagaroPhoto[];
+}
 interface GetStaffMemberArgs extends BusinessArgs {
   /** staffId from listStaff. */
   staffId: string;
@@ -92128,6 +92225,12 @@ interface VagaroStaffProfile {
      * business set none).
      */
     getCancellationPolicy(args: BusinessArgs): Promise<VagaroCancellationPolicy>;
+
+    /**
+     * Lists a business's portfolio photos: title, description, image url, like count, and the
+     * service and staff member each one illustrates.
+     */
+    listPhotos(args: BusinessArgs): Promise<VagaroPhotoList>;
   }
 }
 
@@ -101892,7 +101995,6 @@ interface BowmarkProviders {
   postcodes_io: BowmarkProvider_postcodes_io.Unit;
   postiz: BowmarkProvider_postiz.Unit;
   potterybarn: BowmarkProvider_potterybarn.Unit;
-  powys: BowmarkProvider_powys.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
   preppednplated: BowmarkProvider_preppednplated.Unit;
   prime_video: BowmarkProvider_prime_video.Unit;

@@ -1506,7 +1506,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `direct_book.initiateBooking` | direct-book.com | Starts a booking for chosen dates, room and rate: validates the cart with the hotel… | 🟢 |
 | `direct_book.listExtras` | direct-book.com | Lists the add-ons a hotel sells with a stay — breakfast, parking, transfers — with… | ⚪ |
 | `direct_book.listRoomTypes` | direct-book.com | Lists a hotel's room types with their ids, names, category (room or suite), beds… | 🟢 |
-| `direct_book.sendEnquiry` | direct-book.com | Sends a question to a hotel through its booking page's contact form. | ⚪ |
+| `direct_book.sendEnquiry` | direct-book.com | Sends a question to a hotel through its booking page's contact form. | 🟢 |
 | `discord.acceptFriendRequest` | discord.com | Accepts a pending incoming friend request. | ⚪ |
 | `discord.addReaction` | discord.com | Adds an emoji reaction to a message as the caller. | ⚪ |
 | `discord.blockUser` | discord.com | Blocks a user. | ⚪ |
@@ -3478,7 +3478,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nws.getMarineForecast` | api.weather.gov | The coastal-waters marine forecast for one marine zone — winds in knots, wave heights… | 🟢 |
 | `nws.getObservationHistory` | api.weather.gov | Past observations at a station across a time window — what the temperature, wind and… | 🟢 |
 | `nws.getOffice` | api.weather.gov | One NWS forecast office — its name, street address, phone, email, the counties and… | 🟢 |
-| `nws.getOfficeHeadlines` | api.weather.gov | The headlines a forecast office has posted — event notices, outreach and important… | ⚪ |
+| `nws.getOfficeHeadlines` | api.weather.gov | The headlines a forecast office has posted — event notices, outreach and important… | 🟢 |
 | `nws.getPoint` | api.weather.gov | Everything NWS knows about one place: its forecast office, forecast grid cell… | 🟢 |
 | `nws.getRadarImage` | api.weather.gov | The current radar loop for a radar site, a place's nearest radar, or the whole country… | ⚪ |
 | `nws.getTaf` | api.weather.gov | The Terminal Aerodrome Forecast for an airport — the aviation forecast pilots file… | ⚪ |
@@ -5377,7 +5377,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `vagaro.listMembershipsAndPackages` | www.vagaro.com | Lists the memberships and prepaid service packages a business sells, with price, what… | ⚪ |
 | `vagaro.listMyAppointments` | www.vagaro.com | Lists the signed-in caller's upcoming and past appointments and class bookings across… | ⚪ |
 | `vagaro.listMyMembershipsAndPackages` | www.vagaro.com | Lists the memberships, packages and gift cards the signed-in caller holds, with what… | ⚪ |
-| `vagaro.listPhotos` | www.vagaro.com | Lists a business's portfolio photos and styles, optionally for one staff member. | ⚪ |
+| `vagaro.listPhotos` | www.vagaro.com | Lists a business's portfolio photos: title, description, image url, like count, and… | 🟢 |
 | `vagaro.listProducts` | www.vagaro.com | Lists the retail products a business sells through its Vagaro store, with price, brand… | ⚪ |
 | `vagaro.listPromotions` | www.vagaro.com | Lists a business's current deals and promotions: discount, the services it applies to… | 🟢 |
 | `vagaro.listReviews` | www.vagaro.com | Lists a business's customer reviews, newest first, with rating, text, the staff member… | 🟢 |

@@ -52,7 +52,7 @@ antunes.com — antunes: findServiceAgencies
 aol.com — aol: addFavorite, getArticle, getArticleComments, getDailyHoroscope, getFrontPage, getLocalNews, getMarketSummary, getRecipe, getWeather, listFavorites, listGames, listNewsletters, listSectionArticles, listSections, removeFavorite, searchRecipes, searchWeatherLocations, subscribeNewsletter (+1 planned)
 aosom.com — aosom: getProduct, searchProducts
 api.census.gov — census_api: validateAddress (+1 planned)
-api.weather.gov — nws: findRadarStations, findStations, findZones, getActiveAlerts, getAlert, getAlertCounts, getCurrentConditions, getForecast, getForecastDiscussion, getGridpointData, getHourlyForecast, getMarineForecast, getObservationHistory, getOffice, getPoint, getTextProduct, getWeatherStories, getZoneForecast, listAlertTypes, listTextProducts, searchAlerts, searchLocation (+7 planned)
+api.weather.gov — nws: findRadarStations, findStations, findZones, getActiveAlerts, getAlert, getAlertCounts, getCurrentConditions, getForecast, getForecastDiscussion, getGridpointData, getHourlyForecast, getMarineForecast, getObservationHistory, getOffice, getOfficeHeadlines, getPoint, getTextProduct, getWeatherStories, getZoneForecast, listAlertTypes, listTextProducts, searchAlerts, searchLocation (+6 planned)
 apid.iproyal.com — iproyal_reseller: getAccountBalance, getCatalogue, getOrder, listOrders, quotePrice (+3 planned)
 apify.com — apify: store
 app.hubspot.com — hubspot: addNoteToDeal, getDeal, searchDeals (+2 planned)
@@ -251,7 +251,7 @@ dhl.com — dhl: getQuote
 dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
-direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listRoomTypes (+3 planned)
+direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listRoomTypes, sendEnquiry (+2 planned)
 discord.com — discord: getAnnouncement, getApp, getDocPage, getGame, getInvite, getMyProfile, getServer, listAppCategories, listBlogPosts, listChannels, listDocPages, listFeaturedApps, listMessages, listMyServers, listServerAnnouncements, listServerCategories, listServers, listSimilarApps, listTrendingGames, searchApps, searchServers (+29 planned)
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
@@ -777,7 +777,7 @@ www.reuters.com — reuters: findAuthor, getArticle, getAuthor, getCompanyEvents
 www.speedrun.com — speedrun: categories, findGame, platforms (+1 planned)
 www.temu.com — temu: checkout, listCategories, viewCart (+10 planned)
 www.tradingview.com — tradingview: getChartData, getCompanyInfo, getDividends, getEarnings, getEconomicCalendar, getFinancials, getMarketOverview, getNews, getOptionChain, getQuote, getScreenerResults, getTechnicalAnalysis, listIdeas, searchSymbols
-www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getCancellationPolicy, getOpenTimes, getService, getStaffMember, listAddOns, listPromotions, listReviews, listServices, listStaff, searchBusinesses (+22 planned)
+www.vagaro.com — vagaro: findBusiness, getAvailableDates, getBusiness, getCancellationPolicy, getOpenTimes, getService, getStaffMember, listAddOns, listPhotos, listPromotions, listReviews, listServices, listStaff, searchBusinesses (+21 planned)
 www.walmart.ca — walmart_ca: search
 www.wixapis.com — wix_bookings: findSite, getOpenTimes, getService, listCategories, listLocations, listServices, listStaff, searchServices (+13 planned)
 x.com — x: bookmarkPost, createPost, followUser, getConversation, getPostReplies, likePost, listBookmarks, listConversations, listFollowers, listFollowing, listHomeFeed, listNotifications, post, profile, replyToPost, repost, search, sendDirectMessage, userTimeline (+5 planned)

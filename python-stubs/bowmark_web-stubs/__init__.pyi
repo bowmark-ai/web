@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6a29cc3383a7e09ad7f065bb91d5f0b0c0f5aaf19891afa13ca54cfae8d5551a
-# 94 capabilities, 762 providers, 4112 typed functions, 20 refused.
+# Manifest version: de7af1c733bce82a7460743435f15ab7d9a92ccf6e7d8a279e122a52b21d4efa
+# 94 capabilities, 761 providers, 4117 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18617,6 +18617,19 @@ class Prv_direct_book_DirectBookCancelledReservation_Out_errors_item_Out(TypedDi
     key: str
     args: Any
 
+class Prv_direct_book_SendEnquiryArgs_In(TypedDict):
+    property: str
+    name: str
+    email: str
+    message: str
+    phone: NotRequired[str]
+
+class Prv_direct_book_DirectBookEnquiryResult_Out(TypedDict):
+    channelCode: str
+    status: str
+    message: str | None
+    sent: bool
+
 class Prv_discord_discordDocLink_Out(TypedDict):
     title: str
     url: str
@@ -25598,6 +25611,35 @@ class Prv_glofox_glofoxCancelResult_Out(TypedDict):
     lateCancel: bool
     cancelWindowHours: float | None
     message: str | None
+
+class Prv_glossgenius_GlossGeniusMyMembershipsArgs_In(TypedDict):
+    business: str
+    states: NotRequired[Sequence[str]]
+
+class Prv_glossgenius_GlossGeniusMyMemberships_Out(TypedDict):
+    business: str
+    memberships: list[Mapping[str, Any]]
+    count: float
+
+class Prv_glossgenius_GlossGeniusMyOrdersArgs_In(TypedDict):
+    business: str
+    state: NotRequired[str]
+
+class Prv_glossgenius_GlossGeniusMyOrders_Out(TypedDict):
+    business: str
+    orders: list[Mapping[str, Any]]
+    count: float
+
+class Prv_glossgenius_GlossGeniusMyProfileArgs_In(TypedDict):
+    business: str
+
+class Prv_glossgenius_GlossGeniusMyProfile_Out(TypedDict):
+    business: str
+    clientToken: str | None
+    name: str | None
+    email: str | None
+    phone: str | None
+    user: Mapping[str, Any]
 
 class Prv_glossgenius_GlossGeniusFindBusinessArgs_In(TypedDict):
     business: str
@@ -38014,6 +38056,17 @@ class Prv_nws_NwsWeatherStory_Out(TypedDict):
     priority: bool
     imageUrl: str | None
 
+class Prv_nws_GetOfficeHeadlinesArgs_In(TypedDict):
+    place: str
+
+class Prv_nws_NwsOfficeHeadline_Out(TypedDict):
+    id: str
+    title: str
+    link: str | None
+    summary: str | None
+    important: bool
+    issuanceTime: str
+
 class Prv_nws_ListTextProductsArgs_In(TypedDict):
     office: str
     type: NotRequired[str]
@@ -41608,18 +41661,6 @@ class Prv_potterybarn_WsgcProduct_Out(TypedDict):
     description: str
     imageUrl: str | None
     flags: list[str]
-
-class Prv_powys_powysSearchResult_Out(TypedDict):
-    results: list[Prv_powys_powysApplication_Out]
-
-class Prv_powys_powysApplication_Out(TypedDict):
-    reference: str
-    description: str
-    address: str
-    applicant: str
-    dateSubmitted: str
-    status: str
-    decision: NotRequired[str]
 
 class Prv_premierbuildings_PremierbuildingsStyle_Out(TypedDict):
     key: str
@@ -57001,6 +57042,22 @@ class Prv_vagaro_VagaroCancellationPolicy_Out(TypedDict):
     slug: str
     appointmentPolicy: str | None
     classPolicy: str | None
+
+class Prv_vagaro_VagaroPhotoList_Out(TypedDict):
+    businessId: str
+    slug: str
+    photos: list[Prv_vagaro_VagaroPhoto_Out]
+
+class Prv_vagaro_VagaroPhoto_Out(TypedDict):
+    photoId: str
+    title: str | None
+    description: str | None
+    imageUrl: str | None
+    likeCount: float | None
+    serviceId: str | None
+    serviceName: str | None
+    staffId: str | None
+    staffName: str | None
 
 class Prv_vbt_listTours_return_Out(TypedDict):
     tours: list[Prv_vbt_VbtTourListing_Out]
@@ -72869,6 +72926,13 @@ class Prv_direct_book(Protocol):
         non-refundable rate past its cutoff).
         """
 
+    async def sendEnquiry(self, args: Prv_direct_book_SendEnquiryArgs_In, /) -> Prv_direct_book_DirectBookEnquiryResult_Out:
+        """Sends a question to a hotel through its booking page's contact form. The site guards
+        this form with an invisible reCAPTCHA v3 check this provider cannot pass, so it returns
+        the site's own refusal (status/message) rather than a delivered enquiry — reached and
+        refused, not a working send yet.
+        """
+
 class Prv_discord(Protocol):
     """Discord, chat for communities. Built so far: the public server directory (browse,
     search, categories, one server's page), invite lookup, and Discord's developer
@@ -76649,6 +76713,27 @@ class Prv_glossgenius(Protocol):
     """GlossGenius salon, barber and spa booking sites (<slug>.glossgenius.com): services,
     team, open times, reviews; book, reschedule and cancel an appointment as a guest.
     """
+
+    async def listMyMemberships(self, args: Prv_glossgenius_GlossGeniusMyMembershipsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glossgenius_GlossGeniusMyMemberships_Out:
+        """Signed in: lists the memberships the caller holds at one GlossGenius business, as
+        GlossGenius returns them. Example: `bowmark.providers.glossgenius.listMyMemberships({
+        business: "sweettouchskin" })`.
+        """
+
+    async def listMyOrders(self, args: Prv_glossgenius_GlossGeniusMyOrdersArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glossgenius_GlossGeniusMyOrders_Out:
+        """Signed in: lists the caller's orders (gift cards, packages, memberships bought) at one
+        GlossGenius business, OPEN by default, or PAID, VOID or CANCELED. Example:
+        `bowmark.providers.glossgenius.listMyOrders({ business: "sweettouchskin", state: "PAID"
+        })`.
+        """
+
+    async def getMyProfile(self, args: Prv_glossgenius_GlossGeniusMyProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glossgenius_GlossGeniusMyProfile_Out:
+        """Signed in: returns the caller's own client profile at one GlossGenius business -- name,
+        email, phone, the client token, and the user record as GlossGenius sends it. A
+        GlossGenius sign-in belongs to one business, so the caller signs in on that business's
+        booking site. Example: `bowmark.providers.glossgenius.getMyProfile({ business:
+        "sweettouchskin" })`.
+        """
 
     async def findBusiness(self, args: Prv_glossgenius_GlossGeniusFindBusinessArgs_In, /) -> Prv_glossgenius_GlossGeniusBusinessRef_Out:
         """Finds a GlossGenius business from its booking-site slug, a <slug>.glossgenius.com link,
@@ -84559,6 +84644,12 @@ class Prv_nws(Protocol):
         place name.
         """
 
+    async def getOfficeHeadlines(self, args: Prv_nws_GetOfficeHeadlinesArgs_In, /) -> list[Prv_nws_NwsOfficeHeadline_Out]:
+        """The headlines a forecast office has posted — event notices, outreach and announcements —
+        with title, link, important flag and issue time, newest first. Empty when the office has
+        posted none. Takes an office id like OKX or a place name.
+        """
+
     async def listTextProducts(self, args: Prv_nws_ListTextProductsArgs_In, /) -> Prv_nws_NwsTextProductListing_Out:
         """Which text products an office issues ({ office: "BOX" }), or the recent issuances of one
         type with ids and issue times ({ office: "BOX", type: "AFD" }) — the finder for
@@ -86481,15 +86572,6 @@ class Prv_potterybarn(Protocol):
         """Searches Pottery Barn the way its own search box does ("sofa") and returns products with
         current and regular price, the price range across sizes and colours, an onSale flag,
         description, image and product-page link.
-        """
-
-class Prv_powys(Protocol):
-    """Search Powys County Council planning applications by reference, address, or description."""
-
-    async def search(self, query: str, /) -> Prv_powys_powysSearchResult_Out:
-        """Searches Powys County Council planning applications. Takes a required search term or
-        reference (e.g., 'P/2024/0123' for a reference or 'Main Street' for an address) and
-        returns matching applications with their status and decision details.
         """
 
 class Prv_premierbuildings(Protocol):
@@ -94195,6 +94277,11 @@ class Prv_vagaro(Protocol):
         the business set none).
         """
 
+    async def listPhotos(self, args: Prv_vagaro_BusinessArgs_In, /) -> Prv_vagaro_VagaroPhotoList_Out:
+        """Lists a business's portfolio photos: title, description, image url, like count, and the
+        service and staff member each one illustrates.
+        """
+
 class Prv_vbt(Protocol):
     """Reads VBT's own tour pages — every self-guided/guided bike and walking tour it sells —
     and returns its current departure dates, stop-sell flags and Tour-Only /
@@ -97787,7 +97874,6 @@ class BowmarkProviders(Protocol):
     postcodes_io: Prv_postcodes_io
     postiz: Prv_postiz
     potterybarn: Prv_potterybarn
-    powys: Prv_powys
     premierbuildings: Prv_premierbuildings
     preppednplated: Prv_preppednplated
     prime_video: Prv_prime_video

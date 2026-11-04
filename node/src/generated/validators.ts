@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6a29cc3383a7e09ad7f065bb91d5f0b0c0f5aaf19891afa13ca54cfae8d5551a
-// 4112 checked, 20 unchecked.
+// Manifest version: de7af1c733bce82a7460743435f15ab7d9a92ccf6e7d8a279e122a52b21d4efa
+// 4117 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6a29cc3383a7e09ad7f065bb91d5f0b0c0f5aaf19891afa13ca54cfae8d5551a",
+  "version": "de7af1c733bce82a7460743435f15ab7d9a92ccf6e7d8a279e122a52b21d4efa",
   "units": {
     "address_validation": {
       "defs": {
@@ -35097,6 +35097,46 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SendEnquiryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "property",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "message",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -35196,6 +35236,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CancelReservationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "sendEnquiry": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SendEnquiryArgs"
             },
             "optional": false
           }
@@ -49970,6 +50020,59 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GlossGeniusMyMembershipsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "states",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GlossGeniusMyOrdersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GlossGeniusMyProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GlossGeniusShopArgs": {
           "k": "object",
           "props": [
@@ -49984,6 +50087,84 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "listMyMemberships": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GlossGeniusMyMembershipsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyOrders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GlossGeniusMyOrdersArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMyProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GlossGeniusMyProfileArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "findBusiness": [
           {
             "name": "args",
@@ -76519,6 +76700,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetOfficeHeadlinesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPointArgs": {
           "k": "object",
           "props": [
@@ -76906,6 +77099,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetWeatherStoriesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getOfficeHeadlines": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetOfficeHeadlinesArgs"
             },
             "optional": false
           }
@@ -84782,20 +84985,6 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "WsgcSearchArgs"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.powys": {
-      "defs": {},
-      "functions": {
-        "search": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "string"
             },
             "optional": false
           }
@@ -116246,6 +116435,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getCancellationPolicy": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BusinessArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPhotos": [
           {
             "name": "args",
             "schema": {
