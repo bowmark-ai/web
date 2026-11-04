@@ -2041,7 +2041,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `floathelm.buyGiftCard` | reboot.floathelm.com | Purchase a gift card. | ⚪ |
 | `floathelm.buyStoreItem` | reboot.floathelm.com | Purchase a product or merchandise. | ⚪ |
 | `floathelm.cancelBooking` | reboot.floathelm.com | Cancel an existing booking. | ⚪ |
-| `floathelm.createAccount` | reboot.floathelm.com | Create a new account on the booking platform. | ⚪ |
+| `floathelm.createAccount` | reboot.floathelm.com | Creates a new FloatHelm account for the caller — the sign-up every… | 🟢 |
 | `floathelm.findStudio` | reboot.floathelm.com | Find a studio/location by name from the available locations. | 🟢 |
 | `floathelm.getMyProfile` | reboot.floathelm.com | Get the signed-in user's profile information. | ⚪ |
 | `floathelm.getRoom` | reboot.floathelm.com | Reads one room's own detail popup — its description and photo — by the room_id… | 🟢 |
@@ -3933,13 +3933,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pushpress.buyAppointmentPackage` | pushpress.com | Buys a package of one-on-one appointment credits. | ⚪ |
 | `pushpress.buyEventTicket` | pushpress.com | Buys a ticket to a paid gym event. | ⚪ |
 | `pushpress.buyPlan` | pushpress.com | Buys a membership, class pack or drop-in pass. | ⚪ |
-| `pushpress.cancelBooking` | pushpress.com | Cancels the signed-in member's reservation or waitlist spot for a class. | ⚪ |
+| `pushpress.cancelBooking` | pushpress.com | Cancels the signed-in member's reservation or waitlist spot for a class. | 🟢 |
 | `pushpress.getAppointmentAvailability` | pushpress.com | Returns open slots for one appointment type on a date, by staff member. | ⚪ |
 | `pushpress.getClass` | pushpress.com | Returns one class or event by id: description, coach, location, capacity and spots… | 🟢 |
 | `pushpress.getGym` | pushpress.com | Resolves a PushPress gym from its subdomain (crossfit7x7) or its own website URL (a… | 🟢 |
 | `pushpress.getMyProfile` | pushpress.com | Returns the signed-in member's profile at this gym: name, email, member status and… | 🟢 |
 | `pushpress.getPlan` | pushpress.com | Returns one plan by id with its price, setup fee and billing terms, and a price… | 🟢 |
-| `pushpress.joinWaitlist` | pushpress.com | Puts the signed-in member on the waitlist for a full class. | ⚪ |
+| `pushpress.joinWaitlist` | pushpress.com | Puts the signed-in member on the waitlist for a full class, held on one of their… | 🟢 |
 | `pushpress.listAppointmentTypes` | pushpress.com | Lists a gym's bookable one-on-one appointment types (personal training, assessments) —… | 🟢 |
 | `pushpress.listClasses` | pushpress.com | Lists a gym's classes and events for one local day, or a range of local days: time… | 🟢 |
 | `pushpress.listCoaches` | pushpress.com | Lists the coaches teaching a gym's classes and events over one local day or a range… | 🟢 |
@@ -4344,7 +4344,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `serper.searchGoogle` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
 | `setmore.bookAppointment` | setmore.com | Books a service at a business for a guest -- the service, a slot time and staff member… | 🟢 |
 | `setmore.bookClass` | setmore.com | Books a guest into a class session at a business -- only the sessionId from… | 🟢 |
-| `setmore.cancelAppointment` | setmore.com | Cancels a guest's appointment or class booking at a business, from the booking id… | ⚪ |
+| `setmore.cancelAppointment` | setmore.com | Cancels a booking (appointment, class or event) at a business, from the booking id… | 🟢 |
 | `setmore.checkPromoCode` | setmore.com | Checks whether a promo code is valid at a business for a given order amount and… | 🟢 |
 | `setmore.findBusiness` | setmore.com | Finds a Setmore business from what a caller actually holds -- its booking-page link… | 🟢 |
 | `setmore.getAvailability` | setmore.com | Returns the open appointment times for one or more services (ids from listServices) at… | 🟢 |
@@ -4359,7 +4359,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `setmore.listGalleryImages` | setmore.com | Lists the photos a business shows on its own gallery: each image's id, src, width and… | 🟢 |
 | `setmore.listServices` | setmore.com | Lists the appointments a business offers -- each service's id, title, description… | 🟢 |
 | `setmore.listStaff` | setmore.com | Lists the people a customer can book with at a business: staff id, display name, role… | 🟢 |
-| `setmore.rescheduleAppointment` | setmore.com | Moves a guest's appointment to another open time from getAvailability, keeping the… | ⚪ |
+| `setmore.rescheduleAppointment` | setmore.com | Moves a booking to a new start time, keeping its original duration, staff member and… | 🟢 |
 | `setmore.updateMyDetails` | setmore.com | Signed in as the caller (their customer account at one business), changes their own… | 🟢 |
 | `sevenrooms.bookReservation` | sevenrooms.com | Books an open slot (from getAvailability) as a guest with the caller's name, email and… | 🟢 |
 | `sevenrooms.bookReservationSignedIn` | sevenrooms.com | Books an open slot as the signed-in SevenRooms guest, using their saved profile — the… | ⚪ |
@@ -4594,10 +4594,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soulcycle.listSeries` | soul-cycle.com | Lists what a region sells and at what price: class packs (new-rider, starter… | 🟢 |
 | `soulcycle.listShopProducts` | soul-cycle.com | Lists the SoulCycle merch store's products (apparel, accessories) with price, variants… | 🟢 |
 | `soulcycle.listStudios` | soul-cycle.com | Lists the studios in a region (or all regions) with address, phone, coordinates and… | 🟢 |
-| `soulcycle.redeemReferralCredits` | soul-cycle.com | Redeems the free classes the signed-in rider earned by referring friends (Spread the… | ⚪ |
+| `soulcycle.redeemReferralCredits` | soul-cycle.com | Redeems the free classes the signed-in rider earned by referring friends (Spread the… | 🟢 |
 | `soulcycle.setFavoriteInstructor` | soul-cycle.com | Adds or removes an instructor from the signed-in rider's favorites. | 🟢 |
 | `soulcycle.setFavoriteStudio` | soul-cycle.com | Adds or removes a studio from the signed-in rider's favorites. | 🟢 |
-| `soulcycle.setSeriesTransfer` | soul-cycle.com | Turns on or off letting the signed-in rider's series be used in another region. | ⚪ |
+| `soulcycle.setSeriesTransfer` | soul-cycle.com | Turns on or off letting the signed-in rider's series be used in another region. | 🟢 |
 | `soulcycle.updateMyProfile` | soul-cycle.com | Edits the signed-in rider's profile details (name, phone, birthday, bike settings such… | ⚪ |
 | `soulcycle.updatePreferences` | soul-cycle.com | Changes the signed-in rider's preferences tab (communication and class preferences). | ⚪ |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
