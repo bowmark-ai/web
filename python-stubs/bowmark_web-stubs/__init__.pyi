@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5c84103891277ab3808146208fd0505b843ddd9f66eb33a62910917281976451
-# 94 capabilities, 762 providers, 4092 typed functions, 20 refused.
+# Manifest version: 9dcc7bff46270aee7ad709b7df737f0e91ff066d299c888ed54922c85f710763
+# 94 capabilities, 762 providers, 4095 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9911,6 +9911,44 @@ class Prv_bluesky_BlueskyNotification_Out(TypedDict):
     text: str
     isRead: bool
     indexedAt: str
+
+class Prv_bluesky_listConversations_opts_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyConversationPage_Out(TypedDict):
+    conversations: list[Prv_bluesky_BlueskyConversation_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyConversation_Out(TypedDict):
+    id: str
+    members: list[Prv_bluesky_BlueskyPostAuthor_Out]
+    lastMessage: Prv_bluesky_BlueskyChatMessage_Out | None
+    unreadCount: float
+    muted: bool
+    status: str | None
+
+class Prv_bluesky_BlueskyChatMessage_Out(TypedDict):
+    id: str
+    text: str
+    senderDid: str
+    sentAt: str
+    deleted: bool
+
+Prv_bluesky_BlueskyGetConversationArgs_In = TypedDict(
+    "Prv_bluesky_BlueskyGetConversationArgs_In",
+    {
+    "conversationId": NotRequired[str],
+    "with": NotRequired[str],
+    "limit": NotRequired[float],
+    "cursor": NotRequired[str],
+    },
+)
+
+class Prv_bluesky_BlueskyConversationMessages_Out(TypedDict):
+    conversationId: str
+    messages: list[Prv_bluesky_BlueskyChatMessage_Out]
+    cursor: NotRequired[str]
 
 class Prv_bluesky_getKnownFollowers_actor_u1_In(TypedDict):
     actor: str
@@ -39896,11 +39934,11 @@ class Prv_paypal_PaypalFeeCitation_Out(TypedDict):
     internalName: str
 
 class Prv_paypal_PaypalGetFeesArgs_In(TypedDict):
-    audience: NotRequired[Literal["consumer"]]
+    audience: NotRequired[Literal["consumer"] | Literal["merchant"]]
     country: NotRequired[str]
 
 class Prv_paypal_PaypalFeeSchedule_Out(TypedDict):
-    audience: Literal["consumer"]
+    audience: Literal["consumer"] | Literal["merchant"]
     country: str
     sourceUrl: str
     tables: list[Prv_paypal_PaypalFeeTable_Out]
@@ -40041,6 +40079,24 @@ class Prv_paypal_PaypalMeProfile_Out_socials_Out(TypedDict):
     facebook: str | None
     twitter: str | None
     website: str | None
+
+class Prv_paypal_getServiceStatus_args_In(TypedDict):
+    component: NotRequired[str]
+
+class Prv_paypal_PaypalServiceStatus_Out(TypedDict):
+    allOperational: bool
+    degraded: list[Prv_paypal_PaypalServiceComponent_Out]
+    components: list[Prv_paypal_PaypalServiceComponent_Out]
+    sourceUrl: str
+
+class Prv_paypal_PaypalServiceComponent_Out(TypedDict):
+    id: float
+    name: str
+    parent: str | None
+    brand: str | None
+    category: str
+    production: str | None
+    sandbox: str | None
 
 class Prv_peek_PeekSearchRegionsArgs_In(TypedDict):
     query: str
@@ -67956,6 +68012,22 @@ class Prv_bluesky(Protocol):
         when the saved sign-in has expired.
         """
 
+    async def listConversations(self, opts: Prv_bluesky_listConversations_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyConversationPage_Out:
+        """The signed-in caller's direct-message conversations, most recent first, page by page:
+        each with its members, last message, unread count and whether it is muted. Needs the
+        caller signed in to bsky.app — the run pauses for a sign-in link when they are not.
+        THROWS `blueskyError` when the saved sign-in has expired.
+        """
+
+    async def getConversation(self, args: Prv_bluesky_BlueskyGetConversationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyConversationMessages_Out:
+        """The messages in one of the signed-in caller's DM conversations, newest first, page by
+        page. Pass `conversationId` (from listConversations) or `with` — a handle, DID or
+        bsky.app profile URL — to open the conversation with that person. Needs the caller
+        signed in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+        `blueskyInputError` for a bad id or unknown person, `blueskyError` when the saved
+        sign-in has expired.
+        """
+
     async def getKnownFollowers(self, actor: str | Prv_bluesky_getKnownFollowers_actor_u1_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyKnownFollowers_Out:
         """Which of the signed-in caller's own follows also follow `actor` (a handle, DID or
         bsky.app profile URL) — the 'Followed by' line on a profile. Needs the caller signed in
@@ -85260,12 +85332,12 @@ class Prv_paypal(Protocol):
     """PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules,
     the fee on one concrete personal (friends-and-family) transaction, the spread PayPal
     adds on a currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help
-    Center search and articles, the binding policy documents, and PayPal Shopping cashback
-    offers. Nine functions callable today — estimateFee, getFees,
+    Center search and articles, the binding policy documents, PayPal Shopping cashback
+    offers, and live service status. Ten functions callable today — estimateFee, getFees,
     getCurrencyConversionQuote, getPolicyDocument, estimatePayLaterPlan, searchHelp,
-    getHelpArticle, searchShoppingOffers, getPayPalMeProfile. Crypto prices are not offered
-    by the site's public page, and invoice reads are blocked on a real invoice id nobody
-    here holds.
+    getHelpArticle, searchShoppingOffers, getPayPalMeProfile, getServiceStatus. Crypto
+    prices are not offered by the site's public page, and invoice reads are blocked on a
+    real invoice id nobody here holds.
     """
 
     async def estimateFee(self, args: Prv_paypal_PaypalEstimateFeeArgs_In, /) -> Prv_paypal_PaypalFeeEstimate_Out:
@@ -85273,16 +85345,19 @@ class Prv_paypal(Protocol):
         or cross-border (the domestic fee for the funding source plus the international fee), by
         funding source — off PayPal's own published fee schedule, e.g. estimateFee({ amount:
         100, currency: "USD", crossBorder: false, fundingSource: "card" }) -> { fee: 3.2, net:
-        96.8, citations: [...] }. Does not (yet) cover goods-and-services/merchant transactions,
-        a separate page nobody has walked.
+        96.8, citations: [...] }. Personal sends only; for what a SELLER pays on a
+        goods-and-services sale read getFees({ audience: "merchant" }).
         """
 
     async def getFees(self, args: Prv_paypal_PaypalGetFeesArgs_In, /) -> Prv_paypal_PaypalFeeSchedule_Out:
         """Reads PayPal's published fee schedule for one audience / country pair and returns every
         fee table on the page — every row, every published feeDataKey, with documentId-level
         citations — so a caller can inspect the schedule itself rather than asking about one
-        amount. Currently consumer / us only; merchant is on a separate unverified page and
-        other countries have not been fetched.
+        amount. audience "consumer" (personal sends) or "merchant" (what a seller pays to
+        RECEIVE goods-and-services payments — e.g. getFees({ audience: "merchant" }) -> FEETB16
+        "PayPal Checkout 3.49% + fixed fee", FEETB18 fixed fee by currency (0.49 USD), FEETB91
+        +1.50% international, plus invoicing, donation and charity rates). country "us" only
+        today.
         """
 
     async def getCurrencyConversionQuote(self, args: Prv_paypal_PaypalGetCurrencyConversionQuoteArgs_In, /) -> Prv_paypal_PaypalCurrencyConversionQuote_Out:
@@ -85356,6 +85431,16 @@ class Prv_paypal(Protocol):
         "PERSONAL", socials: { instagram: null, facebook: null, twitter: null, website: null }
         }. A handle that is not a live PayPal.Me profile answers found: false rather than
         throwing. Accepts a bare handle or a full paypal.me/paypal.com URL.
+        """
+
+    async def getServiceStatus(self, args: Prv_paypal_getServiceStatus_args_In | None = None, /) -> Prv_paypal_PaypalServiceStatus_Out:
+        """Answers "is PayPal down right now?" off PayPal's own status page (paypal-status.com) —
+        every product and API component across PayPal, Venmo, Braintree, Xoom and Hyperwallet
+        with its live production and sandbox status, plus the ones that are not Operational,
+        e.g. getServiceStatus({ component: "Venmo" }) -> { allOperational: true, degraded: [],
+        components: [{ id: 41, name: "Venmo", parent: null, brand: "Venmo", category: "product",
+        production: "Operational", sandbox: null }, ...] }. `component` filters by name, parent
+        or brand, case-insensitive.
         """
 
 class Prv_peek(Protocol):

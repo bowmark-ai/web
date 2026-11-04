@@ -5206,7 +5206,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
 | `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | 🟢 |
 | `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region in Tripadvisor's ranking — id, name, rank… | 🟢 |
-| `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟡 |
+| `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | 🟢 |
 | `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | 🟡 |
 | `tripadvisor.writeReview` | tripadvisor.com | Posts a review of a listing from the signed-in caller's account — rating, title, text… | ⚪ |
 | `trojanstorage.getFacilityUnits` | trojanstorage.com | Reads one Trojan Storage facility's currently-listed units (from `listFacilities`'s… | 🟢 |
@@ -5849,7 +5849,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.getBusiness` | yelp.com | Reads one business's own schema.org listing off its /biz/<alias> page: name, phone… | 🟢 |
 | `yelp.getCollection` | yelp.com | Reads a public Yelp collection (a member's named list of businesses) from its share… | ⚪ |
 | `yelp.getCollections` | yelp.com | Lists the signed-in caller's own collections and the businesses in each. | ⚪ |
-| `yelp.getMenu` | yelp.com | Reads a restaurant's menu from /menu/<alias>: sections, items, descriptions and… | ⚪ |
+| `yelp.getMenu` | yelp.com | Reads a restaurant's menu from its /menu/<alias> page's own ld+json Menu block: each… | 🟢 |
 | `yelp.getMessages` | yelp.com | Lists the signed-in caller's Yelp inbox: quote and business threads and their messages. | ⚪ |
 | `yelp.getOwnProfile` | yelp.com | Reads the signed-in caller's own profile and their own reviews, photos and check-in… | ⚪ |
 | `yelp.getPhotos` | yelp.com | Lists a business's photos from /biz_photos/<alias>, by Yelp's own tabs (all, food… | ⚪ |

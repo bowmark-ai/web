@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5c84103891277ab3808146208fd0505b843ddd9f66eb33a62910917281976451
-// 4092 checked, 20 unchecked.
+// Manifest version: 9dcc7bff46270aee7ad709b7df737f0e91ff066d299c888ed54922c85f710763
+// 4095 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5c84103891277ab3808146208fd0505b843ddd9f66eb33a62910917281976451",
+  "version": "9dcc7bff46270aee7ad709b7df737f0e91ff066d299c888ed54922c85f710763",
   "units": {
     "address_validation": {
       "defs": {
@@ -17563,7 +17563,41 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.bluesky": {
-      "defs": {},
+      "defs": {
+        "BlueskyGetConversationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "with",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "resolveHandle": [
           {
@@ -18792,6 +18826,73 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "connectionOpts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listConversations": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "connectionOpts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getConversation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyGetConversationArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
             "schema": {
               "k": "object",
               "props": [
@@ -81369,8 +81470,17 @@ export const VALIDATORS: ValidatorTable = {
             {
               "name": "audience",
               "schema": {
-                "k": "literal",
-                "v": "consumer"
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "consumer"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "merchant"
+                  }
+                ]
               },
               "optional": true
             },
@@ -81539,6 +81649,24 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ],
+        "getServiceStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "component",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

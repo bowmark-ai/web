@@ -785,7 +785,7 @@ x.com — x: bookmarkPost, createPost, followUser, getConversation, getPostRepli
 xola.com — xola: findSeller, getAvailability, getExperience, listExperiences (+5 planned)
 xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFacilities
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
-yelp.com — yelp: getBookmarks, getBusiness, getReviews, search, suggest (+25 planned)
+yelp.com — yelp: getBookmarks, getBusiness, getMenu, getReviews, search, suggest (+24 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
 yorkwallcoverings.com — yorkwallcoverings: addToCart (+2 planned)
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5c84103891277ab3808146208fd0505b843ddd9f66eb33a62910917281976451
-// 94 capabilities, 762 providers, 4110 typed functions, 20 refused.
+// Manifest version: 9dcc7bff46270aee7ad709b7df737f0e91ff066d299c888ed54922c85f710763
+// 94 capabilities, 762 providers, 4113 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16416,6 +16416,40 @@ interface BlueskyNotificationPage {
   cursor?: string;
   seenAt: string | null;
 }
+interface BlueskyChatMessage {
+  id: string;
+  text: string;
+  senderDid: string;
+  sentAt: string;
+  deleted: boolean;
+}
+
+interface BlueskyConversation {
+  id: string;
+  members: BlueskyPostAuthor[];
+  lastMessage: BlueskyChatMessage | null;
+  unreadCount: number;
+  muted: boolean;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+}
+
+interface BlueskyConversationPage {
+  conversations: BlueskyConversation[];
+  cursor?: string;
+}
+
+interface BlueskyConversationMessages {
+  conversationId: string;
+  messages: BlueskyChatMessage[];
+  cursor?: string;
+}
+
+interface BlueskyGetConversationArgs {
+  conversationId?: string;
+  with?: string;
+  limit?: number;
+  cursor?: string;
+}
 
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
@@ -16708,6 +16742,23 @@ interface BlueskyNotificationPage {
      * sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has expired.
      */
     listNotifications(opts?: { limit?: number; cursor?: string }, connectionOpts?: ConnectionOption): Promise<BlueskyNotificationPage>;
+
+    /**
+     * The signed-in caller's direct-message conversations, most recent first, page by page: each
+     * with its members, last message, unread count and whether it is muted. Needs the caller
+     * signed in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+     * `blueskyError` when the saved sign-in has expired.
+     */
+    listConversations(opts?: { limit?: number; cursor?: string }, connectionOpts?: ConnectionOption): Promise<BlueskyConversationPage>;
+
+    /**
+     * The messages in one of the signed-in caller's DM conversations, newest first, page by page.
+     * Pass `conversationId` (from listConversations) or `with` — a handle, DID or bsky.app profile
+     * URL — to open the conversation with that person. Needs the caller signed in to bsky.app —
+     * the run pauses for a sign-in link when they are not. THROWS `blueskyInputError` for a bad id
+     * or unknown person, `blueskyError` when the saved sign-in has expired.
+     */
+    getConversation(args: BlueskyGetConversationArgs, opts?: ConnectionOption): Promise<BlueskyConversationMessages>;
 
     /**
      * Which of the signed-in caller's own follows also follow `actor` (a handle, DID or bsky.app
@@ -66640,7 +66691,7 @@ interface PaypalFeeEstimate {
   citations: PaypalFeeCitation[];
 }
 interface PaypalGetFeesArgs {
-  audience?: "consumer";        // defaults to "consumer"; merchant is a separate, unverified page
+  audience?: "consumer" | "merchant"; // defaults to "consumer"; "merchant" = goods-and-services / business rates
   country?: string;             // ISO 3166-1 alpha-2, defaults to "us"; only "us" is verified end-to-end
 }
 interface PaypalFeeToken {
@@ -66662,7 +66713,7 @@ interface PaypalFeeTable {
   rows: PaypalFeeRow[];
 }
 interface PaypalFeeSchedule {
-  audience: "consumer";
+  audience: "consumer" | "merchant";
   country: string;              // lowercased to match PayPal's URL path, e.g. "us"
   sourceUrl: string;
   tables: PaypalFeeTable[];
@@ -66760,16 +66811,32 @@ interface PaypalMeProfile {
   socials: { instagram: string | null; facebook: string | null; twitter: string | null; website: string | null };
   profileUrl: string;
 }
+interface PaypalServiceComponent {
+  id: number;
+  name: string;
+  parent: string | null;         // e.g. "Online Checkout", "REST APIs"; null when top-level
+  brand: string | null;          // "PayPal", "Venmo", "Enterprise Solutions (Braintree)", …
+  category: string;              // "product" | "api"
+  production: string | null;     // PayPal's label, e.g. "Operational"; null when no such environment
+  sandbox: string | null;
+}
+interface PaypalServiceStatus {
+  allOperational: boolean;       // every production status present reads "Operational"
+  degraded: PaypalServiceComponent[];
+  components: PaypalServiceComponent[];
+  sourceUrl: string;
+}
 
   /**
    * PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules, the
    * fee on one concrete personal (friends-and-family) transaction, the spread PayPal adds on a
    * currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help Center search
-   * and articles, the binding policy documents, and PayPal Shopping cashback offers. Nine
-   * functions callable today — estimateFee, getFees, getCurrencyConversionQuote,
-   * getPolicyDocument, estimatePayLaterPlan, searchHelp, getHelpArticle, searchShoppingOffers,
-   * getPayPalMeProfile. Crypto prices are not offered by the site's public page, and invoice
-   * reads are blocked on a real invoice id nobody here holds.
+   * and articles, the binding policy documents, PayPal Shopping cashback offers, and live
+   * service status. Ten functions callable today — estimateFee, getFees,
+   * getCurrencyConversionQuote, getPolicyDocument, estimatePayLaterPlan, searchHelp,
+   * getHelpArticle, searchShoppingOffers, getPayPalMeProfile, getServiceStatus. Crypto prices
+   * are not offered by the site's public page, and invoice reads are blocked on a real invoice
+   * id nobody here holds.
    */
   interface Unit {
     /**
@@ -66777,17 +66844,19 @@ interface PaypalMeProfile {
      * cross-border (the domestic fee for the funding source plus the international fee), by
      * funding source — off PayPal's own published fee schedule, e.g. estimateFee({ amount: 100,
      * currency: "USD", crossBorder: false, fundingSource: "card" }) -> { fee: 3.2, net: 96.8,
-     * citations: [...] }. Does not (yet) cover goods-and-services/merchant transactions, a
-     * separate page nobody has walked.
+     * citations: [...] }. Personal sends only; for what a SELLER pays on a goods-and-services sale
+     * read getFees({ audience: "merchant" }).
      */
     estimateFee(args: PaypalEstimateFeeArgs): Promise<PaypalFeeEstimate>;
 
     /**
      * Reads PayPal's published fee schedule for one audience / country pair and returns every fee
      * table on the page — every row, every published feeDataKey, with documentId-level citations —
-     * so a caller can inspect the schedule itself rather than asking about one amount. Currently
-     * consumer / us only; merchant is on a separate unverified page and other countries have not
-     * been fetched.
+     * so a caller can inspect the schedule itself rather than asking about one amount. audience
+     * "consumer" (personal sends) or "merchant" (what a seller pays to RECEIVE goods-and-services
+     * payments — e.g. getFees({ audience: "merchant" }) -> FEETB16 "PayPal Checkout 3.49% + fixed
+     * fee", FEETB18 fixed fee by currency (0.49 USD), FEETB91 +1.50% international, plus
+     * invoicing, donation and charity rates). country "us" only today.
      */
     getFees(args: PaypalGetFeesArgs): Promise<PaypalFeeSchedule>;
 
@@ -66870,6 +66939,17 @@ interface PaypalMeProfile {
      * full paypal.me/paypal.com URL.
      */
     getPayPalMeProfile(args: { handle: string }): Promise<PaypalMeProfile>;
+
+    /**
+     * Answers "is PayPal down right now?" off PayPal's own status page (paypal-status.com) — every
+     * product and API component across PayPal, Venmo, Braintree, Xoom and Hyperwallet with its
+     * live production and sandbox status, plus the ones that are not Operational, e.g.
+     * getServiceStatus({ component: "Venmo" }) -> { allOperational: true, degraded: [],
+     * components: [{ id: 41, name: "Venmo", parent: null, brand: "Venmo", category: "product",
+     * production: "Operational", sandbox: null }, ...] }. `component` filters by name, parent or
+     * brand, case-insensitive.
+     */
+    getServiceStatus(args?: { component?: string }): Promise<PaypalServiceStatus>;
   }
 }
 

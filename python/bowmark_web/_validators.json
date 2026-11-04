@@ -1,5 +1,5 @@
 {
-  "version": "5c84103891277ab3808146208fd0505b843ddd9f66eb33a62910917281976451",
+  "version": "9dcc7bff46270aee7ad709b7df737f0e91ff066d299c888ed54922c85f710763",
   "units": {
     "address_validation": {
       "defs": {
@@ -17551,7 +17551,41 @@
       }
     },
     "providers.bluesky": {
-      "defs": {},
+      "defs": {
+        "BlueskyGetConversationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "with",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "resolveHandle": [
           {
@@ -18780,6 +18814,73 @@
           },
           {
             "name": "connectionOpts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listConversations": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "connectionOpts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getConversation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BlueskyGetConversationArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
             "schema": {
               "k": "object",
               "props": [
@@ -81357,8 +81458,17 @@
             {
               "name": "audience",
               "schema": {
-                "k": "literal",
-                "v": "consumer"
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "consumer"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "merchant"
+                  }
+                ]
               },
               "optional": true
             },
@@ -81527,6 +81637,24 @@
               ]
             },
             "optional": false
+          }
+        ],
+        "getServiceStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "component",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
