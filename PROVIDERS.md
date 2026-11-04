@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5986 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5987 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -517,7 +517,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.createPost` | bsky.app | Publish a post as the caller: text with links and mentions resolved into facets… | ⚪ |
 | `bluesky.deletePost` | bsky.app | Delete one of the caller's own posts. | ⚪ |
 | `bluesky.followUser` | bsky.app | Follow a person as the caller, or unfollow them. | ⚪ |
-| `bluesky.getConversation` | bsky.app | The messages in one of the caller's DM conversations, page by page, with a finder from… | ⚪ |
+| `bluesky.getConversation` | bsky.app | The messages in one of the caller's DM conversations, page by page, with a finder from… | 🟢 |
 | `bluesky.getFeed` | bsky.app | Read a custom feed's posts (Discover, What's Hot, any creator's feed) by URL or at://… | 🟢 |
 | `bluesky.getFeedInfo` | bsky.app | One custom feed's details: name, creator, description, avatar, like count and whether… | 🟢 |
 | `bluesky.getFollowers` | bsky.app | Who follows a person, page by page. | 🟢 |
@@ -549,7 +549,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.likePost` | bsky.app | Like a post as the caller, or undo the like. | ⚪ |
 | `bluesky.listBlockedUsers` | bsky.app | The accounts the caller has blocked. | 🟢 |
 | `bluesky.listBookmarks` | bsky.app | The posts the caller has saved to Bookmarks. | 🟢 |
-| `bluesky.listConversations` | bsky.app | The caller's direct-message conversations, most recent first, with the last message… | ⚪ |
+| `bluesky.listConversations` | bsky.app | The caller's direct-message conversations, most recent first, with the last message… | 🟢 |
 | `bluesky.listMutedUsers` | bsky.app | The accounts the caller has muted. | 🟢 |
 | `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | 🟢 |
 | `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | ⚪ |
@@ -770,7 +770,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | 🟢 |
 | `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟢 |
 | `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | 🟢 |
-| `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | 🟢 |
+| `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | 🟡 |
 | `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | 🟢 |
 | `businessinsider_com.listCryptoCurrencies` | businessinsider.com | List cryptocurrencies with their current prices from the Cryptocurrencies vertical. | 🟢 |
 | `businessinsider_com.listGuides` | businessinsider.com | List buying guides and product reviews from the Guides vertical. | 🟢 |
@@ -3683,6 +3683,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `paypal.getInvoice` | paypal.com | Reads a PayPal invoice from the payer-view link printed on the invoice itself — the… | ⚪ |
 | `paypal.getPayPalMeProfile` | paypal.com | Resolves a PayPal.Me link or handle to the public profile behind it — the display… | 🟢 |
 | `paypal.getPolicyDocument` | paypal.com | Reads one of PayPal's binding policy documents from the legal hub — the User… | 🟢 |
+| `paypal.getServiceStatus` | paypal.com | Answers 'is PayPal down right now?' off PayPal's own status page — every PayPal… | 🟢 |
 | `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — id, title, excerpt… | 🟢 |
 | `paypal.searchShoppingOffers` | paypal.com | Lists the cashback and discount offers PayPal's Shopping explore feed is currently… | 🟢 |
 | `peek.bookExperience` | peek.com | Books a session of an experience for a party -- session, ticket quantities and the… | ⚪ |

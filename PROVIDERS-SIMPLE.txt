@@ -134,7 +134,7 @@ breezy.hr — breezyhq: listJobs
 brixton.com — brixton: getBrixtonCheckoutLink, getBrixtonProduct, listBrixtonProducts
 browser-use.com — browser_use: cancelRun, createRun, findSessionBrowser, getBrowser, getRun, getRunStatus, getSession, listRunEvents, listSessionRuns, queueMessage, stopBrowser
 bsb.de — bodensee_schiffsbetriebe_berths: searchHarbors (+1 planned)
-bsky.app — bluesky: getFeed, getFeedInfo, getFollowers, getFollows, getKnownFollowers, getLabelers, getList, getListFeed, getMe, getMyLikes, getPost, getPostLikes, getPostQuotes, getPostReposts, getProfile, getRelationships, getStarterPack, getSuggestedFeeds, getSuggestedFollows, getSuggestedUsers, getThread, getTimeline, getTrendingTopics, getTrends, getUserFeeds, getUserLists, getUserPosts, getUserStarterPacks, listBlockedUsers, listBookmarks, listMutedUsers, listNotifications, resolveHandle, searchFeeds, searchPosts, searchStarterPacks, searchUsers, suggestUsers (+19 planned)
+bsky.app — bluesky: getConversation, getFeed, getFeedInfo, getFollowers, getFollows, getKnownFollowers, getLabelers, getList, getListFeed, getMe, getMyLikes, getPost, getPostLikes, getPostQuotes, getPostReposts, getProfile, getRelationships, getStarterPack, getSuggestedFeeds, getSuggestedFollows, getSuggestedUsers, getThread, getTimeline, getTrendingTopics, getTrends, getUserFeeds, getUserLists, getUserPosts, getUserStarterPacks, listBlockedUsers, listBookmarks, listConversations, listMutedUsers, listNotifications, resolveHandle, searchFeeds, searchPosts, searchStarterPacks, searchUsers, suggestUsers (+17 planned)
 buacement.com — buacement: nothing callable yet (+1 planned)
 builder.strucsure.com — builder_strucsure_com: getNewConstructionRegistrationFields, listRegistrationStates
 buildingengines.com — buildingengines: getAccessRequestStatus
@@ -536,7 +536,7 @@ partiful.com — partiful: discoverEvents, getEvent
 patreon.com — patreon: commentOnPost, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators
 pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listMyMemberships, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
-paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, searchHelp, searchShoppingOffers (+2 planned)
+paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, getServiceStatus, searchHelp, searchShoppingOffers (+2 planned)
 peek.com — peek: getAvailability, getExperience, getMyProfile, getPriceQuote, listDestinations, listReviews, listSimilarExperiences, listTags, searchExperiences, searchRegions (+9 planned)
 peerspace.com — peerspace: searchVenues
 perennialsandsutherland.com — perennialsandsutherland: getRugVariant, getTearsheetUrl, searchRugs

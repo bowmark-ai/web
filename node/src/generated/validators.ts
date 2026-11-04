@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: dbf803a02e2238d7d73d13ea5d2bdcd1aa9407163cabbe81ebdb3b027640790e
-// 4088 checked, 20 unchecked.
+// Manifest version: 5c84103891277ab3808146208fd0505b843ddd9f66eb33a62910917281976451
+// 4092 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "dbf803a02e2238d7d73d13ea5d2bdcd1aa9407163cabbe81ebdb3b027640790e",
+  "version": "5c84103891277ab3808146208fd0505b843ddd9f66eb33a62910917281976451",
   "units": {
     "address_validation": {
       "defs": {
@@ -20569,6 +20569,33 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "booksyBusinessArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "booksyGetAvailabilityArgs": {
           "k": "object",
           "props": [
@@ -20830,6 +20857,32 @@ export const VALIDATORS: ValidatorTable = {
         "booksyListCategoriesArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "booksyListFavoritesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
             {
               "name": "country",
               "schema": {
@@ -21206,6 +21259,110 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "booksyAppointmentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getBusinessContact": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "booksyBusinessArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFavorites": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "booksyListFavoritesArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addFavorite": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "booksyBusinessArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFavorite": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "booksyBusinessArgs"
             },
             "optional": false
           },

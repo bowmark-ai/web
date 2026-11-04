@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dbf803a02e2238d7d73d13ea5d2bdcd1aa9407163cabbe81ebdb3b027640790e
-# 94 capabilities, 762 providers, 4088 typed functions, 20 refused.
+# Manifest version: 5c84103891277ab3808146208fd0505b843ddd9f66eb33a62910917281976451
+# 94 capabilities, 762 providers, 4092 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11338,6 +11338,28 @@ class Prv_booksy_booksyCancelledAppointment_Out_services_item_Out(TypedDict):
     endTime: str | None
     staffId: float | None
     staffName: str | None
+
+class Prv_booksy_booksyBusinessArgs_In(TypedDict):
+    business: float | str
+    country: NotRequired[str]
+
+class Prv_booksy_booksyBusinessContact_Out(TypedDict):
+    business: float
+    email: str | None
+
+class Prv_booksy_booksyListFavoritesArgs_In(TypedDict):
+    page: NotRequired[float]
+    limit: NotRequired[float]
+    country: NotRequired[str]
+
+class Prv_booksy_booksyFavorites_Out(TypedDict):
+    page: float
+    total: float | None
+    businesses: list[Prv_booksy_booksyBusinessCard_Out]
+
+class Prv_booksy_booksyFavoriteResult_Out(TypedDict):
+    business: float
+    favorite: bool
 
 class Prv_borsheims_BorsheimsSearchResult_Out(TypedDict):
     name: str
@@ -68422,6 +68444,18 @@ class Prv_booksy(Protocol):
         and any cancellation fee.
         """
 
+    async def getBusinessContact(self, args: Prv_booksy_booksyBusinessArgs_In, opts: ConnectionOption | None = None, /) -> Prv_booksy_booksyBusinessContact_Out:
+        """A business's contact email, which Booksy shows only to a signed-in customer."""
+
+    async def listFavorites(self, args: Prv_booksy_booksyListFavoritesArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_booksy_booksyFavorites_Out:
+        """The businesses the signed-in caller has saved as favourites. Paged."""
+
+    async def addFavorite(self, args: Prv_booksy_booksyBusinessArgs_In, opts: ConnectionOption | None = None, /) -> Prv_booksy_booksyFavoriteResult_Out:
+        """Saves a business to the signed-in caller's Booksy favourites."""
+
+    async def removeFavorite(self, args: Prv_booksy_booksyBusinessArgs_In, opts: ConnectionOption | None = None, /) -> Prv_booksy_booksyFavoriteResult_Out:
+        """Removes a business from the signed-in caller's Booksy favourites."""
+
 class Prv_borsheims(Protocol):
     """Reads Borsheims' live product catalog and composes a setting + diamond into a priced
     ring, straight off borsheims.com's own embedded product data — no key, no browser.
@@ -71110,8 +71144,8 @@ class Prv_compass_living(Protocol):
 
 class Prv_completehomewarranty_com(Protocol):
     """Reads Complete Home Warranty's own published plan catalog — real monthly price and
-    coverage summary for each of its four home-warranty plans — straight off the plans
-    page's own structured data, no browser and no parsing prose.
+    coverage summary for each of its four home-warranty plans — from the plans page's
+    JSON-LD structured data, after a browser loads and clears the Cloudflare challenge.
     """
 
     async def listPlans(self, /) -> list[Prv_completehomewarranty_com_CompletehomewarrantyComPlan_Out]:

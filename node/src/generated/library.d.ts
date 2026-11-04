@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dbf803a02e2238d7d73d13ea5d2bdcd1aa9407163cabbe81ebdb3b027640790e
-// 94 capabilities, 762 providers, 4106 typed functions, 20 refused.
+// Manifest version: 5c84103891277ab3808146208fd0505b843ddd9f66eb33a62910917281976451
+// 94 capabilities, 762 providers, 4110 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18592,6 +18592,32 @@ interface booksyAppointmentArgs {
 interface booksyCancelledAppointment extends booksyMyAppointment {
   cancelled: boolean;
 }
+interface booksyBusinessArgs {
+  /** A business id, or its booksy.com page URL. */
+  business: number | string;
+  country?: string;
+}
+interface booksyBusinessContact {
+  business: number;
+  /** Null when the business shows no email. */
+  email: string | null;
+}
+interface booksyListFavoritesArgs {
+  page?: number;
+  /** 1-50, default 20. */
+  limit?: number;
+  country?: string;
+}
+interface booksyFavorites {
+  page: number;
+  total: number | null;
+  businesses: booksyBusinessCard[];
+}
+interface booksyFavoriteResult {
+  business: number;
+  /** True after addFavorite, false after removeFavorite. */
+  favorite: boolean;
+}
 
   /**
    * Booksy marketplace for barbers, salons, spas and other appointment businesses: search
@@ -18688,6 +18714,18 @@ interface booksyCancelledAppointment extends booksyMyAppointment {
      * any cancellation fee.
      */
     cancelAppointment(args: booksyAppointmentArgs, opts?: ConnectionOption): Promise<booksyCancelledAppointment>;
+
+    /** A business's contact email, which Booksy shows only to a signed-in customer. */
+    getBusinessContact(args: booksyBusinessArgs, opts?: ConnectionOption): Promise<booksyBusinessContact>;
+
+    /** The businesses the signed-in caller has saved as favourites. Paged. */
+    listFavorites(args?: booksyListFavoritesArgs, opts?: ConnectionOption): Promise<booksyFavorites>;
+
+    /** Saves a business to the signed-in caller's Booksy favourites. */
+    addFavorite(args: booksyBusinessArgs, opts?: ConnectionOption): Promise<booksyFavoriteResult>;
+
+    /** Removes a business from the signed-in caller's Booksy favourites. */
+    removeFavorite(args: booksyBusinessArgs, opts?: ConnectionOption): Promise<booksyFavoriteResult>;
   }
 }
 
@@ -26302,8 +26340,8 @@ interface CompletehomewarrantyComPlan {
 
   /**
    * Reads Complete Home Warranty's own published plan catalog — real monthly price and coverage
-   * summary for each of its four home-warranty plans — straight off the plans page's own
-   * structured data, no browser and no parsing prose.
+   * summary for each of its four home-warranty plans — from the plans page's JSON-LD structured
+   * data, after a browser loads and clears the Cloudflare challenge.
    */
   interface Unit {
     /**
