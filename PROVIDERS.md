@@ -2007,9 +2007,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fitdegree.listIntroOffers` | fitdegree.com | Lists a studio's intro and promotional offers ("Second Group Class On Us") with title… | 🟢 |
 | `fitdegree.listLocations` | fitdegree.com | Lists the rooms or locations inside a studio ("Reformer Room", "Private Room") with… | 🟢 |
 | `fitdegree.listMemberships` | fitdegree.com | Lists the memberships and class packs a studio sells with name, description, terms and… | 🟢 |
-| `fitdegree.listMyBookings` | fitdegree.com | Lists the signed-in member's upcoming and past bookings at a studio — classes, events… | ⚪ |
+| `fitdegree.listMyBookings` | fitdegree.com | Lists the signed-in member's upcoming and past bookings at a studio — classes, events… | 🟢 |
 | `fitdegree.listMyNotifications` | fitdegree.com | Lists the signed-in member's FitDegree notifications (booking confirmations, waitlist… | ⚪ |
-| `fitdegree.listMyPasses` | fitdegree.com | Lists the signed-in member's memberships, class packs and credits at a studio — what… | ⚪ |
+| `fitdegree.listMyPasses` | fitdegree.com | Lists the signed-in member's memberships, class packs and credits at a studio — what… | 🟢 |
 | `fitdegree.listMyPurchases` | fitdegree.com | Lists the signed-in member's bills and purchase history at a studio (what was bought… | ⚪ |
 | `fitdegree.listPrivateSessionTypes` | fitdegree.com | Lists the private sessions (one-on-ones) a studio offers — name, lengths, room, price… | 🟢 |
 | `fitdegree.listScheduleDates` | fitdegree.com | Returns which days in a range have classes at a studio, and how many — the calendar… | 🟢 |
@@ -2909,7 +2909,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kenko.bookAppointment` | gokenko.com | Book a consultation or private appointment as the signed-in member. | ⚪ |
 | `kenko.bookClass` | gokenko.com | Book a class for the signed-in member. | ⚪ |
 | `kenko.buyPricingOption` | gokenko.com | Purchase a class package or membership option. | ⚪ |
-| `kenko.cancelBooking` | gokenko.com | Cancel a booking for the signed-in member. | ⚪ |
+| `kenko.cancelBooking` | gokenko.com | Cancel a booking for the signed-in member. | 🟢 |
 | `kenko.cancelMembership` | gokenko.com | Cancel an active membership for the signed-in member. | ⚪ |
 | `kenko.findStudio` | gokenko.com | Find a studio by name, slug or region ID. | 🟢 |
 | `kenko.getAppointmentAvailability` | gokenko.com | Live slot availability for one appointment type at one facility, on one day. | 🟢 |
@@ -2932,7 +2932,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kenko.pauseMembership` | gokenko.com | Pause an active membership for the signed-in member. | ⚪ |
 | `kenko.setMarketingPreferences` | gokenko.com | Update marketing and communication preferences for the signed-in member. | ⚪ |
 | `kenko.setProfilePicture` | gokenko.com | Upload or change the signed-in member's profile picture. | ⚪ |
-| `kenko.updateMyProfile` | gokenko.com | Update the signed-in member's profile information. | ⚪ |
+| `kenko.updateMyProfile` | gokenko.com | Update the signed-in member's profile information. | 🟢 |
 | `kijiji.getListing` | kijiji.ca | Reads one Kijiji ad in full — whole description, every image, attributes such as… | 🟢 |
 | `kijiji.postAd` | kijiji.ca | Posts a new classified ad from the signed-in caller's account. | ⚪ |
 | `kijiji.search` | kijiji.ca | Searches all of Kijiji Canada's classifieds by keyword the way its search box does —… | 🟢 |
