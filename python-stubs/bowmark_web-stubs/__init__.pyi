@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9dcc7bff46270aee7ad709b7df737f0e91ff066d299c888ed54922c85f710763
-# 94 capabilities, 762 providers, 4095 typed functions, 20 refused.
+# Manifest version: 45f50fb5287edd97294f7d6f00cb551436f3f092a92c7a10f1495575bc453a82
+# 94 capabilities, 762 providers, 4101 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5039,8 +5039,17 @@ class Prv_alphavantage_AlphavantageSignUpResult_Out(TypedDict):
     apiKey: str
     message: str
 
-class Prv_amazon_SearchProductsArgs_In(TypedDict):
+class Prv_amazon_SearchProductsArgs_u0_In(TypedDict):
     keywords: str
+    department: NotRequired[str]
+    sort: NotRequired[str]
+    priceMin: NotRequired[float]
+    priceMax: NotRequired[float]
+    brand: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_amazon_SearchProductsArgs_u1_In(TypedDict):
+    query: str
     department: NotRequired[str]
     sort: NotRequired[str]
     priceMin: NotRequired[float]
@@ -5179,7 +5188,8 @@ class Prv_amazon_AmazonSellerRatingPeriod_Out(TypedDict):
     ratingCount: float | None
 
 class Prv_amazon_GetDeliveryEstimateArgs_In(TypedDict):
-    product: str
+    product: NotRequired[str]
+    asin: NotRequired[str]
     zip: str
 
 class Prv_amazon_AmazonDeliveryEstimate_Out(TypedDict):
@@ -5299,8 +5309,12 @@ class Prv_amazon_br_AmazonBrProductDetail_Out(TypedDict):
     availability: str | None
     inStock: bool
 
-class Prv_amazon_ca_SearchProductsArgs_In(TypedDict):
+class Prv_amazon_ca_SearchProductsArgs_u0_In(TypedDict):
     keywords: str
+    page: NotRequired[float]
+
+class Prv_amazon_ca_SearchProductsArgs_u1_In(TypedDict):
+    query: str
     page: NotRequired[float]
 
 class Prv_amazon_ca_AmazonCaSearchResult_Out(TypedDict):
@@ -10196,6 +10210,7 @@ class Prv_bookedin_BookedinAppointmentUpdate_Out(TypedDict):
     token: str
     appointmentId: str
     action: Literal["cancel"] | Literal["confirm"]
+    kind: Literal["appointment"] | Literal["class"]
     done: bool
     message: str | None
 
@@ -16426,6 +16441,26 @@ class Prv_corepoweryoga_CorePowerYogaBooking_Out(TypedDict):
     status: str | None
     checkInTime: str | None
     cancelledTime: str | None
+
+class Prv_corepoweryoga_CorePowerYogaVisit_Out(TypedDict):
+    id: str | None
+    sessionId: str | None
+    className: str | None
+    startTime: str | None
+    status: str | None
+
+class Prv_corepoweryoga_CorePowerYogaMembership_Out(TypedDict):
+    id: str | None
+    name: str | None
+    status: str | None
+    startDate: str | None
+    endDate: str | None
+
+class Prv_corepoweryoga_CorePowerYogaClassPack_Out(TypedDict):
+    id: str | None
+    name: str | None
+    status: str | None
+    expiresAt: str | None
 
 class Prv_cosign_CosignSearchJobsArgs_In(TypedDict):
     role: NotRequired[str]
@@ -24844,7 +24879,13 @@ class Prv_github_GithubPullRequestReactions_Out(TypedDict):
     rocket: float
     eyes: float
 
+class Prv_github_listTrendingRepositories_opts_In(TypedDict):
+    since: NotRequired[Literal["daily"] | Literal["weekly"] | Literal["monthly"]]
+    language: NotRequired[str]
+
 class Prv_github_GithubListTrendingRepositoriesResult_Out(TypedDict):
+    since: Literal["daily"] | Literal["weekly"] | Literal["monthly"]
+    language: str | None
     repositories: list[Prv_github_GithubTrendingRepository_Out]
     warnings: list[str]
 
@@ -27207,6 +27248,19 @@ class Prv_grammarly_GrammarlyAccount_Out(TypedDict):
     name: str
     plan: str
     confirmed: bool
+
+class Prv_grammarly_GrammarlyPlans_Out(TypedDict):
+    isPremium: bool
+    countryCode: str
+    plans: list[Prv_grammarly_GrammarlyPlan_Out]
+
+class Prv_grammarly_GrammarlyPlan_Out(TypedDict):
+    id: float
+    title: str
+    description: str
+    price: float
+    currency: str
+    periodMonths: float
 
 class Prv_grammarly_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -31249,8 +31303,14 @@ class Prv_kaiser_directory_kaiser_directoryProvider_Out(TypedDict):
     organization: str | None
     acceptingNewPatients: bool | None
 
-class Prv_kaiser_permanente_SearchFacilitiesByZipArgs_In(TypedDict):
+class Prv_kaiser_permanente_SearchFacilitiesByZipArgs_u0_In(TypedDict):
     zip: str
+    region: NotRequired[Literal["NCA"] | Literal["SCA"] | Literal["COL"] | Literal["GGA"] | Literal["HAW"] | Literal["MID"] | Literal["KNW"] | Literal["WA"]]
+    radiusMiles: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_kaiser_permanente_SearchFacilitiesByZipArgs_u1_In(TypedDict):
+    zipCode: str
     region: NotRequired[Literal["NCA"] | Literal["SCA"] | Literal["COL"] | Literal["GGA"] | Literal["HAW"] | Literal["MID"] | Literal["KNW"] | Literal["WA"]]
     radiusMiles: NotRequired[float]
     limit: NotRequired[float]
@@ -31310,8 +31370,11 @@ class Prv_kaiser_permanente_KaiserSearchSuggestion_Out(TypedDict):
     coverage: str
     lob: str
 
-class Prv_kaiser_permanente_GetServiceAreaArgs_In(TypedDict):
+class Prv_kaiser_permanente_GetServiceAreaArgs_u0_In(TypedDict):
     zip: str
+
+class Prv_kaiser_permanente_GetServiceAreaArgs_u1_In(TypedDict):
+    zipCode: str
 
 class Prv_kaiser_permanente_KaiserServiceAreaResult_Out(TypedDict):
     zip: str
@@ -37178,8 +37241,13 @@ class Prv_notion_NotionSearchArgs_In(TypedDict):
 class Prv_notion_NotionPageRef_In(TypedDict):
     pageId: str
 
-class Prv_notion_NotionPageContentArgs_In(TypedDict):
+class Prv_notion_NotionPageContentArgs_u0_In(TypedDict):
     pageId: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_notion_NotionPageContentArgs_u1_In(TypedDict):
+    blockId: str
     limit: NotRequired[float]
     cursor: NotRequired[str]
 
@@ -53936,8 +54004,11 @@ class Prv_toast_ToastRestaurant_Out_rating_u0_Out(TypedDict):
     count: float
 
 class Prv_toast_SearchRestaurantsArgs_In(TypedDict):
-    lat: float
-    lng: float
+    lat: NotRequired[float]
+    latitude: NotRequired[float]
+    lng: NotRequired[float]
+    lon: NotRequired[float]
+    longitude: NotRequired[float]
     query: NotRequired[str]
     cuisine: NotRequired[str | Sequence[str]]
     context: NotRequired[Literal["delivery"] | Literal["pickup"] | Literal["reservations"]]
@@ -61014,6 +61085,21 @@ class Prv_yelp_YelpReviewPage_Out_reviews_item_Out_reactions_item_Out(TypedDict)
     type: str
     count: float
 
+class Prv_yelp_YelpMenu_Out(TypedDict):
+    name: str
+    sections: list[Prv_yelp_YelpMenuSection_Out]
+
+class Prv_yelp_YelpMenuSection_Out(TypedDict):
+    name: str
+    items: list[Prv_yelp_YelpMenuItem_Out]
+
+class Prv_yelp_YelpMenuItem_Out(TypedDict):
+    name: str
+    url: str | None
+    description: str | None
+    price: float | None
+    priceCurrency: str | None
+
 class Prv_yelp_YelpBookmarks_Out(TypedDict):
     bookmarks: list[Prv_yelp_YelpBookmark_Out]
 
@@ -64579,7 +64665,8 @@ class Prv_acerentacar(Protocol):
 
     async def searchAvailability(self, args: Prv_acerentacar_AcerentacarSearchArgs_In, /) -> list[Prv_acerentacar_AcerentacarVehicle_Out]:
         """Returns ACE's live available vehicle classes and rate totals for a public pickup
-        location and itinerary, plus a reservation handoff URL.
+        location and itinerary (dates YYYY-MM-DD, future pickup), plus a reservation handoff
+        URL.
         """
 
     async def searchLocations(self, args: Prv_acerentacar_searchLocations_args_In, /) -> list[Prv_acerentacar_AcerentacarLocation_Out]:
@@ -65104,7 +65191,7 @@ class Prv_amazon(Protocol):
     stub.
     """
 
-    async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
+    async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_u0_In | Prv_amazon_SearchProductsArgs_u1_In, /) -> Prv_amazon_AmazonSearchResult_Out:
         """Paginate through Amazon search results by keyword using the page parameter to reach rows
         49+, 97+, and beyond. Takes `{ keywords: string }` — `query` is accepted as an alias for
         `keywords`, since that is the name most other search tools use.
@@ -65299,7 +65386,7 @@ class Prv_amazon_br(Protocol):
 class Prv_amazon_ca(Protocol):
     """Search products and check pricing on Amazon Canada (amazon.ca)"""
 
-    async def searchProducts(self, args: Prv_amazon_ca_SearchProductsArgs_In, /) -> Prv_amazon_ca_AmazonCaSearchResult_Out:
+    async def searchProducts(self, args: Prv_amazon_ca_SearchProductsArgs_u0_In | Prv_amazon_ca_SearchProductsArgs_u1_In, /) -> Prv_amazon_ca_AmazonCaSearchResult_Out:
         """Search Amazon Canada for products by keywords. Takes { keywords: string }; `query` is
         accepted as an alias.
         """
@@ -68166,6 +68253,11 @@ class Prv_bollandbranch(Protocol):
 
 class Prv_bookedin(Protocol):
     """Appointment scheduling platform for salons, barbershops, and service businesses."""
+
+    async def cancelClassBooking(self, args: Prv_bookedin_BookedinAppointmentLinkArgs_In, /) -> Prv_bookedin_BookedinAppointmentUpdate_Out:
+        """Cancels a Bookedin class registration from the cancel link in its confirmation email (or
+        that link's business token, registration id, h and key).
+        """
 
     async def cancelAppointment(self, args: Prv_bookedin_BookedinAppointmentLinkArgs_In, /) -> Prv_bookedin_BookedinAppointmentUpdate_Out:
         """Cancels a Bookedin appointment from the cancel link in its confirmation email (or that
@@ -71457,6 +71549,26 @@ class Prv_corepoweryoga(Protocol):
         check-in time and cancelled time. Requires a caller session. The signed-in response
         shape has never been observed, so every field is read defensively and the list is empty
         rather than thrown if the site's shape differs from expected.
+        """
+
+    async def listMyVisits(self, opts: ConnectionOption | None = None, /) -> list[Prv_corepoweryoga_CorePowerYogaVisit_Out]:
+        """Lists the signed-in caller's past class visits — visit id, session id, class name, start
+        time and status. Requires a caller session. The signed-in response shape has never been
+        observed, so every field is read defensively and the list is empty rather than thrown if
+        the site's shape differs.
+        """
+
+    async def listMyMemberships(self, opts: ConnectionOption | None = None, /) -> list[Prv_corepoweryoga_CorePowerYogaMembership_Out]:
+        """Lists the signed-in caller's memberships — membership id, name, status, start and end
+        date. Requires a caller session. The signed-in response shape has never been observed,
+        so every field is read defensively and the list is empty rather than thrown if the
+        site's shape differs.
+        """
+
+    async def listMyClassPacks(self, opts: ConnectionOption | None = None, /) -> list[Prv_corepoweryoga_CorePowerYogaClassPack_Out]:
+        """Lists the signed-in caller's class packs — pack id, name, status and expiry. Requires a
+        caller session. The signed-in response shape has never been observed, so every field is
+        read defensively and the list is empty rather than thrown if the site's shape differs.
         """
 
 class Prv_cosign(Protocol):
@@ -76023,12 +76135,15 @@ class Prv_github(Protocol):
         THROWS on an unknown owner/repo/PR number (404) or a rate limit (403/429).
         """
 
-    async def listTrendingRepositories(self, /) -> Prv_github_GithubListTrendingRepositoriesResult_Out:
-        """Returns the repositories on GitHub's public /trending page right now — each one's
-        owner/repo handle, description, primary language, star count, fork count, stars gained
-        today, and its own github.com URL. Off the trending page's server-rendered HTML, no API,
-        no login. THROWS if the page structure does not carry the expected `<article
-        class="Box-row">` rows — the page has changed.
+    async def listTrendingRepositories(self, opts: Prv_github_listTrendingRepositories_opts_In | None = None, /) -> Prv_github_GithubListTrendingRepositoriesResult_Out:
+        """Returns the repositories on GitHub's public /trending page — today by default, or this
+        week / this month with `since`, optionally narrowed to one programming language
+        (`language: "rust"`, GitHub's own slug: lowercase, spaces as dashes, e.g. `c++`,
+        `jupyter-notebook`). Each row carries its owner/repo handle, description, primary
+        language, star count, fork count, stars gained in the window (`trendingStarsToday`,
+        named for the daily default), and its own github.com URL. Off the trending page's
+        server-rendered HTML, no API, no login. THROWS if the page structure does not carry the
+        expected `<article class="Box-row">` rows — the page has changed.
         """
 
     async def listTopics(self, /) -> Prv_github_GithubListTopicsResult_Out:
@@ -77610,6 +77725,12 @@ class Prv_grammarly(Protocol):
         """Returns the signed-in account's profile: `email`, `name` ("" when unset), `plan` ("Free"
         or "Premium") and whether the email is `confirmed`. Needs the caller's own Grammarly
         sign-in.
+        """
+
+    async def listPlans(self, /) -> Prv_grammarly_GrammarlyPlans_Out:
+        """Lists Grammarly's subscription plans and prices for the visitor's country, no account —
+        e.g. `{ isPremium: false, countryCode: "US", plans: [{ id: 1001, title: "Monthly",
+        price: 30, currency: "USD", periodMonths: 1 }, …] }`.
         """
 
     async def signup(self, args: Any, /) -> Prv_grammarly_signup_return_u0_Out | Prv_grammarly_signup_return_u1_Out | Prv_grammarly_signup_return_u2_Out | Prv_grammarly_signup_return_u3_Out:
@@ -79920,7 +80041,7 @@ class Prv_kaiser_permanente(Protocol):
     its health Q&A search, and whether a ZIP is in a Kaiser plan service area.
     """
 
-    async def searchFacilitiesByZip(self, args: Prv_kaiser_permanente_SearchFacilitiesByZipArgs_In, /) -> Prv_kaiser_permanente_KaiserFacilitySearchResult_Out:
+    async def searchFacilitiesByZip(self, args: Prv_kaiser_permanente_SearchFacilitiesByZipArgs_u0_In | Prv_kaiser_permanente_SearchFacilitiesByZipArgs_u1_In, /) -> Prv_kaiser_permanente_KaiserFacilitySearchResult_Out:
         """Runs Kaiser Permanente's find-a-facility search for a US ZIP: hospitals, medical offices
         and affiliated facilities nearest first, with address, phones, services and plans.
         """
@@ -79935,7 +80056,7 @@ class Prv_kaiser_permanente(Protocol):
         ZIP prefix or a county or state name.
         """
 
-    async def getServiceArea(self, args: Prv_kaiser_permanente_GetServiceAreaArgs_In, /) -> Prv_kaiser_permanente_KaiserServiceAreaResult_Out:
+    async def getServiceArea(self, args: Prv_kaiser_permanente_GetServiceAreaArgs_u0_In | Prv_kaiser_permanente_GetServiceAreaArgs_u1_In, /) -> Prv_kaiser_permanente_KaiserServiceAreaResult_Out:
         """Says whether a ZIP is inside a Kaiser Permanente plan service area (individual & family
         plan shopping), with its county, state and Kaiser region.
         """
@@ -83892,7 +84013,7 @@ class Prv_notion(Protocol):
     async def getPage(self, args: Prv_notion_NotionPageRef_In, /) -> Any:
         """Read one Notion page's properties (title, parent, url, database fields)."""
 
-    async def getPageContent(self, args: Prv_notion_NotionPageContentArgs_In, /) -> Any:
+    async def getPageContent(self, args: Prv_notion_NotionPageContentArgs_u0_In | Prv_notion_NotionPageContentArgs_u1_In, /) -> Any:
         """Read the content of a Notion page — its blocks (paragraphs, headings, to-dos…)."""
 
     async def createPage(self, args: Any, /) -> Any:
@@ -96133,6 +96254,14 @@ class Prv_yelp(Protocol):
         sorts (relevance, newest, oldest, highest, lowest, elites), a star filter and its
         search-within-reviews box: each review's text, rating, date, photos, reactions, owner
         reply and the reviewer's name, location, counts and Elite year. Page on with nextCursor.
+        Read-only.
+        """
+
+    async def getMenu(self, ref: str, /) -> Prv_yelp_YelpMenu_Out:
+        """Reads a restaurant's menu from its /menu/<alias> page's own ld+json Menu block: each
+        section (e.g. Appetizers, Ramen) and its items' name, item-page url, description and
+        price. Takes a /biz/ or /menu/ url or bare alias from search. Null fields mean the site
+        did not publish that detail for that item. Throws when the business has no menu on Yelp.
         Read-only.
         """
 

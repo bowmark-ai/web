@@ -592,7 +592,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bookedin.bookAppointment` | bookedin.com | Books an appointment as a guest with name, email and phone at a chosen service, staff… | 🟢 |
 | `bookedin.bookClass` | bookedin.com | Registers a guest for a class session with name, email and phone. | ⚪ |
 | `bookedin.cancelAppointment` | bookedin.com | Cancels an appointment from the cancel link in its Bookedin confirmation email (or its… | 🟢 |
-| `bookedin.cancelClassBooking` | bookedin.com | Cancels a class registration from the cancel link in its confirmation email. | ⚪ |
+| `bookedin.cancelClassBooking` | bookedin.com | Cancels a class registration from the cancel link in its confirmation email. | 🟢 |
 | `bookedin.confirmAppointment` | bookedin.com | Confirms an appointment from the confirm link in a Bookedin reminder email. | 🟢 |
 | `bookedin.getAppointment` | bookedin.com | Reads one booked appointment's status and details by its appointment id. | ⚪ |
 | `bookedin.getAvailability` | bookedin.com | Returns the open appointment times on one day for a service, optionally narrowed to… | 🟢 |
@@ -1316,10 +1316,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `corepoweryoga.listMembershipPrices` | corepoweryoga.com | Lists membership plans with USD prices (outside New York and at New York studios)… | 🟢 |
 | `corepoweryoga.listMilestones` | corepoweryoga.com | Lists achievements and milestones for the caller. | ⚪ |
 | `corepoweryoga.listMyBookings` | corepoweryoga.com | Lists the signed-in caller's class reservations — reservation id, session id, status… | 🟢 |
-| `corepoweryoga.listMyClassPacks` | corepoweryoga.com | Lists the caller's active class packs and remaining classes. | ⚪ |
-| `corepoweryoga.listMyMemberships` | corepoweryoga.com | Lists the caller's active memberships. | ⚪ |
+| `corepoweryoga.listMyClassPacks` | corepoweryoga.com | Lists the signed-in caller's class packs — pack id, name, status and expiry. | 🟢 |
+| `corepoweryoga.listMyMemberships` | corepoweryoga.com | Lists the signed-in caller's memberships — membership id, name, status, start and end… | 🟢 |
 | `corepoweryoga.listMyRatings` | corepoweryoga.com | Lists the caller's class ratings and reviews. | ⚪ |
-| `corepoweryoga.listMyVisits` | corepoweryoga.com | Lists the caller's past class visits. | ⚪ |
+| `corepoweryoga.listMyVisits` | corepoweryoga.com | Lists the signed-in caller's past class visits — visit id, session id, class name… | 🟢 |
 | `corepoweryoga.listOnDemandVideos` | corepoweryoga.com | Lists CorePower Yoga's On Demand video library (500+ pre-recorded classes, hosted on… | 🟢 |
 | `corepoweryoga.listSavedPayments` | corepoweryoga.com | Lists the caller's saved payment methods. | ⚪ |
 | `corepoweryoga.listSchedules` | corepoweryoga.com | Lists one studio's class sessions across a date range: class name, start/end time… | 🟢 |
@@ -1527,7 +1527,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.leaveServer` | discord.com | Leaves a server the caller has joined. | ⚪ |
 | `discord.listAppCategories` | discord.com | Lists the App Directory's categories (Games, Entertainment, Moderation and Tools… | 🟢 |
 | `discord.listBlogPosts` | discord.com | Lists Discord's own blog posts (discord.com/blog) — title, link, date and summary… | 🟢 |
-| `discord.listChannels` | discord.com | Lists one joined server's channels the caller can see — id, name, type (text, voice… | ⚪ |
+| `discord.listChannels` | discord.com | Lists one joined server's channels the caller can see — id, name, type (text, voice… | 🟢 |
 | `discord.listDirectMessages` | discord.com | Lists the caller's DM and group-DM conversations — channel id, the other people in it… | ⚪ |
 | `discord.listDocPages` | discord.com | Lists every page of Discord's developer documentation (REST resources, Gateway… | 🟢 |
 | `discord.listFeaturedApps` | discord.com | Lists the App Directory's featured collections ("Action Games" and the rest) — each… | 🟢 |
@@ -3974,7 +3974,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.getStatePayrollTaxes` | quickbooks.intuit.com | Returns one US state's income-tax rate range as /payroll/tools/tax-map/'s own state… | 🟢 |
 | `quickbooks.getThread` | quickbooks.intuit.com | Reads one Community thread's question and its accepted (or top suggested) answer, with… | 🟢 |
 | `quickbooks.getTimeTrackingPlans` | quickbooks.intuit.com | Lists the QuickBooks Time plans with base and per-user monthly prices and their… | ⚪ |
-| `quickbooks.listAppCategories` | quickbooks.intuit.com | Lists the App Store's categories (e.g. payments, inventory, time tracking, CRM) with… | ⚪ |
+| `quickbooks.listAppCategories` | quickbooks.intuit.com | Lists the QuickBooks App Store's categories (e.g. Invoicing and Payments, Inventory… | 🟢 |
 | `quickbooks.listAppReviews` | quickbooks.intuit.com | Lists the user reviews on one App Store listing, newest first, with rating, text, date… | ⚪ |
 | `quickbooks.listBoardThreads` | quickbooks.intuit.com | Lists the most recent threads on one Community board, with title, URL, author, date… | ⚪ |
 | `quickbooks.listCommunityBoards` | quickbooks.intuit.com | Lists the Community's boards and topic areas with their URLs, so a caller can browse a… | 🟢 |
@@ -3984,7 +3984,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.listPaycheckCalculatorStates` | quickbooks.intuit.com | Lists the US states with their own paycheck calculator page… | 🟢 |
 | `quickbooks.listResourceArticles` | quickbooks.intuit.com | Lists articles in the QuickBooks Resource Center (/r/) for a topic (taxes, payroll… | ⚪ |
 | `quickbooks.listTemplates` | quickbooks.intuit.com | Lists QuickBooks' free downloadable invoice and timesheet templates (Word, Excel and… | 🟢 |
-| `quickbooks.searchApps` | quickbooks.intuit.com | Searches the QuickBooks App Store for apps that connect to QuickBooks, by keyword… | 🟢 |
+| `quickbooks.searchApps` | quickbooks.intuit.com | Searches the QuickBooks App Store for apps that connect to QuickBooks, by keyword and… | 🟢 |
 | `quickbooks.searchCommunity` | quickbooks.intuit.com | Searches QuickBooks Community (the Intuit-run user forum) for questions matching a… | 🟢 |
 | `quickbooks.searchHelpArticles` | quickbooks.intuit.com | Searches the QuickBooks help center (/learn-support/en-us/) for articles matching a… | 🟢 |
 | `quince.getProduct` | quince.com | Reads one Quince product's variant-level sizes and colors, price, traditional-retail… | 🟢 |
@@ -5952,7 +5952,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zennioptical.priceLensConfig` | zennioptical.com | Sends a real prescription + usage type straight to the site's own lens-pricing… | 🟢 |
 | `zennioptical.searchFrames` | zennioptical.com | Searches Zenni's own storefront catalog for what a shopper would type — "round… | 🟢 |
 | `zenoti.bookAppointment` | zenoti.com | Books one or more services at a center for a chosen open time, as the signed-in caller. | 🟢 |
-| `zenoti.cancelAppointment` | zenoti.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | ⚪ |
+| `zenoti.cancelAppointment` | zenoti.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | 🟢 |
 | `zenoti.findTenant` | zenoti.com | Finds the Zenoti webstore behind a salon, spa or clinic -- from its own website, a… | 🟢 |
 | `zenoti.getAvailableTimes` | zenoti.com | Returns open appointment times for one or more services at a center on a date… | 🟢 |
 | `zenoti.getMyProfile` | zenoti.com | Returns the signed-in caller's profile at that business: name, email, phone… | ⚪ |

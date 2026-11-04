@@ -118,7 +118,7 @@ bodacc.fr — bodacc: search
 boglewinery.com — boglewinery: checkAvailability, listExperiences
 bollandbranch.com — bollandbranch: getBedDesignerFlow, getCategoryOptions, getSwatchDetails (+1 planned)
 book.squareup.com — square_appointments: cancelBooking, cancelClassBooking, checkAvailability, findBusiness, getBooking, getBusiness, getService, listCategories, listClasses, listCreditPacks, listLocations, listMyBookings, listMyClassBookings, listServices, listStaff (+4 planned)
-bookedin.com — bookedin: bookAppointment, cancelAppointment, confirmAppointment, getAvailability, getAvailableDates, getClassDates, getClassSession, getMerchant, listClassSessions, listRegions, listServices, listStaff, searchMerchants (+5 planned)
+bookedin.com — bookedin: bookAppointment, cancelAppointment, cancelClassBooking, confirmAppointment, getAvailability, getAvailableDates, getClassDates, getClassSession, getMerchant, listClassSessions, listRegions, listServices, listStaff, searchMerchants (+4 planned)
 bookeo.com — bookeo: findOperator, getAvailability, getPriceQuote, getProduct, listGroupOperators, listProducts (+6 planned)
 booker.com — booker: findLocation, getAvailability, getAvailableDates, getBookingPolicies, getGroupAvailability, getLocationHours, getMultiServiceAvailability, getService, getServiceMenu, getSpecial, listBrandLocations, listGiftCertificates, listStaff, searchLocations (+16 planned)
 booking.andstr.com — andstr: getListing, getQuote, search
@@ -216,7 +216,7 @@ concur.com — concur: getReport, listReports
 consultnet.com — consultnet: searchJobs
 context.dev — context_dev: crawl, retrieveBrand, search
 cooking.nytimes.com — nyt_cooking: addRecipeToFolder, addToGroceryList, clearGroceryList, createRecipeBoxFolder, createRecipeNote, deleteRecipeBoxFolder, deleteRecipeNote, getAccountProfile, getArticle, getAuthorRecipes, getCollection, getCookedRecipes, getGroceryList, getMyNotes, getMyRating, getRecipe, getRecipeNotes, getRelatedRecipes, getSavedRecipes, getSeasonalGuide, getTopic, getTrendingArticles, listFeaturedCollections, listRecipeBoxFolders, listTopics, markRecipeCooked, rateRecipe, removeFromGroceryList, removeRecipeFromFolder, renameRecipeBoxFolder, saveRecipe, searchMyRecipeBox, searchRecipes, unsaveRecipe, updateRecipeNote
-corepoweryoga.com — corepoweryoga: getChallenge, getClass, getOnDemandVideo, getProfile, getSchedule, getStudio, getTeacher, getWorkshop, listChallenges, listClasses, listClassPackPrices, listMembershipPrices, listMyBookings, listOnDemandVideos, listSchedules, listStudios, listTeachers, listWorkshops (+22 planned)
+corepoweryoga.com — corepoweryoga: getChallenge, getClass, getOnDemandVideo, getProfile, getSchedule, getStudio, getTeacher, getWorkshop, listChallenges, listClasses, listClassPackPrices, listMembershipPrices, listMyBookings, listMyClassPacks, listMyMemberships, listMyVisits, listOnDemandVideos, listSchedules, listStudios, listTeachers, listWorkshops (+19 planned)
 cosign.co — cosign: job, searchJobs
 costco.com — costco: listGiftCards, search (+1 planned)
 countycourt.vic.gov.au — countycourt_vic_gov_au: dailyList
@@ -252,7 +252,7 @@ dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listRoomTypes (+3 planned)
-discord.com — discord: getAnnouncement, getApp, getDocPage, getGame, getInvite, getMyProfile, getServer, listAppCategories, listBlogPosts, listDocPages, listFeaturedApps, listMessages, listMyServers, listServerAnnouncements, listServerCategories, listServers, listSimilarApps, listTrendingGames, searchApps, searchServers (+30 planned)
+discord.com — discord: getAnnouncement, getApp, getDocPage, getGame, getInvite, getMyProfile, getServer, listAppCategories, listBlogPosts, listChannels, listDocPages, listFeaturedApps, listMessages, listMyServers, listServerAnnouncements, listServerCategories, listServers, listSimilarApps, listTrendingGames, searchApps, searchServers (+29 planned)
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
 docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 planned)
@@ -575,7 +575,7 @@ puls.com — puls_com: getRepairQuote, listApplianceCategories
 punchpass.com — punchpass: getCalendarFeed, getClass, getMyProfile, getPass, getSchedule, getSeries, getStudio, listAppointmentSlots, listInstructors, listPasses, listScheduleFilters, listSeries (+20 planned)
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
 pushpress.com — pushpress: bookClass, getClass, getGym, getMyProfile, getPlan, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyPlans, listPlans (+12 planned)
-quickbooks.intuit.com — quickbooks: calculatePaycheck, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getServiceStatus, getStatePayrollTaxes, getThread, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listTemplates, searchApps, searchCommunity, searchHelpArticles (+16 planned)
+quickbooks.intuit.com — quickbooks: calculatePaycheck, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getServiceStatus, getStatePayrollTaxes, getThread, listAppCategories, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listTemplates, searchApps, searchCommunity, searchHelpArticles (+15 planned)
 quince.com — quince: getProduct, searchProducts
 quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfile, getQuestion, getSpace, getTopic, getTopicFeed, searchQuestions (+5 planned)
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings
@@ -791,7 +791,7 @@ yorkwallcoverings.com — yorkwallcoverings: addToCart (+2 planned)
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)
 youtube.com — youtube: addToPlaylist, createChannel, createPlaylist, deleteComment, deletePlaylist, deleteVideo, findChannel, getChannel, getLiveChat, getPlayableStream, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listChannelLiveStreams, listChannelPlaylists, listChannelPosts, listChannelShorts, listChannelVideos, listChapters, listCommentReplies, listComments, listHashtagVideos, listHomeFeed, listLikedVideos, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listSubscriptions, listWatchHistory, listWatchLater, postComment, removeFromPlaylist, replyToComment, search, searchWithinChannel, setThumbnail, subscribeToChannel, suggestSearches, updatePlaylist, updateVideo, uploadVideo (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
-zenoti.com — zenoti: bookAppointment, findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, searchServices (+6 planned)
+zenoti.com — zenoti: bookAppointment, cancelAppointment, findTenant, getAvailableTimes, getService, listCenters, listClassSessions, listMyAppointments, listProviders, listServiceCategories, searchServices (+5 planned)
 zenplanner.com — zen_planner: bookClass, cancelBooking, findStudio, getClassDetails, getMemberInfo, getMembershipStatus, getPrice, listClasses, listMyBookings, listPackages, listScheduleSlots, searchSchedule, updateMemberInfo (+2 planned)
 zoom.us — zoom: deleteMeeting, downloadRecording, getMarketplaceApp, getMeeting, getMeetingInfo, getMeetingParticipants, getPricing, getProfile, getRecording, getSystemStatus, getWebinar, joinMeeting, listRecordings, listWebinars, searchHelpArticles, searchMarketplaceApps, updateProfile, updateProfilePicture (+8 planned)
 zoopla.co.uk — zoopla: search (+1 planned)

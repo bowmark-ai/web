@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9dcc7bff46270aee7ad709b7df737f0e91ff066d299c888ed54922c85f710763
-// 4095 checked, 20 unchecked.
+// Manifest version: 45f50fb5287edd97294f7d6f00cb551436f3f092a92c7a10f1495575bc453a82
+// 4101 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9dcc7bff46270aee7ad709b7df737f0e91ff066d299c888ed54922c85f710763",
+  "version": "45f50fb5287edd97294f7d6f00cb551436f3f092a92c7a10f1495575bc453a82",
   "units": {
     "address_validation": {
       "defs": {
@@ -10114,7 +10114,14 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "string"
               },
-              "optional": false
+              "optional": true
+            },
+            {
+              "name": "asin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             },
             {
               "name": "zip",
@@ -10171,56 +10178,115 @@ export const VALIDATORS: ValidatorTable = {
           ]
         },
         "SearchProductsArgs": {
-          "k": "object",
-          "props": [
+          "k": "union",
+          "of": [
             {
-              "name": "keywords",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "object",
+              "props": [
+                {
+                  "name": "keywords",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "department",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sort",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "priceMin",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "priceMax",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "brand",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             {
-              "name": "department",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "sort",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "priceMin",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "priceMax",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "brand",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "page",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "department",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sort",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "priceMin",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "priceMax",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "brand",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             }
           ]
         },
@@ -10654,21 +10720,45 @@ export const VALIDATORS: ValidatorTable = {
           ]
         },
         "SearchProductsArgs": {
-          "k": "object",
-          "props": [
+          "k": "union",
+          "of": [
             {
-              "name": "keywords",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "object",
+              "props": [
+                {
+                  "name": "keywords",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             {
-              "name": "page",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             }
           ]
         }
@@ -19572,6 +19662,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "cancelClassBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookedinAppointmentLinkArgs"
+            },
+            "optional": false
+          }
+        ],
         "cancelAppointment": [
           {
             "name": "args",
@@ -30823,6 +30923,60 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listMyBookings": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyVisits": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyMemberships": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyClassPacks": [
           {
             "name": "opts",
             "schema": {
@@ -47575,7 +47729,45 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listTrendingRepositories": [],
+        "listTrendingRepositories": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "since",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "daily"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "weekly"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "monthly"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "language",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listTopics": [],
         "listMarketplaceActions": [
           {
@@ -52387,6 +52579,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listPlans": [],
         "signup": [
           {
             "name": "args",
@@ -59815,14 +60008,31 @@ export const VALIDATORS: ValidatorTable = {
     "providers.kaiser_permanente": {
       "defs": {
         "GetServiceAreaArgs": {
-          "k": "object",
-          "props": [
+          "k": "union",
+          "of": [
             {
-              "name": "zip",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zipCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             }
           ]
         },
@@ -59883,36 +60093,75 @@ export const VALIDATORS: ValidatorTable = {
           ]
         },
         "SearchFacilitiesByZipArgs": {
-          "k": "object",
-          "props": [
+          "k": "union",
+          "of": [
             {
-              "name": "zip",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "region",
+                  "schema": {
+                    "k": "ref",
+                    "name": "KaiserFacilityRegion"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "radiusMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             {
-              "name": "region",
-              "schema": {
-                "k": "ref",
-                "name": "KaiserFacilityRegion"
-              },
-              "optional": true
-            },
-            {
-              "name": "radiusMiles",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "limit",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
+              "k": "object",
+              "props": [
+                {
+                  "name": "zipCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "region",
+                  "schema": {
+                    "k": "ref",
+                    "name": "KaiserFacilityRegion"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "radiusMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             }
           ]
         },
@@ -74393,28 +74642,59 @@ export const VALIDATORS: ValidatorTable = {
           ]
         },
         "NotionPageContentArgs": {
-          "k": "object",
-          "props": [
+          "k": "union",
+          "of": [
             {
-              "name": "pageId",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "object",
+              "props": [
+                {
+                  "name": "pageId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
             },
             {
-              "name": "limit",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "cursor",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
+              "k": "object",
+              "props": [
+                {
+                  "name": "blockId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
             }
           ]
         },
@@ -109629,14 +109909,35 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "number"
               },
-              "optional": false
+              "optional": true
+            },
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             },
             {
               "name": "lng",
               "schema": {
                 "k": "number"
               },
-              "optional": false
+              "optional": true
+            },
+            {
+              "name": "lon",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             },
             {
               "name": "query",
@@ -123534,6 +123835,15 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "YelpReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getMenu": [
+          {
+            "name": "ref",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

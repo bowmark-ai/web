@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9dcc7bff46270aee7ad709b7df737f0e91ff066d299c888ed54922c85f710763
-// 94 capabilities, 762 providers, 4113 typed functions, 20 refused.
+// Manifest version: 45f50fb5287edd97294f7d6f00cb551436f3f092a92c7a10f1495575bc453a82
+// 94 capabilities, 762 providers, 4119 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7163,7 +7163,7 @@ interface AcerentacarLocation { code: string; name: string; city: string; state:
   interface Unit {
     /**
      * Returns ACE's live available vehicle classes and rate totals for a public pickup location
-     * and itinerary, plus a reservation handoff URL.
+     * and itinerary (dates YYYY-MM-DD, future pickup), plus a reservation handoff URL.
      */
     searchAvailability(args: AcerentacarSearchArgs): Promise<AcerentacarVehicle[]>;
 
@@ -8760,15 +8760,10 @@ interface AmazonSearchResult {
   products: AmazonProduct[];
   totalResultCount: number;
 }
-interface SearchProductsArgs {
-  keywords: string;
-  department?: string;
-  sort?: string;
-  priceMin?: number;
-  priceMax?: number;
-  brand?: string;
-  page?: number;
-}
+// `query` is the same field as `keywords`: the runtime reads either, so the type admits either.
+type SearchProductsArgs =
+  | { keywords: string; department?: string; sort?: string; priceMin?: number; priceMax?: number; brand?: string; page?: number }
+  | { query: string; department?: string; sort?: string; priceMin?: number; priceMax?: number; brand?: string; page?: number };
 interface SearchWholeFoodsArgs {
   keywords: string;
   sort?: string;
@@ -8884,7 +8879,8 @@ interface AmazonSeller {
   aboutSeller: string | null;
 }
 interface GetDeliveryEstimateArgs {
-  product: string;
+  product?: string; // required: or pass it as `asin`, which the runtime reads as the same field
+  asin?: string;
   zip: string;
 }
 interface AmazonDeliveryEstimate {
@@ -9193,10 +9189,8 @@ interface AmazonBrProductDetail {
 
 declare namespace BowmarkProvider_amazon_ca {
   // ── Amazon Canada — the unit's own declarations, verbatim ──
-interface SearchProductsArgs {
-  keywords: string;
-  page?: number;
-}
+// `query` is the same field as `keywords`: the runtime reads either, so the type admits either.
+type SearchProductsArgs = { keywords: string; page?: number } | { query: string; page?: number };
 
 interface GetProductArgs {
   asin: string;
@@ -17468,6 +17462,8 @@ interface BookedinAppointmentUpdate {
   token: string;
   appointmentId: string;
   action: "cancel" | "confirm";
+  /** "appointment", or "class" for cancelClassBooking. */
+  kind: "appointment" | "class";
   /** True only when Bookedin said it succeeded. */
   done: boolean;
   message: string | null;
@@ -17475,6 +17471,12 @@ interface BookedinAppointmentUpdate {
 
   /** Appointment scheduling platform for salons, barbershops, and service businesses. */
   interface Unit {
+    /**
+     * Cancels a Bookedin class registration from the cancel link in its confirmation email (or
+     * that link's business token, registration id, h and key).
+     */
+    cancelClassBooking(args: BookedinAppointmentLinkArgs): Promise<BookedinAppointmentUpdate>;
+
     /**
      * Cancels a Bookedin appointment from the cancel link in its confirmation email (or that
      * link's business token, id, h and key).
@@ -27002,6 +27004,26 @@ interface CorePowerYogaProfile {
   lastName: string | null;
   phone: string | null;
 }
+interface CorePowerYogaVisit {
+  id: string | null;
+  sessionId: string | null;
+  className: string | null;
+  startTime: string | null;
+  status: string | null;
+}
+interface CorePowerYogaMembership {
+  id: string | null;
+  name: string | null;
+  status: string | null;
+  startDate: string | null;
+  endDate: string | null;
+}
+interface CorePowerYogaClassPack {
+  id: string | null;
+  name: string | null;
+  status: string | null;
+  expiresAt: string | null;
+}
 interface CorePowerYogaBooking {
   id: string | null;
   sessionId: string | null;
@@ -27164,6 +27186,29 @@ interface CorePowerYogaBooking {
      * than thrown if the site's shape differs from expected.
      */
     listMyBookings(opts?: ConnectionOption): Promise<CorePowerYogaBooking[]>;
+
+    /**
+     * Lists the signed-in caller's past class visits — visit id, session id, class name, start
+     * time and status. Requires a caller session. The signed-in response shape has never been
+     * observed, so every field is read defensively and the list is empty rather than thrown if the
+     * site's shape differs.
+     */
+    listMyVisits(opts?: ConnectionOption): Promise<CorePowerYogaVisit[]>;
+
+    /**
+     * Lists the signed-in caller's memberships — membership id, name, status, start and end date.
+     * Requires a caller session. The signed-in response shape has never been observed, so every
+     * field is read defensively and the list is empty rather than thrown if the site's shape
+     * differs.
+     */
+    listMyMemberships(opts?: ConnectionOption): Promise<CorePowerYogaMembership[]>;
+
+    /**
+     * Lists the signed-in caller's class packs — pack id, name, status and expiry. Requires a
+     * caller session. The signed-in response shape has never been observed, so every field is read
+     * defensively and the list is empty rather than thrown if the site's shape differs.
+     */
+    listMyClassPacks(opts?: ConnectionOption): Promise<CorePowerYogaClassPack[]>;
   }
 }
 
@@ -40581,6 +40626,8 @@ interface GithubTrendingRepository {
   url: string;
 }
 interface GithubListTrendingRepositoriesResult {
+  since: "daily" | "weekly" | "monthly";
+  language: string | null;
   repositories: GithubTrendingRepository[];
   warnings: string[];
 }
@@ -40941,13 +40988,16 @@ interface GithubPullRequestCreated {
     getPullRequest(owner: string, repo: string, pullRequestNumber: number): Promise<GithubPullRequestDetail>;
 
     /**
-     * Returns the repositories on GitHub's public /trending page right now — each one's owner/repo
-     * handle, description, primary language, star count, fork count, stars gained today, and its
-     * own github.com URL. Off the trending page's server-rendered HTML, no API, no login. THROWS
-     * if the page structure does not carry the expected `<article class="Box-row">` rows — the
-     * page has changed.
+     * Returns the repositories on GitHub's public /trending page — today by default, or this week
+     * / this month with `since`, optionally narrowed to one programming language (`language:
+     * "rust"`, GitHub's own slug: lowercase, spaces as dashes, e.g. `c++`, `jupyter-notebook`).
+     * Each row carries its owner/repo handle, description, primary language, star count, fork
+     * count, stars gained in the window (`trendingStarsToday`, named for the daily default), and
+     * its own github.com URL. Off the trending page's server-rendered HTML, no API, no login.
+     * THROWS if the page structure does not carry the expected `<article class="Box-row">` rows —
+     * the page has changed.
      */
-    listTrendingRepositories(): Promise<GithubListTrendingRepositoriesResult>;
+    listTrendingRepositories(opts?: { since?: "daily" | "weekly" | "monthly"; language?: string }): Promise<GithubListTrendingRepositoriesResult>;
 
     /**
      * Returns topics from GitHub's public topics page — each topic's name and its
@@ -44629,6 +44679,22 @@ interface GrammarlyAccount {
   plan: string;
   confirmed: boolean;
 }
+interface GrammarlyPlan {
+  id: number;
+  title: string;
+  description: string;
+  /** The plan's price for the visitor's country, in `currency`. */
+  price: number;
+  currency: string;
+  periodMonths: number;
+}
+interface GrammarlyPlans {
+  /** Whether the anonymous visitor's session already carries a paid plan — always false. */
+  isPremium: boolean;
+  /** The country the prices are quoted for, e.g. "US". */
+  countryCode: string;
+  plans: GrammarlyPlan[];
+}
 
   /**
    * Grammarly's free writing tools, logged out: grammar alerts with fixes, AI detection, a
@@ -44685,6 +44751,13 @@ interface GrammarlyAccount {
      * "Premium") and whether the email is `confirmed`. Needs the caller's own Grammarly sign-in.
      */
     getAccount(opts?: ConnectionOption): Promise<GrammarlyAccount>;
+
+    /**
+     * Lists Grammarly's subscription plans and prices for the visitor's country, no account — e.g.
+     * `{ isPremium: false, countryCode: "US", plans: [{ id: 1001, title: "Monthly", price: 30,
+     * currency: "USD", periodMonths: 1 }, …] }`.
+     */
+    listPlans(): Promise<GrammarlyPlans>;
 
     /**
      * Makes a NEW Grammarly account with the person's own email and password, in a session. Pauses
@@ -51836,15 +51909,12 @@ declare namespace BowmarkProvider_kaiser_permanente {
   // ── Kaiser Permanente — the unit's own declarations, verbatim ──
 type KaiserFacilityRegion = "NCA" | "SCA" | "COL" | "GGA" | "HAW" | "MID" | "KNW" | "WA";
 
-interface SearchFacilitiesByZipArgs {
-  zip: string;
-  /** Kaiser's directory region; inferred from the ZIP when omitted. */
-  region?: KaiserFacilityRegion;
-  /** Miles from the ZIP, default 25 (the site's own default radius). */
-  radiusMiles?: number;
-  /** Default 20, max 200. */
-  limit?: number;
-}
+// `zipCode` is the same field as `zip`: the runtime reads either, so the type admits either.
+// region: Kaiser's directory region, inferred from the ZIP when omitted. radiusMiles: default 25
+// (the site's own default radius). limit: default 20, max 200.
+type SearchFacilitiesByZipArgs =
+  | { zip: string; region?: KaiserFacilityRegion; radiusMiles?: number; limit?: number }
+  | { zipCode: string; region?: KaiserFacilityRegion; radiusMiles?: number; limit?: number };
 
 interface KaiserFacility {
   id: string;
@@ -51899,9 +51969,7 @@ interface KaiserSearchSuggestion {
   lob: string;
 }
 
-interface GetServiceAreaArgs {
-  zip: string;
-}
+type GetServiceAreaArgs = { zip: string } | { zipCode: string };
 
 interface KaiserServiceAreaRow {
   zip: string;
@@ -62332,7 +62400,10 @@ type NotionObject = { object: string; id: string } & Record<string, unknown>;
 type NotionPaging = { limit?: number; cursor?: string };
 type NotionSearchArgs = NotionPaging & { query?: string; filter?: "page" | "database" };
 type NotionPageRef = { pageId: string };
-type NotionPageContentArgs = NotionPageRef & NotionPaging;
+// A page is a block, so `blockId` reads any block's children: the runtime reads either.
+type NotionPageContentArgs =
+  | { pageId: string; limit?: number; cursor?: string }
+  | { blockId: string; limit?: number; cursor?: string };
 // text: plain text, one paragraph per line. children: raw Notion block objects instead.
 type NotionCreatePageArgs = ({ parentPageId: string } | { parentDatabaseId: string }) & { title?: string; properties?: Record<string, unknown>; text?: string; children?: Record<string, unknown>[] };
 type NotionUpdatePageArgs = NotionPageRef & { title?: string; properties?: Record<string, unknown>; archived?: boolean; icon?: Record<string, unknown>; cover?: Record<string, unknown> };
@@ -87606,8 +87677,12 @@ interface ToastAddress {
 type ToastRestaurantRef = string;
 
 interface SearchRestaurantsArgs {
-  lat: number;
-  lng: number;
+  // One latitude and one longitude are required; the runtime reads each under any of these names.
+  lat?: number;
+  latitude?: number;
+  lng?: number;
+  lon?: number;
+  longitude?: number;
   query?: string;            // free text, e.g. "pizza" or a restaurant name
   cuisine?: string | string[]; // "pizza", "middle-eastern", "bbq"… (toast.app's cuisine list)
   context?: "delivery" | "pickup" | "reservations";
@@ -98198,6 +98273,22 @@ interface YelpBusiness {
   videoCount: number;
 }
 
+interface YelpMenuItem {
+  name: string;
+  url: string | null;         // /menu/<alias>/item/<slug>
+  description: string | null;
+  price: number | null;
+  priceCurrency: string | null;  // "USD"
+}
+interface YelpMenuSection {
+  name: string;                // e.g. "Ramen", "Appetizers"
+  items: YelpMenuItem[];
+}
+interface YelpMenu {
+  name: string;                 // e.g. "Terakawa Ramen Menu"
+  sections: YelpMenuSection[];
+}
+
 interface YelpSuggestArgs {
   prefix: string; // what has been typed so far, e.g. "tera"
   location: string; // e.g. "Philadelphia, PA"
@@ -98285,6 +98376,14 @@ interface YelpBookmarks {
      * Read-only.
      */
     getReviews(args: YelpReviewsArgs): Promise<YelpReviewPage>;
+
+    /**
+     * Reads a restaurant's menu from its /menu/<alias> page's own ld+json Menu block: each section
+     * (e.g. Appetizers, Ramen) and its items' name, item-page url, description and price. Takes a
+     * /biz/ or /menu/ url or bare alias from search. Null fields mean the site did not publish
+     * that detail for that item. Throws when the business has no menu on Yelp. Read-only.
+     */
+    getMenu(ref: string): Promise<YelpMenu>;
 
     /**
      * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks
