@@ -71,7 +71,7 @@ asppoolco.com — asppoolco: findLocationByZip, listLocations
 astoundgroup.com — astoundgroup: getContactForm, listPages
 atlasoceanvoyages.com — atlasoceanvoyages: getVoyage, searchVoyages
 atlasseniorliving.com — atlasseniorliving: searchCommunities
-att.com — att: findDevices, findStores, getAccountBalance, getDevicePricing, getMonthlyBill, getUsage, listDeals, listInternetPlans, listLines, listPlans, listPrepaidPlans, viewBillHistory, viewOrderHistory (+4 planned)
+att.com — att: findDevices, findStores, getAccountBalance, getDevicePricing, getMonthlyBill, getTradeInValue, getUsage, listDeals, listInternetPlans, listLines, listPlans, listPrepaidPlans, viewBillHistory, viewOrderHistory (+4 planned)
 audibel.com — audibel: findClinics
 autocamp.com — autocamp: listProperties, searchAvailability
 avalonmalibu.com — avalonmalibu_com: getInsuranceForm
@@ -239,7 +239,7 @@ davidsonhomes.com — davidsonhomes: getCommunity, getHome, getRegion, listRegio
 deangroup.com — deangroup: getRateCalendar, listProperties, searchAvailability
 decked.com — decked: getVehicleClass, priceCabSideOption, resolveFitment, searchFits
 decksdirect.com — decksdirect: addToCart, getProduct, priceConfiguration, searchProducts (+1 planned)
-dell.com — dell: getOrderDetails, getProduct, getProductDrivers, getRegisteredProductDetails, getSavedCartDetails, getWarrantyInfo, listDealProducts, listMyOrders, listMyRegisteredProducts, listMySavedCarts, listProductCategories, listSupportCategories, searchForumThreads, searchProducts, searchSupport
+dell.com — dell: getOrderDetails, getProduct, getProductDrivers, getRegisteredProductDetails, getSavedCartDetails, listDealProducts, listMyOrders, listMyRegisteredProducts, listMySavedCarts, listProductCategories, listSupportCategories, searchForumThreads, searchProducts, searchSupport (+1 planned)
 deltadentalma.com — deltadentalma: lastUpdated, search
 dentalplans.com — dentalplans: getPlan, search
 detailxperts.com — detailxperts: checkServiceArea, getQuote, listVehicleTypes (+1 planned)
@@ -318,7 +318,7 @@ ford.com — ford: findDealers, getOffers, getRecalls, getVehicle, listNameplate
 forms.hubspot.com — forms_hubspot_com: findForms, getFormDefinition
 fortressbp.com — fortressbp: listProductTypes, recommendProduct
 fourseasonsyachts.com — fourseasonsyachts: getVoyage, getVoyageSailing, searchVoyages
-foxnews.com — foxnews: findAuthor, getArticle, getAuthor, getLiveBlog, getShow, getTopStories, getVideo, listAuthorArticles, listLatest, listLiveBlogs, listNewsletters, listPodcastEpisodes, listPodcasts, listSectionArticles, listSections, listShows, listVideoPlaylists, listVideos, searchArticles (+11 planned)
+foxnews.com — foxnews: findAuthor, getArticle, getAuthor, getElectionResults, getLiveBlog, getShow, getTopStories, getVideo, listAuthorArticles, listElectionRaces, listLatest, listLiveBlogs, listNewsletters, listPodcastEpisodes, listPodcasts, listSectionArticles, listSections, listShows, listVideoPlaylists, listVideos, searchArticles (+9 planned)
 framebridge.com — framebridge: getConfigurator, listFrameStyles, priceConfiguration
 franklinbbq.com — franklinbbq_com: getPreorderMenu, listPickupSlots
 fred.stlouisfed.org — fred: browseCategory, getSeriesInfo, getSeriesObservations, listReleases, listSources, searchSeries (+1 planned)
@@ -652,7 +652,7 @@ speedrun.a16z.com — a16z_speedrun: getApplicationForm
 spirithalloween.com — spirithalloween: getProduct, search
 sports.yahoo.com — yahoo_sports: findPlayers, getFantasyLeague, getFantasyTeam, getGame, getInjuries, getNews, getOdds, getPlayer, getRssFeed, getSchedule, getScoreboard, getStandings, getStatLeaders, getTeamRoster, listTeams, searchPlayers (+1 planned)
 spotapps.co — spotapps: bookReservation, checkAvailability, findRestaurant, getCateringOptions, getMenu, getOnlineOrderMenu, getPrivatePartyOptions, getReservationSettings, listJobs, requestCatering, requestPrivateParty (+4 planned)
-square.site — square_online: getDeliveryTimes, getItemAvailability, getLoyaltyProgram, getMenuItem, getPickupTimes, getSite, listCategories, listLocations, listMenuItems, listSubscriptionPlans (+9 planned)
+square.site — square_online: getDeliveryTimes, getItemAvailability, getLoyaltyProgram, getMenuItem, getMyAccount, getPickupTimes, getSite, listCategories, listLocations, listMenuItems, listMyOrders, listMySubscriptions, listSubscriptionPlans (+6 planned)
 stackoverflow.com — stackoverflow: getQuestion, searchQuestions
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments

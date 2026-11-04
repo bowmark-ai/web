@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5994 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5995 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -356,6 +356,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `att.getDevicePricing` | att.com | AT&T's current device price and financing for a phone (e.g. iPhone 16 Pro): full… | 🟢 |
 | `att.getMonthlyBill` | att.com | A specific month's bill: total due, due date, and auto-pay status. | 🟢 |
 | `att.getPlanTotal` | att.com | Walks AT&T's new-line plan-builder / order flow (att.com/plans/unlimited-data-plans/ →… | ⚪ |
+| `att.getTradeInValue` | att.com | What an old phone is worth toward AT&T, off AT&T's own trade-in tool… | 🟢 |
 | `att.getUsage` | att.com | Data and voice usage on a line: current month's data used (MB/GB), talk minutes used… | 🟢 |
 | `att.listDeals` | att.com | The current offers on AT&T's own deals page (att.com/deals/): headline, audience… | 🟢 |
 | `att.listInternetPlans` | att.com | Every AT&T Fiber home-internet speed tier on AT&T's own fiber page… | 🟢 |
@@ -1434,7 +1435,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.getProductDrivers` | dell.com | Lists drivers and downloads for a Dell product by its URL slug, optionally narrowed to… | 🟢 |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves details for a specific registered product. | 🟢 |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | 🟢 |
-| `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag, returning… | 🟡 |
+| `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag, returning… | ⚪ |
 | `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | 🟡 |
 | `dell.listMyOrders` | dell.com | Retrieves the signed-in user's order history with order numbers, dates, and status. | 🟢 |
 | `dell.listMyRegisteredProducts` | dell.com | Retrieves the signed-in user's registered Dell products and devices. | 🟢 |
@@ -2176,13 +2177,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `foxnews.getArticle` | foxnews.com | Reads one Fox News article in full — headline, description, the whole body text… | 🟢 |
 | `foxnews.getAuthor` | foxnews.com | Reads one Fox News person's profile — name, job title, bio, social links and their… | 🟢 |
 | `foxnews.getComments` | foxnews.com | Reads the reader comments under a Fox News article — each comment's text, author… | ⚪ |
-| `foxnews.getElectionResults` | foxnews.com | Reads Fox News's results for one race — each candidate's votes and share, percent of… | ⚪ |
+| `foxnews.getElectionResults` | foxnews.com | Reads Fox News's results for one 2026 general-election race — each candidate's votes… | 🟢 |
 | `foxnews.getLiveBlog` | foxnews.com | Reads one Fox News live-coverage page — its headline and every update posted to it… | 🟢 |
 | `foxnews.getShow` | foxnews.com | Reads one Fox News Channel show — description, hosts, genre and its latest clips —… | 🟢 |
 | `foxnews.getTopStories` | foxnews.com | Returns what Fox News is leading with right now — the homepage's lead story and the… | 🟢 |
 | `foxnews.getVideo` | foxnews.com | Reads one Fox News video clip — title, description, duration, upload date, thumbnail… | 🟢 |
 | `foxnews.listAuthorArticles` | foxnews.com | Lists every story by one Fox News author, newest first with paging, past the handful… | 🟢 |
-| `foxnews.listElectionRaces` | foxnews.com | Lists the races Fox News's Elections Center covers for an election (Senate, House… | ⚪ |
+| `foxnews.listElectionRaces` | foxnews.com | Lists the 2026 general-election races Fox News's Elections Center covers for one… | 🟢 |
 | `foxnews.listLatest` | foxnews.com | Lists the newest stories and clips published anywhere on Fox News, newest first, with… | 🟢 |
 | `foxnews.listLiveBlogs` | foxnews.com | Lists Fox News's live-coverage pages (rolling blogs for wars, elections, trials… | 🟢 |
 | `foxnews.listNewsletters` | foxnews.com | Lists the Fox News newsletters a reader can sign up for (Fox News First, Politics… | 🟢 |
@@ -4707,14 +4708,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `square_online.getLoyaltyBalance` | square.site | Looks up the caller's own loyalty points at a store by their phone number. | ⚪ |
 | `square_online.getLoyaltyProgram` | square.site | Returns a store's loyalty program: whether it is active, and each reward tier's points… | 🟢 |
 | `square_online.getMenuItem` | square.site | Returns one menu item in full: its sellable variations (SKUs) with price, sold-out… | 🟢 |
-| `square_online.getMyAccount` | square.site | Returns the signed-in buyer's Square Online account: name, phone, email, saved… | ⚪ |
+| `square_online.getMyAccount` | square.site | Returns the signed-in buyer's Square Online account: name, phone, email, saved… | 🟢 |
 | `square_online.getPickupTimes` | square.site | Returns the earliest pickup time and the available pickup slots at one location over a… | 🟢 |
 | `square_online.getSite` | square.site | Resolves a Square Online storefront from a URL the caller has (<name>.square.site or… | 🟢 |
 | `square_online.listCategories` | square.site | Lists the menu's categories (sections) with their ids, names and storefront links. | 🟢 |
 | `square_online.listLocations` | square.site | Lists a storefront's locations: address, phone, description, pickup and delivery hours… | 🟢 |
 | `square_online.listMenuItems` | square.site | Lists or searches a storefront's menu items with name, description, price range, image… | 🟢 |
-| `square_online.listMyOrders` | square.site | Lists the signed-in buyer's past orders at this store, for reordering. | ⚪ |
-| `square_online.listMySubscriptions` | square.site | Lists the signed-in buyer's subscriptions at this store and their invoices. | ⚪ |
+| `square_online.listMyOrders` | square.site | Lists the signed-in buyer's past orders at this store, for reordering. | 🟢 |
+| `square_online.listMySubscriptions` | square.site | Lists the signed-in buyer's subscriptions at this store and their invoices. | 🟢 |
 | `square_online.listSubscriptionPlans` | square.site | Lists the subscription plans a store sells (e.g. a weekly meal plan). | 🟢 |
 | `square_online.placeOrder` | square.site | Pays for and places an order. | ⚪ |
 | `square_online.setPickupTime` | square.site | Sets or validates the pickup (or delivery) time on a cart before checkout. | ⚪ |
