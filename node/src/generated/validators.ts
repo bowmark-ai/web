@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ae2b159540ab7cd86909b63bfb23332b22d6a7e6939a0e8965a836f05628610d
-// 4129 checked, 20 unchecked.
+// Manifest version: 9697836863afd77b91fa2176b62c821d0978ff7b5754c13978c60dfe7f422bfa
+// 4152 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ae2b159540ab7cd86909b63bfb23332b22d6a7e6939a0e8965a836f05628610d",
+  "version": "9697836863afd77b91fa2176b62c821d0978ff7b5754c13978c60dfe7f422bfa",
   "units": {
     "address_validation": {
       "defs": {
@@ -29584,6 +29584,145 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getClassPoints": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listInvoices": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "studio",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "fields",
+                  "schema": {
+                    "k": "any"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "favoriteInstructor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "studio",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "instructorId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "favorite",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -35999,6 +36138,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getStoreReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "store",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getMenu": [
           {
             "name": "args",
@@ -36197,6 +36354,72 @@ export const VALIDATORS: ValidatorTable = {
     "providers.dropbox": {
       "defs": {},
       "functions": {
+        "searchFiles": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMyAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getPlans": [
           {
             "name": "input",
@@ -36628,6 +36851,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "TranslateTextArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -36834,7 +37076,17 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listRegions": [],
-        "listDuckAiModels": []
+        "listDuckAiModels": [],
+        "translateText": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TranslateTextArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.dumpsters": {
@@ -43161,6 +43413,46 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "FloathelmNewAccount": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phoneNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "password",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -43224,7 +43516,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
-        "listGiftCards": []
+        "listGiftCards": [],
+        "createAccount": [
+          {
+            "name": "account",
+            "schema": {
+              "k": "ref",
+              "name": "FloathelmNewAccount"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.fluencecorp": {
@@ -57467,6 +57769,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "InstacartGetCartArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cartId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "InstacartGetDeliveryEstimateArgs": {
           "k": "object",
           "props": [
@@ -57930,6 +58244,68 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyAddresses": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listCarts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartGetCartArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -61221,60 +61597,6 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.kayak": {
       "defs": {
-        "KayakCarQuery": {
-          "k": "object",
-          "props": [
-            {
-              "name": "pickup",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "dropoff",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "pickupDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "dropoffDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "pickupHour",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "dropoffHour",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "driverAge",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        },
         "KayakFlight": {
           "k": "object",
           "props": [
@@ -61379,122 +61701,20 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
-        "KayakHotelQuery": {
-          "k": "object",
-          "props": [
+        "KayakMarket": {
+          "k": "union",
+          "of": [
             {
-              "name": "location",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "literal",
+              "v": "com"
             },
             {
-              "name": "checkIn",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "literal",
+              "v": "co.uk"
             },
             {
-              "name": "checkOut",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "adults",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "rooms",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "KayakQuery": {
-          "k": "object",
-          "props": [
-            {
-              "name": "from",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "to",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "depart",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "return",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "cabin",
-              "schema": {
-                "k": "union",
-                "of": [
-                  {
-                    "k": "literal",
-                    "v": "economy"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "premium"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "business"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "first"
-                  }
-                ]
-              },
-              "optional": true
-            },
-            {
-              "name": "stops",
-              "schema": {
-                "k": "union",
-                "of": [
-                  {
-                    "k": "literal",
-                    "v": "any"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "nonstop"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "1"
-                  }
-                ]
-              },
-              "optional": true
+              "k": "literal",
+              "v": "de"
             }
           ]
         }
@@ -61504,8 +61724,91 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "ref",
-              "name": "KayakQuery"
+              "k": "object",
+              "props": [
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "depart",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "return",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cabin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "economy"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "premium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "business"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "first"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "stops",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "any"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "nonstop"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "1"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "KayakMarket"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -61524,8 +61827,52 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "ref",
-              "name": "KayakHotelQuery"
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkIn",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkOut",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "rooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "KayakMarket"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -61534,8 +61881,66 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "ref",
-              "name": "KayakCarQuery"
+              "k": "object",
+              "props": [
+                {
+                  "name": "pickup",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "dropoff",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "pickupDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "dropoffDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "pickupHour",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "dropoffHour",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "driverAge",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "KayakMarket"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -88727,6 +89132,58 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listMyReservations": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "PunchpassStudioArg"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMyClassHistory": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "ref",
+              "name": "PunchpassStudioArg"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -88990,6 +89447,84 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "joinWaitlist": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "classId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "expiresMinutesBefore",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "cancelBooking": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "registrationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "waitlist",
+            "schema": {
+              "k": "boolean"
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -95977,6 +96512,56 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.safeway": {
       "defs": {
+        "AddToCartArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "storeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "zipCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "fulfillment",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "delivery"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pickup"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetRecipeArgs": {
           "k": "object",
           "props": [
@@ -96252,6 +96837,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AddToCartArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -98230,6 +98841,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SetmoreCancelAppointmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "bookingId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SetmoreCheckPromoCodeArgs": {
           "k": "object",
           "props": [
@@ -98327,6 +98957,39 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "SetmoreRescheduleAppointmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "confirmationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "bookingId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startDateTime",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -98530,6 +99193,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "cancelAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetmoreCancelAppointmentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "rescheduleAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetmoreRescheduleAppointmentArgs"
+            },
+            "optional": false
+          }
+        ],
         "getMyBookings": [
           {
             "name": "args",
@@ -98718,6 +99401,18 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "CancelReservationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "token",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -98972,6 +99667,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "BookReservationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "cancelReservation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CancelReservationArgs"
             },
             "optional": false
           }
@@ -100963,6 +101668,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SetSeriesTransferArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "enabled",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -101268,6 +101985,50 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setSeriesTransfer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetSeriesTransferArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "redeemReferralCredits": [
           {
             "name": "opts",
             "schema": {
@@ -108045,6 +108806,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "checkout": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listOrders": [
           {
             "name": "opts",
             "schema": {

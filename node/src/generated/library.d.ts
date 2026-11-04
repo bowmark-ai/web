@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ae2b159540ab7cd86909b63bfb23332b22d6a7e6939a0e8965a836f05628610d
-// 94 capabilities, 760 providers, 4147 typed functions, 20 refused.
+// Manifest version: 9697836863afd77b91fa2176b62c821d0978ff7b5754c13978c60dfe7f422bfa
+// 94 capabilities, 760 providers, 4170 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26004,6 +26004,33 @@ interface ClubreadyInstructor {
      * raw.
      */
     bookService(args: { studio: string, instructorId: string, startsAt: string, durationId: string }, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Returns the signed-in member's ClassPoints rewards dashboard — balance, recent earning
+     * activity and rewards they can redeem. Takes a studio id to resolve the brand host. An
+     * authFunction, returned raw.
+     */
+    getClassPoints(studio: string, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Lists the signed-in member's past purchases and invoices — what they paid for which pack or
+     * membership, and when. Takes a studio id to resolve the brand host. An authFunction, returned
+     * raw.
+     */
+    listInvoices(studio: string, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Edits the signed-in member's own profile — `fields` is the snake_case profile fields to
+     * change, as getMyProfile returns them (name, phone, address, emergency contact). Email is
+     * never sent. An authFunction, reached-and-refused only, returned raw.
+     */
+    updateProfile(args: { studio: string, fields: object }, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Adds an instructor from listInstructors to the signed-in member's favourites, or removes
+     * them with `favorite: false`. An authFunction, reached-and-refused only, returned raw.
+     */
+    favoriteInstructor(args: { studio: string, instructorId: string, favorite?: boolean }, opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -31378,6 +31405,15 @@ interface DoordashStore {
   reviews: { author: string | null; rating: number | null; text: string }[]; image: string | null;
 }
 
+interface DoordashStoreReviews {
+  storeId: string;
+  rating: number | null; ratingCount: number | null;
+  reviewCount: number | null;  // total public written reviews DoorDash says the store has
+  starCounts: { stars: number; count: number }[];  // 1 through 5
+  reviews: { id: string | null; author: string | null; rating: number | null; reviewedAt: string | null; text: string; verified: boolean; source: string | null }[];  // newest first
+  warnings: string[];  // says so when the store has more reviews than DoorDash's store page shows
+}
+
 interface DoordashMenu {
   storeId: string; menuId: string | null; name: string | null;
   categories: { name: string; items: { name: string; description: string | null; price: number | null; image: string | null }[] }[];
@@ -31456,6 +31492,14 @@ interface DoordashDishResult {
      * range, cuisines, star rating and count, recent reviews, and its menu id. Read-only.
      */
     getStore(args: { store: string }): Promise<DoordashStore>;
+
+    /**
+     * Returns one DoorDash restaurant's rating summary (average, rating count, per-star counts,
+     * public review count) and the customer reviews its store page shows — reviewer name, stars,
+     * date, text, verified flag — newest first. When the store has more reviews than the page
+     * shows, warnings says how many. Read-only.
+     */
+    getStoreReviews(args: { store: string }): Promise<DoordashStoreReviews>;
 
     /**
      * Returns one DoorDash restaurant's full current menu by store id or store URL: categories,
@@ -31639,6 +31683,31 @@ interface DropboxSharedFolder {
   totalEntries: number;
   hasMore: boolean; // this one page did not carry every entry
 }
+interface DropboxAccount {
+  accountId: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  photoUrl?: string;
+  accountType: string; // Dropbox's own tag: "basic" | "pro" | "business"
+  country?: string;
+  locale?: string;
+  referralLink?: string;
+  team?: string;
+  usedBytes?: number;
+  allocatedBytes?: number;
+}
+interface DropboxEntry {
+  kind: "file" | "folder" | "deleted";
+  name: string;
+  path: string; // e.g. "/Homework/math/Prime_Numbers.txt" — pass to the other file functions
+  id?: string; // "id:…"
+  sizeBytes?: number;
+  modified?: string; // ISO
+  rev?: string;
+  contentHash?: string;
+}
+interface DropboxSearchResult { query: string; matches: DropboxEntry[]; hasMore: boolean; cursor?: string }
 
   /**
    * Dropbox, the cloud file storage service: open, list, read and download files and folders
@@ -31647,6 +31716,21 @@ interface DropboxSharedFolder {
    * shared links, share with people, and run file requests and transfers.
    */
   interface Unit {
+    /**
+     * Searches the signed-in caller's Dropbox by file name and content, e.g. `searchFiles({ query:
+     * "invoice" })` → `{ matches: [{ kind: "file", name: "invoice-03.pdf", path:
+     * "/Work/invoice-03.pdf", sizeBytes, modified }] }`. `path` narrows to a folder; `limit` caps
+     * results (default 100). Needs the caller's Dropbox sign-in.
+     */
+    searchFiles(input: { query: string; path?: string; limit?: number }, opts?: ConnectionOption): Promise<DropboxSearchResult>;
+
+    /**
+     * Reads the signed-in caller's Dropbox account: display name, email, photo, account type
+     * (basic/pro/business), country, team, and storage used against the quota in bytes. Needs the
+     * caller's own Dropbox sign-in; THROWS a session error when it is missing or expired.
+     */
+    getMyAccount(opts?: ConnectionOption): Promise<DropboxAccount>;
+
     /**
      * Lists the plans on www.dropbox.com/plans as its comparison table shows them — name, price
      * string, users, storage, and every compared feature with its value (text, or true/false for
@@ -32030,6 +32114,22 @@ interface DuckDuckGoBangResolution {
   url: string;
 }
 
+interface TranslateTextArgs {
+  text: string;
+  /** A language name DuckDuckGo's own translate trigger recognizes, e.g. "french". */
+  to: string;
+}
+
+interface DuckDuckGoTranslation {
+  /** The text DuckDuckGo echoed back in its own source textarea. */
+  sourceText: string;
+  /** DuckDuckGo's own detected-language name for the source text, e.g. "English". */
+  detectedLanguage: string;
+  /** DuckDuckGo's own display name for the target language, e.g. "French". */
+  targetLanguage: string;
+  translatedText: string;
+}
+
   /**
    * DuckDuckGo (duckduckgo.com) — private web, image, video, news and maps search, Instant
    * Answers, autocomplete, the dictionary, currency, weather, time and translation answers,
@@ -32168,6 +32268,13 @@ interface DuckDuckGoBangResolution {
      * several models are gated to a Plus/Pro account.
      */
     listDuckAiModels(): Promise<DuckDuckGoAiModel[]>;
+
+    /**
+     * Translate text the way DuckDuckGo's own translation Instant Answer does, returning the
+     * detected source language, the target language and the translation. `to` is a language name
+     * DuckDuckGo's own trigger recognizes, e.g. "french".
+     */
+    translateText(args: TranslateTextArgs): Promise<DuckDuckGoTranslation>;
   }
 }
 
@@ -37318,6 +37425,17 @@ interface FloathelmGiftCard {
   title: string;
   price: number;
 }
+interface FloathelmNewAccount {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+}
+interface FloathelmAccountCreated {
+  created: true;
+  email: string;
+}
 
   /** Booking engine for float tanks, cryotherapy, and sauna services. */
   interface Unit {
@@ -37365,6 +37483,13 @@ interface FloathelmGiftCard {
      * redeemable at any of the three locations, so no location argument.
      */
     listGiftCards(): Promise<FloathelmGiftCard[]>;
+
+    /**
+     * Creates a new FloatHelm account for the caller — the sign-up every
+     * booking/waitlist/cancel/profile function needs a session on. Solves the form's invisible
+     * reCAPTCHA v2, no browser.
+     */
+    createAccount(account: FloathelmNewAccount): Promise<FloathelmAccountCreated>;
   }
 }
 
@@ -49545,6 +49670,44 @@ interface SignedInOrder {
   url: string;              // the order's own page
 }
 
+interface InstacartAddress {
+  id: string;                  // pass to updateAddress / deleteAddress
+  streetAddress: string | null;
+  apartment: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  instructions: string | null; // the courier note saved on the address
+}
+
+interface InstacartCartSummary {
+  id: string;                  // pass to getCart as { cartId }
+  retailer: string | null;     // the store this cart is at
+  shopId: string | null;
+  itemCount: number | null;
+}
+
+interface InstacartGetCartArgs {
+  cartId: string;              // from listCarts()[i].id
+}
+
+interface InstacartCartItem {
+  itemId: string | null;
+  productId: string | null;
+  name: string | null;
+  quantity: number | null;
+  price: string | null;        // the site's own display string, e.g. "$4.99"
+}
+
+interface InstacartCart {
+  id: string;
+  retailer: string | null;
+  items: InstacartCartItem[];
+  subtotal: string | null;     // display string
+}
+
 interface SignedInOrderPage {
   orders: SignedInOrder[];   // newest first
   nextCursor: string | null; // pass back as { cursor } for older orders
@@ -49633,6 +49796,24 @@ interface SignedInOrderPage {
      * run for sign-in, never answers [].
      */
     listOrders(args?: { limit?: number; cursor?: string }, opts?: ConnectionOption): Promise<SignedInOrderPage>;
+
+    /**
+     * The signed-in customer's saved delivery addresses — street, apartment, city, state, ZIP,
+     * coordinates and courier instructions. A guest pauses the run for sign-in, never answers [].
+     */
+    listMyAddresses(opts?: ConnectionOption): Promise<InstacartAddress[]>;
+
+    /**
+     * The signed-in customer's active carts, one per store, with the store and item count — the
+     * cart ids getCart takes.
+     */
+    listCarts(opts?: ConnectionOption): Promise<InstacartCartSummary[]>;
+
+    /**
+     * One cart's contents: each item with quantity and price, and the subtotal. Read only; never
+     * checks out.
+     */
+    getCart(args: InstacartGetCartArgs, opts?: ConnectionOption): Promise<InstacartCart>;
   }
 }
 
@@ -52637,9 +52818,17 @@ interface KayakCar {
   url: string;             // deep link to this offer
 }
 
+type KayakMarket = "com" | "co.uk" | "de";
+// Add to any search, searchHotels or searchCars query: { ...query, market: "co.uk" }.
+// Omitted → kayak.com. kayak.co.uk prices in GBP, kayak.de in EUR. An undeclared
+// storefront (kayak.fr, kayak.com.au) is refused by name.
+interface KayakMarketOption { market?: KayakMarket }
+
   /**
    * Kayak (kayak.com) — metasearch flight results, cheapest-first, read directly from the result
-   * cards.
+   * cards. Also answers for Kayak's UK and German sites: pass `market: "co.uk"` or `market:
+   * "de"` to search, searchHotels or searchCars and prices come back in GBP or EUR with links on
+   * that site; getBookingOptions follows the row's own site.
    */
   interface Unit {
     /**
@@ -52647,7 +52836,7 @@ interface KayakCar {
      * Interaction-gated: the prices only exist after the site's own live poll completes, so this
      * is not fetchable as static HTML.
      */
-    search(query: KayakQuery): Promise<KayakFlight[]>;
+    search(query: KayakQuery & KayakMarketOption): Promise<KayakFlight[]>;
 
     /**
      * For ONE row returned by search(), every seller Kayak found for that exact itinerary — each
@@ -52666,14 +52855,14 @@ interface KayakCar {
      * range, cheapest TOTAL first. Interaction-gated: the prices only exist after the site's own
      * multi-phase supplier poll completes.
      */
-    searchHotels(query: KayakHotelQuery): Promise<KayakHotel[]>;
+    searchHotels(query: KayakHotelQuery & KayakMarketOption): Promise<KayakHotel[]>;
 
     /**
      * Runs the car-hire search on kayak.com and returns priced vehicles for a pickup location and
      * date range, cheapest-first. Interaction-gated: the prices only exist after the site's own
      * three-phase supplier poll completes.
      */
-    searchCars(query: KayakCarQuery): Promise<KayakCar[]>;
+    searchCars(query: KayakCarQuery & KayakMarketOption): Promise<KayakCar[]>;
   }
 }
 
@@ -71160,6 +71349,13 @@ interface PunchpassCalendarFeed {
   timeZone: string | null;
   events: PunchpassCalendarEvent[];
 }
+interface PunchpassMemberList {
+  orgId: string;
+  subdomain: string;
+  /** Rows as the studio's calendar list renders them (same shape as getSchedule's). */
+  classes: PunchpassScheduledClass[];
+  warnings: string[];
+}
 interface PunchpassProfile {
   /** The account's email, when the form shows it. */
   email: string | null;
@@ -71267,6 +71463,21 @@ interface PunchpassProfile {
      * names. Never returns the password.
      */
     getMyProfile(opts?: ConnectionOption): Promise<PunchpassProfile>;
+
+    /**
+     * Lists the signed-in caller's upcoming reservations and waitlist entries at one studio (needs
+     * the caller signed in) — class id, name, local start, instructor, location, online — from the
+     * studio's member reservations page; takes the studio as its <studio>.punchpass.com subdomain,
+     * a punchpass url, or its numeric org id.
+     */
+    listMyReservations(studio: PunchpassStudioArg, opts?: ConnectionOption): Promise<PunchpassMemberList>;
+
+    /**
+     * Lists the classes the signed-in caller has attended at one studio (needs the caller signed
+     * in), with dates, from the studio's member history page; takes the studio as its
+     * <studio>.punchpass.com subdomain, a punchpass url, or its numeric org id.
+     */
+    getMyClassHistory(studio: PunchpassStudioArg, opts?: ConnectionOption): Promise<PunchpassMemberList>;
 
     /**
      * Makes a NEW Punchpass account with the person's own email and password, in a session. Pauses
@@ -71446,7 +71657,7 @@ interface PushpressMyPlan {
 }
 
 interface PushpressMyBooking {
-  registrationId: string; // pass this to cancelBooking once it ships
+  registrationId: string; // pass this to cancelBooking
   classId: string;        // the same id listClasses and getClass return
   title: string;
   start: string;           // true instant, ISO
@@ -71458,6 +71669,19 @@ interface PushpressBookingResult {
   registrationId: string | null; // the site's new registration id, when it answers one
   classId: string;
   subscriptionId: string;        // the plan this booking spent
+}
+
+interface PushpressWaitlistResult {
+  waitlistId: string | null;      // pass to cancelBooking(gym, waitlistId, true) to leave the waitlist
+  classId: string;
+  subscriptionId: string;         // the plan holding the spot
+  expiresMinutesBefore: number;   // the spot lapses this many minutes before class
+}
+
+interface PushpressCancelResult {
+  registrationId: string;
+  cancelled: boolean;
+  waitlist: boolean;              // true when a waitlist spot was dropped, not a reservation
 }
 
   /**
@@ -71545,6 +71769,20 @@ interface PushpressBookingResult {
      * purchase.
      */
     bookClass(gym: string, classId: string, opts?: ConnectionOption): Promise<PushpressBookingResult>;
+
+    /**
+     * Puts the signed-in member on the waitlist for a full class, held on one of their existing
+     * active plans; the spot lapses expiresMinutesBefore minutes before class (default 60). Needs
+     * the caller signed in. Refuses with no active plan.
+     */
+    joinWaitlist(gym: string, classId: string, expiresMinutesBefore?: number, opts?: ConnectionOption): Promise<PushpressWaitlistResult>;
+
+    /**
+     * Cancels the signed-in member's class reservation (registrationId from listMyBookings), or
+     * with waitlist=true drops a waitlist spot (waitlistId from joinWaitlist). Needs the caller
+     * signed in. The gym's own late-cancel policy applies.
+     */
+    cancelBooking(gym: string, registrationId: string, waitlist?: boolean, opts?: ConnectionOption): Promise<PushpressCancelResult>;
   }
 }
 
@@ -75850,6 +76088,20 @@ interface SafewayCart {
   items: SafewayCartItem[];
   subtotal: number | null;
 }
+interface AddToCartResult {
+  added: true;
+  productId: string;
+  quantity: number;
+  storeId: string;
+  cart: SafewayCart | null; // the cart the door returned, when its shape is one getCart reads
+}
+interface AddToCartArgs {
+  productId: string; // Safeway's numeric product id (bpn), e.g. a listAisleProducts row's id
+  storeId: string; // a store id from findStores
+  quantity?: number; // 1-99, default 1
+  zipCode?: string; // 5-digit delivery ZIP
+  fulfillment?: "delivery" | "pickup";
+}
 interface SafewayRecipe {
   id: string;
   slug: string;
@@ -75961,6 +76213,13 @@ interface SafewayRecipe {
      * header for the door and its measured refusal.
      */
     getCart(opts?: ConnectionOption): Promise<SafewayCart>;
+
+    /**
+     * Adds a product to the signed-in caller's own Safeway cart at a store (needs the caller
+     * signed in). Never checks out. See addToCart.ts's header for the door and its measured
+     * refusal.
+     */
+    addToCart(args: AddToCartArgs, opts?: ConnectionOption): Promise<AddToCartResult>;
   }
 }
 
@@ -77986,6 +78245,16 @@ interface SetmoreBookingLookup {
   bookings: SetmoreBooking[]; // empty when the business has no booking under that id
   count: number; // bookings.length
 }
+interface SetmoreCancelAppointmentArgs {
+  business: string;
+  bookingId: string; // the id field from bookAppointment, bookClass or getBooking's bookings[]
+}
+interface SetmoreRescheduleAppointmentArgs {
+  business: string;
+  confirmationId: string; // from bookAppointment, bookClass or getBooking
+  bookingId: string; // disambiguates when one confirmation covers more than one booking
+  startDateTime: string; // ISO instant — the new slot; duration is kept from the original
+}
 interface SetmoreGetMyBookingsArgs {
   business: string; // a business with customer accounts on (getBusiness → customerAuth)
   when?: "upcoming" | "past"; // default "upcoming"
@@ -78193,6 +78462,21 @@ interface SetmorePromoCode {
     getBooking(args: SetmoreGetBookingArgs): Promise<SetmoreBookingLookup>;
 
     /**
+     * Cancels a booking at a business, from the bookingId a bookAppointment, bookClass or
+     * getBooking result returned. Throws, naming Setmore's own refusal, when the booking does not
+     * exist, belongs to a different business, or is already cancelled.
+     */
+    cancelAppointment(args: SetmoreCancelAppointmentArgs): Promise<{ cancelled: true }>;
+
+    /**
+     * Moves a booking to a new start time, keeping its original duration, staff member and
+     * service, from the confirmationId and bookingId a bookAppointment, bookClass or getBooking
+     * result returned. Throws, naming Setmore's own refusal, when the new slot is taken or the
+     * booking cannot be found.
+     */
+    rescheduleAppointment(args: SetmoreRescheduleAppointmentArgs): Promise<SetmoreBooking>;
+
+    /**
      * Signed in as the caller (their customer account at one business): lists their own upcoming
      * or past bookings there -- appointment, class or event, service, staff member, start and end
      * instants, cost, notes and whether cancelled -- a page at a time. Only businesses with
@@ -78242,6 +78526,16 @@ interface SetmorePromoCode {
 
 declare namespace BowmarkProvider_sevenrooms {
   // ── SevenRooms — the unit's own declarations, verbatim ──
+interface CancelReservationArgs {
+  /** The manage token — manageToken from bookReservation, or the guest's manage link. */
+  token: string;
+}
+interface SevenroomsCancellation {
+  cancelled: true;
+  token: string;
+  /** The site's own success body, untouched. */
+  raw: unknown;
+}
 interface BookReservationArgs {
   venue: string;
   /** "YYYY-MM-DD", the slot's own date. */
@@ -78537,6 +78831,13 @@ type SevenroomsPromoValidation =
      * pointer to bookReservationSignedIn.
      */
     bookReservation(args: BookReservationArgs): Promise<SevenroomsBooking>;
+
+    /**
+     * Cancels a reservation from its manage token (bookReservation's manageToken, or the guest's
+     * manage link) and returns cancelled: true with the site's own answer. Takes no card and pays
+     * nothing; a late-cancel fee is the venue's, charged to a card already on file.
+     */
+    cancelReservation(args: CancelReservationArgs): Promise<SevenroomsCancellation>;
   }
 }
 
@@ -80466,6 +80767,17 @@ interface SetFavoriteInstructorArgs {
   instructorId: number; // from listInstructors() or getInstructor()
   enabled: boolean;
 }
+interface SetSeriesTransferArgs {
+  enabled: boolean;
+}
+interface SoulcycleSeriesTransferResult {
+  enabled: boolean; // the state SoulCycle reports after the call
+  message?: string;
+  transferableCredits?: number;
+  transferableRegions?: string;
+  usableCredits?: number;
+  region?: string;
+}
 interface SoulcycleInstructor extends SoulcycleInstructorSummary {
   bioFull?: string;
   heroImageUrl?: string;
@@ -80622,6 +80934,19 @@ interface SoulcycleInstructor extends SoulcycleInstructorSummary {
      * enabled: true })`.
      */
     setFavoriteInstructor(args: SetFavoriteInstructorArgs, opts?: ConnectionOption): Promise<SoulcycleActionResult>;
+
+    /**
+     * Turns Class Transfer on or off — whether the signed-in rider's series credits from another
+     * region can be spent in their current region. Needs the caller signed in. Example:
+     * `bowmark.providers.soulcycle.setSeriesTransfer({ enabled: true })`.
+     */
+    setSeriesTransfer(args: SetSeriesTransferArgs, opts?: ConnectionOption): Promise<SoulcycleSeriesTransferResult>;
+
+    /**
+     * Redeems the class credit the signed-in rider earned by referring friends (Spread the Soul).
+     * Needs the caller signed in. Example: `bowmark.providers.soulcycle.redeemReferralCredits()`.
+     */
+    redeemReferralCredits(opts?: ConnectionOption): Promise<SoulcycleActionResult>;
   }
 }
 
@@ -85492,6 +85817,7 @@ interface ListCategoriesArgs { parent?: string; }
 interface TemuCartItem { productId: string; quantity: number; price?: string; }
 interface TemuCart { items: TemuCartItem[]; }
 interface TemuCheckout { total: string; checkoutUrl: string; }
+interface TemuOrder { orderId: string; placedAt?: string; total?: string; status?: string; }
 
   /** Shop Temu — search, product detail, cart and order functions on the marketplace app. */
   interface Unit {
@@ -85509,6 +85835,12 @@ interface TemuCheckout { total: string; checkoutUrl: string; }
      * url; never submits payment. Needs the caller signed in.
      */
     checkout(opts?: ConnectionOption): Promise<TemuCheckout>;
+
+    /**
+     * Lists the caller's own Temu orders — what they bought, when, for how much, and where each
+     * stands. Needs the caller signed in.
+     */
+    listOrders(opts?: ConnectionOption): Promise<TemuOrder[]>;
   }
 }
 

@@ -1099,13 +1099,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
 | `classpass.getStudioReviews` | classpass.com | Reads a studio's member reviews — rating, text, class taken and when — the page a… | 🟢 |
-| `classpass.getVideo` | classpass.com | Returns one on-demand video — title, instructor, length, and the stream a member plays. | ⚪ |
+| `classpass.getVideo` | classpass.com | Returns one on-demand video — title, instructor, length, and the stream a member plays. | 🟢 |
 | `classpass.joinWaitlist` | classpass.com | Puts the signed-in member on a full class's waitlist, or turns on the class's… | ⚪ |
 | `classpass.listCategories` | classpass.com | Lists ClassPass's activity and category vocabulary (Classes & Appointments, Yoga… | 🟢 |
 | `classpass.listFavorites` | classpass.com | Lists the studios the signed-in member has saved as favourites. | 🟢 |
 | `classpass.listMarkets` | classpass.com | Lists the cities and metro areas ClassPass operates in, with each market's id, alias… | 🟢 |
 | `classpass.listMyReservations` | classpass.com | Lists the signed-in member's upcoming and past reservations — class, studio, time… | 🟢 |
-| `classpass.listOnDemandVideos` | classpass.com | Lists the member on-demand workout videos (filters, collections, stacks) included with… | ⚪ |
+| `classpass.listOnDemandVideos` | classpass.com | Lists the member on-demand workout videos (filters, collections, stacks) included with… | 🟢 |
 | `classpass.listSimilarStudios` | classpass.com | Lists studios ClassPass considers similar to one studio — the 'you might also like'… | 🟢 |
 | `classpass.listStudioBranches` | classpass.com | Lists the other locations of the same brand on ClassPass — every Barry's, say — with… | 🟢 |
 | `classpass.listStudioClasses` | classpass.com | Lists the classes a studio teaches — its class catalogue (name, alias, description)… | 🟢 |
@@ -1591,7 +1591,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `doordash.getOrder` | doordash.com | Returns one order: its items, fees and total, delivery address, and its live status… | ⚪ |
 | `doordash.getRetailStore` | doordash.com | Returns a grocery, convenience or retail store on DoorDash (7-Eleven, CVS, ALDI…) with… | ⚪ |
 | `doordash.getStore` | doordash.com | Returns one restaurant by its DoorDash store id or store URL: name, address… | 🟢 |
-| `doordash.getStoreReviews` | doordash.com | Returns a store's rating summary and its public customer reviews (reviewer display… | ⚪ |
+| `doordash.getStoreReviews` | doordash.com | Returns a store's rating summary (average, count, per-star counts, public review… | 🟢 |
 | `doordash.listCuisines` | doordash.com | Lists the cuisine filters DoorDash offers in one US city (American, Thai, Pizza…)… | 🟢 |
 | `doordash.listDeals` | doordash.com | Lists the deals and promotions running near an address — store offers like '20% off… | ⚪ |
 | `doordash.listMyAddresses` | doordash.com | Lists the signed-in customer's saved delivery addresses with their ids and which one… | ⚪ |
@@ -2517,7 +2517,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goteamup_classes.listVenues` | goteamup.com | Lists a studio's venues with address (GET /api/v2/venues). | 🟢 |
 | `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🔴 |
 | `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟢 |
-| `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟢 |
+| `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟡 |
 | `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟢 |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
 | `grammarly.addToDictionary` | www.grammarly.com | Adds a word or phrase to the signed-in account's personal dictionary so the checker… | ⚪ |
@@ -2751,7 +2751,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instacart.favoriteProduct` | instacart.com | Saves a product to, or removes it from, the signed-in customer's favorites. | ⚪ |
 | `instacart.findLocation` | instacart.com | Turns a ZIP code or address text into the location every other Instacart function… | 🟢 |
 | `instacart.findRecipesForProduct` | instacart.com | Lists recipes that use a given product at a store — the finder getRecipe's id comes… | ⚪ |
-| `instacart.getCart` | instacart.com | Returns one cart's contents: each item with quantity, price, any sale, and the cart's… | ⚪ |
+| `instacart.getCart` | instacart.com | Returns one cart's contents: each item with quantity, price, any sale, and the cart's… | 🟢 |
 | `instacart.getDeliveryEstimate` | instacart.com | Says how soon a store can deliver to, or have pickup ready at, a location. | 🟢 |
 | `instacart.getList` | instacart.com | Returns one shopping list's products, priced at a chosen store. | ⚪ |
 | `instacart.getMyAccount` | instacart.com | Returns the signed-in customer's own account: name, email, phone status, Instacart+… | ⚪ |
@@ -2764,14 +2764,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instacart.getWeeklyAd` | instacart.com | Returns the flyers (weekly ad / circular) a store is running now: name, the dates it… | 🟢 |
 | `instacart.linkLoyaltyCard` | instacart.com | Links the signed-in customer's store loyalty card (a Safeway or Kroger card number) to… | ⚪ |
 | `instacart.listBuyItAgain` | instacart.com | Lists the products the signed-in customer has bought before at a store, most frequent… | ⚪ |
-| `instacart.listCarts` | instacart.com | Lists the signed-in customer's open carts, one per store, with item count and subtotal. | ⚪ |
+| `instacart.listCarts` | instacart.com | Lists the signed-in customer's open carts, one per store, with item count and subtotal. | 🟢 |
 | `instacart.listCoupons` | instacart.com | Lists the coupons the signed-in customer can clip or has clipped at a store, with what… | ⚪ |
 | `instacart.listDeals` | instacart.com | Lists what is on sale at a store right now — the store's Sales collection — with each… | 🟢 |
 | `instacart.listDeliveryWindows` | instacart.com | Lists the delivery or pickup time slots the signed-in customer can choose for a cart… | ⚪ |
 | `instacart.listDepartmentProducts` | instacart.com | Lists the products in one store department or aisle by its slug, each with price and… | 🟢 |
 | `instacart.listDepartments` | instacart.com | Lists a store's top-level departments and aisles (Produce, Dairy & Eggs, Sales…) with… | 🟡 |
 | `instacart.listFavorites` | instacart.com | Lists the products the signed-in customer has saved as favorites. | ⚪ |
-| `instacart.listMyAddresses` | instacart.com | Lists the signed-in customer's saved delivery addresses with their ids, which cart… | ⚪ |
+| `instacart.listMyAddresses` | instacart.com | Lists the signed-in customer's saved delivery addresses with their ids, which cart… | 🟢 |
 | `instacart.listMyLists` | instacart.com | Lists the signed-in customer's shopping lists with name and item count. | ⚪ |
 | `instacart.listOrders` | instacart.com | The signed-in customer's own Instacart orders, newest first — order id, when, the… | 🟢 |
 | `instacart.listStores` | instacart.com | Lists the stores Instacart serves at a location — Safeway, Costco, Kroger, local… | 🟢 |
@@ -4364,7 +4364,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sevenrooms.bookReservation` | sevenrooms.com | Books an open slot (from getAvailability) as a guest with the caller's name, email and… | 🟢 |
 | `sevenrooms.bookReservationSignedIn` | sevenrooms.com | Books an open slot as the signed-in SevenRooms guest, using their saved profile — the… | ⚪ |
 | `sevenrooms.cancelRequest` | sevenrooms.com | Withdraws a booking request or turns off a priority alert from its id. | ⚪ |
-| `sevenrooms.cancelReservation` | sevenrooms.com | Cancels a reservation from its manage token, returning the cancelled status and any… | ⚪ |
+| `sevenrooms.cancelReservation` | sevenrooms.com | Cancels a reservation from its manage token (bookReservation's manageToken, or the… | 🟢 |
 | `sevenrooms.checkGiftCardBalance` | sevenrooms.com | Reads the remaining balance on a venue gift card from its number and PIN. | ⚪ |
 | `sevenrooms.findVenue` | sevenrooms.com | Finds the SevenRooms venue slug for a restaurant from its name and city, its own… | ⚪ |
 | `sevenrooms.getAvailability` | sevenrooms.com | Returns a venue's open reservation times for a date range, party size and preferred… | 🟢 |
@@ -5597,7 +5597,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.getChannelUpdates` | whatsapp.com | Reads a Channel's posts (updates) newest first — text, media, time and reaction counts… | ⚪ |
 | `whatsapp.getChatMessages` | whatsapp.com | Reads the messages WhatsApp Web's own conversation panel currently renders for one… | 🟢 |
 | `whatsapp.getCommunity` | whatsapp.com | Reads a WhatsApp Community the caller belongs to: its name, description, announcement… | ⚪ |
-| `whatsapp.getGroupInfo` | whatsapp.com | Reads a group the caller belongs to: name, description, picture, creation date… | ⚪ |
+| `whatsapp.getGroupInfo` | whatsapp.com | Reads a group the caller belongs to, opened by its exact displayed name (from… | 🟢 |
 | `whatsapp.getGroupInviteLink` | whatsapp.com | Reads the current invite link of a group the caller administers, optionally revoking… | ⚪ |
 | `whatsapp.getHelpArticle` | whatsapp.com | Reads one WhatsApp Help Center article by its numeric id or faq.whatsapp.com url… | 🟢 |
 | `whatsapp.getMyProfile` | whatsapp.com | Reads the signed-in caller's own WhatsApp profile: display name, about text, profile… | 🟢 |
@@ -5723,7 +5723,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wodify.joinWaitlist` | wodify.com | Add the member to a waitlist for a full class. | ⚪ |
 | `wodify.leaveWaitlist` | wodify.com | Remove the member from a class waitlist. | ⚪ |
 | `wodify.listGymSchedule` | wodify.com | Get the class schedule for a specific gym, with available times and capacity. | 🟢 |
-| `wodify.listInstructors` | wodify.com | List instructors and coaches available at the gym. | ⚪ |
+| `wodify.listInstructors` | wodify.com | List instructors and coaches available at the gym. | 🟢 |
 | `wodify.listMemberships` | wodify.com | List the membership plans, class packs and drop-ins a gym sells online, with prices. | 🟢 |
 | `wodify.listPrices` | wodify.com | Get pricing information for memberships and drop-in classes. | 🟢 |
 | `wodify.listPrograms` | wodify.com | List all available fitness programs and training paths offered at the gym. | 🟢 |
