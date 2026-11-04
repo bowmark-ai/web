@@ -1204,10 +1204,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubready.bookService` | clubready.com | Books a one-on-one session from listServiceAvailability — the slot's own… | 🟢 |
 | `clubready.buyPackage` | clubready.com | Would buy a class pack or membership at a studio for the signed-in member. | ⚪ |
 | `clubready.cancelBooking` | clubready.com | Cancels a class booking or waitlist spot from listMyBookings. | 🟢 |
-| `clubready.favoriteInstructor` | clubready.com | Adds or removes an instructor from the signed-in member's favourites. | ⚪ |
+| `clubready.favoriteInstructor` | clubready.com | Adds an instructor from listInstructors to the signed-in member's favourites, or… | 🟢 |
 | `clubready.findStudios` | clubready.com | Finds a brand's studios near a place — by latitude/longitude, or by a city or… | 🟢 |
 | `clubready.getClass` | clubready.com | Returns one scheduled class by id from listClasses ("piq_20416972") at a studio… | 🟢 |
-| `clubready.getClassPoints` | clubready.com | Returns the signed-in member's ClassPoints rewards balance, recent earning activity… | ⚪ |
+| `clubready.getClassPoints` | clubready.com | Returns the signed-in member's ClassPoints rewards dashboard — balance, recent earning… | 🟢 |
 | `clubready.getMyMembership` | clubready.com | Returns the signed-in caller's membership and class-credit summary at one studio of… | 🟢 |
 | `clubready.getMyProfile` | clubready.com | Returns the signed-in caller's own profile — name, email, phone, home studio. | 🟢 |
 | `clubready.getStudio` | clubready.com | Returns one studio by its API id ("cyclebar-berkeley") or by its brand-site page URL… | 🟢 |
@@ -1218,12 +1218,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubready.listClasses` | clubready.com | Lists a studio's class schedule for a date or date range — each class's id, title… | 🟢 |
 | `clubready.listClassTypes` | clubready.com | Lists every class type a brand runs (CycleBar Classic, Performance, Endurance, …) with… | 🟢 |
 | `clubready.listInstructors` | clubready.com | Lists the instructors teaching at a studio over a date window (default the next 14… | 🟢 |
-| `clubready.listInvoices` | clubready.com | Lists the signed-in member's past purchases and invoices — what they paid for which… | ⚪ |
+| `clubready.listInvoices` | clubready.com | Lists the signed-in member's past purchases and invoices — what they paid for which… | 🟢 |
 | `clubready.listMyBookings` | clubready.com | Lists the signed-in caller's upcoming and past class bookings and waitlist spots… | 🟢 |
 | `clubready.listPricing` | clubready.com | Lists what a studio sells — drop-in classes, class packs and memberships — with each… | 🟢 |
 | `clubready.listServiceAvailability` | clubready.com | Lists who can take a one-on-one session at a studio on a date — the flexologists or… | 🟢 |
 | `clubready.listServiceTypes` | clubready.com | Lists the one-on-one session types a studio sells — StretchLab's assisted stretches… | 🟢 |
-| `clubready.updateProfile` | clubready.com | Edits the signed-in member's own profile fields (name, phone, address, emergency… | ⚪ |
+| `clubready.updateProfile` | clubready.com | Edits the signed-in member's own profile — `fields` is the snake_case profile fields… | 🟢 |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `cnbc_com.addToWatchlist` | cnbc.com | Adds a stock symbol to the user's watchlist. | ⚪ |
 | `cnbc_com.followTopic` | cnbc.com | Follows a CNBC news topic to receive articles about it. | ⚪ |
@@ -1469,7 +1469,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deviantart.searchDeviations` | deviantart.com | Searches DeviantArt for artwork by free text ("dragon", "watercolor landscape") and… | 🟢 |
 | `deviantart.searchShop` | deviantart.com | Searches the DeviantArt Shop's exclusives — one-of-a-kind artworks and adoptables sold… | 🟢 |
 | `deviantart.sendNote` | deviantart.com | Sends a private note (DeviantArt's direct message, now a chat DM) from the signed-in… | 🟢 |
-| `deviantart.submitDeviation` | deviantart.com | Submits a new deviation from the signed-in caller's account — an image with title… | ⚪ |
+| `deviantart.submitDeviation` | deviantart.com | Uploads an image (by URL) to the signed-in caller's DeviantArt account through the… | 🟢 |
 | `deviantart.suggestTags` | deviantart.com | Autocompletes a partial tag ("lands" → landscape, landscapephotography… | 🟢 |
 | `deviantart.unfavouriteDeviation` | deviantart.com | Removes a deviation from the signed-in caller's Favourites. | 🟢 |
 | `deviantart.unwatchUser` | deviantart.com | Stops watching an artist from the signed-in caller's account. | 🟢 |
@@ -1625,7 +1625,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.downloadSharedFile` | dropbox.com | Downloads the file behind a shared link and returns a Bowmark file URL for it, with… | 🟢 |
 | `dropbox.downloadSharedFolder` | dropbox.com | Downloads a whole shared folder as a zip and returns a Bowmark file URL for it. | ⚪ |
 | `dropbox.getFileMetadata` | dropbox.com | Reads one file or folder in the caller's Dropbox by path: size, modified time, who… | ⚪ |
-| `dropbox.getMyAccount` | dropbox.com | Reads the signed-in caller's account: name, email, profile photo, plan, and storage… | ⚪ |
+| `dropbox.getMyAccount` | dropbox.com | Reads the signed-in caller's account: name, email, profile photo, account type, and… | 🟢 |
 | `dropbox.getPlans` | dropbox.com | Lists Dropbox's plans as its own pricing page shows them — Basic, Plus, Essentials… | 🟢 |
 | `dropbox.getSharedLink` | dropbox.com | Opens a Dropbox shared link the caller was sent — any of the /s/, /sh/, /scl/fi/ or… | 🟢 |
 | `dropbox.getTransfer` | dropbox.com | Opens a Dropbox Transfer link (www.dropbox.com/t/<id>) the caller was sent: the files… | ⚪ |
@@ -1648,7 +1648,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.restoreFileVersion` | dropbox.com | Restores a file in the caller's Dropbox to one of its earlier versions. | ⚪ |
 | `dropbox.revokeSharedLink` | dropbox.com | Turns off one of the caller's shared links so it stops working. | ⚪ |
 | `dropbox.saveSharedLinkToDropbox` | dropbox.com | Saves the file or folder behind a shared link into the caller's own Dropbox (the 'Save… | ⚪ |
-| `dropbox.searchFiles` | dropbox.com | Searches the caller's Dropbox by file name and content, as the search box at the top… | ⚪ |
+| `dropbox.searchFiles` | dropbox.com | Searches the caller's Dropbox by file name and content, as the search box at the top… | 🟢 |
 | `dropbox.shareWithPeople` | dropbox.com | Invites people by email to a file or folder in the caller's Dropbox, as viewers or… | ⚪ |
 | `dropbox.starFile` | dropbox.com | Stars or unstars a file or folder in the caller's Dropbox. | ⚪ |
 | `dropbox.updateProfileName` | dropbox.com | Changes the signed-in caller's display name (first and last name) in their Dropbox… | ⚪ |
@@ -1674,7 +1674,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `duckduckgo.searchWeb` | duckduckgo.com | Search the web the way duckduckgo.com's own search box does and return the ranked… | 🟢 |
 | `duckduckgo.setPrivateDuckAddressActive` | duckduckgo.com | Turns one private @duck.com address off (stop forwarding) or back on, using the… | 🟢 |
 | `duckduckgo.suggestQueries` | duckduckgo.com | Return DuckDuckGo's search-box autocomplete suggestions for a partial query. | 🟢 |
-| `duckduckgo.translateText` | duckduckgo.com | Translate text into a chosen language the way DuckDuckGo's translation answer does… | ⚪ |
+| `duckduckgo.translateText` | duckduckgo.com | Translate text into a chosen language the way DuckDuckGo's translation answer does… | 🟢 |
 | `dumpsters.getQuote` | dumpsters.com | Prices a roll-off dumpster rental for a US address — real per-size prices, next… | 🟢 |
 | `e2b.createSandbox` | e2b.dev | Boots a fresh Linux sandbox from a template (the `claude` template ships Claude Code)… | 🟢 |
 | `e2b.getSandbox` | e2b.dev | Reads one sandbox via GET /sandboxes/{id}: state, vCPU and RAM, start time and… | 🟢 |
@@ -3902,7 +3902,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `punchpass.findStudio` | punchpass.com | Finds PunchPass studios by name and town and returns each one's subdomain, org id… | ⚪ |
 | `punchpass.getCalendarFeed` | punchpass.com | Returns a studio's subscribable iCal feed url and its parsed events — every class and… | 🟢 |
 | `punchpass.getClass` | punchpass.com | Gets one class by the id getSchedule returned — title, instructor, date, time… | 🟢 |
-| `punchpass.getMyClassHistory` | punchpass.com | Lists the classes and series the signed-in caller has attended at a studio, with dates. | ⚪ |
+| `punchpass.getMyClassHistory` | punchpass.com | Lists the classes and series the signed-in caller has attended at a studio, with dates. | 🟢 |
 | `punchpass.getMyProfile` | punchpass.com | Gets the signed-in caller's own Punchpass account (needs the caller signed in): email… | 🟢 |
 | `punchpass.getPass` | punchpass.com | Gets one pass or membership's full terms by the id listPasses returned (kind is found… | 🟢 |
 | `punchpass.getSchedule` | punchpass.com | Lists a studio's upcoming classes from a start date — class id, name, local start (and… | 🟢 |
@@ -3917,7 +3917,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `punchpass.listMyContentLibrary` | punchpass.com | Lists the recorded classes and files the signed-in caller can watch at a studio, by… | ⚪ |
 | `punchpass.listMyPasses` | punchpass.com | Lists the signed-in caller's passes and memberships at a studio — active, expired and… | ⚪ |
 | `punchpass.listMyReceipts` | punchpass.com | Lists the signed-in caller's purchase receipts at a studio — what was bought, when and… | ⚪ |
-| `punchpass.listMyReservations` | punchpass.com | Lists the signed-in caller's upcoming reservations and waitlist entries at a studio —… | ⚪ |
+| `punchpass.listMyReservations` | punchpass.com | Lists the signed-in caller's upcoming reservations and waitlist entries at a studio —… | 🟢 |
 | `punchpass.listMyStudios` | punchpass.com | Lists the studios the signed-in caller has a PunchPass account with, with each one's… | ⚪ |
 | `punchpass.listMyWaivers` | punchpass.com | Lists the waivers the signed-in caller has signed at a studio, with download links… | ⚪ |
 | `punchpass.listPasses` | punchpass.com | Lists the passes, class packs and memberships a studio sells — name, price, billing… | 🟢 |
@@ -4208,7 +4208,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `saatva.listMattresses` | saatva.com | Lists every mattress product line Saatva currently sells with every buyable variant —… | 🟢 |
 | `saatva.recommendMattress` | saatva.com | Runs Saatva's mattress-quiz goal-flow for a stated sleep position, firmness preference… | 🟢 |
 | `safetywing.getQuote` | safetywing.com | Runs SafetyWing's own Nomad Insurance quote calculator — plan (Essential or Complete)… | 🟢 |
-| `safeway.addToCart` | safeway.com | Adds a product to the signed-in customer's cart. | ⚪ |
+| `safeway.addToCart` | safeway.com | Adds a product to the signed-in customer's cart. | 🟢 |
 | `safeway.addToShoppingList` | safeway.com | Adds a product or a free-text item to the signed-in customer's shopping list. | ⚪ |
 | `safeway.checkout` | safeway.com | Would place the signed-in customer's order and pay for it. | ⚪ |
 | `safeway.clipCoupon` | safeway.com | Clips a digital coupon to the signed-in customer's card. | ⚪ |
@@ -4904,7 +4904,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `temu.getProduct` | www.temu.com | Read one product's detail page — title, price, images, variants, shipping estimate… | ⚪ |
 | `temu.getProductReviews` | www.temu.com | Read a product's customer reviews and rating breakdown by its product url. | ⚪ |
 | `temu.listCategories` | www.temu.com | List Temu's top-level shopping categories (Women's Clothing, Home & Kitchen… | 🟢 |
-| `temu.listOrders` | www.temu.com | The caller's own order history — what they bought, when, for how much, and where each… | ⚪ |
+| `temu.listOrders` | www.temu.com | The caller's own order history — what they bought, when, for how much, and where each… | 🟢 |
 | `temu.removeFromCart` | www.temu.com | Remove one line from the cart. | ⚪ |
 | `temu.searchProducts` | www.temu.com | Search Temu's catalog by keyword and return matching products (title, price, image… | ⚪ |
 | `temu.trackOrder` | www.temu.com | Where a specific order's package is and when it is due — the follow-up to listOrders. | ⚪ |
@@ -5428,10 +5428,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walkerhughes.listQuoteProducts` | walkerhughes.com | Lists WalkerHughes' real 16-product Personal/Business insurance catalog straight off… | 🟢 |
 | `walkerhughes.submitQuoteApplication` | walkerhughes.com | Would submit the /start-quote application itself (POST to the site's own… | ⚪ |
 | `walla.bookClass` | hellowalla.com | Books the signed-in client into a class (in person or livestream) via the site's cart… | 🟢 |
-| `walla.bookPrivateSession` | hellowalla.com | Books the signed-in client into a private session at a time… | ⚪ |
+| `walla.bookPrivateSession` | hellowalla.com | Books the signed-in client into a private session at a time… | 🟢 |
 | `walla.buyPricingOption` | hellowalla.com | Would buy a class pack, intro offer or membership at a studio for the signed-in client. | ⚪ |
 | `walla.cancelBooking` | hellowalla.com | Cancels one of the signed-in client's class bookings. | 🟢 |
-| `walla.enrollWorkshop` | hellowalla.com | Enrolls the signed-in client in a workshop or series from listWorkshops using a pass… | ⚪ |
+| `walla.enrollWorkshop` | hellowalla.com | Enrolls the signed-in client in a workshop or series from listWorkshops using a pass… | 🟢 |
 | `walla.findStudio` | hellowalla.com | Finds a Walla studio from its own website (the page that embeds the Walla schedule) or… | 🟡 |
 | `walla.getClass` | hellowalla.com | Returns one scheduled class by id: everything listClasses carries, plus its… | 🟢 |
 | `walla.getMyProfile` | hellowalla.com | Returns the signed-in client's own profile at a studio, passed through verbatim —… | 🟢 |
@@ -5448,8 +5448,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walla.listPricing` | hellowalla.com | Lists what a studio sells — drop-ins, class packs, intro offers and memberships — with… | 🟢 |
 | `walla.listPrivateSessions` | hellowalla.com | Lists the private sessions (appointments) a studio offers — name, length, price… | 🟢 |
 | `walla.listWorkshops` | hellowalla.com | Lists a studio's workshops, series and trainings (multi-session enrollments): name… | 🟢 |
-| `walla.requestMembershipCancellation` | hellowalla.com | Sends the studio the signed-in client's request to cancel one of their memberships… | ⚪ |
-| `walla.updateMyProfile` | hellowalla.com | Edits the signed-in client's own profile at a studio (name, phone, address, emergency… | ⚪ |
+| `walla.requestMembershipCancellation` | hellowalla.com | Sends the studio the signed-in client's request to cancel one of their memberships… | 🟢 |
+| `walla.updateMyProfile` | hellowalla.com | Edits the signed-in client's own profile at a studio (name, phone, address, emergency… | 🟢 |
 | `walmart_ca.search` | www.walmart.ca | Search walmart.ca for products by keywords and return matching results with price… | 🟢 |
 | `walmart.addAddress` | walmart.com | Saves a new delivery address on the signed-in account. | ⚪ |
 | `walmart.addToCart` | walmart.com | Puts an item in the cart in the quantity asked for and reports what the cart then holds. | 🟢 |
@@ -5968,8 +5968,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zenoti.updateMyProfile` | zenoti.com | Updates the signed-in caller's name, phone or email preferences at that business. | ⚪ |
 | `zoom.deleteMeeting` | zoom.us | Cancels a scheduled meeting. | 🟢 |
 | `zoom.downloadRecording` | zoom.us | Reads the download/play info for one recording from the site's own recording play-info… | 🟢 |
-| `zoom.getContactInfo` | zoom.us | Returns details of one contact. | ⚪ |
-| `zoom.getContacts` | zoom.us | The signed-in caller's contact list. | ⚪ |
+| `zoom.getContactInfo` | zoom.us | Returns details of one contact. | 🟢 |
+| `zoom.getContacts` | zoom.us | The signed-in caller's contact list. | 🟢 |
 | `zoom.getMarketplaceApp` | zoom.us | Returns details of one Zoom Marketplace app. | 🟢 |
 | `zoom.getMeeting` | zoom.us | Returns full details of one scheduled meeting. | 🟢 |
 | `zoom.getMeetingInfo` | zoom.us | Extracts meeting information from the public join page. | 🟢 |
@@ -5986,7 +5986,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zoom.listRecordingTranscripts` | zoom.us | Lists available transcripts for a recording. | ⚪ |
 | `zoom.listWebinars` | zoom.us | The signed-in caller's webinars. | 🟢 |
 | `zoom.scheduleMeeting` | zoom.us | Creates a new meeting on the caller's account. | ⚪ |
-| `zoom.searchContacts` | zoom.us | Searches the caller's contacts by name. | ⚪ |
+| `zoom.searchContacts` | zoom.us | Searches the caller's contacts by name. | 🟢 |
 | `zoom.searchHelpArticles` | zoom.us | Searches the help center for articles. | 🟡 |
 | `zoom.searchMarketplaceApps` | zoom.us | Searches the Zoom Marketplace for apps by keyword. | 🟢 |
 | `zoom.updateMeeting` | zoom.us | Updates meeting title, time, or settings. | ⚪ |

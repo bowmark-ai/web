@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: de7af1c733bce82a7460743435f15ab7d9a92ccf6e7d8a279e122a52b21d4efa
-# 94 capabilities, 761 providers, 4117 typed functions, 20 refused.
+# Manifest version: ae2b159540ab7cd86909b63bfb23332b22d6a7e6939a0e8965a836f05628610d
+# 94 capabilities, 760 providers, 4129 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18085,6 +18085,14 @@ class Prv_deviantart_DeviantartSentNote_Out(TypedDict):
     roomId: str | None
     sent: bool
 
+class Prv_deviantart_submitDeviation_args_In(TypedDict):
+    imageUrl: str
+    folderName: NotRequired[str]
+
+class Prv_deviantart_DeviantartSubmittedDeviation_Out(TypedDict):
+    deviationId: str
+    submitted: bool
+
 class Prv_devto_DevtoArticleSearchArgs_In(TypedDict):
     tag: NotRequired[str]
     username: NotRequired[str]
@@ -24570,6 +24578,85 @@ class Prv_geico_GeicoAgentDetails_Out(TypedDict):
 class Prv_geico_GeicoAgentSearch_Out_searchedFrom_Out(TypedDict):
     latitude: float
     longitude: float
+
+class Prv_github_GithubListWorkflowRunsOptions_In(TypedDict):
+    branch: NotRequired[str]
+    event: NotRequired[str]
+    status: NotRequired[str]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListWorkflowRunsResult_Out(TypedDict):
+    totalCount: float
+    runs: list[Prv_github_GithubWorkflowRun_Out]
+    warnings: list[str]
+
+class Prv_github_GithubWorkflowRun_Out(TypedDict):
+    id: float
+    workflow: str
+    title: str
+    runNumber: float
+    branch: str | None
+    headSha: str
+    event: str
+    status: str | None
+    conclusion: str | None
+    createdAt: str
+    updatedAt: str
+    url: str
+
+class Prv_github_GithubCompareResult_Out(TypedDict):
+    status: str
+    aheadBy: float
+    behindBy: float
+    totalCommits: float
+    commits: list[Prv_github_GithubCompareResult_Out_commits_item_Out]
+    files: list[Prv_github_GithubComparedFile_Out]
+    url: str
+    warnings: list[str]
+
+class Prv_github_GithubCompareResult_Out_commits_item_Out(TypedDict):
+    sha: str
+    authorName: str
+    date: str
+    message: str
+    url: str
+
+class Prv_github_GithubComparedFile_Out(TypedDict):
+    filename: str
+    status: str
+    additions: float
+    deletions: float
+    changes: float
+    patch: str | None
+
+class Prv_github_GithubListSecurityAdvisoriesOptions_In(TypedDict):
+    ecosystem: NotRequired[str]
+    package: NotRequired[str]
+    owner: NotRequired[str]
+    repo: NotRequired[str]
+    severity: NotRequired[str]
+    per_page: NotRequired[float]
+
+class Prv_github_GithubListSecurityAdvisoriesResult_Out(TypedDict):
+    advisories: list[Prv_github_GithubAdvisory_Out]
+    warnings: list[str]
+
+class Prv_github_GithubAdvisory_Out(TypedDict):
+    ghsaId: str
+    cveId: str | None
+    severity: str
+    summary: str
+    description: str
+    vulnerabilities: list[Prv_github_GithubAdvisory_Out_vulnerabilities_item_Out]
+    publishedAt: str | None
+    url: str
+
+class Prv_github_GithubAdvisory_Out_vulnerabilities_item_Out(TypedDict):
+    ecosystem: str | None
+    package: str | None
+    vulnerableVersionRange: str | None
+    patchedVersions: str | None
 
 class Prv_github_GithubListCommitsOptions_In(TypedDict):
     sha: NotRequired[str]
@@ -41238,6 +41325,31 @@ class Prv_pinterest_PinterestConversation_Out_last_message_Out(TypedDict):
     text: NotRequired[str]
     created_at: NotRequired[str]
 
+class Prv_pinterest_listNotifications_options_In(TypedDict):
+    bookmark: NotRequired[str]
+    pageSize: NotRequired[float]
+
+class Prv_pinterest_listNotifications_return_Out(TypedDict):
+    notifications: list[Prv_pinterest_PinterestNotification_Out]
+    bookmark: str | None
+
+class Prv_pinterest_PinterestNotification_Out(TypedDict):
+    id: str
+    news_type: NotRequired[str]
+    header_text: NotRequired[str]
+    text: NotRequired[str]
+    display_mode: NotRequired[str]
+    unread: NotRequired[bool]
+    created_at: NotRequired[str]
+
+class Prv_pinterest_listUserFollowers_options_In(TypedDict):
+    bookmark: NotRequired[str]
+    pageSize: NotRequired[float]
+
+class Prv_pinterest_listUserFollowers_return_Out(TypedDict):
+    users: list[Prv_pinterest_PinterestUser_Out]
+    bookmark: str | None
+
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
     width: float
@@ -41587,53 +41699,6 @@ class Prv_postcodes_io_postcodes_ioLookup_Out(TypedDict):
     incode: str | None
     quality: float | None
     terminated: str | None
-
-class Prv_postiz_ListPostsArgs_In(TypedDict):
-    startDate: str
-    endDate: str
-    customer: NotRequired[str]
-
-class Prv_postiz_PostizPost_Out(TypedDict):
-    id: str
-    content: str
-    state: NotRequired[str]
-    publishDate: NotRequired[str]
-    integrationId: NotRequired[str]
-    integration: NotRequired[Prv_postiz_PostizPost_Out_integration_Out]
-    group: NotRequired[str]
-
-class Prv_postiz_PostizPost_Out_integration_Out(TypedDict):
-    id: str
-    providerIdentifier: NotRequired[str]
-    name: NotRequired[str]
-    picture: NotRequired[str]
-
-class Prv_postiz_CreatePostArgs_In(TypedDict):
-    integrationId: str | Prv_postiz_CreatePostArgs_In_integrationId_u1_In
-    content: str
-    type: NotRequired[Literal["draft"] | Literal["schedule"] | Literal["now"]]
-    date: NotRequired[str]
-    settings: NotRequired[Mapping[str, Any]]
-    shortLink: NotRequired[bool]
-
-class Prv_postiz_CreatePostArgs_In_integrationId_u1_In(TypedDict):
-    id: str
-
-class Prv_postiz_ListIntegrationsArgs_In(TypedDict):
-    group: NotRequired[str]
-
-class Prv_postiz_PostizIntegration_Out(TypedDict):
-    id: str
-    name: str
-    identifier: str
-    picture: NotRequired[str]
-    disabled: bool
-    profile: NotRequired[str]
-    customer: NotRequired[Prv_postiz_PostizIntegration_Out_customer_Out]
-
-class Prv_postiz_PostizIntegration_Out_customer_Out(TypedDict):
-    id: str
-    name: str
 
 class Prv_potterybarn_WsgcSearchArgs_In(TypedDict):
     query: str
@@ -57832,6 +57897,7 @@ class Prv_walla_WallaWorkshop_Out_location_u0_Out(TypedDict):
     name: str
 
 class Prv_walla_WallaWorkshop_Out_prices_item_Out(TypedDict):
+    id: float
     type: str
     subtype: str
     amount: float | None
@@ -57882,6 +57948,22 @@ class Prv_walla_JoinWaitlistArgs_In(TypedDict):
     spotType: NotRequired[Literal["in_person"] | Literal["livestream"]]
     locationId: NotRequired[float]
 
+class Prv_walla_BookPrivateSessionArgs_In(TypedDict):
+    studio: str
+    sessionId: float
+    instructorId: float
+    startTime: str
+    spotType: NotRequired[Literal["in_person"] | Literal["livestream"]]
+    locationId: NotRequired[float]
+    passId: NotRequired[float]
+
+class Prv_walla_EnrollWorkshopArgs_In(TypedDict):
+    studio: str
+    workshopId: float
+    priceId: NotRequired[float]
+    spotType: NotRequired[Literal["in_person"] | Literal["livestream"]]
+    locationId: NotRequired[float]
+
 class Prv_walla_CancelBookingArgs_In(TypedDict):
     studio: str
     bookingId: float
@@ -57891,6 +57973,31 @@ class Prv_walla_CancelBookingArgs_In(TypedDict):
 class Prv_walla_WallaCancelResult_Out(TypedDict):
     cancellation: Prv_walla_WallaRawRecord_Out
     feeWarning: str | None
+
+class Prv_walla_UpdateMyProfileArgs_In(TypedDict):
+    studio: str
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+    phoneNumber: NotRequired[str]
+    phoneNumberType: NotRequired[str]
+    address: NotRequired[Prv_walla_UpdateMyProfileArgs_In_address_In]
+
+class Prv_walla_UpdateMyProfileArgs_In_address_In(TypedDict):
+    address1: str
+    address2: NotRequired[str]
+    city: str
+    province: str
+    postalCode: str
+    countryCode: str
+
+class Prv_walla_RequestMembershipCancellationArgs_In(TypedDict):
+    studio: str
+    passId: float
+    reason: Literal["bad_experience"] | Literal["class_times_don't_work_for_my_schedule"] | Literal["classes_aren't_for_me"] | Literal["financial"] | Literal["injury"] | Literal["maternity_leave"] | Literal["membership_change"] | Literal["moving"] | Literal["other"] | Literal["vacation"]
+    reasonOther: NotRequired[str]
+
+class Prv_walla_WallaCancellationRequest_Out(TypedDict):
+    request: Prv_walla_WallaRawRecord_Out
 
 class Prv_walmart_search_args_In(TypedDict):
     query: str
@@ -58130,6 +58237,14 @@ class Prv_washingtonpost_WashingtonpostArticleDetail_Out(TypedDict):
     teaser: NotRequired[str]
     lede: NotRequired[str]
     isAccessibleForFree: bool
+
+class Prv_washingtonpost_WashingtonpostArticleFullText_Out(TypedDict):
+    headline: str
+    byline: NotRequired[str]
+    url: str
+    publishDate: NotRequired[str]
+    section: NotRequired[str]
+    text: str
 
 class Prv_washingtonpost_WashingtonpostWriter_Out(TypedDict):
     slug: str
@@ -58796,6 +58911,21 @@ class Prv_wellnessliving_WellnesslivingSearchClassesArgs_In(TypedDict):
     staffId: NotRequired[str]
     locationId: NotRequired[str]
     date: NotRequired[str]
+
+class Prv_wellnessliving_WellnesslivingLocationInfo_Out(TypedDict):
+    location: Prv_wellnessliving_WellnesslivingLocation_Out
+    businessName: str
+    contactEmail: str
+    officeAddress: str
+    website: str
+    scheduleUrl: str
+    catalogUrl: str
+    signupUrl: str
+    reviewsUrl: str
+    logoUrl: str
+    services: list[str]
+    social: Mapping[str, str]
+    hours: None
 
 class Prv_wellnessliving_WellnesslivingGetLocationScheduleArgs_In(TypedDict):
     scheduleUrl: str
@@ -62288,6 +62418,9 @@ class Prv_zoom_ZoomRecordingDetail_Out(TypedDict):
 
 class Prv_zoom_ZoomRecordingDownload_Out(TypedDict):
     recordingId: str
+    raw: Any
+
+class Prv_zoom_ZoomContacts_Out(TypedDict):
     raw: Any
 
 class Prv_zoom_ZoomProfile_Out(TypedDict):
@@ -72703,6 +72836,12 @@ class Prv_deviantart(Protocol):
         signed in to DeviantArt.
         """
 
+    async def submitDeviation(self, args: Prv_deviantart_submitDeviation_args_In, opts: ConnectionOption | None = None, /) -> Prv_deviantart_DeviantartSubmittedDeviation_Out:
+        """Uploads an image (by URL) to the signed-in caller's DeviantArt account through the
+        site's own upload door and returns the new deviation's id. Title, description, tags and
+        mature flag are not set by this call. Needs a caller signed in to DeviantArt.
+        """
+
 class Prv_devto(Protocol):
     """DEV Community's public articles and member profiles — list recent or tag-filtered
     articles, then look up an author profile — through dev.to's documented API.
@@ -76139,6 +76278,36 @@ class Prv_github(Protocol):
     sorted and paged; a repository search across all of GitHub by name, language, topic,
     stars and other qualifiers.
     """
+
+    async def listWorkflowRuns(self, owner: str, repo: str, options: Prv_github_GithubListWorkflowRunsOptions_In | None = None, /) -> Prv_github_GithubListWorkflowRunsResult_Out:
+        """Lists a public repo's GitHub Actions workflow runs, newest first — answers "is CI green
+        on main / on my branch?". Each run's workflow name, title, run number, branch, head sha,
+        triggering event, status (queued/in_progress/completed) and conclusion
+        (success/failure/cancelled/…, null until completed), dates and URL. `options.branch`,
+        `options.event` (push, pull_request, …) and `options.status` (a status or a conclusion)
+        filter; `per_page` (1-100) and `page` page. Keyless REST, shares the 60 requests/hour
+        per IP ceiling. THROWS on an unknown owner/repo (404) or a rate limit.
+        """
+
+    async def compareCommits(self, owner: str, repo: str, base: str, head: str, /) -> Prv_github_GithubCompareResult_Out:
+        """Compares two refs (tags, branches or commit shas) of a public repo — answers "what
+        changed between v1.7.0 and v1.7.2?". Returns ahead/behind counts, the commits in head
+        not in base (sha, author, date, message, URL) and every changed file with its status,
+        additions, deletions and diff patch. GitHub caps a comparison at 250 commits and 300
+        files; `warnings` says when either cap cut the answer. Keyless REST, shares the 60
+        requests/hour per IP ceiling. THROWS on an unknown repo or ref (404) or a rate limit.
+        """
+
+    async def listSecurityAdvisories(self, options: Prv_github_GithubListSecurityAdvisoriesOptions_In, /) -> Prv_github_GithubListSecurityAdvisoriesResult_Out:
+        """Lists known security vulnerabilities — answers "does this package have known
+        vulnerabilities?". Pass `{ ecosystem: 'npm', package: 'axios' }` (or `package:
+        'axios@1.6.0'` to keep only those affecting that version) to search GitHub's global
+        advisory database, or `{ owner, repo }` for a repository's own published advisories.
+        Each advisory's GHSA id, CVE id, severity, summary, description, affected packages with
+        vulnerable and patched version ranges, published date and URL. `severity`
+        (low/medium/high/critical) filters. Keyless REST, shares the 60 requests/hour per IP
+        ceiling. A package with no advisories returns `advisories: []`.
+        """
 
     async def listCommits(self, owner: str, repo: str, options: Prv_github_GithubListCommitsOptions_In | None = None, /) -> Prv_github_GithubListCommitsResult_Out:
         """Returns a public repo's commit log off GitHub's own unauthenticated REST commits
@@ -86300,6 +86469,21 @@ class Prv_pinterest(Protocol):
         THROWS when the saved session is refused (the run asks for a fresh sign-in).
         """
 
+    async def listNotifications(self, options: Prv_pinterest_listNotifications_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pinterest_listNotifications_return_Out:
+        """The caller's own notifications — who saved, commented on or followed them, newest first,
+        page by page. `GET /resource/ApiResource/get/` proxying the site's own
+        `/v3/news_hub/feed/` call, with the caller's replayed session. THROWS when the saved
+        session is refused (the run asks for a fresh sign-in).
+        """
+
+    async def listUserFollowers(self, username: str, options: Prv_pinterest_listUserFollowers_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pinterest_listUserFollowers_return_Out:
+        """Who follows a person, page by page — the audience side of a profile (the COUNT alone is
+        public, on `getUser`). `GET /resource/ApiResource/get/` proxying
+        `/v3/users/<username>/followers/`, with the caller's replayed session. THROWS
+        `PinterestInputError` on an empty or non-string username, and throws when the saved
+        session is refused.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -86543,24 +86727,6 @@ class Prv_postcodes_io(Protocol):
     async def lookup(self, postcode: str, /) -> Prv_postcodes_io_postcodes_ioLookup_Out:
         """Latitude, longitude, grid reference and ward/district/region/country of a UK postcode
         ("SW1A 1AA")
-        """
-
-class Prv_postiz(Protocol):
-    """Schedule and publish posts across multiple social media platforms"""
-
-    async def listPosts(self, args: Prv_postiz_ListPostsArgs_In, /) -> list[Prv_postiz_PostizPost_Out]:
-        """List scheduled and published posts for a workspace within a date range."""
-
-    async def createPost(self, args: Prv_postiz_CreatePostArgs_In, /) -> Prv_postiz_PostizPost_Out:
-        """Create and schedule a new post on one connected channel. `integrationId` is a channel id
-        from listIntegrations or a listed post's `integrationId` (the row or `integration`
-        object itself is accepted too).
-        """
-
-    async def listIntegrations(self, args: Prv_postiz_ListIntegrationsArgs_In | None = None, /) -> list[Prv_postiz_PostizIntegration_Out]:
-        """List the organization's connected social channels (integrations) with the id createPost
-        takes, the platform, display name, handle and whether it is disabled. `group` filters to
-        one customer's channels.
         """
 
 class Prv_potterybarn(Protocol):
@@ -94679,12 +94845,42 @@ class Prv_walla(Protocol):
         (authFunction); the signed-in success shape is unmeasured.
         """
 
+    async def bookPrivateSession(self, args: Prv_walla_BookPrivateSessionArgs_In, opts: ConnectionOption | None = None, /) -> Prv_walla_WallaBooking_Out:
+        """Books the signed-in client into a private session with one instructor at a given start
+        time, through the site's cart, optionally spending a pass they own. Stops at the payment
+        step: never attaches a card, so a session that needs a charge is refused by the site.
+        Needs the caller's own Walla sign-in (authFunction); the signed-in success shape is
+        unmeasured.
+        """
+
+    async def enrollWorkshop(self, args: Prv_walla_EnrollWorkshopArgs_In, opts: ConnectionOption | None = None, /) -> Prv_walla_WallaBooking_Out:
+        """Enrolls the signed-in client in a workshop, series or training through the site's cart.
+        Stops at the payment step: never attaches a card, so a paid workshop is refused by the
+        site. Needs the caller's own Walla sign-in (authFunction); the signed-in success shape
+        is unmeasured.
+        """
+
     async def cancelBooking(self, args: Prv_walla_CancelBookingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_walla_WallaCancelResult_Out:
         """Cancels one of the signed-in client's class bookings. When classInstanceId is given,
         checks the class's location for a late-cancellation fee policy and refuses unless
         acceptLateCancelFee is true; the site's own cancel door takes no such parameter, so
         without classInstanceId the cancel proceeds unchecked. Needs the caller's own Walla
         sign-in (authFunction); the signed-in success shape is unmeasured.
+        """
+
+    async def updateMyProfile(self, args: Prv_walla_UpdateMyProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_walla_WallaProfile_Out:
+        """Edits the signed-in client's own profile at a studio — name, phone, address — the way
+        the widget's account screen does (PUT /client). Only the fields given are sent. Needs
+        the caller's own Walla sign-in (authFunction); the signed-in success shape is
+        unmeasured.
+        """
+
+    async def requestMembershipCancellation(self, args: Prv_walla_RequestMembershipCancellationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_walla_WallaCancellationRequest_Out:
+        """Sends the studio the signed-in client's request to cancel one of their memberships (a
+        pass id from listMyPasses), with one of the widget's reasons. The studio decides;
+        nothing is cancelled immediately, and only passes whose package allows it (listPricing's
+        allowOnlineCancellationRequest) accept a request. Needs the caller's own Walla sign-in
+        (authFunction).
         """
 
 class Prv_walmart(Protocol):
@@ -94877,6 +95073,11 @@ class Prv_washingtonpost(Protocol):
     async def getArticle(self, url: str, /) -> Prv_washingtonpost_WashingtonpostArticleDetail_Out:
         """Gets one article's own headline, byline, publish date, section and lede. Full body text
         needs the caller's own subscription — see getArticleFullText.
+        """
+
+    async def getArticleFullText(self, url: str, opts: ConnectionOption | None = None, /) -> Prv_washingtonpost_WashingtonpostArticleFullText_Out:
+        """Gets the full text of a subscriber-only article using the CALLER's own Washington Post
+        subscription — never a persona's.
         """
 
     async def getWriter(self, writer: str, /) -> Prv_washingtonpost_WashingtonpostWriter_Out:
@@ -95224,6 +95425,13 @@ class Prv_wellnessliving(Protocol):
         the title or description (`query`), an instructor id from `getInstructors` (`staffId`),
         a location id (`locationId`), or a local date `YYYY-MM-DD` (`date`). Same one-week
         window as `listScheduleClasses`; at least one filter is required.
+        """
+
+    async def getLocationInfo(self, args: Prv_wellnessliving_WellnesslivingGetLocationDetailsArgs_In, /) -> Prv_wellnessliving_WellnesslivingLocationInfo_Out:
+        """Reads a studio location's contact and general info: the location record (address, phone,
+        email, timezone) joined with the business's own name, reply-to email, website,
+        booking/catalog/sign-up/review links, logo, social profiles and which services it
+        offers. `hours` is always null — WellnessLiving's public pages publish no opening hours.
         """
 
     async def getLocationSchedule(self, args: Prv_wellnessliving_WellnesslivingGetLocationScheduleArgs_In, /) -> Prv_wellnessliving_WellnesslivingLocationSchedule_Out:
@@ -97307,6 +97515,19 @@ class Prv_zoom(Protocol):
         door — needs the caller signed in
         """
 
+    async def getContacts(self, type: Literal["company"] | Literal["external"] | None = None, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomContacts_Out:
+        """List the signed-in caller's Zoom contacts — needs the caller signed in"""
+
+    async def searchContacts(self, query: str, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomContacts_Out:
+        """Search the signed-in caller's Zoom company directory by name or email — needs the caller
+        signed in
+        """
+
+    async def getContactInfo(self, contactId: str, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomContacts_Out:
+        """Read one of the signed-in caller's Zoom contacts by id or email — needs the caller
+        signed in
+        """
+
     async def getProfile(self, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomProfile_Out:
         """Read the signed-in caller's own profile from the signed-in caller's profile settings
         page — needs the caller signed in
@@ -97872,7 +98093,6 @@ class BowmarkProviders(Protocol):
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
     postcodes_io: Prv_postcodes_io
-    postiz: Prv_postiz
     potterybarn: Prv_potterybarn
     premierbuildings: Prv_premierbuildings
     preppednplated: Prv_preppednplated

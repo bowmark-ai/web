@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: de7af1c733bce82a7460743435f15ab7d9a92ccf6e7d8a279e122a52b21d4efa
-// 94 capabilities, 761 providers, 4135 typed functions, 20 refused.
+// Manifest version: ae2b159540ab7cd86909b63bfb23332b22d6a7e6939a0e8965a836f05628610d
+// 94 capabilities, 760 providers, 4147 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29685,6 +29685,11 @@ interface DeviantartSentNote {
   sent: boolean;
 }
 
+interface DeviantartSubmittedDeviation {
+  deviationId: string;
+  submitted: boolean;
+}
+
 interface DeviantartWatchFeedResult {
   results: DeviantartGalleryItem[];
   hasMore: boolean;
@@ -29838,6 +29843,13 @@ interface DeviantartPostedComment {
      * DeviantArt.
      */
     sendNote(args: { username: string; text: string }, opts?: ConnectionOption): Promise<DeviantartSentNote>;
+
+    /**
+     * Uploads an image (by URL) to the signed-in caller's DeviantArt account through the site's
+     * own upload door and returns the new deviation's id. Title, description, tags and mature flag
+     * are not set by this call. Needs a caller signed in to DeviantArt.
+     */
+    submitDeviation(args: { imageUrl: string; folderName?: string }, opts?: ConnectionOption): Promise<DeviantartSubmittedDeviation>;
   }
 }
 
@@ -40359,6 +40371,82 @@ interface GeicoAgentDetails {
 
 declare namespace BowmarkProvider_github {
   // ── GitHub — the unit's own declarations, verbatim ──
+interface GithubWorkflowRun {
+  id: number;
+  workflow: string;
+  title: string;
+  runNumber: number;
+  branch: string | null;
+  headSha: string;
+  event: string;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  conclusion: string | null;
+  createdAt: string;
+  updatedAt: string;
+  url: string;
+}
+interface GithubListWorkflowRunsOptions {
+  branch?: string;
+  event?: string;
+  /** A status (`completed`, `in_progress`) or a conclusion (`success`, `failure`). */
+  status?: string;
+  per_page?: number;
+  page?: number;
+}
+interface GithubListWorkflowRunsResult {
+  totalCount: number;
+  runs: GithubWorkflowRun[];
+  warnings: string[];
+}
+interface GithubComparedFile {
+  filename: string;
+  status: string;
+  additions: number;
+  deletions: number;
+  changes: number;
+  patch: string | null;
+}
+interface GithubCompareResult {
+  /** ahead / behind / diverged / identical */
+  status: string;
+  aheadBy: number;
+  behindBy: number;
+  totalCommits: number;
+  commits: { sha: string; authorName: string; date: string; message: string; url: string }[];
+  files: GithubComparedFile[];
+  url: string;
+  warnings: string[];
+}
+interface GithubAdvisory {
+  ghsaId: string;
+  cveId: string | null;
+  severity: string;
+  summary: string;
+  description: string;
+  vulnerabilities: {
+    ecosystem: string | null;
+    package: string | null;
+    vulnerableVersionRange: string | null;
+    patchedVersions: string | null;
+  }[];
+  publishedAt: string | null;
+  url: string;
+}
+interface GithubListSecurityAdvisoriesOptions {
+  /** Global database: npm, pip, maven, go, rubygems, nuget, composer, rust, … */
+  ecosystem?: string;
+  /** Global database: a package name, or name@version to keep only advisories affecting that version. */
+  package?: string;
+  /** A repository's own published advisories instead. Give both. */
+  owner?: string;
+  repo?: string;
+  severity?: string;
+  per_page?: number;
+}
+interface GithubListSecurityAdvisoriesResult {
+  advisories: GithubAdvisory[];
+  warnings: string[];
+}
 interface GithubCommit {
   sha: string;
   authorName: string;
@@ -40847,6 +40935,39 @@ interface GithubPullRequestCreated {
    * and other qualifiers.
    */
   interface Unit {
+    /**
+     * Lists a public repo's GitHub Actions workflow runs, newest first — answers "is CI green on
+     * main / on my branch?". Each run's workflow name, title, run number, branch, head sha,
+     * triggering event, status (queued/in_progress/completed) and conclusion
+     * (success/failure/cancelled/…, null until completed), dates and URL. `options.branch`,
+     * `options.event` (push, pull_request, …) and `options.status` (a status or a conclusion)
+     * filter; `per_page` (1-100) and `page` page. Keyless REST, shares the 60 requests/hour per IP
+     * ceiling. THROWS on an unknown owner/repo (404) or a rate limit.
+     */
+    listWorkflowRuns(owner: string, repo: string, options?: GithubListWorkflowRunsOptions): Promise<GithubListWorkflowRunsResult>;
+
+    /**
+     * Compares two refs (tags, branches or commit shas) of a public repo — answers "what changed
+     * between v1.7.0 and v1.7.2?". Returns ahead/behind counts, the commits in head not in base
+     * (sha, author, date, message, URL) and every changed file with its status, additions,
+     * deletions and diff patch. GitHub caps a comparison at 250 commits and 300 files; `warnings`
+     * says when either cap cut the answer. Keyless REST, shares the 60 requests/hour per IP
+     * ceiling. THROWS on an unknown repo or ref (404) or a rate limit.
+     */
+    compareCommits(owner: string, repo: string, base: string, head: string): Promise<GithubCompareResult>;
+
+    /**
+     * Lists known security vulnerabilities — answers "does this package have known
+     * vulnerabilities?". Pass `{ ecosystem: 'npm', package: 'axios' }` (or `package:
+     * 'axios@1.6.0'` to keep only those affecting that version) to search GitHub's global advisory
+     * database, or `{ owner, repo }` for a repository's own published advisories. Each advisory's
+     * GHSA id, CVE id, severity, summary, description, affected packages with vulnerable and
+     * patched version ranges, published date and URL. `severity` (low/medium/high/critical)
+     * filters. Keyless REST, shares the 60 requests/hour per IP ceiling. A package with no
+     * advisories returns `advisories: []`.
+     */
+    listSecurityAdvisories(options: GithubListSecurityAdvisoriesOptions): Promise<GithubListSecurityAdvisoriesResult>;
+
     /**
      * Returns a public repo's commit log off GitHub's own unauthenticated REST commits endpoint —
      * each commit's sha, author name/email, author date, message and its own github.com URL.
@@ -68202,6 +68323,15 @@ interface PinterestConversation {
   users?: PinterestUser[];
   last_message?: { text?: string; created_at?: string };
 }
+interface PinterestNotification {
+  id: string;
+  news_type?: string;
+  header_text?: string;
+  text?: string;
+  display_mode?: string;
+  unread?: boolean;
+  created_at?: string;
+}
 
   /**
    * Pinterest — search its pins, boards, people and videos, read one pin in full with the
@@ -68435,6 +68565,23 @@ interface PinterestConversation {
      * the saved session is refused (the run asks for a fresh sign-in).
      */
     listConversations(opts?: ConnectionOption): Promise<{ conversations: PinterestConversation[] }>;
+
+    /**
+     * The caller's own notifications — who saved, commented on or followed them, newest first,
+     * page by page. `GET /resource/ApiResource/get/` proxying the site's own `/v3/news_hub/feed/`
+     * call, with the caller's replayed session. THROWS when the saved session is refused (the run
+     * asks for a fresh sign-in).
+     */
+    listNotifications(options?: { bookmark?: string; pageSize?: number }, opts?: ConnectionOption): Promise<{ notifications: PinterestNotification[]; bookmark: string | null }>;
+
+    /**
+     * Who follows a person, page by page — the audience side of a profile (the COUNT alone is
+     * public, on `getUser`). `GET /resource/ApiResource/get/` proxying
+     * `/v3/users/<username>/followers/`, with the caller's replayed session. THROWS
+     * `PinterestInputError` on an empty or non-string username, and throws when the saved session
+     * is refused.
+     */
+    listUserFollowers(username: string, options?: { bookmark?: string; pageSize?: number }, opts?: ConnectionOption): Promise<{ users: PinterestUser[]; bookmark: string | null }>;
   }
 }
 
@@ -69040,70 +69187,6 @@ interface postcodes_ioLookup {
      * 1AA")
      */
     lookup(postcode: string): Promise<postcodes_ioLookup>;
-  }
-}
-
-declare namespace BowmarkProvider_postiz {
-  // ── Postiz — the unit's own declarations, verbatim ──
-interface PostizPost {
-  id: string;
-  content: string;
-  state?: string;
-  publishDate?: string;
-  integrationId?: string;      // the channel's integration id — what createPost's integrationId takes
-  integration?: { id: string; providerIdentifier?: string; name?: string; picture?: string }; // createPost also takes this object as integrationId
-  group?: string;
-}
-
-interface PostizIntegration {  // one connected channel; its id is what createPost's integrationId takes
-  id: string;
-  name: string;
-  identifier: string;          // the platform, e.g. "x", "linkedin", "bluesky"
-  picture?: string;
-  disabled: boolean;
-  profile?: string;            // the account handle
-  customer?: { id: string; name: string };
-}
-
-interface ListIntegrationsArgs {
-  /** A customer (group) id — returns only that group's channels. */
-  group?: string;
-}
-
-interface ListPostsArgs {
-  /** ISO 8601 — Postiz's own list endpoint requires both bounds. */
-  startDate: string;
-  endDate: string;
-  customer?: string;
-}
-
-interface CreatePostArgs {
-  integrationId: string | { id: string }; // an id from listIntegrations / a post's integrationId, or the row itself
-  content: string;
-  type?: "draft" | "schedule" | "now";
-  date?: string;
-  settings?: Record<string, unknown>;
-  shortLink?: boolean;
-}
-
-  /** Schedule and publish posts across multiple social media platforms */
-  interface Unit {
-    /** List scheduled and published posts for a workspace within a date range. */
-    listPosts(args: ListPostsArgs): Promise<PostizPost[]>;
-
-    /**
-     * Create and schedule a new post on one connected channel. `integrationId` is a channel id
-     * from listIntegrations or a listed post's `integrationId` (the row or `integration` object
-     * itself is accepted too).
-     */
-    createPost(args: CreatePostArgs): Promise<PostizPost>;
-
-    /**
-     * List the organization's connected social channels (integrations) with the id createPost
-     * takes, the platform, display name, handle and whether it is disabled. `group` filters to one
-     * customer's channels.
-     */
-    listIntegrations(args?: ListIntegrationsArgs): Promise<PostizIntegration[]>;
   }
 }
 
@@ -93279,7 +93362,13 @@ interface WallaWorkshop {
   capacity: number | null;
   booked: number;
   waitlisted: number;
-  prices: { type: string; subtype: string; amount: number | null; currency: string | null }[];
+  prices: {
+    id: number;
+    type: string;
+    subtype: string;
+    amount: number | null;
+    currency: string | null;
+  }[];
 }
 
 interface WallaWorkshopList {
@@ -93344,6 +93433,24 @@ interface WallaBooking {
   [field: string]: unknown;
 }
 
+interface BookPrivateSessionArgs {
+  studio: string;
+  sessionId: number;
+  instructorId: number;
+  startTime: string;
+  spotType?: "in_person" | "livestream";
+  locationId?: number;
+  passId?: number;
+}
+
+interface EnrollWorkshopArgs {
+  studio: string;
+  workshopId: number;
+  priceId?: number;
+  spotType?: "in_person" | "livestream";
+  locationId?: number;
+}
+
 interface JoinWaitlistArgs {
   studio: string;
   classId: number;
@@ -93361,6 +93468,43 @@ interface CancelBookingArgs {
 interface WallaCancelResult {
   cancellation: WallaRawRecord;
   feeWarning: string | null;
+}
+
+interface UpdateMyProfileArgs {
+  studio: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  phoneNumberType?: string;
+  address?: {
+    address1: string;
+    address2?: string;
+    city: string;
+    province: string;
+    postalCode: string;
+    countryCode: string;
+  };
+}
+
+interface RequestMembershipCancellationArgs {
+  studio: string;
+  passId: number;
+  reason:
+    | "bad_experience"
+    | "class_times_don't_work_for_my_schedule"
+    | "classes_aren't_for_me"
+    | "financial"
+    | "injury"
+    | "maternity_leave"
+    | "membership_change"
+    | "moving"
+    | "other"
+    | "vacation";
+  reasonOther?: string;
+}
+
+interface WallaCancellationRequest {
+  request: WallaRawRecord;
 }
 
   /**
@@ -93474,6 +93618,22 @@ interface WallaCancelResult {
     joinWaitlist(args: JoinWaitlistArgs, opts?: ConnectionOption): Promise<WallaBooking>;
 
     /**
+     * Books the signed-in client into a private session with one instructor at a given start time,
+     * through the site's cart, optionally spending a pass they own. Stops at the payment step:
+     * never attaches a card, so a session that needs a charge is refused by the site. Needs the
+     * caller's own Walla sign-in (authFunction); the signed-in success shape is unmeasured.
+     */
+    bookPrivateSession(args: BookPrivateSessionArgs, opts?: ConnectionOption): Promise<WallaBooking>;
+
+    /**
+     * Enrolls the signed-in client in a workshop, series or training through the site's cart.
+     * Stops at the payment step: never attaches a card, so a paid workshop is refused by the site.
+     * Needs the caller's own Walla sign-in (authFunction); the signed-in success shape is
+     * unmeasured.
+     */
+    enrollWorkshop(args: EnrollWorkshopArgs, opts?: ConnectionOption): Promise<WallaBooking>;
+
+    /**
      * Cancels one of the signed-in client's class bookings. When classInstanceId is given, checks
      * the class's location for a late-cancellation fee policy and refuses unless
      * acceptLateCancelFee is true; the site's own cancel door takes no such parameter, so without
@@ -93481,6 +93641,22 @@ interface WallaCancelResult {
      * (authFunction); the signed-in success shape is unmeasured.
      */
     cancelBooking(args: CancelBookingArgs, opts?: ConnectionOption): Promise<WallaCancelResult>;
+
+    /**
+     * Edits the signed-in client's own profile at a studio — name, phone, address — the way the
+     * widget's account screen does (PUT /client). Only the fields given are sent. Needs the
+     * caller's own Walla sign-in (authFunction); the signed-in success shape is unmeasured.
+     */
+    updateMyProfile(args: UpdateMyProfileArgs, opts?: ConnectionOption): Promise<WallaProfile>;
+
+    /**
+     * Sends the studio the signed-in client's request to cancel one of their memberships (a pass
+     * id from listMyPasses), with one of the widget's reasons. The studio decides; nothing is
+     * cancelled immediately, and only passes whose package allows it (listPricing's
+     * allowOnlineCancellationRequest) accept a request. Needs the caller's own Walla sign-in
+     * (authFunction).
+     */
+    requestMembershipCancellation(args: RequestMembershipCancellationArgs, opts?: ConnectionOption): Promise<WallaCancellationRequest>;
   }
 }
 
@@ -93841,6 +94017,15 @@ interface WashingtonpostArticleDetail {
   isAccessibleForFree: boolean;
 }
 
+interface WashingtonpostArticleFullText {
+  headline: string;
+  byline?: string;
+  url: string;
+  publishDate?: string;
+  section?: string;
+  text: string;
+}
+
 interface WashingtonpostWriter {
   slug: string;
   name: string;
@@ -93935,6 +94120,12 @@ interface WashingtonpostLiveBlog {
      * needs the caller's own subscription — see getArticleFullText.
      */
     getArticle(url: string): Promise<WashingtonpostArticleDetail>;
+
+    /**
+     * Gets the full text of a subscriber-only article using the CALLER's own Washington Post
+     * subscription — never a persona's.
+     */
+    getArticleFullText(url: string, opts?: ConnectionOption): Promise<WashingtonpostArticleFullText>;
 
     /** Gets a Washington Post writer's own byline page — name, job title/desk, bio and headshot. */
     getWriter(writer: string): Promise<WashingtonpostWriter>;
@@ -94852,6 +95043,26 @@ interface wellfoundCompanyDetail {
 
 declare namespace BowmarkProvider_wellnessliving {
   // ── WellnessLiving — the unit's own declarations, verbatim ──
+interface WellnesslivingLocationInfo {
+  location: WellnesslivingLocation;
+  /** The business's own name, as it shows on its booking pages. */
+  businessName: string;
+  /** Reply-to email the business mails customers from; "" when unset. */
+  contactEmail: string;
+  officeAddress: string;
+  website: string;
+  scheduleUrl: string;
+  catalogUrl: string;
+  signupUrl: string;
+  reviewsUrl: string;
+  logoUrl: string;
+  /** Service kinds the business offers on WellnessLiving: "classes", "appointment", "event", ... */
+  services: string[];
+  /** Social profile URLs keyed by network; only the ones the business filled in. */
+  social: Record<string, string>;
+  /** Always null: WellnessLiving's public pages publish no opening hours. */
+  hours: null;
+}
 interface wellnesslivingRow {
   id: string;
 }
@@ -95032,6 +95243,14 @@ interface WellnesslivingClassCapacity {
      * `listScheduleClasses`; at least one filter is required.
      */
     searchClasses(args: WellnesslivingSearchClassesArgs): Promise<WellnesslivingClassSession[]>;
+
+    /**
+     * Reads a studio location's contact and general info: the location record (address, phone,
+     * email, timezone) joined with the business's own name, reply-to email, website,
+     * booking/catalog/sign-up/review links, logo, social profiles and which services it offers.
+     * `hours` is always null — WellnessLiving's public pages publish no opening hours.
+     */
+    getLocationInfo(args: WellnesslivingGetLocationDetailsArgs): Promise<WellnesslivingLocationInfo>;
 
     /**
      * Reads one studio location's class schedule for the week the business's schedule page opens
@@ -100375,6 +100594,10 @@ interface ZoomUpdateProfileResult {
   updated: boolean; // the door accepted the request; no verified post-condition — see manifest.json
 }
 
+interface ZoomContacts {
+  raw: unknown; // Zoom's /v2 contact door JSON; signed-in shape is UNMEASURED — see manifest.json
+}
+
 interface ZoomProfile {
   raw: string; // signed-in response shape is UNMEASURED — see manifest.json
 }
@@ -100446,6 +100669,18 @@ interface ZoomProfile {
      * needs the caller signed in
      */
     downloadRecording(recordingId: string | number, opts?: ConnectionOption): Promise<ZoomRecordingDownload>;
+
+    /** List the signed-in caller's Zoom contacts — needs the caller signed in */
+    getContacts(type?: "company" | "external", opts?: ConnectionOption): Promise<ZoomContacts>;
+
+    /**
+     * Search the signed-in caller's Zoom company directory by name or email — needs the caller
+     * signed in
+     */
+    searchContacts(query: string, opts?: ConnectionOption): Promise<ZoomContacts>;
+
+    /** Read one of the signed-in caller's Zoom contacts by id or email — needs the caller signed in */
+    getContactInfo(contactId: string, opts?: ConnectionOption): Promise<ZoomContacts>;
 
     /**
      * Read the signed-in caller's own profile from the signed-in caller's profile settings page —
@@ -101993,7 +102228,6 @@ interface BowmarkProviders {
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
   postcodes_io: BowmarkProvider_postcodes_io.Unit;
-  postiz: BowmarkProvider_postiz.Unit;
   potterybarn: BowmarkProvider_potterybarn.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
   preppednplated: BowmarkProvider_preppednplated.Unit;
