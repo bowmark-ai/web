@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f18be7391984a8cc15afc4e3e106f4653ab8526981cfd1575aadbfab16c35052
-// 4166 checked, 20 unchecked.
+// Manifest version: b76dfdf7398c25af6a0f57783ecbefa711dae530044daad9174bd8e29ec15af0
+// 4180 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f18be7391984a8cc15afc4e3e106f4653ab8526981cfd1575aadbfab16c35052",
+  "version": "b76dfdf7398c25af6a0f57783ecbefa711dae530044daad9174bd8e29ec15af0",
   "units": {
     "address_validation": {
       "defs": {
@@ -20485,6 +20485,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listSeries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPackages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
         "getMultiServiceAvailability": [
           {
             "name": "args",
@@ -28493,6 +28513,24 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getReservation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "reservationToken",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },
@@ -42600,6 +42638,69 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "FareharborQuoteBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "availabilityId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "tickets",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "FareharborQuoteTicket"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
+        "FareharborQuoteTicket": {
+          "k": "object",
+          "props": [
+            {
+              "name": "customerTypeRateId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "FareharborSearchItemsArgs": {
           "k": "object",
           "props": [
@@ -42664,6 +42765,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FareharborGetAvailabilitySlotArgs"
+            },
+            "optional": false
+          }
+        ],
+        "quoteBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FareharborQuoteBookingArgs"
             },
             "optional": false
           }
@@ -76832,6 +76943,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListCategoryPodcastsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListHeadlinesArgs": {
           "k": "object",
           "props": [
@@ -77030,6 +77153,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listPodcastCategories": [],
+        "listCategoryPodcasts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCategoryPodcastsArgs"
+            },
+            "optional": false
+          }
+        ],
         "getPodcast": [
           {
             "name": "args",
@@ -80961,6 +81094,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "OloStartCheckoutArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "host",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "OloStartOrderArgs": {
           "k": "object",
           "props": [
@@ -81208,6 +81360,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "OloSetHandoffArgs"
+            },
+            "optional": false
+          }
+        ],
+        "startCheckout": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OloStartCheckoutArgs"
             },
             "optional": false
           }
@@ -95372,6 +95534,119 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.rezdy": {
       "defs": {
+        "BookSessionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "quantities",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "priceOptionId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "customer",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "firstName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "lastName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "email",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "mobile",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "countryCode",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "answers",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
         "FindOperatorArgs": {
           "k": "object",
           "props": [
@@ -95617,6 +95892,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetPickupLocationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "bookSession": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookSessionArgs"
             },
             "optional": false
           }
@@ -102640,6 +102925,42 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getBillingHistory": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getAccountBalance": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -102847,6 +103168,110 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SpotappsCateringArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spotId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "occasion",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "budget",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "instructions",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "textingPermission",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "cateringType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SpotappsCheckAvailabilityArgs": {
           "k": "object",
           "props": [
@@ -102889,6 +103314,103 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "SpotappsPrivatePartyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spotId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "occasion",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "budget",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "instructions",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "textingPermission",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "space",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -102992,6 +103514,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SpotappsSpotArgs"
+            },
+            "optional": false
+          }
+        ],
+        "requestPrivateParty": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsPrivatePartyArgs"
+            },
+            "optional": false
+          }
+        ],
+        "requestCatering": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsCateringArgs"
             },
             "optional": false
           }
@@ -105279,6 +105821,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetCommunityHubArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetGameDetailsArgs": {
           "k": "object",
           "props": [
@@ -106090,6 +106652,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ViewInventoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCommunityHub": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCommunityHubArgs"
             },
             "optional": false
           }
@@ -110449,6 +111021,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.threads": {
       "defs": {
+        "GetCustomFeedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetHomeFeedArgs": {
           "k": "object",
           "props": [
@@ -110639,6 +111223,50 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getSavedPosts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listCustomFeeds": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCustomFeed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCustomFeedArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {

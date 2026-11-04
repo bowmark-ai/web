@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f18be7391984a8cc15afc4e3e106f4653ab8526981cfd1575aadbfab16c35052
-// 94 capabilities, 760 providers, 4184 typed functions, 20 refused.
+// Manifest version: b76dfdf7398c25af6a0f57783ecbefa711dae530044daad9174bd8e29ec15af0
+// 94 capabilities, 760 providers, 4198 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17916,6 +17916,44 @@ interface BookerGiftCertificates {
   locationId: number;
   designs: BookerGiftCertificateDesign[];
 }
+interface BookerMoney {
+  amount: number;
+  currencyCode: string;
+}
+interface BookerSeries {
+  id: number;
+  name: string;
+  description: string | null;
+  /** How many visits the series buys. */
+  visits: number | null;
+  pricePerVisit: BookerMoney | null;
+  /** What the whole series costs. */
+  price: BookerMoney | null;
+  /** The same visits bought one at a time. */
+  originalPrice: BookerMoney | null;
+  /** Service ids a visit can be redeemed against. */
+  serviceIds: number[];
+  redeemableForAnyCategory: boolean;
+  daysExpireFromPurchase: number | null;
+}
+interface BookerSeriesList {
+  locationId: number;
+  series: BookerSeries[];
+}
+interface BookerPackage {
+  id: number;
+  name: string;
+  description: string | null;
+  price: BookerMoney | null;
+  originalPrice: BookerMoney | null;
+  durationMinutes: number | null;
+  bookableOnline: boolean;
+  services: { id: number; name: string; durationMinutes: number | null; price: BookerMoney | null }[];
+}
+interface BookerPackageList {
+  locationId: number;
+  packages: BookerPackage[];
+}
 interface BookerSpecialArgs {
   /** A location slug (`kabuki`) or a go.booker.com/location/<slug> URL. */
   location: string;
@@ -18055,6 +18093,19 @@ interface BookerGroupAvailability {
      * not an error.
      */
     getSpecial(args: BookerSpecialArgs): Promise<BookerSpecialLookup>;
+
+    /**
+     * The prepaid series a location sells online (N visits of a service at a per-visit price):
+     * visit count, per-visit and total price, and the service ids each visit redeems against.
+     * Empty when the location sells none.
+     */
+    listSeries(args: BookerLocationArgs): Promise<BookerSeriesList>;
+
+    /**
+     * The service packages a location sells (several services at one price): price, undiscounted
+     * price, total minutes, and each included service. Empty when the location sells none.
+     */
+    listPackages(args: BookerLocationArgs): Promise<BookerPackageList>;
 
     /**
      * Open times for several services booked as ONE visit, back to back — each option gives every
@@ -25158,6 +25209,10 @@ interface CloudbedsOrganizationAvailability {
     minNightlyRate: { amount: string; currency: string } | null;   // amount exactly as Cloudbeds returns it
     minTotalPrice: { amount: string; currency: string } | null }[];
 }
+interface CloudbedsReservation {
+  reservationToken: string;
+  confirmation: Record<string, unknown>;   // Cloudbeds' confirmation payload, passed through unrenamed
+}
 
   /**
    * Cloudbeds booking engine used by independent hotels, hostels and inns: find a property's
@@ -25230,6 +25285,13 @@ interface CloudbedsOrganizationAvailability {
      * one. Amounts are passed through exactly as Cloudbeds returns them, with their currency.
      */
     searchOrganizationAvailability(args: { organization: string; checkIn: string; checkOut: string; currency?: string }): Promise<CloudbedsOrganizationAvailability>;
+
+    /**
+     * Reads a reservation made through a property's Cloudbeds booking page, from the `data_res`
+     * token on its confirmation link (the URL or the bare token). Returns Cloudbeds' confirmation
+     * payload as it sends it. An unknown token is the caller's to fix.
+     */
+    getReservation(args: { reservationToken: string }): Promise<CloudbedsReservation>;
   }
 }
 
@@ -36663,6 +36725,45 @@ interface FareharborAvailabilitySlotDetail extends FareharborSlot {
   bookableCapacity: number | null;
   customerTypeRates: FareharborCustomerTypeRate[];
 }
+interface FareharborQuoteTicket {
+  /** customerTypeRates[].id from getAvailabilitySlot — ids differ per slot. Give this or name. */
+  customerTypeRateId?: number;
+  /** Or the ticket type's exact name, e.g. "Communal Section Seating". */
+  name?: string;
+  /** How many of this ticket type (default 1). */
+  count?: number;
+}
+interface FareharborQuoteBookingArgs {
+  operator: string;
+  itemId: number;
+  /** Numeric slot id from listAvailability().slots[].id. */
+  availabilityId: number;
+  tickets: FareharborQuoteTicket[];
+}
+interface FareharborQuoteLine {
+  customerTypeRateId: number;
+  name: string;
+  count: number;
+  /** Minor units (cents). */
+  unitPriceCents: number;
+  totalCents: number;
+}
+interface FareharborBookingQuote {
+  operator: string;
+  itemId: number;
+  availabilityId: number;
+  startAt: string | null;
+  currency: string | null;
+  lines: FareharborQuoteLine[];
+  priceCents: number;
+  bookingFeeCents: number;
+  taxCents: number;
+  totalDueCents: number;
+  /** What the checkout would take next, e.g. ["card", "applepay"]. */
+  paymentMethods: string[];
+  /** Where a person finishes the booking — the step this function stops before. */
+  checkoutUrl: string;
+}
 
   /**
    * FareHarbor tour, activity and cruise booking pages: find an operator, list its tours, check
@@ -36693,6 +36794,13 @@ interface FareharborAvailabilitySlotDetail extends FareharborSlot {
      * it can be booked under, each with its own party-size limits.
      */
     getAvailabilitySlot(args: FareharborGetAvailabilitySlotArgs): Promise<FareharborAvailabilitySlotDetail>;
+
+    /**
+     * Prices a FareHarbor booking up to the payment step: the ticket lines, booking fee, tax and
+     * total due for a slot and ticket mix, from the checkout's own live quote. Reserves nothing;
+     * returns the checkout url to finish.
+     */
+    quoteBooking(args: FareharborQuoteBookingArgs): Promise<FareharborBookingQuote>;
   }
 }
 
@@ -63449,6 +63557,19 @@ interface NprPodcastCategory {
   url: string;
 }
 
+interface NprCategoryPodcast {
+  id: string;
+  title: string;
+  url: string;
+  org: string | null;
+  image: string | null;
+}
+
+interface ListCategoryPodcastsArgs {
+  /** A category id off listPodcastCategories(), e.g. "2061". */
+  categoryId: string;
+}
+
 interface GetPodcastArgs {
   podcastId: string;
 }
@@ -63598,6 +63719,13 @@ interface NprSeriesStories {
      * Crime…) with the numeric id and slug each one takes.
      */
     listPodcastCategories(): Promise<NprPodcastCategory[]>;
+
+    /**
+     * Every podcast in one category of NPR's directory — id, title, URL, the organization that
+     * makes it and cover art. categoryId is an id off listPodcastCategories() ("2061" is
+     * Technology). Ids of member-station shows can be non-numeric ("g-s1-143588").
+     */
+    listCategoryPodcasts(args: ListCategoryPodcastsArgs): Promise<NprCategoryPodcast[]>;
 
     /**
      * One NPR podcast's details off its own RSS channel — title, npr.org page, description,
@@ -65968,6 +66096,24 @@ interface OloSetHandoffArgs {
   timeWanted?: string;  // a UTC instant from listTimeSlots, when "Advance"
   address?: string;  // delivery address, for "Dispatch"
 }
+interface OloStartCheckoutArgs {
+  host: string;
+  guid: string;
+}
+
+interface OloPaymentMethod {
+  id: number;
+  name: string;
+  provider: string;
+  isGiftCard: boolean;
+}
+
+interface OloCheckout extends OloBasket {
+  readyForCheckout: boolean;
+  paymentMethods: OloPaymentMethod[];
+  canPayCash: boolean;
+  checkoutUrl: string;
+}
 interface OloHandoffResult extends OloBasket {
   readyForCheckout: boolean;  // the site's own checkout validation passed
 }
@@ -66086,6 +66232,13 @@ interface OloHandoffResult extends OloBasket {
      * with readyForCheckout.
      */
     setHandoff(args: OloSetHandoffArgs): Promise<OloHandoffResult>;
+
+    /**
+     * Takes a guest basket (products added, setHandoff run) to the payment step: runs the site's
+     * checkout validation and returns the final total, handoff, accepted payment methods and the
+     * checkout page URL. It never pays.
+     */
+    startCheckout(args: OloStartCheckoutArgs): Promise<OloCheckout>;
 
     /**
      * Returns a placed order's status from its order id (off the confirmation link): status,
@@ -75215,6 +75368,46 @@ interface RezdyPickupList {
   /** Empty when the product offers no pickup list. */
   pickups: RezdyPickupLocation[];
 }
+interface BookSessionArgs {
+  operator: string;
+  /** A product id from listProducts().products[].id. */
+  productId: string;
+  /** YYYY-MM-DD; the first session with seats that day (or that month) is used. */
+  date?: string;
+  /** A session id from getAvailability().sessions[].sessionId; pass its date with it. */
+  sessionId?: string;
+  /** The party; defaults to 1 of the first price option. */
+  quantities?: Array<{ priceOptionId: string; quantity: number }>;
+  /** Only used when the session is free; without it nothing is submitted. */
+  customer?: { firstName: string; lastName: string; email: string; mobile?: string; countryCode?: string };
+  /** Answers to the operator's questions, keyed by the question's label or field. */
+  answers?: Record<string, string>;
+}
+interface RezdyBookingQuestion {
+  field: string;
+  label: string;
+  fieldType: string | null;
+  required: boolean;
+  /** 1-based participant number, or null for an order-level question. */
+  participant: number | null;
+}
+interface RezdyBooking {
+  operator: string;
+  productId: string;
+  sessionId: string;
+  date: string;
+  time: string | null;
+  total: number | null;
+  currency: string | null;
+  /** Payment methods the form offers ("CREDITCARD"); empty when nothing is charged. */
+  paymentOptions: string[];
+  acceptsVoucher: boolean;
+  questions: RezdyBookingQuestion[];
+  /** payment_required: stopped before paying, nothing submitted. review: free, no customer passed. booked: submitted and confirmed. */
+  status: "payment_required" | "review" | "booked";
+  orderNumber: string | null;
+  message: string | null;
+}
 interface RezdyPriceQuote {
   operator: string;
   productId: string;
@@ -75273,6 +75466,14 @@ interface RezdyPriceQuote {
      * booked.
      */
     getPickupLocations(args: GetPickupLocationsArgs): Promise<RezdyPickupList>;
+
+    /**
+     * Fills the operator's cart for a session and party and reads the order review: total,
+     * currency, payment methods and the participant questions. Books it only when nothing is
+     * charged and a customer is passed; otherwise stops before the payment step (status
+     * payment_required) and submits nothing. Never pays.
+     */
+    bookSession(args: BookSessionArgs): Promise<RezdyBooking>;
   }
 }
 
@@ -81260,6 +81461,34 @@ interface SpectrumMobileCoverage {
   rasterAlpha: number;  // the site's own [0,255] raster alpha at the point — 0 is "No Coverage", 255 fully inside; see covered
   sourceUrl: string;
 }
+interface SpectrumPayment {
+  date: string | null;
+  amount: number | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  paymentType: string | null;
+  description: string | null;
+  confirmationNumber: string | null;
+}
+interface SpectrumStatement {
+  id: string;
+  date: string | null;
+}
+interface SpectrumBillingHistory {
+  payments: SpectrumPayment[];  // spectrum.net's own payment history, as its billing page lists it
+  statements: SpectrumStatement[];  // the account's digital bill statements
+}
+interface SpectrumAccountBalance {
+  accountNumberLast4: string | null;  // last four digits only — the full number is never returned
+  totalAmountDue: number | null;
+  paymentDueDate: string | null;
+  paymentDueText: string | null;  // the bill's own due line, verbatim
+  previousBalance: number | null;
+  paymentsMade: number | null;
+  unpaidBalance: number | null;
+  autoPayDate: string | null;
+  statementDate: string | null;
+  statementId: string;  // the newest statement this balance was read from
+}
 
   /**
    * Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check address
@@ -81327,6 +81556,21 @@ interface SpectrumMobileCoverage {
      * text a geocoder accepts: a street address, "City, ST", or a ZIP.
      */
     checkMobileCoverage(location: string): Promise<SpectrumMobileCoverage>;
+
+    /**
+     * The signed-in caller's Spectrum payment history (date, amount, status, payment type,
+     * confirmation number) and list of digital bill statements, read off spectrum.net's own
+     * account GraphQL. Needs the caller signed in to spectrum.net.
+     */
+    getBillingHistory(opts?: ConnectionOption): Promise<SpectrumBillingHistory>;
+
+    /**
+     * The signed-in caller's current Spectrum bill: total amount due, due date, previous balance,
+     * payments made and unpaid balance, read off the newest statement on spectrum.net's own
+     * account GraphQL. Returns only the account number's last four digits. Needs the caller signed
+     * in to spectrum.net.
+     */
+    getAccountBalance(opts?: ConnectionOption): Promise<SpectrumAccountBalance>;
   }
 }
 
@@ -81629,6 +81873,39 @@ interface SpotappsBookReservationArgs {
   space?: string;
   textingPermission?: boolean;
 }
+interface SpotappsInquiryArgs {
+  spotId: string;
+  /** "YYYY-MM-DD". */
+  date: string;
+  /** Exactly as the widget prints it — read one off the matching get…Options() weekdaySlots or dateSlots. */
+  time: string;
+  partySize: number;
+  firstName: string;
+  email: string;
+  phone: string;
+  occasion?: string;
+  budget?: number | string;
+  instructions?: string;
+  textingPermission?: boolean;
+}
+interface SpotappsPrivatePartyArgs extends SpotappsInquiryArgs {
+  /** One of getPrivatePartyOptions().eventSpaces, when the spot lists any. */
+  space?: string;
+}
+interface SpotappsCateringArgs extends SpotappsInquiryArgs {
+  /** One of getCateringOptions().cateringTypes, e.g. "Pick-up". */
+  cateringType?: string;
+  address?: string;
+}
+interface SpotappsInquiryRequest {
+  spotId: string;
+  date: string;
+  time: string;
+  partySize: number;
+  /** The widget's own verdict on the submit — true means SpotHopper recorded the inquiry. */
+  accepted: boolean;
+  inquiryId: string | null;
+}
 interface SpotappsReservationRequest {
   spotId: string;
   date: string;
@@ -81718,6 +81995,19 @@ interface SpotappsJobListing {
      * per-posting detail beyond this category list.
      */
     listJobs(args: SpotappsSpotArgs): Promise<SpotappsJobListing>;
+
+    /**
+     * Sends a private-party / group-event inquiry (date, time, guest count, occasion, budget,
+     * contact details) through the restaurant's widget — an inquiry the restaurant follows up on,
+     * not a confirmed booking.
+     */
+    requestPrivateParty(args: SpotappsPrivatePartyArgs): Promise<SpotappsInquiryRequest>;
+
+    /**
+     * Sends a catering inquiry (date, time, guest count, fulfilment type, contact details) through
+     * the restaurant's widget — an inquiry the restaurant follows up on, not a paid order.
+     */
+    requestCatering(args: SpotappsCateringArgs): Promise<SpotappsInquiryRequest>;
   }
 }
 
@@ -83814,6 +84104,39 @@ interface ViewInventoryResponse {
   hasMore: boolean;
 }
 
+interface GetCommunityHubArgs {
+  appId: string | number;
+}
+
+type SteamHubItemKind =
+  | "announcement"
+  | "discussion"
+  | "review"
+  | "screenshot"
+  | "artwork"
+  | "workshop"
+  | "guide"
+  | "video"
+  | "other";
+
+interface SteamHubItem {
+  kind: SteamHubItemKind;
+  postedAt: string | null;
+  url: string;
+  title: string | null;
+  text: string | null;
+  author: string | null;
+  imageUrl: string | null;
+  commentCount: number | null;
+  rating: number | null;
+}
+
+interface GetCommunityHubResponse {
+  appId: string;
+  gameName: string | null;
+  items: SteamHubItem[];
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -83966,6 +84289,13 @@ interface ViewInventoryResponse {
      * private.
      */
     viewInventory(args: ViewInventoryArgs): Promise<ViewInventoryResponse>;
+
+    /**
+     * Reads the first page of a game's public Steam Community hub by appid: announcements,
+     * discussions, reviews, screenshots, artwork, workshop items, guides and videos, each with its
+     * kind, link, title, text, author, image, comment count and rating.
+     */
+    getCommunityHub(args: GetCommunityHubArgs): Promise<GetCommunityHubResponse>;
   }
 }
 
@@ -87577,6 +87907,24 @@ interface ThreadsHomeFeed {
 interface ThreadsSavedPosts {
   posts: ThreadsPost[];      // first server-rendered page, as /saved lists them
 }
+// listCustomFeeds: the signed-in caller's own custom feeds
+interface ThreadsCustomFeed {
+  id: string;                // what getCustomFeed takes
+  name: string | null;
+  type: string | null;       // Meta's own feed_type, as the site spells it
+  url: string;
+}
+interface ThreadsCustomFeeds {
+  feeds: ThreadsCustomFeed[];
+}
+// getCustomFeed: the posts in one of the caller's custom feeds
+interface GetCustomFeedArgs {
+  id: string;                // from listCustomFeeds (a /custom_feed/<id>/ url also works)
+}
+interface ThreadsCustomFeedPosts {
+  id: string;
+  posts: ThreadsPost[];      // first server-rendered page
+}
 // getActivity: the signed-in caller's own notifications
 interface ThreadsActivityItem {
   id: string;
@@ -87617,6 +87965,20 @@ interface ThreadsActivity {
      * Bowmark Link is attached.
      */
     getSavedPosts(opts?: ConnectionOption): Promise<ThreadsSavedPosts>;
+
+    /**
+     * Lists the custom feeds the signed-in caller follows or built on Threads, with the ids
+     * getCustomFeed takes. Needs the caller signed in to Threads; runs through their own Chrome
+     * when Bowmark Link is attached.
+     */
+    listCustomFeeds(opts?: ConnectionOption): Promise<ThreadsCustomFeeds>;
+
+    /**
+     * Reads the posts in one of the signed-in caller's Threads custom feeds (first page) — author,
+     * text, media and counts. Needs the caller signed in to Threads; runs through their own Chrome
+     * when Bowmark Link is attached.
+     */
+    getCustomFeed(args: GetCustomFeedArgs, opts?: ConnectionOption): Promise<ThreadsCustomFeedPosts>;
 
     /**
      * Reads the signed-in caller's own Threads activity (their notifications): new followers,

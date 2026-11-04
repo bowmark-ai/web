@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f18be7391984a8cc15afc4e3e106f4653ab8526981cfd1575aadbfab16c35052
-# 94 capabilities, 760 providers, 4166 typed functions, 20 refused.
+# Manifest version: b76dfdf7398c25af6a0f57783ecbefa711dae530044daad9174bd8e29ec15af0
+# 94 capabilities, 760 providers, 4180 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10760,6 +10760,46 @@ class Prv_booker_BookerSpecial_Out(TypedDict):
     maxRedemptions: float | None
     availableRedemptions: float | None
 
+class Prv_booker_BookerSeriesList_Out(TypedDict):
+    locationId: float
+    series: list[Prv_booker_BookerSeries_Out]
+
+class Prv_booker_BookerSeries_Out(TypedDict):
+    id: float
+    name: str
+    description: str | None
+    visits: float | None
+    pricePerVisit: Prv_booker_BookerMoney_Out | None
+    price: Prv_booker_BookerMoney_Out | None
+    originalPrice: Prv_booker_BookerMoney_Out | None
+    serviceIds: list[float]
+    redeemableForAnyCategory: bool
+    daysExpireFromPurchase: float | None
+
+class Prv_booker_BookerMoney_Out(TypedDict):
+    amount: float
+    currencyCode: str
+
+class Prv_booker_BookerPackageList_Out(TypedDict):
+    locationId: float
+    packages: list[Prv_booker_BookerPackage_Out]
+
+class Prv_booker_BookerPackage_Out(TypedDict):
+    id: float
+    name: str
+    description: str | None
+    price: Prv_booker_BookerMoney_Out | None
+    originalPrice: Prv_booker_BookerMoney_Out | None
+    durationMinutes: float | None
+    bookableOnline: bool
+    services: list[Prv_booker_BookerPackage_Out_services_item_Out]
+
+class Prv_booker_BookerPackage_Out_services_item_Out(TypedDict):
+    id: float
+    name: str
+    durationMinutes: float | None
+    price: Prv_booker_BookerMoney_Out | None
+
 class Prv_booker_BookerServiceListArgs_In(TypedDict):
     location: str
     serviceIds: Sequence[float]
@@ -15300,6 +15340,13 @@ class Prv_cloudbeds_CloudbedsOrganizationAvailability_Out_properties_item_Out_mi
 class Prv_cloudbeds_CloudbedsOrganizationAvailability_Out_properties_item_Out_minTotalPrice_u0_Out(TypedDict):
     amount: str
     currency: str
+
+class Prv_cloudbeds_getReservation_args_In(TypedDict):
+    reservationToken: str
+
+class Prv_cloudbeds_CloudbedsReservation_Out(TypedDict):
+    reservationToken: str
+    confirmation: Mapping[str, Any]
 
 class Prv_cloudflare_CloudflareComparePlansResult_Out(TypedDict):
     tiers: list[Prv_cloudflare_CloudflarePlanTier_Out]
@@ -22588,6 +22635,38 @@ class Prv_fareharbor_FareharborCustomerTypeRate_Out(TypedDict):
     minPartySize: float | None
     maxPartySize: float | None
     capacityRemaining: float | None
+
+class Prv_fareharbor_FareharborQuoteBookingArgs_In(TypedDict):
+    operator: str
+    itemId: float
+    availabilityId: float
+    tickets: Sequence[Prv_fareharbor_FareharborQuoteTicket_In]
+
+class Prv_fareharbor_FareharborQuoteTicket_In(TypedDict):
+    customerTypeRateId: NotRequired[float]
+    name: NotRequired[str]
+    count: NotRequired[float]
+
+class Prv_fareharbor_FareharborBookingQuote_Out(TypedDict):
+    operator: str
+    itemId: float
+    availabilityId: float
+    startAt: str | None
+    currency: str | None
+    lines: list[Prv_fareharbor_FareharborQuoteLine_Out]
+    priceCents: float
+    bookingFeeCents: float
+    taxCents: float
+    totalDueCents: float
+    paymentMethods: list[str]
+    checkoutUrl: str
+
+class Prv_fareharbor_FareharborQuoteLine_Out(TypedDict):
+    customerTypeRateId: float
+    name: str
+    count: float
+    unitPriceCents: float
+    totalCents: float
 
 class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
     category: str
@@ -37945,6 +38024,16 @@ class Prv_npr_NprPodcastCategory_Out(TypedDict):
     title: str
     url: str
 
+class Prv_npr_ListCategoryPodcastsArgs_In(TypedDict):
+    categoryId: str
+
+class Prv_npr_NprCategoryPodcast_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    org: str | None
+    image: str | None
+
 class Prv_npr_GetPodcastArgs_In(TypedDict):
     podcastId: str
 
@@ -39572,6 +39661,31 @@ class Prv_olo_OloHandoffResult_Out(TypedDict):
     unavailableItems: list[str]
     couponDiscount: float
     readyForCheckout: bool
+
+class Prv_olo_OloStartCheckoutArgs_In(TypedDict):
+    host: str
+    guid: str
+
+class Prv_olo_OloCheckout_Out(TypedDict):
+    guid: str
+    vendorId: float
+    handoffMode: str
+    items: list[Prv_olo_OloBasketProduct_Out]
+    subTotal: float
+    salesTax: float
+    total: float
+    unavailableItems: list[str]
+    couponDiscount: float
+    readyForCheckout: bool
+    paymentMethods: list[Prv_olo_OloPaymentMethod_Out]
+    canPayCash: bool
+    checkoutUrl: str
+
+class Prv_olo_OloPaymentMethod_Out(TypedDict):
+    id: float
+    name: str
+    provider: str
+    isGiftCard: bool
 
 class Prv_olo_OloGetOrderStatusArgs_In(TypedDict):
     host: str
@@ -45660,6 +45774,48 @@ class Prv_rezdy_RezdyPickupLocation_Out(TypedDict):
     pickupTime: str | None
     price: float | None
 
+class Prv_rezdy_BookSessionArgs_In(TypedDict):
+    operator: str
+    productId: str
+    date: NotRequired[str]
+    sessionId: NotRequired[str]
+    quantities: NotRequired[Sequence[Prv_rezdy_BookSessionArgs_In_quantities_item_In]]
+    customer: NotRequired[Prv_rezdy_BookSessionArgs_In_customer_In]
+    answers: NotRequired[Mapping[str, str]]
+
+class Prv_rezdy_BookSessionArgs_In_quantities_item_In(TypedDict):
+    priceOptionId: str
+    quantity: float
+
+class Prv_rezdy_BookSessionArgs_In_customer_In(TypedDict):
+    firstName: str
+    lastName: str
+    email: str
+    mobile: NotRequired[str]
+    countryCode: NotRequired[str]
+
+class Prv_rezdy_RezdyBooking_Out(TypedDict):
+    operator: str
+    productId: str
+    sessionId: str
+    date: str
+    time: str | None
+    total: float | None
+    currency: str | None
+    paymentOptions: list[str]
+    acceptsVoucher: bool
+    questions: list[Prv_rezdy_RezdyBookingQuestion_Out]
+    status: Literal["payment_required"] | Literal["review"] | Literal["booked"]
+    orderNumber: str | None
+    message: str | None
+
+class Prv_rezdy_RezdyBookingQuestion_Out(TypedDict):
+    field: str
+    label: str
+    fieldType: str | None
+    required: bool
+    participant: float | None
+
 class Prv_rightmove_search_args_In(TypedDict):
     location: str
     type: Literal["sale"] | Literal["rent"]
@@ -49694,6 +49850,34 @@ class Prv_spectrum_SpectrumMobileCoverage_Out(TypedDict):
     rasterAlpha: float
     sourceUrl: str
 
+class Prv_spectrum_SpectrumBillingHistory_Out(TypedDict):
+    payments: list[Prv_spectrum_SpectrumPayment_Out]
+    statements: list[Prv_spectrum_SpectrumStatement_Out]
+
+class Prv_spectrum_SpectrumPayment_Out(TypedDict):
+    date: str | None
+    amount: float | None
+    status: str | None
+    paymentType: str | None
+    description: str | None
+    confirmationNumber: str | None
+
+class Prv_spectrum_SpectrumStatement_Out(TypedDict):
+    id: str
+    date: str | None
+
+class Prv_spectrum_SpectrumAccountBalance_Out(TypedDict):
+    accountNumberLast4: str | None
+    totalAmountDue: float | None
+    paymentDueDate: str | None
+    paymentDueText: str | None
+    previousBalance: float | None
+    paymentsMade: float | None
+    unpaidBalance: float | None
+    autoPayDate: str | None
+    statementDate: str | None
+    statementId: str
+
 class Prv_speedrun_FindGameArgs_In(TypedDict):
     name: str
 
@@ -49966,6 +50150,43 @@ class Prv_spotapps_SpotappsJobListing_Out(TypedDict):
     contactPhone: str | None
     positions: list[str]
     allowPhotoUpload: bool
+
+class Prv_spotapps_SpotappsPrivatePartyArgs_In(TypedDict):
+    spotId: str
+    date: str
+    time: str
+    partySize: float
+    firstName: str
+    email: str
+    phone: str
+    occasion: NotRequired[str]
+    budget: NotRequired[float | str]
+    instructions: NotRequired[str]
+    textingPermission: NotRequired[bool]
+    space: NotRequired[str]
+
+class Prv_spotapps_SpotappsInquiryRequest_Out(TypedDict):
+    spotId: str
+    date: str
+    time: str
+    partySize: float
+    accepted: bool
+    inquiryId: str | None
+
+class Prv_spotapps_SpotappsCateringArgs_In(TypedDict):
+    spotId: str
+    date: str
+    time: str
+    partySize: float
+    firstName: str
+    email: str
+    phone: str
+    occasion: NotRequired[str]
+    budget: NotRequired[float | str]
+    instructions: NotRequired[str]
+    textingPermission: NotRequired[bool]
+    cateringType: NotRequired[str]
+    address: NotRequired[str]
 
 class Prv_spotify_SpotifySearchOptions_In(TypedDict):
     types: NotRequired[Sequence[Literal["track"] | Literal["album"] | Literal["artist"] | Literal["playlist"] | Literal["show"] | Literal["episode"]]]
@@ -51596,6 +51817,25 @@ class Prv_steam_SteamInventoryItem_Out(TypedDict):
     iconUrl: str | None
     tradable: bool
     marketable: bool
+
+class Prv_steam_GetCommunityHubArgs_In(TypedDict):
+    appId: str | float
+
+class Prv_steam_GetCommunityHubResponse_Out(TypedDict):
+    appId: str
+    gameName: str | None
+    items: list[Prv_steam_SteamHubItem_Out]
+
+class Prv_steam_SteamHubItem_Out(TypedDict):
+    kind: Literal["announcement"] | Literal["discussion"] | Literal["review"] | Literal["screenshot"] | Literal["artwork"] | Literal["workshop"] | Literal["guide"] | Literal["video"] | Literal["other"]
+    postedAt: str | None
+    url: str
+    title: str | None
+    text: str | None
+    author: str | None
+    imageUrl: str | None
+    commentCount: float | None
+    rating: float | None
 
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
@@ -53881,6 +54121,22 @@ class Prv_threads_ThreadsPost_Out_media_item_Out(TypedDict):
     url: str
 
 class Prv_threads_ThreadsSavedPosts_Out(TypedDict):
+    posts: list[Prv_threads_ThreadsPost_Out]
+
+class Prv_threads_ThreadsCustomFeeds_Out(TypedDict):
+    feeds: list[Prv_threads_ThreadsCustomFeed_Out]
+
+class Prv_threads_ThreadsCustomFeed_Out(TypedDict):
+    id: str
+    name: str | None
+    type: str | None
+    url: str
+
+class Prv_threads_GetCustomFeedArgs_In(TypedDict):
+    id: str
+
+class Prv_threads_ThreadsCustomFeedPosts_Out(TypedDict):
+    id: str
     posts: list[Prv_threads_ThreadsPost_Out]
 
 class Prv_threads_ThreadsActivity_Out(TypedDict):
@@ -69097,6 +69353,18 @@ class Prv_booker(Protocol):
         reason, not an error.
         """
 
+    async def listSeries(self, args: Prv_booker_BookerLocationArgs_In, /) -> Prv_booker_BookerSeriesList_Out:
+        """The prepaid series a location sells online (N visits of a service at a per-visit price):
+        visit count, per-visit and total price, and the service ids each visit redeems against.
+        Empty when the location sells none.
+        """
+
+    async def listPackages(self, args: Prv_booker_BookerLocationArgs_In, /) -> Prv_booker_BookerPackageList_Out:
+        """The service packages a location sells (several services at one price): price,
+        undiscounted price, total minutes, and each included service. Empty when the location
+        sells none.
+        """
+
     async def getMultiServiceAvailability(self, args: Prv_booker_BookerServiceListArgs_In, /) -> Prv_booker_BookerMultiServiceAvailability_Out:
         """Open times for several services booked as ONE visit, back to back — each option gives
         every service's own start time and staff id. Defaults to the next local date the whole
@@ -71533,6 +71801,12 @@ class Prv_cloudbeds(Protocol):
         cheapest nightly rate and stay total, so a caller can compare the whole group before
         picking one. Amounts are passed through exactly as Cloudbeds returns them, with their
         currency.
+        """
+
+    async def getReservation(self, args: Prv_cloudbeds_getReservation_args_In, /) -> Prv_cloudbeds_CloudbedsReservation_Out:
+        """Reads a reservation made through a property's Cloudbeds booking page, from the
+        `data_res` token on its confirmation link (the URL or the bare token). Returns
+        Cloudbeds' confirmation payload as it sends it. An unknown token is the caller's to fix.
         """
 
 class Prv_cloudflare(Protocol):
@@ -75259,6 +75533,12 @@ class Prv_fareharbor(Protocol):
     async def getAvailabilitySlot(self, args: Prv_fareharbor_FareharborGetAvailabilitySlotArgs_In, /) -> Prv_fareharbor_FareharborAvailabilitySlotDetail_Out:
         """One bookable time slot in full: its remaining capacity and every ticket type (customer
         type) it can be booked under, each with its own party-size limits.
+        """
+
+    async def quoteBooking(self, args: Prv_fareharbor_FareharborQuoteBookingArgs_In, /) -> Prv_fareharbor_FareharborBookingQuote_Out:
+        """Prices a FareHarbor booking up to the payment step: the ticket lines, booking fee, tax
+        and total due for a slot and ticket mix, from the checkout's own live quote. Reserves
+        nothing; returns the checkout url to finish.
         """
 
 class Prv_fbsappliance(Protocol):
@@ -85048,6 +85328,12 @@ class Prv_npr(Protocol):
         True Crime…) with the numeric id and slug each one takes.
         """
 
+    async def listCategoryPodcasts(self, args: Prv_npr_ListCategoryPodcastsArgs_In, /) -> list[Prv_npr_NprCategoryPodcast_Out]:
+        """Every podcast in one category of NPR's directory — id, title, URL, the organization that
+        makes it and cover art. categoryId is an id off listPodcastCategories() ("2061" is
+        Technology). Ids of member-station shows can be non-numeric ("g-s1-143588").
+        """
+
     async def getPodcast(self, args: Prv_npr_GetPodcastArgs_In, /) -> Prv_npr_NprPodcastDetails_Out:
         """One NPR podcast's details off its own RSS channel — title, npr.org page, description,
         author, Apple categories, square cover art, feed URL and type. podcastId is an id from
@@ -85895,6 +86181,12 @@ class Prv_olo(Protocol):
         """Sets how and when a guest basket is picked up (carryout, drive-thru, curbside, delivery;
         ASAP or a time slot), then runs the site's own checkout validation and returns the
         basket with readyForCheckout.
+        """
+
+    async def startCheckout(self, args: Prv_olo_OloStartCheckoutArgs_In, /) -> Prv_olo_OloCheckout_Out:
+        """Takes a guest basket (products added, setHandoff run) to the payment step: runs the
+        site's checkout validation and returns the final total, handoff, accepted payment
+        methods and the checkout page URL. It never pays.
         """
 
     async def getOrderStatus(self, args: Prv_olo_OloGetOrderStatusArgs_In, /) -> Prv_olo_OloOrderStatus_Out:
@@ -89220,6 +89512,13 @@ class Prv_rezdy(Protocol):
         nothing is booked.
         """
 
+    async def bookSession(self, args: Prv_rezdy_BookSessionArgs_In, /) -> Prv_rezdy_RezdyBooking_Out:
+        """Fills the operator's cart for a session and party and reads the order review: total,
+        currency, payment methods and the participant questions. Books it only when nothing is
+        charged and a customer is passed; otherwise stops before the payment step (status
+        payment_required) and submits nothing. Never pays.
+        """
+
 class Prv_rightmove(Protocol):
     """Search for properties for sale or rent on Rightmove."""
 
@@ -91189,6 +91488,19 @@ class Prv_spectrum(Protocol):
         a ZIP.
         """
 
+    async def getBillingHistory(self, opts: ConnectionOption | None = None, /) -> Prv_spectrum_SpectrumBillingHistory_Out:
+        """The signed-in caller's Spectrum payment history (date, amount, status, payment type,
+        confirmation number) and list of digital bill statements, read off spectrum.net's own
+        account GraphQL. Needs the caller signed in to spectrum.net.
+        """
+
+    async def getAccountBalance(self, opts: ConnectionOption | None = None, /) -> Prv_spectrum_SpectrumAccountBalance_Out:
+        """The signed-in caller's current Spectrum bill: total amount due, due date, previous
+        balance, payments made and unpaid balance, read off the newest statement on
+        spectrum.net's own account GraphQL. Returns only the account number's last four digits.
+        Needs the caller signed in to spectrum.net.
+        """
+
 class Prv_speedrun(Protocol):
     """Submit speedruns and search game metadata on speedrun.com"""
 
@@ -91290,6 +91602,18 @@ class Prv_spotapps(Protocol):
         """Reads a restaurant's job-application form: whether it's hiring, the position titles the
         form lets a candidate choose, and the application instructions — SpotHopper publishes no
         per-posting detail beyond this category list.
+        """
+
+    async def requestPrivateParty(self, args: Prv_spotapps_SpotappsPrivatePartyArgs_In, /) -> Prv_spotapps_SpotappsInquiryRequest_Out:
+        """Sends a private-party / group-event inquiry (date, time, guest count, occasion, budget,
+        contact details) through the restaurant's widget — an inquiry the restaurant follows up
+        on, not a confirmed booking.
+        """
+
+    async def requestCatering(self, args: Prv_spotapps_SpotappsCateringArgs_In, /) -> Prv_spotapps_SpotappsInquiryRequest_Out:
+        """Sends a catering inquiry (date, time, guest count, fulfilment type, contact details)
+        through the restaurant's widget — an inquiry the restaurant follows up on, not a paid
+        order.
         """
 
 class Prv_spotify(Protocol):
@@ -91950,6 +92274,12 @@ class Prv_steam(Protocol):
         needed, the same anonymous read a browser does on a public inventory tab. appId defaults
         to CS2 (730), contextId to 2. Reports private:true rather than throwing when the
         inventory is private.
+        """
+
+    async def getCommunityHub(self, args: Prv_steam_GetCommunityHubArgs_In, /) -> Prv_steam_GetCommunityHubResponse_Out:
+        """Reads the first page of a game's public Steam Community hub by appid: announcements,
+        discussions, reviews, screenshots, artwork, workshop items, guides and videos, each with
+        its kind, link, title, text, author, image, comment count and rating.
         """
 
 class Prv_stickergiant(Protocol):
@@ -93220,6 +93550,18 @@ class Prv_threads(Protocol):
         """Reads the posts the signed-in caller has saved on Threads (first page) — author, text,
         media and counts. Needs the caller signed in to Threads; runs through their own Chrome
         when Bowmark Link is attached.
+        """
+
+    async def listCustomFeeds(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsCustomFeeds_Out:
+        """Lists the custom feeds the signed-in caller follows or built on Threads, with the ids
+        getCustomFeed takes. Needs the caller signed in to Threads; runs through their own
+        Chrome when Bowmark Link is attached.
+        """
+
+    async def getCustomFeed(self, args: Prv_threads_GetCustomFeedArgs_In, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsCustomFeedPosts_Out:
+        """Reads the posts in one of the signed-in caller's Threads custom feeds (first page) —
+        author, text, media and counts. Needs the caller signed in to Threads; runs through
+        their own Chrome when Bowmark Link is attached.
         """
 
     async def getActivity(self, opts: ConnectionOption | None = None, /) -> Prv_threads_ThreadsActivity_Out:

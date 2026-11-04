@@ -1,5 +1,5 @@
 {
-  "version": "f18be7391984a8cc15afc4e3e106f4653ab8526981cfd1575aadbfab16c35052",
+  "version": "b76dfdf7398c25af6a0f57783ecbefa711dae530044daad9174bd8e29ec15af0",
   "units": {
     "address_validation": {
       "defs": {
@@ -20473,6 +20473,26 @@
             "optional": false
           }
         ],
+        "listSeries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPackages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookerLocationArgs"
+            },
+            "optional": false
+          }
+        ],
         "getMultiServiceAvailability": [
           {
             "name": "args",
@@ -28481,6 +28501,24 @@
                     "k": "string"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getReservation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "reservationToken",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },
@@ -42588,6 +42626,69 @@
             }
           ]
         },
+        "FareharborQuoteBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "availabilityId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "tickets",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "FareharborQuoteTicket"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
+        "FareharborQuoteTicket": {
+          "k": "object",
+          "props": [
+            {
+              "name": "customerTypeRateId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "FareharborSearchItemsArgs": {
           "k": "object",
           "props": [
@@ -42652,6 +42753,16 @@
             "schema": {
               "k": "ref",
               "name": "FareharborGetAvailabilitySlotArgs"
+            },
+            "optional": false
+          }
+        ],
+        "quoteBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FareharborQuoteBookingArgs"
             },
             "optional": false
           }
@@ -76820,6 +76931,18 @@
             }
           ]
         },
+        "ListCategoryPodcastsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListHeadlinesArgs": {
           "k": "object",
           "props": [
@@ -77018,6 +77141,16 @@
           }
         ],
         "listPodcastCategories": [],
+        "listCategoryPodcasts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCategoryPodcastsArgs"
+            },
+            "optional": false
+          }
+        ],
         "getPodcast": [
           {
             "name": "args",
@@ -80949,6 +81082,25 @@
             }
           ]
         },
+        "OloStartCheckoutArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "host",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "guid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "OloStartOrderArgs": {
           "k": "object",
           "props": [
@@ -81196,6 +81348,16 @@
             "schema": {
               "k": "ref",
               "name": "OloSetHandoffArgs"
+            },
+            "optional": false
+          }
+        ],
+        "startCheckout": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "OloStartCheckoutArgs"
             },
             "optional": false
           }
@@ -95360,6 +95522,119 @@
     },
     "providers.rezdy": {
       "defs": {
+        "BookSessionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "quantities",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "priceOptionId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "customer",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "firstName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "lastName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "email",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "mobile",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "countryCode",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "answers",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
         "FindOperatorArgs": {
           "k": "object",
           "props": [
@@ -95605,6 +95880,16 @@
             "schema": {
               "k": "ref",
               "name": "GetPickupLocationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "bookSession": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookSessionArgs"
             },
             "optional": false
           }
@@ -102628,6 +102913,42 @@
             },
             "optional": false
           }
+        ],
+        "getBillingHistory": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getAccountBalance": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -102835,6 +103156,110 @@
             }
           ]
         },
+        "SpotappsCateringArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spotId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "occasion",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "budget",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "instructions",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "textingPermission",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "cateringType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SpotappsCheckAvailabilityArgs": {
           "k": "object",
           "props": [
@@ -102877,6 +103302,103 @@
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "SpotappsPrivatePartyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spotId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "time",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "occasion",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "budget",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "instructions",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "textingPermission",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "space",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -102980,6 +103502,26 @@
             "schema": {
               "k": "ref",
               "name": "SpotappsSpotArgs"
+            },
+            "optional": false
+          }
+        ],
+        "requestPrivateParty": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsPrivatePartyArgs"
+            },
+            "optional": false
+          }
+        ],
+        "requestCatering": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpotappsCateringArgs"
             },
             "optional": false
           }
@@ -105267,6 +105809,26 @@
             }
           ]
         },
+        "GetCommunityHubArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetGameDetailsArgs": {
           "k": "object",
           "props": [
@@ -106078,6 +106640,16 @@
             "schema": {
               "k": "ref",
               "name": "ViewInventoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCommunityHub": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCommunityHubArgs"
             },
             "optional": false
           }
@@ -110437,6 +111009,18 @@
     },
     "providers.threads": {
       "defs": {
+        "GetCustomFeedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetHomeFeedArgs": {
           "k": "object",
           "props": [
@@ -110627,6 +111211,50 @@
           }
         ],
         "getSavedPosts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listCustomFeeds": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCustomFeed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCustomFeedArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
