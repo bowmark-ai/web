@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9697836863afd77b91fa2176b62c821d0978ff7b5754c13978c60dfe7f422bfa
-# 94 capabilities, 760 providers, 4152 typed functions, 20 refused.
+# Manifest version: e9e4323a851f10b6c912280d2483321dd1f4d9f3975b05d3ed26fb0a46fdd458
+# 94 capabilities, 760 providers, 4158 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -36687,6 +36687,52 @@ class Prv_msn_MsnSaveArticleResult_Out(TypedDict):
     articleId: str
     saved: Literal[True]
 
+class Prv_msn_MsnVideoFeedOptions_In(TypedDict):
+    limit: NotRequired[Literal[5] | Literal[10] | Literal[20]]
+    cursor: NotRequired[str]
+
+class Prv_msn_MsnVideoFeed_Out(TypedDict):
+    videos: list[Prv_msn_MsnVideo_Out]
+    nextPageUrl: str | None
+
+class Prv_msn_MsnVideo_Out(TypedDict):
+    id: str
+    title: str
+    abstract: str
+    url: str
+    publishedDateTime: str
+    providerName: str
+    imageUrl: str | None
+    durationSec: float | None
+    mp4Url: str | None
+    captionsUrl: str | None
+
+class Prv_msn_MsnScoresArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["nhl"]
+    date: NotRequired[str]
+
+class Prv_msn_MsnScores_Out(TypedDict):
+    league: str
+    date: str
+    games: list[Prv_msn_MsnGame_Out]
+
+class Prv_msn_MsnGame_Out(TypedDict):
+    id: str
+    name: str | None
+    startDateTime: str
+    status: str
+    venue: str | None
+    tv: list[str]
+    teams: list[Prv_msn_MsnScoreTeam_Out]
+
+class Prv_msn_MsnScoreTeam_Out(TypedDict):
+    name: str
+    alias: str
+    homeAway: str
+    score: float | None
+    outcome: str | None
+    record: str | None
+
 class Prv_municipal_recreation_fees_fetcher_municipal_recreation_fees_fetcherRow_Out(TypedDict):
     municipality: str
     fees: list[Prv_municipal_recreation_fees_fetcher_FeeEntry_Out]
@@ -59320,6 +59366,17 @@ class Prv_whatsapp_WhatsappHelpArticle_Out_links_item_Out(TypedDict):
     text: str
     url: str
 
+class Prv_whatsapp_WhatsappGroupInfo_Out(TypedDict):
+    name: str
+    description: str | None
+    pictureUrl: str | None
+    createdAt: str | None
+    participants: list[Prv_whatsapp_WhatsappGroupParticipant_Out]
+
+class Prv_whatsapp_WhatsappGroupParticipant_Out(TypedDict):
+    name: str
+    isAdmin: bool
+
 class Prv_wholefoodsmarket_SearchResults_Out(TypedDict):
     products: list[Prv_wholefoodsmarket_Product_Out]
     warnings: list[str]
@@ -60322,6 +60379,23 @@ class Prv_wodify_WodifyBookingPolicy_Out(TypedDict):
     cancellationWindowMinutesBefore: float | None
     allowsWaitlist: bool
     autoCancelsIfEmpty: bool
+
+class Prv_wodify_listInstructors_args_In(TypedDict):
+    gymHost: str
+    locationId: float
+
+class Prv_wodify_WodifyCoachRoster_Out(TypedDict):
+    gymHost: str
+    locationId: float
+    coaches: list[Prv_wodify_WodifyCoach_Out]
+
+class Prv_wodify_WodifyCoach_Out(TypedDict):
+    id: str
+    name: str
+    title: str | None
+    bio: str | None
+    photoUrl: str | None
+    links: list[str]
 
 class Prv_workable_WorkableAccount_Out(TypedDict):
     account: str
@@ -70867,9 +70941,10 @@ class Prv_classpass(Protocol):
     with its start time, instructor, duration, credit price and whether it is still open.
     `search` finds every studio inside a radius of a point. The signed-in reads are built —
     `getMyProfile`, `getCreditBalance`, `listMyReservations`, `getReservation`,
-    `getBookingQuote`, `getMySubscription`, `getBillingHistory`, `listFavorites` — each
-    reached and refused through the caller's own session; booking, cancelling, waitlisting
-    and membership pricing are declared but not built yet.
+    `getBookingQuote`, `getMySubscription`, `getBillingHistory`, `listFavorites`,
+    `listOnDemandVideos`, `getVideo` — each reached and refused through the caller's own
+    session; booking, cancelling, waitlisting and membership pricing are declared but not
+    built yet.
     """
 
     async def search(self, query: Prv_classpass_ClasspassSearchQuery_In, /) -> Prv_classpass_ClasspassSearchResult_Out:
@@ -71102,6 +71177,19 @@ class Prv_classpass(Protocol):
         """Lists the studios the signed-in member has saved as favourites. An authFunction,
         returned raw for the same reason as getMyProfile. Anonymously 500 naming a null identity
         parameter, measured 2026-11-02.
+        """
+
+    async def listOnDemandVideos(self, opts: ConnectionOption | None = None, /) -> Any:
+        """Lists the on-demand workout videos included with the signed-in member's plan, with the
+        ids getVideo takes. An authFunction, returned raw for the same reason as getMyProfile.
+        Anonymously 403 `Request lacks an identity payload.`, measured 2026-11-04.
+        """
+
+    async def getVideo(self, videoId: str, opts: ConnectionOption | None = None, /) -> Any:
+        """Returns one on-demand video — title, instructor, length and the stream a member plays —
+        by the id a prior listOnDemandVideos call gave. An authFunction, returned raw for the
+        same reason as getMyProfile. Anonymously 403 `Request lacks an identity payload.` before
+        the id is resolved, measured 2026-11-04.
         """
 
 class Prv_claude(Protocol):
@@ -84016,9 +84104,8 @@ class Prv_msn(Protocol):
         name works instead (e.g. `query=sports` returns NFL/F1/NBA coverage), the way
         `searchNews("sports")` would. "money" and "weather" are not article-feed sections at all
         (their pages are server-rendered quote/forecast data) — use getMarketSummary,
-        getStockQuote or getWeatherForecast. "video" fires its own dedicated feed door and is
-        not yet built. `nextPageUrl` from a prior call passed back as `{ cursor }` reads the
-        next ten.
+        getStockQuote or getWeatherForecast. "video" is its own feed — use getVideoFeed.
+        `nextPageUrl` from a prior call passed back as `{ cursor }` reads the next ten.
         """
 
     async def getArticle(self, url: str, /) -> Prv_msn_MsnArticle_Out:
@@ -84075,6 +84162,23 @@ class Prv_msn(Protocol):
         account through the relay, never a Bowmark one. `articleId` is the `ar-<id>` segment of
         an article URL, or the `articleId` a listSavedArticles/getArticle row already carries.
         Throws a sign-in error when the saved sign-in no longer carries MSN's session cookie.
+        """
+
+    async def getVideoFeed(self, options: Prv_msn_MsnVideoFeedOptions_In | None = None, /) -> Prv_msn_MsnVideoFeed_Out:
+        """Lists the videos MSN's video section (www.msn.com/en-us/video) shows a visitor with no
+        account: title, outlet, summary, publish time, thumbnail, duration in seconds, a direct
+        mp4 link and a captions link where the site has them. `url` is the video's own MSN page.
+        `limit` is 5, 10 or 20 (default 10). Pass a prior call's `nextPageUrl` back as `{ cursor
+        }` to read the next page.
+        """
+
+    async def getScores(self, args: Prv_msn_MsnScoresArgs_In, /) -> Prv_msn_MsnScores_Out:
+        """Returns one league's games on one date the way MSN Sports' scores page does for a
+        visitor with no account: each game's start time, status (e.g. Final, Scheduled, or the
+        live period), venue, TV channels and both teams with name, abbreviation, home/away,
+        score, won/lost and season record. `league` is nfl, nba or nhl; `date` is a UTC calendar
+        day "YYYY-MM-DD" (default today), so an evening US game can fall on the next UTC day. A
+        date with no games returns an empty `games` list.
         """
 
 class Prv_municipal_recreation_fees_fetcher(Protocol):
@@ -95918,6 +96022,13 @@ class Prv_whatsapp(Protocol):
         searchHelpCenter.
         """
 
+    async def getGroupInfo(self, groupName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupInfo_Out:
+        """Reads a group the caller belongs to, opened by its exact displayed name (from listChats
+        or findContact): name, description, picture url, the drawer's own creation line, and
+        each participant's displayed name with whether they are an admin. Needs the caller
+        signed in.
+        """
+
 class Prv_wholefoodsmarket(Protocol):
     """Search Whole Foods product catalog by a SPECIFIC product or category name (e.g. 'organic
     apples'). The store name alone ('whole foods') is not a valid query — it requires a
@@ -96402,6 +96513,15 @@ class Prv_wodify(Protocol):
         matched against that day's schedule exactly as getClassDetails does — `date` must be the
         same day the class was listed on (ISO yyyy-mm-dd, defaults to today). A duration comes
         back null when the gym set no limit.
+        """
+
+    async def listInstructors(self, args: Prv_wodify_listInstructors_args_In, /) -> Prv_wodify_WodifyCoachRoster_Out:
+        """Lists the coaches a Wodify-powered gym publishes on its booking page's Coaches tab —
+        each with name, title, bio, photo URL and social/contact links, in the gym's own line-up
+        order. No login; `gymHost` + `locationId` come from findGym. Many gyms leave "Display
+        Coaches Publicly" off or publish nobody, so `coaches` is often empty; that is the gym's
+        answer, not an error. The schedule's per-class coach names are blanked for logged-out
+        visitors, so this is the only public roster.
         """
 
 class Prv_workable(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9697836863afd77b91fa2176b62c821d0978ff7b5754c13978c60dfe7f422bfa
-// 94 capabilities, 760 providers, 4170 typed functions, 20 refused.
+// Manifest version: e9e4323a851f10b6c912280d2483321dd1f4d9f3975b05d3ed26fb0a46fdd458
+// 94 capabilities, 760 providers, 4176 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -24234,9 +24234,9 @@ interface ClasspassCategory {
    * time, instructor, duration, credit price and whether it is still open. `search` finds every
    * studio inside a radius of a point. The signed-in reads are built — `getMyProfile`,
    * `getCreditBalance`, `listMyReservations`, `getReservation`, `getBookingQuote`,
-   * `getMySubscription`, `getBillingHistory`, `listFavorites` — each reached and refused through
-   * the caller's own session; booking, cancelling, waitlisting and membership pricing are
-   * declared but not built yet.
+   * `getMySubscription`, `getBillingHistory`, `listFavorites`, `listOnDemandVideos`, `getVideo`
+   * — each reached and refused through the caller's own session; booking, cancelling,
+   * waitlisting and membership pricing are declared but not built yet.
    */
   interface Unit {
     /**
@@ -24486,6 +24486,21 @@ interface ClasspassCategory {
      * measured 2026-11-02.
      */
     listFavorites(opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Lists the on-demand workout videos included with the signed-in member's plan, with the ids
+     * getVideo takes. An authFunction, returned raw for the same reason as getMyProfile.
+     * Anonymously 403 `Request lacks an identity payload.`, measured 2026-11-04.
+     */
+    listOnDemandVideos(opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Returns one on-demand video — title, instructor, length and the stream a member plays — by
+     * the id a prior listOnDemandVideos call gave. An authFunction, returned raw for the same
+     * reason as getMyProfile. Anonymously 403 `Request lacks an identity payload.` before the id
+     * is resolved, measured 2026-11-04.
+     */
+    getVideo(videoId: string, opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -61189,6 +61204,58 @@ interface MsnWeatherForecast {
   lastUpdated: string;
   days: MsnWeatherDay[];
 }
+interface MsnVideo {
+  id: string;
+  title: string;
+  abstract: string;
+  url: string;  // the video's own MSN page
+  publishedDateTime: string;
+  providerName: string;
+  imageUrl: string | null;
+  durationSec: number | null;
+  mp4Url: string | null;  // the largest progressive mp4 the site lists
+  captionsUrl: string | null;
+}
+
+interface MsnVideoFeed {
+  videos: MsnVideo[];
+  nextPageUrl: string | null;
+}
+
+interface MsnVideoFeedOptions {
+  limit?: 5 | 10 | 20;
+  cursor?: string;  // a prior call's nextPageUrl
+}
+
+interface MsnScoresArgs {
+  league: "nfl" | "nba" | "nhl";
+  date?: string;  // "YYYY-MM-DD", a UTC day; default today
+}
+
+interface MsnScoreTeam {
+  name: string;
+  alias: string;
+  homeAway: string;  // the site's own label, "Home" or "Away"
+  score: number | null;
+  outcome: string | null;  // the site's own label, e.g. "Won", "Lost"; null before the game ends
+  record: string | null;  // wins-losses[-ties]
+}
+
+interface MsnGame {
+  id: string;
+  name: string | null;  // e.g. "Sunday Night Football"
+  startDateTime: string;
+  status: string;  // the site's own label — read values off a result, e.g. "Final"
+  venue: string | null;
+  tv: string[];
+  teams: MsnScoreTeam[];
+}
+
+interface MsnScores {
+  league: string;
+  date: string;
+  games: MsnGame[];
+}
 
   /**
    * MSN's news portal — top stories, section feeds, article text, money quotes and weather,
@@ -61229,9 +61296,9 @@ interface MsnWeatherForecast {
      * 2026-11-01: steering that door's own `query` parameter with the section name works instead
      * (e.g. `query=sports` returns NFL/F1/NBA coverage), the way `searchNews("sports")` would.
      * "money" and "weather" are not article-feed sections at all (their pages are server-rendered
-     * quote/forecast data) — use getMarketSummary, getStockQuote or getWeatherForecast. "video"
-     * fires its own dedicated feed door and is not yet built. `nextPageUrl` from a prior call
-     * passed back as `{ cursor }` reads the next ten.
+     * quote/forecast data) — use getMarketSummary, getStockQuote or getWeatherForecast. "video" is
+     * its own feed — use getVideoFeed. `nextPageUrl` from a prior call passed back as `{ cursor }`
+     * reads the next ten.
      */
     getSectionFeed(section: "sports" | "entertainment" | "health" | "lifestyle" | "travel" | "autos", options?: { cursor?: string }): Promise<MsnTopStories>;
 
@@ -61295,6 +61362,25 @@ interface MsnWeatherForecast {
      * sign-in error when the saved sign-in no longer carries MSN's session cookie.
      */
     saveArticle(args: MsnSaveArticleArgs, opts?: ConnectionOption): Promise<MsnSaveArticleResult>;
+
+    /**
+     * Lists the videos MSN's video section (www.msn.com/en-us/video) shows a visitor with no
+     * account: title, outlet, summary, publish time, thumbnail, duration in seconds, a direct mp4
+     * link and a captions link where the site has them. `url` is the video's own MSN page. `limit`
+     * is 5, 10 or 20 (default 10). Pass a prior call's `nextPageUrl` back as `{ cursor }` to read
+     * the next page.
+     */
+    getVideoFeed(options?: MsnVideoFeedOptions): Promise<MsnVideoFeed>;
+
+    /**
+     * Returns one league's games on one date the way MSN Sports' scores page does for a visitor
+     * with no account: each game's start time, status (e.g. Final, Scheduled, or the live period),
+     * venue, TV channels and both teams with name, abbreviation, home/away, score, won/lost and
+     * season record. `league` is nfl, nba or nhl; `date` is a UTC calendar day "YYYY-MM-DD"
+     * (default today), so an evening US game can fall on the next UTC day. A date with no games
+     * returns an empty `games` list.
+     */
+    getScores(args: MsnScoresArgs): Promise<MsnScores>;
   }
 }
 
@@ -95762,6 +95848,17 @@ interface WhatsappMedia {
   fileName: string | null;
   dataBase64: string;
 }
+interface WhatsappGroupParticipant {
+  name: string;
+  isAdmin: boolean;
+}
+interface WhatsappGroupInfo {
+  name: string;
+  description: string | null;
+  pictureUrl: string | null;
+  createdAt: string | null;
+  participants: WhatsappGroupParticipant[];
+}
 interface WhatsappBlogPost {
   slug: string;
   title: string;
@@ -95888,6 +95985,13 @@ interface WhatsappBlogPost {
      * searchHelpCenter.
      */
     getHelpArticle(idOrUrl: string): Promise<WhatsappHelpArticle>;
+
+    /**
+     * Reads a group the caller belongs to, opened by its exact displayed name (from listChats or
+     * findContact): name, description, picture url, the drawer's own creation line, and each
+     * participant's displayed name with whether they are an admin. Needs the caller signed in.
+     */
+    getGroupInfo(groupName: string, opts?: ConnectionOption): Promise<WhatsappGroupInfo>;
   }
 }
 
@@ -96986,6 +97090,21 @@ interface WodifyBookingPolicy {
   autoCancelsIfEmpty: boolean;
 }
 
+interface WodifyCoach {
+  id: string;
+  name: string;
+  title: string | null;
+  bio: string | null;
+  photoUrl: string | null;
+  links: string[];
+}
+
+interface WodifyCoachRoster {
+  gymHost: string;
+  locationId: number;
+  coaches: WodifyCoach[];
+}
+
   /** Wodify gym booking — class schedules, pricing and member functions for Wodify-powered gyms. */
   interface Unit {
     /**
@@ -97073,6 +97192,16 @@ interface WodifyBookingPolicy {
      * set no limit.
      */
     readTerms(args: { gymHost: string; locationId: number; classId: number; date?: string }): Promise<WodifyBookingPolicy>;
+
+    /**
+     * Lists the coaches a Wodify-powered gym publishes on its booking page's Coaches tab — each
+     * with name, title, bio, photo URL and social/contact links, in the gym's own line-up order.
+     * No login; `gymHost` + `locationId` come from findGym. Many gyms leave "Display Coaches
+     * Publicly" off or publish nobody, so `coaches` is often empty; that is the gym's answer, not
+     * an error. The schedule's per-class coach names are blanked for logged-out visitors, so this
+     * is the only public roster.
+     */
+    listInstructors(args: { gymHost: string; locationId: number }): Promise<WodifyCoachRoster>;
   }
 }
 

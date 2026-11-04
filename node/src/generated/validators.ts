@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9697836863afd77b91fa2176b62c821d0978ff7b5754c13978c60dfe7f422bfa
-// 4152 checked, 20 unchecked.
+// Manifest version: e9e4323a851f10b6c912280d2483321dd1f4d9f3975b05d3ed26fb0a46fdd458
+// 4158 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9697836863afd77b91fa2176b62c821d0978ff7b5754c13978c60dfe7f422bfa",
+  "version": "e9e4323a851f10b6c912280d2483321dd1f4d9f3975b05d3ed26fb0a46fdd458",
   "units": {
     "address_validation": {
       "defs": {
@@ -27220,6 +27220,49 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listFavorites": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listOnDemandVideos": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "videoId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -74098,6 +74141,72 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "MsnScoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MsnVideoFeedOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 5
+                  },
+                  {
+                    "k": "literal",
+                    "v": 10
+                  },
+                  {
+                    "k": "literal",
+                    "v": 20
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -74280,6 +74389,26 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "getVideoFeed": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "MsnVideoFeedOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getScores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MsnScoresArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -121193,6 +121322,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getGroupInfo": [
+          {
+            "name": "groupName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -123144,6 +123298,31 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listInstructors": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "gymHost",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "locationId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
                 }
               ]
             },

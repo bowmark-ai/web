@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5986 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5988 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3321,9 +3321,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `msccruzeiros.searchCruises` | msccruzeiros.com.br | Search MSC Cruzeiros (Brazil) cruise sailings by destination, departure port, ship… | 🟢 |
 | `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟡 |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
+| `msn.getScores` | msn.com | Returns one league's games on one date the way MSN Sports' scores page does for a… | 🟢 |
 | `msn.getSectionFeed` | msn.com | Returns a top-stories feed scoped to one of six sections — sports, entertainment… | 🟢 |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E… | 🟢 |
 | `msn.getTopStories` | msn.com | Returns the top stories the MSN front page is showing right now, the way www.msn.com… | 🟢 |
+| `msn.getVideoFeed` | msn.com | Lists the videos MSN's video section (www.msn.com/en-us/video) shows a visitor with no… | 🟢 |
 | `msn.getWeatherForecast` | msn.com | Reads the 10-day forecast for a named city off MSN Weather the way… | 🟢 |
 | `msn.listSavedArticles` | msn.com | Lists the articles the signed-in caller has saved to their MSN reading list — the… | 🟢 |
 | `msn.saveArticle` | msn.com | Adds an article to the signed-in caller's MSN reading list — the write half of… | 🟢 |

@@ -484,7 +484,7 @@ mossyoak.com — mossyoak: getMossyoakCheckoutLink, getMossyoakProduct, listMoss
 msc.com — msc: trackShipment
 msc.fema.gov — msc_fema: getFloodZone
 msccruzeiros.com.br — msccruzeiros: quoteCabins, searchCruises (+1 planned)
-msn.com — msn: getArticle, getMarketSummary, getSectionFeed, getStockQuote, getTopStories, getWeatherForecast, listSavedArticles, saveArticle, searchNews
+msn.com — msn: getArticle, getMarketSummary, getScores, getSectionFeed, getStockQuote, getTopStories, getVideoFeed, getWeatherForecast, listSavedArticles, saveArticle, searchNews
 muze.gov.tr — muze_gov_tr: getVisitingHours
 my.auroramedicalspa.com — my_auroramedicalspa_com: getProviders, getServiceCategories, getServices, listLocations
 mybeststudio.us — my_best_studio: bookClass, cancelBooking, findStudio, getClass, joinWaitlist, listClasses, listInstructors, listMemberships, listMyBookings (+2 planned)
