@@ -2560,8 +2560,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grubhub.getFavoriteRestaurants` | grubhub.com | The signed-in diner's favourite Grubhub restaurants, with ids getRestaurant() and… | 🟢 |
 | `grubhub.getMenu` | grubhub.com | The menu of one Grubhub restaurant by search()'s id: categories → items with price… | 🟢 |
 | `grubhub.getMenuItem` | grubhub.com | One Grubhub menu item (ids from getMenu()) with every customization group and option… | 🟢 |
-| `grubhub.getOrderHistory` | grubhub.com | Lists past orders for the signed-in user with dates, restaurants, and amounts. | ⚪ |
-| `grubhub.getOrderStatus` | grubhub.com | Fetches the current status of an order including estimated delivery time. | ⚪ |
+| `grubhub.getOrderHistory` | grubhub.com | The signed-in diner's past Grubhub orders — restaurant, status, total in cents and… | 🟢 |
+| `grubhub.getOrderStatus` | grubhub.com | One Grubhub order's status, ETA and line items, by the id getOrderHistory() returns. | 🟢 |
 | `grubhub.getPaymentMethods` | grubhub.com | Retrieves saved payment methods for the signed-in user. | ⚪ |
 | `grubhub.getPromoOffers` | grubhub.com | Active promo codes, spend-based thresholds and the delivery-fee badge Grubhub shows… | 🟡 |
 | `grubhub.getRestaurant` | grubhub.com | Reads one Grubhub restaurant by search()'s id: address, cuisines, rating, price level… | 🟢 |
@@ -2571,7 +2571,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grubhub.listRestaurants` | grubhub.com | Lists restaurants available for delivery to a given address, paginated with… | ⚪ |
 | `grubhub.placeOrder` | grubhub.com | Completes the checkout and places an order with delivery address and payment. | ⚪ |
 | `grubhub.removeFromCart` | grubhub.com | Removes one line from the Grubhub cart and returns what is left. | 🟢 |
-| `grubhub.saveRestaurant` | grubhub.com | Adds a restaurant to the user's favorites. | ⚪ |
+| `grubhub.saveRestaurant` | grubhub.com | Adds a restaurant (search()'s id) to the signed-in diner's Grubhub favourites and… | 🟢 |
 | `grubhub.search` | grubhub.com | Searches Grubhub for restaurants delivering to (or offering pickup near) a place — by… | 🟢 |
 | `grubhub.searchByLocation` | grubhub.com | Searches for restaurants available in a specific geographic area or city. | ⚪ |
 | `grubhub.updateCartItem` | grubhub.com | Sets the quantity of one Grubhub cart line, keeping its options, and returns the cart. | 🟢 |
@@ -5303,9 +5303,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ubereats.getCheckoutTotal` | ubereats.com | Reads the itemized total at the last screen before payment — subtotal, delivery fee… | 🟢 |
 | `ubereats.getMenuItem` | ubereats.com | Returns one menu item with its description, price, photo and every customization group… | 🟢 |
 | `ubereats.getMyAccount` | ubereats.com | Returns the caller's Uber Eats profile: name, email, phone. | 🟢 |
-| `ubereats.getOrder` | ubereats.com | Returns one past or active order in full — items, fees, status, courier progress. | ⚪ |
+| `ubereats.getOrder` | ubereats.com | Returns one past or active order in full — items, fees, status, courier progress. | 🟢 |
 | `ubereats.getStore` | ubereats.com | Returns one restaurant or store — name, address, hours, rating, whether it is open… | 🟢 |
-| `ubereats.listActiveOrders` | ubereats.com | Lists the caller's orders that are in progress right now, with their status and ETA. | ⚪ |
+| `ubereats.listActiveOrders` | ubereats.com | Lists the caller's orders that are in progress right now, with their status and ETA. | 🟢 |
 | `ubereats.listCategoryStores` | ubereats.com | Lists the stores Uber Eats shows for a cuisine in a city ('mexican in houston-tx') —… | ⚪ |
 | `ubereats.listFavorites` | ubereats.com | Lists the stores the caller has saved as favorites. | ⚪ |
 | `ubereats.listMyAddresses` | ubereats.com | Lists the delivery addresses saved on the caller's account. | ⚪ |

@@ -356,7 +356,7 @@ grainger.com — grainger: findBranch, getProduct, search (+2 planned)
 grandwelcome.com — grandwelcome: getRentalDetail, getRentalQuote, listGrandwelcomeDestinations, searchRentals
 greatlakesdentaltech.com — greatlakesdentaltech: getProduct, search
 greenhouse.io — greenhouse: listJobs (+1 planned)
-grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate, getFavoriteRestaurants, getMenu, getMenuItem, getPromoOffers, getRestaurant, getRestaurantReviews, getSavedAddresses, listCuisines, removeFromCart, search, updateCartItem (+7 planned)
+grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate, getFavoriteRestaurants, getMenu, getMenuItem, getOrderHistory, getOrderStatus, getPromoOffers, getRestaurant, getRestaurantReviews, getSavedAddresses, listCuisines, removeFromCart, saveRestaurant, search, updateCartItem (+4 planned)
 hamptonwaterwine.com — hamptonwaterwine: findNearbyRetailers
 handypro.com — handypro: checkServiceArea, searchServiceCategories (+2 planned)
 hansons.com — hansons: checkAvailability (+1 planned)
@@ -715,7 +715,7 @@ turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfE
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
 twitch.tv — twitch: createHighlight, followChannel, getChannel, getChannelInfo, getChannelSchedule, getClip, getFollowStatus, getStream, getSubscriptionStatus, getVideo, listCategories, listChannelClips, listChannelVods, listFollowedChannels, listLiveStreams, listSubscriptions, listWatchHistory, listWatchLater, searchChannels, searchVideos, sendChatMessage, setChannel, unfollowChannel (+1 planned)
-ubereats.com — ubereats: addToCart, applyPromoCode, browseStores, checkDeliveryAvailability, clearCart, findAddress, findChainStore, getCart, getCheckoutTotal, getMenuItem, getMyAccount, getStore, listOrders, removeFromCart, search, searchStoreProducts, updateCartItem (+11 planned)
+ubereats.com — ubereats: addToCart, applyPromoCode, browseStores, checkDeliveryAvailability, clearCart, findAddress, findChainStore, getCart, getCheckoutTotal, getMenuItem, getMyAccount, getOrder, getStore, listActiveOrders, listOrders, removeFromCart, search, searchStoreProducts, updateCartItem (+9 planned)
 uhaul.com — uhaul: getRates
 uhc.com — uhc_directory: findProviders
 ulrichlifestyle.com — ulrichlifestyle: getConfigurator, listModels, priceConfiguration
