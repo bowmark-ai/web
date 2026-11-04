@@ -124,7 +124,7 @@ booker.com — booker: findLocation, getAvailability, getAvailableDates, getBook
 booking.andstr.com — andstr: getListing, getQuote, search
 booking.com — booking_com: autocompleteDestination, checkPrice, getAccountProfile, getBooking, getProperty, getReviewBreakdown, listAvailability, listBookings, listFilterOptions, listPropertyPhotos, listPropertyReviews, listWishlist, search (+5 planned)
 booking.mangomint.com — mangomint: bookAppointment, checkAvailability, findBusiness, getBusinessInfo, getService, getStaff, listLocations, listMemberships, listPackages, listServiceCategories, listServices, listStaff, validateSlot (+9 planned)
-booksy.com — booksy: bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getBusiness, getBusinessNetwork, getBusinessPhotos, getBusinessReviews, getMyAppointment, getSearchSuggestions, listCategories, listGiftCardOffers, listMyBookings, resolveLocation, searchBusinesses (+13 planned)
+booksy.com — booksy: addFavorite, bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getBusiness, getBusinessContact, getBusinessNetwork, getBusinessPhotos, getBusinessReviews, getMyAppointment, getSearchSuggestions, listCategories, listFavorites, listGiftCardOffers, listMyBookings, removeFavorite, resolveLocation, searchBusinesses (+9 planned)
 borsheims.com — borsheims: configureRing, getProduct, searchProducts
 bowmark.ai — bowmark: getOverview, searchLibrary
 boxlunch.com — boxlunch: search
@@ -134,7 +134,7 @@ breezy.hr — breezyhq: listJobs
 brixton.com — brixton: getBrixtonCheckoutLink, getBrixtonProduct, listBrixtonProducts
 browser-use.com — browser_use: cancelRun, createRun, findSessionBrowser, getBrowser, getRun, getRunStatus, getSession, listRunEvents, listSessionRuns, queueMessage, stopBrowser
 bsb.de — bodensee_schiffsbetriebe_berths: searchHarbors (+1 planned)
-bsky.app — bluesky: getFeed, getFeedInfo, getFollowers, getFollows, getKnownFollowers, getLabelers, getList, getListFeed, getMe, getMyLikes, getPost, getPostLikes, getPostQuotes, getPostReposts, getProfile, getRelationships, getStarterPack, getSuggestedFeeds, getSuggestedFollows, getSuggestedUsers, getThread, getTimeline, getTrendingTopics, getTrends, getUserFeeds, getUserLists, getUserPosts, getUserStarterPacks, listBlockedUsers, listMutedUsers, resolveHandle, searchFeeds, searchPosts, searchStarterPacks, searchUsers, suggestUsers (+21 planned)
+bsky.app — bluesky: getFeed, getFeedInfo, getFollowers, getFollows, getKnownFollowers, getLabelers, getList, getListFeed, getMe, getMyLikes, getPost, getPostLikes, getPostQuotes, getPostReposts, getProfile, getRelationships, getStarterPack, getSuggestedFeeds, getSuggestedFollows, getSuggestedUsers, getThread, getTimeline, getTrendingTopics, getTrends, getUserFeeds, getUserLists, getUserPosts, getUserStarterPacks, listBlockedUsers, listBookmarks, listMutedUsers, listNotifications, resolveHandle, searchFeeds, searchPosts, searchStarterPacks, searchUsers, suggestUsers (+19 planned)
 buacement.com — buacement: nothing callable yet (+1 planned)
 builder.strucsure.com — builder_strucsure_com: getNewConstructionRegistrationFields, listRegistrationStates
 buildingengines.com — buildingengines: getAccessRequestStatus

@@ -548,10 +548,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getUserStarterPacks` | bsky.app | The starter packs a person has made. | 🟢 |
 | `bluesky.likePost` | bsky.app | Like a post as the caller, or undo the like. | ⚪ |
 | `bluesky.listBlockedUsers` | bsky.app | The accounts the caller has blocked. | 🟢 |
-| `bluesky.listBookmarks` | bsky.app | The posts the caller has saved to Bookmarks. | ⚪ |
+| `bluesky.listBookmarks` | bsky.app | The posts the caller has saved to Bookmarks. | 🟢 |
 | `bluesky.listConversations` | bsky.app | The caller's direct-message conversations, most recent first, with the last message… | ⚪ |
 | `bluesky.listMutedUsers` | bsky.app | The accounts the caller has muted. | 🟢 |
-| `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | ⚪ |
+| `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | 🟢 |
 | `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | ⚪ |
 | `bluesky.muteUser` | bsky.app | Mute a person for the caller, or unmute them. | ⚪ |
 | `bluesky.quotePost` | bsky.app | Quote-post an existing post with the caller's own text. | ⚪ |
@@ -667,14 +667,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booking_com.removeFromWishlist` | booking.com | Remove a property from the caller's wishlist. | ⚪ |
 | `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | 🟢 |
 | `booking_com.writeReview` | booking.com | Write a review for a property the caller has booked. | ⚪ |
-| `booksy.addFavorite` | booksy.com | Saves a business to the signed-in caller's favourites. | ⚪ |
+| `booksy.addFavorite` | booksy.com | Saves a business to the signed-in caller's favourites. | 🟢 |
 | `booksy.bookAppointment` | booksy.com | Books an appointment for the signed-in caller: a service variant at a start time, with… | 🟢 |
 | `booksy.buyGiftCard` | booksy.com | Buys a business's gift card or voucher. | ⚪ |
 | `booksy.cancelAppointment` | booksy.com | Cancels one of the signed-in caller's appointments, reporting any cancellation fee the… | 🟢 |
 | `booksy.getAvailability` | booksy.com | Returns the open appointment times for one service at one business over a date range… | 🟢 |
 | `booksy.getBookingQuote` | booksy.com | Prices an appointment before booking it: the service, start and end time, the staff… | 🟡 |
 | `booksy.getBusiness` | booksy.com | Returns one business from its id or its booksy.com page URL: name, description… | 🟢 |
-| `booksy.getBusinessContact` | booksy.com | Returns a business's contact email, which Booksy shows only to a signed-in customer. | ⚪ |
+| `booksy.getBusinessContact` | booksy.com | Returns a business's contact email, which Booksy shows only to a signed-in customer. | 🟢 |
 | `booksy.getBusinessNetwork` | booksy.com | Names the Booksy network a business belongs to (a chain or curated group) and lists… | 🟢 |
 | `booksy.getBusinessPhotos` | booksy.com | Lists a business's portfolio and venue photos, and the photos customers attached to… | 🟢 |
 | `booksy.getBusinessReviews` | booksy.com | Lists a business's customer reviews, newest first: rating, text, date, the service and… | 🟢 |
@@ -683,12 +683,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booksy.getSearchSuggestions` | booksy.com | Turns what a caller typed ("skin fade", "gel nails", a business name) into Booksy's… | 🟢 |
 | `booksy.joinWaitlist` | booksy.com | Puts the signed-in caller on a business's waitlist for a service on a day with no open… | ⚪ |
 | `booksy.listCategories` | booksy.com | Lists Booksy's top-level business categories (Hair, Barber, Nails, Skin Care...), the… | 🟢 |
-| `booksy.listFavorites` | booksy.com | Lists the businesses the signed-in caller has saved as favourites. | ⚪ |
+| `booksy.listFavorites` | booksy.com | Lists the businesses the signed-in caller has saved as favourites. | 🟢 |
 | `booksy.listGiftCardOffers` | booksy.com | Lists the gift cards and vouchers a business sells online: name, value, price… | 🟢 |
 | `booksy.listMyBookings` | booksy.com | Lists the signed-in caller's upcoming and past Booksy appointments: business, service… | 🟢 |
 | `booksy.listMyGiftCards` | booksy.com | Lists the gift cards and vouchers the signed-in caller holds, with balance and validity. | ⚪ |
 | `booksy.payForAppointment` | booksy.com | Pays an appointment's deposit, prepayment or bill through Booksy Pay. | ⚪ |
-| `booksy.removeFavorite` | booksy.com | Removes a business from the signed-in caller's favourites. | ⚪ |
+| `booksy.removeFavorite` | booksy.com | Removes a business from the signed-in caller's favourites. | 🟢 |
 | `booksy.rescheduleAppointment` | booksy.com | Moves one of the signed-in caller's appointments to a new time (and optionally a new… | ⚪ |
 | `booksy.resolveLocation` | booksy.com | Resolves a place a caller names ("Brooklyn", a street address) into the Booksy region… | 🟢 |
 | `booksy.searchBusinesses` | booksy.com | Searches Booksy's marketplace for businesses (barbers, salons, spas, nail, massage… | 🟢 |
