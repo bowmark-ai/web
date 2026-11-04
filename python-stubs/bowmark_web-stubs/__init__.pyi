@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e9e4323a851f10b6c912280d2483321dd1f4d9f3975b05d3ed26fb0a46fdd458
-# 94 capabilities, 760 providers, 4158 typed functions, 20 refused.
+# Manifest version: f18be7391984a8cc15afc4e3e106f4653ab8526981cfd1575aadbfab16c35052
+# 94 capabilities, 760 providers, 4166 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13657,8 +13657,8 @@ class Prv_chatgpt_ChatGPTAccount_Out(TypedDict):
     name: str | None
     plan: str | None
 
-Prv_cheapflights_KayakQuery_In = TypedDict(
-    "Prv_cheapflights_KayakQuery_In",
+Prv_cheapflights_search_query_In = TypedDict(
+    "Prv_cheapflights_search_query_In",
     {
     "from": str,
     "to": str,
@@ -13666,6 +13666,7 @@ Prv_cheapflights_KayakQuery_In = TypedDict(
     "return": NotRequired[str],
     "cabin": NotRequired[Literal["economy"] | Literal["premium"] | Literal["business"] | Literal["first"]],
     "stops": NotRequired[Literal["any"] | Literal["nonstop"] | Literal["1"]],
+    "market": NotRequired[Literal["com"] | Literal["co.uk"] | Literal["ca"]],
     },
 )
 
@@ -13711,12 +13712,13 @@ class Prv_cheapflights_KayakBookingOption_Out(TypedDict):
     freeCancellation: bool | None
     seatsRemaining: float | None
 
-class Prv_cheapflights_KayakHotelQuery_In(TypedDict):
+class Prv_cheapflights_searchHotels_query_In(TypedDict):
     location: str
     checkIn: str
     checkOut: str
     adults: NotRequired[float]
     rooms: NotRequired[float]
+    market: NotRequired[Literal["com"] | Literal["co.uk"] | Literal["ca"]]
 
 class Prv_cheapflights_KayakHotel_Out(TypedDict):
     id: str
@@ -13736,7 +13738,7 @@ class Prv_cheapflights_KayakHotel_Out(TypedDict):
     distanceFrom: str | None
     url: str
 
-class Prv_cheapflights_KayakCarQuery_In(TypedDict):
+class Prv_cheapflights_searchCars_query_In(TypedDict):
     pickup: str
     dropoff: NotRequired[str]
     pickupDate: str
@@ -13744,6 +13746,7 @@ class Prv_cheapflights_KayakCarQuery_In(TypedDict):
     pickupHour: NotRequired[float]
     dropoffHour: NotRequired[float]
     driverAge: NotRequired[float]
+    market: NotRequired[Literal["com"] | Literal["co.uk"] | Literal["ca"]]
 
 class Prv_cheapflights_KayakCar_Out(TypedDict):
     id: str
@@ -16189,6 +16192,50 @@ class Prv_coops_CoopsMeteorologicalObservations_Out_readings_item_Out(TypedDict)
     direction: NotRequired[float]
     directionCompass: NotRequired[str]
     gust: NotRequired[float]
+
+class Prv_coops_CoopsSeaLevelTrend_Out(TypedDict):
+    stationId: str
+    stationName: str
+    trendUnits: str
+    trend: float
+    trendError: float
+    startDate: str | None
+    endDate: str | None
+
+class Prv_coops_CoopsHighTideFloodingHistory_Out(TypedDict):
+    stationId: str
+    years: list[Prv_coops_CoopsHighTideFloodingHistory_Out_years_item_Out]
+
+class Prv_coops_CoopsHighTideFloodingHistory_Out_years_item_Out(TypedDict):
+    year: float
+    majorCount: float | None
+    moderateCount: float | None
+    minorCount: float | None
+    missingDays: float | None
+    percentComplete: float | None
+
+class Prv_coops_GetMonthlyMeanWaterLevelArgs_In(TypedDict):
+    stationId: str
+    beginDate: str
+    endDate: NotRequired[str]
+    units: NotRequired[Literal["english"] | Literal["metric"]]
+
+class Prv_coops_CoopsMonthlyMeanWaterLevel_Out(TypedDict):
+    stationId: str
+    units: Literal["english"] | Literal["metric"]
+    readings: list[Prv_coops_CoopsMonthlyMeanWaterLevel_Out_readings_item_Out]
+
+class Prv_coops_CoopsMonthlyMeanWaterLevel_Out_readings_item_Out(TypedDict):
+    year: float
+    month: float
+    mhhw: float
+    mhw: float
+    msl: float
+    mtl: float
+    mlw: float
+    mllw: float
+    highest: float
+    lowest: float
 
 class Prv_corepoweryoga_ListStudiosArgs_In(TypedDict):
     includeClosed: NotRequired[bool]
@@ -36320,8 +36367,8 @@ class Prv_momence_joinWaitlist_options_In(TypedDict):
     roomSpotId: NotRequired[str | float]
     boughtMembershipIds: NotRequired[Sequence[str | float]]
 
-Prv_momondo_KayakQuery_In = TypedDict(
-    "Prv_momondo_KayakQuery_In",
+Prv_momondo_search_query_In = TypedDict(
+    "Prv_momondo_search_query_In",
     {
     "from": str,
     "to": str,
@@ -36329,6 +36376,7 @@ Prv_momondo_KayakQuery_In = TypedDict(
     "return": NotRequired[str],
     "cabin": NotRequired[Literal["economy"] | Literal["premium"] | Literal["business"] | Literal["first"]],
     "stops": NotRequired[Literal["any"] | Literal["nonstop"] | Literal["1"]],
+    "market": NotRequired[Literal["com"] | Literal["co.uk"] | Literal["de"]],
     },
 )
 
@@ -36374,7 +36422,7 @@ class Prv_momondo_KayakBookingOption_Out(TypedDict):
     freeCancellation: bool | None
     seatsRemaining: float | None
 
-class Prv_momondo_KayakCarQuery_In(TypedDict):
+class Prv_momondo_searchCars_query_In(TypedDict):
     pickup: str
     dropoff: NotRequired[str]
     pickupDate: str
@@ -36382,6 +36430,7 @@ class Prv_momondo_KayakCarQuery_In(TypedDict):
     pickupHour: NotRequired[float]
     dropoffHour: NotRequired[float]
     driverAge: NotRequired[float]
+    market: NotRequired[Literal["com"] | Literal["co.uk"] | Literal["de"]]
 
 class Prv_momondo_KayakCar_Out(TypedDict):
     id: str
@@ -40262,6 +40311,15 @@ class Prv_patreon_LikePostResult_Out(TypedDict):
 class Prv_patreon_CommentOnPostArgs_In(TypedDict):
     postId: str
     body: str
+
+class Prv_patreon_FollowCreatorArgs_In(TypedDict):
+    vanity: str
+
+class Prv_patreon_FollowCreatorResult_Out(TypedDict):
+    vanity: str
+    creatorId: str
+    following: bool
+    startedAt: NotRequired[str]
 
 class Prv_pausestudio_Location_Out(TypedDict):
     id: str
@@ -51662,8 +51720,12 @@ class Prv_stubhub_stubhubEventDetail_Out(TypedDict):
     listingsShown: float
     warnings: list[str]
 
+class Prv_stubhub_listCategories_args_u0_In(TypedDict):
+    query: NotRequired[str]
+
 class Prv_stubhub_stubhubListCategoriesResult_Out(TypedDict):
     categories: list[Prv_stubhub_stubhubCategory_Out]
+    query: str | None
     warnings: list[str]
 
 class Prv_stubhub_stubhubCategory_Out(TypedDict):
@@ -55674,6 +55736,7 @@ class Prv_tumblr_TumblrPost_Out(TypedDict):
     reblogCount: float
     isNsfw: bool
     rebloggedFrom: str | None
+    reblogKey: str
 
 class Prv_tumblr_TumblrGetPostArgs_In(TypedDict):
     name: NotRequired[str]
@@ -55740,6 +55803,16 @@ class Prv_tumblr_TumblrTrendingTag_Out(TypedDict):
     followerCount: float
     recentPostCount: float
     relatedTags: list[str]
+
+class Prv_tumblr_TumblrPostRefArgs_In(TypedDict):
+    id: str
+    reblogKey: str
+
+class Prv_tumblr_TumblrEngageResult_Out(TypedDict):
+    ok: Literal[True]
+
+class Prv_tumblr_TumblrBlogRefArgs_In(TypedDict):
+    name: str
 
 class Prv_turbotax_TurboTaxEdition_Out(TypedDict):
     id: str
@@ -70506,10 +70579,13 @@ class Prv_chatgpt(Protocol):
 
 class Prv_cheapflights(Protocol):
     """Cheapflights (cheapflights.com) — metasearch flight results, cheapest-first, read
-    directly from the result cards.
+    directly from the result cards. Also answers for Cheapflights' UK and Canadian sites:
+    pass `market: "co.uk"` or `market: "ca"` to search, searchHotels or searchCars and
+    prices come back in GBP or CAD with links on that site; getBookingOptions follows the
+    row's own site.
     """
 
-    async def search(self, query: Prv_cheapflights_KayakQuery_In, /) -> list[Prv_cheapflights_KayakFlight_Out]:
+    async def search(self, query: Prv_cheapflights_search_query_In, /) -> list[Prv_cheapflights_KayakFlight_Out]:
         """Runs the search on cheapflights.com and reads the rendered result cards, sorted
         price-ascending. Interaction-gated: the prices only exist after the site's own live poll
         completes, so this is not fetchable as static HTML.
@@ -70526,13 +70602,13 @@ class Prv_cheapflights(Protocol):
         longer offered, so a sold-out fare is never reported as "nobody sells this".
         """
 
-    async def searchHotels(self, query: Prv_cheapflights_KayakHotelQuery_In, /) -> list[Prv_cheapflights_KayakHotel_Out]:
+    async def searchHotels(self, query: Prv_cheapflights_searchHotels_query_In, /) -> list[Prv_cheapflights_KayakHotel_Out]:
         """Runs the stays search on cheapflights.com and returns priced properties for a
         destination and date range, cheapest TOTAL first. Interaction-gated: the prices only
         exist after the site's own multi-phase supplier poll completes.
         """
 
-    async def searchCars(self, query: Prv_cheapflights_KayakCarQuery_In, /) -> list[Prv_cheapflights_KayakCar_Out]:
+    async def searchCars(self, query: Prv_cheapflights_searchCars_query_In, /) -> list[Prv_cheapflights_KayakCar_Out]:
         """Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup
         location and date range, cheapest-first. Interaction-gated: the prices only exist after
         the site's own three-phase supplier poll completes.
@@ -72034,6 +72110,15 @@ class Prv_coops(Protocol):
         """Get a station's weather sensor readings (wind, air temperature, air pressure, water
         temperature, humidity).
         """
+
+    async def getSeaLevelTrend(self, stationId: str, /) -> Prv_coops_CoopsSeaLevelTrend_Out:
+        """Get a station's long-term sea-level trend."""
+
+    async def getHighTideFloodingHistory(self, stationId: str, /) -> Prv_coops_CoopsHighTideFloodingHistory_Out:
+        """Get a station's annual high-tide flood day counts (major/moderate/minor)."""
+
+    async def getMonthlyMeanWaterLevel(self, args: Prv_coops_GetMonthlyMeanWaterLevelArgs_In, /) -> Prv_coops_CoopsMonthlyMeanWaterLevel_Out:
+        """Get a station's monthly mean water levels across every tidal datum."""
 
 class Prv_corepoweryoga(Protocol):
     """Lists studio schedules, books classes, and reads booking details for CorePower Yoga."""
@@ -83962,10 +84047,12 @@ class Prv_momence(Protocol):
 
 class Prv_momondo(Protocol):
     """Momondo (momondo.com) — metasearch flight results, cheapest-first, read directly from
-    the result cards.
+    the result cards. Also answers for Momondo's UK and German sites: pass `market: "co.uk"`
+    or `market: "de"` to search or searchCars and prices come back in GBP or EUR with links
+    on that site; getBookingOptions follows the row's own site.
     """
 
-    async def search(self, query: Prv_momondo_KayakQuery_In, /) -> list[Prv_momondo_KayakFlight_Out]:
+    async def search(self, query: Prv_momondo_search_query_In, /) -> list[Prv_momondo_KayakFlight_Out]:
         """Runs the search on momondo.com and reads the rendered result cards, sorted
         price-ascending. Interaction-gated: the prices only exist after the site's own live poll
         completes, so this is not fetchable as static HTML.
@@ -83982,7 +84069,7 @@ class Prv_momondo(Protocol):
         offered, so a sold-out fare is never reported as "nobody sells this".
         """
 
-    async def searchCars(self, query: Prv_momondo_KayakCarQuery_In, /) -> list[Prv_momondo_KayakCar_Out]:
+    async def searchCars(self, query: Prv_momondo_searchCars_query_In, /) -> list[Prv_momondo_KayakCar_Out]:
         """Runs the car-hire search on momondo.com and returns priced vehicles for a pickup
         location and date range, cheapest-first. Interaction-gated: the prices only exist after
         the site's own three-phase supplier poll completes.
@@ -86187,6 +86274,11 @@ class Prv_patreon(Protocol):
     async def commentOnPost(self, args: Prv_patreon_CommentOnPostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_patreon_patreonComment_Out:
         """Leave a comment on a post as the signed-in caller; returns the comment as Patreon saved
         it. A public write the creator and their members see. Needs the caller signed in.
+        """
+
+    async def followCreator(self, args: Prv_patreon_FollowCreatorArgs_In, opts: ConnectionOption | None = None, /) -> Prv_patreon_FollowCreatorResult_Out:
+        """Follow a creator for free as the signed-in caller — Patreon's free membership, no tier
+        and no money. Needs the caller signed in.
         """
 
 class Prv_pausestudio(Protocol):
@@ -91916,11 +92008,14 @@ class Prv_stubhub(Protocol):
         when you need the seats.
         """
 
-    async def listCategories(self, /) -> Prv_stubhub_stubhubListCategoriesResult_Out:
+    async def listCategories(self, args: Prv_stubhub_listCategories_args_u0_In | str | None = None, /) -> Prv_stubhub_stubhubListCategoriesResult_Out:
         """Returns the genre/category taxonomy StubHub organizes events under (concerts by genre,
         sports by league, theater, family, etc.), each with its own id, name and url — read from
         the site's own sitemap, which is unaffected by the DataDome wall blocking every other
-        function on this provider.
+        function on this provider. With no `query`, returns a curated sample across common
+        leagues and genres (NFL, NBA, rock, theater, …) rather than every one of the sitemap's
+        ~120,000 category rows, most of which are one-off event/tour titles, not genres; pass `{
+        query }` to search the full taxonomy by name.
         """
 
     async def findPerformers(self, args: Prv_stubhub_findPerformers_args_u0_In | str, /) -> Prv_stubhub_stubhubFindPerformersResult_Out:
@@ -94094,6 +94189,18 @@ class Prv_tumblr(Protocol):
         """The site's trending-topics rail — each trending tag's follower count, recent post count
         and related tags.
         """
+
+    async def likePost(self, args: Prv_tumblr_TumblrPostRefArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrEngageResult_Out:
+        """Likes one post as the signed-in caller, given the id and reblogKey off a post row."""
+
+    async def unlikePost(self, args: Prv_tumblr_TumblrPostRefArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrEngageResult_Out:
+        """Removes the signed-in caller's like from one post."""
+
+    async def followBlog(self, args: Prv_tumblr_TumblrBlogRefArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrEngageResult_Out:
+        """Follows a blog from the signed-in caller's account."""
+
+    async def unfollowBlog(self, args: Prv_tumblr_TumblrBlogRefArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrEngageResult_Out:
+        """Unfollows a blog from the signed-in caller's account."""
 
 class Prv_turbotax(Protocol):
     """List TurboTax editions, compare pricing, search help articles, and find local tax

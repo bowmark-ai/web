@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e9e4323a851f10b6c912280d2483321dd1f4d9f3975b05d3ed26fb0a46fdd458
-// 4158 checked, 20 unchecked.
+// Manifest version: f18be7391984a8cc15afc4e3e106f4653ab8526981cfd1575aadbfab16c35052
+// 4166 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e9e4323a851f10b6c912280d2483321dd1f4d9f3975b05d3ed26fb0a46fdd458",
+  "version": "f18be7391984a8cc15afc4e3e106f4653ab8526981cfd1575aadbfab16c35052",
   "units": {
     "address_validation": {
       "defs": {
@@ -25273,57 +25273,20 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.cheapflights": {
       "defs": {
-        "KayakCarQuery": {
-          "k": "object",
-          "props": [
+        "CheapflightsMarket": {
+          "k": "union",
+          "of": [
             {
-              "name": "pickup",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "literal",
+              "v": "com"
             },
             {
-              "name": "dropoff",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
+              "k": "literal",
+              "v": "co.uk"
             },
             {
-              "name": "pickupDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "dropoffDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "pickupHour",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "dropoffHour",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "driverAge",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
+              "k": "literal",
+              "v": "ca"
             }
           ]
         },
@@ -25430,125 +25393,6 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
-        },
-        "KayakHotelQuery": {
-          "k": "object",
-          "props": [
-            {
-              "name": "location",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "checkIn",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "checkOut",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "adults",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "rooms",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "KayakQuery": {
-          "k": "object",
-          "props": [
-            {
-              "name": "from",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "to",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "depart",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "return",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "cabin",
-              "schema": {
-                "k": "union",
-                "of": [
-                  {
-                    "k": "literal",
-                    "v": "economy"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "premium"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "business"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "first"
-                  }
-                ]
-              },
-              "optional": true
-            },
-            {
-              "name": "stops",
-              "schema": {
-                "k": "union",
-                "of": [
-                  {
-                    "k": "literal",
-                    "v": "any"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "nonstop"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "1"
-                  }
-                ]
-              },
-              "optional": true
-            }
-          ]
         }
       },
       "functions": {
@@ -25556,8 +25400,91 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "ref",
-              "name": "KayakQuery"
+              "k": "object",
+              "props": [
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "depart",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "return",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cabin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "economy"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "premium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "business"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "first"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "stops",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "any"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "nonstop"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "1"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "CheapflightsMarket"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -25576,8 +25503,52 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "ref",
-              "name": "KayakHotelQuery"
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkIn",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkOut",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "rooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "CheapflightsMarket"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -25586,8 +25557,66 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "ref",
-              "name": "KayakCarQuery"
+              "k": "object",
+              "props": [
+                {
+                  "name": "pickup",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "dropoff",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "pickupDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "dropoffDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "pickupHour",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "dropoffHour",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "driverAge",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "CheapflightsMarket"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -30639,6 +30668,49 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetMonthlyMeanWaterLevelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "stationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "beginDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "units",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "english"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "metric"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetTidePredictionsArgs": {
           "k": "object",
           "props": [
@@ -30877,6 +30949,34 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetMeteorologicalObservationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSeaLevelTrend": [
+          {
+            "name": "stationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getHighTideFloodingHistory": [
+          {
+            "name": "stationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMonthlyMeanWaterLevel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMonthlyMeanWaterLevelArgs"
             },
             "optional": false
           }
@@ -73541,60 +73641,6 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.momondo": {
       "defs": {
-        "KayakCarQuery": {
-          "k": "object",
-          "props": [
-            {
-              "name": "pickup",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "dropoff",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "pickupDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "dropoffDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "pickupHour",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "dropoffHour",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "driverAge",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        },
         "KayakFlight": {
           "k": "object",
           "props": [
@@ -73699,82 +73745,20 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
-        "KayakQuery": {
-          "k": "object",
-          "props": [
+        "MomondoMarket": {
+          "k": "union",
+          "of": [
             {
-              "name": "from",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "literal",
+              "v": "com"
             },
             {
-              "name": "to",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
+              "k": "literal",
+              "v": "co.uk"
             },
             {
-              "name": "depart",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "return",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "cabin",
-              "schema": {
-                "k": "union",
-                "of": [
-                  {
-                    "k": "literal",
-                    "v": "economy"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "premium"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "business"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "first"
-                  }
-                ]
-              },
-              "optional": true
-            },
-            {
-              "name": "stops",
-              "schema": {
-                "k": "union",
-                "of": [
-                  {
-                    "k": "literal",
-                    "v": "any"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "nonstop"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "1"
-                  }
-                ]
-              },
-              "optional": true
+              "k": "literal",
+              "v": "de"
             }
           ]
         }
@@ -73784,8 +73768,91 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "ref",
-              "name": "KayakQuery"
+              "k": "object",
+              "props": [
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "depart",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "return",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cabin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "economy"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "premium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "business"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "first"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "stops",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "any"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "nonstop"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "1"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "MomondoMarket"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -73804,8 +73871,66 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "query",
             "schema": {
-              "k": "ref",
-              "name": "KayakCarQuery"
+              "k": "object",
+              "props": [
+                {
+                  "name": "pickup",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "dropoff",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "pickupDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "dropoffDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "pickupHour",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "dropoffHour",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "driverAge",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "ref",
+                    "name": "MomondoMarket"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -82270,6 +82395,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "FollowCreatorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "vanity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetCreatorArgs": {
           "k": "object",
           "props": [
@@ -82628,6 +82765,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CommentOnPostArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followCreator": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FollowCreatorArgs"
             },
             "optional": false
           },
@@ -106212,7 +106375,32 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listCategories": [],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "findPerformers": [
           {
             "name": "args",
@@ -113499,6 +113687,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "TumblrBlogRefArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "TumblrFindTagArgs": {
           "k": "object",
           "props": [
@@ -113589,6 +113789,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "TumblrPostRefArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "reblogKey",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -113831,7 +114050,111 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getTrendingTags": []
+        "getTrendingTags": [],
+        "likePost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrPostRefArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unlikePost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrPostRefArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followBlog": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrBlogRefArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowBlog": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TumblrBlogRefArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.turbotax": {

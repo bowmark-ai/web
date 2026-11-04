@@ -505,7 +505,7 @@ nike.com — nike: getLaunch, upcomingLaunches
 notion.com — notion: appendBlocks, createComment, createPage, getDatabase, getMe, getPage, getPageContent, listComments, listUsers, queryDatabase, search, systemStatus, updatePage
 npiregistry.cms.hhs.gov — npi_registry: lookup, search
 npmjs.com — npmjs: getDownloads, search
-npr.org — npr: findStations, getAuthorStories, getLiveStream, getPodcast, getProgramRundown, getStation, getStory, getTranscript, listHeadlines, listNewsletters, listPodcastCategories, listPodcastEpisodes, listPodcasts, listSections, listSectionStories, listSeries, listSeriesStories, searchStories (+1 planned)
+npr.org — npr: findStations, getAuthorStories, getLiveStream, getPodcast, getProgramRundown, getStation, getStory, getTranscript, listCategoryPodcasts, listHeadlines, listNewsletters, listPodcastCategories, listPodcastEpisodes, listPodcasts, listSections, listSectionStories, listSeries, listSeriesStories, searchStories (+1 planned)
 nurturelife.com — nurturelife: getMealBundle, getMealPlans
 nutrafol.com — nutrafol: assessHairWellness, computeHairWellness, getQuizOverview, getQuizQuestions
 nutribullet.com — capitalbrands: getBlenderRecommendation, listQuizQuestions
@@ -691,7 +691,7 @@ threads.com — threads: getActivity, getHomeFeed, getMe, getPost, getProfile, g
 ticketmaster.com — ticketmaster: nothing callable yet (+5 planned)
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
-tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getMeteorologicalObservations, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
+tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getHighTideFloodingHistory, getMeteorologicalObservations, getMonthlyMeanWaterLevel, getSeaLevelTrend, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
 tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listCaptionTracks, listCommentReplies, listComments, listFollowers, listFollowing, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listSoundVideos, listUserVideos, postComment, searchUsers, searchVideos, unfollowUser, unlikeVideo (+4 planned)
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
@@ -710,7 +710,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
-tumblr.com — tumblr: findBlog, findTag, getBlogInfo, getBlogPosts, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, searchBlogPosts, searchPosts (+11 planned)
+tumblr.com — tumblr: findBlog, findTag, followBlog, getBlogInfo, getBlogPosts, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, searchBlogPosts, searchPosts, unfollowBlog, unlikePost (+7 planned)
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals

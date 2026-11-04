@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e9e4323a851f10b6c912280d2483321dd1f4d9f3975b05d3ed26fb0a46fdd458
-// 94 capabilities, 760 providers, 4176 typed functions, 20 refused.
+// Manifest version: f18be7391984a8cc15afc4e3e106f4653ab8526981cfd1575aadbfab16c35052
+// 94 capabilities, 760 providers, 4184 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22689,9 +22689,17 @@ interface KayakCar {
   url: string;             // deep link to this offer
 }
 
+type CheapflightsMarket = "com" | "co.uk" | "ca";
+// Add to any search, searchHotels or searchCars query: { ...query, market: "co.uk" }.
+// Omitted → cheapflights.com. cheapflights.co.uk prices in GBP, cheapflights.ca in CAD.
+// An undeclared storefront is refused by name.
+interface CheapflightsMarketOption { market?: CheapflightsMarket }
+
   /**
    * Cheapflights (cheapflights.com) — metasearch flight results, cheapest-first, read directly
-   * from the result cards.
+   * from the result cards. Also answers for Cheapflights' UK and Canadian sites: pass `market:
+   * "co.uk"` or `market: "ca"` to search, searchHotels or searchCars and prices come back in GBP
+   * or CAD with links on that site; getBookingOptions follows the row's own site.
    */
   interface Unit {
     /**
@@ -22699,7 +22707,7 @@ interface KayakCar {
      * price-ascending. Interaction-gated: the prices only exist after the site's own live poll
      * completes, so this is not fetchable as static HTML.
      */
-    search(query: KayakQuery): Promise<KayakFlight[]>;
+    search(query: KayakQuery & CheapflightsMarketOption): Promise<KayakFlight[]>;
 
     /**
      * For ONE row returned by search(), every seller Cheapflights found for that exact itinerary —
@@ -22718,14 +22726,14 @@ interface KayakCar {
      * and date range, cheapest TOTAL first. Interaction-gated: the prices only exist after the
      * site's own multi-phase supplier poll completes.
      */
-    searchHotels(query: KayakHotelQuery): Promise<KayakHotel[]>;
+    searchHotels(query: KayakHotelQuery & CheapflightsMarketOption): Promise<KayakHotel[]>;
 
     /**
      * Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup
      * location and date range, cheapest-first. Interaction-gated: the prices only exist after the
      * site's own three-phase supplier poll completes.
      */
-    searchCars(query: KayakCarQuery): Promise<KayakCar[]>;
+    searchCars(query: KayakCarQuery & CheapflightsMarketOption): Promise<KayakCar[]>;
   }
 }
 
@@ -26774,6 +26782,52 @@ interface CoopsMeteorologicalObservations {
   }[];
 }
 
+interface CoopsSeaLevelTrend {
+  stationId: string;
+  stationName: string;
+  trendUnits: string; // e.g. "mm/yr" or "inches/decade" — read it, don't assume
+  trend: number;
+  trendError: number;
+  startDate: string | null; // "MM/DD/YYYY"
+  endDate: string | null;
+}
+
+interface CoopsHighTideFloodingHistory {
+  stationId: string;
+  years: {
+    year: number;
+    majorCount: number | null;
+    moderateCount: number | null;
+    minorCount: number | null;
+    missingDays: number | null;
+    percentComplete: number | null;
+  }[];
+}
+
+interface GetMonthlyMeanWaterLevelArgs {
+  stationId: string;
+  beginDate: string; // "YYYY-MM-DD" — required, no default
+  endDate?: string; // defaults to beginDate
+  units?: "english" | "metric"; // default "english" (feet)
+}
+
+interface CoopsMonthlyMeanWaterLevel {
+  stationId: string;
+  units: "english" | "metric";
+  readings: {
+    year: number;
+    month: number;
+    mhhw: number;
+    mhw: number;
+    msl: number;
+    mtl: number;
+    mlw: number;
+    mllw: number;
+    highest: number;
+    lowest: number;
+  }[];
+}
+
   /** NOAA's tide, water-level and current predictions, keyless and public. */
   interface Unit {
     /**
@@ -26811,6 +26865,15 @@ interface CoopsMeteorologicalObservations {
      * temperature, humidity).
      */
     getMeteorologicalObservations(args: GetMeteorologicalObservationsArgs): Promise<CoopsMeteorologicalObservations>;
+
+    /** Get a station's long-term sea-level trend. */
+    getSeaLevelTrend(stationId: string): Promise<CoopsSeaLevelTrend>;
+
+    /** Get a station's annual high-tide flood day counts (major/moderate/minor). */
+    getHighTideFloodingHistory(stationId: string): Promise<CoopsHighTideFloodingHistory>;
+
+    /** Get a station's monthly mean water levels across every tidal datum. */
+    getMonthlyMeanWaterLevel(args: GetMonthlyMeanWaterLevelArgs): Promise<CoopsMonthlyMeanWaterLevel>;
   }
 }
 
@@ -60767,9 +60830,17 @@ interface KayakCar {
   url: string;             // deep link to this offer
 }
 
+type MomondoMarket = "com" | "co.uk" | "de";
+// Add to any search or searchCars query: { ...query, market: "co.uk" }.
+// Omitted → momondo.com. momondo.co.uk prices in GBP, momondo.de in EUR. An undeclared
+// storefront (momondo.fr) is refused by name.
+interface MomondoMarketOption { market?: MomondoMarket }
+
   /**
    * Momondo (momondo.com) — metasearch flight results, cheapest-first, read directly from the
-   * result cards.
+   * result cards. Also answers for Momondo's UK and German sites: pass `market: "co.uk"` or
+   * `market: "de"` to search or searchCars and prices come back in GBP or EUR with links on that
+   * site; getBookingOptions follows the row's own site.
    */
   interface Unit {
     /**
@@ -60777,7 +60848,7 @@ interface KayakCar {
      * Interaction-gated: the prices only exist after the site's own live poll completes, so this
      * is not fetchable as static HTML.
      */
-    search(query: KayakQuery): Promise<KayakFlight[]>;
+    search(query: KayakQuery & MomondoMarketOption): Promise<KayakFlight[]>;
 
     /**
      * For ONE row returned by search(), every seller Momondo found for that exact itinerary — each
@@ -60796,7 +60867,7 @@ interface KayakCar {
      * and date range, cheapest-first. Interaction-gated: the prices only exist after the site's
      * own three-phase supplier poll completes.
      */
-    searchCars(query: KayakCarQuery): Promise<KayakCar[]>;
+    searchCars(query: KayakCarQuery & MomondoMarketOption): Promise<KayakCar[]>;
   }
 }
 
@@ -67102,6 +67173,17 @@ interface CommentOnPostArgs {
   body: string;
 }
 
+interface FollowCreatorArgs {
+  vanity: string;
+}
+
+interface FollowCreatorResult {
+  vanity: string;
+  creatorId: string;
+  following: boolean;
+  startedAt?: string;
+}
+
   /**
    * Reads a Patreon creator's page, tiers, and public posts and comments — logged out. With the
    * caller signed in: their memberships, their home feed, and a creator's member-only posts.
@@ -67176,6 +67258,12 @@ interface CommentOnPostArgs {
      * A public write the creator and their members see. Needs the caller signed in.
      */
     commentOnPost(args: CommentOnPostArgs, opts?: ConnectionOption): Promise<patreonComment>;
+
+    /**
+     * Follow a creator for free as the signed-in caller — Patreon's free membership, no tier and
+     * no money. Needs the caller signed in.
+     */
+    followCreator(args: FollowCreatorArgs, opts?: ConnectionOption): Promise<FollowCreatorResult>;
   }
 }
 
@@ -84043,6 +84131,7 @@ interface stubhubCategory {
 
 interface stubhubListCategoriesResult {
   categories: stubhubCategory[];
+  query: string | null;  // echoes the caller's filter, or null for the curated default sample
   warnings: string[];
 }
 
@@ -84162,9 +84251,12 @@ interface stubhubFavoritesResult {
      * Returns the genre/category taxonomy StubHub organizes events under (concerts by genre,
      * sports by league, theater, family, etc.), each with its own id, name and url — read from the
      * site's own sitemap, which is unaffected by the DataDome wall blocking every other function
-     * on this provider.
+     * on this provider. With no `query`, returns a curated sample across common leagues and genres
+     * (NFL, NBA, rock, theater, …) rather than every one of the sitemap's ~120,000 category rows,
+     * most of which are one-off event/tour titles, not genres; pass `{ query }` to search the full
+     * taxonomy by name.
      */
-    listCategories(): Promise<stubhubListCategoriesResult>;
+    listCategories(args?: { query?: string } | string): Promise<stubhubListCategoriesResult>;
 
     /**
      * Finds a performer, artist or sports team by name and returns its id, display name and
@@ -90143,6 +90235,7 @@ interface TumblrPost {
   isNsfw: boolean;
   /** The blog this was reblogged from, or null for an original post. */
   rebloggedFrom: string | null;
+  reblogKey: string;
 }
 
 interface TumblrPostPage {
@@ -90263,6 +90356,22 @@ interface TumblrTrendingTagsPage {
   tags: TumblrTrendingTag[];
 }
 
+interface TumblrPostRefArgs {
+  /** The post id, off a post row. */
+  id: string;
+  /** The post row's reblogKey. */
+  reblogKey: string;
+}
+
+interface TumblrBlogRefArgs {
+  /** A blog name like "staff", or its tumblr.com url. */
+  name: string;
+}
+
+interface TumblrEngageResult {
+  ok: true;
+}
+
   /**
    * Tumblr's public API — blog info, posts, tag timelines, trending, and site-wide or
    * blog-scoped search.
@@ -90333,6 +90442,18 @@ interface TumblrTrendingTagsPage {
      * related tags.
      */
     getTrendingTags(): Promise<TumblrTrendingTagsPage>;
+
+    /** Likes one post as the signed-in caller, given the id and reblogKey off a post row. */
+    likePost(args: TumblrPostRefArgs, opts?: ConnectionOption): Promise<TumblrEngageResult>;
+
+    /** Removes the signed-in caller's like from one post. */
+    unlikePost(args: TumblrPostRefArgs, opts?: ConnectionOption): Promise<TumblrEngageResult>;
+
+    /** Follows a blog from the signed-in caller's account. */
+    followBlog(args: TumblrBlogRefArgs, opts?: ConnectionOption): Promise<TumblrEngageResult>;
+
+    /** Unfollows a blog from the signed-in caller's account. */
+    unfollowBlog(args: TumblrBlogRefArgs, opts?: ConnectionOption): Promise<TumblrEngageResult>;
   }
 }
 

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5989 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5993 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1282,7 +1282,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `coops.getCurrentPredictions` | tidesandcurrents.noaa.gov | Get current predictions for a station. | 🟢 |
 | `coops.getCurrents` | tidesandcurrents.noaa.gov | Get current observations for a station. | 🟢 |
 | `coops.getHighLowTides` | tidesandcurrents.noaa.gov | Get high/low tide extremes for a station and date range. | 🟢 |
+| `coops.getHighTideFloodingHistory` | tidesandcurrents.noaa.gov | Get a station's annual high-tide flood day counts (major/moderate/minor). | 🟢 |
 | `coops.getMeteorologicalObservations` | tidesandcurrents.noaa.gov | Get a station's weather sensor readings (wind, air temperature, air pressure, water… | 🟢 |
+| `coops.getMonthlyMeanWaterLevel` | tidesandcurrents.noaa.gov | Get a station's monthly mean water levels across every tidal datum. | 🟢 |
+| `coops.getSeaLevelTrend` | tidesandcurrents.noaa.gov | Get a station's long-term sea-level trend. | 🟢 |
 | `coops.getStationDatums` | tidesandcurrents.noaa.gov | Get a station's tidal datums (MHHW, MLLW, etc) and the epoch they're referenced to. | 🟢 |
 | `coops.getStationHarmonicConstituents` | tidesandcurrents.noaa.gov | Get a station's harmonic constituents used to derive its tide predictions. | 🟢 |
 | `coops.getStationMetadata` | tidesandcurrents.noaa.gov | Get a station's location, timezone and the product pages it publishes. | 🟢 |
@@ -3448,6 +3451,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.getStation` | npr.org | Read one member station's details — brand, frequency, market, homepage, donation page… | 🟢 |
 | `npr.getStory` | npr.org | A complete NPR story — headline, publication date, author, body text and (when… | 🟢 |
 | `npr.getTranscript` | npr.org | Read the broadcast transcript of a story or episode that aired, given its story id. | 🟢 |
+| `npr.listCategoryPodcasts` | npr.org | List every podcast in one directory category (technology, comedy, news…), given its id… | 🟢 |
 | `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | 🟢 |
 | `npr.listNewsletters` | npr.org | List NPR's email newsletters with what each one covers. | 🟢 |
 | `npr.listPodcastCategories` | npr.org | List the podcast directory's categories with the id each one takes. | 🟢 |
@@ -5226,7 +5230,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.editPost` | tumblr.com | Edit an existing post on the signed-in account's blog. | ⚪ |
 | `tumblr.findBlog` | tumblr.com | Find a blog by name. | 🟢 |
 | `tumblr.findTag` | tumblr.com | Find posts by searching a tag. | 🟢 |
-| `tumblr.followBlog` | tumblr.com | Follow a blog from the signed-in account. | ⚪ |
+| `tumblr.followBlog` | tumblr.com | Follow a blog from the signed-in account. | 🟢 |
 | `tumblr.getBlogInfo` | tumblr.com | Get metadata for a blog: name, title, url, post count, description, last-post time… | 🟢 |
 | `tumblr.getBlogPosts` | tumblr.com | List posts from a blog, newest first. | 🟢 |
 | `tumblr.getPost` | tumblr.com | Get a single post by ID with its content and metadata. | 🟢 |
@@ -5234,14 +5238,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.getTagTimeline` | tumblr.com | Get posts tagged with a specific tag. | 🟢 |
 | `tumblr.getTrendingPosts` | tumblr.com | Get posts that are currently trending on Tumblr. | 🟢 |
 | `tumblr.getTrendingTags` | tumblr.com | Get tags that are currently trending on Tumblr. | 🟢 |
-| `tumblr.likePost` | tumblr.com | Like a post from the signed-in account. | ⚪ |
+| `tumblr.likePost` | tumblr.com | Like a post from the signed-in account. | 🟢 |
 | `tumblr.listBlogFollowers` | tumblr.com | List followers of a blog; caller must own the blog. | ⚪ |
 | `tumblr.reblogPost` | tumblr.com | Reblog a post to the signed-in account's blog. | ⚪ |
 | `tumblr.searchBlogPosts` | tumblr.com | Search posts within a specific blog. | 🟢 |
 | `tumblr.searchPosts` | tumblr.com | Search all posts across Tumblr by keyword or phrase. | 🟢 |
 | `tumblr.sendMessage` | tumblr.com | Send an ask (public or anonymous) to a blog. | ⚪ |
-| `tumblr.unfollowBlog` | tumblr.com | Unfollow a blog from the signed-in account. | ⚪ |
-| `tumblr.unlikePost` | tumblr.com | Remove a like from a post on the signed-in account. | ⚪ |
+| `tumblr.unfollowBlog` | tumblr.com | Unfollow a blog from the signed-in account. | 🟢 |
+| `tumblr.unlikePost` | tumblr.com | Remove a like from a post on the signed-in account. | 🟢 |
 | `tumblr.unreblogPost` | tumblr.com | Remove a reblog from the signed-in account's blog. | ⚪ |
 | `turbotax.compareEditions` | turbotax.intuit.com | Compare TurboTax editions side by side, showing which features each includes. | 🟢 |
 | `turbotax.estimateRefund` | turbotax.intuit.com | Estimate a federal refund or amount owed with TurboTax's TaxCaster from filing status… | 🟢 |
