@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5987 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5986 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3815,7 +3815,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟢 |
 | `potterybarn.getProduct` | potterybarn.com | Reads one product page: every size/colour SKU with its own price, stock and delivery… | ⚪ |
 | `potterybarn.searchProducts` | potterybarn.com | Searches the Pottery Barn catalog the way its own search box does ("sofa") and returns… | 🟢 |
-| `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟡 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
 | `premierbuildings.listBuildingStyles` | premierbuildings.us | Lists every real building style Premier's ShedView configurator offers (Lofted Barn… | 🟢 |
 | `premierbuildings.priceBuilding` | premierbuildings.us | Prices one real Premier building configuration exactly the way ShedView itself does… | 🟢 |

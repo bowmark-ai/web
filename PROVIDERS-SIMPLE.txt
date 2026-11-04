@@ -548,7 +548,6 @@ pinterest.com — pinterest: getBoard, getCurrentUser, getHomeFeed, getPin, getP
 pirateship.com — pirateship: getRates (+2 planned)
 pitboss-grills.com — dansons: identifyProduct, listRegisterableProducts
 pizzahut.com — pizzahut: findStores, getDeals, getMenu, getMenuItem, priceOrder (+1 planned)
-planning.powys.gov.uk — powys: search
 platform.claude.com — platform_claude_com: getDocPage, listDocPages (+1 planned)
 platform.minimax.io — minimax: getDocs
 play.google.com — google_play: getApp, listReviews (+1 planned)
