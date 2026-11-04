@@ -333,7 +333,7 @@ gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getRentersQuote, listDiscounts, listPartnerCompanies (+33 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
 getsquire.com — squire: findShopsNear, getAvailability, getBrand, getReviews, getShop, listBarbers, listServices, searchShops (+20 planned)
-github.com — github: createComment, createIssue, createPullRequest, createReview, createReviewComment, deleteComment, getFileContents, getIssue, getOrganization, getProfileReadme, getPullRequest, getReadme, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listContributors, listIssueComments, listIssues, listMarketplaceActions, listNotifications, listOrganizationRepositories, listPullRequestFiles, listPullRequests, listReleases, listStarredRepositories, listTopics, listTrendingRepositories, mergePullRequest, searchCode, searchIssues, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository
+github.com — github: compareCommits, createComment, createIssue, createPullRequest, createReview, createReviewComment, deleteComment, getFileContents, getIssue, getOrganization, getProfileReadme, getPullRequest, getReadme, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listContributors, listIssueComments, listIssues, listMarketplaceActions, listNotifications, listOrganizationRepositories, listPullRequestFiles, listPullRequests, listReleases, listSecurityAdvisories, listStarredRepositories, listTopics, listTrendingRepositories, listWorkflowRuns, mergePullRequest, searchCode, searchIssues, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
 glassesusa.com — glassesusa: getProduct, search
@@ -544,7 +544,7 @@ personio.de — personio: listJobs
 pexels.com — pexels: search
 pike13.com — pike13: checkEnrollmentEligibility, findBusiness, getAppointmentAvailability, getAppointmentAvailabilitySummary, getBusiness, getClass, getMyProfile, getPlan, getSchedule, getScheduleSummary, getService, getWaitlistEligibility, listClassSeries, listLocations, listMyBusinesses, listMyVisits, listPlans, listServices, listStaff (+8 planned)
 pilotprotocol.network — pilotprotocol: getApp, listApps
-pinterest.com — pinterest: getBoard, getCurrentUser, getHomeFeed, getPin, getProduct, getTopic, getUser, listBoardPins, listBoardSectionPins, listBoardSections, listConversations, listTopicPins, listTopics, listUserBoards, listUserCreatedPins, listUserFollowing, listUserSavedPins, listVisualObjects, searchBoards, searchMyPins, searchPins, searchUsers, searchVideos, suggestSearches (+23 planned)
+pinterest.com — pinterest: getBoard, getCurrentUser, getHomeFeed, getPin, getProduct, getTopic, getUser, listBoardPins, listBoardSectionPins, listBoardSections, listConversations, listNotifications, listTopicPins, listTopics, listUserBoards, listUserCreatedPins, listUserFollowers, listUserFollowing, listUserSavedPins, listVisualObjects, searchBoards, searchMyPins, searchPins, searchUsers, searchVideos, suggestSearches (+21 planned)
 pirateship.com — pirateship: getRates (+2 planned)
 pitboss-grills.com — dansons: identifyProduct, listRegisterableProducts
 pizzahut.com — pizzahut: findStores, getDeals, getMenu, getMenuItem, priceOrder (+1 planned)
@@ -556,7 +556,6 @@ polymarket.com — polymarket: getMarket, search
 poshmark.com — poshmark: getBulkUploadTemplateGuide, getZipFileGuide
 positivegrid.com — positivegrid: findRetailers
 postcodes.io — postcodes_io: lookup (+2 planned)
-postiz.com — postiz: createPost, listIntegrations, listPosts
 potterybarn.com — potterybarn: searchProducts (+1 planned)
 premierbuildings.us — premierbuildings: findDealers, listBuildingStyles, priceBuilding
 preppednplated.com — preppednplated: checkDelivery, getCurrentMenu, listPickupLocations, searchMenuItems (+1 planned)
@@ -741,14 +740,14 @@ vistaprint.com — vistaprint: getShippingBoxPrice (+1 planned)
 voluspa.com — voluspa: nothing callable yet (+2 planned)
 walkerhughes.com — walkerhughes: findNearestOffice, listOffices, listQuoteProducts (+1 planned)
 walmart.com — walmart: addToCart, addToList, browseBrand, browseCategory, createList, getAccountProfile, getCart, getList, getOrder, getPickupDeliverySlots, getProduct, getSeller, getStore, listAddresses, listDeals, listDepartments, listLists, listOrders, listPurchasedItems, listReviews, listSellerOffers, removeFromCart, removeFromList, search, setPreferredStore, suggestSearches, updateCartItem, updateProfile (+9 planned)
-washingtonpost.com — washingtonpost: getArticle, getLiveBlog, getNewsletter, getPodcast, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listEpisodes, listNewsletters, listPodcasts, listSections, listTopics, listTrending, searchWriters (+5 planned)
+washingtonpost.com — washingtonpost: getArticle, getArticleFullText, getLiveBlog, getNewsletter, getPodcast, getTopicArticles, getWriter, listArticles, listArticlesByWriter, listEpisodes, listNewsletters, listPodcasts, listSections, listTopics, listTrending, searchWriters (+4 planned)
 waterfurnace.com — waterfurnace: estimateGeothermalSavings, lookupHomeDetails
 wayfair.com — wayfair: search (+3 planned)
 wearehirschfeld.com — wearehirschfeld: getContactForm, listPages
 weather.com — weather_channel: getAirQuality, getAlertDetails, getAlmanac, getCMSContent, getCurrentConditions, getCurrentTropicalPosition, getDailyForecast, getFifteenMinuteForecast, getHistoricalDaily, getHistoricalDailySummary, getHistoricalHourly, getHourlyAirQuality, getHourlyForecast, getLocation, getObservations, getPollenForecast, getTropicalCone, listAlerts, searchLocations, searchNews (+4 planned)
 webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
-wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+20 planned)
+wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)
 westelm.com — westelm: searchProducts (+1 planned)
 whatsapp.com — whatsapp: checkNumber, createClickToChatLink, downloadMedia, findContact, getBlogPost, getChannel, getChatMessages, getHelpArticle, getMyProfile, listBlogPosts, listChats, listContacts, previewBusinessCatalog, previewGroupInvite, searchHelpCenter, searchMessages (+28 planned)
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)

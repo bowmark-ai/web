@@ -1133,7 +1133,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude.getPreferences` | claude.ai | Reads the CALLER's personal preferences — what Claude should call them, their work… | 🟢 |
 | `claude.getProject` | claude.ai | Reads one of the CALLER's Claude projects — name, description, custom instructions… | 🟢 |
 | `claude.getPublishedArtifact` | claude.ai | Reads a published Claude artifact from its public link… | 🟢 |
-| `claude.getSharedConversation` | claude.ai | Reads a public shared Claude conversation from its share link (claude.ai/share/<id>) —… | 🟢 |
+| `claude.getSharedConversation` | claude.ai | Reads a public shared Claude conversation from its share link (claude.ai/share/<id>) —… | 🟡 |
 | `claude.getUsage` | claude.ai | Reads how much of the CALLER's Claude usage limit is spent and when it resets, the way… | 🟢 |
 | `claude.listArtifacts` | claude.ai | Lists the artifacts the CALLER has made across their chats, with whether each is… | 🟢 |
 | `claude.listConnectors` | claude.ai | Lists the connectors (MCP servers) the CALLER has added to Claude and whether each is… | 🟢 |
@@ -1819,7 +1819,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.getAccount` | etsy.com | The signed-in caller's own Etsy profile and settings — display name, about, location… | ⚪ |
 | `etsy.getCart` | etsy.com | The signed-in caller's Etsy cart — each item, its variation, quantity, price, the shop… | ⚪ |
 | `etsy.getConversation` | etsy.com | Every message in one of the caller's threads with a shop. | ⚪ |
-| `etsy.getListing` | etsy.com | One Etsy listing by its id or etsy.com/listing URL — title, description, price… | 🟢 |
+| `etsy.getListing` | etsy.com | One Etsy listing by its id or etsy.com/listing URL — title, description, price… | 🟡 |
 | `etsy.getPurchase` | etsy.com | One of the caller's orders — items, receipt total, shipping address and the carrier… | ⚪ |
 | `etsy.getRegistry` | etsy.com | One Etsy gift registry by id or URL — the registrants, the event date, and the items… | ⚪ |
 | `etsy.getShop` | etsy.com | One Etsy shop by its name or etsy.com/shop URL — tagline, location, logo, star rating… | 🟢 |
@@ -2290,6 +2290,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.listPartnerCompanies` | geico.com | Returns which insurance companies GEICO Insurance Agency actually places each line of… | 🟢 |
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
+| `github.compareCommits` | github.com | Compares two refs of a public repo — ahead/behind counts, the commits between them and… | 🟢 |
 | `github.createComment` | github.com | Adds a comment to an issue or pull request, off github.com's own issue-viewer web… | 🟢 |
 | `github.createIssue` | github.com | Opens a new issue on a repository, off github.com's own issue-creation mutation (POST… | 🟢 |
 | `github.createPullRequest` | github.com | Opens a pull request from head into base for the signed-in caller, off github.com's… | 🟢 |
@@ -2316,9 +2317,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listPullRequestFiles` | github.com | Lists what a pull request changes — each file's status, additions, deletions and diff. | 🟢 |
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
 | `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
+| `github.listSecurityAdvisories` | github.com | Lists known security advisories for a package (GitHub's global advisory database) or a… | 🟢 |
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in caller has starred — name, full name, description… | 🟢 |
 | `github.listTopics` | github.com | Lists topics from GitHub's public topics page — topic name and its github.com/topics… | 🟢 |
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
+| `github.listWorkflowRuns` | github.com | Lists a public repo's GitHub Actions workflow runs — workflow, branch, head sha… | 🟢 |
 | `github.mergePullRequest` | github.com | Merges a pull request into its base branch for the signed-in caller, off github.com's… | 🟢 |
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchIssues` | github.com | Free-text search over issues and pull requests across GitHub. | 🟢 |
@@ -3761,7 +3764,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listBoardSectionPins` | pinterest.com | The pins inside one section of a board, taking the section id `listBoardSections`… | 🟢 |
 | `pinterest.listBoardSections` | pinterest.com | The sections a board is divided into — a 258-pin board is usually 29 sections, and… | 🟢 |
 | `pinterest.listConversations` | pinterest.com | The caller's Pinterest inbox — every thread they are in, who is on it, whether it's… | 🟢 |
-| `pinterest.listNotifications` | pinterest.com | The caller's notifications — who saved, commented on or followed them. | ⚪ |
+| `pinterest.listNotifications` | pinterest.com | The caller's own notifications — who saved, commented on or followed them, newest… | 🟢 |
 | `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | ⚪ |
 | `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | ⚪ |
 | `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | ⚪ |
@@ -3769,7 +3772,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listTopics` | pinterest.com | Pinterest's own top-level idea topics — Food and Drink, Home Decor, Travel, Tattoos… | 🟢 |
 | `pinterest.listUserBoards` | pinterest.com | Every board a person has made public, with id, name, url, pin count and section count… | 🟢 |
 | `pinterest.listUserCreatedPins` | pinterest.com | The pins a person made themselves rather than saved from somebody else —… | 🟢 |
-| `pinterest.listUserFollowers` | pinterest.com | Who follows this person, page by page — the audience side of a profile. | ⚪ |
+| `pinterest.listUserFollowers` | pinterest.com | Who follows a person, page by page — the audience side of a profile (the follower… | 🟢 |
 | `pinterest.listUserFollowing` | pinterest.com | Who this person follows — people, boards and topics, as the caller's own signed-in… | 🟢 |
 | `pinterest.listUserSavedPins` | pinterest.com | The pins a person has saved, newest first, across all their boards — what… | 🟢 |
 | `pinterest.listVisualObjects` | pinterest.com | The objects Pinterest's own computer vision found inside a pin's image — each with a… | 🟢 |
@@ -3810,9 +3813,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `postcodes_io.autocomplete` | postcodes.io | Would complete a partial UK postcode, via GET /postcodes/<partial>/autocomplete | ⚪ |
 | `postcodes_io.lookup` | postcodes.io | Look up a UK postcode: its latitude and longitude, OS grid eastings/northings, and the… | 🟢 |
 | `postcodes_io.reverseGeocode` | postcodes.io | Would list the postcodes nearest a latitude/longitude, via GET /postcodes?lon=&lat= | ⚪ |
-| `postiz.createPost` | postiz.com | Create and schedule a new post on one connected channel, by the channel id… | 🟢 |
-| `postiz.listIntegrations` | postiz.com | List the organization's connected social channels with the id createPost takes, the… | 🟢 |
-| `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟢 |
 | `potterybarn.getProduct` | potterybarn.com | Reads one product page: every size/colour SKU with its own price, stock and delivery… | ⚪ |
 | `potterybarn.searchProducts` | potterybarn.com | Searches the Pottery Barn catalog the way its own search box does ("sofa") and returns… | 🟢 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
@@ -5489,7 +5489,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.updateCartItem` | walmart.com | Changes the quantity of an item already in the cart. | 🟢 |
 | `walmart.updateProfile` | walmart.com | Edits the signed-in shopper's profile name. | 🟢 |
 | `washingtonpost.getArticle` | washingtonpost.com | Gets one article's own headline, byline, publish date, section and lede. | 🟢 |
-| `washingtonpost.getArticleFullText` | washingtonpost.com | Gets the full text of a subscriber-only article using the CALLER's own Washington Post… | ⚪ |
+| `washingtonpost.getArticleFullText` | washingtonpost.com | Gets the full text of a subscriber-only article using the CALLER's own Washington Post… | 🟢 |
 | `washingtonpost.getLiveBlog` | washingtonpost.com | Gets a live-coverage page's own running updates (elections, speeches, breaking news)… | 🟢 |
 | `washingtonpost.getNewsletter` | washingtonpost.com | Gets one newsletter's own name, description and frequency off the directory. | 🟢 |
 | `washingtonpost.getPodcast` | washingtonpost.com | Gets one podcast show's own details — name, tagline, description, host credit, RSS… | 🟢 |
@@ -5558,7 +5558,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellnessliving.getDiscounts` | wellnessliving.com | Lists available discounts for the customer | ⚪ |
 | `wellnessliving.getInstructors` | wellnessliving.com | Lists all instructors across studios | 🟢 |
 | `wellnessliving.getLocationDetails` | wellnessliving.com | Reads detailed information for one studio location including hours, address, amenities | 🟢 |
-| `wellnessliving.getLocationInfo` | wellnessliving.com | Gets hours of operation, contact info, and general information for a location | ⚪ |
+| `wellnessliving.getLocationInfo` | wellnessliving.com | Gets hours of operation, contact info, and general information for a location | 🟢 |
 | `wellnessliving.getLocationSchedule` | wellnessliving.com | Gets the full weekly schedule for a specific studio location | 🟢 |
 | `wellnessliving.getMyBookings` | wellnessliving.com | Lists the signed-in customer's upcoming and past bookings | ⚪ |
 | `wellnessliving.getMyPackages` | wellnessliving.com | Lists the customer's purchased class packages and remaining credits | ⚪ |
