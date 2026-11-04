@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3aa059efcd9dd59a70258858aceff58aab9da39ffec438de529b2bb486838231
-// 94 capabilities, 762 providers, 4100 typed functions, 20 refused.
+// Manifest version: dbf803a02e2238d7d73d13ea5d2bdcd1aa9407163cabbe81ebdb3b027640790e
+// 94 capabilities, 762 providers, 4106 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16391,6 +16391,32 @@ interface BlueskyKnownFollowers {
   cursor?: string;
 }
 
+interface BlueskyBookmark {
+  savedAt: string;
+  post: BlueskyPost;
+}
+
+interface BlueskyBookmarkPage {
+  bookmarks: BlueskyBookmark[];
+  cursor?: string;
+}
+
+interface BlueskyNotification {
+  uri: string;
+  reason: string;
+  reasonSubject: string | null;
+  author: BlueskyPostAuthor;
+  text: string;
+  isRead: boolean;
+  indexedAt: string;
+}
+
+interface BlueskyNotificationPage {
+  notifications: BlueskyNotification[];
+  cursor?: string;
+  seenAt: string | null;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -16665,6 +16691,23 @@ interface BlueskyKnownFollowers {
      * the saved sign-in has expired; sign in again.
      */
     listBlockedUsers(opts?: { limit?: number; cursor?: string }, connectionOpts?: ConnectionOption): Promise<BlueskySignedInUserPage>;
+
+    /**
+     * The posts the signed-in caller has saved to Bookmarks, most recently saved first, page by
+     * page. Deleted or blocked posts are left out. Needs the caller signed in to bsky.app — the
+     * run pauses for a sign-in link when they are not. THROWS `blueskyError` when the saved
+     * sign-in has expired.
+     */
+    listBookmarks(opts?: { limit?: number; cursor?: string }, connectionOpts?: ConnectionOption): Promise<BlueskyBookmarkPage>;
+
+    /**
+     * The signed-in caller's notifications, newest first, page by page: `reason` is like, repost,
+     * follow, mention, reply, quote, starterpack-joined and so on; `reasonSubject` is the caller's
+     * record it was about; `text` is the post text for mentions, replies and quotes; `isRead` and
+     * `seenAt` give the read state. Needs the caller signed in to bsky.app — the run pauses for a
+     * sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has expired.
+     */
+    listNotifications(opts?: { limit?: number; cursor?: string }, connectionOpts?: ConnectionOption): Promise<BlueskyNotificationPage>;
 
     /**
      * Which of the signed-in caller's own follows also follow `actor` (a handle, DID or bsky.app
@@ -93258,6 +93301,25 @@ interface walmartSeller {
 
     /** Takes an item out of the signed-in shopper's cart. A write. Needs the caller signed in. */
     removeFromCart(args: { itemId: string }, opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * Sets the signed-in shopper's preferred store (a store id from `findStores`), so stock,
+     * prices and pickup slots answer for that store. A write. Needs the caller signed in.
+     */
+    setPreferredStore(args: { storeId: string }, opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * Reads the pickup or delivery time windows the signed-in shopper is offered — for their
+     * preferred store, or a store id from `findStores`. A read; never books a slot. Needs the
+     * caller signed in.
+     */
+    getPickupDeliverySlots(args?: { storeId?: string }, opts?: ConnectionOption): Promise<never>;
+
+    /** Changes the signed-in shopper's first and/or last name. A write. Needs the caller signed in. */
+    updateProfile(args: { firstName?: string; lastName?: string }, opts?: ConnectionOption): Promise<never>;
+
+    /** Lists the delivery addresses saved on the signed-in account. Needs the caller signed in. */
+    listAddresses(opts?: ConnectionOption): Promise<never>;
   }
 }
 

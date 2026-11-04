@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3aa059efcd9dd59a70258858aceff58aab9da39ffec438de529b2bb486838231
-# 94 capabilities, 762 providers, 4082 typed functions, 20 refused.
+# Manifest version: dbf803a02e2238d7d73d13ea5d2bdcd1aa9407163cabbe81ebdb3b027640790e
+# 94 capabilities, 762 providers, 4088 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9881,6 +9881,36 @@ class Prv_bluesky_BlueskySignedInUserPage_Out(TypedDict):
 class Prv_bluesky_listBlockedUsers_opts_In(TypedDict):
     limit: NotRequired[float]
     cursor: NotRequired[str]
+
+class Prv_bluesky_listBookmarks_opts_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyBookmarkPage_Out(TypedDict):
+    bookmarks: list[Prv_bluesky_BlueskyBookmark_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyBookmark_Out(TypedDict):
+    savedAt: str
+    post: Prv_bluesky_BlueskyPost_Out
+
+class Prv_bluesky_listNotifications_opts_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyNotificationPage_Out(TypedDict):
+    notifications: list[Prv_bluesky_BlueskyNotification_Out]
+    cursor: NotRequired[str]
+    seenAt: str | None
+
+class Prv_bluesky_BlueskyNotification_Out(TypedDict):
+    uri: str
+    reason: str
+    reasonSubject: str | None
+    author: Prv_bluesky_BlueskyPostAuthor_Out
+    text: str
+    isRead: bool
+    indexedAt: str
 
 class Prv_bluesky_getKnownFollowers_actor_u1_In(TypedDict):
     actor: str
@@ -57731,6 +57761,16 @@ class Prv_walmart_updateCartItem_args_In(TypedDict):
 class Prv_walmart_removeFromCart_args_In(TypedDict):
     itemId: str
 
+class Prv_walmart_setPreferredStore_args_In(TypedDict):
+    storeId: str
+
+class Prv_walmart_getPickupDeliverySlots_args_In(TypedDict):
+    storeId: NotRequired[str]
+
+class Prv_walmart_updateProfile_args_In(TypedDict):
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+
 class Prv_walmart_ca_SearchArgs_In(TypedDict):
     query: str
 
@@ -67876,6 +67916,22 @@ class Prv_bluesky(Protocol):
         """The accounts the signed-in caller has blocked, page by page. Needs the caller signed in
         to bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError`
         when the saved sign-in has expired; sign in again.
+        """
+
+    async def listBookmarks(self, opts: Prv_bluesky_listBookmarks_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyBookmarkPage_Out:
+        """The posts the signed-in caller has saved to Bookmarks, most recently saved first, page
+        by page. Deleted or blocked posts are left out. Needs the caller signed in to bsky.app —
+        the run pauses for a sign-in link when they are not. THROWS `blueskyError` when the
+        saved sign-in has expired.
+        """
+
+    async def listNotifications(self, opts: Prv_bluesky_listNotifications_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyNotificationPage_Out:
+        """The signed-in caller's notifications, newest first, page by page: `reason` is like,
+        repost, follow, mention, reply, quote, starterpack-joined and so on; `reasonSubject` is
+        the caller's record it was about; `text` is the post text for mentions, replies and
+        quotes; `isRead` and `seenAt` give the read state. Needs the caller signed in to
+        bsky.app — the run pauses for a sign-in link when they are not. THROWS `blueskyError`
+        when the saved sign-in has expired.
         """
 
     async def getKnownFollowers(self, actor: str | Prv_bluesky_getKnownFollowers_actor_u1_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyKnownFollowers_Out:
@@ -94267,6 +94323,25 @@ class Prv_walmart(Protocol):
 
     async def removeFromCart(self, args: Prv_walmart_removeFromCart_args_In, opts: ConnectionOption | None = None, /) -> Any:
         """Takes an item out of the signed-in shopper's cart. A write. Needs the caller signed in."""
+
+    async def setPreferredStore(self, args: Prv_walmart_setPreferredStore_args_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Sets the signed-in shopper's preferred store (a store id from `findStores`), so stock,
+        prices and pickup slots answer for that store. A write. Needs the caller signed in.
+        """
+
+    async def getPickupDeliverySlots(self, args: Prv_walmart_getPickupDeliverySlots_args_In | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Reads the pickup or delivery time windows the signed-in shopper is offered — for their
+        preferred store, or a store id from `findStores`. A read; never books a slot. Needs the
+        caller signed in.
+        """
+
+    async def updateProfile(self, args: Prv_walmart_updateProfile_args_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Changes the signed-in shopper's first and/or last name. A write. Needs the caller signed
+        in.
+        """
+
+    async def listAddresses(self, opts: ConnectionOption | None = None, /) -> Any:
+        """Lists the delivery addresses saved on the signed-in account. Needs the caller signed in."""
 
 class Prv_walmart_ca(Protocol):
     """Search products and check pricing on Walmart Canada (walmart.ca)"""
