@@ -2151,7 +2151,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ford.buildAndPrice` | ford.com | Walks Ford's own build-and-price configurator for a model and year — choosing trim… | ⚪ |
 | `ford.findDealers` | ford.com | Finds franchised Ford dealers near a US ZIP code — name, address, phone, coordinates… | 🟢 |
 | `ford.getModelDetails` | ford.com | Reads one Ford model's showroom page — its trims with starting MSRP, key specs… | ⚪ |
-| `ford.getOffers` | ford.com | Returns Ford's current incentives for one model near a US ZIP — cash back, APR… | 🟢 |
+| `ford.getOffers` | ford.com | Returns Ford's current incentives for one model near a US ZIP — cash back, APR… | 🟡 |
 | `ford.getRecalls` | ford.com | Looks up the open safety recalls and field service actions on one specific Ford… | 🟡 |
 | `ford.getVehicle` | ford.com | Reads one specific vehicle by VIN — its full option list, all Ford-approved images… | 🟢 |
 | `ford.listColors` | ford.com | Lists the exterior paint options actually available for one Ford model near a ZIP code… | ⚪ |
@@ -2531,7 +2531,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grammarly.humanize` | www.grammarly.com | Rewrites AI-sounding text to read more naturally with Grammarly's free AI humanizer. | 🟢 |
 | `grammarly.listDocuments` | www.grammarly.com | Lists saved documents in a signed-in account. | ⚪ |
 | `grammarly.listGoals` | www.grammarly.com | Lists writing goals (audience, tone, formality, domain) for the account. | ⚪ |
-| `grammarly.listPlans` | www.grammarly.com | Lists Grammarly's subscription plans with their prices for the visitor's country. | ⚪ |
+| `grammarly.listPlans` | www.grammarly.com | Lists Grammarly's subscription plans with their prices for the visitor's country. | 🟢 |
 | `grammarly.paraphrase` | www.grammarly.com | Rewrites text in different styles and tones while maintaining meaning. | ⚪ |
 | `grammarly.removeFromDictionary` | www.grammarly.com | Removes a word or phrase from the signed-in account's personal dictionary. | ⚪ |
 | `grammarly.setGoals` | www.grammarly.com | Sets the writing goals (audience, formality, domain, intent) the checker tunes its… | ⚪ |
