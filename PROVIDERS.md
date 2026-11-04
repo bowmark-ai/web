@@ -1819,20 +1819,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `etsy.estimateShipping` | etsy.com | What one Etsy listing costs to ship and when it would arrive at a destination — a US… | 🟢 |
 | `etsy.favoriteListing` | etsy.com | Hearts a listing for the signed-in caller, or un-hearts it. | ⚪ |
 | `etsy.favoriteShop` | etsy.com | Favorites (follows) a shop for the signed-in caller, or unfollows it. | ⚪ |
-| `etsy.findRegistry` | etsy.com | Finds an Etsy gift registry (wedding, baby, other) by the registrant's name, returning… | ⚪ |
+| `etsy.findRegistry` | etsy.com | Finds Etsy gift registries (wedding, baby, gift) by the registrant's first and last… | 🟢 |
 | `etsy.getAccount` | etsy.com | The signed-in caller's own Etsy profile and settings — display name, about, location… | ⚪ |
 | `etsy.getCart` | etsy.com | The signed-in caller's Etsy cart — each item, its variation, quantity, price, the shop… | ⚪ |
 | `etsy.getConversation` | etsy.com | Every message in one of the caller's threads with a shop. | ⚪ |
 | `etsy.getListing` | etsy.com | One Etsy listing by its id or etsy.com/listing URL — title, description, price… | 🟡 |
 | `etsy.getPurchase` | etsy.com | One of the caller's orders — items, receipt total, shipping address and the carrier… | ⚪ |
-| `etsy.getRegistry` | etsy.com | One Etsy gift registry by id or URL — the registrants, the event date, and the items… | ⚪ |
+| `etsy.getRegistry` | etsy.com | One Etsy gift registry by the id `findRegistry` returns or its URL — name, event type… | 🟢 |
 | `etsy.getShop` | etsy.com | One Etsy shop by its name or etsy.com/shop URL — tagline, location, logo, star rating… | 🟢 |
 | `etsy.getUserProfile` | etsy.com | A member's public Etsy profile by username or etsy.com/people URL — display name… | 🟢 |
 | `etsy.leaveReview` | etsy.com | Leaves a star rating and written review on an item the caller bought and received. | ⚪ |
 | `etsy.listCategories` | etsy.com | Etsy's category tree — top-level departments and their subcategories with their /c/… | 🟢 |
 | `etsy.listCollections` | etsy.com | The signed-in caller's collections (the named lists they save favorites into) and what… | ⚪ |
 | `etsy.listConversations` | etsy.com | The signed-in caller's Etsy message threads with shops, newest first, with the last… | ⚪ |
-| `etsy.listEditorsPicks` | etsy.com | Etsy's Editors' Picks — the curated collections on /featured, each with its title… | ⚪ |
+| `etsy.listEditorsPicks` | etsy.com | Etsy's Editors' Picks. | 🟢 |
 | `etsy.listFavoriteItems` | etsy.com | The listings the signed-in caller has favorited (hearted), newest first. | ⚪ |
 | `etsy.listFavoriteShops` | etsy.com | The shops the signed-in caller has favorited. | ⚪ |
 | `etsy.listListingReviews` | etsy.com | The reviews on one Etsy listing, as the listing page's own `Product` structured data… | 🟢 |
@@ -3743,10 +3743,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pike13.listClassSeries` | pike13.com | Lists a studio's recurring class series (events) with their recurrence and service… | 🟢 |
 | `pike13.listLocations` | pike13.com | Lists a studio's locations with address, coordinates, phone and timezone (GET… | 🟢 |
 | `pike13.listMyBusinesses` | pike13.com | Lists the studios the signed-in caller has a Pike13 client account with (GET… | 🟢 |
-| `pike13.listMyPlans` | pike13.com | Lists the signed-in caller's memberships and passes at a studio — remaining visits… | ⚪ |
+| `pike13.listMyPlans` | pike13.com | Lists the signed-in caller's memberships and passes at a studio — remaining visits… | 🟢 |
 | `pike13.listMyVisits` | pike13.com | Lists the signed-in caller's bookings at a studio — upcoming and past classes and… | 🟢 |
-| `pike13.listMyWaitlistEntries` | pike13.com | Lists the signed-in caller's waitlist entries and their state (pending, waiting… | ⚪ |
-| `pike13.listMyWaivers` | pike13.com | Lists the waivers the signed-in caller has signed at a studio, and whether any are… | ⚪ |
+| `pike13.listMyWaitlistEntries` | pike13.com | Lists the signed-in caller's waitlist entries and their state (pending, waiting… | 🟢 |
+| `pike13.listMyWaivers` | pike13.com | Lists the waivers the signed-in caller has signed at a studio. (GET… | 🟢 |
 | `pike13.listPlans` | pike13.com | Lists the memberships, class packs and passes a studio sells, with price, visit count… | 🟢 |
 | `pike13.listServices` | pike13.com | Lists what a studio offers — group classes, courses and appointments, with duration… | 🟢 |
 | `pike13.listStaff` | pike13.com | Lists a studio's staff members with bio and photo (GET /api/v2/front/staff_members)… | 🟢 |
@@ -4886,7 +4886,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getCart` | target.com | Reads what is in the CALLER's own Target cart — line items (TCIN, title, quantity… | 🟢 |
 | `target.getProduct` | target.com | Reads one product page in full — title, brand, price, long-form description, images… | 🟢 |
-| `target.getRegistry` | target.com | Reads one Target Gift Registry's items once you have the registry's id from… | 🟢 |
+| `target.getRegistry` | target.com | Reads one Target Gift Registry by its id, its custom URL or a shareable registry link… | 🟢 |
 | `target.listCategories` | target.com | Reads Target's own category taxonomy (department → aisle, e.g. Grocery → Snacks) with… | 🟢 |
 | `target.listCategoryProducts` | target.com | Lists the products on one category page (the /c/<slug>/-/N-<id> grid) for a category… | 🟢 |
 | `target.listDeals` | target.com | Reads one store's current Target weekly ad — every priced offer in it with the ad's… | 🟢 |
