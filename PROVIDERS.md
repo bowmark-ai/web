@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5988 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5989 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -3655,6 +3655,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `partiful.discoverEvents` | partiful.com | Lists the public events Partiful's explore page shows for one region (sf, nyc, la… | 🟢 |
 | `partiful.getEvent` | partiful.com | Reads one public Partiful event page (partiful.com/e/<id>) and returns its title… | 🟢 |
 | `patreon.commentOnPost` | patreon.com | Leave a comment on a post as the signed-in caller; returns the comment as Patreon… | 🟢 |
+| `patreon.followCreator` | patreon.com | Follow a creator for free as the signed-in caller — Patreon's free membership, no tier… | 🟢 |
 | `patreon.getCreator` | patreon.com | Get details for a specific creator including name, avatar, and account creation date. | 🟢 |
 | `patreon.getCurrentUserFeed` | patreon.com | Read the signed-in caller's Patreon home feed — recent posts from the creators they… | 🟢 |
 | `patreon.getPost` | patreon.com | Get details for a specific post including title, publish date, and content. | 🟢 |

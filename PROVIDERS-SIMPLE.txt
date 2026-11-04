@@ -533,7 +533,7 @@ pacificlifestylehomes.com — pacificlifestylehomes: searchAvailableHomes
 packlane.com — packlane: getQuote
 pallet2ship.co.uk — pallet2ship: getQuote
 partiful.com — partiful: discoverEvents, getEvent
-patreon.com — patreon: commentOnPost, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators
+patreon.com — patreon: commentOnPost, followCreator, getCreator, getCurrentUserFeed, getPost, likePost, listCreatorCollections, listCreatorPosts, listCreatorTiers, listMemberOnlyPosts, listPledges, listPostComments, searchCreatorPosts, searchCreators
 pausestudio.com — pausestudio: bookAppointment, cancelBooking, getLocationInfo, joinWaitlist, listAvailableSlots, listLocations, listMyBookings, listMyMemberships, listServices, listWaitlistedSlots, modifyBooking
 pawsup.com — pawsup: checkAvailability
 paypal.com — paypal: estimateFee, estimatePayLaterPlan, getCurrencyConversionQuote, getFees, getHelpArticle, getPayPalMeProfile, getPolicyDocument, getServiceStatus, searchHelp, searchShoppingOffers (+2 planned)
