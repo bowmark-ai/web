@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: af8cf16dd04976b3b6df37debc98b6008a77d1ffe74ff4344e3f168adfb66b7a
-// 94 capabilities, 760 providers, 4324 typed functions, 20 refused.
+// Manifest version: 66089650aa5a295e1026f14d58fa6fd06b4f1355c6ed991b57bd1da46f1695bd
+// 94 capabilities, 760 providers, 4329 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32206,6 +32206,12 @@ interface DoordashDishResult {
   storeId: string; storeName: string | null; storeUrl: string | null; image: string | null;
 }
 
+interface DoordashRetailStore {
+  storeId: string; name: string; url: string;
+  categories: { categoryId: string; urlSlug: string; name: string; imageUrl: string | null }[];
+  products: { itemId: string; menuId: string | null; name: string; price: number | null; image: string | null }[];
+}
+
   /**
    * DoorDash's own store search — returns real, currently-listed stores for a free-text query
    * with the delivery fee, rating and ETA DoorDash itself advertises on the results card.
@@ -32280,6 +32286,13 @@ interface DoordashDishResult {
      * run for sign-in, never answers [].
      */
     listOrders(args?: { limit?: number; cursor?: string }, opts?: ConnectionOption): Promise<SignedInOrderPage>;
+
+    /**
+     * Returns a grocery, convenience or retail store on DoorDash (7-Eleven, CVS, ALDI…) by store
+     * id or store URL: name, its product categories, and the featured products the store page
+     * itself lists — each with item id, name, price in dollars and image. Read-only.
+     */
+    getRetailStore(args: { store: string }): Promise<DoordashRetailStore>;
   }
 }
 
@@ -32870,6 +32883,20 @@ interface DuckDuckGoBangResolution {
   url: string;
 }
 
+interface ChatWithDuckAiArgs {
+  /** The message to send. */
+  message: string;
+  /** A model id from listDuckAiModels where entityHasAccess is true, e.g. "claude-haiku-5-5". Omit for Duck.ai's default. */
+  model?: string;
+}
+
+interface DuckAiReply {
+  /** The model id the message was sent with. */
+  model: string;
+  /** The assistant's full reply. */
+  reply: string;
+}
+
 interface TranslateTextArgs {
   text: string;
   /** A language name DuckDuckGo's own translate trigger recognizes, e.g. "french". */
@@ -32893,6 +32920,13 @@ interface DuckDuckGoTranslation {
    * addresses.
    */
   interface Unit {
+    /**
+     * Sends one message to Duck.ai, DuckDuckGo's free private AI chat, and returns the model's
+     * full reply. Pick a free model from listDuckAiModels (entityHasAccess true); omit model for
+     * Duck.ai's default. Drives a real browser, so expect ~20-40s.
+     */
+    chatWithDuckAi(args: ChatWithDuckAiArgs): Promise<DuckAiReply>;
+
     /**
      * Reads the signed-in caller's DuckDuckGo Email Protection account — their permanent @duck.com
      * address, the inbox it forwards to, and the private address that will be handed out next.
@@ -73375,6 +73409,29 @@ interface PushpressCancelResult {
   waitlist: boolean;              // true when a waitlist spot was dropped, not a reservation
 }
 
+interface PushpressMyDocument {
+  id: string;
+  title: string | null;
+  signed: boolean;               // false = still outstanding; an unsigned waiver can block a first booking
+  createdAt: string | null;
+}
+
+interface PushpressMyInvoice {
+  id: string;
+  currency: string | null;
+  paid: boolean;
+  subtotal: number | null;
+  openedAt: string | null;
+}
+
+interface PushpressMyInvoices {
+  page: number;
+  limit: number;
+  hasMore: boolean;              // ask for page + 1 when true
+  total: number | null;
+  invoices: PushpressMyInvoice[];
+}
+
   /**
    * PushPress gym-management platform (CrossFit and independent gyms on <gym>.pushpress.com):
    * read any gym's class schedule, class details, locations and membership plans with no login,
@@ -73474,6 +73531,20 @@ interface PushpressCancelResult {
      * signed in. The gym's own late-cancel policy applies.
      */
     cancelBooking(gym: string, registrationId: string, waitlist?: boolean, opts?: ConnectionOption): Promise<PushpressCancelResult>;
+
+    /**
+     * Lists the waivers and agreements the gym has put in front of the signed-in member, each with
+     * signed true/false — an unsigned waiver can block a first booking. Needs the caller signed
+     * in.
+     */
+    listMyDocuments(gym: string, opts?: ConnectionOption): Promise<PushpressMyDocument[]>;
+
+    /**
+     * Lists the signed-in member's invoices at this gym — currency, subtotal, paid true/false and
+     * when each was opened — a page at a time (default page 1, 25 per page). Reads only; pays
+     * nothing. Needs the caller signed in.
+     */
+    listMyInvoices(gym: string, page?: number, limit?: number, opts?: ConnectionOption): Promise<PushpressMyInvoices>;
   }
 }
 
@@ -82718,6 +82789,14 @@ interface SetFavoriteInstructorArgs {
   instructorId: number; // from listInstructors() or getInstructor()
   enabled: boolean;
 }
+interface UpdatePreferencesArgs {
+  addInstructorIds?: number[];
+  removeInstructorIds?: number[];
+  addFavoriteStudioIds?: number[];
+  removeFavoriteStudioIds?: number[];
+  primaryStudioId?: number | null;
+  applyRideRewardOnRenewal?: boolean;
+}
 interface SetSeriesTransferArgs {
   enabled: boolean;
 }
@@ -82898,6 +82977,14 @@ interface SoulcycleInstructor extends SoulcycleInstructorSummary {
      * Needs the caller signed in. Example: `bowmark.providers.soulcycle.redeemReferralCredits()`.
      */
     redeemReferralCredits(opts?: ConnectionOption): Promise<SoulcycleActionResult>;
+
+    /**
+     * Saves the signed-in rider's Preferences tab in one go: add/remove favorite instructors and
+     * studios, set or clear the primary studio, and the ride-reward-on-renewal switch. Needs the
+     * caller signed in. Example: `bowmark.providers.soulcycle.updatePreferences({
+     * addInstructorIds: [10693], primaryStudioId: 25 })`.
+     */
+    updatePreferences(args: UpdatePreferencesArgs, opts?: ConnectionOption): Promise<SoulcycleActionResult>;
   }
 }
 

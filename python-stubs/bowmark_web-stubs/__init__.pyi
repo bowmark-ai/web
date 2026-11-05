@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: af8cf16dd04976b3b6df37debc98b6008a77d1ffe74ff4344e3f168adfb66b7a
-# 94 capabilities, 760 providers, 4306 typed functions, 20 refused.
+# Manifest version: 66089650aa5a295e1026f14d58fa6fd06b4f1355c6ed991b57bd1da46f1695bd
+# 94 capabilities, 760 providers, 4311 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19718,6 +19718,29 @@ class Prv_doordash_SignedInOrder_Out(TypedDict):
     itemCount: float | None
     url: str
 
+class Prv_doordash_getRetailStore_args_In(TypedDict):
+    store: str
+
+class Prv_doordash_DoordashRetailStore_Out(TypedDict):
+    storeId: str
+    name: str
+    url: str
+    categories: list[Prv_doordash_DoordashRetailStore_Out_categories_item_Out]
+    products: list[Prv_doordash_DoordashRetailStore_Out_products_item_Out]
+
+class Prv_doordash_DoordashRetailStore_Out_categories_item_Out(TypedDict):
+    categoryId: str
+    urlSlug: str
+    name: str
+    imageUrl: str | None
+
+class Prv_doordash_DoordashRetailStore_Out_products_item_Out(TypedDict):
+    itemId: str
+    menuId: str | None
+    name: str
+    price: float | None
+    image: str | None
+
 class Prv_drafthouse_DrafthouseFindTheatersArgs_In(TypedDict):
     query: NotRequired[str]
 
@@ -19913,6 +19936,14 @@ class Prv_dropbox_DropboxFolderEntry_Out(TypedDict):
     sizeBytes: NotRequired[float]
     modified: NotRequired[str]
     fileId: NotRequired[str]
+
+class Prv_duckduckgo_ChatWithDuckAiArgs_In(TypedDict):
+    message: str
+    model: NotRequired[str]
+
+class Prv_duckduckgo_DuckAiReply_Out(TypedDict):
+    model: str
+    reply: str
 
 class Prv_duckduckgo_DuckDuckGoEmailProtectionAccount_Out(TypedDict):
     address: str
@@ -44312,6 +44343,26 @@ class Prv_pushpress_PushpressCancelResult_Out(TypedDict):
     cancelled: bool
     waitlist: bool
 
+class Prv_pushpress_PushpressMyDocument_Out(TypedDict):
+    id: str
+    title: str | None
+    signed: bool
+    createdAt: str | None
+
+class Prv_pushpress_PushpressMyInvoices_Out(TypedDict):
+    page: float
+    limit: float
+    hasMore: bool
+    total: float | None
+    invoices: list[Prv_pushpress_PushpressMyInvoice_Out]
+
+class Prv_pushpress_PushpressMyInvoice_Out(TypedDict):
+    id: str
+    currency: str | None
+    paid: bool
+    subtotal: float | None
+    openedAt: str | None
+
 class Prv_quickbooks_QuickbooksCalculatePaycheckArgs_In(TypedDict):
     state: str
     grossPay: float
@@ -50749,6 +50800,14 @@ class Prv_soulcycle_SoulcycleSeriesTransferResult_Out(TypedDict):
     transferableRegions: NotRequired[str]
     usableCredits: NotRequired[float]
     region: NotRequired[str]
+
+class Prv_soulcycle_UpdatePreferencesArgs_In(TypedDict):
+    addInstructorIds: NotRequired[Sequence[float]]
+    removeInstructorIds: NotRequired[Sequence[float]]
+    addFavoriteStudioIds: NotRequired[Sequence[float]]
+    removeFavoriteStudioIds: NotRequired[Sequence[float]]
+    primaryStudioId: NotRequired[float | None]
+    applyRideRewardOnRenewal: NotRequired[bool]
 
 class Prv_soundcloud_ScTrack_Out(TypedDict):
     id: float
@@ -75756,6 +75815,12 @@ class Prv_doordash(Protocol):
         list) pauses the run for sign-in, never answers [].
         """
 
+    async def getRetailStore(self, args: Prv_doordash_getRetailStore_args_In, /) -> Prv_doordash_DoordashRetailStore_Out:
+        """Returns a grocery, convenience or retail store on DoorDash (7-Eleven, CVS, ALDI…) by
+        store id or store URL: name, its product categories, and the featured products the store
+        page itself lists — each with item id, name, price in dollars and image. Read-only.
+        """
+
 class Prv_drafthouse(Protocol):
     """Alamo Drafthouse Cinema movie showtimes — find a theater by name or city, then every
     session for a film and date, with format, screen and sale status.
@@ -75851,6 +75916,12 @@ class Prv_duckduckgo(Protocol):
     !bangs, and Duck.ai chat; once a caller signs in, their Email Protection @duck.com
     addresses.
     """
+
+    async def chatWithDuckAi(self, args: Prv_duckduckgo_ChatWithDuckAiArgs_In, /) -> Prv_duckduckgo_DuckAiReply_Out:
+        """Sends one message to Duck.ai, DuckDuckGo's free private AI chat, and returns the model's
+        full reply. Pick a free model from listDuckAiModels (entityHasAccess true); omit model
+        for Duck.ai's default. Drives a real browser, so expect ~20-40s.
+        """
 
     async def getEmailProtectionAccount(self, opts: ConnectionOption | None = None, /) -> Prv_duckduckgo_DuckDuckGoEmailProtectionAccount_Out:
         """Reads the signed-in caller's DuckDuckGo Email Protection account — their permanent
@@ -90387,6 +90458,18 @@ class Prv_pushpress(Protocol):
         caller signed in. The gym's own late-cancel policy applies.
         """
 
+    async def listMyDocuments(self, gym: str, opts: ConnectionOption | None = None, /) -> list[Prv_pushpress_PushpressMyDocument_Out]:
+        """Lists the waivers and agreements the gym has put in front of the signed-in member, each
+        with signed true/false — an unsigned waiver can block a first booking. Needs the caller
+        signed in.
+        """
+
+    async def listMyInvoices(self, gym: str, page: float | None = None, limit: float | None = None, opts: ConnectionOption | None = None, /) -> Prv_pushpress_PushpressMyInvoices_Out:
+        """Lists the signed-in member's invoices at this gym — currency, subtotal, paid true/false
+        and when each was opened — a page at a time (default page 1, 25 per page). Reads only;
+        pays nothing. Needs the caller signed in.
+        """
+
 class Prv_quickbooks(Protocol):
     """QuickBooks, logged out: plan and payroll prices, the paycheck and sales-tax calculators,
     the ProAdvisor accountant directory, the App Store, Community answers, help articles and
@@ -93456,6 +93539,13 @@ class Prv_soulcycle(Protocol):
         """Redeems the class credit the signed-in rider earned by referring friends (Spread the
         Soul). Needs the caller signed in. Example:
         `bowmark.providers.soulcycle.redeemReferralCredits()`.
+        """
+
+    async def updatePreferences(self, args: Prv_soulcycle_UpdatePreferencesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_soulcycle_SoulcycleActionResult_Out:
+        """Saves the signed-in rider's Preferences tab in one go: add/remove favorite instructors
+        and studios, set or clear the primary studio, and the ride-reward-on-renewal switch.
+        Needs the caller signed in. Example: `bowmark.providers.soulcycle.updatePreferences({
+        addInstructorIds: [10693], primaryStudioId: 25 })`.
         """
 
 class Prv_soundcloud(Protocol):

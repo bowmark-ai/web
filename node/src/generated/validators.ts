@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: af8cf16dd04976b3b6df37debc98b6008a77d1ffe74ff4344e3f168adfb66b7a
-// 4306 checked, 20 unchecked.
+// Manifest version: 66089650aa5a295e1026f14d58fa6fd06b4f1355c6ed991b57bd1da46f1695bd
+// 4311 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "af8cf16dd04976b3b6df37debc98b6008a77d1ffe74ff4344e3f168adfb66b7a",
+  "version": "66089650aa5a295e1026f14d58fa6fd06b4f1355c6ed991b57bd1da46f1695bd",
   "units": {
     "address_validation": {
       "defs": {
@@ -38023,6 +38023,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getRetailStore": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "store",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -38361,6 +38379,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ChatWithDuckAiArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "message",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ConvertCurrencyArgs": {
           "k": "object",
           "props": [
@@ -38687,6 +38724,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "chatWithDuckAi": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ChatWithDuckAiArgs"
+            },
+            "optional": false
+          }
+        ],
         "getEmailProtectionAccount": [
           {
             "name": "opts",
@@ -93330,6 +93377,70 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listMyDocuments": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyInvoices": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -106077,6 +106188,73 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "UpdatePreferencesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "addInstructorIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "removeInstructorIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "addFavoriteStudioIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "removeFavoriteStudioIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "primaryStudioId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "applyRideRewardOnRenewal",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -106426,6 +106604,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "redeemReferralCredits": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updatePreferences": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpdatePreferencesArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {

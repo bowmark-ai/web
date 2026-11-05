@@ -1591,7 +1591,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `doordash.getMenuItem` | doordash.com | Opens one menu item's own detail card (name, description, price) by store and item… | 🟢 |
 | `doordash.getMyAccount` | doordash.com | Returns the signed-in customer's own account: name, email, phone, DashPass membership… | ⚪ |
 | `doordash.getOrder` | doordash.com | Returns one order: its items, fees and total, delivery address, and its live status… | ⚪ |
-| `doordash.getRetailStore` | doordash.com | Returns a grocery, convenience or retail store on DoorDash (7-Eleven, CVS, ALDI…) with… | ⚪ |
+| `doordash.getRetailStore` | doordash.com | Returns a grocery, convenience or retail store on DoorDash (7-Eleven, CVS, ALDI…) with… | 🟢 |
 | `doordash.getStore` | doordash.com | Returns one restaurant by its DoorDash store id or store URL: name, address… | 🟢 |
 | `doordash.getStoreReviews` | doordash.com | Returns a store's rating summary (average, count, per-star counts, public review… | 🟢 |
 | `doordash.listCuisines` | doordash.com | Lists the cuisine filters DoorDash offers in one US city (American, Thai, Pizza…)… | 🟢 |
@@ -1657,7 +1657,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.uploadFile` | dropbox.com | Uploads a file into a folder in the caller's Dropbox. | ⚪ |
 | `dropbox.uploadToFileRequest` | dropbox.com | Uploads a file into a Dropbox file request link (www.dropbox.com/request/<id>) — the… | ⚪ |
 | `duckduckgo.changeForwardingAddress` | duckduckgo.com | Change the inbox the signed-in caller's @duck.com addresses forward to. | 🟢 |
-| `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | ⚪ |
+| `duckduckgo.chatWithDuckAi` | duckduckgo.com | Send a message to Duck.ai, DuckDuckGo's free private AI chat, with a chosen model, and… | 🟢 |
 | `duckduckgo.convertCurrency` | duckduckgo.com | Convert an amount between two currencies at DuckDuckGo's current mid-market rate (from… | 🟢 |
 | `duckduckgo.createPrivateDuckAddress` | duckduckgo.com | Generates a brand new private @duck.com address on the signed-in caller's Email… | 🟢 |
 | `duckduckgo.defineWord` | duckduckgo.com | Look a word up the way DuckDuckGo's dictionary answer does — part of speech… | 🟢 |
@@ -3943,8 +3943,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pushpress.listCoaches` | pushpress.com | Lists the coaches teaching a gym's classes and events over one local day or a range… | 🟢 |
 | `pushpress.listLocations` | pushpress.com | Lists a gym's locations (the filter listClasses accepts for multi-site gyms). | 🟢 |
 | `pushpress.listMyBookings` | pushpress.com | Lists the signed-in member's own ACTIVE class reservations for one local day, or a… | 🟢 |
-| `pushpress.listMyDocuments` | pushpress.com | Lists the waivers and agreements the gym asks the signed-in member to sign, and which… | ⚪ |
-| `pushpress.listMyInvoices` | pushpress.com | Lists the signed-in member's invoices and payment status at this gym. | ⚪ |
+| `pushpress.listMyDocuments` | pushpress.com | Lists the waivers and agreements the gym asks the signed-in member to sign, and which… | 🟢 |
+| `pushpress.listMyInvoices` | pushpress.com | Lists the signed-in member's invoices and payment status at this gym. | 🟢 |
 | `pushpress.listMyPlans` | pushpress.com | Lists the signed-in member's subscriptions at this gym — id, status, active… | 🟢 |
 | `pushpress.listPlans` | pushpress.com | Lists a gym's public memberships, class packs, drop-ins and trials with price, billing… | 🟢 |
 | `pushpress.payInvoice` | pushpress.com | Retries payment on a failed invoice. | ⚪ |
@@ -4598,7 +4598,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soulcycle.setFavoriteStudio` | soul-cycle.com | Adds or removes a studio from the signed-in rider's favorites. | 🟢 |
 | `soulcycle.setSeriesTransfer` | soul-cycle.com | Turns on or off letting the signed-in rider's series be used in another region. | 🟢 |
 | `soulcycle.updateMyProfile` | soul-cycle.com | Edits the signed-in rider's profile details (name, phone, birthday, bike settings such… | ⚪ |
-| `soulcycle.updatePreferences` | soul-cycle.com | Changes the signed-in rider's preferences tab (communication and class preferences). | ⚪ |
+| `soulcycle.updatePreferences` | soul-cycle.com | Saves the signed-in rider's Preferences tab: favorite instructors and studios, primary… | 🟢 |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |

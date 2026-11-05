@@ -256,11 +256,11 @@ discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+1
 disneyworld.disney.go.com — disney: getTicketPrice
 docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 planned)
 donsappliances.com — donsappliances: search (+1 planned)
-doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getStore, getStoreReviews, listCuisines, listOrders, search, searchDishes (+24 planned)
+doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getRetailStore, getStore, getStoreReviews, listCuisines, listOrders, search, searchDishes (+23 planned)
 drafthouse.com — drafthouse: findTheaters, getShowtimes (+1 planned)
 drivers.uber.com — uber: getDriverEarnings
 dropbox.com — dropbox: downloadSharedFile, getFileMetadata, getMyAccount, getPlans, getSharedLink, listFolder, listSharedFolder, readSharedFile, searchFiles (+33 planned)
-duckduckgo.com — duckduckgo: changeForwardingAddress, convertCurrency, createPrivateDuckAddress, defineWord, getEmailProtectionAccount, getInstantAnswer, getLocalTime, getWeather, listBangs, listDuckAiModels, listRegions, resolveBang, searchImages, searchNews, searchPlaces, searchVideos, searchWeb, setPrivateDuckAddressActive, suggestQueries, translateText (+1 planned)
+duckduckgo.com — duckduckgo: changeForwardingAddress, chatWithDuckAi, convertCurrency, createPrivateDuckAddress, defineWord, getEmailProtectionAccount, getInstantAnswer, getLocalTime, getWeather, listBangs, listDuckAiModels, listRegions, resolveBang, searchImages, searchNews, searchPlaces, searchVideos, searchWeb, setPrivateDuckAddressActive, suggestQueries, translateText
 dumpsters.com — dumpsters: getQuote
 e2b.dev — e2b: createSandbox, getSandbox, killSandbox, listSandboxes, readFile, runCommand, setSandboxTimeout, writeFile
 easyclosets.com — thestowcompany: getSampleClosetEstimate
@@ -571,7 +571,7 @@ pullandbear.com — pullandbear: getProduct, listCategories, searchProducts
 puls.com — puls_com: getRepairQuote, listApplianceCategories
 punchpass.com — punchpass: getCalendarFeed, getClass, getMyClassHistory, getMyProfile, getPass, getSchedule, getSeries, getStudio, listAppointmentSlots, listInstructors, listMyChildren, listMyPasses, listMyReservations, listPasses, listScheduleFilters, listSeries (+16 planned)
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
-pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyPlans, listPlans (+10 planned)
+pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyDocuments, listMyInvoices, listMyPlans, listPlans (+8 planned)
 quickbooks.intuit.com — quickbooks: calculatePaycheck, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getServiceStatus, getStatePayrollTaxes, getThread, listAppCategories, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listTemplates, searchApps, searchCommunity, searchHelpArticles (+14 planned)
 quince.com — quince: getProduct, searchProducts
 quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfile, getQuestion, getSpace, getTopic, getTopicFeed, searchQuestions (+5 planned)
@@ -643,7 +643,7 @@ smithery.ai — smithery: search
 snapchat.com — snapchat: addFriend, getEpisode, getLens, getLocalGuide, getMyProfile, getProfile, getShow, getSpotlightVideo, listDiscoverStories, listFriends, listLenses, listLocalCities, listProfileHighlights, listProfileLenses, listProfileSpotlights, listProfileStory, listSpotlightComments, listSpotlightFeed, searchSnapchat, updateDisplayName (+12 planned)
 solidcore.co — solidcore: checkAvailability, getClass, getCoach, getPack, getPricing, getSchedule, getStudio, listClassCategories, listCoaches, listMuscleGroups, listStudios, searchClasses (+12 planned)
 solostove.com — solostove: checkBundle, listBundles
-soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer (+7 planned)
+soul-cycle.com — soulcycle: bookBike, cancelBooking, findStudio, getBikeMap, getClassAvailability, getInstructor, getMyCredits, getStudio, getStudioSchedule, joinWaitlist, listClassHistory, listInstructors, listMyBookings, listMyBookmarks, listRegions, listSeries, listShopProducts, listStudios, redeemReferralCredits, setFavoriteInstructor, setFavoriteStudio, setSeriesTransfer, updatePreferences (+6 planned)
 soundcloud.com — soundcloud: getPlaylist, getTrack, search
 spacest.com — spacest: nothing callable yet (+1 planned)
 spectrum.com — spectrum: checkMobileCoverage, getAccountBalance, getBillingHistory, getInternetPlanDetails, listInternetPlans, listMobileDeals, listMobilePlans, listTvAddOns, listTvPlans (+7 planned)
