@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b76dfdf7398c25af6a0f57783ecbefa711dae530044daad9174bd8e29ec15af0
-// 94 capabilities, 760 providers, 4198 typed functions, 20 refused.
+// Manifest version: 2fddead31afe560620411992ef54d4c7cac65af787f6aa426519f447a7467809
+// 94 capabilities, 760 providers, 4226 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6816,6 +6816,11 @@ interface AccuweatherAlert {
   end: string | null;
 }
 
+interface HourlyForecastArgs {
+  key: string;
+  day?: number; // 1 = rest of today (default), 2 = tomorrow, 3 = day after
+}
+
 interface DayDetailsArgs {
   key: string;
   day: number;
@@ -6921,9 +6926,17 @@ interface AccuweatherSchoolClosureDay {
   chancePercent: number; // 0-100
 }
 
+interface AccuweatherWinterEvent {
+  phrase: string; // "Ice", "Snow"
+  status: string | null; // "Upcoming"
+  start: string | null; // the card's own time + date text
+  end: string | null;
+}
+
 interface AccuweatherWinterForecast {
   summary: string; // the page's own headline sentence
   hasActiveSnowEvent: boolean;
+  events: AccuweatherWinterEvent[]; // empty when no event is active
   schoolClosureForecast: AccuweatherSchoolClosureDay[];
 }
 
@@ -7118,10 +7131,10 @@ interface AccuweatherArticle {
     getDailyForecast(args: LocationArgs): Promise<AccuweatherDailyForecastDay[]>;
 
     /**
-     * Hour-by-hour forecast for the next 12 hours — temperature, RealFeel, conditions,
-     * precipitation chance, wind, humidity and UV per hour.
+     * Hour-by-hour forecast for the rest of today, or tomorrow / the day after with day: 2 or 3 —
+     * temperature, RealFeel, conditions, precipitation chance, wind, humidity and UV per hour.
      */
-    getHourlyForecast(args: LocationArgs): Promise<AccuweatherHourlyForecastHour[]>;
+    getHourlyForecast(args: HourlyForecastArgs): Promise<AccuweatherHourlyForecastHour[]>;
 
     /**
      * Minute-by-minute precipitation for the next two hours at a location — the site's own summary
@@ -12636,6 +12649,16 @@ interface AttStore {
     string | null
   >; // "09:00-20:00"
 }
+interface AttTradeInValue {
+  modelCode: string; // HYLA's id for the model, "2380451"
+  name: string; // "iPhone 14 128GB"
+  manufacturer: string | null; // "Apple"
+  family: string | null; // "iPhone 14"
+  capacity: string | null; // "128GB"
+  valueUsd: number | null; // the value before condition questions; 0 means recycle only
+  recycleOnly: boolean;
+  imageUrl: string | null;
+}
 interface AttDeal {
   section: string; // "featured" | "top" | "bundles" | "accessories"
   audience: string | null; // "New & existing customers"
@@ -12746,6 +12769,15 @@ interface AttMonthlyBill {
      * (featured, top, bundles, accessories). The fine print stays on AT&T's page behind each URL.
      */
     listDeals(): Promise<AttDeal[]>;
+
+    /**
+     * What an old phone is worth toward AT&T, off AT&T's own trade-in tool (tradein.att.com):
+     * every matching model ("iPhone 14 128GB", "Galaxy S23") with its trade-in value in USD before
+     * the condition questions (a cracked or locked phone is worth less, and AT&T asks those on its
+     * site). valueUsd 0 / recycleOnly true means AT&T only recycles it. limit defaults to 10 (max
+     * 50); an empty array means AT&T lists no model by that name.
+     */
+    getTradeInValue(device: string, options?: { limit?: number }): Promise<AttTradeInValue[]>;
 
     /**
      * The signed-in caller's current AT&T account balance — amount due, due date and account
@@ -25483,8 +25515,9 @@ interface clubpilatesRow {
 }
 
 interface FindStudiosArgs {
-  lat: number;
-  lng: number;
+  zip?: string;
+  lat?: number;
+  lng?: number;
   limit?: number;
 }
 
@@ -25692,9 +25725,9 @@ interface ClubPilatesBookingResult {
    */
   interface Unit {
     /**
-     * Finds Club Pilates studios near a point by latitude/longitude, returning each studio's id,
-     * name, address, phone, timezone and open status. This is the door every other function's
-     * `studio` argument comes from.
+     * Finds Club Pilates studios near a US ZIP (e.g. 94123) or a latitude/longitude, returning
+     * each studio's id, name, address, phone, timezone and open status. This is the door every
+     * other function's `studio` argument comes from.
      */
     findStudios(args: FindStudiosArgs): Promise<ClubPilatesStudio[]>;
 
@@ -29346,16 +29379,6 @@ interface DellDriver {
   file: DellDriverFile | null;
 }
 
-interface GetWarrantyInfoArgs {
-  serviceTag: string;  // the Dell service tag, e.g. "7XFH8Z2"
-}
-
-interface DellWarrantyInfo {
-  serviceTag: string;
-  found: boolean;
-  status: string | null;  // warranty status/coverage info when the service tag is valid; null when not found — the site's own labels — read the values off a result, never guess one from prose
-}
-
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -29442,9 +29465,6 @@ interface DellWarrantyInfo {
      * operating system — each row carries the download URL and checksums.
      */
     getProductDrivers(args: GetProductDriversArgs): Promise<DellDriver[]>;
-
-    /** Looks up warranty coverage and status for a Dell product by service tag. */
-    getWarrantyInfo(args: GetWarrantyInfoArgs): Promise<DellWarrantyInfo>;
   }
 }
 
@@ -34451,6 +34471,47 @@ interface EtsyUserProfile {
   followedShops: { name: string; avatar: string | null; rating: number | null; reviewCount: number | null; url: string }[];
   url: string;
 }
+interface EtsyRegistry {
+  registryId: string;
+  name: string;
+  eventType: string | null;
+  eventDate: string | null;
+  location: string | null;
+  itemsRequested: number | null;
+  itemsPurchased: number | null;
+  items: { listingId: number; title: string; shop: string | null; priceText: string | null; image: string | null; quantityRequested: number | null; quantityPurchased: number | null; stillNeeded: number | null; url: string }[];
+  url: string;
+}
+interface EtsyRegistryMatch {
+  registryId: string;
+  name: string;
+  location: string | null;
+  eventDate: string | null;
+  url: string;
+}
+interface EtsyEditorsPicks {
+  collection: string | null;
+  title: string;
+  subtitle: string | null;
+  collections: {
+    slug: string;
+    title: string;
+    blurb: string | null;
+    image: string | null;
+    url: string;
+  }[];
+  listings: {
+    listingId: number;
+    title: string;
+    price: number | null;
+    originalPrice: number | null;
+    rating: number | null;
+    reviewCount: number | null;
+    image: string | null;
+    url: string;
+  }[];
+  url: string;
+}
 interface EtsyShopSearchRow {
   name: string;
   tagline: string | null;
@@ -34571,6 +34632,26 @@ interface EtsyShippingEstimate {
      * avatar, star rating, review count, URL).
      */
     getUserProfile(usernameOrUrl: string): Promise<EtsyUserProfile>;
+
+    /**
+     * Etsy's Editors' Picks. With no argument, the curated collections on /featured (slug, title,
+     * blurb, image, URL); with a collection slug or URL, that collection's title, subtitle and
+     * listings (id, title, price, original price, rating, review count, image, URL).
+     */
+    listEditorsPicks(collection?: string): Promise<EtsyEditorsPicks>;
+
+    /**
+     * Finds Etsy gift registries (wedding, baby, gift) by the registrant's first and last name —
+     * each match's registry id, name, city, event month and URL. The door for `getRegistry`.
+     */
+    findRegistry(name: string | { firstName: string; lastName: string }): Promise<EtsyRegistryMatch[]>;
+
+    /**
+     * One Etsy gift registry by the id `findRegistry` returns or its URL — name, event type and
+     * date, city, items requested and purchased, and each item on first load (listing id, title,
+     * shop, price, image, quantity requested, purchased and still needed, URL).
+     */
+    getRegistry(registryIdOrUrl: string): Promise<EtsyRegistry>;
 
     /**
      * Etsy's category tree from its own /categories page — each top-level department (Accessories,
@@ -39298,6 +39379,50 @@ interface FoxnewsNewsletter {
   description?: string;
 }
 
+interface ListElectionRacesArgs {
+  office: "senate" | "house" | "governor";
+  hotOnly?: boolean;
+}
+
+interface FoxnewsElectionCandidate {
+  name: string;
+  party: string;
+  partyCode: string;
+  votes: number | null;
+  percentage: number | null;
+  isWinner: boolean;
+  isIncumbent: boolean;
+  headshotUrl?: string;
+}
+
+interface FoxnewsElectionRaceSummary {
+  raceId: string;
+  office: "senate" | "house" | "governor";
+  state: string;
+  district?: number;
+  called: boolean;
+  expectedVoteCounted: number | null;
+  isFlipped: boolean;
+  isRunoff: boolean;
+  leader?: FoxnewsElectionCandidate;
+}
+
+interface GetElectionResultsArgs {
+  raceId: string;
+}
+
+interface FoxnewsElectionRace {
+  raceId: string;
+  office: "senate" | "house" | "governor";
+  state: string;
+  district?: number;
+  called: boolean;
+  expectedVoteCounted: number | null;
+  isFlipped: boolean;
+  isRunoff: boolean;
+  candidates: FoxnewsElectionCandidate[];
+}
+
 interface FoxnewsPodcast {
   name: string;
   url: string;
@@ -39437,6 +39562,20 @@ interface FoxnewsPodcastEpisode {
      * News Alerts, Health, AI…) with each one's name, description and list id.
      */
     listNewsletters(): Promise<{ newsletters: FoxnewsNewsletter[] }>;
+
+    /**
+     * Lists the 2026 general-election races Fox News's Elections Center covers for one office
+     * (senate, governor, or house hot races), each with its raceId, state, whether Fox has called
+     * it, the expected vote counted and the current leader — the finder for getElectionResults.
+     */
+    listElectionRaces(args: ListElectionRacesArgs): Promise<{ races: FoxnewsElectionRaceSummary[]; warnings: string[] }>;
+
+    /**
+     * Reads Fox News's results for one 2026 general-election race — each candidate's votes and
+     * share, the expected vote counted, and whether Fox has called it — taking a raceId from
+     * listElectionRaces (senate-MI, governor-AZ, house-VA-2).
+     */
+    getElectionResults(args: GetElectionResultsArgs): Promise<FoxnewsElectionRace>;
   }
 }
 
@@ -45865,6 +46004,27 @@ interface GrubhubFavorite {
   name: string | null;
   url: string | null;
 }
+interface GrubhubOrderSummary {
+  /** What getOrderStatus() takes. */
+  id: string | null;
+  restaurantId: string | null;
+  restaurantName: string | null;
+  /** Grubhub's own status word — UNMEASURED signed in. */
+  status: string | null;
+  placedAt: string | null;
+  totalCents: number | null;
+  currency: string | null;
+  itemCount: number | null;
+}
+interface GrubhubOrderItem {
+  name: string | null;
+  quantity: number | null;
+}
+interface GrubhubOrderStatus extends GrubhubOrderSummary {
+  /** Minutes until arrival; null when the order has no live ETA (delivered, cancelled). */
+  etaMinutes: number | null;
+  items: GrubhubOrderItem[];
+}
 interface GrubhubPromoResult {
   /** The code as Grubhub knows it (its own casing). */
   code: string;
@@ -45993,6 +46153,24 @@ interface GrubhubAddToCartArgs {
      * name and url. Needs the caller signed in to grubhub.com.
      */
     getFavoriteRestaurants(opts?: ConnectionOption): Promise<GrubhubFavorite[]>;
+
+    /**
+     * The signed-in diner's past Grubhub orders — restaurant, status, total in cents and item
+     * count, newest first. Needs the caller signed in to grubhub.com.
+     */
+    getOrderHistory(opts?: ConnectionOption): Promise<GrubhubOrderSummary[]>;
+
+    /**
+     * One Grubhub order's status, ETA and line items, by the id getOrderHistory() returns. Needs
+     * the caller signed in to grubhub.com.
+     */
+    getOrderStatus(orderId: string, opts?: ConnectionOption): Promise<GrubhubOrderStatus>;
+
+    /**
+     * Adds a restaurant (search()'s id) to the signed-in diner's Grubhub favourites and returns
+     * the updated list. Needs the caller signed in to grubhub.com.
+     */
+    saveRestaurant(id: string, opts?: ConnectionOption): Promise<GrubhubFavorite[]>;
   }
 }
 
@@ -48788,6 +48966,18 @@ interface IkeaProfile {
   preferredStore: string | null;
   zipCode: string | null;
 }
+interface IkeaFamilyMembership {
+  /** True when the account's first loyalty card is an IKEA Family card. */
+  isMember: boolean;
+  /** The IKEA Family card number, when a member. */
+  cardNumber: string | null;
+  /** The card type IKEA reports (e.g. "FAMILY"), or null with no card. */
+  cardType: string | null;
+  /** IKEA's customer id for the account. */
+  customerId: string | null;
+  /** Every loyalty card on the account. */
+  cards: { cardNumber: string | null; cardType: string | null }[];
+}
 interface GetPurchaseArgs {
   /** 9-10 digits — an online order's number, as listPurchases returns it. */
   orderNumber: string;
@@ -49045,6 +49235,12 @@ interface RemoveFromFavoritesArgs {
      * Family member number, preferred store and ZIP. Needs the caller signed in to IKEA.
      */
     getProfile(opts?: ConnectionOption): Promise<IkeaProfile>;
+
+    /**
+     * Reads the signed-in caller's IKEA Family membership — whether they are a member, the Family
+     * card number and IKEA's customer id. Needs the caller signed in to IKEA.
+     */
+    getFamilyMembership(opts?: ConnectionOption): Promise<IkeaFamilyMembership>;
 
     /**
      * Lists the signed-in caller's IKEA purchases — online orders, store receipts and returns —
@@ -57275,6 +57471,12 @@ interface MangomintMembershipList {
   memberships: MangomintMembership[];
 }
 
+interface MangomintPastServices {
+  business: { companyId: number; name: string };
+  /** The booking app's own rows, unparsed — no signed-in answer has been captured yet. */
+  pastServices: unknown[];
+}
+
   /**
    * Mangomint salon and spa booking: find a business, its services, staff and open times, book,
    * and manage an appointment from its link.
@@ -57359,6 +57561,13 @@ interface MangomintMembershipList {
      * completes a payment.
      */
     bookAppointment(args: MangomintBookAppointmentArgs): Promise<MangomintBookingConfirmation>;
+
+    /**
+     * Services the signed-in caller has had at one business before, to rebook the same thing.
+     * Needs the caller's own SMS sign-in at that business; rows come back as the booking app sends
+     * them.
+     */
+    listPastServices(args: MangomintBusinessArgs, opts?: ConnectionOption): Promise<MangomintPastServices>;
   }
 }
 
@@ -68502,6 +68711,9 @@ interface Pike13EnrollmentEligibility {
 // The signed-in records below are returned as Pike13 sends them (developer.pike13.com
 // /docs/api/v2); their fields beyond id are not yet measured on a real sign-in.
 interface Pike13Person { id: number; first_name?: string; last_name?: string; email?: string; dependents?: Pike13Person[]; [k: string]: unknown }
+interface Pike13WaitlistEntry { id: number; state?: string; event_occurrence_id?: number; [k: string]: unknown }
+interface Pike13PersonPlan { id: number; name?: string; start_date?: string; end_date?: string; [k: string]: unknown }
+interface Pike13Waiver { id: number; [k: string]: unknown }
 interface Pike13Visit { id: number; state?: string; event_occurrence_id?: number; [k: string]: unknown }
 interface Pike13AccountBusiness { id: number; name?: string; subdomain?: string; [k: string]: unknown }
 
@@ -68630,6 +68842,24 @@ interface Pike13AccountBusiness { id: number; name?: string; subdomain?: string;
      * the caller signed in to Pike13.
      */
     listMyVisits(business: string, opts?: ConnectionOption): Promise<Pike13Visit[]>;
+
+    /**
+     * Lists the signed-in caller's waitlist entries at a studio and their state (pending, waiting,
+     * enrolled, removed, expired). Needs the caller signed in to Pike13.
+     */
+    listMyWaitlistEntries(business: string, opts?: ConnectionOption): Promise<Pike13WaitlistEntry[]>;
+
+    /**
+     * Lists the signed-in caller's memberships and passes at a studio — remaining visits,
+     * start/end, status. Needs the caller signed in to Pike13.
+     */
+    listMyPlans(business: string, opts?: ConnectionOption): Promise<Pike13PersonPlan[]>;
+
+    /**
+     * Lists the waivers the signed-in caller has signed at a studio. Needs the caller signed in to
+     * Pike13.
+     */
+    listMyWaivers(business: string, opts?: ConnectionOption): Promise<Pike13Waiver[]>;
   }
 }
 
@@ -77347,6 +77577,11 @@ interface ScribdList {
     type: string;
   }>;
 }
+interface ScribdSavedDocuments {
+  documents: ScribdList["documents"];
+  savedIds: number[];
+  finishedIds: number[];
+}
 interface ScribdEmbedCode {
   html: string;
   title: string;
@@ -77442,6 +77677,13 @@ interface ScribdTrendingModule {
      * scribd.com/document/<id>/<slug> url or the numeric id, so a caller can place it in a page.
      */
     getEmbedCode(document: string | number): Promise<ScribdEmbedCode>;
+
+    /**
+     * Lists the documents in the signed-in caller's Scribd library (scribd.com/saved) — each with
+     * id, title, url, author, description, page count and thumbnail — plus the ids Scribd marks
+     * saved and finished. Needs the caller signed in to Scribd.
+     */
+    listSavedDocuments(opts?: ConnectionOption): Promise<ScribdSavedDocuments>;
 
     /**
      * Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
@@ -79853,6 +80095,22 @@ interface SliceSchedule {
   pausedForPickup: SliceScheduleWindow[];
   timezone: string | null;
 }
+interface SliceRecommendedAddOn {
+  itemId: number;
+  name: string;
+  description: string | null;
+  price: number | null;        // dollars
+  image: string | null;
+  sizeIds: number[];           // the size ids priceCart takes
+  isBestSeller: boolean;
+}
+interface SliceDeliveryEstimate {
+  thirdPartyCourier: boolean;  // false: the shop delivers itself, no courier quote
+  provider: string | null;     // e.g. "uber_direct"
+  fee: number | null;          // dollars
+  pickupTime: string | null;   // ISO instant
+  dropoffTime: string | null;  // ISO instant
+}
 interface SliceDeliveryCheck {
   deliversTo: boolean;         // false means the address is outside the delivery zone
   availableNow: boolean;       // only meaningful when deliversTo -- the shop may be closed
@@ -79983,6 +80241,19 @@ interface SliceRatingSummary {
      * the reviewer's email or last name.
      */
     getReviews(pizzeria: string | number): Promise<{ reviews: SliceReview[] } & SliceRatingSummary>;
+
+    /**
+     * Gets the add-ons a pizzeria suggests for what is already in the cart ("add garlic knots?"),
+     * with price in dollars and the size ids priceCart takes.
+     */
+    getRecommendedAddOns(pizzeria: string | number, items: { itemId: number; sizeId: number; quantity?: number }[]): Promise<{ addOns: SliceRecommendedAddOn[] }>;
+
+    /**
+     * Gets the third-party courier's (Uber Direct and similar) delivery fee and pickup/dropoff
+     * times for an order from a pizzeria that hands delivery to one; thirdPartyCourier is false
+     * when the shop delivers itself.
+     */
+    getDeliveryEstimate(pizzeria: string | number, address: string, subtotal: number): Promise<SliceDeliveryEstimate>;
   }
 }
 
@@ -82205,6 +82476,22 @@ interface SpotifyTopOptions {
 }
 interface SpotifyTopTracks { tracks: SpotifyTrack[]; total: number }
 interface SpotifyTopArtists { artists: SpotifyArtist[]; total: number }
+interface SpotifyDevice {
+  id: string | null;
+  isActive: boolean;
+  isRestricted: boolean;
+  name: string;
+  type: string;
+  volumePercent: number | null;
+}
+interface SpotifyCurrentPlayback {
+  isPlaying: boolean;
+  progressMs: number | null;
+  item: SpotifyTrack | null;
+  shuffleState: boolean;
+  repeatState: string | null;
+  device: { id: string | null; name: string; type: string } | null;
+}
 
   /**
    * Search Spotify's catalog — tracks, albums, artists, playlists, podcasts — through Spotify's
@@ -82355,6 +82642,25 @@ interface SpotifyTopArtists { artists: SpotifyArtist[]; total: number }
      * Spotify.
      */
     getLibraryPlaylists(opts?: { limit?: number; offset?: number }): Promise<{ playlists: SpotifyPlaylist[]; total: number }>;
+
+    /**
+     * The signed-in caller's recent play history, newest first, cursor-paged. Needs the caller
+     * signed in to Spotify.
+     */
+    getRecentlyPlayed(opts?: { limit?: number; before?: number; after?: number }): Promise<{ items: { playedAt: string; track: SpotifyTrack }[]; cursors: { before: string | null; after: string | null } }>;
+
+    /**
+     * The signed-in caller's connected Spotify Connect devices (speakers, phones, computers).
+     * Needs the caller signed in to Spotify.
+     */
+    getDevices(): Promise<{ devices: SpotifyDevice[] }>;
+
+    /**
+     * The signed-in caller's current playback state — what's playing, where, progress,
+     * shuffle/repeat. Nothing playing is a normal, not-playing answer, never an error. Needs the
+     * caller signed in to Spotify.
+     */
+    getCurrentPlayback(): Promise<SpotifyCurrentPlayback>;
   }
 }
 
@@ -82900,6 +83206,33 @@ interface SquareOnlineSubscriptionPlans {
   /** The site's own plan rows, passed through unchanged; empty when the store sells none. */
   plans: Array<Record<string, unknown>>;
 }
+interface MyOrdersArgs {
+  site: string;
+  /** 1-based page of 20 orders, newest first. Default 1. */
+  page?: number;
+}
+interface SquareOnlineAccount {
+  site: string;
+  /** The buyer's customer id on this store. */
+  customerId: string;
+  /** The site's own customer record, unchanged (name, phone, email, addresses, preferences). */
+  customer: Record<string, unknown>;
+}
+interface SquareOnlineMyOrders {
+  site: string;
+  customerId: string;
+  page: number;
+  /** The site's own order rows, unchanged. */
+  orders: Array<Record<string, unknown>>;
+  /** The site's paging block, when it sent one. */
+  meta: Record<string, unknown> | null;
+}
+interface SquareOnlineMySubscriptions {
+  site: string;
+  customerId: string;
+  /** The site's own subscription rows, unchanged. */
+  subscriptions: Array<Record<string, unknown>>;
+}
 
   /**
    * Square Online restaurant and shop storefronts (<name>.square.site): menu, locations, hours
@@ -82967,6 +83300,19 @@ interface SquareOnlineSubscriptionPlans {
      * none.
      */
     listSubscriptionPlans(args: SiteArgs): Promise<SquareOnlineSubscriptionPlans>;
+
+    /**
+     * Signed-in: returns the buyer's own Square Online account on one storefront (name, phone,
+     * email, saved addresses). Pauses the run for the caller to sign in (an SMS code) when there
+     * is no session.
+     */
+    getMyAccount(args: SiteArgs, opts?: ConnectionOption): Promise<SquareOnlineAccount>;
+
+    /** Signed-in: lists the buyer's past orders at this store, 20 a page, for reordering. */
+    listMyOrders(args: MyOrdersArgs, opts?: ConnectionOption): Promise<SquareOnlineMyOrders>;
+
+    /** Signed-in: lists the buyer's subscriptions at this store. */
+    listMySubscriptions(args: SiteArgs, opts?: ConnectionOption): Promise<SquareOnlineMySubscriptions>;
   }
 }
 
@@ -86083,8 +86429,9 @@ interface TargetAddToListResult {
     listWishlists(opts?: ConnectionOption): Promise<TargetWishlistsHistory>;
 
     /**
-     * Reads one Target Gift Registry's items once you have the registry's id from `findRegistry`
-     * or a shareable registry link — items, quantities, and ship-to information.
+     * Reads one Target Gift Registry by its id, its custom URL or a shareable registry link — the
+     * registrants, event date and place, and every item with the quantity asked for, the quantity
+     * already bought, and today's price.
      */
     getRegistry(args: { registryId: string }): Promise<TargetRegistry>;
 
@@ -88977,6 +89324,56 @@ interface ToastMenuItemSummary {
   imageUrl: string | null;
 }
 
+interface ToastMenuItemDetail {
+  guid: string;
+  itemGroupGuid: string;
+  name: string;
+  description: string | null;
+  price: number | null;      // dollars, the lowest when there are several
+  prices: number[];
+  outOfStock: boolean;
+  calories: number | null;
+  imageUrl: string | null;
+  modifierGroups: ToastModifierGroup[]; // sizes and add-on choices, e.g. "Spice Level"
+}
+
+interface ToastModifierGroup {
+  guid: string;
+  name: string;
+  minSelections: number;
+  maxSelections: number;
+  required: boolean;         // minSelections > 0
+  modifiers: ToastModifier[];
+}
+
+interface ToastModifier {
+  guid: string;               // the item guid addToCart takes for this choice
+  itemGroupGuid: string | null;
+  name: string;
+  price: number;              // dollars, added to the item's own price
+  isDefault: boolean;
+  outOfStock: boolean;
+  allowsDuplicates: boolean;
+  modifierGroups: ToastModifierGroup[]; // add-ons unlocked once this modifier is chosen
+}
+
+interface ToastMenuSearchItem {
+  guid: string;               // what getMenuItem and addToCart take
+  name: string;
+  description: string | null;
+  price: number | null;
+  outOfStock: boolean;
+  imageUrl: string | null;
+  group: { guid: string; name: string } | null; // the item's menu group, if it has one
+}
+
+interface ToastPopularItem {
+  guid: string;               // what getMenuItem and addToCart take
+  name: string;
+  price: number | null;       // dollars, the lowest when there are several
+  imageUrl: string | null;
+}
+
   /**
    * Toast, the restaurant platform behind Toast Local (toast.app), Toast online ordering and
    * Toast Tables: find restaurants near a place or in a city, a restaurant's details, menu, item
@@ -89030,6 +89427,27 @@ interface ToastMenuItemSummary {
      * or has sizes and add-ons, an image, and the item guid getMenuItem and addToCart take.
      */
     getMenu(ref: ToastRestaurantRef): Promise<ToastMenu>;
+
+    /**
+     * Reads one menu item (guid from getMenu) with everything ordering it needs: its price, every
+     * modifier group (sizes and add-ons) with whether it is required and how many may be picked,
+     * each option's name, price and whether it is the default or out of stock, and the guids
+     * addToCart takes for the item and each chosen modifier.
+     */
+    getMenuItem(ref: ToastRestaurantRef, itemGuid: string, itemGroupGuid?: string): Promise<ToastMenuItemDetail>;
+
+    /**
+     * Searches one restaurant's online-ordering menu by words ("paneer") and returns the matching
+     * items, best match first, with name, price, whether it is out of stock, an image, its menu
+     * group, and the guid getMenuItem and addToCart take.
+     */
+    searchMenu(ref: ToastRestaurantRef, query: string, limit?: number): Promise<ToastMenuSearchItem[]>;
+
+    /**
+     * Lists a restaurant's most-ordered online-ordering items with name, price and the guid
+     * getMenuItem and addToCart take.
+     */
+    getPopularItems(ref: ToastRestaurantRef): Promise<ToastPopularItem[]>;
   }
 }
 
@@ -91923,6 +92341,20 @@ interface UbereatsAddToCartArgs {
      * browser via Bowmark Link; with no sign-in the run pauses for one, never answers [].
      */
     listOrders(args?: { limit?: number; cursor?: string }, opts?: ConnectionOption): Promise<SignedInOrderPage>;
+
+    /**
+     * Returns one of the caller's own past or active Uber Eats orders in full, by its uuid (from
+     * listOrders() or listActiveOrders()). Reads the site's own getOrderEntityByUuidV1 through the
+     * caller's own browser via Bowmark Link; with no sign-in the run pauses for one.
+     */
+    getOrder(args: { orderId: string }, opts?: ConnectionOption): Promise<SignedInOrder>;
+
+    /**
+     * Lists the caller's own Uber Eats orders that are in progress right now. Reads the site's own
+     * getActiveOrdersV1 through the caller's own browser via Bowmark Link; with no sign-in the run
+     * pauses for one.
+     */
+    listActiveOrders(opts?: ConnectionOption): Promise<SignedInOrder[]>;
 
     /**
      * Reads the caller's current Uber Eats cart(s) — store, item count and subtotal for each draft
@@ -95480,8 +95912,10 @@ interface HistoricalHour {
   windDirection: string | null;
   windGust: number | null;
   pressure: number | null;
-  cloudCover: number | null;
-  precipitationHourly: number | null;
+  /** Cloud ceiling in feet, not a 0-100 cover percentage. */
+  cloudCeilingFt: number | null;
+  /** The site's rolling 24h total, not an hourly delta. */
+  precipitation24Hour: number | null;
   visibility: number | null;
   phrase: string;
 }
@@ -95722,8 +96156,8 @@ interface CMSContent {
     /**
      * Historical hourly weather observations for a place — e.g. `getHistoricalHourly("Toronto")` —
      * the past 24 hours of observed conditions. Each hour carries temperature, dew point,
-     * humidity, wind speed/direction/gust, pressure, cloud cover, hourly precipitation, visibility
-     * and weather phrase.
+     * humidity, wind speed/direction/gust, pressure, cloud ceiling (feet), rolling 24h
+     * precipitation, visibility and weather phrase.
      */
     getHistoricalHourly(location: Location): Promise<HistoricalHourlyResult>;
 
@@ -98411,6 +98845,34 @@ interface XolaAvailability {
   sessions: XolaSession[];
   pricing: XolaDemographicPrice[];
 }
+interface XolaGetPriceQuoteArgs {
+  experienceId: string;
+  /** "YYYY-MM-DD", from getAvailability().sessions[].date. */
+  date: string;
+  /** Session start, from getAvailability().sessions[].time, e.g. "1000". */
+  time: string;
+  /** How many of each demographic — ids from getAvailability().pricing. */
+  party: { demographicId: string; quantity: number }[];
+}
+interface XolaQuoteLine {
+  /** "demographic" for tickets; "partner_fee", "tax", "fee"... for the rest. */
+  type: string;
+  name: string;
+  quantity: number | null;
+  unitPrice: number | null;
+  amount: number;
+}
+interface XolaPriceQuote {
+  experienceId: string;
+  sellerId: string;
+  date: string;
+  time: string;
+  currency: string;
+  lines: XolaQuoteLine[];
+  /** What checkout would charge, taxes and fees included. */
+  total: number;
+  dueNow: number | null;
+}
 
   /**
    * Tours and activities sold by operators on Xola: experiences, availability, quotes and guest
@@ -98440,6 +98902,13 @@ interface XolaAvailability {
      * add-ons, tax or fees.
      */
     getAvailability(args: XolaGetAvailabilityArgs): Promise<XolaAvailability>;
+
+    /**
+     * Prices a party (how many of each demographic) for one session the way Xola Checkout does
+     * before payment -- ticket lines, taxes and fees, the total and what is due now. Saves
+     * nothing.
+     */
+    getPriceQuote(args: XolaGetPriceQuoteArgs): Promise<XolaPriceQuote>;
   }
 }
 

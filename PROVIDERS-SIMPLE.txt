@@ -312,7 +312,7 @@ fivestarbathsolutions.com — fivestarbathsolutions: getAvailableSlots, listLoca
 flightradar24.com — flightradar24: getAirline, getAirportArrivals (+10 planned)
 flights.google.com — google_flights: getBookingOptions, getPriceGraph, search
 fluencecorp.com — fluencecorp: calculateEnergyConsumption
-fomo.family — fomo: addToWatchlist, filterTokens, getBalances, getCandles, getClan, getClanFeed, getClanHoldings, getClanHoldingsBreakdown, getClanThesis, getCurrentUser, getDevHolders, getFeed, getFollowers, getFollowing, getFollowingIds, getFollowingLeaderboard, getFriendHolders, getGraduatedTokens, getLeaderboard, getMajorTokens, getMostHeldTokens, getMutuals, getPortfolioHistory, getPortfolioSnapshot, getRecommendedUsers, getToken, getTokenAllowlist, getTokenAllowlistDetailed, getTokenFeed, getTokenThesis, getTokenWarnings, getTopHolders, getTrade, getTradeComments, getTrades, getTradingActivityFeed, getTrendingTokens, getUser, getUserByHandle, getUserLeaderboardStanding, getUserSpotlight, getUserSwaps, getUserTransfers, getUserWithdrawals, getVerifiedTokens, getWatchlist, removeFromWatchlist, searchClans, searchTokens, searchUsers (+29 planned)
+fomo.family — fomo: addToWatchlist, filterTokens, getAlertPreferences, getBalances, getCandles, getClan, getClanFeed, getClanHoldings, getClanHoldingsBreakdown, getClanThesis, getCurrentUser, getDevHolders, getFeed, getFollowers, getFollowing, getFollowingIds, getFollowingLeaderboard, getFriendHolders, getGraduatedTokens, getLeaderboard, getMajorTokens, getMostHeldTokens, getMutuals, getPortfolioHistory, getPortfolioSnapshot, getRecommendedUsers, getToken, getTokenAllowlist, getTokenAllowlistDetailed, getTokenFeed, getTokenThesis, getTokenWarnings, getTopHolders, getTrade, getTradeComments, getTrades, getTradingActivityFeed, getTrendingTokens, getUser, getUserByHandle, getUserLeaderboardStanding, getUserSpotlight, getUserSwaps, getUserTransfers, getUserWithdrawals, getVerifiedTokens, getWatchlist, removeFromWatchlist, searchClans, searchTokens, searchUsers, setAlertPreferences (+27 planned)
 forbes.com — forbes: getArticle, getContributor, getList, getPerson, getVideo, listArticlesByTopic, listBillionaires, listContributors, listLists, listNews, listTopics, listVideos (+1 planned)
 ford.com — ford: findDealers, getOffers, getRecalls, getVehicle, listNameplates (+4 planned)
 forms.hubspot.com — forms_hubspot_com: findForms, getFormDefinition
@@ -389,7 +389,7 @@ icis.corp.delaware.gov — delaware_corps: searchEntity (+1 planned)
 idealista.com — idealista: search (+3 planned)
 identitygroup.com — identitygroup: getSign, priceMountOption, searchSigns
 ihg.com — ihg: search
-ikea.com — ikea: addToCart, addToFavorites, findStores, getCart, getDeliveryOptions, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getProfile, getPurchase, listCategories, listCategoryProducts, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem (+4 planned)
+ikea.com — ikea: addToCart, addToFavorites, findStores, getCart, getDeliveryOptions, getFamilyMembership, getProduct, getProductAvailability, getProductDocuments, getProductRatings, getProfile, getPurchase, listCategories, listCategoryProducts, listFavorites, listInspiration, listNewProducts, listOffers, listPurchases, lookupOrder, removeFromCart, removeFromFavorites, searchProducts, suggestSearchTerms, updateCartItem (+3 planned)
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 inspirecommunities.com — inspirecommunities: searchHomes
@@ -612,7 +612,7 @@ saltandstone.com — saltandstone: getScentProducts, listScentFamilies, matchSce
 samsclub.com — samsclub: browseCategory, checkStock, findClubs, getFuelPrices, getInstantSavings, getMembershipPlans, getProduct, search (+2 planned)
 samsung.com — samsung: checkWarrantyStatus, compareProducts, findStore, getOrderStatus, getProduct, getRewardsBalance, getTradeInQuote, listCarrierOffers, listCategories, listCategoryProducts, listDeals, listMyProducts, listOrders, listSupportArticles, search
 scentbird.com — scentbird: browseCatalogue
-scribd.com — scribd: getDocument, getDocumentText, getEmbedCode, getList, getRelatedDocuments, getTrendingDocuments, getUserProfile, listCategories, searchDocuments (+15 planned)
+scribd.com — scribd: getDocument, getDocumentText, getEmbedCode, getList, getRelatedDocuments, getTrendingDocuments, getUserProfile, listCategories, listSavedDocuments, searchDocuments (+14 planned)
 seakeeper.com — seakeeper: findNearestDealers, listAllDealers
 sears.com — sears: checkStock, getProduct, search (+1 planned)
 seatgeek.com — seatgeek: findPerformers, findVenues, followPerformer, getEvent, getOrder, getPerformer, getVenue, listFollowedPerformers, listMyOrders, listTaxonomies, listTrackedEvents, searchEvents, trackEvent, unfollowPerformer, untrackEvent (+3 planned)
@@ -695,7 +695,7 @@ tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHigh
 tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listCaptionTracks, listCommentReplies, listComments, listFollowers, listFollowing, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listSoundVideos, listUserVideos, postComment, searchUsers, searchVideos, unfollowUser, unlikeVideo (+4 planned)
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
-toasttab.com — toast: getMenu, getOrderingOptions, getRestaurant, listCities, listCityRestaurants, searchRestaurants (+51 planned)
+toasttab.com — toast: getMenu, getMenuItem, getOrderingOptions, getPopularItems, getRestaurant, listCities, listCityRestaurants, searchMenu, searchRestaurants (+48 planned)
 topcashback.com — topcashback: getStoreRate, searchStores (+1 planned)
 topviewtix.com — topviewtix: getPackageDetails, listPackages (+1 planned)
 totalplastics.com — totalplastics: getQuoteFormFieldOptions, getQuoteFormFields

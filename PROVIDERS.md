@@ -43,7 +43,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `accuweather.getDayDetails` | accuweather.com | Full day and night detail for one of getDailyForecast's 15 days - RealFeel, RealFeel… | 🟢 |
 | `accuweather.getExtendedForecast` | accuweather.com | The long-range daily forecast beyond day 15 (to day 45) that AccuWeather sells with… | ⚪ |
 | `accuweather.getHealthForecast` | accuweather.com | Weather-driven health risk outlook for a location by condition - arthritis, sinus… | 🟢 |
-| `accuweather.getHourlyForecast` | accuweather.com | Hour-by-hour forecast for a location - temperature, RealFeel, conditions… | 🟢 |
+| `accuweather.getHourlyForecast` | accuweather.com | Hour-by-hour forecast for a location, today or (day 2-3) the next two days -… | 🟢 |
 | `accuweather.getLocation` | accuweather.com | Resolves a place name, autocomplete key or lat/lon to AccuWeather's numeric location… | 🟢 |
 | `accuweather.getMinuteCast` | accuweather.com | Minute-by-minute precipitation for the next two hours at a location - the site's own… | 🟢 |
 | `accuweather.getMonthlyForecast` | accuweather.com | The month calendar for a location - every day's high and low (observed for past days… | 🟢 |
@@ -651,7 +651,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booker.searchLocations` | booker.com | Searches Booker's directory of spas and salons by business name and returns matching… | 🟢 |
 | `booker.updateMyProfile` | booker.com | Updates the signed-in customer's profile fields (name, phone, address, communication… | ⚪ |
 | `booking_com.addToWishlist` | booking.com | Add a property to the caller's wishlist. | ⚪ |
-| `booking_com.autocompleteDestination` | booking.com | Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text… | 🟡 |
+| `booking_com.autocompleteDestination` | booking.com | Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text… | 🟢 |
 | `booking_com.checkPrice` | booking.com | Check a specific property's own room rate table for given dates — every room offered… | 🟢 |
 | `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | 🟢 |
 | `booking_com.getBooking` | booking.com | Get one of the caller's own Booking.com trips by the id listBookings returns. | 🟢 |
@@ -1187,7 +1187,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubpilates.buyPackage` | clubpilates.com | Would buy a class pack or membership at a studio for the signed-in member. | ⚪ |
 | `clubpilates.cancelBooking` | clubpilates.com | Cancels one of the signed-in member's bookings or removes them from a waitlist. | 🟢 |
 | `clubpilates.favoriteInstructor` | clubpilates.com | Adds or removes an instructor from the signed-in member's favourites, as the members… | 🟢 |
-| `clubpilates.findStudios` | clubpilates.com | Finds Club Pilates studios near a point — by latitude/longitude — returning each… | 🟢 |
+| `clubpilates.findStudios` | clubpilates.com | Finds Club Pilates studios near a US ZIP ("94123") or a latitude/longitude — returning… | 🟢 |
 | `clubpilates.getClass` | clubpilates.com | Returns one scheduled class by id ("cr_89942194") at a studio: description, times… | 🟢 |
 | `clubpilates.getClassPoints` | clubpilates.com | Returns the signed-in member's ClassPoints rewards balance, tier and available rewards. | 🟢 |
 | `clubpilates.getMyMembership` | clubpilates.com | Returns the signed-in member's membership and class credits left at one studio — what… | 🟢 |
@@ -1858,7 +1858,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventbrite.getOwnProfile` | eventbrite.com | Reads the signed-in caller's own account profile (name, email on file, location). | 🟢 |
 | `eventbrite.getSavedEvents` | eventbrite.com | Reads the signed-in caller's saved ('liked') events. | 🟢 |
 | `eventbrite.getVenue` | eventbrite.com | Reads one event's venue — name, address, city/region/country and coordinates — taking… | 🟢 |
-| `eventbrite.listTicketClasses` | eventbrite.com | Reads one event's per-tier ticket breakdown — name, price, fees and sold-out state —… | 🟢 |
+| `eventbrite.listTicketClasses` | eventbrite.com | Reads one event's per-tier ticket breakdown — name, price, fees and sold-out state —… | 🟡 |
 | `eventbrite.registerForEvent` | eventbrite.com | Registers the signed-in caller for an event on a FREE ticket class (ids from… | 🟢 |
 | `eventbrite.saveEvent` | eventbrite.com | Saves ('likes') an event to the signed-in caller's account, taking an event url or id. | 🟢 |
 | `eventbrite.searchEvents` | eventbrite.com | Searches live events by location (a city/region string or 'online') with an optional… | 🟢 |
@@ -1875,7 +1875,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `evolvemedspa.listServices` | evolvemedspa.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
 | `evreward.getStoreRewards` | evreward.com | Reads a store's EVReward page — the cash back percentage, miles/$ and points/$ each… | 🟢 |
 | `evreward.listStores` | evreward.com | Lists every store EVReward tracks, alphabetically, from its /sitemap store index. | ⚪ |
-| `executivehomecare.findLocalOffice` | executivehomecare.com | Looks up the Executive Home Care franchise office that covers a US ZIP — the same… | 🟡 |
+| `executivehomecare.findLocalOffice` | executivehomecare.com | Looks up the Executive Home Care franchise office that covers a US ZIP — the same… | 🟢 |
 | `exhalespa.getLocation` | exhalespa.com | Resolves one exhale spa location from a slug or free text such as "midtown atlanta"… | 🟢 |
 | `exhalespa.listClasses` | exhalespa.com | Lists one location's upcoming fitness classes (Pilates, barre, yoga) for a date, from… | ⚪ |
 | `exhalespa.listLocations` | exhalespa.com | Lists every physical exhale spa location (Midtown Atlanta, Battery Wharf Boston… | 🟢 |
@@ -2070,7 +2070,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.exportPrivateKeys` | fomo.family | Returns the signed-in user's exported wallet private keys — the site's own key-export… | ⚪ |
 | `fomo.filterTokens` | fomo.family | The full token screener — a POST taking the site's own filter object and returning… | 🟢 |
 | `fomo.follow` | fomo.family | Follows another trader on behalf of the signed-in user. | ⚪ |
-| `fomo.getAlertPreferences` | fomo.family | Returns and updates which push alerts the signed-in trader receives — the settings… | ⚪ |
+| `fomo.getAlertPreferences` | fomo.family | Returns which push alerts the signed-in trader receives — the settings behind the… | 🟢 |
 | `fomo.getBalances` | fomo.family | Returns what one trader actually holds — every open token position with its raw… | 🟢 |
 | `fomo.getCandles` | fomo.family | Returns OHLCV bars for one token — the chart data behind every token page. | 🟢 |
 | `fomo.getClan` | fomo.family | Returns one clan — fomo's team unit — with its name, description, member count… | 🟢 |
@@ -2134,7 +2134,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.searchTokens` | fomo.family | Searches tokens by name, symbol or contract address and returns matching rows with… | 🟢 |
 | `fomo.searchUsers` | fomo.family | Fuzzy-searches traders by handle or display name and returns matching profiles. | 🟢 |
 | `fomo.sendTransfer` | fomo.family | Sends tokens from the signed-in user's wallet to another user or address. `POST… | ⚪ |
-| `fomo.setAlertPreferences` | fomo.family | Writes the signed-in trader's push-notification preferences — which alerts fomo sends… | ⚪ |
+| `fomo.setAlertPreferences` | fomo.family | Writes the signed-in trader's push-notification preferences — which alerts fomo sends… | 🟢 |
 | `fomo.subscribeTokenStream` | fomo.family | Subscribes to fomo's realtime channel and streams token updates as they happen — the… | ⚪ |
 | `fomo.unfollow` | fomo.family | Unfollows a trader. `DELETE /follows`. | ⚪ |
 | `fomo.unreactToComment` | fomo.family | Removes the signed-in trader's reaction from a comment. `POST /trades/comment/unreact`. | ⚪ |
@@ -2708,7 +2708,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ikea.findStores` | ikea.com | Lists IKEA's US stores, optionally near a ZIP code or in a state, with address… | 🟢 |
 | `ikea.getCart` | ikea.com | Reads a cart's items, quantities, line prices and total. | 🟢 |
 | `ikea.getDeliveryOptions` | ikea.com | Checks home-delivery eligibility and quantity for a ZIP, or click-and-collect and… | 🟢 |
-| `ikea.getFamilyMembership` | ikea.com | Reads the signed-in caller's IKEA Family membership — card number, member since, and… | ⚪ |
+| `ikea.getFamilyMembership` | ikea.com | Reads the signed-in caller's IKEA Family membership — whether they are a member, the… | 🟢 |
 | `ikea.getProduct` | ikea.com | Reads one product page by item number or URL: name, price, description, dimensions… | 🟢 |
 | `ikea.getProductAvailability` | ikea.com | Checks whether an item is in stock at each US IKEA store and for home delivery… | 🟢 |
 | `ikea.getProductDocuments` | ikea.com | Lists a product's documents — assembly instructions, care manuals, declarations and… | 🟢 |
@@ -4296,7 +4296,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `scribd.getUserProfile` | scribd.com | Reads a Scribd uploader's public profile — display name, avatar and their upload… | 🟢 |
 | `scribd.listCategories` | scribd.com | Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money… | 🟢 |
 | `scribd.listMyLists` | scribd.com | Lists the signed-in caller's own lists (collections), with each list's id, name… | ⚪ |
-| `scribd.listSavedDocuments` | scribd.com | Lists the documents in the signed-in caller's library — saved and finished — with id… | ⚪ |
+| `scribd.listSavedDocuments` | scribd.com | Lists the documents in the signed-in caller's library — saved and finished — with id… | 🟢 |
 | `scribd.listUserUploads` | scribd.com | Lists every document one uploader has published, newest first, a page at a time — each… | ⚪ |
 | `scribd.markDocumentFinished` | scribd.com | Marks a saved document as finished in the signed-in caller's library. | ⚪ |
 | `scribd.rateDocument` | scribd.com | Rates a document helpful or not helpful (Scribd's thumbs up / thumbs down) as the… | ⚪ |
@@ -4881,7 +4881,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tapfiliate.listAffiliates` | tapfiliate.com | Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by… | 🟢 |
 | `target.addToCart` | target.com | Adds one product (by TCIN) to the CALLER's own Target cart. | 🟢 |
 | `target.addToList` | target.com | Saves one product (by TCIN, optionally with a quantity) to one of the CALLER's own… | 🟢 |
-| `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | 🟡 |
+| `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | 🟢 |
 | `target.findRegistry` | target.com | Finds a Target Gift Registry by the registrant's name, event date or registry id — the… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getCart` | target.com | Reads what is in the CALLER's own Target cart — line items (TCIN, title, quantity… | 🟢 |
@@ -5080,14 +5080,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `toast.getGiftCardBalance` | toasttab.com | Checks the balance on a restaurant gift card the caller holds, by card number. | ⚪ |
 | `toast.getLoyaltyProgram` | toasttab.com | Reads a restaurant's loyalty program as a guest sees it before joining: how points are… | ⚪ |
 | `toast.getMenu` | toasttab.com | Reads a restaurant's online-ordering menu: menus, groups, and items with name… | 🟢 |
-| `toast.getMenuItem` | toasttab.com | Reads one menu item with everything ordering it needs: sizes, modifier groups… | ⚪ |
+| `toast.getMenuItem` | toasttab.com | Reads one menu item with everything ordering it needs: sizes, modifier groups… | 🟢 |
 | `toast.getMyAccount` | toasttab.com | Reads the signed-in guest's own Toast profile: name, email, phone and saved delivery… | ⚪ |
 | `toast.getMyOrder` | toasttab.com | Reads one of the signed-in guest's past orders in full: items, choices, totals… | ⚪ |
 | `toast.getMyRewards` | toasttab.com | Reads the signed-in guest's loyalty points and rewards at each Toast restaurant they… | ⚪ |
 | `toast.getMyWallet` | toasttab.com | Reads the offers the signed-in guest has saved to their Toast wallet. | ⚪ |
 | `toast.getOrderingOptions` | toasttab.com | Says how a restaurant takes online orders right now: takeout, delivery and catering on… | 🟢 |
 | `toast.getOrderReceipt` | toasttab.com | Gets the receipt for one of the signed-in guest's orders as a PDF file. | ⚪ |
-| `toast.getPopularItems` | toasttab.com | Lists a restaurant's most-ordered items with price and guid. | ⚪ |
+| `toast.getPopularItems` | toasttab.com | Lists a restaurant's most-ordered items with price and guid. | 🟢 |
 | `toast.getReservationAvailability` | toasttab.com | Reads a Toast Tables restaurant's open reservation times for a party size across a… | ⚪ |
 | `toast.getRestaurant` | toasttab.com | Reads one Toast restaurant by its toast.app URL, slug ("bombaytandoor") or guid: name… | 🟢 |
 | `toast.getRestaurantLocations` | toasttab.com | Lists the other locations of the same restaurant group (a chain's sister restaurants… | ⚪ |
@@ -5110,7 +5110,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `toast.removePromoCode` | toasttab.com | Removes a promo code from the cart. | ⚪ |
 | `toast.reorder` | toasttab.com | Puts the items from one of the signed-in guest's past orders into a new cart at that… | ⚪ |
 | `toast.saveOfferToWallet` | toasttab.com | Saves a restaurant offer to the signed-in guest's wallet. | ⚪ |
-| `toast.searchMenu` | toasttab.com | Searches one restaurant's menu by words ("paneer") and returns the matching items with… | ⚪ |
+| `toast.searchMenu` | toasttab.com | Searches one restaurant's menu by words ("paneer") and returns the matching items with… | 🟢 |
 | `toast.searchReservations` | toasttab.com | Finds restaurants near a place with reservation slots open for a party size around a… | ⚪ |
 | `toast.searchRestaurants` | toasttab.com | Finds Toast restaurants near a latitude/longitude, nearest first, optionally by free… | 🟢 |
 | `toast.setFulfillment` | toasttab.com | Sets how and when the cart's order is fulfilled: takeout or delivery (with the… | ⚪ |
