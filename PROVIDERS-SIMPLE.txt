@@ -191,7 +191,7 @@ chromium.googlesource.com — chromium_googlesource_com: getFile, listDirectory,
 cigna.com — cigna_directory: findProviders
 classichome.com — classichome: addToCart, getProduct, searchProducts
 classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) — classicrockfab: checkAvailability, listAppointmentTypes
-classpass.com — classpass: checkAvailability, findLocation, findStudio, getBillingHistory, getBookingQuote, getClass, getClassReviews, getCreditBalance, getMyProfile, getMySubscription, getReservation, getSchedule, getStudio, getStudioReviews, getVideo, listCategories, listFavorites, listMarkets, listMyReservations, listOnDemandVideos, listSimilarStudios, listStudioBranches, listStudioClasses, search (+16 planned)
+classpass.com — classpass: addFavorite, checkAvailability, checkIn, findLocation, findStudio, getBillingHistory, getBookingQuote, getClass, getClassReviews, getCreditBalance, getMyProfile, getMySubscription, getReservation, getSchedule, getStudio, getStudioReviews, getVideo, listCategories, listFavorites, listMarkets, listMyReservations, listOnDemandVideos, listSimilarStudios, listStudioBranches, listStudioClasses, removeFavorite, search (+13 planned)
 claude.ai — claude: continueSharedConversation, getAccount, getConversation, getMemory, getPreferences, getProject, getPublishedArtifact, getSharedConversation, getUsage, listArtifacts, listConnectors, listConversations, listModels, listProjects, listSharedLinks, listSkills, rateResponse, renameConversation, searchConversations, sendMessage, starConversation (+13 planned)
 claude.com — claude_com: getDoc, listDocPages
 claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
@@ -709,7 +709,7 @@ trophysignaturehomes.com — trophysignaturehomes: compareHomes, getHome, search
 trueup.io — trueup: searchJobs
 trustpilot.com — trustpilot: getCompany
 tryalma.com — tryalma_com: listPages, search
-tumblr.com — tumblr: findBlog, findTag, followBlog, getBlogInfo, getBlogPosts, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, searchBlogPosts, searchPosts, unfollowBlog, unlikePost (+7 planned)
+tumblr.com — tumblr: deletePost, findBlog, findTag, followBlog, getBlogInfo, getBlogPosts, getPost, getPostNotes, getTagTimeline, getTrendingPosts, getTrendingTags, likePost, listBlogFollowers, reblogPost, searchBlogPosts, searchPosts, unfollowBlog, unlikePost, unreblogPost (+3 planned)
 turbotax.intuit.com — turbotax: compareEditions, estimateRefund, estimateSelfEmploymentTax, estimateWithholding, findLocalExperts, getArticle, getLocalExpert, getLocalOffice, listEditions, listTaxTools, searchArticles
 tweethunter.io — tweethunter: listFeatureCategories, listFeatures
 twiddy.com — twiddy: getRentalDetail, getRentalQuote, searchRentals
@@ -754,7 +754,7 @@ wikipedia.org — wikipedia: compareRevisions, createPage, editPage, getArticle,
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)
 windscribe.com — windscribe: getDedicatedIp (+1 planned)
 winestyles.com — winestyles: listStores, searchStoreInventory
-wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, listGymSchedule, listInstructors, listMemberships, listPrices, listPrograms, readTerms (+28 planned)
+wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, getMyBookings, getMyMembership, listGymSchedule, listInstructors, listMemberships, listPrices, listPrograms, readTerms (+26 planned)
 workable.com — workable: listJobs
 wsj.com — wsj: getArticle, getArticleFullText, getAuthor, getNewsletter, getPodcast, getQuote, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSavedArticles, listSections, listTrending, searchArticles (+5 planned)
 wunderflats.com — wunderflats: search

@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 148 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 152 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -150,6 +150,10 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `video_library.updateVideo` | Changes the details of one of the caller's own videos — title, description, tags… | 1 | 🟢 |
 | `video_library.uploadVideo` | Uploads a video file to the caller's own YouTube channel and returns its id and link. | 1 | 🟢 |
 | `video_library.watchLater` | The caller's own Watch Later queue, newest first. `limit` keeps only the first N… | 1 | 🟢 |
+| `vision.ask` | Answers a question about an image or about moments of a video. | 0 | 🟢 |
+| `vision.frames` | Samples frames from a video or image and returns them as saved files with links… | 0 | 🟢 |
+| `vision.identifyEffect` | Takes a moment of a video and says what visual effect, transition or technique is… | 0 | 🟢 |
+| `vision.readText` | Reads the legible text in an image or in frames of a video, verbatim and in reading… | 0 | 🟢 |
 | `vpn_dedicated_ip.compare` | Compare VPN dedicated/static IP providers (Windscribe, Surfshark, PureVPN): where each… | 3 | 🟢 |
 | `weather.forecast` | Geocodes a place name and returns its daily forecast (default 5 days, max 16 —… | 0 | 🟢 |
 | `web_form_fields.fillForm` | Opens the page (and the booking/quote widget behind a button, exactly as `getFields`… | 0 | 🟢 |

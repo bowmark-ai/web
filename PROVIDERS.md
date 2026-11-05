@@ -134,7 +134,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getInvoice` | alibaba.com | Get details of a specific invoice. | ⚪ |
 | `alibaba.getOrder` | alibaba.com | Get details for a specific order including tracking, payment status and items. | ⚪ |
 | `alibaba.getProduct` | alibaba.com | Get detailed information for a single product by ID, including specs, images, pricing… | 🟢 |
-| `alibaba.getProductReviews` | alibaba.com | One page of a product's buyer reviews — star rating, text, date, masked reviewer… | 🟢 |
+| `alibaba.getProductReviews` | alibaba.com | One page of a product's buyer reviews — star rating, text, date, masked reviewer… | 🟡 |
 | `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | ⚪ |
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
@@ -1076,14 +1076,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟢 |
 | `classicrockfab.checkAvailability` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Given an appointmentTypeId from listAppointmentTypes, returns real currently-open time… | 🟢 |
 | `classicrockfab.listAppointmentTypes` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Lists Classic Rock's public design-center appointment types across all four locations… | 🟢 |
-| `classpass.addFavorite` | classpass.com | Saves a studio to the signed-in member's favourites. | ⚪ |
+| `classpass.addFavorite` | classpass.com | Saves a studio to the signed-in member's favourites. | 🟢 |
 | `classpass.bookClass` | classpass.com | Reserves a spot in one class slot for the signed-in member, spending credits they… | ⚪ |
 | `classpass.buyCredits` | classpass.com | Would buy extra credits on the signed-in member's card. | ⚪ |
 | `classpass.cancelMembership` | classpass.com | Starts and completes the site's cancel-membership flow for the signed-in member… | ⚪ |
 | `classpass.cancelReservation` | classpass.com | Cancels one of the signed-in member's reservations, first reading the cancel terms… | ⚪ |
 | `classpass.changePlan` | classpass.com | Would move the signed-in member to a different plan tier. | ⚪ |
 | `classpass.checkAvailability` | classpass.com | Checks whether one already-known class slot is still bookable and at what credit… | 🟢 |
-| `classpass.checkIn` | classpass.com | Marks one of the signed-in member's reservations as attended (the app's check-in). | ⚪ |
+| `classpass.checkIn` | classpass.com | Marks one of the signed-in member's reservations as attended (the app's check-in). | 🟢 |
 | `classpass.findLocation` | classpass.com | Turns a place name a caller holds (`Charlotte`, a neighbourhood, an address) into the… | 🟢 |
 | `classpass.findStudio` | classpass.com | Finds ClassPass studios by NAME (and matching brand) near a point — the door for a… | 🟢 |
 | `classpass.getBillingHistory` | classpass.com | Lists the signed-in member's past charges — plan renewals and credit purchases, with… | 🟢 |
@@ -1110,7 +1110,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.listStudioClasses` | classpass.com | Lists the classes a studio teaches — its class catalogue (name, alias, description)… | 🟢 |
 | `classpass.pauseMembership` | classpass.com | Pauses the signed-in member's plan for a period the site offers, and reports when it… | ⚪ |
 | `classpass.redeemGiftCode` | classpass.com | Redeems a ClassPass gift code onto the signed-in member's account. | ⚪ |
-| `classpass.removeFavorite` | classpass.com | Removes a studio from the signed-in member's favourites. | ⚪ |
+| `classpass.removeFavorite` | classpass.com | Removes a studio from the signed-in member's favourites. | 🟢 |
 | `classpass.search` | classpass.com | Searches fitness, wellness AND beauty businesses (gyms, studios, spas and salons) near… | 🟢 |
 | `classpass.sendReferralInvites` | classpass.com | Would email ClassPass referral invitations to people the member names. | ⚪ |
 | `classpass.signWaiver` | classpass.com | Signs a studio's liability waiver for the signed-in member, which some studios require… | ⚪ |
@@ -3440,7 +3440,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `npr.getPodcast` | npr.org | Read one podcast or show's details — description, hosts, artwork and its RSS feed —… | 🟢 |
 | `npr.getProgramRundown` | npr.org | List the segments one broadcast program (Morning Edition, All Things Considered… | 🟢 |
 | `npr.getStation` | npr.org | Read one member station's details — brand, frequency, market, homepage, donation page… | 🟢 |
-| `npr.getStory` | npr.org | A complete NPR story — headline, publication date, author, body text and (when… | 🟢 |
+| `npr.getStory` | npr.org | A complete NPR story — headline, publication date, author, bylines (each with the id… | 🟢 |
 | `npr.getTranscript` | npr.org | Read the broadcast transcript of a story or episode that aired, given its story id. | 🟢 |
 | `npr.listCategoryPodcasts` | npr.org | List every podcast in one directory category (technology, comedy, news…), given its id… | 🟢 |
 | `npr.listHeadlines` | npr.org | List the homepage's current top stories — headline, URL, teaser and date. | 🟢 |
@@ -5218,7 +5218,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tryalma_com.listPages` | tryalma.com | List all pages and sections available on the Alma website by category. | 🟢 |
 | `tryalma_com.search` | tryalma.com | Search Alma's content, including pages, resources, and team member profiles. | 🟢 |
 | `tumblr.createPost` | tumblr.com | Create a new post on the signed-in account's blog. | ⚪ |
-| `tumblr.deletePost` | tumblr.com | Delete a post from the signed-in account's blog. | ⚪ |
+| `tumblr.deletePost` | tumblr.com | Delete a post from the signed-in account's blog. | 🟢 |
 | `tumblr.editPost` | tumblr.com | Edit an existing post on the signed-in account's blog. | ⚪ |
 | `tumblr.findBlog` | tumblr.com | Find a blog by name. | 🟢 |
 | `tumblr.findTag` | tumblr.com | Find posts by searching a tag. | 🟢 |
@@ -5231,14 +5231,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tumblr.getTrendingPosts` | tumblr.com | Get posts that are currently trending on Tumblr. | 🟢 |
 | `tumblr.getTrendingTags` | tumblr.com | Get tags that are currently trending on Tumblr. | 🟢 |
 | `tumblr.likePost` | tumblr.com | Like a post from the signed-in account. | 🟢 |
-| `tumblr.listBlogFollowers` | tumblr.com | List followers of a blog; caller must own the blog. | ⚪ |
-| `tumblr.reblogPost` | tumblr.com | Reblog a post to the signed-in account's blog. | ⚪ |
+| `tumblr.listBlogFollowers` | tumblr.com | List followers of a blog; caller must own the blog. | 🟢 |
+| `tumblr.reblogPost` | tumblr.com | Reblog a post to the signed-in account's blog. | 🟢 |
 | `tumblr.searchBlogPosts` | tumblr.com | Search posts within a specific blog. | 🟢 |
 | `tumblr.searchPosts` | tumblr.com | Search all posts across Tumblr by keyword or phrase. | 🟢 |
 | `tumblr.sendMessage` | tumblr.com | Send an ask (public or anonymous) to a blog. | ⚪ |
 | `tumblr.unfollowBlog` | tumblr.com | Unfollow a blog from the signed-in account. | 🟢 |
 | `tumblr.unlikePost` | tumblr.com | Remove a like from a post on the signed-in account. | 🟢 |
-| `tumblr.unreblogPost` | tumblr.com | Remove a reblog from the signed-in account's blog. | ⚪ |
+| `tumblr.unreblogPost` | tumblr.com | Remove a reblog from the signed-in account's blog. | 🟢 |
 | `turbotax.compareEditions` | turbotax.intuit.com | Compare TurboTax editions side by side, showing which features each includes. | 🟢 |
 | `turbotax.estimateRefund` | turbotax.intuit.com | Estimate a federal refund or amount owed with TurboTax's TaxCaster from filing status… | 🟢 |
 | `turbotax.estimateSelfEmploymentTax` | turbotax.intuit.com | Estimate self-employment tax and quarterly payments on 1099 income with TurboTax's… | 🟢 |
@@ -5713,8 +5713,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wodify.getInvoices` | wodify.com | Get the member's billing invoices and payment history. | ⚪ |
 | `wodify.getLeaderboard` | wodify.com | Get the gym's leaderboard with member rankings and scores. | ⚪ |
 | `wodify.getMemberStats` | wodify.com | Get the member's performance statistics and progress. | ⚪ |
-| `wodify.getMyBookings` | wodify.com | Get the signed-in member's current and upcoming class bookings. | ⚪ |
-| `wodify.getMyMembership` | wodify.com | Get details of the member's current membership. | ⚪ |
+| `wodify.getMyBookings` | wodify.com | Get the signed-in member's current and upcoming class bookings. | 🟢 |
+| `wodify.getMyMembership` | wodify.com | Get details of the member's current membership. | 🟢 |
 | `wodify.getMyResults` | wodify.com | Get the member's workout results and performance history. | ⚪ |
 | `wodify.getNotificationSettings` | wodify.com | View the member's notification preferences. | ⚪ |
 | `wodify.getPaymentMethods` | wodify.com | Get the member's saved payment methods. | ⚪ |
