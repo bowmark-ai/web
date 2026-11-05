@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e35031046829db37e106303375ab0b88c78f6ede3017f46d0cafc309187989cd
-// 4250 checked, 20 unchecked.
+// Manifest version: 3bab90576a85faf4fe8ad07ca0f8bed828d912995db736a7996bd764459c31f3
+// 4255 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e35031046829db37e106303375ab0b88c78f6ede3017f46d0cafc309187989cd",
+  "version": "3bab90576a85faf4fe8ad07ca0f8bed828d912995db736a7996bd764459c31f3",
   "units": {
     "address_validation": {
       "defs": {
@@ -39254,6 +39254,55 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetFantasyTeamArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sport",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "leagueId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "teamId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetGameArgs": {
           "k": "object",
           "props": [
@@ -39373,6 +39422,32 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -39886,6 +39961,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetFantasyLeagueArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getFantasyTeam": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetFantasyTeamArgs"
             },
             "optional": false
           }
@@ -76768,6 +76863,56 @@ export const VALIDATORS: ValidatorTable = {
     "providers.netflix": {
       "defs": {},
       "functions": {
+        "addToMyList": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromMyList": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getTudumArticle": [
           {
             "name": "article",
@@ -102091,9 +102236,75 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "ShopAppListOrdersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "status",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "active"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "past"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
+        "listOrders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ShopAppListOrdersArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getProduct": [
           {
             "name": "input",

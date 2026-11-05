@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e35031046829db37e106303375ab0b88c78f6ede3017f46d0cafc309187989cd
-// 94 capabilities, 760 providers, 4268 typed functions, 20 refused.
+// Manifest version: 3bab90576a85faf4fe8ad07ca0f8bed828d912995db736a7996bd764459c31f3
+// 94 capabilities, 760 providers, 4273 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -33250,9 +33250,21 @@ interface StorefrontSlide {
   linkedProduct?: string;
 }
 
+interface StorefrontGame {
+  title: string;
+  offerId: string;
+  namespace: string;
+  productSlug: string | null;
+  currentPrice: number | null; // cents
+  originalPrice: number | null; // cents
+  currencyCode: string | null;
+}
+
 interface StorefrontModule {
   type: string;
+  title: string; // the row's heading, e.g. "Featured Discounts"; empty when untitled
   slides: StorefrontSlide[];
+  games: StorefrontGame[]; // the games the row lists; empty for a banner
 }
 
 interface GetStorefrontResult {
@@ -33380,7 +33392,8 @@ interface GetAchievementProgressResult {
     /**
      * Games on sale right now in the Epic Games Store's Special Offers — current price, original
      * price, discount percentage, currency and sale end date. Optionally filtered by tag or a
-     * maximum price, sorted by discount (default) or price.
+     * maximum price in dollars (priceCeiling: 10 means $10.00 — the rows' own prices are in
+     * cents), sorted by discount (default) or price.
      */
     listDeals(args?: { tag?: string; priceCeiling?: number; sortBy?: 'discount' | 'price' }): Promise<ListDealsResult>;
 
@@ -33407,8 +33420,9 @@ interface GetAchievementProgressResult {
 
     /**
      * The Epic Games Store home page as data — the featured carousel, the sale carousel and the
-     * other curated modules, each with its slides (title, eyebrow, description, linked product).
-     * Optional locale (default en-US) and ISO country code (default US).
+     * other curated modules, each with its heading, its slides (title, eyebrow, description,
+     * linked product slug) and the games the row lists (title, offer id, namespace, slug, price in
+     * cents). Optional locale (default en-US) and ISO country code (default US).
      */
     getStorefront(args?: { locale?: string; country?: string }): Promise<GetStorefrontResult>;
 
@@ -34311,6 +34325,69 @@ interface FantasyLeagueResult {
   thisWeekMatchups: FantasyLeagueMatchup[];
 }
 
+interface ListVideosArgs {
+  league: string; // a league slug or name, e.g. "nfl", "nba", "college-football"
+  team?: string; // keep only clips tagged with a team whose name contains this
+  limit?: number; // default 25, max 50
+}
+
+interface EspnVideo {
+  id: string;
+  headline: string;
+  description: string | null;
+  duration: number | null; // seconds
+  published: string | null; // ISO instant
+  thumbnail: string | null;
+  url: string | null; // the espn.com watch page
+  teams: string[];
+  players: string[];
+}
+
+interface ListVideosResult {
+  league: string;
+  videos: EspnVideo[]; // newest first
+}
+
+interface GetFantasyTeamArgs {
+  /** "football", "baseball", "basketball" or "hockey" */
+  sport: string;
+  /** The league id from a fantasy.espn.com URL, or the URL itself */
+  leagueId: string | number;
+  /** The team id inside that league (getFantasyLeague's teams[].id), or a URL carrying teamId= */
+  teamId: string | number;
+  /** Season year, e.g. 2026. Defaults to the current calendar year. */
+  season?: number;
+}
+
+interface FantasyRosterPlayer {
+  playerId: number;
+  fullName: string;
+  lineupSlotId: number; // ESPN fantasy's numeric lineup slot id
+  lineupSlot: string | null; // football only: "QB", "RB", "WR", "TE", "OP", "FLEX", "D/ST", "K", "Bench", "IR"
+  position: string | null; // football only: "QB", "RB", "WR", "TE", "K", "D/ST"
+  proTeamId: number | null;
+  injuryStatus: string | null; // the site's own label, e.g. "ACTIVE" in the 2026-11-05 capture
+  projectedPoints: number | null; // this scoring period
+  actualPoints: number | null; // this scoring period; null until games are played
+}
+
+interface FantasyTeamResult {
+  leagueId: string;
+  season: number;
+  scoringPeriodId: number | null;
+  teamId: number;
+  name: string;
+  abbreviation: string | null;
+  ownerName: string | null;
+  wins: number;
+  losses: number;
+  ties: number;
+  pointsFor: number;
+  pointsAgainst: number;
+  playoffSeed: number | null;
+  roster: FantasyRosterPlayer[];
+}
+
 interface FantasyTeamSummary {
   sport: string | null; // "football", "baseball", "basketball" or "hockey"
   season: number;
@@ -34618,6 +34695,21 @@ interface ListMyFantasyTeamsResult {
      * the caller's own ESPN session. Takes a league id or a fantasy.espn.com league URL.
      */
     getFantasyLeague(args: GetFantasyLeagueArgs): Promise<FantasyLeagueResult>;
+
+    /**
+     * ESPN's latest highlight and analysis video clips for a league, optionally one team's —
+     * headline, description, duration, published time, thumbnail, the espn.com watch page and the
+     * teams and players each clip is tagged with. Newest first.
+     */
+    listVideos(args: ListVideosArgs): Promise<ListVideosResult>;
+
+    /**
+     * One team in an ESPN fantasy league — its roster with each player's lineup slot, projected
+     * and actual points this scoring period, and the team's record. Same league access as
+     * getFantasyLeague: a public league reads logged out. Takes a league id and a team id from
+     * getFantasyLeague.
+     */
+    getFantasyTeam(args: GetFantasyTeamArgs): Promise<FantasyTeamResult>;
 
     /**
      * The CALLER's own ESPN fantasy teams across every game (football, baseball, basketball,
@@ -62976,6 +63068,11 @@ interface NetflixRating {
   rating: 1 | 2 | 3 | 4 | 5;
 }
 
+interface NetflixMyListChange {
+  id: string;
+  title?: string;
+  inMyList: boolean;
+}
 interface NetflixViewingHistoryEntry {
   titleId: string;
   title: string;
@@ -63022,6 +63119,21 @@ interface NetflixTudumSearchResult {
 
   /** Netflix streaming service — browse titles, search, manage My List and view history. */
   interface Unit {
+    /**
+     * Adds a title to the signed-in caller's own Netflix My List by its numeric id (from
+     * findTitles, search or netflix.com/title/<id>) — e.g. addToMyList("80057281") — returning the
+     * title and whether it is now on the list. Needs the caller signed in to their own Netflix
+     * account.
+     */
+    addToMyList(titleId: string, opts?: ConnectionOption): Promise<NetflixMyListChange>;
+
+    /**
+     * Removes a title from the signed-in caller's own Netflix My List by its numeric id — e.g.
+     * removeFromMyList("80057281") — returning the title and whether it is still on the list.
+     * Needs the caller signed in to their own Netflix account.
+     */
+    removeFromMyList(titleId: string, opts?: ConnectionOption): Promise<NetflixMyListChange>;
+
     /**
      * Reads one article on Tudum, Netflix's editorial site, by its slug or URL — e.g.
      * getTudumArticle("below-ending-explained") — returning headline, description, section, dates,
@@ -80254,6 +80366,29 @@ interface ShopAppStoreContacts {
   address: string[] | null;
   warnings: string[];
 }
+interface ShopAppOrder {
+  id: string;
+  placedAt: string | null;
+  status: string | null;
+  deliveryStatus: string | null;
+  paymentStatus: string | null;
+  total: number | null;
+  currency: string | null;
+  store: string | null;
+  itemCount: number | null;
+  images: string[];
+  url: string;
+}
+interface ShopAppOrderList {
+  orders: ShopAppOrder[];
+  nextCursor: string | null;
+  warnings: string[];
+}
+interface ShopAppListOrdersArgs {
+  status?: "active" | "past" | "all";
+  query?: string;
+  cursor?: string;
+}
 
   /**
    * Shop (Shopify's shopping app) — search products across every Shopify store, read a product
@@ -80262,6 +80397,14 @@ interface ShopAppStoreContacts {
    * products, follow stores and fill a cart up to checkout.
    */
   interface Unit {
+    /**
+     * The signed-in caller's own Shop orders, newest first — store, status words, delivery and
+     * payment status, total, item count and item images — "active" (not yet delivered, the
+     * default), "past" or "all", or a free-text search across them; a page at a time with
+     * nextCursor. Pauses for the caller to sign in to Shop.
+     */
+    listOrders(args?: ShopAppListOrdersArgs, opts?: ConnectionOption): Promise<ShopAppOrderList>;
+
     /**
      * One product by its numeric id or a shop.app/products/<id>/<slug> url: title, description,
      * store, rating, every option axis ("Color", "Size") with its values, and the

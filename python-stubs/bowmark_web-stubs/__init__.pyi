@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e35031046829db37e106303375ab0b88c78f6ede3017f46d0cafc309187989cd
-# 94 capabilities, 760 providers, 4250 typed functions, 20 refused.
+# Manifest version: 3bab90576a85faf4fe8ad07ca0f8bed828d912995db736a7996bd764459c31f3
+# 94 capabilities, 760 providers, 4255 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20405,13 +20405,24 @@ class Prv_epicgames_GetStorefrontResult_Out(TypedDict):
 
 class Prv_epicgames_StorefrontModule_Out(TypedDict):
     type: str
+    title: str
     slides: list[Prv_epicgames_StorefrontSlide_Out]
+    games: list[Prv_epicgames_StorefrontGame_Out]
 
 class Prv_epicgames_StorefrontSlide_Out(TypedDict):
     title: str
     eyebrow: NotRequired[str]
     description: NotRequired[str]
     linkedProduct: NotRequired[str]
+
+class Prv_epicgames_StorefrontGame_Out(TypedDict):
+    title: str
+    offerId: str
+    namespace: str
+    productSlug: str | None
+    currentPrice: float | None
+    originalPrice: float | None
+    currencyCode: str | None
 
 class Prv_epicgames_getServiceStatus_args_In(TypedDict):
     component: NotRequired[str]
@@ -21119,6 +21130,59 @@ class Prv_espn_FantasyLeagueMatchup_Out(TypedDict):
     awayTeamId: float | None
     awayScore: float | None
     winner: str | None
+
+class Prv_espn_ListVideosArgs_In(TypedDict):
+    league: str
+    team: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_espn_ListVideosResult_Out(TypedDict):
+    league: str
+    videos: list[Prv_espn_EspnVideo_Out]
+
+class Prv_espn_EspnVideo_Out(TypedDict):
+    id: str
+    headline: str
+    description: str | None
+    duration: float | None
+    published: str | None
+    thumbnail: str | None
+    url: str | None
+    teams: list[str]
+    players: list[str]
+
+class Prv_espn_GetFantasyTeamArgs_In(TypedDict):
+    sport: str
+    leagueId: str | float
+    teamId: str | float
+    season: NotRequired[float]
+
+class Prv_espn_FantasyTeamResult_Out(TypedDict):
+    leagueId: str
+    season: float
+    scoringPeriodId: float | None
+    teamId: float
+    name: str
+    abbreviation: str | None
+    ownerName: str | None
+    wins: float
+    losses: float
+    ties: float
+    pointsFor: float
+    pointsAgainst: float
+    playoffSeed: float | None
+    roster: list[Prv_espn_FantasyRosterPlayer_Out]
+
+class Prv_espn_FantasyRosterPlayer_Out(TypedDict):
+    playerId: float
+    fullName: str
+    lineupSlotId: float
+    lineupSlot: str | None
+    position: str | None
+    proTeamId: float | None
+    injuryStatus: str | None
+    projectedPoints: float | None
+    actualPoints: float | None
 
 class Prv_espn_ListMyFantasyTeamsResult_Out(TypedDict):
     teams: list[Prv_espn_FantasyTeamSummary_Out]
@@ -37622,6 +37686,11 @@ class Prv_nationalbusinessfurniture_NbfCartHandoff_Out_applied_item_Out(TypedDic
     group: str
     choice: str
 
+class Prv_netflix_NetflixMyListChange_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    inMyList: bool
+
 class Prv_netflix_NetflixTudumArticle_Out(TypedDict):
     slug: str
     url: str
@@ -48769,6 +48838,29 @@ class Prv_shein_sheinProductVariant_Out(TypedDict):
 
 class Prv_shein_sheinProductDetail_Out_breadcrumbs_item_Out(TypedDict):
     name: str
+    url: str
+
+class Prv_shop_app_ShopAppListOrdersArgs_In(TypedDict):
+    status: NotRequired[Literal["active"] | Literal["past"] | Literal["all"]]
+    query: NotRequired[str]
+    cursor: NotRequired[str]
+
+class Prv_shop_app_ShopAppOrderList_Out(TypedDict):
+    orders: list[Prv_shop_app_ShopAppOrder_Out]
+    nextCursor: str | None
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppOrder_Out(TypedDict):
+    id: str
+    placedAt: str | None
+    status: str | None
+    deliveryStatus: str | None
+    paymentStatus: str | None
+    total: float | None
+    currency: str | None
+    store: str | None
+    itemCount: float | None
+    images: list[str]
     url: str
 
 class Prv_shop_app_ShopAppProduct_Out(TypedDict):
@@ -75322,7 +75414,8 @@ class Prv_epicgames(Protocol):
     async def listDeals(self, args: Prv_epicgames_listDeals_args_In | None = None, /) -> Prv_epicgames_ListDealsResult_Out:
         """Games on sale right now in the Epic Games Store's Special Offers — current price,
         original price, discount percentage, currency and sale end date. Optionally filtered by
-        tag or a maximum price, sorted by discount (default) or price.
+        tag or a maximum price in dollars (priceCeiling: 10 means $10.00 — the rows' own prices
+        are in cents), sorted by discount (default) or price.
         """
 
     async def listCollection(self, args: Prv_epicgames_listCollection_args_In, /) -> Prv_epicgames_ListCollectionResult_Out:
@@ -75345,8 +75438,10 @@ class Prv_epicgames(Protocol):
 
     async def getStorefront(self, args: Prv_epicgames_getStorefront_args_In | None = None, /) -> Prv_epicgames_GetStorefrontResult_Out:
         """The Epic Games Store home page as data — the featured carousel, the sale carousel and
-        the other curated modules, each with its slides (title, eyebrow, description, linked
-        product). Optional locale (default en-US) and ISO country code (default US).
+        the other curated modules, each with its heading, its slides (title, eyebrow,
+        description, linked product slug) and the games the row lists (title, offer id,
+        namespace, slug, price in cents). Optional locale (default en-US) and ISO country code
+        (default US).
         """
 
     async def getServiceStatus(self, args: Prv_epicgames_getServiceStatus_args_In | None = None, /) -> Prv_epicgames_GetServiceStatusResult_Out:
@@ -75602,6 +75697,19 @@ class Prv_espn(Protocol):
         its owner's display name. Reads a public league logged out; a private league answers 401
         without the caller's own ESPN session. Takes a league id or a fantasy.espn.com league
         URL.
+        """
+
+    async def listVideos(self, args: Prv_espn_ListVideosArgs_In, /) -> Prv_espn_ListVideosResult_Out:
+        """ESPN's latest highlight and analysis video clips for a league, optionally one team's —
+        headline, description, duration, published time, thumbnail, the espn.com watch page and
+        the teams and players each clip is tagged with. Newest first.
+        """
+
+    async def getFantasyTeam(self, args: Prv_espn_GetFantasyTeamArgs_In, /) -> Prv_espn_FantasyTeamResult_Out:
+        """One team in an ESPN fantasy league — its roster with each player's lineup slot,
+        projected and actual points this scoring period, and the team's record. Same league
+        access as getFantasyLeague: a public league reads logged out. Takes a league id and a
+        team id from getFantasyLeague.
         """
 
     async def listMyFantasyTeams(self, opts: ConnectionOption | None = None, /) -> Prv_espn_ListMyFantasyTeamsResult_Out:
@@ -85812,6 +85920,19 @@ class Prv_nationalbusinessfurniture(Protocol):
 class Prv_netflix(Protocol):
     """Netflix streaming service — browse titles, search, manage My List and view history."""
 
+    async def addToMyList(self, titleId: str, opts: ConnectionOption | None = None, /) -> Prv_netflix_NetflixMyListChange_Out:
+        """Adds a title to the signed-in caller's own Netflix My List by its numeric id (from
+        findTitles, search or netflix.com/title/<id>) — e.g. addToMyList("80057281") — returning
+        the title and whether it is now on the list. Needs the caller signed in to their own
+        Netflix account.
+        """
+
+    async def removeFromMyList(self, titleId: str, opts: ConnectionOption | None = None, /) -> Prv_netflix_NetflixMyListChange_Out:
+        """Removes a title from the signed-in caller's own Netflix My List by its numeric id — e.g.
+        removeFromMyList("80057281") — returning the title and whether it is still on the list.
+        Needs the caller signed in to their own Netflix account.
+        """
+
     async def getTudumArticle(self, article: str, /) -> Prv_netflix_NetflixTudumArticle_Out:
         """Reads one article on Tudum, Netflix's editorial site, by its slug or URL — e.g.
         getTudumArticle("below-ending-explained") — returning headline, description, section,
@@ -91784,6 +91905,13 @@ class Prv_shop_app(Protocol):
     catalogue, collections, reviews and policies; once a caller signs in, list and track
     their orders, save products, follow stores and fill a cart up to checkout.
     """
+
+    async def listOrders(self, args: Prv_shop_app_ShopAppListOrdersArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppOrderList_Out:
+        """The signed-in caller's own Shop orders, newest first — store, status words, delivery and
+        payment status, total, item count and item images — "active" (not yet delivered, the
+        default), "past" or "all", or a free-text search across them; a page at a time with
+        nextCursor. Pauses for the caller to sign in to Shop.
+        """
 
     async def getProduct(self, input: str, /) -> Prv_shop_app_ShopAppProduct_Out:
         """One product by its numeric id or a shop.app/products/<id>/<slug> url: title,
