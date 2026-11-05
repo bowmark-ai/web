@@ -95,7 +95,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `music.search` | Searches the catalogue for tracks matching free text ("aphex twin", "lofi hip hop"… | 1 | 🟢 |
 | `pallet_freight_quote.quote` | Live pallet freight quotes for one or more pallets between two UK-mainland postcodes… | 1 | 🟢 |
 | `pcparts.getProduct` | Reads ONE product page in full — pass a product URL or an offer straight from… | 3 | 🟡 |
-| `pcparts.search` | Searches Newegg + Micro Center + B&H for ONE part (e.g. "Ryzen 7 7800X3D" or "RTX… | 3 | 🟢 |
+| `pcparts.search` | Searches Newegg + Micro Center + B&H for ONE part (e.g. "Ryzen 7 7800X3D" or "RTX… | 3 | 🟡 |
 | `pet_boarding.search` | Searches overnight pet-boarding sitters for a city and increasing ISO start/end dates… | 1 | 🟢 |
 | `phone_price.compare` | Prices one phone across T-Mobile and Visible in parallel and returns a price-sorted… | 2 | 🟡 |
 | `phone_trade_in.estimate` | Looks up the current buyback value of an iPhone — `bowmark.phone_trade_in.estimate({… | 2 | 🟢 |
@@ -143,13 +143,13 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `video_library.deleteVideo` | PERMANENTLY deletes one of the caller's own videos, with its views and comments —… | 1 | 🟢 |
 | `video_library.history` | What the caller has WATCHED, newest first, each video with `percentWatched` (0-100… | 1 | 🟢 |
 | `video_library.homeFeed` | The videos on the caller's OWN YouTube home page — the personalized recommendation… | 1 | 🟢 |
-| `video_library.liked` | The videos the caller has liked, newest first. | 1 | 🟢 |
+| `video_library.liked` | The videos the caller has liked, newest first. `limit` keeps only the first N videos… | 1 | 🟢 |
 | `video_library.myVideos` | The videos on the caller's OWN channel, newest first, including private and unlisted… | 1 | 🟢 |
 | `video_library.removeFromPlaylist` | Removes one or many videos from one of the caller's own playlists, Watch Later… | 1 | 🟢 |
 | `video_library.setThumbnail` | Sets a custom thumbnail (JPG or PNG, up to 2 MB, 1280x720 recommended) on one of the… | 1 | 🟢 |
 | `video_library.updateVideo` | Changes the details of one of the caller's own videos — title, description, tags… | 1 | 🟢 |
 | `video_library.uploadVideo` | Uploads a video file to the caller's own YouTube channel and returns its id and link. | 1 | 🟢 |
-| `video_library.watchLater` | The caller's own Watch Later queue, newest first. | 1 | 🟢 |
+| `video_library.watchLater` | The caller's own Watch Later queue, newest first. `limit` keeps only the first N… | 1 | 🟢 |
 | `vpn_dedicated_ip.compare` | Compare VPN dedicated/static IP providers (Windscribe, Surfshark, PureVPN): where each… | 3 | 🟢 |
 | `weather.forecast` | Geocodes a place name and returns its daily forecast (default 5 days, max 16 —… | 0 | 🟢 |
 | `web_form_fields.fillForm` | Opens the page (and the booking/quote widget behind a button, exactly as `getFields`… | 0 | 🟢 |
