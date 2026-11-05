@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3bab90576a85faf4fe8ad07ca0f8bed828d912995db736a7996bd764459c31f3
-// 94 capabilities, 760 providers, 4273 typed functions, 20 refused.
+// Manifest version: af8cf16dd04976b3b6df37debc98b6008a77d1ffe74ff4344e3f168adfb66b7a
+// 94 capabilities, 760 providers, 4324 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5549,20 +5549,25 @@ type CallOptions = {
     homeFeed(options?: { limit?: number }): Promise<LibraryPage>;
 
     /**
-     * The caller's own Watch Later queue, newest first. Not reachable through YouTube's public API
-     * at all — Google removed access to this list in 2016. Needs a YouTube sign-in.
+     * The caller's own Watch Later queue, newest first. `limit` keeps only the first N videos of
+     * the first page; pass `continuation` for more. Not reachable through YouTube's public API at
+     * all — Google removed access to this list in 2016. Needs a YouTube sign-in.
      */
-    watchLater(options?: { continuation?: string }): Promise<LibraryPage>;
+    watchLater(options?: { continuation?: string; limit?: number }): Promise<LibraryPage>;
 
-    /** The videos the caller has liked, newest first. Needs a YouTube sign-in. */
-    liked(options?: { continuation?: string }): Promise<LibraryPage>;
+    /**
+     * The videos the caller has liked, newest first. `limit` keeps only the first N videos of the
+     * first page; pass `continuation` for more. Needs a YouTube sign-in.
+     */
+    liked(options?: { continuation?: string; limit?: number }): Promise<LibraryPage>;
 
     /**
      * What the caller has WATCHED, newest first, each video with `percentWatched` (0-100, 100 =
      * watched to the end) from YouTube's own progress bar: which videos they finish and which they
-     * abandon. Not in YouTube's public API. Needs a YouTube sign-in.
+     * abandon. Not in YouTube's public API. `limit` keeps only the first N videos of the first
+     * page; pass `continuation` for more. Needs a YouTube sign-in.
      */
-    history(options?: { continuation?: string }): Promise<LibraryPage>;
+    history(options?: { continuation?: string; limit?: number }): Promise<LibraryPage>;
 
     /**
      * Creates an empty playlist on the caller's own account and returns its id and URL. Defaults
@@ -16557,6 +16562,27 @@ interface BlueskyGetConversationArgs {
   cursor?: string;
 }
 
+interface BlueskyCreatedRecord {
+  uri: string;
+  cid: string;
+  url: string | null;
+}
+
+interface BlueskyCreatePostArgs {
+  text: string;
+  langs?: string[];
+}
+
+interface BlueskyPostActionArgs {
+  post: string;
+  undo?: boolean;
+}
+
+interface BlueskyPostActionResult {
+  uri: string | null;
+  changed: boolean;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -16865,6 +16891,41 @@ interface BlueskyGetConversationArgs {
      * or unknown person, `blueskyError` when the saved sign-in has expired.
      */
     getConversation(args: BlueskyGetConversationArgs, opts?: ConnectionOption): Promise<BlueskyConversationMessages>;
+
+    /**
+     * Publishes a PUBLIC post as the signed-in caller (up to 300 characters). Links and @handle
+     * mentions in `text` are turned into clickable facets; `langs` are BCP-47 tags like "en".
+     * Returns the post's at:// URI, cid and bsky.app URL — pass the URI to `deletePost` to take it
+     * back. NOT idempotent across separate calls. Images are not supported yet. Needs the caller
+     * signed in to bsky.app — the run pauses for a sign-in link when they are not. THROWS
+     * `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    createPost(args: BlueskyCreatePostArgs, opts?: ConnectionOption): Promise<BlueskyCreatedRecord>;
+
+    /**
+     * Deletes one of the signed-in caller's OWN posts, given its at:// URI or bsky.app post URL.
+     * Refuses a post somebody else wrote. Needs the caller signed in to bsky.app — the run pauses
+     * for a sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has
+     * expired; sign in again.
+     */
+    deletePost(post: string, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Likes a post (at:// URI or bsky.app post URL) as the signed-in caller; `undo: true` removes
+     * the caller's like. Liking an already-liked post returns the existing like with `changed:
+     * false`. Needs the caller signed in to bsky.app — the run pauses for a sign-in link when they
+     * are not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    likePost(args: BlueskyPostActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Reposts a post (at:// URI or bsky.app post URL) to the signed-in caller's followers; `undo:
+     * true` removes the caller's repost. Reposting an already-reposted post returns the existing
+     * repost with `changed: false`. Needs the caller signed in to bsky.app — the run pauses for a
+     * sign-in link when they are not. THROWS `blueskyError` when the saved sign-in has expired;
+     * sign in again.
+     */
+    repost(args: BlueskyPostActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
 
     /**
      * Which of the signed-in caller's own follows also follow `actor` (a handle, DID or bsky.app
@@ -17581,6 +17642,31 @@ interface BookedinAppointmentUpdate {
   message: string | null;
 }
 
+interface BookedinRequestArgs {
+  /** Booking token from searchMerchants, or the bookedin.com/book/<token> URL. */
+  merchant: string;
+  /** What the caller wants, in words. */
+  service: string;
+  /** When the caller would like it, in words. */
+  preferredTime: string;
+  /** First and last name. */
+  name: string;
+  email: string;
+  phone: string;
+  comments?: string;
+  /** The request is for a class or workshop rather than an appointment. */
+  forClassWorkshop?: boolean;
+}
+
+interface BookedinAppointmentRequest {
+  token: string;
+  /** True when Bookedin accepted the request. */
+  requested: boolean;
+  service: string;
+  preferredTime: string;
+  forClassWorkshop: boolean;
+}
+
   /** Appointment scheduling platform for salons, barbershops, and service businesses. */
   interface Unit {
     /**
@@ -17664,6 +17750,12 @@ interface BookedinAppointmentUpdate {
      * has some.
      */
     listClassSessions(args: BookedinClassSessionsArgs): Promise<BookedinClassSessionList>;
+
+    /**
+     * Send a business an appointment request (what you want and when, in words, with name, email
+     * and phone) for it to follow up; nothing is booked until it does.
+     */
+    requestAppointment(args: BookedinRequestArgs): Promise<BookedinAppointmentRequest>;
 
     /**
      * One class session's details by its id from listClassSessions — class, category, price,
@@ -17786,6 +17878,22 @@ interface BookeoListGroupOperatorsArgs {
   shortName: string;
 }
 
+interface BookeoListMyBookingsArgs {
+  /** The operator's short name, from findOperator. */
+  shortName: string;
+}
+
+interface BookeoMyBooking {
+  publicId: string;
+  /** The operator's own printable booking page for this booking. */
+  printUrl: string;
+}
+
+interface BookeoMyBookings {
+  shortName: string;
+  bookings: BookeoMyBooking[];
+}
+
 interface BookeoGroupOperator {
   /** Pass this to listProducts/getAvailability etc, not the portal's own short name. */
   shortName: string;
@@ -17797,6 +17905,13 @@ interface BookeoGroupOperator {
    * slot availability and guest booking up to the payment step.
    */
   interface Unit {
+    /**
+     * Lists the signed-in caller's bookings with one operator from its Bookeo customer area
+     * (accounts are per operator), each with its public id and printable booking page. Needs the
+     * caller signed in there; an operator with the customer area off throws, naming it.
+     */
+    listMyBookings(args: BookeoListMyBookingsArgs, opts?: ConnectionOption): Promise<BookeoMyBookings>;
+
     /**
      * Finds a Bookeo operator from its bookeo.com short name or a bookeo.com/<name> link, and
      * returns its identity and contact header.
@@ -18834,6 +18949,75 @@ interface booksyFavoriteResult {
   /** True after addFavorite, false after removeFavorite. */
   favorite: boolean;
 }
+interface booksyWriteReviewArgs {
+  business: number | string;
+  /** 1-5 stars. */
+  rating: number;
+  text: string;
+  title?: string;
+  /** The appointment being reviewed, from listMyBookings. */
+  appointmentUid?: string | number;
+  country?: string;
+}
+interface booksyMyReview {
+  reviewId: number | null;
+  rating: number | null;
+  title: string | null;
+  text: string | null;
+  created: string | null;
+  updated: string | null;
+  business: { id: number | null; name: string | null } | null;
+}
+interface booksyCountryArgs {
+  country?: string;
+}
+interface booksyMyProfile {
+  id: number | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  phone: string | null;
+  birthday: string | null;
+  gender: string | null;
+  address: { line1: string | null; line2: string | null; apartment: string | null; city: string | null; zipcode: string | null };
+  photo: string | null;
+  language: string | null;
+}
+interface booksyUpdateMyProfileArgs {
+  firstName?: string;
+  lastName?: string;
+  /** "YYYY-MM-DD". */
+  birthday?: string;
+  gender?: string;
+  addressLine1?: string;
+  apartmentNumber?: string;
+  city?: string;
+  zipcode?: string;
+  country?: string;
+}
+interface booksyListMyGiftCardsArgs {
+  page?: number;
+  country?: string;
+}
+interface booksyMyGiftCard {
+  id: number | null;
+  name: string | null;
+  code: string | null;
+  status: string | null;
+  price: number | null;
+  value: number | null;
+  /** What is left to spend. */
+  balance: number | null;
+  validTill: string | null;
+  business: { id: number | null; name: string | null; address: string | null } | null;
+  services: { serviceVariantId: number | null; name: string | null }[];
+}
+interface booksyMyGiftCards {
+  page: number;
+  total: number | null;
+  hasMore: boolean;
+  giftCards: booksyMyGiftCard[];
+}
 
   /**
    * Booksy marketplace for barbers, salons, spas and other appointment businesses: search
@@ -18942,6 +19126,27 @@ interface booksyFavoriteResult {
 
     /** Removes a business from the signed-in caller's Booksy favourites. */
     removeFavorite(args: booksyBusinessArgs, opts?: ConnectionOption): Promise<booksyFavoriteResult>;
+
+    /**
+     * Posts the signed-in caller's 1-5 star review of a business, optionally tied to an
+     * appointment. Public.
+     */
+    writeReview(args: booksyWriteReviewArgs, opts?: ConnectionOption): Promise<booksyMyReview>;
+
+    /** The signed-in caller's Booksy profile: name, email, phone, birthday, address, photo. */
+    getMyProfile(args?: booksyCountryArgs, opts?: ConnectionOption): Promise<booksyMyProfile>;
+
+    /**
+     * Updates the signed-in caller's name, birthday, gender or address, and returns the saved
+     * profile.
+     */
+    updateMyProfile(args: booksyUpdateMyProfileArgs, opts?: ConnectionOption): Promise<booksyMyProfile>;
+
+    /**
+     * The gift cards and vouchers in the signed-in caller's Booksy wallet, with code, balance and
+     * business. Paged.
+     */
+    listMyGiftCards(args?: booksyListMyGiftCardsArgs, opts?: ConnectionOption): Promise<booksyMyGiftCards>;
   }
 }
 
@@ -21431,37 +21636,6 @@ interface CarawayQuizResult {
      * inside the function and surfaced via the same module that owns the catalogue.
      */
     runCarawayQuiz(answers: { archetype: string }): Promise<CarawayQuizResult>;
-  }
-}
-
-declare namespace BowmarkProvider_cardiff {
-  // ── Cardiff Council — Planning Register — the unit's own declarations, verbatim ──
-interface CardiffSearchResult {
-  reference: string;
-  address: string;
-  description: string;
-  applicant: string;
-  dateSubmitted: string;
-}
-
-interface CardiffApplication {
-  reference: string;
-  address: string;
-  description: string;
-  applicant: string;
-  dateSubmitted: string;
-  status: string; // the site's own labels — read the values off a result, never guess one from prose
-  decision?: string;
-  decisionDate?: string;
-}
-
-  /** Search Cardiff Council's public planning register by reference, address, or keywords. */
-  interface Unit {
-    /** Searches the Cardiff planning register by reference, address, or keywords. */
-    search(query: string): Promise<CardiffSearchResult[]>;
-
-    /** Retrieves full details of a single planning application by reference. */
-    getApplication(reference: string): Promise<CardiffApplication>;
   }
 }
 
@@ -27708,6 +27882,20 @@ interface CorePowerYogaBooking {
      * defensively and the list is empty rather than thrown if the site's shape differs.
      */
     listMyClassPacks(opts?: ConnectionOption): Promise<CorePowerYogaClassPack[]>;
+
+    /**
+     * Gets one of the signed-in caller's memberships by the `id` a listMyMemberships() row
+     * returns. Requires a caller session. The signed-in detail shape has never been observed, so
+     * every field is read defensively; throws if no membership matches.
+     */
+    getMembership(id: string, opts?: ConnectionOption): Promise<CorePowerYogaMembership>;
+
+    /**
+     * Gets one of the signed-in caller's class packs by the `id` a listMyClassPacks() row returns.
+     * Requires a caller session. The signed-in detail shape has never been observed, so every
+     * field is read defensively; throws if no class pack matches.
+     */
+    getClassPack(id: string, opts?: ConnectionOption): Promise<CorePowerYogaClassPack>;
   }
 }
 
@@ -28779,6 +28967,25 @@ interface DailymotionListWatchHistoryResult {
   hasMore: boolean;
   videos: DailymotionVideo[];
 }
+interface ListFollowingFeedArgs {
+  limit?: number;
+  page?: number;
+}
+interface DailymotionListFollowingFeedResult {
+  page: number;
+  hasMore: boolean;
+  videos: DailymotionVideo[];
+}
+interface ListMyPlaylistsArgs {
+  limit?: number;
+  page?: number;
+}
+interface DailymotionListMyPlaylistsResult {
+  page: number;
+  total: number;
+  hasMore: boolean;
+  playlists: DailymotionPlaylist[];
+}
 
   /**
    * Search Dailymotion videos by keyword and read one video's title, channel, duration, views
@@ -28950,6 +29157,18 @@ interface DailymotionListWatchHistoryResult {
      * signed in.
      */
     listWatchHistory(args?: ListWatchHistoryArgs, opts?: ConnectionOption): Promise<DailymotionListWatchHistoryResult>;
+
+    /**
+     * List the newest videos from the channels the signed-in caller follows (their Following
+     * feed), paged — same fields as getVideo. Needs the caller signed in.
+     */
+    listFollowingFeed(args?: ListFollowingFeedArgs, opts?: ConnectionOption): Promise<DailymotionListFollowingFeedResult>;
+
+    /**
+     * List the signed-in caller's own playlists (public and private), paged — same fields as
+     * getPlaylist. Needs the caller signed in.
+     */
+    listMyPlaylists(args?: ListMyPlaylistsArgs, opts?: ConnectionOption): Promise<DailymotionListMyPlaylistsResult>;
   }
 }
 
@@ -30793,6 +31012,43 @@ interface DirectBookPolicies {
   /** The hotel's own policies page on direct-book.com. */
   policiesUrl: string;
 }
+interface ListExtrasArgs {
+  /** The hotel's channel code, booking link or own website (as findProperty takes). */
+  property: string;
+  /** YYYY-MM-DD. */
+  checkIn: string;
+  /** YYYY-MM-DD, after checkIn. */
+  checkOut: string;
+  /** 3-letter code; without it the site picks a currency from the caller's location. */
+  currency?: string;
+}
+interface DirectBookExtraPrice {
+  amount: number | null;
+  /** Formatted with its currency, e.g. "EUR 20.00". */
+  amountStr: string | null;
+}
+interface DirectBookExtra {
+  extraId: string;
+  name: string;
+  description: string | null;
+  /** How it is charged, e.g. "Per Person Per Night", "Per Room Per Night". */
+  category: string | null;
+  mandatory: boolean;
+  /** Whether more than one can be added. */
+  multiple: boolean;
+  /** The roomRateIds (getRoomRates) this extra can be added to. */
+  roomRateIds: string[];
+  adultPrice: DirectBookExtraPrice | null;
+  childPrice: DirectBookExtraPrice | null;
+  images: string[];
+}
+interface DirectBookExtras {
+  channelCode: string;
+  checkIn: string;
+  checkOut: string;
+  /** Empty when the hotel sells no extras. */
+  extras: DirectBookExtra[];
+}
 interface CheckPromoCodeArgs {
   /** The hotel's channel code, booking link or own website (as findProperty takes). */
   property: string;
@@ -31143,6 +31399,13 @@ interface DirectBookEnquiryResult {
     checkPromoCode(args: CheckPromoCodeArgs): Promise<DirectBookPromoCheck>;
 
     /**
+     * Lists the add-ons a hotel sells with a stay — breakfast, parking, an extra bed, a pet fee —
+     * with how each is charged, adult and child prices, whether it is mandatory, and the
+     * roomRateIds it can be added to. Empty when the hotel sells none.
+     */
+    listExtras(args: ListExtrasArgs): Promise<DirectBookExtras>;
+
+    /**
      * Reads a guest's existing booking from the reservation code in their confirmation email —
      * dates, rooms and rates, guest name, totals, deposit and balance due, policies, and whether
      * the guest may cancel online.
@@ -31389,6 +31652,17 @@ interface discordChannel {
   topic: string | null;
   category: string | null;           // the category channel this one sits under, or null
 }
+interface discordDirectMessage {
+  id: string;                        // the DM channel id — pass to listMessages / searchMessages
+  type: "dm" | "group";
+  name: string | null;               // a group DM's name, else null
+  recipients: { id: string; username: string; globalName: string | null }[];
+  lastMessageId: string | null;
+}
+interface discordMessageSearch {
+  totalResults: number;              // Discord's count of every hit, not just this page (25 per page)
+  messages: discordMessage[];        // this page's hits
+}
 
   /**
    * Discord, chat for communities. Built so far: the public server directory (browse, search,
@@ -31550,6 +31824,24 @@ interface discordChannel {
      * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
      */
     listChannels(guildId: string, opts?: ConnectionOption): Promise<discordChannel[]>;
+
+    /**
+     * Lists the SIGNED-IN USER's DM and group-DM conversations, most recently active first — the
+     * channel id, the other people in it, a group's name and the last message id. Pass a row's id
+     * to listMessages or searchMessages({ channelId }). Needs a Discord sign-in made through
+     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    listDirectMessages(opts?: ConnectionOption): Promise<discordDirectMessage[]>;
+
+    /**
+     * Searches messages AS THE SIGNED-IN USER with Discord's own search — in one joined server
+     * (`guildId` from listMyServers(), optionally narrowed with `channelId`) or one DM
+     * (`channelId` alone). Give at least one of `query` (text), `authorId` or `has`. Returns 25
+     * hits a page with Discord's total hit count; step `offset` by 25 for more. Throws a retry
+     * message while Discord is still indexing a server. Needs a Discord sign-in made through
+     * Bowmark's sign-in link: Bowmark Link cannot pass Discord's token from your own browser yet.
+     */
+    searchMessages(args: { guildId?: string; channelId?: string; query?: string; authorId?: string; has?: "link" | "embed" | "file" | "image" | "video" | "sound" | "sticker" | "poll"; offset?: number }, opts?: ConnectionOption): Promise<discordMessageSearch>;
   }
 }
 
@@ -32152,6 +32444,8 @@ interface DropboxEntry {
   contentHash?: string;
 }
 interface DropboxSearchResult { query: string; matches: DropboxEntry[]; hasMore: boolean; cursor?: string }
+interface DropboxFolderListing { path: string; entries: DropboxEntry[]; hasMore: boolean; cursor?: string }
+interface DropboxFileMetadata extends DropboxEntry { isDownloadable?: boolean; shared?: boolean; modifiedBy?: string }
 
   /**
    * Dropbox, the cloud file storage service: open, list, read and download files and folders
@@ -32167,6 +32461,24 @@ interface DropboxSearchResult { query: string; matches: DropboxEntry[]; hasMore:
      * results (default 100). Needs the caller's Dropbox sign-in.
      */
     searchFiles(input: { query: string; path?: string; limit?: number }, opts?: ConnectionOption): Promise<DropboxSearchResult>;
+
+    /**
+     * Lists a folder in the signed-in caller's own Dropbox — `path` ("/Work") or the root by
+     * default — with each entry's kind (file/folder/deleted), name, path, size, modified time and
+     * id, paging through the whole folder itself up to 10 pages (~20,000 entries);
+     * `hasMore`/`cursor` say when even that was not everything. Needs the caller's Dropbox
+     * sign-in.
+     */
+    listFolder(input?: { path?: string }, opts?: ConnectionOption): Promise<DropboxFolderListing>;
+
+    /**
+     * Reads one file or folder in the signed-in caller's own Dropbox by its `path` — a path from
+     * `searchFiles` or `listFolder` — returning kind, size, modified time, revision, content hash,
+     * whether it is downloadable, and (when the item sits in a shared folder) `shared` and who
+     * last modified it (`modifiedBy`). THROWS on a path that does not exist. Needs the caller's
+     * Dropbox sign-in.
+     */
+    getFileMetadata(input: { path: string }, opts?: ConnectionOption): Promise<DropboxFileMetadata>;
 
     /**
      * Reads the signed-in caller's Dropbox account: display name, email, photo, account type
@@ -37699,6 +38011,18 @@ interface FitdegreeMyPass {
   remaining: number | null;    // uses left; null = unlimited
   total?: number;
 }
+interface FitdegreeWaiverToSign {
+  requestedSignatureId?: string;
+  waiverId: string; title?: string;
+  content?: string;            // the waiver text as the studio wrote it (may carry HTML)
+  requestedAt?: string;
+}
+interface FitdegreeMembershipPricing {
+  membershipId: string;
+  upfrontDueToday?: number;    // dollars, paying up front
+  recurringDueToday?: number;  // dollars, on recurring payments
+  options: { pricingOptionId: string; description?: string; price?: number; discounts: string[]; tax?: string }[];
+}
 
   /**
    * FitDegree studio schedules (pilates, yoga, barre, gyms): find a studio from the FitDegree
@@ -37826,6 +38150,19 @@ interface FitdegreeMyPass {
      * and guest passes at a studio's company, with uses left (null = unlimited), start and expiry.
      */
     listMyPasses(fitspotId: string, opts?: ConnectionOption): Promise<FitdegreeMyPass[]>;
+
+    /**
+     * Signed in: lists the waivers the caller still has to sign at a studio's company before
+     * booking, each with its waiverId, title and full text.
+     */
+    listWaiversToSign(fitspotId: string, opts?: ConnectionOption): Promise<FitdegreeWaiverToSign[]>;
+
+    /**
+     * Signed in: returns what one membership or pack from listMemberships would cost the caller —
+     * each pricing option with its price, discounts and tax, and the amount due today paying up
+     * front or on recurring payments (dollars).
+     */
+    getMembershipPricing(args: { fitspotId: string; membershipId: string }, opts?: ConnectionOption): Promise<FitdegreeMembershipPricing>;
   }
 }
 
@@ -42782,6 +43119,67 @@ interface glofoxBookingResult {
   paymentRequired: boolean;
   message: string | null;
 }
+interface glofoxBookSlotArgs {
+  studio: string;
+  /** A slot id from listTrainerSlots (bookTrainerSlot) or listFacilitySlots (bookFacilitySlot). */
+  slotId: string;
+}
+interface glofoxSlotBookingResult {
+  studio: string;
+  slotId: string;
+  booked: boolean;
+  bookingId: string | null;
+  status: string | null;
+  waitlisted: boolean;
+  /** The slot would charge a card; Bowmark stopped before paying and nothing was booked. */
+  paymentRequired: boolean;
+  message: string | null;
+}
+interface glofoxBookCourseArgs {
+  studio: string;
+  /** A course id from listCourses. */
+  courseId: string;
+  /** One of that course's schedules[].id from listCourses. */
+  scheduleId: string;
+  guests?: number;
+}
+interface glofoxCourseBookingResult {
+  studio: string;
+  courseId: string;
+  scheduleId: string;
+  booked: boolean;
+  bookingId: string | null;
+  status: string | null;
+  waitlisted: boolean;
+  /** The course would charge a card; Bowmark stopped before paying and nothing was booked. */
+  paymentRequired: boolean;
+  message: string | null;
+}
+interface glofoxUpdateProfileArgs {
+  studio: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  /** YYYY-MM-DD. */
+  birthDate?: string;
+  receiveMarketing?: boolean;
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    postalCode?: string;
+    countryCode?: string;
+  };
+}
+interface glofoxProfileUpdateResult {
+  studio: string;
+  updated: boolean;
+  /** The site's field names that were sent. */
+  changed: string[];
+  message: string | null;
+}
 interface glofoxCancelBookingArgs {
   studio: string;
   /** A booking id from listMyBookings. */
@@ -42996,6 +43394,27 @@ interface glofoxFacilitySlotPage {
      * late-cancel window it refuses unless confirmLateCancel:true.
      */
     cancelBooking(args: glofoxCancelBookingArgs, opts?: ConnectionOption): Promise<glofoxCancelResult>;
+
+    /**
+     * Signed in: book a trainer appointment slot from listTrainerSlots. A slot that would charge a
+     * card comes back paymentRequired:true and unbooked — Bowmark never pays.
+     */
+    bookTrainerSlot(args: glofoxBookSlotArgs, opts?: ConnectionOption): Promise<glofoxSlotBookingResult>;
+
+    /** Signed in: book a room or space slot from listFacilitySlots. Stops before any payment step. */
+    bookFacilitySlot(args: glofoxBookSlotArgs, opts?: ConnectionOption): Promise<glofoxSlotBookingResult>;
+
+    /**
+     * Signed in: book the member onto a course schedule from listCourses. Stops before any payment
+     * step.
+     */
+    bookCourse(args: glofoxBookCourseArgs, opts?: ConnectionOption): Promise<glofoxCourseBookingResult>;
+
+    /**
+     * Signed in: change the member's own name, email, phone, birth date, address or marketing
+     * consent at that studio. Only the fields passed are sent.
+     */
+    updateMyProfile(args: glofoxUpdateProfileArgs, opts?: ConnectionOption): Promise<glofoxProfileUpdateResult>;
   }
 }
 
@@ -43038,6 +43457,34 @@ interface GlossGeniusMyOrders {
   /** orders as GlossGenius returns them, with payment account and pay-later methods (field list not yet observed signed in) */
   orders: Record<string, unknown>[];
   count: number;
+}
+interface GlossGeniusUpdateMyProfileArgs {
+  /** the business the caller signed in to (slug or booking-site link) */
+  business: string;
+  /** both names are required, as on the booking site's Contact information form */
+  firstName: string;
+  lastName: string;
+  /** only when no email is on file -- GlossGenius refuses changing an existing one */
+  email?: string;
+}
+interface GlossGeniusProfileUpdate {
+  business: string;
+  updated: true;
+  /** the user record as GlossGenius returns it after the change */
+  user: Record<string, unknown>;
+}
+interface GlossGeniusCancelMyMembershipArgs {
+  /** the business the caller signed in to (slug or booking-site link) */
+  business: string;
+  /** the client-membership token from listMyMemberships */
+  membership: string;
+}
+interface GlossGeniusMembershipCancel {
+  business: string;
+  membership: string;
+  cancelled: true;
+  /** GlossGenius's answer as sent */
+  response: Record<string, unknown>;
 }
 interface GlossGeniusFindBusinessArgs {
   /** a booking-site slug ("sweettouchskin"), a <slug>.glossgenius.com link, or the business's own website / Instagram link that points at one */
@@ -43311,6 +43758,22 @@ interface GlossGeniusWaitlistJoinResult {
    * open times, reviews; book, reschedule and cancel an appointment as a guest.
    */
   interface Unit {
+    /**
+     * Signed in: changes the caller's first and last name at one GlossGenius business, and sets an
+     * email when none is on file (GlossGenius will not change an existing one). Example:
+     * `bowmark.providers.glossgenius.updateMyProfile({ business: "sweettouchskin", firstName:
+     * "Ada", lastName: "Client" })`.
+     */
+    updateMyProfile(args: GlossGeniusUpdateMyProfileArgs, opts?: ConnectionOption): Promise<GlossGeniusProfileUpdate>;
+
+    /**
+     * Signed in: cancels one of the caller's memberships at a GlossGenius business, under the
+     * business's membership terms. Stops a recurring charge, never starts one. Example:
+     * `bowmark.providers.glossgenius.cancelMyMembership({ business: "sweettouchskin", membership:
+     * "<token from listMyMemberships>" })`.
+     */
+    cancelMyMembership(args: GlossGeniusCancelMyMembershipArgs, opts?: ConnectionOption): Promise<GlossGeniusMembershipCancel>;
+
     /**
      * Signed in: lists the memberships the caller holds at one GlossGenius business, as
      * GlossGenius returns them. Example: `bowmark.providers.glossgenius.listMyMemberships({
@@ -53831,6 +54294,8 @@ interface KenkoMyProfile { id: number | null; firstName: string | null; lastName
 interface KenkoAccountRow { id: number | null; name: string | null; date: string | null; status: string | null; raw: Record<string, unknown> }
 interface KenkoProfileUpdate { urlPrefix: string; regionId: number; centerId: number; firstName?: string; lastName?: string; email?: string; phone?: string; phonePrefix?: string }
 interface KenkoCancelBookingArgs { urlPrefix: string; regionId: number; eventId: number; bookingId: number }
+interface KenkoCancelMembershipArgs { urlPrefix: string; regionId: number; centerId: number; membershipId: number; reason: string; when?: "period_end" | "immediately" }
+interface KenkoPauseMembershipArgs { urlPrefix: string; regionId: number; centerId: number; membershipId: number; startsOn: string; endsOn: string }
 interface KenkoWriteResult { ok: true; raw: unknown }
 
   /**
@@ -53934,6 +54399,21 @@ interface KenkoWriteResult { ok: true; raw: unknown }
      * signed in. Takes { urlPrefix, regionId } from findStudio.
      */
     cancelBooking(booking: KenkoCancelBookingArgs, opts?: ConnectionOption): Promise<KenkoWriteResult>;
+
+    /**
+     * Cancels one of the signed-in member's memberships (membershipId from listMyMemberships), at
+     * the end of the current period by default or when: "immediately". reason is the studio's
+     * reason key or "other - <your words>". Needs the caller signed in. Takes { urlPrefix,
+     * regionId, centerId } from findStudio.
+     */
+    cancelMembership(cancel: KenkoCancelMembershipArgs, opts?: ConnectionOption): Promise<KenkoWriteResult>;
+
+    /**
+     * Pauses one of the signed-in member's memberships (membershipId from listMyMemberships) from
+     * startsOn to endsOn, both YYYY-MM-DD. The studio's own pause limits apply. Needs the caller
+     * signed in. Takes { urlPrefix, regionId, centerId } from findStudio.
+     */
+    pauseMembership(pause: KenkoPauseMembershipArgs, opts?: ConnectionOption): Promise<KenkoWriteResult>;
 
     /**
      * The signed-in member's own bookings at a studio, type "upcoming" (default) or "past", one
@@ -63938,7 +64418,7 @@ interface NotionSystemStatus { status: string; indicator: string; components: Ar
 type NotionObject = { object: string; id: string } & Record<string, unknown>;
 // Every id accepts a UUID (dashes optional) or a notion.so URL ending in one. limit is 1-100 (default 20); cursor is the previous call's nextCursor.
 type NotionPaging = { limit?: number; cursor?: string };
-type NotionSearchArgs = NotionPaging & { query?: string; filter?: "page" | "database" };
+type NotionSearchArgs = NotionPaging & { query?: string; filter?: "page" | "database"; spaceId?: string };
 type NotionPageRef = { pageId: string };
 // A page is a block, so `blockId` reads any block's children: the runtime reads either.
 type NotionPageContentArgs =
@@ -63968,7 +64448,9 @@ type NotionCreateCommentArgs = ({ pageId: string } | { discussionId: string }) &
 
     /**
      * Search your Notion workspace's pages and databases by title — the door to every pageId and
-     * databaseId.
+     * databaseId. With no token held, on a run with egress: "link", it reads your own signed-in
+     * Notion through Bowmark Link instead: rows { object, id, title, url, last_edited_time }, one
+     * page, no cursor, spaceId picks the workspace.
      */
     search(args?: NotionSearchArgs): Promise<NotionList<NotionObject>>;
 
@@ -65028,6 +65510,62 @@ interface NwsRadarStation {
   distanceKm?: number;
 }
 
+interface ListSigmetsArgs {
+  /** One issuing office, e.g. "KKCI" (Aviation Weather Center, CONUS) or "KZAK" (Oakland oceanic). Omit for all. */
+  atsu?: string;
+  /** 1-500, default 50. */
+  limit?: number;
+}
+
+interface NwsSigmet {
+  id: string;
+  atsu: string;
+  fir: string | null;
+  sequence: string | null;
+  /** WMO hazard code like "EMBD_TS" or "SEV_TURB"; null when NWS leaves it blank. */
+  phenomenon: string | null;
+  issueTime: string;
+  start: string;
+  end: string;
+  area: Array<{ lat: number; lon: number }>;
+}
+
+interface GetWeatherRadioArgs {
+  /** A place name, ZIP or "lat,lon" — returns the broadcast script for it. */
+  place?: string;
+  /** A transmitter call sign like "KHB35" — returns its frequency, site and coverage. */
+  callSign?: string;
+}
+
+interface NwsRadioTransmitter {
+  callSign: string;
+  frequencyMhz: string;
+  siteName: string;
+  siteCity: string;
+  siteState: string;
+  sameCodes: string[];
+  counties: string[];
+}
+
+interface NwsWeatherRadio {
+  /** The spoken broadcast for the place, one paragraph per segment; empty without place. */
+  broadcast: string[];
+  /** The asked transmitter; null without callSign. */
+  transmitter: NwsRadioTransmitter | null;
+}
+
+interface LookupGlossaryArgs {
+  /** A term or part of one: "red flag warning", "dewpoint", "QPF". */
+  term: string;
+  /** 1-500, default 10. */
+  limit?: number;
+}
+
+interface NwsGlossaryEntry {
+  term: string;
+  definition: string;
+}
+
 interface GetWeatherStoriesArgs {
   /** A forecast office id like "BOX", or a place name / ZIP / "lat,lon" resolved to its office. */
   place: string;
@@ -65236,6 +65774,26 @@ interface NwsOffice {
      * getTextProduct.
      */
     listTextProducts(args: ListTextProductsArgs): Promise<NwsTextProductListing>;
+
+    /**
+     * The SIGMETs valid right now — aviation hazard warnings for convection, turbulence, icing and
+     * volcanic ash — with issuing office, region, hazard code, valid window and the area as
+     * lat/lon points, newest first. Optionally one issuing office (atsu).
+     */
+    listSigmets(args: ListSigmetsArgs): Promise<NwsSigmet[]>;
+
+    /**
+     * NOAA Weather Radio: what is being broadcast for a place right now, as plain-text paragraphs
+     * ({ place }), and/or one transmitter's frequency, site, SAME codes and counties ({ callSign:
+     * "KHB35" }).
+     */
+    getWeatherRadio(args: GetWeatherRadioArgs): Promise<NwsWeatherRadio>;
+
+    /**
+     * What an NWS term means, from NWS's own glossary — exact term first, then terms that start
+     * with or contain it. "red flag warning", "dew point", "QPF".
+     */
+    lookupGlossary(args: LookupGlossaryArgs): Promise<NwsGlossaryEntry[]>;
 
     /**
      * NWS radar sites (WSR-88D and TDWR) with id, name, location and whether each is up right now
@@ -72460,6 +73018,19 @@ interface PunchpassMemberList {
   classes: PunchpassScheduledClass[];
   warnings: string[];
 }
+interface PunchpassMemberRow {
+  /** Visible text of each cell (a table row) or of the item (a list). */
+  cells: string[];
+  /** Absolute hrefs inside the row; pass, class or child ids live in them. */
+  links: string[];
+}
+interface PunchpassMemberRows {
+  orgId: string;
+  subdomain: string;
+  /** The page's rows as rendered; the signed-in markup is unmeasured, so no field names are guessed. */
+  rows: PunchpassMemberRow[];
+  warnings: string[];
+}
 interface PunchpassProfile {
   /** The account's email, when the form shows it. */
   email: string | null;
@@ -72582,6 +73153,22 @@ interface PunchpassProfile {
      * <studio>.punchpass.com subdomain, a punchpass url, or its numeric org id.
      */
     getMyClassHistory(studio: PunchpassStudioArg, opts?: ConnectionOption): Promise<PunchpassMemberList>;
+
+    /**
+     * Lists the signed-in caller's passes and memberships at one studio (needs the caller signed
+     * in) from the studio's member memberships page, as rows of visible cell text plus links;
+     * takes the studio as its <studio>.punchpass.com subdomain, a punchpass url, or its numeric
+     * org id.
+     */
+    listMyPasses(studio: PunchpassStudioArg, opts?: ConnectionOption): Promise<PunchpassMemberRows>;
+
+    /**
+     * Lists the children on the signed-in caller's family account at one studio (needs the caller
+     * signed in) from the studio's member children page, as rows of visible cell text plus links;
+     * takes the studio as its <studio>.punchpass.com subdomain, a punchpass url, or its numeric
+     * org id.
+     */
+    listMyChildren(studio: PunchpassStudioArg, opts?: ConnectionOption): Promise<PunchpassMemberRows>;
 
     /**
      * Makes a NEW Punchpass account with the person's own email and password, in a session. Pauses
@@ -73037,6 +73624,36 @@ interface QuickbooksCommunityBoard {
   url: string;
 }
 
+interface QuickbooksListBoardThreadsArgs {
+  /** A board slug listCommunityBoards returns, e.g. "banking-50". */
+  board: string;
+  /** 1-based page of results. Default 1. */
+  page?: number;
+  /** How many threads to return, 1-25 (default 25). */
+  limit?: number;
+}
+
+/** One thread on a Community board, as `listBoardThreads` lists it. Call
+ * `getThread` with its `url` for the full question and answer. */
+interface QuickbooksBoardThread {
+  /** The thread's public id — the number at the end of its URL. */
+  id: string;
+  title: string;
+  /** The question's opening text, as the board page's own preview shows it. */
+  snippet: string;
+  url: string;
+  /** The site's own content-type label: "question", "discussion", "idea",
+   * "bug" or "productUpdate". */
+  contentType: string;
+  author: string | null;
+  replyCount: number;
+  views: number;
+  /** Whether the thread has an accepted answer. */
+  solved: boolean;
+  publishedAt: string | null;
+  lastActivityAt: string | null;
+}
+
 /** One reply on a Community thread. */
 interface QuickbooksThreadAnswer {
   text: string;
@@ -73235,6 +73852,12 @@ interface QuickbooksApp extends QuickbooksAppSummary {
 
     /** QuickBooks Community's boards and topic areas, with their URLs */
     listCommunityBoards(): Promise<QuickbooksCommunityBoard[]>;
+
+    /**
+     * Threads on one Community board, most-recently-active first, with author, reply count, views
+     * and solved state
+     */
+    listBoardThreads(args: string | QuickbooksListBoardThreadsArgs): Promise<QuickbooksBoardThread[]>;
 
     /** One Community thread's question and its accepted or top suggested answer */
     getThread(url: string): Promise<QuickbooksThread>;
@@ -77299,6 +77922,32 @@ interface AddToCartArgs {
   zipCode?: string; // 5-digit delivery ZIP
   fulfillment?: "delivery" | "pickup";
 }
+interface UpdateCartItemArgs {
+  productId: string; // a product already in the cart
+  storeId: string; // a store id from findStores
+  quantity: number; // the NEW total, 1-99
+  zipCode?: string;
+  fulfillment?: "delivery" | "pickup";
+}
+interface UpdateCartItemResult {
+  updated: true;
+  productId: string;
+  quantity: number;
+  storeId: string;
+  cart: SafewayCart | null;
+}
+interface RemoveFromCartArgs {
+  productId: string;
+  storeId: string;
+  zipCode?: string;
+  fulfillment?: "delivery" | "pickup";
+}
+interface RemoveFromCartResult {
+  removed: true;
+  productId: string;
+  storeId: string;
+  cart: SafewayCart | null;
+}
 interface SafewayRecipe {
   id: string;
   slug: string;
@@ -77417,6 +78066,18 @@ interface SafewayRecipe {
      * refusal.
      */
     addToCart(args: AddToCartArgs, opts?: ConnectionOption): Promise<AddToCartResult>;
+
+    /**
+     * Sets the quantity of a product in the signed-in caller's own Safeway cart (needs the caller
+     * signed in). Never checks out. See cartEdits.ts's header.
+     */
+    updateCartItem(args: UpdateCartItemArgs, opts?: ConnectionOption): Promise<UpdateCartItemResult>;
+
+    /**
+     * Removes a product from the signed-in caller's own Safeway cart (needs the caller signed in).
+     * See cartEdits.ts's header.
+     */
+    removeFromCart(args: RemoveFromCartArgs, opts?: ConnectionOption): Promise<RemoveFromCartResult>;
   }
 }
 
@@ -87382,6 +88043,10 @@ interface TemuCartItem { productId: string; quantity: number; price?: string; }
 interface TemuCart { items: TemuCartItem[]; }
 interface TemuCheckout { total: string; checkoutUrl: string; }
 interface TemuOrder { orderId: string; placedAt?: string; total?: string; status?: string; }
+interface TrackOrderArgs { orderId: string; }
+interface TemuTrackingEvent { time?: string; description: string; }
+interface TemuPackage { packageId?: string; carrier?: string; trackingNumber?: string; status?: string; expectedDelivery?: string; events: TemuTrackingEvent[]; }
+interface TemuTracking { orderId: string; packages: TemuPackage[]; }
 
   /** Shop Temu — search, product detail, cart and order functions on the marketplace app. */
   interface Unit {
@@ -87405,6 +88070,12 @@ interface TemuOrder { orderId: string; placedAt?: string; total?: string; status
      * stands. Needs the caller signed in.
      */
     listOrders(opts?: ConnectionOption): Promise<TemuOrder[]>;
+
+    /**
+     * Where each package of one of the caller's Temu orders is and when it is due; pass an orderId
+     * from listOrders. Needs the caller signed in.
+     */
+    trackOrder(args: TrackOrderArgs, opts?: ConnectionOption): Promise<TemuTracking>;
   }
 }
 
@@ -92133,6 +92804,18 @@ interface TurboTaxExpert {
   url: string;
 }
 
+interface TurboTaxOfficeDetail {
+  url: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  /** Tax topics this office's own offer catalog lists, e.g. "Cryptocurrency", "K-1 Partnership". */
+  services: string[];
+  /** This office's own tax experts — pass one's `url` to getLocalExpert. */
+  experts: Array<{ name: string; url: string }>;
+}
+
 interface turbotaxRow {
   id: string;
 }
@@ -92214,6 +92897,14 @@ interface turbotaxRow {
      * review count and office address.
      */
     getLocalExpert(url: string): Promise<TurboTaxExpert>;
+
+    /**
+     * Reads one TurboTax local tax office page — pass a
+     * turbotax.intuit.com/local-tax-offices/<state>/<city>/<id>/ url, such as findLocalExperts
+     * returned — and returns its address, the tax topics it offers, and the tax experts working
+     * there, each with the /local-tax-experts/ profile url getLocalExpert takes.
+     */
+    getLocalOffice(url: string): Promise<TurboTaxOfficeDetail>;
   }
 }
 
@@ -94229,6 +94920,33 @@ interface VagaroPhotoList {
   slug: string;
   photos: VagaroPhoto[];
 }
+interface VagaroClass {
+  classId: string;
+  name: string;
+  category: string | null;
+  description: string | null;
+  /** null when the business hides the price online. */
+  price: number | null;
+  durationMinutes: number | null;
+  promotionDiscountPercent: number | null;
+  /** Who teaches it — the staff ids listStaff returns. */
+  staff: { staffId: string; name: string | null; price: number | null }[];
+}
+interface VagaroClassList {
+  businessId: string;
+  slug: string;
+  categories: string[];
+  classes: VagaroClass[];
+  instructors: { staffId: string; name: string | null }[];
+}
+interface GetClassArgs extends BusinessArgs {
+  /** classId from listClasses. */
+  classId: string;
+}
+interface VagaroClassDetail extends VagaroClass {
+  businessId: string;
+  slug: string;
+}
 interface GetStaffMemberArgs extends BusinessArgs {
   /** staffId from listStaff. */
   staffId: string;
@@ -94370,6 +95088,19 @@ interface VagaroStaffProfile {
      * service and staff member each one illustrates.
      */
     listPhotos(args: BusinessArgs): Promise<VagaroPhotoList>;
+
+    /**
+     * Lists a business's group classes and workshops by category: id, name, description, price
+     * (null when hidden online), duration, promotion discount, and which staff teach each at what
+     * price.
+     */
+    listClasses(args: BusinessArgs): Promise<VagaroClassList>;
+
+    /**
+     * Returns one class by id: name, description, price (null when hidden online), duration,
+     * promotion discount, and which staff teach it at what price.
+     */
+    getClass(args: GetClassArgs): Promise<VagaroClassDetail>;
   }
 }
 
@@ -95403,6 +96134,26 @@ interface WallaPrivateSessionList {
   warnings: string[];
 }
 
+interface GetPrivateSessionAvailabilityArgs {
+  studio: string;
+  sessionId: number;
+  instructorId?: number;
+  fromDate?: string;
+}
+
+interface WallaBookableEntry {
+  // One bookable date or slot off bookable_dates|bookable_slots, passed through
+  // verbatim. UNMEASURED — no studio tried has had an open slot.
+  [field: string]: unknown;
+}
+
+interface WallaPrivateSessionAvailability {
+  bookableDates: WallaBookableEntry[];
+  bookableSlots: WallaBookableEntry[];
+  dateCount: number;
+  warnings: string[];
+}
+
 interface ListWorkshopsArgs {
   studio: string;
 }
@@ -95474,6 +96225,22 @@ interface WallaRawRecord {
   // The site's own /class_instance_bookings or /package_subscriptions fields,
   // passed through verbatim. UNMEASURED for the same reason as WallaProfile.
   [field: string]: unknown;
+}
+
+interface ListOnDemandVideosArgs {
+  studio: string;
+}
+
+interface WallaOnDemandVideo {
+  // One /video_offerings record, passed through verbatim. UNMEASURED — no
+  // studio tried sells any on-demand videos.
+  [field: string]: unknown;
+}
+
+interface WallaOnDemandVideoList {
+  videos: WallaOnDemandVideo[];
+  videoCount: number;
+  warnings: string[];
 }
 
 interface BookClassArgs {
@@ -95623,10 +96390,25 @@ interface WallaCancellationRequest {
     listPrivateSessions(args: ListPrivateSessionsArgs): Promise<WallaPrivateSessionList>;
 
     /**
+     * Returns the bookable dates, and the bookable start times on each, for one private session
+     * from listPrivateSessions — optionally narrowed to one instructor. The per-entry shape is
+     * unmeasured (every studio tried has had zero open slots); dateCount tells apart an honestly
+     * empty answer from an unreached one.
+     */
+    getPrivateSessionAvailability(args: GetPrivateSessionAvailabilityArgs): Promise<WallaPrivateSessionAvailability>;
+
+    /**
      * Lists a studio's workshops, series and trainings (multi-session enrollments): name, dates,
      * instructor, location, capacity, enrolled count and price tiers.
      */
     listWorkshops(args: ListWorkshopsArgs): Promise<WallaWorkshopList>;
+
+    /**
+     * Lists a studio's on-demand video offerings (the widget's video-on-demand tab). Record shape
+     * is unmeasured — no studio tried sells any; videoCount tells apart an honestly empty answer
+     * from an unreached one.
+     */
+    listOnDemandVideos(args: ListOnDemandVideosArgs): Promise<WallaOnDemandVideoList>;
 
     /**
      * Returns the signed-in client's own profile at a studio, passed through verbatim — name,
@@ -96015,6 +96797,12 @@ interface walmartSeller {
 
     /** Lists the delivery addresses saved on the signed-in account. Needs the caller signed in. */
     listAddresses(opts?: ConnectionOption): Promise<never>;
+
+    /**
+     * Saves a new US delivery address on the signed-in account. A write. Needs the caller signed
+     * in.
+     */
+    addAddress(args: { firstName: string; lastName: string; addressLineOne: string; addressLineTwo?: string; city: string; state: string; postalCode: string; phone?: string }, opts?: ConnectionOption): Promise<never>;
   }
 }
 
@@ -96080,6 +96868,11 @@ interface WashingtonpostArticleFullText {
   publishDate?: string;
   section?: string;
   text: string;
+}
+
+interface WashingtonpostSavedArticleResult {
+  url: string;
+  saved: boolean;
 }
 
 interface WashingtonpostWriter {
@@ -96233,6 +97026,15 @@ interface WashingtonpostLiveBlog {
 
     /** Gets one newsletter's own name, description and frequency off the directory. */
     getNewsletter(slug: string): Promise<WashingtonpostNewsletter>;
+
+    /** Saves an article to the CALLER's own Washington Post saved-stories list — never a persona's. */
+    saveArticle(url: string, opts?: ConnectionOption): Promise<WashingtonpostSavedArticleResult>;
+
+    /**
+     * Removes an article from the CALLER's own Washington Post saved-stories list — never a
+     * persona's.
+     */
+    unsaveArticle(url: string, opts?: ConnectionOption): Promise<WashingtonpostSavedArticleResult>;
   }
 }
 
@@ -100601,6 +101403,20 @@ interface YahooSportsPlayerDetail {
   jerseyNumber: string | null;
   status: string | null; // the site's own labels — read the values off a result, never guess one from prose
   currentSeasonStats: YahooSportsPlayerStatGroup[];
+  recentGames: YahooSportsPlayerRecentGame[]; // last THREE games only, newest first; may reach into last season; [] off-season
+}
+
+interface YahooSportsPlayerRecentGame {
+  season: number | null;
+  week: number | null;
+  date: string | null;
+  seasonPhase: string | null;
+  result: string | null; // e.g. "L 24-28", the player's team first
+  opponent: string | null;
+  opponentAbbr: string | null;
+  home: boolean | null;
+  gameUrl: string | null; // the url getGame takes
+  stats: YahooSportsPlayerStat[];
 }
 
 interface GetPlayerArgs {
@@ -100797,7 +101613,9 @@ interface YahooFantasyTeamDetail {
      * Reads one player's profile and current-season stat line off their own player page —
      * position, team, college, height, weight, birth date, jersey number, status, and each stat
      * category (Passing, Rushing, Receiving, Defense, Kicking, Punting) the player has a line in
-     * this season. Takes the player's own URL from `findPlayers`.
+     * this season, plus `recentGames` — the player's LAST THREE games only (Yahoo serves no more),
+     * each with result, opponent, week, stat line and the game's URL for `getGame`. Takes the
+     * player's own URL from `findPlayers`.
      */
     getPlayer(args: GetPlayerArgs): Promise<YahooSportsPlayerDetail>;
 
@@ -100827,6 +101645,104 @@ interface YahooFantasyTeamDetail {
      * only their one real NFL position and the slot they are in now.
      */
     getFantasyTeam(args: GetFantasyTeamArgs, opts?: ConnectionOption): Promise<YahooFantasyTeamDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_yargitay {
+  // ── Yargıtay Karar Arama · UYAP Emsal · Mevzuat — the unit's own declarations, verbatim ──
+interface SearchArgs {
+  /** Words or numbers to search for, Turkish, e.g. "kira tespit". Punctuation is ignored. */
+  query: string;
+  /** "yargitay" (default) | "danistay" | "istinaf" | "yerel" | "kyb" | "anayasa" | "uyusmazlik" | "all", or an array of them. */
+  court?: string | string[];
+  /** Exact chamber name, e.g. "3. Hukuk Dairesi". */
+  chamber?: string;
+  /** YYYY-MM-DD, inclusive, on the decision date. */
+  dateFrom?: string;
+  dateTo?: string;
+  /** 1-based page; the site serves at most 10 per page. */
+  page?: number;
+  /** 1-10, default 10. */
+  limit?: number;
+}
+
+interface TurkishCourtDecision {
+  documentId: string;
+  court: string;
+  chamber: string | null;
+  esasNo: string | null;
+  kararNo: string | null;
+  date: string | null;
+  finality: string | null;
+  url: string;
+}
+
+interface GetDecisionArgs {
+  /** A documentId from search(), or the row's url. */
+  documentId: string;
+}
+
+interface TurkishCourtDecisionText {
+  documentId: string;
+  chamber: string | null;
+  esasNo: string | null;
+  kararNo: string | null;
+  url: string;
+  /** The full decision, plain text, Turkish. */
+  text: string;
+}
+
+interface SearchLegislationArgs {
+  query: string;
+  /** "title" (default) matches the law's name; "text" searches its full text. */
+  in?: "title" | "text";
+  /** e.g. "KANUN", "YONETMELIK", "CB_KARARNAME", "KHK", "TEBLIGLER". */
+  type?: string | string[];
+  page?: number;
+  limit?: number;
+}
+
+interface TurkishLegislation {
+  id: string;
+  title: string;
+  number: number | null;
+  type: string;
+  typeDescription: string | null;
+  gazetteDate: string | null;
+  gazetteNumber: string | null;
+  url: string | null;
+}
+
+  /**
+   * Search Turkish court decisions (Yargıtay, Danıştay, regional appeal and first-instance
+   * courts) and Turkish legislation (mevzuat), and read a decision's full text.
+   */
+  interface Unit {
+    /**
+     * Searches Turkish court decisions — Yargıtay (Court of Cassation, the default), Danıştay
+     * (Council of State), regional appeal (istinaf) and first-instance (yerel) civil courts, kanun
+     * yararına bozma (kyb), the Constitutional Court and the Court of Jurisdictional Disputes —
+     * the same index karararama.yargitay.gov.tr and emsal.uyap.gov.tr search. Newest first, 10 per
+     * page. Each row has the chamber, esas (docket) and karar (decision) numbers, date and
+     * documentId; pass documentId to getDecision for the full text. `total` is the site's own
+     * match count.
+     */
+    search(args: SearchArgs): Promise<{ decisions: TurkishCourtDecision[]; total: number; page: number }>;
+
+    /**
+     * Reads one Turkish court decision's full text (plain text, Turkish) by the documentId
+     * search() returned. The header fields (chamber, esas/karar numbers) are parsed from the
+     * decision's own heading.
+     */
+    getDecision(args: GetDecisionArgs): Promise<TurkishCourtDecisionText>;
+
+    /**
+     * Searches Turkish legislation (mevzuat): laws (kanun), presidential decrees, regulations,
+     * decree-laws, communiqués. Matches the title by default ("borçlar kanunu" → Türk Borçlar
+     * Kanunu, no. 6098); in: "text" searches the full text instead. Returns number, type, Official
+     * Gazette date and number, and the mevzuat.gov.tr url.
+     */
+    searchLegislation(args: SearchLegislationArgs): Promise<{ laws: TurkishLegislation[]; total: number; page: number }>;
   }
 }
 
@@ -101949,18 +102865,20 @@ interface YoutubePlayableStream {
     listHomeFeed(input?: { limit?: number }, opts?: ConnectionOption): Promise<YoutubeSearchVideo[]>;
 
     /**
-     * The signed-in account's Watch Later queue, newest first, paged like any playlist. NEEDS A
-     * SIGN-IN, and a grant is issued to a capability — call `bowmark.video_library.watchLater`
-     * rather than this directly. Not reachable through YouTube's public Data API at all: Google
-     * removed access to the `WL` list in 2016.
+     * The signed-in account's Watch Later queue, newest first, paged like any playlist; `limit`
+     * keeps only the first N rows of the first page and never reads further — pass `continuation`
+     * for more. NEEDS A SIGN-IN, and a grant is issued to a capability — call
+     * `bowmark.video_library.watchLater` rather than this directly. Not reachable through
+     * YouTube's public Data API at all: Google removed access to the `WL` list in 2016.
      */
-    listWatchLater(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
+    listWatchLater(input?: { continuation?: string; limit?: number }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
 
     /**
-     * The videos the signed-in account has liked, newest first, paged like any playlist. NEEDS A
-     * SIGN-IN — call `bowmark.video_library.liked` rather than this directly.
+     * The videos the signed-in account has liked, newest first, paged like any playlist; `limit`
+     * keeps only the first N rows of the first page and never reads further — pass `continuation`
+     * for more. NEEDS A SIGN-IN — call `bowmark.video_library.liked` rather than this directly.
      */
-    listLikedVideos(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
+    listLikedVideos(input?: { continuation?: string; limit?: number }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
 
     /**
      * What the signed-in account has watched, newest first, paged like any playlist, each row with
@@ -101968,7 +102886,7 @@ interface YoutubePlayableStream {
      * NEEDS A SIGN-IN — `bowmark.video_library.history()` is the capability over it. Per-account
      * and starts empty.
      */
-    listWatchHistory(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
+    listWatchHistory(input?: { continuation?: string; limit?: number }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
 
     /**
      * Creates an EMPTY playlist on the signed-in account and returns its id and URL. `privacy`
@@ -102557,6 +103475,15 @@ interface ZenotiCancellation {
   depositRefunded: boolean;
 }
 
+interface ZenotiReschedule {
+  status: "rescheduled" | "fee_required" | "payment_required";  // only "rescheduled" moved anything
+  appointmentId: string;   // the old appointment
+  reservationId: string | null;
+  bookingId: string | null;  // the new booking, when rescheduled
+  cancellationCharges: number;  // fee the business states for giving up the old time
+  amountDue: number;       // what the new slot wants paid at booking
+}
+
   /**
    * The Zenoti booking platform behind thousands of salons, spas and med-spas: find a business's
    * webstore, list its locations and services, and check real open appointment times. Rung 11,
@@ -102637,6 +103564,16 @@ interface ZenotiCancellation {
      * appointment is NOT cancelled. With no sign-in the run pauses for one.
      */
     cancelAppointment(args: { tenant: string, appointmentId: string, reason?: string }, opts?: ConnectionOption): Promise<ZenotiCancellation>;
+
+    /**
+     * Moves one of the signed-in caller's upcoming appointments (appointmentId from
+     * listMyAppointments) to another open time for the same service and location (time from
+     * getAvailableTimes). Holds the new time first, then cancels the old and confirms, the way the
+     * business's own webstore reschedules. Returns "rescheduled", or "fee_required" /
+     * "payment_required" when the old time carries a cancellation fee or the new one wants payment
+     * -- in both cases nothing changed. With no sign-in the run pauses for one.
+     */
+    rescheduleAppointment(args: { tenant: string, appointmentId: string, time: string, providerId?: string }, opts?: ConnectionOption): Promise<ZenotiReschedule>;
   }
 }
 
@@ -102720,9 +103657,24 @@ interface ZoomSearchHelpArticlesResult {
   articles: ZoomHelpArticle[];
 }
 
+interface ZoomMeetingList {
+  raw: string; // signed-in response shape is UNMEASURED — see manifest.json
+}
+
+interface ZoomScheduleMeetingResult {
+  fields: Record<string, string>;
+  scheduled: boolean; // the door accepted the request; no verified post-condition — see manifest.json
+}
+
 interface ZoomMeetingDetail {
   meetingId: string;
   raw: string; // signed-in response shape is UNMEASURED — see manifest.json
+}
+
+interface ZoomUpdateMeetingResult {
+  meetingId: string;
+  fields: Record<string, string>;
+  updated: boolean; // the door accepted the request; no verified post-condition — see manifest.json
 }
 
 interface ZoomDeleteMeetingResult {
@@ -102800,10 +103752,22 @@ interface ZoomProfile {
     searchHelpArticles(query: string): Promise<ZoomSearchHelpArticlesResult>;
 
     /**
+     * Read the signed-in caller's upcoming meetings from the signed-in caller's meeting list page
+     * — needs the caller signed in
+     */
+    listMeetings(opts?: ConnectionOption): Promise<ZoomMeetingList>;
+
+    /** Create a new meeting on the signed-in caller's account — needs the caller signed in */
+    scheduleMeeting(fields: Record<string, string>, opts?: ConnectionOption): Promise<ZoomScheduleMeetingResult>;
+
+    /**
      * Read full details of one scheduled meeting from the signed-in caller's meeting detail page —
      * needs the caller signed in
      */
     getMeeting(meetingId: string | number, opts?: ConnectionOption): Promise<ZoomMeetingDetail>;
+
+    /** Update one scheduled meeting's title, time or settings — needs the caller signed in */
+    updateMeeting(meetingId: string | number, fields: Record<string, string>, opts?: ConnectionOption): Promise<ZoomUpdateMeetingResult>;
 
     /** Cancel one scheduled meeting — needs the caller signed in */
     deleteMeeting(meetingId: string | number, opts?: ConnectionOption): Promise<ZoomDeleteMeetingResult>;
@@ -104012,7 +104976,6 @@ interface BowmarkProviders {
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
   capitaloneshopping: BowmarkProvider_capitaloneshopping.Unit;
   caraway: BowmarkProvider_caraway.Unit;
-  cardiff: BowmarkProvider_cardiff.Unit;
   carepatrol: BowmarkProvider_carepatrol.Unit;
   carlsgolfland: BowmarkProvider_carlsgolfland.Unit;
   carmelrealtycompany: BowmarkProvider_carmelrealtycompany.Unit;
@@ -104614,6 +105577,7 @@ interface BowmarkProviders {
   yahoo_finance: BowmarkProvider_yahoo_finance.Unit;
   yahoo_mail: BowmarkProvider_yahoo_mail.Unit;
   yahoo_sports: BowmarkProvider_yahoo_sports.Unit;
+  yargitay: BowmarkProvider_yargitay.Unit;
   ycombinator: BowmarkProvider_ycombinator.Unit;
   yelp: BowmarkProvider_yelp.Unit;
   yogatreecollective: BowmarkProvider_yogatreecollective.Unit;

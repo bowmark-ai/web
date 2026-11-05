@@ -1626,7 +1626,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.downloadFile` | dropbox.com | Downloads a file from the caller's Dropbox and returns a Bowmark file URL for it. | ⚪ |
 | `dropbox.downloadSharedFile` | dropbox.com | Downloads the file behind a shared link and returns a Bowmark file URL for it, with… | 🟢 |
 | `dropbox.downloadSharedFolder` | dropbox.com | Downloads a whole shared folder as a zip and returns a Bowmark file URL for it. | ⚪ |
-| `dropbox.getFileMetadata` | dropbox.com | Reads one file or folder in the caller's Dropbox by path: size, modified time, who… | ⚪ |
+| `dropbox.getFileMetadata` | dropbox.com | Reads one file or folder in the caller's own Dropbox by path: kind, size, modified… | 🟢 |
 | `dropbox.getMyAccount` | dropbox.com | Reads the signed-in caller's account: name, email, profile photo, account type, and… | 🟢 |
 | `dropbox.getPlans` | dropbox.com | Lists Dropbox's plans as its own pricing page shows them — Basic, Plus, Essentials… | 🟢 |
 | `dropbox.getSharedLink` | dropbox.com | Opens a Dropbox shared link the caller was sent — any of the /s/, /sh/, /scl/fi/ or… | 🟢 |
@@ -1635,7 +1635,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dropbox.listFileComments` | dropbox.com | Reads the comments on a file in the caller's Dropbox. | ⚪ |
 | `dropbox.listFileRequests` | dropbox.com | Lists the caller's file requests, open and closed, with how many files each has… | ⚪ |
 | `dropbox.listFileVersions` | dropbox.com | Lists the earlier versions of a file in the caller's Dropbox, with when and by whom… | ⚪ |
-| `dropbox.listFolder` | dropbox.com | Lists a folder in the caller's own Dropbox — the root by default — with each entry's… | ⚪ |
+| `dropbox.listFolder` | dropbox.com | Lists a folder in the caller's own Dropbox — the root by default — with each entry's… | 🟢 |
 | `dropbox.listRecentFiles` | dropbox.com | Lists the files the caller opened or edited recently (dropbox.com/recents). | ⚪ |
 | `dropbox.listSharedFolder` | dropbox.com | Lists the files and sub-folders inside a shared folder link — name, size, modified… | 🟢 |
 | `dropbox.listSharedLinks` | dropbox.com | Lists the shared links the caller has created, with what each points at and its… | ⚪ |
@@ -4234,13 +4234,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `safeway.listRewardsHistory` | safeway.com | Lists how the signed-in customer earned and spent points. | ⚪ |
 | `safeway.listSimilarProducts` | safeway.com | Lists products Safeway suggests as alternatives to one product ("similar items"). | ⚪ |
 | `safeway.redeemRewards` | safeway.com | Would spend the signed-in customer's points on a reward (grocery or gas savings). | ⚪ |
-| `safeway.removeFromCart` | safeway.com | Removes an item from the signed-in customer's cart. | ⚪ |
+| `safeway.removeFromCart` | safeway.com | Removes an item from the signed-in customer's cart. | 🟢 |
 | `safeway.removeFromShoppingList` | safeway.com | Removes an item from the signed-in customer's shopping list. | ⚪ |
 | `safeway.reserveTimeWindow` | safeway.com | Holds a delivery or pickup window for the signed-in customer's cart. | ⚪ |
 | `safeway.searchProducts` | safeway.com | Searches Safeway's catalogue at one store by keyword: name, UPC, price, member price… | ⚪ |
 | `safeway.searchRecipes` | safeway.com | Searches Safeway's recipes by meaning (the site's own semantic search) or lists one… | 🟢 |
 | `safeway.setMyStore` | safeway.com | Sets the signed-in customer's preferred store, which every price, stock and slot on… | ⚪ |
-| `safeway.updateCartItem` | safeway.com | Changes an item's quantity, substitution preference or note in the signed-in… | ⚪ |
+| `safeway.updateCartItem` | safeway.com | Changes an item's quantity, substitution preference or note in the signed-in… | 🟢 |
 | `safeway.updateMyProfile` | safeway.com | Changes the signed-in customer's name, phone or communication preferences. | ⚪ |
 | `saltandstone.getScentProducts` | saltandstone.com | Lists the real core products (body wash, body mist, body lotion, deodorant, hand… | 🟢 |
 | `saltandstone.listScentFamilies` | saltandstone.com | Lists Salt & Stone's real six named scent families (Santal & Vetiver, Bergamot &… | 🟢 |
@@ -4906,7 +4906,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `temu.listOrders` | www.temu.com | The caller's own order history — what they bought, when, for how much, and where each… | 🟢 |
 | `temu.removeFromCart` | www.temu.com | Remove one line from the cart. | ⚪ |
 | `temu.searchProducts` | www.temu.com | Search Temu's catalog by keyword and return matching products (title, price, image… | ⚪ |
-| `temu.trackOrder` | www.temu.com | Where a specific order's package is and when it is due — the follow-up to listOrders. | ⚪ |
+| `temu.trackOrder` | www.temu.com | Where a specific order's package is and when it is due — the follow-up to listOrders. | 🟢 |
 | `temu.updateCart` | www.temu.com | Change a cart line's quantity or chosen variant. | ⚪ |
 | `temu.viewCart` | www.temu.com | Read the caller's current cart — line items, quantities, per-item and total price. | 🟢 |
 | `temu.writeReview` | www.temu.com | Post a review and star rating on a product the caller has an order for. | ⚪ |
