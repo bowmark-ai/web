@@ -392,7 +392,7 @@ ikea.com — ikea: addToCart, addToFavorites, findStores, getCart, getDeliveryOp
 imdb.com — imdb: getPerson, getTitle, getTitleReviews, listCustomLists, listRatings, listWatchlist, search, searchSuggestions, searchTitles
 indeed.com — indeed: getCompanyDetails, getJobDetails, getSalaryDetails, searchCompanies, searchJobs, searchSalaries
 inspirecommunities.com — inspirecommunities: searchHomes
-instacart.com — instacart: compareStores, findLocation, getCart, getDeliveryEstimate, getProduct, getStore, getStoreHours, getWeeklyAd, listCarts, listDeals, listDepartmentProducts, listDepartments, listMyAddresses, listOrders, listStores, suggestSearches (+26 planned)
+instacart.com — instacart: compareStores, findLocation, getCart, getDeliveryEstimate, getMyAccount, getProduct, getStore, getStoreHours, getWeeklyAd, listCarts, listDeals, listDepartmentProducts, listDepartments, listMyAddresses, listOrders, listStores, suggestSearches (+25 planned)
 instagram.com — instagram: blockUser, commentOnPost, followUser, getDirectMessages, getFeed, getHomeFeed, getNotifications, getPost, getPosts, getProfile, getSavedPosts, getStories, getThreadMessages, likePost, muteUser, savePost, searchAccounts, sendDirectMessage, unblockUser, unfollowUser, unlikePost, unmuteUser, unsavePost, updateProfile
 insurify.com — insurify: getAutoQuotes, getCarrierReview, getCarrierUserReviews, getCityRates, getHomeQuotes, getRentersQuotes, getStateRates, getVehicleRates, listInsightsReports, rankCarriers (+19 planned)
 intactinsurance.com — intactinsurance: getSolution, listSolutions (+1 planned)
@@ -625,7 +625,7 @@ seoulfood.kotra.or.kr — seoulfood: getBoothQuote, getExhibitorPricing (+1 plan
 serper.dev — serper: search, searchGoogle
 services.gst.gov.in — gst_india: lookup
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
-sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getVenue, listMyReservations, listUpgrades, validatePromoCode (+15 planned)
+sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getReservation, getVenue, listMyReservations, listUpgrades, validatePromoCode (+14 planned)
 shein.com — shein: getProduct, listCategories, listProductsByCategory, search (+30 planned)
 shop.app — shop_app: browseCategory, getDiscoveryFeed, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listOffers, listOrders, listStoreProducts, searchProducts, searchStore, suggestSearches (+22 planned)
 shop.formax.com — formax: getCartLink, search
@@ -748,7 +748,7 @@ webshare.io — webshare: getPlans
 wellfound.com — wellfound: getJob, searchCompanies, searchJobs (+5 planned)
 wellnessliving.com — wellnessliving: getClassCapacity, getClassDetails, getClassTypes, getInstructors, getLocationDetails, getLocationInfo, getLocationSchedule, listKnownBusinesses, listLocations, listScheduleClasses, searchClasses (+19 planned)
 westelm.com — westelm: searchProducts (+1 planned)
-whatsapp.com — whatsapp: checkNumber, createClickToChatLink, downloadMedia, findContact, getBlogPost, getChannel, getChatMessages, getGroupInfo, getHelpArticle, getMyProfile, listBlogPosts, listChats, listContacts, previewBusinessCatalog, previewGroupInvite, searchHelpCenter, searchMessages (+27 planned)
+whatsapp.com — whatsapp: checkNumber, createClickToChatLink, downloadMedia, findContact, getBlogPost, getChannel, getChatMessages, getGroupInfo, getGroupInviteLink, getHelpArticle, getMyProfile, listBlogPosts, listChats, listContacts, previewBusinessCatalog, previewGroupInvite, searchHelpCenter, searchMessages (+26 planned)
 wholefoodsmarket.com — wholefoodsmarket: search (+1 planned)
 wikipedia.org — wikipedia: compareRevisions, createPage, editPage, getArticle, getArticleHtml, getCurrentUser, getFeaturedContent, getImage, getInfobox, getOnThisDay, getPageviews, getRandomArticle, getRevision, getSection, getSections, getSummary, getUser, getWikitext, listBacklinks, listCategories, listCategoryMembers, listExternalLinks, listImages, listLanguages, listLinks, listMostViewed, listNotifications, listRecentChanges, listRelated, listRevisions, listUserContributions, listWatchlist, postTalkMessage, search, searchNearby, suggestTitles, thankUser, undoRevision, unwatchPage, watchPage
 williams-sonoma.com — williams_sonoma: searchProducts (+1 planned)

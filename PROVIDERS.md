@@ -2757,7 +2757,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instacart.getCart` | instacart.com | Returns one cart's contents: each item with quantity, price, any sale, and the cart's… | 🟢 |
 | `instacart.getDeliveryEstimate` | instacart.com | Says how soon a store can deliver to, or have pickup ready at, a location. | 🟢 |
 | `instacart.getList` | instacart.com | Returns one shopping list's products, priced at a chosen store. | ⚪ |
-| `instacart.getMyAccount` | instacart.com | Returns the signed-in customer's own account: name, email, phone status, Instacart+… | ⚪ |
+| `instacart.getMyAccount` | instacart.com | Returns the signed-in customer's own account: id, name, email and phone. | 🟢 |
 | `instacart.getOrder` | instacart.com | Returns one order: its items (with any replacements or refunds), delivery address and… | ⚪ |
 | `instacart.getProduct` | instacart.com | Returns one product's detail: name, brand, size, category, description, ingredients… | 🟢 |
 | `instacart.getProductReviews` | instacart.com | Returns the star rating and customer reviews of a product, newest or most relevant… | ⚪ |
@@ -4372,7 +4372,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sevenrooms.getExperience` | sevenrooms.com | Returns one experience or event at a venue: title, description, photos, price per… | ⚪ |
 | `sevenrooms.getMyProfile` | sevenrooms.com | Returns the signed-in guest's SevenRooms profile: name, contact details, profile… | ⚪ |
 | `sevenrooms.getRequest` | sevenrooms.com | Reads a submitted booking request or priority alert from its id: venue, date, time… | ⚪ |
-| `sevenrooms.getReservation` | sevenrooms.com | Reads a reservation from the manage token in its confirmation email or link: venue… | ⚪ |
+| `sevenrooms.getReservation` | sevenrooms.com | Reads a reservation from its manage token (bookReservation's manageToken, or the… | 🟢 |
 | `sevenrooms.getVenue` | sevenrooms.com | Returns one venue from its slug: name, address, postal code, phone, website, timezone… | 🟢 |
 | `sevenrooms.joinLoyaltyProgram` | sevenrooms.com | Signs the guest up to a venue's loyalty or rewards programme with their name, email… | ⚪ |
 | `sevenrooms.listExperiences` | sevenrooms.com | Lists a venue's bookable experiences and events — tasting menus, holiday seatings… | ⚪ |
@@ -5598,7 +5598,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `whatsapp.getChatMessages` | whatsapp.com | Reads the messages WhatsApp Web's own conversation panel currently renders for one… | 🟢 |
 | `whatsapp.getCommunity` | whatsapp.com | Reads a WhatsApp Community the caller belongs to: its name, description, announcement… | ⚪ |
 | `whatsapp.getGroupInfo` | whatsapp.com | Reads a group the caller belongs to, opened by its exact displayed name (from… | 🟢 |
-| `whatsapp.getGroupInviteLink` | whatsapp.com | Reads the current invite link of a group the caller administers, optionally revoking… | ⚪ |
+| `whatsapp.getGroupInviteLink` | whatsapp.com | Reads the current chat.whatsapp.com invite link of a group the caller administers… | 🟢 |
 | `whatsapp.getHelpArticle` | whatsapp.com | Reads one WhatsApp Help Center article by its numeric id or faq.whatsapp.com url… | 🟢 |
 | `whatsapp.getMyProfile` | whatsapp.com | Reads the signed-in caller's own WhatsApp profile: display name, about text, profile… | 🟢 |
 | `whatsapp.joinGroupByInvite` | whatsapp.com | Joins a group from its chat.whatsapp.com invite link as the caller, and returns the… | ⚪ |
