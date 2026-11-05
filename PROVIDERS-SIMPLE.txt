@@ -347,7 +347,7 @@ goodreads.com — goodreads: addToShelf, followUser, getAuthor, getBook, getBook
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaces (+3 planned)
-google.com/maps/reserve — reserve_with_google: findBookablePlaces, getBooking, getBookingOptions, getMerchant, listMyBookings, listMyPacks, listPartners (+7 planned)
+google.com/maps/reserve — reserve_with_google: findBookablePlaces, getBooking, getBookingOptions, getMerchant, getSettings, listMyBookings, listMyPacks, listPartners (+6 planned)
 goremutual.ca — goremutual: getProductOverview
 gostoreit.com — gostoreit: findFacilities, getFacilityUnits
 gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
@@ -408,7 +408,7 @@ iyc.com — iyc: checkCharterAvailability, searchCharterYachts
 jasminedilucci.com — jasmine_dilucci: getApplicationFormSchema
 jcrew.com — jcrew: browseCategory, checkVariantStock, findStores, getCategory, getProduct, getProducts, listCategories, listProductReviews, listSearchRefinements, listSortOptions, searchProducts, suggestSearchTerms (+2 planned)
 jennikayne.com — jennikayne: buildGiftCardLink, getGiftCardOptions
-joinblvd.com — boulevard: findBusiness, getAvailableDates, getAvailableTimes, getBusiness, getLocation, getServiceDetails, listLocations, listServices, listStaffForTime (+28 planned)
+joinblvd.com — boulevard: findBusiness, getAvailableDates, getAvailableTimes, getBusiness, getLocation, getServiceDetails, listBookingQuestions, listLocations, listPackagesAndMemberships, listServices, listStaffForTime (+26 planned)
 joybird.com — joybird: getConfigurator, listConfigurators, priceConfigurator
 joycefactorydirect.com — joycefactorydirect: getBathCalculatorOptions, getWindowCalculatorOptions (+1 planned)
 junkluggers.com — junkluggers: findFranchise, getAvailability, getServiceTypes (+1 planned)

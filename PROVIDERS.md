@@ -716,7 +716,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boulevard.getRescheduleTimes` | joinblvd.com | Lists the dates and open times one of the signed-in client's appointments can move to. | ⚪ |
 | `boulevard.getServiceDetails` | joinblvd.com | Gets one service's full detail at a location: description, price and duration range… | 🟢 |
 | `boulevard.joinWaitlist` | joinblvd.com | Adds the client to a location's waitlist for a service on a date range when no time… | ⚪ |
-| `boulevard.listBookingQuestions` | joinblvd.com | Lists the questions a business asks before it confirms a booking (intake questions on… | ⚪ |
+| `boulevard.listBookingQuestions` | joinblvd.com | Lists the intake questions a business asks before it confirms a booking of a service… | 🟢 |
 | `boulevard.listLocations` | joinblvd.com | Lists a business's locations: id, name, full address, coordinates, time zone, opening… | 🟢 |
 | `boulevard.listMyAppointments` | joinblvd.com | Lists the signed-in client's upcoming and past appointments at a business. | ⚪ |
 | `boulevard.listMyConversations` | joinblvd.com | Lists the signed-in client's secure message threads with a business's locations, with… | ⚪ |
@@ -725,7 +725,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `boulevard.listMyPaymentMethods` | joinblvd.com | Lists the cards the signed-in client has on file at a business (brand, last four… | ⚪ |
 | `boulevard.listMyUnpaidInvoices` | joinblvd.com | Lists the signed-in client's unpaid invoices at a business. | ⚪ |
 | `boulevard.listMyVouchers` | joinblvd.com | Lists the signed-in client's vouchers, gift cards and prepaid service credits at a… | ⚪ |
-| `boulevard.listPackagesAndMemberships` | joinblvd.com | Lists the memberships, packages and products a location sells online, with price. | ⚪ |
+| `boulevard.listPackagesAndMemberships` | joinblvd.com | Lists the memberships, packages, products and gift cards a location sells online, with… | 🟢 |
 | `boulevard.listServices` | joinblvd.com | Lists the services a location books online, grouped by category, with price range and… | 🟢 |
 | `boulevard.listStaffForTime` | joinblvd.com | Lists the staff members (and any per-staff price or duration variant) who can perform… | 🟢 |
 | `boulevard.pauseMembership` | joinblvd.com | Pauses or unpauses one of the signed-in client's memberships where the business allows… | ⚪ |
@@ -3563,7 +3563,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟡 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟡 |
-| `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟡 |
+| `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets a day's Spelling Bee puzzle — the center letter, the seven available letters, all… | 🟡 |
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟡 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
@@ -4114,7 +4114,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reserve_with_google.getBooking` | google.com/maps/reserve | Finds one of the caller's bookings on their Bookings page by the venue's feature id —… | 🟢 |
 | `reserve_with_google.getBookingOptions` | google.com/maps/reserve | Lists the booking action one place offers on Google — "Reserve a table", "Book online"… | 🟡 |
 | `reserve_with_google.getMerchant` | google.com/maps/reserve | Reads one Google-hosted booking page by merchant id or its… | 🟢 |
-| `reserve_with_google.getSettings` | google.com/maps/reserve | Reads the caller's Reserve with Google settings: the contact name, phone and email… | ⚪ |
+| `reserve_with_google.getSettings` | google.com/maps/reserve | Reads the caller's Reserve with Google Settings page and returns the page's own data… | 🟢 |
 | `reserve_with_google.joinWaitlist` | google.com/maps/reserve | Adds the caller's name to a restaurant's waitlist through Google, where the venue… | ⚪ |
 | `reserve_with_google.listMyBookings` | google.com/maps/reserve | Lists the venues of the caller's Reserve with Google bookings off their own Bookings… | 🟢 |
 | `reserve_with_google.listMyPacks` | google.com/maps/reserve | Lists the venues the caller holds class packs or memberships at, off their own Reserve… | 🟢 |
