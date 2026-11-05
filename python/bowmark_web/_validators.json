@@ -1,5 +1,5 @@
 {
-  "version": "53b5634cc6c19e957f81174f5119f7dbff6c31ac19b61e87c119fa4869a81bf8",
+  "version": "779587ec2789db5013aeebd3106ee5f6d1b5d921e7c4d976c6dc588a6a906368",
   "units": {
     "address_validation": {
       "defs": {
@@ -22223,6 +22223,45 @@
             },
             "optional": false
           }
+        ],
+        "listBookingQuestions": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "serviceId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPackagesAndMemberships": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -26533,7 +26572,52 @@
       }
     },
     "providers.chownow": {
-      "defs": {},
+      "defs": {
+        "ChownowOrderItemInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "specialInstructions",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "modifierCategories",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "any"
+                }
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "findRestaurant": [
           {
@@ -26740,6 +26824,108 @@
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "validateOrder": [
+          {
+            "name": "restaurantId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "menuId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "items",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "ref",
+                "name": "ChownowOrderItemInput"
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "fulfillMethod",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "pickup"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "delivery"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "curbside"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "when",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "null"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "specialInstructions",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "null"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "promoCode",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "null"
+                      }
+                    ]
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -43122,6 +43308,104 @@
             "name": "wiki",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "watchPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "wiki",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "title",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unwatchPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "wiki",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "title",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "string"
+                }
+              ]
             },
             "optional": false
           },
@@ -85083,6 +85367,39 @@
               "optional": true
             }
           ]
+        },
+        "PeekUpdateProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -85159,6 +85476,32 @@
           }
         ],
         "getMyProfile": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PeekUpdateProfileArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -95683,6 +96026,24 @@
             "optional": true
           }
         ],
+        "getSettings": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getBooking": [
           {
             "name": "featureId",
@@ -96032,6 +96393,25 @@
               "name": "limit",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetMyNewsFeedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -96624,6 +97004,50 @@
             "schema": {
               "k": "ref",
               "name": "ListSavedArticlesArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowedTopics": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMyNewsFeed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMyNewsFeedArgs"
             },
             "optional": true
           },
@@ -101293,21 +101717,21 @@
               "schema": {
                 "k": "string"
               },
-              "optional": false
+              "optional": true
             },
             {
               "name": "accessPersistentId",
               "schema": {
                 "k": "string"
               },
-              "optional": false
+              "optional": true
             },
             {
               "name": "shiftPersistentId",
               "schema": {
                 "k": "string"
               },
-              "optional": false
+              "optional": true
             },
             {
               "name": "partySize",

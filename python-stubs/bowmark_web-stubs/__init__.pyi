@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 53b5634cc6c19e957f81174f5119f7dbff6c31ac19b61e87c119fa4869a81bf8
-# 94 capabilities, 760 providers, 4234 typed functions, 20 refused.
+# Manifest version: 779587ec2789db5013aeebd3106ee5f6d1b5d921e7c4d976c6dc588a6a906368
+# 94 capabilities, 760 providers, 4243 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11682,6 +11682,37 @@ class Prv_boulevard_BoulevardStaffForTime_Out_staff_item_Out(TypedDict):
     durationMinutes: float
     priceCents: float
 
+class Prv_boulevard_BoulevardBookingQuestions_Out(TypedDict):
+    questions: list[Prv_boulevard_BoulevardBookingQuestions_Out_questions_item_Out]
+
+class Prv_boulevard_BoulevardBookingQuestions_Out_questions_item_Out(TypedDict):
+    id: str
+    key: str
+    label: str
+    required: bool
+    valueType: str
+    displayType: str
+    options: list[Prv_boulevard_BoulevardBookingQuestions_Out_questions_item_Out_options_item_Out]
+
+class Prv_boulevard_BoulevardBookingQuestions_Out_questions_item_Out_options_item_Out(TypedDict):
+    id: str
+    label: str
+
+class Prv_boulevard_BoulevardPackagesAndMemberships_Out(TypedDict):
+    items: list[Prv_boulevard_BoulevardPackagesAndMemberships_Out_items_item_Out]
+
+class Prv_boulevard_BoulevardPackagesAndMemberships_Out_items_item_Out(TypedDict):
+    id: str
+    name: str
+    category: str
+    kind: Literal["product"] | Literal["giftCard"]
+    description: str | None
+    priceMinCents: float | None
+    priceMaxCents: float | None
+    available: bool
+    unavailableReason: str | None
+    agreementRequired: bool
+
 class Prv_bowmark_BowmarkOverview_Out(TypedDict):
     name: str
     description: str
@@ -14391,6 +14422,47 @@ class Prv_chownow_ChownowRewardsBalance_Out(TypedDict):
 class Prv_chownow_ChownowRewardsPromotion_Out(TypedDict):
     name: str
     description: str | None
+
+class Prv_chownow_ChownowOrderItemInput_In(TypedDict):
+    itemId: str
+    quantity: NotRequired[float]
+    specialInstructions: NotRequired[str | None]
+    modifierCategories: NotRequired[Sequence[Any]]
+
+class Prv_chownow_validateOrder_options_In(TypedDict):
+    fulfillMethod: NotRequired[Literal["pickup"] | Literal["delivery"] | Literal["curbside"]]
+    when: NotRequired[str | None]
+    specialInstructions: NotRequired[str | None]
+    promoCode: NotRequired[str | None]
+
+class Prv_chownow_ChownowOrderValidation_Out(TypedDict):
+    restaurantId: str
+    fulfillMethod: str | None
+    items: list[Prv_chownow_ChownowValidatedItem_Out]
+    itemTotal: float | None
+    subtotal: float | None
+    salesTax: float | None
+    serviceFee: float | None
+    deliveryFee: float | None
+    supportLocalFee: float | None
+    gratuity: float | None
+    total: float | None
+    totalDue: float | None
+    isValid: bool
+    errors: list[Prv_chownow_ChownowOrderValidationIssue_Out]
+    warnings: list[str]
+
+class Prv_chownow_ChownowValidatedItem_Out(TypedDict):
+    itemId: str
+    name: str | None
+    quantity: float | None
+    price: float | None
+    itemTotal: float | None
+    taxAmount: float | None
+
+class Prv_chownow_ChownowOrderValidationIssue_Out(TypedDict):
+    code: str | None
+    message: str | None
 
 class Prv_chriscraft_ChriscraftModelSummary_Out(TypedDict):
     modelId: str
@@ -22695,6 +22767,19 @@ class Prv_fandom_FandomCurrentUser_Out(TypedDict):
     editCount: float
     groups: list[str]
     rights: list[str]
+
+class Prv_fandom_watchPage_args_u0_In(TypedDict):
+    wiki: str
+    title: str
+
+class Prv_fandom_WatchResult_Out(TypedDict):
+    wiki: str
+    title: str
+    watched: bool
+
+class Prv_fandom_unwatchPage_args_u0_In(TypedDict):
+    wiki: str
+    title: str
 
 class Prv_fareharbor_FareharborSearchItemsArgs_In(TypedDict):
     operator: str
@@ -41263,6 +41348,16 @@ class Prv_peek_PeekProfile_Out(TypedDict):
     email: str | None
     fields: Mapping[str, str]
 
+class Prv_peek_PeekUpdateProfileArgs_In(TypedDict):
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+    phone: NotRequired[str]
+    email: NotRequired[str]
+
+class Prv_peek_PeekUpdateProfileResult_Out(TypedDict):
+    updated: list[str]
+    profile: Prv_peek_PeekProfile_Out
+
 class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
     city: str
     state: str
@@ -45402,6 +45497,9 @@ class Prv_reserve_with_google_BookingVenue_Out(TypedDict):
     googleMapsUrl: str | None
     partner: str | None
 
+class Prv_reserve_with_google_ReserveSettings_Out(TypedDict):
+    dataBlocks: Mapping[str, Any]
+
 class Prv_resy_search_query_u1_In(TypedDict):
     query: str
     latitude: NotRequired[float]
@@ -45912,6 +46010,26 @@ class Prv_reuters_ListSavedArticlesArgs_In(TypedDict):
     cursor: NotRequired[float]
 
 class Prv_reuters_ReutersSavedArticle_Out(TypedDict):
+    id: str
+    headline: str
+    url: str
+    description: str | None
+    section: str | None
+    publishedAt: str | None
+    category: str | None
+
+class Prv_reuters_ReutersFollowedTopic_Out(TypedDict):
+    id: str
+    name: str
+    type: Literal["TAG"] | Literal["SECTION"] | Literal["LAW_FIRM"] | Literal["COMPANY"] | Literal["AUTHOR"]
+    category: str | None
+    rootSection: str | None
+
+class Prv_reuters_GetMyNewsFeedArgs_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_reuters_ReutersFeedArticle_Out(TypedDict):
     id: str
     headline: str
     url: str
@@ -48450,9 +48568,9 @@ class Prv_sevenrooms_SevenroomsSlot_Out(TypedDict):
 class Prv_sevenrooms_GetBookingTermsArgs_In(TypedDict):
     venue: str
     date: str
-    time: str
-    accessPersistentId: str
-    shiftPersistentId: str
+    time: NotRequired[str]
+    accessPersistentId: NotRequired[str]
+    shiftPersistentId: NotRequired[str]
     partySize: NotRequired[float]
 
 class Prv_sevenrooms_SevenroomsBookingTerms_Out(TypedDict):
@@ -70264,6 +70382,18 @@ class Prv_boulevard(Protocol):
         (cents) and duration variant. `timeId` is getAvailableTimes().times[].id.
         """
 
+    async def listBookingQuestions(self, business: str, locationId: str, serviceId: str, /) -> Prv_boulevard_BoulevardBookingQuestions_Out:
+        """The intake questions a business asks before it confirms a booking of one service at a
+        location (label, whether required, answer type and choices). Many businesses ask none,
+        which returns an empty list. `serviceId` is listServices().categories[].services[].id.
+        """
+
+    async def listPackagesAndMemberships(self, business: str, locationId: str, /) -> Prv_boulevard_BoulevardPackagesAndMemberships_Out:
+        """The memberships, packages, products and gift cards a location sells online, with price
+        in cents and whether each can be bought right now. Read only — buying one charges a card
+        and is not offered.
+        """
+
 class Prv_bowmark(Protocol):
     """Bowmark AI's public product overview, API and MCP endpoints, pricing, and searchable
     library.
@@ -71778,6 +71908,13 @@ class Prv_chownow(Protocol):
     async def getRewardsBalance(self, opts: ConnectionOption | None = None, /) -> Prv_chownow_ChownowRewardsBalance_Out:
         """Reads the signed-in caller's own ChowNow loyalty rewards points balance, any credit, and
         active promotions. The caller signs in through the relay.
+        """
+
+    async def validateOrder(self, restaurantId: str, menuId: str, items: Sequence[Prv_chownow_ChownowOrderItemInput_In], options: Prv_chownow_validateOrder_options_In | None = None, /) -> Prv_chownow_ChownowOrderValidation_Out:
+        """Prices a cart the way the ordering page itself does, before payment: fees, tax and the
+        total, or a priced error (a minimum-order rule, an unavailable item) in `errors` — check
+        `isValid` before trusting `total`. `menuId` is the exact value a `getMenu` call for this
+        restaurant returned, not invented. Never submits payment; nothing is charged.
         """
 
 class Prv_chriscraft(Protocol):
@@ -76211,6 +76348,16 @@ class Prv_fandom(Protocol):
         """The caller's own watchlist on one wiki — recent edits to the pages they follow, newest
         first, in the same row shape as `listRecentChanges`. `GET
         /api.php?action=query&list=watchlist`.
+        """
+
+    async def watchPage(self, args: Prv_fandom_watchPage_args_u0_In | str, opts: ConnectionOption | None = None, /) -> Prv_fandom_WatchResult_Out:
+        """Add an article to the caller's own watchlist on one wiki — pass `{ wiki, title }` or the
+        article's full URL. Changes nothing another reader sees. `POST /api.php?action=watch`.
+        """
+
+    async def unwatchPage(self, args: Prv_fandom_unwatchPage_args_u0_In | str, opts: ConnectionOption | None = None, /) -> Prv_fandom_WatchResult_Out:
+        """Remove an article from the caller's own watchlist on one wiki — `{ wiki, title }` or the
+        article's full URL. `POST /api.php?action=watch&unwatch=1`.
         """
 
 class Prv_fareharbor(Protocol):
@@ -87628,6 +87775,12 @@ class Prv_peek(Protocol):
         visible account field (name, phone, …). Needs the caller signed in to Peek.
         """
 
+    async def updateProfile(self, args: Prv_peek_PeekUpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_peek_PeekUpdateProfileResult_Out:
+        """Edits the signed-in caller's own Peek profile -- any of { firstName, lastName, phone,
+        email } -- by saving the account settings form, and returns the profile as the page
+        shows it after. Needs the caller signed in to Peek.
+        """
+
 class Prv_peerspace(Protocol):
     """Peerspace's own city listing pages — real hourly rate, guest capacity and instant-book
     status for party, photo-shoot and off-site/production spaces, no signup needed to view.
@@ -90017,6 +90170,13 @@ class Prv_reserve_with_google(Protocol):
         signed-in Packs page has never been captured.
         """
 
+    async def getSettings(self, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_ReserveSettings_Out:
+        """Reads the caller's Reserve with Google Settings page (needs the caller's Google sign-in)
+        and returns the page's own data blocks, keyed ds:N, raw. Which block holds the contact
+        name, phone or email is not decoded — the signed-in Settings page has never been
+        captured.
+        """
+
     async def getBooking(self, featureId: str, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_BookingVenue_Out:
         """Finds one of the caller's bookings on their Bookings page (needs the caller's Google
         sign-in) by the venue's feature id — the same id listMyBookings returns — and returns
@@ -90264,6 +90424,16 @@ class Prv_reuters(Protocol):
     async def listSavedArticles(self, args: Prv_reuters_ListSavedArticlesArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_reuters_ReutersSavedArticle_Out]:
         """The signed-in reader's saved Reuters articles: headline, url, description, section,
         published time and category. Optional search-within-saved query.
+        """
+
+    async def listFollowedTopics(self, opts: ConnectionOption | None = None, /) -> list[Prv_reuters_ReutersFollowedTopic_Out]:
+        """The topics, sections, companies, law firms and authors the signed-in reader follows in
+        My News. Takes no arguments.
+        """
+
+    async def getMyNewsFeed(self, args: Prv_reuters_GetMyNewsFeedArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_reuters_ReutersFeedArticle_Out]:
+        """The signed-in reader's My News feed — the latest stories aggregated from everything
+        listFollowedTopics returns, newest first.
         """
 
 class Prv_revisionskincare(Protocol):
@@ -91490,10 +91660,11 @@ class Prv_sevenrooms(Protocol):
         """
 
     async def getBookingTerms(self, args: Prv_sevenrooms_GetBookingTermsArgs_In, /) -> Prv_sevenrooms_SevenroomsBookingTerms_Out:
-        """Reads the checkout terms of one open slot (from getAvailability) before booking it: the
-        policy text, whether a card is held or charged and how much, deposits, fees, gratuity
-        and the cancellation window. Places a brief reservation hold to read the terms, then
-        releases it immediately — never a real reservation.
+        """Reads the checkout terms of one open slot before booking it — by date and time, or the
+        ids of a getAvailability slot: the policy text, whether a card is held or charged and
+        how much, deposits, fees, gratuity and the cancellation window. Places a brief
+        reservation hold to read the terms, then releases it immediately — never a real
+        reservation.
         """
 
     async def listUpgrades(self, args: Prv_sevenrooms_GetVenueArgs_In, /) -> Prv_sevenrooms_SevenroomsUpgrades_Out:
@@ -99002,10 +99173,12 @@ class Prv_youtube(Protocol):
     async def listSubscriptions(self, opts: ConnectionOption | None = None, /) -> list[Prv_youtube_YoutubeChannelRef_Out]:
         """The channels the signed-in account subscribes to — id, url, handle (when the row carries
         one), title, subscriber count text and thumbnail, off YouTube's own Manage subscriptions
-        page (`browse` on `browseId: "FEchannels"`). NEEDS A SIGN-IN and exists nowhere else
-        logged out. NOT paged — declared this way because the unsigned reach could not measure
-        whether a very large subscription list continues, and no continuation renderer has been
-        observed on this door yet.
+        page (`browse` on `browseId: "FEchannels"`). An empty page is double-checked against the
+        guide sidebar: `[]` only when the guide also lists no subscriptions, otherwise an error,
+        never a silent zero. NEEDS A SIGN-IN and exists nowhere else logged out. NOT paged —
+        declared this way because the unsigned reach could not measure whether a very large
+        subscription list continues, and no continuation renderer has been observed on this door
+        yet.
         """
 
     async def subscribeToChannel(self, input: Prv_youtube_subscribeToChannel_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_subscribeToChannel_return_Out:

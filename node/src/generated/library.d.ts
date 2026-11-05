@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 53b5634cc6c19e957f81174f5119f7dbff6c31ac19b61e87c119fa4869a81bf8
-// 94 capabilities, 760 providers, 4252 typed functions, 20 refused.
+// Manifest version: 779587ec2789db5013aeebd3106ee5f6d1b5d921e7c4d976c6dc588a6a906368
+// 94 capabilities, 760 providers, 4261 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19092,6 +19092,33 @@ interface BoulevardStaffForTime {
     priceCents: number;
   }[];
 }
+interface BoulevardBookingQuestions {
+  /** Intake questions the business asks before booking this service; often empty. `valueType` is BOOLEAN, DATETIME, FLOAT, INTEGER, MULTISELECT, SELECT or TEXT; `options` fill SELECT / MULTISELECT. */
+  questions: {
+    id: string;
+    key: string;
+    label: string;
+    required: boolean;
+    valueType: string;
+    displayType: string;
+    options: { id: string; label: string }[];
+  }[];
+}
+interface BoulevardPackagesAndMemberships {
+  /** What the location sells online besides appointments: memberships, packages and products (`kind: "product"`) and gift cards. Prices in cents. */
+  items: {
+    id: string;
+    name: string;
+    category: string;
+    kind: "product" | "giftCard";
+    description: string | null;
+    priceMinCents: number | null;
+    priceMaxCents: number | null;
+    available: boolean;
+    unavailableReason: string | null;
+    agreementRequired: boolean;
+  }[];
+}
 
   /**
    * Boulevard salon and spa booking (Heyday, Chillhouse, Glowbar…): find a business, read its
@@ -19160,6 +19187,20 @@ interface BoulevardStaffForTime {
      * (cents) and duration variant. `timeId` is getAvailableTimes().times[].id.
      */
     listStaffForTime(business: string, locationId: string, serviceId: string, timeId: string): Promise<BoulevardStaffForTime>;
+
+    /**
+     * The intake questions a business asks before it confirms a booking of one service at a
+     * location (label, whether required, answer type and choices). Many businesses ask none, which
+     * returns an empty list. `serviceId` is listServices().categories[].services[].id.
+     */
+    listBookingQuestions(business: string, locationId: string, serviceId: string): Promise<BoulevardBookingQuestions>;
+
+    /**
+     * The memberships, packages, products and gift cards a location sells online, with price in
+     * cents and whether each can be bought right now. Read only — buying one charges a card and is
+     * not offered.
+     */
+    listPackagesAndMemberships(business: string, locationId: string): Promise<BoulevardPackagesAndMemberships>;
   }
 }
 
@@ -23604,6 +23645,45 @@ interface ChownowRewardsBalance {
   promotions: ChownowRewardsPromotion[];
 }
 
+interface ChownowOrderItemInput {
+  itemId: string; // from getMenu/listMenuItems/getMenuItem
+  quantity?: number; // default 1
+  specialInstructions?: string | null;
+  modifierCategories?: unknown[]; // passed through verbatim — shape unmeasured for an item with modifier groups
+}
+
+interface ChownowValidatedItem {
+  itemId: string;
+  name: string | null;
+  quantity: number | null;
+  price: number | null; // the menu's own per-item price
+  itemTotal: number | null; // this line's priced total
+  taxAmount: number | null;
+}
+
+interface ChownowOrderValidationIssue {
+  code: string | null;
+  message: string | null; // ChowNow's own wording, e.g. a minimum-order rule
+}
+
+interface ChownowOrderValidation {
+  restaurantId: string;
+  fulfillMethod: string | null;
+  items: ChownowValidatedItem[];
+  itemTotal: number | null;
+  subtotal: number | null;
+  salesTax: number | null;
+  serviceFee: number | null;
+  deliveryFee: number | null;
+  supportLocalFee: number | null; // ChowNow's own "Support Local Fee"
+  gratuity: number | null;
+  total: number | null;
+  totalDue: number | null;
+  isValid: boolean; // false when errors is non-empty — check before trusting total
+  errors: ChownowOrderValidationIssue[];
+  warnings: string[];
+}
+
   /**
    * ChowNow commission-free online ordering for independent restaurants: a brand's locations, a
    * restaurant's menu and prices, pickup times, and order pricing up to the payment step.
@@ -23717,6 +23797,14 @@ interface ChownowRewardsBalance {
      * active promotions. The caller signs in through the relay.
      */
     getRewardsBalance(opts?: ConnectionOption): Promise<ChownowRewardsBalance>;
+
+    /**
+     * Prices a cart the way the ordering page itself does, before payment: fees, tax and the
+     * total, or a priced error (a minimum-order rule, an unavailable item) in `errors` — check
+     * `isValid` before trusting `total`. `menuId` is the exact value a `getMenu` call for this
+     * restaurant returned, not invented. Never submits payment; nothing is charged.
+     */
+    validateOrder(restaurantId: string, menuId: string, items: ChownowOrderItemInput[], options?: { fulfillMethod?: "pickup" | "delivery" | "curbside"; when?: string | null; specialInstructions?: string | null; promoCode?: string | null }): Promise<ChownowOrderValidation>;
   }
 }
 
@@ -36726,6 +36814,12 @@ interface FandomCurrentUser {
   rights: string[];
 }
 
+interface WatchResult {
+  wiki: string;
+  title: string;
+  watched: boolean;
+}
+
   /**
    * Read any Fandom wiki — the fan-written encyclopedia behind nearly every TV show, game and
    * franchise community — without a browser: find the right wiki, search it, pull an article,
@@ -36902,6 +36996,18 @@ interface FandomCurrentUser {
      * /api.php?action=query&list=watchlist`.
      */
     listWatchlist(wiki: string, opts?: ConnectionOption): Promise<RecentChange[]>;
+
+    /**
+     * Add an article to the caller's own watchlist on one wiki — pass `{ wiki, title }` or the
+     * article's full URL. Changes nothing another reader sees. `POST /api.php?action=watch`.
+     */
+    watchPage(args: { wiki: string; title: string } | string, opts?: ConnectionOption): Promise<WatchResult>;
+
+    /**
+     * Remove an article from the caller's own watchlist on one wiki — `{ wiki, title }` or the
+     * article's full URL. `POST /api.php?action=watch&unwatch=1`.
+     */
+    unwatchPage(args: { wiki: string; title: string } | string, opts?: ConnectionOption): Promise<WatchResult>;
   }
 }
 
@@ -68533,6 +68639,8 @@ interface PeekProfile {
   /** Every visible user[...] field on the signed-in settings page, keyed by its own name. */
   fields: Record<string, string>;
 }
+interface PeekUpdateProfileArgs { firstName?: string; lastName?: string; phone?: string; email?: string }
+interface PeekUpdateProfileResult { updated: string[]; profile: PeekProfile }
 interface PeekReviewList {
   id: string; rating: number | null; reviewCount: number | null; reviews: PeekReview[];
 }
@@ -68614,6 +68722,13 @@ interface PeekReviewList {
      * visible account field (name, phone, …). Needs the caller signed in to Peek.
      */
     getMyProfile(opts?: ConnectionOption): Promise<PeekProfile>;
+
+    /**
+     * Edits the signed-in caller's own Peek profile -- any of { firstName, lastName, phone, email
+     * } -- by saving the account settings form, and returns the profile as the page shows it
+     * after. Needs the caller signed in to Peek.
+     */
+    updateProfile(args: PeekUpdateProfileArgs, opts?: ConnectionOption): Promise<PeekUpdateProfileResult>;
   }
 }
 
@@ -74845,6 +74960,12 @@ interface BookingVenue {
   partner: string | null;
 }
 
+interface ReserveSettings {
+  /** The Settings page's AF_initDataCallback blocks, keyed "ds:0", "ds:1"…, raw.
+   * Field positions are undecoded: the signed-in page has never been captured. */
+  dataBlocks: Record<string, unknown>;
+}
+
   /**
    * Google's own booking layer on Maps and Search: find places that take a booking through
    * Google, see which partner takes it, read a Google-hosted restaurant's party sizes and
@@ -74891,6 +75012,13 @@ interface BookingVenue {
      * Packs page has never been captured.
      */
     listMyPacks(opts?: ConnectionOption): Promise<BookingVenue[]>;
+
+    /**
+     * Reads the caller's Reserve with Google Settings page (needs the caller's Google sign-in) and
+     * returns the page's own data blocks, keyed ds:N, raw. Which block holds the contact name,
+     * phone or email is not decoded — the signed-in Settings page has never been captured.
+     */
+    getSettings(opts?: ConnectionOption): Promise<ReserveSettings>;
 
     /**
      * Finds one of the caller's bookings on their Bookings page (needs the caller's Google
@@ -75472,6 +75600,26 @@ interface ListSavedArticlesArgs {
   limit?: number;             // 1-100, default 20
   cursor?: number;            // pagination offset into the saved list, default 0
 }
+interface ReutersFollowedTopic {
+  id: string;                 // pass to followTopic / unfollowTopic
+  name: string;
+  type: "TAG" | "SECTION" | "LAW_FIRM" | "COMPANY" | "AUTHOR";
+  category: string | null;    // only set on a TAG
+  rootSection: string | null; // set on a TAG or SECTION
+}
+interface ReutersFeedArticle {
+  id: string;
+  headline: string;
+  url: string;
+  description: string | null;
+  section: string | null;
+  publishedAt: string | null;
+  category: string | null;
+}
+interface GetMyNewsFeedArgs {
+  limit?: number;   // 1-100, default 20
+  cursor?: string;  // the opaque endCursor from a previous page
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -75660,6 +75808,18 @@ interface ListSavedArticlesArgs {
      * published time and category. Optional search-within-saved query.
      */
     listSavedArticles(args?: ListSavedArticlesArgs, opts?: ConnectionOption): Promise<ReutersSavedArticle[]>;
+
+    /**
+     * The topics, sections, companies, law firms and authors the signed-in reader follows in My
+     * News. Takes no arguments.
+     */
+    listFollowedTopics(opts?: ConnectionOption): Promise<ReutersFollowedTopic[]>;
+
+    /**
+     * The signed-in reader's My News feed — the latest stories aggregated from everything
+     * listFollowedTopics returns, newest first.
+     */
+    getMyNewsFeed(args?: GetMyNewsFeedArgs, opts?: ConnectionOption): Promise<ReutersFeedArticle[]>;
   }
 }
 
@@ -79634,11 +79794,14 @@ interface GetBookingTermsArgs {
   venue: string;
   /** YYYY-MM-DD, the slot's own date. */
   date: string;
-  /** "HH:mm" 24h, the slot's own timeIso time portion. */
-  time: string;
-  /** From the slot returned by getAvailability — round-trip it verbatim. */
-  accessPersistentId: string;
-  shiftPersistentId: string;
+  /** "HH:mm" 24h, the slot's own timeIso time portion. Required with the two ids;
+   * without them, omit it to take the day's first open slot (named in terms.slot). */
+  time?: string;
+  /** From a getAvailability slot, round-tripped verbatim — both or neither. Omit
+   * both and the slot at date + time is looked up live; ids kept from an old read
+   * go stale (SevenRooms re-mints them) and answer "could not hold that slot". */
+  accessPersistentId?: string;
+  shiftPersistentId?: string;
   /** Default 2. */
   partySize?: number;
 }
@@ -79718,10 +79881,10 @@ type SevenroomsPromoValidation =
     getAvailability(args: GetAvailabilityArgs): Promise<SevenroomsAvailabilityDay[]>;
 
     /**
-     * Reads the checkout terms of one open slot (from getAvailability) before booking it: the
-     * policy text, whether a card is held or charged and how much, deposits, fees, gratuity and
-     * the cancellation window. Places a brief reservation hold to read the terms, then releases it
-     * immediately — never a real reservation.
+     * Reads the checkout terms of one open slot before booking it — by date and time, or the ids
+     * of a getAvailability slot: the policy text, whether a card is held or charged and how much,
+     * deposits, fees, gratuity and the cancellation window. Places a brief reservation hold to
+     * read the terms, then releases it immediately — never a real reservation.
      */
     getBookingTerms(args: GetBookingTermsArgs): Promise<SevenroomsBookingTerms>;
 
@@ -101655,10 +101818,12 @@ interface YoutubePlayableStream {
     /**
      * The channels the signed-in account subscribes to — id, url, handle (when the row carries
      * one), title, subscriber count text and thumbnail, off YouTube's own Manage subscriptions
-     * page (`browse` on `browseId: "FEchannels"`). NEEDS A SIGN-IN and exists nowhere else logged
-     * out. NOT paged — declared this way because the unsigned reach could not measure whether a
-     * very large subscription list continues, and no continuation renderer has been observed on
-     * this door yet.
+     * page (`browse` on `browseId: "FEchannels"`). An empty page is double-checked against the
+     * guide sidebar: `[]` only when the guide also lists no subscriptions, otherwise an error,
+     * never a silent zero. NEEDS A SIGN-IN and exists nowhere else logged out. NOT paged —
+     * declared this way because the unsigned reach could not measure whether a very large
+     * subscription list continues, and no continuation renderer has been observed on this door
+     * yet.
      */
     listSubscriptions(opts?: ConnectionOption): Promise<YoutubeChannelRef[]>;
 

@@ -1059,7 +1059,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chownow.listRestaurants` | chownow.com | Lists all restaurants under a company (e.g. a franchise group), with location id… | 🟢 |
 | `chownow.listSavedPaymentMethods` | chownow.com | Lists the signed-in customer's saved cards and payment methods. | 🟢 |
 | `chownow.searchRestaurants` | chownow.com | Searches ChowNow restaurants by free text (a cuisine, a dish or a restaurant name)… | 🟢 |
-| `chownow.validateOrder` | chownow.com | Validates an order before payment: checks fulfillment method availability, item… | ⚪ |
+| `chownow.validateOrder` | chownow.com | Validates an order before payment: checks fulfillment method availability, item… | 🟢 |
 | `chriscraft.getConfigurator` | chriscraft.com | Reads one model+boat-type's whole builder off build.chriscraft.com: every option group… | 🟢 |
 | `chriscraft.priceConfiguration` | chriscraft.com | Prices a specific build (a choice, or choices, per option group) against… | 🟢 |
 | `chriscraft.searchModels` | chriscraft.com | Lists every current Chris-Craft model reachable from the public "Build Your Own"… | 🟢 |
@@ -1963,8 +1963,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fandom.search` | fandom.com | Search one wiki the way a person types into its search box — hand it a `wiki`… | 🟢 |
 | `fandom.suggestTitles` | fandom.com | Autocomplete a partial title within one wiki, the way its search box does as you type.… | 🟢 |
 | `fandom.undoRevision` | fandom.com | Undo one edit to an article — MediaWiki's own revert, reversing a single revision… | ⚪ |
-| `fandom.unwatchPage` | fandom.com | Remove an article from the caller's watchlist. `POST /api.php?action=watch&unwatch=1`. | ⚪ |
-| `fandom.watchPage` | fandom.com | Add an article to the caller's watchlist. `POST /api.php?action=watch`. | ⚪ |
+| `fandom.unwatchPage` | fandom.com | Remove an article from the caller's own watchlist on one wiki — `{ wiki, title }` or… | 🟢 |
+| `fandom.watchPage` | fandom.com | Add an article to the caller's own watchlist on one wiki — `{ wiki, title }` or the… | 🟢 |
 | `fareharbor.cancelBooking` | fareharbor.com | Cancel an existing booking by confirmation number. | ⚪ |
 | `fareharbor.createBooking` | fareharbor.com | Create a booking with customer information (name, email, phone) and selected date/time… | ⚪ |
 | `fareharbor.getAvailabilitySlot` | fareharbor.com | Get details of a specific available time slot including start time, duration… | 🟢 |
@@ -3715,7 +3715,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `peek.searchExperiences` | peek.com | Searches Peek's marketplace of tours and activities IN a region (regionId from… | 🟢 |
 | `peek.searchRegions` | peek.com | Finds Peek regions (cities, islands, states, countries) by name and returns each one's… | 🟢 |
 | `peek.unsaveExperience` | peek.com | Removes an experience from the signed-in traveler's saved list. | ⚪ |
-| `peek.updateProfile` | peek.com | Edits the signed-in traveler's own profile -- name, phone, email or password -- the… | ⚪ |
+| `peek.updateProfile` | peek.com | Edits the signed-in traveler's own profile -- first name, last name, phone or email --… | 🟢 |
 | `peek.writeReview` | peek.com | Leaves a star rating and review on an experience the signed-in traveler has booked and… | ⚪ |
 | `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟢 |
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟢 |
@@ -4139,14 +4139,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile — description, website, sector, industry, head office… | 🟢 |
 | `reuters.getLiveCoverage` | www.reuters.com | Read one Reuters live-coverage page (/live/…) — headline, description, reporters… | 🟢 |
 | `reuters.getMarketOverview` | www.reuters.com | The market tables Reuters shows on its Markets pages — major indices, currencies… | 🟡 |
-| `reuters.getMyNewsFeed` | www.reuters.com | The signed-in reader's My News feed — the latest stories from everything they follow… | ⚪ |
+| `reuters.getMyNewsFeed` | www.reuters.com | The signed-in reader's My News feed — the latest stories from everything they follow… | 🟢 |
 | `reuters.getPictureGallery` | www.reuters.com | One Reuters photo gallery: every picture with its caption, photographer, location… | 🟢 |
 | `reuters.getPressRelease` | www.reuters.com | Read one press release on reuters.com in full: title, distributing wire, dateline… | 🟢 |
 | `reuters.getQuote` | www.reuters.com | The current Reuters quote for one instrument by RIC — a stock, index, currency pair or… | 🟢 |
 | `reuters.getVideo` | www.reuters.com | One Reuters video: title, description, duration, published time, thumbnail and its… | 🟢 |
 | `reuters.listArticlesByDate` | www.reuters.com | Every Reuters story published on one calendar day — headline, url and time — from the… | 🟢 |
 | `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | 🟡 |
-| `reuters.listFollowedTopics` | www.reuters.com | The topics the signed-in reader follows in My News. | ⚪ |
+| `reuters.listFollowedTopics` | www.reuters.com | The topics the signed-in reader follows in My News. | 🟢 |
 | `reuters.listGraphics` | www.reuters.com | Reuters Graphics — the interactive data stories and explainers — with title, url and… | 🟢 |
 | `reuters.listHeadlines` | www.reuters.com | The stories a Reuters section front shows right now, in the page's own order… | 🟡 |
 | `reuters.listLatestNews` | www.reuters.com | The newest Reuters stories across the whole site, newest first — headline, url… | 🟡 |
@@ -4378,7 +4378,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sevenrooms.findVenue` | sevenrooms.com | Finds the SevenRooms venue slug for a restaurant from its name and city, its own… | ⚪ |
 | `sevenrooms.getAvailability` | sevenrooms.com | Returns a venue's open reservation times for a date range, party size and preferred… | 🟢 |
 | `sevenrooms.getAvailableDates` | sevenrooms.com | Lists the dates a venue is taking online bookings over a window, so a caller can pick… | 🟢 |
-| `sevenrooms.getBookingTerms` | sevenrooms.com | Reads the checkout terms of one open slot (from getAvailability) before booking it… | 🟡 |
+| `sevenrooms.getBookingTerms` | sevenrooms.com | Reads the checkout terms of one open slot before booking it — by date and time, or the… | 🟡 |
 | `sevenrooms.getExperience` | sevenrooms.com | Returns one experience or event at a venue: title, description, photos, price per… | ⚪ |
 | `sevenrooms.getMyProfile` | sevenrooms.com | Returns the signed-in guest's SevenRooms profile: name, contact details, profile… | ⚪ |
 | `sevenrooms.getRequest` | sevenrooms.com | Reads a submitted booking request or priority alert from its id: venue, date, time… | ⚪ |
@@ -4553,7 +4553,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `snapchat.sendChatMessage` | snapchat.com | Sends a text chat message to a friend or group from the signed-in caller's account, as… | ⚪ |
 | `snapchat.sendSnap` | snapchat.com | Sends a photo snap from the signed-in caller's account to one or more friends. | ⚪ |
 | `snapchat.subscribeToProfile` | snapchat.com | Subscribes the signed-in caller to a public profile or Discover show — the Subscribe… | ⚪ |
-| `snapchat.updateDisplayName` | snapchat.com | Changes the signed-in caller's display name. | ⚪ |
+| `snapchat.updateDisplayName` | snapchat.com | Changes the signed-in caller's Snapchat display name — the name friends see, not the… | 🟢 |
 | `solidcore.bookClass` | solidcore.co | Books a class for the signed-in member. | ⚪ |
 | `solidcore.cancelBooking` | solidcore.co | Cancels a signed-in member's class booking. | ⚪ |
 | `solidcore.cancelWaitlist` | solidcore.co | Removes a signed-in member from a waitlist. | ⚪ |
@@ -5770,7 +5770,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
 | `x.bookmarkPost` | x.com | Bookmark or un-bookmark a post as the signed-in account — one `bookmark` boolean… | 🟢 |
 | `x.createPost` | x.com | Post a new tweet as the signed-in account. | 🟢 |
-| `x.deletePost` | x.com | Delete one of the signed-in account's own posts. | ⚪ |
+| `x.deletePost` | x.com | Delete one of the signed-in account's own posts. | 🟢 |
 | `x.followUser` | x.com | Follow or unfollow a user as the signed-in account — one `follow` boolean argument… | 🟢 |
 | `x.getConversation` | x.com | The messages inside one of the signed-in account's DM conversations. | 🟢 |
 | `x.getPostReplies` | x.com | Reads the reply thread under a single X post — the same status page `post` reads, but… | 🟢 |
@@ -5781,10 +5781,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.listFollowing` | x.com | Who a user follows. | 🟢 |
 | `x.listHomeFeed` | x.com | The signed-in account's personalized home timeline, in X's own order. | 🟢 |
 | `x.listNotifications` | x.com | The signed-in account's notifications — likes, replies, reposts, follows and mentions. | 🟢 |
-| `x.listTrending` | x.com | The site's current trending topics, the /explore page. | ⚪ |
+| `x.listTrending` | x.com | The site's current trending topics, the /explore page. | 🟢 |
 | `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |
 | `x.profile` | x.com | Reads an X (Twitter) profile by handle or profile URL — display name, bio text… | 🟢 |
-| `x.quotePost` | x.com | Quote-repost a post with the signed-in account's own added comment. | ⚪ |
+| `x.quotePost` | x.com | Quote-repost a post with the signed-in account's own added comment. | 🟢 |
 | `x.replyToPost` | x.com | Reply to another post as the signed-in account. | 🟢 |
 | `x.repost` | x.com | Repost (retweet) or un-repost a post as the signed-in account — one `repost` boolean… | 🟢 |
 | `x.search` | x.com | Runs the site's own search across posts, scrolling until the limit is met or results… | 🟢 |
