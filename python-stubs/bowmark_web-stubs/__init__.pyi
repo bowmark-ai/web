@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 240c0a252d38aa8e9148dc24b30658dc72ac7d5225edcafe61ac8d173da3999a
-# 94 capabilities, 760 providers, 4217 typed functions, 20 refused.
+# Manifest version: 53b5634cc6c19e957f81174f5119f7dbff6c31ac19b61e87c119fa4869a81bf8
+# 94 capabilities, 760 providers, 4234 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4283,6 +4283,18 @@ class Prv_acuityscheduling_AcuityMyBookings_Out(TypedDict):
 class Prv_acuityscheduling_AcuityMyBookings_Out_bookings_item_Out(TypedDict):
     appointmentId: str
     manageUrl: str
+
+class Prv_acuityscheduling_AcuityAppointmentChange_Out(TypedDict):
+    ownerId: str
+    business: str
+    appointmentId: str
+    action: Literal["canceled"] | Literal["rescheduled"]
+    appointments: list[Any]
+
+class Prv_acuityscheduling_AcuityRescheduleTarget_In(TypedDict):
+    datetime: str
+    calendarId: str | float
+    timezone: NotRequired[str]
 
 class Prv_adobe_CreativeCloudPlansResult_Out(TypedDict):
     plans: list[Prv_adobe_CreativeCloudPlan_Out]
@@ -12832,6 +12844,11 @@ class Prv_canva_CanvaPrice_Out(TypedDict):
     amount: float
     perPerson: bool
 
+class Prv_canva_browseTemplates_return_Out(TypedDict):
+    templates: list[Prv_canva_CanvaTemplate_Out]
+    url: str
+    warnings: list[str]
+
 class Prv_capitalbrands_CapitalbrandsQuizQuestions_Out(TypedDict):
     questions: list[Prv_capitalbrands_CapitalbrandsQuizQuestion_Out]
 
@@ -15026,6 +15043,35 @@ class Prv_claude_ClaudeReply_Out(TypedDict):
     reply: str
     stopReason: str | None
     model: str | None
+
+class Prv_claude_ContinueSharedConversationArgs_In(TypedDict):
+    shareId: str
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeForkedConversation_Out(TypedDict):
+    organizationId: str
+    conversationId: str
+    raw: Mapping[str, Any]
+
+class Prv_claude_RateResponseArgs_In(TypedDict):
+    conversationId: str
+    messageId: str
+    rating: Literal["good"] | Literal["bad"]
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeWriteAck_Out(TypedDict):
+    conversationId: str
+    ok: Literal[True]
+
+class Prv_claude_RenameConversationArgs_In(TypedDict):
+    conversationId: str
+    name: str
+    organizationId: NotRequired[str]
+
+class Prv_claude_StarConversationArgs_In(TypedDict):
+    conversationId: str
+    starred: bool
+    organizationId: NotRequired[str]
 
 class Prv_claude_com_claude_comDoc_Out(TypedDict):
     url: str
@@ -27720,6 +27766,18 @@ class Prv_goteamup_classes_GoteamupMyProfile_Out(TypedDict):
     email: str | None
     phone: str | None
 
+class Prv_goteamup_classes_GoteamupEligibility_Out(TypedDict):
+    eligible: bool
+    reason: str | None
+
+class Prv_goteamup_classes_GoteamupCancelResult_Out(TypedDict):
+    cancelled: Literal[True]
+    lateCancelDeadline: str | None
+
+class Prv_goteamup_classes_GoteamupWaitlistResult_Out(TypedDict):
+    onWaitlist: bool
+    waitingCount: float | None
+
 class Prv_grainger_GraingerSearchArgs_In(TypedDict):
     query: str
 
@@ -39522,6 +39580,10 @@ class Prv_nytimes_NytimesSaveArticleResult_Out(TypedDict):
 class Prv_nytimes_NytimesUnsaveArticleResult_Out(TypedDict):
     url: str
     saved: Literal[False]
+
+class Prv_nytimes_NytimesFollowWriterResult_Out(TypedDict):
+    url: str
+    following: bool
 
 class Prv_nytimes_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -51531,6 +51593,88 @@ class Prv_squire_SquireBrand_Out(TypedDict):
     shopCount: float | None
     shops: list[Prv_squire_SquireShopSummary_Out]
 
+class Prv_squire_SquireBarber_Out(TypedDict):
+    id: str
+    name: str
+    route: str | None
+    shopId: str | None
+    photo: str | None
+    instagram: str | None
+    nextAvailableTime: str | None
+    nextAvailableText: str | None
+    defaultServiceName: str | None
+    hours: list[Prv_squire_SquireOpeningHours_Out]
+    daysOff: list[Prv_squire_SquireBarber_Out_daysOff_item_Out]
+    photos: list[str]
+    portfolio: list[str]
+    averageRating: float | None
+    ratingCount: float | None
+    shop: Prv_squire_SquireBarber_Out_shop_u0_Out | None
+    advanceBookDays: float | None
+    canCustomerCancel: bool | None
+    bookingUrl: str | None
+
+Prv_squire_SquireBarber_Out_daysOff_item_Out = TypedDict(
+    "Prv_squire_SquireBarber_Out_daysOff_item_Out",
+    {
+    "day": str,
+    "wholeDay": bool,
+    "from": str | None,
+    "to": str | None,
+    },
+)
+
+class Prv_squire_SquireBarber_Out_shop_u0_Out(TypedDict):
+    id: str
+    name: str | None
+    route: str | None
+
+class Prv_squire_SquireWalkInStatus_Out(TypedDict):
+    shopId: str
+    available: bool
+    standbyEnabled: bool
+    walkInEnabled: bool
+    waitlistEnabled: bool
+    anyBarberAllowed: bool
+    barbers: list[Prv_squire_SquireWalkInStatus_Out_barbers_item_Out]
+
+class Prv_squire_SquireWalkInStatus_Out_barbers_item_Out(TypedDict):
+    id: str
+    name: str
+    route: str | None
+    photo: str | None
+
+class Prv_squire_SquireQuoteArgs_In(TypedDict):
+    shop: str
+    barber: str
+    service: NotRequired[str]
+    services: NotRequired[Sequence[str]]
+    time: str
+
+class Prv_squire_SquireBookingQuote_Out(TypedDict):
+    shopId: str
+    currency: str | None
+    lines: list[Prv_squire_SquireBookingQuote_Out_lines_item_Out]
+    subtotalCents: float | None
+    taxCents: float | None
+    discountCents: float | None
+    bookingFeeCents: float | None
+    totalCents: float | None
+    requiresPrepayment: bool | None
+    requiresDeposit: bool
+    canBookWithoutPaying: bool | None
+    tipSuggestionsCents: list[float]
+    errors: list[str]
+
+class Prv_squire_SquireBookingQuote_Out_lines_item_Out(TypedDict):
+    serviceId: str | None
+    name: str
+    barberId: str | None
+    priceCents: float | None
+    durationMins: float | None
+    requiresPrepaid: bool
+    depositCents: float | None
+
 class Prv_stackoverflow_StackOverflowSearchArgs_In(TypedDict):
     query: str
     tagged: NotRequired[str]
@@ -54972,6 +55116,14 @@ class Prv_tiktok_DeleteVideoArgs_In(TypedDict):
 
 class Prv_tiktok_deleteVideo_return_Out(TypedDict):
     deleted: bool
+
+class Prv_tiktok_SendDirectMessageArgs_In(TypedDict):
+    username: str
+    text: str
+
+class Prv_tiktok_sendDirectMessage_return_Out(TypedDict):
+    sent: bool
+    username: str
 
 class Prv_tiktok_ListNotificationsArgs_In(TypedDict):
     count: NotRequired[float]
@@ -66148,6 +66300,20 @@ class Prv_acuityscheduling(Protocol):
         Acuity client login.
         """
 
+    async def cancelAppointment(self, query: str, appointmentId: str, opts: ConnectionOption | None = None, /) -> Prv_acuityscheduling_AcuityAppointmentChange_Out:
+        """Cancels one of the signed-in caller's appointments at a business. `appointmentId` is the
+        id (or manageUrl) listMyBookings returned. Refuses when Acuity does not accept the
+        caller as that appointment's client, or when the business does not let clients cancel
+        online.
+        """
+
+    async def rescheduleAppointment(self, query: str, appointmentId: str, target: Prv_acuityscheduling_AcuityRescheduleTarget_In, opts: ConnectionOption | None = None, /) -> Prv_acuityscheduling_AcuityAppointmentChange_Out:
+        """Moves one of the signed-in caller's appointments to a new open time. `target` is `{
+        datetime, calendarId }` from a listScheduleSlots time (timezone defaults to the
+        business's). Refuses when the caller does not hold the appointment or the time is not
+        open.
+        """
+
 class Prv_adobe(Protocol):
     """Adobe Stock, Fonts and Express search, Creative Cloud plans, Acrobat's free PDF tools,
     and Adobe's help center — all reachable logged out.
@@ -70781,6 +70947,12 @@ class Prv_canva(Protocol):
         currency, whether it is per person, and the free-trial length.
         """
 
+    async def browseTemplates(self, category: str, /) -> Prv_canva_browseTemplates_return_Out:
+        """Lists the templates in one design type (and optional sub-theme, e.g.
+        invitations/birthday) — the same rows as searchTemplates, reached by category instead of
+        keyword. Takes a listTemplateCategories url or a slug.
+        """
+
 class Prv_capitalbrands(Protocol):
     """NutriBullet's own "Which nutribullet is Best for Me?" product-recommendation quiz
     (nutribullet.com) — reads the real four-question quiz and runs the site's own scoring
@@ -72127,6 +72299,29 @@ class Prv_claude(Protocol):
         """Sends a message to Claude as the CALLER — a new chat, or `conversationId` to continue
         one; `projectId` and `model` (from listModels) optional — and returns Claude's finished
         reply. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def continueSharedConversation(self, args: Prv_claude_ContinueSharedConversationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeForkedConversation_Out:
+        """Copies a shared Claude conversation (the share id from claude.ai/share/<id>) into the
+        CALLER's own account, the way the share page's "Continue conversation" button does —
+        returns the new conversation id to keep chatting from with sendMessage or
+        getConversation. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def rateResponse(self, args: Prv_claude_RateResponseArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeWriteAck_Out:
+        """Thumbs a Claude reply "good" or "bad", the way the message's feedback buttons do.
+        `conversationId` and `messageId` come from getConversation. WRITE. NEEDS A SIGN-IN (the
+        caller's claude.ai session).
+        """
+
+    async def renameConversation(self, args: Prv_claude_RenameConversationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeWriteAck_Out:
+        """Renames one of the CALLER's Claude chats, the way the sidebar's rename does. WRITE.
+        NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def starConversation(self, args: Prv_claude_StarConversationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeWriteAck_Out:
+        """Stars or unstars one of the CALLER's Claude chats, the way the sidebar's star toggle
+        does. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
         """
 
 class Prv_claude_com(Protocol):
@@ -79297,6 +79492,28 @@ class Prv_goteamup_classes(Protocol):
     async def getMyProfile(self, studio: str | float, opts: ConnectionOption | None = None, /) -> Prv_goteamup_classes_GoteamupMyProfile_Out:
         """Signed in: the caller's own customer profile at one studio — name, email, phone. Pauses
         the run for the caller to sign in at goteamup.com.
+        """
+
+    async def checkBookingEligibility(self, studio: str | float, classId: str | float, opts: ConnectionOption | None = None, /) -> Prv_goteamup_classes_GoteamupEligibility_Out:
+        """Signed in: says whether the caller can book a class and why not — full, no valid
+        membership, booking window closed. Pauses the run for the caller to sign in at
+        goteamup.com.
+        """
+
+    async def bookClass(self, studio: str | float, classId: str | float, opts: ConnectionOption | None = None, /) -> Prv_goteamup_classes_GoteamupBooking_Out:
+        """Signed in: books the caller into a free or membership-covered class. A priced drop-in
+        goes through TeamUp's own paid purchase step instead, which this never calls — it throws
+        rather than paying. Pauses the run for the caller to sign in at goteamup.com.
+        """
+
+    async def cancelClass(self, studio: str | float, classId: str | float, opts: ConnectionOption | None = None, /) -> Prv_goteamup_classes_GoteamupCancelResult_Out:
+        """Signed in: cancels the caller's booking for a class. Pauses the run for the caller to
+        sign in at goteamup.com.
+        """
+
+    async def joinWaitlist(self, studio: str | float, classId: str | float, opts: ConnectionOption | None = None, /) -> Prv_goteamup_classes_GoteamupWaitlistResult_Out:
+        """Signed in: puts the caller on a full class's waitlist. Pauses the run for the caller to
+        sign in at goteamup.com.
         """
 
 class Prv_grainger(Protocol):
@@ -86578,6 +86795,18 @@ class Prv_nytimes(Protocol):
         Needs the caller's own NYT sign-in.
         """
 
+    async def followWriter(self, writer: str, opts: ConnectionOption | None = None, /) -> Prv_nytimes_NytimesFollowWriterResult_Out:
+        """Follows one NYT writer (slug like "paul-krugman", from searchWriters, or a "/by/<slug>"
+        path) for the signed-in reader, by pressing the follow control on their byline page.
+        Already following is a no-op. Needs the caller's own NYT sign-in.
+        """
+
+    async def unfollowWriter(self, writer: str, opts: ConnectionOption | None = None, /) -> Prv_nytimes_NytimesFollowWriterResult_Out:
+        """Unfollows one NYT writer (slug or "/by/<slug>" path) for the signed-in reader, by
+        pressing the same follow control followWriter does. Not following is a no-op. Needs the
+        caller's own NYT sign-in.
+        """
+
     async def signup(self, args: Any, /) -> Prv_nytimes_signup_return_u0_Out | Prv_nytimes_signup_return_u1_Out | Prv_nytimes_signup_return_u2_Out | Prv_nytimes_signup_return_u3_Out:
         """Makes a NEW The New York Times account with the person's own email and password, in a
         session. Pauses with `needs_code` / `needs_phone` whenever the site wants something only
@@ -92602,6 +92831,28 @@ class Prv_squire(Protocol):
         Instagram, and every location as a shop summary with route and booking URL.
         """
 
+    async def getBarber(self, barber: str, /) -> Prv_squire_SquireBarber_Out:
+        """Returns one barber from their id (listBarbers or a barber hit from searchShops): name,
+        route, photos, portfolio images and videos, Instagram, average rating and count, the
+        shop they work at, weekly hours, days off, next available time, default service,
+        advance-booking window and their own booking URL.
+        """
+
+    async def getWalkInStatus(self, shop: str, /) -> Prv_squire_SquireWalkInStatus_Out:
+        """Says whether a shop (id, route or getsquire.com URL) is taking walk-ins or a same-day
+        standby list right now, whether its waitlist is on, whether a walk-in may ask for
+        anyone, and which barbers a walk-in can ask for. A shop that never set standby up
+        answers all false.
+        """
+
+    async def getBookingQuote(self, args: Prv_squire_SquireQuoteArgs_In, /) -> Prv_squire_SquireBookingQuote_Out:
+        """Prices an appointment before booking it — shop, barber, service ids (add-ons as extra
+        services) and a time from getAvailability — through Squire's own anonymous cart: each
+        service line with price, duration and deposit, the subtotal, tax, discount, Squire's
+        booking fee, the total charged, whether the shop needs prepayment, and the suggested
+        tips. Creates no appointment and holds no slot.
+        """
+
 class Prv_stackoverflow(Protocol):
     """Stack Overflow programming questions and answers — search questions, then read one
     question with its accepted and top-voted answers — through the official Stack Exchange
@@ -94507,6 +94758,15 @@ class Prv_tiktok(Protocol):
         bare video id. Writes via POST to /api/aweme/delete/ with the caller's session cookies,
         no browser. The caller signs in through the auth relay; Bowmark never signs up on this
         site. Returns a confirmation of the deletion.
+        """
+
+    async def sendDirectMessage(self, args: Prv_tiktok_SendDirectMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_sendDirectMessage_return_Out:
+        """Send a direct message as the signed-in caller to a TikTok account, by handle. Drives
+        TikTok's own web UI with the caller's session (profile, Message, type, send) and
+        confirms on the page's own send call; TikTok's IM API takes an unpublished protobuf
+        body, so there is no browserless door. The caller signs in through the auth relay;
+        Bowmark never signs up on this site. Returns { sent, username }. A recipient who does
+        not accept messages from the caller fails with that reason.
         """
 
     async def listNotifications(self, args: Prv_tiktok_ListNotificationsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_listNotifications_return_Out:

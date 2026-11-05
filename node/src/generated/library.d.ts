@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 240c0a252d38aa8e9148dc24b30658dc72ac7d5225edcafe61ac8d173da3999a
-// 94 capabilities, 760 providers, 4235 typed functions, 20 refused.
+// Manifest version: 53b5634cc6c19e957f81174f5119f7dbff6c31ac19b61e87c119fa4869a81bf8
+// 94 capabilities, 760 providers, 4252 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7440,6 +7440,24 @@ interface AcuityMyBookings {
   bookings: { appointmentId: string; manageUrl: string }[];
 }
 
+interface AcuityAppointmentChange {
+  ownerId: string;
+  business: string;
+  appointmentId: string;
+  action: "canceled" | "rescheduled";
+  /** The changed appointment(s) exactly as Acuity's scheduler answered them. */
+  appointments: unknown[];
+}
+
+interface AcuityRescheduleTarget {
+  /** The new start time — a `time` from listScheduleSlots (ISO 8601 with offset). */
+  datetime: string;
+  /** The calendar that time belongs to — listScheduleSlots' calendarId. */
+  calendarId: string | number;
+  /** IANA timezone of the time; defaults to the business's own. */
+  timezone?: string;
+}
+
 interface AcuityPrice {
   appointmentTypeId: number;
   name: string;
@@ -7533,6 +7551,20 @@ interface AcuityPrice {
      * login.
      */
     listMyBookings(query: string, opts?: ConnectionOption): Promise<AcuityMyBookings>;
+
+    /**
+     * Cancels one of the signed-in caller's appointments at a business. `appointmentId` is the id
+     * (or manageUrl) listMyBookings returned. Refuses when Acuity does not accept the caller as
+     * that appointment's client, or when the business does not let clients cancel online.
+     */
+    cancelAppointment(query: string, appointmentId: string, opts?: ConnectionOption): Promise<AcuityAppointmentChange>;
+
+    /**
+     * Moves one of the signed-in caller's appointments to a new open time. `target` is `{
+     * datetime, calendarId }` from a listScheduleSlots time (timezone defaults to the business's).
+     * Refuses when the caller does not hold the appointment or the time is not open.
+     */
+    rescheduleAppointment(query: string, appointmentId: string, target: AcuityRescheduleTarget, opts?: ConnectionOption): Promise<AcuityAppointmentChange>;
   }
 }
 
@@ -21137,6 +21169,13 @@ interface CanvaPlan {
      * whether it is per person, and the free-trial length.
      */
     getPricing(): Promise<{ plans: CanvaPlan[]; url: string; warnings: string[] }>;
+
+    /**
+     * Lists the templates in one design type (and optional sub-theme, e.g. invitations/birthday) —
+     * the same rows as searchTemplates, reached by category instead of keyword. Takes a
+     * listTemplateCategories url or a slug.
+     */
+    browseTemplates(category: string): Promise<{ templates: CanvaTemplate[]; url: string; warnings: string[] }>;
   }
 }
 
@@ -24884,6 +24923,35 @@ interface ClaudeReply {
   stopReason: string | null;
   model: string | null;
 }
+interface ContinueSharedConversationArgs {
+  shareId: string;
+  organizationId?: string;
+}
+interface ClaudeForkedConversation {
+  organizationId: string;
+  conversationId: string;
+  raw: Record<string, unknown>;
+}
+interface RateResponseArgs {
+  conversationId: string;
+  messageId: string;
+  rating: "good" | "bad";
+  organizationId?: string;
+}
+interface RenameConversationArgs {
+  conversationId: string;
+  name: string;
+  organizationId?: string;
+}
+interface StarConversationArgs {
+  conversationId: string;
+  starred: boolean;
+  organizationId?: string;
+}
+interface ClaudeWriteAck {
+  conversationId: string;
+  ok: true;
+}
 
   /**
    * Anthropic's Claude app at claude.ai — read a shared conversation or a published artifact
@@ -24998,6 +25066,33 @@ interface ClaudeReply {
      * WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
      */
     sendMessage(args: SendMessageArgs, opts?: ConnectionOption): Promise<ClaudeReply>;
+
+    /**
+     * Copies a shared Claude conversation (the share id from claude.ai/share/<id>) into the
+     * CALLER's own account, the way the share page's "Continue conversation" button does — returns
+     * the new conversation id to keep chatting from with sendMessage or getConversation. WRITE.
+     * NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    continueSharedConversation(args: ContinueSharedConversationArgs, opts?: ConnectionOption): Promise<ClaudeForkedConversation>;
+
+    /**
+     * Thumbs a Claude reply "good" or "bad", the way the message's feedback buttons do.
+     * `conversationId` and `messageId` come from getConversation. WRITE. NEEDS A SIGN-IN (the
+     * caller's claude.ai session).
+     */
+    rateResponse(args: RateResponseArgs, opts?: ConnectionOption): Promise<ClaudeWriteAck>;
+
+    /**
+     * Renames one of the CALLER's Claude chats, the way the sidebar's rename does. WRITE. NEEDS A
+     * SIGN-IN (the caller's claude.ai session).
+     */
+    renameConversation(args: RenameConversationArgs, opts?: ConnectionOption): Promise<ClaudeWriteAck>;
+
+    /**
+     * Stars or unstars one of the CALLER's Claude chats, the way the sidebar's star toggle does.
+     * WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    starConversation(args: StarConversationArgs, opts?: ConnectionOption): Promise<ClaudeWriteAck>;
   }
 }
 
@@ -45328,6 +45423,22 @@ interface GoteamupBooking {
   class: GoteamupClass | null;
 }
 
+interface GoteamupEligibility {
+  eligible: boolean;
+  /** Why not, in the site's own words — null when eligible or when the site gave no reason. */
+  reason: string | null;
+}
+
+interface GoteamupCancelResult {
+  cancelled: true;
+  lateCancelDeadline: string | null;
+}
+
+interface GoteamupWaitlistResult {
+  onWaitlist: boolean;
+  waitingCount: number | null;
+}
+
   /**
    * TeamUp gym and fitness studios: find a studio, read its class timetable, class types,
    * venues, instructors and memberships, and book, cancel or waitlist a class as the signed-in
@@ -45392,6 +45503,31 @@ interface GoteamupBooking {
      * run for the caller to sign in at goteamup.com.
      */
     getMyProfile(studio: string | number, opts?: ConnectionOption): Promise<GoteamupMyProfile>;
+
+    /**
+     * Signed in: says whether the caller can book a class and why not — full, no valid membership,
+     * booking window closed. Pauses the run for the caller to sign in at goteamup.com.
+     */
+    checkBookingEligibility(studio: string | number, classId: string | number, opts?: ConnectionOption): Promise<GoteamupEligibility>;
+
+    /**
+     * Signed in: books the caller into a free or membership-covered class. A priced drop-in goes
+     * through TeamUp's own paid purchase step instead, which this never calls — it throws rather
+     * than paying. Pauses the run for the caller to sign in at goteamup.com.
+     */
+    bookClass(studio: string | number, classId: string | number, opts?: ConnectionOption): Promise<GoteamupBooking>;
+
+    /**
+     * Signed in: cancels the caller's booking for a class. Pauses the run for the caller to sign
+     * in at goteamup.com.
+     */
+    cancelClass(studio: string | number, classId: string | number, opts?: ConnectionOption): Promise<GoteamupCancelResult>;
+
+    /**
+     * Signed in: puts the caller on a full class's waitlist. Pauses the run for the caller to sign
+     * in at goteamup.com.
+     */
+    joinWaitlist(studio: string | number, classId: string | number, opts?: ConnectionOption): Promise<GoteamupWaitlistResult>;
   }
 }
 
@@ -65870,6 +66006,10 @@ interface NytimesUnsaveArticleResult {
   url: string; // the article that was unsaved
   saved: false;
 }
+interface NytimesFollowWriterResult {
+  url: string; // the writer's /by/<slug> page
+  following: boolean; // true after followWriter, false after unfollowWriter
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -66035,6 +66175,20 @@ interface NytimesUnsaveArticleResult {
      * caller's own NYT sign-in.
      */
     unsaveArticle(path: string, opts?: ConnectionOption): Promise<NytimesUnsaveArticleResult>;
+
+    /**
+     * Follows one NYT writer (slug like "paul-krugman", from searchWriters, or a "/by/<slug>"
+     * path) for the signed-in reader, by pressing the follow control on their byline page. Already
+     * following is a no-op. Needs the caller's own NYT sign-in.
+     */
+    followWriter(writer: string, opts?: ConnectionOption): Promise<NytimesFollowWriterResult>;
+
+    /**
+     * Unfollows one NYT writer (slug or "/by/<slug>" path) for the signed-in reader, by pressing
+     * the same follow control followWriter does. Not following is a no-op. Needs the caller's own
+     * NYT sign-in.
+     */
+    unfollowWriter(writer: string, opts?: ConnectionOption): Promise<NytimesFollowWriterResult>;
 
     /**
      * Makes a NEW The New York Times account with the person's own email and password, in a
@@ -83521,6 +83675,39 @@ interface SquireBarberSummary {
   hours: SquireOpeningHours[];
   daysOff: { day: string; wholeDay: boolean; from: string | null; to: string | null }[];
 }
+interface SquireBarber extends SquireBarberSummary {
+  photos: string[];
+  portfolio: string[]; // portfolio = image/video URLs
+  averageRating: number | null;
+  ratingCount: number | null;
+  shop: { id: string; name: string | null; route: string | null } | null;
+  advanceBookDays: number | null;
+  canCustomerCancel: boolean | null;
+  bookingUrl: string | null;
+}
+interface SquireWalkInStatus {
+  shopId: string;
+  available: boolean;       // taking walk-ins / standby right now
+  standbyEnabled: boolean; walkInEnabled: boolean; waitlistEnabled: boolean;
+  anyBarberAllowed: boolean; // a walk-in may ask for "anyone"
+  barbers: { id: string; name: string; route: string | null; photo: string | null }[]; // who a walk-in can ask for
+}
+interface SquireQuoteArgs {
+  shop: string;        // id, route or getsquire.com URL
+  barber: string;      // id from listBarbers, or a slot's barberIds
+  service?: string;    // id from listServices
+  services?: string[]; // service ids from listServices, e.g. "7d7f0fa4-bfa2-4046-9c32-7570cf5e045d" — several services or add-ons in one appointment
+  time: string;        // ISO instant from getAvailability
+}
+interface SquireBookingQuote {
+  shopId: string; currency: string | null;
+  lines: { serviceId: string | null; name: string; barberId: string | null; priceCents: number | null; durationMins: number | null; requiresPrepaid: boolean; depositCents: number | null }[];
+  subtotalCents: number | null; taxCents: number | null; discountCents: number | null;
+  bookingFeeCents: number | null; // Squire's customer booking fee
+  totalCents: number | null;      // what the customer is charged, fee included
+  requiresPrepayment: boolean | null; requiresDeposit: boolean; canBookWithoutPaying: boolean | null;
+  tipSuggestionsCents: number[]; errors: string[];
+}
 interface SquireOpenSlot {
   time: string; // ISO instant
   available: boolean;
@@ -83621,6 +83808,30 @@ interface SquireBrand {
      * and every location as a shop summary with route and booking URL.
      */
     getBrand(brand: string): Promise<SquireBrand>;
+
+    /**
+     * Returns one barber from their id (listBarbers or a barber hit from searchShops): name,
+     * route, photos, portfolio images and videos, Instagram, average rating and count, the shop
+     * they work at, weekly hours, days off, next available time, default service, advance-booking
+     * window and their own booking URL.
+     */
+    getBarber(barber: string): Promise<SquireBarber>;
+
+    /**
+     * Says whether a shop (id, route or getsquire.com URL) is taking walk-ins or a same-day
+     * standby list right now, whether its waitlist is on, whether a walk-in may ask for anyone,
+     * and which barbers a walk-in can ask for. A shop that never set standby up answers all false.
+     */
+    getWalkInStatus(shop: string): Promise<SquireWalkInStatus>;
+
+    /**
+     * Prices an appointment before booking it — shop, barber, service ids (add-ons as extra
+     * services) and a time from getAvailability — through Squire's own anonymous cart: each
+     * service line with price, duration and deposit, the subtotal, tax, discount, Squire's booking
+     * fee, the total charged, whether the shop needs prepayment, and the suggested tips. Creates
+     * no appointment and holds no slot.
+     */
+    getBookingQuote(args: SquireQuoteArgs): Promise<SquireBookingQuote>;
   }
 }
 
@@ -88932,6 +89143,10 @@ type BookmarkVideoArgs = {
 type DeleteVideoArgs = {
   video: string;
 };
+type SendDirectMessageArgs = {
+  username: string;
+  text: string;
+};
 type ListNotificationsArgs = {
   count?: number;
   cursor?: number;
@@ -89175,6 +89390,16 @@ type ListNotificationsArgs = {
      * Returns a confirmation of the deletion.
      */
     deleteVideo(args: DeleteVideoArgs, opts?: ConnectionOption): Promise<{ deleted: boolean }>;
+
+    /**
+     * Send a direct message as the signed-in caller to a TikTok account, by handle. Drives
+     * TikTok's own web UI with the caller's session (profile, Message, type, send) and confirms on
+     * the page's own send call; TikTok's IM API takes an unpublished protobuf body, so there is no
+     * browserless door. The caller signs in through the auth relay; Bowmark never signs up on this
+     * site. Returns { sent, username }. A recipient who does not accept messages from the caller
+     * fails with that reason.
+     */
+    sendDirectMessage(args: SendDirectMessageArgs, opts?: ConnectionOption): Promise<{ sent: boolean; username: string }>;
 
     /**
      * The signed-in caller's own activity inbox — new followers, likes, comments and mentions,

@@ -61,7 +61,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟡 |
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
 | `acuityscheduling.bookAppointment` | acuityscheduling.com | Books an appointment; accepts guest checkout with email and phone. | ⚪ |
-| `acuityscheduling.cancelAppointment` | acuityscheduling.com | Cancels a booking; caller must own the appointment. | ⚪ |
+| `acuityscheduling.cancelAppointment` | acuityscheduling.com | Cancels a booking; caller must own the appointment. | 🟢 |
 | `acuityscheduling.findScheduler` | acuityscheduling.com | Finds one business's Acuity scheduler and its owner id from the business name (tried… | 🟢 |
 | `acuityscheduling.getAppointmentTypeDetails` | acuityscheduling.com | Returns details of a specific appointment type including duration, provider, and… | 🟢 |
 | `acuityscheduling.getBookingForm` | acuityscheduling.com | Returns the form fields and requirements needed to complete a booking. | 🟢 |
@@ -75,7 +75,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `acuityscheduling.listMyBookings` | acuityscheduling.com | Lists the signed-in caller's appointments at one business, each with the link Acuity… | 🟢 |
 | `acuityscheduling.listPacks` | acuityscheduling.com | Lists multi-class packages with discounted per-class pricing. | 🟢 |
 | `acuityscheduling.listScheduleSlots` | acuityscheduling.com | Lists open start times for one appointment type over a date range, optionally for one… | 🟢 |
-| `acuityscheduling.rescheduleAppointment` | acuityscheduling.com | Reschedules a booking to a different date/time; caller must own the appointment. | ⚪ |
+| `acuityscheduling.rescheduleAppointment` | acuityscheduling.com | Reschedules a booking to a different date/time; caller must own the appointment. | 🟢 |
 | `acuityscheduling.searchSchedule` | acuityscheduling.com | Finds open times across every public class at once, filtered by class text and… | 🟢 |
 | `adobe.compressPdf` | adobe.com | Runs Adobe Acrobat's free online "Compress PDF" tool… | ⚪ |
 | `adobe.convertPdfToWord` | adobe.com | Runs Adobe Acrobat's free online PDF-to-Word converter on a caller-supplied PDF and… | ⚪ |
@@ -769,7 +769,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | 🟡 |
 | `businessinsider_com.getArticleComments` | businessinsider.com | Read the public comments/discussion thread under one article. | 🟢 |
 | `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | 🟢 |
-| `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟢 |
+| `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | 🟡 |
 | `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | 🟢 |
 | `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | 🟡 |
 | `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | 🟢 |
@@ -870,7 +870,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cancer.searchPublications` | cancer.gov | Searches NCI's publications catalogue — the patient-education booklets, fact sheets… | ⚪ |
 | `canva.addComment` | canva.com | Adds a comment, or a reply to an existing comment, on one of the caller's designs. | ⚪ |
 | `canva.autofillBrandTemplate` | canva.com | Fills a Brand Template with the caller's data (text and images per field) and returns… | ⚪ |
-| `canva.browseTemplates` | canva.com | Lists the templates in one design type (and optional sub-theme, e.g.… | ⚪ |
+| `canva.browseTemplates` | canva.com | Lists the templates in one design type (and optional sub-theme, e.g.… | 🟢 |
 | `canva.copyDesign` | canva.com | Duplicates one of the caller's designs under a new title. | ⚪ |
 | `canva.createDesign` | canva.com | Creates a new, editable design in the caller's account from a design type (e.g.… | ⚪ |
 | `canva.createFolder` | canva.com | Creates a folder at the top level or inside one of the caller's folders. | ⚪ |
@@ -1123,7 +1123,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude_support.getArticle` | support.claude.com | Returns one Claude help-center article's structured content by its URL — title… | 🟢 |
 | `claude_support.listArticles` | support.claude.com | Lists every English-language help-center article — url, numeric articleId and URL slug… | 🟢 |
 | `claude.addProjectDocument` | claude.ai | Adds a text document to one of the CALLER's project knowledge bases. | ⚪ |
-| `claude.continueSharedConversation` | claude.ai | Copies a shared Claude conversation into the CALLER's own account so they can keep… | ⚪ |
+| `claude.continueSharedConversation` | claude.ai | Copies a shared Claude conversation into the CALLER's own account so they can keep… | 🟢 |
 | `claude.createProject` | claude.ai | Creates a Claude project in the CALLER's account, private to them, with a name and… | ⚪ |
 | `claude.deleteConversation` | claude.ai | Deletes one of the CALLER's Claude chats. | ⚪ |
 | `claude.deleteProjectDocument` | claude.ai | Removes a document from one of the CALLER's project knowledge bases. | ⚪ |
@@ -1145,12 +1145,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude.listSkills` | claude.ai | Lists the skills enabled in the CALLER's Claude account, their own and Anthropic's. | 🟢 |
 | `claude.moveConversationToProject` | claude.ai | Moves one or more of the CALLER's chats into a project, or out of one. | ⚪ |
 | `claude.publishArtifact` | claude.ai | Publishes one of the CALLER's artifacts to a public claude.ai/public/artifacts link… | ⚪ |
-| `claude.rateResponse` | claude.ai | Gives a thumbs up or thumbs down, with an optional comment, on one of Claude's replies… | ⚪ |
-| `claude.renameConversation` | claude.ai | Renames one of the CALLER's Claude chats. | ⚪ |
+| `claude.rateResponse` | claude.ai | Gives a thumbs up or thumbs down, with an optional comment, on one of Claude's replies… | 🟢 |
+| `claude.renameConversation` | claude.ai | Renames one of the CALLER's Claude chats. | 🟢 |
 | `claude.searchConversations` | claude.ai | Searches the CALLER's Claude chat history by keyword, the way the sidebar search does… | 🟢 |
 | `claude.sendMessage` | claude.ai | Sends a message to Claude as the CALLER — into a new chat or an existing one… | 🟢 |
 | `claude.shareConversation` | claude.ai | Creates a public share link for one of the CALLER's chats and returns the… | ⚪ |
-| `claude.starConversation` | claude.ai | Stars or unstars one of the CALLER's Claude chats, which pins it at the top of the… | ⚪ |
+| `claude.starConversation` | claude.ai | Stars or unstars one of the CALLER's Claude chats, which pins it at the top of the… | 🟢 |
 | `claude.updateMemory` | claude.ai | Turns Claude's memory on or off for the CALLER, or tells it to forget everything… | ⚪ |
 | `claude.updatePreferences` | claude.ai | Updates the CALLER's personal preferences — what Claude should call them, their work… | ⚪ |
 | `claude.updateProfile` | claude.ai | Updates the CALLER's Claude profile — full name, display name and profile picture. | ⚪ |
@@ -3556,7 +3556,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.listBonusPuzzles` | games.nytimes.com | Lists this week's Bonus Puzzles drop (Wordle in 1, Connections 3x3, Colorful Strands… | 🟢 |
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | 🟢 |
 | `nyt_games.saveWordleGame` | games.nytimes.com | Saves a played Wordle — just the guesses — so it counts toward the signed-in caller's… | 🟢 |
-| `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
+| `nytimes.followWriter` | nytimes.com | Follows one NYT writer for the signed-in reader by pressing the follow control on… | 🟢 |
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟡 |
 | `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
 | `nytimes.getConnections` | nytimes.com | Gets a day's Connections puzzle — the four categories and their cards. | 🟢 |
@@ -3582,7 +3582,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.saveArticle` | nytimes.com | Saves one article to the signed-in reader's Reading List. | 🟢 |
 | `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟡 |
 | `nytimes.searchWriters` | nytimes.com | Searches NYT's own writers by name off its collections sitemap (the site publishes no… | 🟢 |
-| `nytimes.unfollowWriter` | nytimes.com | Unfollows a writer (requires auth). | ⚪ |
+| `nytimes.unfollowWriter` | nytimes.com | Unfollows one NYT writer for the signed-in reader by pressing the same follow control… | 🟢 |
 | `nytimes.unsaveArticle` | nytimes.com | Removes an article from the signed-in reader's Reading List, by driving the same save… | 🟢 |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
 | `odfl.estimateFreightQuote` | odfl.com | Generates a shipping rate quote for an LTL freight shipment from ODFL. | ⚪ |
@@ -5056,7 +5056,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | 🟢 |
 | `tiktok.searchUsers` | tiktok.com | Find creators matching a name or a topic and get back handle, nickname, bio, avatar… | 🟡 |
 | `tiktok.searchVideos` | tiktok.com | Find TikTok videos on a topic and get back the top posts — id, caption, author… | 🟡 |
-| `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller. | ⚪ |
+| `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller to a TikTok account, by handle — drives TikTok's own… | 🟢 |
 | `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | 🟢 |
 | `tiktok.unlikeVideo` | tiktok.com | Remove a like the caller placed — the reverse of likeVideo. | 🟢 |
 | `tiktok.uploadVideo` | tiktok.com | Upload a video to the signed-in caller's own account, with caption, hashtags and… | ⚪ |
