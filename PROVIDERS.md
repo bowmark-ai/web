@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5996 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5987 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -680,22 +680,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `booksy.getBusinessPhotos` | booksy.com | Lists a business's portfolio and venue photos, and the photos customers attached to… | 🟢 |
 | `booksy.getBusinessReviews` | booksy.com | Lists a business's customer reviews, newest first: rating, text, date, the service and… | 🟢 |
 | `booksy.getMyAppointment` | booksy.com | Returns one of the signed-in caller's appointments in full: service, time, staff… | 🟢 |
-| `booksy.getMyProfile` | booksy.com | Returns the signed-in caller's Booksy profile: name, email, phone, photo and… | ⚪ |
+| `booksy.getMyProfile` | booksy.com | Returns the signed-in caller's Booksy profile: name, email, phone, photo and… | 🟢 |
 | `booksy.getSearchSuggestions` | booksy.com | Turns what a caller typed ("skin fade", "gel nails", a business name) into Booksy's… | 🟢 |
 | `booksy.joinWaitlist` | booksy.com | Puts the signed-in caller on a business's waitlist for a service on a day with no open… | ⚪ |
 | `booksy.listCategories` | booksy.com | Lists Booksy's top-level business categories (Hair, Barber, Nails, Skin Care...), the… | 🟢 |
 | `booksy.listFavorites` | booksy.com | Lists the businesses the signed-in caller has saved as favourites. | 🟢 |
 | `booksy.listGiftCardOffers` | booksy.com | Lists the gift cards and vouchers a business sells online: name, value, price… | 🟢 |
 | `booksy.listMyBookings` | booksy.com | Lists the signed-in caller's upcoming and past Booksy appointments: business, service… | 🟢 |
-| `booksy.listMyGiftCards` | booksy.com | Lists the gift cards and vouchers the signed-in caller holds, with balance and validity. | ⚪ |
+| `booksy.listMyGiftCards` | booksy.com | Lists the gift cards and vouchers the signed-in caller holds, with balance and validity. | 🟢 |
 | `booksy.payForAppointment` | booksy.com | Pays an appointment's deposit, prepayment or bill through Booksy Pay. | ⚪ |
 | `booksy.removeFavorite` | booksy.com | Removes a business from the signed-in caller's favourites. | 🟢 |
 | `booksy.rescheduleAppointment` | booksy.com | Moves one of the signed-in caller's appointments to a new time (and optionally a new… | ⚪ |
 | `booksy.resolveLocation` | booksy.com | Resolves a place a caller names ("Brooklyn", a street address) into the Booksy region… | 🟢 |
 | `booksy.searchBusinesses` | booksy.com | Searches Booksy's marketplace for businesses (barbers, salons, spas, nail, massage… | 🟢 |
 | `booksy.sendMessageToBusiness` | booksy.com | Sends a chat message from the signed-in caller to a business, and reads the… | ⚪ |
-| `booksy.updateMyProfile` | booksy.com | Updates the signed-in caller's Booksy profile: name, email, phone or profile photo. | ⚪ |
-| `booksy.writeReview` | booksy.com | Posts the signed-in caller's star rating and review of a business after an… | ⚪ |
+| `booksy.updateMyProfile` | booksy.com | Updates the signed-in caller's Booksy profile: name, birthday, gender or address. | 🟢 |
+| `booksy.writeReview` | booksy.com | Posts the signed-in caller's 1-5 star rating and review of a business, optionally tied… | 🟢 |
 | `borsheims.configureRing` | borsheims.com | Composes a setting product page and a diamond/center-stone product page into a priced… | 🟢 |
 | `borsheims.getProduct` | borsheims.com | Reads one product's real, live price straight off its product page's own embedded data… | 🟢 |
 | `borsheims.searchProducts` | borsheims.com | Turns a free-text query into real borsheims.com product page URLs by matching every… | 🟢 |
@@ -2852,15 +2852,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `intro_co.expert` | intro.co | Reads one intro.co expert's profile by handle or profile URL — bio, every bookable… | 🟢 |
 | `intro_co.search` | intro.co | Searches intro.co's expert marketplace by keyword (a topic, skill or name —… | 🟢 |
 | `ipinfo.lookup` | ipinfo.io | Look up an IPv4 or IPv6 address: its autonomous system number (ASN), the ISP / network… | 🟢 |
-| `iproyal_reseller.extendPeriod` | apid.iproyal.com | Extends one order's term (POST /orders/{id}/extend) — spends real money; a new prepaid… | ⚪ |
-| `iproyal_reseller.getAccountBalance` | apid.iproyal.com | Bowmark's own prepaid IPRoyal balance (GET /balance) — used to fence a lease purchase… | 🟢 |
-| `iproyal_reseller.getCatalogue` | apid.iproyal.com | Reads IPRoyal's live reseller catalogue for one lease kind (GET /products) —… | 🟢 |
-| `iproyal_reseller.getOrder` | apid.iproyal.com | Reads one order by IPRoyal's own id (GET /orders/{id}) — status, endpoints, expiry… | 🟢 |
-| `iproyal_reseller.listOrders` | apid.iproyal.com | Every order on Bowmark's account for one product line (GET /orders, paged), including… | 🟢 |
-| `iproyal_reseller.placeOrder` | apid.iproyal.com | Places one real IPRoyal order (POST /orders) — spends real money on Bowmark's shared… | ⚪ |
-| `iproyal_reseller.quotePrice` | apid.iproyal.com | Prices one order before it is placed (GET /orders/calculate-pricing) — the vendor-cost… | 🟢 |
-| `iproyal_reseller.setAutoExtend` | apid.iproyal.com | Sets the vendor's own auto-renew flag on one order (POST /orders/toggle-auto-extend) —… | ⚪ |
-| `iproyal.getPlans` | iproyal.com | Reads IPRoyal's own published proxy pricing — residential, datacenter, ISP and mobile… | 🟢 |
 | `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
 | `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
 | `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟢 |
@@ -5461,7 +5452,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walla.requestMembershipCancellation` | hellowalla.com | Sends the studio the signed-in client's request to cancel one of their memberships… | 🟢 |
 | `walla.updateMyProfile` | hellowalla.com | Edits the signed-in client's own profile at a studio (name, phone, address, emergency… | 🟢 |
 | `walmart_ca.search` | www.walmart.ca | Search walmart.ca for products by keywords and return matching results with price… | 🟢 |
-| `walmart.addAddress` | walmart.com | Saves a new delivery address on the signed-in account. | ⚪ |
+| `walmart.addAddress` | walmart.com | Saves a new US delivery address on the signed-in account. | 🟢 |
 | `walmart.addToCart` | walmart.com | Puts an item in the cart in the quantity asked for and reports what the cart then holds. | 🟢 |
 | `walmart.addToList` | walmart.com | Adds an item to one of the shopper's saved lists. | 🟢 |
 | `walmart.browseBrand` | walmart.com | Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a… | 🟡 |
