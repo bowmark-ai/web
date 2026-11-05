@@ -61,7 +61,7 @@ apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCate
 arajet.com — arajet: search
 archipelago.gg — archipelago: getClientRelease, getGameOptions
 archive.org — archive_org: checkLendingAvailability, downloadFile, getItem, getSnapshot, searchItems (+3 planned)
-arketa.co — arketa: bookClass, bookPrivateSession, cancelBooking, findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters (+3 planned)
+arketa.co — arketa: bookClass, bookPrivateSession, cancelBooking, findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters, updateMyProfile (+2 planned)
 article.com — article_com: getProduct, searchProducts (+2 planned)
 artpix3d.com — artpix3d: getSizePricing, listPhotoCrystalShapes, listShapes
 arxiv.org — arxiv: getPaper, search
@@ -180,7 +180,7 @@ champxpress.com — champxpress: getPlanQuote, listLocations
 chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
 chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
-chatgpt.com — chatgpt: getAccount, getSharedConversation (+33 planned)
+chatgpt.com — chatgpt: browseGPTStore, getAccount, getGPT, getSharedConversation, listConversations, searchGPTs (+29 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
@@ -324,7 +324,7 @@ franklinbbq.com — franklinbbq_com: getPreorderMenu, listPickupSlots
 fred.stlouisfed.org — fred: browseCategory, getSeriesInfo, getSeriesObservations, listReleases, listSources, searchSeries (+1 planned)
 fredericton.ca, dieppe.ca — municipal_recreation_fees_fetcher: getFeeSchedule
 freightliner.com — freightliner: nothing callable yet (+1 planned)
-fresha.com — fresha: getAvailability, getBookingQuote, getSearchSuggestions, getVenue, searchVenues (+28 planned)
+fresha.com — fresha: getAvailability, getBookingQuote, getSearchSuggestions, getVenue, getVenueReviews, searchVenues (+27 planned)
 furniture.com — furniture: listCategories, listFilterOptions, searchProducts
 g2.com — g2: getProduct, listReviews, search
 games.nytimes.com — nyt_games: getConnections, getCrosswordArchive, getCrosswordDaily, getCrosswordMidi, getCrosswordMini, getLetterBoxed, getPips, getSpellingBee, getSportsConnections, getStrands, getSudoku, getTiles, getWordle, listBonusPuzzles, listCrosswordPuzzles, saveWordleGame (+2 planned)
@@ -436,7 +436,7 @@ legacyhomesal.com — legacyhomesal: getAvailability, listCommunities
 letterboxd.com — letterboxd: film, getOwnAccount, memberDiary, memberFilms
 lever.co — lever: listJobs (+1 planned)
 li.me — lime: cityPricing, listCities
-linkedin.com — linkedin: acceptInvitation, addProfileSkill, applyToJob, attendEvent, commentOnPost, createGroupPost, createPost, deleteComment, deletePost, followCompany, followMember, getArticle, getCompany, getConversation, getEvent, getGroup, getHomeFeed, getJob, getLearningCourse, getMyProfile, getPost, getProfile, getProfileDetails, getProfileSkills, getProfileViews, getSchool, ignoreInvitation, joinGroup, leaveGroup, listAppliedJobs, listCompanyEmployees, listCompanyJobs, listCompanyPosts, listConnections, listConversations, listFollowing, listInvitations, listMemberPosts, listMyGroups, listNotifications, listPostComments, listSavedJobs, listSavedPosts, listSentInvitations, listSuggestedConnections, reactToPost, removeConnection, replyToComment, repostPost, saveJob, savePost, searchCompanies, searchEvents, searchGroups, searchJobs, searchLearningCourses, searchMembers, searchPeople, searchPosts, searchSchools, searchServiceProviders, sendConnectionRequest, sendMessage, setProfilePhoto, subscribeToNewsletter, updateProfile, withdrawInvitation
+linkedin.com — linkedin: 67 functions — ask get_library
 liquiddeath.com — liquiddeath: addToCart, getCart, getProduct, listProducts, searchProducts (+1 planned)
 liquidspace.com — liquidspace: getListingDetails, search
 littlewordsproject.com — littlewordsproject: getLittleWordsProjectCheckoutLink, getLittleWordsProjectProduct, listLittleWordsProjectCollections, listLittleWordsProjectProducts
@@ -662,7 +662,7 @@ stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
-styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+4 planned)
+styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, getAppointmentByLink, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+3 planned)
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
 sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches, getSaunaFinderQuestions

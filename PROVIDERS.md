@@ -325,7 +325,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `arketa.listProducts` | arketa.co | Lists the retail products a studio sells through Arketa (apparel, equipment), with… | 🟢 |
 | `arketa.listReviews` | arketa.co | Lists a studio's public client reviews — first name, star rating, text and date. | 🟢 |
 | `arketa.listScheduleFilters` | arketa.co | Lists what a studio's schedule can be filtered by — its locations, class types and… | 🟢 |
-| `arketa.updateMyProfile` | arketa.co | Edits the signed-in client's own profile at a studio (name, phone, emergency contact)… | ⚪ |
+| `arketa.updateMyProfile` | arketa.co | Updates the signed-in client's studio-specific client fields and marketing email / SMS… | 🟢 |
 | `article_com.addToCart` | article.com | Adds one product (and quantity) to the article.com cart. | ⚪ |
 | `article_com.getDeliveryEstimate` | article.com | Returns the delivery window and shipping cost for one product to a postal code. | ⚪ |
 | `article_com.getProduct` | article.com | Reads one Article product by id or article.com URL: USD and CAD list price and sale… | 🟢 |
@@ -991,7 +991,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `charterhomes.searchHomes` | charterhomes.com | Searches Charter Homes & Neighborhoods' live for-sale home inventory by… | 🟢 |
 | `chatgpt.archiveConversation` | chatgpt.com | Archives (or un-archives) one of the CALLER's conversations. | ⚪ |
 | `chatgpt.ask` | chatgpt.com | Asks ChatGPT one question WITHOUT an account — the logged-out chat chatgpt.com offers… | ⚪ |
-| `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | ⚪ |
+| `chatgpt.browseGPTStore` | chatgpt.com | Lists the GPT Store front page by category — Top Picks, Writing, Productivity… | 🟢 |
 | `chatgpt.createGPT` | chatgpt.com | Creates a custom GPT in the CALLER's account — name, description, instructions… | ⚪ |
 | `chatgpt.createProject` | chatgpt.com | Creates a new project in the CALLER's account with a name and optional instructions. | ⚪ |
 | `chatgpt.deleteConversation` | chatgpt.com | Deletes one of the CALLER's conversations. | ⚪ |
@@ -1002,11 +1002,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.getAccount` | chatgpt.com | Reads the CALLER's account — name, email, plan (Free, Plus, Pro, Business) and the… | 🟢 |
 | `chatgpt.getConversation` | chatgpt.com | Reads one of the CALLER's conversations in full — every message in order, which model… | ⚪ |
 | `chatgpt.getCustomInstructions` | chatgpt.com | Reads the CALLER's personalization — what ChatGPT should call them, their occupation… | ⚪ |
-| `chatgpt.getGPT` | chatgpt.com | Reads one custom GPT's page in the GPT Store — name, description, author, conversation… | ⚪ |
+| `chatgpt.getGPT` | chatgpt.com | Reads one custom GPT's page in the GPT Store — name, description, author, conversation… | 🟢 |
 | `chatgpt.getMemories` | chatgpt.com | Reads what ChatGPT has saved to the CALLER's memory (Settings → Personalization →… | ⚪ |
 | `chatgpt.getProject` | chatgpt.com | Reads one of the CALLER's projects — its instructions, uploaded files and the… | ⚪ |
 | `chatgpt.getSharedConversation` | chatgpt.com | Reads a public shared ChatGPT conversation from its share link… | 🟢 |
-| `chatgpt.listConversations` | chatgpt.com | Lists the CALLER's ChatGPT chat history, newest first — conversation id, title, last… | ⚪ |
+| `chatgpt.listConversations` | chatgpt.com | Lists the CALLER's ChatGPT chat history, newest first — conversation id, title, last… | 🟢 |
 | `chatgpt.listLibraryImages` | chatgpt.com | Lists the images the CALLER has generated, from the Library page, newest first, with… | ⚪ |
 | `chatgpt.listModels` | chatgpt.com | Lists the models the CALLER's plan can pick in the model menu, with their limits. | ⚪ |
 | `chatgpt.listMyGPTs` | chatgpt.com | Lists the custom GPTs the CALLER has built, with visibility (only me, link, store) and… | ⚪ |
@@ -1019,7 +1019,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.renameConversation` | chatgpt.com | Renames one of the CALLER's conversations. | ⚪ |
 | `chatgpt.requestDataExport` | chatgpt.com | Requests an export of the CALLER's ChatGPT data (Settings → Data controls → Export)… | ⚪ |
 | `chatgpt.searchConversations` | chatgpt.com | Searches the CALLER's chat history by keyword, the way the sidebar's search does, and… | ⚪ |
-| `chatgpt.searchGPTs` | chatgpt.com | Searches the GPT Store by keyword and returns matching custom GPTs with their id… | ⚪ |
+| `chatgpt.searchGPTs` | chatgpt.com | Searches the GPT Store by keyword and returns matching custom GPTs with their id… | 🟢 |
 | `chatgpt.sendMessage` | chatgpt.com | Sends a message as the CALLER and returns ChatGPT's reply — starting a new… | ⚪ |
 | `chatgpt.shareConversation` | chatgpt.com | Creates a public share link for one of the CALLER's conversations and returns the… | ⚪ |
 | `chatgpt.updateCustomInstructions` | chatgpt.com | Updates the CALLER's personalization — what ChatGPT calls them, their occupation, the… | ⚪ |
@@ -2228,7 +2228,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fresha.getSearchSuggestions` | fresha.com | Turns what a caller typed ("balayage", a venue name, a stylist's name) into Fresha's… | 🟢 |
 | `fresha.getVenue` | fresha.com | Returns one venue from its slug or its fresha.com/a/... URL: name, description… | 🟢 |
 | `fresha.getVenuePhotos` | fresha.com | Lists a venue's portfolio and venue photos, with each image's description, paged. | ⚪ |
-| `fresha.getVenueReviews` | fresha.com | Lists a venue's verified customer reviews, newest first: rating, text, date, the… | ⚪ |
+| `fresha.getVenueReviews` | fresha.com | Lists a Fresha venue's verified customer reviews, 5 a page by cursor: rating, text… | 🟢 |
 | `fresha.joinWaitlist` | fresha.com | Puts the signed-in caller on a venue's waitlist for services on a day and time range… | ⚪ |
 | `fresha.leaveWaitlist` | fresha.com | Removes one of the signed-in caller's waitlist entries. | ⚪ |
 | `fresha.listBusinessTypes` | fresha.com | Lists the kinds of business Fresha lists (hair salons, barbers, nail salons, lashes… | ⚪ |
@@ -4388,7 +4388,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sevenrooms.listExperiences` | sevenrooms.com | Lists a venue's bookable experiences and events — tasting menus, holiday seatings… | ⚪ |
 | `sevenrooms.listMyMemberships` | sevenrooms.com | Lists the venue loyalty and membership programmes the signed-in guest belongs to. | ⚪ |
 | `sevenrooms.listMyReservations` | sevenrooms.com | Lists the signed-in guest's SevenRooms reservations across every venue, split into… | 🟢 |
-| `sevenrooms.listUpgrades` | sevenrooms.com | Lists a venue's bookable add-ons — champagne, a cake, a private-dining menu, a bottle… | 🟢 |
+| `sevenrooms.listUpgrades` | sevenrooms.com | Lists a venue's bookable add-ons — champagne, a cake, a private-dining menu, a bottle… | 🟡 |
 | `sevenrooms.modifyReservation` | sevenrooms.com | Moves an existing reservation to another open slot — a new date, time or party size —… | ⚪ |
 | `sevenrooms.submitRequest` | sevenrooms.com | When no slot fits, submits a booking request to the venue for a date, time window and… | ⚪ |
 | `sevenrooms.updateMyProfile` | sevenrooms.com | Edits the signed-in guest's SevenRooms profile: name and contact details, profile… | ⚪ |
@@ -4819,7 +4819,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `styleseat.buyServicePackage` | styleseat.com | Buys a prepaid package of a pro's services. | ⚪ |
 | `styleseat.cancelAppointment` | styleseat.com | Cancels one of the signed-in caller's upcoming appointments. | 🟢 |
 | `styleseat.cancelAppointmentByLink` | styleseat.com | Cancels an appointment from the manage link in StyleSeat's confirmation message, with… | ⚪ |
-| `styleseat.getAppointmentByLink` | styleseat.com | Reads an appointment from the manage link StyleSeat sends in its confirmation email or… | ⚪ |
+| `styleseat.getAppointmentByLink` | styleseat.com | Reads an appointment from the manage link StyleSeat sends in its confirmation email or… | 🟢 |
 | `styleseat.getAvailability` | styleseat.com | Lists a pro's open start times for one or more of their services over a date range, as… | 🟢 |
 | `styleseat.getBookingQuote` | styleseat.com | Prices a prospective appointment before booking -- services at a date and start time… | 🟢 |
 | `styleseat.getGallery` | styleseat.com | Lists the photos of a pro's portfolio, or every pro's photos at a salon, paged 20 per… | 🟢 |
