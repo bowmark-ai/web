@@ -1193,7 +1193,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubpilates.getMyMembership` | clubpilates.com | Returns the signed-in member's membership and class credits left at one studio — what… | 🟢 |
 | `clubpilates.getMyProfile` | clubpilates.com | Returns the signed-in member's own profile: name, email, phone, home studio. | 🟢 |
 | `clubpilates.getStudio` | clubpilates.com | Returns one studio's full detail by id (from findStudios) or by its clubpilates.com… | 🟢 |
-| `clubpilates.joinWaitlist` | clubpilates.com | Puts the signed-in member on the waitlist for a full class (the class must have… | 🟢 |
+| `clubpilates.joinWaitlist` | clubpilates.com | Puts the signed-in member on the waitlist for a full class (the class must have… | 🟡 |
 | `clubpilates.listClassCategories` | clubpilates.com | Lists the class categories used to filter a schedule (Reformer Flow, Center + Balance… | 🟢 |
 | `clubpilates.listClasses` | clubpilates.com | Lists a studio's class schedule for a date or date range — each class's id, title… | 🟢 |
 | `clubpilates.listClassTypes` | clubpilates.com | Lists every Club Pilates class type the brand runs (Intro Class, Reformer Flow 1… | 🟢 |
@@ -1503,7 +1503,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `direct_book.checkPromoCode` | direct-book.com | Checks whether a promo code is valid at a hotel for given dates and returns what it… | 🟢 |
 | `direct_book.completeBooking` | direct-book.com | Completes a booking with the guest's details and card. | ⚪ |
 | `direct_book.findProperty` | direct-book.com | Finds a SiteMinder Book Direct hotel from what a caller has: its booking link… | 🟢 |
-| `direct_book.getPolicies` | direct-book.com | Returns a hotel's booking policies: cancellation, check-in and check-out, child and… | 🟢 |
+| `direct_book.getPolicies` | direct-book.com | Returns a hotel's booking policies: cancellation, check-in and check-out, child and… | 🟡 |
 | `direct_book.getProperty` | direct-book.com | Returns one hotel's profile: name, description, star rating, address and map link… | 🟢 |
 | `direct_book.getReservation` | direct-book.com | Reads a guest's existing booking from its reservation code — dates, rooms, guest name… | 🟢 |
 | `direct_book.getRoomRates` | direct-book.com | Returns every rate plan for one room type on given dates — name, what it includes… | 🟢 |
@@ -1525,7 +1525,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.getGame` | discord.com | Reads one game's page on Discord (discord.com/game/<slug>-<id>) — name, description… | 🟢 |
 | `discord.getInvite` | discord.com | Resolves a Discord invite (discord.gg/<code>, discord.com/invite/<code> or the bare… | 🟡 |
 | `discord.getMyProfile` | discord.com | Reads the signed-in caller's own account — user id, username, display name, avatar… | 🟢 |
-| `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | 🟢 |
+| `discord.getServer` | discord.com | Reads one server's public directory page (discord.com/servers/<slug>-<id>) — name… | 🟡 |
 | `discord.getUserProfile` | discord.com | Reads another user's profile — username, display name, avatar, banner, bio, pronouns… | ⚪ |
 | `discord.joinServer` | discord.com | Joins a server from an invite code or link as the caller. | ⚪ |
 | `discord.leaveServer` | discord.com | Leaves a server the caller has joined. | ⚪ |
