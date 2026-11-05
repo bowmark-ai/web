@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5995 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5996 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -214,7 +214,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `anthropic_com.listDocs` | anthropic.com | Lists every engineering-blog and legal-terms page anthropic.com publishes — url… | 🟢 |
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
 | `aol_mail.deleteMessage` | mail.aol.com | Deletes one of the CALLER's own AOL Mail messages the way the site's own delete button… | 🟢 |
-| `aol_mail.getAccountProfile` | mail.aol.com | Reads the CALLER's own AOL account profile from `myaccount.aol.com` — display name… | ⚪ |
+| `aol_mail.getAccountProfile` | mail.aol.com | Reads the CALLER's own AOL account page (login.aol.com/myaccount/personalinfo) and… | 🟢 |
 | `aol_mail.getMessage` | mail.aol.com | Reads one of the CALLER's own AOL Mail messages in full — sender, recipients, subject… | 🟢 |
 | `aol_mail.listFolders` | mail.aol.com | Lists the CALLER's own AOL Mail folders — Inbox, Sent, Drafts, Spam, Trash and custom… | 🟢 |
 | `aol_mail.listMessages` | mail.aol.com | Lists the newest messages in one of the CALLER's own AOL Mail folders (Inbox by… | 🟢 |
@@ -1783,7 +1783,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.fantasyPlayers` | espn.com | ESPN Fantasy's public player board for fantasy football, baseball, basketball or… | 🟢 |
 | `espn.getArticle` | espn.com | The full text of one ESPN story — headline, byline, published and updated times, body… | 🟢 |
 | `espn.getFantasyLeague` | espn.com | One ESPN fantasy league — settings, standings, this week's matchups and every team… | 🟢 |
-| `espn.getFantasyTeam` | espn.com | One team in an ESPN fantasy league — its roster with each player's slot, projected and… | ⚪ |
+| `espn.getFantasyTeam` | espn.com | One team in an ESPN fantasy league — its roster with each player's slot, projected and… | 🟢 |
 | `espn.getGame` | espn.com | One game in full, with score by period, every player's box-score line, team stats… | 🟢 |
 | `espn.getPlayer` | espn.com | One player's page — team, position, jersey, age, height, weight, college, status and… | 🟢 |
 | `espn.getTeam` | espn.com | One team's page header — record, standing in its division, next game, coach, venue and… | 🟢 |
@@ -1792,7 +1792,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.listLeagues` | espn.com | Every sport ESPN's core API tracks (call with no arguments), or every league slug… | 🟢 |
 | `espn.listMyFantasyTeams` | espn.com | The CALLER's own ESPN fantasy teams across every game (football, baseball, basketball… | 🟢 |
 | `espn.listTeams` | espn.com | Every team in a league with its ESPN id, abbreviation, name, location, colours and… | 🟢 |
-| `espn.listVideos` | espn.com | ESPN's highlight and analysis video clips for a league, a team or a game — title… | ⚪ |
+| `espn.listVideos` | espn.com | ESPN's latest highlight and analysis video clips for a league, optionally one team's —… | 🟢 |
 | `espn.news` | espn.com | The latest ESPN headlines for a league, optionally narrowed to one team — headline… | 🟢 |
 | `espn.odds` | espn.com | The betting lines ESPN shows for a league's games — spread, total and moneyline from… | 🟢 |
 | `espn.playerGameLog` | espn.com | One player's game-by-game log for a season — opponent, result and the full stat line… | 🟢 |
@@ -3371,7 +3371,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nationalbusinessfurniture.getProduct` | nationalbusinessfurniture.com | Reads one product's full configurable-option set (e.g. Finish) with every choice's… | 🟢 |
 | `nationalbusinessfurniture.priceConfiguration` | nationalbusinessfurniture.com | Resolves a specific configuration (a choice per option group, e.g. { Finish: "Ash… | 🟢 |
 | `nationalbusinessfurniture.searchProducts` | nationalbusinessfurniture.com | Searches National Business Furniture's office-furniture catalog by free text and… | 🟢 |
-| `netflix.addToMyList` | www.netflix.com | Adds a title to the signed-in caller's My List (requires caller to be signed in). | ⚪ |
+| `netflix.addToMyList` | www.netflix.com | Adds a title to the signed-in caller's own Netflix My List by its numeric id (from… | 🟢 |
 | `netflix.browseGenre` | www.netflix.com | Lists the titles in one Netflix genre — the id from listGenres or the number in… | 🟢 |
 | `netflix.findTitles` | www.netflix.com | Finds Netflix titles by name — e.g. findTitles("stranger things") — returning each… | 🟢 |
 | `netflix.getContinueWatching` | www.netflix.com | Reads the signed-in caller's own Netflix Continue Watching row — the titles they are… | 🟢 |
@@ -3382,7 +3382,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `netflix.getViewingHistory` | www.netflix.com | Reads the signed-in caller's own Netflix viewing history, most recent first, 100 per… | 🟢 |
 | `netflix.listGenres` | www.netflix.com | Lists the browsable sub-genres Netflix shows on its public TV Shows, Movies and Only… | 🟢 |
 | `netflix.rateTitle` | www.netflix.com | Rates a title on the signed-in caller's account (requires caller to be signed in). | ⚪ |
-| `netflix.removeFromMyList` | www.netflix.com | Removes a title from the signed-in caller's My List (requires caller to be signed in). | ⚪ |
+| `netflix.removeFromMyList` | www.netflix.com | Removes a title from the signed-in caller's own Netflix My List by its numeric id… | 🟢 |
 | `netflix.search` | www.netflix.com | Searches the whole Netflix catalogue the way the site's own search box does — e.g.… | 🟢 |
 | `netflix.searchTudum` | www.netflix.com | Searches Netflix's weekly Top 10 history by title, returning every week and category… | 🟢 |
 | `newageproducts.getNewageproductsProduct` | newageproducts.com | Reads one NewAge Products garage-storage/outdoor-living product by its URL handle —… | 🟢 |
@@ -4350,7 +4350,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `seoulfood.getBoothQuote` | seoulfood.kotra.or.kr | A list-price exhibitor booth quote for N booths of one package (Space Only, Walk on… | 🟢 |
 | `seoulfood.getExhibitorPricing` | seoulfood.kotra.or.kr | Reads the organizer's published exhibitor booth rate card (trade show booth quote)… | 🟢 |
 | `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |
-| `serper.searchGoogle` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
+| `serper.search` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
+| `serper.searchGoogle` | serper.dev | Alias for `search()`, kept for backward compatibility. | 🟢 |
 | `setmore.bookAppointment` | setmore.com | Books a service at a business for a guest -- the service, a slot time and staff member… | 🟢 |
 | `setmore.bookClass` | setmore.com | Books a guest into a class session at a business -- only the sessionId from… | 🟢 |
 | `setmore.cancelAppointment` | setmore.com | Cancels a booking (appointment, class or event) at a business, from the booking id… | 🟢 |
@@ -4454,7 +4455,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.listCategories` | shop.app | Lists Shop's product categories (Women, Men, Beauty, Home, Fitness, Baby, Food …) —… | 🟢 |
 | `shop_app.listFollowedStores` | shop.app | Lists the stores the caller follows on Shop. | ⚪ |
 | `shop_app.listOffers` | shop.app | Lists the current Shop offers and promotions — store discounts and Shop Cash rewards —… | 🟢 |
-| `shop_app.listOrders` | shop.app | Lists the signed-in caller's orders from every store they bought from with Shop —… | ⚪ |
+| `shop_app.listOrders` | shop.app | Lists the signed-in caller's orders from every store they bought from with Shop —… | 🟢 |
 | `shop_app.listProductLists` | shop.app | Lists the caller's own product lists (wishlists) with each list's items. | ⚪ |
 | `shop_app.listSavedProducts` | shop.app | Lists the products the caller has saved (hearted) on Shop. | ⚪ |
 | `shop_app.listStoreProducts` | shop.app | Lists a store's products — sorted by best-selling, newest or price, filtered to… | 🟡 |
@@ -5760,7 +5761,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.listNewsletters` | wsj.com | Lists WSJ's own email newsletters off its newsletter catalog — name, description… | 🟢 |
 | `wsj.listPodcasts` | wsj.com | Lists WSJ's own podcasts (What's News, The Journal, Minute Briefing, etc.) off the… | 🟢 |
 | `wsj.listQuotes` | wsj.com | Gets quotes for several US-listed symbols in one call — the same fields as getQuote… | 🟢 |
-| `wsj.listSavedArticles` | wsj.com | Lists the signed-in reader's own saved/bookmarked articles off their WSJ account (My… | ⚪ |
+| `wsj.listSavedArticles` | wsj.com | Lists the articles the caller has saved to their own My WSJ account, through the… | 🟢 |
 | `wsj.listSections` | wsj.com | Lists WSJ's own news sections and verticals (World, Business, Markets, Tech, Opinion… | 🟡 |
 | `wsj.listTrending` | wsj.com | Lists WSJ's own Most Popular articles right now — the homepage's top news and top… | 🟢 |
 | `wsj.removeFromWatchlist` | wsj.com | Removes a symbol from the signed-in reader's own watchlist. | ⚪ |
@@ -5888,7 +5889,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yogatreecollective.listTeachers` | yogatreecollective.com | Lists the collective's teacher directory from /teacher-profile?format=json: name… | 🟢 |
 | `yogatreecollective.searchSite` | yogatreecollective.com | Searches the site's own Squarespace index (/api/search/GeneralSearch) for teachers… | 🟢 |
 | `yogatreecollective.sendContactMessage` | yogatreecollective.com | Submits the /contact form (name, email, message) to the collective. | ⚪ |
-| `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page — the exact Add to cart button for this… | 🟡 |
+| `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page — the exact Add to cart button for this… | 🔴 |
 | `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product page in full — SKU, live price, in-stock/out-of-stock status… | 🔴 |
 | `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —… | 🔴 |
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |

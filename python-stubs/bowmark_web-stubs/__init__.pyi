@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 779587ec2789db5013aeebd3106ee5f6d1b5d921e7c4d976c6dc588a6a906368
-# 94 capabilities, 760 providers, 4243 typed functions, 20 refused.
+# Manifest version: e35031046829db37e106303375ab0b88c78f6ede3017f46d0cafc309187989cd
+# 94 capabilities, 760 providers, 4250 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5976,6 +5976,17 @@ Prv_aol_mail_SendMessageArgs_In = TypedDict(
 class Prv_aol_mail_AolMailSendResult_Out(TypedDict):
     accepted: bool
     raw: Any
+
+class Prv_aol_mail_AolAccountProfile_Out(TypedDict):
+    url: str
+    ctx: Prv_aol_mail_AolAccountProfile_Out_ctx_u0_Out | None
+    components: list[Any]
+
+class Prv_aol_mail_AolAccountProfile_Out_ctx_u0_Out(TypedDict):
+    sessionIndex: NotRequired[str]
+    acrumb: NotRequired[str]
+    crumb: NotRequired[str]
+    locale: NotRequired[str]
 
 class Prv_aosom_AosomSearchResult_Out(TypedDict):
     sin: str
@@ -49738,6 +49749,13 @@ class Prv_snapchat_SnapchatFriendActionResult_Out(TypedDict):
     failureReason: NotRequired[float]
     message: NotRequired[str]
 
+class Prv_snapchat_updateDisplayName_input_In(TypedDict):
+    displayName: str
+
+class Prv_snapchat_SnapchatDisplayNameResult_Out(TypedDict):
+    displayName: str
+    status: float
+
 class Prv_solidcore_ListStudiosArgs_In(TypedDict):
     state: NotRequired[str]
 
@@ -61813,6 +61831,33 @@ class Prv_x_XFollowResult_Out(TypedDict):
     following: bool
     changed: bool
 
+class Prv_x_listTrending_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_x_XTrend_Out(TypedDict):
+    name: str
+    context: str | None
+    postVolume: str | None
+
+class Prv_x_quotePost_args_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+    text: str
+
+class Prv_x_XQuotePostResult_Out(TypedDict):
+    posted: Literal[True]
+    text: str
+    url: str | None
+    quotedPostId: str
+
+class Prv_x_deletePost_args_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_x_XDeletePostResult_Out(TypedDict):
+    postId: str
+    deleted: Literal[True]
+
 class Prv_xola_XolaFindSellerArgs_In(TypedDict):
     site: str
 
@@ -67405,6 +67450,13 @@ class Prv_aol_mail(Protocol):
         session (not IMAP/SMTP — outbound mail ports are blocked from every Bowmark exit).
         Whether this truly sends or only saves a draft is UNMEASURED; check listMessages on
         Drafts/Sent to confirm.
+        """
+
+    async def getAccountProfile(self, opts: ConnectionOption | None = None, /) -> Prv_aol_mail_AolAccountProfile_Out:
+        """Reads the CALLER's own AOL account page (login.aol.com/myaccount/personalinfo) through
+        their signed-in session and returns the page's own server-rendered props verbatim —
+        name, photo and recovery details as AOL ships them — plus its crumbs. The exact field
+        names are unmeasured signed in.
         """
 
 class Prv_aosom(Protocol):
@@ -91491,13 +91543,19 @@ class Prv_serper(Protocol):
     and every other Google operator, in about a second.
     """
 
-    async def searchGoogle(self, query: str, opts: Prv_serper_SerperSearchOptions_In | None = None, /) -> Prv_serper_SerperSearchResult_Out:
+    async def search(self, query: str, opts: Prv_serper_SerperSearchOptions_In | None = None, /) -> Prv_serper_SerperSearchResult_Out:
         """Runs a Google search and returns Google's organic results — position, title, destination
         url, snippet — with every Google operator honoured. `site:cal.com "Chris Field"` returns
         only cal.com pages naming him (cal.com/analytics/quick-chat among them), which is how to
         find a page on one site by any words printed on it. An empty `results` is Google
         matching nothing. Which key serves the call, and who is charged, is in this provider's
         key note above; your own goes in the `x-bowmark-vendor-key-serper` header.
+        """
+
+    async def searchGoogle(self, query: str, opts: Prv_serper_SerperSearchOptions_In | None = None, /) -> Prv_serper_SerperSearchResult_Out:
+        """Alias for `search()`, kept for backward compatibility. Runs a Google search and returns
+        Google's organic results — position, title, destination url, snippet — with every Google
+        operator honoured.
         """
 
 class Prv_setmore(Protocol):
@@ -92126,6 +92184,11 @@ class Prv_snapchat(Protocol):
         """Sends a friend add from the signed-in caller's account to one Snapchat user, by their
         user id (a uuid, e.g. off listFriends). Snapchat for Web's username search is not
         reachable yet, so a bare username is refused. NEEDS A SIGN-IN.
+        """
+
+    async def updateDisplayName(self, input: Prv_snapchat_updateDisplayName_input_In, opts: ConnectionOption | None = None, /) -> Prv_snapchat_SnapchatDisplayNameResult_Out:
+        """Changes the signed-in caller's Snapchat display name (the name friends see, not the
+        username). NEEDS A SIGN-IN.
         """
 
 class Prv_solidcore(Protocol):
@@ -98126,6 +98189,11 @@ class Prv_wsj(Protocol):
         subscription — same fields as getArticle, with paywalled always false.
         """
 
+    async def listSavedArticles(self, opts: ConnectionOption | None = None, /) -> list[Prv_wsj_WsjArticleSummary_Out]:
+        """Lists the articles the caller has saved to their own My WSJ account, through their
+        signed-in WSJ session — headline, byline, teaser and url for each.
+        """
+
     async def searchArticles(self, args: Prv_wsj_SearchArticlesArgs_In, /) -> list[Prv_wsj_WsjSearchResult_Out]:
         """Searches WSJ's own site search for a keyword and returns matching articles with
         headline, byline, a publish timestamp and url.
@@ -98285,6 +98353,17 @@ class Prv_x(Protocol):
         """Follows (follow: true, the default) or unfollows (follow: false) an X account as the
         signed-in caller — sets the state, never toggles.
         """
+
+    async def listTrending(self, args: Prv_x_listTrending_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_x_XTrend_Out]:
+        """Reads the signed-in caller's trending topics from /explore — name, category and the
+        site's own post-volume string.
+        """
+
+    async def quotePost(self, args: Prv_x_quotePost_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XQuotePostResult_Out:
+        """Quote-posts another X post with the signed-in caller's own added comment, by url or id."""
+
+    async def deletePost(self, args: Prv_x_deletePost_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XDeletePostResult_Out:
+        """Deletes one of the signed-in caller's own posts, by url or id."""
 
 class Prv_xola(Protocol):
     """Tours and activities sold by operators on Xola: experiences, availability, quotes and

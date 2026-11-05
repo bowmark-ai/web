@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 779587ec2789db5013aeebd3106ee5f6d1b5d921e7c4d976c6dc588a6a906368
-// 94 capabilities, 760 providers, 4261 typed functions, 20 refused.
+// Manifest version: e35031046829db37e106303375ab0b88c78f6ede3017f46d0cafc309187989cd
+// 94 capabilities, 760 providers, 4268 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10228,6 +10228,12 @@ interface AolMailSendResult {
   raw: object; // the door's own decoded JSON response, since the exact meaning of a 2xx is unmeasured
 }
 
+interface AolAccountProfile {
+  url: string; // https://login.aol.com/myaccount/personalinfo
+  ctx: { sessionIndex?: string; acrumb?: string; crumb?: string; locale?: string } | null; // the page's own crumbs
+  components: object[]; // every client-component props object the page server-rendered, verbatim — field names UNMEASURED signed in
+}
+
   /**
    * Reads and changes mail in the CALLER's own AOL Mail account — folders, the inbox, search,
    * full messages, mark read, move, delete — over IMAP with the caller's address and an AOL app
@@ -10293,6 +10299,14 @@ interface AolMailSendResult {
      * confirm.
      */
     sendMessage(args: SendMessageArgs, opts?: ConnectionOption): Promise<AolMailSendResult>;
+
+    /**
+     * Reads the CALLER's own AOL account page (login.aol.com/myaccount/personalinfo) through their
+     * signed-in session and returns the page's own server-rendered props verbatim — name, photo
+     * and recovery details as AOL ships them — plus its crumbs. The exact field names are
+     * unmeasured signed in.
+     */
+    getAccountProfile(opts?: ConnectionOption): Promise<AolAccountProfile>;
   }
 }
 
@@ -79129,6 +79143,13 @@ interface SerperSearchResult {
      * nothing. Which key serves the call, and who is charged, is in this provider's key note
      * above; your own goes in the `x-bowmark-vendor-key-serper` header.
      */
+    search(query: string, opts?: SerperSearchOptions): Promise<SerperSearchResult>;
+
+    /**
+     * Alias for `search()`, kept for backward compatibility. Runs a Google search and returns
+     * Google's organic results — position, title, destination url, snippet — with every Google
+     * operator honoured.
+     */
     searchGoogle(query: string, opts?: SerperSearchOptions): Promise<SerperSearchResult>;
   }
 }
@@ -81233,6 +81254,11 @@ interface SnapchatFriend {
   bitmojiAvatarId?: string;
 }
 
+interface SnapchatDisplayNameResult {
+  displayName: string; // the name sent
+  status: number; // Snapchat's own status enum (field 1), 0 when none was sent
+}
+
 interface SnapchatFriendActionResult {
   userId: string;
   added: boolean; // Snapchat accepted the add
@@ -81370,6 +81396,12 @@ interface SnapchatFriendActionResult {
      * so a bare username is refused. NEEDS A SIGN-IN.
      */
     addFriend(input: { userId: string }, opts?: ConnectionOption): Promise<SnapchatFriendActionResult>;
+
+    /**
+     * Changes the signed-in caller's Snapchat display name (the name friends see, not the
+     * username). NEEDS A SIGN-IN.
+     */
+    updateDisplayName(input: { displayName: string }, opts?: ConnectionOption): Promise<SnapchatDisplayNameResult>;
   }
 }
 
@@ -98976,6 +99008,12 @@ interface WsjTrendingArticle {
     getArticleFullText(args: GetArticleFullTextArgs, opts?: ConnectionOption): Promise<WsjArticle>;
 
     /**
+     * Lists the articles the caller has saved to their own My WSJ account, through their signed-in
+     * WSJ session — headline, byline, teaser and url for each.
+     */
+    listSavedArticles(opts?: ConnectionOption): Promise<WsjArticleSummary[]>;
+
+    /**
      * Searches WSJ's own site search for a keyword and returns matching articles with headline,
      * byline, a publish timestamp and url.
      */
@@ -99220,6 +99258,24 @@ interface XPost {
   media: XPostMedia[];
 }
 
+interface XTrend {
+  name: string;
+  context: string | null; // e.g. "Trending in Technology", when the site shows one
+  postVolume: string | null; // the site's own rounded string, e.g. "20.1K posts"
+}
+
+interface XQuotePostResult {
+  posted: true;
+  text: string;
+  url: string | null; // the new post, when X's confirmation toast links it
+  quotedPostId: string;
+}
+
+interface XDeletePostResult {
+  postId: string;
+  deleted: true;
+}
+
   /** Read public user timelines and post data from X (Twitter). */
   interface Unit {
     /** Returns a public user's recent tweets from their timeline. */
@@ -99320,6 +99376,18 @@ interface XPost {
      * signed-in caller — sets the state, never toggles.
      */
     followUser(args: { handle: string; follow?: boolean }, opts?: ConnectionOption): Promise<XFollowResult>;
+
+    /**
+     * Reads the signed-in caller's trending topics from /explore — name, category and the site's
+     * own post-volume string.
+     */
+    listTrending(args?: { limit?: number }, opts?: ConnectionOption): Promise<XTrend[]>;
+
+    /** Quote-posts another X post with the signed-in caller's own added comment, by url or id. */
+    quotePost(args: { url?: string; id?: string; text: string }, opts?: ConnectionOption): Promise<XQuotePostResult>;
+
+    /** Deletes one of the signed-in caller's own posts, by url or id. */
+    deletePost(args: { url?: string; id?: string }, opts?: ConnectionOption): Promise<XDeletePostResult>;
   }
 }
 

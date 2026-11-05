@@ -276,7 +276,7 @@ epromos.com — epromos: getProductConfiguration, listCategoryProducts, quoteBul
 eq3.com — eq3: getSofaConfiguration, listSofas (+1 planned)
 equinox-hotels.com — equinox_hotels: listRooms, searchRates
 erieinsurance.com — erieinsurance: findAgent (+18 planned)
-espn.com — espn: draftPicks, fantasyPlayers, getArticle, getFantasyLeague, getGame, getPlayer, getTeam, injuries, listLeagues, listMyFantasyTeams, listTeams, news, odds, playerGameLog, playerStats, rankings, scoreboard, search, standings, statLeaders, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions (+10 planned)
+espn.com — espn: draftPicks, fantasyPlayers, getArticle, getFantasyLeague, getFantasyTeam, getGame, getPlayer, getTeam, injuries, listLeagues, listMyFantasyTeams, listTeams, listVideos, news, odds, playerGameLog, playerStats, rankings, scoreboard, search, standings, statLeaders, teamDepthChart, teamRoster, teamSchedule, teamStats, transactions (+8 planned)
 estes-express.com — estes_express: estimateFreightQuote
 ethos.com — ethos: nothing callable yet (+1 planned)
 etsy.com — etsy: browseCategory, estimateShipping, findRegistry, getListing, getRegistry, getShop, getUserProfile, listCategories, listEditorsPicks, listListingReviews, listShopListings, listShopReviews, listTrendingSearches, search, searchShops, suggestSearches (+19 planned)
@@ -453,7 +453,7 @@ m365.cloud.microsoft.com — microsoft_365: createDocument, deleteDocument, getD
 maersk.com — maersk: track
 magicmadhouse.co.uk — magicmadhouse: searchProducts (+1 planned)
 maidenhome.com — maidenhome: getProduct, resolveVariant, searchConfigurations
-mail.aol.com — aol_mail: deleteMessage, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage (+2 planned)
+mail.aol.com — aol_mail: deleteMessage, getAccountProfile, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage (+1 planned)
 mail.yahoo.com — yahoo_mail: deleteMessage, flagMessage, getAttachment, getMessage, listFolders, listMessages, markAsRead, moveMessage, searchMessages, sendMessage
 mailchimp.com — mailchimp: getPlanPricing
 mango.com — mango: getProduct, listCategories, searchProducts (+1 planned)
@@ -623,12 +623,12 @@ selectblinds.com — selectblinds: getConfigurator, listBlindStyles, priceConfig
 sellcell.com — sellcell: getTradeInOffers
 semihandmade.com — semihandmade: getPartOptions, priceConfiguration, searchParts
 seoulfood.kotra.or.kr — seoulfood: getBoothQuote, getExhibitorPricing (+1 planned)
-serper.dev — serper: searchGoogle
+serper.dev — serper: search, searchGoogle
 services.gst.gov.in — gst_india: lookup
 setmore.com — setmore: bookAppointment, bookClass, cancelAppointment, checkPromoCode, findBusiness, getAvailability, getBooking, getBookingForm, getBusiness, getClassSession, getMyBookings, getReviews, listClasses, listGalleryImages, listServices, listStaff, rescheduleAppointment, updateMyDetails (+1 planned)
 sevenrooms.com — sevenrooms: bookReservation, cancelReservation, getAvailability, getAvailableDates, getBookingTerms, getVenue, listMyReservations, listUpgrades, validatePromoCode (+15 planned)
 shein.com — shein: getProduct, listCategories, listProductsByCategory, search (+30 planned)
-shop.app — shop_app: browseCategory, getDiscoveryFeed, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listOffers, listStoreProducts, searchProducts, searchStore, suggestSearches (+23 planned)
+shop.app — shop_app: browseCategory, getDiscoveryFeed, getProduct, getProductReviews, getStore, getStoreCollection, getStoreContacts, getStorePolicies, getStoreReviews, getVariant, listCategories, listOffers, listOrders, listStoreProducts, searchProducts, searchStore, suggestSearches (+22 planned)
 shop.formax.com — formax: getCartLink, search
 shop.lululemon.com — lululemon: getProduct, getProductAttributes, getProducts, getReviews, getSimilarProducts, getSizeGuide, search (+5 planned)
 shopify.com (49875 stores) — shopify: addToCart, getCart, getCollection, getProduct, getProducts, getSetEvidence, getStyleDetails, listCollections, listProducts, resolveProductUrl, search, searchProducts (+3 planned)
@@ -757,7 +757,7 @@ windscribe.com — windscribe: getDedicatedIp (+1 planned)
 winestyles.com — winestyles: listStores, searchStoreInventory
 wodify.com — wodify: checkFreeTrial, findGym, getClassDetails, getGymInfo, listGymSchedule, listInstructors, listMemberships, listPrices, listPrograms, readTerms (+28 planned)
 workable.com — workable: listJobs
-wsj.com — wsj: getArticle, getArticleFullText, getAuthor, getNewsletter, getPodcast, getQuote, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSections, listTrending, searchArticles (+6 planned)
+wsj.com — wsj: getArticle, getArticleFullText, getAuthor, getNewsletter, getPodcast, getQuote, listArticles, listArticlesByAuthor, listEpisodes, listMarketIndices, listNewsletters, listPodcasts, listQuotes, listSavedArticles, listSections, listTrending, searchArticles (+5 planned)
 wunderflats.com — wunderflats: search
 www.amazon.ca — amazon_ca: getProduct, searchProducts
 www.amazon.com — amazon: addToCart, getCart, getDeliveryEstimate, getProduct, getSeller, listBestSellerCategories, listBestSellers, listCategoryProducts, listDeals, listNewReleases, listOrders, listRelatedProducts, listReviews, listSellerOffers, listVariations, searchProducts, searchWholeFoods, suggestKeywords (+5 planned)
@@ -769,7 +769,7 @@ www.cnn.com — cnn: followTopic, getArticle, getMarketsData, getVideo, listCate
 www.gap.com — gap: getProduct, searchProducts
 www.grammarly.com — grammarly: checkGrammar, countWords, detectAI, detectPlagiarism, getAccount, humanize, listPlans (+12 planned)
 www.marks.com — marks: findStores, getProduct, searchProducts
-www.netflix.com — netflix: browseGenre, findTitles, getContinueWatching, getMyList, getTitle, getTop10, getTudumArticle, getViewingHistory, listGenres, search, searchTudum (+3 planned)
+www.netflix.com — netflix: addToMyList, browseGenre, findTitles, getContinueWatching, getMyList, getTitle, getTop10, getTudumArticle, getViewingHistory, listGenres, removeFromMyList, search, searchTudum (+1 planned)
 www.nintendo.com — nintendo: browseCategory, getMyNintendoRewardsBalance, getProduct, getSupportArticle, listCategories, listDeals, listNews, searchProducts, searchSupport (+1 planned)
 www.primevideo.com — prime_video: getChannel, getLiveSchedule, getPerson, getTitle, getWatchOptions, listCategories, listCategoryTitles, listChannels, listDeals, listEpisodes, listFreeToWatch, listLiveChannels, listLiveSports, listNewReleases, listRelatedTitles, listSeasons, listTop10, searchTitles, suggestTitles (+4 planned)
 www.reuters.com — reuters: findAuthor, getArticle, getAuthor, getCompanyEvents, getCompanyKeyMetrics, getCompanyProfile, getLiveCoverage, getMarketOverview, getMyNewsFeed, getPictureGallery, getPressRelease, getQuote, getVideo, listArticlesByDate, listCompanyNews, listFollowedTopics, listGraphics, listHeadlines, listLatestNews, listNewsletters, listPictureGalleries, listPodcastEpisodes, listPodcasts, listPressReleases, listSavedArticles, listSections, listVideos, searchArticles, searchCompanies (+9 planned)
@@ -785,7 +785,7 @@ xpresswellnessurgentcare.com — xpresswellnessurgentcare: checkWaitTime, listFa
 ycombinator.com — ycombinator: getArticle, getBlogPost, search
 yelp.com — yelp: getBookmarks, getBusiness, getMenu, getReviews, search, suggest (+24 planned)
 yogatreecollective.com — yogatreecollective: getEvent, getSchedule, getSignUpTarget, getTeacher, listEvents, listTeachers, searchSite (+1 planned)
-yorkwallcoverings.com — yorkwallcoverings: addToCart (+2 planned)
+yorkwallcoverings.com — yorkwallcoverings: nothing callable yet (+3 planned)
 yourarborhome.com — yourarborhome: getHome, searchHomes (+1 planned)
 youtube.com — youtube: addToPlaylist, createChannel, createPlaylist, deleteComment, deletePlaylist, deleteVideo, findChannel, getChannel, getLiveChat, getPlayableStream, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listChannelLiveStreams, listChannelPlaylists, listChannelPosts, listChannelShorts, listChannelVideos, listChapters, listCommentReplies, listComments, listHashtagVideos, listHomeFeed, listLikedVideos, listMyVideos, listPlaylistVideos, listRelatedVideos, listStreamFormats, listSubscriptions, listWatchHistory, listWatchLater, postComment, removeFromPlaylist, replyToComment, search, searchWithinChannel, setThumbnail, subscribeToChannel, suggestSearches, updatePlaylist, updateVideo, uploadVideo (+2 planned)
 zennioptical.com — zennioptical: checkStock, getFrame, priceLensConfig, searchFrames
