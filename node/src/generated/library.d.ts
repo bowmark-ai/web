@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2fddead31afe560620411992ef54d4c7cac65af787f6aa426519f447a7467809
-// 94 capabilities, 760 providers, 4226 typed functions, 20 refused.
+// Manifest version: 240c0a252d38aa8e9148dc24b30658dc72ac7d5225edcafe61ac8d173da3999a
+// 94 capabilities, 760 providers, 4235 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11906,6 +11906,17 @@ interface ArketaPass {
   offering: Record<string, unknown> | null;
 }
 
+interface UpdateMyProfileArgs {
+  studio: string;
+  customFields?: Record<string, unknown>;
+  marketingOptIn?: boolean;
+  smsOptIn?: boolean;
+}
+
+interface ArketaProfileUpdateResult {
+  updated: Array<"customFields" | "communications">;
+}
+
 interface JoinWaitlistArgs {
   classId: string;
   guestNames?: string[];
@@ -12045,6 +12056,14 @@ interface ArketaBookingResult {
      * bought as. Needs the caller signed in to Arketa.
      */
     listMyPasses(studio: string, opts?: ConnectionOption): Promise<ArketaPass[]>;
+
+    /**
+     * Updates the signed-in caller's studio-specific client fields and their marketing email / SMS
+     * opt-ins at one studio (studio = findStudio().id) — the two edits Arketa's booking page
+     * makes. Name and phone cannot be edited through Arketa's booking page, so they are not
+     * offered. Needs the caller signed in to Arketa.
+     */
+    updateMyProfile(args: UpdateMyProfileArgs, opts?: ConnectionOption): Promise<ArketaProfileUpdateResult>;
 
     /**
      * Puts the signed-in caller on the waitlist for a full class (classId from listClasses),
@@ -22621,6 +22640,42 @@ interface ChatGPTAccount {
   plan: string | null;
 }
 
+interface GPTSummary {
+  id: string;
+  name: string | null;
+  description: string | null;
+  author: string | null;
+  url: string | null;
+  /** The site's own rounded count string, e.g. "1M+". */
+  conversations: string | null;
+}
+
+interface GPTDetail extends GPTSummary {
+  conversationStarters: string[];
+  categories: string[];
+  rating: number | null;
+}
+
+interface GPTStoreSection {
+  id: string | null;
+  title: string | null;
+  gpts: GPTSummary[];
+}
+
+interface ConversationSummary {
+  id: string;
+  title: string | null;
+  createTime: string | null;
+  updateTime: string | null;
+  gptId: string | null;
+  projectId: string | null;
+}
+
+interface ConversationList {
+  conversations: ConversationSummary[];
+  total: number | null;
+}
+
 interface SharedMessage {
   role: "user" | "assistant";
   text: string;
@@ -22661,6 +22716,38 @@ interface SharedConversation {
      * `ChatGPTSessionError` when the saved sign-in has expired; sign in again.
      */
     getAccount(opts?: ConnectionOption): Promise<ChatGPTAccount>;
+
+    /**
+     * Searches the GPT Store by keyword — id, name, description, author and conversation count of
+     * each match; feed an id to getGPT. Needs the caller signed in to chatgpt.com through the
+     * relay; the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError`
+     * when the saved sign-in has expired.
+     */
+    searchGPTs(query: string, opts?: ConnectionOption): Promise<GPTSummary[]>;
+
+    /**
+     * One custom GPT by its g-… id or chatgpt.com/g/ url — name, description, author, conversation
+     * starters, categories, rating. Needs the caller signed in to chatgpt.com through the relay;
+     * the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the
+     * saved sign-in has expired.
+     */
+    getGPT(idOrUrl: string, opts?: ConnectionOption): Promise<GPTDetail | null>;
+
+    /**
+     * The GPT Store front page — each category section (Top Picks, Writing, Programming, …) with
+     * its featured GPTs. Needs the caller signed in to chatgpt.com through the relay; the run
+     * pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+     * sign-in has expired.
+     */
+    browseGPTStore(opts?: ConnectionOption): Promise<GPTStoreSection[]>;
+
+    /**
+     * The caller's own ChatGPT chat history, newest first — id, title, times, GPT and project;
+     * limit up to 100, page with offset, archived: true for archived chats. Needs the caller
+     * signed in to chatgpt.com through the relay; the run pauses for a sign-in link when they are
+     * not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    listConversations(opts?: { limit?: number; offset?: number; archived?: boolean }, connectionOpts?: ConnectionOption): Promise<ConversationList>;
   }
 }
 
@@ -38427,6 +38514,24 @@ interface FomoCandle {
 
     /** Removes a token from the signed-in trader's own watchlist — the undo for addToWatchlist. */
     removeFromWatchlist(address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<FomoWatchlistChange>;
+
+    /**
+     * Returns which push alerts the signed-in trader receives. Worth being clear about what this
+     * is NOT: it configures the MOBILE APP's push notifications and delivers nothing to this
+     * caller — an agent wanting the underlying signal wants subscribeTokenStream or a poll of
+     * getTrendingTokens instead. The response row shape is returned in fomo's own untyped form —
+     * same reason as getUserSpotlight: a real body needs a live authenticated call this container
+     * cannot make.
+     */
+    getAlertPreferences(opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Writes the signed-in trader's push-notification preferences — private to the caller's own
+     * account, fully reversible. Pass back the shape getAlertPreferences returned, edited; the
+     * body is forwarded verbatim and the site rejects a malformed shape itself, same discipline as
+     * filterTokens.
+     */
+    setAlertPreferences(preferences: unknown, opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -40089,6 +40194,45 @@ interface FreshaBookingQuote {
   payAtVenue: string | null;
   warnings: string[];
 }
+interface GetVenueReviewsArgs {
+  /** Venue slug from searchVenues, or its fresha.com/a/... URL. */
+  venue: string;
+  /** cursor from a previous call's result, for the next 5 reviews. */
+  cursor?: string;
+  /** Fresha's own orders; its default is "relevance". */
+  sort?: "relevance" | "latest" | "best" | "worst";
+  /** Only these star ratings, e.g. [1, 2]. */
+  ratings?: number[];
+  /** Words the review text must match. */
+  search?: string;
+  /** Only reviews the venue replied to. */
+  withReplyOnly?: boolean;
+}
+
+interface FreshaReview {
+  id: string;
+  rating: number | null;
+  text: string | null;
+  authorName: string | null;
+  /** ISO when Fresha gives one, else its own label ("Today at 7:07 PM"). */
+  date: string | null;
+  /** e.g. "1 day ago • Haircut • with Katelyn" */
+  summary: string | null;
+  /** Team members the review names — getVenue's team[].employeeId. */
+  employeeIds: string[];
+  reply: { author: string | null; text: string | null; date: string | null } | null;
+  photoUrls: string[];
+}
+
+interface FreshaVenueReviews {
+  venueSlug: string;
+  /** Reviews matching the filters. */
+  total: number | null;
+  ratingCounts: { 1: number | null; 2: number | null; 3: number | null; 4: number | null; 5: number | null };
+  reviews: FreshaReview[];
+  cursor: string | null;
+  hasMore: boolean;
+}
 
   /**
    * Fresha marketplace for salons, barbers, spas, nail, lash and wellness venues: search venues
@@ -40132,6 +40276,14 @@ interface FreshaBookingQuote {
      * session and books nothing.
      */
     getBookingQuote(args: GetBookingQuoteArgs): Promise<FreshaBookingQuote>;
+
+    /**
+     * Lists a Fresha venue's verified customer reviews, 5 a page by cursor: rating, text, date,
+     * the service and team member reviewed, the venue's reply and photos, plus the total and 1-5
+     * star breakdown. Sort by relevance, latest, best or worst; filter by stars, words or
+     * replied-to.
+     */
+    getVenueReviews(args: GetVenueReviewsArgs): Promise<FreshaVenueReviews>;
   }
 }
 
@@ -85100,6 +85252,7 @@ interface StyleseatServicePackageOffer {
 }
 interface StyleseatClassTimesArgs { pro: string; serviceId?: string | number; offset?: number; }
 interface StyleseatClassTime { id: number; start: string | null; end: string | null; serviceId: number | null; serviceName: string | null; spotsLeft: number | null; isFull: boolean; bookedByMe: boolean; }
+interface StyleseatAppointmentByLink { id: number | null; status: string | null; start: string | null; providerId: number | null; raw: Record<string, unknown>; }
 interface StyleseatClassTimes { classTimes: StyleseatClassTime[]; nextOffset: number | null; }
 interface StyleseatOffers {
   providerId: number; promotions: StyleseatPromotion[]; loyaltyReward: StyleseatLoyaltyReward | null;
@@ -85223,6 +85376,13 @@ interface StyleseatLeftReview { providerId: number; submitted: boolean; }
      * reward (e.g. 20% off after 6 visits) when one is on, and prepaid service packages for sale.
      */
     getOffers(pro: string): Promise<StyleseatOffers>;
+
+    /**
+     * Reads an appointment from the manage link StyleSeat sends in its confirmation email or text,
+     * with no sign-in -- pass the link or its token. Fields beyond id are read defensively; the
+     * full document is in raw.
+     */
+    getAppointmentByLink(args: { token: string }): Promise<StyleseatAppointmentByLink>;
 
     /**
      * Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons): each

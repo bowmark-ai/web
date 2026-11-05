@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2fddead31afe560620411992ef54d4c7cac65af787f6aa426519f447a7467809
-# 94 capabilities, 760 providers, 4208 typed functions, 20 refused.
+# Manifest version: 240c0a252d38aa8e9148dc24b30658dc72ac7d5225edcafe61ac8d173da3999a
+# 94 capabilities, 760 providers, 4217 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7046,6 +7046,15 @@ class Prv_arketa_ArketaPass_Out(TypedDict):
     offeringName: str | None
     offering: Mapping[str, Any] | None
 
+class Prv_arketa_UpdateMyProfileArgs_In(TypedDict):
+    studio: str
+    customFields: NotRequired[Mapping[str, Any]]
+    marketingOptIn: NotRequired[bool]
+    smsOptIn: NotRequired[bool]
+
+class Prv_arketa_ArketaProfileUpdateResult_Out(TypedDict):
+    updated: list[Literal["customFields"] | Literal["communications"]]
+
 class Prv_arketa_JoinWaitlistArgs_In(TypedDict):
     classId: str
     guestNames: NotRequired[Sequence[str]]
@@ -13720,6 +13729,47 @@ class Prv_chatgpt_ChatGPTAccount_Out(TypedDict):
     email: str | None
     name: str | None
     plan: str | None
+
+class Prv_chatgpt_GPTSummary_Out(TypedDict):
+    id: str
+    name: str | None
+    description: str | None
+    author: str | None
+    url: str | None
+    conversations: str | None
+
+class Prv_chatgpt_GPTDetail_Out(TypedDict):
+    id: str
+    name: str | None
+    description: str | None
+    author: str | None
+    url: str | None
+    conversations: str | None
+    conversationStarters: list[str]
+    categories: list[str]
+    rating: float | None
+
+class Prv_chatgpt_GPTStoreSection_Out(TypedDict):
+    id: str | None
+    title: str | None
+    gpts: list[Prv_chatgpt_GPTSummary_Out]
+
+class Prv_chatgpt_listConversations_opts_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+    archived: NotRequired[bool]
+
+class Prv_chatgpt_ConversationList_Out(TypedDict):
+    conversations: list[Prv_chatgpt_ConversationSummary_Out]
+    total: float | None
+
+class Prv_chatgpt_ConversationSummary_Out(TypedDict):
+    id: str
+    title: str | None
+    createTime: str | None
+    updateTime: str | None
+    gptId: str | None
+    projectId: str | None
 
 Prv_cheapflights_search_query_In = TypedDict(
     "Prv_cheapflights_search_query_In",
@@ -24544,6 +24594,49 @@ class Prv_fresha_FreshaBookingQuote_Out_items_item_Out(TypedDict):
     name: str
     price: str | None
     detail: str | None
+
+class Prv_fresha_GetVenueReviewsArgs_In(TypedDict):
+    venue: str
+    cursor: NotRequired[str]
+    sort: NotRequired[Literal["relevance"] | Literal["latest"] | Literal["best"] | Literal["worst"]]
+    ratings: NotRequired[Sequence[float]]
+    search: NotRequired[str]
+    withReplyOnly: NotRequired[bool]
+
+class Prv_fresha_FreshaVenueReviews_Out(TypedDict):
+    venueSlug: str
+    total: float | None
+    ratingCounts: Prv_fresha_FreshaVenueReviews_Out_ratingCounts_Out
+    reviews: list[Prv_fresha_FreshaReview_Out]
+    cursor: str | None
+    hasMore: bool
+
+Prv_fresha_FreshaVenueReviews_Out_ratingCounts_Out = TypedDict(
+    "Prv_fresha_FreshaVenueReviews_Out_ratingCounts_Out",
+    {
+    "1": float | None,
+    "2": float | None,
+    "3": float | None,
+    "4": float | None,
+    "5": float | None,
+    },
+)
+
+class Prv_fresha_FreshaReview_Out(TypedDict):
+    id: str
+    rating: float | None
+    text: str | None
+    authorName: str | None
+    date: str | None
+    summary: str | None
+    employeeIds: list[str]
+    reply: Prv_fresha_FreshaReview_Out_reply_u0_Out | None
+    photoUrls: list[str]
+
+class Prv_fresha_FreshaReview_Out_reply_u0_Out(TypedDict):
+    author: str | None
+    text: str | None
+    date: str | None
 
 class Prv_furniture_searchProducts_args_In(TypedDict):
     query: str
@@ -52573,6 +52666,16 @@ class Prv_styleseat_StyleseatServicePackageOffer_Out(TypedDict):
     serviceCost: float | None
     bookingFee: float | None
 
+class Prv_styleseat_getAppointmentByLink_args_In(TypedDict):
+    token: str
+
+class Prv_styleseat_StyleseatAppointmentByLink_Out(TypedDict):
+    id: float | None
+    status: str | None
+    start: str | None
+    providerId: float | None
+    raw: Mapping[str, Any]
+
 class Prv_styleseat_StyleseatClassTimesArgs_In(TypedDict):
     pro: str
     serviceId: NotRequired[str | float]
@@ -67634,6 +67737,13 @@ class Prv_arketa(Protocol):
         was bought as. Needs the caller signed in to Arketa.
         """
 
+    async def updateMyProfile(self, args: Prv_arketa_UpdateMyProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_arketa_ArketaProfileUpdateResult_Out:
+        """Updates the signed-in caller's studio-specific client fields and their marketing email /
+        SMS opt-ins at one studio (studio = findStudio().id) — the two edits Arketa's booking
+        page makes. Name and phone cannot be edited through Arketa's booking page, so they are
+        not offered. Needs the caller signed in to Arketa.
+        """
+
     async def joinWaitlist(self, args: Prv_arketa_JoinWaitlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_arketa_ArketaActionResult_Out:
         """Puts the signed-in caller on the waitlist for a full class (classId from listClasses),
         optionally with named guests. Needs the caller signed in to Arketa.
@@ -71199,6 +71309,34 @@ class Prv_chatgpt(Protocol):
         """The caller's own ChatGPT account — id, email, name and plan. Needs the caller signed in
         to chatgpt.com through the relay; the run pauses for a sign-in link when they are not.
         THROWS `ChatGPTSessionError` when the saved sign-in has expired; sign in again.
+        """
+
+    async def searchGPTs(self, query: str, opts: ConnectionOption | None = None, /) -> list[Prv_chatgpt_GPTSummary_Out]:
+        """Searches the GPT Store by keyword — id, name, description, author and conversation count
+        of each match; feed an id to getGPT. Needs the caller signed in to chatgpt.com through
+        the relay; the run pauses for a sign-in link when they are not. THROWS
+        `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def getGPT(self, idOrUrl: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_GPTDetail_Out | None:
+        """One custom GPT by its g-… id or chatgpt.com/g/ url — name, description, author,
+        conversation starters, categories, rating. Needs the caller signed in to chatgpt.com
+        through the relay; the run pauses for a sign-in link when they are not. THROWS
+        `ChatGPTSessionError` when the saved sign-in has expired.
+        """
+
+    async def browseGPTStore(self, opts: ConnectionOption | None = None, /) -> list[Prv_chatgpt_GPTStoreSection_Out]:
+        """The GPT Store front page — each category section (Top Picks, Writing, Programming, …)
+        with its featured GPTs. Needs the caller signed in to chatgpt.com through the relay; the
+        run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the
+        saved sign-in has expired.
+        """
+
+    async def listConversations(self, opts: Prv_chatgpt_listConversations_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_chatgpt_ConversationList_Out:
+        """The caller's own ChatGPT chat history, newest first — id, title, times, GPT and project;
+        limit up to 100, page with offset, archived: true for archived chats. Needs the caller
+        signed in to chatgpt.com through the relay; the run pauses for a sign-in link when they
+        are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
         """
 
 class Prv_cheapflights(Protocol):
@@ -76604,6 +76742,22 @@ class Prv_fomo(Protocol):
     async def removeFromWatchlist(self, address: str, chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float, opts: ConnectionOption | None = None, /) -> Prv_fomo_FomoWatchlistChange_Out:
         """Removes a token from the signed-in trader's own watchlist — the undo for addToWatchlist."""
 
+    async def getAlertPreferences(self, opts: ConnectionOption | None = None, /) -> Any:
+        """Returns which push alerts the signed-in trader receives. Worth being clear about what
+        this is NOT: it configures the MOBILE APP's push notifications and delivers nothing to
+        this caller — an agent wanting the underlying signal wants subscribeTokenStream or a
+        poll of getTrendingTokens instead. The response row shape is returned in fomo's own
+        untyped form — same reason as getUserSpotlight: a real body needs a live authenticated
+        call this container cannot make.
+        """
+
+    async def setAlertPreferences(self, preferences: Any, opts: ConnectionOption | None = None, /) -> Any:
+        """Writes the signed-in trader's push-notification preferences — private to the caller's
+        own account, fully reversible. Pass back the shape getAlertPreferences returned, edited;
+        the body is forwarded verbatim and the site rejects a malformed shape itself, same
+        discipline as filterTokens.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -77105,6 +77259,13 @@ class Prv_fresha(Protocol):
         getAvailability: the line items with prices, the date and time range with duration, the
         total, tax, and any pay-now deposit vs pay-at-venue split. Holds a cart in a logged-out
         session and books nothing.
+        """
+
+    async def getVenueReviews(self, args: Prv_fresha_GetVenueReviewsArgs_In, /) -> Prv_fresha_FreshaVenueReviews_Out:
+        """Lists a Fresha venue's verified customer reviews, 5 a page by cursor: rating, text,
+        date, the service and team member reviewed, the venue's reply and photos, plus the total
+        and 1-5 star breakdown. Sort by relevance, latest, best or worst; filter by stars, words
+        or replied-to.
         """
 
 class Prv_furniture(Protocol):
@@ -92933,6 +93094,12 @@ class Prv_styleseat(Protocol):
         """Lists what a pro is offering on top of list prices: active promotions, their
         loyalty-program reward (e.g. 20% off after 6 visits) when one is on, and prepaid service
         packages for sale.
+        """
+
+    async def getAppointmentByLink(self, args: Prv_styleseat_getAppointmentByLink_args_In, /) -> Prv_styleseat_StyleseatAppointmentByLink_Out:
+        """Reads an appointment from the manage link StyleSeat sends in its confirmation email or
+        text, with no sign-in -- pass the link or its token. Fields beyond id are read
+        defensively; the full document is in raw.
         """
 
     async def listClassTimes(self, args: Prv_styleseat_StyleseatClassTimesArgs_In, /) -> Prv_styleseat_StyleseatClassTimes_Out:

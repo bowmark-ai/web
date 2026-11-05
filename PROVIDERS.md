@@ -2504,15 +2504,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gostoreit.getFacilityUnits` | gostoreit.com | Reads a public Go Store It facility URL's live rendered unit inventory: size… | 🟢 |
 | `gotchacovered.getDesignStyleQuizQuestions` | gotchacovered.com | Reads the live 'What Design Style Am I?' quiz's real 6 questions and their option… | 🟢 |
 | `gotchacovered.takeDesignStyleQuiz` | gotchacovered.com | Answers all 6 questions of Gotcha Covered's own Design Style Quiz and returns the… | 🟢 |
-| `goteamup_classes.bookClass` | goteamup.com | Books the signed-in caller into a free or membership-covered class (POST… | ⚪ |
-| `goteamup_classes.cancelClass` | goteamup.com | Cancels the signed-in caller's booking for a class, reporting the late-cancel deadline… | ⚪ |
-| `goteamup_classes.checkBookingEligibility` | goteamup.com | Says whether the signed-in caller can book a class and why not — full, no valid… | ⚪ |
+| `goteamup_classes.bookClass` | goteamup.com | Books the signed-in caller into a free or membership-covered class (POST… | 🟢 |
+| `goteamup_classes.cancelClass` | goteamup.com | Cancels the signed-in caller's booking for a class, reporting the late-cancel deadline… | 🟢 |
+| `goteamup_classes.checkBookingEligibility` | goteamup.com | Says whether the signed-in caller can book a class and why not — full, no valid… | 🟢 |
 | `goteamup_classes.findStudio` | goteamup.com | Finds TeamUp studios by name (and town) and returns each one's provider id, slug and… | 🟢 |
 | `goteamup_classes.getClass` | goteamup.com | Gets one class by the event id listSchedule returned — description, time, venue… | 🟢 |
 | `goteamup_classes.getMembership` | goteamup.com | Gets one membership's full terms by the id listMemberships returned (GET… | 🟢 |
 | `goteamup_classes.getMyProfile` | goteamup.com | Gets the signed-in caller's own customer record at a studio (GET /api/v2/customers/me). | 🟢 |
 | `goteamup_classes.getStudio` | goteamup.com | Gets one studio's profile — name, address, timezone, currency and default booking… | 🟢 |
-| `goteamup_classes.joinWaitlist` | goteamup.com | Puts the signed-in caller on a full class's waitlist (POST… | ⚪ |
+| `goteamup_classes.joinWaitlist` | goteamup.com | Puts the signed-in caller on a full class's waitlist (POST… | 🟢 |
 | `goteamup_classes.leaveWaitlist` | goteamup.com | Takes the signed-in caller off a class's waitlist (POST… | ⚪ |
 | `goteamup_classes.listClassTypes` | goteamup.com | Lists a studio's class types (offering types) with description, whether drop-ins are… | 🟢 |
 | `goteamup_classes.listInstructors` | goteamup.com | Lists a studio's instructors with name, picture and bio (GET /api/v2/instructors). | 🟢 |
@@ -4727,15 +4727,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `squire.findShopsNear` | getsquire.com | Lists Squire barbershops near a place or a latitude/longitude, nearest first: name… | 🟢 |
 | `squire.getAppointment` | getsquire.com | Returns one of the caller's appointments or sales in full: services, barber, time… | ⚪ |
 | `squire.getAvailability` | getsquire.com | Returns the open appointment times for a service at a shop over a date range -- per… | 🟢 |
-| `squire.getBarber` | getsquire.com | Returns one barber's profile: name, bio, photos and portfolio, rating, the shop they… | ⚪ |
-| `squire.getBookingQuote` | getsquire.com | Prices an appointment before booking it -- service, barber, time and add-ons --… | ⚪ |
+| `squire.getBarber` | getsquire.com | Returns one barber's profile: name, photos and portfolio, rating, the shop they work… | 🟢 |
+| `squire.getBookingQuote` | getsquire.com | Prices an appointment before booking it -- service, barber, time and add-ons --… | 🟢 |
 | `squire.getBrand` | getsquire.com | Returns a multi-location brand and its shops, so a caller can pick the branch nearest… | 🟢 |
 | `squire.getMyProfile` | getsquire.com | Returns the signed-in caller's Squire profile: name, phone, email, photo and… | ⚪ |
 | `squire.getMyWalkInEntry` | getsquire.com | Returns the caller's place on a shop's walk-in list: position, estimated wait and… | ⚪ |
 | `squire.getReviews` | getsquire.com | Lists the customer reviews of a shop or of one barber, with the average rating, the… | 🟢 |
 | `squire.getShop` | getsquire.com | Returns one barbershop from its id, its route or a getsquire.com URL: name, address… | 🟢 |
 | `squire.getWaitlistOffers` | getsquire.com | Lists the slot times Squire is offering the caller from a waitlist entry, so the… | ⚪ |
-| `squire.getWalkInStatus` | getsquire.com | Says whether a shop is taking walk-ins or a same-day standby list right now, and which… | ⚪ |
+| `squire.getWalkInStatus` | getsquire.com | Says whether a shop is taking walk-ins or a same-day standby list right now, and which… | 🟢 |
 | `squire.joinWaitlist` | getsquire.com | Puts the caller on a shop's waitlist for chosen services on a day with no open time… | ⚪ |
 | `squire.joinWalkInList` | getsquire.com | Adds the caller to a shop's same-day walk-in (standby) list for chosen services, with… | ⚪ |
 | `squire.leaveWaitlist` | getsquire.com | Takes the caller off a shop's waitlist. | ⚪ |
@@ -5095,7 +5095,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `toast.getReviews` | toasttab.com | Reads a restaurant's guest reviews and rating summary on Toast, and the Google… | ⚪ |
 | `toast.getWaitlistEstimate` | toasttab.com | Reads a restaurant's current waitlist: whether it is taking names and the estimated… | ⚪ |
 | `toast.joinWaitlist` | toasttab.com | Puts the signed-in guest on a restaurant's waitlist for a party size. | ⚪ |
-| `toast.listCities` | toasttab.com | Lists the ~400 US cities Toast's restaurant directory covers (toast.app/cities): name… | 🟢 |
+| `toast.listCities` | toasttab.com | Lists the ~400 US cities Toast's restaurant directory covers (toast.app/cities): name… | 🟡 |
 | `toast.listCityRestaurants` | toasttab.com | Lists the Toast restaurants in a city ("richmond-va"), optionally by cuisine (pizza… | 🟡 |
 | `toast.listEvents` | toasttab.com | Lists the ticketed events and special experiences restaurants near a place (or one… | ⚪ |
 | `toast.listMyBookings` | toasttab.com | Lists the signed-in guest's reservations and ticket bookings, upcoming and past, with… | ⚪ |

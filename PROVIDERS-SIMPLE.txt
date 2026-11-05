@@ -332,7 +332,7 @@ gasbuddy.com — gasbuddy: findCheapestNearby
 gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getRentersQuote, listDiscounts, listPartnerCompanies (+33 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
-getsquire.com — squire: findShopsNear, getAvailability, getBrand, getReviews, getShop, listBarbers, listServices, searchShops (+20 planned)
+getsquire.com — squire: findShopsNear, getAvailability, getBarber, getBookingQuote, getBrand, getReviews, getShop, getWalkInStatus, listBarbers, listServices, searchShops (+17 planned)
 github.com — github: compareCommits, createComment, createIssue, createPullRequest, createReview, createReviewComment, deleteComment, getFileContents, getIssue, getOrganization, getProfileReadme, getPullRequest, getReadme, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listContributors, listIssueComments, listIssues, listMarketplaceActions, listNotifications, listOrganizationRepositories, listPullRequestFiles, listPullRequests, listReleases, listSecurityAdvisories, listStarredRepositories, listTopics, listTrendingRepositories, listWorkflowRuns, mergePullRequest, searchCode, searchIssues, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
@@ -351,7 +351,7 @@ google.com/maps/reserve — reserve_with_google: findBookablePlaces, getBooking,
 goremutual.ca — goremutual: getProductOverview
 gostoreit.com — gostoreit: findFacilities, getFacilityUnits
 gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
-goteamup.com — goteamup_classes: findStudio, getClass, getMembership, getMyProfile, getStudio, listClassTypes, listInstructors, listMemberships, listMyBookings, listSchedule, listVenues (+5 planned)
+goteamup.com — goteamup_classes: bookClass, cancelClass, checkBookingEligibility, findStudio, getClass, getMembership, getMyProfile, getStudio, joinWaitlist, listClassTypes, listInstructors, listMemberships, listMyBookings, listSchedule, listVenues (+1 planned)
 grainger.com — grainger: findBranch, getProduct, search (+2 planned)
 grandwelcome.com — grandwelcome: getRentalDetail, getRentalQuote, listGrandwelcomeDestinations, searchRentals
 greatlakesdentaltech.com — greatlakesdentaltech: getProduct, search

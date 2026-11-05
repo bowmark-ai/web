@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2fddead31afe560620411992ef54d4c7cac65af787f6aa426519f447a7467809
-// 4208 checked, 20 unchecked.
+// Manifest version: 240c0a252d38aa8e9148dc24b30658dc72ac7d5225edcafe61ac8d173da3999a
+// 4217 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2fddead31afe560620411992ef54d4c7cac65af787f6aa426519f447a7467809",
+  "version": "240c0a252d38aa8e9148dc24b30658dc72ac7d5225edcafe61ac8d173da3999a",
   "units": {
     "address_validation": {
       "defs": {
@@ -13811,6 +13811,42 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "UpdateMyProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "studio",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "customFields",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "any"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "marketingOptIn",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "smsOptIn",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -13982,6 +14018,32 @@ export const VALIDATORS: ValidatorTable = {
             "name": "studio",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateMyProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpdateMyProfileArgs"
             },
             "optional": false
           },
@@ -25318,6 +25380,122 @@ export const VALIDATORS: ValidatorTable = {
         "getAccount": [
           {
             "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchGPTs": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGPT": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "browseGPTStore": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listConversations": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "archived",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "connectionOpts",
             "schema": {
               "k": "object",
               "props": [
@@ -45680,6 +45858,49 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getAlertPreferences": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setAlertPreferences": [
+          {
+            "name": "preferences",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -46800,6 +47021,74 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetVenueReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "venue",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "latest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "best"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "worst"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "ratings",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "number"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "search",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "withReplyOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchVenuesArgs": {
           "k": "object",
           "props": [
@@ -46886,6 +47175,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetBookingQuoteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVenueReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVenueReviewsArgs"
             },
             "optional": false
           }
@@ -108294,6 +108593,24 @@ export const VALIDATORS: ValidatorTable = {
             "name": "pro",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAppointmentByLink": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "token",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
