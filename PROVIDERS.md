@@ -4741,7 +4741,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `squire.listBarbers` | getsquire.com | Lists a shop's barbers: name, route, photos, working days and days off, and each… | 🟢 |
 | `squire.listMyAppointments` | getsquire.com | Lists the signed-in caller's upcoming Squire appointments: shop, barber, service, time… | ⚪ |
 | `squire.listServices` | getsquire.com | Lists a shop's services with category, price, duration and description, and the… | 🟢 |
-| `squire.lookupReservation` | getsquire.com | Looks up an appointment from the confirmation code Squire gives at booking: shop… | ⚪ |
+| `squire.lookupReservation` | getsquire.com | Looks up an appointment from the confirmation code Squire gives at booking: shop… | 🟢 |
 | `squire.rateAppointment` | getsquire.com | Rates one of the caller's past appointments from 1 to 5 with an optional written review. | ⚪ |
 | `squire.rebookAppointment` | getsquire.com | Books the same service with the same barber again from one of the caller's past… | ⚪ |
 | `squire.searchShops` | getsquire.com | Searches Squire by free text -- a shop or brand name, a barber's name, a city or a… | 🟢 |
@@ -4817,7 +4817,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `styleseat.bookAppointment` | styleseat.com | Books an appointment with a pro for the signed-in caller: services at a date and start… | 🟢 |
 | `styleseat.buyServicePackage` | styleseat.com | Buys a prepaid package of a pro's services. | ⚪ |
 | `styleseat.cancelAppointment` | styleseat.com | Cancels one of the signed-in caller's upcoming appointments. | 🟢 |
-| `styleseat.cancelAppointmentByLink` | styleseat.com | Cancels an appointment from the manage link in StyleSeat's confirmation message, with… | ⚪ |
+| `styleseat.cancelAppointmentByLink` | styleseat.com | Cancels an appointment from the manage link in StyleSeat's confirmation message, with… | 🟢 |
 | `styleseat.getAppointmentByLink` | styleseat.com | Reads an appointment from the manage link StyleSeat sends in its confirmation email or… | 🟢 |
 | `styleseat.getAvailability` | styleseat.com | Lists a pro's open start times for one or more of their services over a date range, as… | 🟢 |
 | `styleseat.getBookingQuote` | styleseat.com | Prices a prospective appointment before booking -- services at a date and start time… | 🟢 |

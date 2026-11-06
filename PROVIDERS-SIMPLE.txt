@@ -332,7 +332,7 @@ gasbuddy.com — gasbuddy: findCheapestNearby
 gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getRentersQuote, listDiscounts, listPartnerCompanies (+33 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
-getsquire.com — squire: findShopsNear, getAvailability, getBarber, getBookingQuote, getBrand, getReviews, getShop, getWalkInStatus, listBarbers, listServices, searchShops (+17 planned)
+getsquire.com — squire: findShopsNear, getAvailability, getBarber, getBookingQuote, getBrand, getReviews, getShop, getWalkInStatus, listBarbers, listServices, lookupReservation, searchShops (+16 planned)
 github.com — github: compareCommits, createComment, createIssue, createPullRequest, createReview, createReviewComment, deleteComment, getFileContents, getIssue, getOrganization, getProfileReadme, getPullRequest, getReadme, getRepo, getSponsorPage, getUser, getUserRepositories, listCommits, listContributors, listIssueComments, listIssues, listMarketplaceActions, listNotifications, listOrganizationRepositories, listPullRequestFiles, listPullRequests, listReleases, listSecurityAdvisories, listStarredRepositories, listTopics, listTrendingRepositories, listWorkflowRuns, mergePullRequest, searchCode, searchIssues, searchRepositories, starRepository, unstarRepository, unwatchRepository, updateComment, updateIssue, updatePullRequest, watchRepository
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
@@ -662,7 +662,7 @@ stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard
 stubhub.com — stubhub: createListing, findEventsToSell, findPerformers, findVenues, getCheckoutHandoff, getEvent, getEventListings, listCategories, listFavorites, listMyOrders, search
-styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, getAppointmentByLink, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+3 planned)
+styleseat.com — styleseat: addFavorite, bookAppointment, cancelAppointment, cancelAppointmentByLink, getAppointmentByLink, getAvailability, getBookingQuote, getGallery, getMyAppointment, getMyProfile, getOffers, getProfessional, getReviews, getSalon, joinWaitlist, leaveReview, listClassTimes, listFavorites, listMyAppointments, listMyDiscounts, listServiceCategories, removeFavorite, rescheduleAppointment, resolveLocation, searchProfessionals, sendMessageToProfessional, updateMyProfile (+2 planned)
 suitsupply.com — suitsupply: getProduct, listCategory, search
 summerfridays.com — summerfridaysquiz: getSkincareQuizQuestions, getSkincareRoutine
 sunhomesaunas.com — sunhomesaunas: addSaunaToCart, getPersonalizedSaunaMatches, getSaunaFinderQuestions
