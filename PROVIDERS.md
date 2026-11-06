@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5999 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6000 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -884,7 +884,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.getBrandTemplateDataset` | canva.com | Reads which fields (text, image) one Brand Template can autofill. | ⚪ |
 | `canva.getColorCombinations` | canva.com | Returns the colour-wheel combinations for one hex colour — complementary, analogous… | ⚪ |
 | `canva.getColorMeaning` | canva.com | Reads Canva's page on one colour by name — hex/RGB values, symbolism and meaning, and… | ⚪ |
-| `canva.getColorPalette` | canva.com | Reads one curated colour palette by slug — its name, hex colours and the colour names. | ⚪ |
+| `canva.getColorPalette` | canva.com | Reads one curated colour palette by slug — its name, hex colours and the colour names. | 🟢 |
 | `canva.getCreator` | canva.com | Reads a Canva creator's public profile by handle or /p/ url — name, bio, follower… | 🟢 |
 | `canva.getDesign` | canva.com | Reads one of the caller's designs by id or edit url — title, owner, created and… | ⚪ |
 | `canva.getDesignContent` | canva.com | Reads the full text and the images on every page (or one page) of one of the caller's… | ⚪ |
@@ -893,10 +893,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `canva.getPhoto` | canva.com | Reads one stock photo by id or url — title, description, free-or-Pro licence, the… | 🟢 |
 | `canva.getPresenterNotes` | canva.com | Reads the presenter notes on each slide of one of the caller's presentations. | ⚪ |
 | `canva.getPricing` | canva.com | Reads Canva's paid plans (Pro, Business) with each one's monthly and yearly price… | 🟢 |
-| `canva.getSharedDesign` | canva.com | Reads a Canva design someone shared by view link (canva.com/design/<id>/<token>/view)… | ⚪ |
+| `canva.getSharedDesign` | canva.com | Reads a Canva design someone shared by view link (canva.com/design/<id>/<token>/view… | 🟢 |
 | `canva.getTemplate` | canva.com | Reads one template by id or url — title, description, design type and page previews… | 🟢 |
 | `canva.importDesign` | canva.com | Imports a file at a url (PDF, PowerPoint, Word, Keynote) into the caller's account as… | ⚪ |
-| `canva.listColorPalettes` | canva.com | Lists Canva's curated colour palettes (name, hex colours, page url), paged. | ⚪ |
+| `canva.listColorPalettes` | canva.com | Lists Canva's curated colour palettes (name, hex colours, page url), paged. | 🟢 |
 | `canva.listComments` | canva.com | Lists the comments on one of the caller's designs — author, text, page, resolved or… | ⚪ |
 | `canva.listDesignPages` | canva.com | Lists the pages of one of the caller's designs with each page's thumbnail. | ⚪ |
 | `canva.listDesignSizes` | canva.com | Reads Canva's design-size wiki for one platform or format (Instagram, YouTube… | ⚪ |
@@ -1123,10 +1123,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude_support.listArticles` | support.claude.com | Lists every English-language help-center article — url, numeric articleId and URL slug… | 🟢 |
 | `claude.addProjectDocument` | claude.ai | Adds a text document to one of the CALLER's project knowledge bases. | ⚪ |
 | `claude.continueSharedConversation` | claude.ai | Copies a shared Claude conversation into the CALLER's own account so they can keep… | 🟢 |
-| `claude.createProject` | claude.ai | Creates a Claude project in the CALLER's account, private to them, with a name and… | ⚪ |
+| `claude.createProject` | claude.ai | Creates a Claude project in the CALLER's account, private to them, with a name and… | 🟢 |
 | `claude.deleteConversation` | claude.ai | Deletes one of the CALLER's Claude chats. | ⚪ |
 | `claude.deleteProjectDocument` | claude.ai | Removes a document from one of the CALLER's project knowledge bases. | ⚪ |
-| `claude.deleteSharedLink` | claude.ai | Turns off one of the CALLER's conversation share links so the URL stops working. | ⚪ |
+| `claude.deleteSharedLink` | claude.ai | Turns off one of the CALLER's conversation share links so the URL stops working. | 🟢 |
 | `claude.getAccount` | claude.ai | Reads the CALLER's own Claude account — id, email and display name — and the… | 🟢 |
 | `claude.getConversation` | claude.ai | Reads one of the CALLER's Claude conversations — title, model, and every message in… | 🟢 |
 | `claude.getMemory` | claude.ai | Reads what Claude remembers about the CALLER (Settings → Capabilities → Memory)… | 🟢 |
@@ -1142,13 +1142,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claude.listProjects` | claude.ai | Lists the CALLER's Claude projects — id, name, description, starred, last updated. | 🟢 |
 | `claude.listSharedLinks` | claude.ai | Lists the conversation share links the CALLER has created (Settings → Privacy → Shared… | 🟢 |
 | `claude.listSkills` | claude.ai | Lists the skills enabled in the CALLER's Claude account, their own and Anthropic's. | 🟢 |
-| `claude.moveConversationToProject` | claude.ai | Moves one or more of the CALLER's chats into a project, or out of one. | ⚪ |
+| `claude.moveConversationToProject` | claude.ai | Moves one or more of the CALLER's chats into a project, or out of one. | 🟢 |
 | `claude.publishArtifact` | claude.ai | Publishes one of the CALLER's artifacts to a public claude.ai/public/artifacts link… | ⚪ |
 | `claude.rateResponse` | claude.ai | Gives a thumbs up or thumbs down, with an optional comment, on one of Claude's replies… | 🟢 |
 | `claude.renameConversation` | claude.ai | Renames one of the CALLER's Claude chats. | 🟢 |
 | `claude.searchConversations` | claude.ai | Searches the CALLER's Claude chat history by keyword, the way the sidebar search does… | 🟢 |
 | `claude.sendMessage` | claude.ai | Sends a message to Claude as the CALLER — into a new chat or an existing one… | 🟢 |
-| `claude.shareConversation` | claude.ai | Creates a public share link for one of the CALLER's chats and returns the… | ⚪ |
+| `claude.shareConversation` | claude.ai | Creates a public share link for one of the CALLER's chats and returns the… | 🟢 |
 | `claude.starConversation` | claude.ai | Stars or unstars one of the CALLER's Claude chats, which pins it at the top of the… | 🟢 |
 | `claude.updateMemory` | claude.ai | Turns Claude's memory on or off for the CALLER, or tells it to forget everything… | ⚪ |
 | `claude.updatePreferences` | claude.ai | Updates the CALLER's personal preferences — what Claude should call them, their work… | ⚪ |
@@ -4117,7 +4117,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reserve_with_google.listMyPacks` | google.com/maps/reserve | Lists the venues the caller holds class packs or memberships at, off their own Reserve… | 🟢 |
 | `reserve_with_google.listPartners` | google.com/maps/reserve | Lists every booking provider connected to Reserve with Google (Booksy, OpenTable… | 🟢 |
 | `reserve_with_google.modifyBooking` | google.com/maps/reserve | Changes the time or party size of one of the caller's bookings, where the partner… | ⚪ |
-| `reserve_with_google.updateSettings` | google.com/maps/reserve | Updates the caller's Reserve with Google contact details or notification preferences. | ⚪ |
+| `reserve_with_google.updateSettings` | google.com/maps/reserve | Changes the contact name, phone or email on the caller's Reserve with Google Settings… | 🟢 |
 | `resy.cancelBooking` | resy.com | Cancels one of the diner's reservations by its resyToken, under the diner's sign-in in… | 🟢 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟢 |
 | `resy.confirmBooking` | resy.com | Finishes the booking startBooking began in the same session: signs the diner in with… | 🟢 |
@@ -4204,6 +4204,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `rottentomatoes.getTitle` | rottentomatoes.com | Reads one movie or TV series page: Tomatometer and Popcornmeter with their review and… | 🟢 |
 | `rottentomatoes.search` | rottentomatoes.com | Runs the site's own title search and returns movies and TV series with their… | 🟢 |
 | `rover.searchBoarding` | rover.com | Searches Rover's live overnight-boarding sitter results for a city and a specific date… | 🟢 |
+| `rtings.getReview` | rtings.com | Reads one product's RTINGS review — the overall score out of 10, the verdict text… | 🟢 |
 | `ruggable.getRug` | ruggable.com | Reads one Ruggable rug by handle or url and returns its price range plus every size ×… | 🟢 |
 | `ruggable.searchRugs` | ruggable.com | Searches Ruggable's whole washable-rug catalog (rugs, runners, doormats, rug pads) by… | 🟢 |
 | `rvshare.searchListings` | rvshare.com | Runs RVshare's own results grid for a US city/state… | 🟢 |
@@ -5043,7 +5044,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listCaptionTracks` | tiktok.com | Which languages a video's captions are available in and which TikTok shows by default… | 🟢 |
 | `tiktok.listCommentReplies` | tiktok.com | The replies under one comment thread, hidden behind TikTok's "N replies" button and… | 🟢 |
 | `tiktok.listComments` | tiktok.com | The first 20 comments under a video — author (id, handle, nickname, secUid, avatar)… | 🟢 |
-| `tiktok.listConversations` | tiktok.com | The signed-in caller's own DM inbox — threads, last message, unread state. | ⚪ |
+| `tiktok.listConversations` | tiktok.com | The signed-in caller's own DM inbox — threads, last message, unread state, newest first. | 🟢 |
 | `tiktok.listFollowers` | tiktok.com | The accounts that follow a creator, in getProfile's shape (handle, nickname, bio… | 🟢 |
 | `tiktok.listFollowing` | tiktok.com | The accounts a creator follows, in getProfile's shape, 30 per page up to 200. | 🟢 |
 | `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | 🟢 |

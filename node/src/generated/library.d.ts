@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2ce8c6a3d96b9aca58425b1b215930f9adc12529ab673a22f98a6722966fe4ba
-// 95 capabilities, 761 providers, 4399 typed functions, 20 refused.
+// Manifest version: e7cd9605d5def39dc64116901b6a1bf34f189002ae0cf83873c0f3b9276d8d94
+// 95 capabilities, 762 providers, 4419 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12057,6 +12057,40 @@ interface ArketaProduct {
   variants: { id: string; label: string | null; price: number | null; quantity: number | null }[];
 }
 
+interface ListOnDemandVideosArgs {
+  studio: string;
+  category?: string;
+}
+
+interface ArketaVideoCategory {
+  id: string;
+  name: string;
+  hidden: boolean;
+  featured: boolean;
+  itemCount: number | null;
+  description: string | null;
+  previewImageUrl: string | null;
+}
+
+interface ArketaOnDemandVideo {
+  id: string;
+  name: string;
+  description: string | null;
+  durationMinutes: number | null;
+  instructorIds: string[];
+  equipment: string[];
+  workoutTypes: string[];
+  bodyFocus: string | null;
+  intensity: string | null;
+  imageUrl: string | null;
+  categoryIds: string[];
+}
+
+interface ArketaOnDemandLibrary {
+  categories: ArketaVideoCategory[];
+  videos: ArketaOnDemandVideo[] | null;
+}
+
 interface ArketaMyProfile {
   id: string;
   firstName: string | null;
@@ -12218,6 +12252,14 @@ interface ArketaBookingResult {
      * size or variant with its price and stock.
      */
     listProducts(studio: string): Promise<ArketaProduct[]>;
+
+    /**
+     * Lists a studio's on-demand video library: its categories, or — given a category id from a
+     * prior call — each video in it with title, length, equipment, intensity and instructor ids
+     * (resolve a name with listInstructors). Arketa's own API carries no price or
+     * subscription-tier field on a video, so that cannot be reported.
+     */
+    listOnDemandVideos(args: ListOnDemandVideosArgs): Promise<ArketaOnDemandLibrary>;
 
     /**
      * Returns the signed-in caller's own client profile at one studio (the id findStudio returns):
@@ -21036,6 +21078,20 @@ interface CalendlyFindProfilesResult {
      * pages, so this is the way to find one.
      */
     findProfiles(name: string, company?: string): Promise<CalendlyFindProfilesResult>;
+
+    /**
+     * Makes a NEW Calendly account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -21546,6 +21602,52 @@ interface CanvaPlan {
   prices: CanvaPrice[];
 }
 
+interface CanvaSharedDesignPage {
+  page: number;
+  /** This page's own text, joined in on-page order. Empty for a photo-only page. */
+  text: string;
+  imageUrl: string;
+  width: number;
+  height: number;
+}
+
+interface CanvaSharedDesign {
+  id: string;
+  title: string;
+  url: string;
+  pageCount: number;
+  pages: CanvaSharedDesignPage[];
+}
+
+interface CanvaColorPalette {
+  id: string;
+  slug: string;
+  name: string;
+  colors: string[];
+  url: string;
+}
+
+interface CanvaColorPalettesPage {
+  palettes: CanvaColorPalette[];
+  page: number;
+  pageCount: number;
+  warnings: string[];
+}
+
+interface CanvaColorPaletteColor {
+  slug: string;
+  hex: string;
+  name: string;
+}
+
+interface CanvaColorPaletteDetail {
+  id: string;
+  slug: string;
+  name: string;
+  colors: CanvaColorPaletteColor[];
+  url: string;
+}
+
   /**
    * Canva, the online design tool: search its templates and stock photos, read plans and prices,
    * and, with the caller signed in, create, export and organise their own designs.
@@ -21611,6 +21713,32 @@ interface CanvaPlan {
      * listTemplateCategories url or a slug.
      */
     browseTemplates(category: string): Promise<{ templates: CanvaTemplate[]; url: string; warnings: string[] }>;
+
+    /**
+     * Reads a Canva design someone shared by view link (canva.com/design/<id>/<token>/view, token
+     * optional) — title, page count, page images and the text on each page — without signing in.
+     */
+    getSharedDesign(linkOrId: string): Promise<CanvaSharedDesign>;
+
+    /** Lists Canva's curated colour palettes (name, hex colours, page url), paged. */
+    listColorPalettes(page?: number): Promise<{ palettes: CanvaColorPalette[]; page: number; pageCount: number; warnings: string[] }>;
+
+    /** Reads one curated colour palette by slug — its name, hex colours and the colour names. */
+    getColorPalette(slug: string): Promise<CanvaColorPaletteDetail>;
+
+    /**
+     * Makes a NEW Canva account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -25471,9 +25599,40 @@ interface StarConversationArgs {
   starred: boolean;
   organizationId?: string;
 }
+interface ShareConversationArgs {
+  conversationId: string;
+  organizationId?: string;
+}
+interface ClaudeCreatedShare {
+  conversationId: string;
+  shareId: string;
+  url: string;
+}
+interface DeleteSharedLinkArgs {
+  shareId: string;
+  organizationId?: string;
+}
+interface ClaudeShareDeleteAck {
+  shareId: string;
+  ok: true;
+}
+interface CreateProjectArgs {
+  name: string;
+  description?: string;
+  organizationId?: string;
+}
+interface ClaudeCreatedProject {
+  projectId: string;
+  name: string;
+}
 interface ClaudeWriteAck {
   conversationId: string;
   ok: true;
+}
+interface MoveConversationToProjectArgs {
+  conversationId: string;
+  projectId: string | null;
+  organizationId?: string;
 }
 
   /**
@@ -25616,6 +25775,34 @@ interface ClaudeWriteAck {
      * WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
      */
     starConversation(args: StarConversationArgs, opts?: ConnectionOption): Promise<ClaudeWriteAck>;
+
+    /**
+     * Moves one of the CALLER's Claude chats into a project (`projectId` from listProjects), or
+     * out of every project with `projectId: null`, the way the chat menu's "Add to project" does.
+     * WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    moveConversationToProject(args: MoveConversationToProjectArgs, opts?: ConnectionOption): Promise<ClaudeWriteAck>;
+
+    /**
+     * Creates a PUBLIC share link for one of the CALLER's Claude chats and returns its
+     * claude.ai/share URL — readable by anyone with getSharedConversation; remove it with
+     * deleteSharedLink. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+     */
+    shareConversation(args: ShareConversationArgs, opts?: ConnectionOption): Promise<ClaudeCreatedShare>;
+
+    /**
+     * Deletes one of the CALLER's public share links (`shareId` from listSharedLinks or
+     * shareConversation), so claude.ai/share/<id> stops answering. WRITE. NEEDS A SIGN-IN (the
+     * caller's claude.ai session).
+     */
+    deleteSharedLink(args: DeleteSharedLinkArgs, opts?: ConnectionOption): Promise<ClaudeShareDeleteAck>;
+
+    /**
+     * Creates a new private project in the CALLER's Claude account, the way "New project" does,
+     * and returns its id for getProject, sendMessage and moveConversationToProject. WRITE. NEEDS A
+     * SIGN-IN (the caller's claude.ai session).
+     */
+    createProject(args: CreateProjectArgs, opts?: ConnectionOption): Promise<ClaudeCreatedProject>;
   }
 }
 
@@ -41407,6 +41594,20 @@ interface FreshaVenueReviews {
      * bookable service it shows, plus the portfolio total and whether more exist).
      */
     getVenuePhotos(args: GetVenuePhotosArgs): Promise<FreshaVenuePhotos>;
+
+    /**
+     * Makes a NEW Fresha account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -71220,6 +71421,20 @@ interface PinterestNotification {
      * is refused.
      */
     listUserFollowers(username: string, options?: { bookmark?: string; pageSize?: number }, opts?: ConnectionOption): Promise<{ users: PinterestUser[]; bookmark: string | null }>;
+
+    /**
+     * Makes a NEW Pinterest account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -78341,6 +78556,47 @@ interface RoverBoardingRow { name: string; profileUrl: string; ratingValue: numb
      * service fee and before per-pet pricing), rating, review count and distance.
      */
     searchBoarding(args: { location: string; startDate: string; endDate: string }): Promise<RoverBoardingRow[]>;
+  }
+}
+
+declare namespace BowmarkProvider_rtings {
+  // ── RTINGS — the unit's own declarations, verbatim ──
+interface rtingsGetReviewArgs {
+  url?: string;       // "https://www.rtings.com/tv/reviews/lg/c3-oled" — any RTINGS review url
+  brand?: string;     // url slug, e.g. "lg" — used with model when no url
+  model?: string;     // url slug, e.g. "c3-oled"
+  category?: string;  // url slug, default "tv"; e.g. "headphones", "monitor", "soundbar"
+}
+
+interface rtingsUsageRating {
+  usage: string;          // "Mixed Usage", "Sports", "Gaming"…
+  score: number | null;   // null when RTINGS hides it behind its membership paywall
+  description: string;
+}
+
+interface rtingsReview {
+  title: string;          // the page title, with the model numbers
+  product: string;        // "LG C3 OLED"
+  brand: string | null;
+  score: number;          // overall score out of 10, e.g. 9.0
+  reviewText: string;     // the verdict paragraph, plain text
+  summary: string[];      // the review's headline points
+  ratings: rtingsUsageRating[];
+  publishedAt: string | null;
+  url: string;
+}
+
+  /**
+   * RTINGS lab-tested product reviews — a product's overall score out of 10, verdict, per-usage
+   * verdicts and summary points.
+   */
+  interface Unit {
+    /**
+     * Reads one product's RTINGS review — overall score out of 10, verdict text, summary points
+     * and per-usage verdicts. Takes a review url, or brand + model slugs (+ category, default
+     * "tv"). Per-usage scores are null for non-members.
+     */
+    getReview(args: rtingsGetReviewArgs | string): Promise<rtingsReview>;
   }
 }
 
@@ -85751,6 +86007,15 @@ interface SquireWalkInStatus {
   anyBarberAllowed: boolean; // a walk-in may ask for "anyone"
   barbers: { id: string; name: string; route: string | null; photo: string | null }[]; // who a walk-in can ask for
 }
+interface SquireReservation {
+  id: string | null; confirmationCode: string;
+  status: string | null; startTime: string | null; endTime: string | null; // ISO instants
+  shop: { id: string | null; name: string | null; route: string | null } | null;
+  barber: { id: string | null; name: string | null } | null;
+  services: { id: string | null; name: string | null; priceCents: number | null; durationMins: number | null }[];
+  totalCents: number | null;
+  raw: Record<string, unknown>; // Squire's own record; a real one is not yet measured
+}
 interface SquireQuoteArgs {
   shop: string;        // id, route or getsquire.com URL
   barber: string;      // id from listBarbers, or a slot's barberIds
@@ -85891,6 +86156,14 @@ interface SquireBrand {
      * no appointment and holds no slot.
      */
     getBookingQuote(args: SquireQuoteArgs): Promise<SquireBookingQuote>;
+
+    /**
+     * Looks up an appointment from the confirmation code Squire gives at booking (or its
+     * getsquire.com/barbershops/view-reservation/ link), without signing in: shop, barber,
+     * services, start and end time, total and status, plus Squire's own record as raw. An unknown
+     * code is a caller-fixable error.
+     */
+    lookupReservation(code: string): Promise<SquireReservation>;
   }
 }
 
@@ -87547,6 +87820,7 @@ interface StyleseatServicePackageOffer {
 interface StyleseatClassTimesArgs { pro: string; serviceId?: string | number; offset?: number; }
 interface StyleseatClassTime { id: number; start: string | null; end: string | null; serviceId: number | null; serviceName: string | null; spotsLeft: number | null; isFull: boolean; bookedByMe: boolean; }
 interface StyleseatAppointmentByLink { id: number | null; status: string | null; start: string | null; providerId: number | null; raw: Record<string, unknown>; }
+interface StyleseatCancelledByLink { token: string; cancelled: boolean; }
 interface StyleseatClassTimes { classTimes: StyleseatClassTime[]; nextOffset: number | null; }
 interface StyleseatOffers {
   providerId: number; promotions: StyleseatPromotion[]; loyaltyReward: StyleseatLoyaltyReward | null;
@@ -87677,6 +87951,13 @@ interface StyleseatLeftReview { providerId: number; submitted: boolean; }
      * full document is in raw.
      */
     getAppointmentByLink(args: { token: string }): Promise<StyleseatAppointmentByLink>;
+
+    /**
+     * Cancels an appointment from the manage link in StyleSeat's confirmation message, with no
+     * sign-in -- for a guest booking a pro made on the client's behalf. Pass the link or its
+     * token.
+     */
+    cancelAppointmentByLink(args: { token: string }): Promise<StyleseatCancelledByLink>;
 
     /**
      * Lists a pro's upcoming group classes (workshops, braiding classes, makeup lessons): each
@@ -91240,6 +91521,9 @@ type SendDirectMessageArgs = {
   username: string;
   text: string;
 };
+type ListConversationsArgs = {
+  count?: number;
+};
 type ListNotificationsArgs = {
   count?: number;
   cursor?: number;
@@ -91493,6 +91777,15 @@ type ListNotificationsArgs = {
      * fails with that reason.
      */
     sendDirectMessage(args: SendDirectMessageArgs, opts?: ConnectionOption): Promise<{ sent: boolean; username: string }>;
+
+    /**
+     * The signed-in caller's own DM inbox — threads, last message and unread state, newest first.
+     * Optional count (1-50, default 20). Loads TikTok's /messages page with the caller's session
+     * cookies and reads the rendered conversation list; the same unpublished protobuf door that
+     * blocks sendDirectMessage's send call blocks the IM list API too, so there is no browserless
+     * door. The caller signs in through the auth relay; Bowmark never signs up on this site.
+     */
+    listConversations(args: ListConversationsArgs, opts?: ConnectionOption): Promise<{ conversations: Array<{ username?: string; nickname?: string; lastMessage?: string; unread?: boolean }> }>;
 
     /**
      * The signed-in caller's own activity inbox — new followers, likes, comments and mentions,
@@ -106789,6 +107082,7 @@ interface BowmarkProviders {
   roomandboard: BowmarkProvider_roomandboard.Unit;
   rottentomatoes: BowmarkProvider_rottentomatoes.Unit;
   rover: BowmarkProvider_rover.Unit;
+  rtings: BowmarkProvider_rtings.Unit;
   ruggable: BowmarkProvider_ruggable.Unit;
   rvshare: BowmarkProvider_rvshare.Unit;
   ryanair: BowmarkProvider_ryanair.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2ce8c6a3d96b9aca58425b1b215930f9adc12529ab673a22f98a6722966fe4ba
-# 95 capabilities, 761 providers, 4381 typed functions, 20 refused.
+# Manifest version: e7cd9605d5def39dc64116901b6a1bf34f189002ae0cf83873c0f3b9276d8d94
+# 95 capabilities, 762 providers, 4401 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7202,6 +7202,36 @@ class Prv_arketa_ArketaProduct_Out_variants_item_Out(TypedDict):
     price: float | None
     quantity: float | None
 
+class Prv_arketa_ListOnDemandVideosArgs_In(TypedDict):
+    studio: str
+    category: NotRequired[str]
+
+class Prv_arketa_ArketaOnDemandLibrary_Out(TypedDict):
+    categories: list[Prv_arketa_ArketaVideoCategory_Out]
+    videos: list[Prv_arketa_ArketaOnDemandVideo_Out] | None
+
+class Prv_arketa_ArketaVideoCategory_Out(TypedDict):
+    id: str
+    name: str
+    hidden: bool
+    featured: bool
+    itemCount: float | None
+    description: str | None
+    previewImageUrl: str | None
+
+class Prv_arketa_ArketaOnDemandVideo_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    durationMinutes: float | None
+    instructorIds: list[str]
+    equipment: list[str]
+    workoutTypes: list[str]
+    bodyFocus: str | None
+    intensity: str | None
+    imageUrl: str | None
+    categoryIds: list[str]
+
 class Prv_arketa_ArketaMyProfile_Out(TypedDict):
     id: str
     firstName: str | None
@@ -12898,6 +12928,46 @@ class Prv_calendly_CalendlyProfileCandidate_Out(TypedDict):
     nameMatches: bool
     timezone: str
 
+class Prv_calendly_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_calendly_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_calendly_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_calendly_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_calendly_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_calendly_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_calendly_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_calendly_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_caliberhealth_CaliberhealthSearchArgs_In(TypedDict):
     specialty: NotRequired[str]
     location: NotRequired[str]
@@ -13242,6 +13312,85 @@ class Prv_canva_browseTemplates_return_Out(TypedDict):
     templates: list[Prv_canva_CanvaTemplate_Out]
     url: str
     warnings: list[str]
+
+class Prv_canva_CanvaSharedDesign_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    pageCount: float
+    pages: list[Prv_canva_CanvaSharedDesignPage_Out]
+
+class Prv_canva_CanvaSharedDesignPage_Out(TypedDict):
+    page: float
+    text: str
+    imageUrl: str
+    width: float
+    height: float
+
+class Prv_canva_listColorPalettes_return_Out(TypedDict):
+    palettes: list[Prv_canva_CanvaColorPalette_Out]
+    page: float
+    pageCount: float
+    warnings: list[str]
+
+class Prv_canva_CanvaColorPalette_Out(TypedDict):
+    id: str
+    slug: str
+    name: str
+    colors: list[str]
+    url: str
+
+class Prv_canva_CanvaColorPaletteDetail_Out(TypedDict):
+    id: str
+    slug: str
+    name: str
+    colors: list[Prv_canva_CanvaColorPaletteColor_Out]
+    url: str
+
+class Prv_canva_CanvaColorPaletteColor_Out(TypedDict):
+    slug: str
+    hex: str
+    name: str
+
+class Prv_canva_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_canva_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_canva_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_canva_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_canva_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_canva_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_canva_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_canva_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_capitalbrands_CapitalbrandsQuizQuestions_Out(TypedDict):
     questions: list[Prv_capitalbrands_CapitalbrandsQuizQuestion_Out]
@@ -15522,6 +15671,37 @@ class Prv_claude_StarConversationArgs_In(TypedDict):
     conversationId: str
     starred: bool
     organizationId: NotRequired[str]
+
+class Prv_claude_MoveConversationToProjectArgs_In(TypedDict):
+    conversationId: str
+    projectId: str | None
+    organizationId: NotRequired[str]
+
+class Prv_claude_ShareConversationArgs_In(TypedDict):
+    conversationId: str
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeCreatedShare_Out(TypedDict):
+    conversationId: str
+    shareId: str
+    url: str
+
+class Prv_claude_DeleteSharedLinkArgs_In(TypedDict):
+    shareId: str
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeShareDeleteAck_Out(TypedDict):
+    shareId: str
+    ok: Literal[True]
+
+class Prv_claude_CreateProjectArgs_In(TypedDict):
+    name: str
+    description: NotRequired[str]
+    organizationId: NotRequired[str]
+
+class Prv_claude_ClaudeCreatedProject_Out(TypedDict):
+    projectId: str
+    name: str
 
 class Prv_claude_com_claude_comDoc_Out(TypedDict):
     url: str
@@ -25572,6 +25752,46 @@ class Prv_fresha_FreshaPortfolioPhoto_Out_service_u0_Out(TypedDict):
     id: str
     name: str | None
     displayPrice: str | None
+
+class Prv_fresha_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_fresha_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_fresha_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_fresha_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_fresha_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_fresha_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_fresha_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_fresha_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_furniture_searchProducts_args_In(TypedDict):
     query: str
@@ -43483,6 +43703,46 @@ class Prv_pinterest_listUserFollowers_return_Out(TypedDict):
     users: list[Prv_pinterest_PinterestUser_Out]
     bookmark: str | None
 
+class Prv_pinterest_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_pinterest_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_pinterest_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_pinterest_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_pinterest_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_pinterest_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_pinterest_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_pinterest_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
     width: float
@@ -48041,6 +48301,28 @@ class Prv_rover_RoverBoardingRow_Out(TypedDict):
 class Prv_rover_RoverBoardingRow_Out_startingNightlyRate_Out(TypedDict):
     amount: float
     currency: str
+
+class Prv_rtings_rtingsGetReviewArgs_In(TypedDict):
+    url: NotRequired[str]
+    brand: NotRequired[str]
+    model: NotRequired[str]
+    category: NotRequired[str]
+
+class Prv_rtings_rtingsReview_Out(TypedDict):
+    title: str
+    product: str
+    brand: str | None
+    score: float
+    reviewText: str
+    summary: list[str]
+    ratings: list[Prv_rtings_rtingsUsageRating_Out]
+    publishedAt: str | None
+    url: str
+
+class Prv_rtings_rtingsUsageRating_Out(TypedDict):
+    usage: str
+    score: float | None
+    description: str
 
 class Prv_ruggable_SearchRugsArgs_In(TypedDict):
     query: str
@@ -53400,6 +53682,33 @@ class Prv_squire_SquireBookingQuote_Out_lines_item_Out(TypedDict):
     requiresPrepaid: bool
     depositCents: float | None
 
+class Prv_squire_SquireReservation_Out(TypedDict):
+    id: str | None
+    confirmationCode: str
+    status: str | None
+    startTime: str | None
+    endTime: str | None
+    shop: Prv_squire_SquireReservation_Out_shop_u0_Out | None
+    barber: Prv_squire_SquireReservation_Out_barber_u0_Out | None
+    services: list[Prv_squire_SquireReservation_Out_services_item_Out]
+    totalCents: float | None
+    raw: Mapping[str, Any]
+
+class Prv_squire_SquireReservation_Out_shop_u0_Out(TypedDict):
+    id: str | None
+    name: str | None
+    route: str | None
+
+class Prv_squire_SquireReservation_Out_barber_u0_Out(TypedDict):
+    id: str | None
+    name: str | None
+
+class Prv_squire_SquireReservation_Out_services_item_Out(TypedDict):
+    id: str | None
+    name: str | None
+    priceCents: float | None
+    durationMins: float | None
+
 class Prv_stackoverflow_StackOverflowSearchArgs_In(TypedDict):
     query: str
     tagged: NotRequired[str]
@@ -54558,6 +54867,13 @@ class Prv_styleseat_StyleseatAppointmentByLink_Out(TypedDict):
     start: str | None
     providerId: float | None
     raw: Mapping[str, Any]
+
+class Prv_styleseat_cancelAppointmentByLink_args_In(TypedDict):
+    token: str
+
+class Prv_styleseat_StyleseatCancelledByLink_Out(TypedDict):
+    token: str
+    cancelled: bool
 
 class Prv_styleseat_StyleseatClassTimesArgs_In(TypedDict):
     pro: str
@@ -56882,6 +57198,18 @@ class Prv_tiktok_SendDirectMessageArgs_In(TypedDict):
 class Prv_tiktok_sendDirectMessage_return_Out(TypedDict):
     sent: bool
     username: str
+
+class Prv_tiktok_ListConversationsArgs_In(TypedDict):
+    count: NotRequired[float]
+
+class Prv_tiktok_listConversations_return_Out(TypedDict):
+    conversations: list[Prv_tiktok_listConversations_return_Out_conversations_item_Out]
+
+class Prv_tiktok_listConversations_return_Out_conversations_item_Out(TypedDict):
+    username: NotRequired[str]
+    nickname: NotRequired[str]
+    lastMessage: NotRequired[str]
+    unread: NotRequired[bool]
 
 class Prv_tiktok_ListNotificationsArgs_In(TypedDict):
     count: NotRequired[float]
@@ -70157,6 +70485,13 @@ class Prv_arketa(Protocol):
         each size or variant with its price and stock.
         """
 
+    async def listOnDemandVideos(self, args: Prv_arketa_ListOnDemandVideosArgs_In, /) -> Prv_arketa_ArketaOnDemandLibrary_Out:
+        """Lists a studio's on-demand video library: its categories, or — given a category id from
+        a prior call — each video in it with title, length, equipment, intensity and instructor
+        ids (resolve a name with listInstructors). Arketa's own API carries no price or
+        subscription-tier field on a video, so that cannot be reported.
+        """
+
     async def getMyProfile(self, studio: str, opts: ConnectionOption | None = None, /) -> Prv_arketa_ArketaMyProfile_Out:
         """Returns the signed-in caller's own client profile at one studio (the id findStudio
         returns): name, email, phone, birthday, address, home location and ID-verification
@@ -73122,6 +73457,18 @@ class Prv_calendly(Protocol):
         Calendly pages, so this is the way to find one.
         """
 
+    async def signup(self, args: Any, /) -> Prv_calendly_signup_return_u0_Out | Prv_calendly_signup_return_u1_Out | Prv_calendly_signup_return_u2_Out | Prv_calendly_signup_return_u3_Out:
+        """Makes a NEW Calendly account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_calendly_confirmSignup_return_u0_Out | Prv_calendly_confirmSignup_return_u1_Out | Prv_calendly_confirmSignup_return_u2_Out | Prv_calendly_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_caliberhealth(Protocol):
     """Caliber Healthcare Solutions' live locum-tenens job board (/healthcare-jobs) off the
     site's own server-rendered listings — real open jobs filterable by
@@ -73316,6 +73663,30 @@ class Prv_canva(Protocol):
         """Lists the templates in one design type (and optional sub-theme, e.g.
         invitations/birthday) — the same rows as searchTemplates, reached by category instead of
         keyword. Takes a listTemplateCategories url or a slug.
+        """
+
+    async def getSharedDesign(self, linkOrId: str, /) -> Prv_canva_CanvaSharedDesign_Out:
+        """Reads a Canva design someone shared by view link (canva.com/design/<id>/<token>/view,
+        token optional) — title, page count, page images and the text on each page — without
+        signing in.
+        """
+
+    async def listColorPalettes(self, page: float | None = None, /) -> Prv_canva_listColorPalettes_return_Out:
+        """Lists Canva's curated colour palettes (name, hex colours, page url), paged."""
+
+    async def getColorPalette(self, slug: str, /) -> Prv_canva_CanvaColorPaletteDetail_Out:
+        """Reads one curated colour palette by slug — its name, hex colours and the colour names."""
+
+    async def signup(self, args: Any, /) -> Prv_canva_signup_return_u0_Out | Prv_canva_signup_return_u1_Out | Prv_canva_signup_return_u2_Out | Prv_canva_signup_return_u3_Out:
+        """Makes a NEW Canva account with the person's own email and password, in a session. Pauses
+        with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+        continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved
+        and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_canva_confirmSignup_return_u0_Out | Prv_canva_confirmSignup_return_u1_Out | Prv_canva_confirmSignup_return_u2_Out | Prv_canva_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_capitalbrands(Protocol):
@@ -74719,6 +75090,30 @@ class Prv_claude(Protocol):
     async def starConversation(self, args: Prv_claude_StarConversationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeWriteAck_Out:
         """Stars or unstars one of the CALLER's Claude chats, the way the sidebar's star toggle
         does. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def moveConversationToProject(self, args: Prv_claude_MoveConversationToProjectArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeWriteAck_Out:
+        """Moves one of the CALLER's Claude chats into a project (`projectId` from listProjects),
+        or out of every project with `projectId: null`, the way the chat menu's "Add to project"
+        does. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def shareConversation(self, args: Prv_claude_ShareConversationArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeCreatedShare_Out:
+        """Creates a PUBLIC share link for one of the CALLER's Claude chats and returns its
+        claude.ai/share URL — readable by anyone with getSharedConversation; remove it with
+        deleteSharedLink. WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
+        """
+
+    async def deleteSharedLink(self, args: Prv_claude_DeleteSharedLinkArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeShareDeleteAck_Out:
+        """Deletes one of the CALLER's public share links (`shareId` from listSharedLinks or
+        shareConversation), so claude.ai/share/<id> stops answering. WRITE. NEEDS A SIGN-IN (the
+        caller's claude.ai session).
+        """
+
+    async def createProject(self, args: Prv_claude_CreateProjectArgs_In, opts: ConnectionOption | None = None, /) -> Prv_claude_ClaudeCreatedProject_Out:
+        """Creates a new private project in the CALLER's Claude account, the way "New project"
+        does, and returns its id for getProject, sendMessage and moveConversationToProject.
+        WRITE. NEEDS A SIGN-IN (the caller's claude.ai session).
         """
 
 class Prv_claude_com(Protocol):
@@ -80026,6 +80421,18 @@ class Prv_fresha(Protocol):
         """Returns a Fresha venue's photos from its slug or URL: the venue's own photos with titles
         and descriptions, and the first page of its work portfolio (each with the menu section
         and the bookable service it shows, plus the portfolio total and whether more exist).
+        """
+
+    async def signup(self, args: Any, /) -> Prv_fresha_signup_return_u0_Out | Prv_fresha_signup_return_u1_Out | Prv_fresha_signup_return_u2_Out | Prv_fresha_signup_return_u3_Out:
+        """Makes a NEW Fresha account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_fresha_confirmSignup_return_u0_Out | Prv_fresha_confirmSignup_return_u1_Out | Prv_fresha_confirmSignup_return_u2_Out | Prv_fresha_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_furniture(Protocol):
@@ -90846,6 +91253,18 @@ class Prv_pinterest(Protocol):
         session is refused.
         """
 
+    async def signup(self, args: Any, /) -> Prv_pinterest_signup_return_u0_Out | Prv_pinterest_signup_return_u1_Out | Prv_pinterest_signup_return_u2_Out | Prv_pinterest_signup_return_u3_Out:
+        """Makes a NEW Pinterest account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_pinterest_confirmSignup_return_u0_Out | Prv_pinterest_confirmSignup_return_u1_Out | Prv_pinterest_confirmSignup_return_u2_Out | Prv_pinterest_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -93363,6 +93782,17 @@ class Prv_rover(Protocol):
         ~10-11% service fee and before per-pet pricing), rating, review count and distance.
         """
 
+class Prv_rtings(Protocol):
+    """RTINGS lab-tested product reviews — a product's overall score out of 10, verdict,
+    per-usage verdicts and summary points.
+    """
+
+    async def getReview(self, args: Prv_rtings_rtingsGetReviewArgs_In | str, /) -> Prv_rtings_rtingsReview_Out:
+        """Reads one product's RTINGS review — overall score out of 10, verdict text, summary
+        points and per-usage verdicts. Takes a review url, or brand + model slugs (+ category,
+        default "tv"). Per-usage scores are null for non-members.
+        """
+
 class Prv_ruggable(Protocol):
     """Ruggable washable rugs — search the catalog by name, color or style, then read a rug's
     price for every size and construction (rug + pad, cushioned pad, cover only).
@@ -95798,6 +96228,13 @@ class Prv_squire(Protocol):
         tips. Creates no appointment and holds no slot.
         """
 
+    async def lookupReservation(self, code: str, /) -> Prv_squire_SquireReservation_Out:
+        """Looks up an appointment from the confirmation code Squire gives at booking (or its
+        getsquire.com/barbershops/view-reservation/ link), without signing in: shop, barber,
+        services, start and end time, total and status, plus Squire's own record as raw. An
+        unknown code is a caller-fixable error.
+        """
+
 class Prv_stackoverflow(Protocol):
     """Stack Overflow programming questions and answers — search questions, then read one
     question with its accepted and top-voted answers — through the official Stack Exchange
@@ -96303,6 +96740,12 @@ class Prv_styleseat(Protocol):
         """Reads an appointment from the manage link StyleSeat sends in its confirmation email or
         text, with no sign-in -- pass the link or its token. Fields beyond id are read
         defensively; the full document is in raw.
+        """
+
+    async def cancelAppointmentByLink(self, args: Prv_styleseat_cancelAppointmentByLink_args_In, /) -> Prv_styleseat_StyleseatCancelledByLink_Out:
+        """Cancels an appointment from the manage link in StyleSeat's confirmation message, with no
+        sign-in -- for a guest booking a pro made on the client's behalf. Pass the link or its
+        token.
         """
 
     async def listClassTimes(self, args: Prv_styleseat_StyleseatClassTimesArgs_In, /) -> Prv_styleseat_StyleseatClassTimes_Out:
@@ -97724,6 +98167,15 @@ class Prv_tiktok(Protocol):
         body, so there is no browserless door. The caller signs in through the auth relay;
         Bowmark never signs up on this site. Returns { sent, username }. A recipient who does
         not accept messages from the caller fails with that reason.
+        """
+
+    async def listConversations(self, args: Prv_tiktok_ListConversationsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_listConversations_return_Out:
+        """The signed-in caller's own DM inbox — threads, last message and unread state, newest
+        first. Optional count (1-50, default 20). Loads TikTok's /messages page with the
+        caller's session cookies and reads the rendered conversation list; the same unpublished
+        protobuf door that blocks sendDirectMessage's send call blocks the IM list API too, so
+        there is no browserless door. The caller signs in through the auth relay; Bowmark never
+        signs up on this site.
         """
 
     async def listNotifications(self, args: Prv_tiktok_ListNotificationsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_listNotifications_return_Out:
@@ -103142,6 +103594,7 @@ class BowmarkProviders(Protocol):
     roomandboard: Prv_roomandboard
     rottentomatoes: Prv_rottentomatoes
     rover: Prv_rover
+    rtings: Prv_rtings
     ruggable: Prv_ruggable
     rvshare: Prv_rvshare
     ryanair: Prv_ryanair

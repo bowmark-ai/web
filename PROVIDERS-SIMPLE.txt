@@ -153,7 +153,7 @@ camping.bcparks.ca — bcparkscamping: checkAvailability, searchCampgrounds
 campspot.com — campspot: findCampgrounds, getCampground
 canadacomputers.com — canadacomputers: search (+2 planned)
 cancer.gov — cancer: findCancerCenters, getCancerInfoSummary (+11 planned)
-canva.com — canva: browseTemplates, getCreator, getGraphic, getPhoto, getPricing, getTemplate, listTemplateCategories, searchGraphics, searchPhotos, searchTemplates (+43 planned)
+canva.com — canva: browseTemplates, getColorPalette, getCreator, getGraphic, getPhoto, getPricing, getSharedDesign, getTemplate, listColorPalettes, listTemplateCategories, searchGraphics, searchPhotos, searchTemplates (+40 planned)
 capitaloneshopping.com — capitaloneshopping: getStoreRate, searchStores
 carawayhome.com — caraway: getCarawayProduct, listCarawayProducts, runCarawayQuiz
 careers.dahlconsulting.com — dahlconsulting: getJob, searchJobs
@@ -193,7 +193,7 @@ cigna.com — cigna_directory: findProviders
 classichome.com — classichome: addToCart, getProduct, searchProducts
 classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) — classicrockfab: checkAvailability, listAppointmentTypes
 classpass.com — classpass: addFavorite, checkAvailability, checkIn, findLocation, findStudio, getBillingHistory, getBookingQuote, getClass, getClassReviews, getCreditBalance, getMyProfile, getMySubscription, getReservation, getSchedule, getStudio, getStudioReviews, getVideo, listCategories, listFavorites, listMarkets, listMyReservations, listOnDemandVideos, listSimilarStudios, listStudioBranches, listStudioClasses, removeFavorite, search (+13 planned)
-claude.ai — claude: continueSharedConversation, getAccount, getConversation, getMemory, getPreferences, getProject, getPublishedArtifact, getSharedConversation, getUsage, listArtifacts, listConnectors, listConversations, listModels, listProjects, listSharedLinks, listSkills, rateResponse, renameConversation, searchConversations, sendMessage, starConversation (+13 planned)
+claude.ai — claude: continueSharedConversation, createProject, deleteSharedLink, getAccount, getConversation, getMemory, getPreferences, getProject, getPublishedArtifact, getSharedConversation, getUsage, listArtifacts, listConnectors, listConversations, listModels, listProjects, listSharedLinks, listSkills, moveConversationToProject, rateResponse, renameConversation, searchConversations, sendMessage, shareConversation, starConversation (+9 planned)
 claude.com — claude_com: getDoc, listDocPages
 claudemarketplaces.com — claudemarketplaces_com: getListing, searchListings
 clboyd.com — clboyd: searchUsedEquipment
@@ -347,7 +347,7 @@ goodreads.com — goodreads: addToShelf, followUser, getAuthor, getBook, getBook
 goodway.com — goodway: getProduct, searchProducts
 google.com — google: nothing callable yet (+2 planned)
 google.com/maps — google_maps: geocodeAddress, getDirections, getPlace, getPopularTimes, listMyContributions, listPhotos, listRelatedPlaces, listReviews, listSavedPlaces, resolvePlaceUrl, reverseGeocode, savePlace, searchNearby, searchPlaces, suggestPlaces (+3 planned)
-google.com/maps/reserve — reserve_with_google: findBookablePlaces, getBooking, getBookingOptions, getMerchant, getSettings, listMyBookings, listMyPacks, listPartners (+6 planned)
+google.com/maps/reserve — reserve_with_google: findBookablePlaces, getBooking, getBookingOptions, getMerchant, getSettings, listMyBookings, listMyPacks, listPartners, updateSettings (+5 planned)
 goremutual.ca — goremutual: getProductOverview
 gostoreit.com — gostoreit: findFacilities, getFacilityUnits
 gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyleQuiz
@@ -602,6 +602,7 @@ roomandboard.com — roomandboard: listCategories, searchProducts (+1 planned)
 rotogrinders.com — dfs_rotogrinderssearch: nothing callable yet (+1 planned)
 rottentomatoes.com — rottentomatoes: getTitle, search (+4 planned)
 rover.com — rover: searchBoarding
+rtings.com — rtings: getReview
 ruggable.com — ruggable: getRug, searchRugs
 rvshare.com — rvshare: searchListings
 ryanair.com — ryanair: fareCalendar, findAirport, searchFares (+1 planned)
@@ -692,7 +693,7 @@ ticketmaster.com — ticketmaster: nothing callable yet (+5 planned)
 ticketmaster.com.mx — ticketmaster_mx: getEvent, search
 ticketmaster.nl — ticketmaster_nl: event, search
 tidesandcurrents.noaa.gov — coops: getCurrentPredictions, getCurrents, getHighLowTides, getHighTideFloodingHistory, getMeteorologicalObservations, getMonthlyMeanWaterLevel, getSeaLevelTrend, getStationDatums, getStationHarmonicConstituents, getStationMetadata, getTidePredictions, getWaterLevel, listStations
-tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listCaptionTracks, listCommentReplies, listComments, listFollowers, listFollowing, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listSoundVideos, listUserVideos, postComment, searchUsers, searchVideos, sendDirectMessage, unfollowUser, unlikeVideo (+3 planned)
+tiktok.com — tiktok: bookmarkVideo, deleteComment, deleteVideo, editProfile, followUser, getHashtag, getOwnProfile, getProfile, getSound, getTranscript, getVideo, likeVideo, listCaptionTracks, listCommentReplies, listComments, listConversations, listFollowers, listFollowing, listFollowingFeed, listForYouFeed, listHashtagVideos, listNotifications, listSoundVideos, listUserVideos, postComment, searchUsers, searchVideos, sendDirectMessage, unfollowUser, unlikeVideo (+2 planned)
 tilsonhomes.com — tilsonhomes: getElevationDetails, listPlans
 titlenine.com — titlenine: calculateBraSize
 toasttab.com — toast: getMenu, getMenuItem, getOrderingOptions, getPopularItems, getReservationAvailability, getRestaurant, listCities, listCityRestaurants, searchMenu, searchRestaurants (+47 planned)
