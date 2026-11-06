@@ -252,7 +252,7 @@ dice.com — dice: getJob, searchJobs (+3 planned)
 dickssportinggoods.com — dickssportinggoods: findStores (+4 planned)
 dillards.com — dillards: checkStock, findStores, getProduct, search, searchRegistry
 direct-book.com — direct_book: cancelReservation, checkAvailability, checkPromoCode, findProperty, getPolicies, getProperty, getReservation, getRoomRates, initiateBooking, listExtras, listRoomTypes, sendEnquiry (+1 planned)
-discord.com — discord: getAnnouncement, getApp, getDocPage, getGame, getInvite, getMyProfile, getServer, listAppCategories, listBlogPosts, listChannels, listDirectMessages, listDocPages, listFeaturedApps, listMessages, listMyServers, listServerAnnouncements, listServerCategories, listServers, listSimilarApps, listTrendingGames, searchApps, searchMessages, searchServers (+27 planned)
+discord.com — discord: getAnnouncement, getApp, getDocPage, getGame, getInvite, getMyProfile, getServer, listAppCategories, listBlogPosts, listChannels, listDirectMessages, listDocPages, listFeaturedApps, listFriendRequests, listFriends, listMessages, listMyServers, listServerAnnouncements, listServerCategories, listServers, listSimilarApps, listTrendingGames, searchApps, searchMessages, searchServers (+25 planned)
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
 docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 planned)
@@ -333,12 +333,13 @@ gazelle.com — gazelle: findDevices, getTradeInQuote
 geico.com — geico: findAgent, getRentersQuote, listDiscounts, listPartnerCompanies (+33 planned)
 gethealthie.com — healthie: nothing callable yet (+3 planned)
 getsquire.com — squire: findShopsNear, getAvailability, getBarber, getBookingQuote, getBrand, getReviews, getShop, getWalkInStatus, listBarbers, listServices, lookupReservation, searchShops (+16 planned)
-github.com — github: 43 functions — ask get_library
+github.com — github: 46 functions — ask get_library
 glama.ai — glama: search
 glassdoor.com — glassdoor: getEmployerReviews
 glassesusa.com — glassesusa: getProduct, search
 glofox.com — glofox: bookClass, bookCourse, bookFacilitySlot, bookTrainerSlot, cancelBooking, findStudio, getClass, getMyProfile, getPrice, getStudio, joinWaitlist, listAppointmentTypes, listClasses, listClassTypes, listCourses, listFacilities, listFacilitySlots, listMemberships, listMyBookings, listMyCredits, listMyMemberships, listMyTransactions, listTrainers, listTrainerSlots, updateMyProfile (+5 planned)
 glossgenius.com — glossgenius: cancelMyMembership, findBusiness, getAvailability, getBookingRequirements, getBusiness, getGiftCardOptions, getMyProfile, joinWaitlist, listLocations, listMemberships, listMyMemberships, listMyOrders, listPackages, listReviews, listServices, listTeam, updateMyProfile (+14 planned)
+gmail-smtp-in.l.google.com — smtp_probe: lookupMx, probeMailboxes
 gobrightwing.com — gobrightwing: getJobDetails, searchJobs (+2 planned)
 gokenko.com — kenko: cancelBooking, cancelMembership, findStudio, getAppointmentAvailability, getClass, getClassSpots, getMyProfile, listAppointmentTypes, listClasses, listGiftCards, listInstructors, listMyBookings, listMyMemberships, listMyPurchases, listPricing, listProducts, listScheduleFilters, pauseMembership, updateMyProfile (+8 planned)
 golf.com — golf_com: nothing callable yet (+2 planned)
@@ -354,6 +355,7 @@ gotchacovered.com — gotchacovered: getDesignStyleQuizQuestions, takeDesignStyl
 goteamup.com — goteamup_classes: bookClass, cancelClass, checkBookingEligibility, findStudio, getClass, getMembership, getMyProfile, getStudio, joinWaitlist, listClassTypes, listInstructors, listMemberships, listMyBookings, listSchedule, listVenues (+1 planned)
 grainger.com — grainger: findBranch, getProduct, search (+2 planned)
 grandwelcome.com — grandwelcome: getRentalDetail, getRentalQuote, listGrandwelcomeDestinations, searchRentals
+gravatar.com — gravatar: getProfile
 greatlakesdentaltech.com — greatlakesdentaltech: getProduct, search
 greenhouse.io — greenhouse: listJobs (+1 planned)
 grubhub.com — grubhub: addToCart, applyPromoCode, getCart, getDeliveryEstimate, getFavoriteRestaurants, getMenu, getMenuItem, getOrderHistory, getOrderStatus, getPaymentMethods, getPromoOffers, getRestaurant, getRestaurantReviews, getSavedAddresses, listCuisines, removeFromCart, saveRestaurant, search, updateCartItem (+3 planned)
@@ -419,6 +421,7 @@ katzsdelicatessen.com — katzsdelicatessen: getProduct, searchProducts (+1 plan
 kayak.com — kayak: getBookingOptions, search, searchCars, searchHotels
 kbb.com — kbb: getTrimPricing
 keepa.com — keepa: getProduct (+1 planned)
+keyserver.ubuntu.com — ubuntu_keyserver: searchKeys
 kijiji.ca — kijiji: getListing, search (+2 planned)
 kingsdown.com — kingsdown: getBedMatchResult
 kitchentuneup.com — kitchentuneup: listCabinetStyles, visualizeKitchen
@@ -573,7 +576,8 @@ puls.com — puls_com: getRepairQuote, listApplianceCategories
 punchpass.com — punchpass: getCalendarFeed, getClass, getMyClassHistory, getMyProfile, getPass, getSchedule, getSeries, getStudio, listAppointmentSlots, listInstructors, listMyChildren, listMyPasses, listMyReservations, listPasses, listScheduleFilters, listSeries (+16 planned)
 purevpn.com — purevpn: getDedicatedIp (+1 planned)
 pushpress.com — pushpress: bookClass, cancelBooking, getClass, getGym, getMyProfile, getPlan, joinWaitlist, listAppointmentTypes, listClasses, listCoaches, listLocations, listMyBookings, listMyDocuments, listMyInvoices, listMyPlans, listPlans (+8 planned)
-quickbooks.intuit.com — quickbooks: calculatePaycheck, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getServiceStatus, getStatePayrollTaxes, getThread, listAppCategories, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listTemplates, searchApps, searchCommunity, searchHelpArticles (+14 planned)
+pypi.org — pypi: getProject
+quickbooks.intuit.com — quickbooks: calculatePaycheck, getApp, getEvent, getHelpArticle, getPayrollPlans, getPlans, getResourceArticle, getServiceStatus, getStatePayrollTaxes, getThread, listAppCategories, listBoardThreads, listCommunityBoards, listEvents, listFeaturedAccountants, listIncidents, listPaycheckCalculatorStates, listResourceArticles, listTemplates, searchApps, searchCommunity, searchHelpArticles (+12 planned)
 quince.com — quince: getProduct, searchProducts
 quora.com — quora: getAnswers, getHomeFeed, getOwnProfile, getProfile, getQuestion, getSpace, getTopic, getTopicFeed, searchQuestions (+5 planned)
 raadvanstate.nl — raadvanstate_nl: getRuling, searchRulings

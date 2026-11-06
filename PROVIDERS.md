@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 6000 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 6008 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1534,8 +1534,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discord.listDirectMessages` | discord.com | Lists the caller's DM and group-DM conversations — channel id, the other people in it… | 🟢 |
 | `discord.listDocPages` | discord.com | Lists every page of Discord's developer documentation (REST resources, Gateway… | 🟢 |
 | `discord.listFeaturedApps` | discord.com | Lists the App Directory's featured collections ("Action Games" and the rest) — each… | 🟢 |
-| `discord.listFriendRequests` | discord.com | Lists the caller's pending incoming and outgoing friend requests. | ⚪ |
-| `discord.listFriends` | discord.com | Lists the caller's friends — user id, username, display name and avatar. | ⚪ |
+| `discord.listFriendRequests` | discord.com | Lists the caller's pending incoming and outgoing friend requests. | 🟢 |
+| `discord.listFriends` | discord.com | Lists the caller's friends — user id, username, display name and avatar. | 🟢 |
 | `discord.listMentions` | discord.com | Lists the recent messages that mentioned the caller across their servers — the Inbox's… | ⚪ |
 | `discord.listMessages` | discord.com | Reads a channel's or DM's recent messages, newest first, paging backwards — author… | 🟢 |
 | `discord.listMyServers` | discord.com | Lists the servers the signed-in caller has joined — id, name, icon, whether they own… | 🟢 |
@@ -2310,6 +2310,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, state, merge… | 🟢 |
 | `github.getReadme` | github.com | Returns a public repository's README decoded to text, whatever its filename — plus… | 🟢 |
 | `github.getRepo` | github.com | Returns a public repository's own metadata — description, default branch… | 🟢 |
+| `github.getSocialAccounts` | github.com | Lists the social links a user put on their profile — X, LinkedIn, Mastodon, Bluesky… | 🟢 |
 | `github.getSponsorPage` | github.com | Returns a person's public GitHub Sponsors page — display name, bio, location, current… | 🟢 |
 | `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | 🟢 |
 | `github.getUserRepositories` | github.com | Lists every public repository a user owns — description, fork/archived flags, default… | 🟢 |
@@ -2319,6 +2320,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟢 |
 | `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟢 |
 | `github.listNotifications` | github.com | Lists the signed-in caller's GitHub notifications inbox, 25 per page — repository… | 🟢 |
+| `github.listOrganizationMembers` | github.com | Lists an organization's public members — login, profile URL and account type. | 🟢 |
 | `github.listOrganizationRepositories` | github.com | Lists an organization's public repositories — description, fork/archived flags… | 🟢 |
 | `github.listPullRequestFiles` | github.com | Lists what a pull request changes — each file's status, additions, deletions and diff. | 🟢 |
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
@@ -2332,6 +2334,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchIssues` | github.com | Free-text search over issues and pull requests across GitHub. | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
+| `github.searchUsers` | github.com | Searches GitHub accounts by display name (`fullname:`), location, followers and other… | 🟢 |
 | `github.starRepository` | github.com | Stars a repository for the signed-in caller, off github.com's own star form (POST… | 🟢 |
 | `github.unstarRepository` | github.com | Unstars a repository for the signed-in caller, off github.com's own unstar form (POST… | 🟢 |
 | `github.unwatchRepository` | github.com | Stops watching a repository for the signed-in caller, returning it to GitHub's default… | 🟢 |
@@ -2552,6 +2555,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grandwelcome.getRentalQuote` | grandwelcome.com | Runs the site's own real-time date-specific pricing engine for one property — rent… | 🟢 |
 | `grandwelcome.listGrandwelcomeDestinations` | grandwelcome.com | The entry door: reads the site's own /sitemap.xml for every published destination page… | 🟢 |
 | `grandwelcome.searchRentals` | grandwelcome.com | Runs Grand Welcome's own destination search (a real market slug like… | 🟢 |
+| `gravatar.getProfile` | gravatar.com | Reads the public Gravatar profile registered at an email address (display name, slug… | 🟢 |
 | `greatlakesbrewing.getEGiftCardOptions` | store.greatlakesbrewing.com | Reads Great Lakes Brewing Co.'s live eGift-card denominations, permitted custom range… | 🟢 |
 | `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
 | `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟡 |
@@ -3958,6 +3962,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pushpress.payInvoice` | pushpress.com | Retries payment on a failed invoice. | ⚪ |
 | `pushpress.signWaiver` | pushpress.com | Signs an outstanding gym waiver or agreement as the signed-in member, only when the… | ⚪ |
 | `pushpress.updateProfile` | pushpress.com | Updates the signed-in member's profile fields (name, phone, emergency contact, photo). | ⚪ |
+| `pypi.getProject` | pypi.org | Reads one PyPI project's current metadata off PyPI's documented JSON API: version… | 🟢 |
 | `quickbooks.calculateEmployeeCost` | quickbooks.intuit.com | Estimates the full yearly cost of one employee (salary plus payroll taxes, benefits… | ⚪ |
 | `quickbooks.calculatePaycheck` | quickbooks.intuit.com | Computes a US employee's take-home pay for one paycheck from gross pay, pay frequency… | 🟢 |
 | `quickbooks.calculateSalesTax` | quickbooks.intuit.com | Estimates the combined sales tax rate and amount for a purchase price at a US address… | ⚪ |
@@ -3974,7 +3979,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.getPaymentRates` | quickbooks.intuit.com | Returns QuickBooks Payments' published processing rates per method (card swiped, card… | ⚪ |
 | `quickbooks.getPayrollPlans` | quickbooks.intuit.com | Lists the QuickBooks Payroll plans (Core, Premium, Elite) with monthly base price… | 🟢 |
 | `quickbooks.getPlans` | quickbooks.intuit.com | Lists the QuickBooks Online plans (Solopreneur, Simple Start, Essentials, Plus… | 🟢 |
-| `quickbooks.getResourceArticle` | quickbooks.intuit.com | Reads one Resource Center article (/r/<topic>/<slug>/) as text with its title, author… | ⚪ |
+| `quickbooks.getResourceArticle` | quickbooks.intuit.com | Reads one Resource Center article (/r/<topic>/<slug>/) as text with its title, author… | 🟢 |
 | `quickbooks.getServiceStatus` | quickbooks.intuit.com | Returns QuickBooks' current service status per region and component (operational… | 🟢 |
 | `quickbooks.getStatePayrollTaxes` | quickbooks.intuit.com | Returns one US state's income-tax rate range as /payroll/tools/tax-map/'s own state… | 🟢 |
 | `quickbooks.getThread` | quickbooks.intuit.com | Reads one Community thread's question and its accepted (or top suggested) answer, with… | 🟢 |
@@ -3987,7 +3992,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quickbooks.listFeaturedAccountants` | quickbooks.intuit.com | Lists the ProAdvisors QuickBooks features on a state's /find-an-accountant/<state>/… | 🟢 |
 | `quickbooks.listIncidents` | quickbooks.intuit.com | Lists QuickBooks' recent service incidents with their status updates, affected… | 🟢 |
 | `quickbooks.listPaycheckCalculatorStates` | quickbooks.intuit.com | Lists the US states with their own paycheck calculator page… | 🟢 |
-| `quickbooks.listResourceArticles` | quickbooks.intuit.com | Lists articles in the QuickBooks Resource Center (/r/) for a topic (taxes, payroll… | ⚪ |
+| `quickbooks.listResourceArticles` | quickbooks.intuit.com | Lists articles in the QuickBooks Resource Center (/r/) for a topic (accounting, taxes… | 🟢 |
 | `quickbooks.listTemplates` | quickbooks.intuit.com | Lists QuickBooks' free downloadable invoice and timesheet templates (Word, Excel and… | 🟢 |
 | `quickbooks.searchApps` | quickbooks.intuit.com | Searches the QuickBooks App Store for apps that connect to QuickBooks, by keyword and… | 🟢 |
 | `quickbooks.searchCommunity` | quickbooks.intuit.com | Searches QuickBooks Community (the Intuit-run user forum) for questions matching a… | 🟢 |
@@ -4521,6 +4526,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |
 | `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the socks it… | 🟢 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
+| `smtp_probe.lookupMx` | gmail-smtp-in.l.google.com | Looks up a domain's mail hosts in DNS (MX records by preference, else the domain's own… | 🟢 |
+| `smtp_probe.probeMailboxes` | gmail-smtp-in.l.google.com | Holds one SMTP conversation with a domain's mail server on port 25 (EHLO, MAIL… | 🟢 |
 | `snapchat.addFriend` | snapchat.com | Sends a friend add from the signed-in caller's account to one Snapchat user by their… | 🟢 |
 | `snapchat.blockUser` | snapchat.com | Blocks an account from contacting the signed-in caller. | ⚪ |
 | `snapchat.getChatMessages` | snapchat.com | Reads the messages in one of the signed-in caller's conversations — sender, time… | ⚪ |
@@ -5319,6 +5326,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ubereats.searchStoreProducts` | ubereats.com | Searches the products inside one grocery or convenience store on Uber Eats (e.g.… | 🟢 |
 | `ubereats.unsaveStore` | ubereats.com | Removes a store from the caller's favorites. | ⚪ |
 | `ubereats.updateCartItem` | ubereats.com | Changes the quantity of one cart item — pass the exact object addToCart() returned… | 🟢 |
+| `ubuntu_keyserver.searchKeys` | keyserver.ubuntu.com | Searches the Ubuntu OpenPGP keyserver's public HKP index for keys whose user IDs… | 🟢 |
 | `uhaul.getRates` | uhaul.com | Gets U-Haul truck or trailer rental rates for a pickup location and date — in-town, or… | 🟢 |
 | `uhc_directory.findProviders` | uhc.com | In-network practitioners at offices in one US ZIP code, with specialty, address, phone… | 🟢 |
 | `uhc_smallbusiness.getGroupHealthQuote` | smallbusiness.uhc.com | Real level-funded and fully-insured small-group health plan premiums for a ZIP code… | 🟢 |
