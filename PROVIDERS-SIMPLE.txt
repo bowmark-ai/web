@@ -232,7 +232,7 @@ curiocity.com — curiocity: listEvents
 currys.co.uk — currys: listClearance, search (+2 planned)
 cve.circl.lu — circl: getCve, search
 cyberpowerpc.com — cyberpowerpc: getConfigurator, listConfigurators, priceBuild
-dailymotion.com — dailymotion: addToWatchLater, followChannel, getChannel, getMyProfile, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listFollowedChannels, listFollowingFeed, listHashtagVideos, listLiveStreams, listMyLikedVideos, listMyPlaylists, listPlaylistVideos, listRelatedVideos, listStreamFormats, listTrendingVideos, listWatchHistory, listWatchLater, searchChannels, searchPlaylists, searchVideos (+8 planned)
+dailymotion.com — dailymotion: addToWatchLater, createPlaylist, followChannel, getChannel, getMyProfile, getPlaylist, getTranscript, getVideo, likeVideo, listCaptionTracks, listCategories, listCategoryVideos, listChannelPlaylists, listChannelVideos, listFollowedChannels, listFollowingFeed, listHashtagVideos, listLiveStreams, listMyLikedVideos, listMyPlaylists, listPlaylistVideos, listRelatedVideos, listStreamFormats, listTrendingVideos, listWatchHistory, listWatchLater, searchChannels, searchPlaylists, searchVideos (+7 planned)
 dangotecement.com — dangotecement: findDistributors, searchNews (+1 planned)
 data.cms.gov — data_cms: getRows, searchDatasets
 davidsonhomes.com — davidsonhomes: getCommunity, getHome, getRegion, listRegions
@@ -256,7 +256,7 @@ discord.com — discord: getAnnouncement, getApp, getDocPage, getGame, getInvite
 discounttire.com — discounttire: checkStock, getProduct, searchTiresBySize (+12 planned)
 disneyworld.disney.go.com — disney: getTicketPrice
 docs.google.com — google_sheets: findSpreadsheets, listSheets, readSheet (+2 planned)
-donsappliances.com — donsappliances: search (+1 planned)
+donsappliances.com — donsappliances: getProduct, search
 doordash.com — doordash: browseStores, findAddress, getMenu, getMenuItem, getRetailStore, getStore, getStoreReviews, listCuisines, listOrders, search, searchDishes (+23 planned)
 drafthouse.com — drafthouse: findTheaters, getShowtimes (+1 planned)
 drivers.uber.com — uber: getDriverEarnings

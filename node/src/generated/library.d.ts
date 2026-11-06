@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e7cd9605d5def39dc64116901b6a1bf34f189002ae0cf83873c0f3b9276d8d94
-// 95 capabilities, 762 providers, 4419 typed functions, 20 refused.
+// Manifest version: bd49ad284347556feb42f07965d2ce0f3341d049b57f4e23acadae83968679fd
+// 95 capabilities, 762 providers, 4442 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3865,19 +3865,23 @@ type CallOptions = {
    * Looks up currently-known promo codes and checkout discounts for a merchant by domain — the
    * code string (when one exists), human discount text, title, description, whether the source
    * verified it, and a link to redeem it. Fans out across coupon aggregators; direct API, no
-   * browser.
+   * browser. NOTE: `code` may be null for offers that require browser interaction (e.g.,
+   * clicking a reveal button) to access the code; these are returned as deal-only listings
+   * instead.
    */
   interface Unit {
     /**
      * Looks up promo codes and checkout discounts for a merchant —
      * `bowmark.promocodes.search("getyourguide.com")` — and returns normalized offers ranked
-     * verified-with-code first, then any code, deal-only listings last. `domain` is a registrable
-     * domain (a bare URL or a "www."-prefixed host is folded down to it); THROWS on a bare brand
-     * word with no dot ("getyourguide"), because a source behind this capability indexes by domain
-     * and a guessed TLD would silently search the wrong merchant. Returns `codes: []` honestly
-     * when no source tracks anything for that domain — a real, correct answer, not a failure.
-     * `warnings` is always present and names anything dropped, INCLUDING a source that timed out
-     * or failed. `options.timeoutMs` sets the per-source budget (default 30000).
+     * verified-with-code first, then any code, deal-only listings last. `code` may be null for
+     * offers that require browser interaction to reveal; these return as deal-only listings.
+     * `domain` is a registrable domain (a bare URL or a "www."-prefixed host is folded down to
+     * it); THROWS on a bare brand word with no dot ("getyourguide"), because a source behind this
+     * capability indexes by domain and a guessed TLD would silently search the wrong merchant.
+     * Returns `codes: []` honestly when no source tracks anything for that domain — a real,
+     * correct answer, not a failure. `warnings` is always present and names anything dropped,
+     * INCLUDING a source that timed out or failed. `options.timeoutMs` sets the per-source budget
+     * (default 30000).
      */
     search(domain: string, options?: CallOptions): Promise<PromoCodeSearchResult>;
   }
@@ -7763,6 +7767,9 @@ interface StockAsset {
   id: string;
   title: string;
   thumbnail: string;
+  /** The asset's canonical stock.adobe.com detail URL — pass it to getStockAsset;
+   * a video, template or 3D asset cannot be opened from its bare id. */
+  url: string;
   mediaType: "photo" | "vector" | "illustration" | "template" | "video" | "3d-asset";
   orientation?: "landscape" | "portrait" | "square";
   licensingPriceTier?: string;
@@ -8607,41 +8614,55 @@ interface alibabaSupplierProductRow {
    */
   interface Unit {
     /** Search for products by keyword, with an optional price range and page number. */
-    searchProducts(args: { query: string, language?: string, country?: string, priceMin?: number, priceMax?: number, page?: number }): Promise<alibabaSearchRow[]>;
+    searchProducts(args: { query: string, language?: string, country?: string, priceMin?: number, priceMax?: number, page?: number }, opts?: ConnectionOption): Promise<alibabaSearchRow[]>;
 
     /**
      * Get detailed information for a single product by ID or URL, including title, price and its
      * unit, MOQ, images, spec table, variant options and supplier.
      */
-    getProduct(idOrUrl: string | number): Promise<alibabaProductRow>;
+    getProduct(idOrUrl: string | number, opts?: ConnectionOption): Promise<alibabaProductRow>;
 
     /** List the marketplace's top-level product categories. */
-    listCategories(): Promise<alibabaCategoryRow[]>;
+    listCategories(opts?: ConnectionOption): Promise<alibabaCategoryRow[]>;
 
     /** Get search suggestions and autocomplete hints based on partial keyword. */
-    getSuggestions(keyword: string): Promise<alibabaSuggestionRow[]>;
+    getSuggestions(keyword: string, opts?: ConnectionOption): Promise<alibabaSuggestionRow[]>;
 
     /** Search for suppliers by company name or product type. */
-    listSuppliers(args: { query: string }): Promise<alibabaSupplierRow[]>;
+    listSuppliers(args: { query: string }, opts?: ConnectionOption): Promise<alibabaSupplierRow[]>;
 
     /**
      * Get a supplier's storefront profile — company info, verification status, rating and contact
      * address — from its listSuppliers() profileUrl.
      */
-    getSupplier(profileUrl: string): Promise<alibabaSupplierProfileRow>;
+    getSupplier(profileUrl: string, opts?: ConnectionOption): Promise<alibabaSupplierProfileRow>;
 
     /**
      * One page of a product's buyer reviews — stars, text, date, masked reviewer and country,
      * verified-purchase flag — plus the total count. Pass supplierId from getProduct to skip a
      * page load.
      */
-    getProductReviews(product: string | number | alibabaProductReviewsArgs): Promise<alibabaProductReviews>;
+    getProductReviews(product: string | number | alibabaProductReviewsArgs, opts?: ConnectionOption): Promise<alibabaProductReviews>;
 
     /**
      * List the other products a supplier's storefront carries, from its listSuppliers()
      * profileUrl.
      */
-    listSupplierProducts(profileUrl: string): Promise<alibabaSupplierProductRow[]>;
+    listSupplierProducts(profileUrl: string, opts?: ConnectionOption): Promise<alibabaSupplierProductRow[]>;
+
+    /**
+     * Makes a NEW Alibaba.com account with the person's own email and password, in a session.
+     * Pauses with `needs_code` / `needs_phone` whenever the site wants something only the person
+     * has; continue with `confirmSignup` in the same session. Ends `signed_up` with the login
+     * saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -11781,6 +11802,34 @@ interface archive_orgDownloadUrl {
   downloadUrl: string;             // the ready-to-fetch URL for this file
 }
 
+interface archive_orgScholarOptions {
+  page?: number;                   // 1-based, 20 results a page; default 1
+}
+
+interface archive_orgScholarResult {
+  title: string;
+  authors: string[];
+  year: number | null;
+  venue: string | null;            // journal, book or conference
+  snippet: string;                 // full-text highlights around the query terms
+  doi: string | null;
+  externalIds: string[];           // e.g. "doi:10.1038/nbt.2863", "pmid:24714470"
+  fulltextUrl: string | null;      // the archived PDF/full text on scholar.archive.org
+  fulltextLabel: string | null;    // e.g. "Archived PDF (342 kB, captured 2017)"
+  originalUrl: string | null;      // the publisher's own url (often doi.org)
+  permalink: string | null;
+  releaseUrl: string | null;       // the catalog record behind the result
+}
+
+interface archive_orgScholarResults {
+  query: string;
+  page: number;
+  totalHits: string | null;        // as the site prints it, e.g. "10,000+"
+  hasNextPage: boolean;
+  results: archive_orgScholarResult[];
+  warnings: string[];
+}
+
   /**
    * The Wayback Machine — is a site or page archived, every capture it holds, and the page
    * itself as it was captured, so a caller can see what a site published before it was changed
@@ -11827,6 +11876,14 @@ interface archive_orgDownloadUrl {
      * usually far larger than the page returned.
      */
     searchItems(query: string, opts?: archive_orgSearchOptions): Promise<archive_orgSearchResults>;
+
+    /**
+     * Searches IA Scholar (scholar.archive.org) — the Internet Archive's full-text index of
+     * open-access research papers, journal articles and preprints. Returns 20 results a page, each
+     * with title, authors, year, venue, a full-text snippet, its DOI and other ids, and a link to
+     * the archived PDF. Page on with `page` while `hasNextPage` is true.
+     */
+    searchScholar(query: string, opts?: archive_orgScholarOptions): Promise<archive_orgScholarResults>;
 
     /**
      * Fetches one item's full metadata — title, creator, description, date, mediatype, collection
@@ -16762,6 +16819,18 @@ interface BlueskyCreatePostArgs {
   langs?: string[];
 }
 
+interface BlueskyReplyToPostArgs {
+  post: string;
+  text: string;
+  langs?: string[];
+}
+
+interface BlueskyQuotePostArgs {
+  post: string;
+  text: string;
+  langs?: string[];
+}
+
 interface BlueskyPostActionArgs {
   post: string;
   undo?: boolean;
@@ -17115,6 +17184,25 @@ interface BlueskyPostActionResult {
      * sign in again.
      */
     repost(args: BlueskyPostActionArgs, opts?: ConnectionOption): Promise<BlueskyPostActionResult>;
+
+    /**
+     * Replies to a post (at:// URI or bsky.app post URL) as the signed-in caller, threaded under
+     * it. `root`/`parent` are resolved automatically — replying to a reply threads under the whole
+     * conversation's own root. Links and @handle mentions in `text` are turned into clickable
+     * facets, same as `createPost`. Returns the new reply's at:// URI, cid and bsky.app URL. Needs
+     * the caller signed in to bsky.app — the run pauses for a sign-in link when they are not.
+     * THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    replyToPost(args: BlueskyReplyToPostArgs, opts?: ConnectionOption): Promise<BlueskyCreatedRecord>;
+
+    /**
+     * Quote-posts a post (at:// URI or bsky.app post URL) as the signed-in caller, with the
+     * caller's own `text` on top of it. Links and @handle mentions in `text` are turned into
+     * clickable facets, same as `createPost`. Returns the new quote post's at:// URI, cid and
+     * bsky.app URL. Needs the caller signed in to bsky.app — the run pauses for a sign-in link
+     * when they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in again.
+     */
+    quotePost(args: BlueskyQuotePostArgs, opts?: ConnectionOption): Promise<BlueskyCreatedRecord>;
 
     /**
      * Which of the signed-in caller's own follows also follow `actor` (a handle, DID or bsky.app
@@ -27103,10 +27191,24 @@ interface ListQuotesArgs {
      * low, 52-week high/low, market cap, P/E ratio and dividend, read from quote.cnbc.com's
      * keyless JSON quote service.
      */
-    getQuote(args: GetQuoteArgs): Promise<cnbc_comRow>;
+    getQuote(args: GetQuoteArgs, opts?: ConnectionOption): Promise<cnbc_comRow>;
 
     /** Returns current stock quotes for multiple symbols as an array, with same fields as getQuote. */
-    listQuotes(args: ListQuotesArgs): Promise<cnbc_comRow[]>;
+    listQuotes(args: ListQuotesArgs, opts?: ConnectionOption): Promise<cnbc_comRow[]>;
+
+    /**
+     * Makes a NEW CNBC account with the person's own email and password, in a session. Pauses with
+     * `needs_code` / `needs_phone` whenever the site wants something only the person has; continue
+     * with `confirmSignup` in the same session. Ends `signed_up` with the login saved and the
+     * credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -35366,6 +35468,21 @@ interface ListMyFantasyTeamsResult {
   teams: FantasyTeamSummary[];
 }
 
+interface EspnFavorite {
+  id: string; // ESPN's preference id
+  kind: string | null; // type.code — "fantasy" measured; "team", "league", "player" expected
+  kindName: string | null;
+  name: string | null;
+  url: string | null;
+  sortOrder: number | null;
+  hidden: boolean;
+  deletable: boolean | null;
+}
+
+interface ListFavoritesResult {
+  favorites: EspnFavorite[];
+}
+
   /**
    * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
    * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
@@ -35515,6 +35632,13 @@ interface ListMyFantasyTeamsResult {
      * getFantasyLeague.
      */
     getFantasyTeam(args: GetFantasyTeamArgs): Promise<FantasyTeamResult>;
+
+    /**
+     * The CALLER's My ESPN favourites — the teams, leagues, players and fantasy teams they follow,
+     * each with ESPN's preference id, kind, display name and link. Needs the caller's own ESPN
+     * sign-in.
+     */
+    listFavorites(opts?: ConnectionOption): Promise<ListFavoritesResult>;
 
     /**
      * The CALLER's own ESPN fantasy teams across every game (football, baseball, basketball,
@@ -37806,6 +37930,31 @@ interface FandomCurrentUser {
   rights: string[];
 }
 
+interface EditPageArgs {
+  wiki: string;
+  title: string;
+  text: string;
+  summary?: string;
+  section?: number | "new";
+}
+
+interface CreatePageArgs {
+  wiki: string;
+  title: string;
+  text: string;
+  summary?: string;
+}
+
+interface EditResult {
+  wiki: string;
+  title: string;
+  pageid: string;
+  newRevid: string;
+  oldRevid: string;
+  noChange: boolean;
+  created: boolean;
+}
+
 interface WatchResult {
   wiki: string;
   title: string;
@@ -38000,6 +38149,20 @@ interface WatchResult {
      * article's full URL. `POST /api.php?action=watch&unwatch=1`.
      */
     unwatchPage(args: { wiki: string; title: string } | string, opts?: ConnectionOption): Promise<WatchResult>;
+
+    /**
+     * Replace an article, or one section of it (`section` from `getSections`, or `"new"` to append
+     * one), with new wikitext under the caller's own account and edit summary. Refuses before
+     * sending if the account lacks the `edit` right on that wiki. `POST /api.php?action=edit`.
+     */
+    editPage(args: EditPageArgs, opts?: ConnectionOption): Promise<EditResult>;
+
+    /**
+     * Create an article that does not exist yet, under the caller's own account — fails with
+     * `articleexists` rather than overwriting one that does. `POST
+     * /api.php?action=edit&createonly=1`.
+     */
+    createPage(args: CreatePageArgs, opts?: ConnectionOption): Promise<EditResult>;
   }
 }
 
@@ -76754,6 +76917,20 @@ interface ReserveSettings {
   dataBlocks: Record<string, unknown>;
 }
 
+interface UpdateSettingsArgs {
+  /** Contact name Google passes to the merchant with a booking. */
+  name?: string;
+  /** Contact phone, e.g. "+12065550100". */
+  phone?: string;
+  /** Contact email. */
+  email?: string;
+}
+
+interface UpdateSettingsResult {
+  /** The fields this call filled and saved, e.g. ["phone"]. */
+  updated: Array<"name" | "phone" | "email">;
+}
+
   /**
    * Google's own booking layer on Maps and Search: find places that take a booking through
    * Google, see which partner takes it, read a Google-hosted restaurant's party sizes and
@@ -76807,6 +76984,13 @@ interface ReserveSettings {
      * phone or email is not decoded — the signed-in Settings page has never been captured.
      */
     getSettings(opts?: ConnectionOption): Promise<ReserveSettings>;
+
+    /**
+     * Changes the contact name, phone or email on the caller's Reserve with Google Settings page
+     * (needs the caller's Google sign-in) by filling the page's own labelled fields and saving,
+     * the way a person would. Pass only the fields to change.
+     */
+    updateSettings(args: UpdateSettingsArgs, opts?: ConnectionOption): Promise<UpdateSettingsResult>;
 
     /**
      * Finds one of the caller's bookings on their Bookings page (needs the caller's Google
@@ -77395,6 +77579,17 @@ interface ReutersFollowedTopic {
   category: string | null;    // only set on a TAG
   rootSection: string | null; // set on a TAG or SECTION
 }
+interface ReutersWriteResult {
+  id: string;                 // what reuters.com echoed back
+  success: boolean;           // reuters.com's own success flag
+}
+interface ReutersArticleRef {
+  id: string;                 // the article id listSavedArticles / getMyNewsFeed return
+}
+interface ReutersTopicRef {
+  id: string;                 // an id as listFollowedTopics returns it, e.g. "RSBI:CLIMATE-CHANGE"
+  type?: "TAG" | "SECTION" | "LAW_FIRM" | "COMPANY" | "AUTHOR"; // default SECTION for a "/path", else TAG
+}
 interface ReutersFeedArticle {
   id: string;
   headline: string;
@@ -77604,10 +77799,39 @@ interface GetMyNewsFeedArgs {
     listFollowedTopics(opts?: ConnectionOption): Promise<ReutersFollowedTopic[]>;
 
     /**
+     * Save a Reuters article to the signed-in reader's saved list, by the id listSavedArticles or
+     * getMyNewsFeed returns.
+     */
+    saveArticle(args: ReutersArticleRef, opts?: ConnectionOption): Promise<ReutersWriteResult>;
+
+    /** Remove an article from the signed-in reader's saved list, by its id. */
+    removeSavedArticle(args: ReutersArticleRef, opts?: ConnectionOption): Promise<ReutersWriteResult>;
+
+    /** Follow a topic, section, company, law firm or author in the signed-in reader's My News. */
+    followTopic(args: ReutersTopicRef, opts?: ConnectionOption): Promise<ReutersWriteResult>;
+
+    /** Unfollow something listFollowedTopics returns, by its id (and type). */
+    unfollowTopic(args: ReutersTopicRef, opts?: ConnectionOption): Promise<ReutersWriteResult>;
+
+    /**
      * The signed-in reader's My News feed — the latest stories aggregated from everything
      * listFollowedTopics returns, newest first.
      */
     getMyNewsFeed(args?: GetMyNewsFeedArgs, opts?: ConnectionOption): Promise<ReutersFeedArticle[]>;
+
+    /**
+     * Makes a NEW Reuters account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -82201,6 +82425,37 @@ interface ShopAppOrder {
   images: string[];
   url: string;
 }
+interface ShopAppOrderItem {
+  title: string;
+  variant: string | null;
+  quantity: number | null;
+  total: number | null;
+  image: string | null;
+}
+interface ShopAppOrderShipment {
+  status: string | null;
+  carrier: string | null;
+  trackingCode: string | null;
+  trackingUrl: string | null;
+  items: ShopAppOrderItem[];
+}
+interface ShopAppOrderDetail {
+  id: string;
+  orderNumber: string | null;
+  placedAt: string | null;
+  status: string | null;
+  store: string | null;
+  currency: string | null;
+  subtotal: number | null;
+  shipping: number | null;
+  tax: number | null;
+  total: number | null;
+  shippingAddress: string[];
+  items: ShopAppOrderItem[];
+  shipments: ShopAppOrderShipment[];
+  url: string;
+  warnings: string[];
+}
 interface ShopAppOrderList {
   orders: ShopAppOrder[];
   nextCursor: string | null;
@@ -82219,6 +82474,14 @@ interface ShopAppListOrdersArgs {
    * products, follow stores and fill a cart up to checkout.
    */
   interface Unit {
+    /**
+     * One of the signed-in caller's own Shop orders by the id listOrders returns (or its
+     * shop.app/orders/<id> url): store, order number, status, subtotal, shipping, tax and total,
+     * the shipping address, every item with variant, quantity and price, and each shipment's
+     * carrier, tracking code and tracking link. Pauses for the caller to sign in to Shop.
+     */
+    getOrder(id: string, opts?: ConnectionOption): Promise<ShopAppOrderDetail>;
+
     /**
      * The signed-in caller's own Shop orders, newest first — store, status words, delivery and
      * payment status, total, item count and item images — "active" (not yet delivered, the
@@ -101362,6 +101625,16 @@ interface WsjArticle {
   url: string;
 }
 
+interface WsjSaveArticleArgs {
+  url: string; // a www.wsj.com article url, e.g. from listArticles or listSavedArticles
+}
+
+interface WsjSaveResult {
+  url: string;
+  saved: boolean; // the article's state on the caller's saved list after the call
+  changed: boolean; // false when it was already in that state
+}
+
 interface GetArticleFullTextArgs {
   url: string; // a www.wsj.com article url; needs the caller's own WSJ subscription
 }
@@ -101551,6 +101824,18 @@ interface WsjTrendingArticle {
      * WSJ session — headline, byline, teaser and url for each.
      */
     listSavedArticles(opts?: ConnectionOption): Promise<WsjArticleSummary[]>;
+
+    /**
+     * Saves an article to the caller's own My WSJ saved list through their signed-in WSJ session.
+     * Idempotent: changed is false when it was already saved.
+     */
+    saveArticle(args: WsjSaveArticleArgs, opts?: ConnectionOption): Promise<WsjSaveResult>;
+
+    /**
+     * Removes an article from the caller's own My WSJ saved list through their signed-in WSJ
+     * session. Idempotent: changed is false when it was not saved.
+     */
+    unsaveArticle(args: WsjSaveArticleArgs, opts?: ConnectionOption): Promise<WsjSaveResult>;
 
     /**
      * Searches WSJ's own site search for a keyword and returns matching articles with headline,
@@ -101815,6 +102100,28 @@ interface XDeletePostResult {
   deleted: true;
 }
 
+interface UpdateProfileArgs {
+  name?: string;
+  bio?: string;
+  location?: string;
+  website?: string;
+}
+
+interface XUpdateProfileResult {
+  updated: true;
+  fields: UpdateProfileArgs;
+}
+
+interface UploadProfilePictureArgs {
+  imageUrl?: string; // https JPEG/PNG/WebP/GIF
+  base64?: string;
+  mimeType?: string;
+}
+
+interface XUploadProfilePictureResult {
+  updated: true;
+}
+
   /** Read public user timelines and post data from X (Twitter). */
   interface Unit {
     /** Returns a public user's recent tweets from their timeline. */
@@ -101927,6 +102234,15 @@ interface XDeletePostResult {
 
     /** Deletes one of the signed-in caller's own posts, by url or id. */
     deletePost(args: { url?: string; id?: string }, opts?: ConnectionOption): Promise<XDeletePostResult>;
+
+    /**
+     * Edits the signed-in caller's own profile — any of name, bio, location, website; "" clears
+     * one.
+     */
+    updateProfile(args: UpdateProfileArgs, opts?: ConnectionOption): Promise<XUpdateProfileResult>;
+
+    /** Changes the signed-in caller's own profile picture from an https image URL or base64 bytes. */
+    uploadProfilePicture(args: UploadProfilePictureArgs, opts?: ConnectionOption): Promise<XUploadProfilePictureResult>;
   }
 }
 
@@ -103484,6 +103800,24 @@ interface YelpMenu {
   sections: YelpMenuSection[];
 }
 
+interface YelpPhotosArgs {
+  business: string; // a /biz/ url or bare alias from search
+  tab?: string;     // the photo tab from a /biz_photos url's ?tab=; omit for all
+  start?: number;   // the previous page's nextStart; 0 by default
+}
+interface YelpPhoto {
+  url: string; // full-size image
+  thumbnailUrl: string | null;
+  caption: string | null;
+  uploadDate: string | null; // ISO instant
+  uploader: string | null; // display name, e.g. "Hesper W."
+}
+interface YelpPhotoPage {
+  photos: YelpPhoto[]; // up to 30, Yelp's own page size
+  start: number;
+  nextStart: number | null; // pass back as start for the next page; null on the last
+}
+
 interface YelpSuggestArgs {
   prefix: string; // what has been typed so far, e.g. "tera"
   location: string; // e.g. "Philadelphia, PA"
@@ -103579,6 +103913,14 @@ interface YelpBookmarks {
      * that detail for that item. Throws when the business has no menu on Yelp. Read-only.
      */
     getMenu(ref: string): Promise<YelpMenu>;
+
+    /**
+     * Lists a business's photos from its /biz_photos/<alias> page, 30 at a time: each photo's
+     * full-size url, thumbnail, caption, upload date and uploader name. business is a /biz/ url or
+     * bare alias from search; tab is the photo tab from a /biz_photos url's ?tab= (omit for all);
+     * pass nextStart back as start for the next page. Read-only.
+     */
+    getPhotos(args: YelpPhotosArgs): Promise<YelpPhotoPage>;
 
     /**
      * Lists the businesses the signed-in caller has bookmarked on Yelp (their own My Bookmarks

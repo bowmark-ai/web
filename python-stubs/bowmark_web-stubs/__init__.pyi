@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e7cd9605d5def39dc64116901b6a1bf34f189002ae0cf83873c0f3b9276d8d94
-# 95 capabilities, 762 providers, 4401 typed functions, 20 refused.
+# Manifest version: bd49ad284347556feb42f07965d2ce0f3341d049b57f4e23acadae83968679fd
+# 95 capabilities, 762 providers, 4424 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4514,6 +4514,7 @@ class Prv_adobe_StockAsset_Out(TypedDict):
     id: str
     title: str
     thumbnail: str
+    url: str
     mediaType: Literal["photo"] | Literal["vector"] | Literal["illustration"] | Literal["template"] | Literal["video"] | Literal["3d-asset"]
     orientation: NotRequired[Literal["landscape"] | Literal["portrait"] | Literal["square"]]
     licensingPriceTier: NotRequired[str]
@@ -5045,6 +5046,46 @@ class Prv_alibaba_alibabaSupplierProductRow_Out(TypedDict):
     moq: str | None
     imageUrl: str | None
     url: str | None
+
+class Prv_alibaba_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_alibaba_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_alibaba_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_alibaba_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_alibaba_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_alibaba_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_alibaba_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_alibaba_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_aliexpress_SearchArgs_In(TypedDict):
     query: str
@@ -6945,6 +6986,31 @@ class Prv_archive_org_archive_orgSearchItem_Out(TypedDict):
     date: str | None
     mediatype: str | None
     downloads: float | None
+
+class Prv_archive_org_archive_orgScholarOptions_In(TypedDict):
+    page: NotRequired[float]
+
+class Prv_archive_org_archive_orgScholarResults_Out(TypedDict):
+    query: str
+    page: float
+    totalHits: str | None
+    hasNextPage: bool
+    results: list[Prv_archive_org_archive_orgScholarResult_Out]
+    warnings: list[str]
+
+class Prv_archive_org_archive_orgScholarResult_Out(TypedDict):
+    title: str
+    authors: list[str]
+    year: float | None
+    venue: str | None
+    snippet: str
+    doi: str | None
+    externalIds: list[str]
+    fulltextUrl: str | None
+    fulltextLabel: str | None
+    originalUrl: str | None
+    permalink: str | None
+    releaseUrl: str | None
 
 class Prv_archive_org_archive_orgItem_Out(TypedDict):
     identifier: str
@@ -10286,6 +10352,16 @@ class Prv_bluesky_BlueskyPostActionResult_Out(TypedDict):
 class Prv_bluesky_BlueskyPostActionArgs_In(TypedDict):
     post: str
     undo: NotRequired[bool]
+
+class Prv_bluesky_BlueskyReplyToPostArgs_In(TypedDict):
+    post: str
+    text: str
+    langs: NotRequired[Sequence[str]]
+
+class Prv_bluesky_BlueskyQuotePostArgs_In(TypedDict):
+    post: str
+    text: str
+    langs: NotRequired[Sequence[str]]
 
 class Prv_bluesky_getKnownFollowers_actor_u1_In(TypedDict):
     actor: str
@@ -16638,6 +16714,46 @@ class Prv_cnbc_com_cnbc_comRow_Out(TypedDict):
 class Prv_cnbc_com_ListQuotesArgs_In(TypedDict):
     symbols: Sequence[str]
 
+class Prv_cnbc_com_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_cnbc_com_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_cnbc_com_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_cnbc_com_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_cnbc_com_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_cnbc_com_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_cnbc_com_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_cnbc_com_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_cnn_SearchArticlesArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -21894,6 +22010,19 @@ class Prv_espn_FantasyRosterPlayer_Out(TypedDict):
     projectedPoints: float | None
     actualPoints: float | None
 
+class Prv_espn_ListFavoritesResult_Out(TypedDict):
+    favorites: list[Prv_espn_EspnFavorite_Out]
+
+class Prv_espn_EspnFavorite_Out(TypedDict):
+    id: str
+    kind: str | None
+    kindName: str | None
+    name: str | None
+    url: str | None
+    sortOrder: float | None
+    hidden: bool
+    deletable: bool | None
+
 class Prv_espn_ListMyFantasyTeamsResult_Out(TypedDict):
     teams: list[Prv_espn_FantasyTeamSummary_Out]
 
@@ -23646,6 +23775,28 @@ class Prv_fandom_WatchResult_Out(TypedDict):
 class Prv_fandom_unwatchPage_args_u0_In(TypedDict):
     wiki: str
     title: str
+
+class Prv_fandom_EditPageArgs_In(TypedDict):
+    wiki: str
+    title: str
+    text: str
+    summary: NotRequired[str]
+    section: NotRequired[float | Literal["new"]]
+
+class Prv_fandom_EditResult_Out(TypedDict):
+    wiki: str
+    title: str
+    pageid: str
+    newRevid: str
+    oldRevid: str
+    noChange: bool
+    created: bool
+
+class Prv_fandom_CreatePageArgs_In(TypedDict):
+    wiki: str
+    title: str
+    text: str
+    summary: NotRequired[str]
 
 class Prv_fareharbor_FareharborSearchItemsArgs_In(TypedDict):
     operator: str
@@ -47170,6 +47321,14 @@ class Prv_reserve_with_google_BookingVenue_Out(TypedDict):
 class Prv_reserve_with_google_ReserveSettings_Out(TypedDict):
     dataBlocks: Mapping[str, Any]
 
+class Prv_reserve_with_google_UpdateSettingsArgs_In(TypedDict):
+    name: NotRequired[str]
+    phone: NotRequired[str]
+    email: NotRequired[str]
+
+class Prv_reserve_with_google_UpdateSettingsResult_Out(TypedDict):
+    updated: list[Literal["name"] | Literal["phone"] | Literal["email"]]
+
 class Prv_resy_search_query_u1_In(TypedDict):
     query: str
     latitude: NotRequired[float]
@@ -47695,6 +47854,17 @@ class Prv_reuters_ReutersFollowedTopic_Out(TypedDict):
     category: str | None
     rootSection: str | None
 
+class Prv_reuters_ReutersArticleRef_In(TypedDict):
+    id: str
+
+class Prv_reuters_ReutersWriteResult_Out(TypedDict):
+    id: str
+    success: bool
+
+class Prv_reuters_ReutersTopicRef_In(TypedDict):
+    id: str
+    type: NotRequired[Literal["TAG"] | Literal["SECTION"] | Literal["LAW_FIRM"] | Literal["COMPANY"] | Literal["AUTHOR"]]
+
 class Prv_reuters_GetMyNewsFeedArgs_In(TypedDict):
     limit: NotRequired[float]
     cursor: NotRequired[str]
@@ -47707,6 +47877,46 @@ class Prv_reuters_ReutersFeedArticle_Out(TypedDict):
     section: str | None
     publishedAt: str | None
     category: str | None
+
+class Prv_reuters_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_reuters_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_reuters_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_reuters_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_reuters_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_reuters_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_reuters_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_reuters_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
@@ -50522,6 +50732,37 @@ class Prv_shein_sheinProductVariant_Out(TypedDict):
 class Prv_shein_sheinProductDetail_Out_breadcrumbs_item_Out(TypedDict):
     name: str
     url: str
+
+class Prv_shop_app_ShopAppOrderDetail_Out(TypedDict):
+    id: str
+    orderNumber: str | None
+    placedAt: str | None
+    status: str | None
+    store: str | None
+    currency: str | None
+    subtotal: float | None
+    shipping: float | None
+    tax: float | None
+    total: float | None
+    shippingAddress: list[str]
+    items: list[Prv_shop_app_ShopAppOrderItem_Out]
+    shipments: list[Prv_shop_app_ShopAppOrderShipment_Out]
+    url: str
+    warnings: list[str]
+
+class Prv_shop_app_ShopAppOrderItem_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float | None
+    total: float | None
+    image: str | None
+
+class Prv_shop_app_ShopAppOrderShipment_Out(TypedDict):
+    status: str | None
+    carrier: str | None
+    trackingCode: str | None
+    trackingUrl: str | None
+    items: list[Prv_shop_app_ShopAppOrderItem_Out]
 
 class Prv_shop_app_ShopAppListOrdersArgs_In(TypedDict):
     status: NotRequired[Literal["active"] | Literal["past"] | Literal["all"]]
@@ -63727,6 +63968,14 @@ class Prv_wsj_WsjArticle_Out(TypedDict):
 class Prv_wsj_GetArticleFullTextArgs_In(TypedDict):
     url: str
 
+class Prv_wsj_WsjSaveArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_wsj_WsjSaveResult_Out(TypedDict):
+    url: str
+    saved: bool
+    changed: bool
+
 class Prv_wsj_SearchArticlesArgs_In(TypedDict):
     query: str
 
@@ -64075,6 +64324,30 @@ class Prv_x_deletePost_args_In(TypedDict):
 class Prv_x_XDeletePostResult_Out(TypedDict):
     postId: str
     deleted: Literal[True]
+
+class Prv_x_UpdateProfileArgs_In(TypedDict):
+    name: NotRequired[str]
+    bio: NotRequired[str]
+    location: NotRequired[str]
+    website: NotRequired[str]
+
+class Prv_x_XUpdateProfileResult_Out(TypedDict):
+    updated: Literal[True]
+    fields: Prv_x_UpdateProfileArgs_Out
+
+class Prv_x_UpdateProfileArgs_Out(TypedDict):
+    name: NotRequired[str]
+    bio: NotRequired[str]
+    location: NotRequired[str]
+    website: NotRequired[str]
+
+class Prv_x_UploadProfilePictureArgs_In(TypedDict):
+    imageUrl: NotRequired[str]
+    base64: NotRequired[str]
+    mimeType: NotRequired[str]
+
+class Prv_x_XUploadProfilePictureResult_Out(TypedDict):
+    updated: Literal[True]
 
 class Prv_xola_XolaFindSellerArgs_In(TypedDict):
     site: str
@@ -65069,6 +65342,23 @@ class Prv_yelp_YelpMenuItem_Out(TypedDict):
     description: str | None
     price: float | None
     priceCurrency: str | None
+
+class Prv_yelp_YelpPhotosArgs_In(TypedDict):
+    business: str
+    tab: NotRequired[str]
+    start: NotRequired[float]
+
+class Prv_yelp_YelpPhotoPage_Out(TypedDict):
+    photos: list[Prv_yelp_YelpPhoto_Out]
+    start: float
+    nextStart: float | None
+
+class Prv_yelp_YelpPhoto_Out(TypedDict):
+    url: str
+    thumbnailUrl: str | None
+    caption: str | None
+    uploadDate: str | None
+    uploader: str | None
 
 class Prv_yelp_YelpBookmarks_Out(TypedDict):
     bookmarks: list[Prv_yelp_YelpBookmark_Out]
@@ -67546,20 +67836,23 @@ class Cap_promocodes(Protocol):
     """Looks up currently-known promo codes and checkout discounts for a merchant by domain —
     the code string (when one exists), human discount text, title, description, whether the
     source verified it, and a link to redeem it. Fans out across coupon aggregators; direct
-    API, no browser.
+    API, no browser. NOTE: `code` may be null for offers that require browser interaction
+    (e.g., clicking a reveal button) to access the code; these are returned as deal-only
+    listings instead.
     """
 
     async def search(self, domain: str, options: Cap_promocodes_CallOptions_In | None = None, /) -> Cap_promocodes_PromoCodeSearchResult_Out:
         """Looks up promo codes and checkout discounts for a merchant —
         `bowmark.promocodes.search("getyourguide.com")` — and returns normalized offers ranked
-        verified-with-code first, then any code, deal-only listings last. `domain` is a
-        registrable domain (a bare URL or a "www."-prefixed host is folded down to it); THROWS
-        on a bare brand word with no dot ("getyourguide"), because a source behind this
-        capability indexes by domain and a guessed TLD would silently search the wrong merchant.
-        Returns `codes: []` honestly when no source tracks anything for that domain — a real,
-        correct answer, not a failure. `warnings` is always present and names anything dropped,
-        INCLUDING a source that timed out or failed. `options.timeoutMs` sets the per-source
-        budget (default 30000).
+        verified-with-code first, then any code, deal-only listings last. `code` may be null for
+        offers that require browser interaction to reveal; these return as deal-only listings.
+        `domain` is a registrable domain (a bare URL or a "www."-prefixed host is folded down to
+        it); THROWS on a bare brand word with no dot ("getyourguide"), because a source behind
+        this capability indexes by domain and a guessed TLD would silently search the wrong
+        merchant. Returns `codes: []` honestly when no source tracks anything for that domain —
+        a real, correct answer, not a failure. `warnings` is always present and names anything
+        dropped, INCLUDING a source that timed out or failed. `options.timeoutMs` sets the
+        per-source budget (default 30000).
         """
 
 class Cap_prospect_screening(Protocol):
@@ -69187,37 +69480,49 @@ class Prv_alibaba(Protocol):
     and supplier information.
     """
 
-    async def searchProducts(self, args: Prv_alibaba_searchProducts_args_In, /) -> list[Prv_alibaba_alibabaSearchRow_Out]:
+    async def searchProducts(self, args: Prv_alibaba_searchProducts_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaSearchRow_Out]:
         """Search for products by keyword, with an optional price range and page number."""
 
-    async def getProduct(self, idOrUrl: str | float, /) -> Prv_alibaba_alibabaProductRow_Out:
+    async def getProduct(self, idOrUrl: str | float, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaProductRow_Out:
         """Get detailed information for a single product by ID or URL, including title, price and
         its unit, MOQ, images, spec table, variant options and supplier.
         """
 
-    async def listCategories(self, /) -> list[Prv_alibaba_alibabaCategoryRow_Out]:
+    async def listCategories(self, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaCategoryRow_Out]:
         """List the marketplace's top-level product categories."""
 
-    async def getSuggestions(self, keyword: str, /) -> list[Prv_alibaba_alibabaSuggestionRow_Out]:
+    async def getSuggestions(self, keyword: str, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaSuggestionRow_Out]:
         """Get search suggestions and autocomplete hints based on partial keyword."""
 
-    async def listSuppliers(self, args: Prv_alibaba_listSuppliers_args_In, /) -> list[Prv_alibaba_alibabaSupplierRow_Out]:
+    async def listSuppliers(self, args: Prv_alibaba_listSuppliers_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaSupplierRow_Out]:
         """Search for suppliers by company name or product type."""
 
-    async def getSupplier(self, profileUrl: str, /) -> Prv_alibaba_alibabaSupplierProfileRow_Out:
+    async def getSupplier(self, profileUrl: str, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaSupplierProfileRow_Out:
         """Get a supplier's storefront profile — company info, verification status, rating and
         contact address — from its listSuppliers() profileUrl.
         """
 
-    async def getProductReviews(self, product: str | float | Prv_alibaba_alibabaProductReviewsArgs_In, /) -> Prv_alibaba_alibabaProductReviews_Out:
+    async def getProductReviews(self, product: str | float | Prv_alibaba_alibabaProductReviewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaProductReviews_Out:
         """One page of a product's buyer reviews — stars, text, date, masked reviewer and country,
         verified-purchase flag — plus the total count. Pass supplierId from getProduct to skip a
         page load.
         """
 
-    async def listSupplierProducts(self, profileUrl: str, /) -> list[Prv_alibaba_alibabaSupplierProductRow_Out]:
+    async def listSupplierProducts(self, profileUrl: str, opts: ConnectionOption | None = None, /) -> list[Prv_alibaba_alibabaSupplierProductRow_Out]:
         """List the other products a supplier's storefront carries, from its listSuppliers()
         profileUrl.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_alibaba_signup_return_u0_Out | Prv_alibaba_signup_return_u1_Out | Prv_alibaba_signup_return_u2_Out | Prv_alibaba_signup_return_u3_Out:
+        """Makes a NEW Alibaba.com account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_alibaba_confirmSignup_return_u0_Out | Prv_alibaba_confirmSignup_return_u1_Out | Prv_alibaba_confirmSignup_return_u2_Out | Prv_alibaba_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_aliexpress(Protocol):
@@ -70391,6 +70696,13 @@ class Prv_archive_org(Protocol):
         most-borrowed/most-played, "date"). Each result carries the `identifier` to pass to
         getItem, checkLendingAvailability or downloadFile. `totalFound` is the Solr match count,
         which is usually far larger than the page returned.
+        """
+
+    async def searchScholar(self, query: str, opts: Prv_archive_org_archive_orgScholarOptions_In | None = None, /) -> Prv_archive_org_archive_orgScholarResults_Out:
+        """Searches IA Scholar (scholar.archive.org) — the Internet Archive's full-text index of
+        open-access research papers, journal articles and preprints. Returns 20 results a page,
+        each with title, authors, year, venue, a full-text snippet, its DOI and other ids, and a
+        link to the archived PDF. Page on with `page` while `hasNextPage` is true.
         """
 
     async def getItem(self, identifier: str, /) -> Prv_archive_org_archive_orgItem_Out:
@@ -72314,6 +72626,25 @@ class Prv_bluesky(Protocol):
         existing repost with `changed: false`. Needs the caller signed in to bsky.app — the run
         pauses for a sign-in link when they are not. THROWS `blueskyError` when the saved
         sign-in has expired; sign in again.
+        """
+
+    async def replyToPost(self, args: Prv_bluesky_BlueskyReplyToPostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyCreatedRecord_Out:
+        """Replies to a post (at:// URI or bsky.app post URL) as the signed-in caller, threaded
+        under it. `root`/`parent` are resolved automatically — replying to a reply threads under
+        the whole conversation's own root. Links and @handle mentions in `text` are turned into
+        clickable facets, same as `createPost`. Returns the new reply's at:// URI, cid and
+        bsky.app URL. Needs the caller signed in to bsky.app — the run pauses for a sign-in link
+        when they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in
+        again.
+        """
+
+    async def quotePost(self, args: Prv_bluesky_BlueskyQuotePostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyCreatedRecord_Out:
+        """Quote-posts a post (at:// URI or bsky.app post URL) as the signed-in caller, with the
+        caller's own `text` on top of it. Links and @handle mentions in `text` are turned into
+        clickable facets, same as `createPost`. Returns the new quote post's at:// URI, cid and
+        bsky.app URL. Needs the caller signed in to bsky.app — the run pauses for a sign-in link
+        when they are not. THROWS `blueskyError` when the saved sign-in has expired; sign in
+        again.
         """
 
     async def getKnownFollowers(self, actor: str | Prv_bluesky_getKnownFollowers_actor_u1_In, opts: ConnectionOption | None = None, /) -> Prv_bluesky_BlueskyKnownFollowers_Out:
@@ -75621,15 +75952,27 @@ class Prv_clubready(Protocol):
 class Prv_cnbc_com(Protocol):
     """Stock quotes, market data, news, videos and analysis from CNBC."""
 
-    async def getQuote(self, args: Prv_cnbc_com_GetQuoteArgs_In, /) -> Prv_cnbc_com_cnbc_comRow_Out:
+    async def getQuote(self, args: Prv_cnbc_com_GetQuoteArgs_In, opts: ConnectionOption | None = None, /) -> Prv_cnbc_com_cnbc_comRow_Out:
         """Returns the current stock quote for one symbol — price, change, percent change, open,
         high, low, 52-week high/low, market cap, P/E ratio and dividend, read from
         quote.cnbc.com's keyless JSON quote service.
         """
 
-    async def listQuotes(self, args: Prv_cnbc_com_ListQuotesArgs_In, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
+    async def listQuotes(self, args: Prv_cnbc_com_ListQuotesArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_cnbc_com_cnbc_comRow_Out]:
         """Returns current stock quotes for multiple symbols as an array, with same fields as
         getQuote.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_cnbc_com_signup_return_u0_Out | Prv_cnbc_com_signup_return_u1_Out | Prv_cnbc_com_signup_return_u2_Out | Prv_cnbc_com_signup_return_u3_Out:
+        """Makes a NEW CNBC account with the person's own email and password, in a session. Pauses
+        with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+        continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved
+        and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_cnbc_com_confirmSignup_return_u0_Out | Prv_cnbc_com_confirmSignup_return_u1_Out | Prv_cnbc_com_confirmSignup_return_u2_Out | Prv_cnbc_com_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_cnn(Protocol):
@@ -78305,6 +78648,12 @@ class Prv_espn(Protocol):
         team id from getFantasyLeague.
         """
 
+    async def listFavorites(self, opts: ConnectionOption | None = None, /) -> Prv_espn_ListFavoritesResult_Out:
+        """The CALLER's My ESPN favourites — the teams, leagues, players and fantasy teams they
+        follow, each with ESPN's preference id, kind, display name and link. Needs the caller's
+        own ESPN sign-in.
+        """
+
     async def listMyFantasyTeams(self, opts: ConnectionOption | None = None, /) -> Prv_espn_ListMyFantasyTeamsResult_Out:
         """The CALLER's own ESPN fantasy teams across every game (football, baseball, basketball,
         hockey) — sport, season, league id, league name, team id, team name and abbreviation.
@@ -79123,6 +79472,19 @@ class Prv_fandom(Protocol):
     async def unwatchPage(self, args: Prv_fandom_unwatchPage_args_u0_In | str, opts: ConnectionOption | None = None, /) -> Prv_fandom_WatchResult_Out:
         """Remove an article from the caller's own watchlist on one wiki — `{ wiki, title }` or the
         article's full URL. `POST /api.php?action=watch&unwatch=1`.
+        """
+
+    async def editPage(self, args: Prv_fandom_EditPageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_fandom_EditResult_Out:
+        """Replace an article, or one section of it (`section` from `getSections`, or `"new"` to
+        append one), with new wikitext under the caller's own account and edit summary. Refuses
+        before sending if the account lacks the `edit` right on that wiki. `POST
+        /api.php?action=edit`.
+        """
+
+    async def createPage(self, args: Prv_fandom_CreatePageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_fandom_EditResult_Out:
+        """Create an article that does not exist yet, under the caller's own account — fails with
+        `articleexists` rather than overwriting one that does. `POST
+        /api.php?action=edit&createonly=1`.
         """
 
 class Prv_fareharbor(Protocol):
@@ -93265,6 +93627,12 @@ class Prv_reserve_with_google(Protocol):
         captured.
         """
 
+    async def updateSettings(self, args: Prv_reserve_with_google_UpdateSettingsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_UpdateSettingsResult_Out:
+        """Changes the contact name, phone or email on the caller's Reserve with Google Settings
+        page (needs the caller's Google sign-in) by filling the page's own labelled fields and
+        saving, the way a person would. Pass only the fields to change.
+        """
+
     async def getBooking(self, featureId: str, opts: ConnectionOption | None = None, /) -> Prv_reserve_with_google_BookingVenue_Out:
         """Finds one of the caller's bookings on their Bookings page (needs the caller's Google
         sign-in) by the venue's feature id — the same id listMyBookings returns — and returns
@@ -93519,9 +93887,35 @@ class Prv_reuters(Protocol):
         My News. Takes no arguments.
         """
 
+    async def saveArticle(self, args: Prv_reuters_ReutersArticleRef_In, opts: ConnectionOption | None = None, /) -> Prv_reuters_ReutersWriteResult_Out:
+        """Save a Reuters article to the signed-in reader's saved list, by the id listSavedArticles
+        or getMyNewsFeed returns.
+        """
+
+    async def removeSavedArticle(self, args: Prv_reuters_ReutersArticleRef_In, opts: ConnectionOption | None = None, /) -> Prv_reuters_ReutersWriteResult_Out:
+        """Remove an article from the signed-in reader's saved list, by its id."""
+
+    async def followTopic(self, args: Prv_reuters_ReutersTopicRef_In, opts: ConnectionOption | None = None, /) -> Prv_reuters_ReutersWriteResult_Out:
+        """Follow a topic, section, company, law firm or author in the signed-in reader's My News."""
+
+    async def unfollowTopic(self, args: Prv_reuters_ReutersTopicRef_In, opts: ConnectionOption | None = None, /) -> Prv_reuters_ReutersWriteResult_Out:
+        """Unfollow something listFollowedTopics returns, by its id (and type)."""
+
     async def getMyNewsFeed(self, args: Prv_reuters_GetMyNewsFeedArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_reuters_ReutersFeedArticle_Out]:
         """The signed-in reader's My News feed — the latest stories aggregated from everything
         listFollowedTopics returns, newest first.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_reuters_signup_return_u0_Out | Prv_reuters_signup_return_u1_Out | Prv_reuters_signup_return_u2_Out | Prv_reuters_signup_return_u3_Out:
+        """Makes a NEW Reuters account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_reuters_confirmSignup_return_u0_Out | Prv_reuters_confirmSignup_return_u1_Out | Prv_reuters_confirmSignup_return_u2_Out | Prv_reuters_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_revisionskincare(Protocol):
@@ -94866,6 +95260,14 @@ class Prv_shop_app(Protocol):
     catalogue, collections, reviews and policies; once a caller signs in, list and track
     their orders, save products, follow stores and fill a cart up to checkout.
     """
+
+    async def getOrder(self, id: str, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppOrderDetail_Out:
+        """One of the signed-in caller's own Shop orders by the id listOrders returns (or its
+        shop.app/orders/<id> url): store, order number, status, subtotal, shipping, tax and
+        total, the shipping address, every item with variant, quantity and price, and each
+        shipment's carrier, tracking code and tracking link. Pauses for the caller to sign in to
+        Shop.
+        """
 
     async def listOrders(self, args: Prv_shop_app_ShopAppListOrdersArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_shop_app_ShopAppOrderList_Out:
         """The signed-in caller's own Shop orders, newest first — store, status words, delivery and
@@ -101479,6 +101881,16 @@ class Prv_wsj(Protocol):
         signed-in WSJ session — headline, byline, teaser and url for each.
         """
 
+    async def saveArticle(self, args: Prv_wsj_WsjSaveArticleArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wsj_WsjSaveResult_Out:
+        """Saves an article to the caller's own My WSJ saved list through their signed-in WSJ
+        session. Idempotent: changed is false when it was already saved.
+        """
+
+    async def unsaveArticle(self, args: Prv_wsj_WsjSaveArticleArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wsj_WsjSaveResult_Out:
+        """Removes an article from the caller's own My WSJ saved list through their signed-in WSJ
+        session. Idempotent: changed is false when it was not saved.
+        """
+
     async def searchArticles(self, args: Prv_wsj_SearchArticlesArgs_In, /) -> list[Prv_wsj_WsjSearchResult_Out]:
         """Searches WSJ's own site search for a keyword and returns matching articles with
         headline, byline, a publish timestamp and url.
@@ -101649,6 +102061,16 @@ class Prv_x(Protocol):
 
     async def deletePost(self, args: Prv_x_deletePost_args_In, opts: ConnectionOption | None = None, /) -> Prv_x_XDeletePostResult_Out:
         """Deletes one of the signed-in caller's own posts, by url or id."""
+
+    async def updateProfile(self, args: Prv_x_UpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_x_XUpdateProfileResult_Out:
+        """Edits the signed-in caller's own profile — any of name, bio, location, website; ""
+        clears one.
+        """
+
+    async def uploadProfilePicture(self, args: Prv_x_UploadProfilePictureArgs_In, opts: ConnectionOption | None = None, /) -> Prv_x_XUploadProfilePictureResult_Out:
+        """Changes the signed-in caller's own profile picture from an https image URL or base64
+        bytes.
+        """
 
 class Prv_xola(Protocol):
     """Tours and activities sold by operators on Xola: experiences, availability, quotes and
@@ -102152,6 +102574,13 @@ class Prv_yelp(Protocol):
         price. Takes a /biz/ or /menu/ url or bare alias from search. Null fields mean the site
         did not publish that detail for that item. Throws when the business has no menu on Yelp.
         Read-only.
+        """
+
+    async def getPhotos(self, args: Prv_yelp_YelpPhotosArgs_In, /) -> Prv_yelp_YelpPhotoPage_Out:
+        """Lists a business's photos from its /biz_photos/<alias> page, 30 at a time: each photo's
+        full-size url, thumbnail, caption, upload date and uploader name. business is a /biz/
+        url or bare alias from search; tab is the photo tab from a /biz_photos url's ?tab= (omit
+        for all); pass nextStart back as start for the next page. Read-only.
         """
 
     async def getBookmarks(self, opts: ConnectionOption | None = None, /) -> Prv_yelp_YelpBookmarks_Out:

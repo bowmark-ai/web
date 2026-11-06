@@ -1370,7 +1370,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dahlconsulting.searchJobs` | careers.dahlconsulting.com | Searches Dahl Consulting's live job board — every open role at… | 🟢 |
 | `dailymotion.addToPlaylist` | dailymotion.com | Add a video to one of the signed-in caller's playlists, or remove it. | ⚪ |
 | `dailymotion.addToWatchLater` | dailymotion.com | Save a Dailymotion video to the signed-in caller's Watch Later, or pass add: false to… | 🟢 |
-| `dailymotion.createPlaylist` | dailymotion.com | Create a playlist on the signed-in caller's account — name, description, private or… | ⚪ |
+| `dailymotion.createPlaylist` | dailymotion.com | Create a playlist on the signed-in caller's Dailymotion account — name, optional… | 🟢 |
 | `dailymotion.deletePlaylist` | dailymotion.com | Delete one of the signed-in caller's playlists. | ⚪ |
 | `dailymotion.deleteVideo` | dailymotion.com | Delete one of the signed-in caller's videos. | ⚪ |
 | `dailymotion.followChannel` | dailymotion.com | Follow a Dailymotion channel as the signed-in caller, or pass follow: false to unfollow. | 🟢 |
@@ -1576,7 +1576,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
 | `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟢 |
-| `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🔴 |
+| `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🟢 |
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
 | `doordash.addAddress` | doordash.com | Saves a new delivery address (with apartment, drop-off instructions) to the signed-in… | ⚪ |
 | `doordash.addToCart` | doordash.com | Adds a menu item (with its chosen options and quantity) to the cart for a store, the… | ⚪ |
