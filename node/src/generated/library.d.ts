@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 66089650aa5a295e1026f14d58fa6fd06b4f1355c6ed991b57bd1da46f1695bd
-// 94 capabilities, 760 providers, 4329 typed functions, 20 refused.
+// Manifest version: 34803f1ea04643dea3105728e579f09ac146135073a523e9968dff4f1705618f
+// 95 capabilities, 760 providers, 4382 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5662,6 +5662,113 @@ type CallOptions = {
   }
 }
 
+declare namespace BowmarkCapability_vision {
+  // ── Look at an image or a video: answer a question about what is on screen — the unit's own declarations, verbatim ──
+type VisionMedia =
+  | string                       // a media URL: mp4, webm, mov, jpg, png, webp or gif
+  | { url: string }
+  | { file: string }             // a bowmark.files id this account owns
+  | { base64: string; mediaType: "image/jpeg" | "image/png" | "image/webp" | "image/gif" }
+
+interface VisionSelection {
+  at?: number | number[]         // seconds: one moment, or several to compare
+  from?: number; to?: number     // a range, sampled evenly (neither: the whole video)
+  frames?: number                // how many frames to look at (default 3 around an `at`, else 8; at most 24)
+  detail?: "standard" | "high"   // 768 px or 1280 px on the long edge
+}
+
+interface VisionAskArgs extends VisionSelection {
+  media: VisionMedia
+  question: string
+  keepFrames?: boolean           // default true: the frames are saved as files for 7 days
+}
+interface VisionFrame { t: number | null; width: number | null; height: number | null; bytes: number; file: VisionSavedFile | null }
+// Bowmark's own saved-file handle, spelled out because this block has to stand alone.
+// `url` is presigned and expires; `bowmark.files.url(id)` mints a fresh one.
+interface VisionSavedFile { id: string; name: string; contentType: string; bytes: number; url: string; expiresAt: string; keepUntil?: string | null }
+interface VisionMediaInfo { kind: "image" | "video"; durationSec: number | null; width: number | null; height: number | null; host: string | null }
+interface VisionUsage { model: string; frames: number; inputTokens: number; outputTokens: number; bytesFetched: number }
+interface VisionAskResult {
+  answer: string
+  evidence: Array<{ t: number | null; note: string }>   // t is always the time of a frame the model was shown
+  frames: VisionFrame[]
+  media: VisionMediaInfo
+  usage: VisionUsage
+  warnings: string[]
+}
+
+interface VisionFramesArgs extends VisionSelection { media: VisionMedia; count?: number }
+interface VisionFramesResult { frames: VisionFrame[]; media: VisionMediaInfo; bytesFetched: number; warnings: string[] }
+
+interface VisionReadTextArgs extends VisionSelection { media: VisionMedia; keepFrames?: boolean }
+interface VisionTextResult { items: Array<{ t: number | null; text: string[] }>; frames: VisionFrame[]; media: VisionMediaInfo; usage: VisionUsage; warnings: string[] }
+
+interface VisionIdentifyEffectArgs extends VisionSelection {
+  media: VisionMedia
+  context?: string               // words that came with the clip (a post's text): treated as data, may be wrong
+  keepFrames?: boolean
+}
+interface VisionEffectCandidate {
+  name: string                   // what an editor would call it, in the program's own name where it has one
+  kind: "effect" | "transition" | "animation" | "technique" | "other"
+  confidence: "high" | "medium" | "low"
+  seenAt: number | null          // the frame time that shows it best, always one the model was shown
+  why: string
+  searches: { afterEffects: string[]; premierePro: string[]; davinciResolve: string[]; finalCutPro: string[] }   // YouTube search phrases
+}
+interface VisionIdentifyEffectResult { summary: string; candidates: VisionEffectCandidate[]; frames: VisionFrame[]; media: VisionMediaInfo; usage: VisionUsage; warnings: string[] }
+
+  /**
+   * Ask a question about an image or about specific moments of a video and get a grounded
+   * answer: the frames are sampled, a vision model looks at them, and the answer cites the times
+   * it saw. Metered to this run's account. Reads what is on screen, not what is said: for speech
+   * use a transcript function.
+   */
+  interface Unit {
+    /**
+     * Answers a question about an image or about moments of a video. Pass `at` for one second (it
+     * also looks one second either side), `at: [a, b]` to compare two moments, `from` and `to` for
+     * a range, or neither for the whole video. Returns the answer, the times that support it
+     * (`evidence`, each one a frame the model really saw) and the frames themselves as links.
+     * Reads what is on screen: the picture, any text in it, a dialog, a chart. It does not hear
+     * audio, and it does not name people from their faces. A video URL is fetched by byte range,
+     * so a long video costs a few frames' worth of bytes rather than the file. An X video post or
+     * a YouTube video is two lines: read the post or stream URL with `providers.x.post` or
+     * `providers.youtube.getPlayableStream`, then pass its `media[].url` or `url` here. Metered to
+     * this run's account, refused for an anonymous caller. Run-only: call it through `run()`.
+     */
+    ask(args: VisionAskArgs): Promise<VisionAskResult>;
+
+    /**
+     * Takes a moment of a video and says what visual effect, transition or technique is happening,
+     * with no question to write. Pass `at` (it looks at five frames around that second) or a
+     * `from` and `to` range. Returns a plain-words `summary` of what changes on screen, then up to
+     * four ranked `candidates`: the name an editor would use, a confidence, the frame that shows
+     * it best, the visible evidence, and YouTube search phrases for each of After Effects,
+     * Premiere Pro, DaVinci Resolve and Final Cut Pro. Pass the post's text as `context` if there
+     * is one: it is weighed as a hint, never obeyed. Same media inputs, frame links, metering and
+     * refusal for an anonymous caller as `ask`.
+     */
+    identifyEffect(args: VisionIdentifyEffectArgs): Promise<VisionIdentifyEffectResult>;
+
+    /**
+     * Samples frames from a video or image and returns them as saved files with links, without
+     * asking a model anything. The cheap half: use it when you want to look at the pictures
+     * yourself, or hand them to another tool. Same `at`, `from`, `to` and `frames` as `ask`, up to
+     * 48 frames.
+     */
+    frames(args: VisionFramesArgs): Promise<VisionFramesResult>;
+
+    /**
+     * Reads the legible text in an image or in frames of a video, verbatim and in reading order,
+     * one list per frame. Use it for a screenshot, a slide, a dialog title or a caption drawn on a
+     * clip. A frame with no text comes back with an empty list. Same `at`, `from`, `to` and
+     * `frames` as `ask`.
+     */
+    readText(args: VisionReadTextArgs): Promise<VisionTextResult>;
+  }
+}
+
 declare namespace BowmarkCapability_vpn_dedicated_ip {
   // ── VPN Dedicated / Static IP Providers — the unit's own declarations, verbatim ──
 interface CompareArgs {
@@ -8898,6 +9005,21 @@ interface AmazonReview {
   body: string; // paragraphs joined with a blank line, in the site's own order
   helpfulCount: number;
 }
+interface AmazonReviewAspect {
+  label: string; // Amazon's own, e.g. "ease of cleaning"
+  sentiment: string; // "positive" | "negative" | "mixed"
+  mentions: number | null; // how many reviews mention it
+  summary: string;
+  excerpts: Array<{ reviewId: string; text: string }>; // real review excerpts, verbatim
+}
+interface AmazonReviewSummary {
+  asin: string;
+  rating: number | null;
+  ratingCount: number | null;
+  histogram: Record<string, number>; // percent at each star, keyed "5" … "1"
+  summary: string | null; // the "Customers say" paragraph
+  aspects: AmazonReviewAspect[];
+}
 interface AmazonRelatedProduct {
   asin: string;
   title: string;
@@ -9006,11 +9128,11 @@ interface SignedInOrderPage {
    * movers and shakers, most wished for), today's deals, a marketplace seller's feedback and the
    * anonymous guest cart, which a caller can now add to. searchProducts, searchWholeFoods,
    * suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
-   * listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor, listDeals,
-   * getSeller, getDeliveryEstimate, listSellerOffers, getCart and addToCart are built;
-   * everything else is still a declared stub. Also answers for Amazon's country stores: pass
-   * `market` ('in', 'com.br', 'ca', 'co.uk', 'de', 'com.mx') or a URL on that store, and prices
-   * come back in its own currency.
+   * getReviewSummary, listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor,
+   * listDeals, getSeller, getDeliveryEstimate, listSellerOffers, getCart and addToCart are
+   * built; everything else is still a declared stub. Also answers for Amazon's country stores:
+   * pass `market` ('in', 'com.br', 'ca', 'co.uk', 'de', 'com.mx') or a URL on that store, and
+   * prices come back in its own currency.
    */
   interface Unit {
     /**
@@ -9090,12 +9212,23 @@ interface SignedInOrderPage {
     /**
      * Read what customers actually wrote about a product — reviewer name, star rating, headline,
      * date, the variant they bought, whether the purchase was Verified, the review body, and how
-     * many people found it helpful. Amazon shows a logged-out visitor its top eight reviews on the
-     * product page itself; sorting, filtering and paging past them needs a signed-in account,
-     * which sign-up has not shipped for yet. The read an agent needs to answer "is this any good"
-     * rather than "what does it cost".
+     * many people found it helpful. Amazon shows a logged-out visitor up to eight reviews on the
+     * product page on some products; since November 2026 most product pages show logged-out
+     * visitors none, and this refuses with a sign-in error naming getReviewSummary rather than
+     * answer an empty list. Sorting, filtering and paging need a signed-in account. The read an
+     * agent needs to answer "is this any good" rather than "what does it cost".
      */
     listReviews(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonReview[]>;
+
+    /**
+     * What reviewers say about a product, as Amazon shows it to a shopper who is not logged in:
+     * the star rating, the rating count, the percent at each star, the "Customers say" paragraph,
+     * and each aspect Amazon scores (size, ease of cleaning, weight, …) with its sentiment, how
+     * many reviews mention it, a one-line summary and real review excerpts with their ids. The
+     * answer to "is this any good" on the products where Amazon no longer shows individual reviews
+     * logged out.
+     */
+    getReviewSummary(asinOrUrl: string, options?: AmazonMarketOptions): Promise<AmazonReviewSummary>;
 
     /**
      * The other products Amazon puts next to this one — "Frequently bought together" and
@@ -12141,6 +12274,20 @@ interface ArketaBookingResult {
      * from listMyBookings). Needs the caller signed in to Arketa.
      */
     cancelBooking(args: CancelBookingArgs, opts?: ConnectionOption): Promise<ArketaActionResult>;
+
+    /**
+     * Makes a NEW Arketa account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -18148,6 +18295,27 @@ interface BookerSeries {
   redeemableForAnyCategory: boolean;
   daysExpireFromPurchase: number | null;
 }
+interface BookerMembershipProgram {
+  /** The membership program id. */
+  id: number;
+  name: string;
+  description: string | null;
+  /** Price charged up front. */
+  price: number | null;
+  /** The storefront's price line, e.g. "$0.00 One time membership fee". */
+  priceDisplay: string | null;
+  /** How the fee recurs, e.g. ONETIME or MONTHLY. */
+  billing: string | null;
+  /** The storefront's term line, e.g. "Auto renews". */
+  termDisplay: string | null;
+  initiationDisplay: string | null;
+  /** Member benefits and terms, verbatim. */
+  terms: string | null;
+}
+interface BookerMembershipList {
+  location: string;
+  memberships: BookerMembershipProgram[];
+}
 interface BookerSeriesList {
   locationId: number;
   series: BookerSeries[];
@@ -18312,6 +18480,13 @@ interface BookerGroupAvailability {
      * Empty when the location sells none.
      */
     listSeries(args: BookerLocationArgs): Promise<BookerSeriesList>;
+
+    /**
+     * The membership programs a location sells online: name, price, how it bills (one-time or
+     * recurring), the term line and the member benefits verbatim. Empty when the location sells
+     * none.
+     */
+    listMemberships(args: BookerLocationArgs): Promise<BookerMembershipList>;
 
     /**
      * The service packages a location sells (several services at one price): price, undiscounted
@@ -24728,8 +24903,9 @@ interface ClasspassCategory {
    * studio inside a radius of a point. The signed-in reads are built — `getMyProfile`,
    * `getCreditBalance`, `listMyReservations`, `getReservation`, `getBookingQuote`,
    * `getMySubscription`, `getBillingHistory`, `listFavorites`, `listOnDemandVideos`, `getVideo`
-   * — each reached and refused through the caller's own session; booking, cancelling,
-   * waitlisting and membership pricing are declared but not built yet.
+   * — each reached and refused through the caller's own session — and three small writes,
+   * `addFavorite`, `removeFavorite` and `checkIn`; booking, cancelling, waitlisting and
+   * membership pricing are declared but not built yet.
    */
   interface Unit {
     /**
@@ -24994,6 +25170,27 @@ interface ClasspassCategory {
      * is resolved, measured 2026-11-04.
      */
     getVideo(videoId: string, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * WRITE. Saves a studio to the signed-in member's favourites, by its numeric venue id
+     * (getStudio's `id`). An authFunction; returns the site's answer raw. Anonymously 500 naming a
+     * null identity, measured 2026-11-05.
+     */
+    addFavorite(venueId: number, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * WRITE. Removes a studio from the signed-in member's favourites, by its numeric venue id.
+     * Looks up the bookmark the way the site does; `removed: false` when the studio was not a
+     * favourite. An authFunction.
+     */
+    removeFavorite(venueId: number, opts?: ConnectionOption): Promise<{ removed: boolean; venueId: number }>;
+
+    /**
+     * WRITE. Marks one of the signed-in member's reservations as attended (the app's check-in), by
+     * the key listMyReservations gives. An authFunction; returns the site's answer raw (null when
+     * it sends no body).
+     */
+    checkIn(reservationKey: string, opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -25699,6 +25896,22 @@ interface CloudbedsOrganizationAvailability {
     minNightlyRate: { amount: string; currency: string } | null;   // amount exactly as Cloudbeds returns it
     minTotalPrice: { amount: string; currency: string } | null }[];
 }
+interface CloudbedsBookRoomArgs {
+  property: string; checkIn: string; checkOut: string;
+  rooms: { rateId: string; adults: number; kids?: number }[];
+  guest: { firstName: string; lastName: string; email: string; phone: string; country: string;
+    address?: string; city?: string; state?: string; zip?: string };
+  arrivalTime?: string; promoCode?: string; currency?: string;
+  confirm?: boolean;   // the caller's explicit go-ahead; without it nothing is reserved
+}
+interface CloudbedsBooking {
+  status: "payment_required" | "awaiting_confirmation" | "reserved";
+  propertyCode: string; bookingUrl: string;
+  amountDueNow: number;          // the deposit Cloudbeds asks up front, in quote.currency
+  quote: CloudbedsBookingQuote;
+  reservationToken: string | null;   // "reserved" only; getReservation reads it
+  message: string;
+}
 interface CloudbedsReservation {
   reservationToken: string;
   confirmation: Record<string, unknown>;   // Cloudbeds' confirmation payload, passed through unrenamed
@@ -25775,6 +25988,15 @@ interface CloudbedsReservation {
      * one. Amounts are passed through exactly as Cloudbeds returns them, with their currency.
      */
     searchOrganizationAvailability(args: { organization: string; checkIn: string; checkOut: string; currency?: string }): Promise<CloudbedsOrganizationAvailability>;
+
+    /**
+     * Books rooms as a guest checkout (no Cloudbeds account) with the rate ids from searchRooms
+     * and the guest's name, email, phone and country. A property that takes a deposit or card up
+     * front stops before anything is reserved and returns the price, the amount due and the
+     * booking page to pay on; it never pays. When nothing is due up front it reserves only with
+     * `confirm: true` and returns the token getReservation reads.
+     */
+    bookRoom(args: CloudbedsBookRoomArgs): Promise<CloudbedsBooking>;
 
     /**
      * Reads a reservation made through a property's Cloudbeds booking page, from the `data_res`
@@ -36770,9 +36992,77 @@ interface FacebookBusinessDetails {
   rating?: { recommendPercent?: number; reviewCount?: number };
 }
 
+interface SearchAdLibraryArgs {
+  query?: string;  // keyword or advertiser name, e.g. "hinge" — OR pageId / pageUrl
+  pageId?: string;  // a Page's numeric id, e.g. "170321063037656" (the pageId on any ad)
+  pageUrl?: string;  // "https://www.facebook.com/<handle>", or an Ad Library link with view_all_page_id
+  country?: string;  // two-letter code the ads ran in, default "US"; "ALL" for every country
+  status?: "active" | "inactive" | "all";  // default "all"
+  mediaType?: "all" | "image" | "video" | "meme" | "none";  // default "all"
+  limit?: number;  // 1-200, default 30
+  cursor?: string;  // nextCursor from an earlier call with the same filters
+}
+
+interface FacebookAd {
+  adArchiveId: string;
+  adUrl: string;  // facebook.com/ads/library/?id=<adArchiveId>
+  pageId: string;
+  pageName: string;
+  pageUrl: string | null;
+  startDate: string | null;  // YYYY-MM-DD (Pacific), when it started running
+  endDate: string | null;  // YYYY-MM-DD; null while still running
+  isActive: boolean;
+  body: string | null;
+  headline: string | null;
+  linkUrl: string | null;
+  linkDescription: string | null;
+  caption: string | null;  // display domain under the creative
+  ctaText: string | null;  // e.g. "Install now", "Sign up"
+  displayFormat: string | null;  // Facebook's label: IMAGE, VIDEO, DCO, DPA, CAROUSEL …
+  mediaType: "image" | "video" | "multiple" | "text";
+  images: { url: string; resizedUrl: string | null }[];
+  videos: { hdUrl: string | null; sdUrl: string | null; previewImageUrl: string | null }[];
+  cards: { body: string | null; headline: string | null; linkUrl: string | null; ctaText: string | null; imageUrl: string | null; videoHdUrl: string | null; videoSdUrl: string | null; videoPreviewImageUrl: string | null }[];
+  platforms: string[];  // "FACEBOOK" | "INSTAGRAM" | "MESSENGER" | "AUDIENCE_NETWORK" | "WHATSAPP" | "THREADS"
+  countries: string[];  // empty when Facebook lists none (most commercial ads outside the EU)
+  collationId: string | null;  // versions of one creative share it
+  collationCount: number | null;
+}
+
+interface FacebookAdLibrarySearch {
+  ads: FacebookAd[];
+  totalCount: number | null;  // Facebook's own "~N results" for these filters
+  totalCountIsCapped: boolean;  // true when that is Facebook's 50,000+ ceiling
+  nextCursor: string | null;
+  warnings: string[];
+}
+
+interface ListPageAdsArgs {
+  pageId?: string;  // OR pageUrl
+  pageUrl?: string;
+  country?: string;  // default "US"; "ALL" for every country
+  status?: "active" | "inactive" | "all";  // which ads to list; both counts come back regardless
+  mediaType?: "all" | "image" | "video" | "meme" | "none";
+  limit?: number;  // 1-200, default 30
+  cursor?: string;
+}
+
+interface FacebookPageAds {
+  pageId: string;
+  pageName: string | null;
+  totalAds: number | null;  // every ad of this Page in the library for the country, active and inactive
+  activeAds: number | null;  // running now
+  ads: FacebookAd[];
+  totalCount: number | null;  // the count for the status listed
+  totalCountIsCapped: boolean;
+  nextCursor: string | null;
+  warnings: string[];
+}
+
   /**
-   * Facebook — profiles, pages, groups, marketplace, messages and posts. Every function needs
-   * the caller signed in; the caller signs in through the relay.
+   * Facebook — profiles, pages, groups, marketplace, messages, posts and Meta's public Ad
+   * Library. Public Pages, posts, Marketplace browsing and the Ad Library answer logged out; the
+   * rest needs the caller signed in through the relay.
    */
   interface Unit {
     /** Search for Facebook users by name. */
@@ -36834,6 +37124,19 @@ interface FacebookBusinessDetails {
      * getVideo.
      */
     listPageReels(args: ListPageReelsArgs): Promise<FacebookReel[]>;
+
+    /**
+     * Search Meta's public Ad Library, logged out — every ad matching a keyword or run by a Page,
+     * active and inactive, with start and end dates, creative text, images and videos, CTA, link,
+     * platforms, and Facebook's own total count. Pages through with nextCursor.
+     */
+    searchAdLibrary(args: SearchAdLibraryArgs): Promise<FacebookAdLibrarySearch>;
+
+    /**
+     * One advertiser's Meta ads, logged out — how many it has run in total, how many are live now,
+     * and the ads themselves (same shape as searchAdLibrary).
+     */
+    listPageAds(args: ListPageAdsArgs): Promise<FacebookPageAds>;
 
     /**
      * Read the reviews people left on a business Page, logged out — reviewer, whether they
@@ -37585,6 +37888,29 @@ interface FareharborBookingQuote {
   /** Where a person finishes the booking — the step this function stops before. */
   checkoutUrl: string;
 }
+interface FareharborContact {
+  name: string;
+  email: string;
+  phone: string;
+}
+interface FareharborCreateBookingArgs extends FareharborQuoteBookingArgs {
+  /** The person the booking is for — FareHarbor requires all three. */
+  contact: FareharborContact;
+}
+interface FareharborBookingResult {
+  operator: string;
+  itemId: number;
+  availabilityId: number;
+  /** The order's uuid. */
+  orderUuid: string;
+  /** FareHarbor's HAL path for the order, "/orders/<uuid>". */
+  orderPath: string;
+  // the site's own labels — read the values off a result, never guess one from prose
+  status: string | null;
+  totalDueCents: number | null;
+  /** Where a person pays, if the slot needs payment. This function never pays. */
+  checkoutUrl: string;
+}
 
   /**
    * FareHarbor tour, activity and cruise booking pages: find an operator, list its tours, check
@@ -37622,6 +37948,13 @@ interface FareharborBookingQuote {
      * returns the checkout url to finish.
      */
     quoteBooking(args: FareharborQuoteBookingArgs): Promise<FareharborBookingQuote>;
+
+    /**
+     * Places a FareHarbor booking for a slot and ticket mix under a contact (name, email, phone),
+     * through the checkout's own order call. Never pays: a slot that needs a card is refused in
+     * FareHarbor's own words with the checkout url. Returns the order uuid.
+     */
+    createBooking(args: FareharborCreateBookingArgs): Promise<FareharborBookingResult>;
   }
 }
 
@@ -38197,6 +38530,20 @@ interface FitdegreeMembershipPricing {
      * front or on recurring payments (dollars).
      */
     getMembershipPricing(args: { fitspotId: string; membershipId: string }, opts?: ConnectionOption): Promise<FitdegreeMembershipPricing>;
+
+    /**
+     * Makes a NEW FitDegree account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -43449,6 +43796,20 @@ interface glofoxFacilitySlotPage {
      * consent at that studio. Only the fields passed are sent.
      */
     updateMyProfile(args: glofoxUpdateProfileArgs, opts?: ConnectionOption): Promise<glofoxProfileUpdateResult>;
+
+    /**
+     * Makes a NEW Glofox account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -46237,6 +46598,20 @@ interface GoteamupWaitlistResult {
      * in at goteamup.com.
      */
     joinWaitlist(studio: string | number, classId: string | number, opts?: ConnectionOption): Promise<GoteamupWaitlistResult>;
+
+    /**
+     * Makes a NEW TeamUp account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -46995,6 +47370,18 @@ interface GrubhubSavedAddress {
   lng: number | null;
   instructions: string | null;
 }
+interface GrubhubPaymentMethod {
+  id: string | null;
+  type: "credit_card" | "paypal" | "venmo" | "amazon_pay" | "cash_app";
+  /** Card brand (Visa, Amex …); null for a wallet. */
+  brand: string | null;
+  /** Last four digits of a card — Grubhub never sends more. */
+  last4: string | null;
+  /** Card expiry as Grubhub returns it, when it does. */
+  expires: string | null;
+  /** A wallet's handle: PayPal/Amazon email, Venmo or Cash App username. */
+  account: string | null;
+}
 interface GrubhubFavorite {
   /** What getRestaurant()/getMenu() take. */
   id: string | null;
@@ -47150,6 +47537,13 @@ interface GrubhubAddToCartArgs {
      * name and url. Needs the caller signed in to grubhub.com.
      */
     getFavoriteRestaurants(opts?: ConnectionOption): Promise<GrubhubFavorite[]>;
+
+    /**
+     * The signed-in diner's saved Grubhub payment methods — cards (brand, last four, expiry) and
+     * PayPal, Venmo, Amazon Pay and Cash App wallets. Never a full card number. Needs the caller
+     * signed in to grubhub.com.
+     */
+    getPaymentMethods(opts?: ConnectionOption): Promise<GrubhubPaymentMethod[]>;
 
     /**
      * The signed-in diner's past Grubhub orders — restaurant, status, total in cents and item
@@ -51061,6 +51455,14 @@ interface InstacartAddress {
   instructions: string | null; // the courier note saved on the address
 }
 
+interface InstacartAccount {
+  id: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  phone: string | null;
+}
+
 interface InstacartCartSummary {
   id: string;                  // pass to getCart as { cartId }
   retailer: string | null;     // the store this cart is at
@@ -51193,6 +51595,12 @@ interface SignedInOrderPage {
      * checks out.
      */
     getCart(args: InstacartGetCartArgs, opts?: ConnectionOption): Promise<InstacartCart>;
+
+    /**
+     * The signed-in customer's own account: id, name, email and phone. A guest pauses the run for
+     * sign-in.
+     */
+    getMyAccount(opts?: ConnectionOption): Promise<InstacartAccount>;
   }
 }
 
@@ -58485,6 +58893,36 @@ interface MangomintMembershipList {
   memberships: MangomintMembership[];
 }
 
+interface MangomintJoinWaitlistClient {
+  firstName: string;
+  lastName: string;
+  /** Any format — the site's own form takes free text, e.g. "(201) 555-0147". */
+  phone: string;
+  email: string;
+}
+
+interface MangomintJoinWaitlistArgs extends MangomintBusinessArgs {
+  services: MangomintAvailabilityRequestService[];
+  /** YYYY-MM-DD, the first day the caller is available. */
+  startDate: string;
+  /** How many days forward from startDate the caller is available. Default 1 (just startDate). */
+  numDays?: number;
+  /** Which part of the day the caller is available. Default all three. */
+  timesOfDay?: ("morning" | "afternoon" | "evening")[];
+  client: MangomintJoinWaitlistClient;
+  /** Shown to the business with the waitlist entry. */
+  notes?: string;
+}
+
+interface MangomintWaitlistEntry {
+  business: { companyId: number; name: string };
+  services: MangomintAvailabilityRequestService[];
+  startDate: string;
+  endDateExclusive: string;
+  timesOfDay: string[];
+  client: MangomintJoinWaitlistClient;
+}
+
 interface MangomintPastServices {
   business: { companyId: number; name: string };
   /** The booking app's own rows, unparsed — no signed-in answer has been captured yet. */
@@ -58575,6 +59013,13 @@ interface MangomintPastServices {
      * completes a payment.
      */
     bookAppointment(args: MangomintBookAppointmentArgs): Promise<MangomintBookingConfirmation>;
+
+    /**
+     * Puts the caller on a business's waitlist for one or more services over a date range, with
+     * the times of day they're free. Refuses a business with no online waitlist, or one protected
+     * by a challenge Bowmark has not implemented.
+     */
+    joinWaitlist(args: MangomintJoinWaitlistArgs): Promise<MangomintWaitlistEntry>;
 
     /**
      * Services the signed-in caller has had at one business before, to rebook the same thing.
@@ -59501,6 +59946,20 @@ interface marianatekGetMyStatsResult {
      * getMyAccount. An authFunction.
      */
     getMyStats(args: marianatekGetMyStatsArgs, opts?: ConnectionOption): Promise<marianatekGetMyStatsResult>;
+
+    /**
+     * Makes a NEW Mariana Tek account with the person's own email and password, in a session.
+     * Pauses with `needs_code` / `needs_phone` whenever the site wants something only the person
+     * has; continue with `confirmSignup` in the same session. Ends `signed_up` with the login
+     * saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -61630,6 +62089,20 @@ interface MindbodyBooking {
      * `bowmark.providers.mindbodyonline.myBookings({ widgetId: "12345", locationId: "1" })`.
      */
     myBookings(args: MyBookingsArgs, opts?: ConnectionOption): Promise<{ bookings: MindbodyBooking[] }>;
+
+    /**
+     * Makes a NEW Mindbody account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -62078,6 +62551,20 @@ interface MomenceCheckoutField {
      * reason as getUserInfo.
      */
     joinWaitlist(studio: string | number, sessionId: string | number, options?: { roomSpotId?: string | number; boughtMembershipIds?: (string | number)[] }, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Makes a NEW Momence account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -63018,7 +63505,13 @@ interface MyBestStudioStudio {
 interface FindStudioResult {
   studios: MyBestStudioStudio[];
   pagesRead: string[];
+  otherBookingPlatforms: OtherBookingPlatform[];  // other platforms the brand's own pages embed, e.g. a studio that moved off My Best Studio
   warnings: string[];
+}
+
+interface OtherBookingPlatform {
+  platform: string;          // e.g. "offeringtree"
+  url: string;               // the embed's own url, as found on the page
 }
 
 interface ListMembershipsArgs {
@@ -64658,6 +65151,13 @@ interface NprStory {
   author?: string;
   body?: string;
   audioUrl?: string;
+  bylines?: NprByline[];
+}
+
+interface NprByline {
+  name: string;
+  id?: string;
+  url?: string;
 }
 
 interface ListHeadlinesArgs {
@@ -64885,8 +65385,9 @@ interface NprSeriesStories {
    */
   interface Unit {
     /**
-     * A complete NPR story — headline, publication date, author, body text and (when available) a
-     * link to the audio. Accepts a story URL (www.npr.org or text.npr.org) or just the story id.
+     * A complete NPR story — headline, publication date, author, bylines (each with the id
+     * getAuthorStories takes), body text and (when available) a link to the audio. Accepts a story
+     * URL (www.npr.org or text.npr.org) or just the story id.
      */
     getStory(args: GetStoryArgs): Promise<NprStory>;
 
@@ -65872,6 +66373,10 @@ interface NytCookingRecipe {
   ingredients: string[];
   steps: string[];
   tags: string[];
+  description: string | null; // the headnote, flattened to text
+  nutrition: { caloriesPerServing: number | null; nutrients: Array<{ label: string; code: string; quantity: number; unit: string }> } | null;
+  tips: string[];
+  imageUrl: string | null; // hero photo's largest rendition
 }
 
 interface NytCookingGetAuthorRecipesArgs {
@@ -66277,8 +66782,9 @@ interface NytCookingAccountProfile {
     searchRecipes(args: NytCookingSearchArgs): Promise<NytCookingSearchResult>;
 
     /**
-     * Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors — off
-     * its page's embedded recipe data.
+     * Reads one recipe's full detail — ingredients, steps, yield, times, ratings, authors,
+     * nutrition (calories and nutrients per serving), description, cook's tips and a hero image
+     * URL — off its page's embedded recipe data.
      */
     getRecipe(args: NytCookingGetRecipeArgs): Promise<NytCookingRecipe>;
 
@@ -66478,6 +66984,20 @@ interface NytCookingAccountProfile {
      * caller to be signed in to NYT — the run pauses for a login the first time this is called.
      */
     deleteRecipeNote(args: NytCookingDeleteRecipeNoteArgs, opts?: ConnectionOption): Promise<NytCookingDeleteRecipeNoteResult>;
+
+    /**
+     * Makes a NEW NYT Cooking account with the person's own email and password, in a session.
+     * Pauses with `needs_code` / `needs_phone` whenever the site wants something only the person
+     * has; continue with `confirmSignup` in the same session. Ends `signed_up` with the login
+     * saved and the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -68781,6 +69301,17 @@ interface ServiceCredit {
   name: string; // e.g. "Float", "Sauna 60", "Signature IV Drip" — varies by location, read values off a result
   credits: number; // credits required to book one session at this location
 }
+interface GetServiceDetailsArgs {
+  locationId: string; // e.g. "castro"
+  serviceName: string; // the name listServices() returns, e.g. "Float"
+}
+interface ServiceDetails {
+  name: string; // matches listServices() / getLocationInfo()
+  durationMinutes: number | null;
+  recoveryTimeMinutes: number | null; // minutes the room/equipment is held after, not a wellness "recovery"
+  description: string | null;
+  price: number | null; // dollars, only when the webstore itself shows a price for this service/location
+}
 interface ListAvailableSlotsArgs {
   locationId: string; // the id listLocations() returns, e.g. "castro"
   serviceName: string; // the name listServices() returns, e.g. "Float"
@@ -68878,6 +69409,12 @@ interface WaitlistedSlot {
      * the id listLocations() returns
      */
     listServices(id: string): Promise<ServiceCredit[]>;
+
+    /**
+     * Gets one service's duration, recovery time and description at a location, by a name
+     * listServices() returns — the price only where the webstore itself shows one
+     */
+    getServiceDetails(args: GetServiceDetailsArgs): Promise<ServiceDetails>;
 
     /**
      * Lists available appointment times for one service at one location on one date — requires the
@@ -76924,6 +77461,34 @@ interface RezdyBooking {
   orderNumber: string | null;
   message: string | null;
 }
+interface CheckVoucherArgs {
+  operator: string;
+  /** A product id from listProducts().products[].id. */
+  productId: string;
+  /** The voucher, coupon, promo or gift-card code. */
+  code: string;
+  /** YYYY-MM-DD; the first session with seats that day (or that month) is used. */
+  date?: string;
+  /** A session id from getAvailability().sessions[].sessionId; pass its date with it. */
+  sessionId?: string;
+  /** The party; defaults to 1 of the first price option. */
+  quantities?: Array<{ priceOptionId: string; quantity: number }>;
+}
+interface RezdyVoucherCheck {
+  operator: string;
+  productId: string;
+  sessionId: string;
+  date: string;
+  code: string;
+  accepted: boolean;
+  /** The operator's words when it refused the code, e.g. "Voucher X is invalid". */
+  message: string | null;
+  totalBefore: number | null;
+  totalAfter: number | null;
+  /** totalBefore minus totalAfter. */
+  discount: number | null;
+  currency: string | null;
+}
 interface RezdyPriceQuote {
   operator: string;
   productId: string;
@@ -76990,6 +77555,13 @@ interface RezdyPriceQuote {
      * payment_required) and submits nothing. Never pays.
      */
     bookSession(args: BookSessionArgs): Promise<RezdyBooking>;
+
+    /**
+     * Applies a voucher, coupon, promo or gift-card code to a cart for a session and party on the
+     * operator's order review and returns whether it was accepted (with the operator's refusal
+     * message when not), the total before and after, and the discount. Nothing is booked or paid.
+     */
+    checkVoucher(args: CheckVoucherArgs): Promise<RezdyVoucherCheck>;
   }
 }
 
@@ -80474,6 +81046,26 @@ interface SetmorePromoCode {
 
 declare namespace BowmarkProvider_sevenrooms {
   // ── SevenRooms — the unit's own declarations, verbatim ──
+interface GetReservationArgs {
+  /** The manage token — manageToken from bookReservation, or the guest's manage link. */
+  token: string;
+}
+interface SevenroomsReservation {
+  token: string;
+  reservationId: string | null;
+  venueName: string | null;
+  /** YYYY-MM-DD as the site sent it. */
+  date: string | null;
+  /** Venue-local time as the site sent it. */
+  time: string | null;
+  partySize: number | null;
+  firstName: string | null;
+  lastName: string | null;
+  /** The site's own status label, verbatim. */
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  /** The site's whole answer, untouched. */
+  raw: unknown;
+}
 interface CancelReservationArgs {
   /** The manage token — manageToken from bookReservation, or the guest's manage link. */
   token: string;
@@ -80782,6 +81374,13 @@ type SevenroomsPromoValidation =
      * pointer to bookReservationSignedIn.
      */
     bookReservation(args: BookReservationArgs): Promise<SevenroomsBooking>;
+
+    /**
+     * Reads a reservation from its manage token (bookReservation's manageToken, or the guest's
+     * manage link): venue, date, time, party size, guest name and status, plus the site's whole
+     * answer in raw. Works for whoever holds the token; no sign-in.
+     */
+    getReservation(args: GetReservationArgs): Promise<SevenroomsReservation>;
 
     /**
      * Cancels a reservation from its manage token (bookReservation's manageToken, or the guest's
@@ -82434,6 +83033,15 @@ interface SolidcorePricing {
   memberships: SolidcoreMembership[];
 }
 
+interface BookClassArgs {
+  id: number;            // class id off a getSchedule row
+  date: string;          // "YYYY-MM-DD" — the class's own date (a row's startTime works too)
+  siteId: string;        // off listStudios, e.g. "5723396"
+  locationId: string;    // off listStudios, e.g. "11"
+  packageId?: number;    // which held pass to spend; omit to let the site choose
+  membershipId?: number;
+}
+
 interface GetPackArgs {
   locationId: string;     // e.g. "11" for Castro — what listStudios returns
   id: string;             // a pass id off getPricing, e.g. "10106"
@@ -82557,6 +83165,23 @@ interface SolidcorePack extends SolidcorePass {
      * widen the search window beyond the default seven days.
      */
     checkAvailability(args: CheckAvailabilityArgs): Promise<SolidcoreClassAvailability>;
+
+    /**
+     * Books the signed-in member into a [solidcore] class, spending a pass or membership they
+     * already hold — never a purchase. Takes { id, date } off a getSchedule row plus the studio's
+     * { siteId, locationId } from listStudios; optional { packageId } picks which pass to spend.
+     * Needs the caller signed in; returns the site's own confirmation raw. Throws if already
+     * booked into another class at that time.
+     */
+    bookClass(args: BookClassArgs, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Joins the signed-in member to a full [solidcore] class's waitlist — the same booking door as
+     * bookClass with the site's own `Waitlist: true` flag. Use it on a getSchedule row whose
+     * availability is "waitlist". Same arguments as bookClass; needs the caller signed in; returns
+     * the site's response raw.
+     */
+    joinWaitlist(args: BookClassArgs, opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -83152,6 +83777,44 @@ interface SpectrumAccountBalance {
   statementDate: string | null;
   statementId: string;  // the newest statement this balance was read from
 }
+interface SpectrumWifiNetwork {
+  ssid: string | null;
+  securityMode: string | null;
+  bands: string[];
+}
+interface SpectrumPodHealth {
+  score: number | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  connectedDeviceCount: number | null;
+}
+interface SpectrumEquipment {
+  id: string | null;
+  connectionState: string | null;  // the site's own label — read values off a result, never guess one
+  equipmentType: string | null;
+  categories: string[];
+  linesOfBusiness: string[];
+  manufacturer: string | null;
+  model: string | null;
+  nickname: string | null;
+  ownership: string | null;
+  serialNumber: string | null;
+  firmwareVersion: string | null;
+  macAddress: string | null;
+  wifiNetworks: SpectrumWifiNetwork[];  // network names the router broadcasts — never the passwords
+  podHealth: SpectrumPodHealth | null;  // set only for a WiFi pod/extender
+}
+interface SpectrumLineUsage {
+  lineId: string | null;
+  planName: string | null;
+  dataTotal: number | null;  // data used this cycle, as spectrum.net reports it
+  minutesTotal: number | null;
+  messagesTotal: number | null;
+}
+interface SpectrumUsageCycle {
+  cycleStartDate: string | null;
+  cycleEndDate: string | null;
+  lines: SpectrumLineUsage[];  // one row per Spectrum Mobile line
+}
 
   /**
    * Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check address
@@ -83234,6 +83897,23 @@ interface SpectrumAccountBalance {
      * in to spectrum.net.
      */
     getAccountBalance(opts?: ConnectionOption): Promise<SpectrumAccountBalance>;
+
+    /**
+     * The signed-in caller's Spectrum Mobile usage for the current bill cycle: per line, data
+     * used, minutes and messages, with the plan name and cycle dates, read off spectrum.net's own
+     * account GraphQL. Mobile only — Spectrum Internet has no data cap and spectrum.net exposes no
+     * internet usage meter. Empty when the account has no mobile lines. Needs the caller signed in
+     * to spectrum.net.
+     */
+    getUsageSummary(opts?: ConnectionOption): Promise<SpectrumUsageCycle[]>;
+
+    /**
+     * The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with each
+     * device's connection state, model, ownership and firmware, plus the WiFi network names the
+     * router broadcasts (never the passwords) and pod backhaul health, read off spectrum.net's own
+     * account GraphQL. Needs the caller signed in to spectrum.net.
+     */
+    getEquipmentStatus(opts?: ConnectionOption): Promise<SpectrumEquipment[]>;
   }
 }
 
@@ -83569,6 +84249,25 @@ interface SpotappsInquiryRequest {
   accepted: boolean;
   inquiryId: string | null;
 }
+interface SpotappsApplyForJobArgs {
+  spotId: string;
+  name: string;
+  email: string;
+  phone: string;
+  /** One or more of listJobs().positions. */
+  positions: string[];
+  coverLetter?: string;
+  experience?: string;
+  /** A link to the applicant's resume; the widget's file upload is not wrapped. */
+  cvLink?: string;
+}
+interface SpotappsJobApplication {
+  spotId: string;
+  positions: string[];
+  /** The widget's own verdict on the submit — true means SpotHopper recorded the application. */
+  accepted: boolean;
+  applicationId: string | null;
+}
 interface SpotappsReservationRequest {
   spotId: string;
   date: string;
@@ -83671,6 +84370,12 @@ interface SpotappsJobListing {
      * the restaurant's widget — an inquiry the restaurant follows up on, not a paid order.
      */
     requestCatering(args: SpotappsCateringArgs): Promise<SpotappsInquiryRequest>;
+
+    /**
+     * Submits a job application (name, email, phone, positions, cover letter, experience, resume
+     * link) through the restaurant's widget.
+     */
+    applyForJob(args: SpotappsApplyForJobArgs): Promise<SpotappsJobApplication>;
   }
 }
 
@@ -83851,6 +84556,10 @@ interface SpotifyOEmbed {
 interface SpotifyGenreSeeds {
   genres: string[];
 }
+interface SpotifyPlaylistCover {
+  playlistId: string;
+  images: { url: string; height?: number; width?: number }[];   // largest first; [] when no cover
+}
 interface SpotifyUserProfile {
   id: string;
   displayName: string | null;
@@ -83992,6 +84701,12 @@ interface SpotifyCurrentPlayback {
      * app key.
      */
     getGenreSeeds(): Promise<SpotifyGenreSeeds>;
+
+    /**
+     * Gets a playlist's cover image urls, largest first (up to 640px) — an empty list when the
+     * playlist has no cover. Needs your own Spotify developer app key.
+     */
+    getPlaylistCoverImage(id: string): Promise<SpotifyPlaylistCover>;
 
     /**
      * Reads the signed-in caller's own Spotify profile — id, display name, country, plan
@@ -85899,6 +86614,22 @@ interface ViewInventoryResponse {
   hasMore: boolean;
 }
 
+interface GetMarketPriceArgs {
+  appId: string | number;
+  marketHashName: string;
+  currency?: number;
+}
+
+interface GetMarketPriceResponse {
+  appId: string;
+  marketHashName: string;
+  currency: number;
+  listed: boolean;
+  lowestPrice: string | null;
+  medianPrice: string | null;
+  volume: number | null;
+}
+
 interface GetCommunityHubArgs {
   appId: string | number;
 }
@@ -86084,6 +86815,14 @@ interface GetCommunityHubResponse {
      * private.
      */
     viewInventory(args: ViewInventoryArgs): Promise<ViewInventoryResponse>;
+
+    /**
+     * Reads an item's current Community Market price by appid and exact market name
+     * (viewInventory's marketHashName): lowest listing price, median sale price and 24-hour
+     * volume, pre-formatted in the requested currency (1 = USD, default). No sign-in. An item with
+     * no listing answers listed:false.
+     */
+    getMarketPrice(args: GetMarketPriceArgs): Promise<GetMarketPriceResponse>;
 
     /**
      * Reads the first page of a game's public Steam Community hub by appid: announcements,
@@ -92447,6 +93186,49 @@ interface tumblrRow {
   id: string;
 }
 
+interface TumblrReblogArgs {
+  /** The signed-in caller's own blog to reblog onto. */
+  blog: string;
+  id: string;
+  reblogKey: string;
+  comment?: string;
+}
+
+interface TumblrOwnPostArgs {
+  /** The signed-in caller's own blog. */
+  blog: string;
+  id: string;
+}
+
+interface TumblrFollowersArgs {
+  /** A blog the signed-in caller owns. */
+  blog: string;
+  /** 1-20, default 20. */
+  limit?: number;
+  offset?: number;
+}
+
+interface TumblrReblogResult {
+  ok: true;
+  /** The new reblog's own post id — what unreblogPost takes. */
+  id: string | null;
+}
+
+interface TumblrFollower {
+  name: string;
+  url: string;
+  /** Whether the signed-in caller follows this blog back. */
+  following: boolean;
+  updatedAt: string | null;
+}
+
+interface TumblrFollowersPage {
+  totalFollowers: number;
+  followers: TumblrFollower[];
+  /** Pass as offset for the next page, or null on the last. */
+  nextOffset: number | null;
+}
+
 interface TumblrBlogSummary {
   /** The blog's own identifier — what every other tumblr.com function takes
    * as a blog argument. */
@@ -92715,6 +93497,24 @@ interface TumblrEngageResult {
 
     /** Unfollows a blog from the signed-in caller's account. */
     unfollowBlog(args: TumblrBlogRefArgs, opts?: ConnectionOption): Promise<TumblrEngageResult>;
+
+    /**
+     * Reblogs one post onto the signed-in caller's blog, with an optional comment, given the id
+     * and reblogKey off a post row.
+     */
+    reblogPost(args: TumblrReblogArgs, opts?: ConnectionOption): Promise<TumblrReblogResult>;
+
+    /** Removes a reblog from the signed-in caller's blog, given the reblog's own post id. */
+    unreblogPost(args: TumblrOwnPostArgs, opts?: ConnectionOption): Promise<{ ok: true }>;
+
+    /** Deletes one post from the signed-in caller's own blog. */
+    deletePost(args: TumblrOwnPostArgs, opts?: ConnectionOption): Promise<{ ok: true }>;
+
+    /**
+     * Who follows a blog the signed-in caller owns — each follower's name and url, and whether the
+     * caller follows back, paged by offset.
+     */
+    listBlogFollowers(args: TumblrFollowersArgs, opts?: ConnectionOption): Promise<TumblrFollowersPage>;
   }
 }
 
@@ -98388,6 +99188,11 @@ interface WhatsappGroupInfo {
   createdAt: string | null;
   participants: WhatsappGroupParticipant[];
 }
+interface WhatsappGroupInviteLink {
+  name: string;
+  code: string;
+  url: string;
+}
 interface WhatsappBlogPost {
   slug: string;
   title: string;
@@ -98521,6 +99326,13 @@ interface WhatsappBlogPost {
      * participant's displayed name with whether they are an admin. Needs the caller signed in.
      */
     getGroupInfo(groupName: string, opts?: ConnectionOption): Promise<WhatsappGroupInfo>;
+
+    /**
+     * Reads the current chat.whatsapp.com invite link of a group the caller administers, opened by
+     * its exact displayed name (from listChats). Refuses when the caller is not an admin. Needs
+     * the caller signed in.
+     */
+    getGroupInviteLink(groupName: string, opts?: ConnectionOption): Promise<WhatsappGroupInviteLink>;
   }
 }
 
@@ -99450,8 +100262,49 @@ interface WixStaffMember {
   photoUrl: string | null;
   /** Ids of listServices().services[] this staff member performs. */
   serviceIds: string[];
+  /** Pass this — never id — as bookAppointment's resourceId. */
+  resourceId: string | null;
 }
 interface ListStaffResult { staff: WixStaffMember[]; }
+interface WixBookingContact { firstName: string; lastName: string; email: string; phone?: string; }
+interface WixBooking {
+  id: string;
+  /** Pass this back verbatim to cancelBooking/rescheduleBooking. */
+  revision: string;
+  /** The site's own label, e.g. "CREATED" or "CANCELED" — read the value off a result, never guess one from prose. */
+  status: string;
+  serviceId: string;
+  startDate: string;
+  endDate: string;
+  timeZone: string | null;
+  resourceId: string | null;
+  resourceName: string | null;
+  numberOfParticipants: number | null;
+  contact: WixBookingContact;
+}
+interface BookAppointmentArgs {
+  site: string;
+  /** A service id from listServices().services[].id. Must be payment.options.inPerson. */
+  serviceId: string;
+  /** From an open slot in getOpenTimes().slots[] — its startDate/endDate, local, no offset. */
+  startDate: string;
+  endDate: string;
+  /** Defaults to the service's own zone when omitted. */
+  timeZone?: string;
+  /** A listStaff().staff[].resourceId; defaults to the service's own first staff member. */
+  resourceId?: string;
+  contact: WixBookingContact;
+  /** Default 1. */
+  numberOfParticipants?: number;
+}
+interface CancelBookingArgs {
+  site: string;
+  bookingId: string;
+  /** From bookAppointment()'s own revision. */
+  revision: string;
+  /** Notify the business's own staff. Default false. */
+  notifyParticipants?: boolean;
+}
 interface GetOpenTimesArgs {
   site: string;
   /** A service id from listServices().services[].id. */
@@ -99538,6 +100391,19 @@ interface ListLocationsResult { locations: WixLocation[]; }
 
     /** A business's locations with address, phone, email and time zone. */
     listLocations(args: FindSiteArgs): Promise<ListLocationsResult>;
+
+    /**
+     * Books an appointment as a guest for a service at an open time, with the customer's name,
+     * email and phone. Refuses a service paid online — Wix's eCommerce checkout is not driven
+     * here.
+     */
+    bookAppointment(args: BookAppointmentArgs): Promise<WixBooking>;
+
+    /**
+     * Cancels a guest booking with no sign-in, given the booking's id and current revision from
+     * bookAppointment.
+     */
+    cancelBooking(args: CancelBookingArgs): Promise<WixBooking>;
   }
 }
 
@@ -99626,6 +100492,39 @@ interface WodifyCoach {
   bio: string | null;
   photoUrl: string | null;
   links: string[];
+}
+
+interface WodifyBooking {
+  classId: number | null;
+  reservationId: number | null;
+  name: string;
+  program: string | null;
+  location: string | null;
+  coach: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  startTime: string | null;
+  endTime: string | null;
+  membership: string | null;
+  isDropIn: boolean;
+  lateCancellationFee: number | null;
+  noShowFee: number | null;
+}
+
+interface WodifyHeldPlan {
+  id: number | null;
+  planId: number | null;
+  name: string;
+  type: string | null;
+  isActive: boolean;
+  startDate: string | null;
+  expirationDate: string | null;
+  scheduledDeactivationDate: string | null;
+  sessionsTotal: number | null;
+  sessionsUsed: number;
+  autoRenews: boolean;
+  paymentSchedule: string | null;
+  location: string | null;
+  usage: { signIns: number; reservations: number; noShows: number; lateCancels: number };
 }
 
 interface WodifyCoachRoster {
@@ -99731,6 +100630,25 @@ interface WodifyCoachRoster {
      * is the only public roster.
      */
     listInstructors(args: { gymHost: string; locationId: number }): Promise<WodifyCoachRoster>;
+
+    /**
+     * Lists the signed-in member's upcoming classes and appointments at one Wodify-powered gym —
+     * class name, program, location, coach, start/end time, Wodify's own status label, the
+     * membership it is booked on, and any late-cancel or no-show fee. Needs the member signed in
+     * on that gym's Wodify booking page; the run pauses for a sign-in if nobody is. `gymHost`
+     * comes from findGym. An empty array means nothing is booked.
+     */
+    getMyBookings(args: { gymHost: string }, opts?: ConnectionOption): Promise<WodifyBooking[]>;
+
+    /**
+     * Lists the memberships, class packs and appointment packs the signed-in member holds at one
+     * Wodify-powered gym, active ones first — plan name and type, start and expiry dates, any
+     * scheduled deactivation, sessions used of the total (null total when unlimited), whether it
+     * auto-renews and on what payment schedule, and the member's sign-in, reservation, no-show and
+     * late-cancel counts on it. Needs the member signed in on that gym's Wodify booking page; the
+     * run pauses for a sign-in if nobody is. `gymHost` comes from findGym.
+     */
+    getMyMembership(args: { gymHost: string }, opts?: ConnectionOption): Promise<WodifyHeldPlan[]>;
   }
 }
 
@@ -100521,6 +101439,24 @@ interface XolaPriceQuote {
   total: number;
   dueNow: number | null;
 }
+interface XolaListWaiversArgs {
+  /** The experience id listExperiences returns. */
+  experienceId: string;
+}
+interface XolaWaiver {
+  /** Xola's waiver template id, read off the template url. */
+  templateId: string | null;
+  /** The signable waiver page Xola Checkout links a traveler to. */
+  url: string;
+}
+interface XolaWaivers {
+  experienceId: string;
+  sellerId: string;
+  /** Empty when the seller asks no waiver for this experience. */
+  waivers: XolaWaiver[];
+  /** The seller wants each guest named, not only the lead traveler. */
+  requiresGuestNames: boolean;
+}
 
   /**
    * Tours and activities sold by operators on Xola: experiences, availability, quotes and guest
@@ -100557,6 +101493,12 @@ interface XolaPriceQuote {
      * nothing.
      */
     getPriceQuote(args: XolaGetPriceQuoteArgs): Promise<XolaPriceQuote>;
+
+    /**
+     * The waiver a seller asks travelers to sign for one experience -- its template id and the
+     * signable waiver page link Xola Checkout shows -- and whether every guest must be named.
+     */
+    listWaivers(args: XolaListWaiversArgs): Promise<XolaWaivers>;
   }
 }
 
@@ -102690,6 +103632,36 @@ interface YoutubePlayableStream {
   expiresAt: string;    // ISO; the URL stops working then, call again for a fresh one
 }
 
+interface YoutubePlaybackFile {
+  url: string;          // signed googlevideo.com file; a <video> (or <audio>) src, from any address
+  mimeType: string;     // "video/mp4", "video/webm", "audio/mp4", "audio/webm"
+  codecs: string | null; // "avc1.640028", "vp9", "av01.0.08M.08", "mp4a.40.2", "opus"
+  width: number | null;
+  height: number | null;
+  fps: number | null;
+  bitrate: number | null;
+  bytes: number | null;
+  qualityLabel: string | null; // "1080p60"; null on audio
+  itag: number;
+}
+
+interface YoutubePlayback {
+  videoId: string;
+  title: string | null;
+  durationMs: number | null;
+  live: boolean;
+  // YouTube's own player (youtube-nocookie.com/embed/<id>), ads included; null when the uploader disabled embedding
+  embed: { url: string; hasAds: boolean | "unknown"; note: string } | null;
+  files: {
+    muxed: YoutubePlaybackFile[];     // video + audio in one file (360p): plays alone in a <video>
+    videoOnly: YoutubePlaybackFile[]; // every size 144p-2160p: pair ONE with ONE audioOnly file
+    audioOnly: YoutubePlaybackFile[];
+  };                    // each list tallest/highest-bitrate first; empty for a live, age-gated or blocked video
+  expiresAt: string | null; // ISO; the earliest file URL's own expiry, about six hours out
+  referrer: "any" | "none" | string; // "any": googlevideo answered with any Referer and none (measured)
+  warnings: string[];   // why a list is empty or short
+}
+
   /**
    * A YouTube video's own caption transcript, read off the site's own Transcript panel —
    * timestamped lines plus the full text as one string. Language selection is not offered yet;
@@ -102828,6 +103800,28 @@ interface YoutubePlayableStream {
      * downloading: the link is the stream, not a file Bowmark saves.
      */
     getPlayableStream(input: { video: string }): Promise<YoutubePlayableStream>;
+
+    /**
+     * Every way to play one video, for you to choose from: YouTube's embed (`embed.url`, its own
+     * player in an iframe, ads included) and every file YouTube serves (`files.muxed` is
+     * video+audio in one 360p file; `files.videoOnly` is every size from 144p to 2160p, each
+     * played in a muted `<video>` beside ONE `files.audioOnly` file in an `<audio>`). `video` is a
+     * bare 11-character id or any watch/shorts/embed/live/youtu.be URL. Choose from what the user
+     * asked for: no ads, no end-screen suggestions or no site chrome → files; a particular
+     * resolution, "the highest" or "save data" → files; the page's own controls, a looping
+     * segment, a frame grab, picture-in-picture or audio only → files; a live stream,
+     * members-only, age-restricted or DRM'd video → embed; YouTube's own comments, chapters, likes
+     * or captions inside the player → embed; no preference → files, falling back to the embed. A
+     * page may offer both and let the viewer switch. Inside a jig page, the page kit's
+     * `player.mount(box, menu, { mode, quality })` plays any of these and keeps a pair in sync (a
+     * jig helper, not a library function). The file URLs play from any address, need no particular
+     * Referer, and expire at `expiresAt` (about six hours). The bytes go from YouTube straight to
+     * the player; the call moves about 5 KB. A live, age-gated, region- or members-blocked video
+     * comes back with empty `files`, the embed, and a `warnings` line saying why. Throws only for
+     * a removed or private video. `getPlayableStream` is the one-call shortcut to the 360p muxed
+     * file.
+     */
+    getPlayback(input: { video: string }): Promise<YoutubePlayback>;
 
     /**
      * The videos on one of YouTube's own hashtag pages (`youtube.com/hashtag/<tag>`) — a topic
@@ -155648,6 +156642,7 @@ interface BowmarkLibrary {
   vacation_rental: BowmarkCapability_vacation_rental.Unit;
   video_editing: BowmarkCapability_video_editing.Unit;
   video_library: BowmarkCapability_video_library.Unit;
+  vision: BowmarkCapability_vision.Unit;
   vpn_dedicated_ip: BowmarkCapability_vpn_dedicated_ip.Unit;
   weather: BowmarkCapability_weather.Unit;
   web_form_fields: BowmarkCapability_web_form_fields.Unit;
