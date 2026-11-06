@@ -304,7 +304,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archive_org.getSnapshot` | archive.org | Reads one archived page as it was captured — the original HTML without the archive's… | 🟢 |
 | `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🔴 |
 | `archive_org.searchItems` | archive.org | Search the Internet Archive's library of books, films, audio, software and more using… | 🟢 |
-| `archive_org.searchScholar` | archive.org | Search scholar.archive.org for scholarly articles, papers, and academic texts —… | ⚪ |
+| `archive_org.searchScholar` | archive.org | Searches IA Scholar (scholar.archive.org), the Internet Archive's full-text index of… | 🟢 |
 | `arketa.bookClass` | arketa.co | Books the signed-in client into a scheduled class using a pack or membership they… | 🟢 |
 | `arketa.bookPrivateSession` | arketa.co | Books the signed-in client into a private session at a time… | 🟢 |
 | `arketa.buyPricingOption` | arketa.co | Would buy a class pack, membership or on-demand subscription at a studio for the… | ⚪ |
@@ -556,8 +556,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | 🟢 |
 | `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | ⚪ |
 | `bluesky.muteUser` | bsky.app | Mute a person for the caller, or unmute them. | ⚪ |
-| `bluesky.quotePost` | bsky.app | Quote-post an existing post with the caller's own text. | ⚪ |
-| `bluesky.replyToPost` | bsky.app | Reply to a post as the caller, threaded under it. | ⚪ |
+| `bluesky.quotePost` | bsky.app | Quote-post an existing post with the caller's own text. | 🟢 |
+| `bluesky.replyToPost` | bsky.app | Reply to a post as the caller, threaded under it. | 🟢 |
 | `bluesky.repost` | bsky.app | Repost a post as the caller, or undo the repost. | 🟢 |
 | `bluesky.resolveHandle` | bsky.app | Turn a Bluesky handle (alice.bsky.social, or a custom domain handle) into its… | 🟢 |
 | `bluesky.saveFeed` | bsky.app | Save or pin a custom feed to the caller's feed list, or remove it. | ⚪ |
@@ -1787,7 +1787,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `espn.getPlayer` | espn.com | One player's page — team, position, jersey, age, height, weight, college, status and… | 🟢 |
 | `espn.getTeam` | espn.com | One team's page header — record, standing in its division, next game, coach, venue and… | 🟢 |
 | `espn.injuries` | espn.com | Reads a league's injury report the way ESPN's own /nfl/injuries page does — every… | 🟢 |
-| `espn.listFavorites` | espn.com | The CALLER's My ESPN favourites — the teams, leagues and players they follow, which… | ⚪ |
+| `espn.listFavorites` | espn.com | The CALLER's My ESPN favourites — the teams, leagues and players they follow, which… | 🟢 |
 | `espn.listLeagues` | espn.com | Every sport ESPN's core API tracks (call with no arguments), or every league slug… | 🟢 |
 | `espn.listMyFantasyTeams` | espn.com | The CALLER's own ESPN fantasy teams across every game (football, baseball, basketball… | 🟢 |
 | `espn.listTeams` | espn.com | Every team in a league with its ESPN id, abbreviation, name, location, colours and… | 🟢 |
@@ -1934,8 +1934,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `faceforwardaesthetics.listLocations` | faceforwardaesthetics.com | Lists Face Forward Aesthetics' real bookable Zenoti locations (9 centers, OH/IN/NV/PA). | 🟢 |
 | `faceforwardaesthetics.listServices` | faceforwardaesthetics.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
 | `facerealityskincare.searchAcneExperts` | facerealityskincare.com | Runs Face Reality's own Acne Expert Locator search — matches a free-text query (city… | 🟢 |
-| `fandom.createPage` | fandom.com | Create an article that does not exist yet, under the caller's own account. `POST… | ⚪ |
-| `fandom.editPage` | fandom.com | Change an article — replace a page or one of its sections with new wikitext, under the… | ⚪ |
+| `fandom.createPage` | fandom.com | Create an article that does not exist yet, under the caller's own account. `POST… | 🟢 |
+| `fandom.editPage` | fandom.com | Change an article — replace a page or one of its sections with new wikitext, under the… | 🟢 |
 | `fandom.findWiki` | fandom.com | Find which Fandom wiki covers a topic — hand it "star wars" or "minecraft" and get… | ⚪ |
 | `fandom.getArticle` | fandom.com | A wiki article in full — title, the body as plain text with wiki markup stripped, the… | 🟢 |
 | `fandom.getCurrentUser` | fandom.com | Who the caller is signed in as on this wiki — username, global user id, edit count and… | 🟢 |
@@ -2489,18 +2489,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.getAlternativeTranslations` | translate.google.com | The other ways Google would have translated the same thing — the list that appears… | 🟢 |
 | `google_translate.getDefinitions` | translate.google.com | What a word MEANS, in its own language — every sense grouped by part of speech, each… | 🟢 |
 | `google_translate.getSynonyms` | translate.google.com | Other words that mean the same thing, grouped by sense rather than thrown into one… | 🟢 |
-| `google_translate.listHistory` | translate.google.com | What the signed-in person has translated recently, newest first — Google Translate's… | ⚪ |
+| `google_translate.listHistory` | translate.google.com | What the signed-in person has translated recently, newest first — Google Translate's… | 🟢 |
 | `google_translate.listLanguages` | translate.google.com | Every language this site supports — the table that turns a caller's "Portuguese" into… | 🟢 |
-| `google_translate.listSavedPhrases` | translate.google.com | The phrases the signed-in person starred — Google Translate's own saved-phrase book… | ⚪ |
+| `google_translate.listSavedPhrases` | translate.google.com | The phrases the signed-in person starred — Google Translate's own saved-phrase book… | 🟢 |
 | `google_translate.lookupWord` | translate.google.com | The full "translations of <word>" panel for one word — every part of speech Google has… | 🟢 |
 | `google_translate.romanize` | translate.google.com | A Latin-alphabet (or phonetic) rendering of the translation, or the source, printed… | 🟢 |
-| `google_translate.savePhrase` | translate.google.com | Star a translation so it joins the signed-in person's saved phrases — the one write… | ⚪ |
+| `google_translate.savePhrase` | translate.google.com | Star a translation so it joins the signed-in person's saved phrases — the one write… | 🟢 |
 | `google_translate.speak` | translate.google.com | Hear `args.text` spoken in `args.language`, as the MP3 the site's own speaker button… | 🟢 |
 | `google_translate.translate` | translate.google.com | Turn text into another language — the whole point of the site, and the provider's main… | 🟢 |
 | `google_translate.translateDocument` | translate.google.com | Translate a whole document — the Documents tab, which takes a PDF, Word or PowerPoint… | 🟢 |
 | `google_translate.translateImage` | translate.google.com | Read the text in a picture and translate it — the Images tab, where a person points a… | 🟡 |
 | `google_translate.translateWebPage` | translate.google.com | Read somebody else's web page in your own language — the Websites tab. | 🟢 |
-| `google_translate.unsavePhrase` | translate.google.com | Take a phrase back out of the signed-in person's saved phrases — the undo for… | ⚪ |
+| `google_translate.unsavePhrase` | translate.google.com | Take a phrase back out of the signed-in person's saved phrases — the undo for… | 🟢 |
 | `google.search` | google.com | Runs a Google web search and returns the ranked results — title, destination url and… | ⚪ |
 | `google.searchShopping` | google.com | Searches Google Shopping to compare prices for a product across sellers, returning the… | ⚪ |
 | `goremutual.getProductOverview` | goremutual.ca | Returns the public product overview for Gore Mutual's commercial property and casualty… | 🟢 |
@@ -3833,19 +3833,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.getLiveSchedule` | www.primevideo.com | Read one live station's schedule — every programme with its start and end time, the… | 🟢 |
 | `prime_video.getPerson` | www.primevideo.com | Read a cast member's Prime Video page: their name, what they are credited as, when and… | 🟢 |
 | `prime_video.getTitle` | www.primevideo.com | Read one film, series-season or episode the way a viewer reads its page: title… | 🟢 |
-| `prime_video.getWatchlist` | www.primevideo.com | Read the caller's own Prime Video watchlist — what they saved and whether each of… | ⚪ |
+| `prime_video.getWatchlist` | www.primevideo.com | Read the caller's own Prime Video watchlist — what they saved and whether each of… | 🟢 |
 | `prime_video.getWatchOptions` | www.primevideo.com | Say how you would actually watch a title: included with your Prime membership, free… | 🟢 |
 | `prime_video.listCategories` | www.primevideo.com | List the ways Prime Video lets you browse — its genres (action, comedy, horror, anime… | 🟢 |
 | `prime_video.listCategoryTitles` | www.primevideo.com | Browse one genre, collection or storefront and get its rows of titles back — "what… | 🟢 |
 | `prime_video.listChannels` | www.primevideo.com | List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+… | 🟢 |
-| `prime_video.listContinueWatching` | www.primevideo.com | What the caller started and did not finish, and how far in they got. | ⚪ |
+| `prime_video.listContinueWatching` | www.primevideo.com | What the caller started and did not finish, and how far in they got. | 🟢 |
 | `prime_video.listDeals` | www.primevideo.com | What is discounted to rent or buy on Prime Video this week — the sales, the… | 🟢 |
 | `prime_video.listEpisodes` | www.primevideo.com | List a season's episodes with number, title, synopsis, runtime, release date, artwork… | 🟢 |
 | `prime_video.listFreeToWatch` | www.primevideo.com | What you can watch on Prime Video without paying anything at all — the free-with-ads… | 🟢 |
 | `prime_video.listLiveChannels` | www.primevideo.com | List the free live TV and news stations Prime Video streams — their name, their logo… | 🟢 |
 | `prime_video.listLiveSports` | www.primevideo.com | What sport is on Prime Video now and what is coming — the live and upcoming events… | 🟢 |
 | `prime_video.listNewReleases` | www.primevideo.com | What has just arrived on Prime Video and what is coming — the read behind "anything… | 🟢 |
-| `prime_video.listPurchases` | www.primevideo.com | The films and series the caller has already rented or bought — their video library… | ⚪ |
+| `prime_video.listPurchases` | www.primevideo.com | The films and series the caller has already rented or bought — their video library… | 🟢 |
 | `prime_video.listRelatedTitles` | www.primevideo.com | What to watch next after this one — the commonest thing anyone says after the credits… | 🟢 |
 | `prime_video.listSeasons` | www.primevideo.com | List every season of a series with the titleId that opens each one, its number, its… | 🟢 |
 | `prime_video.listTop10` | www.primevideo.com | Prime Video's own top ten right now — the most-watched TV shows in the US, the top… | 🟢 |
@@ -4127,7 +4127,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `resy.startBooking` | resy.com | Starts booking one open time for a diner with a Resy account: checks the time is open… | 🟢 |
 | `resy.startSignIn` | resy.com | Texts the diner a Resy code to sign them back in to their own account in a later… | 🟢 |
 | `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟢 |
-| `reuters.followTopic` | www.reuters.com | Follow a Reuters topic or section so it appears in the reader's My News feed. | ⚪ |
+| `reuters.followTopic` | www.reuters.com | Follow a Reuters topic, section, company, law firm or author in the reader's My News. | 🟢 |
 | `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | 🟢 |
 | `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, bio, photo, social links, how many stories… | 🟢 |
 | `reuters.getCompanyEvents` | www.reuters.com | A company's next scheduled event (typically its next earnings release) and any recent… | 🟢 |
@@ -4157,12 +4157,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listSavedArticles` | www.reuters.com | The signed-in reader's saved Reuters articles: headline, url, description, section… | 🟢 |
 | `reuters.listSections` | www.reuters.com | Reuters' own section and topic list — World, Business, Markets, Sustainability, Legal… | 🟢 |
 | `reuters.listVideos` | www.reuters.com | Reuters videos, newest first — title, description, duration, published time, thumbnail… | 🟢 |
-| `reuters.removeSavedArticle` | www.reuters.com | Remove an article from the signed-in reader's saved list. | ⚪ |
-| `reuters.saveArticle` | www.reuters.com | Save a Reuters article to the signed-in reader's saved list. | ⚪ |
+| `reuters.removeSavedArticle` | www.reuters.com | Remove an article from the signed-in reader's saved list. | 🟢 |
+| `reuters.saveArticle` | www.reuters.com | Save a Reuters article to the signed-in reader's saved list. | 🟢 |
 | `reuters.searchArticles` | www.reuters.com | Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed… | 🟡 |
 | `reuters.searchCompanies` | www.reuters.com | Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF"… | 🟢 |
 | `reuters.subscribeNewsletter` | www.reuters.com | Sign the signed-in reader up to a Reuters newsletter. | ⚪ |
-| `reuters.unfollowTopic` | www.reuters.com | Stop following a topic in the signed-in reader's My News. | ⚪ |
+| `reuters.unfollowTopic` | www.reuters.com | Unfollow a Reuters topic, section, company, law firm or author in the reader's My News. | 🟢 |
 | `reuters.unsubscribeNewsletter` | www.reuters.com | Unsubscribe the signed-in reader from a Reuters newsletter. | ⚪ |
 | `revisionskincare.getSkincareQuizQuestions` | revisionskincare.com | Reads the live 'Product Finder Quiz' at revisionskincare.com/pages/skincare-quiz… | 🟢 |
 | `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟢 |
@@ -4438,7 +4438,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shop_app.getCart` | shop.app | Reads the caller's Shop cart — items grouped by store, quantities and totals. | ⚪ |
 | `shop_app.getDeliveryEstimate` | shop.app | Says when a product variant would arrive — the delivery promise Shop shows under the… | ⚪ |
 | `shop_app.getDiscoveryFeed` | shop.app | Reads Shop's home discovery feed — the sections of trending stores and products… | 🟢 |
-| `shop_app.getOrder` | shop.app | Reads one of the caller's orders — items, totals, the shipping address, the receipt… | ⚪ |
+| `shop_app.getOrder` | shop.app | Reads one of the caller's orders — items, totals, the shipping address, the receipt… | 🟢 |
 | `shop_app.getProduct` | shop.app | One product by its numeric id or a shop.app/products/<id>/<slug> url: title… | 🟢 |
 | `shop_app.getProductReviews` | shop.app | A product's reviews, a page at a time — each with its rating, title, text, reviewer… | 🟢 |
 | `shop_app.getSharedList` | shop.app | Reads a product list someone shared from Shop (a shop.app/collections/<id> link) — the… | ⚪ |
@@ -5765,9 +5765,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wsj.listSections` | wsj.com | Lists WSJ's own news sections and verticals (World, Business, Markets, Tech, Opinion… | 🟡 |
 | `wsj.listTrending` | wsj.com | Lists WSJ's own Most Popular articles right now — the homepage's top news and top… | 🟢 |
 | `wsj.removeFromWatchlist` | wsj.com | Removes a symbol from the signed-in reader's own watchlist. | ⚪ |
-| `wsj.saveArticle` | wsj.com | Saves an article to the signed-in reader's own WSJ account (My WSJ). | ⚪ |
+| `wsj.saveArticle` | wsj.com | Saves an article to the caller's own My WSJ saved list, through their signed-in WSJ… | 🟢 |
 | `wsj.searchArticles` | wsj.com | Searches WSJ's own site search for a keyword and returns matching articles with… | 🟢 |
-| `wsj.unsaveArticle` | wsj.com | Removes an article from the signed-in reader's own saved list. | ⚪ |
+| `wsj.unsaveArticle` | wsj.com | Removes an article from the caller's own My WSJ saved list, through their signed-in… | 🟢 |
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
 | `x.bookmarkPost` | x.com | Bookmark or un-bookmark a post as the signed-in account — one `bookmark` boolean… | 🟢 |
 | `x.createPost` | x.com | Post a new tweet as the signed-in account. | 🟢 |
@@ -5790,8 +5790,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.repost` | x.com | Repost (retweet) or un-repost a post as the signed-in account — one `repost` boolean… | 🟢 |
 | `x.search` | x.com | Runs the site's own search across posts, scrolling until the limit is met or results… | 🟢 |
 | `x.sendDirectMessage` | x.com | Send a direct message (DM) to an X user by handle as the signed-in account, starting a… | 🟢 |
-| `x.updateProfile` | x.com | Edit the signed-in account's own profile — name, bio, location, website. | ⚪ |
-| `x.uploadProfilePicture` | x.com | Change the signed-in account's own profile picture. | ⚪ |
+| `x.updateProfile` | x.com | Edit the signed-in account's own profile — name, bio, location, website. | 🟢 |
+| `x.uploadProfilePicture` | x.com | Change the signed-in account's own profile picture. | 🟢 |
 | `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts, scrolling until `limit`… | 🟢 |
 | `xola.bookExperience` | xola.com | Books a session for a party with the lead traveler's name, email and phone, completing… | ⚪ |
 | `xola.findSeller` | xola.com | Finds the Xola seller (the tour operator) behind an operator's own website or a… | 🟡 |
@@ -5864,7 +5864,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yelp.getMenu` | yelp.com | Reads a restaurant's menu from its /menu/<alias> page's own ld+json Menu block: each… | 🟢 |
 | `yelp.getMessages` | yelp.com | Lists the signed-in caller's Yelp inbox: quote and business threads and their messages. | ⚪ |
 | `yelp.getOwnProfile` | yelp.com | Reads the signed-in caller's own profile and their own reviews, photos and check-in… | ⚪ |
-| `yelp.getPhotos` | yelp.com | Lists a business's photos from /biz_photos/<alias>, by Yelp's own tabs (all, food… | ⚪ |
+| `yelp.getPhotos` | yelp.com | Lists a business's photos from its /biz_photos/<alias> page, 30 at a time (optionally… | 🟢 |
 | `yelp.getQuestions` | yelp.com | Reads a business's 'Ask the Community' questions and their answers. | ⚪ |
 | `yelp.getReservationAvailability` | yelp.com | Reads the open reservation slots a restaurant offers through Yelp Reservations for a… | ⚪ |
 | `yelp.getReviews` | yelp.com | Lists a business's reviews a page at a time with Yelp's own sorts (relevance, newest… | 🟢 |
