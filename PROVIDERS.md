@@ -2097,8 +2097,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getPortfolioHistory` | fomo.family | Returns the time series behind a trader's portfolio-value chart — total USD value at… | 🟢 |
 | `fomo.getPortfolioSnapshot` | fomo.family | Returns one point of that series in full — the positions held at that moment, not just… | 🟢 |
 | `fomo.getRecommendedUsers` | fomo.family | Returns fomo's own suggestions of traders to follow for one user — the site's… | 🟢 |
-| `fomo.getReferrals` | fomo.family | Returns who the signed-in trader referred and what they have earned from it, plus… | ⚪ |
-| `fomo.getReferrerDetails` | fomo.family | Returns who referred the signed-in trader, and the terms attached — the other end of… | ⚪ |
+| `fomo.getReferrals` | fomo.family | Returns who the signed-in trader referred and what they have earned from it, plus… | 🟢 |
+| `fomo.getReferrerDetails` | fomo.family | Returns who referred the signed-in trader, and the terms attached — the other end of… | 🟢 |
 | `fomo.getRewards` | fomo.family | Returns the signed-in trader's reward history. `GET /v2/users/:userId/rewards`. | ⚪ |
 | `fomo.getSupportedTransferTokens` | fomo.family | Returns the tokens fomo will let a user send to another user or an external address.… | ⚪ |
 | `fomo.getSwapStatus` | fomo.family | Returns where a submitted swap got to — its status word, transaction hash, and failure… | ⚪ |
@@ -5084,7 +5084,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `toast.getOrderingOptions` | toasttab.com | Says how a restaurant takes online orders right now: takeout, delivery and catering on… | 🟢 |
 | `toast.getOrderReceipt` | toasttab.com | Gets the receipt for one of the signed-in guest's orders as a PDF file. | ⚪ |
 | `toast.getPopularItems` | toasttab.com | Lists a restaurant's most-ordered items with price and guid. | 🟢 |
-| `toast.getReservationAvailability` | toasttab.com | Reads a Toast Tables restaurant's open reservation times for a party size across a… | ⚪ |
+| `toast.getReservationAvailability` | toasttab.com | Reads a Toast Tables restaurant's open reservation times for a party size across a… | 🟢 |
 | `toast.getRestaurant` | toasttab.com | Reads one Toast restaurant by its toast.app URL, slug ("bombaytandoor") or guid: name… | 🟢 |
 | `toast.getRestaurantLocations` | toasttab.com | Lists the other locations of the same restaurant group (a chain's sister restaurants… | ⚪ |
 | `toast.getRestaurantOffers` | toasttab.com | Lists the offers a restaurant is running on Toast (discounts, free delivery… | ⚪ |
