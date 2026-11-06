@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 5996 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 5999 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -320,7 +320,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `arketa.listLocations` | arketa.co | Lists a studio's physical locations: id, name, full address and coordinates. | 🟢 |
 | `arketa.listMyBookings` | arketa.co | Lists the signed-in client's upcoming and past class and private-session bookings at a… | 🟢 |
 | `arketa.listMyPasses` | arketa.co | Lists the signed-in client's class packs and memberships at a studio — what they own… | 🟢 |
-| `arketa.listOnDemandVideos` | arketa.co | Lists a studio's on-demand video library by category: each video's title, length… | ⚪ |
+| `arketa.listOnDemandVideos` | arketa.co | Lists a studio's on-demand video library: its categories, or — given a category id… | 🟢 |
 | `arketa.listPricing` | arketa.co | Lists what a studio sells — drop-in classes, class packs, memberships and on-demand… | 🟢 |
 | `arketa.listPrivateSessions` | arketa.co | Lists the private sessions (one-to-one appointments) a studio offers, with name… | 🟢 |
 | `arketa.listProducts` | arketa.co | Lists the retail products a studio sells through Arketa (apparel, equipment), with… | 🟢 |
@@ -999,7 +999,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.deleteSharedLink` | chatgpt.com | Deletes one of the CALLER's public share links so the url stops working. | ⚪ |
 | `chatgpt.generateImage` | chatgpt.com | Asks ChatGPT to create an image from a prompt as the CALLER and returns the image… | ⚪ |
 | `chatgpt.getAccount` | chatgpt.com | Reads the CALLER's account — name, email, plan (Free, Plus, Pro, Business) and the… | 🟢 |
-| `chatgpt.getConversation` | chatgpt.com | Reads one of the CALLER's conversations in full — every message in order, which model… | ⚪ |
+| `chatgpt.getConversation` | chatgpt.com | Reads one of the CALLER's conversations in full — every message in order, which model… | 🟢 |
 | `chatgpt.getCustomInstructions` | chatgpt.com | Reads the CALLER's personalization — what ChatGPT should call them, their occupation… | ⚪ |
 | `chatgpt.getGPT` | chatgpt.com | Reads one custom GPT's page in the GPT Store — name, description, author, conversation… | 🟢 |
 | `chatgpt.getMemories` | chatgpt.com | Reads what ChatGPT has saved to the CALLER's memory (Settings → Personalization →… | ⚪ |
@@ -1017,7 +1017,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chatgpt.rateResponse` | chatgpt.com | Gives a thumbs up or thumbs down on one of ChatGPT's replies in the CALLER's… | ⚪ |
 | `chatgpt.renameConversation` | chatgpt.com | Renames one of the CALLER's conversations. | ⚪ |
 | `chatgpt.requestDataExport` | chatgpt.com | Requests an export of the CALLER's ChatGPT data (Settings → Data controls → Export)… | ⚪ |
-| `chatgpt.searchConversations` | chatgpt.com | Searches the CALLER's chat history by keyword, the way the sidebar's search does, and… | ⚪ |
+| `chatgpt.searchConversations` | chatgpt.com | Searches the CALLER's chat history by keyword, the way the sidebar's search does, and… | 🟢 |
 | `chatgpt.searchGPTs` | chatgpt.com | Searches the GPT Store by keyword and returns matching custom GPTs with their id… | 🟢 |
 | `chatgpt.sendMessage` | chatgpt.com | Sends a message as the CALLER and returns ChatGPT's reply — starting a new… | ⚪ |
 | `chatgpt.shareConversation` | chatgpt.com | Creates a public share link for one of the CALLER's conversations and returns the… | ⚪ |
@@ -2228,7 +2228,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fresha.getProfessionalReviews` | fresha.com | Lists the reviews left for one professional, with rating, text, date and service… | ⚪ |
 | `fresha.getSearchSuggestions` | fresha.com | Turns what a caller typed ("balayage", a venue name, a stylist's name) into Fresha's… | 🟢 |
 | `fresha.getVenue` | fresha.com | Returns one venue from its slug or its fresha.com/a/... URL: name, description… | 🟢 |
-| `fresha.getVenuePhotos` | fresha.com | Lists a venue's portfolio and venue photos, with each image's description, paged. | ⚪ |
+| `fresha.getVenuePhotos` | fresha.com | Returns a venue's own photos with descriptions and the first page of its work… | 🟢 |
 | `fresha.getVenueReviews` | fresha.com | Lists a Fresha venue's verified customer reviews, 5 a page by cursor: rating, text… | 🟢 |
 | `fresha.joinWaitlist` | fresha.com | Puts the signed-in caller on a venue's waitlist for services on a day and time range… | ⚪ |
 | `fresha.leaveWaitlist` | fresha.com | Removes one of the signed-in caller's waitlist entries. | ⚪ |
@@ -2431,6 +2431,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | 🟢 |
 | `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟡 |
 | `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟡 |
+| `google_ads_transparency.getAd` | adstransparency.google.com | Reads one ad's own page — every region and date range it ran in, its targeting… | ⚪ |
+| `google_ads_transparency.getAds` | adstransparency.google.com | Lists the ads a brand, website domain or advertiser is running on Google, most… | 🟢 |
+| `google_ads_transparency.searchAdvertisers` | adstransparency.google.com | Searches the Ads Transparency Center's advertiser index the way its search box does —… | 🟢 |
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |

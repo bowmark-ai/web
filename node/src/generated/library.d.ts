@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 34803f1ea04643dea3105728e579f09ac146135073a523e9968dff4f1705618f
-// 95 capabilities, 760 providers, 4382 typed functions, 20 refused.
+// Manifest version: 2ce8c6a3d96b9aca58425b1b215930f9adc12529ab673a22f98a6722966fe4ba
+// 95 capabilities, 761 providers, 4399 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -23119,6 +23119,39 @@ interface ConversationList {
   total: number | null;
 }
 
+interface ConversationSearchHit {
+  id: string;
+  title: string | null;
+  updateTime: string | null;
+  /** The matching text, when the site returns one. */
+  snippet: string | null;
+}
+
+interface ConversationSearchResult {
+  hits: ConversationSearchHit[];
+  /** Pass back as `cursor` for the next page; null at the end. */
+  cursor: string | null;
+}
+
+interface ConversationMessage {
+  id: string;
+  role: string;
+  text: string;
+  createTime: string | null;
+  /** The model that answered, on assistant turns. */
+  model: string | null;
+}
+
+interface Conversation {
+  id: string;
+  title: string | null;
+  createTime: string | null;
+  updateTime: string | null;
+  gptId: string | null;
+  /** The visible thread, oldest first. */
+  messages: ConversationMessage[];
+}
+
 interface SharedMessage {
   role: "user" | "assistant";
   text: string;
@@ -23191,6 +23224,23 @@ interface SharedConversation {
      * not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
      */
     listConversations(opts?: { limit?: number; offset?: number; archived?: boolean }, connectionOpts?: ConnectionOption): Promise<ConversationList>;
+
+    /**
+     * Searches the caller's own ChatGPT chat history by keyword, like the sidebar search — id,
+     * title, last update and a matching snippet; pass the returned cursor for the next page and an
+     * id to getConversation. Needs the caller signed in to chatgpt.com through the relay; the run
+     * pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved
+     * sign-in has expired.
+     */
+    searchConversations(query: string, opts?: { cursor?: string }, connectionOpts?: ConnectionOption): Promise<ConversationSearchResult>;
+
+    /**
+     * One of the caller's own conversations in full, by id or chatgpt.com/c/ url — title, times,
+     * GPT, and every visible message oldest first with its role, text and answering model. Needs
+     * the caller signed in to chatgpt.com through the relay; the run pauses for a sign-in link
+     * when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
+     */
+    getConversation(idOrUrl: string, opts?: ConnectionOption): Promise<Conversation>;
   }
 }
 
@@ -39557,6 +39607,20 @@ interface FomoCandle {
      * filterTokens.
      */
     setAlertPreferences(preferences: unknown, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Returns who the signed-in trader referred and what they earned from it. Self-scoped: pass
+     * the caller's own id from getCurrentUser. Returned in fomo's own untyped form — the row shape
+     * is unmeasured, same reason as getAlertPreferences. Pair with getReferrerDetails for the
+     * other end.
+     */
+    getReferrals(userId: string, cursor?: string, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Returns who referred the signed-in trader and the terms attached — the other end of
+     * getReferrals. Pass the caller's own id from getCurrentUser. Untyped, row shape unmeasured.
+     */
+    getReferrerDetails(userId: string, opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -41219,6 +41283,33 @@ interface FreshaBookingQuote {
   payAtVenue: string | null;
   warnings: string[];
 }
+interface GetVenuePhotosArgs {
+  /** A venue slug or its fresha.com/a/... URL. */
+  venue: string;
+}
+
+interface FreshaPhoto {
+  url: string;
+  width: number | null;
+  height: number | null;
+  title: string | null;
+  description: string | null;
+}
+
+interface FreshaPortfolioPhoto extends FreshaPhoto {
+  id: string;
+  section: string | null;
+  service: { id: string; name: string | null; displayPrice: string | null } | null;
+}
+
+interface FreshaVenuePhotos {
+  venueSlug: string;
+  venuePhotos: FreshaPhoto[];
+  portfolioTotal: number | null;
+  portfolio: FreshaPortfolioPhoto[];
+  portfolioHasMore: boolean;
+}
+
 interface GetVenueReviewsArgs {
   /** Venue slug from searchVenues, or its fresha.com/a/... URL. */
   venue: string;
@@ -41309,6 +41400,13 @@ interface FreshaVenueReviews {
      * replied-to.
      */
     getVenueReviews(args: GetVenueReviewsArgs): Promise<FreshaVenueReviews>;
+
+    /**
+     * Returns a Fresha venue's photos from its slug or URL: the venue's own photos with titles and
+     * descriptions, and the first page of its work portfolio (each with the menu section and the
+     * bookable service it shows, plus the portfolio total and whether more exist).
+     */
+    getVenuePhotos(args: GetVenuePhotosArgs): Promise<FreshaVenuePhotos>;
   }
 }
 
@@ -44689,6 +44787,67 @@ interface GoodwayProduct extends GoodwayProductSummary {
      * needs a written quote.
      */
     getProduct(arg0: { slug: string }): Promise<GoodwayProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_google_ads_transparency {
+  // ── Google Ads Transparency Center — the unit's own declarations, verbatim ──
+interface GoogleAdsTransparencySearch {
+  query: string;
+  advertisers: { id: string; name: string; country: string | null; adCount: number | null; verified: boolean; url: string }[];
+  domains: string[]; // website domains with ads on file — pass one to getAds({ domain })
+}
+
+interface GoogleAdsTransparencyAdsArgs {
+  brand?: string;        // a brand name ("Nike") or a domain ("nike.com"); resolved to an exact advertiser or domain, never a guess
+  domain?: string;       // every advertiser's ads pointing at this site
+  advertiserId?: string | string[]; // "AR…" from searchAdvertisers
+  format?: "text" | "image" | "video";
+  region?: string;       // "anywhere" (default), or US, GB, CA, AU, DE, FR, IN, JP, BR, MX, ES, IT, NL
+  limit?: number;        // 1-100, default 10
+  pageToken?: string;    // nextPageToken from the previous page
+}
+
+interface GoogleAdsTransparencyAd {
+  advertiserId: string;
+  advertiserName: string | null;
+  creativeId: string;
+  format: "text" | "image" | "video" | null;
+  url: string;            // the ad's own Transparency Center page — the link to show a person
+  imageUrl: string | null;
+  domain: string | null;
+  firstShown: string | null; // ISO
+  lastShown: string | null;  // ISO; most recent first
+  daysShown: number | null;
+}
+
+interface GoogleAdsTransparencyAds {
+  searched: { advertiserIds: string[]; domain: string | null; region: string; format: string | null };
+  resolvedFrom: string | null;
+  ads: GoogleAdsTransparencyAd[];
+  totalEstimate: { min: number; max: number } | null;
+  nextPageToken: string | null;
+}
+
+  /**
+   * Google's public archive of every ad running on Google Search, YouTube, Display and Play —
+   * find an advertiser, then list the ads a brand or website is running, each with its own page
+   * link, format, image and first/last-shown dates. No sign-in.
+   */
+  interface Unit {
+    /**
+     * Searches the Ads Transparency Center's advertiser index the way its search box does — up to
+     * 10 matching advertisers (id, registered country, ad count, verified) and up to 10 website
+     * domains with ads on file.
+     */
+    searchAdvertisers(query: string): Promise<GoogleAdsTransparencySearch>;
+
+    /**
+     * Lists the ads a brand, website domain or advertiser is running on Google, most recently
+     * shown first — each with its own Transparency Center page link, format, image and
+     * first/last-shown dates. Filter by format and region; page with nextPageToken.
+     */
+    getAds(args: GoogleAdsTransparencyAdsArgs): Promise<GoogleAdsTransparencyAds>;
   }
 }
 
@@ -50369,6 +50528,20 @@ interface IkeaFamilyMembership {
   /** Every loyalty card on the account. */
   cards: { cardNumber: string | null; cardType: string | null }[];
 }
+interface UpdateProfileArgs {
+  /** Only the fields passed are changed. */
+  firstName?: string;
+  lastName?: string;
+  /** YYYY-MM-DD. */
+  birthDate?: string;
+  /** IKEA's gender code, e.g. "MALE", "FEMALE", "NOTSET". */
+  genderCode?: string;
+}
+interface IkeaProfileUpdateResult {
+  updated: boolean;
+  /** The fields that were sent. */
+  fields: string[];
+}
 interface GetPurchaseArgs {
   /** 9-10 digits — an online order's number, as listPurchases returns it. */
   orderNumber: string;
@@ -50632,6 +50805,12 @@ interface RemoveFromFavoritesArgs {
      * card number and IKEA's customer id. Needs the caller signed in to IKEA.
      */
     getFamilyMembership(opts?: ConnectionOption): Promise<IkeaFamilyMembership>;
+
+    /**
+     * Edits the signed-in caller's own IKEA personal details — first name, last name, birth date
+     * or gender. Only the fields passed are changed. Needs the caller signed in to IKEA.
+     */
+    updateProfile(args: UpdateProfileArgs, opts?: ConnectionOption): Promise<IkeaProfileUpdateResult>;
 
     /**
      * Lists the signed-in caller's IKEA purchases — online orders, store receipts and returns —
@@ -70392,6 +70571,16 @@ interface Pike13PersonPlan { id: number; name?: string; start_date?: string; end
 interface Pike13Waiver { id: number; [k: string]: unknown }
 interface Pike13Visit { id: number; state?: string; event_occurrence_id?: number; [k: string]: unknown }
 interface Pike13AccountBusiness { id: number; name?: string; subdomain?: string; [k: string]: unknown }
+// A booking / waitlist entry Pike13 created; fields beyond id are the site's own, unmeasured signed in.
+interface Pike13CreatedVisit { id: number; state?: string; event_occurrence_id?: number; [k: string]: unknown }
+interface Pike13CreatedWaitlistEntry { id: number; state?: string; event_occurrence_id?: number; [k: string]: unknown }
+interface Pike13BookClassOptions {
+  /** A dependent's person id (getMyProfile().dependents[].id); the caller when omitted. */
+  personId?: number | string;
+}
+/** booked:false carries Pike13's own refusal codes (plan_required, credit_card_required, full, ...) — nothing was bought. */
+type Pike13BookClassResult = { booked: true; visit: Pike13CreatedVisit } | { booked: false; reasons: string[] };
+interface Pike13CancelResult { canceled: true; id: string }
 
   /**
    * Pike13 studios (music schools, gyms, swim schools, yoga): find a studio, read its class
@@ -70536,6 +70725,33 @@ interface Pike13AccountBusiness { id: number; name?: string; subdomain?: string;
      * Pike13.
      */
     listMyWaivers(business: string, opts?: ConnectionOption): Promise<Pike13Waiver[]>;
+
+    /**
+     * Books the signed-in caller (or a dependent) into a class by the occurrence id getSchedule
+     * returned, using a plan or pass they already hold. When Pike13 refuses (plan_required,
+     * credit_card_required, full) it returns booked:false with the reasons and buys nothing. Needs
+     * the caller signed in to Pike13.
+     */
+    bookClass(business: string, occurrenceId: number | string, options?: Pike13BookClassOptions, opts?: ConnectionOption): Promise<Pike13BookClassResult>;
+
+    /**
+     * Cancels one of the signed-in caller's bookings by the visit id listMyVisits returned. Late
+     * cancellation may still count against a pass per the studio's policy. Needs the caller signed
+     * in to Pike13.
+     */
+    cancelVisit(business: string, visitId: number | string, opts?: ConnectionOption): Promise<Pike13CancelResult>;
+
+    /**
+     * Puts the signed-in caller (or a dependent) on the waitlist for a full class by occurrence
+     * id; check getWaitlistEligibility first. Needs the caller signed in to Pike13.
+     */
+    joinWaitlist(business: string, occurrenceId: number | string, options?: Pike13BookClassOptions, opts?: ConnectionOption): Promise<Pike13CreatedWaitlistEntry>;
+
+    /**
+     * Removes the signed-in caller from a class waitlist by the entry id listMyWaitlistEntries
+     * returned. Needs the caller signed in to Pike13.
+     */
+    leaveWaitlist(business: string, entryId: number | string, opts?: ConnectionOption): Promise<Pike13CancelResult>;
   }
 }
 
@@ -79473,6 +79689,11 @@ interface ScribdList {
     type: string;
   }>;
 }
+interface ScribdSaveResult {
+  id: number;
+  saved: boolean;
+  response?: unknown;
+}
 interface ScribdSavedDocuments {
   documents: ScribdList["documents"];
   savedIds: number[];
@@ -79580,6 +79801,20 @@ interface ScribdTrendingModule {
      * saved and finished. Needs the caller signed in to Scribd.
      */
     listSavedDocuments(opts?: ConnectionOption): Promise<ScribdSavedDocuments>;
+
+    /**
+     * Saves a Scribd document to the signed-in caller's library (the bookmark icon) from a
+     * scribd.com/document/<id>/<slug> url or the numeric id, and returns the id with saved: true.
+     * Undo with unsaveDocument. Needs the caller signed in to Scribd.
+     */
+    saveDocument(document: string | number, opts?: ConnectionOption): Promise<ScribdSaveResult>;
+
+    /**
+     * Removes a document from the signed-in caller's Scribd library, from a
+     * scribd.com/document/<id>/<slug> url or the numeric id, and returns the id with saved: false.
+     * Needs the caller signed in to Scribd.
+     */
+    unsaveDocument(document: string | number, opts?: ConnectionOption): Promise<ScribdSaveResult>;
 
     /**
      * Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
@@ -82075,6 +82310,23 @@ interface SliceDeliveryEstimate {
   pickupTime: string | null;   // ISO instant
   dropoffTime: string | null;  // ISO instant
 }
+interface SliceLoyaltyReward {
+  itemId: number | null;
+  name: string;
+  sizeId: number | null;       // the size id priceCart takes
+  sizeName: string | null;
+}
+interface SliceLoyaltyMilestone {
+  id: string;
+  name: string;
+  pointsRequired: number;
+  rewards: SliceLoyaltyReward[];
+}
+interface SliceLoyaltyProgram {
+  enabled: boolean;            // the shop runs a Slice rewards program
+  pointsPerDollar: number | null; // null when no program runs
+  milestones: SliceLoyaltyMilestone[]; // may be empty even when enabled
+}
 interface SliceDeliveryCheck {
   deliversTo: boolean;         // false means the address is outside the delivery zone
   availableNow: boolean;       // only meaningful when deliversTo -- the shop may be closed
@@ -82218,6 +82470,12 @@ interface SliceRatingSummary {
      * when the shop delivers itself.
      */
     getDeliveryEstimate(pizzeria: string | number, address: string, subtotal: number): Promise<SliceDeliveryEstimate>;
+
+    /**
+     * Gets a pizzeria's Slice rewards program: whether it runs one, points per dollar, and the
+     * reward milestones with the menu items each unlocks.
+     */
+    getLoyaltyProgram(pizzeria: string | number): Promise<SliceLoyaltyProgram>;
   }
 }
 
@@ -91593,6 +91851,28 @@ interface ToastPopularItem {
   price: number | null;       // dollars, the lowest when there are several
   imageUrl: string | null;
 }
+interface ToastReservationAvailability {
+  restaurantGuid: string;
+  onTables: boolean;          // false: the restaurant takes no Toast reservations at all
+  minPartySize: number | null;
+  maxPartySize: number | null;
+  onlineReservationsBlocked: boolean;
+  blockedReason: string | null;
+  slots: Array<{
+    datetime: string;         // ISO instant
+    serviceAreas: Array<{
+      id: string;
+      group: { id: string; name: string } | null;
+      payment: { type: string | null; amount: number | null; currency: string | null; policy: string | null; refundableTimeframe: string | null } | null; // deposit or card hold; null when none
+    }>;
+  }>;
+}
+
+interface ReservationAvailabilityArgs {
+  partySize: number;
+  start: string;              // ISO date-time, the window's start
+  hours?: number;             // window length, default 4, max 24
+}
 
   /**
    * Toast, the restaurant platform behind Toast Local (toast.app), Toast online ordering and
@@ -91668,6 +91948,14 @@ interface ToastPopularItem {
      * getMenuItem and addToCart take.
      */
     getPopularItems(ref: ToastRestaurantRef): Promise<ToastPopularItem[]>;
+
+    /**
+     * Reads a Toast Tables restaurant's open reservation times for a party size across a time
+     * window (default 4 hours): each time with the seating areas offered and any deposit or card
+     * hold it needs, plus the party-size limits and whether online booking is blocked that day. A
+     * restaurant not on Toast Tables comes back onTables: false, not an error.
+     */
+    getReservationAvailability(ref: ToastRestaurantRef, args: ReservationAvailabilityArgs): Promise<ToastReservationAvailability>;
   }
 }
 
@@ -94555,6 +94843,7 @@ interface UbereatsCheckoutLine { label: string; amount: number | null; display: 
 interface UbereatsCheckoutTotal { draftOrderUuid: string; lines: UbereatsCheckoutLine[]; subtotal: number | null; total: number | null; totalDisplay: string | null; currency: string | null; }
 interface UbereatsPromoResult { code: string; accepted: boolean; message: string | null; discount: number | null; }
 interface UbereatsAccount { uuid: string | null; firstName: string | null; lastName: string | null; email: string | null; mobileNumber: string | null; }
+interface UbereatsSavedAddress { id: string | null; title: string | null; subtitle: string | null; formattedAddress: string | null; latitude: number | null; longitude: number | null; }
 // addToCart/updateCartItem/removeFromCart/clearCart are anonymous — Uber Eats'
 // own guest cart, no sign-in needed (measured 2026-11-02); sign-in is only
 // needed to place the order.
@@ -94684,6 +94973,13 @@ interface UbereatsAddToCartArgs {
      * Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
      */
     getMyAccount(opts?: ConnectionOption): Promise<UbereatsAccount>;
+
+    /**
+     * Lists the delivery addresses saved on the caller's Uber Eats account. Reads the site's own
+     * getDeliveryLocationsV2 through the caller's own browser via Bowmark Link; with no sign-in
+     * the run pauses for one. signedIn is UNMEASURED, see manifest.json.
+     */
+    listMyAddresses(opts?: ConnectionOption): Promise<UbereatsSavedAddress[]>;
 
     /**
      * Adds one menu item (from getStore()'s menu or getMenuItem()) to a NEW Uber Eats cart for
@@ -106235,6 +106531,7 @@ interface BowmarkProviders {
   goloadup: BowmarkProvider_goloadup.Unit;
   goodreads: BowmarkProvider_goodreads.Unit;
   goodway: BowmarkProvider_goodway.Unit;
+  google_ads_transparency: BowmarkProvider_google_ads_transparency.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   google_maps: BowmarkProvider_google_maps.Unit;
   google_news: BowmarkProvider_google_news.Unit;

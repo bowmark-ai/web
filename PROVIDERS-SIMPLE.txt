@@ -24,6 +24,7 @@ acqualinaresort.com — acqualinaresort: searchAvailability
 acuityscheduling.com — acuityscheduling: cancelAppointment, findScheduler, getAppointmentTypeDetails, getBookingForm, getPrice, getSchedulerInfo, listAppointmentTypes, listLocations, listMyBookings, listPacks, listScheduleSlots, rescheduleAppointment, searchSchedule (+4 planned)
 adobe.com — adobe: findHelpArticle, getCreativeCloudPlans, getFont, getStockAsset, getTemplate, saveAssetToCreativeCloud, searchFonts, searchStockAssets, searchTemplates, sendForSignature (+4 planned)
 adorama.com — adorama: listCategories, search (+2 planned)
+adstransparency.google.com — google_ads_transparency: getAds, searchAdvertisers (+1 planned)
 aetna.com — aetna_directory: findProviders
 agakhanhospitals.org — agakhanhospitals: getHospitalInfo, listSpecialties
 agentstatus.dev — agentstatus: getServer, searchServers (+1 planned)
@@ -60,7 +61,7 @@ apps.apple.com — app_store: getApp, getAppDetails, getApps, getStory, listCate
 arajet.com — arajet: search
 archipelago.gg — archipelago: getClientRelease, getGameOptions
 archive.org — archive_org: checkLendingAvailability, downloadFile, getItem, getSnapshot, searchItems (+3 planned)
-arketa.co — arketa: bookClass, bookPrivateSession, cancelBooking, findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters, updateMyProfile (+2 planned)
+arketa.co — arketa: bookClass, bookPrivateSession, cancelBooking, findStudio, getClass, getMyProfile, getPrivateSession, getPrivateSessionAvailability, joinWaitlist, listClasses, listInstructors, listLocations, listMyBookings, listMyPasses, listOnDemandVideos, listPricing, listPrivateSessions, listProducts, listReviews, listScheduleFilters, updateMyProfile (+1 planned)
 article.com — article_com: getProduct, searchProducts (+2 planned)
 artpix3d.com — artpix3d: getSizePricing, listPhotoCrystalShapes, listShapes
 arxiv.org — arxiv: getPaper, search
@@ -179,7 +180,7 @@ champxpress.com — champxpress: getPlanQuote, listLocations
 chantecaille.com — chantecaille: getFoundationQuizTaxonomy, matchFoundation
 chappellet.com — chappellet: checkShippingEligibility, getWine, listWines
 charterhomes.com — charterhomes: getScheduleVisitOptions, searchHomes
-chatgpt.com — chatgpt: browseGPTStore, getAccount, getGPT, getSharedConversation, listConversations, searchGPTs (+29 planned)
+chatgpt.com — chatgpt: browseGPTStore, getAccount, getConversation, getGPT, getSharedConversation, listConversations, searchConversations, searchGPTs (+27 planned)
 cheapflights.com — cheapflights: getBookingOptions, search, searchCars, searchHotels
 checkfront.com — checkfront: addToCart, bookItems, findOperator, getAvailability, getAvailabilityCalendar, getBookingForm, getCart, getItem, getMyBookings, getOperator, listCategories, listGiftCertificates, listItems, updateCart (+1 planned)
 chesmar.com — chesmar: searchQuickMoveInHomes
@@ -323,7 +324,7 @@ franklinbbq.com — franklinbbq_com: getPreorderMenu, listPickupSlots
 fred.stlouisfed.org — fred: browseCategory, getSeriesInfo, getSeriesObservations, listReleases, listSources, searchSeries (+1 planned)
 fredericton.ca, dieppe.ca — municipal_recreation_fees_fetcher: getFeeSchedule
 freightliner.com — freightliner: nothing callable yet (+1 planned)
-fresha.com — fresha: getAvailability, getBookingQuote, getSearchSuggestions, getVenue, getVenueReviews, searchVenues (+27 planned)
+fresha.com — fresha: getAvailability, getBookingQuote, getSearchSuggestions, getVenue, getVenuePhotos, getVenueReviews, searchVenues (+26 planned)
 furniture.com — furniture: listCategories, listFilterOptions, searchProducts
 g2.com — g2: getProduct, listReviews, search
 games.nytimes.com — nyt_games: getConnections, getCrosswordArchive, getCrosswordDaily, getCrosswordMidi, getCrosswordMini, getLetterBoxed, getPips, getSpellingBee, getSportsConnections, getStrands, getSudoku, getTiles, getWordle, listBonusPuzzles, listCrosswordPuzzles, saveWordleGame (+2 planned)

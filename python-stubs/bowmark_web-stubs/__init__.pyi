@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 34803f1ea04643dea3105728e579f09ac146135073a523e9968dff4f1705618f
-# 95 capabilities, 760 providers, 4364 typed functions, 20 refused.
+# Manifest version: 2ce8c6a3d96b9aca58425b1b215930f9adc12529ab673a22f98a6722966fe4ba
+# 95 capabilities, 761 providers, 4381 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14165,6 +14165,34 @@ class Prv_chatgpt_ConversationSummary_Out(TypedDict):
     gptId: str | None
     projectId: str | None
 
+class Prv_chatgpt_searchConversations_opts_In(TypedDict):
+    cursor: NotRequired[str]
+
+class Prv_chatgpt_ConversationSearchResult_Out(TypedDict):
+    hits: list[Prv_chatgpt_ConversationSearchHit_Out]
+    cursor: str | None
+
+class Prv_chatgpt_ConversationSearchHit_Out(TypedDict):
+    id: str
+    title: str | None
+    updateTime: str | None
+    snippet: str | None
+
+class Prv_chatgpt_Conversation_Out(TypedDict):
+    id: str
+    title: str | None
+    createTime: str | None
+    updateTime: str | None
+    gptId: str | None
+    messages: list[Prv_chatgpt_ConversationMessage_Out]
+
+class Prv_chatgpt_ConversationMessage_Out(TypedDict):
+    id: str
+    role: str
+    text: str
+    createTime: str | None
+    model: str | None
+
 Prv_cheapflights_search_query_In = TypedDict(
     "Prv_cheapflights_search_query_In",
     {
@@ -25513,6 +25541,38 @@ class Prv_fresha_FreshaReview_Out_reply_u0_Out(TypedDict):
     text: str | None
     date: str | None
 
+class Prv_fresha_GetVenuePhotosArgs_In(TypedDict):
+    venue: str
+
+class Prv_fresha_FreshaVenuePhotos_Out(TypedDict):
+    venueSlug: str
+    venuePhotos: list[Prv_fresha_FreshaPhoto_Out]
+    portfolioTotal: float | None
+    portfolio: list[Prv_fresha_FreshaPortfolioPhoto_Out]
+    portfolioHasMore: bool
+
+class Prv_fresha_FreshaPhoto_Out(TypedDict):
+    url: str
+    width: float | None
+    height: float | None
+    title: str | None
+    description: str | None
+
+class Prv_fresha_FreshaPortfolioPhoto_Out(TypedDict):
+    url: str
+    width: float | None
+    height: float | None
+    title: str | None
+    description: str | None
+    id: str
+    section: str | None
+    service: Prv_fresha_FreshaPortfolioPhoto_Out_service_u0_Out | None
+
+class Prv_fresha_FreshaPortfolioPhoto_Out_service_u0_Out(TypedDict):
+    id: str
+    name: str | None
+    displayPrice: str | None
+
 class Prv_furniture_searchProducts_args_In(TypedDict):
     query: str
     zipCode: str
@@ -27678,6 +27738,57 @@ class Prv_goodway_GoodwayProduct_Out(TypedDict):
     url: str
     price: str | None
     purchaseType: Literal["buy"] | Literal["quote"]
+
+class Prv_google_ads_transparency_GoogleAdsTransparencySearch_Out(TypedDict):
+    query: str
+    advertisers: list[Prv_google_ads_transparency_GoogleAdsTransparencySearch_Out_advertisers_item_Out]
+    domains: list[str]
+
+class Prv_google_ads_transparency_GoogleAdsTransparencySearch_Out_advertisers_item_Out(TypedDict):
+    id: str
+    name: str
+    country: str | None
+    adCount: float | None
+    verified: bool
+    url: str
+
+class Prv_google_ads_transparency_GoogleAdsTransparencyAdsArgs_In(TypedDict):
+    brand: NotRequired[str]
+    domain: NotRequired[str]
+    advertiserId: NotRequired[str | Sequence[str]]
+    format: NotRequired[Literal["text"] | Literal["image"] | Literal["video"]]
+    region: NotRequired[str]
+    limit: NotRequired[float]
+    pageToken: NotRequired[str]
+
+class Prv_google_ads_transparency_GoogleAdsTransparencyAds_Out(TypedDict):
+    searched: Prv_google_ads_transparency_GoogleAdsTransparencyAds_Out_searched_Out
+    resolvedFrom: str | None
+    ads: list[Prv_google_ads_transparency_GoogleAdsTransparencyAd_Out]
+    totalEstimate: Prv_google_ads_transparency_GoogleAdsTransparencyAds_Out_totalEstimate_u0_Out | None
+    nextPageToken: str | None
+
+class Prv_google_ads_transparency_GoogleAdsTransparencyAds_Out_searched_Out(TypedDict):
+    advertiserIds: list[str]
+    domain: str | None
+    region: str
+    format: str | None
+
+class Prv_google_ads_transparency_GoogleAdsTransparencyAd_Out(TypedDict):
+    advertiserId: str
+    advertiserName: str | None
+    creativeId: str
+    format: Literal["text"] | Literal["image"] | Literal["video"] | None
+    url: str
+    imageUrl: str | None
+    domain: str | None
+    firstShown: str | None
+    lastShown: str | None
+    daysShown: float | None
+
+class Prv_google_ads_transparency_GoogleAdsTransparencyAds_Out_totalEstimate_u0_Out(TypedDict):
+    min: float
+    max: float
 
 Prv_google_flights_GoogleFlightQuery_In = TypedDict(
     "Prv_google_flights_GoogleFlightQuery_In",
@@ -30797,6 +30908,16 @@ class Prv_ikea_IkeaFamilyMembership_Out(TypedDict):
 class Prv_ikea_IkeaFamilyMembership_Out_cards_item_Out(TypedDict):
     cardNumber: str | None
     cardType: str | None
+
+class Prv_ikea_UpdateProfileArgs_In(TypedDict):
+    firstName: NotRequired[str]
+    lastName: NotRequired[str]
+    birthDate: NotRequired[str]
+    genderCode: NotRequired[str]
+
+class Prv_ikea_IkeaProfileUpdateResult_Out(TypedDict):
+    updated: bool
+    fields: list[str]
 
 class Prv_ikea_ListPurchasesArgs_In(TypedDict):
     limit: NotRequired[float]
@@ -42999,6 +43120,31 @@ class Prv_pike13_Pike13PersonPlan_Out(TypedDict):
 class Prv_pike13_Pike13Waiver_Out(TypedDict):
     id: float
 
+class Prv_pike13_Pike13BookClassOptions_In(TypedDict):
+    personId: NotRequired[float | str]
+
+class Prv_pike13_Pike13BookClassResult_u0_Out(TypedDict):
+    booked: Literal[True]
+    visit: Prv_pike13_Pike13CreatedVisit_Out
+
+class Prv_pike13_Pike13CreatedVisit_Out(TypedDict):
+    id: float
+    state: NotRequired[str]
+    event_occurrence_id: NotRequired[float]
+
+class Prv_pike13_Pike13BookClassResult_u1_Out(TypedDict):
+    booked: Literal[False]
+    reasons: list[str]
+
+class Prv_pike13_Pike13CancelResult_Out(TypedDict):
+    canceled: Literal[True]
+    id: str
+
+class Prv_pike13_Pike13CreatedWaitlistEntry_Out(TypedDict):
+    id: float
+    state: NotRequired[str]
+    event_occurrence_id: NotRequired[float]
+
 class Prv_pilotprotocol_PilotprotocolAppSummary_Out(TypedDict):
     id: str
     name: str
@@ -48868,6 +49014,11 @@ class Prv_scribd_ScribdSavedDocuments_Out(TypedDict):
     savedIds: list[float]
     finishedIds: list[float]
 
+class Prv_scribd_ScribdSaveResult_Out(TypedDict):
+    id: float
+    saved: bool
+    response: NotRequired[Any]
+
 class Prv_scribd_ScribdCategory_Out(TypedDict):
     name: str
     slug: str
@@ -50682,6 +50833,23 @@ class Prv_slice_SliceDeliveryEstimate_Out(TypedDict):
     fee: float | None
     pickupTime: str | None
     dropoffTime: str | None
+
+class Prv_slice_SliceLoyaltyProgram_Out(TypedDict):
+    enabled: bool
+    pointsPerDollar: float | None
+    milestones: list[Prv_slice_SliceLoyaltyMilestone_Out]
+
+class Prv_slice_SliceLoyaltyMilestone_Out(TypedDict):
+    id: str
+    name: str
+    pointsRequired: float
+    rewards: list[Prv_slice_SliceLoyaltyReward_Out]
+
+class Prv_slice_SliceLoyaltyReward_Out(TypedDict):
+    itemId: float | None
+    name: str
+    sizeId: float | None
+    sizeName: str | None
 
 class Prv_slickdeals_SlickdealsDeal_Out(TypedDict):
     id: str
@@ -57076,6 +57244,40 @@ class Prv_toast_ToastPopularItem_Out(TypedDict):
     price: float | None
     imageUrl: str | None
 
+class Prv_toast_ReservationAvailabilityArgs_In(TypedDict):
+    partySize: float
+    start: str
+    hours: NotRequired[float]
+
+class Prv_toast_ToastReservationAvailability_Out(TypedDict):
+    restaurantGuid: str
+    onTables: bool
+    minPartySize: float | None
+    maxPartySize: float | None
+    onlineReservationsBlocked: bool
+    blockedReason: str | None
+    slots: list[Prv_toast_ToastReservationAvailability_Out_slots_item_Out]
+
+class Prv_toast_ToastReservationAvailability_Out_slots_item_Out(TypedDict):
+    datetime: str
+    serviceAreas: list[Prv_toast_ToastReservationAvailability_Out_slots_item_Out_serviceAreas_item_Out]
+
+class Prv_toast_ToastReservationAvailability_Out_slots_item_Out_serviceAreas_item_Out(TypedDict):
+    id: str
+    group: Prv_toast_ToastReservationAvailability_Out_slots_item_Out_serviceAreas_item_Out_group_u0_Out | None
+    payment: Prv_toast_ToastReservationAvailability_Out_slots_item_Out_serviceAreas_item_Out_payment_u0_Out | None
+
+class Prv_toast_ToastReservationAvailability_Out_slots_item_Out_serviceAreas_item_Out_group_u0_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_toast_ToastReservationAvailability_Out_slots_item_Out_serviceAreas_item_Out_payment_u0_Out(TypedDict):
+    type: str | None
+    amount: float | None
+    currency: str | None
+    policy: str | None
+    refundableTimeframe: str | None
+
 class Prv_tock_TockBusinessSuggestion_Out(TypedDict):
     slug: str
     name: str
@@ -58965,6 +59167,14 @@ class Prv_ubereats_UbereatsAccount_Out(TypedDict):
     lastName: str | None
     email: str | None
     mobileNumber: str | None
+
+class Prv_ubereats_UbereatsSavedAddress_Out(TypedDict):
+    id: str | None
+    title: str | None
+    subtitle: str | None
+    formattedAddress: str | None
+    latitude: float | None
+    longitude: float | None
 
 class Prv_ubereats_UbereatsAddToCartArgs_In(TypedDict):
     store: str
@@ -73657,6 +73867,22 @@ class Prv_chatgpt(Protocol):
         are not. THROWS `ChatGPTSessionError` when the saved sign-in has expired.
         """
 
+    async def searchConversations(self, query: str, opts: Prv_chatgpt_searchConversations_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_chatgpt_ConversationSearchResult_Out:
+        """Searches the caller's own ChatGPT chat history by keyword, like the sidebar search — id,
+        title, last update and a matching snippet; pass the returned cursor for the next page
+        and an id to getConversation. Needs the caller signed in to chatgpt.com through the
+        relay; the run pauses for a sign-in link when they are not. THROWS `ChatGPTSessionError`
+        when the saved sign-in has expired.
+        """
+
+    async def getConversation(self, idOrUrl: str, opts: ConnectionOption | None = None, /) -> Prv_chatgpt_Conversation_Out:
+        """One of the caller's own conversations in full, by id or chatgpt.com/c/ url — title,
+        times, GPT, and every visible message oldest first with its role, text and answering
+        model. Needs the caller signed in to chatgpt.com through the relay; the run pauses for a
+        sign-in link when they are not. THROWS `ChatGPTSessionError` when the saved sign-in has
+        expired.
+        """
+
 class Prv_cheapflights(Protocol):
     """Cheapflights (cheapflights.com) — metasearch flight results, cheapest-first, read
     directly from the result cards. Also answers for Cheapflights' UK and Canadian sites:
@@ -79273,6 +79499,19 @@ class Prv_fomo(Protocol):
         discipline as filterTokens.
         """
 
+    async def getReferrals(self, userId: str, cursor: str | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Returns who the signed-in trader referred and what they earned from it. Self-scoped:
+        pass the caller's own id from getCurrentUser. Returned in fomo's own untyped form — the
+        row shape is unmeasured, same reason as getAlertPreferences. Pair with
+        getReferrerDetails for the other end.
+        """
+
+    async def getReferrerDetails(self, userId: str, opts: ConnectionOption | None = None, /) -> Any:
+        """Returns who referred the signed-in trader and the terms attached — the other end of
+        getReferrals. Pass the caller's own id from getCurrentUser. Untyped, row shape
+        unmeasured.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -79781,6 +80020,12 @@ class Prv_fresha(Protocol):
         date, the service and team member reviewed, the venue's reply and photos, plus the total
         and 1-5 star breakdown. Sort by relevance, latest, best or worst; filter by stars, words
         or replied-to.
+        """
+
+    async def getVenuePhotos(self, args: Prv_fresha_GetVenuePhotosArgs_In, /) -> Prv_fresha_FreshaVenuePhotos_Out:
+        """Returns a Fresha venue's photos from its slug or URL: the venue's own photos with titles
+        and descriptions, and the first page of its work portfolio (each with the menu section
+        and the bookable service it shows, plus the portfolio total and whether more exist).
         """
 
 class Prv_furniture(Protocol):
@@ -80980,6 +81225,24 @@ class Prv_goodway(Protocol):
     async def getProduct(self, arg0: Prv_goodway_getProduct_arg0_In, /) -> Prv_goodway_GoodwayProduct_Out:
         """Reads one product's detail page for its real current price and whether it buys online or
         needs a written quote.
+        """
+
+class Prv_google_ads_transparency(Protocol):
+    """Google's public archive of every ad running on Google Search, YouTube, Display and Play
+    — find an advertiser, then list the ads a brand or website is running, each with its own
+    page link, format, image and first/last-shown dates. No sign-in.
+    """
+
+    async def searchAdvertisers(self, query: str, /) -> Prv_google_ads_transparency_GoogleAdsTransparencySearch_Out:
+        """Searches the Ads Transparency Center's advertiser index the way its search box does — up
+        to 10 matching advertisers (id, registered country, ad count, verified) and up to 10
+        website domains with ads on file.
+        """
+
+    async def getAds(self, args: Prv_google_ads_transparency_GoogleAdsTransparencyAdsArgs_In, /) -> Prv_google_ads_transparency_GoogleAdsTransparencyAds_Out:
+        """Lists the ads a brand, website domain or advertiser is running on Google, most recently
+        shown first — each with its own Transparency Center page link, format, image and
+        first/last-shown dates. Filter by format and region; page with nextPageToken.
         """
 
 class Prv_google_flights(Protocol):
@@ -83108,6 +83371,11 @@ class Prv_ikea(Protocol):
     async def getFamilyMembership(self, opts: ConnectionOption | None = None, /) -> Prv_ikea_IkeaFamilyMembership_Out:
         """Reads the signed-in caller's IKEA Family membership — whether they are a member, the
         Family card number and IKEA's customer id. Needs the caller signed in to IKEA.
+        """
+
+    async def updateProfile(self, args: Prv_ikea_UpdateProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_ikea_IkeaProfileUpdateResult_Out:
+        """Edits the signed-in caller's own IKEA personal details — first name, last name, birth
+        date or gender. Only the fields passed are changed. Needs the caller signed in to IKEA.
         """
 
     async def listPurchases(self, args: Prv_ikea_ListPurchasesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_ikea_IkeaPurchaseHistory_Out:
@@ -90311,6 +90579,29 @@ class Prv_pike13(Protocol):
         in to Pike13.
         """
 
+    async def bookClass(self, business: str, occurrenceId: float | str, options: Prv_pike13_Pike13BookClassOptions_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pike13_Pike13BookClassResult_u0_Out | Prv_pike13_Pike13BookClassResult_u1_Out:
+        """Books the signed-in caller (or a dependent) into a class by the occurrence id
+        getSchedule returned, using a plan or pass they already hold. When Pike13 refuses
+        (plan_required, credit_card_required, full) it returns booked:false with the reasons and
+        buys nothing. Needs the caller signed in to Pike13.
+        """
+
+    async def cancelVisit(self, business: str, visitId: float | str, opts: ConnectionOption | None = None, /) -> Prv_pike13_Pike13CancelResult_Out:
+        """Cancels one of the signed-in caller's bookings by the visit id listMyVisits returned.
+        Late cancellation may still count against a pass per the studio's policy. Needs the
+        caller signed in to Pike13.
+        """
+
+    async def joinWaitlist(self, business: str, occurrenceId: float | str, options: Prv_pike13_Pike13BookClassOptions_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_pike13_Pike13CreatedWaitlistEntry_Out:
+        """Puts the signed-in caller (or a dependent) on the waitlist for a full class by
+        occurrence id; check getWaitlistEligibility first. Needs the caller signed in to Pike13.
+        """
+
+    async def leaveWaitlist(self, business: str, entryId: float | str, opts: ConnectionOption | None = None, /) -> Prv_pike13_Pike13CancelResult_Out:
+        """Removes the signed-in caller from a class waitlist by the entry id listMyWaitlistEntries
+        returned. Needs the caller signed in to Pike13.
+        """
+
 class Prv_pilotprotocol(Protocol):
     """Pilot Protocol's own app store — a directory of installable agent capabilities (30+
     apps: databases, comms, browser automation, payments, …). listApps returns the whole
@@ -93541,6 +93832,18 @@ class Prv_scribd(Protocol):
         marks saved and finished. Needs the caller signed in to Scribd.
         """
 
+    async def saveDocument(self, document: str | float, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdSaveResult_Out:
+        """Saves a Scribd document to the signed-in caller's library (the bookmark icon) from a
+        scribd.com/document/<id>/<slug> url or the numeric id, and returns the id with saved:
+        true. Undo with unsaveDocument. Needs the caller signed in to Scribd.
+        """
+
+    async def unsaveDocument(self, document: str | float, opts: ConnectionOption | None = None, /) -> Prv_scribd_ScribdSaveResult_Out:
+        """Removes a document from the signed-in caller's Scribd library, from a
+        scribd.com/document/<id>/<slug> url or the numeric id, and returns the id with saved:
+        false. Needs the caller signed in to Scribd.
+        """
+
     async def listCategories(self, /) -> list[Prv_scribd_ScribdCategory_Out]:
         """Lists Scribd's document categories (Art, Business, Career & Growth, Finance & Money
         Management, Law, Science & Mathematics, Teaching Methods & Materials, Technology &
@@ -94341,6 +94644,11 @@ class Prv_slice(Protocol):
         """Gets the third-party courier's (Uber Direct and similar) delivery fee and pickup/dropoff
         times for an order from a pizzeria that hands delivery to one; thirdPartyCourier is
         false when the shop delivers itself.
+        """
+
+    async def getLoyaltyProgram(self, pizzeria: str | float, /) -> Prv_slice_SliceLoyaltyProgram_Out:
+        """Gets a pizzeria's Slice rewards program: whether it runs one, points per dollar, and the
+        reward milestones with the menu items each unlocks.
         """
 
 class Prv_slickdeals(Protocol):
@@ -97551,6 +97859,13 @@ class Prv_toast(Protocol):
         getMenuItem and addToCart take.
         """
 
+    async def getReservationAvailability(self, ref: str, args: Prv_toast_ReservationAvailabilityArgs_In, /) -> Prv_toast_ToastReservationAvailability_Out:
+        """Reads a Toast Tables restaurant's open reservation times for a party size across a time
+        window (default 4 hours): each time with the seating areas offered and any deposit or
+        card hold it needs, plus the party-size limits and whether online booking is blocked
+        that day. A restaurant not on Toast Tables comes back onTables: false, not an error.
+        """
+
 class Prv_tock(Protocol):
     """Tock reservations platform for restaurants, wineries, and bathhouses."""
 
@@ -98527,6 +98842,12 @@ class Prv_ubereats(Protocol):
     async def getMyAccount(self, opts: ConnectionOption | None = None, /) -> Prv_ubereats_UbereatsAccount_Out:
         """Returns the caller's Uber Eats profile — name, email, phone. Needs the caller's own Uber
         Eats sign-in (authFunctions); signedIn is UNMEASURED, see manifest.json.
+        """
+
+    async def listMyAddresses(self, opts: ConnectionOption | None = None, /) -> list[Prv_ubereats_UbereatsSavedAddress_Out]:
+        """Lists the delivery addresses saved on the caller's Uber Eats account. Reads the site's
+        own getDeliveryLocationsV2 through the caller's own browser via Bowmark Link; with no
+        sign-in the run pauses for one. signedIn is UNMEASURED, see manifest.json.
         """
 
     async def addToCart(self, args: Prv_ubereats_UbereatsAddToCartArgs_In, /) -> Prv_ubereats_UbereatsCartItemRef_Out:
@@ -102563,6 +102884,7 @@ class BowmarkProviders(Protocol):
     goloadup: Prv_goloadup
     goodreads: Prv_goodreads
     goodway: Prv_goodway
+    google_ads_transparency: Prv_google_ads_transparency
     google_flights: Prv_google_flights
     google_maps: Prv_google_maps
     google_news: Prv_google_news
