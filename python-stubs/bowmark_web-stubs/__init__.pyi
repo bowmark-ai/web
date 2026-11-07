@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 419d09eda25e5d1db556e4e6219e5d044b3bdd8cd09e19ddce979712bc1df8ac
-# 96 capabilities, 767 providers, 4449 typed functions, 20 refused.
+# Manifest version: 6d2e38765389af124598f05927683c4d15eab350cfc3e7e2ea913bb87f447d01
+# 96 capabilities, 767 providers, 4462 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2471,6 +2471,7 @@ class Cap_read_ReadResult_Out(TypedDict):
     headers: NotRequired[Mapping[str, str]]
     images: NotRequired[list[Cap_read_PageImage_Out]]
     json: NotRequired[Any]
+    removed: NotRequired[Cap_read_ReadResult_Out_removed_Out]
     warnings: list[str]
 
 class Cap_read_ReadResult_Out_wall_u0_Out(TypedDict):
@@ -2481,6 +2482,13 @@ class Cap_read_PageImage_Out(TypedDict):
     url: str
     alt: str | None
     source: Literal["img"] | Literal["srcset"] | Literal["meta"]
+
+class Cap_read_ReadResult_Out_removed_Out(TypedDict):
+    share: float
+    pruned: float
+    outsideRoot: float
+    hidden: float
+    page: float
 
 class Cap_read_ContactsOptions_In(TypedDict):
     country: NotRequired[str]
@@ -20494,16 +20502,32 @@ class Prv_drafthouse_DrafthouseShowtime_Out(TypedDict):
     status: str
     url: str
 
-class Prv_dropbox_searchFiles_input_In(TypedDict):
-    query: str
+class Prv_dropbox_listSharedLinks_input_In(TypedDict):
     path: NotRequired[str]
+
+class Prv_dropbox_DropboxSharedLinks_Out(TypedDict):
+    links: list[Prv_dropbox_DropboxSharedLinkInfo_Out]
+    hasMore: bool
+
+class Prv_dropbox_DropboxSharedLinkInfo_Out(TypedDict):
+    url: str
+    kind: Literal["file"] | Literal["folder"]
+    name: str
+    path: NotRequired[str]
+    id: NotRequired[str]
+    expires: NotRequired[str]
+    visibility: NotRequired[str]
+    canRevoke: NotRequired[bool]
+
+class Prv_dropbox_listFileVersions_input_In(TypedDict):
+    path: str
     limit: NotRequired[float]
 
-class Prv_dropbox_DropboxSearchResult_Out(TypedDict):
-    query: str
-    matches: list[Prv_dropbox_DropboxEntry_Out]
-    hasMore: bool
-    cursor: NotRequired[str]
+class Prv_dropbox_DropboxFileVersions_Out(TypedDict):
+    path: str
+    isDeleted: bool
+    serverDeleted: NotRequired[str]
+    versions: list[Prv_dropbox_DropboxEntry_Out]
 
 class Prv_dropbox_DropboxEntry_Out(TypedDict):
     kind: Literal["file"] | Literal["folder"] | Literal["deleted"]
@@ -20514,6 +20538,42 @@ class Prv_dropbox_DropboxEntry_Out(TypedDict):
     modified: NotRequired[str]
     rev: NotRequired[str]
     contentHash: NotRequired[str]
+
+class Prv_dropbox_listDeletedFiles_input_In(TypedDict):
+    path: NotRequired[str]
+
+class Prv_dropbox_DropboxDeletedListing_Out(TypedDict):
+    path: str
+    deleted: list[Prv_dropbox_DropboxEntry_Out]
+    hasMore: bool
+
+class Prv_dropbox_listSharedWithMe_input_In(TypedDict):
+    kind: NotRequired[Literal["file"] | Literal["folder"]]
+
+class Prv_dropbox_DropboxSharedWithMe_Out(TypedDict):
+    items: list[Prv_dropbox_DropboxSharedItem_Out]
+    hasMore: bool
+
+class Prv_dropbox_DropboxSharedItem_Out(TypedDict):
+    kind: Literal["file"] | Literal["folder"]
+    name: str
+    id: str
+    accessType: NotRequired[str]
+    previewUrl: NotRequired[str]
+    path: NotRequired[str]
+    owners: NotRequired[list[str]]
+    invited: NotRequired[str]
+
+class Prv_dropbox_searchFiles_input_In(TypedDict):
+    query: str
+    path: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_dropbox_DropboxSearchResult_Out(TypedDict):
+    query: str
+    matches: list[Prv_dropbox_DropboxEntry_Out]
+    hasMore: bool
+    cursor: NotRequired[str]
 
 class Prv_dropbox_listFolder_input_In(TypedDict):
     path: NotRequired[str]
@@ -22688,6 +22748,14 @@ class Prv_eventbrite_followOrganizer_args_In(TypedDict):
 class Prv_eventbrite_followOrganizer_return_Out(TypedDict):
     organizerId: str
     followed: Literal[True]
+    numFollowers: float | None
+
+class Prv_eventbrite_unfollowOrganizer_args_In(TypedDict):
+    organizerIdOrUrl: str
+
+class Prv_eventbrite_unfollowOrganizer_return_Out(TypedDict):
+    organizerId: str
+    followed: Literal[False]
     numFollowers: float | None
 
 class Prv_eventbrite_getOrderHistory_return_Out(TypedDict):
@@ -40267,12 +40335,14 @@ class Prv_npr_NprSeries_Out(TypedDict):
 
 class Prv_npr_ListSeriesStoriesArgs_In(TypedDict):
     series: str
+    before: NotRequired[str]
 
 class Prv_npr_NprSeriesStories_Out(TypedDict):
     series: str
     title: str | None
     url: str
     stories: list[Prv_npr_NprSeriesStory_Out]
+    nextBefore: str | None
 
 class Prv_npr_NprSeriesStory_Out(TypedDict):
     title: str
@@ -40291,6 +40361,7 @@ class Prv_npr_NprNewsletter_Out(TypedDict):
 
 class Prv_npr_GetAuthorStoriesArgs_In(TypedDict):
     author: str
+    before: NotRequired[str]
 
 class Prv_npr_NprAuthorStories_Out(TypedDict):
     author: str
@@ -40299,6 +40370,7 @@ class Prv_npr_NprAuthorStories_Out(TypedDict):
     imageUrl: str | None
     url: str
     stories: list[Prv_npr_NprSeriesStory_Out]
+    nextBefore: str | None
 
 class Prv_nurturelife_GetMealPlansResult_Out(TypedDict):
     plans: list[Prv_nurturelife_NurtureLifeMealPlan_Out]
@@ -42693,8 +42765,21 @@ class Prv_patreon_patreonPostDetail_Out(TypedDict):
     postType: NotRequired[str]
     commentCount: NotRequired[float]
     likeCount: NotRequired[float]
+    access: NotRequired[Prv_patreon_patreonPostAccess_Out]
     body: NotRequired[str]
     imageUrl: NotRequired[str]
+
+class Prv_patreon_patreonPostAccess_Out(TypedDict):
+    kind: Literal["public"] | Literal["followers"] | Literal["patrons"] | Literal["tiers"]
+    minPledgeCents: NotRequired[float]
+    currency: NotRequired[str]
+    tiers: list[Prv_patreon_patreonPostAccess_Out_tiers_item_Out]
+
+class Prv_patreon_patreonPostAccess_Out_tiers_item_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    amountCents: float
+    url: NotRequired[str]
 
 class Prv_patreon_ListPostCommentsArgs_In(TypedDict):
     postId: str
@@ -46328,6 +46413,29 @@ class Prv_quora_QuoraSpace_Out_questions_item_Out(TypedDict):
     id: str
     title: str
     url: str
+
+class Prv_quora_QuoraSpacePosts_Out(TypedDict):
+    spaceId: str
+    spaceName: str
+    posts: list[Prv_quora_QuoraSpacePosts_Out_posts_item_Out]
+
+class Prv_quora_QuoraSpacePosts_Out_posts_item_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    content: str
+    author: str
+    authorId: str
+    upvotes: float
+    views: NotRequired[float]
+    commentCount: NotRequired[float]
+    createdAt: NotRequired[str]
+    sharedLink: NotRequired[Prv_quora_QuoraSpacePosts_Out_posts_item_Out_sharedLink_Out]
+
+class Prv_quora_QuoraSpacePosts_Out_posts_item_Out_sharedLink_Out(TypedDict):
+    url: str
+    title: str
+    snippet: NotRequired[str]
 
 class Prv_quora_GetTopicArgs_In(TypedDict):
     url: NotRequired[str]
@@ -52752,6 +52860,18 @@ class Prv_spectrum_SpectrumLineUsage_Out(TypedDict):
     minutesTotal: float | None
     messagesTotal: float | None
 
+class Prv_spectrum_SpectrumChannelLineup_Out(TypedDict):
+    channels: list[Prv_spectrum_SpectrumChannel_Out]
+    notices: list[str]
+
+class Prv_spectrum_SpectrumChannel_Out(TypedDict):
+    name: str
+    channelNumber: str | None
+    entitled: bool
+    genres: list[str]
+    logoUrl: str | None
+    tmsId: str | None
+
 class Prv_spectrum_SpectrumEquipment_Out(TypedDict):
     id: str | None
     connectionState: str | None
@@ -55029,6 +55149,7 @@ class Prv_stubhub_stubhubEventPage_Out(TypedDict):
     venue: Prv_stubhub_stubhubEventVenue_Out
     currency: str | None
     listings: list[Prv_stubhub_stubhubListing_Out]
+    tiers: list[Prv_stubhub_stubhubTier_Out]
     lowestPrice: float | None
     highestPrice: float | None
     warnings: list[str]
@@ -55050,6 +55171,12 @@ class Prv_stubhub_stubhubListing_Out(TypedDict):
     quantity: float | None
     quantityText: str | None
 
+class Prv_stubhub_stubhubTier_Out(TypedDict):
+    name: str
+    fromPrice: float | None
+    priceText: str | None
+    soldOut: bool
+
 class Prv_stubhub_getEvent_args_u0_In(TypedDict):
     eventId: str
     site: NotRequired[Literal["stubhub"] | Literal["viagogo"]]
@@ -55067,6 +55194,7 @@ class Prv_stubhub_stubhubEventDetail_Out(TypedDict):
     currency: str | None
     lowestPrice: float | None
     highestPrice: float | None
+    tiers: list[Prv_stubhub_stubhubTier_Out]
     listingsShown: float
     warnings: list[str]
 
@@ -59355,6 +59483,25 @@ class Prv_tumblr_TumblrFollower_Out(TypedDict):
     following: bool
     updatedAt: str | None
 
+class Prv_tumblr_TumblrCreatePostArgs_In(TypedDict):
+    blog: str
+    text: str
+    title: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    state: NotRequired[Literal["published"] | Literal["draft"] | Literal["queue"] | Literal["private"]]
+
+class Prv_tumblr_TumblrComposeResult_Out(TypedDict):
+    ok: Literal[True]
+    id: str | None
+
+class Prv_tumblr_TumblrEditPostArgs_In(TypedDict):
+    blog: str
+    id: str
+    text: str
+    title: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    state: NotRequired[Literal["published"] | Literal["draft"] | Literal["queue"] | Literal["private"]]
+
 class Prv_turbotax_TurboTaxEdition_Out(TypedDict):
     id: str
     tier: Literal["diy"] | Literal["live-assisted"] | Literal["full-service"]
@@ -63117,6 +63264,12 @@ class Prv_whatsapp_WhatsappGroupParticipant_Out(TypedDict):
     name: str
     isAdmin: bool
 
+class Prv_whatsapp_WhatsappChannelMatch_Out(TypedDict):
+    name: str
+    followers: str | None
+    verified: bool
+    url: str | None
+
 class Prv_whatsapp_WhatsappGroupInviteLink_Out(TypedDict):
     name: str
     code: str
@@ -66773,6 +66926,10 @@ class Prv_zoom_ZoomRecordingDetail_Out(TypedDict):
     raw: str
 
 class Prv_zoom_ZoomRecordingDownload_Out(TypedDict):
+    recordingId: str
+    raw: Any
+
+class Prv_zoom_ZoomRecordingTranscript_Out(TypedDict):
     recordingId: str
     raw: Any
 
@@ -74280,8 +74437,11 @@ class Prv_campspot(Protocol):
 
     async def findCampgrounds(self, region: str, /) -> list[Prv_campspot_CampspotCampgroundSummary_Out]:
         """Given a free-text region (a US state, a Canadian province, or a Campspot "near
-        <city>"/"near <national park>" area), returns every campground Campspot's own directory
-        page for that region lists.
+        <city>"/"near <national park>" area), returns the campgrounds from Campspot's own
+        curated directory page for that region — a small curated list of ~10 highlights per US
+        state, not an exhaustive marketplace catalog. A real Campspot customer not on this
+        curated list may still exist on the platform; use a direct park-name search for
+        comprehensive matching.
         """
 
     async def getCampground(self, url: str, /) -> Prv_campspot_CampspotCampground_Out:
@@ -78377,6 +78537,37 @@ class Prv_dropbox(Protocol):
     manage shared links, share with people, and run file requests and transfers.
     """
 
+    async def listSharedLinks(self, input: Prv_dropbox_listSharedLinks_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxSharedLinks_Out:
+        """Lists the shared links the signed-in caller has created — all of them, or only those for
+        one `path` — each with its URL, file/folder kind, name, path, id, expiry, visibility
+        (public/team_only/password…) and whether it can be revoked. Needs the caller's Dropbox
+        sign-in.
+        """
+
+    async def listFileVersions(self, input: Prv_dropbox_listFileVersions_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxFileVersions_Out:
+        """Lists the earlier saved versions of one file in the signed-in caller's Dropbox — `path`
+        from `searchFiles` or `listFolder` — newest first, each with its `rev`, size, modified
+        time and content hash, and says whether the file itself is now deleted. `limit` caps it
+        (default 10, max 100). THROWS on a folder or a path that does not exist. Needs the
+        caller's Dropbox sign-in.
+        """
+
+    async def listDeletedFiles(self, input: Prv_dropbox_listDeletedFiles_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxDeletedListing_Out:
+        """Lists the files and folders deleted from the signed-in caller's Dropbox that still show
+        up as deleted — under `path` ("/Work") or the whole Dropbox by default — each with its
+        name and path, ready to restore. Walks up to 10 pages (~20,000 entries, live and
+        deleted); `hasMore` says when that was not everything. Needs the caller's Dropbox
+        sign-in.
+        """
+
+    async def listSharedWithMe(self, input: Prv_dropbox_listSharedWithMe_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxSharedWithMe_Out:
+        """Lists the files and folders shared with the signed-in caller (dropbox.com/share): each
+        item's kind, name, id, access level (viewer/editor/owner), preview URL, owners, when
+        they were invited, and its path once added to their Dropbox. `kind` narrows to files or
+        folders. Shared folders include ones the caller owns (accessType "owner"). Needs the
+        caller's Dropbox sign-in.
+        """
+
     async def searchFiles(self, input: Prv_dropbox_searchFiles_input_In, opts: ConnectionOption | None = None, /) -> Prv_dropbox_DropboxSearchResult_Out:
         """Searches the signed-in caller's Dropbox by file name and content, e.g. `searchFiles({
         query: "invoice" })` → `{ matches: [{ kind: "file", name: "invoice-03.pdf", path:
@@ -79322,6 +79513,12 @@ class Prv_eventbrite(Protocol):
         """Follows an organizer from the signed-in caller's Eventbrite account, taking an organizer
         url or its numeric id — needs the caller signed in to Eventbrite (an authFunction, a
         write).
+        """
+
+    async def unfollowOrganizer(self, args: Prv_eventbrite_unfollowOrganizer_args_In, opts: ConnectionOption | None = None, /) -> Prv_eventbrite_unfollowOrganizer_return_Out:
+        """Unfollows an organizer the signed-in caller follows on Eventbrite, taking an organizer
+        url or its numeric id — the undo of followOrganizer; needs the caller signed in to
+        Eventbrite (an authFunction, a write).
         """
 
     async def getOrderHistory(self, opts: ConnectionOption | None = None, /) -> Prv_eventbrite_getOrderHistory_return_Out:
@@ -87597,8 +87794,9 @@ class Prv_lowes(Protocol):
         """
 
 class Prv_lufthansa(Protocol):
-    """Flight search and fares, flight status, seat maps, baggage allowance and reading an
-    existing booking on lufthansa.com.
+    """Flight status and baggage allowance on lufthansa.com. (Fare search and seat maps are not
+    yet available; they require access to shop.lufthansa.com, which sits behind an uncleared
+    Cloudflare Turnstile.)
     """
 
     async def getFlightStatus(self, flightNumber: str, date: str, /) -> Prv_lufthansa_LufthansaFlightStatus_Out:
@@ -89312,6 +89510,16 @@ class Prv_msn(Protocol):
         }` to read the next page.
         """
 
+    async def searchVideos(self, query: str, options: Prv_msn_MsnVideoFeedOptions_In | None = None, /) -> Prv_msn_MsnVideoFeed_Out:
+        """Finds videos in MSN's video section by a topic the caller types (e.g. "apollo 11 moon
+        landing"), returning the same rows getVideoFeed returns: title, outlet, summary, publish
+        time, thumbnail, duration in seconds, a direct mp4 link and the video's MSN page.
+        `limit` is 5, 10 or 20 (default 10); pass `nextPageUrl` back as `{ cursor }` for more. A
+        topic MSN's video index has nothing on returns an empty `videos` list — MSN's video
+        index is narrower than its news search, so broad one-word topics often return nothing; a
+        specific phrase works better.
+        """
+
     async def getScores(self, args: Prv_msn_MsnScoresArgs_In, /) -> Prv_msn_MsnScores_Out:
         """Returns one league's games on one date the way MSN Sports' scores page does for a
         visitor with no account: each game's start time, status (e.g. Final, Scheduled, or the
@@ -90138,7 +90346,8 @@ class Prv_npr(Protocol):
 
     async def listSeriesStories(self, args: Prv_npr_ListSeriesStoriesArgs_In, /) -> Prv_npr_NprSeriesStories_Out:
         """The latest 24 entries of one NPR series, newest first — title, story URL and id, date
-        and teaser. series is an id from listSeries() or a www.npr.org/series/ URL.
+        and teaser. series is an id from listSeries() or a www.npr.org/series/ URL. Pass before:
+        "YYYY-MM-DD" (a page's nextBefore) for older entries, 15 a page.
         """
 
     async def listNewsletters(self, /) -> list[Prv_npr_NprNewsletter_Out]:
@@ -90150,7 +90359,8 @@ class Prv_npr(Protocol):
     async def getAuthorStories(self, args: Prv_npr_GetAuthorStoriesArgs_In, /) -> Prv_npr_NprAuthorStories_Out:
         """One NPR correspondent or host — name, bio, headshot — and their latest 24 stories,
         newest first. author is a www.npr.org/people/ byline URL, "127410674/carrie-johnson", or
-        the numeric id.
+        the numeric id. Pass before: "YYYY-MM-DD" (a page's nextBefore) for older stories, 15 a
+        page.
         """
 
 class Prv_nurturelife(Protocol):
@@ -91383,7 +91593,8 @@ class Prv_patreon(Protocol):
 
     async def getPost(self, args: Prv_patreon_GetPostArgs_In, /) -> Prv_patreon_patreonPostDetail_Out:
         """Get one post by id: title, publish date, counts and, when it is public, its body as
-        markdown. A member-only post comes back with isPublic false and no body.
+        markdown. A member-only post comes back with isPublic false and no body, and `access`
+        names who can open it and the cheapest tier that unlocks it.
         """
 
     async def listPostComments(self, args: Prv_patreon_ListPostCommentsArgs_In, /) -> Prv_patreon_ListPostCommentsResult_Out:
@@ -93502,6 +93713,12 @@ class Prv_quora(Protocol):
     async def getSpace(self, args: Prv_quora_GetSpaceArgs_In, /) -> Prv_quora_QuoraSpace_Out:
         """Reads one Space — its name, description, member count, and its most recent questions —
         taking a Space URL or name (e.g., 'askscience' or 'https://askscience.quora.com').
+        """
+
+    async def getSpacePosts(self, args: Prv_quora_GetSpaceArgs_In, /) -> Prv_quora_QuoraSpacePosts_Out:
+        """Reads the posts in a Space's feed — most of what a Space holds, and what getSpace leaves
+        out — each with its url, title, text, author, upvotes, views and the link it shares,
+        taking the same Space URL or name getSpace takes. Signed out.
         """
 
     async def getTopic(self, args: Prv_quora_GetTopicArgs_In, /) -> Prv_quora_QuoraTopic_Out:
@@ -96693,6 +96910,13 @@ class Prv_spectrum(Protocol):
         caller signed in to spectrum.net.
         """
 
+    async def getChannelLineup(self, opts: ConnectionOption | None = None, /) -> Prv_spectrum_SpectrumChannelLineup_Out:
+        """The signed-in caller's Spectrum TV channel lineup for their own market: every channel's
+        name, guide number, genres and logo, with whether the caller's package includes it, plus
+        Spectrum's own lineup-change notices. Read off spectrum.net's own account GraphQL. Needs
+        the caller signed in to spectrum.net.
+        """
+
     async def getEquipmentStatus(self, opts: ConnectionOption | None = None, /) -> list[Prv_spectrum_SpectrumEquipment_Out]:
         """The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with each
         device's connection state, model, ownership and firmware, plus the WiFi network names
@@ -97599,9 +97823,11 @@ class Prv_stubhub(Protocol):
     async def getEventListings(self, args: Prv_stubhub_getEventListings_args_u0_In | Prv_stubhub_getEventListings_args_u1_In | str, /) -> Prv_stubhub_stubhubEventPage_Out:
         """Returns the resale ticket listings one event page shows first (about ten): section, row,
         seats, all-in price per ticket and how many tickets each sells together, plus the lowest
-        and highest of those prices and the currency. Takes a search() event `id` or a
-        stubhub.com / viagogo.com event URL; `site` picks which site's prices. Opens a browser
-        to clear the site's bot wall, so expect 10-25s.
+        and highest of those prices and the currency. A general-admission page (a festival or
+        pass) sells by tier instead, so it returns `tiers` (name, "From" price, sold out) and an
+        empty `listings`. Takes a search() event `id` or a stubhub.com / viagogo.com event URL;
+        `site` picks which site's prices. Opens a browser to clear the site's bot wall, so
+        expect 10-25s.
         """
 
     async def getEvent(self, args: Prv_stubhub_getEvent_args_u0_In | Prv_stubhub_getEvent_args_u1_In | str, /) -> Prv_stubhub_stubhubEventDetail_Out:
@@ -99893,6 +100119,14 @@ class Prv_tumblr(Protocol):
         the caller follows back, paged by offset.
         """
 
+    async def createPost(self, args: Prv_tumblr_TumblrCreatePostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrComposeResult_Out:
+        """Publishes a text post on the signed-in caller's own blog, with an optional title and
+        tags, or saves it as a draft, queued or private post.
+        """
+
+    async def editPost(self, args: Prv_tumblr_TumblrEditPostArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tumblr_TumblrComposeResult_Out:
+        """Replaces the text, title, tags or state of one post on the signed-in caller's own blog."""
+
 class Prv_turbotax(Protocol):
     """List TurboTax editions, compare pricing, search help articles, and find local tax
     experts.
@@ -101903,6 +102137,13 @@ class Prv_whatsapp(Protocol):
         or findContact): name, description, picture url, the drawer's own creation line, and
         each participant's displayed name with whether they are an admin. Needs the caller
         signed in.
+        """
+
+    async def searchChannels(self, query: str, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappChannelMatch_Out]:
+        """Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does, by
+        name or category, and returns each channel's displayed name, follower line, verified
+        state and, when the row exposes it, its www.whatsapp.com/channel url (the door to
+        getChannel). Needs the caller signed in.
         """
 
     async def getGroupInviteLink(self, groupName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupInviteLink_Out:
@@ -104011,6 +104252,16 @@ class Prv_zoom(Protocol):
     async def downloadRecording(self, recordingId: str | float, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomRecordingDownload_Out:
         """Read the download/play info for one recording from the site's own recording play-info
         door — needs the caller signed in
+        """
+
+    async def listRecordingTranscripts(self, recordingId: str | float, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomRecordingTranscript_Out:
+        """Read the transcript/caption info for one recording from the recording play-info door —
+        needs the caller signed in
+        """
+
+    async def getRecordingTranscript(self, recordingId: str | float, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomRecordingTranscript_Out:
+        """Read the transcript for one recording from the recording play-info door — needs the
+        caller signed in
         """
 
     async def getContacts(self, type: Literal["company"] | Literal["external"] | None = None, opts: ConnectionOption | None = None, /) -> Prv_zoom_ZoomContacts_Out:

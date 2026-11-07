@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 419d09eda25e5d1db556e4e6219e5d044b3bdd8cd09e19ddce979712bc1df8ac
-// 96 capabilities, 767 providers, 4467 typed functions, 20 refused.
+// Manifest version: 6d2e38765389af124598f05927683c4d15eab350cfc3e7e2ea913bb87f447d01
+// 96 capabilities, 767 providers, 4480 typed functions, 20 refused.
 // 49,875 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4209,6 +4209,13 @@ type ReadResult = {
                              // body that parses whole): the parsed value, unfenced.
                              // const { json } = await bowmark.read.page(apiUrl)
                              // content still carries the rendering for that format
+  removed?: { share: number; pruned: number; outsideRoot: number; hidden: number;
+             page: number }  // only when the reader left 25%+ of the page's text
+                             // out of content as navigation/hidden chrome (menus,
+                             // header, closed panels, link lists). A link you
+                             // expected may be in what was left out — check this
+                             // BEFORE concluding the page lacks it:
+                             // if (!found && r.removed) r = await bowmark.read.page(url, { format: "html" })
   warnings: string[]         // also names a redirect to a different page than asked
 }
 
@@ -21555,8 +21562,10 @@ interface CampspotCampground {
   interface Unit {
     /**
      * Given a free-text region (a US state, a Canadian province, or a Campspot "near <city>"/"near
-     * <national park>" area), returns every campground Campspot's own directory page for that
-     * region lists.
+     * <national park>" area), returns the campgrounds from Campspot's own curated directory page
+     * for that region — a small curated list of ~10 highlights per US state, not an exhaustive
+     * marketplace catalog. A real Campspot customer not on this curated list may still exist on
+     * the platform; use a direct park-name search for comprehensive matching.
      */
     findCampgrounds(region: string): Promise<CampspotCampgroundSummary[]>;
 
@@ -33234,6 +33243,12 @@ interface DropboxEntry {
 interface DropboxSearchResult { query: string; matches: DropboxEntry[]; hasMore: boolean; cursor?: string }
 interface DropboxFolderListing { path: string; entries: DropboxEntry[]; hasMore: boolean; cursor?: string }
 interface DropboxFileMetadata extends DropboxEntry { isDownloadable?: boolean; shared?: boolean; modifiedBy?: string }
+interface DropboxSharedLinkInfo { url: string; kind: "file" | "folder"; name: string; path?: string; id?: string; expires?: string; visibility?: string; canRevoke?: boolean }
+interface DropboxSharedLinks { links: DropboxSharedLinkInfo[]; hasMore: boolean }
+interface DropboxFileVersions { path: string; isDeleted: boolean; serverDeleted?: string; versions: DropboxEntry[] }
+interface DropboxDeletedListing { path: string; deleted: DropboxEntry[]; hasMore: boolean }
+interface DropboxSharedItem { kind: "file" | "folder"; name: string; id: string; accessType?: string; previewUrl?: string; path?: string; owners?: string[]; invited?: string }
+interface DropboxSharedWithMe { items: DropboxSharedItem[]; hasMore: boolean }
 
   /**
    * Dropbox, the cloud file storage service: open, list, read and download files and folders
@@ -33242,6 +33257,40 @@ interface DropboxFileMetadata extends DropboxEntry { isDownloadable?: boolean; s
    * shared links, share with people, and run file requests and transfers.
    */
   interface Unit {
+    /**
+     * Lists the shared links the signed-in caller has created — all of them, or only those for one
+     * `path` — each with its URL, file/folder kind, name, path, id, expiry, visibility
+     * (public/team_only/password…) and whether it can be revoked. Needs the caller's Dropbox
+     * sign-in.
+     */
+    listSharedLinks(input?: { path?: string }, opts?: ConnectionOption): Promise<DropboxSharedLinks>;
+
+    /**
+     * Lists the earlier saved versions of one file in the signed-in caller's Dropbox — `path` from
+     * `searchFiles` or `listFolder` — newest first, each with its `rev`, size, modified time and
+     * content hash, and says whether the file itself is now deleted. `limit` caps it (default 10,
+     * max 100). THROWS on a folder or a path that does not exist. Needs the caller's Dropbox
+     * sign-in.
+     */
+    listFileVersions(input: { path: string; limit?: number }, opts?: ConnectionOption): Promise<DropboxFileVersions>;
+
+    /**
+     * Lists the files and folders deleted from the signed-in caller's Dropbox that still show up
+     * as deleted — under `path` ("/Work") or the whole Dropbox by default — each with its name and
+     * path, ready to restore. Walks up to 10 pages (~20,000 entries, live and deleted); `hasMore`
+     * says when that was not everything. Needs the caller's Dropbox sign-in.
+     */
+    listDeletedFiles(input?: { path?: string }, opts?: ConnectionOption): Promise<DropboxDeletedListing>;
+
+    /**
+     * Lists the files and folders shared with the signed-in caller (dropbox.com/share): each
+     * item's kind, name, id, access level (viewer/editor/owner), preview URL, owners, when they
+     * were invited, and its path once added to their Dropbox. `kind` narrows to files or folders.
+     * Shared folders include ones the caller owns (accessType "owner"). Needs the caller's Dropbox
+     * sign-in.
+     */
+    listSharedWithMe(input?: { kind?: "file" | "folder" }, opts?: ConnectionOption): Promise<DropboxSharedWithMe>;
+
     /**
      * Searches the signed-in caller's Dropbox by file name and content, e.g. `searchFiles({ query:
      * "invoice" })` → `{ matches: [{ kind: "file", name: "invoice-03.pdf", path:
@@ -36436,6 +36485,13 @@ interface EventbriteOrganizerDetail {
      * or its numeric id — needs the caller signed in to Eventbrite (an authFunction, a write).
      */
     followOrganizer(args: { organizerIdOrUrl: string }, opts?: ConnectionOption): Promise<{ organizerId: string; followed: true; numFollowers: number | null }>;
+
+    /**
+     * Unfollows an organizer the signed-in caller follows on Eventbrite, taking an organizer url
+     * or its numeric id — the undo of followOrganizer; needs the caller signed in to Eventbrite
+     * (an authFunction, a write).
+     */
+    unfollowOrganizer(args: { organizerIdOrUrl: string }, opts?: ConnectionOption): Promise<{ organizerId: string; followed: false; numFollowers: number | null }>;
 
     /**
      * Reads the signed-in caller's past and upcoming ticket orders from Eventbrite's 'My tickets'
@@ -58564,8 +58620,9 @@ interface LufthansaBaggageAllowance {
 }
 
   /**
-   * Flight search and fares, flight status, seat maps, baggage allowance and reading an existing
-   * booking on lufthansa.com.
+   * Flight status and baggage allowance on lufthansa.com. (Fare search and seat maps are not yet
+   * available; they require access to shop.lufthansa.com, which sits behind an uncleared
+   * Cloudflare Turnstile.)
    */
   interface Unit {
     /**
@@ -64183,6 +64240,17 @@ interface MsnScores {
     getVideoFeed(options?: MsnVideoFeedOptions): Promise<MsnVideoFeed>;
 
     /**
+     * Finds videos in MSN's video section by a topic the caller types (e.g. "apollo 11 moon
+     * landing"), returning the same rows getVideoFeed returns: title, outlet, summary, publish
+     * time, thumbnail, duration in seconds, a direct mp4 link and the video's MSN page. `limit` is
+     * 5, 10 or 20 (default 10); pass `nextPageUrl` back as `{ cursor }` for more. A topic MSN's
+     * video index has nothing on returns an empty `videos` list — MSN's video index is narrower
+     * than its news search, so broad one-word topics often return nothing; a specific phrase works
+     * better.
+     */
+    searchVideos(query: string, options?: MsnVideoFeedOptions): Promise<MsnVideoFeed>;
+
+    /**
      * Returns one league's games on one date the way MSN Sports' scores page does for a visitor
      * with no account: each game's start time, status (e.g. Final, Scheduled, or the live period),
      * venue, TV channels and both teams with name, abbreviation, home/away, score, won/lost and
@@ -66274,6 +66342,8 @@ interface NprNewsletter {
 
 interface GetAuthorStoriesArgs {
   author: string;
+  /** "YYYY-MM-DD": stories on or before this day — a previous page's nextBefore. */
+  before?: string;
 }
 
 interface NprAuthorStories {
@@ -66283,10 +66353,13 @@ interface NprAuthorStories {
   imageUrl: string | null;
   url: string;
   stories: NprSeriesStory[];
+  nextBefore: string | null;
 }
 
 interface ListSeriesStoriesArgs {
   series: string;
+  /** "YYYY-MM-DD": entries on or before this day — a previous page's nextBefore. */
+  before?: string;
 }
 
 interface NprSeriesStory {
@@ -66302,6 +66375,7 @@ interface NprSeriesStories {
   title: string | null;
   url: string;
   stories: NprSeriesStory[];
+  nextBefore: string | null;
 }
 
   /**
@@ -66414,7 +66488,8 @@ interface NprSeriesStories {
 
     /**
      * The latest 24 entries of one NPR series, newest first — title, story URL and id, date and
-     * teaser. series is an id from listSeries() or a www.npr.org/series/ URL.
+     * teaser. series is an id from listSeries() or a www.npr.org/series/ URL. Pass before:
+     * "YYYY-MM-DD" (a page's nextBefore) for older entries, 15 a page.
      */
     listSeriesStories(args: ListSeriesStoriesArgs): Promise<NprSeriesStories>;
 
@@ -66427,7 +66502,7 @@ interface NprSeriesStories {
     /**
      * One NPR correspondent or host — name, bio, headshot — and their latest 24 stories, newest
      * first. author is a www.npr.org/people/ byline URL, "127410674/carrie-johnson", or the
-     * numeric id.
+     * numeric id. Pass before: "YYYY-MM-DD" (a page's nextBefore) for older stories, 15 a page.
      */
     getAuthorStories(args: GetAuthorStoriesArgs): Promise<NprAuthorStories>;
   }
@@ -70075,7 +70150,15 @@ interface GetPostArgs {
   postId: string;
 }
 
+interface patreonPostAccess {
+  kind: "public" | "followers" | "patrons" | "tiers";
+  minPledgeCents?: number;
+  currency?: string;
+  tiers: { id: string; title?: string; amountCents: number; url?: string }[];
+}
+
 interface patreonPostDetail extends patreonPost {
+  access?: patreonPostAccess;
   body?: string;
   imageUrl?: string;
 }
@@ -70213,7 +70296,8 @@ interface FollowCreatorResult {
 
     /**
      * Get one post by id: title, publish date, counts and, when it is public, its body as
-     * markdown. A member-only post comes back with isPublic false and no body.
+     * markdown. A member-only post comes back with isPublic false and no body, and `access` names
+     * who can open it and the cheapest tier that unlocks it.
      */
     getPost(args: GetPostArgs): Promise<patreonPostDetail>;
 
@@ -75814,6 +75898,23 @@ interface GetTopicArgs {
   url?: string;
   name?: string;
 }
+interface QuoraSpacePosts {
+  spaceId: string;
+  spaceName: string;
+  posts: Array<{
+    id: string;
+    url: string;
+    title: string;
+    content: string;
+    author: string;
+    authorId: string;
+    upvotes: number;
+    views?: number;
+    commentCount?: number;
+    createdAt?: string;
+    sharedLink?: { url: string; title: string; snippet?: string };
+  }>;
+}
 interface QuoraSearchResult {
   query: string;
   questions: Array<{ id: string; title: string; url: string }>;
@@ -75880,6 +75981,13 @@ interface QuoraAnswersPage {
      * taking a Space URL or name (e.g., 'askscience' or 'https://askscience.quora.com').
      */
     getSpace(args: GetSpaceArgs): Promise<QuoraSpace>;
+
+    /**
+     * Reads the posts in a Space's feed — most of what a Space holds, and what getSpace leaves out
+     * — each with its url, title, text, author, upvotes, views and the link it shares, taking the
+     * same Space URL or name getSpace takes. Signed out.
+     */
+    getSpacePosts(args: GetSpaceArgs): Promise<QuoraSpacePosts>;
 
     /**
      * Reads a topic's own page — its name, follower count, photo and most-viewed authors — taking
@@ -85189,6 +85297,18 @@ interface SpectrumUsageCycle {
   cycleEndDate: string | null;
   lines: SpectrumLineUsage[];  // one row per Spectrum Mobile line
 }
+interface SpectrumChannel {
+  name: string;
+  channelNumber: string | null;  // guide number as shown, e.g. "1012"
+  entitled: boolean;  // true when the caller's package includes it
+  genres: string[];
+  logoUrl: string | null;
+  tmsId: string | null;  // Gracenote station id
+}
+interface SpectrumChannelLineup {
+  channels: SpectrumChannel[];
+  notices: string[];  // Spectrum's own lineup-change notices, in order
+}
 
   /**
    * Spectrum (Charter) residential internet, mobile and cable TV: browse plans, check address
@@ -85280,6 +85400,14 @@ interface SpectrumUsageCycle {
      * to spectrum.net.
      */
     getUsageSummary(opts?: ConnectionOption): Promise<SpectrumUsageCycle[]>;
+
+    /**
+     * The signed-in caller's Spectrum TV channel lineup for their own market: every channel's
+     * name, guide number, genres and logo, with whether the caller's package includes it, plus
+     * Spectrum's own lineup-change notices. Read off spectrum.net's own account GraphQL. Needs the
+     * caller signed in to spectrum.net.
+     */
+    getChannelLineup(opts?: ConnectionOption): Promise<SpectrumChannelLineup>;
 
     /**
      * The signed-in caller's Spectrum equipment (modem, router, WiFi pods, TV boxes) with each
@@ -88342,6 +88470,13 @@ interface stubhubListing {
   quantityText: string | null;
 }
 
+interface stubhubTier {     // a general-admission tier — festivals and passes sell these, not seats
+  name: string;               // e.g. "General Admission", "Super VIP"
+  fromPrice: number | null;   // the tier's "From" all-in price per ticket; null when sold out
+  priceText: string | null;   // e.g. "$216"
+  soldOut: boolean;
+}
+
 interface stubhubEventVenue {
   name: string | null;
   address: string | null;
@@ -88359,9 +88494,10 @@ interface stubhubEventPage {
   venue: stubhubEventVenue;
   currency: string | null;    // e.g. "USD"
   listings: stubhubListing[]; // the ~10 the page shows first, page order — not the full inventory
-  lowestPrice: number | null; // of those listings
+  tiers: stubhubTier[];       // set instead of listings on a general-admission page (festival, pass)
+  lowestPrice: number | null; // of those listings, or of the tiers' "From" prices
   highestPrice: number | null;
-  warnings: string[];
+  warnings: string[];         // non-empty = the page says tickets are on sale but nothing readable came back
 }
 
 interface stubhubEventDetail {
@@ -88374,6 +88510,7 @@ interface stubhubEventDetail {
   currency: string | null;
   lowestPrice: number | null;
   highestPrice: number | null;
+  tiers: stubhubTier[];
   listingsShown: number;
   warnings: string[];
 }
@@ -88488,9 +88625,10 @@ interface stubhubFavoritesResult {
     /**
      * Returns the resale ticket listings one event page shows first (about ten): section, row,
      * seats, all-in price per ticket and how many tickets each sells together, plus the lowest and
-     * highest of those prices and the currency. Takes a search() event `id` or a stubhub.com /
-     * viagogo.com event URL; `site` picks which site's prices. Opens a browser to clear the site's
-     * bot wall, so expect 10-25s.
+     * highest of those prices and the currency. A general-admission page (a festival or pass)
+     * sells by tier instead, so it returns `tiers` (name, "From" price, sold out) and an empty
+     * `listings`. Takes a search() event `id` or a stubhub.com / viagogo.com event URL; `site`
+     * picks which site's prices. Opens a browser to clear the site's bot wall, so expect 10-25s.
      */
     getEventListings(args: { eventId: string; site?: "stubhub" | "viagogo" } | { url: string } | string): Promise<stubhubEventPage>;
 
@@ -94856,6 +94994,35 @@ interface TumblrEngageResult {
   ok: true;
 }
 
+interface TumblrCreatePostArgs {
+  /** Your own blog name, or its tumblr.com url. */
+  blog: string;
+  /** The post body; blank lines split it into paragraphs. */
+  text: string;
+  /** Optional heading above the body. */
+  title?: string;
+  tags?: string[];
+  /** Default "published". */
+  state?: "published" | "draft" | "queue" | "private";
+}
+
+interface TumblrEditPostArgs {
+  blog: string;
+  /** The post id on your own blog. */
+  id: string;
+  /** Replaces the whole body. */
+  text: string;
+  title?: string;
+  tags?: string[];
+  state?: "published" | "draft" | "queue" | "private";
+}
+
+interface TumblrComposeResult {
+  ok: true;
+  /** The post's id, or null when Tumblr's answer carried none. */
+  id: string | null;
+}
+
   /**
    * Tumblr's public API — blog info, posts, tag timelines, trending, and site-wide or
    * blog-scoped search.
@@ -94956,6 +95123,15 @@ interface TumblrEngageResult {
      * caller follows back, paged by offset.
      */
     listBlogFollowers(args: TumblrFollowersArgs, opts?: ConnectionOption): Promise<TumblrFollowersPage>;
+
+    /**
+     * Publishes a text post on the signed-in caller's own blog, with an optional title and tags,
+     * or saves it as a draft, queued or private post.
+     */
+    createPost(args: TumblrCreatePostArgs, opts?: ConnectionOption): Promise<TumblrComposeResult>;
+
+    /** Replaces the text, title, tags or state of one post on the signed-in caller's own blog. */
+    editPost(args: TumblrEditPostArgs, opts?: ConnectionOption): Promise<TumblrComposeResult>;
   }
 }
 
@@ -100676,6 +100852,12 @@ interface WhatsappGroupInviteLink {
   code: string;
   url: string;
 }
+interface WhatsappChannelMatch {
+  name: string;
+  followers: string | null;
+  verified: boolean;
+  url: string | null;
+}
 interface WhatsappBlogPost {
   slug: string;
   title: string;
@@ -100809,6 +100991,14 @@ interface WhatsappBlogPost {
      * participant's displayed name with whether they are an admin. Needs the caller signed in.
      */
     getGroupInfo(groupName: string, opts?: ConnectionOption): Promise<WhatsappGroupInfo>;
+
+    /**
+     * Searches WhatsApp's Channels directory the way WhatsApp Web's 'Find channels' does, by name
+     * or category, and returns each channel's displayed name, follower line, verified state and,
+     * when the row exposes it, its www.whatsapp.com/channel url (the door to getChannel). Needs
+     * the caller signed in.
+     */
+    searchChannels(query: string, opts?: ConnectionOption): Promise<WhatsappChannelMatch[]>;
 
     /**
      * Reads the current chat.whatsapp.com invite link of a group the caller administers, opened by
@@ -106356,6 +106546,11 @@ interface ZoomRecordingDownload {
   raw: unknown; // the play-info door's own parsed result — signed-in shape is UNMEASURED, see manifest.json
 }
 
+interface ZoomRecordingTranscript {
+  recordingId: string;
+  raw: unknown; // the play-info door's own parsed result — signed-in shape is UNMEASURED, see manifest.json
+}
+
 interface ZoomUpdateProfilePictureResult {
   updated: boolean;
   bytes: number;
@@ -106453,6 +106648,18 @@ interface ZoomProfile {
      * needs the caller signed in
      */
     downloadRecording(recordingId: string | number, opts?: ConnectionOption): Promise<ZoomRecordingDownload>;
+
+    /**
+     * Read the transcript/caption info for one recording from the recording play-info door — needs
+     * the caller signed in
+     */
+    listRecordingTranscripts(recordingId: string | number, opts?: ConnectionOption): Promise<ZoomRecordingTranscript>;
+
+    /**
+     * Read the transcript for one recording from the recording play-info door — needs the caller
+     * signed in
+     */
+    getRecordingTranscript(recordingId: string | number, opts?: ConnectionOption): Promise<ZoomRecordingTranscript>;
 
     /** List the signed-in caller's Zoom contacts — needs the caller signed in */
     getContacts(type?: "company" | "external", opts?: ConnectionOption): Promise<ZoomContacts>;
