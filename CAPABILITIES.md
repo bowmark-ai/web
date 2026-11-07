@@ -110,7 +110,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `read.pages` | The same read over many urls: requests to the SAME origin are serialized (one at a… | 0 | 🟢 |
 | `read.urls` | Lists the pages a site has, so you can pick which to `read.page` instead of guessing… | 0 | 🟢 |
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 2 | 🟢 |
-| `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one… | 3 | 🟡 |
+| `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one list… | 3 | 🟡 |
 | `retirement_ira_comparison.compare` | Projects traditional and Roth IRA after-tax values under stated return and tax-rate… | 0 | 🟢 |
 | `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟢 |
 | `screenshot.take` | Opens the page in a hosted browser and returns an image of it. | 0 | 🟢 |

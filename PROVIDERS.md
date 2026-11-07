@@ -4923,7 +4923,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teladoc.getPricing` | teladochealth.com | Returns Teladoc's published self-pay (no-insurance) visit pricing by service line —… | 🟢 |
 | `teladoc.search` | teladochealth.com | Searches Teladoc Health's public Health Library — recipes, meal plans… | ⚪ |
 | `temu.addToCart` | www.temu.com | Add one product (with its chosen variant and quantity) to the caller's cart. | ⚪ |
-| `temu.addToWishlist` | www.temu.com | Save a product to the caller's wishlist by its product url. | ⚪ |
+| `temu.addToWishlist` | www.temu.com | Save a product to the caller's wishlist by its productId (goods_id) or product url. | 🟢 |
 | `temu.checkout` | www.temu.com | Read the live order total (items, shipping, tax, any coupon) for the caller's cart and… | 🟢 |
 | `temu.getProduct` | www.temu.com | Read one product's detail page — title, price, images, variants, shipping estimate… | ⚪ |
 | `temu.getProductReviews` | www.temu.com | Read a product's customer reviews and rating breakdown by its product url. | ⚪ |
