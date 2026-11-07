@@ -666,7 +666,7 @@ stackoverflow.com — stackoverflow: getQuestion, searchQuestions
 starlighthomes.com — starlighthomes: getMetro, getNeighborhood, listMetros
 start.gg — start_gg: findVideogames, searchTournaments
 statefarm.com — statefarm: findAgent, getBusinessQuote, getLifeQuote, getRentersQuote (+14 planned)
-steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getCommunityHub, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getMarketPrice, getNewsItem, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, removeFriend, removeFromWishlist, searchGames, searchNews, viewFriends, viewInventory (+3 planned)
+steampowered.com — steam: addFriend, addToWishlist, editProfile, getAchievements, getCommunityHub, getGameDetails, getGameReviews, getGameScreenshots, getGameStats, getGameVideos, getLibrary, getMarketPrice, getNewsItem, getProfile, getWishlist, listFeaturedGames, listGamesByCategory, listGameTags, listNews, removeFriend, removeFromWishlist, searchGames, searchNews, viewFriends, viewInventory, viewMarketHistory (+2 planned)
 stickergiant.com — stickergiant: listStickerProducts, priceCustomSticker
 store.google.com — google_store: getProduct, listProducts, searchProducts (+1 planned)
 store.greatlakesbrewing.com — greatlakesbrewing: getEGiftCardOptions, priceEGiftCard

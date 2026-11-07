@@ -4870,7 +4870,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.searchNews` | steampowered.com | Searches a game's recent news items by keyword and/or date range. | 🟢 |
 | `steam.viewFriends` | steampowered.com | Lists the signed-in caller's Steam friends — name, profile url, avatar, and… | 🟢 |
 | `steam.viewInventory` | steampowered.com | Reads a PUBLIC Steam profile's inventory by steamid64, appid and context — no sign-in… | 🟢 |
-| `steam.viewMarketHistory` | steampowered.com | Shows the caller's Steam Community Market transaction history including listings… | ⚪ |
+| `steam.viewMarketHistory` | steampowered.com | Lists the signed-in caller's own Steam Community Market history — item, game… | 🟢 |
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
 | `stubhub.createListing` | stubhub.com | Publishes a ticket listing for sale on one of the caller's own events, at a given… | 🟢 |
