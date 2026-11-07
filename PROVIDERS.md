@@ -4421,7 +4421,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shein.listMyCoupons` | shein.com | Lists the coupons on the signed-in caller's account, with the discount, minimum spend… | ⚪ |
 | `shein.listNewArrivals` | shein.com | Lists Shein's New In products (the /recommend/New-In-sc-<id>.html selection)… | ⚪ |
 | `shein.listOrders` | shein.com | Lists the signed-in caller's orders with status (processing, shipped, delivered), date… | ⚪ |
-| `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | 🟡 |
+| `shein.listProductsByCategory` | shein.com | Lists products in a category with pagination. | 🟢 |
 | `shein.listStoreProducts` | shein.com | Lists the products a marketplace store sells. | ⚪ |
 | `shein.listWishlist` | shein.com | Lists the products the signed-in caller saved to their wishlist. | ⚪ |
 | `shein.placeOrder` | shein.com | Places an order for the signed-in caller's bag. | ⚪ |
@@ -5194,8 +5194,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `travelocity.searchCruises` | travelocity.com | Searches Travelocity's live cruise sailings the way its own booking widget does —… | ⚪ |
 | `travelocity.searchHotels` | travelocity.com | Searches Travelocity's live hotel availability the way its own booking widget does —… | ⚪ |
 | `travelocity.searchPackages` | travelocity.com | Searches Travelocity's live bundled flight+hotel packages the way its own booking… | ⚪ |
-| `trawickinternational.getPlanPremium` | trawickinternational.com | Reads the exact dollar premium and purchase handoff link for one plan off Trawick's… | 🟢 |
-| `trawickinternational.getQuote` | trawickinternational.com | Submits Trawick's own homepage 'Get a Quote' travel-insurance form (destination… | 🟢 |
+| `trawickinternational.getPlanPremium` | trawickinternational.com | Reads the exact dollar premium and purchase handoff link for one plan off Trawick's… | 🟡 |
+| `trawickinternational.getQuote` | trawickinternational.com | Submits Trawick's own homepage 'Get a Quote' travel-insurance form (destination… | 🟡 |
 | `trektravel.getDeparturePricing` | trektravel.com | Reads one trip's real scheduled departure dates straight off its own page: each date's… | 🟢 |
 | `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟢 |
 | `tripadvisor.askQuestion` | tripadvisor.com | Posts a question to a listing's Q&A from the signed-in caller's account. | ⚪ |
@@ -5490,7 +5490,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getWeeklyAd` | walmart.com | Reads the current local weekly ad / rollback & clearance circular for a store or zip —… | ⚪ |
 | `walmart.listAddresses` | walmart.com | Lists the delivery addresses saved on the signed-in account. | 🟢 |
 | `walmart.listDeals` | walmart.com | Lists what is on sale right now — Rollbacks, clearance and the site's current deal… | 🟢 |
-| `walmart.listDepartments` | walmart.com | Lists Walmart's departments and their sub-categories with the browse id each one opens… | 🟡 |
+| `walmart.listDepartments` | walmart.com | Lists Walmart's departments and their sub-categories with the browse id each one opens… | 🟢 |
 | `walmart.listLists` | walmart.com | Lists the signed-in shopper's saved lists — the door `getList` needs. | 🟢 |
 | `walmart.listOrders` | walmart.com | Lists the signed-in shopper's orders — date, total, status and the items in each — the… | 🟢 |
 | `walmart.listPurchasedItems` | walmart.com | Lists the items the signed-in shopper has bought before — Walmart's 'My Items' /… | 🟢 |
